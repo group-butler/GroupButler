@@ -1,5 +1,5 @@
 #Group Butler
-This bot have been created to help people in the administration of a group.
+This bot has been created to help people in the administration of a group.
 
 This bot is based on Otouto (Telegram bot: [@mokubot](https://telegram.me/mokubot), github page: [topkecleon/otouto](https://github.com/topkecleon/otouto).).
 
@@ -36,7 +36,7 @@ Here is the list of commands.
 | /rules | Show the group rules. |
 | /about | Show the group description. |
 | /modlist | Show the moderators of the group. |
-| /flagmsg (by reply) | report the message to administrators. |
+| /flagmsg (by reply) | Report the message to administrators. |
 | /settings | Show the group settings. |
 | /tell | Show your basical info or the info about the user you replied to. |
 | /c <feedback> | Send a feedback/report a bug/ask a question to my creator. |

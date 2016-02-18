@@ -2,6 +2,7 @@ HTTP = require('socket.http')
 HTTPS = require('ssl.https')
 URL = require('socket.url')
 JSON = require('dkjson')
+--serpent = require('serpent')
 
 version = '3.1'
 

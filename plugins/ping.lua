@@ -5,6 +5,9 @@ local triggers = {
 }
 
 local action = function(msg)
+	
+	print('\n/ping', msg.from.first_name..' ['..msg.from.id..']')
+	
 	sendMessage(msg.chat.id, 'Pong!')
 end
 

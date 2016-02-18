@@ -22,7 +22,7 @@ return {
 	plugins = {
 		'control.lua',
 		'mod.lua',
-		'about.lua',
+		'service.lua',
 		'ping.lua',
 		'tell.lua',
 		'help.lua',

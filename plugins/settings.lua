@@ -3,21 +3,35 @@ groups = load_data('groups.json')
 
 local commands = {
     ['^/disable[@'..bot.username..']*'] = function(msg)
+        
+        --ignore if via pm
         if msg.chat.type == 'private' then
+            print('PV settings.lua, '..msg.from.first_name..' ['..msg.from.id..'] --> not valid')
             sendMessage(msg.from.id, 'This is a command available only in a group')
     	    return nil
         end
+        
+        print('\n/disable', msg.from.first_name..' ['..msg.from.id..'] --> '..msg.chat.title..' ['..msg.chat.id..']')
+        
+        --ignore if not mod
         if not is_mod(msg) then
+            print('\27[31mNil: not mod\27[39m')
             sendReply(msg, 'You are *not* a moderator', true)
             return nil
         end
+        
         local input = msg.text:input()
-        if not input then   
+        
+        --ignore if not input text
+        if not input then
+            print('\27[31mNil: no text\27[39m')
             sendReply(msg, 'Disable what?', false)
             return nil
         end
+        
+        --check the command to lock
         if input == 'rules' then
-            mystat('lrls')
+            mystat('lrls') --save stats
             now = groups[tostring(msg.chat.id)]['settings']['s_rules']
             if now == 'yes' then
                 sendReply(msg, 'Rules command is already *locked*', true)
@@ -26,8 +40,9 @@ local commands = {
                 save_data('groups.json', groups)
                 sendReply(msg, 'Rules command it\'s now available *only for moderators*', true)
             end
+            
         elseif input == 'about' then
-                mystat('labt')
+                mystat('labt') --save stats
                 now = groups[tostring(msg.chat.id)]['settings']['s_about']
                 if now == 'yes' then
                     sendReply(msg, 'About command is already *locked*', true)
@@ -36,8 +51,9 @@ local commands = {
                     save_data('groups.json', groups)
                     sendReply(msg, 'About command it\'s now available *only for moderators*', true)
                 end
+        
         elseif input == 'welcome' then
-                mystat('lwel')
+                mystat('lwel') --save stats
                 now = groups[tostring(msg.chat.id)]['settings']['s_welcome']
                 if now == 'yes' then
                     sendReply(msg, 'Welcome message is already *locked*', true)
@@ -46,8 +62,9 @@ local commands = {
                     save_data('groups.json', groups)
                     sendReply(msg, 'The welcome message *won\'t be diplayed*', true)
                 end
+        
         elseif input == 'modlist' then
-                mystat('llmod')
+                mystat('llmod') --save stats
                 now = groups[tostring(msg.chat.id)]['settings']['s_modlist']
                 if now == 'yes' then
                     sendReply(msg, 'Modlist is already *locked*', true)
@@ -56,8 +73,9 @@ local commands = {
                     save_data('groups.json', groups)
                     sendReply(msg, 'Modlist command it\'s now available *only for moderators*', true)
                 end
+        
         elseif input == 'flag' then
-                mystat('lflag')
+                mystat('lflag') --save stats
                 now = groups[tostring(msg.chat.id)]['settings']['s_flag']
                 if now == 'yes' then
                     sendReply(msg, 'Flag option is already *locked*', true)
@@ -66,26 +84,42 @@ local commands = {
                     save_data('groups.json', groups)
                     sendReply(msg, 'Moderators from now *won\'t receive* reports from users', true)
                 end
-        else sendReply(msg, 'Arguments unavailable.\nUse /disable [rules|about|welcome|modlist|flag] instead', true)
+        else
+            print('\27[31mNil: argument not available\27[39m')
+            sendReply(msg, 'Arguments unavailable.\nUse /disable [rules|about|welcome|modlist|flag] instead', true)
         end
     end,
 
     ['^/enable[@'..bot.username..']*'] = function(msg)
+        
+        --ignore if via pm
         if msg.chat.type == 'private' then
+            print('PV settings.lua, '..msg.from.first_name..' ['..msg.from.id..'] --> not valid')
             sendMessage(msg.from.id, 'This is a command available only in a group')
     	    return nil
         end
+        
+        print('\n/enable', msg.from.first_name..' ['..msg.from.id..'] --> '..msg.chat.title..' ['..msg.chat.id..']')
+        
+        --ignore if not mod
         if not is_mod(msg) then
+            print('\27[31mNil: not mod\27[39m')
             sendReply(msg, 'You are *not* a moderator', true)
             return nil
         end
+        
         local input = msg.text:input()
-        if not input then   
+        
+        --ignore if not input text
+        if not input then
+            print('\27[31mNil: no input text\27[39m')
             sendReply(msg, 'Enable what?', false)
             return nil
         end
+        
+        --check the command to enable
         if input == 'rules' then
-            mystat('ulrls')
+            mystat('ulrls') --save stats
             now = groups[tostring(msg.chat.id)]['settings']['s_rules']
             if now == 'no' then
                 sendReply(msg, 'Rules command is already *unlocked*', true)
@@ -94,8 +128,9 @@ local commands = {
                 save_data('groups.json', groups)
                 sendReply(msg, 'Rules command it\'s now available *for all*', true)
             end
+            
         elseif input == 'about' then
-                mystat('ulabt')
+                mystat('ulabt') --save stats
                 now = groups[tostring(msg.chat.id)]['settings']['s_about']
                 if now == 'no' then
                     sendReply(msg, 'About command is already *unlocked*', true)
@@ -104,8 +139,9 @@ local commands = {
                     save_data('groups.json', groups)
                     sendReply(msg, 'About command it\'s now available *for all*', true)
                 end
+        
         elseif input == 'welcome' then
-                mystat('ulwel')
+                mystat('ulwel') --save stats
                 now = groups[tostring(msg.chat.id)]['settings']['s_welcome']
                 if now == 'no' then
                     sendReply(msg, 'Welcome message is already *unlocked*', true)
@@ -114,8 +150,9 @@ local commands = {
                     save_data('groups.json', groups)
                     sendReply(msg, 'The welcome message *will be diplayed*', true)
                 end
+        
         elseif input == 'modlist' then
-                mystat('ullmod')
+                mystat('ullmod') --save stats
                 now = groups[tostring(msg.chat.id)]['settings']['s_modlist']
                 if now == 'no' then
                     sendReply(msg, 'Modlist command is already *unlocked*', true)
@@ -124,8 +161,9 @@ local commands = {
                     save_data('groups.json', groups)
                     sendReply(msg, 'Modlist command it\'s now available *for all*', true)
                 end
+        
         elseif input == 'flag' then
-                mystat('ulflag')
+                mystat('ulflag') --save stats
                 now = groups[tostring(msg.chat.id)]['settings']['s_flag']
                 if now == 'no' then
                     sendReply(msg, 'Flag option is already *unlocked*', true)
@@ -134,26 +172,42 @@ local commands = {
                     save_data('groups.json', groups)
                     sendReply(msg, 'Moderators from now *will receive* reports from users', true)
                 end
-        else sendReply(msg, 'Argument unavailable.\nUse /unlock [rules|about|welcome|modlist|flag] instead', true)
+        else
+            print('\27[31mNil: argument not available\27[39m')
+            sendReply(msg, 'Argument unavailable.\nUse /unlock [rules|about|welcome|modlist|flag] instead', true)
         end
     end,
     
     ['^/welcome[@'..bot.username..']*'] = function(msg)
+        
+        --ignore if via pm
         if msg.chat.type == 'private' then
+            print('PV settings.lua, '..msg.from.first_name..' ['..msg.from.id..'] --> not valid')
             sendMessage(msg.from.id, 'This is a command available only in a group')
     	    return nil
         end
+        
+        print('\n/welcome', msg.from.first_name..' ['..msg.from.id..'] --> '..msg.chat.title..' ['..msg.chat.id..']')
+        
+        --ignore if not mod
         if not is_mod(msg) then
+            print('\27[31mNil: not mod\27[39m')
             sendReply(msg, 'You are *not* a moderator', true)
             return nil
         end
-        mystat('wel')
+        
         local input = msg.text:input()
-        if not input then   
+        
+        --ignore if not input text
+        if not input then
+            print('\27[31mNil: no input text\27[39m')
             sendReply(msg, 'Welcome and...?', false)
             return nil
         end
+        
         now = groups[tostring(msg.chat.id)]['settings']['welcome']
+        
+        --change welcome settings
         if input == 'a' then
             groups[tostring(msg.chat.id)]['settings']['welcome'] = 'a'
             sendReply(msg, 'New settings for the welcome message:\nRules\n*About*\nModerators list', true)
@@ -180,17 +234,27 @@ local commands = {
             sendReply(msg, 'New settings for the welcome message:\nRules\nAbout\nModerators list', true)
         else sendReply(msg, 'Argument unavailable.\nUse _/welcome [no|r|a|ra|ar]_ instead', true)
         end
+        
+        mystat('wel') --save stats
         save_data('groups.json', groups)
     end,
 
     ['^/settings[@'..bot.username..']*$'] = function(msg)
+        
+        --ignore if via pm
         if msg.chat.type == 'private' then
+            print('PV settings.lua, '..msg.from.first_name..' ['..msg.from.id..'] --> not valid')
             sendMessage(msg.from.id, 'This is a command available only in a group')
     	    return nil
         end
+        
+        print('\n/settings', msg.from.first_name..' ['..msg.from.id..'] --> '..msg.chat.title..' ['..msg.chat.id..']')
+        
         settings = groups[tostring(msg.chat.id)]['settings']
+        
         message = 'Current settings for *'..msg.chat.title..'*:\n\n'
-        mystat('sett')
+        
+        --build the message
         if settings.s_rules == 'yes' then
             message = message..'*Rules*: for moderators\n'
         else
@@ -216,6 +280,8 @@ local commands = {
         else
             message = message..'*Welcome message*: on\n'
         end
+        
+        --build the "welcome" line
         if settings.welcome == 'a' then
             message = message..'*Welcome type*: welcome + about\n'
         elseif settings.welcome == 'r' then
@@ -233,6 +299,8 @@ local commands = {
         elseif settings.welcome == 'no' then
             message = message..'*Welcome type*: welcome only\n'
         end
+        
+        mystat('sett') --save stats
         sendReply(msg, message, true)
     end
 }

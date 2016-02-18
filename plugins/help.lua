@@ -4,11 +4,16 @@ local triggers = {
 }
 
 local action = function(msg)
+    
+    print('\n/help or /start', msg.from.first_name..' ['..msg.from.id..']')
+    
+    -- save stats
     if string.match(msg.text, '^/help') then
         mystat('help')
     else
         mystat('usrs')
     end
+    
     local text = ''
     if msg.chat.type == 'group' or msg.chat.type == 'supergroup' then
         if is_owner(msg) then
@@ -69,6 +74,7 @@ local action = function(msg)
         ..'People can also report a message: moderators will be privately notified with the message reported. Useful in crowded and active chats, or when moderators are offline, to report the wrong behavior of a member. Moderators can also lock the ability to report messages for all/for specific users.'
         ..'\n\nYou can report bugs/send feedbacks/ask a question to my creator just using "/c <feedback>" command. He will reply ASAP ;)'
     end
+    
     sendMessage(msg.from.id, text, true, false, true)
 end
 

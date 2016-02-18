@@ -82,6 +82,7 @@ function mystat(cmd)
 	n = n+1
 	stat[tostring(cmd)] = tonumber(n)
 	save_data('statsbot.json', stat)
+	print('Stats saved', cmd)
 end	
 
  -- I swear, I copied this from PIL, not yago! :)

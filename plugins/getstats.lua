@@ -4,7 +4,10 @@ local triggers = {
 
 local action = function(msg)
     
+    print('\n/getstats', msg.from.first_name..' ['..msg.from.id..']')
+    
     if msg.from.id ~= config.admin then
+        print('\27[31mNil: not admin\27[39m')
 		return nil
 	end
 	statis = load_data('statsbot.json')
