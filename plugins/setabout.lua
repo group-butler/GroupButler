@@ -1,8 +1,3 @@
-local command = 'setabout <about>'
-local doc = [[```
-/nick <nickname>
-Set your nickname. Use "/whoami" to check your nickname and "/nick -" to delete it.
-```]]
 
 local triggers = {
 	'^/setabout[@'..bot.username..']*',

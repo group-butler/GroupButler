@@ -75,6 +75,9 @@ on_msg_receive = function(msg) -- The fn run whenever a message is received.
 
 end
 
+
+---------WHEN THE BOT IS STARTED FROM THE TERMINAL, THIS IS THE FIRST FUNCTION HE FOUNDS
+
 bot_init() -- Actually start the script. Run the bot_init function.
 
 while is_started do -- Start a loop while the bot should be running.

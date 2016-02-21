@@ -1,8 +1,3 @@
-local command = 'whoami'
-local doc = [[```
-Returns user and chat info for you or the replied-to message.
-Alias: /who
-```]]
 
 local triggers = {
 	'^/tell*[@'..bot.username..']*$'

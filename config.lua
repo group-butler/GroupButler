@@ -1,5 +1,6 @@
 return {
 	bot_api_key = '',
+	yandex_api_key = '',
 	time_offset = 0,
 	cli_port = 4567,
 	admin = 23646077,

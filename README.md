@@ -51,31 +51,43 @@ Here is the list of commands.
 * * *
 
 ##Setup
-You **must** have Lua (5.2+), LuaSocket, and LuaSec installed. For uploading photos and other files, you must have curl installed.
+You **must** have Lua (5.2+), LuaSocket, and LuaSec installed.
 
+How to install LuaRocks:
+```bash
+# Download and install LuaSocket and LuaSec
+
+$ wget http://luarocks.org/releases/luarocks-2.2.2.tar.gz
+$ tar zxpf luarocks-2.2.2.tar.gz
+$ cd luarocks-2.2.2
+$ ./configure; sudo make bootstrap
+$ sudo luarocks install luasocket
+$ sudo luarocks install luasec
+$ cd ..
+```
+Clone the github repository:
+```bash
+# Clone the repo
+
+$ git clone https://github.com/RememberTheAir/GroupButler.git
+$ cd GroupButler
+```
 
 **Before you do anything, open config.lua in a text editor and make the following changes:**
 
-> • Set bot_api_key to the authentication token you received from the Botfather.
+> • Make sure that privacy is disabled, otherwise the bot won't see replied messages unless they starts with '/'. Write `/setprivacy` to [BotFather](http://telegram.me/BotFather) to check the current setting.
+>
+> • Set bot_api_key to the authentication token you received from the [BotFather](http://telegram.me/BotFather).
 >
 > • Set admin as your Telegram ID.
+>
+> • Set your Yandex api key if you would like to set up translate plugin. (*soon*)
 
 You may also want to set your time_offset (a positive or negative number, in seconds, representing your computer's difference from UTC).
 
 To start the bot, run `./launch.sh`. To stop the bot, press Ctrl+c twice.
 
 You may also start the bot with `lua bot.lua`, but then it will not restart automatically.
-
-* * *
-
-##Development
-Everybody is free to contribute to otouto and to group butler. Here I will explain various things that are important to know about the plugin system.
-
-The on_msg_receive function adds a few variables to the "msg" table: msg.from.id_str, msg.to.id_str, msg.text_lower. These are self-explanatory and can make your code a lot neater.
-
-Return values from the action function are optional, but when they are used, they determine the fate of the message. When false/nil is returned, on_msg_receive stops and the script moves on to waiting for the next message. When true is returned, on_msg_receive continues going through the plugins for a match. When a table is returned, that table becomes the "msg" table, and on_msg_receive continues.
-
-When a plugin action or cron function fails, the script will catch the error and print it, and, if applicable, the text which triggered the plugin, and continue.
 
 * * *
 
@@ -92,6 +104,8 @@ Group butler uses dkjson, a pure-Lua JSON parser. This is provided with the code
 * * *
 
 ##Contributors
+Everybody is free to contribute to otouto and to group butler.
+
 The creator and maintainer of otouto is [topkecleon](http://github.com/topkecleon). He can be contacted via [Telegram](http://telegram.me/topkecleon), [Twitter](http://twitter.com/topkecleon), or [email](mailto:topkecleon@outlook.com).
 
 The kanger who created group butler is [RememberTheAir](http://github.com/RememberTheAir). You can contact him via [Telegram](http://telegram.me/Rlotar).

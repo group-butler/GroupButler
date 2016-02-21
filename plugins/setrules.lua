@@ -1,8 +1,3 @@
-local command = 'setrules <rules>'
-local doc = [[```
-/nick <nickname>
-Set your nickname. Use "/whoami" to check your nickname and "/nick -" to delete it.
-```]]
 
 local triggers = {
 	'^/setrules[@'..bot.username..']*',
