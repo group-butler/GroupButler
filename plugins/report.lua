@@ -1,9 +1,11 @@
 local triggers = {
-	'^/c[@'..bot.username..']*',
-	'^/reply[@'..bot.username..']*',
+	'^/(c)$', --warn if not input
+	'^/(c) (.*)',
+	'^/(reply)$', --warn if not input
+	'^/(reply) (.*)'
 }
 
-local action = function(msg)
+local action = function(msg, blocks)
     
     -- ignore if the chat is a group or a supergroup
     if msg.chat.type ~= 'private' then
@@ -11,17 +13,17 @@ local action = function(msg)
         return nil
     end
     
-    if string.match(msg.text, '^/c') then
+    if blocks[1] == 'c' then
     	
     	print('\n/c', msg.from.first_name..' ['..msg.from.id..']')
         
         local receiver = config.admin
-        local input = msg.text:input()
+        local input = blocks[2]
         
         --allert if not feedback
         if not input then
         	print('\27[31mNil: no text\27[39m')
-            sendMessage(msg.from.id, 'Write your suggestions/bugs/douts near "/contact"')
+            sendMessage(msg.from.id, 'Write your suggestions/bugs/doubt near "/contact"')
             return nil
         end
         
@@ -33,12 +35,12 @@ local action = function(msg)
 	    --sendMessage(receiver, text, true, false, true)
 	    local target = msg.message_id
 	    
-	    mystat('con') --save stats
+	    mystat('c') --save stats
 	    forwardMessage (receiver, msg.from.id, target)
 	    sendMessage(msg.from.id, '*Feedback sent*:\n\n'..input, true, false, true)
 	end
 	
-	if string.match(msg.text, '^/reply') then
+	if blocks[1] == 'reply' then
 		
 		print('\n/reply', msg.from.first_name..' ['..msg.from.id..']')
 		
@@ -55,7 +57,7 @@ local action = function(msg)
 			return nil
 		end
 		
-		local input = msg.text:input()
+		local input = blocks[2]
 		
 		--ignore if not imput
 		if not input then

@@ -11,49 +11,52 @@ local action = function(msg)
     if string.match(msg.text, '^/help') then
         mystat('help')
     else
-        mystat('usrs')
+        local hash = 'bot:general'
+        local num = client:hincrby(hash, 'users', 1)
+        print('Stats saved', 'Users: '..num)
     end
     
     local text = ''
     if msg.chat.type == 'group' or msg.chat.type == 'supergroup' then
         if is_owner(msg) then
             text = text..'*Commands for the owner*:\n'
-            ..'/owner (by reply) : set a new owner\n'
-            ..'/promote (by reply) : promote as moderator a member\n'
-            ..'/demote (by reply) : demote a member\n'
+            ..'`/owner` (by reply) : set a new owner\n'
+            ..'`/promote` (by reply) : promote as moderator a member\n'
+            ..'`/demote` (by reply) : demote a member\n'
             ..'(obviuosly, the ability to appoint moderators is aimed to let users know who are the real moderators in the group, scilicet who can add and kick people.\nSo it\'s hardly suggested to point as moderator only who really is a moderator)\n\n'
         end
         if is_mod(msg) then
             text = text..'*Commands for moderators*:\n'
-            ..'/setrules <rules> : set a completly new list of rules\n'
-            ..'/addrules <rules> : add at the tile of the existing rules a new set of rules\n'
-            ..'/setabout <bio> : set a completly new description for the group\n'
-            ..'/addabout <bio> : add at the end of the existing description other relevant informations\n'
-            ..'With this four commands above, you can use asterisks (bold) or uderscores (italic) to markup your rules/description. But remember: the number of asterisks and underscores used must be an EVEN NUMBER for both, or I won\'t be able to display the rules.\n'
-            ..'/disable <rules|about|modlist> : this commands will be available only for moderators\n'
-            ..'/enable <rules|about|modlist> : this commands will be available for all\n'
-            ..'/enable|/disable <welcome|flag> : switch on/off the welcome message/the ability to flag messages\n'
-            ..'/flagblock|/flagfree (by reply) : the user won\'t be able/will be able to report messages\n'
-            ..'/flaglist : show the list of users who can\'t flag messages\n'
-            ..'/welcome <no|r|a|ra|ma|rm|rma> : how the welcome message is composed\n'
-            ..'no: only the simple welcome message\n'
-            ..'r: the welcome message will be integrated with rules\n'
-            ..'a: the welcome message will be integrated with the about text\n'
-            ..'m: the welcome message will be integrated with the moderators list\n'
-            ..'ra|ar: the welcome message will be integrated with rules and bio\n'
-            ..'ma|am: the welcome message will be integrated with about text and moderators list\n'
-            ..'rm|mr: the welcome message will be integrated with rules and moderators list\n'
-            ..'ram|rma|mar|mra|arm|amr: the welcome message will be integrated with rules, about text and moderators list\n\n'
+            ..'`/setrules <rules>` : set a completly new list of rules\n'
+            ..'`/addrules <rules>` : add at the tile of the existing rules a new set of rules\n'
+            ..'`/setabout <bio>` : set a completly new description for the group\n'
+            ..'`/addabout <bio>` : add at the end of the existing description other relevant informations\n'
+            ..'With this four commands above, you can use asterisks (*bold*), uderscores (_italic_) or the oblique accent (`monospace`) to markup your rules/description.\n'
+            ..'`/settings` : show the group settings\n'
+            ..'`/disable <rules|about|modlist>` : this commands will be available only for moderators\n'
+            ..'`/enable <rules|about|modlist>` : this commands will be available for all\n'
+            ..'`/enable|/disable <welcome|flag>` : switch on/off the welcome message/the ability to flag messages\n'
+            ..'`/flag block|/flag free` (by reply) : the user won\'t be able/will be able to report messages\n'
+            ..'`/flag list` : show the list of users who can\'t flag messages\n'
+            ..'`/welcome <no|r|a|ra|ma|rm|rma>` : how the welcome message is composed\n'
+            ..'_no_ : only the simple welcome message\n'
+            ..'_r_ : the welcome message will be integrated with rules\n'
+            ..'_a_ : the welcome message will be integrated with the about text\n'
+            ..'_m_ : the welcome message will be integrated with the moderators list\n'
+            ..'_ra|ar_ : the welcome message will be integrated with rules and bio\n'
+            ..'_ma|am_ : the welcome message will be integrated with about text and moderators list\n'
+            ..'_rm|mr_ : the welcome message will be integrated with rules and moderators list\n'
+            ..'_ram|rma|mar|mra|arm|amr_ : the welcome message will be integrated with rules, about text and moderators list\n\n'
         end
         text = text..'*Commands for all*:\n'
-        ..'/rules (if unlocked) : show the group rules\n'
-        ..'/about (if unlocked) : show the group description\n'
-        ..'/modlist (if unlocked) : show the moderators of the group\n'
-        ..'/flagmsg (by reply) : report the message to administrators\n'
-        ..'/settings : show the group settings\n'
-        ..'/tell : show your basical info or the info about the user you replied to\n'
-        ..'/c <feedback> : send a feedback/report a bug/ask a question to my creator. He will reply ASAP\n'
-        ..'/help : show this message. If requested in private, it will send a little presentation about how I work'
+        ..'`/rules` (if unlocked) : show the group rules\n'
+        ..'`/about` (if unlocked) : show the group description\n'
+        ..'`/modlist` (if unlocked) : show the moderators of the group\n'
+        ..'`/flag msg` (by reply and if unlocked) : report the message to administrators\n'
+        ..'`/tell` : show your basical info or the info about the user you replied to\n'
+        ..'`/info` : show some useful informations about the bot\n'
+        ..'`/c` <feedback> : send a feedback/report a bug/ask a question to my creator. _ANY KIND OF SUGGESTIONS OR FEATURE REQUEST IS WELCOME_. He will reply ASAP\n'
+        ..'`/help` : show this message. If requested in private, it will send a little presentation about how I work'
         
         sendReply(msg, 'I\'ve sent you the requested information in private.\nIf you have never used me before, please start a conversation with me and ask for help here again.')
     end

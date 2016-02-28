@@ -1,6 +1,6 @@
 
 local triggers = {
-	'^/tell*[@'..bot.username..']*$'
+	'^/(tell)$'
 }
 
 local action = function(msg)

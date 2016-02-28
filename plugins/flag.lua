@@ -1,11 +1,12 @@
 local triggers = {
-	'^/flagmsg[@'..bot.username..']*',
-	'^/flagblock[@'..bot.username..']*',
-	'^/flagfree[@'..bot.username..']*',
-	'^/flaglist[@'..bot.username..']*'
+	'^/(flag)$',
+	'^/(flag) (.*)', --flag with motivation
+	'^/(flag block)$',
+	'^/(flag free)$',
+	'^/(flag list)$'
 }
 
-local action = function(msg)
+local action = function(msg, blocks)
     
     if msg.chat.type == 'private' then--return nil if it's a private chat
         print('PV flag.lua, '..msg.from.first_name..' ['..msg.from.id..'] --> not valid')
@@ -13,11 +14,9 @@ local action = function(msg)
     	return nil
     end
     
-    if string.match(msg.text, '^/flagmsg') then
+    if blocks[1] == 'flag' then
         
-        print('\n/flagmsg', msg.from.first_name..' ['..msg.from.id..'] --> '..msg.chat.title..' ['..msg.chat.id..']')
-        
-        --vardump(msg)
+        print('\n/flag', msg.from.first_name..' ['..msg.from.id..'] --> '..msg.chat.title..' ['..msg.chat.id..']')
         
         --return nil if 's_flag' is locked
         if is_locked(msg, 's_flag') then --or is_mod(msg) then
@@ -26,6 +25,12 @@ local action = function(msg)
         end
         
         groups = load_data('groups.json')
+        
+        --ignore if who is flagging is a mod
+        if is_mod(msg) then
+	        print('\27[31mNil: a mod can\'t flag\27[39m')
+	        return nil
+	    end
         
         --check if /flagblocked
         if groups[tostring(msg.chat.id)]['flag_blocked'][tostring(msg.from.id)] then
@@ -54,7 +59,7 @@ local action = function(msg)
 	        return nil
 	    end
 	    
-	    local desc = msg.text:input()
+	    local desc = blocks[2]
 	    
 	    --check if there is a description for the flag
 	    if not desc then
@@ -78,13 +83,13 @@ local action = function(msg)
             sendMessage(k, msg.from.first_name..titlefla..' reported '..replied.from.first_name..titlere..'\nDescription: '..desc..'\nMessage reported:\n\n'..replied.text)
         end
         
-        mystat('flmsg') --save stats
+        mystat('flagmsg') --save stats
         sendMessage(msg.chat.id, '*Flagged* 🎯', true, false, true)
     end
     
-    if string.match(msg.text, '^/flagblock') then
+    if blocks[1] == 'flag block' then
         
-        print('\n/flagblock', msg.from.first_name..' ['..msg.from.id..'] --> '..msg.chat.title..' ['..msg.chat.id..']')
+        print('\n/flag block', msg.from.first_name..' ['..msg.from.id..'] --> '..msg.chat.title..' ['..msg.chat.id..']')
         
         --return nil if the user is not a moderator
         if not is_mod(msg) then
@@ -133,13 +138,13 @@ local action = function(msg)
         groups[tostring(msg.chat.id)]['flag_blocked'][tostring(replied.from.id)] = tostring(title)
         save_data('groups.json', groups)
         
-        mystat('flb') --save stats
+        mystat('flagblock') --save stats
         sendReply(msg, '*'..msg.from.first_name..'* is now *unable* to use /flag', true)
     end
     
-    if string.match(msg.text, '^/flagfree') then
+    if blocks[1] == 'flag free' then
         
-        print('\n/flagfree', msg.from.first_name..' ['..msg.from.id..'] --> '..msg.chat.title..' ['..msg.chat.id..']')
+        print('\n/flag free', msg.from.first_name..' ['..msg.from.id..'] --> '..msg.chat.title..' ['..msg.chat.id..']')
         
         --return nil if the user is not a moderator
         if not is_mod(msg) then
@@ -182,13 +187,13 @@ local action = function(msg)
         groups[tostring(msg.chat.id)]['flag_blocked'][tostring(replied.from.id)] = nil
         save_data('groups.json', groups)
         
-        mystat('flfre') --save stats
+        mystat('flagfree') --save stats
         sendReply(msg, '*'..msg.from.first_name..'* is now *able* to use /flag', true)
     end
     
-    if string.match(msg.text, '^/flaglist') then
+    if blocks[1] == 'flag list' then
         
-        print('\n/flaglist', msg.from.first_name..' ['..msg.from.id..'] --> '..msg.chat.title..' ['..msg.chat.id..']')
+        print('\n/flag list', msg.from.first_name..' ['..msg.from.id..'] --> '..msg.chat.title..' ['..msg.chat.id..']')
         
         --return nil if the user is not a moderator
         if not is_mod(msg) then
@@ -210,7 +215,7 @@ local action = function(msg)
             i = i + 1
         end
         
-        mystat('fllist') --save stats
+        mystat('flaglist') --save stats
         sendReply(msg, message, true)
     end
 end

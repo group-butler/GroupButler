@@ -2,6 +2,8 @@ HTTP = require('socket.http')
 HTTPS = require('ssl.https')
 URL = require('socket.url')
 JSON = require('dkjson')
+redis = require('redis')
+client = Redis.connect('127.0.0.1', 6379)
 --serpent = require('serpent')
 
 version = '3.1'
@@ -11,6 +13,7 @@ bot_init = function() -- The function run when the bot is started or reloaded.
 	config = dofile('config.lua') -- Load configuration file.
 	dofile('bindings.lua') -- Load Telegram bindings.
 	dofile('utilities.lua') -- Load miscellaneous and cross-plugin functions.
+	--dofile('redis.lua') --E' GIUSTO, SE VOGLIO USARE redis.lua
 
 	bot = nil
 	while not bot do -- Get bot info and retry if unable to connect.
@@ -44,18 +47,22 @@ on_msg_receive = function(msg) -- The fn run whenever a message is received.
 	if msg.text:match('^/start .+') then
 		msg.text = '/' .. msg.text:input()
 	end
-
-	for i,v in ipairs(plugins) do
+	
+	--count the number of messages
+	client:hincrby('bot:general', 'messages', 1)
+	--vardump(msg)
+	for i,v in pairs(plugins) do
 		for k,w in pairs(v.triggers) do
-			if string.match(msg.text:lower(), w) then
-
-				-- a few shortcuts
-				msg.chat.id_str = tostring(msg.chat.id)
-				msg.from.id_str = tostring(msg.from.id)
+			local blocks = match_pattern(w, msg.text)
+			if blocks then
+				if blocks[1] ~= '' then
+      				print("match found: ", w)
+      			end
+				
 				msg.text_lower = msg.text:lower()
-
+				
 				local success, result = pcall(function()
-					return v.action(msg)
+					return v.action(msg, blocks)
 				end)
 				if not success then
 					sendReply(msg, 'Something went wrong.\nPlease report the problem with "/c <bug>"', true)
@@ -84,8 +91,11 @@ while is_started do -- Start a loop while the bot should be running.
 
 	local res = getUpdates(last_update+1) -- Get the latest updates!
 	if res then
+		--vardump(res)
+		--print('\n\n\n')
 		for i,v in ipairs(res.result) do -- Go through every new message.
 			last_update = v.update_id
+			--vardump(v)
 			on_msg_receive(v.message)
 		end
 	else

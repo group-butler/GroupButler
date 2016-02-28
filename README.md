@@ -3,59 +3,65 @@ This bot has been created to help people in the administration of a group.
 
 This bot is based on Otouto (Telegram bot: [@mokubot](https://telegram.me/mokubot), github page: [topkecleon/otouto](https://github.com/topkecleon/otouto).).
 
-otouto and group butler are licensed under the GNU General Public License. A copy of the license has been included in [LICENSE](https://github.com/topkecleon/otouto/blob/master/LICENSE).
+Otouto and Group Butler are licensed under the GNU General Public License. A copy of the license has been included in [LICENSE](https://github.com/topkecleon/otouto/blob/master/LICENSE).
 
 ##What is it?
-Group butler is a Telegram API bot written in Lua. It has been created to help the members of a group to keep it clean and regulated, from the point of view of administrators and normal users.
+Group Butler is a Telegram API bot written in Lua. It has been created to help the members of a group to keep it clean and regulated, from the point of view of administrators and normal users.
 
-This bot takes its structure from otouto: it's plugin-based. This makes easier to manage each functions and commands of the bot, and allows to split the different capabilities of it in different files for a more specific vision of what it should do.
+This bot takes its structure from Otouto: it's plugin-based. This makes easier to manage each function and command of the bot, and allows to split the different capabilities of it in different files for a more specific vision of what it should do.
 
 * * *
 
 ##Plugins
 Here is the list of commands.
 
-| Command | Function |
-|---------|----------|
-| /ping | Shows if the bot is running. |
-| /owner (by reply) | Set a new owner. |
-| /promote (by reply) | Promote as moderator a member. |
-| /demote (by reply) | Demote a member. |
-| /setrules <rules> | Write the new rules and overwrite the old. |
-| /addrules <rules> | Add at the end of the existing rules other text. |
-| /setabout <bio> | Set a completly new description for the group. |
-| /addabout <bio> | Add at the end of the existing description other informations. |
-| /disable <rules-about-modlist> | This commands will be available only for moderators. |
-| /enable <rules-about-modlist> | Returns the summary of a Wikipedia article. |
-| /enable <welcome-flag> | Turn on the welcome message/the ability to flag messages. |
-| /disable <welcome-flag> | Turn off the welcome message/the ability to flag messages. |
-| /flagblock | The user won't be able to report messages. |
-| /flagfree | The user will be able to report messages. |
-| /flaglist | Show the list of users who can\'t flag messages. |
-| /welcome <no-r-a-ra-ma-rm-rma> | How the welcome message is composed. |
-| /rules | Show the group rules. |
-| /about | Show the group description. |
-| /modlist | Show the moderators of the group. |
-| /flagmsg (by reply) | Report the message to administrators. |
-| /settings | Show the group settings. |
-| /tell | Show your basical info or the info about the user you replied to. |
-| /c <feedback> | Send a feedback/report a bug/ask a question to my creator. |
-| /help | I really have to explain this? |
-| /getstats | Show bot statistics. |
-| /reload | Reloads all plugins, libraries, and configuration files. |
-| /halt | Stops the bot. If the bot was run with launch.sh, this will restart it. |
-| /shell <command> | Runs a shell command and returns the output. Use with caution. |
-| /lua <command> | Runs a string a Lua code and returns the output, if applicable. Use with caution. otouto does not use a sandbox. |
+| Command | Function | Privilege |
+|---------|----------|-----------|
+| /ping | Shows if the bot is running. | All |
+| /owner (by reply) | Set a new owner. | Owner |
+| /promote (by reply) | Promote as moderator a member. | Owner |
+| /demote (by reply) | Demote a member. | Owner |
+| /set rules <rules> | Write the new rules and overwrite the old. | Moderator |
+| /add rules <rules> | Add at the end of the existing rules other text. | Moderator |
+| /set about <bio> | Set a completly new description for the group. | Moderator |
+| /add about <bio> | Add at the end of the existing description other informations. | Moderator |
+| /disable <rules-about-modlist> | This commands will be available only for moderators. | Moderator |
+| /enable <rules-about-modlist> | Returns the summary of a Wikipedia article. | Moderator |
+| /enable <welcome-flag> | Turn on the welcome message/the ability to flag messages. | Moderator |
+| /disable <welcome-flag> | Turn off the welcome message/the ability to flag messages. | Moderator |
+| /flag (by reply) | The message will be reported to moderators. | All |
+| /flag block (by reply) | The user won't be able to report messages. | Moderator |
+| /flag free (by reply) | The user will be able to report messages. | Moderator |
+| /flag list | Show the list of users who can\'t flag messages. | Moderator |
+| /welcome <no-r-a-ra-ma-rm-rma> | How the welcome message is composed. | Moderator |
+| /rules | Show the group rules. | All |
+| /about | Show the group description. | All |
+| /modlist | Show the moderators of the group. | All |
+| /settings | Show the group settings. | Moderator |
+| /tell | Show your basical info or the info about the user you replied to. | All |
+| /c <feedback> | Send a feedback/report a bug/ask a question to my creator. | All |
+| /help | I really have to explain this? | All |
+| /info | Show credits | All |
+| /ping redis | Shows if redis is running. | Admin |
+| /get stats | Show statistics about the bot. | Admin |
+| /get commands | Show statistics about commands used. | Admin |
+| /reply <reply> | Reply to a feedback message. | Admin |
+| /reload | Reloads all plugins, libraries, and configuration files. | Admin |
+| /redis save | Save your redis database. | Admin |
+| /moderation backup | Save your redis datas into a json file. | Admin |
+| /halt | Stops the bot. If the bot was run with launch.sh, this will restart it. | Admin |
+| /shell <command> | Runs a shell command and returns the output. Use with caution. | Admin |
+| /lua <command> | Runs a string a Lua code and returns the output, if applicable. Use with caution. otouto does not use a sandbox. | Admin |
 
 
 * * *
 
 ##Setup
-You **must** have Lua (5.2+), LuaSocket, and LuaSec installed.
+You **must** have Lua (5.2+), LuaSocket, LuaSec and Redis-Lua installed.
 
-How to install LuaRocks:
+How to install LuaRocks and set-up the modules:
 ```bash
-# Download and install LuaSocket and LuaSec
+# Download and install LuaSocket, LuaSec adn Redis-Lua
 
 $ wget http://luarocks.org/releases/luarocks-2.2.2.tar.gz
 $ tar zxpf luarocks-2.2.2.tar.gz
@@ -63,6 +69,7 @@ $ cd luarocks-2.2.2
 $ ./configure; sudo make bootstrap
 $ sudo luarocks install luasocket
 $ sudo luarocks install luasec
+$ sudo luarocks install redis-lua
 $ cd ..
 ```
 Clone the github repository:
@@ -73,15 +80,40 @@ $ git clone https://github.com/RememberTheAir/GroupButler.git
 $ cd GroupButler
 ```
 
-**Before you do anything, open config.lua in a text editor and make the following changes:**
+**First of all, take a look to your bot settings:**
 
 > • Make sure that privacy is disabled, otherwise the bot won't see replied messages unless they starts with '/'. Write `/setprivacy` to [BotFather](http://telegram.me/BotFather) to check the current setting.
->
+
+**Before you do anything, open config.lua in a text editor and make the following changes:**
+
 > • Set bot_api_key to the authentication token you received from the [BotFather](http://telegram.me/BotFather).
 >
 > • Set admin as your Telegram ID.
->
-> • Set your Yandex api key if you would like to set up translate plugin. (*soon*)
+
+Before start the bot, you have to start Redis. Open a new window and type:
+```bash
+# Start Redis
+
+$ redis-server
+
+# Don't close the window!
+```
+
+* * *
+
+##MUST READ!!!
+
+Before stop the bot, if you don't want to loose your redis datas (read: statistics and moderation), you have to perform a background saves.
+
+There are three ways to do this: use `/halt` command to stop the bot (datas will be saved automatically), use `/redis save` command to save datas (and then stop the bot), or open a terminal window and run `redis-cli bgsave` (and then stop the bot).
+
+Please remember to do one of this easy things in order to avoid to loose important informations.
+
+I wrote this here cause is always better to say this stuffs before start the bot for the first time. Now you have been warned!
+
+* * *
+
+##Set a time offset and start the process
 
 You may also want to set your time_offset (a positive or negative number, in seconds, representing your computer's difference from UTC).
 
@@ -99,14 +131,14 @@ There are three functions which are not API methods: sendRequest, curlRequest, a
 
 Several functions and methods used by multiple plugins and possibly the main script are kept in utilities.lua. Refer to that file for documentation.
 
-Group butler uses dkjson, a pure-Lua JSON parser. This is provided with the code and does not need to be downloaded or installed separately.
+Group Butler uses dkjson, a pure-Lua JSON parser. This is provided with the code and does not need to be downloaded or installed separately.
 
 * * *
 
 ##Contributors
-Everybody is free to contribute to otouto and to group butler.
+Everybody is free to contribute to otouto and to Group Butler.
 
 The creator and maintainer of otouto is [topkecleon](http://github.com/topkecleon). He can be contacted via [Telegram](http://telegram.me/topkecleon), [Twitter](http://twitter.com/topkecleon), or [email](mailto:topkecleon@outlook.com).
 
-The kanger who created group butler is [RememberTheAir](http://github.com/RememberTheAir). You can contact him via [Telegram](http://telegram.me/Rlotar).
+The kanger who created Group Butler is [RememberTheAir](http://github.com/RememberTheAir). You can contact him via [Telegram](http://telegram.me/Rlotar).
 

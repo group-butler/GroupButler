@@ -31,7 +31,7 @@ local commands = {
         
         --check the command to lock
         if input == 'rules' then
-            mystat('lrls') --save stats
+            mystat('disablerules') --save stats
             now = groups[tostring(msg.chat.id)]['settings']['s_rules']
             if now == 'yes' then
                 sendReply(msg, 'Rules command is already *locked*', true)
@@ -42,7 +42,7 @@ local commands = {
             end
             
         elseif input == 'about' then
-                mystat('labt') --save stats
+                mystat('disableabout') --save stats
                 now = groups[tostring(msg.chat.id)]['settings']['s_about']
                 if now == 'yes' then
                     sendReply(msg, 'About command is already *locked*', true)
@@ -53,7 +53,7 @@ local commands = {
                 end
         
         elseif input == 'welcome' then
-                mystat('lwel') --save stats
+                mystat('disablewelcome') --save stats
                 now = groups[tostring(msg.chat.id)]['settings']['s_welcome']
                 if now == 'yes' then
                     sendReply(msg, 'Welcome message is already *locked*', true)
@@ -64,7 +64,7 @@ local commands = {
                 end
         
         elseif input == 'modlist' then
-                mystat('llmod') --save stats
+                mystat('disablemodlist') --save stats
                 now = groups[tostring(msg.chat.id)]['settings']['s_modlist']
                 if now == 'yes' then
                     sendReply(msg, 'Modlist is already *locked*', true)
@@ -75,7 +75,7 @@ local commands = {
                 end
         
         elseif input == 'flag' then
-                mystat('lflag') --save stats
+                mystat('disableflag') --save stats
                 now = groups[tostring(msg.chat.id)]['settings']['s_flag']
                 if now == 'yes' then
                     sendReply(msg, 'Flag option is already *locked*', true)
@@ -88,6 +88,7 @@ local commands = {
             print('\27[31mNil: argument not available\27[39m')
             sendReply(msg, 'Arguments unavailable.\nUse /disable [rules|about|welcome|modlist|flag] instead', true)
         end
+        
     end,
 
     ['^/enable[@'..bot.username..']*'] = function(msg)
@@ -119,7 +120,7 @@ local commands = {
         
         --check the command to enable
         if input == 'rules' then
-            mystat('ulrls') --save stats
+            mystat('enablerules') --save stats
             now = groups[tostring(msg.chat.id)]['settings']['s_rules']
             if now == 'no' then
                 sendReply(msg, 'Rules command is already *unlocked*', true)
@@ -130,7 +131,7 @@ local commands = {
             end
             
         elseif input == 'about' then
-                mystat('ulabt') --save stats
+                mystat('enableabout') --save stats
                 now = groups[tostring(msg.chat.id)]['settings']['s_about']
                 if now == 'no' then
                     sendReply(msg, 'About command is already *unlocked*', true)
@@ -141,7 +142,7 @@ local commands = {
                 end
         
         elseif input == 'welcome' then
-                mystat('ulwel') --save stats
+                mystat('enablewelcome') --save stats
                 now = groups[tostring(msg.chat.id)]['settings']['s_welcome']
                 if now == 'no' then
                     sendReply(msg, 'Welcome message is already *unlocked*', true)
@@ -152,7 +153,7 @@ local commands = {
                 end
         
         elseif input == 'modlist' then
-                mystat('ullmod') --save stats
+                mystat('enablemodlist') --save stats
                 now = groups[tostring(msg.chat.id)]['settings']['s_modlist']
                 if now == 'no' then
                     sendReply(msg, 'Modlist command is already *unlocked*', true)
@@ -163,7 +164,7 @@ local commands = {
                 end
         
         elseif input == 'flag' then
-                mystat('ulflag') --save stats
+                mystat('enableflag') --save stats
                 now = groups[tostring(msg.chat.id)]['settings']['s_flag']
                 if now == 'no' then
                     sendReply(msg, 'Flag option is already *unlocked*', true)
@@ -176,6 +177,7 @@ local commands = {
             print('\27[31mNil: argument not available\27[39m')
             sendReply(msg, 'Argument unavailable.\nUse /unlock [rules|about|welcome|modlist|flag] instead', true)
         end
+        
     end,
     
     ['^/welcome[@'..bot.username..']*'] = function(msg)
@@ -235,7 +237,7 @@ local commands = {
         else sendReply(msg, 'Argument unavailable.\nUse _/welcome [no|r|a|ra|ar]_ instead', true)
         end
         
-        mystat('wel') --save stats
+        mystat('welcome') --save stats
         save_data('groups.json', groups)
     end,
 
@@ -249,6 +251,13 @@ local commands = {
         end
         
         print('\n/settings', msg.from.first_name..' ['..msg.from.id..'] --> '..msg.chat.title..' ['..msg.chat.id..']')
+        
+        --ignore if is not mod
+        if not is_mod(msg) then
+			print('\27[31mNil: not mod\27[39m')
+			sendReply(msg, 'You are *not* a moderator', true)
+			return nil
+		end
         
         settings = groups[tostring(msg.chat.id)]['settings']
         
@@ -300,7 +309,7 @@ local commands = {
             message = message..'*Welcome type*: welcome only\n'
         end
         
-        mystat('sett') --save stats
+        mystat('settings') --save stats
         sendReply(msg, message, true)
     end
 }

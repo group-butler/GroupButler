@@ -35,6 +35,46 @@ end
 
 function is_owner(msg)
 	local var = false
+	
+	local hash = 'bot:'..msg.chat.id..':owner'
+	local owner_list = client:hkeys(hash) --get the current owner id
+	local owner = owner_list[1]
+	
+	if owner == tostring(msg.from.id) then
+		var = true
+	end
+	
+	if msg.from.id == config.admin then
+		var = true
+	end
+	
+	return var
+end
+
+function is_mod(msg)
+	local var = false
+	
+	local hash = 'bot:'..msg.chat.id..':mod'
+	local modlist = client:hkeys(hash) --get the list of ids
+	
+	for i=1, #modlist do
+		if tostring(modlist[i]) == tostring(msg.from.id) then
+			var = true
+		end
+	end
+
+	if msg.from.id == config.admin then
+		var = true
+	end
+	
+	--no need to check if is owner: the owner id is already saved in the modlist
+	
+	return var
+end
+
+-------------JSON--------------
+function is_owner_data(msg)
+	local var = false
   	local groups = load_data('groups.json')
   
     if groups[tostring(msg.chat.id)]['owner'] == tostring(msg.from.id) then
@@ -48,7 +88,7 @@ function is_owner(msg)
   	return var
 end
 
-function is_mod(msg)
+function is_mod_data(msg)
 	local var = false
   	local groups = load_data('groups.json')
   	
@@ -66,6 +106,7 @@ function is_mod(msg)
   	
     return var
 end
+------------JSON------------
 
 function is_locked(msg, cmd)
 	local var = false
@@ -77,12 +118,15 @@ function is_locked(msg, cmd)
 end
 
 function mystat(cmd)
-	stat = load_data('statsbot.json')
-	n = stat[tostring(cmd)]
-	n = n+1
-	stat[tostring(cmd)] = tonumber(n)
-	save_data('statsbot.json', stat)
-	print('Stats saved', cmd)
+	
+	local hash = 'commands:stats'
+	local final = client:hincrby(hash, cmd, 1)
+	--stat = load_data('statsbot.json')
+	--n = stat[tostring(cmd)]
+	--n = n+1
+	--stat[tostring(cmd)] = tonumber(n)
+	--save_data('statsbot.json', stat)
+	print('Stats saved', cmd..': '..final)
 end	
 
  -- I swear, I copied this from PIL, not yago! :)
@@ -170,4 +214,75 @@ function get_coords(input)
 		lon = jdat.results[1].geometry.location.lng
 	}
 
+end
+
+function match_pattern(pattern, text, lower_case)
+  if text then
+    local matches = {}
+    if lower_case then
+      matches = { string.match(text:lower(), pattern) }
+    else
+      matches = { string.match(text, pattern) }
+    end
+      if next(matches) then
+      	if matches[1] ~= '' then
+      		print('----------------------------------------------------------------')
+      		--for i=1, #matches do
+      	 		--print('matches['..i..']', matches[i])
+      		--end
+      	end
+        return matches
+      end
+  end
+  -- nil
+end
+
+function clean_owner_modlist(chat)
+	--clear the owner
+	local hash = 'bot:'..chat..':owner'
+	local owner_list = client:hkeys(hash) --get the current owner id
+	local owner = owner_list[1]
+	client:hdel(hash, owner)
+	
+	--clean the modlist
+	hash = 'bot:'..chat..':mod'
+	local mod_list = client:hkeys(hash) --get mods id
+	for i=1, #mod_list do
+		client:hdel(hash, mod_list[i])
+	end
+end
+
+function vardump(value)
+  print(serpent.block(value, {comment=false}))
+end
+
+function breaks_markdown(text)
+	local i = 0
+	for word in string.gmatch(text, '%*') do
+		i = i+1	
+	end
+	local rest = i%2
+	if rest == 1 then
+		return true
+	end
+	
+	i = 0
+	for word in string.gmatch(text, '_') do
+		i = i+1	
+	end
+	local rest = i%2
+	if rest == 1 then
+		return true
+	end
+	
+	i = 0
+	for word in string.gmatch(text, '`') do
+		i = i+1	
+	end
+	local rest = i%2
+	if rest == 1 then
+		return true
+	end
+	
+	return false
 end

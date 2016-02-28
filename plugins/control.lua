@@ -1,6 +1,6 @@
 local triggers = {
-	'^/reload[@'..bot.username..']*',
-	'^/halt[@'..bot.username..']*'
+	'^/(reload)',
+	'^/(halt)'
 }
 
 local action = function(msg)
@@ -11,13 +11,17 @@ local action = function(msg)
 		print('\27[31mNil: not admin\27[39m')
 		return
 	end
-	mystat('rel')
+	
 	if msg.text:match('^/reload') then
+		--client:bgsave()
 		bot_init()
 		sendReply(msg, 'Bot reloaded!')
+		mystat('reload') --save stat
 	elseif msg.text:match('^/halt') then
+		client:bgsave()
 		is_started = false
 		sendReply(msg, 'Stopping bot!')
+		mystat('halt') --save stat
 	end
 
 end

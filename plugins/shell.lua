@@ -1,8 +1,8 @@
 local triggers = {
-	'^/run[@'..bot.username..']*'
+	'^/(run) (.*)'
 }
 
-local action = function(msg)
+local action = function(msg, blocks)
 
 	print('\n/run', msg.from.first_name..' ['..msg.from.id..']')
 
@@ -12,7 +12,7 @@ local action = function(msg)
 		return
 	end
 
-	local input = msg.text:input()
+	local input = blocks[2]
 	
 	--ignore if not input text
 	if not input then
@@ -31,6 +31,7 @@ local action = function(msg)
 		output = '```\n' .. output .. '\n```'
 	end
 	
+	mystat('run') --save stats
 	sendMessage(msg.chat.id, output, true, msg.message_id, true)
 end
 
