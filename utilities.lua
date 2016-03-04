@@ -110,8 +110,9 @@ end
 
 function is_locked(msg, cmd)
 	local var = false
-  	local data = load_data('groups.json')
-  	if data[tostring(msg.chat.id)]['settings'][tostring(cmd)] == 'yes' then
+  	local hash = 'chat:'..msg.chat.id..':settings'
+  	local current = client:hget(hash, cmd)
+  	if current == 'yes' then
   		var = true
   	end
   	return var

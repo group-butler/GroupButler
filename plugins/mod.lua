@@ -246,7 +246,7 @@ end,
     print('\n/modlist', msg.from.first_name..' ['..msg.from.id..'] --> '..msg.chat.title..' ['..msg.chat.id..']')
     
     --ignore if the command is locked and the user is not a moderator
-    if is_locked(msg, 's_modlist') and not is_mod(msg) then
+    if is_locked(msg, 'Modlist') and not is_mod(msg) then
         print('\27[31mNil: action locked\27[39m')
     	return nil
     end

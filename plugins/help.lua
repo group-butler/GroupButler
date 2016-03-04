@@ -23,7 +23,8 @@ local action = function(msg)
             ..'`/owner` (by reply) : set a new owner\n'
             ..'`/promote` (by reply) : promote as moderator a member\n'
             ..'`/demote` (by reply) : demote a member\n'
-            ..'(obviuosly, the ability to appoint moderators is aimed to let users know who are the real moderators in the group, scilicet who can add and kick people.\nSo it\'s hardly suggested to point as moderator only who really is a moderator)\n\n'
+            ..'`/setlink [link|\'no\']` : set the group link, so it can be re-called by mods, or unset it\n'
+            ..'(obviuosly, the ability to appoint moderators is aimed to let users know who are the real moderators in the group, and so who can add and kick people.\nSo it\'s hardly suggested to point as moderator only who really is a moderator)\n\n'
         end
         if is_mod(msg) then
             text = text..'*Commands for moderators*:\n'
@@ -32,7 +33,10 @@ local action = function(msg)
             ..'`/setabout <bio>` : set a completly new description for the group\n'
             ..'`/addabout <bio>` : add at the end of the existing description other relevant informations\n'
             ..'With this four commands above, you can use asterisks (*bold*), uderscores (_italic_) or the oblique accent (`monospace`) to markup your rules/description.\n'
+            ..'`/link` : get the group link, if setted\n'
             ..'`/settings` : show the group settings\n'
+            ..'`/setpoll [link|\'no\']` : save a poll link from @pollbot, so it can be re-called by mods, or unset it\n'
+            ..'`/poll` : get the current poll link\n'
             ..'`/disable <rules|about|modlist>` : this commands will be available only for moderators\n'
             ..'`/enable <rules|about|modlist>` : this commands will be available for all\n'
             ..'`/enable|/disable <welcome|flag>` : switch on/off the welcome message/the ability to flag messages\n'
@@ -52,13 +56,13 @@ local action = function(msg)
         ..'`/rules` (if unlocked) : show the group rules\n'
         ..'`/about` (if unlocked) : show the group description\n'
         ..'`/modlist` (if unlocked) : show the moderators of the group\n'
-        ..'`/flag msg` (by reply and if unlocked) : report the message to administrators\n'
+        ..'`/flag msg` (by reply and if unlocked) `[optional description]` : report the message to administrators\n'
         ..'`/tell` : show your basical info or the info about the user you replied to\n'
         ..'`/info` : show some useful informations about the bot\n'
-        ..'`/c` <feedback> : send a feedback/report a bug/ask a question to my creator. _ANY KIND OF SUGGESTIONS OR FEATURE REQUEST IS WELCOME_. He will reply ASAP\n'
+        ..'`/c` <feedback> : send a feedback/report a bug/ask a question to my creator. _ANY KIND OF SUGGESTION OR FEATURE REQUEST IS WELCOME_. He will reply ASAP\n'
         ..'`/help` : show this message. If requested in private, it will send a little presentation about how I work'
         
-        sendReply(msg, 'I\'ve sent you the requested information in private.\nIf you have never used me before, please start a conversation with me and ask for help here again.')
+        sendReply(msg, 'I\'ve sent you the requested information in *private*.\nIf you have never used me before, please *start* me and ask for help here *again*.', true)
     end
     
     if msg.chat.type == 'private' then

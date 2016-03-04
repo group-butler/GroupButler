@@ -28,13 +28,13 @@ local action = function(msg)
 			rules = nil,
 			about = nil,
 			flag_blocked = {},
-			settings = {
-				s_rules = 'no',
-				s_about = 'no',
-				s_welcome = 'no',
-				s_modlist = 'no',
-				s_flag = 'yes',
-				welcome = 'no'},
+			--settings = {
+				--s_rules = 'no',
+				--s_about = 'no',
+				--s_welcome = 'no',
+				--s_modlist = 'no',
+				--s_flag = 'yes',
+				--welcome = 'no'},
 		}
 		
 		save_data('groups.json', groups)
@@ -48,6 +48,16 @@ local action = function(msg)
         --add owner as owner
         hash = 'bot:'..msg.chat.id..':owner'
         client:hset(hash, user, jsoname)
+		
+		--default settings
+		hash = 'chat:'..msg.chat.id..':settings'
+		client:hset(hash, 'Rules', 'no')
+		client:hset(hash, 'About', 'no')
+		client:hset(hash, 'Modlist', 'no')
+		client:hset(hash, 'Flag', 'yes')
+		client:hset(hash, 'Welcome', 'no')
+		hash = 'chat:'..msg.chat.id..':welcome' --set the default welcome type
+		client:hset(hash, 'wel', 'no')
 		
 		--save stats
 		hash = 'bot:general'
@@ -65,16 +75,17 @@ local action = function(msg)
 		--basic text
 		text = 'Hi '..msg.new_chat_participant.first_name..', and welcome to *'..msg.chat.title..'*!'
 		
-		groups = load_data('groups.json')
-		
 		--ignore if welcome is locked
-		if groups[tostring(msg.chat.id)]['settings']['s_welcome'] == 'yes' then
+		if is_locked(msg, 'Welcome') then
 			print('\27[31mNil: welcome diabled\27[39m')
 			return nil
 		end
 		
-		--load welcome settings
-		local wlc_sett = groups[tostring(msg.chat.id)]['settings']['welcome']
+		groups = load_data('groups.json')
+		
+		--retrive welcome settings
+		local hash = 'chat:'..msg.chat.id..':welcome'
+		local wlc_sett = client:hget(hash, 'wel')
 		
 		local abt = groups[tostring(msg.chat.id)]['about']
 		local rls = groups[tostring(msg.chat.id)]['rules']

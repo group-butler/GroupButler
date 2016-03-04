@@ -1,5 +1,3 @@
-groups = load_data('groups.json')
-
 
 local commands = {
     ['^/disable[@'..bot.username..']*'] = function(msg)
@@ -29,64 +27,62 @@ local commands = {
             return nil
         end
         
+        local hash = 'chat:'..msg.chat.id..':settings'
+        local now
+        
         --check the command to lock
         if input == 'rules' then
             mystat('disablerules') --save stats
-            now = groups[tostring(msg.chat.id)]['settings']['s_rules']
+            now = client:hget(hash, 'Rules')
             if now == 'yes' then
-                sendReply(msg, 'Rules command is already *locked*', true)
-            elseif now == 'no' then
-                groups[tostring(msg.chat.id)]['settings']['s_rules'] = 'yes'
-                save_data('groups.json', groups)
-                sendReply(msg, 'Rules command it\'s now available *only for moderators*', true)
+                sendReply(msg, '`/rules` command is already *locked*', true)
+            else
+                client:hset(hash, 'Rules', 'yes')
+                sendReply(msg, '`/rules` command is now available *only for moderators*', true)
             end
             
         elseif input == 'about' then
-                mystat('disableabout') --save stats
-                now = groups[tostring(msg.chat.id)]['settings']['s_about']
-                if now == 'yes' then
-                    sendReply(msg, 'About command is already *locked*', true)
-                elseif now == 'no' then
-                    groups[tostring(msg.chat.id)]['settings']['s_about'] = 'yes'
-                    save_data('groups.json', groups)
-                    sendReply(msg, 'About command it\'s now available *only for moderators*', true)
-                end
+            mystat('disableabout') --save stats
+            now = client:hget(hash, 'About')
+            if now == 'yes' then
+                sendReply(msg, '`/about` command is already *locked*', true)
+            else
+                client:hset(hash, 'About', 'yes')
+                sendReply(msg, '`/about` command is now available *only for moderators*', true)
+            end
         
         elseif input == 'welcome' then
-                mystat('disablewelcome') --save stats
-                now = groups[tostring(msg.chat.id)]['settings']['s_welcome']
-                if now == 'yes' then
-                    sendReply(msg, 'Welcome message is already *locked*', true)
-                elseif now == 'no' then
-                    groups[tostring(msg.chat.id)]['settings']['s_welcome'] = 'yes'
-                    save_data('groups.json', groups)
-                    sendReply(msg, 'The welcome message *won\'t be diplayed*', true)
-                end
+            mystat('disablewelcome') --save stats
+            now = client:hget(hash, 'Welcome')
+            if now == 'yes' then
+                sendReply(msg, 'Welcome message is already *locked*', true)
+            else
+                client:hset(hash, 'Welcome', 'yes')
+                sendReply(msg, 'Welcome message *won\'t be displayed* from now', true)
+            end
         
         elseif input == 'modlist' then
-                mystat('disablemodlist') --save stats
-                now = groups[tostring(msg.chat.id)]['settings']['s_modlist']
-                if now == 'yes' then
-                    sendReply(msg, 'Modlist is already *locked*', true)
-                elseif now == 'no' then
-                    groups[tostring(msg.chat.id)]['settings']['s_modlist'] = 'yes'
-                    save_data('groups.json', groups)
-                    sendReply(msg, 'Modlist command it\'s now available *only for moderators*', true)
-                end
+            mystat('disablemodlist') --save stats
+            now = client:hget(hash, 'Modlist')
+            if now == 'yes' then
+                sendReply(msg, '`/modlist` command is already *locked*', true)
+            else
+                client:hset(hash, 'Modlist', 'yes')
+                sendReply(msg, '`/modlist` command is now available *only for moderators*', true)
+            end
         
         elseif input == 'flag' then
-                mystat('disableflag') --save stats
-                now = groups[tostring(msg.chat.id)]['settings']['s_flag']
-                if now == 'yes' then
-                    sendReply(msg, 'Flag option is already *locked*', true)
-                elseif now == 'no' then
-                    groups[tostring(msg.chat.id)]['settings']['s_flag'] = 'yes'
-                    save_data('groups.json', groups)
-                    sendReply(msg, 'Moderators from now *won\'t receive* reports from users', true)
-                end
+            mystat('disableflag') --save stats
+            now = client:hget(hash, 'Flag')
+            if now == 'yes' then
+                sendReply(msg, '`/flag` command is already *not enabled*', true)
+            else
+                client:hset(hash, 'Flag', 'yes')
+                sendReply(msg, '`/flag` command *won\'t be available* from now', true)
+            end
         else
             print('\27[31mNil: argument not available\27[39m')
-            sendReply(msg, 'Arguments unavailable.\nUse /disable [rules|about|welcome|modlist|flag] instead', true)
+            sendReply(msg, 'Argument unavailable.\nUse `/disable [rules|about|welcome|modlist|flag]` instead', true)
         end
         
     end,
@@ -118,64 +114,62 @@ local commands = {
             return nil
         end
         
+        local hash = 'chat:'..msg.chat.id..':settings'
+        local now
+        
         --check the command to enable
         if input == 'rules' then
             mystat('enablerules') --save stats
-            now = groups[tostring(msg.chat.id)]['settings']['s_rules']
+            now = client:hget(hash, 'Rules')
             if now == 'no' then
-                sendReply(msg, 'Rules command is already *unlocked*', true)
-            elseif now == 'yes' then
-                groups[tostring(msg.chat.id)]['settings']['s_rules'] = 'no'
-                save_data('groups.json', groups)
-                sendReply(msg, 'Rules command it\'s now available *for all*', true)
+                sendReply(msg, '`/rules` command is already *unlocked*', true)
+            else
+                client:hset(hash, 'Rules', 'no')
+                sendReply(msg, '`/rules` command is now available *for all*', true)
             end
             
         elseif input == 'about' then
-                mystat('enableabout') --save stats
-                now = groups[tostring(msg.chat.id)]['settings']['s_about']
-                if now == 'no' then
-                    sendReply(msg, 'About command is already *unlocked*', true)
-                elseif now == 'yes' then
-                    groups[tostring(msg.chat.id)]['settings']['s_about'] = 'no'
-                    save_data('groups.json', groups)
-                    sendReply(msg, 'About command it\'s now available *for all*', true)
-                end
+            mystat('enableabout') --save stats
+            now = client:hget(hash, 'About')
+            if now == 'no' then
+                sendReply(msg, '`/about` command is already *unlocked*', true)
+            else
+                client:hset(hash, 'About', 'no')
+                sendReply(msg, '`/about` command is now available *for all*', true)
+            end
         
         elseif input == 'welcome' then
-                mystat('enablewelcome') --save stats
-                now = groups[tostring(msg.chat.id)]['settings']['s_welcome']
-                if now == 'no' then
-                    sendReply(msg, 'Welcome message is already *unlocked*', true)
-                elseif now == 'yes' then
-                    groups[tostring(msg.chat.id)]['settings']['s_welcome'] = 'no'
-                    save_data('groups.json', groups)
-                    sendReply(msg, 'The welcome message *will be diplayed*', true)
-                end
+            mystat('enablewelcome') --save stats
+            now = client:hget(hash, 'Welcome')
+            if now == 'no' then
+                sendReply(msg, 'Welcome message is already *unlocked*', true)
+            else
+                client:hset(hash, 'Welcome', 'no')
+                sendReply(msg, 'Welcome message from now will be displayed', true)
+            end
         
         elseif input == 'modlist' then
-                mystat('enablemodlist') --save stats
-                now = groups[tostring(msg.chat.id)]['settings']['s_modlist']
-                if now == 'no' then
-                    sendReply(msg, 'Modlist command is already *unlocked*', true)
-                elseif now == 'yes' then
-                    groups[tostring(msg.chat.id)]['settings']['s_modlist'] = 'no'
-                    save_data('groups.json', groups)
-                    sendReply(msg, 'Modlist command it\'s now available *for all*', true)
-                end
+            mystat('enablemodlist') --save stats
+            now = client:hget(hash, 'Modlist')
+            if now == 'no' then
+                sendReply(msg, '`/modlist` command is already *unlocked*', true)
+            else
+                client:hset(hash, 'Modlist', 'no')
+                sendReply(msg, '`/modlist` command is now available *for all*', true)
+            end
         
         elseif input == 'flag' then
-                mystat('enableflag') --save stats
-                now = groups[tostring(msg.chat.id)]['settings']['s_flag']
-                if now == 'no' then
-                    sendReply(msg, 'Flag option is already *unlocked*', true)
-                elseif now == 'yes' then
-                    groups[tostring(msg.chat.id)]['settings']['s_flag'] = 'no'
-                    save_data('groups.json', groups)
-                    sendReply(msg, 'Moderators from now *will receive* reports from users', true)
-                end
+            mystat('enableflag') --save stats
+            now = client:hget(hash, 'Flag')
+            if now == 'no' then
+                sendReply(msg, '`/flag` command is already *available*', true)
+            else
+                client:hset(hash, 'Flag', 'no')
+                sendReply(msg, '`/flag` command is now *available*', true)
+            end
         else
             print('\27[31mNil: argument not available\27[39m')
-            sendReply(msg, 'Argument unavailable.\nUse /unlock [rules|about|welcome|modlist|flag] instead', true)
+            sendReply(msg, 'Argument unavailable.\nUse `/enable [rules|about|welcome|modlist|flag]` instead', true)
         end
         
     end,
@@ -207,38 +201,38 @@ local commands = {
             return nil
         end
         
-        now = groups[tostring(msg.chat.id)]['settings']['welcome']
+        local hash = 'chat:'..msg.chat.id..':welcome'
+        local key = 'wel'
         
         --change welcome settings
         if input == 'a' then
-            groups[tostring(msg.chat.id)]['settings']['welcome'] = 'a'
-            sendReply(msg, 'New settings for the welcome message:\nRules\n*About*\nModerators list', true)
+            client:hset(hash, key, 'a')
+            sendReply(msg, 'New settings for the welcome message:\n❌Rules\n✅*About*\n❌Moderators list', true)
         elseif input == 'r' then
-            groups[tostring(msg.chat.id)]['settings']['welcome'] = 'r'
-            sendReply(msg, 'New settings for the welcome message:\n*Rules*\nAbout\nModerators list', true)
+            client:hset(hash, key, 'r')
+            sendReply(msg, 'New settings for the welcome message:\n✅*Rules*\n❌About\n❌Moderators list', true)
         elseif input == 'm' then
-            groups[tostring(msg.chat.id)]['settings']['welcome'] = 'm'
-            sendReply(msg, 'New settings for the welcome message:\nRules\nAbout\n*Moderators list*', true)
+            client:hset(hash, key, 'm')
+            sendReply(msg, 'New settings for the welcome message:\n❌Rules\n❌About\n✅*Moderators list*', true)
         elseif input == 'ar' or input == 'ra' then
-            groups[tostring(msg.chat.id)]['settings']['welcome'] = 'ra'
-            sendReply(msg, 'New settings for the welcome message:\n*Rules*\n*About*\nModerators list', true)
+            client:hset(hash, key, 'ra')
+            sendReply(msg, 'New settings for the welcome message:\n✅*Rules*\n✅*About*\n❌Moderators list', true)
         elseif input == 'mr' or input == 'rm' then
-            groups[tostring(msg.chat.id)]['settings']['welcome'] = 'rm'
-            sendReply(msg, 'New settings for the welcome message:\nRules\n*About*\n*Moderators list*', true)
+            client:hset(hash, key, 'rm')
+            sendReply(msg, 'New settings for the welcome message:\n✅*Rules*\n❌About\n✅*Moderators list*', true)
         elseif input == 'am' or input == 'ma' then
-            groups[tostring(msg.chat.id)]['settings']['welcome'] = 'am'
-            sendReply(msg, 'New settings for the welcome message:\nRules\n*About*\n*Moderators list*', true)
+            client:hset(hash, key, 'am')
+            sendReply(msg, 'New settings for the welcome message:\n❌Rules\n✅*About*\n✅*Moderators list*', true)
         elseif input == 'ram' or input == 'rma' or input == 'arm' or input == 'amr' or input == 'mra' or input == 'mar' then
-            groups[tostring(msg.chat.id)]['settings']['welcome'] = 'ram'
-            sendReply(msg, 'New settings for the welcome message:\n*Rules*\n*About*\n*Moderators list*', true)
+            client:hset(hash, key, 'ram')
+            sendReply(msg, 'New settings for the welcome message:\n✅*Rules*\n✅*About*\n✅*Moderators list*', true)
         elseif input == 'no' then
-            groups[tostring(msg.chat.id)]['settings']['welcome'] = 'no'
-            sendReply(msg, 'New settings for the welcome message:\nRules\nAbout\nModerators list', true)
+            client:hset(hash, key, 'no')
+            sendReply(msg, 'New settings for the welcome message:\n❌Rules\n❌About\n❌Moderators list', true)
         else sendReply(msg, 'Argument unavailable.\nUse _/welcome [no|r|a|ra|ar]_ instead', true)
         end
         
         mystat('welcome') --save stats
-        save_data('groups.json', groups)
     end,
 
     ['^/settings[@'..bot.username..']*$'] = function(msg)
@@ -259,54 +253,48 @@ local commands = {
 			return nil
 		end
         
-        settings = groups[tostring(msg.chat.id)]['settings']
+        --get settings from redis
+        local hash = 'chat:'..msg.chat.id..':settings'
+        local settings_key = client:hkeys(hash)
+        local settings_val = client:hvals(hash)
+        local key
+        local val
         
         message = 'Current settings for *'..msg.chat.title..'*:\n\n'
         
         --build the message
-        if settings.s_rules == 'yes' then
-            message = message..'*Rules*: for moderators\n'
-        else
-            message = message..'*Rules*: for all\n'
-        end
-        if settings.s_about == 'yes' then
-            message = message..'*About*: for moderators\n'
-        else
-            message = message..'*About*: for all\n'
-        end
-        if settings.s_modlist == 'yes' then
-            message = message..'*Modlist*: for moderators\n'
-        else
-            message = message..'*Modlist*: for all\n'
-        end
-        if settings.s_flag == 'yes' then
-            message = message..'*Flag*: off\n'
-        else
-            message = message..'*Flag*: on\n'
-        end
-        if settings.s_welcome == 'yes' then
-            message = message..'*Welcome message*: off\n'
-        else
-            message = message..'*Welcome message*: on\n'
+        for i=1, #settings_key do
+            key = settings_key[i]
+            val = settings_val[i]
+            
+            local text
+            if val == 'yes' then
+                text = key..': 🔒\n'
+            else
+                text = '*'..key..'*: 🔓\n'
+            end
+            message = message..text
         end
         
         --build the "welcome" line
-        if settings.welcome == 'a' then
-            message = message..'*Welcome type*: welcome + about\n'
-        elseif settings.welcome == 'r' then
-            message = message..'*Welcome type*: welcome + rules\n'
-        elseif settings.welcome == 'm' then
-            message = message..'*Welcome type*: welcome + modlist\n'
-        elseif settings.welcome == 'ra' then
-            message = message..'*Welcome type*: welcome + rules + about\n'
-        elseif settings.welcome == 'rm' then
-            message = message..'*Welcome type*: welcome + rules + modlist\n'
-        elseif settings.welcome == 'am' then
-            message = message..'*Welcome type*: welcome + about + modlist\n'
-        elseif settings.welcome == 'ram' then
-            message = message..'*Welcome type*: welcome + rules + about + modlist\n'
-        elseif settings.welcome == 'no' then
-            message = message..'*Welcome type*: welcome only\n'
+        hash = 'chat:'..msg.chat.id..':welcome'
+        local wel = client:hget(hash, 'wel')
+        if wel == 'a' then
+            message = message..'*Welcome type*: `welcome + about`\n'
+        elseif wel == 'r' then
+            message = message..'*Welcome type*: `welcome + rules`\n'
+        elseif wel == 'm' then
+            message = message..'*Welcome type*: `welcome + modlist`\n'
+        elseif wel == 'ra' then
+            message = message..'*Welcome type*: `welcome + rules + about`\n'
+        elseif wel == 'rm' then
+            message = message..'*Welcome type*: `welcome + rules + modlist`\n'
+        elseif wel == 'am' then
+            message = message..'*Welcome type*: `welcome + about + modlist`\n'
+        elseif wel == 'ram' then
+            message = message..'*Welcome type*: `welcome + rules + about + modlist`\n'
+        elseif wel == 'no' then
+            message = message..'*Welcome type*: `welcome only`\n'
         end
         
         mystat('settings') --save stats

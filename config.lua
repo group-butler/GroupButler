@@ -23,6 +23,7 @@ return {
 	plugins = {
 		'control.lua',
 		'mod.lua',
+		'credits.lua',
 		'ping.lua',
 		'tell.lua',
 		'help.lua',
@@ -32,8 +33,10 @@ return {
 		'getstats.lua',
 		'report.lua',
 		'flag.lua',
+		'redisinfo.lua',
 		'redisbackup.lua',
-		'service.lua'
+		'service.lua',
+		'links.lua'
 		
 	}
 }

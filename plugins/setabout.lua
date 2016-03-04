@@ -25,7 +25,7 @@ local action = function(msg, blocks)
     	print('\n/about', msg.from.first_name..' ['..msg.from.id..'] --> '..msg.chat.title..' ['..msg.chat.id..']')
     	
     	--ignore if is locked and is not mod
-    	if is_locked(msg, 's_about') and not is_mod(msg) then
+    	if is_locked(msg, 'About') and not is_mod(msg) then
     		print('\27[31mNil: locked and not mod\27[39m')
     		return nil
     	end

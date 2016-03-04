@@ -19,7 +19,7 @@ local action = function(msg, blocks)
         print('\n/flag', msg.from.first_name..' ['..msg.from.id..'] --> '..msg.chat.title..' ['..msg.chat.id..']')
         
         --return nil if 's_flag' is locked
-        if is_locked(msg, 's_flag') then --or is_mod(msg) then
+        if is_locked(msg, 'Flag') then --or is_mod(msg) then
             print('\27[31mNil: /flagmsg locked for group\27[39m')
             return nil 
         end

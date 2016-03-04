@@ -29,6 +29,10 @@ Here is the list of commands.
 | /enable <rules-about-modlist> | Returns the summary of a Wikipedia article. | Moderator |
 | /enable <welcome-flag> | Turn on the welcome message/the ability to flag messages. | Moderator |
 | /disable <welcome-flag> | Turn off the welcome message/the ability to flag messages. | Moderator |
+| /setlink <link> | Save the group link, so mods can recall it. | Owner |
+| /link | Get the group link. | Moderator |
+| /setpoll <description> <link> | Save the link to a [pollbot](http://telegram.me/pollbot) poll. | Moderator |
+| /poll | Get the poll link. | Moderator |
 | /flag (by reply) | The message will be reported to moderators. | All |
 | /flag block (by reply) | The user won't be able to report messages. | Moderator |
 | /flag free (by reply) | The user will be able to report messages. | Moderator |
@@ -50,6 +54,7 @@ Here is the list of commands.
 | /redis save | Save your redis database. | Admin |
 | /moderation backup | Save your redis datas into a json file. | Admin |
 | /halt | Stops the bot. If the bot was run with launch.sh, this will restart it. | Admin |
+| /hash <hash> | Get the info stored under that hash. | Admin |
 | /shell <command> | Runs a shell command and returns the output. Use with caution. | Admin |
 | /lua <command> | Runs a string a Lua code and returns the output, if applicable. Use with caution. otouto does not use a sandbox. | Admin |
 
@@ -135,6 +140,17 @@ Group Butler uses dkjson, a pure-Lua JSON parser. This is provided with the code
 
 * * *
 
+##Short general FAQs
+
+*Q*: Why Lua?
+*A*: I like Lua. It's an easy, poweful and fun language, and most important, one of the few languages I know. So why something else? :)
+
+*Q*: Why Otouto?
+*A*: In my opinion, Otouto has a really good plugins structure, and considering the amount if commands I've planned for Group Butler, I thought that its structure is perfect and fits my needs better than everything else. Using it means save a lot of time trying to do it by myself.
+Bindings are ok and easy to understand for everyone, I like how the bot run, but I've edited some lines aswell. For example, I don't like how triggers match the text, so I've switched to something more familiar. And other secondary modifications here and there, take a look to the commits for further informations.
+
+* * *
+
 ##Contributors
 Everybody is free to contribute to otouto and to Group Butler.
 
@@ -142,3 +158,4 @@ The creator and maintainer of otouto is [topkecleon](http://github.com/topkecleo
 
 The kanger who created Group Butler is [RememberTheAir](http://github.com/RememberTheAir). You can contact him via [Telegram](http://telegram.me/Rlotar).
 
+The official [Group Butler](http://github.com/groupbutler_bot). Yes, if you are wondering, is off.
