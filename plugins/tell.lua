@@ -5,7 +5,7 @@ local triggers = {
 
 local action = function(msg)
 	
-	print('\n/tell', msg.from.first_name..' ['..msg.from.id..'] --> '..msg.chat.title..' ['..msg.chat.id..']')
+	print('\n/tell', msg.from.first_name..' ['..msg.from.id..']')
 	
 	--check if is a reply
 	if msg.reply_to_message then
@@ -33,15 +33,17 @@ local action = function(msg)
 		text = text..'\n*Group name*: '..msg.chat.title..'\n'
 		text = text..'*Group ID*: '..msg.chat.id
 		sendReply(msg, text, true)
+	else
+		sendMessage(msg.from.id, text, true, false, true)
 	end
 	
 	--if in private, return bot info too
-	if msg.chat.type == 'private' then
-		text = text..'\nI am '..bot.first_name..'\n'
-		text = text..'My username is '..bot.username..'\n'
-		text = text..'My ID is '..bot.id
-		sendMessage(msg.from.id, text, true, false, true)
-	end
+	--if msg.chat.type == 'private' then
+		--text = text..'\nI am '..bot.first_name..'\n'
+		--text = text..'My username is '..bot.username..'\n'
+		--text = text..'My ID is '..bot.id
+		--sendMessage(msg.from.id, text, true, false, true)
+	--end
 		
 	mystat('tell') --save stats
 end

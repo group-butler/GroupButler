@@ -1,6 +1,6 @@
 local triggers = {
-	'^/(get commands)$',
-	'^/(get stats)$',
+	'^/(commands)$',
+	'^/(stats)$',
 	'^/(redis save)$'
 	
 }
@@ -24,7 +24,7 @@ local action = function(msg, blocks)
 		return nil
 	end
 	
-	if blocks[1] == 'get commands' then
+	if blocks[1] == 'commands' then
 	    local hash = 'commands:stats'
 	    local names = client:hkeys(hash)
 	    local num = client:hvals(hash)
@@ -33,7 +33,7 @@ local action = function(msg, blocks)
 	    end
     end
 
-    if blocks[1] == 'get stats' then
+    if blocks[1] == 'stats' then
         local hash = 'bot:general'
 	    local names = client:hkeys(hash)
 	    local num = client:hvals(hash)

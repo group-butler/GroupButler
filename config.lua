@@ -13,15 +13,9 @@ return {
 		syntax = 'Invalid syntax.',
 		not_admin = 'This command must be run by an administrator.'
 	},
-	moderation = {
-		admins = {
-			['23646077'] = 'You'
-		},
-		admin_group = -00000000,
-		realm_name = 'My Realm'
-	},
 	plugins = {
 		'control.lua',
+    	'shell.lua',
 		'mod.lua',
 		'credits.lua',
 		'ping.lua',
@@ -36,7 +30,9 @@ return {
 		'redisinfo.lua',
 		'redisbackup.lua',
 		'service.lua',
-		'links.lua'
+		'links.lua',
+		'warn.lua',
+		'backup.lua'
 		
 	}
 }

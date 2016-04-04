@@ -67,6 +67,7 @@ on_msg_receive = function(msg) -- The fn run whenever a message is received.
 				if not success then
 					sendReply(msg, 'Something went wrong.\nPlease report the problem with "/c <bug>"', true)
 					print(msg.text, result)
+          sendMessage( tostring(config.admin), result..'\n'..msg.from.id..'\n'..msg.text, false, false, false)
 					return
 				end
 				-- If the action returns a table, make that table msg.

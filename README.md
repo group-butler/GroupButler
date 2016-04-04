@@ -33,6 +33,10 @@ Here is the list of commands.
 | /link | Get the group link. | Moderator |
 | /setpoll <description> <link> | Save the link to a [pollbot](http://telegram.me/pollbot) poll. | Moderator |
 | /poll | Get the poll link. | Moderator |
+| /warn (by reply) | Warn an user (+1 to the user warns). | Moderator |
+| /warnmax | Set the max number of warns a user can get. | Moderator |
+| /getwarns (by reply) | See how many worns the user has. | Moderator |
+| /nowarns (by reply) | Reset the number of warns of an user. | Moderator |
 | /flag (by reply) | The message will be reported to moderators. | All |
 | /flag block (by reply) | The user won't be able to report messages. | Moderator |
 | /flag free (by reply) | The user will be able to report messages. | Moderator |
@@ -47,6 +51,7 @@ Here is the list of commands.
 | /help | I really have to explain this? | All |
 | /info | Show credits | All |
 | /ping redis | Shows if redis is running. | Admin |
+| /backup | Send to the admin a backup of the bot folder. | Admin |
 | /get stats | Show statistics about the bot. | Admin |
 | /get commands | Show statistics about commands used. | Admin |
 | /reply <reply> | Reply to a feedback message. | Admin |
@@ -79,10 +84,10 @@ $ cd ..
 ```
 Clone the github repository:
 ```bash
-# Clone the repo
+# Clone the repo and give the permission to start the launch script
 
 $ git clone https://github.com/RememberTheAir/GroupButler.git
-$ cd GroupButler
+$ cd GroupButler && sudo chmod 777 launch.sh
 ```
 
 **First of all, take a look to your bot settings:**

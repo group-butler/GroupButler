@@ -272,16 +272,18 @@ end,
     local hash = 'bot:'..msg.chat.id..':mod'
     local mlist = client:hvals(hash) --the array can't be empty: there is always the owner in
     
-    local message = '\nModerators list of *'..msg.chat.title..'*:\n'
+    local message = '\nModerators list of '..msg.chat.title..':\n'
 
     --build the list
     for i=1, #mlist do
-        message = message..'*'..i..'* - '..mlist[i]..'\n'
+		--print(mlist[i])
+        message = message..i..' - '..mlist[i]..'\n'
     end 
-    
+    --message = message..'end'
     mystat('modlist') --save stats
     --send the list
-    sendReply(msg, message, true)
+	--print(message)
+    sendReply(msg, message)
 end
     
 }

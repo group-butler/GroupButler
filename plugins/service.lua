@@ -56,6 +56,7 @@ local action = function(msg)
 		client:hset(hash, 'Modlist', 'no')
 		client:hset(hash, 'Flag', 'yes')
 		client:hset(hash, 'Welcome', 'no')
+		client:set('warns:'..msg.chat.id..':max', 5)
 		hash = 'chat:'..msg.chat.id..':welcome' --set the default welcome type
 		client:hset(hash, 'wel', 'no')
 		
@@ -133,6 +134,10 @@ local action = function(msg)
 			text = text..mods
 		elseif wlc_sett == 'ra' then
 			text = text..'\n\n*Description*:\n'..abt..'\n\n*Rules*:\n'..rls
+    elseif wlc_sett == 'am' then
+			text = text..'\n\n*Description*:\n'..abt..mods
+    elseif wlc_sett == 'rm' then
+			text = text..'\n\n*Rules*:\n'..rls..mods
 		elseif wlc_sett == 'ram' then
 			text = text..'\n\n*Description*:\n'..abt..'\n\n*Rules*:\n'..rls..mods
 		end

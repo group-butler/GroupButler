@@ -287,3 +287,40 @@ function breaks_markdown(text)
 	
 	return false
 end
+
+function save_owned_group(owner, chat, title)
+	--save each time a user is promoted as owner
+	local hash = owner..':groups'
+	local key = chat
+	local val = title
+	client:hset(hash, key, val)
+end
+
+function del_owned_group(owner, chat, title)
+	--each time owner changes
+	local hash = owner..':groups'
+	local key = chat
+	client:hdel(hash, key)
+end
+
+function get_owned_groups(owner)
+	local hash = owner..':groups'
+	local vals = client:hvals(hash)
+	local text = 'Owned groups:\n'
+	for i=1, #vals do
+		text = text..i..'- '..vals[i]..'\n'
+	end
+	return text
+end
+
+function get_id_owned_group(owner, number)
+	local hash = owner..':groups'
+	local keys = client:hkeys(hash)
+	for i=1, #keys do
+		if i == tonumber(num) then
+			return keys[i]
+		end
+	end
+	
+	return false
+end
