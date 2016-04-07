@@ -3,6 +3,7 @@ local triggers = {
 	'^/(setabout)$', --to warn if an user don't add a text
 	'^/(setabout) (.*)',
 	'^/(about)$',
+	'^/(about)@groupbutler_bot',
 	'^/(addabout)$', --to warn if an user don't add a text
 	'^/(addabout) (.*)',
 	

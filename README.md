@@ -26,7 +26,7 @@ Here is the list of commands.
 | /set about <bio> | Set a completly new description for the group. | Moderator |
 | /add about <bio> | Add at the end of the existing description other informations. | Moderator |
 | /disable <rules-about-modlist> | This commands will be available only for moderators. | Moderator |
-| /enable <rules-about-modlist> | Returns the summary of a Wikipedia article. | Moderator |
+| /enable <rules-about-modlist> | This commands will be available only for everyone. | Moderator |
 | /enable <welcome-flag> | Turn on the welcome message/the ability to flag messages. | Moderator |
 | /disable <welcome-flag> | Turn off the welcome message/the ability to flag messages. | Moderator |
 | /setlink <link> | Save the group link, so mods can recall it. | Owner |

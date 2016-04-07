@@ -1,5 +1,6 @@
 local triggers = {
 	'^/(flag)$',
+	'^/(flag)@groupbutler_bot',
 	'^/(flag) (.*)', --flag with motivation
 	'^/(flag block)$',
 	'^/(flag free)$',
@@ -78,13 +79,13 @@ local action = function(msg, blocks)
             titlere = ' (@'..replied.from.username..')'
         end
 	    
-	    for k,v in pairs(groups[tostring(msg.chat.id)]['mods']) do
-	        print('Reported to ['..k..']')
-            sendMessage(k, msg.from.first_name..titlefla..' reported '..replied.from.first_name..titlere..'\nDescription: '..desc..'\nMessage reported:\n\n'..replied.text)
+	    for k,v in pairs(client:hkeys('bot:'..msg.chat.id..':mod') )do
+	        print('Reported to ['..v..']')
+            sendMessage(v, msg.from.first_name..titlefla..' reported '..replied.from.first_name..titlere..'\nDescription: '..desc..'\nMessage reported:\n\n'..replied.text)
         end
         
         mystat('flagmsg') --save stats
-        sendMessage(msg.chat.id, '*Flagged* 🎯', true, false, true)
+        sendMessage(msg.chat.id, '*Flagged* ðŸŽ¯', true, false, true)
     end
     
     if blocks[1] == 'flag block' then

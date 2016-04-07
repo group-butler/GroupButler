@@ -1,5 +1,6 @@
 local triggers = {
 	'^/(link)$',
+	'^/(link)@groupbutler_bot$',
 	'^/(setlink) https://telegram%.me/joinchat/(.*)',
 	'^/(setlink) (no)',
 	'^/(poll)$',

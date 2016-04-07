@@ -1,6 +1,7 @@
 
 local triggers = {
-	"^/(backup)$"
+	"^/(backup)$",
+	"^/(backup@groupbutler_bot)$"
 }
 
 local function action(msg)

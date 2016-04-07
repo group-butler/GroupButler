@@ -1,5 +1,6 @@
 local triggers = {
 	'^/(ping)$',
+	'^/(ping)@groupbutler_bot$',
 	'^/(ping redis)$'
 }
 

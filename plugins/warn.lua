@@ -1,5 +1,6 @@
 local triggers = {
 	'^/(warn)$',
+	'^/(warn)@groupbutler_bot',
 	'^/(warnmax) (%d%d?)$',
 	'^/(getwarns)$',
 	'^/(nowarns)$',

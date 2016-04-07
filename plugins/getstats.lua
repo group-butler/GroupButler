@@ -1,6 +1,8 @@
 local triggers = {
 	'^/(commands)$',
+	'^/(commands)@groupbutler_bot',
 	'^/(stats)$',
+	'^/(stats)@groupbutler_bot',
 	'^/(redis save)$'
 	
 }

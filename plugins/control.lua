@@ -1,6 +1,8 @@
 local triggers = {
-	'^/(reload)',
-	'^/(halt)'
+	'^/(reload)@groupbutler_bot',
+	'^/(halt)@groupbutler_bot',
+	'^/(reload)$',
+	'^/(halt)$'
 }
 
 local action = function(msg)

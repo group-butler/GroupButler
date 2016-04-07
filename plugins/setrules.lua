@@ -3,6 +3,7 @@ local triggers = {
 	'^/(setrules)$',
 	'^/(setrules) (.*)',
 	'^/(rules)$',
+	'^/(rules)@groupbutler_bot',
 	'^/(addrules)$',
 	'^/(addrules) (.*)'
 	
