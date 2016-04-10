@@ -9,7 +9,7 @@ local triggers = {
 	
 }
 
-local action = function(msg, blocks)
+local action = function(msg, blocks, ln)
     
     --ignore if via pm
     if msg.chat.type == 'private' then
@@ -36,9 +36,9 @@ local action = function(msg, blocks)
         --cehck if rules are empty
         if not rules then
         	print('\27[31mNil: no rules\27[39m')
-            sendReply(msg, '*Total anarchy*!', true)
+            sendReply(msg, make_text(lang[ln].setrules.no_rules), true)
         else
-            sendReply(msg, '*Rules for '..msg.chat.title..':*\n'..rules..'', true)
+            sendReply(msg, make_text(lang[ln].setrules.rules, msg.chat.title, rules), true)
         end
         
         mystat('rules') --save stats
@@ -53,7 +53,7 @@ local action = function(msg, blocks)
 		--ignore if not mod
 		if not is_mod(msg) then
 			print('\27[31mNil: not mod\27[39m')
-			sendReply(msg, 'You are *not* a moderator', true)
+			sendReply(msg, make_text(lang[ln].not_mod), true)
 			return nil
 		end
 		
@@ -62,19 +62,19 @@ local action = function(msg, blocks)
         --check if rules are empty
         if not rules then
         	print('\27[31mNil: no rules\27[39m')
-            sendReply(msg, '*No rules* for this group.\nUse /setrules [rules] to set-up a new constitution', true)
+            sendReply(msg, make_text(lang[ln].setrules.no_rules_add), true)
         else
             local input = blocks[2]
             if not input then
             	print('\27[31mNil: no text\27[39m')
-		        sendReply(msg, 'Please write something next this poor "/addrules"', true)
+		        sendReply(msg, make_text(lang[ln].setrules.no_input_add), true)
 		        return nil
 	        end
 	        
 	        --check if breaks the markdown
 	        if breaks_markdown(input) then
 				print('\27[31mNil: rules break the markdown\27[39m')
-				sendReply(msg, 'The text inserted breaks the markdown.\nCheck how many times you used * or _ or `')
+				sendReply(msg, make_text(lang[ln].breaks_markdown))
 				return nil
 			end
 			
@@ -82,7 +82,7 @@ local action = function(msg, blocks)
             rules = rules..'\n'..input
             groups[tostring(msg.chat.id)]['rules'] = tostring(rules)
             save_data('groups.json', groups)
-            sendReply(msg, '*Rules added:*\n"'..input..'"', true)
+            sendReply(msg, make_text(lang[ln].setrules.added, input), true)
         end
         
         mystat('addrules') --save stats
@@ -97,7 +97,7 @@ local action = function(msg, blocks)
 		--ignore if not mod
 		if not is_mod(msg) then
 			print('\27[31mNil: not mod\27[39m')
-			sendReply(msg, 'You are *not* a moderator', true)
+			sendReply(msg, make_text(lang[ln].not_mod), true)
 			return nil
 		end
 	
@@ -106,7 +106,7 @@ local action = function(msg, blocks)
 		--ignore if not input text
 		if not input then
 			print('\27[31mNil: no input text\27[39m')
-			sendReply(msg, 'Please write something next this poor "/setrules"', true)
+			sendReply(msg, make_text(lang[ln].setrules.no_input_set), true)
 			return true
 		end
 	
@@ -114,20 +114,20 @@ local action = function(msg, blocks)
 		if input == 'clean' then
 			print('\27[31mNil: rules cleaned\27[39m')
 			groups[tostring(msg.chat.id)]['rules'] = nil
-			sendReply(msg, 'Rules has been wiped.')
+			sendReply(msg, make_text(lang[ln].setrules.clean))
 			return nil
 		end
 		
 		--check if new rules text breaks the markdown
 		if breaks_markdown(input) then
 			print('\27[31mNil: rulest break the markdown\27[39m')
-			sendReply(msg, 'The text inserted breaks the markdown.\nCheck how many times you used * or _ or `')
+			sendReply(msg, make_text(lang[ln].breaks_markdown))
 			return nil
 		end
 		
 		--set the new rules	
 		groups[tostring(msg.chat.id)]['rules'] = input
-		sendReply(msg, '*New rules:*\n"'..input..'"', true)
+		sendReply(msg, make_text(lang[ln].setrules.new, input), true)
 
 		save_data('groups.json', groups)
 	

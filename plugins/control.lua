@@ -5,7 +5,7 @@ local triggers = {
 	'^/(halt)$'
 }
 
-local action = function(msg)
+local action = function(msg, blocks, ln)
 	
 	print('\n/reload or /halt', msg.from.first_name..' ['..msg.from.id..']')
 	
@@ -17,12 +17,16 @@ local action = function(msg)
 	if msg.text:match('^/reload') then
 		--client:bgsave()
 		bot_init()
-		sendReply(msg, 'Bot reloaded!')
+		
+		local out = make_text(lang[ln].control.reload)
+		sendReply(msg, out, true)
 		mystat('reload') --save stat
 	elseif msg.text:match('^/halt') then
 		client:bgsave()
 		is_started = false
-		sendReply(msg, 'Stopping bot!')
+		
+		local out = make_text(lang[ln].control.stop)
+		sendReply(msg, out, true)
 		mystat('halt') --save stat
 	end
 

@@ -8,12 +8,13 @@ local triggers = {
 	'^/(setpoll) (no)$'
 }
 
-local action = function(msg, blocks)
+local action = function(msg, blocks, ln)
 	
 	--return nil if wrote in private
     if msg.chat.type == 'private' then
         print('PV links.lua, '..msg.from.first_name..' ['..msg.from.id..'] --> not valid')
-        sendMessage(msg.from.id, 'This is a command available only in a group')
+        local out = make_text(lang[ln].pv)
+        sendMessage(msg.from.id, out)
     	return nil
     end
 	
@@ -36,9 +37,9 @@ local action = function(msg, blocks)
 		
 		--check if link is nil or nul
 		if link == 'no' or link == nil then
-			text = '*No link* for this group. Ask the owner to generate one'
+			text = make_text(lang[ln].links.no_link)
 		else
-			text = '['..msg.chat.title..']('..link..')'
+			text = make_text(lang[ln].links.link, msg.chat.title, link)
 		end
 		
 		mystat('link') --save stats
@@ -58,7 +59,8 @@ local action = function(msg, blocks)
 		--warn if the link has not the right lenght
 		if string.len(blocks[2]) ~= 22 and blocks[2] ~= 'no' then
 			print('\27[31mNil: wrong link\27[39m')
-			sendReply(msg, 'This link is *not valid!*', true)
+			local out = make_text(lang[ln].links.link_invalid)
+			sendReply(msg, out, true)
 			return
 		end
 		
@@ -68,13 +70,13 @@ local action = function(msg, blocks)
 		--set to nul the link, or update/set it
 		if blocks[2] == 'no' then
 			client:hset(hash, key, 'no')
-			text = 'Link *unsetted*'
+			text = make_text(lang[ln].links.link_unsetted)
 		else
 			local succ = client:hset(hash, key, link)
 			if succ == false then
-				text = 'The link have been updated.\n*Here\'s the new link*: ['..msg.chat.title..']('..link..')'
+				text = make_text(lang[ln].links.link_updated, msg.chat.title, link)
 			else
-				text = 'The link have been setted.\n*Here\'s the link*: ['..msg.chat.title..']('..link..')'
+				text = make_text(lang[ln].links.link_setted, msg.chat.title, link)
 			end
 		end
 			
@@ -95,7 +97,8 @@ local action = function(msg, blocks)
 		--warn if the link has not the right lenght
 		if blocks[2] ~= 'no' and string.len(blocks[3]) ~= 36 then
 			print('\27[31mNil: wrong link\27[39m')
-			sendReply(msg, 'This link is *not valid!*', true)
+			local out = make_text(lang[ln].links.link_invalid)
+			sendReply(msg, out, true)
 			return
 		end
 		
@@ -104,7 +107,7 @@ local action = function(msg, blocks)
 		--set to nul the poll, or update/set it
 		if blocks[2] == 'no' then
 			client:hset(hash, key, 'no')
-			text = 'Poll *unsetted*'
+			text = make_text(lang[ln].links.poll_unsetted)
 		else
 			local link = 'telegram.me/PollBot?start='..blocks[3]
 			local succ = client:hset(hash, key, link)
@@ -113,9 +116,9 @@ local action = function(msg, blocks)
 			--save description of the poll in redis
 			client:hset(hash, 'polldesc', description)
 			if succ == false then
-				text = 'The poll have been updated.\n*Vote here*: ['..description..']('..link..')'
+				text = make_text(lang[ln].links.poll_updated, description, link)
 			else
-				text = 'The link have been setted.\n*Vote here*: ['..description..']('..link..')'
+				text = make_text(lang[ln].links.poll_setted, description, link)
 			end
 		end
 			
@@ -140,9 +143,9 @@ end
 		
 		--check if link is nil or nul
 		if link == 'no' or link == nil then
-			text = '*No active poll* for this group'
+			text = make_text(lang[ln].links.no_poll)
 		else
-			text = '*Vote here*: ['..description..']('..link..')'
+			text = make_text(lang[ln].links.poll, description, link)
 		end
 		
 		mystat('poll') --save stats

@@ -4,7 +4,7 @@ local triggers = {
 	'^/(ping redis)$'
 }
 
-local action = function(msg, blocks)
+local action = function(msg, blocks, ln)
 	
 	print('\n/ping', msg.from.first_name..' ['..msg.from.id..']')
 	
@@ -15,12 +15,14 @@ local action = function(msg, blocks)
 		end
 		local ris = client:ping()
 		if ris == true then
-			sendMessage(msg.from.id, 'Pong')
+			local text = make_text(lang[ln].ping)
+			sendMessage(msg.from.id, text)
 		end
 	end
 	
 	if blocks[1] == 'ping' then
-		sendMessage(msg.from.id, 'Pong')
+		local text = make_text(lang[ln].ping)
+		sendMessage(msg.from.id, text)
 	end
 	
 	mystat('ping') --save stats

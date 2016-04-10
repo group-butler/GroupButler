@@ -18,6 +18,8 @@ Here is the list of commands.
 | Command | Function | Privilege |
 |---------|----------|-----------|
 | /ping | Shows if the bot is running. | All |
+| /lang | Show the vailable languages | Moderator |
+| /lang <code> | Change the bot language | Moderator |
 | /owner (by reply) | Set a new owner. | Owner |
 | /promote (by reply) | Promote as moderator a member. | Owner |
 | /demote (by reply) | Demote a member. | Owner |
@@ -33,6 +35,9 @@ Here is the list of commands.
 | /link | Get the group link. | Moderator |
 | /setpoll <description> <link> | Save the link to a [pollbot](http://telegram.me/pollbot) poll. | Moderator |
 | /poll | Get the poll link. | Moderator |
+| /extra <#command> <text> | Set up a new custom command | Moderator |
+| /extra list | Show the list of custom commands | Moderator |
+| /extra del <#command> | Delete the custom command | Moderator |
 | /warn (by reply) | Warn an user (+1 to the user warns). | Moderator |
 | /warnmax | Set the max number of warns a user can get. | Moderator |
 | /getwarns (by reply) | See how many worns the user has. | Moderator |

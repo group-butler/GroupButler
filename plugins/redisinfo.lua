@@ -4,7 +4,7 @@ local triggers = {
 	'^/(is) (%d+)$'
 }
 
-local action = function(msg, blocks)
+local action = function(msg, blocks, ln)
 	
 	--ignore if not admin
 	if msg.from.id ~= config.admin then
@@ -28,12 +28,13 @@ local action = function(msg, blocks)
 	
 		local keys = client:hkeys(hash)
 		local vals = client:hvals(hash)
-		local message = 'Info about the hash:\n\n'
+		local message = ''
 		for i=1, #keys do
 			message = message..keys[i]..' : '..vals[i]..'\n'
 		end
-	
-		sendMessage(msg.chat.id, message)
+		
+		local out = make_text(lang[ln].redisinfo.hash_info, message)
+		sendMessage(msg.chat.id, out)
 		mystat('hash') --save stats
 	end
 	
@@ -46,7 +47,7 @@ local action = function(msg, blocks)
 		local keys = client:hkeys(hash)
 		for i=1, #keys do
 			if keys[i] == tostring(blocks[2]) then
-				sendMessage(msg.chat.id, 'User found')
+				sendMessage(msg.chat.id, make_text(lang[ln].redisinfo.found))
 			end
 		end
 		mystat('is') --save stats

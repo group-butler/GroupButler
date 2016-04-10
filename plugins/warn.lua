@@ -6,11 +6,11 @@ local triggers = {
 	'^/(nowarns)$',
 }
 
-local action = function(msg, blocks)
+local action = function(msg, blocks, ln)
     
     if msg.chat.type == 'private' then--return nil if it's a private chat
         print('PV flag.lua, '..msg.from.first_name..' ['..msg.from.id..'] --> not valid')
-		sendMessage(msg.from.id, 'This is a command available only in a group')
+		sendMessage(msg.from.id, make_text(lang[ln].pv))
     	return nil
     end
     
@@ -27,7 +27,7 @@ local action = function(msg, blocks)
 		--warning to reply to a message
         if not msg.reply_to_message then
             print('\27[31mNil: not a reply\27[39m')
-            sendReply(msg, 'Reply to a message to warn the user')
+            sendReply(msg, make_text(lang[ln].warn.warn_reply))
 		    return nil
 	    end
 		
@@ -36,7 +36,7 @@ local action = function(msg, blocks)
 	    --return nil if an user flag a mod
 	    if is_mod(replied) then
 	        print('\27[31mNil: mod flagged\27[39m')
-			sendReply(msg, 'An admin can\'t be warned')
+			sendReply(msg, make_text(lang[ln].warn.mod))
 	        return nil
 	    end
 		
@@ -60,10 +60,10 @@ local action = function(msg, blocks)
 		local text
 		
 		if tonumber(num) >= tonumber(nmax) then
-			text = '❌*User* '..name..' *reached the max number of warns*❌'
+			text = make_text(lang[ln].warn.warned_max, name)
 		else
 			local diff = tonumber(nmax)-tonumber(num)
-			text ='⚠*️User* '..name..' *have been warned.*\n🔰_Number of warnings_   *'..num..'*\n⛔️_Max allowed_   *'..nmax..'* (*-'..diff..'*)'
+			text = make_text(lang[ln].warn.warned, name, num, nmax, diff)
 		end
         
         mystat('warn') --save stats
@@ -83,7 +83,7 @@ local action = function(msg, blocks)
 	    local hash = 'warns:'..msg.chat.id..':max'
 		local old = client:get(hash)
 		client:set(hash, blocks[2])
-        local text = '🔄 Max number of warnings changed.\n🔹*Old* value: '..old..'\n🔺*New* max: '..blocks[2]
+        local text = make_text(lang[ln].warn.warnmax, old, blocks[2])
         mystat('warnmax') --save stats
         sendReply(msg, text, true)
     end
@@ -101,7 +101,7 @@ local action = function(msg, blocks)
         --warning to reply to a message
         if not msg.reply_to_message then
             print('\27[31mNil: no reply\27[39m')
-            sendReply(msg, 'Reply to an user to check his numebr of warns')
+            sendReply(msg, make_text(lang[ln].warn.getwarns_reply))
 		    return nil
 	    end
 	    
@@ -110,7 +110,7 @@ local action = function(msg, blocks)
 		--return nil if an user flag a mod
 	    if is_mod(replied) then
 	        print('\27[31mNil: mod flagged\27[39m')
-			sendReply(msg, 'An admin can\'t be warned')
+			sendReply(msg, make_text(lang[ln].warn.mod))
 	        return nil
 	    end
 		
@@ -138,10 +138,10 @@ local action = function(msg, blocks)
 		
 		--check if over or under
 		if tonumber(num) >= tonumber(nmax) then
-			text = '⛔️This usern has already reached the max number of warnings (*'..num..'/'..nmax..'*)'
+			text = make_text(lang[ln].warn.limit_reached, num, max)
 		else
 			local diff = tonumber(nmax)-tonumber(num)
-			text ='✅ This user is under the max number of warnings.\n🔰 *'..diff..'* warnings missing on a total of *'..nmax..'* (*'..num..'/'..nmax..'*)'
+			text = make_text(lang[ln].warn.limit_lower, diff, nmax, num, nmax)
 		end
         
         mystat('getwarns') --save stats
@@ -161,7 +161,7 @@ local action = function(msg, blocks)
         --warning to reply to a message
         if not msg.reply_to_message then
             print('\27[31mNil: no reply\27[39m')
-            sendReply(msg, 'Reply to an user to unblock his /flag power')
+            sendReply(msg, make_text(lang[ln].warn.nowarn_reply))
 		    return nil
 	    end
 	    
@@ -170,7 +170,7 @@ local action = function(msg, blocks)
 		--return nil if an user flag a mod
 	    if is_mod(replied) then
 	        print('\27[31mNil: mod flagged\27[39m')
-			sendReply(msg, 'An admin can\'t be flagged')
+			sendReply(msg, make_text(lang[ln].warn.mod))
 	        return nil
 	    end
 		
@@ -183,7 +183,7 @@ local action = function(msg, blocks)
 		local hash = 'warns:'..msg.chat.id
 		client:hdel(hash, replied.from.id)
 		
-		local text = '🔰 The number of warns received by this user have been *resetted*'
+		local text = make_text(lang[ln].warn.nowarn)
         
         mystat('noworns') --save stats
         sendReply(msg, text, true)

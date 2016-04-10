@@ -3,7 +3,7 @@ local triggers = {
 	''
 }
 
-local action = function(msg)
+local action = function(msg, blocks, ln)
 	
 	--vardump(msg)
 	
@@ -51,11 +51,13 @@ local action = function(msg)
 		
 		--default settings
 		hash = 'chat:'..msg.chat.id..':settings'
+		--disabled:yes / disabled:no
 		client:hset(hash, 'Rules', 'no')
 		client:hset(hash, 'About', 'no')
 		client:hset(hash, 'Modlist', 'no')
 		client:hset(hash, 'Flag', 'yes')
 		client:hset(hash, 'Welcome', 'no')
+		client:hset(hash, 'Extra', 'no')
 		client:set('warns:'..msg.chat.id..':max', 5)
 		hash = 'chat:'..msg.chat.id..':welcome' --set the default welcome type
 		client:hset(hash, 'wel', 'no')
@@ -64,7 +66,8 @@ local action = function(msg)
 		hash = 'bot:general'
         local num = client:hincrby(hash, 'groups', 1)
         print('Stats saved', 'Groups: '..num)
-		sendMessage(msg.chat.id, 'Hi all!\n*'..msg.from.first_name..'* added me here to help you to manage this group.\nIf you want to know how I work, please start me in private or type /help  :)', true, false, true)
+        local out = make_text(lang[ln].service.new_group, msg.from.first_name)
+		sendMessage(msg.chat.id, out, true, false, true)
 		return
 	end
 	
@@ -74,7 +77,8 @@ local action = function(msg)
 		print('\nUser '..msg.new_chat_participant.first_name..' ['..msg.new_chat_participant.id..'] added to '..msg.chat.title..' ['..msg.chat.id..']')
 		
 		--basic text
-		text = 'Hi '..msg.new_chat_participant.first_name..', and welcome to *'..msg.chat.title..'*!'
+		text = make_text(lang[ln].service.welcome, msg.new_chat_participant.first_name, msg.chat.title)
+		--text = 'Hi '..msg.new_chat_participant.first_name..', and welcome to *'..msg.chat.title..'*!'
 		
 		--ignore if welcome is locked
 		if is_locked(msg, 'Welcome') then
@@ -94,12 +98,12 @@ local action = function(msg)
 		
 		--check if the group has a decription
 		if not abt then
-            abt = 'No description for this group.'
+            abt = lang[ln].service.welcome_abt
         end
 		
 		--check if the group has rules
 		if not rls then
-            rls = 'Total anarchy!'
+            rls = lang[ln].service.welcome_rls
         end		
 		
 		--build the modlist
@@ -120,26 +124,26 @@ local action = function(msg)
 		--build the modlist
 		local hash = 'bot:'..msg.chat.id..':mod'
     	local mlist = client:hvals(hash) --the array can't be empty: there is always the owner in
-    	local mods = '\n\n*Moderators list*:\n'
+    	local mods = lang[ln].service.welcome_modlist
     	for i=1, #mlist do
         	mods = mods..'*'..i..'* - '..mlist[i]..'\n'
     	end
 		
 		--read welcome settings and build the message
 		if wlc_sett == 'a' then
-			text = text..'\n\n*Description*:\n'..abt
+			text = text..lang[ln].service.abt..abt
 		elseif wlc_sett == 'r' then
-			text = text..'\n\n*Rules*:\n'..rls
+			text = text..lang[ln].service.rls..rls
 		elseif wlc_sett == 'm' then
 			text = text..mods
 		elseif wlc_sett == 'ra' then
-			text = text..'\n\n*Description*:\n'..abt..'\n\n*Rules*:\n'..rls
+			text = text..lang[ln].service.abt..abt..lang[ln].service.rls..rls
     elseif wlc_sett == 'am' then
-			text = text..'\n\n*Description*:\n'..abt..mods
+			text = text..lang[ln].service.abt..abt..mods
     elseif wlc_sett == 'rm' then
-			text = text..'\n\n*Rules*:\n'..rls..mods
+			text = text..lang[ln].service.rls..rls..mods
 		elseif wlc_sett == 'ram' then
-			text = text..'\n\n*Description*:\n'..abt..'\n\n*Rules*:\n'..rls..mods
+			text = text..lang[ln].service.abt..abt..lang[ln].service.rls..rls..mods
 		end
 		
 		sendMessage(msg.chat.id, text, true, false, true)
@@ -157,7 +161,8 @@ local action = function(msg)
 		local hash = 'bot:general'
         local num = client:hincrby(hash, 'groups', -1)
         print('Stats saved', 'Groups: '..num)
-		sendMessage(msg.from.id, '*'..msg.chat.title..'* datas have been flushed.\nThanks for having used me!\nI\'m always here if you need an hand ;)', true, false, true)
+        local out = make_text(lang[ln].service.bot_removed, msg.chat.title)
+		sendMessage(msg.from.id, out, true, false, true)
 	end
 	
 	return true

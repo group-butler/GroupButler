@@ -32,7 +32,13 @@ return {
 		'service.lua',
 		'links.lua',
 		'warn.lua',
-		'backup.lua'
+		'backup.lua',
+		'extra.lua',
+		'setlang.lua'
 		
+	},
+	available_languages = {
+		'en',
+		'it'
 	}
 }

@@ -7,7 +7,7 @@ local triggers = {
 	'^/(flag list)$'
 }
 
-local action = function(msg, blocks)
+local action = function(msg, blocks, ln)
     
     if msg.chat.type == 'private' then--return nil if it's a private chat
         print('PV flag.lua, '..msg.from.first_name..' ['..msg.from.id..'] --> not valid')
@@ -42,7 +42,8 @@ local action = function(msg, blocks)
         --warning to reply to a message
         if not msg.reply_to_message then
             print('\27[31mNil: not a reply\27[39m')
-            sendReply(msg, 'Reply to a message to report it to admins')
+            local out = make_text(lang[ln].flag.reply_flag)
+            sendReply(msg, out)
 		    return nil
 	    end
 	    
@@ -81,11 +82,14 @@ local action = function(msg, blocks)
 	    
 	    for k,v in pairs(client:hkeys('bot:'..msg.chat.id..':mod') )do
 	        print('Reported to ['..v..']')
-            sendMessage(v, msg.from.first_name..titlefla..' reported '..replied.from.first_name..titlere..'\nDescription: '..desc..'\nMessage reported:\n\n'..replied.text)
+	        local out = make_text(lang[ln].flag.mod_msg, msg.from.first_name, titlefla, replied.from.first_name, titlere, desc, replied.text)
+            sendMessage(v, out)
+            --sendMessage(v, msg.from.first_name..titlefla..' reported '..replied.from.first_name..titlere..'\nDescription: '..desc..'\nMessage reported:\n\n'..replied.text)
         end
         
         mystat('flagmsg') --save stats
-        sendMessage(msg.chat.id, '*Flagged* ðŸŽ¯', true, false, true)
+        local out = make_text(lang[ln].flag.group_msg)
+        sendMessage(msg.chat.id, out, true, false, true)
     end
     
     if blocks[1] == 'flag block' then
@@ -101,7 +105,8 @@ local action = function(msg, blocks)
         --warning to reply to a message
         if not msg.reply_to_message then
             print('\27[31mNil: no reply\27[39m')
-            sendReply(msg, 'Reply to an user to block his /flag power')
+            local out = make_text(lang[ln].flag.reply_block)
+            sendReply(msg, out)
 		    return nil
 	    end
 	    
@@ -110,7 +115,8 @@ local action = function(msg, blocks)
 	    --can't /flagblock a mod
 	    if is_mod(replied) then --return nil if an user flag a mod
 	        print('\27[31mNil: can\'t flagblock a mod\27[39m')
-	        sendReply(msg, 'Moderators can\'t flag people')
+	        local out = make_text(lang[ln].flag.mod_cant_flag)
+	        sendReply(msg, out)
 	        return nil
 	    end
 	    
@@ -125,7 +131,8 @@ local action = function(msg, blocks)
 	    --check if already unable to use /flag
 	    if groups[tostring(msg.chat.id)]['flag_blocked'][tostring(replied.from.id)] then
 	        print('\27[31mNil: already flagblocked\27[39m')
-            sendReply(msg, '*'..replied.from.first_name..'* is already unable to use /flag command', true)
+	        local out = make_text(lang[ln].flag.already_unable, replied.from.first_name)
+            sendReply(msg, out, true)
             return nil
         end
         
@@ -140,7 +147,8 @@ local action = function(msg, blocks)
         save_data('groups.json', groups)
         
         mystat('flagblock') --save stats
-        sendReply(msg, '*'..msg.from.first_name..'* is now *unable* to use /flag', true)
+        local out = make_text(lang[ln].flag.blocked, msg.from.first_name)
+        sendReply(msg, out, true)
     end
     
     if blocks[1] == 'flag free' then
@@ -156,7 +164,8 @@ local action = function(msg, blocks)
         --warning to reply to a message
         if not msg.reply_to_message then
             print('\27[31mNil: no reply\27[39m')
-            sendReply(msg, 'Reply to an user to unblock his /flag power')
+            local out = make_text(lang[ln].flag.reply_unblock)
+            sendReply(msg, out)
 		    return nil
 	    end
 	    
@@ -165,7 +174,8 @@ local action = function(msg, blocks)
 	    --an user can't /flagfree a mod
 	    if is_mod(replied) then
 	        print('\27[31mNil: a mod can\'t be flagblocked\27[39m')
-	        sendReply(msg, 'Moderators can\'t flag people')
+	        local out = make_text(lang[ln].flag.mod_cant_flag)
+	        sendReply(msg, out)
 	        return nil
 	    end
 	    
@@ -180,7 +190,8 @@ local action = function(msg, blocks)
 	    --check if already able to use /flag
 	    if not groups[tostring(msg.chat.id)]['flag_blocked'][tostring(replied.from.id)] then
 	        print('\27[31mNil: already flagfree\27[39m')
-            sendReply(msg, '*'..replied.from.first_name..'* is already *able* to use /flag command', true)
+	        local out = make_text(lang[ln].flag.already_able, replied.from.first_name)
+            sendReply(msg, out, true)
             return nil
         end
         
@@ -189,7 +200,8 @@ local action = function(msg, blocks)
         save_data('groups.json', groups)
         
         mystat('flagfree') --save stats
-        sendReply(msg, '*'..msg.from.first_name..'* is now *able* to use /flag', true)
+        local out = make_text(lang[ln].flag.unblocked, msg.from.first_name)
+        sendReply(msg, out, true)
     end
     
     if blocks[1] == 'flag list' then
@@ -205,19 +217,21 @@ local action = function(msg, blocks)
         --check if there are people unable to flag messages
         if next(groups[tostring(msg.chat.id)]['flag_blocked']) == nil then
             print('\27[31mNil: empty list\27[39m')
-            sendReply(msg, 'There are zero people unable to use /flag command in this group.', true)
+            local out = make_text(lang[ln].flag.list_empty)
+            sendReply(msg, out, true)
             return nil
         end
     
         local i = 1
-        local message = '\nUsers unable to flag:\n'
+        local message = ''
         for k,v in pairs(groups[tostring(msg.chat.id)]['flag_blocked']) do
-            message = message..'*'..i..'* - '..v..' (id: ' ..k.. ')\n'
+            message = message..'*'..i..'* - '..v..' (id: ' ..k.. ')\n' --text built in the for loop is &&&1
             i = i + 1
         end
         
         mystat('flaglist') --save stats
-        sendReply(msg, message, true)
+        local out = make_text(lang[ln].flag.list, message)
+        sendReply(msg, out, true)
     end
 end
 

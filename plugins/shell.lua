@@ -2,7 +2,7 @@ local triggers = {
 	'^/(run) (.*)'
 }
 
-local action = function(msg, blocks)
+local action = function(msg, blocks, ln)
 
 	print('\n/run', msg.from.first_name..' ['..msg.from.id..']')
 
@@ -17,7 +17,7 @@ local action = function(msg, blocks)
 	--ignore if not input text
 	if not input then
 		print('\27[31mNil: no input text\27[39m')
-		sendReply(msg, 'Please specify a command to run.')
+		sendReply(msg, make_text(lang[ln].shell.no_input))
 		return
 	end
 	
@@ -26,9 +26,9 @@ local action = function(msg, blocks)
 	
 	--check if the output has a text
 	if output:len() == 0 then
-		output = 'Done!'
+		output = make_text(lang[ln].shell.done)
 	else
-		output = '```\n' .. output .. '\n```'
+		output = make_text(lang[ln].shell.output, output)
 	end
 	
 	mystat('run') --save stats

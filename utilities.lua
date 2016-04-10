@@ -264,6 +264,7 @@ function breaks_markdown(text)
 	end
 	local rest = i%2
 	if rest == 1 then
+		print('Wrong markdown *', i)
 		return true
 	end
 	
@@ -273,6 +274,7 @@ function breaks_markdown(text)
 	end
 	local rest = i%2
 	if rest == 1 then
+		print('Wrong markdown _', i)
 		return true
 	end
 	
@@ -282,6 +284,7 @@ function breaks_markdown(text)
 	end
 	local rest = i%2
 	if rest == 1 then
+		print('Wrong markdown `', i)
 		return true
 	end
 	
@@ -323,4 +326,19 @@ function get_id_owned_group(owner, number)
 	end
 	
 	return false
+end
+
+function make_text(base, par1, par2, par3, par4, par5, par6)
+	local text = base
+	if par1 then text = text:gsub('&&&1', par1) end
+	if par2 then text = text:gsub('&&&2', par2) end
+	if par3 then text = text:gsub('&&&3', par3) end
+	if par4 then text = text:gsub('&&&4', par4) end
+	if par5 then text = text:gsub('&&&5', par5) end
+	if par5 then text = text:gsub('&&&5', par6) end
+	if breaks_markdown(text) then
+		print('Markdown issue with:\n\n'..text)
+  		sendMessage(config.admin, 'Markdown issue, check the log')
+	end
+	return text
 end

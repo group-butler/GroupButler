@@ -1,11 +1,26 @@
+local triggers = {
+	'^/(disable) (.*)$',
+	'^/(enable) (.*)$',
+	'^/(settings)$',
+	'^/(welcome)'
+}
 
-local commands = {
-    ['^/disable[@'..bot.username..']*'] = function(msg)
+
+local action = function(msg, blocks, ln)
+
+--ignore if via pm
+        if msg.chat.type == 'private' then
+            print('PV settings.lua, '..msg.from.first_name..' ['..msg.from.id..'] --> not valid')
+            sendMessage(msg.from.id, make_text(lang[ln].pv))
+    	    return nil
+        end
+
+if blocks[1] == 'disable' then
         
         --ignore if via pm
         if msg.chat.type == 'private' then
             print('PV settings.lua, '..msg.from.first_name..' ['..msg.from.id..'] --> not valid')
-            sendMessage(msg.from.id, 'This is a command available only in a group')
+            sendMessage(msg.from.id, make_text(lang[ln].pv))
     	    return nil
         end
         
@@ -14,7 +29,7 @@ local commands = {
         --ignore if not mod
         if not is_mod(msg) then
             print('\27[31mNil: not mod\27[39m')
-            sendReply(msg, 'You are *not* a moderator', true)
+            sendReply(msg, make_text(lang[ln].not_mod), true)
             return nil
         end
         
@@ -23,7 +38,7 @@ local commands = {
         --ignore if not input text
         if not input then
             print('\27[31mNil: no text\27[39m')
-            sendReply(msg, 'Disable what?', false)
+            sendReply(msg, make_text(lang[ln].settings.disable.no_input), false)
             return nil
         end
         
@@ -35,73 +50,76 @@ local commands = {
             mystat('disablerules') --save stats
             now = client:hget(hash, 'Rules')
             if now == 'yes' then
-                sendReply(msg, '`/rules` command is already *locked*', true)
+                sendReply(msg, make_text(lang[ln].settings.disable.rules_already), true)
             else
                 client:hset(hash, 'Rules', 'yes')
-                sendReply(msg, '`/rules` command is now available *only for moderators*', true)
+                sendReply(msg, make_text(lang[ln].settings.disable.rules_locked), true)
             end
             
         elseif input == 'about' then
             mystat('disableabout') --save stats
             now = client:hget(hash, 'About')
             if now == 'yes' then
-                sendReply(msg, '`/about` command is already *locked*', true)
+                sendReply(msg, make_text(lang[ln].settings.disable.about_already), true)
             else
                 client:hset(hash, 'About', 'yes')
-                sendReply(msg, '`/about` command is now available *only for moderators*', true)
+                sendReply(msg, make_text(lang[ln].settings.disable.about_locked), true)
             end
         
         elseif input == 'welcome' then
             mystat('disablewelcome') --save stats
             now = client:hget(hash, 'Welcome')
             if now == 'yes' then
-                sendReply(msg, 'Welcome message is already *locked*', true)
+                sendReply(msg, make_text(lang[ln].settings.disable.welcome_already), true)
             else
                 client:hset(hash, 'Welcome', 'yes')
-                sendReply(msg, 'Welcome message *won\'t be displayed* from now', true)
+                sendReply(msg, make_text(lang[ln].settings.disable.welcome_locked), true)
             end
         
         elseif input == 'modlist' then
             mystat('disablemodlist') --save stats
             now = client:hget(hash, 'Modlist')
             if now == 'yes' then
-                sendReply(msg, '`/modlist` command is already *locked*', true)
+                sendReply(msg, make_text(lang[ln].settings.disable.modlist_already), true)
             else
                 client:hset(hash, 'Modlist', 'yes')
-                sendReply(msg, '`/modlist` command is now available *only for moderators*', true)
+                sendReply(msg, make_text(lang[ln].settings.disable.modlist_locked), true)
             end
         
         elseif input == 'flag' then
             mystat('disableflag') --save stats
             now = client:hget(hash, 'Flag')
             if now == 'yes' then
-                sendReply(msg, '`/flag` command is already *not enabled*', true)
+                sendReply(msg, make_text(lang[ln].settings.disable.flag_already), true)
             else
                 client:hset(hash, 'Flag', 'yes')
-                sendReply(msg, '`/flag` command *won\'t be available* from now', true)
+                sendReply(msg, make_text(lang[ln].settings.disable.flag_locked), true)
+            end
+            
+        elseif input == 'extra' then
+            mystat('disableextras') --save stats
+            now = client:hget(hash, 'Extra')
+            if now == 'yes' then
+                sendReply(msg, make_text(lang[ln].settings.disable.extra_already), true)
+            else
+                client:hset(hash, 'Extra', 'yes')
+                sendReply(msg, make_text(lang[ln].settings.disable.extra_locked), true)
             end
         else
             print('\27[31mNil: argument not available\27[39m')
-            sendReply(msg, 'Argument unavailable.\nUse `/disable [rules|about|welcome|modlist|flag]` instead', true)
+            sendReply(msg, make_text(lang[ln].settings.disable.wrong_input), true)
         end
         
-    end,
+end
 
-    ['^/enable[@'..bot.username..']*'] = function(msg)
-        
-        --ignore if via pm
-        if msg.chat.type == 'private' then
-            print('PV settings.lua, '..msg.from.first_name..' ['..msg.from.id..'] --> not valid')
-            sendMessage(msg.from.id, 'This is a command available only in a group')
-    	    return nil
-        end
+if blocks[1] == 'enable' then
         
         print('\n/enable', msg.from.first_name..' ['..msg.from.id..'] --> '..msg.chat.title..' ['..msg.chat.id..']')
         
         --ignore if not mod
         if not is_mod(msg) then
             print('\27[31mNil: not mod\27[39m')
-            sendReply(msg, 'You are *not* a moderator', true)
+            sendReply(msg, make_text(lang[ln].not_mod), true)
             return nil
         end
         
@@ -110,7 +128,7 @@ local commands = {
         --ignore if not input text
         if not input then
             print('\27[31mNil: no input text\27[39m')
-            sendReply(msg, 'Enable what?', false)
+            sendReply(msg, make_text(lang[ln].settings.enable.no_input), false)
             return nil
         end
         
@@ -122,73 +140,77 @@ local commands = {
             mystat('enablerules') --save stats
             now = client:hget(hash, 'Rules')
             if now == 'no' then
-                sendReply(msg, '`/rules` command is already *unlocked*', true)
+                sendReply(msg, make_text(lang[ln].settings.enable.rules_already), true)
             else
                 client:hset(hash, 'Rules', 'no')
-                sendReply(msg, '`/rules` command is now available *for all*', true)
+                sendReply(msg, make_text(lang[ln].settings.enable.rules_unlocked), true)
             end
             
         elseif input == 'about' then
             mystat('enableabout') --save stats
             now = client:hget(hash, 'About')
             if now == 'no' then
-                sendReply(msg, '`/about` command is already *unlocked*', true)
+                sendReply(msg, make_text(lang[ln].settings.enableabout._already), true)
             else
                 client:hset(hash, 'About', 'no')
-                sendReply(msg, '`/about` command is now available *for all*', true)
+                sendReply(msg, make_text(lang[ln].settings.enable.about_unlocked), true)
             end
         
         elseif input == 'welcome' then
             mystat('enablewelcome') --save stats
             now = client:hget(hash, 'Welcome')
             if now == 'no' then
-                sendReply(msg, 'Welcome message is already *unlocked*', true)
+                sendReply(msg, make_text(lang[ln].settings.enable.welcome_already), true)
             else
                 client:hset(hash, 'Welcome', 'no')
-                sendReply(msg, 'Welcome message from now will be displayed', true)
+                sendReply(msg, make_text(lang[ln].settings.enable.welcome_unlocked), true)
             end
         
         elseif input == 'modlist' then
             mystat('enablemodlist') --save stats
             now = client:hget(hash, 'Modlist')
             if now == 'no' then
-                sendReply(msg, '`/modlist` command is already *unlocked*', true)
+                sendReply(msg, make_text(lang[ln].settings.enable.modlist_already), true)
             else
                 client:hset(hash, 'Modlist', 'no')
-                sendReply(msg, '`/modlist` command is now available *for all*', true)
+                sendReply(msg, make_text(lang[ln].settings.enable.modlist_unlocked), true)
             end
         
         elseif input == 'flag' then
             mystat('enableflag') --save stats
             now = client:hget(hash, 'Flag')
             if now == 'no' then
-                sendReply(msg, '`/flag` command is already *available*', true)
+                sendReply(msg, make_text(lang[ln].settings.enable.flag_already), true)
             else
                 client:hset(hash, 'Flag', 'no')
-                sendReply(msg, '`/flag` command is now *available*', true)
+                sendReply(msg, make_text(lang[ln].settings.enable.flag_unlocked), true)
             end
+            
+        elseif input == 'extra' then
+            mystat('enableextra') --save stats
+            now = client:hget(hash, 'Extra')
+            if now == 'no' then
+                sendReply(msg, make_text(lang[ln].settings.enable.extra_already), true)
+            else
+                client:hset(hash, 'Extra', 'no')
+                sendReply(msg, make_text(lang[ln].settings.enable.extra_unlocked), true)
+            end
+            
         else
             print('\27[31mNil: argument not available\27[39m')
-            sendReply(msg, 'Argument unavailable.\nUse `/enable [rules|about|welcome|modlist|flag]` instead', true)
+            sendReply(msg, make_text(lang[ln].settings.enable.wrong_input), true)
         end
         
-    end,
+    end
     
-    ['^/welcome[@'..bot.username..']*'] = function(msg)
-        
-        --ignore if via pm
-        if msg.chat.type == 'private' then
-            print('PV settings.lua, '..msg.from.first_name..' ['..msg.from.id..'] --> not valid')
-            sendMessage(msg.from.id, 'This is a command available only in a group')
-    	    return nil
-        end
+if blocks[1] == 'welcome' then
         
         print('\n/welcome', msg.from.first_name..' ['..msg.from.id..'] --> '..msg.chat.title..' ['..msg.chat.id..']')
         
         --ignore if not mod
         if not is_mod(msg) then
             print('\27[31mNil: not mod\27[39m')
-            sendReply(msg, 'You are *not* a moderator', true)
+            sendReply(msg, make_text(lang[ln].not_mod), true)
             return nil
         end
         
@@ -197,7 +219,7 @@ local commands = {
         --ignore if not input text
         if not input then
             print('\27[31mNil: no input text\27[39m')
-            sendReply(msg, 'Welcome and...?', false)
+            sendReply(msg, make_text(lang[ln].settings.welcome.no_input), false)
             return nil
         end
         
@@ -207,49 +229,42 @@ local commands = {
         --change welcome settings
         if input == 'a' then
             client:hset(hash, key, 'a')
-            sendReply(msg, 'New settings for the welcome message:\n❌Rules\n✅*About*\n❌Moderators list', true)
+            sendReply(msg, make_text(lang[ln].settings.welcome.a), true)
         elseif input == 'r' then
             client:hset(hash, key, 'r')
-            sendReply(msg, 'New settings for the welcome message:\n✅*Rules*\n❌About\n❌Moderators list', true)
+            sendReply(msg, make_text(lang[ln].settings.welcome.r), true)
         elseif input == 'm' then
             client:hset(hash, key, 'm')
-            sendReply(msg, 'New settings for the welcome message:\n❌Rules\n❌About\n✅*Moderators list*', true)
+            sendReply(msg, make_text(lang[ln].settings.welcome.m), true)
         elseif input == 'ar' or input == 'ra' then
             client:hset(hash, key, 'ra')
-            sendReply(msg, 'New settings for the welcome message:\n✅*Rules*\n✅*About*\n❌Moderators list', true)
+            sendReply(msg, make_text(lang[ln].settings.welcome.ra), true)
         elseif input == 'mr' or input == 'rm' then
             client:hset(hash, key, 'rm')
-            sendReply(msg, 'New settings for the welcome message:\n✅*Rules*\n❌About\n✅*Moderators list*', true)
+            sendReply(msg, make_text(lang[ln].settings.welcome.rm), true)
         elseif input == 'am' or input == 'ma' then
             client:hset(hash, key, 'am')
-            sendReply(msg, 'New settings for the welcome message:\n❌Rules\n✅*About*\n✅*Moderators list*', true)
+            sendReply(msg, make_text(lang[ln].settings.welcome.am), true)
         elseif input == 'ram' or input == 'rma' or input == 'arm' or input == 'amr' or input == 'mra' or input == 'mar' then
             client:hset(hash, key, 'ram')
-            sendReply(msg, 'New settings for the welcome message:\n✅*Rules*\n✅*About*\n✅*Moderators list*', true)
+            sendReply(msg, make_text(lang[ln].settings.welcome.ram), true)
         elseif input == 'no' then
             client:hset(hash, key, 'no')
-            sendReply(msg, 'New settings for the welcome message:\n❌Rules\n❌About\n❌Moderators list', true)
-        else sendReply(msg, 'Argument unavailable.\nUse _/welcome [no|r|a|ra|ar]_ instead', true)
+            sendReply(msg, make_text(lang[ln].settings.welcome.no), true)
+        else sendReply(msg, make_text(lang[ln].settings.welcome.wrong_input), true)
         end
         
         mystat('welcome') --save stats
-    end,
+    end
 
-    ['^/settings[@'..bot.username..']*$'] = function(msg)
-        
-        --ignore if via pm
-        if msg.chat.type == 'private' then
-            print('PV settings.lua, '..msg.from.first_name..' ['..msg.from.id..'] --> not valid')
-            sendMessage(msg.from.id, 'This is a command available only in a group')
-    	    return nil
-        end
+if blocks[1] == 'settings' then
         
         print('\n/settings', msg.from.first_name..' ['..msg.from.id..'] --> '..msg.chat.title..' ['..msg.chat.id..']')
         
         --ignore if is not mod
         if not is_mod(msg) then
 			print('\27[31mNil: not mod\27[39m')
-			sendReply(msg, 'You are *not* a moderator', true)
+			sendReply(msg, make_text(lang[ln].not_mod), true)
 			return nil
 		end
         
@@ -260,7 +275,7 @@ local commands = {
         local key
         local val
         
-        message = 'Current settings for *'..msg.chat.title..'*:\n\n'
+        message = make_text(lang[ln].settings.resume.header, msg.chat.title, ln)
         
         --build the message
         for i=1, #settings_key do
@@ -269,9 +284,9 @@ local commands = {
             
             local text
             if val == 'yes' then
-                text = key..': 🔒\n'
+                text = make_text(lang[ln].settings[key])..': 🔒\n'
             else
-                text = '*'..key..'*: 🔓\n'
+                text = '*'..make_text(lang[ln].settings[key])..'*: 🔓\n'
             end
             message = message..text
         end
@@ -280,49 +295,26 @@ local commands = {
         hash = 'chat:'..msg.chat.id..':welcome'
         local wel = client:hget(hash, 'wel')
         if wel == 'a' then
-            message = message..'*Welcome type*: `welcome + about`\n'
+            message = message..make_text(lang[ln].settings.resume.w_a)
         elseif wel == 'r' then
-            message = message..'*Welcome type*: `welcome + rules`\n'
+            message = message..make_text(lang[ln].settings.resume.w_r)
         elseif wel == 'm' then
-            message = message..'*Welcome type*: `welcome + modlist`\n'
+            message = message..make_text(lang[ln].settings.resume.w_m)
         elseif wel == 'ra' then
-            message = message..'*Welcome type*: `welcome + rules + about`\n'
+            message = message..make_text(lang[ln].settings.resume.w_ra)
         elseif wel == 'rm' then
-            message = message..'*Welcome type*: `welcome + rules + modlist`\n'
+            message = message..make_text(lang[ln].settings.resume.w_rm)
         elseif wel == 'am' then
-            message = message..'*Welcome type*: `welcome + about + modlist`\n'
+            message = message..make_text(lang[ln].settings.resume.w_am)
         elseif wel == 'ram' then
-            message = message..'*Welcome type*: `welcome + rules + about + modlist`\n'
+            message = message..make_text(lang[ln].settings.resume.w_ram)
         elseif wel == 'no' then
-            message = message..'*Welcome type*: `welcome only`\n'
+            message = message..make_text(lang[ln].settings.resume.w_no)
         end
         
         mystat('settings') --save stats
         sendReply(msg, message, true)
     end
-}
-
-
-local triggers = {}
-for k,v in pairs(commands) do
-	table.insert(triggers, k)
-end
-
-local action = function(msg)
-
-	for k,v in pairs(commands) do
-		if string.match(msg.text_lower, k) then
-			local output = v(msg)
-			if output == true then
-				return true
-			elseif output then
-				sendReply(msg, output)
-			end
-			return
-		end
-	end
-
-	return true
 
 end
 

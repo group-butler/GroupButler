@@ -2,7 +2,7 @@ local triggers = {
 	'^/(moderation backup)$'
 }
 
-local action = function(msg, blocks)
+local action = function(msg, blocks, ln)
 	
 	print('\n/redis backup', msg.from.first_name..' ['..msg.from.id..']')
 	
@@ -36,7 +36,7 @@ local action = function(msg, blocks)
 	save_data("redisbackup.json", rb)
 		
 	mystat('redisbackup') --save stats
-	sendMessage(msg.chat.id, 'Backup saved as _redisbackup.json_', true, false, true)
+	sendMessage(msg.chat.id, make_text(lang[ln].redisbackup), true, false, true)
 end
 
 return {

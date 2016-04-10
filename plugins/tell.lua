@@ -1,10 +1,10 @@
 
 local triggers = {
-	'^/(tell)$'
+	'^/(tell)$',
 	'^/(tell@groupbutler_bot)$'
 }
 
-local action = function(msg)
+local action = function(msg, blocks, ln)
 	
 	print('\n/tell', msg.from.first_name..' ['..msg.from.id..']')
 	
@@ -14,11 +14,11 @@ local action = function(msg)
 	end
 	
 	local text = ''
-	text = text..'*First name*: '..msg.from.first_name..'\n'
+	text = text..make_text(lang[ln].tell.first_name, msg.from.first_name)
 	
 	--check if the user has a last name
 	if msg.from.last_name then
-		text = text..'*Last name*: '..msg.from.last_name..'\n'
+		text = text..make_text(lang[ln].tell.last_name, msg.from.last_name)
 	end
 	
 	--check if the user has a username
@@ -31,8 +31,8 @@ local action = function(msg)
 	
 	--if in a group, build group info
 	if msg.chat.type == 'group' or msg.chat.type == 'supergroup' then
-		text = text..'\n*Group name*: '..msg.chat.title..'\n'
-		text = text..'*Group ID*: '..msg.chat.id
+		text = text..make_text(lang[ln].tell.group_name, msg.chat.title)
+		text = text..make_text(lang[ln].tell.group_id, msg.chat.id)
 		sendReply(msg, text, true)
 	else
 		sendMessage(msg.from.id, text, true, false, true)

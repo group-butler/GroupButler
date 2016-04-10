@@ -4,7 +4,7 @@ URL = require('socket.url')
 JSON = require('dkjson')
 redis = require('redis')
 client = Redis.connect('127.0.0.1', 6379)
---serpent = require('serpent')
+serpent = require('serpent')
 
 version = '3.1'
 
@@ -13,8 +13,8 @@ bot_init = function() -- The function run when the bot is started or reloaded.
 	config = dofile('config.lua') -- Load configuration file.
 	dofile('bindings.lua') -- Load Telegram bindings.
 	dofile('utilities.lua') -- Load miscellaneous and cross-plugin functions.
-	--dofile('redis.lua') --E' GIUSTO, SE VOGLIO USARE redis.lua
-
+	lang = dofile('languages.lua') -- All the languages available
+	
 	bot = nil
 	while not bot do -- Get bot info and retry if unable to connect.
 		bot = getMe()
@@ -48,6 +48,14 @@ on_msg_receive = function(msg) -- The fn run whenever a message is received.
 		msg.text = '/' .. msg.text:input()
 	end
 	
+	--Group language
+	local group_lang = client:get('lang:'..msg.chat.id)
+	print(group_lang)
+	if not group_lang then
+		group_lang = 'en'
+	end
+	print(group_lang)
+	
 	--count the number of messages
 	client:hincrby('bot:general', 'messages', 1)
 	--vardump(msg)
@@ -62,7 +70,7 @@ on_msg_receive = function(msg) -- The fn run whenever a message is received.
 				msg.text_lower = msg.text:lower()
 				
 				local success, result = pcall(function()
-					return v.action(msg, blocks)
+					return v.action(msg, blocks, group_lang)
 				end)
 				if not success then
 					sendReply(msg, 'Something went wrong.\nPlease report the problem with "/c <bug>"', true)

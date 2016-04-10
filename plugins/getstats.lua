@@ -7,7 +7,7 @@ local triggers = {
 	
 }
 
-local action = function(msg, blocks)
+local action = function(msg, blocks, ln)
     
     print('\n/getstats', msg.from.first_name..' ['..msg.from.id..']')
     
@@ -22,7 +22,8 @@ local action = function(msg, blocks)
 	--save redis datas and end the function
 	if blocks[1] == 'redis save' then
 		client:bgsave()
-		sendMessage(msg.chat.id, 'Redis updated', true, false, true)
+		local out = make_text(lang[ln].getstats.redis)
+		sendMessage(msg.chat.id, out, true, false, true)
 		return nil
 	end
 	
@@ -44,7 +45,8 @@ local action = function(msg, blocks)
 	    end
     end
     
-	sendMessage(msg.chat.id, text, true, false, true)
+    local out = make_text(lang[ln].getstats.stats, text)
+	sendMessage(msg.chat.id, out, true, false, true)
 end
 
 return {

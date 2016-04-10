@@ -2,7 +2,7 @@ local triggers = {
 	'^/lua'
 }
 
-local action = function(msg)
+local action = function(msg, blocks, ln)
 	
 	print('\n/lua', msg.from.first_name..' ['..msg.from.id..']')
 	
@@ -16,14 +16,14 @@ local action = function(msg)
 	local input = msg.text:input()
 	if not input then
 		print('\27[31mNil: no input\27[39m')
-		sendReply(msg, 'Please enter a string to load.')
+		sendReply(msg, make_text(lang[ln].luarun.enter_string))
 		return
 	end
 	
 	--execute
 	local output = loadstring(input)()
 	if not output then
-		output = 'Done!'
+		output = make_text(lang[ln].luarun.done)
 	else
 		output = '```\n' .. output .. '\n```'
 	end

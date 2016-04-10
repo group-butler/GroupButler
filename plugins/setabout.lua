@@ -9,7 +9,7 @@ local triggers = {
 	
 }
 
-local action = function(msg, blocks)
+local action = function(msg, blocks, ln)
 	
 	--ignore if via pm
 	if msg.chat.type == 'private' then
@@ -36,9 +36,10 @@ local action = function(msg, blocks)
         
         if not about then
         	print('\27[31mNil: no about text\27[39m')
-            sendReply(msg, '*NO BIO* for this group.', true)
+            sendReply(msg, make_text(lang[ln].setabout.no_bio), true)
         else
-            sendReply(msg, '*Bio of '..msg.chat.title..':*\n'..about..'', true)
+        	local out = make_text(lang[ln].setabout.bio, msg.chat.title, about)
+            sendReply(msg, out, true)
         end
         
         mystat('about') --save stats
@@ -53,7 +54,7 @@ local action = function(msg, blocks)
 		--ignore if not mod
 		if not is_mod(msg) then
 			print('\27[31mNil: not mod\27[39m')
-			sendReply(msg, 'You are *not* a moderator', true)
+			sendReply(msg, make_text(lang[ln].not_mod), true)
 			return nil
 		end
 		
@@ -63,19 +64,19 @@ local action = function(msg, blocks)
         --check if there is an about text
         if not about then
         	print('\27[31mNil: no about text\27[39m')
-            sendReply(msg, '*No bio for this group*.\nUse /setabout [bio] to set-up a new description', true)
+            sendReply(msg, make_text(lang[ln].setabout.no_bio_add), true)
         else
             local input = blocks[2]
             if not input then
             	print('\27[31mNil: no text\27[39m')
-		        sendReply(msg, 'Please write something next this poor "/addabout"', true)
+		        sendReply(msg, make_text(lang[ln].setabout.no_input_add), true)
 		        return nil
 	        end
 	        
 	        --check if breaks the markdown
 	        if breaks_markdown(input) then
 				print('\27[31mNil: about text breaks the markdown\27[39m')
-				sendReply(msg, 'The text inserted breaks the markdown.\nCheck how many times you used * or _ or `')
+				sendReply(msg, make_text(lang[ln].breaks_markdown))
 				return nil
 			end
 			
@@ -83,7 +84,7 @@ local action = function(msg, blocks)
             about = about..'\n'..input
             groups[tostring(msg.chat.id)]['about'] = tostring(about)
             save_data('groups.json', groups)
-            sendReply(msg, '*Description added:*\n"'..input..'"', true)
+            sendReply(msg, make_text(lang[ln].setabout.added, input), true)
         end
         
         mystat('addabout') --save stats
@@ -100,14 +101,14 @@ local action = function(msg, blocks)
 		--ignore if not mod
 		if not is_mod(msg) then
 			print('\27[31mNil: not mod\27[39m')
-			sendReply(msg, 'You are *not* a moderator', true)
+			sendReply(msg, make_text(lang[ln].not_mod), true)
 			return nil
 		end
 	
 		--ignore if not text
 		if not input then
 			print('\27[31mNil: no input text\27[39m')
-			sendReply(msg, 'Please write something next this poor "/setabout"', true)
+			sendReply(msg, make_text(lang[ln].setabout.no_input_set), true)
 			return true
 		end
 	
@@ -115,7 +116,7 @@ local action = function(msg, blocks)
 		if input == 'clean$' then
 			print('\27[31mNil: about text cleaned\27[39m')
 			groups[tostring(msg.chat.id)]['about'] = nil
-			sendReply(msg, 'The bio has been cleaned.')
+			sendReply(msg, make_text(lang[ln].setabout.clean))
 			return nil
 		end
 		
@@ -128,7 +129,7 @@ local action = function(msg, blocks)
 		
 		--set the new about
 		groups[tostring(msg.chat.id)]['about'] = input
-		sendReply(msg, '*New bio:*\n"'..input..'"', true)
+		sendReply(msg, make_text(lang[ln].setabout.new, input), true)
 	
 		save_data('groups.json', groups)
 	
