@@ -5,7 +5,7 @@ local triggers = {
 	'^/(reply) (.*)'
 }
 
-local action = function(msg, blocks)
+local action = function(msg, blocks, ln)
     
     -- ignore if the chat is a group or a supergroup
     if msg.chat.type ~= 'private' then
@@ -23,7 +23,8 @@ local action = function(msg, blocks)
         --allert if not feedback
         if not input then
         	print('\27[31mNil: no text\27[39m')
-            sendMessage(msg.from.id, 'Write your suggestions/bugs/doubt near "/contact"')
+        	local out = make_text(lang[ln].report.no_input)
+            sendMessage(msg.from.id, out)
             return nil
         end
         
@@ -37,7 +38,8 @@ local action = function(msg, blocks)
 	    
 	    mystat('c') --save stats
 	    forwardMessage (receiver, msg.from.id, target)
-	    sendMessage(msg.from.id, '*Feedback sent*:\n\n'..input, true, false, true)
+	    local out = make_text(lang[ln].report.sent, input)
+	    sendMessage(msg.from.id, out, true, false, true)
 	end
 	
 	if blocks[1] == 'reply' then
@@ -53,7 +55,8 @@ local action = function(msg, blocks)
 	    --ignore if no reply
 	    if not msg.reply_to_message then
 	    	print('\27[31mNil: no reply\27[39m')
-            sendReply(msg, 'Reply to a feedback to reply to the user', false)
+	    	local out = make_text(lang[ln].report.reply)
+            sendReply(msg, out, false)
 			return nil
 		end
 		
@@ -62,7 +65,8 @@ local action = function(msg, blocks)
 		--ignore if not imput
 		if not input then
 			print('\27[31mNil: no input text\27[39m')
-            sendMessage(msg.from.id, 'Write your reply next to "/reply"')
+			local out = make_text(lang[ln].report.reply_no_input)
+            sendMessage(msg.from.id, out)
             return nil
         end
 		
@@ -70,10 +74,10 @@ local action = function(msg, blocks)
 		local name = msg.forward_from.first_name
 		local receiver = msg.forward_from.id
 		local feed = msg.text:sub(4, 14)
-		local text = 'Hi *'..name..'*, this is a reply to your feedback:\n"'..feed..'..."\n\n*Reply*:\n'..input
+		local out = make_text(lang[ln].report.feedback_reply, name, feed, input)
 		
-		sendMessage(receiver, text, true, false, true)
-		sendMessage(config.admin, '*Reply sent*:\n\n'..input, true, false, true)
+		sendMessage(receiver, out, true, false, true)
+		sendMessage(config.admin, make_text(lang[ln].report.reply_sent, input), true, false, true)
 	end
 end
 
