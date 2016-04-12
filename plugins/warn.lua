@@ -1,6 +1,7 @@
 local triggers = {
 	'^/(warn)$',
-	'^/(warn)@groupbutler_bot',
+	'^/(warn) (kick)$',
+	'^/(warn) (ban)$',
 	'^/(warnmax) (%d%d?)$',
 	'^/(getwarns)$',
 	'^/(nowarns)$',
@@ -16,13 +17,19 @@ local action = function(msg, blocks, ln)
     
     if blocks[1] == 'warn' then
         
-        print('\n/warn', msg.from.first_name..' ['..msg.from.id..'] --> '..msg.chat.title..' ['..msg.chat.id..']')
-        
         --return nil if not mod
         if not is_mod(msg) then
             print('\27[31mNil: not mod\27[39m')
             return nil 
         end
+        
+        --action do do when max number of warns change:
+		if blocks[2] then
+			local hash = 'warns:'..msg.chat.id..':type'
+			client:set(hash, blocks[2])
+			sendReply(msg, make_text(lang[ln].warn.changed_type, blocks[2]), true)
+			return
+		end	
         
 		--warning to reply to a message
         if not msg.reply_to_message then
@@ -33,13 +40,13 @@ local action = function(msg, blocks, ln)
 		
 		local replied = msg.reply_to_message --load the replied message
 		
-	    --return nil if an user flag a mod
+	    --return nil if a mod is warned
 	    if is_mod(replied) then
-	        print('\27[31mNil: mod flagged\27[39m')
+	        print('\27[31mNil: mod warned\27[39m')
 			sendReply(msg, make_text(lang[ln].warn.mod))
 	        return nil
 	    end
-		
+				
 	    --return nil if an user flag the bot
 	    if replied.from.id == bot.id then
 	        print('\27[31mNil: bot flagged\27[39m')
@@ -60,7 +67,18 @@ local action = function(msg, blocks, ln)
 		local text
 		
 		if tonumber(num) >= tonumber(nmax) then
-			text = make_text(lang[ln].warn.warned_max, name)
+			text = make_text(lang[ln].warn.warned_max_kick, name)
+			local type = client:get('warns:'..msg.chat.id..':type')
+			if type == 'ban' then
+				text = make_text(lang[ln].warn.warned_max_ban, name)
+				kickChatMember(msg.chat.id, replied.from.id)
+				print('banned')
+		    else
+		    	kickChatMember(msg.chat.id, replied.from.id)
+		    	unbanChatMember(msg.chat.id, replied.from.id)
+		    	print('Kicked')
+		    	text = make_text(lang[ln].warn.warned_max_kick, name)
+		    end
 		else
 			local diff = tonumber(nmax)-tonumber(num)
 			text = make_text(lang[ln].warn.warned, name, num, nmax, diff)
@@ -89,8 +107,6 @@ local action = function(msg, blocks, ln)
     end
     
     if blocks[1] == 'getwarns' then
-        
-        print('\n/getwarns', msg.from.first_name..' ['..msg.from.id..'] --> '..msg.chat.title..' ['..msg.chat.id..']')
         
         --return nil if the user is not a moderator
         if not is_mod(msg) then
@@ -138,7 +154,7 @@ local action = function(msg, blocks, ln)
 		
 		--check if over or under
 		if tonumber(num) >= tonumber(nmax) then
-			text = make_text(lang[ln].warn.limit_reached, num, max)
+			text = make_text(lang[ln].warn.limit_reached, num, nmax)
 		else
 			local diff = tonumber(nmax)-tonumber(num)
 			text = make_text(lang[ln].warn.limit_lower, diff, nmax, num, nmax)

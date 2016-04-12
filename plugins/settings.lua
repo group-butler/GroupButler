@@ -24,8 +24,6 @@ if blocks[1] == 'disable' then
     	    return nil
         end
         
-        print('\n/disable', msg.from.first_name..' ['..msg.from.id..'] --> '..msg.chat.title..' ['..msg.chat.id..']')
-        
         --ignore if not mod
         if not is_mod(msg) then
             print('\27[31mNil: not mod\27[39m')

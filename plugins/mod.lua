@@ -4,7 +4,8 @@ local triggers = {
 	'^/(promote)$',
 	'^/(demote)$',
 	'^/(owner)$',
-	'^/(modlist)$'
+	'^/(modlist)$',
+	'^/(modlist)@GroupButler_bot',
 }
 
 local action = function(msg, blocks, ln)

@@ -227,7 +227,7 @@ function match_pattern(pattern, text, lower_case)
     end
       if next(matches) then
       	if matches[1] ~= '' then
-      		print('----------------------------------------------------------------')
+      		--print('----------------------------------------------------------------')
       		--for i=1, #matches do
       	 		--print('matches['..i..']', matches[i])
       		--end
@@ -335,7 +335,7 @@ function make_text(base, par1, par2, par3, par4, par5, par6)
 	if par3 then text = text:gsub('&&&3', par3) end
 	if par4 then text = text:gsub('&&&4', par4) end
 	if par5 then text = text:gsub('&&&5', par5) end
-	if par5 then text = text:gsub('&&&5', par6) end
+	if par5 then text = text:gsub('&&&6', par6) end
 	if breaks_markdown(text) then
 		print('Markdown issue with:\n\n'..text)
   		sendMessage(config.admin, 'Markdown issue, check the log')

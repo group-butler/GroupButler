@@ -1,4 +1,5 @@
 local triggers = {
+	'^/(extra)$',
 	'^/(extra) (#[%w_]*)%s(.*)$',
 	'^/(extra del) (#[%w_]*)$',
 	'^/(extra list)$',
@@ -10,6 +11,11 @@ local action = function(msg, blocks, ln)
 	print('\n/extra', msg.from.first_name..' ['..msg.from.id..']')
 	
 	if blocks[1] == 'extra' then
+		if not blocks[2] then
+			sendReply(msg, make_text(lang[ln].extra.usage), true)
+			print('\27[31mNil: no arguments\27[39m')
+	        return nil
+		end
 	    if not is_mod(msg) then
 	        print('\27[31mNil: not mod\27[39m')
 	        return nil

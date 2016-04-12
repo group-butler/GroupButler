@@ -7,8 +7,6 @@ local triggers = {
 
 local action = function(msg, blocks, ln)
 	
-	print('\n/reload or /halt', msg.from.first_name..' ['..msg.from.id..']')
-	
 	if msg.from.id ~= config.admin then
 		print('\27[31mNil: not admin\27[39m')
 		return
@@ -16,7 +14,7 @@ local action = function(msg, blocks, ln)
 	
 	if msg.text:match('^/reload') then
 		--client:bgsave()
-		bot_init()
+		bot_init(true)
 		
 		local out = make_text(lang[ln].control.reload)
 		sendReply(msg, out, true)

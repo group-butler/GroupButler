@@ -40,6 +40,22 @@ getUpdates = function(offset)
 
 end
 
+unbanChatMember = function(chat_id, user_id)
+	
+	local url = BASE_URL .. '/unbanChatMember?chat_id=' .. chat_id .. '&user_id=' .. user_id
+
+	return sendRequest(url)
+
+end
+
+kickChatMember = function(chat_id, user_id)
+
+	local url = BASE_URL .. '/kickChatMember?chat_id=' .. chat_id .. '&user_id=' .. user_id
+
+	return sendRequest(url)
+
+end
+
 sendMessage = function(chat_id, text, disable_web_page_preview, reply_to_message_id, use_markdown)
 
 	local url = BASE_URL .. '/sendMessage?chat_id=' .. chat_id .. '&text=' .. URL.escape(text)

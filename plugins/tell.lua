@@ -1,7 +1,7 @@
 
 local triggers = {
 	'^/(tell)$',
-	'^/(tell@groupbutler_bot)$'
+	'^/(tell@GroupButler_bot)$'
 }
 
 local action = function(msg, blocks, ln)

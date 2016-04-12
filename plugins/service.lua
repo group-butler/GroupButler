@@ -1,16 +1,23 @@
 
 local triggers = {
-	''
+	'^###(botadded)',
+	'^###(added)',
+	'^###(botremoved)'
 }
+
+local function remove_From_kicked_list(chat, user)
+    local hash = 'kicked:'..chat
+    client:hdel(hash, user)
+end
 
 local action = function(msg, blocks, ln)
 	
 	--vardump(msg)
 	
 	--if the bot join the chat
-	if msg.new_chat_participant and msg.new_chat_participant.id == bot.id then
+	if blocks[1] == 'botadded' then
 		
-		print('\nBot added to '..msg.chat.title..' ['..msg.chat.id..']')
+		print('Bot added to '..msg.chat.title..' ['..msg.chat.id..']')
 		
 		local uname = ''
 		
@@ -23,24 +30,14 @@ local action = function(msg, blocks, ln)
 		--save group data in the json
 		groups = load_data('groups.json')
 		groups[tostring(msg.chat.id)] = {
-			--owner = tostring(msg.from.id),
-			--mods = {},
 			rules = nil,
 			about = nil,
 			flag_blocked = {},
-			--settings = {
-				--s_rules = 'no',
-				--s_about = 'no',
-				--s_welcome = 'no',
-				--s_modlist = 'no',
-				--s_flag = 'yes',
-				--welcome = 'no'},
 		}
 		
 		save_data('groups.json', groups)
 		
 		--add owner as moderator
-		--groups[tostring(msg.chat.id)]['mods'][tostring(msg.from.id)] = jsoname
 		local hash = 'bot:'..msg.chat.id..':mod'
         local user = tostring(msg.from.id)
         client:hset(hash, user, jsoname)
@@ -58,8 +55,16 @@ local action = function(msg, blocks, ln)
 		client:hset(hash, 'Flag', 'yes')
 		client:hset(hash, 'Welcome', 'no')
 		client:hset(hash, 'Extra', 'no')
+		--flood
+		client:hset(hash, 'MaxFlood', 5)
+		client:hset(hash, 'ActionFlood', 'kick')
+		client:hset(hash, 'ActionFlood', 'no')
+		--warn
 		client:set('warns:'..msg.chat.id..':max', 5)
-		hash = 'chat:'..msg.chat.id..':welcome' --set the default welcome type
+		client:set('warns:'..msg.chat.id..':action', 'ban')
+		--media moderation don't need to be setted up
+		--set the default welcome type
+		hash = 'chat:'..msg.chat.id..':welcome'
 		client:hset(hash, 'wel', 'no')
 		
 		--save stats
@@ -68,13 +73,12 @@ local action = function(msg, blocks, ln)
         print('Stats saved', 'Groups: '..num)
         local out = make_text(lang[ln].service.new_group, msg.from.first_name)
 		sendMessage(msg.chat.id, out, true, false, true)
-		return
 	end
 	
 	--if someone join the chat
-	if msg.new_chat_participant then
+	if blocks[1] == 'added' then
 		
-		print('\nUser '..msg.new_chat_participant.first_name..' ['..msg.new_chat_participant.id..'] added to '..msg.chat.title..' ['..msg.chat.id..']')
+		remove_from_kicked_list(msg.chat.id, msg.added.id)
 		
 		--basic text
 		text = make_text(lang[ln].service.welcome, msg.new_chat_participant.first_name, msg.chat.title)
@@ -88,9 +92,8 @@ local action = function(msg, blocks, ln)
 		
 		groups = load_data('groups.json')
 		
-		--retrive welcome settings
-		local hash = 'chat:'..msg.chat.id..':welcome'
-		local wlc_sett = client:hget(hash, 'wel')
+		--retrive welcome settings 
+		local wlc_sett = client:hget('chat:'..msg.chat.id..':welcome', 'wel')
 		
 		local abt = groups[tostring(msg.chat.id)]['about']
 		local rls = groups[tostring(msg.chat.id)]['rules']
@@ -107,23 +110,8 @@ local action = function(msg, blocks, ln)
         end		
 		
 		--build the modlist
-		-----------------JSON--------------------
-		--if next(groups[tostring(msg.chat.id)]['mods']) == nil then
-        	--mods = '\n\nThere are *no moderators* in this group.'
-        	--sendMessage(msg.chat.id, 'No mods here')
-    	--else
-    		--local i = 1
-    		--mods = '\n\n*Moderators list*:\n'
-    		--for k,v in pairs(groups[tostring(msg.chat.id)]['mods']) do
-        		--mods = mods..'*'..i..'* - @'..v..' (id: ' ..k.. ')\n'
-        		--i = i + 1
-    		--end
-		--end
-		------------------------JSON---------------------
-		
-		--build the modlist
 		local hash = 'bot:'..msg.chat.id..':mod'
-    	local mlist = client:hvals(hash) --the array can't be empty: there is always the owner in
+    	local mlist = client:hvals(hash) --the array can't be empty: there is always the owner in the modlist
     	local mods = lang[ln].service.welcome_modlist
     	for i=1, #mlist do
         	mods = mods..'*'..i..'* - '..mlist[i]..'\n'
@@ -138,9 +126,9 @@ local action = function(msg, blocks, ln)
 			text = text..mods
 		elseif wlc_sett == 'ra' then
 			text = text..lang[ln].service.abt..abt..lang[ln].service.rls..rls
-    elseif wlc_sett == 'am' then
+    	elseif wlc_sett == 'am' then
 			text = text..lang[ln].service.abt..abt..mods
-    elseif wlc_sett == 'rm' then
+    	elseif wlc_sett == 'rm' then
 			text = text..lang[ln].service.rls..rls..mods
 		elseif wlc_sett == 'ram' then
 			text = text..lang[ln].service.abt..abt..lang[ln].service.rls..rls..mods
@@ -150,22 +138,19 @@ local action = function(msg, blocks, ln)
 	end
 	
 	--if the bot is removed from the chat
-	if msg.left_chat_participant and msg.left_chat_participant.id == bot.id then
+	if blocks[1] == 'botremoved' then
 		
-		print('\nBot left '..msg.chat.title..' ['..msg.chat.id..']')
+		print('Bot left '..msg.chat.title..' ['..msg.chat.id..']')
 		
 		--clean the modlist and the owner. If the bot is added again, the owner will be who added the bot and the modlist will be empty (except for the new owner)
 		clean_owner_modlist(msg.chat.id)
 		
 		--save stats
-		local hash = 'bot:general'
-        local num = client:hincrby(hash, 'groups', -1)
+        local num = client:hincrby('bot:general', 'groups', -1)
         print('Stats saved', 'Groups: '..num)
         local out = make_text(lang[ln].service.bot_removed, msg.chat.title)
-		sendMessage(msg.from.id, out, true, false, true)
+		sendMessage(msg.remover.id, out, true, false, true)
 	end
-	
-	return true
 
 end
 

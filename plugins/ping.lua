@@ -1,12 +1,10 @@
 local triggers = {
 	'^/(ping)$',
-	'^/(ping)@groupbutler_bot$',
+	'^/(ping)@'..bot.username..'$',
 	'^/(ping redis)$'
 }
 
 local action = function(msg, blocks, ln)
-	
-	print('\n/ping', msg.from.first_name..' ['..msg.from.id..']')
 	
 	if blocks[1] == 'ping redis' then
 		if msg.from.id ~= config.admin then

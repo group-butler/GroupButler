@@ -34,11 +34,27 @@ return {
 		'warn.lua',
 		'backup.lua',
 		'extra.lua',
-		'setlang.lua'
+		'setlang.lua',
+		'banhammer.lua',
+		'floodmanager.lua',
+		'mediasettings.lua',
+		'broadcast.lua'
 		
 	},
 	available_languages = {
-		'en',
-		'it'
-	}
+		'en'
+	},
+	settings = {
+		'Rules',
+		'About',
+		'Flag',
+		'Modlist',
+		'Welcome',
+		'Extra',
+		'Kicklist',
+		'Video',
+		'Gif',
+		'Photo',
+		'Sticker'
+		}
 }

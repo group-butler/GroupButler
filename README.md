@@ -1,4 +1,25 @@
 #Group Butler
+##MUST READ!
+
+So, telegram added to the api methods some utils to allow bots to handle the group administration. The only two methods available are kickChatUser and unbanChatUser, that togheter allow us to kick and ban users with a telegram bot.
+
+I've added some interesting abilities based on this two api methods to this bot, obviously, because it's aimed to help the group administration.
+
+ANYWAY, WE STILL DON'T KNOW IF THE BOT COULD SEE IF A USER IS ADMIN OR NOT IN A GROUP. So for now, all the functions/plugins based on this two methods don't implement a check to filter admins from normal users.
+
+We will be able to know how to handle this with future updates.
+
+What have been added: ban/kick by reply, antiflood based on redis(with custom kick/ban), ban/kick when a certain media is sent, ban when the max number of warns is reached.
+
+THE CODE SHOULD BE 90% WORKING, I tried to be fast but the code must for sure be refined, cause there are random redis hashes everywhere and empty tables here and there, and other awuful things you can see.
+BUG: /settings command show inverted flood settings, with some wrong voices about flood
+
+If you find a bug, please let me know.
+
+Thanks a lot to Lucas Montuano for the support with languages and bugfixing
+
+##Introduction
+
 This bot has been created to help people in the administration of a group.
 
 This bot is based on Otouto (Telegram bot: [@mokubot](https://telegram.me/mokubot), github page: [topkecleon/otouto](https://github.com/topkecleon/otouto).).
@@ -23,10 +44,18 @@ Here is the list of commands.
 | /owner (by reply) | Set a new owner. | Owner |
 | /promote (by reply) | Promote as moderator a member. | Owner |
 | /demote (by reply) | Demote a member. | Owner |
+| /kick (by reply) | Kick an user (WAITING FOR TELEGRAM UPDATE). | Moderator |
+| /ban (by reply) | Ban an user (WAITING FOR TELEGRAM UPDATE). | Moderator |
+| /kicked list | Show a list of kicked users (WAITING FOR TELEGRAM UPDATE). | Moderator |
 | /set rules <rules> | Write the new rules and overwrite the old. | Moderator |
 | /add rules <rules> | Add at the end of the existing rules other text. | Moderator |
 | /set about <bio> | Set a completly new description for the group. | Moderator |
 | /add about <bio> | Add at the end of the existing description other informations. | Moderator |
+| /flood <on/off> | Enable or disable the flood listener (WAITING FOR TELEGRAM UPDATE). | Moderator |
+| /flood <kick/ban> | Choose what to do when the antiflood is triggered  (WAITING FOR TELEGRAM UPDATE). | Moderator |
+| /flood <messages> | Number of messages in 5 sec to trigger the antiflood (WAITING FOR TELEGRAM UPDATE). | Moderator |
+| /kick/ban/allow <media> | Set what to do when the media is sent (WAITING FOR TELEGRAM UPDATE). | Moderator |
+| /media | See the current settings of what to do when a media is sent (WAITING FOR TELEGRAM UPDATE). | Moderator |
 | /disable <rules-about-modlist> | This commands will be available only for moderators. | Moderator |
 | /enable <rules-about-modlist> | This commands will be available only for everyone. | Moderator |
 | /enable <welcome-flag> | Turn on the welcome message/the ability to flag messages. | Moderator |
@@ -38,6 +67,7 @@ Here is the list of commands.
 | /extra <#command> <text> | Set up a new custom command | Moderator |
 | /extra list | Show the list of custom commands | Moderator |
 | /extra del <#command> | Delete the custom command | Moderator |
+| /warn <kick/ban> | Choose what to do when the max number is reached (WAITING FOR TELEGRAM UPDATE). | Moderator |
 | /warn (by reply) | Warn an user (+1 to the user warns). | Moderator |
 | /warnmax | Set the max number of warns a user can get. | Moderator |
 | /getwarns (by reply) | See how many worns the user has. | Moderator |
@@ -57,6 +87,8 @@ Here is the list of commands.
 | /info | Show credits | All |
 | /ping redis | Shows if redis is running. | Admin |
 | /backup | Send to the admin a backup of the bot folder. | Admin |
+| /bc <text> | Broadcast to users. | Admin |
+| /bcg <text> | Broadcast to groups. | Admin |
 | /get stats | Show statistics about the bot. | Admin |
 | /get commands | Show statistics about commands used. | Admin |
 | /reply <reply> | Reply to a feedback message. | Admin |
