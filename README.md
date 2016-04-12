@@ -11,8 +11,7 @@ We will be able to know how to handle this with future updates.
 
 What have been added: ban/kick by reply, antiflood based on redis(with custom kick/ban), ban/kick when a certain media is sent, ban when the max number of warns is reached.
 
-THE CODE SHOULD BE 90% WORKING, I tried to be fast but the code must for sure be refined, cause there are random redis hashes everywhere and empty tables here and there, and other awuful things you can see.
-BUG: /settings command show inverted flood settings, with some wrong voices about flood
+THE CODE SHOULD BE 95% WORKING, I tried to be fast but the code must for sure be refined, cause there are random redis hashes everywhere and empty tables here and there, and other awuful things you can see.
 
 If you find a bug, please let me know.
 

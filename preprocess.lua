@@ -4,12 +4,13 @@ pre_process = function(msg, ln)
     local spamhash = 'spam:'..msg.chat.id..':'..msg.from.id
     local msgs = tonumber(client:get(spamhash)) or 0
     if msgs == 0 then msgs = 1 end
-    local max_msgs = client:hget('chat:'..msg.chat.id..':settings', 'MaxFlood') or 5
+    local max_msgs = tonumber(client:hget('chat:'..msg.chat.id..':flood', 'MaxFlood')) or 5
     local max_time = 5
     if msgs > max_msgs then
-        local status = client:hget('chat:'..msg.chat.id..':settings', 'AntiFlood') or 'yes'
-        if status == 'yes' then
-            local action = client:hget('chat:'..msg.chat.id..':settings', 'ActionFlood')
+        local status = client:hget('chat:'..msg.chat.id..':settings', 'Flood') or 'yes'
+        --how flood on/off works: yes->yes, antiflood is diabled. no->no, anti flood is not disbaled
+        if status == 'no' then
+            local action = client:hget('chat:'..msg.chat.id..':flood', 'ActionFlood')
             local name = msg.from.first_name
             if msg.from.username then name = name..' (@'..msg.from.username..')' end
             if action == 'ban' then

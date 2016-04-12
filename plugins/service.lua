@@ -55,10 +55,11 @@ local action = function(msg, blocks, ln)
 		client:hset(hash, 'Flag', 'yes')
 		client:hset(hash, 'Welcome', 'no')
 		client:hset(hash, 'Extra', 'no')
+		client:hset(hash, 'Flood', 'no')--flood
 		--flood
+		hash = 'chat:'..msg.chat.id..':flood'
 		client:hset(hash, 'MaxFlood', 5)
 		client:hset(hash, 'ActionFlood', 'kick')
-		client:hset(hash, 'ActionFlood', 'no')
 		--warn
 		client:set('warns:'..msg.chat.id..':max', 5)
 		client:set('warns:'..msg.chat.id..':action', 'ban')

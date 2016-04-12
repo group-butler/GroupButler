@@ -1,4 +1,5 @@
 --v1.2
+--new: settings.flood, settings.resume.flood_info
 return {
     en = {
         pv = 'This is a command available only in a group',
@@ -230,14 +231,16 @@ return {
                 w_rm = '*Welcome type*: `welcome + rules + modlist`\n',
                 w_am = '*Welcome type*: `welcome + about + modlist`\n',
                 w_ram = '*Welcome type*: `welcome + rules + about + modlist`\n',
-                w_no = '*Welcome type*: `welcome only`\n'
+                w_no = '*Welcome type*: `welcome only`\n',
+                flood_info = '_Flood sensitivity:_ *&&&1* (_action:_ *&&&2*)\n'
             },
             Rules = 'Rules',
             About = 'About',
             Welcome = 'Welcome message',
             Modlist = 'Modlist',
             Flag = 'Flag',
-            Extra = 'Extra'
+            Extra = 'Extra',
+            Flood = 'Flood',
         },
         shell = {
             no_input = 'Please specify a command to run.',
