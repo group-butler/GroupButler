@@ -5,7 +5,7 @@ local triggers = {
 	'^###(botremoved)'
 }
 
-local function remove_From_kicked_list(chat, user)
+local function remove_from_kicked_list(chat, user)
     local hash = 'kicked:'..chat
     client:hdel(hash, user)
 end
@@ -48,13 +48,15 @@ local action = function(msg, blocks, ln)
 		
 		--default settings
 		hash = 'chat:'..msg.chat.id..':settings'
-		--disabled:yes / disabled:no
+		--disabled for users:yes / disabled fo users:no
 		client:hset(hash, 'Rules', 'no')
 		client:hset(hash, 'About', 'no')
 		client:hset(hash, 'Modlist', 'no')
 		client:hset(hash, 'Flag', 'yes')
 		client:hset(hash, 'Welcome', 'no')
 		client:hset(hash, 'Extra', 'no')
+		client:hset(hash, 'Rtl', 'no')
+		client:hset(hash, 'Arab', 'no')
 		client:hset(hash, 'Flood', 'no')--flood
 		--flood
 		hash = 'chat:'..msg.chat.id..':flood'
@@ -82,7 +84,7 @@ local action = function(msg, blocks, ln)
 		remove_from_kicked_list(msg.chat.id, msg.added.id)
 		
 		--basic text
-		text = make_text(lang[ln].service.welcome, msg.new_chat_participant.first_name, msg.chat.title)
+		text = make_text(lang[ln].service.welcome, msg.added.first_name, msg.chat.title)
 		--text = 'Hi '..msg.new_chat_participant.first_name..', and welcome to *'..msg.chat.title..'*!'
 		
 		--ignore if welcome is locked

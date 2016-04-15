@@ -336,9 +336,61 @@ function make_text(base, par1, par2, par3, par4, par5, par6)
 	if par4 then text = text:gsub('&&&4', par4) end
 	if par5 then text = text:gsub('&&&5', par5) end
 	if par5 then text = text:gsub('&&&6', par6) end
-	if breaks_markdown(text) then
-		print('Markdown issue with:\n\n'..text)
-  		sendMessage(config.admin, 'Markdown issue, check the log')
-	end
+	--if breaks_markdown(text) then
+		--print('Markdown issue with:\n\n'..text)
+  		--sendMessage(config.admin, 'Markdown issue, check the log')
+	--end
 	return text
 end
+
+local function create_folder(name)
+	local cmd = io.popen('sudo mkdir '..name)
+    cmd:read('*all')
+    cmd = io.popen('sudo chmod -R 777 '..name)
+    cmd:read('*all')
+    cmd:close()
+end
+
+function save_log(action, arg1, arg2, arg3, arg4)
+	local file
+	if action == 'send_msg' then
+		file = io.open("./logs/msgs_errors.txt", "a")
+		if not file then
+			create_folder('logs')
+			file = io.open("./logs/msgs_errors.txt", "a")
+		end
+		local text = os.date('[%A, %d %B %Y at %X]')..' --> '..arg1..'\n\n'
+		file:write(text)
+        file:close()
+    elseif action == 'errors' then
+    	--error, from, chat, text
+    	file = io.open("./logs/errors.txt", "a")
+    	if not file then
+			create_folder('logs')
+			file = io.open("./logs/errors.txt", "a")
+		end
+    	local text = os.date('[%A, %d %B %Y at %X]')..'\nERROR: '..arg1
+    	if arg2 then
+    		text = text..'\nFROM: '..arg2
+    	end
+ 		if arg3 then
+ 			text = text..'\nCHAT: '..arg3
+ 		end
+ 		if arg4 then
+ 			text = text..'\nTEXT: '..arg4
+ 		end
+ 		text = text..'\n\n'
+    	file:write(text)
+        file:close()
+    elseif action == 'starts' then
+    	file = io.open("./logs/starts.txt", "a")
+    	if not file then
+			create_folder('logs')
+			file = io.open("./logs/starts.txt", "a")
+		end
+		local text = 'Started: '..os.date('%A, %d %B %Y at %X')..'\n'
+		file:write(text)
+        file:close()
+    end
+end
+		

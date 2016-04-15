@@ -4,7 +4,7 @@ URL = require('socket.url')
 JSON = require('dkjson')
 redis = require('redis')
 client = Redis.connect('127.0.0.1', 6379)
---serpent = require('serpent')
+serpent = require('serpent')
 
 version = '3.1'
 
@@ -31,6 +31,7 @@ bot_init = function(on_reload) -- The function run when the bot is started or re
 
 	print('BOT RUNNING: @'..bot.username .. ', AKA ' .. bot.first_name ..' ('..bot.id..')')
 	if not on_reload then
+		save_log('starts')
 		sendMessage(config.admin, '*Bot started!*\n_'..os.date('On %A, %d %B %Y\nAt %X')..'_', true, false, true)
 	end
 	
@@ -81,8 +82,7 @@ local function get_what(msg)
 end
 
 on_msg_receive = function(msg) -- The fn run whenever a message is received.
-	print('\nNEW MESSAGE\nFrom: '..get_from(msg)..'\nType: '..msg.chat.type..'\nWhat: '..get_what(msg)..'\nWhen: '..os.date('On %A, %d %B %YAt %X'))
-	
+	vardump(msg)
 	if msg.date < os.time() - 5 then return end -- Do not process old messages.
 	if not msg.text then msg.text = msg.caption or '' end
 
@@ -104,35 +104,44 @@ on_msg_receive = function(msg) -- The fn run whenever a message is received.
 	
 	for i,v in pairs(plugins) do
 		--vardump(v)
-		for k,w in pairs(v.triggers) do
-			local blocks = match_pattern(w, msg.text)
-			if blocks then
-				if blocks[1] ~= '' then
-      				print("Match found: ", w)
-      			end
+		local stop_loop
+		if v.on_each_msg then
+			msg, stop_loop = v.on_each_msg(msg, group_lang)
+		end
+		if stop_loop then --check if on_each_msg said to stop the triggers loop
+			break
+		else
+			for k,w in pairs(v.triggers) do
+				local blocks = match_pattern(w, msg.text)
+				if blocks then
+					print('\nFrom: '..get_from(msg)..' in: '..msg.chat.type..' ['..msg.chat.id..'] type: '..get_what(msg)..' ('..os.date('on %A, %d %B %Y at %X')..')')
+					if blocks[1] ~= '' then
+      					print("Match found: ", w)
+      				end
 				
-				msg.text_lower = msg.text:lower()
+					msg.text_lower = msg.text:lower()
 				
-				local success, result = pcall(function()
-					return v.action(msg, blocks, group_lang)
-				end)
-				if not success then
-					sendReply(msg, 'Something went wrong.\nPlease report the problem with "/c <bug>"', true)
-					print(msg.text, result)
-          			sendMessage( tostring(config.admin), result..'\n'..msg.from.id..'\n'..msg.text, false, false, false)
-					return
-				end
-				-- If the action returns a table, make that table msg.
-				if type(result) == 'table' then
-					msg = result
-				-- If the action returns true, don't stop.
-				elseif result ~= true then
-					return
+					local success, result = pcall(function()
+						return v.action(msg, blocks, group_lang)
+					end)
+					if not success then
+						sendReply(msg, 'Something went wrong.\nPlease report the problem with "/c <bug>"', true)
+						print(msg.text, result)
+						save_log('errors', result, msg.from.id or false, msg.chat.id or false, msg.text or false)
+          				sendMessage( tostring(config.admin), 'An error occurred.\nCheck the log', false, false, false)
+						return
+					end
+					-- If the action returns a table, make that table msg.
+					if type(result) == 'table' then
+						msg = result
+					-- If the action returns true, don't stop.
+					elseif result ~= true then
+						return
+					end
 				end
 			end
 		end
 	end
-
 end
 
 
@@ -240,13 +249,10 @@ while is_started do -- Start a loop while the bot should be running.
 			
 			if msg.message then
 				if msg.message.new_chat_member or msg.message.left_chat_member then
-					print('service triggered')
 					service_to_message(msg.message)
 				elseif msg.message.photo or msg.message.video or msg.message.document or msg.message.voice or msg.message.audio or msg.message.sticker then
-					print('media triggered')
 					media_to_msg(msg.message)
 				elseif msg.message.forward_from then
-					print('forward triggered')
 					forward_to_msg(msg.message)
 				else
 					on_msg_receive(msg.message)

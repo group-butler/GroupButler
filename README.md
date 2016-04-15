@@ -5,17 +5,9 @@ So, telegram added to the api methods some utils to allow bots to handle the gro
 
 I've added some interesting abilities based on this two api methods to this bot, obviously, because it's aimed to help the group administration.
 
-ANYWAY, WE STILL DON'T KNOW IF THE BOT COULD SEE IF A USER IS ADMIN OR NOT IN A GROUP. So for now, all the functions/plugins based on this two methods don't implement a check to filter admins from normal users.
+ANYWAY, ALL IT'S UNDER TESTING.
 
-We will be able to know how to handle this with future updates.
-
-What have been added: ban/kick by reply, antiflood based on redis(with custom kick/ban), ban/kick when a certain media is sent, ban when the max number of warns is reached.
-
-THE CODE SHOULD BE 95% WORKING, I tried to be fast but the code must for sure be refined, cause there are random redis hashes everywhere and empty tables here and there, and other awuful things you can see.
-
-If you find a bug, please let me know.
-
-Thanks a lot to Lucas Montuano for the support with languages and bugfixing
+If you find a bug, please tell me. However, all should be working
 
 ##Introduction
 
@@ -86,6 +78,9 @@ Here is the list of commands.
 | /info | Show credits | All |
 | /ping redis | Shows if redis is running. | Admin |
 | /backup | Send to the admin a backup of the bot folder. | Admin |
+| /log <type> | Get a log. | Admin |
+| /log del <type> | Delete a log. | Admin |
+| /log | resume of logs. | Admin |
 | /bc <text> | Broadcast to users. | Admin |
 | /bcg <text> | Broadcast to groups. | Admin |
 | /get stats | Show statistics about the bot. | Admin |

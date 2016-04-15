@@ -103,6 +103,24 @@ if blocks[1] == 'disable' then
                 client:hset(hash, 'Extra', 'yes')
                 sendReply(msg, make_text(lang[ln].settings.disable.extra_locked), true)
             end
+        elseif input == 'rtl' then
+            mystat('disablertl') --save stats
+            now = client:hget(hash, 'Rtl')
+            if now == 'yes' then
+                sendReply(msg, make_text(lang[ln].settings.disable.rtl_already), true)
+            else
+                client:hset(hash, 'Rtl', 'yes')
+                sendReply(msg, make_text(lang[ln].settings.disable.rtl_locked), true)
+            end
+        elseif input == 'arab' then
+            mystat('disablearab') --save stats
+            now = client:hget(hash, 'Arab')
+            if now == 'yes' then
+                sendReply(msg, make_text(lang[ln].settings.disable.rtl_already), true)
+            else
+                client:hset(hash, 'Arab', 'yes')
+                sendReply(msg, make_text(lang[ln].settings.disable.rtl_locked), true)
+            end
         else
             print('\27[31mNil: argument not available\27[39m')
             sendReply(msg, make_text(lang[ln].settings.disable.wrong_input), true)
@@ -192,6 +210,24 @@ if blocks[1] == 'enable' then
             else
                 client:hset(hash, 'Extra', 'no')
                 sendReply(msg, make_text(lang[ln].settings.enable.extra_unlocked), true)
+            end
+        elseif input == 'rtl' then
+            mystat('enablertl') --save stats
+            now = client:hget(hash, 'Rtl')
+            if now == 'no' then
+                sendReply(msg, make_text(lang[ln].settings.enable.rtl_already), true)
+            else
+                client:hset(hash, 'Rtl', 'no')
+                sendReply(msg, make_text(lang[ln].settings.enable.rtl_unlocked), true)
+            end
+        elseif input == 'arab' then
+            mystat('enablearab') --save stats
+            now = client:hget(hash, 'Arab')
+            if now == 'no' then
+                sendReply(msg, make_text(lang[ln].settings.enable.arab_already), true)
+            else
+                client:hset(hash, 'Arab', 'no')
+                sendReply(msg, make_text(lang[ln].settings.enable.arab_unlocked), true)
             end
             
         else

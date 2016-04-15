@@ -69,12 +69,13 @@ local action = function(msg, blocks, ln)
     else
         if is_locked(msg, 'Extra') and not is_mod(msg) then
             print('\27[31mNil: not mod\27[39m')
-            --sendReply(msg, 'Custom commands are available *only for moderators*!\n(_you can change this setting_ )', true)
             return nil
         end
         local hash = 'extra:'..msg.chat.id
         local commands = client:hkeys(hash)
+        vardump(commands)
         local replies = client:hvals(hash)
+        vardump(replies)
         local text
         for k,v in pairs(commands) do
             if v == blocks[1] then
@@ -82,7 +83,10 @@ local action = function(msg, blocks, ln)
                 break
             end
         end
-        sendReply(msg, text, true)
+		
+		if text then
+        	sendReply(msg, text, true)
+        end
     end
     
 	mystat('extra') --save stats

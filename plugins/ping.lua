@@ -4,6 +4,11 @@ local triggers = {
 	'^/(ping redis)$'
 }
 
+local function on_each_msg(msg, ln)
+	print('in')
+	return msg
+end
+
 local action = function(msg, blocks, ln)
 	
 	if blocks[1] == 'ping redis' then

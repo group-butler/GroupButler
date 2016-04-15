@@ -31,7 +31,7 @@ local action = function(msg, blocks, ln)
     		return nil
     	end
     	
-        rules = groups[tostring(msg.chat.id)]['rules']
+        rules = groups[tostring(msg.cat.id)]['rules']
         
         --cehck if rules are empty
         if not rules then

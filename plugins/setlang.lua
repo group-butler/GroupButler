@@ -18,6 +18,7 @@ local action = function(msg, blocks, ln)
 	    local message = ''
 	    for k,v in pairs(config.available_languages) do
 	        message = message..i.. ' - _'..v..'_\n'
+	        i = i + 1
 	    end
 	    sendReply(msg, make_text(lang[ln].setlang.list, message), true)
 	else

@@ -56,6 +56,25 @@ kickChatMember = function(chat_id, user_id)
 
 end
 
+banUser = function(chat_id, user_id)
+	
+	local url = BASE_URL .. '/kickChatMember?chat_id=' .. chat_id .. '&user_id=' .. user_id
+	
+	return sendRequest(url)
+	
+end
+
+kickUser = function(chat_id, user_id)
+	
+	local url = BASE_URL .. '/kickChatMember?chat_id=' .. chat_id .. '&user_id=' .. user_id
+	
+	sendRequest(url)
+	
+	local url = BASE_URL .. '/unbanChatMember?chat_id=' .. chat_id .. '&user_id=' .. user_id
+
+	return sendRequest(url)
+end
+
 sendMessage = function(chat_id, text, disable_web_page_preview, reply_to_message_id, use_markdown)
 
 	local url = BASE_URL .. '/sendMessage?chat_id=' .. chat_id .. '&text=' .. URL.escape(text)
@@ -72,11 +91,19 @@ sendMessage = function(chat_id, text, disable_web_page_preview, reply_to_message
 		url = url .. '&parse_mode=Markdown'
 	end
 
-	return sendRequest(url)
+	local res = sendRequest(url)
+	
+	if not res then
+		print('Delivery failed')
+		sendMessage(config.admin, 'Delivery failed.\nCheck the log')
+		save_log('send_msg', text)
+	end
+	
+	return res
 
 end
---Elimina markd se problemi
-sendReply = function(msg, text, markd)--qui
+
+sendReply = function(msg, text, markd)
 
 	return sendMessage(msg.chat.id, text, true, msg.message_id, markd)--qui
 
@@ -107,7 +134,7 @@ forwardMessage = function(chat_id, from_chat_id, message_id)
 	local url = BASE_URL .. '/forwardMessage?chat_id=' .. chat_id .. '&from_chat_id=' .. from_chat_id .. '&message_id=' .. message_id
 
 	return sendRequest(url)
-
+	
 end
 
 curlRequest = function(curl_command)

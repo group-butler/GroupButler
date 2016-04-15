@@ -1,5 +1,3 @@
---v1.2
---new: settings.flood, settings.resume.flood_info
 return {
     en = {
         pv = 'This is a command available only in a group',
@@ -10,9 +8,9 @@ return {
             reload = '*Bot reloaded!*',
             stop = '*Stopping bot!*'
         },
-        credits = 'This bot is based on [GroupButler bot](https://github.com/RememberTheAir/GroupButler), an *opensource* bot available on [Github](https://github.com/). Follow the link to know how the bot works or which data are stored.\n\nRemember you can always use /r command to ask something.',
+        credits = 'This bot is based on [GroupButler bot](https://github.com/RememberTheAir/GroupButler), an *opensource* bot available on [Github](https://github.com/). Follow the link to know how the bot works or which data are stored.\n\nRemember you can always use /c command to ask something.',
         extra = {
-			usage = 'Write next to /extra the title of the command and the text associated.\nFor example:\n/extra #motm stay positive. The bot will reply _\'Stay positive\'_ each time someone wites #motm',
+			usage = 'Write next to /extra the title of the command and the text associated.\nFor example:\n/extra #motm stay positive. The bot will reply _\'Stay positive\'_ each time someone writes #motm',
             new_command = '*New command setted!*\n&&&1\n&&&2',
             no_commands = 'No commands setted!',
             commands_list = 'List of *custom commands*:\n&&&1',
@@ -192,7 +190,11 @@ return {
                 flag_locked = '`/flag` command *won\'t be available* from now',
                 extra_already = '#extra commands are already *locked*',
                 extra_locked = '#extra commands are now available *only for moderators*',
-                wrong_input = 'Argument unavailable.\nUse `/disable [rules|about|welcome|modlist|flag|extra]` instead'
+                rtl_already = 'Anti-RTL is already *on*',
+                rtl_locked = 'Anti-RTL is now *on*',
+                rtl_already = 'Anti-arab is already *on*',
+                rtl_locked = 'Anti-arab is now *on*',
+                wrong_input = 'Argument unavailable.\nUse `/disable [rules|about|welcome|modlist|flag|extra]` instead',
             },
             enable = {
                 no_input = 'Enable what?',
@@ -208,7 +210,11 @@ return {
                 flag_unlocked = '`/flag` command is now *available*',
                 extra_already = 'Extra # commands are already *unlocked*',
                 extra_unlocked = 'Extra # commands are now available *for all*',
-                wronf_input = 'Argument unavailable.\nUse `/enable [rules|about|welcome|modlist|flag|extra]` instead'
+                rtl_already = 'Anti-RTL is already *off*',
+                rtl_unlocked = 'Anti-RTL is now *off*',
+                arab_already = 'Anti-arab is already *off*',
+                arab_unlocked = 'Anti-arab is now *off*',
+                wrong_input = 'Argument unavailable.\nUse `/enable [rules|about|welcome|modlist|flag|extra]` instead'
             },
             welcome = {
                 no_input = 'Welcome and...?',
@@ -241,6 +247,8 @@ return {
             Flag = 'Flag',
             Extra = 'Extra',
             Flood = 'Flood',
+            Rtl = 'Rtl',
+            Arab = 'Arab'
         },
         shell = {
             no_input = 'Please specify a command to run.',
@@ -257,12 +265,12 @@ return {
             warn_reply = 'Reply to a message to warn the user',
             changed_type = 'New action on max number of warns received: *&&&1*',
             mod = 'A moderator can\'t be warned',
-            warned_max_kick = 'User &&&1 *kicked*: reached the max number of warns',
-            warned_max_ban = 'User &&&1 *banned*: reached the max number of warns*',
+            warned_max_kick = 'User &&&1 *kicked*: reached the max number of warnings',
+            warned_max_ban = 'User &&&1 *banned*: reached the max number of warnings',
             warned = '*User* &&&1 *have been warned.*\n_Number of warnings_   *&&&2*\n_Max allowed_   *&&&3* (*-&&&4*)',
             warnmax = 'Max number of warnings changed.\n*Old* value: &&&1\n*New* max: &&&2',
             getwarns_reply = 'Reply to an user to check his numebr of warns',
-            limit_reached = 'This usern has already reached the max number of warnings (*&&&1/&&&2*)',
+            limit_reached = 'This user has already reached the max number of warnings (*&&&1/&&&2*)',
             limit_lower = 'This user is under the max number of warnings.\n*&&&1* warnings missing on a total of *&&&2* (*&&&3/&&&4*)',
             nowarn_reply = 'Reply to an user to delete his warns',
             nowarn = 'The number of warns received by this user have been *resetted*'
@@ -277,7 +285,8 @@ return {
             kicked_empty = 'The list of kicked users is empty',
             kicked = '&&&1 have been kicked! Is still able to join',
             banned = '&&&1 have been banned!',
-            reply = 'Reply to someone'
+            reply = 'Reply to someone',
+            globally_banned = '&&&1 have been globally banned!',
         },
         floodmanager = {
             not_changed = 'The max number of messages that can be sent in 5 seconds is already &&&1',
@@ -299,6 +308,8 @@ return {
             flood_kick = '&&&1 *kicked* for flood',
             media_kick = '&&&1 *kicked*: media sent not allowed',
             media_ban = '&&&1 *banned*: media sent not allowed',
+            rtl = '&&&1 *kicked*: rtl character in names/messages not allowed',
+            arab = '&&&1 *kicked*: arab message detected'
         },
         broadcast = {
             delivered = 'Broadcast delivered. Check the log for the list of reached ids',
@@ -306,4 +317,3 @@ return {
         },
     },
 }
-

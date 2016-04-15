@@ -5,6 +5,7 @@ return {
 	cli_port = 4567,
 	admin = 23646077,
 	admin_name = 'Big Dick Is Back To Town',
+	channel = '',
 
 	errors = {
 		connection = 'Connection error.',
@@ -14,8 +15,7 @@ return {
 		not_admin = 'This command must be run by an administrator.'
 	},
 	plugins = {
-		'control.lua',
-    	'shell.lua',
+		'admin.lua',
 		'mod.lua',
 		'credits.lua',
 		'ping.lua',
@@ -24,7 +24,6 @@ return {
 		'setrules.lua',
 		'settings.lua',
 		'setabout.lua',
-		'getstats.lua',
 		'report.lua',
 		'flag.lua',
 		'redisinfo.lua',
@@ -32,17 +31,18 @@ return {
 		'service.lua',
 		'links.lua',
 		'warn.lua',
-		'backup.lua',
 		'extra.lua',
 		'setlang.lua',
 		'banhammer.lua',
 		'floodmanager.lua',
-		'mediasettings.lua',
-		'broadcast.lua'
+		'mediasettings.lua'
 		
 	},
 	available_languages = {
-		'en'
+		'en',
+		--'it',
+		--'br'
+		--more to come
 	},
 	settings = {
 		'Rules',

@@ -45,8 +45,28 @@ pre_process = function(msg, ln)
 		    print('Banned', media)
 		    sendReply(msg, make_text(lang[ln].preprocess.media_ban, name), true)
 		end
-	end
-        
+    end
+    
+    if client:hget('chat:'..msg.chat.id..':settings', 'Rtl') == 'yes' then --no = not disabled
+        local name = msg.from.first_name
+        if msg.from.username then name = name..' (@'..msg.from.username..')' end
+        local rtl = '‮'
+	    local check = msg.text:find(rtl..'+') or msg.from.first_name:find(rtl..'+')
+	    if check ~= nil then 
+	        print('RTL found')
+	        kickChatMember(msg.chat.id, msg.from.id) --kick
+		    unbanChatMember(msg.chat.id, msg.from.id) --unblock
+		    sendReply(msg, make_text(lang[ln].preprocess.rtl, name), true)
+	    end
+    end
+    
+    if msg.text and msg.text:find('([\216-\219][\128-\191])') and client:hget('chat:'..msg.chat.id..':settings', 'Arab') == 'yes' then
+        local name = msg.from.first_name
+        if msg.from.username then name = name..' (@'..msg.from.username..')' end
+        kickChatMember(msg.chat.id, msg.from.id) --kick
+		unbanChatMember(msg.chat.id, msg.from.id) --unblock
+		sendReply(msg, make_text(lang[ln].preprocess.arab, name), true)
+    end
 end
 
 
