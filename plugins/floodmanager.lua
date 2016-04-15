@@ -9,12 +9,14 @@ local triggers = {
 
 local action = function(msg, blocks, ln)
 	
-	--ceck if admin here
+	if not is_mod(msg) then
+		return
+	end
 	
-	--if msg.chat.type == 'private' then
-	    --sendMessage(msg.chat.id, lang[ln].pv)
-	    --return
-	--end
+	if msg.chat.type == 'private' then
+	    sendMessage(msg.chat.id, lang[ln].pv)
+	    return
+	end
 	if not blocks[2] then
 		
 	else

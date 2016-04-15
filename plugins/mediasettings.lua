@@ -7,11 +7,13 @@ local triggers = {
 }
 
 local action = function(msg, blocks, ln)
-	--if msg.chat.type == 'private' then
-	    --sendMessage(msg.chat.id, lang[ln].pv)
-	    --return
-	--end
-	--admin assertion here
+	if msg.chat.type == 'private' then
+	    sendMessage(msg.chat.id, lang[ln].pv)
+	    return
+	end
+	if not is_mod(msg) then
+		return nil
+	end
 	local list = {'image', 'audio', 'video', 'sticker', 'voice', 'contact', 'file'}
 	if blocks[1] == 'media list' then
 	    local text = lang[ln].mediasettings.list_header
