@@ -14,7 +14,7 @@ local action = function(msg, blocks, ln)
     --ignore if via pm
     if msg.chat.type == 'private' then
     	print('PV setrules.lua, '..msg.from.first_name..' ['..msg.from.id..'] --> not valid')
-    	sendMessage(msg.from.id, 'This is a command available only in a group')
+    	sendMessage(msg.from.id, lang[ln].pv)
     	return nil
     end
     

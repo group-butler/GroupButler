@@ -82,7 +82,7 @@ local function get_what(msg)
 end
 
 on_msg_receive = function(msg) -- The fn run whenever a message is received.
-	vardump(msg)
+	--vardump(msg)
 	if msg.date < os.time() - 5 then return end -- Do not process old messages.
 	if not msg.text then msg.text = msg.caption or '' end
 

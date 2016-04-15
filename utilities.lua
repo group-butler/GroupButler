@@ -253,9 +253,9 @@ function clean_owner_modlist(chat)
 	end
 end
 
-function vardump(value)
-  print(serpent.block(value, {comment=false}))
-end
+--function vardump(value)
+  --print(serpent.block(value, {comment=false}))
+--end
 
 function breaks_markdown(text)
 	local i = 0

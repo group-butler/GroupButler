@@ -17,6 +17,16 @@ local triggers = {
 	'^/(log)$',
 }
 
+local function save_in_redis(hash, text)
+    local redis_res = client:set(hash, text)
+    if redis_res == true then
+	    return 'Saved on redis (res: true)'
+	else
+	    failed = failed + 1
+	    return 'Something went wrong with redis, res -> '..res
+	end
+end
+
 local action = function(msg, blocks, ln)
 	
 	if msg.from.id ~= config.admin then
