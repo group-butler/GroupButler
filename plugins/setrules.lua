@@ -115,6 +115,7 @@ local action = function(msg, blocks, ln)
 			print('\27[31mNil: rules cleaned\27[39m')
 			groups[tostring(msg.chat.id)]['rules'] = nil
 			sendReply(msg, make_text(lang[ln].setrules.clean))
+			save_data('groups.json', groups)
 			return nil
 		end
 		

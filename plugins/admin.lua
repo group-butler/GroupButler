@@ -17,6 +17,9 @@ local triggers = {
 	'^/(log)$',
 }
 
+local logtxt = ''
+local failed = 0
+
 local function save_in_redis(hash, text)
     local redis_res = client:set(hash, text)
     if redis_res == true then
@@ -158,6 +161,7 @@ local action = function(msg, blocks, ln)
 	            logtxt = logtxt..'\nSaving rules...\t'..save_in_redis(hash, rules)
 	        else
 	            logtxt = logtxt..'\nSaving rules...\tno rules found'
+	            client:del('bot:'..k..':rules')
 	            no_rules = no_rules + 1
 	        end
 	        if about then
@@ -165,6 +169,7 @@ local action = function(msg, blocks, ln)
 	            logtxt = logtxt..'\nSaving about...\t'..save_in_redis(hash, about)
 	        else
 	            logtxt = logtxt..'\nSaving about...\tno about found'
+	            client:del('bot:'..k..':about')
 	            no_about = no_about + 1
 	        end
 	        total_items = total_items + 1

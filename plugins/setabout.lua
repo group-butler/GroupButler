@@ -113,10 +113,11 @@ local action = function(msg, blocks, ln)
 		end
 	
 		--check if the mod want to clean the about text
-		if input == 'clean$' then
+		if input == 'clean' then
 			print('\27[31mNil: about text cleaned\27[39m')
 			groups[tostring(msg.chat.id)]['about'] = nil
 			sendReply(msg, make_text(lang[ln].setabout.clean))
+			save_data('groups.json', groups)
 			return nil
 		end
 		

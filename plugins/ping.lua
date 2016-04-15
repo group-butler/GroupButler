@@ -25,7 +25,7 @@ local action = function(msg, blocks, ln)
 	
 	if blocks[1] == 'ping' then
 		local text = make_text(lang[ln].ping)
-		sendMessage(msg.from.id, text)
+		sendMessage(msg.chat.id, text)
 	end
 	
 	mystat('ping') --save stats

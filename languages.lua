@@ -45,6 +45,7 @@ return {
             moderator = '*Commands for moderators*:\n'
                         ..'`/kick` (by reply) : kick a user from the group (he can be added again)\n'
                         ..'`/ban` (by reply) : ban a user from the group\n'
+                        ..'`/unban` (by reply) : unban a user from the group\n'
                         ..'`/kicked list` :see a list of kicked users\n'
                         ..'`/flood [kick/ban]` : choose what the bot should do when the flood limit is triggered\n'
                         ..'`/flood [on/off]` : turn on/off the flood listener\n'
@@ -285,6 +286,7 @@ return {
             kicked_empty = 'The list of kicked users is empty',
             kicked = '&&&1 have been kicked! Is still able to join',
             banned = '&&&1 have been banned!',
+            unbanned = '&&&1 have been unbanned!',
             reply = 'Reply to someone',
             globally_banned = '&&&1 have been globally banned!',
         },

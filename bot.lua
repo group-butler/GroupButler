@@ -13,7 +13,7 @@ bot_init = function(on_reload) -- The function run when the bot is started or re
 	config = dofile('config.lua') -- Load configuration file.
 	dofile('bindings.lua') -- Load Telegram bindings.
 	dofile('utilities.lua') -- Load miscellaneous and cross-plugin functions.
-	lang = dofile('languages.lua') -- All the languages available
+	lang = dofile('languages2.lua') -- All the languages available
 	
 	bot = nil
 	while not bot do -- Get bot info and retry if unable to connect.
@@ -228,7 +228,15 @@ local function media_to_msg(msg)
 	elseif msg.contact then
 		msg.text = '###contact'
 	end
+	if msg.reply_to_message then
+		msg.reply = msg.reply_to_message
+	end
 	msg.media = true
+	return on_msg_receive(msg)
+end
+
+local function rethink_reply(msg)
+	msg.reply = msg.reply_to_message
 	return on_msg_receive(msg)
 end
 
@@ -254,6 +262,8 @@ while is_started do -- Start a loop while the bot should be running.
 					media_to_msg(msg.message)
 				elseif msg.message.forward_from then
 					forward_to_msg(msg.message)
+				elseif msg.message.reply_to_message then
+					rethink_reply(msg.message)
 				else
 					on_msg_receive(msg.message)
 				end

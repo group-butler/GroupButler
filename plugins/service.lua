@@ -151,7 +151,7 @@ local action = function(msg, blocks, ln)
 		--save stats
         local num = client:hincrby('bot:general', 'groups', -1)
         print('Stats saved', 'Groups: '..num)
-        local out = make_text(lang[ln].service.bot_removed, msg.chat.title)
+        local out = make_text(lang[ln].service.bot_removed, msg.chat.title:neat())
 		sendMessage(msg.remover.id, out, true, false, true)
 	end
 

@@ -17,11 +17,11 @@ pre_process = function(msg, ln)
     		        unbanChatMember(msg.chat.id, msg.from.id) --unblock
     		        client:hset('kicked:'..msg.chat.id, msg.from.id, name) --add in kicked list
     		        print('Banned', msgs)
-    		        sendMessage(msg.chat.id, make_text(lang[ln].preprocess.flood_ban, name)) --send message
+    		        sendMessage(msg.chat.id, make_text(lang[ln].preprocess.flood_ban, name), true, false, true) --send message
     		    else
     		        kickChatMember(msg.chat.id, msg.from.id) --kick
     		        print('Kicked', msgs)
-    		        sendMessage(msg.chat.id, make_text(lang[ln].preprocess.flood_kick, name)) --send message
+    		        sendMessage(msg.chat.id, make_text(lang[ln].preprocess.flood_kick, name), true, false, true) --send message
     		    end
     		end
         end

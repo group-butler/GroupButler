@@ -22,6 +22,13 @@ function string:input() -- Returns the string after the first space.
 	return self:sub(self:find(' ')+1)
 end
 
+function string:neat() -- Remove the markdown.
+	if not self:find('*') and not self:find('_') and not self:find('`') then
+		return false
+	end
+	return self:gsub('*', ''):gsub('_', ''):gsub('`', '')
+end
+
 function string:sec2() -- Returns the string after the first space.
 	if not self:find(' ') then
 		return false
@@ -71,42 +78,6 @@ function is_mod(msg)
 	
 	return var
 end
-
--------------JSON--------------
-function is_owner_data(msg)
-	local var = false
-  	local groups = load_data('groups.json')
-  
-    if groups[tostring(msg.chat.id)]['owner'] == tostring(msg.from.id) then
-        var = true
-    end
-    
-    if msg.from.id == config.admin then
-		var = true
-	end
-  	
-  	return var
-end
-
-function is_mod_data(msg)
-	local var = false
-  	local groups = load_data('groups.json')
-  	
-  	if groups[tostring(msg.chat.id)]['owner'] == tostring(msg.from.id) then
-        var = true
-    end
-    
-    if groups[tostring(msg.chat.id)]['mods'][tostring(msg.from.id)] then
-    	var = true
-    end
-     
-    if msg.from.id == config.admin then
-		var = true
-	end
-  	
-    return var
-end
-------------JSON------------
 
 function is_locked(msg, cmd)
 	local var = false

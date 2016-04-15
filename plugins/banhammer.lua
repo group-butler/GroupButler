@@ -2,6 +2,7 @@ local triggers = {
 	'^/(kick)$',
 	'^/(ban)$',
 	'^/(kicked list)$',
+	'^/(unban)$',
 	'^/(gban)$'
 }
 
@@ -26,25 +27,29 @@ local action = function(msg, blocks, ln)
 		        	sendReply(msg, lang[ln].banhammer.reply)
 		        	return nil
 		    	end
-		    	local name = msg.reply_to_message.from.first_name
-		    	if msg.reply_to_message.from.username then
-		        	name = name..' [@'..msg.reply_to_message.from.username..']'
+		    	local name = msg.reply.from.first_name
+		    	if msg.reply.from.username then
+		        	name = name..' [@'..msg.reply.from.username..']'
 		    	end
 		 		if blocks[1] == 'kick' then
-		 			if not is_mod(msg.reply_to_message) then
+		 			if not is_mod(msg.reply) then
 			     		local hash = 'kicked:'..msg.chat.id
-	        			client:hset(hash, msg.reply_to_message.from.id, name)
-		    			kickChatMember(msg.chat.id, msg.reply_to_message.from.id)
-		    			unbanChatMember(msg.chat.id, msg.reply_to_message.from.id)
+	        			client:hset(hash, msg.reply.from.id, name)
+		    			kickChatMember(msg.chat.id, msg.reply.from.id)
+		    			unbanChatMember(msg.chat.id, msg.reply.from.id)
 		    			sendMessage(msg.chat.id, make_text(lang[ln].banhammer.kicked, name))
 		    		end
 	    		end
 	    		if blocks[1] == 'ban' then
 	    			if not is_mod(msg.reply_to_message) then
-		    			kickChatMember(msg.chat.id, msg.reply_to_message.id)
+		    			kickChatMember(msg.chat.id, msg.reply_to_message.from.id)
 		    			sendMessage(msg.chat.id, make_text(lang[ln].banhammer.banned, name))
 		    		end
-	    		end
+    			end
+    			if blocks[1] == 'unban' then
+    				unbanChatMember(msg.chat.id, msg.reply.from.id)
+    				sendReply(msg, make_text(lang[ln].banhammer.unbanned, name))
+    			end
 	    		if blocks[1] == 'gban' then
 	    			if tonumber(msg.from.id) ~= config.admin then
 	    				local groups = load_data('groups.json')
