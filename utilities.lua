@@ -95,7 +95,7 @@ function mystat(cmd)
 	--n = n+1
 	--stat[tostring(cmd)] = tonumber(n)
 	--save_data('statsbot.json', stat)
-	print('Stats saved', cmd..': '..final)
+	print('Stats saved', colors('%{green bright}'..cmd..': '..final))
 end	
 
  -- I swear, I copied this from PIL, not yago! :)

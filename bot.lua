@@ -3,6 +3,7 @@ HTTPS = require('ssl.https')
 URL = require('socket.url')
 JSON = require('dkjson')
 redis = require('redis')
+colors = require('ansicolors')
 client = Redis.connect('127.0.0.1', 6379)
 --serpent = require('serpent')
 
@@ -27,7 +28,7 @@ bot_init = function(on_reload) -- The function run when the bot is started or re
 		table.insert(plugins, p)
 	end
 
-	print('BOT RUNNING: @'..bot.username .. ', AKA ' .. bot.first_name ..' ('..bot.id..')')
+	print(colors('%{red bright}BOT RUNNING: @'..bot.username .. ', AKA ' .. bot.first_name ..' ('..bot.id..')'))
 	if not on_reload then
 		save_log('starts')
 		api.sendMessage(config.admin, '*Bot started!*\n_'..os.date('On %A, %d %B %Y\nAt %X')..'_', true)
@@ -111,9 +112,9 @@ on_msg_receive = function(msg) -- The fn run whenever a message is received.
 				for k,w in pairs(v.triggers) do
 					local blocks = match_pattern(w, msg.text)
 					if blocks then
-						print('\nFrom: '..get_from(msg)..' in: '..msg.chat.type..' ['..msg.chat.id..'] type: '..get_what(msg)..' ('..os.date('on %A, %d %B %Y at %X')..')')
+						print(colors('\nMsg info:\t %{red bright}'..get_from(msg)..'%{reset} in: '..msg.chat.type..' ['..msg.chat.id..'] type: '..get_what(msg)..' ('..os.date('on %A, %d %B %Y at %X')..')'))
 						if blocks[1] ~= '' then
-      						print("Match found: ", w)
+      						print('Match found:', colors('%{blue bright}'..w))
       						client:hincrby('bot:general', 'query', 1)
       					end
 				
