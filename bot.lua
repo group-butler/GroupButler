@@ -11,13 +11,13 @@ version = '3.1'
 bot_init = function(on_reload) -- The function run when the bot is started or reloaded.
 
 	config = dofile('config.lua') -- Load configuration file.
-	dofile('bindings.lua') -- Load Telegram bindings.
 	dofile('utilities.lua') -- Load miscellaneous and cross-plugin functions.
 	lang = dofile('languages2.lua') -- All the languages available
+	api = require('methods')
 	
 	bot = nil
 	while not bot do -- Get bot info and retry if unable to connect.
-		bot = getMe()
+		bot = api.getMe()
 	end
 	bot = bot.result
 
@@ -26,13 +26,11 @@ bot_init = function(on_reload) -- The function run when the bot is started or re
 		local p = dofile('plugins/'..v)
 		table.insert(plugins, p)
 	end
-	
-	preprocess = dofile('preprocess.lua')
 
 	print('BOT RUNNING: @'..bot.username .. ', AKA ' .. bot.first_name ..' ('..bot.id..')')
 	if not on_reload then
 		save_log('starts')
-		sendMessage(config.admin, '*Bot started!*\n_'..os.date('On %A, %d %B %Y\nAt %X')..'_', true, false, true)
+		api.sendMessage(config.admin, '*Bot started!*\n_'..os.date('On %A, %d %B %Y\nAt %X')..'_', true)
 	end
 	
 	-- Generate a random seed and "pop" the first random number. :)
@@ -85,7 +83,8 @@ on_msg_receive = function(msg) -- The fn run whenever a message is received.
 	--vardump(msg)
 	if msg.date < os.time() - 5 then return end -- Do not process old messages.
 	if not msg.text then msg.text = msg.caption or '' end
-
+	
+	--for commands link
 	if msg.text:match('^/start .+') then
 		msg.text = '/' .. msg.text:input()
 	end
@@ -99,9 +98,6 @@ on_msg_receive = function(msg) -- The fn run whenever a message is received.
 	--count the number of messages
 	client:hincrby('bot:general', 'messages', 1)
 	
-	--preprocess each message
-	preprocess(msg, group_lang)
-	
 	for i,v in pairs(plugins) do
 		--vardump(v)
 		local stop_loop
@@ -111,32 +107,35 @@ on_msg_receive = function(msg) -- The fn run whenever a message is received.
 		if stop_loop then --check if on_each_msg said to stop the triggers loop
 			break
 		else
-			for k,w in pairs(v.triggers) do
-				local blocks = match_pattern(w, msg.text)
-				if blocks then
-					print('\nFrom: '..get_from(msg)..' in: '..msg.chat.type..' ['..msg.chat.id..'] type: '..get_what(msg)..' ('..os.date('on %A, %d %B %Y at %X')..')')
-					if blocks[1] ~= '' then
-      					print("Match found: ", w)
-      				end
+			if v.triggers then
+				for k,w in pairs(v.triggers) do
+					local blocks = match_pattern(w, msg.text)
+					if blocks then
+						print('\nFrom: '..get_from(msg)..' in: '..msg.chat.type..' ['..msg.chat.id..'] type: '..get_what(msg)..' ('..os.date('on %A, %d %B %Y at %X')..')')
+						if blocks[1] ~= '' then
+      						print("Match found: ", w)
+      						client:hincrby('bot:general', 'query', 1)
+      					end
 				
-					msg.text_lower = msg.text:lower()
+						msg.text_lower = msg.text:lower()
 				
-					local success, result = pcall(function()
-						return v.action(msg, blocks, group_lang)
-					end)
-					if not success then
-						sendReply(msg, 'Something went wrong.\nPlease report the problem with "/c <bug>"', true)
-						print(msg.text, result)
-						save_log('errors', result, msg.from.id or false, msg.chat.id or false, msg.text or false)
-          				sendMessage( tostring(config.admin), 'An error occurred.\nCheck the log', false, false, false)
-						return
-					end
-					-- If the action returns a table, make that table msg.
-					if type(result) == 'table' then
-						msg = result
-					-- If the action returns true, don't stop.
-					elseif result ~= true then
-						return
+						local success, result = pcall(function()
+							return v.action(msg, blocks, group_lang)
+						end)
+						if not success then
+							api.sendReply(msg, '*This is a bug!*\nPlease report the problem with `/c <bug>` :)', true)
+							print(msg.text, result)
+							save_log('errors', result, msg.from.id or false, msg.chat.id or false, msg.text or false)
+          					api.sendMessage( tostring(config.admin), 'An error occurred.\nCheck the log', false, false, false)
+							return
+						end
+						-- If the action returns a table, make that table msg.
+						if type(result) == 'table' then
+							msg = result
+						-- If the action returns true, don't stop.
+						elseif result ~= true then
+							return
+						end
 					end
 				end
 			end
@@ -162,7 +161,8 @@ local function service_to_message(msg)
     		from = msg.from,
     		message_id = message_id,
     		added = msg.new_chat_member,
-    		text = event
+    		text = event,
+    		service = true
     	}
 	else
 		if tonumber(msg.left_chat_member.id) == tonumber(bot.id) then
@@ -177,7 +177,8 @@ local function service_to_message(msg)
     		from = msg.from,
     		message_id = message_id,
     		removed = msg.left_chat_member,
-    		text = event
+    		text = event,
+    		service = true
     	}
 	end
 	
@@ -247,7 +248,7 @@ bot_init() -- Actually start the script. Run the bot_init function.
 
 while is_started do -- Start a loop while the bot should be running.
 
-	local res = getUpdates(last_update+1) -- Get the latest updates!
+	local res = api.getUpdates(last_update+1) -- Get the latest updates!
 	if res then
 		--vardump(res)
 		--print('\n\n\n')

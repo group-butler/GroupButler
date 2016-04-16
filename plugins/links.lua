@@ -14,7 +14,7 @@ local action = function(msg, blocks, ln)
     if msg.chat.type == 'private' then
         print('PV links.lua, '..msg.from.first_name..' ['..msg.from.id..'] --> not valid')
         local out = make_text(lang[ln].pv)
-        sendMessage(msg.from.id, out)
+        api.sendMessage(msg.from.id, out)
     	return nil
     end
 	
@@ -43,7 +43,7 @@ local action = function(msg, blocks, ln)
 		end
 		
 		mystat('link') --save stats
-		sendReply(msg, text, true)
+		api.sendReply(msg, text, true)
 	end
 	
 	if blocks[1] == 'setlink' then
@@ -60,7 +60,7 @@ local action = function(msg, blocks, ln)
 		if string.len(blocks[2]) ~= 22 and blocks[2] ~= 'no' then
 			print('\27[31mNil: wrong link\27[39m')
 			local out = make_text(lang[ln].links.link_invalid)
-			sendReply(msg, out, true)
+			api.sendReply(msg, out, true)
 			return
 		end
 		
@@ -81,7 +81,7 @@ local action = function(msg, blocks, ln)
 		end
 			
 		mystat('setlink') --save stats
-		sendReply(msg, text, true)
+		api.sendReply(msg, text, true)
 	end
 	
 	if blocks[1] == 'setpoll' then
@@ -123,7 +123,7 @@ local action = function(msg, blocks, ln)
 		end
 			
 		mystat('setpoll') --save stats
-		sendReply(msg, text, true)
+		api.sendReply(msg, text, true)
 		
 end
 
@@ -149,7 +149,7 @@ end
 		end
 		
 		mystat('poll') --save stats
-		sendReply(msg, text, true)
+		api.sendReply(msg, text, true)
 		
 	end
 end

@@ -11,7 +11,7 @@ local action = function(msg, blocks, ln)
 	
 	local out = make_text(lang[ln].credits)
 	mystat('info')
-	sendMessage(msg.from.id, out, true, false, true)
+	api.sendMessage(msg.from.id, out, true, true)
 end
 
 return {

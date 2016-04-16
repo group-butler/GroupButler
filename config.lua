@@ -15,6 +15,7 @@ return {
 		not_admin = 'This command must be run by an administrator.'
 	},
 	plugins = {
+		'onmessage.lua', --THIS HAVE TO BE THE FIRST: IF AN USER IS SPAMMING/IS BLOCKED, THE BOT WON'T GO THROUGH PLUGINS
 		'admin.lua',
 		'mod.lua',
 		'credits.lua',
@@ -26,8 +27,6 @@ return {
 		'setabout.lua',
 		'report.lua',
 		'flag.lua',
-		'redisinfo.lua',
-		'redisbackup.lua',
 		'service.lua',
 		'links.lua',
 		'warn.lua',

@@ -317,5 +317,13 @@ return {
             delivered = 'Broadcast delivered. Check the log for the list of reached ids',
             no_users = 'No users saved, no broadcast',
         },
+        admin = {
+            no_reply = 'This command need a reply',
+            blocked = '&&&1 have been blocked',
+            unblocked = '&&&1 have been unblocked',
+            already_blocked = '&&&1 was already blocked',
+            already_unblocked = '&&&1 was already unblocked',
+            bcg_no_groups = 'No (groups) id saved',
+        },
     },
 }

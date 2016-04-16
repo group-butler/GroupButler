@@ -32,14 +32,14 @@ local action = function(msg, blocks, ln)
         end
         out = out..make_text(lang[ln].help.all)
         
-        sendReply(msg, make_text(lang[ln].help.group), true)
+        api.sendReply(msg, make_text(lang[ln].help.group), true)
     end
     
     if msg.chat.type == 'private' then
         out = make_text(lang[ln].help.private, msg.from.first_name)
     end
     
-    sendMessage(msg.from.id, out, true, false, true)
+    api.sendMessage(msg.from.id, out, true, true)
 end
 
 return {

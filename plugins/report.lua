@@ -24,7 +24,7 @@ local action = function(msg, blocks, ln)
         if not input then
         	print('\27[31mNil: no text\27[39m')
         	local out = make_text(lang[ln].report.no_input)
-            sendMessage(msg.from.id, out)
+            api.sendMessage(msg.from.id, out)
             return nil
         end
         
@@ -33,13 +33,13 @@ local action = function(msg, blocks, ln)
             --last_name = '\n*Last*: '..msg.from.last_name
         --end
         --local text = '*First*: '..msg.from.first_name..last_name..'\n*Username*: @'..msg.from.username..' ('..msg.from.id..')\n\n'..input
-	    --sendMessage(receiver, text, true, false, true)
+	    --sendMessage(receiver, text, true)
 	    local target = msg.message_id
 	    
 	    mystat('c') --save stats
-	    forwardMessage (receiver, msg.from.id, target)
+	    api.forwardMessage (receiver, msg.from.id, target)
 	    local out = make_text(lang[ln].report.sent, input)
-	    sendMessage(msg.from.id, out, true, false, true)
+	    api.sendMessage(msg.from.id, out, true)
 	end
 	
 	if blocks[1] == 'reply' then
@@ -56,7 +56,7 @@ local action = function(msg, blocks, ln)
 	    if not msg.reply_to_message then
 	    	print('\27[31mNil: no reply\27[39m')
 	    	local out = make_text(lang[ln].report.reply)
-            sendReply(msg, out, false)
+            api.sendReply(msg, out, false)
 			return nil
 		end
 		
@@ -66,7 +66,7 @@ local action = function(msg, blocks, ln)
 		if not input then
 			print('\27[31mNil: no input text\27[39m')
 			local out = make_text(lang[ln].report.reply_no_input)
-            sendMessage(msg.from.id, out)
+            api.sendMessage(msg.from.id, out)
             return nil
         end
 		
@@ -76,8 +76,8 @@ local action = function(msg, blocks, ln)
 		local feed = msg.text:sub(4, 14)
 		local out = make_text(lang[ln].report.feedback_reply, name, feed, input)
 		
-		sendMessage(receiver, out, true, false, true)
-		sendMessage(config.admin, make_text(lang[ln].report.reply_sent, input), true, false, true)
+		api.sendMessage(receiver, out, true)
+		api.sendMessage(config.admin, make_text(lang[ln].report.reply_sent, input), true)
 	end
 end
 

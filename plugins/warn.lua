@@ -11,7 +11,7 @@ local action = function(msg, blocks, ln)
     
     if msg.chat.type == 'private' then--return nil if it's a private chat
         print('PV flag.lua, '..msg.from.first_name..' ['..msg.from.id..'] --> not valid')
-		sendMessage(msg.from.id, make_text(lang[ln].pv))
+		api.sendMessage(msg.from.id, make_text(lang[ln].pv))
     	return nil
     end
     
@@ -27,14 +27,14 @@ local action = function(msg, blocks, ln)
 		if blocks[2] then
 			local hash = 'warns:'..msg.chat.id..':type'
 			client:set(hash, blocks[2])
-			sendReply(msg, make_text(lang[ln].warn.changed_type, blocks[2]), true)
+			api.sendReply(msg, make_text(lang[ln].warn.changed_type, blocks[2]), true)
 			return
 		end	
         
 		--warning to reply to a message
         if not msg.reply_to_message then
             print('\27[31mNil: not a reply\27[39m')
-            sendReply(msg, make_text(lang[ln].warn.warn_reply))
+            api.sendReply(msg, make_text(lang[ln].warn.warn_reply))
 		    return nil
 	    end
 		
@@ -43,7 +43,7 @@ local action = function(msg, blocks, ln)
 	    --return nil if a mod is warned
 	    if is_mod(replied) then
 	        print('\27[31mNil: mod warned\27[39m')
-			sendReply(msg, make_text(lang[ln].warn.mod))
+			api.sendReply(msg, make_text(lang[ln].warn.mod))
 	        return nil
 	    end
 				
@@ -71,11 +71,11 @@ local action = function(msg, blocks, ln)
 			local type = client:get('warns:'..msg.chat.id..':type')
 			if type == 'ban' then
 				text = make_text(lang[ln].warn.warned_max_ban, name)
-				kickChatMember(msg.chat.id, replied.from.id)
+				api.kickChatMember(msg.chat.id, replied.from.id)
 				print('banned')
 		    else
-		    	kickChatMember(msg.chat.id, replied.from.id)
-		    	unbanChatMember(msg.chat.id, replied.from.id)
+		    	api.kickChatMember(msg.chat.id, replied.from.id)
+		    	api.unbanChatMember(msg.chat.id, replied.from.id)
 		    	print('Kicked')
 		    	text = make_text(lang[ln].warn.warned_max_kick, name)
 		    end
@@ -85,7 +85,7 @@ local action = function(msg, blocks, ln)
 		end
         
         mystat('warn') --save stats
-        sendMessage(msg.chat.id, text, true, false, true)
+        api.sendReply(msg.chat.id, text, true)
     end
     
     if blocks[1] == 'warnmax' then
@@ -103,7 +103,7 @@ local action = function(msg, blocks, ln)
 		client:set(hash, blocks[2])
         local text = make_text(lang[ln].warn.warnmax, old, blocks[2])
         mystat('warnmax') --save stats
-        sendReply(msg, text, true)
+        api.sendReply(msg, text, true)
     end
     
     if blocks[1] == 'getwarns' then
@@ -117,7 +117,7 @@ local action = function(msg, blocks, ln)
         --warning to reply to a message
         if not msg.reply_to_message then
             print('\27[31mNil: no reply\27[39m')
-            sendReply(msg, make_text(lang[ln].warn.getwarns_reply))
+            api.sendReply(msg, make_text(lang[ln].warn.getwarns_reply))
 		    return nil
 	    end
 	    
@@ -126,7 +126,7 @@ local action = function(msg, blocks, ln)
 		--return nil if an user flag a mod
 	    if is_mod(replied) then
 	        print('\27[31mNil: mod flagged\27[39m')
-			sendReply(msg, make_text(lang[ln].warn.mod))
+			api.sendReply(msg, make_text(lang[ln].warn.mod))
 	        return nil
 	    end
 		
@@ -161,7 +161,7 @@ local action = function(msg, blocks, ln)
 		end
         
         mystat('getwarns') --save stats
-        sendReply(msg, text, true)
+        api.sendReply(msg, text, true)
     end
     
     if blocks[1] == 'nowarns' then
@@ -177,7 +177,7 @@ local action = function(msg, blocks, ln)
         --warning to reply to a message
         if not msg.reply_to_message then
             print('\27[31mNil: no reply\27[39m')
-            sendReply(msg, make_text(lang[ln].warn.nowarn_reply))
+            api.sendReply(msg, make_text(lang[ln].warn.nowarn_reply))
 		    return nil
 	    end
 	    
@@ -186,7 +186,7 @@ local action = function(msg, blocks, ln)
 		--return nil if an user flag a mod
 	    if is_mod(replied) then
 	        print('\27[31mNil: mod flagged\27[39m')
-			sendReply(msg, make_text(lang[ln].warn.mod))
+			api.sendReply(msg, make_text(lang[ln].warn.mod))
 	        return nil
 	    end
 		
@@ -202,7 +202,7 @@ local action = function(msg, blocks, ln)
 		local text = make_text(lang[ln].warn.nowarn)
         
         mystat('noworns') --save stats
-        sendReply(msg, text, true)
+        api.sendReply(msg, text, true)
     end
 end
 

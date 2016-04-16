@@ -9,7 +9,7 @@ local action = function(msg, blocks, ln)
 	
 	if msg.chat.type ~= 'private' and not is_mod(msg) then
 		print('\27[31mNil: not mod\27[39m')
-		sendReply(msg, make_text(lang[ln].not_mod), true)
+		api.sendReply(msg, make_text(lang[ln].not_mod), true)
 		return nil
 	end   
 	
@@ -20,7 +20,7 @@ local action = function(msg, blocks, ln)
 	        message = message..i.. ' - _'..v..'_\n'
 	        i = i + 1
 	    end
-	    sendReply(msg, make_text(lang[ln].setlang.list, message), true)
+	    api.sendReply(msg, make_text(lang[ln].setlang.list, message), true)
 	else
 	    local selected = blocks[2]
 	    local new = ''
@@ -30,10 +30,10 @@ local action = function(msg, blocks, ln)
 	        end
         end
         if new == '' then
-            sendReply(msg, make_text(lang[ln].setlang.error), true)
+            api.sendReply(msg, make_text(lang[ln].setlang.error), true)
         else
             client:set('lang:'..msg.chat.id, new)
-            sendReply(msg, make_text(lang[ln].setlang.success, new), true)
+            api.sendReply(msg, make_text(lang[ln].setlang.success, new), true)
             mystat('langchanged')
 	    end
 	end

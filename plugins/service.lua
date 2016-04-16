@@ -12,7 +12,10 @@ end
 
 local action = function(msg, blocks, ln)
 	
-	--vardump(msg)
+	--avoid trolls
+	if not msg.service then
+		return
+	end
 	
 	--if the bot join the chat
 	if blocks[1] == 'botadded' then
@@ -26,16 +29,6 @@ local action = function(msg, blocks, ln)
 		if msg.from.username then
 			jsoname = '@'..tostring(msg.from.username)
 		end
-		
-		--save group data in the json
-		groups = load_data('groups.json')
-		groups[tostring(msg.chat.id)] = {
-			rules = nil,
-			about = nil,
-			flag_blocked = {},
-		}
-		
-		save_data('groups.json', groups)
 		
 		--add owner as moderator
 		local hash = 'bot:'..msg.chat.id..':mod'
@@ -70,12 +63,14 @@ local action = function(msg, blocks, ln)
 		hash = 'chat:'..msg.chat.id..':welcome'
 		client:hset(hash, 'wel', 'no')
 		
+		--save group id
+		client:sadd('bot:groupsid', msg.chat.id)
 		--save stats
 		hash = 'bot:general'
         local num = client:hincrby(hash, 'groups', 1)
         print('Stats saved', 'Groups: '..num)
         local out = make_text(lang[ln].service.new_group, msg.from.first_name)
-		sendMessage(msg.chat.id, out, true, false, true)
+		api.sendMessage(msg.chat.id, out, true)
 	end
 	
 	--if someone join the chat
@@ -137,7 +132,7 @@ local action = function(msg, blocks, ln)
 			text = text..lang[ln].service.abt..abt..lang[ln].service.rls..rls..mods
 		end
 		
-		sendMessage(msg.chat.id, text, true, false, true)
+		api.sendMessage(msg.chat.id, text, true)
 	end
 	
 	--if the bot is removed from the chat
@@ -148,11 +143,14 @@ local action = function(msg, blocks, ln)
 		--clean the modlist and the owner. If the bot is added again, the owner will be who added the bot and the modlist will be empty (except for the new owner)
 		clean_owner_modlist(msg.chat.id)
 		
+		--remove group id
+		client:srem('bot:groupsid', msg.chat.id)
+		
 		--save stats
         local num = client:hincrby('bot:general', 'groups', -1)
         print('Stats saved', 'Groups: '..num)
         local out = make_text(lang[ln].service.bot_removed, msg.chat.title:neat())
-		sendMessage(msg.remover.id, out, true, false, true)
+		api.sendMessage(msg.remover.id, out, true)
 	end
 
 end

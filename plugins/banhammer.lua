@@ -20,11 +20,11 @@ local action = function(msg, blocks, ln)
 		        if text == lang[ln].banhammer.kicked_header then
 		            text = lang[ln].banhammer.kicked_empty
 		        end
-		        sendReply(msg, text)
+		        api.sendReply(msg, text)
 		        return
 		    else
 		    	if not msg.reply_to_message then
-		        	sendReply(msg, lang[ln].banhammer.reply)
+		        	api.sendReply(msg, lang[ln].banhammer.reply)
 		        	return nil
 		    	end
 		    	local name = msg.reply.from.first_name
@@ -35,29 +35,29 @@ local action = function(msg, blocks, ln)
 		 			if not is_mod(msg.reply) then
 			     		local hash = 'kicked:'..msg.chat.id
 	        			client:hset(hash, msg.reply.from.id, name)
-		    			kickChatMember(msg.chat.id, msg.reply.from.id)
-		    			unbanChatMember(msg.chat.id, msg.reply.from.id)
-		    			sendMessage(msg.chat.id, make_text(lang[ln].banhammer.kicked, name))
+		    			api.kickChatMember(msg.chat.id, msg.reply.from.id)
+		    			api.unbanChatMember(msg.chat.id, msg.reply.from.id)
+		    			api.sendMessage(msg.chat.id, make_text(lang[ln].banhammer.kicked, name))
 		    		end
 	    		end
 	    		if blocks[1] == 'ban' then
 	    			if not is_mod(msg.reply_to_message) then
-		    			kickChatMember(msg.chat.id, msg.reply_to_message.from.id)
-		    			sendMessage(msg.chat.id, make_text(lang[ln].banhammer.banned, name))
+		    			api.kickChatMember(msg.chat.id, msg.reply_to_message.from.id)
+		    			api.sendMessage(msg.chat.id, make_text(lang[ln].banhammer.banned, name))
 		    		end
     			end
     			if blocks[1] == 'unban' then
-    				unbanChatMember(msg.chat.id, msg.reply.from.id)
-    				sendReply(msg, make_text(lang[ln].banhammer.unbanned, name))
+    				api.unbanChatMember(msg.chat.id, msg.reply.from.id)
+    				api.sendReply(msg, make_text(lang[ln].banhammer.unbanned, name))
     			end
 	    		if blocks[1] == 'gban' then
 	    			if tonumber(msg.from.id) ~= config.admin then
 	    				local groups = load_data('groups.json')
 	    				for k,v in pairs(groups) do
-	    					kickChatMember(k, msg.reply_to_message.from.id)
+	    					api.kickChatMember(k, msg.reply_to_message.from.id)
 	    					print('Global banned', k)
 	    				end
-	    				sendMessage(msg.chat.id, make_text(lang[ln].banhammer.globally_banned, name))
+	    				api.sendMessage(msg.chat.id, make_text(lang[ln].banhammer.globally_banned, name))
 	    			end
 	    		end
 	
@@ -65,7 +65,7 @@ local action = function(msg, blocks, ln)
 			end
 		end
 	else
-	    sendMessage(msg.chat.id, lang[ln].pv)
+	    api.sendMessage(msg.chat.id, lang[ln].pv)
 	end
 end
 

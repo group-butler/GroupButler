@@ -1,4 +1,8 @@
 pre_process = function(msg, ln)
+    if msg.from.id and is_blocked(msg.from.id) then
+        print('Blocked:', msg.from.id)
+        return msg, true --if an user is blocked, don't go through plugins
+    end
     if not is_mod(msg) and msg.chat.type ~= 'private' then
         local spamhash = 'spam:'..msg.chat.id..':'..msg.from.id
         local msgs = tonumber(client:get(spamhash)) or 0
@@ -12,21 +16,23 @@ pre_process = function(msg, ln)
                 local action = client:hget('chat:'..msg.chat.id..':flood', 'ActionFlood')
                 local name = msg.from.first_name
                 if msg.from.username then name = name..' (@'..msg.from.username..')' end
+                api.kickChatMember(msg.chat.id, msg.from.id) --kick, then see if unban or not
+                local out
                 if action == 'ban' then
-                    kickChatMember(msg.chat.id, msg.from.id) --kick
-    		        unbanChatMember(msg.chat.id, msg.from.id) --unblock
-    		        client:hset('kicked:'..msg.chat.id, msg.from.id, name) --add in kicked list
     		        print('Banned', msgs)
-    		        sendMessage(msg.chat.id, make_text(lang[ln].preprocess.flood_ban, name), true, false, true) --send message
+    		        out = make_text(lang[ln].preprocess.flood_ban, name:neat())
     		    else
-    		        kickChatMember(msg.chat.id, msg.from.id) --kick
+    		        api.unbanChatMember(msg.chat.id, msg.from.id) --unblock
+    		        client:hset('kicked:'..msg.chat.id, msg.from.id, name:neat()) --add in kicked list
     		        print('Kicked', msgs)
-    		        sendMessage(msg.chat.id, make_text(lang[ln].preprocess.flood_kick, name), true, false, true) --send message
+    		        out = make_text(lang[ln].preprocess.flood_kick, name:neat())
     		    end
+    		    api.sendMessage(msg.chat.id, out, true)
     		end
+            return msg, true --if an user is spamming, don't go through plugins
         end
 
-       client:setex(spamhash, max_time, msgs+1)
+        client:setex(spamhash, max_time, msgs+1)
     
         if msg.media then
             local name = msg.from.first_name
@@ -34,17 +40,18 @@ pre_process = function(msg, ln)
             local media = msg.text:gsub('###', '')
             local hash = 'media:'..msg.chat.id
             local status = client:hget(hash, media)
+            local out
+            api.kickChatMember(msg.chat.id, msg.from.id) --kick, then see if unblock
             if status == 'kick' then
-                kickChatMember(msg.chat.id, msg.from.id) --kick
-    		    unbanChatMember(msg.chat.id, msg.from.id) --unblock
-    		    client:hset('kicked:'..msg.chat.id, msg.from.id, name) --add in kicked list
+    		    api.unbanChatMember(msg.chat.id, msg.from.id) --unblock
+    		    client:hset('kicked:'..msg.chat.id, msg.from.id, name:neat()) --add in kicked list
     		    print('Kicked', media)
-    		    sendReply(msg, make_text(lang[ln].preprocess.media_kick, name), true)
+    		    out = make_text(lang[ln].preprocess.media_kick, name:neat())
     	    elseif status == 'ban' then
-    	        kickChatMember(msg.chat.id, msg.from.id) --kick
     		    print('Banned', media)
-    		    sendReply(msg, make_text(lang[ln].preprocess.media_ban, name), true)
+    		    out = make_text(lang[ln].preprocess.media_ban, name:neat())
     		end
+    		api.sendReply(msg, out, true)
         end
     
         if client:hget('chat:'..msg.chat.id..':settings', 'Rtl') == 'yes' then --no = not disabled
@@ -68,7 +75,10 @@ pre_process = function(msg, ln)
     		sendReply(msg, make_text(lang[ln].preprocess.arab, name), true)
         end
     end
+    
+    return msg
 end
 
-
-return pre_process
+return {
+    on_each_msg = pre_process
+    }

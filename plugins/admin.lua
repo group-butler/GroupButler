@@ -15,6 +15,13 @@ local triggers = {
 	'^/(log) (del)',
 	'^/(log) (.*)$',
 	'^/(log)$',
+	'^/(admin)$',
+	'^/(block) (%d+)$',
+	'^/(block)$',
+	'^/(unblock) (%d+)$',
+	'^/(unblock)$',
+	'^/(isblocked)$',
+	'^/(ping redis)$'
 }
 
 local logtxt = ''
@@ -37,12 +44,19 @@ local action = function(msg, blocks, ln)
 		return
 	end
 	
+	if blocks[1] == 'admin' then
+		local text = ''
+		for k,v in pairs(triggers) do
+			text = text..v..'\n'
+		end
+		api.sendMessage(config.admin, text)
+	end
 	if blocks[1] == 'reload' then
 		--client:bgsave()
 		bot_init(true)
 		
 		local out = make_text(lang[ln].control.reload)
-		sendReply(msg, out, true)
+		api.sendReply(msg, out, true)
 		mystat('reload') --save stat
 	end
 	if blocks[1] == 'halt' then
@@ -50,48 +64,52 @@ local action = function(msg, blocks, ln)
 		is_started = false
 		
 		local out = make_text(lang[ln].control.stop)
-		sendReply(msg, out, true)
+		api.sendReply(msg, out, true)
 		mystat('halt') --save stat
 	end
 	if blocks[1] == 'backup' then
 		local cmd = io.popen('sudo tar -cpf GroupButler.tar *')
     	cmd:read('*all')
     	cmd:close()
-    	sendDocument(msg.from.id, './GroupButler.tar')
+    	api.sendDocument(msg.from.id, './GroupButler.tar')
     end
     if blocks[1] == 'bc' then
 	        if breaks_markdown(blocks[2]) then
-	            sendMessage(config.admin, lang[ln].breaks_markdown)
+	            api.sendMessage(config.admin, lang[ln].breaks_markdown)
 	            return
 	        end
 	        local hash = 'bot:users'
 	        local ids = client:hkeys(hash)
 	        if ids then
 	            for i=1,#ids do
-	                sendMessage(ids[i], blocks[2], true, false, true)
+	                api.sendMessage(ids[i], blocks[2], true)
 	                print('Sent', ids[i])
 	            end
-	            sendMessage(config.admin, lang[ln].broadcast.delivered)
+	            api.sendMessage(config.admin, lang[ln].broadcast.delivered)
 	        else
-	            sendMessage(config.admin, lang[ln].broadcast.no_user)
+	            api.sendMessage(config.admin, lang[ln].broadcast.no_user)
 	        end
 	    end
 	if blocks[1] == 'bcg' then
 		if breaks_markdown(blocks[2]) then
-	    	sendMessage(config.admin, lang[ln].breaks_markdown)
+	    	api.sendMessage(config.admin, lang[ln].breaks_markdown)
 	        return
 	    end
-	    local groups= load_data('groups.json')
-	    for k,v in pairs(json) do
-	    	sendMessage(k, blocks[2], true, false, true)
-	        print('Sent', ids[i])
+	    local groups = client:smembers('bot:groupsid')
+	    if not groups then
+	    	api.sendMessage(config.admin, lang[ln].admin.bcg_no_groups)
+	    else
+	    	for i=1,#groups do
+	    		api.sendMessage(groups[i], blocks[2], true)
+	        	print('Sent', groups[i])
+	    	end
+	    	api.sendMessage(config.admin, lang[ln].broadcast.delivered)
 	    end
-	    sendMessage(config.admin, lang[ln].broadcast.delivered)
 	end
 	if blocks[1] == 'save' then
 		client:bgsave()
 		local out = make_text(lang[ln].getstats.redis)
-		sendMessage(msg.chat.id, out, true, false, true)
+		api.sendMessage(msg.chat.id, out, true)
 		return nil
 	end
 	if blocks[1] == 'commands' then
@@ -103,7 +121,7 @@ local action = function(msg, blocks, ln)
 	        text = text..'- *'..names[i]..'*: '..num[i]..'\n'
 	    end
 	    local out = make_text(lang[ln].getstats.stats, text)
-		sendMessage(msg.chat.id, out, true, false, true)
+		api.sendMessage(msg.chat.id, out, true)
     end
     if blocks[1] == 'stats' then
     	local text = 'Stats:\n'
@@ -114,12 +132,12 @@ local action = function(msg, blocks, ln)
 	        text = text..'- *'..names[i]..'*: '..num[i]..'\n'
 	    end
 	    local out = make_text(lang[ln].getstats.stats, text)
-		sendMessage(msg.chat.id, out, true, false, true)
+		api.sendMessage(msg.chat.id, out, true)
 	end
 	if blocks[1] == 'lua' then
 		if not blocks[2] then
 			print('\27[31mNil: no input\27[39m')
-			sendReply(msg, make_text(lang[ln].luarun.enter_string))
+			api.sendReply(msg, make_text(lang[ln].luarun.enter_string))
 			return
 		end
 		--execute
@@ -129,7 +147,7 @@ local action = function(msg, blocks, ln)
 		else
 			output = '```\n' .. output .. '\n```'
 		end
-		sendMessage(msg.chat.id, output, true, msg.message_id, true)
+		api.sendMessage(msg.chat.id, output, true, msg.message_id, true)
 	end
 	if blocks[1] == 'run' then
 		--read the output
@@ -141,7 +159,7 @@ local action = function(msg, blocks, ln)
 			output = make_text(lang[ln].shell.output, output)
 		end
 		mystat('run') --save stats
-		sendMessage(msg.chat.id, output, true, msg.message_id, true)
+		api.sendMessage(msg.chat.id, output, true, msg.message_id, true)
 	end
 	if blocks[1] == 'changedb' then
 	    local data = load_data('groups.json')
@@ -179,29 +197,29 @@ local action = function(msg, blocks, ln)
         local file = io.open("./logs/dbswitch.txt", "w")
         file:write(logtxt)
         file:close()
-        sendDocument(msg.from.id, './logs/dbswitch.txt')
-        sendMessage(msg.chat.id, 'Instruction processed. Check the log file I\'ve sent you')
+        api.sendDocument(msg.from.id, './logs/dbswitch.txt')
+        api.sendMessage(msg.chat.id, 'Instruction processed. Check the log file I\'ve sent you')
     end
     if blocks[1] == 'log' then
     	if blocks[2] then
     		if blocks[2] ~= 'del' then
     			local reply = 'I\' sent it in private'
     			if blocks[2] == 'msg' then
-    				sendDocument(msg.from.id, './logs/msgs_errors.txt')
+    				api.sendDocument(msg.from.id, './logs/msgs_errors.txt')
     			elseif blocks[2] == 'dbswitch' then
-    				sendDocument(msg.from.id, './logs/dbswitch.txt')
+    				api.sendDocument(msg.from.id, './logs/dbswitch.txt')
     			elseif blocks[2] == 'errors' then
-    				sendDocument(msg.from.id, './logs/errors.txt')
+    				api.sendDocument(msg.from.id, './logs/errors.txt')
     			elseif blocks[2] == 'starts' then
-    				sendDocument(msg.from.id, './logs/starts.txt')
+    				api.sendDocument(msg.from.id, './logs/starts.txt')
     			else
     				reply = 'Invalid parameter: '..blocks[2]
     			end
     			if msg.chat.type ~= 'private' then
-    				sendReply(msg, reply)
+    				api.sendReply(msg, reply)
     			else
     				if string.match(reply, '^Invalid parameter: .*') then
-    					sendMessage(msg.chat.id, reply)
+    					api.sendMessage(msg.chat.id, reply)
     				end
 				end
 			else
@@ -223,17 +241,17 @@ local action = function(msg, blocks, ln)
     					if not string.match(reply, '^Invalid parameter: .*') then
     						cmd:read('*all')
         					cmd:close()
-        					sendReply(msg, reply)
+        					api.sendReply(msg, reply)
     					else
-    						sendReply(msg, reply)
+    						api.sendReply(msg, reply)
     					end
     				else
     					if string.match(reply, '^Invalid parameter: .*') then
-    						sendMessage(msg.chat.id, reply)
+    						api.sendMessage(msg.chat.id, reply)
     					else
     						cmd:read('*all')
         					cmd:close()
-        					sendMessage(msg.chat.id, reply)
+        					api.sendMessage(msg.chat.id, reply)
         				end
 					end
 				else
@@ -241,21 +259,82 @@ local action = function(msg, blocks, ln)
         			cmd:read('*all')
         			cmd:close()
 					if msg.chat.type == 'private' then
-						sendMessage(msg.chat.id, 'Logs folder deleted', true, false, true)
+						api.sendMessage(msg.chat.id, 'Logs folder deleted', true)
 					else
-						sendReply(msg, 'Logs folder deleted', true)
+						api.sendReply(msg, 'Logs folder deleted', true)
 					end
 				end
 			end
 		else
 			local reply = '*Available logs*:\n\n`msg`: errors during the delivery of messages\n`errors`: errors during the execution\n`starts`: when the bot have been started\n\nUsage:\n`/log [argument]`\n`/log del [argument]`\n`/log del` (whole folder)'
 			if msg.chat.type == 'private' then
-				sendMessage(msg.chat.id, reply, true, false, true)
+				api.sendMessage(msg.chat.id, reply, true)
 			else
-				sendReply(msg, reply, true)
+				api.sendReply(msg, reply, true)
 			end
 		end
     end
+	if blocks[1] == 'block' then
+		local id
+		if not blocks[2] then
+			if not msg.reply then
+				api.sendReply(msg, lang[ln].admin.no_reply)
+				return
+			else
+				id = msg.reply.from.id
+			end
+		else
+			id = blocks[2]
+		end
+		local response = client:sadd('bot:blocked', id)
+		local text
+		if response == 1 then
+			text = make_text(lang[ln].admin.blocked, id)
+		else
+			text = make_text(lang[ln].admin.already_blocked, id)
+		end
+		api.sendReply(msg, text)
+	end
+	if blocks[1] == 'unblock' then
+		local id
+		local response
+		if not blocks[2] then
+			if not msg.reply then
+				api.sendReply(msg, lang[ln].admin.no_reply)
+				return
+			else
+				id = msg.reply.from.id
+			end
+		else
+			id = blocks[2]
+		end
+		local response = client:srem('bot:blocked', id)
+		local text
+		if response == 1 then
+			text = make_text(lang[ln].admin.unblocked, id)
+		else
+			text = make_text(lang[ln].admin.already_unblocked, id)
+		end
+		api.sendReply(msg, text)
+	end
+	if blocks[1] == 'isblocked' then
+		if not msg.reply then
+			api.sendReply(msg, lang[ln].admin.no_reply)
+			return
+		else
+			if is_blocked(msg.reply.from.id) then
+				api.sendReply(msg, 'yes')
+			else
+				api.sendReply(msg, 'no')
+			end
+		end
+	end
+	if blocks[1] == 'ping redis' then
+		local ris = client:ping()
+		if ris == true then
+			api.sendMessage(msg.from.id, lang[ln].ping)
+		end
+	end
 end
 
 return {

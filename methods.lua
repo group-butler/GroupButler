@@ -1,10 +1,12 @@
+
+
 local BASE_URL = 'https://api.telegram.org/bot' .. config.bot_api_key
 
 if not config.bot_api_key then
 	error('You did not set your bot token in config.lua!')
 end
 
-sendRequest = function(url)
+local function sendRequest(url)
 
 	local dat, res = HTTPS.request(url)
 	local tab = JSON.decode(dat)
@@ -21,14 +23,14 @@ sendRequest = function(url)
 
 end
 
-getMe = function()
+local function getMe()
 
 	local url = BASE_URL .. '/getMe'
 	return sendRequest(url)
 
 end
 
-getUpdates = function(offset)
+local function getUpdates(offset)
 
 	local url = BASE_URL .. '/getUpdates?timeout=20'
 
@@ -40,7 +42,7 @@ getUpdates = function(offset)
 
 end
 
-unbanChatMember = function(chat_id, user_id)
+local function unbanChatMember(chat_id, user_id)
 	
 	local url = BASE_URL .. '/unbanChatMember?chat_id=' .. chat_id .. '&user_id=' .. user_id
 
@@ -48,7 +50,7 @@ unbanChatMember = function(chat_id, user_id)
 
 end
 
-kickChatMember = function(chat_id, user_id)
+local function kickChatMember(chat_id, user_id)
 
 	local url = BASE_URL .. '/kickChatMember?chat_id=' .. chat_id .. '&user_id=' .. user_id
 
@@ -56,7 +58,7 @@ kickChatMember = function(chat_id, user_id)
 
 end
 
-banUser = function(chat_id, user_id)
+local function banUser(chat_id, user_id)
 	
 	local url = BASE_URL .. '/kickChatMember?chat_id=' .. chat_id .. '&user_id=' .. user_id
 	
@@ -64,7 +66,7 @@ banUser = function(chat_id, user_id)
 	
 end
 
-kickUser = function(chat_id, user_id)
+local function kickUser(chat_id, user_id)
 	
 	local url = BASE_URL .. '/kickChatMember?chat_id=' .. chat_id .. '&user_id=' .. user_id
 	
@@ -75,22 +77,24 @@ kickUser = function(chat_id, user_id)
 	return sendRequest(url)
 end
 
-sendMessage = function(chat_id, text, disable_web_page_preview, reply_to_message_id, use_markdown)
+local function sendMessage(chat_id, text, use_markdown, disable_web_page_preview, reply_to_message_id, send_sound)
 
 	local url = BASE_URL .. '/sendMessage?chat_id=' .. chat_id .. '&text=' .. URL.escape(text)
 
-	if disable_web_page_preview == true then
-		url = url .. '&disable_web_page_preview=true'
-	end
+	url = url .. '&disable_web_page_preview=true'
 
 	if reply_to_message_id then
 		url = url .. '&reply_to_message_id=' .. reply_to_message_id
 	end
-
+	
 	if use_markdown then
 		url = url .. '&parse_mode=Markdown'
 	end
-
+	
+	if not send_sound then
+		url = url..'&disable_notification=true'--messages are silent by default
+	end
+	
 	local res = sendRequest(url)
 	
 	if not res then
@@ -103,13 +107,13 @@ sendMessage = function(chat_id, text, disable_web_page_preview, reply_to_message
 
 end
 
-sendReply = function(msg, text, markd)
+local function sendReply(msg, text, markd)
 
-	return sendMessage(msg.chat.id, text, true, msg.message_id, markd)--qui
+	return sendMessage(msg.chat.id, text, markd, true, msg.message_id)
 
 end
 
-sendChatAction = function(chat_id, action)
+local function sendChatAction(chat_id, action)
  -- Support actions are typing, upload_photo, record_video, upload_video, record_audio, upload_audio, upload_document, find_location
 
 	local url = BASE_URL .. '/sendChatAction?chat_id=' .. chat_id .. '&action=' .. action
@@ -117,7 +121,7 @@ sendChatAction = function(chat_id, action)
 
 end
 
-sendLocation = function(chat_id, latitude, longitude, reply_to_message_id)
+local function sendLocation(chat_id, latitude, longitude, reply_to_message_id)
 
 	local url = BASE_URL .. '/sendLocation?chat_id=' .. chat_id .. '&latitude=' .. latitude .. '&longitude=' .. longitude
 
@@ -129,7 +133,7 @@ sendLocation = function(chat_id, latitude, longitude, reply_to_message_id)
 
 end
 
-forwardMessage = function(chat_id, from_chat_id, message_id)
+local function forwardMessage(chat_id, from_chat_id, message_id)
 
 	local url = BASE_URL .. '/forwardMessage?chat_id=' .. chat_id .. '&from_chat_id=' .. from_chat_id .. '&message_id=' .. message_id
 
@@ -137,14 +141,14 @@ forwardMessage = function(chat_id, from_chat_id, message_id)
 	
 end
 
-curlRequest = function(curl_command)
+local function curlRequest(curl_command)
  -- Use at your own risk. Will not check for success.
 
 	io.popen(curl_command)
 
 end
 
-sendPhoto = function(chat_id, photo, caption, reply_to_message_id)
+local function sendPhoto(chat_id, photo, caption, reply_to_message_id)
 
 	local url = BASE_URL .. '/sendPhoto'
 
@@ -162,7 +166,7 @@ sendPhoto = function(chat_id, photo, caption, reply_to_message_id)
 
 end
 
-sendDocument = function(chat_id, document, reply_to_message_id)
+local function sendDocument(chat_id, document, reply_to_message_id)
 
 	local url = BASE_URL .. '/sendDocument'
 
@@ -176,7 +180,7 @@ sendDocument = function(chat_id, document, reply_to_message_id)
 
 end
 
-sendSticker = function(chat_id, sticker, reply_to_message_id)
+local function sendSticker(chat_id, sticker, reply_to_message_id)
 
 	local url = BASE_URL .. '/sendSticker'
 
@@ -190,7 +194,7 @@ sendSticker = function(chat_id, sticker, reply_to_message_id)
 
 end
 
-sendAudio = function(chat_id, audio, reply_to_message_id, duration, performer, title)
+local function sendAudio(chat_id, audio, reply_to_message_id, duration, performer, title)
 
 	local url = BASE_URL .. '/sendAudio'
 
@@ -216,7 +220,7 @@ sendAudio = function(chat_id, audio, reply_to_message_id, duration, performer, t
 
 end
 
-sendVideo = function(chat_id, video, reply_to_message_id, duration, performer, title)
+local function sendVideo(chat_id, video, reply_to_message_id, duration, performer, title)
 
 	local url = BASE_URL .. '/sendVideo'
 
@@ -238,7 +242,7 @@ sendVideo = function(chat_id, video, reply_to_message_id, duration, performer, t
 
 end
 
-sendVoice = function(chat_id, voice, reply_to_message_id)
+local function sendVoice(chat_id, voice, reply_to_message_id)
 
 	local url = BASE_URL .. '/sendVoice'
 
@@ -255,3 +259,25 @@ sendVoice = function(chat_id, voice, reply_to_message_id)
 	return curlRequest(curl_command)
 
 end
+
+return {
+	sendMessage = sendMessage,
+	sendRequest = sendRequest,
+	getMe = getMe,
+	getUpdates = getUpdates,
+	sendVoice = sendVoice,
+	sendVideo = sendVideo,
+	sendAudio = sendAudio,
+	sendSticker = sendSticker,
+	sendDocument = sendDocument,
+	sendPhoto = sendPhoto,
+	curlRequest = curlRequest,
+	forwardMessage = forwardMessage,
+	sendLocation = sendLocation,
+	sendChatAction = sendChatAction,
+	unbanChatMember = unbanChatMember,
+	kickChatMember = kickChatMember,
+	banUser = banUser,
+	kickUser = kickUser,
+	sendReply = sendReply
+}	

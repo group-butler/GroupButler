@@ -35,7 +35,7 @@ local action = function(msg, blocks, ln)
 		text = text..make_text(lang[ln].tell.group_id, msg.chat.id)
 		sendReply(msg, text, true)
 	else
-		sendMessage(msg.from.id, text, true, false, true)
+		api.sendMessage(msg.from.id, text, true)
 	end
 	
 	--if in private, return bot info too
@@ -43,7 +43,7 @@ local action = function(msg, blocks, ln)
 		--text = text..'\nI am '..bot.first_name..'\n'
 		--text = text..'My username is '..bot.username..'\n'
 		--text = text..'My ID is '..bot.id
-		--sendMessage(msg.from.id, text, true, false, true)
+		--sendMessage(msg.from.id, text, true)
 	--end
 		
 	mystat('tell') --save stats
