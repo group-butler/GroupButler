@@ -5,9 +5,11 @@ So, telegram added to the api methods some utils to allow bots to handle the gro
 
 I've added some interesting abilities based on this two api methods to this bot, obviously, because it's aimed to help the group administration.
 
-ANYWAY, ALL IT'S UNDER TESTING.
+ANYWAY, bot that are setted as admins (you need Telegram Desktop 0.9.43 dev to do it) can see ONLY MESSAGES STARTING FOR `/` (orivacy mode on, I guess).
 
-If you find a bug, please tell me. However, all should be working
+Probably, when the ability to promote a bot as admin will come for other clients too, bots will be able to see everything.
+
+Moreover, there isn't a way to understand if an user is an admin or not from a message. So, for now, the admin list will be built as always.
 
 ##Introduction
 
@@ -20,85 +22,159 @@ Otouto and Group Butler are licensed under the GNU General Public License. A cop
 ##What is it?
 Group Butler is a Telegram API bot written in Lua. It has been created to help the members of a group to keep it clean and regulated, from the point of view of administrators and normal users.
 
-This bot takes its structure from Otouto: it's plugin-based. This makes easier to manage each function and command of the bot, and allows to split the different capabilities of it in different files for a more specific vision of what it should do.
+This bot takes its long-polling loop and its structure from Otouto (3.0 or lower, I guess) and it's plugin-based. This makes easier to manage each function and command of the bot, and allows to split the different capabilities of it in different files for a more specific vision of what it should do.
 
 * * *
 
-##Plugins
-Here is the list of commands.
+##Commands
+Here you have the list of the available commands.
 
-| Command | Function | Privilege |
-|---------|----------|-----------|
-| /ping | Shows if the bot is running. | All |
-| /lang | Show the vailable languages | Moderator |
-| /lang <code> | Change the bot language | Moderator |
-| /owner (by reply) | Set a new owner. | Owner |
-| /promote (by reply) | Promote as moderator a member. | Owner |
-| /demote (by reply) | Demote a member. | Owner |
-| /kick (by reply) | Kick an user (WAITING FOR TELEGRAM UPDATE). | Moderator |
-| /ban (by reply) | Ban an user (WAITING FOR TELEGRAM UPDATE). | Moderator |
-| /kicked list | Show a list of kicked users (WAITING FOR TELEGRAM UPDATE). | Moderator |
-| /set rules <rules> | Write the new rules and overwrite the old. | Moderator |
-| /add rules <rules> | Add at the end of the existing rules other text. | Moderator |
-| /set about <bio> | Set a completly new description for the group. | Moderator |
-| /add about <bio> | Add at the end of the existing description other informations. | Moderator |
-| /flood <on/off> | Enable or disable the flood listener (WAITING FOR TELEGRAM UPDATE). | Moderator |
-| /flood <kick/ban> | Choose what to do when the antiflood is triggered  (WAITING FOR TELEGRAM UPDATE). | Moderator |
-| /flood <messages> | Number of messages in 5 sec to trigger the antiflood (WAITING FOR TELEGRAM UPDATE). | Moderator |
-| /kick/ban/allow <media> | Set what to do when the media is sent (WAITING FOR TELEGRAM UPDATE). | Moderator |
-| /media | See the current settings of what to do when a media is sent (WAITING FOR TELEGRAM UPDATE). | Moderator |
-| /disable <rules-about-modlist> | This commands will be available only for moderators. | Moderator |
-| /enable <rules-about-modlist> | This commands will be available only for everyone. | Moderator |
-| /enable <welcome-flag> | Turn on the welcome message/the ability to flag messages. | Moderator |
-| /disable <welcome-flag> | Turn off the welcome message/the ability to flag messages. | Moderator |
-| /setlink <link> | Save the group link, so mods can recall it. | Owner |
-| /link | Get the group link. | Moderator |
-| /setpoll <description> <link> | Save the link to a [pollbot](http://telegram.me/pollbot) poll. | Moderator |
-| /poll | Get the poll link. | Moderator |
-| /extra <#command> <text> | Set up a new custom command | Moderator |
-| /extra list | Show the list of custom commands | Moderator |
-| /extra del <#command> | Delete the custom command | Moderator |
-| /warn <kick/ban> | Choose what to do when the max number is reached (WAITING FOR TELEGRAM UPDATE). | Moderator |
-| /warn (by reply) | Warn an user (+1 to the user warns). | Moderator |
-| /warnmax | Set the max number of warns a user can get. | Moderator |
-| /getwarns (by reply) | See how many worns the user has. | Moderator |
-| /nowarns (by reply) | Reset the number of warns of an user. | Moderator |
-| /flag (by reply) | The message will be reported to moderators. | All |
-| /flag block (by reply) | The user won't be able to report messages. | Moderator |
-| /flag free (by reply) | The user will be able to report messages. | Moderator |
-| /flag list | Show the list of users who can\'t flag messages. | Moderator |
-| /welcome <no-r-a-ra-ma-rm-rma> | How the welcome message is composed. | Moderator |
-| /rules | Show the group rules. | All |
-| /about | Show the group description. | All |
-| /modlist | Show the moderators of the group. | All |
-| /settings | Show the group settings. | Moderator |
-| /tell | Show your basical info or the info about the user you replied to. | All |
-| /c <feedback> | Send a feedback/report a bug/ask a question to my creator. | All |
-| /help | I really have to explain this? | All |
-| /info | Show credits | All |
-| /ping redis | Shows if redis is running. | Admin |
-| /backup | Send to the admin a backup of the bot folder. | Admin |
-| /log <type> | Get a log. | Admin |
-| /log del <type> | Delete a log. | Admin |
-| /log | resume of logs. | Admin |
-| /bc <text> | Broadcast to users. | Admin |
-| /bcg <text> | Broadcast to groups. | Admin |
-| /get stats | Show statistics about the bot. | Admin |
-| /get commands | Show statistics about commands used. | Admin |
-| /reply <reply> | Reply to a feedback message. | Admin |
-| /reload | Reloads all plugins, libraries, and configuration files. | Admin |
-| /redis save | Save your redis database. | Admin |
-| /moderation backup | Save your redis datas into a json file. | Admin |
-| /halt | Stops the bot. If the bot was run with launch.sh, this will restart it. | Admin |
-| /hash <hash> | Get the info stored under that hash. | Admin |
-| /shell <command> | Runs a shell command and returns the output. Use with caution. | Admin |
-| /lua <command> | Runs a string a Lua code and returns the output, if applicable. Use with caution. otouto does not use a sandbox. | Admin |
+###Everyone
+>/ping | check if the bot is running
+>
+>/help | show the help message (in private)
+>
+>/c [feedback] | contact the bot admin
+>
+>/info | show some info about the bot (as the link to this repo)
+>
+>/about (if unlocked) | will return the group descriptions
+>
+>/rules (if unlocked) | show the group rules
+>
+>/flag [reply] [optional description] | report a message to admins
+>
+>/modlist (if unlocked) | show the moderators list
+>
+>/tell | show the basical info of the user/group. Can work by reply
 
+###Moderators
+>/kick [reply] | kick an user (it's still able to join)
+>
+>/ban [reply] | ban an user (not able to join again)
+>
+>/unban [reply] | unban an user
+>
+>/gban [reply] | ban an user from all the groups where the bot is admin
+>
+>/kicked list | see the list of kicked users
+>
+>/flood [number] | set the max number of messages allowed within 5 seconds before kick/ban
+>
+>/flood [on/off] | turn the anti-flood on/off
+>
+>/flood [kick/ban] | choose what to do when a user is flooding
+>
+>/lang | see the supported languages
+>
+>/lang [code] | change the bot language (in the group)
+>
+>/kick [media type] | the bot will kick who send that media
+>
+>/ban [media type] | the bot will ban who send that media
+>
+>/allow [media type] | the media can be sent freely
+>
+>/media | show the current status for each media
+>
+>/media list | show the list of the media you can manage
+>
+>/warn [reply] | warn an user. He will be kicked/banned when the max number of warns will be reached
+>
+>/warn [kick/ban] | choose what to do when the max number of warns is reached
+>
+>/warnmax [number] | choose the max number of warns to reach to be kicked/banned
+>
+>/getwarns [reply] | show how many warns has an user
+>
+>/nowarns [reply] | reset the warns of an user
+>
+>/settings | show the current settings of the group
+>
+>/disable [rules/about/modlist/extra] | this commands will be available only for moderators
+>
+>/enable [rules/about/modlist/extra] | this commands will be available only for moderators
+>
+>/[disable/enable] welcome | turn on/off the welcome message
+>
+>/disable [arab/rtl] | everyone with have rtl character in the name/in a message will be kicked, same for who write with arab characters
+>
+>/enable [arab/rtl] | rtl character/arab will be allowed
+>
+>/welcome [a/r/m/ar/am/rm/arm] | change the welcome composition (a: about, r: rules, m:modlist)
+>
+>/extra [#command] [reply] | set up a reply to an hashtag
+>
+>/extra list | show the list of hashtag commands
+>
+>/extra del [#command] | delete that custom command
+>
+>/link | show the group link (if setted)
+>
+>/setpoll [link/no] | set up a @pollbot poll link (so moderators can see it with /poll). Use 'no' to remove it
+>
+>/poll | show the current poll link (if setted)
+>
+>/setabout [description] | set a description for the group
+>
+>/addabout [text to add] | add some text to the decription
+>
+>/setrules [rules] | set the group rules
+>
+>/addrules [rules] | add some rules
+>
+>/flag block [reply] | the user won't be able to flag messages
+>
+>/flag free [reply] | the user will be able to flag messages
+
+###Owner
+>/setlink [link/no] | set the group link (so moderators can see it with /link). Use 'no' to remove it
+>
+>/owner [reply] | change the ownership of the group (not really, the bot will se the replied user as the owner)
+>
+>/promote [reply] | promote the user as moderators
+>
+>/demote [reply] | demote the user
+
+###Admin
+>/reload | to reload the bot
+>
+>/backup | will send to the admin the bot folder, zipped
+>
+>/stop | will stop the bot
+>
+>/bc [text] | will send a broadcast to users
+>
+>/bcg [text] | will send a broadcast to groups
+>
+>/stats | will return some statistics (messages, groups, users, commands)
+>
+>/commands | will show how many times each command have been used
+>
+>/save | perform a redis background save
+>
+>/log [of what] | will send the log of the event inserted
+>
+>/log del [which] | will delete the log
+>
+>/block [reply/id] | will block the user ( the user won't be able to use the bot)
+>
+>/unblock [id/reply] | will unblock the user
+>
+>/isblocked [reply] | check if an user is blocked
+>
+>/changedb | for who is still using the json to store descriptions and rules, this will move all to redis
+>
+>/reply [text] | reply to a feedback
+>
+>/ping redis | check if redis is on
+>
+>/admin | returns the admin.lua plugin triggers
 
 * * *
 
 ##Setup
-You **must** have Lua (5.2+), LuaSocket, LuaSec and Redis-Lua installed.
+You **must** have Lua (5.2+), LuaSocket, LuaSec, Redis-Lua and Curl installed.
 
 How to install LuaRocks and set-up the modules:
 ```bash
@@ -113,6 +189,12 @@ $ sudo luarocks install luasec
 $ sudo luarocks install redis-lua
 $ cd ..
 ```
+
+Install Curl, only if is missing:
+```bash
+$ sudo apt-get install curl
+```
+
 Clone the github repository:
 ```bash
 # Clone the repo and give the permission to start the launch script
@@ -130,6 +212,8 @@ $ cd GroupButler && sudo chmod 777 launch.sh
 > • Set bot_api_key to the authentication token you received from the [BotFather](http://telegram.me/BotFather).
 >
 > • Set admin as your Telegram ID.
+>
+> • If it asks for the sudo password, insert it.
 
 Before start the bot, you have to start Redis. Open a new window and type:
 ```bash
@@ -179,19 +263,32 @@ Group Butler uses dkjson, a pure-Lua JSON parser. This is provided with the code
 ##Short general FAQs
 
 *Q*: Why Lua?
+
 *A*: I like Lua. It's an easy, poweful and fun language, and most important, one of the few languages I know. So why something else? :)
 
 *Q*: Why Otouto?
-*A*: In my opinion, Otouto has a really good plugins structure, and considering the amount if commands I've planned for Group Butler, I thought that its structure is perfect and fits my needs better than everything else. Using it means save a lot of time trying to do it by myself.
-Bindings are ok and easy to understand for everyone, I like how the bot run, but I've edited some lines aswell. For example, I don't like how triggers match the text, so I've switched to something more familiar. And other secondary modifications here and there, take a look to the commits for further informations.
+
+*A*: In my opinion, Otouto has a really good plugins structure, and considering the amount if commands I've planned for Group Butler, I thought that its structure is perfect and fits my needs better than everything else. Using it means save a lot of time doing it by myself.
+Bindings were already done too, so I taked its long-polling loop and bindings, and I messed all up.
 
 * * *
 
 ##Contributors
 Everybody is free to contribute to otouto and to Group Butler.
 
-The creator and maintainer of otouto is [topkecleon](http://github.com/topkecleon). He can be contacted via [Telegram](http://telegram.me/topkecleon), [Twitter](http://twitter.com/topkecleon), or [email](mailto:topkecleon@outlook.com).
-
-The kanger who created Group Butler is [RememberTheAir](http://github.com/RememberTheAir). You can contact him via [Telegram](http://telegram.me/Rlotar).
-
 The official [Group Butler](http://github.com/groupbutler_bot). Yes, if you are wondering, is off.
+
+##Credits
+Topkecleon, for the original bot.lua and bindings.lua
+
+Iman Daneshi and tiago Danin, because I like to take a look to Jack sometimes :^). Same for Yago Pérez and his telegram-bot
+
+Lucas Montuano, for helping me a lot in the debugging of the bot
+
+All the people who reported bugs and suggested new stuffs
+
+Le Laide
+
+##Final
+
+I hate when I break a plugin main function witha return. I have to change all, one day or another

@@ -9,24 +9,21 @@ local triggers = {
 local action = function(msg, blocks, ln)
 
 --ignore if via pm
-        if msg.chat.type == 'private' then
-            print('PV settings.lua, '..msg.from.first_name..' ['..msg.from.id..'] --> not valid')
-            api.sendMessage(msg.from.id, make_text(lang[ln].pv))
-    	    return nil
-        end
+if msg.chat.type == 'private' then
+    api.sendMessage(msg.from.id, make_text(lang[ln].pv))
+    return nil
+end
 
 if blocks[1] == 'disable' then
         
         --ignore if via pm
         if msg.chat.type == 'private' then
-            print('PV settings.lua, '..msg.from.first_name..' ['..msg.from.id..'] --> not valid')
             api.sendMessage(msg.from.id, make_text(lang[ln].pv))
     	    return nil
         end
         
         --ignore if not mod
         if not is_mod(msg) then
-            print('\27[31mNil: not mod\27[39m')
             api.sendReply(msg, make_text(lang[ln].not_mod), true)
             return nil
         end
@@ -35,7 +32,6 @@ if blocks[1] == 'disable' then
         
         --ignore if not input text
         if not input then
-            print('\27[31mNil: no text\27[39m')
             api.sendReply(msg, make_text(lang[ln].settings.disable.no_input), false)
             return nil
         end
@@ -122,19 +118,14 @@ if blocks[1] == 'disable' then
                 api.sendReply(msg, make_text(lang[ln].settings.disable.rtl_locked), true)
             end
         else
-            print('\27[31mNil: argument not available\27[39m')
             api.sendReply(msg, make_text(lang[ln].settings.disable.wrong_input), true)
         end
         
 end
 
 if blocks[1] == 'enable' then
-        
-        print('\n/enable', msg.from.first_name..' ['..msg.from.id..'] --> '..msg.chat.title..' ['..msg.chat.id..']')
-        
         --ignore if not mod
         if not is_mod(msg) then
-            print('\27[31mNil: not mod\27[39m')
             api.sendReply(msg, make_text(lang[ln].not_mod), true)
             return nil
         end
@@ -143,7 +134,6 @@ if blocks[1] == 'enable' then
         
         --ignore if not input text
         if not input then
-            print('\27[31mNil: no input text\27[39m')
             api.sendReply(msg, make_text(lang[ln].settings.enable.no_input), false)
             return nil
         end
@@ -231,19 +221,14 @@ if blocks[1] == 'enable' then
             end
             
         else
-            print('\27[31mNil: argument not available\27[39m')
             api.sendReply(msg, make_text(lang[ln].settings.enable.wrong_input), true)
         end
         
     end
     
 if blocks[1] == 'welcome' then
-        
-        print('\n/welcome', msg.from.first_name..' ['..msg.from.id..'] --> '..msg.chat.title..' ['..msg.chat.id..']')
-        
         --ignore if not mod
         if not is_mod(msg) then
-            print('\27[31mNil: not mod\27[39m')
             api.sendReply(msg, make_text(lang[ln].not_mod), true)
             return nil
         end
@@ -252,7 +237,6 @@ if blocks[1] == 'welcome' then
         
         --ignore if not input text
         if not input then
-            print('\27[31mNil: no input text\27[39m')
             api.sendReply(msg, make_text(lang[ln].settings.welcome.no_input), false)
             return nil
         end
@@ -293,12 +277,8 @@ if blocks[1] == 'welcome' then
     end
 
 if blocks[1] == 'settings' then
-        
-        print('\n/settings', msg.from.first_name..' ['..msg.from.id..'] --> '..msg.chat.title..' ['..msg.chat.id..']')
-        
         --ignore if is not mod
         if not is_mod(msg) then
-			print('\27[31mNil: not mod\27[39m')
 			api.sendReply(msg, make_text(lang[ln].not_mod), true)
 			return nil
 		end

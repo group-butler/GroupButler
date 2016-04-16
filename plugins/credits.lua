@@ -6,12 +6,8 @@ local triggers = {
 }
 
 local action = function(msg, blocks, ln)
-	
-	print('\n/info', msg.from.first_name..' ['..msg.from.id..']')
-	
-	local out = make_text(lang[ln].credits)
 	mystat('info')
-	api.sendMessage(msg.from.id, out, true, true)
+	api.sendMessage(msg.from.id, lang[ln].credits, true, true)
 end
 
 return {

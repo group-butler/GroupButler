@@ -7,8 +7,6 @@ local triggers = {
 }
 
 local action = function(msg, blocks, ln)
-	
-	print('\n/extra', msg.from.first_name..' ['..msg.from.id..']')
 	if msg.chat.type == 'private' then
 		api.sendMessage(msg.chat.id, lang[ln].pv)
 		return
@@ -17,11 +15,9 @@ local action = function(msg, blocks, ln)
 	if blocks[1] == 'extra' then
 		if not blocks[2] then
 			api.sendReply(msg, make_text(lang[ln].extra.usage), true)
-			print('\27[31mNil: no arguments\27[39m')
 	        return nil
 		end
 	    if not is_mod(msg) then
-	        print('\27[31mNil: not mod\27[39m')
 	        return nil
 	    end
 	    if breaks_markdown(blocks[2]) or breaks_markdown(blocks[3]) then
@@ -37,7 +33,6 @@ local action = function(msg, blocks, ln)
 	    api.sendReply(msg, text, true)
 	elseif blocks[1] == 'extra list' then
 	    if not is_mod(msg) then
-	        print('\27[31mNil: not mod\27[39m')
 	        return nil
 	    end
 	    local hash = 'extra:'..msg.chat.id
@@ -57,7 +52,6 @@ local action = function(msg, blocks, ln)
 	    end
     elseif blocks[1] == 'extra del' then
         if not is_mod(msg) then
-	        print('\27[31mNil: not mod\27[39m')
 	        return nil
 	    end
 	    local hash = 'extra:'..msg.chat.id
@@ -72,7 +66,6 @@ local action = function(msg, blocks, ln)
 	    end
     else
         if is_locked(msg, 'Extra') and not is_mod(msg) then
-            print('\27[31mNil: not mod\27[39m')
             return nil
         end
         local hash = 'extra:'..msg.chat.id

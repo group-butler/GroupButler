@@ -12,7 +12,6 @@ local action = function(msg, blocks, ln)
 	
 	--return nil if wrote in private
     if msg.chat.type == 'private' then
-        print('PV links.lua, '..msg.from.first_name..' ['..msg.from.id..'] --> not valid')
         local out = make_text(lang[ln].pv)
         api.sendMessage(msg.from.id, out)
     	return nil
@@ -23,12 +22,8 @@ local action = function(msg, blocks, ln)
 	local text
 	
 	if blocks[1] == 'link' then
-		
-		print('\n/link', msg.from.first_name..' ['..msg.from.id..']')
-		
 		--ignore if not mod
 		if not is_mod(msg) then
-			print('\27[31mNil: not mod\27[39m')
 			return
 		end
 		
@@ -47,18 +42,13 @@ local action = function(msg, blocks, ln)
 	end
 	
 	if blocks[1] == 'setlink' then
-		
-		print('\n/setlink', msg.from.first_name..' ['..msg.from.id..']')
-		
 		--ignore if not owner
 		if not is_owner(msg) then
-			print('\27[31mNil: not the owner\27[39m')
 			return
 		end
 		
 		--warn if the link has not the right lenght
 		if string.len(blocks[2]) ~= 22 and blocks[2] ~= 'no' then
-			print('\27[31mNil: wrong link\27[39m')
 			local out = make_text(lang[ln].links.link_invalid)
 			api.sendReply(msg, out, true)
 			return
@@ -85,18 +75,13 @@ local action = function(msg, blocks, ln)
 	end
 	
 	if blocks[1] == 'setpoll' then
-		
-		print('\n/setpoll', msg.from.first_name..' ['..msg.from.id..']')
-		
 		--ignore if not owner
 		if not is_mod(msg) then
-			print('\27[31mNil: not a mod\27[39m')
 			return
 		end
 		
 		--warn if the link has not the right lenght
 		if blocks[2] ~= 'no' and string.len(blocks[3]) ~= 36 then
-			print('\27[31mNil: wrong link\27[39m')
 			local out = make_text(lang[ln].links.link_invalid)
 			sendReply(msg, out, true)
 			return
@@ -128,12 +113,8 @@ local action = function(msg, blocks, ln)
 end
 
 	if blocks[1] == 'poll' then
-		
-		print('\n/poll', msg.from.first_name..' ['..msg.from.id..']')
-		
 		--ignore if not mod
 		if not is_mod(msg) then
-			print('\27[31mNil: not mod\27[39m')
 			return
 		end
 		

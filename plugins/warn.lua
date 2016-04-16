@@ -10,7 +10,6 @@ local triggers = {
 local action = function(msg, blocks, ln)
     
     if msg.chat.type == 'private' then--return nil if it's a private chat
-        print('PV flag.lua, '..msg.from.first_name..' ['..msg.from.id..'] --> not valid')
 		api.sendMessage(msg.from.id, make_text(lang[ln].pv))
     	return nil
     end
@@ -19,7 +18,6 @@ local action = function(msg, blocks, ln)
         
         --return nil if not mod
         if not is_mod(msg) then
-            print('\27[31mNil: not mod\27[39m')
             return nil 
         end
         
@@ -33,7 +31,6 @@ local action = function(msg, blocks, ln)
         
 		--warning to reply to a message
         if not msg.reply_to_message then
-            print('\27[31mNil: not a reply\27[39m')
             api.sendReply(msg, make_text(lang[ln].warn.warn_reply))
 		    return nil
 	    end
@@ -42,14 +39,12 @@ local action = function(msg, blocks, ln)
 		
 	    --return nil if a mod is warned
 	    if is_mod(replied) then
-	        print('\27[31mNil: mod warned\27[39m')
 			api.sendReply(msg, make_text(lang[ln].warn.mod))
 	        return nil
 	    end
 				
 	    --return nil if an user flag the bot
 	    if replied.from.id == bot.id then
-	        print('\27[31mNil: bot flagged\27[39m')
 	        return nil
 	    end
 	    
@@ -88,13 +83,8 @@ local action = function(msg, blocks, ln)
         api.sendReply(msg.chat.id, text, true)
     end
     
-    if blocks[1] == 'warnmax' then
-        
-        print('\n/warnmax', msg.from.first_name..' ['..msg.from.id..'] --> '..msg.chat.title..' ['..msg.chat.id..']')
-        
-        --return nil if the user is not a moderator
+    if blocks[1] == 'warnmax' then--return nil if the user is not a moderator
         if not is_mod(msg) then
-            print('\27[31mNil: not mod\27[39m')
             return nil
         end
         
@@ -110,13 +100,11 @@ local action = function(msg, blocks, ln)
         
         --return nil if the user is not a moderator
         if not is_mod(msg) then
-            print('\27[31mNil: not a mod\27[39m')
             return nil
         end
         
         --warning to reply to a message
         if not msg.reply_to_message then
-            print('\27[31mNil: no reply\27[39m')
             api.sendReply(msg, make_text(lang[ln].warn.getwarns_reply))
 		    return nil
 	    end
@@ -125,14 +113,12 @@ local action = function(msg, blocks, ln)
 	    
 		--return nil if an user flag a mod
 	    if is_mod(replied) then
-	        print('\27[31mNil: mod flagged\27[39m')
 			api.sendReply(msg, make_text(lang[ln].warn.mod))
 	        return nil
 	    end
 		
 	    --return nil if an user flag the bot
 	    if replied.from.id == bot.id then
-	        print('\27[31mNil: bot flagged\27[39m')
 	        return nil
 	    end
 	    
@@ -165,18 +151,13 @@ local action = function(msg, blocks, ln)
     end
     
     if blocks[1] == 'nowarns' then
-        
-        print('\n/noworns', msg.from.first_name..' ['..msg.from.id..'] --> '..msg.chat.title..' ['..msg.chat.id..']')
-        
         --return nil if the user is not a moderator
         if not is_mod(msg) then
-            print('\27[31mNil: not a mod\27[39m')
             return nil
         end
         
         --warning to reply to a message
         if not msg.reply_to_message then
-            print('\27[31mNil: no reply\27[39m')
             api.sendReply(msg, make_text(lang[ln].warn.nowarn_reply))
 		    return nil
 	    end
@@ -185,14 +166,12 @@ local action = function(msg, blocks, ln)
 	    
 		--return nil if an user flag a mod
 	    if is_mod(replied) then
-	        print('\27[31mNil: mod flagged\27[39m')
 			api.sendReply(msg, make_text(lang[ln].warn.mod))
 	        return nil
 	    end
 		
 	    --return nil if an user flag the bot
 	    if replied.from.id == bot.id then
-	        print('\27[31mNil: bot flagged\27[39m')
 	        return nil
 	    end
 		

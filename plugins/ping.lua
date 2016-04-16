@@ -5,8 +5,7 @@ local triggers = {
 
 local action = function(msg, blocks, ln)
 	if blocks[1] == 'ping' then
-		local text = make_text(lang[ln].ping)
-		api.sendMessage(msg.chat.id, text)
+		api.sendMessage(msg.chat.id, lang[ln].ping)
 	end
 	mystat('ping') --save stats
 end

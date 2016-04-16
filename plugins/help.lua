@@ -4,9 +4,6 @@ local triggers = {
 }
 
 local action = function(msg, blocks, ln)
-    
-    print('\n/help or /start', msg.from.first_name..' ['..msg.from.id..']')
-    
     -- save stats
     if string.match(msg.text, '^/help') then
         mystat('help')

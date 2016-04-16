@@ -18,12 +18,11 @@ local action = function(msg, blocks, ln)
 	    return
 	end
 	if not blocks[2] then
-		
+		--show flood settings
 	else
 		if blocks[2] == '%d%d?' then
 	    	local new = tonumber(blocks[2])
 	    	local old = tonumber(client:hget('chat:'..msg.chat.id..':flood', 'MaxFlood')) or 5
-	    	print(old, new)
 	    	if new == old then
 	        	api.sendReply(msg.chat.id, make_text(lang[ln].floodmanager.not_changed, new))
 	    	else

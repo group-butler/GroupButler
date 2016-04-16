@@ -9,20 +9,15 @@ local action = function(msg, blocks, ln)
     
     -- ignore if the chat is a group or a supergroup
     if msg.chat.type ~= 'private' then
-    	print('NO PV report.lua, '..msg.from.first_name..' ['..msg.from.id..'] --> not valid')
         return nil
     end
     
     if blocks[1] == 'c' then
-    	
-    	print('\n/c', msg.from.first_name..' ['..msg.from.id..']')
-        
         local receiver = config.admin
         local input = blocks[2]
         
         --allert if not feedback
         if not input then
-        	print('\27[31mNil: no text\27[39m')
         	local out = make_text(lang[ln].report.no_input)
             api.sendMessage(msg.from.id, out)
             return nil
@@ -43,18 +38,13 @@ local action = function(msg, blocks, ln)
 	end
 	
 	if blocks[1] == 'reply' then
-		
-		print('\n/reply', msg.from.first_name..' ['..msg.from.id..']')
-		
 	    --ignore if not admin
 	    if msg.from.id ~= config.admin then
-	    	print('\27[31mNil: not admin\27[39m')
 	        return nil
 	    end
 	    
 	    --ignore if no reply
 	    if not msg.reply_to_message then
-	    	print('\27[31mNil: no reply\27[39m')
 	    	local out = make_text(lang[ln].report.reply)
             api.sendReply(msg, out, false)
 			return nil
@@ -64,7 +54,6 @@ local action = function(msg, blocks, ln)
 		
 		--ignore if not imput
 		if not input then
-			print('\27[31mNil: no input text\27[39m')
 			local out = make_text(lang[ln].report.reply_no_input)
             api.sendMessage(msg.from.id, out)
             return nil

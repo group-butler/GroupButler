@@ -84,7 +84,6 @@ local action = function(msg, blocks, ln)
 		
 		--ignore if welcome is locked
 		if is_locked(msg, 'Welcome') then
-			print('\27[31mNil: welcome diabled\27[39m')
 			return nil
 		end
 		

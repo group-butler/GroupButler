@@ -29,17 +29,6 @@ function string:neat() -- Remove the markdown.
 	return self:gsub('*', ''):gsub('_', ''):gsub('`', '')
 end
 
-function string:sec2() -- Returns the string after the first space.
-	if not self:find(' ') then
-		return false
-	end
-	t = self:sub(self:find(' ')+1)
-	if not t:find(' ') then
-		return nil
-	end
-	return t:sub(t:find(' ')+1)
-end
-
 function is_owner(msg)
 	local var = false
 	
@@ -77,6 +66,14 @@ function is_mod(msg)
 	--no need to check if is owner: the owner id is already saved in the modlist
 	
 	return var
+end
+
+function is_blocked(id)
+	if client:sismember('bot:blocked', id) then
+		return true
+	else
+		return false
+	end
 end
 
 function is_locked(msg, cmd)
@@ -166,28 +163,6 @@ function save_data(filename, data) -- Saves a table to a JSON file.
 
 end
 
- -- Gets coordinates for a location. Used by gMaps.lua, time.lua, weather.lua.
-function get_coords(input)
-
-	local url = 'http://maps.googleapis.com/maps/api/geocode/json?address=' .. URL.escape(input)
-
-	local jstr, res = HTTP.request(url)
-	if res ~= 200 then
-		return config.errors.connection
-	end
-
-	local jdat = JSON.decode(jstr)
-	if jdat.status == 'ZERO_RESULTS' then
-		return config.errors.results
-	end
-
-	return {
-		lat = jdat.results[1].geometry.location.lat,
-		lon = jdat.results[1].geometry.location.lng
-	}
-
-end
-
 function match_pattern(pattern, text, lower_case)
   if text then
     local matches = {}
@@ -257,43 +232,6 @@ function breaks_markdown(text)
 	if rest == 1 then
 		print('Wrong markdown `', i)
 		return true
-	end
-	
-	return false
-end
-
-function save_owned_group(owner, chat, title)
-	--save each time a user is promoted as owner
-	local hash = owner..':groups'
-	local key = chat
-	local val = title
-	client:hset(hash, key, val)
-end
-
-function del_owned_group(owner, chat, title)
-	--each time owner changes
-	local hash = owner..':groups'
-	local key = chat
-	client:hdel(hash, key)
-end
-
-function get_owned_groups(owner)
-	local hash = owner..':groups'
-	local vals = client:hvals(hash)
-	local text = 'Owned groups:\n'
-	for i=1, #vals do
-		text = text..i..'- '..vals[i]..'\n'
-	end
-	return text
-end
-
-function get_id_owned_group(owner, number)
-	local hash = owner..':groups'
-	local keys = client:hkeys(hash)
-	for i=1, #keys do
-		if i == tonumber(num) then
-			return keys[i]
-		end
 	end
 	
 	return false

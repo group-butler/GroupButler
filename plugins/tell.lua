@@ -5,9 +5,6 @@ local triggers = {
 }
 
 local action = function(msg, blocks, ln)
-	
-	print('\n/tell', msg.from.first_name..' ['..msg.from.id..']')
-	
 	--check if is a reply
 	if msg.reply_to_message then
 		msg = msg.reply_to_message

@@ -8,7 +8,6 @@ local triggers = {
 
 local action = function(msg, blocks, ln)
     if msg.chat.type == 'private' then--return nil if it's a private chat
-        print('PV flag.lua, '..msg.from.first_name..' ['..msg.from.id..'] --> not valid')
 		api.sendMessage(msg.from.id, lang[ln].pv)
     	return nil
     end
@@ -16,24 +15,19 @@ local action = function(msg, blocks, ln)
     if blocks[1] == 'flag' then
         --return nil if 's_flag' is locked
         if is_locked(msg, 'Flag') then --or is_mod(msg) then
-            print('\27[31mNil: /flagmsg locked for group\27[39m')
             return nil 
         end
         --ignore if who is flagging is a mod
         if is_mod(msg) then
-	        print('\27[31mNil: a mod can\'t flag\27[39m')
 	        return nil
 	    end
 	    local res = client:sismember(hash, msg.from.id)
-	    print(res)
         --check if /flagblocked
         if res then
-            print('\27[31mNil: /flagmsg locked for user\27[39m')
             return nil
         end
         --warning to reply to a message
         if not msg.reply_to_message then
-            print('\27[31mNil: not a reply\27[39m')
             local out = make_text(lang[ln].flag.reply_flag)
             api.sendReply(msg, out)
 		    return nil
@@ -41,12 +35,10 @@ local action = function(msg, blocks, ln)
 	    local replied = msg.reply_to_message --load the replied message
 	    --return nil if an user flag a mod
 	    if is_mod(replied) then
-	        print('\27[31mNil: mod flagged\27[39m')
 	        return nil
 	    end
 	    --return nil if an user flag the bot
 	    if replied.from.id == bot.id then
-	        print('\27[31mNil: bot flagged\27[39m')
 	        return nil
 	    end
 	    local desc = blocks[2]
@@ -77,12 +69,10 @@ local action = function(msg, blocks, ln)
     if blocks[1] == 'flag block' then
         --return nil if the user is not a moderator
         if not is_mod(msg) then
-            print('\27[31mNil: not mod\27[39m')
             return nil
         end
         --warning to reply to a message
         if not msg.reply_to_message then
-            print('\27[31mNil: no reply\27[39m')
             local out = make_text(lang[ln].flag.reply_block)
             api.sendReply(msg, out)
 		    return nil
@@ -90,20 +80,17 @@ local action = function(msg, blocks, ln)
 	    local replied = msg.reply_to_message
 	    --can't /flagblock a mod
 	    if is_mod(replied) then --return nil if an user flag a mod
-	        print('\27[31mNil: can\'t flagblock a mod\27[39m')
 	        local out = make_text(lang[ln].flag.mod_cant_flag)
 	        api.sendReply(msg, out)
 	        return nil
 	    end
 	    --can't /flagblock the bot
 	    if replied.from.id == bot.id then
-	        print('\27[31mNil: bot replied\27[39m')
 	        return nil
 	    end
 	    --check if already unable to use /flag
 	    local res = client:sismember(hash, replied.from.id)
 	    if res then
-	        print('\27[31mNil: already flagblocked\27[39m')
 	        local out = make_text(lang[ln].flag.already_unable, replied.from.first_name)
             api.sendReply(msg, out, true)
             return nil
@@ -122,12 +109,10 @@ local action = function(msg, blocks, ln)
     if blocks[1] == 'flag free' then
         --return nil if the user is not a moderator
         if not is_mod(msg) then
-            print('\27[31mNil: not a mod\27[39m')
             return nil
         end
         --warning to reply to a message
         if not msg.reply_to_message then
-            print('\27[31mNil: no reply\27[39m')
             local out = make_text(lang[ln].flag.reply_unblock)
             api.sendReply(msg, out)
 		    return nil
@@ -135,20 +120,17 @@ local action = function(msg, blocks, ln)
 	    local replied = msg.reply_to_message
 	    --an user can't /flagfree a mod
 	    if is_mod(replied) then
-	        print('\27[31mNil: a mod can\'t be flagblocked\27[39m')
 	        local out = make_text(lang[ln].flag.mod_cant_flag)
 	        api.sendReply(msg, out)
 	        return nil
 	    end
 	    --can't /flagfree the bot
 	    if replied.from.id == bot.id then
-	        print('\27[31mNil: bot replied\27[39m')
 	        return nil
 	    end
 	    --check if already able to use /flag
 	    local res = client:sismember(hash, replied.from.id)
 	    if not res then
-	        print('\27[31mNil: already flagfree\27[39m')
 	        local out = make_text(lang[ln].flag.already_able, replied.from.first_name)
             api.sendReply(msg, out, true)
             return nil

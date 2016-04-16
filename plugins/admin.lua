@@ -1,6 +1,6 @@
 local triggers = {
 	'^/(reload)$',
-	'^/(halt)$',
+	'^/(stop)$',
 	'^/(backup)$',
 	'^/(bc) (.*)$',
 	'^/(bcg) (.*)$',
@@ -40,7 +40,6 @@ end
 local action = function(msg, blocks, ln)
 	
 	if msg.from.id ~= config.admin then
-		print('\27[31mNil: not admin\27[39m')
 		return
 	end
 	
@@ -59,7 +58,7 @@ local action = function(msg, blocks, ln)
 		api.sendReply(msg, out, true)
 		mystat('reload') --save stat
 	end
-	if blocks[1] == 'halt' then
+	if blocks[1] == 'stop' then
 		client:bgsave()
 		is_started = false
 		
@@ -136,7 +135,6 @@ local action = function(msg, blocks, ln)
 	end
 	if blocks[1] == 'lua' then
 		if not blocks[2] then
-			print('\27[31mNil: no input\27[39m')
 			api.sendReply(msg, make_text(lang[ln].luarun.enter_string))
 			return
 		end

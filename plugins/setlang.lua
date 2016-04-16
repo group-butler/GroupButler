@@ -4,11 +4,7 @@ local triggers = {
 }
 
 local action = function(msg, blocks, ln)
-	
-	print('\n/lang', msg.from.first_name..' ['..msg.from.id..']')
-	
 	if msg.chat.type ~= 'private' and not is_mod(msg) then
-		print('\27[31mNil: not mod\27[39m')
 		api.sendReply(msg, make_text(lang[ln].not_mod), true)
 		return nil
 	end   

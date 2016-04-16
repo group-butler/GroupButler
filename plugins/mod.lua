@@ -12,25 +12,19 @@ local action = function(msg, blocks, ln)
  
  --ignore if via pm
     if msg.chat.type == 'private' then
-        print('PV mod.lua, '..msg.from.first_name..' ['..msg.from.id..'] --> not valid')
         local out = make_text(lang[ln].pv)
         api.sendMessage(msg.from.id, out)
     	return nil
     end
  
 if blocks[1] == 'promote' then
-    
-    print('\n/promote', msg.from.first_name..' ['..msg.from.id..'] --> '..msg.chat.title..' ['..msg.chat.id..']')
-    
     --only the owner can promote
     if not is_owner(msg) then
-        print('\27[31mNil: the user is not the owner\27[39m')
         local out = make_text(lang[ln].mod.not_owner)
         api.sendReply(msg, out, true)
     else
         --allert if is not a reply
         if not msg.reply_to_message then
-            print('\27[31mNil: no reply\27[39m')
             local out = make_text(lang[ln].mod.reply_promote)
             api.sendReply(msg, out)
 			return nil
@@ -40,13 +34,11 @@ if blocks[1] == 'promote' then
         
         --ignore if replied to the bot
         if msg.from.id == bot.id then
-            print('\27[31mNil: bot replied\27[39m')
 	        return nil
 	    end
 	    
 	    --ignore if is promoting itself
 	    if is_owner(msg) then
-	        print('\27[31mNil: an owner can\'t promote itself\27[39m')
 	        return nil
 	    end
         
@@ -63,7 +55,6 @@ if blocks[1] == 'promote' then
         
         --warn and update the name if already a moderator
         if val == false then --don't know why, redis is returning boolean instead of intgers with hset
-            print('\27[31mNil: already a mod\27[39m')
             local out = make_text(lang[ln].mod.already_mod, msg.from.first_name, msg.chat.title)
             api.sendReply(msg, out, true)
             return nil
@@ -76,18 +67,13 @@ if blocks[1] == 'promote' then
 end
 
 if blocks[1] == 'demote' then
-    
-    print('\n/demote', msg.from.first_name..' ['..msg.from.id..'] --> '..msg.chat.title..' ['..msg.chat.id..']')
-    
     --only the owner can promote or demote
     if not is_owner(msg) then
-        print('\27[31mNil: the user is not the owner\27[39m')
         local out = make_text(lang[ln].mod.not_owner)
         api.sendReply(msg, out, true)
     else
         --allert if is not a reply
         if not msg.reply_to_message then
-            print('\27[31mNil: no reply\27[39m')
             local out = make_text(lang[ln].mod.reply_demote)
             api.sendReply(msg, out, false)
 			return nil
@@ -97,13 +83,11 @@ if blocks[1] == 'demote' then
 		
 	    --ignore if is demoting itself
 	    if is_owner(msg) then
-	        print('\27[31mNil: an owner can\'t demote itself\27[39m')
 	        return nil
 	    end
 	    
 		--ignored if demoted the bot
         if msg.from.id == bot.id then
-            print('\27[31mNil: bot replied\27[39m')
 	        return nil
 	    end
         
@@ -114,7 +98,6 @@ if blocks[1] == 'demote' then
         
         --ignore and warn if the user was not a moderator
         if val == 0 then
-            print('\27[31mNil: user was not a moderator\27[39m')
             local out = make_text(lang[ln].mod.not_mod, msg.from.first_name, msg.chat.title)
             api.sendReply(msg, out, true)
             return nil
@@ -127,18 +110,13 @@ if blocks[1] == 'demote' then
 end
 
 if blocks[1] == 'owner' then
-    
-    print('\n/owner', msg.from.first_name..' ['..msg.from.id..'] --> '..msg.chat.title..' ['..msg.chat.id..']')
-    
     --only the owner can change the owner
     if not is_owner(msg) then
-        print('\27[31mNil: not the owner\27[39m')
         local out = make_text(lang[ln].mod.not_owner)
         api.sendReply(msg, out, true)
     else
         --allert if it's not a reply to someone and return nil
         if not msg.reply_to_message then
-            print('\27[31mNil: not a reply\27[39m')
             local out = make_text(lang[ln].mod.reply_owner)
             api.sendReply(msg, out, false)
 			return nil
@@ -149,13 +127,11 @@ if blocks[1] == 'owner' then
         
         --ignore if replied to the bot
         if msg.from.id == bot.id then
-            print('\27[31mNil: bot replied\27[39m')
 	        return nil
 	    end
         
         --allert if the owner is promoting as owner itself
         if is_owner(msg) then
-            print('\27[31mNil: promoting as owner itself\27[39m')
             local out = make_text(lang[ln].mod.already_owner)
             api.sendReply(msg, out, true)
             return nil
@@ -197,12 +173,8 @@ if blocks[1] == 'owner' then
 end
 
 if blocks[1] == 'modlist' then
-    
-    print('\n/modlist', msg.from.first_name..' ['..msg.from.id..'] --> '..msg.chat.title..' ['..msg.chat.id..']')
-    
     --ignore if the command is locked and the user is not a moderator
     if is_locked(msg, 'Modlist') and not is_mod(msg) then
-        print('\27[31mNil: action locked\27[39m')
     	return nil
     end
     
@@ -214,7 +186,6 @@ if blocks[1] == 'modlist' then
 
     --build the list
     for i=1, #mlist do
-		--print(mlist[i])
         message = message..i..' - '..mlist[i]..'\n'
     end
     mystat('modlist') --save stats
