@@ -13,7 +13,7 @@ bot_init = function(on_reload) -- The function run when the bot is started or re
 
 	config = dofile('config.lua') -- Load configuration file.
 	dofile('utilities.lua') -- Load miscellaneous and cross-plugin functions.
-	lang = dofile('languages2.lua') -- All the languages available
+	lang = dofile('languages.lua') -- All the languages available
 	api = require('methods')
 	
 	bot = nil
