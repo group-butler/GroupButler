@@ -9,6 +9,7 @@ end
 local function sendRequest(url)
 
 	local dat, res = HTTPS.request(url)
+
 	local tab = JSON.decode(dat)
 
 	if res ~= 200 then
@@ -26,6 +27,7 @@ end
 local function getMe()
 
 	local url = BASE_URL .. '/getMe'
+
 	return sendRequest(url)
 
 end
@@ -107,9 +109,9 @@ local function sendMessage(chat_id, text, use_markdown, disable_web_page_preview
 
 end
 
-local function sendReply(msg, text, markd)
+local function sendReply(msg, text, markd, send_sound)
 
-	return sendMessage(msg.chat.id, text, markd, true, msg.message_id)
+	return sendMessage(msg.chat.id, text, markd, true, msg.message_id, send_sound)
 
 end
 

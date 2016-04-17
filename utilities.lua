@@ -87,14 +87,8 @@ function is_locked(msg, cmd)
 end
 
 function mystat(cmd)
-	
 	local hash = 'commands:stats'
 	local final = client:hincrby(hash, cmd, 1)
-	--stat = load_data('statsbot.json')
-	--n = stat[tostring(cmd)]
-	--n = n+1
-	--stat[tostring(cmd)] = tonumber(n)
-	--save_data('statsbot.json', stat)
 	print('Stats saved', colors('%{green bright}'..cmd..': '..final))
 end	
 
