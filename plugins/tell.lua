@@ -30,7 +30,7 @@ local action = function(msg, blocks, ln)
 	if msg.chat.type == 'group' or msg.chat.type == 'supergroup' then
 		text = text..make_text(lang[ln].tell.group_name, msg.chat.title)
 		text = text..make_text(lang[ln].tell.group_id, msg.chat.id)
-		sendReply(msg, text, true)
+		api.sendReply(msg, text, true)
 	else
 		api.sendMessage(msg.from.id, text, true)
 	end

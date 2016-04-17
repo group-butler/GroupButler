@@ -21,7 +21,7 @@ local action = function(msg, blocks, ln)
 	if blocks[1] == 'botadded' then
 		
 		print('Bot added to '..msg.chat.title..' ['..msg.chat.id..']')
-		
+
 		local uname = ''
 		
 		--check if the owner has a username, and save it. If not, use the name
@@ -29,6 +29,8 @@ local action = function(msg, blocks, ln)
 		if msg.from.username then
 			jsoname = '@'..tostring(msg.from.username)
 		end
+		
+		save_log('added', msg.chat.title, msg.chat.id, jsoname, msg.adder.id)		
 		
 		--add owner as moderator
 		local hash = 'bot:'..msg.chat.id..':mod'
@@ -92,8 +94,8 @@ local action = function(msg, blocks, ln)
 		--retrive welcome settings 
 		local wlc_sett = client:hget('chat:'..msg.chat.id..':welcome', 'wel')
 		
-		local abt = groups[tostring(msg.chat.id)]['about']
-		local rls = groups[tostring(msg.chat.id)]['rules']
+		local abt = client:get('bot:'..msg.chat.id..':about')
+		local rls = client:get('bot:'..msg.chat.id..':rules')
 		local mods
 		
 		--check if the group has a decription

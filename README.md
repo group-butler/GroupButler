@@ -143,6 +143,8 @@ Here you have the list of the available commands.
 >
 >/stop | will stop the bot
 >
+>/leave [group id] | the bot will leave the group. If launched in a group, no [id] needed
+>
 >/bc [text] | will send a broadcast to users
 >
 >/bcg [text] | will send a broadcast to groups
@@ -249,9 +251,7 @@ You may also start the bot with `lua bot.lua`, but then it will not restart auto
 
 * * *
 
-Interactions with the Telegram bot API are straightforward. Every function is named the same as the API method it utilizes. The order of expected arguments is laid out in bindings.lua.
-
-There are three functions which are not API methods: sendRequest, curlRequest, and sendReply. The first two are used by the other functions. sendReply is used directly. It expects the "msg" table as its first argument, and a string of text as its second. It will send a reply without image preview to the initial message.
+Interactions with the Telegram bot API are straightforward. Every function is named the same as the API method it utilies (plus some shortcuts). The order of expected arguments is laid out in bindings.lua.
 
 * * *
 

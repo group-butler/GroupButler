@@ -30,7 +30,7 @@ local action = function(msg, blocks, ln)
 	        	api.sendReply(msg, make_text(lang[ln].floodmanager.changed, old, new))
 	    	end
 		else
-			--yes/no = disabled, so: yes->yes, disabled, no->no, not diabled
+			--yes/no = antiflood disabled, so: yes->yes, disabled, no->no, not diabled
         	if blocks[2] == 'on' then
             	client:hset('chat:'..msg.chat.id..':settings', 'Flood', 'no')
             	api.sendReply(msg, lang[ln].floodmanager.enabled)

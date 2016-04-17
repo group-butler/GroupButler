@@ -5,8 +5,7 @@ return {
 	cli_port = 4567,
 	admin = 23646077,
 	admin_name = 'Big Dick Is Back To Town',
-	channel = '',
-
+	channel = '@GroupButler_ch',
 	errors = {
 		connection = 'Connection error.',
 		results = 'No results found.',

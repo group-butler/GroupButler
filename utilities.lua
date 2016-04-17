@@ -294,6 +294,15 @@ function save_log(action, arg1, arg2, arg3, arg4)
 		local text = 'Started: '..os.date('%A, %d %B %Y at %X')..'\n'
 		file:write(text)
         file:close()
+    elseif action == 'added' then
+    	file = io.open("./logs/additions.txt", "a")
+    	if not file then
+			create_folder('logs')
+			file = io.open("./logs/additions.txt", "a")
+		end
+		local text = 'BOT ADDED ['..os.date('%A, %d %B %Y at %X')..'] to ['..arg1..'] ['..arg2..'] by ['..arg3..'] ['..arg4..']\n'
+		file:write(text)
+        file:close()
     end
 end
 		

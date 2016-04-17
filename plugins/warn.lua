@@ -67,11 +67,9 @@ local action = function(msg, blocks, ln)
 			if type == 'ban' then
 				text = make_text(lang[ln].warn.warned_max_ban, name)
 				api.kickChatMember(msg.chat.id, replied.from.id)
-				print('banned')
 		    else
 		    	api.kickChatMember(msg.chat.id, replied.from.id)
 		    	api.unbanChatMember(msg.chat.id, replied.from.id)
-		    	print('Kicked')
 		    	text = make_text(lang[ln].warn.warned_max_kick, name)
 		    end
 		else
@@ -80,7 +78,7 @@ local action = function(msg, blocks, ln)
 		end
         
         mystat('warn') --save stats
-        api.sendReply(msg.chat.id, text, true)
+        api.sendReply(msg, text, true)
     end
     
     if blocks[1] == 'warnmax' then--return nil if the user is not a moderator

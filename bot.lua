@@ -10,11 +10,15 @@ client = Redis.connect('127.0.0.1', 6379)
 version = '3.1'
 
 bot_init = function(on_reload) -- The function run when the bot is started or reloaded.
-
+	
 	config = dofile('config.lua') -- Load configuration file.
 	dofile('utilities.lua') -- Load miscellaneous and cross-plugin functions.
-	lang = dofile('languages2.lua') -- All the languages available
+	lang = dofile('languages.lua') -- All the languages available
 	api = require('methods')
+	
+	if config.bot_api_key == '' then
+		error('Api key missing')
+	end
 	
 	bot = nil
 	while not bot do -- Get bot info and retry if unable to connect.
@@ -239,6 +243,9 @@ end
 
 local function rethink_reply(msg)
 	msg.reply = msg.reply_to_message
+	if msg.reply.caption then
+		msg.reply.text = msg.reply.caption
+	end
 	return on_msg_receive(msg)
 end
 

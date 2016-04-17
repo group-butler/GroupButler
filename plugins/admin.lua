@@ -21,7 +21,9 @@ local triggers = {
 	'^/(unblock) (%d+)$',
 	'^/(unblock)$',
 	'^/(isblocked)$',
-	'^/(ping redis)$'
+	'^/(ping redis)$',
+	'^/(leave) (-%d+)$',
+	'^/(leave)$'
 }
 
 local logtxt = ''
@@ -34,6 +36,16 @@ local function save_in_redis(hash, text)
 	else
 	    failed = failed + 1
 	    return 'Something went wrong with redis, res -> '..res
+	end
+end
+
+local function bot_leave(chat_id, ln)
+	local res = api.kickChatMember(chat_id, bot.id)
+	if not res then
+		return lang[ln].admin.leave_error
+	else
+		client:hincrby('bot:general', 'groups', -1)
+		return lang[ln].admin.leave_chat_leaved
 	end
 end
 
@@ -210,6 +222,8 @@ local action = function(msg, blocks, ln)
     				api.sendDocument(msg.from.id, './logs/errors.txt')
     			elseif blocks[2] == 'starts' then
     				api.sendDocument(msg.from.id, './logs/starts.txt')
+    			elseif blocks[2] == 'additions' then
+    				api.sendDocument(msg.from.id, './logs/additions.txt')
     			else
     				reply = 'Invalid parameter: '..blocks[2]
     			end
@@ -232,6 +246,8 @@ local action = function(msg, blocks, ln)
     					cmd = io.popen('sudo rm -rf logs/errors.txt')
     				elseif blocks[3] == 'starts' then
     					cmd = io.popen('sudo rm -rf logs/starts.txt')
+    				elseif blocks[3] == 'starts' then
+    					cmd = io.popen('sudo rm -rf logs/additions.txt')
     				else
     					reply = 'Invalid parameter: '..blocks[3]
     				end
@@ -264,7 +280,7 @@ local action = function(msg, blocks, ln)
 				end
 			end
 		else
-			local reply = '*Available logs*:\n\n`msg`: errors during the delivery of messages\n`errors`: errors during the execution\n`starts`: when the bot have been started\n\nUsage:\n`/log [argument]`\n`/log del [argument]`\n`/log del` (whole folder)'
+			local reply = '*Available logs*:\n\n`msg`: errors during the delivery of messages\n`errors`: errors during the execution\n`starts`: when the bot have been started\n`additions`: when the bot have been added to a group\n\nUsage:\n`/log [argument]`\n`/log del [argument]`\n`/log del` (whole folder)'
 			if msg.chat.type == 'private' then
 				api.sendMessage(msg.chat.id, reply, true)
 			else
@@ -332,6 +348,19 @@ local action = function(msg, blocks, ln)
 		if ris == true then
 			api.sendMessage(msg.from.id, lang[ln].ping)
 		end
+	end
+	if blocks[1] == 'leave' then
+		local text
+		if not blocks[2] then
+			if msg.chat.type == 'private' then
+				text = lang[ln].admin.leave_id_missing
+			else
+				text = bot_leave(msg.chat.id, ln) 
+			end
+		else
+			text = bot_leave(blocks[2], ln)
+		end
+		api.sendMessage(config.admin, text)
 	end
 end
 
