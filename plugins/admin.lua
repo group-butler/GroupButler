@@ -182,6 +182,7 @@ local action = function(msg, blocks, ln)
 	        else
 	            logtxt = logtxt..'\n\nId:\t'..k
 	        end
+	        client:sadd('bot:groupsid', k)
 	        local rules = data[k]['rules']
 	        local about = data[k]['about']
 	        if rules then

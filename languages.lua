@@ -49,7 +49,7 @@ return {
                         ..'`/kicked list` :see a list of kicked users\n'
                         ..'`/flood [kick/ban]` : choose what the bot should do when the flood limit is triggered\n'
                         ..'`/flood [on/off]` : turn on/off the flood listener\n'
-                        ..'`/flood [messages]` : set how many messages a user can write in 5 seconds\n'
+                        ..'`/flood [number]` : set how many messages a user can write in 5 seconds\n'
                         ..'`/setrules <rules>` : set a completly new list of rules\n'
                         ..'`/addrules <rules>` : add at the tile of the existing rules a new set of rules\n'
                         ..'`/setabout <bio>` : set a completly new description for the group\n'
@@ -71,6 +71,8 @@ return {
                         ..'`/extra del` [#trigger] : delete the trigger and its content\n'
                         ..'`/setpoll [link|\'no\']` : save a poll link from @pollbot, so it can be re-called by mods, or unset it\n'
                         ..'`/poll` : get the current poll link\n'
+                        ..'`/disable [arab|rtl]` : everyone with RTL character in the name/everyone who send a text with arab characters will be kicked\n'
+                        ..'`/enable [arab|rtl]` : allow RTL character/arab texts\n'
                         ..'`/disable <rules|about|modlist|extra>` : this commands will be available only for moderators\n'
                         ..'`/enable <rules|about|modlist|extra>` : this commands will be available for all\n'
                         ..'`/enable|/disable <welcome|flag>` : switch on/off the welcome message/the ability to flag messages\n'
@@ -98,9 +100,11 @@ return {
 		    private = 'Hey, *&&&1*!\n'
                     ..'I\'m a simple bot created in order to help people to manage their groups.\n'
                     ..'\n*How can you help me?*\n'
-                    ..'With me, you can define rules and description of your group, set up a moderators list, choose whether I have to display the regulation or the description when a new member join the group, set up the group link or a link to a poll, and other things like that.\nDiscover more by adding me to a group!\n'
-                    ..'\nThe user that add me will be automatically set up as owner of the group. If you are not the real owner, you can set it by repliyng one of his messages with `/owner`.\n'
-                    ..'\nYou can report bugs/send feedbacks/ask a question to my creator just using "`/c <feedback>`" command. EVERYTHING IS WELCOME! He will reply ASAP ;)',
+                    ..'Wew, I have a lot of useful tools! You can *kick or ban* users, set rules and a description, warn users, set some parameters to kick someone when something happens (read: *antiflood*/RTL/media...)\nDiscover more by adding me to a group!\n'
+                    ..'\nThe user who adds me will be set up as owner of the group. If you are not the real owner, you can set it by repliyng one of his messages with `/owner`.'
+                    ..'\nTo use my moderation powers (kick/ban), *you need to add me as administrator of the group*.\nRemember: moderator commands can be used only by who have been promoted with `/promote`. I can\'t see the real admins of the group, this is the only way for now.\n'
+                    ..'\nYou can report bugs/send feedbacks/ask a question to my creator just using "`/c <feedback>`" command. EVERYTHING IS WELCOME!'
+                    ..'\n\n[Official channel](https://telegram.me/GroupButler_ch) and [vote link](https://telegram.me/storebot?start=groupbutler_bot)',
             group = 'I\'ve sent you the help message in *private*.\nIf you have never used me, *start* me and ask for help here *again*.'
         },
         links = {
@@ -324,6 +328,10 @@ return {
             already_blocked = '&&&1 was already blocked',
             already_unblocked = '&&&1 was already unblocked',
             bcg_no_groups = 'No (groups) id saved',
+            leave_id_missing = 'ID missing',
+            leave_chat_leaved = 'Chat leaved!',
+            leave_error = 'Check the id, it could be wrong'
+            
         },
     },
 }
