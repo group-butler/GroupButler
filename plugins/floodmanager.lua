@@ -24,7 +24,7 @@ local action = function(msg, blocks, ln)
 	    	local new = tonumber(blocks[2])
 	    	local old = tonumber(client:hget('chat:'..msg.chat.id..':flood', 'MaxFlood')) or 5
 	    	if new == old then
-	        	api.sendReply(msg.chat.id, make_text(lang[ln].floodmanager.not_changed, new))
+	        	api.sendReply(msg, make_text(lang[ln].floodmanager.not_changed, new))
 	    	else
 	        	client:hset('chat:'..msg.chat.id..':flood', 'MaxFlood', new)
 	        	api.sendReply(msg, make_text(lang[ln].floodmanager.changed, old, new))

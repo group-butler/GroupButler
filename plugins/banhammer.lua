@@ -27,6 +27,9 @@ local action = function(msg, blocks, ln)
 		        	api.sendReply(msg, lang[ln].banhammer.reply)
 		        	return nil
 		    	end
+		    	if msg.reply.from.id == bot.id then
+		    		return
+		    	end
 		    	local name = msg.reply.from.first_name
 		    	if msg.reply.from.username then
 		        	name = name..' [@'..msg.reply.from.username..']'
