@@ -91,7 +91,7 @@ return {
                     ..'`/rules` (if unlocked) : show the group rules\n'
                     ..'`/about` (if unlocked) : show the group description\n'
                     ..'`/modlist` (if unlocked) : show the moderators of the group\n'
-                    ..'`/flag msg` (by reply and if unlocked) `[optional description]` : report the message to administrators\n'
+                    ..'`/flag msg` (by reply and if unlocked) <optional description> : report the message to administrators\n'
                     ..'`/tell` : show your basical info or the info about the user you replied to\n'
                     ..'`/info` : show some useful informations about the bot\n'
                     ..'`/c` <feedback> : send a feedback/report a bug/ask a question to my creator. _ANY KIND OF SUGGESTION OR FEATURE REQUEST IS WELCOME_. He will reply ASAP\n'

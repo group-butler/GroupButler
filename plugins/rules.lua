@@ -12,7 +12,7 @@ local triggers = {
 local action = function(msg, blocks, ln)
     --ignore if via pm
     if msg.chat.type == 'private' then
-    	sendMessage(msg.from.id, lang[ln].pv)
+    	api.sendMessage(msg.from.id, lang[ln].pv)
     	return nil
     end
     local hash = 'bot:'..msg.chat.id..':rules'

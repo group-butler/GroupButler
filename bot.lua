@@ -5,7 +5,7 @@ JSON = require('dkjson')
 redis = require('redis')
 colors = require('ansicolors')
 client = Redis.connect('127.0.0.1', 6379)
---serpent = require('serpent')
+serpent = require('serpent')
 
 version = '3.1'
 

@@ -176,11 +176,11 @@ Here you have the list of the available commands.
 * * *
 
 ##Setup
-You **must** have Lua (5.2+), LuaSocket, LuaSec, Redis-Lua, ansicolors and Curl installed.
+You **must** have Lua (5.2+), LuaSocket, LuaSec, Redis-Lua, Lua ansicolors, Lua serpent and Curl installed.
 
 How to install LuaRocks and set-up the modules:
 ```bash
-# Download and install LuaSocket, LuaSec, Redis-Lua and ansicolors
+# Download and install LuaSocket, LuaSec, Redis-Lua, ansicolors and serpent
 
 $ wget http://luarocks.org/releases/luarocks-2.2.2.tar.gz
 $ tar zxpf luarocks-2.2.2.tar.gz
@@ -190,6 +190,10 @@ $ sudo luarocks install luasocket
 $ sudo luarocks install luasec
 $ sudo luarocks install redis-lua
 $ sudo luarocks install ansicolors
+
+#serpent is needed for debugging
+
+$ sudo luarocks install serpent
 $ cd ..
 ```
 

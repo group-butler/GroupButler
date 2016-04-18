@@ -305,7 +305,7 @@ if blocks[1] == 'settings' then
             end
             message = message..text --concatenete the text
             if key == 'Flood' then
-                local max_msgs = client:hget('chat:'..msg.chat.id..':flood', 'MaxFlood')
+                local max_msgs = client:hget('chat:'..msg.chat.id..':flood', 'MaxFlood') or 5
                 local action = client:hget('chat:'..msg.chat.id..':flood', 'ActionFlood')
                 message = message..make_text(lang[ln].settings.resume.flood_info, max_msgs, action)
             end

@@ -1,18 +1,8 @@
 return {
 	bot_api_key = '',
-	yandex_api_key = '',
 	time_offset = 0,
-	cli_port = 4567,
 	admin = 23646077,
-	admin_name = 'Big Dick Is Back To Town',
 	channel = '@GroupButler_ch',
-	errors = {
-		connection = 'Connection error.',
-		results = 'No results found.',
-		argument = 'Invalid argument.',
-		syntax = 'Invalid syntax.',
-		not_admin = 'This command must be run by an administrator.'
-	},
 	plugins = {
 		'onmessage.lua', --THIS HAVE TO BE THE FIRST: IF AN USER IS SPAMMING/IS BLOCKED, THE BOT WON'T GO THROUGH PLUGINS
 		'admin.lua',

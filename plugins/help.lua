@@ -26,8 +26,10 @@ local action = function(msg, blocks, ln)
         end
         if is_mod(msg) then
             out = out..make_text(lang[ln].help.moderator)
+            api.sendMessage(msg.from.id, out, true, true)
+            out = nil
         end
-        out = out..make_text(lang[ln].help.all)
+        out = make_text(lang[ln].help.all)
         
         api.sendReply(msg, make_text(lang[ln].help.group), true)
     end

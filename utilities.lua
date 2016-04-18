@@ -24,7 +24,7 @@ end
 
 function string:neat() -- Remove the markdown.
 	if not self:find('*') and not self:find('_') and not self:find('`') then
-		return false
+		return self
 	end
 	return self:gsub('*', ''):gsub('_', ''):gsub('`', '')
 end
@@ -193,9 +193,9 @@ function clean_owner_modlist(chat)
 	end
 end
 
---function vardump(value)
-  --print(serpent.block(value, {comment=false}))
---end
+function vardump(value)
+  print(serpent.block(value, {comment=false}))
+end
 
 function breaks_markdown(text)
 	local i = 0
@@ -262,7 +262,7 @@ function save_log(action, arg1, arg2, arg3, arg4)
 			create_folder('logs')
 			file = io.open("./logs/msgs_errors.txt", "a")
 		end
-		local text = os.date('[%A, %d %B %Y at %X]')..' --> '..arg1..'\n\n'
+		local text = os.date('[%A, %d %B %Y at %X]')..'\n'..arg1..'\n\n'
 		file:write(text)
         file:close()
     elseif action == 'errors' then

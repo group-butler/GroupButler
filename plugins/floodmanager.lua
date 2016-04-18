@@ -20,7 +20,7 @@ local action = function(msg, blocks, ln)
 	if not blocks[2] then
 		--show flood settings
 	else
-		if blocks[2] == '%d%d?' then
+		if blocks[2]:match('(%d%d?)') then
 	    	local new = tonumber(blocks[2])
 	    	local old = tonumber(client:hget('chat:'..msg.chat.id..':flood', 'MaxFlood')) or 5
 	    	if new == old then

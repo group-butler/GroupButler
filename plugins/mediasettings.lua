@@ -48,7 +48,7 @@ local action = function(msg, blocks, ln)
 	            api.sendReply(msg, make_text(lang[ln].mediasettings.changed, media, status), true)
 	        end
         else
-            api.sendReply(msg, lang[ln].mediasettings.wrong_input)
+            api.sendReply(msg, lang[ln].mediasettings.wrong_input, true)
         end
     end
 	    
