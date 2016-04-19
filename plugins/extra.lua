@@ -27,8 +27,6 @@ local action = function(msg, blocks, ln)
 	    end
 	    local hash = 'extra:'..msg.chat.id
 	    client:hset(hash, blocks[2], blocks[3])
-	    
-	    mystat('extra')
 	    local text = make_text(lang[ln].extra.new_command, blocks[2], blocks[3])
 	    api.sendReply(msg, text, true)
 	elseif blocks[1] == 'extra list' then

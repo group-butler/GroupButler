@@ -235,18 +235,20 @@ function breaks_markdown(text)
 	return false
 end
 
-function make_text(base, par1, par2, par3, par4, par5, par6)
-	local text = base
-	if par1 then text = text:gsub('&&&1', par1) end
-	if par2 then text = text:gsub('&&&2', par2) end
-	if par3 then text = text:gsub('&&&3', par3) end
-	if par4 then text = text:gsub('&&&4', par4) end
-	if par5 then text = text:gsub('&&&5', par5) end
-	if par5 then text = text:gsub('&&&6', par6) end
-	--if breaks_markdown(text) then
-		--print('Markdown issue with:\n\n'..text)
-  		--sendMessage(config.admin, 'Markdown issue, check the log')
-	--end
+local function per_away(text)
+	local text = text:gsub('%%', '£&£')
+	print(text)
+	return text
+end
+
+function make_text(text, par1, par2, par3, par4, par5, par6)
+	if par1 then text = text:gsub('&&&1', per_away(par1)) end
+	if par2 then text = text:gsub('&&&2', per_away(par2)) end
+	if par3 then text = text:gsub('&&&3', per_away(par3)) end
+	if par4 then text = text:gsub('&&&4', per_away(par4)) end
+	if par5 then text = text:gsub('&&&5', per_away(par5)) end
+	if par6 then text = text:gsub('&&&6', per_away(par6)) end
+	text = text:gsub('£&£', '%%')
 	return text
 end
 
@@ -312,4 +314,3 @@ function save_log(action, arg1, arg2, arg3, arg4)
         file:close()
     end
 end
-		

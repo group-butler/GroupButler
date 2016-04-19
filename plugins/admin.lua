@@ -80,10 +80,10 @@ local action = function(msg, blocks, ln)
 		mystat('halt') --save stat
 	end
 	if blocks[1] == 'backup' then
-		local cmd = io.popen('sudo tar -cpf GroupButler.tar *')
+		local cmd = io.popen('sudo tar -cpf '..bot.first_name:gsub(' ', '_')..'.tar *')
     	cmd:read('*all')
     	cmd:close()
-    	api.sendDocument(msg.from.id, './GroupButler.tar')
+    	api.sendDocument(msg.from.id, './'..bot.first_name:gsub(' ', '_')..'.tar')
     end
     if blocks[1] == 'bc' then
 	        if breaks_markdown(blocks[2]) then

@@ -23,7 +23,8 @@ return {
 		'setlang.lua',
 		'banhammer.lua',
 		'floodmanager.lua',
-		'mediasettings.lua'
+		'mediasettings.lua',
+		'test.lua'
 		
 	},
 	available_languages = {
