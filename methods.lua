@@ -14,6 +14,7 @@ local function sendRequest(url)
 
 	if res ~= 200 then
 		if res ~= 403 then api.sendMessage(config.admin, vtext(dat)) end
+		vardump(tab.description)
 		return false, res
 	end
 

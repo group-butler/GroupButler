@@ -149,6 +149,8 @@ Here you have the list of the available commands.
 >
 >/bcg [text] | will send a broadcast to groups
 >
+>/post [post text] | post a message in the setted channel (config.lua)
+>
 >/stats | will return some statistics (messages, groups, users, commands)
 >
 >/commands | will show how many times each command have been used
@@ -220,7 +222,9 @@ $ cd GroupButler && sudo chmod 777 launch.sh
 >
 > • Set admin as your Telegram ID.
 >
-> • If it asks for the sudo password, insert it.
+> • Set your bot channel 8if you have one) in config.lua, under "channel".
+>
+> • If it asks for the sudo password during the installation or after, insert it.
 
 Before start the bot, you have to start Redis. Open a new window and type:
 ```bash

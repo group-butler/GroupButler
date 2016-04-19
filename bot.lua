@@ -279,7 +279,7 @@ while is_started do -- Start a loop while the bot should be running.
 			end
 		end
 	else
-		print(config.errors.connection)
+		print('Connection error')
 	end
 
 	if last_cron < os.time() - 5 then -- Run cron jobs if the time has come.
