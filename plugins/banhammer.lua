@@ -34,24 +34,24 @@ local action = function(msg, blocks, ln)
 		    	if msg.reply.from.username then
 		        	name = name..' [@'..msg.reply.from.username..']'
 		    	end
+		 		local res
 		 		if blocks[1] == 'kick' then
 		 			if not is_mod(msg.reply) then
-			     		local hash = 'kicked:'..msg.chat.id
-	        			client:hset(hash, msg.reply.from.id, name)
-		    			api.kickChatMember(msg.chat.id, msg.reply.from.id)
-		    			api.unbanChatMember(msg.chat.id, msg.reply.from.id)
-		    			api.sendMessage(msg.chat.id, make_text(lang[ln].banhammer.kicked, name))
+		    			api.kickUser(msg.chat.id, msg.reply.from.id, ln, name)
 		    		end
 	    		end
 	    		if blocks[1] == 'ban' then
 	    			if not is_mod(msg.reply_to_message) then
-		    			api.kickChatMember(msg.chat.id, msg.reply_to_message.from.id)
-		    			api.sendMessage(msg.chat.id, make_text(lang[ln].banhammer.banned, name))
+		    			api.banUser(msg.chat.id, msg.reply.from.id, ln, name)
 		    		end
     			end
     			if blocks[1] == 'unban' then
-    				api.unbanChatMember(msg.chat.id, msg.reply.from.id)
-    				api.sendReply(msg, make_text(lang[ln].banhammer.unbanned, name))
+    				if msg.chat.type == 'group' then
+    					api.sendReply(msg, lang[ln].banhammer.no_unbanned)
+    				else
+    					api.unbanChatMember(msg.chat.id, msg.reply.from.id)
+    					api.sendReply(msg, make_text(lang[ln].banhammer.unbanned, name))
+    				end
     			end
 	    		if blocks[1] == 'gban' then
 	    			if tonumber(msg.from.id) ~= config.admin then

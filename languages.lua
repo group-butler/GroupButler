@@ -293,6 +293,7 @@ return {
             unbanned = '&&&1 have been unbanned!',
             reply = 'Reply to someone',
             globally_banned = '&&&1 have been globally banned!',
+            no_unbanned = 'This is a normal group, people is not blocked when kicked'
         },
         floodmanager = {
             not_changed = 'The max number of messages that can be sent in 5 seconds is already &&&1',
@@ -332,6 +333,14 @@ return {
             leave_chat_leaved = 'Chat leaved!',
             leave_error = 'Check the id, it could be wrong'
             
+        },
+        kick_errors = {
+            [101] = 'I\'m not an admin, I can\'t kick people',
+            [102] = 'I can\'t kick or ban an admin',
+            [103] = 'There is no need to unban in a normal group',
+            [104] = 'I can\'t kick or ban an admin', --yes, I need two
+            [105] = 'I\'m not an admin, I can\'t kick people',
+            [106] = 'An unknown error occurred while kicking'
         },
     },
 }

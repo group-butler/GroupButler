@@ -13,6 +13,7 @@ local function sendRequest(url)
 	local tab = JSON.decode(dat)
 
 	if res ~= 200 then
+		if res ~= 403 then api.sendMessage(config.admin, vtext(dat)) end
 		return false, res
 	end
 
@@ -44,39 +45,122 @@ local function getUpdates(offset)
 
 end
 
+local function getKickError(error)
+	error = error:gsub('%[Error%]: Bad Request: ', '')
+	local known_errors = {
+		[101] = 'Not enough rights to kick participant', --SUPERGROUP: bot is not admin
+		[102] = 'USER_ADMIN_INVALID', --SUPERGROUP: trying to kick an admin
+		[103] = 'method is available for supergroup chats only', --NORMAL: trying to unban
+		[104] = 'Only creator of the group can kick admins from the group', --NORMAL: trying to kick an admin
+		[105] = 'Need to be inviter of the user to kick it from the group' --NORMAL: bot is not an admin or everyone is an admin
+	}
+	for k,v in pairs(known_errors) do
+		if error == v then
+			return k
+		end
+	end
+	return 106 --if unknown
+end
+
 local function unbanChatMember(chat_id, user_id)
 	
 	local url = BASE_URL .. '/unbanChatMember?chat_id=' .. chat_id .. '&user_id=' .. user_id
 
-	return sendRequest(url)
+	--return sendRequest(url)
+	
+	local dat, res = HTTPS.request(url)
+	
+	local tab = JSON.decode(dat)
 
+	if res ~= 200 then
+		return false, res
+	end
+
+	if not tab.ok then
+		return false, tab.description
+	end
+
+	return tab
+	
 end
 
 local function kickChatMember(chat_id, user_id)
 
 	local url = BASE_URL .. '/kickChatMember?chat_id=' .. chat_id .. '&user_id=' .. user_id
 
-	return sendRequest(url)
+	--return sendRequest(url)
+	
+	local dat, res = HTTPS.request(url)
+
+	local tab = JSON.decode(dat)
+
+	if res ~= 200 then
+		return false, api.getKickError(tab.description)
+	end
+
+	if not tab.ok then
+		return false, tab.description
+	end
+
+	return tab
 
 end
 
-local function banUser(chat_id, user_id)
-	
-	local url = BASE_URL .. '/kickChatMember?chat_id=' .. chat_id .. '&user_id=' .. user_id
-	
-	return sendRequest(url)
-	
+local function from_code2text(code, ln)
+	if code == 101 then
+		return lang[ln].kick_errors[code]
+	elseif code == 102 then
+		return lang[ln].kick_errors[code]
+	elseif code == 103 then
+		return lang[ln].kick_errors[code]
+	elseif code == 104 then
+		return lang[ln].kick_errors[code]
+	elseif code == 105 then
+		return lang[ln].kick_errors[code]
+	elseif code == 106 then
+		save_log('errors', 'Unknown error while kicking')
+		api.sendMessage(chat_id, lang[ln].kick_errors[code], true)
+		return 'An error occurred.\nCheck the log'
+	end
 end
 
-local function kickUser(chat_id, user_id)
-	
-	local url = BASE_URL .. '/kickChatMember?chat_id=' .. chat_id .. '&user_id=' .. user_id
-	
-	sendRequest(url)
-	
-	local url = BASE_URL .. '/unbanChatMember?chat_id=' .. chat_id .. '&user_id=' .. user_id
+local function banUser(chat_id, user_id, ln, arg1, no_msg)--arg1: should be the name, no_msg: kick without message if kick is failed
+	local name = arg1
+	if not name then name = 'User' end
+	res, code = api.kickChatMember(chat_id, user_id)
+	if res then
+		no_msg = false
+		text = make_text(lang[ln].banhammer.kicked, name)
+	else
+		text = api.from_code2text(code, ln)
+	end
+	if no_msg then
+		return res
+	else
+		api.sendMessage(chat_id, text, true)
+		return res
+	end
+end
 
-	return sendRequest(url)
+local function kickUser(chat_id, user_id, ln, arg1, no_msg)--arg1: should be the name, no_msg: kick without message if kick is failed
+	local name = arg1
+	if not name then name = 'User' end
+	res, code = api.kickChatMember(chat_id, user_id)
+	if res then
+		local hash = 'kicked:'..chat_id
+	    client:hset(hash, user_id, name)
+		api.unbanChatMember(chat_id, user_id)
+		text = make_text(lang[ln].banhammer.kicked, name)
+		no_msg = false
+	else
+		text = api.from_code2text(code, ln)
+	end
+	if no_msg then
+		return res
+	else
+		api.sendMessage(chat_id, text, true)
+		return res
+	end
 end
 
 local function sendMessage(chat_id, text, use_markdown, disable_web_page_preview, reply_to_message_id, send_sound)
@@ -101,8 +185,10 @@ local function sendMessage(chat_id, text, use_markdown, disable_web_page_preview
 	
 	if not res then
 		print('Delivery failed')
-		sendMessage(config.admin, 'Delivery failed.\nCheck the log')
-		save_log('send_msg', text)
+		local ris = save_log('send_msg', text) --if the delivery it's not failed when /help is requested, then send a message
+		if not ris then
+			sendMessage(config.admin, 'Delivery failed.\nCheck the log')
+		end
 	end
 	
 	return res
@@ -281,5 +367,7 @@ return {
 	kickChatMember = kickChatMember,
 	banUser = banUser,
 	kickUser = kickUser,
-	sendReply = sendReply
+	sendReply = sendReply,
+	getKickError = getKickError,
+	from_code2text = from_code2text
 }	

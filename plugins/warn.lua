@@ -64,14 +64,15 @@ local action = function(msg, blocks, ln)
 		if tonumber(num) >= tonumber(nmax) then
 			text = make_text(lang[ln].warn.warned_max_kick, name)
 			local type = client:get('warns:'..msg.chat.id..':type')
+			name = name..' (->'..num..'/'..nmax..')'
 			if type == 'ban' then
-				text = make_text(lang[ln].warn.warned_max_ban, name)
-				api.kickChatMember(msg.chat.id, replied.from.id)
+				--text = make_text(lang[ln].warn.warned_max_ban, name)
+				api.kickUser(msg.chat.id, replied.from.id, ln, name)
 		    else
-		    	api.kickChatMember(msg.chat.id, replied.from.id)
-		    	api.unbanChatMember(msg.chat.id, replied.from.id)
+		    	api.banUser(msg.chat.id, replied.from.id, ln, name)
 		    	text = make_text(lang[ln].warn.warned_max_kick, name)
 		    end
+		    return --avoid to send another reply 6 lines below
 		else
 			local diff = tonumber(nmax)-tonumber(num)
 			text = make_text(lang[ln].warn.warned, name, num, nmax, diff)

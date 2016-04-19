@@ -2,7 +2,7 @@ return {
 	bot_api_key = '',
 	time_offset = 0,
 	admin = 23646077,
-	channel = '@GroupButler_ch',
+	channel = '',
 	plugins = {
 		'onmessage.lua', --THIS HAVE TO BE THE FIRST: IF AN USER IS SPAMMING/IS BLOCKED, THE BOT WON'T GO THROUGH PLUGINS
 		'admin.lua',

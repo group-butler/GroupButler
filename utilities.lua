@@ -197,6 +197,10 @@ function vardump(value)
   print(serpent.block(value, {comment=false}))
 end
 
+function vtext(value)
+  return serpent.block(value, {comment=false})
+end
+
 function breaks_markdown(text)
 	local i = 0
 	for word in string.gmatch(text, '%*') do
@@ -257,6 +261,9 @@ end
 function save_log(action, arg1, arg2, arg3, arg4)
 	local file
 	if action == 'send_msg' then
+		if arg1:find('^*Commands for the owner:*') or arg1:find('*Commands for all:*') then
+			return true --a way to avoid to send the "delivery failed" message to the admin when it's failed because the user have not started the bot
+		end
 		file = io.open("./logs/msgs_errors.txt", "a")
 		if not file then
 			create_folder('logs')

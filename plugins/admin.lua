@@ -23,7 +23,8 @@ local triggers = {
 	'^/(isblocked)$',
 	'^/(ping redis)$',
 	'^/(leave) (-%d+)$',
-	'^/(leave)$'
+	'^/(leave)$',
+	'^/(post) (.*)$'
 }
 
 local logtxt = ''
@@ -362,6 +363,20 @@ local action = function(msg, blocks, ln)
 			text = bot_leave(blocks[2], ln)
 		end
 		api.sendMessage(config.admin, text)
+	end
+	if blocks[1] == 'post' then
+		if config.channel == '' then
+			api.sendMessage(config.admin, 'Enter your channel username in config.lua')
+		else
+			local res = api.sendMessage(config.channel, blocks[2], true)
+			local text
+			if res then
+				text = 'Message posted in '..config.channel
+			else
+				text = 'Delivery failed. Check the markdown used or the channel username setted'
+			end
+			api.sendMessage(config.admin, text)
+		end
 	end
 end
 
