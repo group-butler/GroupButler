@@ -30,6 +30,13 @@ function string:neat() -- Remove the markdown.
 	return self
 end
 
+function is_admin(msg)
+	if msg.from.id and tonumber(msg.from.id) == config.admin then
+		return true
+	end
+	return false
+end
+
 function is_owner(msg)
 	local var = false
 	
@@ -78,13 +85,12 @@ function is_blocked(id)
 end
 
 function is_locked(msg, cmd)
-	local var = false
   	local hash = 'chat:'..msg.chat.id..':settings'
   	local current = client:hget(hash, cmd)
   	if current == 'yes' then
-  		var = true
+  		return true
   	end
-  	return var
+  	return false
 end
 
 function mystat(cmd)
@@ -158,25 +164,14 @@ function save_data(filename, data) -- Saves a table to a JSON file.
 
 end
 
-function match_pattern(pattern, text, lower_case)
+function match_pattern(pattern, text)
   if text then
     local matches = {}
-    if lower_case then
-      matches = { string.match(text:lower(), pattern) }
-    else
-      matches = { string.match(text, pattern) }
+    matches = { string.match(text, pattern) }
+    if next(matches) then
+    	return matches
     end
-      if next(matches) then
-      	if matches[1] ~= '' then
-      		--print('----------------------------------------------------------------')
-      		--for i=1, #matches do
-      	 		--print('matches['..i..']', matches[i])
-      		--end
-      	end
-        return matches
-      end
   end
-  -- nil
 end
 
 function clean_owner_modlist(chat)
