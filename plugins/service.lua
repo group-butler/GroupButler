@@ -113,7 +113,7 @@ local action = function(msg, blocks, ln)
     	for i=1, #mlist do
         	mods = mods..'*'..i..'* - '..mlist[i]..'\n'
     	end
-		mods:neat()
+		mods = mods:neat()
 		
 		--read welcome settings and build the message
 		if wlc_sett == 'a' then

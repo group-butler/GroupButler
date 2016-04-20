@@ -26,7 +26,8 @@ function string:neat() -- Remove the markdown.
 	if not self:find('*') and not self:find('_') and not self:find('`') then
 		return self
 	end
-	return self:gsub('*', ''):gsub('_', ' '):gsub('`', '')
+	self = self:gsub('*', ''):gsub('_', ''):gsub('`', '')
+	return self
 end
 
 function is_owner(msg)
