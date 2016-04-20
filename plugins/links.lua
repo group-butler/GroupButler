@@ -36,9 +36,8 @@ local action = function(msg, blocks, ln)
 		else
 			text = make_text(lang[ln].links.link, msg.chat.title, link)
 		end
-		
-		mystat('link') --save stats
 		api.sendReply(msg, text, true)
+		mystat('/link')
 	end
 	
 	if blocks[1] == 'setlink' then
@@ -69,9 +68,8 @@ local action = function(msg, blocks, ln)
 				text = make_text(lang[ln].links.link_setted, msg.chat.title, link)
 			end
 		end
-			
-		mystat('setlink') --save stats
 		api.sendReply(msg, text, true)
+		mystat('/setlink')
 	end
 	
 	if blocks[1] == 'setpoll' then
@@ -106,11 +104,9 @@ local action = function(msg, blocks, ln)
 				text = make_text(lang[ln].links.poll_setted, description, link)
 			end
 		end
-			
-		mystat('setpoll') --save stats
 		api.sendReply(msg, text, true)
-		
-end
+		mystat('/setpoll')
+	end
 
 	if blocks[1] == 'poll' then
 		--ignore if not mod
@@ -128,10 +124,8 @@ end
 		else
 			text = make_text(lang[ln].links.poll, description, link)
 		end
-		
-		mystat('poll') --save stats
 		api.sendReply(msg, text, true)
-		
+		mystat('/poll')
 	end
 end
 

@@ -28,8 +28,7 @@ local action = function(msg, blocks, ln)
         else
             api.sendReply(msg, make_text(lang[ln].setrules.rules, msg.chat.title, rules), true)
         end
-        mystat('rules') --save stats
-        return nil
+        mystat('/rules') --save stats
     end
 	if blocks[1] == 'addrules' then
 	    --ignore if not mod
@@ -57,8 +56,7 @@ local action = function(msg, blocks, ln)
             client:set(hash, rules)
             api.sendReply(msg, make_text(lang[ln].setrules.added, input), true)
         end
-        mystat('addrules') --save stats
-        return nil
+        mystat('/addrules')
     end
 	if blocks[1] == 'setrules' then
     	--ignore if not mod
@@ -86,8 +84,7 @@ local action = function(msg, blocks, ln)
 		--set the new rules	
 		client:set(hash, input)
 		api.sendReply(msg, make_text(lang[ln].setrules.new, input), true)
-		mystat('setrules') --save stats
-		return true
+		mystat('/setrules')
 	end
 
 end

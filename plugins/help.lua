@@ -6,7 +6,7 @@ local triggers = {
 local action = function(msg, blocks, ln)
     -- save stats
     if string.match(msg.text, '^/help') then
-        mystat('help')
+        mystat('/help')
     else
         local hash = 'bot:general'
         local num = client:hincrby(hash, 'users', 1)

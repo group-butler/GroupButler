@@ -29,6 +29,7 @@ local action = function(msg, blocks, ln)
 	    client:hset(hash, blocks[2], blocks[3])
 	    local text = make_text(lang[ln].extra.new_command, blocks[2], blocks[3])
 	    api.sendReply(msg, text, true)
+	    mystat('/extra')
 	elseif blocks[1] == 'extra list' then
 	    if not is_mod(msg) then
 	        return nil
@@ -43,11 +44,10 @@ local action = function(msg, blocks, ln)
 	        for k,v in pairs(commands) do
 	            text = text..v..'\n'
 	        end
-	        
-	        mystat('extralist')
 	        local out = make_text(lang[ln].extra.commands_list, text)
 	        api.sendReply(msg, out, true)
 	    end
+	    mystat('/extra list')
     elseif blocks[1] == 'extra del' then
         if not is_mod(msg) then
 	        return nil
@@ -62,9 +62,10 @@ local action = function(msg, blocks, ln)
 	        local out = make_text(lang[ln].extra.command_empty, blocks[2])
 	        api.sendReply(msg, out)
 	    end
+	    mystat('/extra del')
     else
         if is_locked(msg, 'Extra') and not is_mod(msg) then
-            return nil
+            return
         end
         local hash = 'extra:'..msg.chat.id
         local commands = client:hkeys(hash)
@@ -79,10 +80,9 @@ local action = function(msg, blocks, ln)
 		
 		if text then
         	api.sendReply(msg, text, true)
+        	mystat('/extra command')
         end
     end
-    
-	mystat('extra') --save stats
 end
 
 return {

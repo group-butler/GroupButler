@@ -43,7 +43,7 @@ local action = function(msg, blocks, ln)
 		--sendMessage(msg.from.id, text, true)
 	--end
 		
-	mystat('tell') --save stats
+	mystat('/tell') --save stats
 end
 
 return {

@@ -62,9 +62,9 @@ local action = function(msg, blocks, ln)
             api.sendMessage(v, out)
             --sendMessage(v, msg.from.first_name..titlefla..' reported '..replied.from.first_name..titlere..'\nDescription: '..desc..'\nMessage reported:\n\n'..replied.text)
         end
-        mystat('flagmsg') --save stats
         local out = make_text(lang[ln].flag.group_msg)
         api.sendMessage(msg.chat.id, out, true)
+        mystat('/flag')
     end
     if blocks[1] == 'flag block' then
         --return nil if the user is not a moderator
@@ -102,9 +102,9 @@ local action = function(msg, blocks, ln)
             title = '@'..replied.from.username
         end
         client:sadd(hash, replied.from.id)
-        mystat('flagblock') --save stats
         local out = make_text(lang[ln].flag.blocked, msg.from.first_name)
         api.sendReply(msg, out, true)
+        mystat('/flagblock')
     end
     if blocks[1] == 'flag free' then
         --return nil if the user is not a moderator
@@ -137,9 +137,9 @@ local action = function(msg, blocks, ln)
         end
         --able the user to use /flag and save datas
         client:srem(hash, replied.from.id)
-        mystat('flagfree') --save stats
         local out = make_text(lang[ln].flag.unblocked, msg.from.first_name)
         api.sendReply(msg, out, true)
+        mystat('/flagfree')
     end
 end
 

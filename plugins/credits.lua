@@ -6,7 +6,7 @@ local triggers = {
 }
 
 local action = function(msg, blocks, ln)
-	mystat('info')
+	mystat('/credits')
 	api.sendMessage(msg.from.id, lang[ln].credits, true, true)
 end
 

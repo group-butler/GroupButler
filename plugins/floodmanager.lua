@@ -29,26 +29,28 @@ local action = function(msg, blocks, ln)
 	        	client:hset('chat:'..msg.chat.id..':flood', 'MaxFlood', new)
 	        	api.sendReply(msg, make_text(lang[ln].floodmanager.changed, old, new))
 	    	end
+	    	mystat('/flood num')
 		else
 			--yes/no = antiflood disabled, so: yes->yes, disabled, no->no, not diabled
         	if blocks[2] == 'on' then
             	client:hset('chat:'..msg.chat.id..':settings', 'Flood', 'no')
             	api.sendReply(msg, lang[ln].floodmanager.enabled)
+            	mystat('/flood on')
         	elseif blocks[2] == 'off' then
             	client:hset('chat:'..msg.chat.id..':settings', 'Flood', 'yes')
             	api.sendReply(msg, lang[ln].floodmanager.disabled)
+            	mystat('/flood off')
         	elseif blocks[2] == 'ban' then
             	client:hset('chat:'..msg.chat.id..':flood', 'ActionFlood', 'ban')
             	api.sendReply(msg, lang[ln].floodmanager.ban)
+            	mystat('/flood ban')
         	elseif blocks[2] == 'kick' then
             	client:hset('chat:'..msg.chat.id..':flood', 'ActionFlood', 'kick')
             	api.sendReply(msg, lang[ln].floodmanager.kick)
+            	mystat('/flood kick')
         	end
         end
     end
-    
-	
-	mystat('floodmanager') --save stats
 end
 
 return {

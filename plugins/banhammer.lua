@@ -21,6 +21,7 @@ local action = function(msg, blocks, ln)
 		            text = lang[ln].banhammer.kicked_empty
 		        end
 		        api.sendReply(msg, text)
+		        mystat('/kicked list')
 		        return
 		    else
 		    	if not msg.reply_to_message then
@@ -43,6 +44,7 @@ local action = function(msg, blocks, ln)
 	    		if blocks[1] == 'ban' then
 	    			if not is_mod(msg.reply_to_message) then
 		    			api.banUser(msg.chat.id, msg.reply.from.id, ln, name)
+		    			mystat('/ban')
 		    		end
     			end
     			if blocks[1] == 'unban' then
@@ -52,6 +54,7 @@ local action = function(msg, blocks, ln)
     					api.unbanChatMember(msg.chat.id, msg.reply.from.id)
     					api.sendReply(msg, make_text(lang[ln].banhammer.unbanned, name))
     				end
+    				mystat('/unban')
     			end
 	    		if blocks[1] == 'gban' then
 	    			if tonumber(msg.from.id) ~= config.admin then
@@ -61,10 +64,9 @@ local action = function(msg, blocks, ln)
 	    					print('Global banned', k)
 	    				end
 	    				api.sendMessage(msg.chat.id, make_text(lang[ln].banhammer.globally_banned, name))
+	    				mystat('/gban')
 	    			end
 	    		end
-	
-	    		mystat('banhammer') --save stats
 			end
 		end
 	else

@@ -60,9 +60,9 @@ if blocks[1] == 'promote' then
             return nil
         end
         
-        mystat('promote') --save stats
         local out = make_text(lang[ln].mod.promoted, msg.from.first_name, msg.chat.title)
         api.sendReply(msg, out, true)
+        mystat('/promote')
     end
 end
 
@@ -103,9 +103,9 @@ if blocks[1] == 'demote' then
             return nil
         end
         
-        mystat('demote') --save stats
         local out = make_text(lang[ln].mod.demoted, msg.from.first_name)
         api.sendReply(msg, out, true)
+        mystat('/demote')
     end
 end
 
@@ -157,18 +157,9 @@ if blocks[1] == 'owner' then
 	    client:hdel(hash, owner)
 	    client:hset(hash, new_owner, jsoname)
         
-        --------------------------JSON-------------------
-        --add the new one to moderators list
-        --groups[tostring(msg.chat.id)]['mods'][tostring(msg.from.id)] = jsoname
-        
-        --save the owner id
-        --groups[tostring(msg.chat.id)]['owner'] = tostring(msg.from.id)
-        --save_data('groups.json', groups)
-        ---------------------------JSON--------------------------------
-        
-        mystat('owner') --save stats
         local out = make_text(lang[ln].mod.new_owner, msg.from.first_name)
         api.sendReply(msg, out, true)
+        mystat('/owner')
     end
 end
 
@@ -188,10 +179,11 @@ if blocks[1] == 'modlist' then
     for i=1, #mlist do
         message = message..i..' - '..mlist[i]..'\n'
     end
-    mystat('modlist') --save stats
+
     --send the list
     local out = make_text(lang[ln].mod.modlist, msg.chat.title, message)
     api.sendReply(msg, out)
+    mystat('/modlist')
 end
 
 end

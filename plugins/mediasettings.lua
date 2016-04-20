@@ -21,6 +21,7 @@ local action = function(msg, blocks, ln)
 	        text = text..i..' ▸ `'..list[i]..'`\n'
 	    end
 	    api.sendReply(msg, text, true)
+	    mystat('/media list')
 	elseif blocks[1] == 'media' then
 		local media_sett = client:hgetall('media:'..msg.chat.id)
 		local text = lang[ln].mediasettings.settings_header
@@ -28,6 +29,7 @@ local action = function(msg, blocks, ln)
 			text = text..'`'..k..'`'..' ≡ '..v..'\n'
 		end
 		api.sendReply(msg, text, true)
+		mystat('/media')
 	else
 	    local media = blocks[2]
 	    local status = blocks[1]
@@ -50,11 +52,8 @@ local action = function(msg, blocks, ln)
         else
             api.sendReply(msg, lang[ln].mediasettings.wrong_input, true)
         end
+        mystat('/kickbanallow media')
     end
-	    
-	    
-	
-	mystat('media settings') --save stats
 end
 
 return {

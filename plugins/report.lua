@@ -31,10 +31,10 @@ local action = function(msg, blocks, ln)
 	    --sendMessage(receiver, text, true)
 	    local target = msg.message_id
 	    
-	    mystat('c') --save stats
 	    api.forwardMessage (receiver, msg.from.id, target)
 	    local out = make_text(lang[ln].report.sent, input)
 	    api.sendMessage(msg.from.id, out, true)
+	    mystat('/c')
 	end
 	
 	if blocks[1] == 'reply' then
@@ -67,6 +67,7 @@ local action = function(msg, blocks, ln)
 		
 		api.sendMessage(receiver, out, true)
 		api.sendMessage(config.admin, make_text(lang[ln].report.reply_sent, input), true)
+		mystat('/reply')
 	end
 end
 

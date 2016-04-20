@@ -17,7 +17,7 @@ bot_init = function(on_reload) -- The function run when the bot is started or re
 	api = require('methods')
 	
 	if config.bot_api_key == '' then
-		error('Api key missing')
+		error('Api key missing!')
 	end
 	
 	bot = nil
@@ -29,13 +29,16 @@ bot_init = function(on_reload) -- The function run when the bot is started or re
 	plugins = {} -- Load plugins.
 	for i,v in ipairs(config.plugins) do
 		local p = dofile('plugins/'..v)
+		print(colors('%{red}Loading plugin...%{reset}'), v)
 		table.insert(plugins, p)
 	end
+	print(colors('%{blue}Plugins loaded:'), #plugins)
 
-	print(colors('%{red bright}BOT RUNNING: @'..bot.username .. ', AKA ' .. bot.first_name ..' ('..bot.id..')'))
+	print(colors('%{blue bright}BOT RUNNING: @'..bot.username .. ', AKA ' .. bot.first_name ..' ('..bot.id..')'))
 	if not on_reload then
 		save_log('starts')
-		api.sendMessage(config.admin, '*Bot started!*\n_'..os.date('On %A, %d %B %Y\nAt %X')..'_', true)
+		client:hincrby('bot:general', 'starts', 1)
+		api.sendMessage(config.admin, '*Bot started!*\n_'..os.date('On %A, %d %B %Y\nAt %X')..'_\n'..#plugins..' plugins loaded', true)
 	end
 	
 	-- Generate a random seed and "pop" the first random number. :)
@@ -86,6 +89,11 @@ end
 
 on_msg_receive = function(msg) -- The fn run whenever a message is received.
 	--vardump(msg)
+	if not msg then
+		api.sendMessage(config.admin, 'Shit, a loop without msg!')
+		return
+	end
+	
 	if msg.date < os.time() - 5 then return end -- Do not process old messages.
 	if not msg.text then msg.text = msg.caption or '' end
 	
@@ -255,14 +263,12 @@ end
 bot_init() -- Actually start the script. Run the bot_init function.
 
 while is_started do -- Start a loop while the bot should be running.
-
+	
 	local res = api.getUpdates(last_update+1) -- Get the latest updates!
 	if res then
 		--vardump(res)
-		--print('\n\n\n')
 		for i,msg in ipairs(res.result) do -- Go through every new message.
 			last_update = msg.update_id
-			--vardump(v)
 			
 			if msg.message then
 				if msg.message.new_chat_member or msg.message.left_chat_member then
@@ -282,15 +288,16 @@ while is_started do -- Start a loop while the bot should be running.
 		print('Connection error')
 	end
 
-	if last_cron < os.time() - 5 then -- Run cron jobs if the time has come.
+	--[[if last_cron ~= os.date('%M') then -- Run cron jobs if the time has come.
+		last_cron = os.date('%M')
 		for i,v in ipairs(plugins) do
 			if v.cron then -- Call each plugin's cron function, if it has one.
 				local res, err = pcall(function() v.cron() end)
 				if not res then print('ERROR: '..err) end
 			end
 		end
-		last_cron = os.time() -- And finally, update the variable.
-	end
+		last_cron = os.date('%M') -- And finally, update the variable.
+	end]]
 
 end
 

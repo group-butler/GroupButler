@@ -62,6 +62,7 @@ local action = function(msg, blocks, ln)
 			text = text..v..'\n'
 		end
 		api.sendMessage(config.admin, text)
+		mystat('/admin')
 	end
 	if blocks[1] == 'reload' then
 		--client:bgsave()
@@ -69,21 +70,21 @@ local action = function(msg, blocks, ln)
 		
 		local out = make_text(lang[ln].control.reload)
 		api.sendReply(msg, out, true)
-		mystat('reload') --save stat
+		mystat('/reload')
 	end
 	if blocks[1] == 'stop' then
 		client:bgsave()
 		is_started = false
-		
 		local out = make_text(lang[ln].control.stop)
 		api.sendReply(msg, out, true)
-		mystat('halt') --save stat
+		mystat('/stop')
 	end
 	if blocks[1] == 'backup' then
 		local cmd = io.popen('sudo tar -cpf '..bot.first_name:gsub(' ', '_')..'.tar *')
     	cmd:read('*all')
     	cmd:close()
     	api.sendDocument(msg.from.id, './'..bot.first_name:gsub(' ', '_')..'.tar')
+    	mystat('/backup')
     end
     if blocks[1] == 'bc' then
 	        if breaks_markdown(blocks[2]) then
@@ -101,6 +102,7 @@ local action = function(msg, blocks, ln)
 	        else
 	            api.sendMessage(config.admin, lang[ln].broadcast.no_user)
 	        end
+	        mystat('/bc')
 	    end
 	if blocks[1] == 'bcg' then
 		if breaks_markdown(blocks[2]) then
@@ -117,12 +119,13 @@ local action = function(msg, blocks, ln)
 	    	end
 	    	api.sendMessage(config.admin, lang[ln].broadcast.delivered)
 	    end
+	    mystat('/bcg')
 	end
 	if blocks[1] == 'save' then
 		client:bgsave()
 		local out = make_text(lang[ln].getstats.redis)
 		api.sendMessage(msg.chat.id, out, true)
-		return nil
+		mystat('/save')
 	end
 	if blocks[1] == 'commands' then
 		local text = 'Stats:\n'
@@ -134,6 +137,7 @@ local action = function(msg, blocks, ln)
 	    end
 	    local out = make_text(lang[ln].getstats.stats, text)
 		api.sendMessage(msg.chat.id, out, true)
+		mystat('/commands')
     end
     if blocks[1] == 'stats' then
     	local text = 'Stats:\n'
@@ -145,6 +149,7 @@ local action = function(msg, blocks, ln)
 	    end
 	    local out = make_text(lang[ln].getstats.stats, text)
 		api.sendMessage(msg.chat.id, out, true)
+		mystat('/stats')
 	end
 	if blocks[1] == 'lua' then
 		if not blocks[2] then
@@ -159,6 +164,7 @@ local action = function(msg, blocks, ln)
 			output = '```\n' .. output .. '\n```'
 		end
 		api.sendMessage(msg.chat.id, output, true, msg.message_id, true)
+		mystat('/lua')
 	end
 	if blocks[1] == 'run' then
 		--read the output
@@ -169,8 +175,8 @@ local action = function(msg, blocks, ln)
 		else
 			output = make_text(lang[ln].shell.output, output)
 		end
-		mystat('run') --save stats
 		api.sendMessage(msg.chat.id, output, true, msg.message_id, true)
+		mystat('/run')
 	end
 	if blocks[1] == 'changedb' then
 	    local data = load_data('groups.json')
@@ -211,6 +217,7 @@ local action = function(msg, blocks, ln)
         file:close()
         api.sendDocument(msg.from.id, './logs/dbswitch.txt')
         api.sendMessage(msg.chat.id, 'Instruction processed. Check the log file I\'ve sent you')
+        mystat('/changedb')
     end
     if blocks[1] == 'log' then
     	if blocks[2] then
@@ -289,6 +296,7 @@ local action = function(msg, blocks, ln)
 				api.sendReply(msg, reply, true)
 			end
 		end
+		mystat('/log')
     end
 	if blocks[1] == 'block' then
 		local id
@@ -310,6 +318,7 @@ local action = function(msg, blocks, ln)
 			text = make_text(lang[ln].admin.already_blocked, id)
 		end
 		api.sendReply(msg, text)
+		mystat('/block')
 	end
 	if blocks[1] == 'unblock' then
 		local id
@@ -332,6 +341,7 @@ local action = function(msg, blocks, ln)
 			text = make_text(lang[ln].admin.already_unblocked, id)
 		end
 		api.sendReply(msg, text)
+		mystat('/unblock')
 	end
 	if blocks[1] == 'isblocked' then
 		if not msg.reply then
@@ -344,12 +354,14 @@ local action = function(msg, blocks, ln)
 				api.sendReply(msg, 'no')
 			end
 		end
+		mystat('/isblocked')
 	end
 	if blocks[1] == 'ping redis' then
 		local ris = client:ping()
 		if ris == true then
 			api.sendMessage(msg.from.id, lang[ln].ping)
 		end
+		mystat('/ping redis')
 	end
 	if blocks[1] == 'leave' then
 		local text
@@ -363,6 +375,7 @@ local action = function(msg, blocks, ln)
 			text = bot_leave(blocks[2], ln)
 		end
 		api.sendMessage(config.admin, text)
+		mystat('/leave')
 	end
 	if blocks[1] == 'post' then
 		if config.channel == '' then
@@ -376,6 +389,7 @@ local action = function(msg, blocks, ln)
 				text = 'Delivery failed. Check the markdown used or the channel username setted'
 			end
 			api.sendMessage(config.admin, text)
+			mystat('/post')
 		end
 	end
 end

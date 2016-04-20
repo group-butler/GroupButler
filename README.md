@@ -1,19 +1,8 @@
 #Group Butler
-##MUST READ!
-
-So, telegram added to the api methods some utils to allow bots to handle the group administration. The only two methods available are kickChatUser and unbanChatUser, that togheter allow us to kick and ban users with a telegram bot.
-
-I've added some interesting abilities based on this two api methods to this bot, obviously, because it's aimed to help the group administration.
-
-ANYWAY, bot that are setted as admins (you need Telegram Desktop 0.9.43 dev to do it) can see ONLY MESSAGES STARTING FOR `/` (orivacy mode on, I guess).
-
-Probably, when the ability to promote a bot as admin will come for other clients too, bots will be able to see everything.
-
-Moreover, there isn't a way to understand if an user is an admin or not from a message. So, for now, the admin list will be built as always.
 
 ##Introduction
 
-This bot has been created to help people in the administration of a group.
+This bot has been created to help people in the administration of a group, with a lot of useful tools 8you can see them in the command list below).
 
 This bot is based on Otouto (Telegram bot: [@mokubot](https://telegram.me/mokubot), github page: [topkecleon/otouto](https://github.com/topkecleon/otouto).).
 
@@ -22,8 +11,9 @@ Otouto and Group Butler are licensed under the GNU General Public License. A cop
 ##What is it?
 Group Butler is a Telegram API bot written in Lua. It has been created to help the members of a group to keep it clean and regulated, from the point of view of administrators and normal users.
 
-This bot takes its long-polling loop and its structure from Otouto (3.0 or lower, I guess) and it's plugin-based. This makes easier to manage each function and command of the bot, and allows to split the different capabilities of it in different files for a more specific vision of what it should do.
+This bot takes its long-polling loop and its structure from Otouto (3.0 or lower, iirc) and it's plugin-based. This makes easier to manage each function and command of the bot, and allows to split the different capabilities of it in different files for a more specific vision of what it should do.
 
+Follow the [channel](https://telegram.me/groupbutler_ch) if you want to be updated about new changes.
 * * *
 
 ##Commands

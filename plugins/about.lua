@@ -28,8 +28,7 @@ local action = function(msg, blocks, ln)
         	local out = make_text(lang[ln].setabout.bio, msg.chat.title, about)
             api.sendReply(msg, out, true)
         end
-        mystat('about') --save stats
-        return nil
+        mystat('/about')mystat('')
     end
 	if blocks[1] == 'addabout' then
 		--ignore if not mod
@@ -58,8 +57,7 @@ local action = function(msg, blocks, ln)
             client:set(hash, about)
             api.sendReply(msg, make_text(lang[ln].setabout.added, input), true)
         end
-        mystat('addabout') --save stats
-        return nil
+        mystat('/addabout')
     end
 	if blocks[1] == 'setabout' then
 		local input = blocks[2]
@@ -87,8 +85,7 @@ local action = function(msg, blocks, ln)
 		--set the new about
 		client:set(hash, input)
 		api.sendReply(msg, make_text(lang[ln].setabout.new, input), true)
-		mystat('setabout') --save stats
-		return true
+		mystat('/setabout')
 	end
 
 end

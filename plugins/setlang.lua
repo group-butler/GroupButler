@@ -17,6 +17,7 @@ local action = function(msg, blocks, ln)
 	        i = i + 1
 	    end
 	    api.sendReply(msg, make_text(lang[ln].setlang.list, message), true)
+	    mystat('/lang')
 	else
 	    local selected = blocks[2]
 	    local new = ''
@@ -30,7 +31,7 @@ local action = function(msg, blocks, ln)
         else
             client:set('lang:'..msg.chat.id, new)
             api.sendReply(msg, make_text(lang[ln].setlang.success, new), true)
-            mystat('langchanged')
+            mystat('/lang code')
 	    end
 	end
 end

@@ -3,7 +3,7 @@ local triggers = {
 	'^/(test)@'..bot.username..'$'
 }
 
-local on_each_msg(msg, ln)
+local function on_each_msg(msg, ln)
 
 end
 

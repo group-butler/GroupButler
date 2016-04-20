@@ -128,10 +128,11 @@ end
 local function banUser(chat_id, user_id, ln, arg1, no_msg)--arg1: should be the name, no_msg: kick without message if kick is failed
 	local name = arg1
 	if not name then name = 'User' end
-	res, code = api.kickChatMember(chat_id, user_id)
+	res, code = api.kickChatMember(chat_id, user_id) --kick
 	if res then
 		no_msg = false
 		text = make_text(lang[ln].banhammer.kicked, name)
+		client:hincrby('bot:general', 'ban', 1)
 	else
 		text = api.from_code2text(code, ln)
 	end
@@ -149,7 +150,8 @@ local function kickUser(chat_id, user_id, ln, arg1, no_msg)--arg1: should be the
 	res, code = api.kickChatMember(chat_id, user_id)
 	if res then
 		local hash = 'kicked:'..chat_id
-	    client:hset(hash, user_id, name)
+	    client:hset(hash, user_id, name) --save the id in the kicked list
+	    client:hincrby('bot:general', 'kick', 1) --genreal: save how many kicks
 		api.unbanChatMember(chat_id, user_id)
 		text = make_text(lang[ln].banhammer.kicked, name)
 		no_msg = false

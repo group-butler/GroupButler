@@ -78,7 +78,7 @@ local action = function(msg, blocks, ln)
 			text = make_text(lang[ln].warn.warned, name, num, nmax, diff)
 		end
         
-        mystat('warn') --save stats
+        mystat('/warn') --save stats
         api.sendReply(msg, text, true)
     end
     
@@ -91,7 +91,7 @@ local action = function(msg, blocks, ln)
 		local old = client:get(hash)
 		client:set(hash, blocks[2])
         local text = make_text(lang[ln].warn.warnmax, old, blocks[2])
-        mystat('warnmax') --save stats
+        mystat('/warnmax') --save stats
         api.sendReply(msg, text, true)
     end
     
@@ -145,7 +145,7 @@ local action = function(msg, blocks, ln)
 			text = make_text(lang[ln].warn.limit_lower, diff, nmax, num, nmax)
 		end
         
-        mystat('getwarns') --save stats
+        mystat('/getwarns') --save stats
         api.sendReply(msg, text, true)
     end
     
@@ -179,7 +179,7 @@ local action = function(msg, blocks, ln)
 		
 		local text = make_text(lang[ln].warn.nowarn)
         
-        mystat('noworns') --save stats
+        mystat('/nowarns') --save stats
         api.sendReply(msg, text, true)
     end
 end
