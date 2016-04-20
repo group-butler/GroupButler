@@ -310,3 +310,13 @@ function save_log(action, arg1, arg2, arg3, arg4)
         file:close()
     end
 end
+
+function clone_table(t) --doing "shit = table" in lua is create a pointer
+  local new_t = {}
+  local i, v = next(t, nil)
+  while i do
+    new_t[i] = v
+    i, v = next(t, i)
+  end
+  return new_t
+end
