@@ -60,10 +60,8 @@ local action = function(msg, blocks, ln)
         end
 		
 		msg = msg.reply_to_message
-		local name = msg.forward_from.first_name
 		local receiver = msg.forward_from.id
-		local feed = msg.text:sub(4, 14)
-		local out = make_text(lang[ln].report.feedback_reply, name, feed, input)
+		local out = make_text(lang[ln].report.feedback_reply, input)
 		
 		api.sendMessage(receiver, out, true)
 		api.sendMessage(config.admin, make_text(lang[ln].report.reply_sent, input), true)

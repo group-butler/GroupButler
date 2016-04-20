@@ -143,11 +143,11 @@ return {
             found = 'User found'
         },
         report = {
-            no_input = 'Write your suggestions/bugs/doubt near "/contact"',
+            no_input = 'Write your suggestions/bugs/doubt near "/c"',
             sent = '*Feedback sent*:\n\n&&&1',
             reply = 'Reply to a feedback to reply to the user',
             reply_no_input = 'Write your reply next to "/reply"',
-            feedback_reply = 'Hi *&&&1*, this is a reply to your feedback:\n"&&&2..."\n\n*Reply*:\n&&&3',
+            feedback_reply = '*Hello, this is a reply from the bot owner*:\n&&&1',
             reply_sent = '*Reply sent*:\n\n&&&1',
         },
         service = {

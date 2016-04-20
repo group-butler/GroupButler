@@ -82,7 +82,7 @@ local action = function(msg, blocks, ln)
 		client:hdel('warn:'..msg.chat.id, msg.added.id)
 		
 		--basic text
-		text = make_text(lang[ln].service.welcome, msg.added.first_name, msg.chat.title)
+		text = make_text(lang[ln].service.welcome, msg.added.first_name:neat(), msg.chat.title:neat())
 		
 		--ignore if welcome is locked
 		if is_locked(msg, 'Welcome') then
