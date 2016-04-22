@@ -15,7 +15,7 @@ local action = function(msg, blocks, ln)
 		
 		print('Bot added to '..msg.chat.title..' ['..msg.chat.id..']')
 		
-		if client:hget('bot:general', 'adminmode') == 'on' then
+		if client:hget('bot:general', 'adminmode') == 'on' and not is_admin(msg) then
 			api.sendMessage(msg.chat.id, 'Admin mode is on: only the admin can add me to a new group')
 			api.kickChatMember(msg.chat.id, bot.id)
 			return

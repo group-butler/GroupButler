@@ -135,6 +135,8 @@ Here you have the list of the available commands.
 >
 >/leave [group id] | the bot will leave the group. If launched in a group, no [id] needed
 >
+>/adminmode [on/off] | when on, only the admin will be able to add the bot to a group
+>
 >/bc [text] | will send a broadcast to users
 >
 >/bcg [text] | will send a broadcast to groups
