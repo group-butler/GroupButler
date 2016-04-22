@@ -1,12 +1,3 @@
-local triggers = {
-	'^/(flood) (%d%d?)$',
-	'^/(flood) (on)$',
-	'^/(flood) (off)$',
-	'^/(flood) (kick)$',
-	'^/(flood) (ban)$',
-	'^(flood)$'
-}
-
 local action = function(msg, blocks, ln)
 	
 	if not is_mod(msg) then
@@ -55,5 +46,12 @@ end
 
 return {
 	action = action,
-	triggers = triggers
+	triggers = {
+		'^/(flood) (%d%d?)$',
+		'^/(flood) (on)$',
+		'^/(flood) (off)$',
+		'^/(flood) (kick)$',
+		'^/(flood) (ban)$',
+		'^(flood)$'
+	}
 }

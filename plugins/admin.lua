@@ -24,7 +24,13 @@ local triggers = {
 	'^/(ping redis)$',
 	'^/(leave) (-%d+)$',
 	'^/(leave)$',
-	'^/(post) (.*)$'
+	'^/(post) (.*)$',
+	'^###(forward)',
+	'^/(reset) (.*)$',
+	'^/(reset)$',
+	'^/(send) (%d+) (.*)$',
+	'^/(send) (.*)$',
+	'^/(adminmode) (%a%a%a?)$'
 }
 
 local logtxt = ''
@@ -140,7 +146,7 @@ local action = function(msg, blocks, ln)
 		mystat('/commands')
     end
     if blocks[1] == 'stats' then
-    	local text = 'Stats:\n'
+    	local text = '#stats:\n'
         local hash = 'bot:general'
 	    local names = client:hkeys(hash)
 	    local num = client:hvals(hash)
@@ -390,6 +396,63 @@ local action = function(msg, blocks, ln)
 			end
 			api.sendMessage(config.admin, text)
 			mystat('/post')
+		end
+	end
+	if blocks[1] == 'forward' then
+		if msg.forward_from then
+			api.sendReply(msg, msg.forward_from.id)
+		end
+	end
+	if blocks[1] == 'reset' then
+		if not blocks[2] then
+			api.sendMessage(config.admin, 'Missing key')
+			return
+		end
+		local key = blocks[2]
+		local hash = 'bot:general'
+		local res = client:hdel(hash, key)
+		if res == 1 then
+			api.sendMessage(config.admin, 'Resetted!')
+		else
+			api.sendMessage(config.admin, 'Field empty or invalid')
+		end
+	end
+	if blocks[1] == 'send' then
+		if not blocks[2] then
+			api.sendMessage(config.admin, 'Specify an id or reply with the message')
+			return
+		end
+		local id
+		if blocks[2]:match('(%d+)') then
+			if not blocks[3] then
+				api.sendMessage(config.admin, 'Text is missing')
+				return
+			end
+			id = blocks[2]
+		else
+			if not msg.reply then
+				api.sendMessage(config.admin, 'Reply to a user to send him a message')
+				return
+			end
+			id = msg.reply.from.id
+		end
+		local res = api.sendMessage(id, blocks[2])
+		if res then
+			api.sendMessage(config.admin, 'Successful delivery')
+		end
+	end
+	if blocks[1] == 'adminmode' then
+		if blocks[2]:match('^(on)$') and blocks[2]:match('^(off)$') then
+			api.sendMessage(config.admin, 'Available status: on/off')
+			return
+		end
+		local status = blocks[2]
+		local current = client:hget('bot:general', 'adminmode')
+		if current == status then
+			api.sendMessage(config.admin, 'Admin mode *already '..status..'*', true)
+		else
+			client:hset('bot:general', 'adminmode', status)
+			api.sendMessage(config.admin, 'Admin mode: *'..status..'*', true)
 		end
 	end
 end

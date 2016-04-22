@@ -147,6 +147,8 @@ Here you have the list of the available commands.
 >
 >/save | perform a redis background save
 >
+>/reset [field] | reset a specific general statistic
+>
 >/log [of what] | will send the log of the event inserted
 >
 >/log del [which] | will delete the log

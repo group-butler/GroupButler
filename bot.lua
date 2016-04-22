@@ -11,9 +11,13 @@ version = '3.1'
 
 bot_init = function(on_reload) -- The function run when the bot is started or reloaded.
 	
+	print(colors('%{blue bright}Loading config.lua...'))
 	config = dofile('config.lua') -- Load configuration file.
+	print(colors('%{blue bright}Loading utilities.lua...'))
 	dofile('utilities.lua') -- Load miscellaneous and cross-plugin functions.
+	print(colors('%{blue bright}Loading languages...'))
 	lang = dofile('languages.lua') -- All the languages available
+	print(colors('%{blue bright}Loading API functions table...'))
 	api = require('methods')
 	
 	if config.bot_api_key == '' then
@@ -29,7 +33,7 @@ bot_init = function(on_reload) -- The function run when the bot is started or re
 	plugins = {} -- Load plugins.
 	for i,v in ipairs(config.plugins) do
 		local p = dofile('plugins/'..v)
-		print(colors('%{red}Loading plugin...%{reset}'), v)
+		print(colors('%{red bright}Loading plugin...%{reset}'), v)
 		table.insert(plugins, p)
 	end
 	print(colors('%{blue}Plugins loaded:'), #plugins)
@@ -145,6 +149,8 @@ on_msg_receive = function(msg) -- The fn run whenever a message is received.
 						-- If the action returns a table, make that table msg.
 						if type(result) == 'table' then
 							msg = result
+						elseif type(result) == 'string' then
+							msg.text = result
 						-- If the action returns true, don't stop.
 						elseif result ~= true then
 							return
@@ -194,7 +200,6 @@ local function service_to_message(msg)
     		service = true
     	}
 	end
-	
     return on_msg_receive(service)
 end
 
@@ -266,10 +271,8 @@ while is_started do -- Start a loop while the bot should be running.
 	
 	local res = api.getUpdates(last_update+1) -- Get the latest updates!
 	if res then
-		--vardump(res)
 		for i,msg in ipairs(res.result) do -- Go through every new message.
 			last_update = msg.update_id
-			
 			if msg.message then
 				if msg.message.new_chat_member or msg.message.left_chat_member then
 					service_to_message(msg.message)

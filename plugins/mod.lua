@@ -1,13 +1,3 @@
---groups = load_data('groups.json')
-
-local triggers = {
-	'^/(promote)$',
-	'^/(demote)$',
-	'^/(owner)$',
-	'^/(modlist)$',
-	'^/(modlist)@GroupButler_bot',
-}
-
 local action = function(msg, blocks, ln)
  
  --ignore if via pm
@@ -190,5 +180,11 @@ end
 
 return {
 	action = action,
-	triggers = triggers
+	triggers = {
+	    '^/(promote)$',
+	    '^/(demote)$',
+	    '^/(owner)$',
+	    '^/(modlist)$',
+	    '^/(modlist)@GroupButler_bot',
+    }
 }

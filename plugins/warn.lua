@@ -1,12 +1,3 @@
-local triggers = {
-	'^/(warn)$',
-	'^/(warn) (kick)$',
-	'^/(warn) (ban)$',
-	'^/(warnmax) (%d%d?)$',
-	'^/(getwarns)$',
-	'^/(nowarns)$',
-}
-
 local action = function(msg, blocks, ln)
     
     if msg.chat.type == 'private' then--return nil if it's a private chat
@@ -186,5 +177,12 @@ end
 
 return {
 	action = action,
-	triggers = triggers
+	triggers = {
+		'^/(warn)$',
+		'^/(warn) (kick)$',
+		'^/(warn) (ban)$',
+		'^/(warnmax) (%d%d?)$',
+		'^/(getwarns)$',
+		'^/(nowarns)$',
+	}
 }

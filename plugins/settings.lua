@@ -1,11 +1,3 @@
-local triggers = {
-	'^/(disable) (.*)$',
-	'^/(enable) (.*)$',
-	'^/(settings)$',
-	'^/(welcome)'
-}
-
-
 local action = function(msg, blocks, ln)
 
 --ignore if via pm
@@ -340,5 +332,10 @@ end
 
 return {
 	action = action,
-	triggers = triggers
+	triggers = {
+    	'^/(disable) (.*)$',
+    	'^/(enable) (.*)$',
+    	'^/(settings)$',
+    	'^/(welcome)'
+    }
 }

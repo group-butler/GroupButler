@@ -1,11 +1,3 @@
-local triggers = {
-	'^/(kick) (.*)$',
-	'^/(ban) (.*)$',
-	'^/(allow) (.*)$',
-	'^/(media list)$',
-	'^/(media)$'
-}
-
 local action = function(msg, blocks, ln)
 	if msg.chat.type == 'private' then
 	    api.sendMessage(msg.chat.id, lang[ln].pv)
@@ -58,5 +50,11 @@ end
 
 return {
 	action = action,
-	triggers = triggers
+	triggers = {
+		'^/(kick) (.*)$',
+		'^/(ban) (.*)$',
+		'^/(allow) (.*)$',
+		'^/(media list)$',
+		'^/(media)$'
+	}
 }

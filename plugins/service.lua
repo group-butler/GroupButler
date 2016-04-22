@@ -1,9 +1,3 @@
-local triggers = {
-	'^###(botadded)',
-	'^###(added)',
-	'^###(botremoved)'
-}
-
 local function remove_from_kicked_list(chat, user)
     local hash = 'kicked:'..chat
     client:hdel(hash, user)
@@ -20,7 +14,13 @@ local action = function(msg, blocks, ln)
 	if blocks[1] == 'botadded' then
 		
 		print('Bot added to '..msg.chat.title..' ['..msg.chat.id..']')
-
+		
+		if client:hget('bot:general', 'adminmode') == 'on' then
+			api.sendMessage(msg.chat.id, 'Admin mode is on: only the admin can add me to a new group')
+			api.kickChatMember(msg.chat.id, bot.id)
+			return
+		end
+		
 		local uname = ''
 		
 		--check if the owner has a username, and save it. If not, use the name
@@ -157,5 +157,9 @@ end
 
 return {
 	action = action,
-	triggers = triggers
+	triggers = {
+		'^###(botadded)',
+		'^###(added)',
+		'^###(botremoved)'
+	}
 }

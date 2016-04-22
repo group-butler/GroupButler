@@ -1,13 +1,3 @@
-local triggers = {
-	'^/(setabout)$', --to warn if an user don't add a text
-	'^/(setabout) (.*)',
-	'^/(about)$',
-	'^/(about)@GroupButler_bot',
-	'^/(addabout)$', --to warn if an user don't add a text
-	'^/(addabout) (.*)',
-	
-}
-
 local action = function(msg, blocks, ln)
 	--ignore if via pm
 	if msg.chat.type == 'private' then
@@ -92,7 +82,12 @@ end
 
 return {
 	action = action,
-	triggers = triggers,
-	doc = doc,
-	command = command
+	triggers = {
+		'^/(setabout)$', --to warn if an user don't add a text
+		'^/(setabout) (.*)',
+		'^/(about)$',
+		'^/(about)@GroupButler_bot',
+		'^/(addabout)$', --to warn if an user don't add a text
+		'^/(addabout) (.*)',
+	}
 }

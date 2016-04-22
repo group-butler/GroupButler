@@ -30,8 +30,17 @@ function string:neat() -- Remove the markdown.
 	return self
 end
 
+function string:neat2() -- Remove the markdown.
+	if not self:find('[') and not self:find(']') then
+		return self
+	end
+	self = self:gsub(']', ''):gsub('[', '')
+	return self
+end
+
 function is_admin(msg)
-	if msg.from.id and tonumber(msg.from.id) == config.admin then
+	local id = msg.adder.id or msg.from.id
+	if id and tonumber(id) == config.admin then
 		return true
 	end
 	return false
@@ -259,9 +268,6 @@ end
 function save_log(action, arg1, arg2, arg3, arg4)
 	local file
 	if action == 'send_msg' then
-		if arg1:find('^*Commands for the owner:*') or arg1:find('*Commands for all:*') then
-			return true --a way to avoid to send the "delivery failed" message to the admin when it's failed because the user have not started the bot
-		end
 		file = io.open("./logs/msgs_errors.txt", "a")
 		if not file then
 			create_folder('logs')

@@ -1,8 +1,3 @@
-local triggers = {
-	'^/(lang)$',
-	'^/(lang) (%a%a)$'
-}
-
 local action = function(msg, blocks, ln)
 	if msg.chat.type ~= 'private' and not is_mod(msg) then
 		api.sendReply(msg, make_text(lang[ln].not_mod), true)
@@ -38,5 +33,8 @@ end
 
 return {
 	action = action,
-	triggers = triggers
+	triggers = {
+		'^/(lang)$',
+		'^/(lang) (%a%a)$'
+	}
 }

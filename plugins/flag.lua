@@ -1,11 +1,3 @@
-local triggers = {
-	'^/(flag)$',
-	'^/(flag)@groupbutler_bot',
-	'^/(flag) (.*)', --flag with motivation
-	'^/(flag block)$',
-	'^/(flag free)$'
-}
-
 local action = function(msg, blocks, ln)
     if msg.chat.type == 'private' then--return nil if it's a private chat
 		api.sendMessage(msg.from.id, lang[ln].pv)
@@ -145,5 +137,11 @@ end
 
 return {
 	action = action,
-	triggers = triggers
+	triggers = {
+	    '^/(flag)$',
+	    '^/(flag)@groupbutler_bot',
+	    '^/(flag) (.*)', --flag with motivation
+    	'^/(flag block)$',
+	    '^/(flag free)$'
+    }
 }

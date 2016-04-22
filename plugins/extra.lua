@@ -1,11 +1,3 @@
-local triggers = {
-	'^/(extra)$',
-	'^/(extra) (#[%w_]*)%s(.*)$',
-	'^/(extra del) (#[%w_]*)$',
-	'^/(extra list)$',
-	'^(#[%w_]*)$'
-}
-
 local action = function(msg, blocks, ln)
 	if msg.chat.type == 'private' then
 		api.sendMessage(msg.chat.id, lang[ln].pv)
@@ -87,5 +79,11 @@ end
 
 return {
 	action = action,
-	triggers = triggers
+	triggers = {
+		'^/(extra)$',
+		'^/(extra) (#[%w_]*)%s(.*)$',
+		'^/(extra del) (#[%w_]*)$',
+		'^/(extra list)$',
+		'^(#[%w_]*)$'
+	}
 }

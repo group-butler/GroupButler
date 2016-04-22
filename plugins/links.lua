@@ -1,13 +1,3 @@
-local triggers = {
-	'^/(link)$',
-	'^/(link)@groupbutler_bot$',
-	'^/(setlink) https://telegram%.me/joinchat/(.*)',
-	'^/(setlink) (no)',
-	'^/(poll)$',
-	'^/(setpoll) (.*) telegram%.me/PollBot%?start=(.*)',
-	'^/(setpoll) (no)$'
-}
-
 local action = function(msg, blocks, ln)
 	
 	--return nil if wrote in private
@@ -62,10 +52,11 @@ local action = function(msg, blocks, ln)
 			text = make_text(lang[ln].links.link_unsetted)
 		else
 			local succ = client:hset(hash, key, link)
+			local title = msg.chat.title:neat():gsub(']', ''):gsub('[', '')
 			if succ == false then
-				text = make_text(lang[ln].links.link_updated, msg.chat.title, link)
+				text = make_text(lang[ln].links.link_updated, title, link)
 			else
-				text = make_text(lang[ln].links.link_setted, msg.chat.title, link)
+				text = make_text(lang[ln].links.link_setted, title, link)
 			end
 		end
 		api.sendReply(msg, text, true)
@@ -131,5 +122,13 @@ end
 
 return {
 	action = action,
-	triggers = triggers
+	triggers = {
+		'^/(link)$',
+		'^/(link)@groupbutler_bot$',
+		'^/(setlink) https://telegram%.me/joinchat/(.*)',
+		'^/(setlink) (no)',
+		'^/(poll)$',
+		'^/(setpoll) (.*) telegram%.me/PollBot%?start=(.*)',
+		'^/(setpoll) (no)$'
+	}
 }

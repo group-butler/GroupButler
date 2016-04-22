@@ -1,11 +1,3 @@
-local triggers = {
-	'^/(kick)$',
-	'^/(ban)$',
-	'^/(kicked list)$',
-	'^/(unban)$',
-	'^/(gban)$'
-}
-
 local action = function(msg, blocks, ln)
 	if msg.chat.type ~= 'private' then
 		if is_mod(msg) then
@@ -76,5 +68,11 @@ end
 
 return {
 	action = action,
-	triggers = triggers
+	triggers = {
+		'^/(kick)$',
+		'^/(ban)$',
+		'^/(kicked list)$',
+		'^/(unban)$',
+		'^/(gban)$'
+	}
 }

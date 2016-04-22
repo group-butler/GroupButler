@@ -6,18 +6,24 @@ if not config.bot_api_key then
 	error('You did not set your bot token in config.lua!')
 end
 
-local function sendRequest(url)
+local function sendRequest(url, user_id)
 
-	local dat, res = HTTPS.request(url)
+	local dat, code = HTTPS.request(url)
 	
 	local tab = JSON.decode(dat)
 
-	if res ~= 200 then
-		if res ~= 403 then api.sendMessage(config.admin, vtext(dat)) end
-		vardump(tab.description)
-		return false, res
+	if code ~= 200 then
+		client:hincrby('bot:errors', code, 1)
+		print(code)
+		--403: bot blocked, 429: spam limit ...send a message to the admin, return the code
+		if code ~= 403 and code ~= 429 then
+			api.sendMessage(config.admin, vtext(dat)..'\n'..code..'\n(text in the log)')
+			return false, code
+		end
+		return false, false --if the message is not sent because the bot is blocked, then don't return the code
 	end
-
+	
+	--actually, this rarely happens
 	if not tab.ok then
 		return false, tab.description
 	end
@@ -107,7 +113,7 @@ local function kickChatMember(chat_id, user_id)
 
 end
 
-local function from_code2text(code, ln)
+local function code2text(code, ln, chat_id)
 	if code == 101 then
 		return lang[ln].kick_errors[code]
 	elseif code == 102 then
@@ -119,9 +125,7 @@ local function from_code2text(code, ln)
 	elseif code == 105 then
 		return lang[ln].kick_errors[code]
 	elseif code == 106 then
-		save_log('errors', 'Unknown error while kicking')
-		api.sendMessage(chat_id, lang[ln].kick_errors[code], true)
-		return 'An error occurred.\nCheck the log'
+		return false
 	end
 end
 
@@ -134,7 +138,7 @@ local function banUser(chat_id, user_id, ln, arg1, no_msg)--arg1: should be the 
 		text = make_text(lang[ln].banhammer.kicked, name)
 		client:hincrby('bot:general', 'ban', 1)
 	else
-		text = api.from_code2text(code, ln)
+		text = api.code2text(code, ln, chat_id)
 	end
 	if no_msg then
 		return res
@@ -144,7 +148,7 @@ local function banUser(chat_id, user_id, ln, arg1, no_msg)--arg1: should be the 
 	end
 end
 
-local function kickUser(chat_id, user_id, ln, arg1, no_msg)--arg1: should be the name, no_msg: kick without message if kick is failed
+local function kickUser(chat_id, user_id, ln, arg1, no_msg)--arg1: should be the name, no_msg: don't send the error message if kick is failed. If no_msg is false, it will return the motivation of the fail
 	local name = arg1
 	if not name then name = 'User' end
 	res, code = api.kickChatMember(chat_id, user_id)
@@ -154,14 +158,15 @@ local function kickUser(chat_id, user_id, ln, arg1, no_msg)--arg1: should be the
 	    client:hincrby('bot:general', 'kick', 1) --genreal: save how many kicks
 		api.unbanChatMember(chat_id, user_id)
 		text = make_text(lang[ln].banhammer.kicked, name)
-		no_msg = false
+		no_msg = false --if the bot kicked successfully, then send a message with the motivation
 	else
-		text = api.from_code2text(code, ln)
+		text = api.code2text(code, ln, chat_id)
 	end
-	if no_msg then
+	--check if send a message after the kick
+	if no_msg or code == 106 then --if no_msg (don't reply with the error) or the error is unknown then..
 		return res
 	else
-		api.sendMessage(chat_id, text, true)
+		local sent, code_msg = api.sendMessage(chat_id, text, true)
 		return res
 	end
 end
@@ -184,17 +189,14 @@ local function sendMessage(chat_id, text, use_markdown, disable_web_page_preview
 		url = url..'&disable_notification=true'--messages are silent by default
 	end
 	
-	local res = sendRequest(url)
+	local res, code = sendRequest(url)
 	
-	if not res then
+	if not res and code then --if the request failed and a code is returned (not 403 and 429)
 		print('Delivery failed')
-		local ris = save_log('send_msg', text) --if the delivery it's not failed when /help is requested, then send a message
-		if not ris then
-			sendMessage(config.admin, 'Delivery failed.\nCheck the log')
-		end
+		save_log('send_msg', text)
 	end
 	
-	return res
+	return res, code --return false, and the code
 
 end
 
@@ -372,5 +374,5 @@ return {
 	kickUser = kickUser,
 	sendReply = sendReply,
 	getKickError = getKickError,
-	from_code2text = from_code2text
+	code2text = code2text
 }	

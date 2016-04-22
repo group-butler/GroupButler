@@ -1,14 +1,3 @@
-
-local triggers = {
-	'^/(setrules)$',
-	'^/(setrules) (.*)',
-	'^/(rules)$',
-	'^/(rules)@GroupButler_bot',
-	'^/(addrules)$',
-	'^/(addrules) (.*)'
-	
-}
-
 local action = function(msg, blocks, ln)
     --ignore if via pm
     if msg.chat.type == 'private' then
@@ -91,5 +80,12 @@ end
 
 return {
 	action = action,
-	triggers = triggers
+	triggers = {
+		'^/(setrules)$',
+		'^/(setrules) (.*)',
+		'^/(rules)$',
+		'^/(rules)@GroupButler_bot',
+		'^/(addrules)$',
+		'^/(addrules) (.*)'	
+	}
 }

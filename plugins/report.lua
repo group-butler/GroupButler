@@ -1,10 +1,3 @@
-local triggers = {
-	'^/(c)$', --warn if not input
-	'^/(c) (.*)',
-	'^/(reply)$', --warn if not input
-	'^/(reply) (.*)'
-}
-
 local action = function(msg, blocks, ln)
     
     -- ignore if the chat is a group or a supergroup
@@ -71,5 +64,10 @@ end
 
 return {
 	action = action,
-	triggers = triggers
+	triggers = {
+		'^/(c)$', --warn if not input
+		'^/(c) (.*)',
+		'^/(reply)$', --warn if not input
+		'^/(reply) (.*)'
+	}
 }

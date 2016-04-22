@@ -1,8 +1,3 @@
-local triggers = {
-	'^/help[@'..bot.username..']*',
-	'^/start[@'..bot.username..']*'
-}
-
 local action = function(msg, blocks, ln)
     -- save stats
     if string.match(msg.text, '^/help') then
@@ -43,5 +38,8 @@ end
 
 return {
 	action = action,
-	triggers = triggers
+	triggers = {
+    	'^/help[@'..bot.username..']*',
+	    '^/start[@'..bot.username..']*'
+    }
 }
