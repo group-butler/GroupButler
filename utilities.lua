@@ -39,7 +39,12 @@ function string:neat2() -- Remove the markdown.
 end
 
 function is_admin(msg)
-	local id = msg.adder.id or msg.from.id
+	local id
+	if msg.adder and msg.adder.id then
+		id = msg.adder.id
+	else
+		id = msg.from.id
+	end
 	if id and tonumber(id) == config.admin then
 		return true
 	end
@@ -325,4 +330,14 @@ function clone_table(t) --doing "shit = table" in lua is create a pointer
     i, v = next(t, i)
   end
   return new_t
+end
+
+function res_user(username)
+	local hash = 'bot:usernames'
+	local stored = client:hget(hash, username)
+	if not stored then
+		return false
+	else
+		return stored
+	end
 end

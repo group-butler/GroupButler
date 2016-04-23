@@ -1,6 +1,5 @@
 local triggers = {
-	'^/(test)$',
-	'^/(test)@'..bot.username..'$'
+	'^/(test)$'
 }
 
 local function on_each_msg(msg, ln)

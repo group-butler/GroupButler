@@ -4,7 +4,7 @@
 
 This bot has been created to help people in the administration of a group, with a lot of useful tools 8you can see them in the command list below).
 
-This bot is based on Otouto (Telegram bot: [@mokubot](https://telegram.me/mokubot), github page: [topkecleon/otouto](https://github.com/topkecleon/otouto).).
+This bot takes the main loop and bindings from [Otouto](https://github.com/topkecleon/otouto) ([@mokubot](https://telegram.me/mokubot)).
 
 Otouto and Group Butler are licensed under the GNU General Public License. A copy of the license has been included in [LICENSE](https://github.com/topkecleon/otouto/blob/master/LICENSE).
 
@@ -32,7 +32,7 @@ Here you have the list of the available commands.
 >
 >/rules (if unlocked) | show the group rules
 >
->/flag [reply] [optional description] | report a message to admins
+>@admin [reply optional] | send a feedback to all the admins or, if by reply, forward the replied message to the admins
 >
 >/modlist (if unlocked) | show the moderators list
 >
@@ -87,6 +87,8 @@ Here you have the list of the available commands.
 >
 >/[disable/enable] welcome | turn on/off the welcome message
 >
+>/[disable/enable] wreport | turn on/off the possibility to use @admin command by the users
+>
 >/disable [arab/rtl] | everyone with have rtl character in the name/in a message will be kicked, same for who write with arab characters
 >
 >/enable [arab/rtl] | rtl character/arab will be allowed
@@ -113,9 +115,9 @@ Here you have the list of the available commands.
 >
 >/addrules [rules] | add some rules
 >
->/flag block [reply] | the user won't be able to flag messages
+>/report off [reply] | the user won't be able to report a message/send a feedback to the admins
 >
->/flag free [reply] | the user will be able to flag messages
+>/report on [reply] | the user will be able to report a message/send a feedback to the admins
 
 ###Owner
 >/setlink [link/no] | set the group link (so moderators can see it with /link). Use 'no' to remove it
@@ -146,6 +148,8 @@ Here you have the list of the available commands.
 >/stats | will return some statistics (messages, groups, users, commands)
 >
 >/commands | will show how many times each command have been used
+>
+>/usernames | send a file with all the usernames that the bot has found
 >
 >/save | perform a redis background save
 >
@@ -271,8 +275,7 @@ Group Butler uses dkjson, a pure-Lua JSON parser. This is provided with the code
 
 *Q*: Why Otouto?
 
-*A*: In my opinion, Otouto has a really good plugins structure, and considering the amount if commands I've planned for Group Butler, I thought that its structure is perfect and fits my needs better than everything else. Using it means save a lot of time doing it by myself.
-Bindings were already done too, so I taked its long-polling loop and bindings, and I messed all up.
+*A*: Lazy + noob it's a magic combo. I could have tried to made the loop by myself, but 100% it would have been a crap compared to otouto polling and msgs processing loop. It was already there, why not?
 
 * * *
 

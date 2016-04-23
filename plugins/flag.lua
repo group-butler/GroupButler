@@ -1,147 +1,75 @@
+local function is_report_blocked(msg)
+    local hash = 'chat:'..msg.chat.id..':reportblocked'
+    return client:sismember(hash, msg.from.id)
+end
+
+local function send_to_admin(mods, chat, msg_id)
+    for i=1,#mods do
+        api.forwardMessage(mods[i], chat, msg_id)
+    end
+end       
+
 local action = function(msg, blocks, ln)
     if msg.chat.type == 'private' then--return nil if it's a private chat
 		api.sendMessage(msg.from.id, lang[ln].pv)
     	return nil
     end
-    local hash = 'bot:'..msg.chat.id..':flagblocked'
-    if blocks[1] == 'flag' then
-        --return nil if 's_flag' is locked
-        if is_locked(msg, 'Flag') then --or is_mod(msg) then
+    local hash = 'chat:'..msg.chat.id..':reportblocked'
+    if blocks[1] == 'admin' then
+        --return nil if 'report' is locked, if is a mod or if the user is blocked from using @admin
+        if is_locked(msg, 'Report') or is_mod(msg) or is_report_blocked(msg) then
             return nil 
         end
-        --ignore if who is flagging is a mod
+        if not blocks[2] and not msg.reply then
+            api.sendReply(msg, lang[ln].flag.no_input)
+        else
+            if is_report_blocked(msg) then
+                return nil
+            end
+            if msg.reply and tonumber(msg.reply.from.id) == tonumber(bot.id) then
+                return
+            end
+            local mods = client:hkeys('bot:'..msg.chat.id..':mod')
+            local msg_id = msg.message_id
+            if msg.reply then
+                blocks[2] = false
+                msg_id = msg.reply.message_id
+            end
+            send_to_admin(mods, msg.chat.id, msg_id)
+            api.sendReply(msg, lang[ln].flag.reported)
+        end
+    end
+    if blocks[1] == 'report' then
         if is_mod(msg) then
-	        return nil
-	    end
-	    local res = client:sismember(hash, msg.from.id)
-        --check if /flagblocked
-        if res then
-            return nil
+            if not msg.reply then
+                api.sendReply(msg, lang[ln].flag.no_reply)
+            else
+                if blocks[2] == 'off' then
+                    local result = client:sadd(hash, msg.reply.from.id)
+                    if result == 1 then
+                        api.sendReply(msg, lang[ln].flag.blocked)
+                    elseif result == 0 then
+                        api.sendReply(msg, lang[ln].flag.already_blocked)
+                    end
+                elseif blocks[2] == 'on' then
+                    local result = client:srem(hash, msg.reply.from.id)
+                    if result == 1 then
+                        api.sendReply(msg, lang[ln].flag.unblocked)
+                    elseif result == 0 then
+                        api.sendReply(msg, lang[ln].flag.already_unblocked)
+                    end
+                end
+            end
         end
-        --warning to reply to a message
-        if not msg.reply_to_message then
-            local out = make_text(lang[ln].flag.reply_flag)
-            api.sendReply(msg, out)
-		    return nil
-	    end
-	    local replied = msg.reply_to_message --load the replied message
-	    --return nil if an user flag a mod
-	    if is_mod(replied) then
-	        return nil
-	    end
-	    --return nil if an user flag the bot
-	    if replied.from.id == bot.id then
-	        return nil
-	    end
-	    local desc = blocks[2]
-	    --check if there is a description for the flag
-	    if not desc then
-	        desc = 'no description given'
-	    end
-	    --check if there is an username of flagging user
-	    local titlefla = ''
-        if msg.from.username then
-            titlefla = ' (@'..msg.from.username..')'
-        end
-	    --check if there is an username of flagged user
-	    local titlere = ''
-        if replied.from.username then
-            titlere = ' (@'..replied.from.username..')'
-        end
-	    for k,v in pairs(client:hkeys('bot:'..msg.chat.id..':mod') )do
-	        print('Reported to ['..v..']')
-	        local out = make_text(lang[ln].flag.mod_msg, msg.from.first_name, titlefla, replied.from.first_name, titlere, desc, replied.text)
-            api.sendMessage(v, out)
-            --sendMessage(v, msg.from.first_name..titlefla..' reported '..replied.from.first_name..titlere..'\nDescription: '..desc..'\nMessage reported:\n\n'..replied.text)
-        end
-        local out = make_text(lang[ln].flag.group_msg)
-        api.sendMessage(msg.chat.id, out, true)
-        mystat('/flag')
-    end
-    if blocks[1] == 'flag block' then
-        --return nil if the user is not a moderator
-        if not is_mod(msg) then
-            return nil
-        end
-        --warning to reply to a message
-        if not msg.reply_to_message then
-            local out = make_text(lang[ln].flag.reply_block)
-            api.sendReply(msg, out)
-		    return nil
-	    end
-	    local replied = msg.reply_to_message
-	    --can't /flagblock a mod
-	    if is_mod(replied) then --return nil if an user flag a mod
-	        local out = make_text(lang[ln].flag.mod_cant_flag)
-	        api.sendReply(msg, out)
-	        return nil
-	    end
-	    --can't /flagblock the bot
-	    if replied.from.id == bot.id then
-	        return nil
-	    end
-	    --check if already unable to use /flag
-	    local res = client:sismember(hash, replied.from.id)
-	    if res then
-	        local out = make_text(lang[ln].flag.already_unable, replied.from.first_name)
-            api.sendReply(msg, out, true)
-            return nil
-        end
-        --unable the user to use /flag and save datas
-        --check if there is an username
-        local title = replied.from.first_name
-        if replied.from.username then
-            title = '@'..replied.from.username
-        end
-        client:sadd(hash, replied.from.id)
-        local out = make_text(lang[ln].flag.blocked, msg.from.first_name)
-        api.sendReply(msg, out, true)
-        mystat('/flagblock')
-    end
-    if blocks[1] == 'flag free' then
-        --return nil if the user is not a moderator
-        if not is_mod(msg) then
-            return nil
-        end
-        --warning to reply to a message
-        if not msg.reply_to_message then
-            local out = make_text(lang[ln].flag.reply_unblock)
-            api.sendReply(msg, out)
-		    return nil
-	    end
-	    local replied = msg.reply_to_message
-	    --an user can't /flagfree a mod
-	    if is_mod(replied) then
-	        local out = make_text(lang[ln].flag.mod_cant_flag)
-	        api.sendReply(msg, out)
-	        return nil
-	    end
-	    --can't /flagfree the bot
-	    if replied.from.id == bot.id then
-	        return nil
-	    end
-	    --check if already able to use /flag
-	    local res = client:sismember(hash, replied.from.id)
-	    if not res then
-	        local out = make_text(lang[ln].flag.already_able, replied.from.first_name)
-            api.sendReply(msg, out, true)
-            return nil
-        end
-        --able the user to use /flag and save datas
-        client:srem(hash, replied.from.id)
-        local out = make_text(lang[ln].flag.unblocked, msg.from.first_name)
-        api.sendReply(msg, out, true)
-        mystat('/flagfree')
     end
 end
 
 return {
 	action = action,
 	triggers = {
-	    '^/(flag)$',
-	    '^/(flag)@groupbutler_bot',
-	    '^/(flag) (.*)', --flag with motivation
-    	'^/(flag block)$',
-	    '^/(flag free)$'
+	    '^@(admin)$',
+	    '^@(admin) (.*)$',
+	    '^/(report) (on)$',
+	    '^/(report) (off)$',
     }
 }

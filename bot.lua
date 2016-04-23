@@ -112,6 +112,14 @@ on_msg_receive = function(msg) -- The fn run whenever a message is received.
 		group_lang = 'en'
 	end
 	
+	--for resolve username (may be stored by groups of id in the future)
+	if msg.from.username then
+		client:hset('bot:usernames', '@'..msg.from.username, msg.from.id)
+	end
+	if msg.forward_from and msg.forward_from.username then
+		client:hset('bot:usernames', '@'..msg.forward_from.username, msg.forward_from.id)
+	end
+	
 	--count the number of messages
 	client:hincrby('bot:general', 'messages', 1)
 	

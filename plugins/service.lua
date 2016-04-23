@@ -42,11 +42,11 @@ local action = function(msg, blocks, ln)
 		
 		--default settings
 		hash = 'chat:'..msg.chat.id..':settings'
-		--disabled for users:yes / disabled fo users:no
+		--disabled for users:yes / disabled for users:no
 		client:hset(hash, 'Rules', 'no')
 		client:hset(hash, 'About', 'no')
 		client:hset(hash, 'Modlist', 'no')
-		client:hset(hash, 'Flag', 'yes')
+		client:hset(hash, 'Report', 'yes')
 		client:hset(hash, 'Welcome', 'no')
 		client:hset(hash, 'Extra', 'no')
 		client:hset(hash, 'Rtl', 'no')

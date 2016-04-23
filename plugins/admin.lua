@@ -30,7 +30,9 @@ local triggers = {
 	'^/(reset)$',
 	'^/(send) (%d+) (.*)$',
 	'^/(send) (.*)$',
-	'^/(adminmode) (%a%a%a?)$'
+	'^/(adminmode) (%a%a%a?)$',
+	'^/(delflag)$',
+	'^/(usernames)$'
 }
 
 local logtxt = ''
@@ -239,6 +241,8 @@ local action = function(msg, blocks, ln)
     				api.sendDocument(msg.from.id, './logs/starts.txt')
     			elseif blocks[2] == 'additions' then
     				api.sendDocument(msg.from.id, './logs/additions.txt')
+    			elseif blocks[2] == 'usernames' then
+    				api.sendDocument(msg.from.id, './logs/usernames.txt')
     			else
     				reply = 'Invalid parameter: '..blocks[2]
     			end
@@ -263,6 +267,8 @@ local action = function(msg, blocks, ln)
     					cmd = io.popen('sudo rm -rf logs/starts.txt')
     				elseif blocks[3] == 'starts' then
     					cmd = io.popen('sudo rm -rf logs/additions.txt')
+    				elseif blocks[3] == 'usernames' then
+    					cmd = io.popen('sudo rm -rf logs/usernames.txt')
     				else
     					reply = 'Invalid parameter: '..blocks[3]
     				end
@@ -295,7 +301,7 @@ local action = function(msg, blocks, ln)
 				end
 			end
 		else
-			local reply = '*Available logs*:\n\n`msg`: errors during the delivery of messages\n`errors`: errors during the execution\n`starts`: when the bot have been started\n`additions`: when the bot have been added to a group\n\nUsage:\n`/log [argument]`\n`/log del [argument]`\n`/log del` (whole folder)'
+			local reply = '*Available logs*:\n\n`msg`: errors during the delivery of messages\n`errors`: errors during the execution\n`starts`: when the bot have been started\n`usernames`: all the usernames seen by the bot\n`additions`: when the bot have been added to a group\n\nUsage:\n`/log [argument]`\n`/log del [argument]`\n`/log del` (whole folder)'
 			if msg.chat.type == 'private' then
 				api.sendMessage(msg.chat.id, reply, true)
 			else
@@ -455,6 +461,43 @@ local action = function(msg, blocks, ln)
 			api.sendMessage(config.admin, 'Admin mode: *'..status..'*', true)
 		end
 	end
+	if blocks[1] == 'delflag' then
+		--with @admin command, flag is no longer needed
+		local groups = client:smembers('bot:groupsid')
+		local logtxt = ''
+		local deleted = 0
+		local not_deleted = 0
+		logtxt = logtxt..'Number of groups:\t'..#groups..'\n\n'
+		for i=1,#groups do
+			logtxt = logtxt..i..' - Group id:\t'..groups[i]..'\n'
+			local hash = 'chat:'..groups[i]..':settings'
+			local res = client:hdel(hash, 'Flag')
+			if res == 1 then
+				deleted = deleted + 1
+			elseif res == 0 then
+				not_deleted = not_deleted + 1
+			end
+			logtxt = logtxt..'Result for the group:\t'..res..'\n\n'
+		end
+		logtxt = logtxt..'\nDeleted:\t'..deleted..'\nNot deleted:\t'..not_deleted
+		print(logtxt)
+		local file = io.open("./logs/delflag.txt", "w")
+        file:write(logtxt)
+        file:close()
+        api.sendDocument(msg.from.id, './logs/delflag.txt')
+        api.sendMessage(msg.chat.id, 'Instruction processed. Check the log file I\'ve sent you')
+        mystat('/delflag')
+	end
+	if blocks[1] == 'usernames' then
+		local hash = 'bot:usernames'
+		local usernames = client:hkeys(hash)
+		local file = io.open("./logs/usernames.txt", "w")
+		file:write(vtext(usernames):gsub('"', ''))
+        file:close()
+        api.sendDocument(msg.from.id, './logs/usernames.txt')
+        api.sendMessage(msg.chat.id, 'Instruction processed. Total number of usernames: '..#usernames)
+        mystat('/usernames')
+    end
 end
 
 return {

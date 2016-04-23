@@ -17,20 +17,6 @@ return {
             command_deleted = '&&&1 command have been deleted',
             command_empty = '&&&1 command does not exist'
         },
-        flag = {
-            reply_flag = 'Reply to a message to report it to admins',
-            mod_msg = '&&&1&&&2 reported &&&3&&&4\nDescription: &&&5\nMessage reported:\n\n&&&6',
-            group_msg = '*Flagged!*',
-            reply_block = 'Reply to an user to block his /flag power',
-            mod_cant_flag = 'Moderators can\'t flag people',
-            already_unable = '*&&&1* is already unable to use /flag command',
-            blocked = '*&&&1* is now *unable* to use /flag',
-            reply_unblock = 'Reply to an user to unblock his /flag power',
-            already_able = '*&&&1* is already *able* to use /flag command',
-            unblocked = '*&&&1* is now *able* to use /flag',
-            list_empty = 'There are zero people unable to use /flag command in this group',
-            list = '\nUsers unable to flag:\n&&&1'
-        },
         getstats = {
             redis = 'Redis updated',
             stats = '&&&1'
@@ -75,8 +61,8 @@ return {
                         ..'`/enable [arab|rtl]` : allow RTL character/arab texts\n'
                         ..'`/disable <rules|about|modlist|extra>` : this commands will be available only for moderators\n'
                         ..'`/enable <rules|about|modlist|extra>` : this commands will be available for all\n'
-                        ..'`/enable|/disable <welcome|flag>` : switch on/off the welcome message/the ability to flag messages\n'
-                        ..'`/flag block|/flag free` (by reply) : the user won\'t be able/will be able to report messages\n'
+                        ..'`/enable|/disable <welcome|report>` : switch on/off the welcome message or the ability to use \'@admin\' shortcut\n'
+                        ..'`/report [on/off]` (by reply) : the user won\'t be able/will be able to use \'@admin\' shortcut\n'
                         ..'`/flag list` : show the list of users who can\'t flag messages\n'
                         ..'`/welcome <no|r|a|ra|ma|rm|rma>` : how the welcome message is composed\n'
                         ..'_no_ : only the simple welcome message\n'
@@ -91,7 +77,7 @@ return {
                     ..'`/rules` (if unlocked) : show the group rules\n'
                     ..'`/about` (if unlocked) : show the group description\n'
                     ..'`/modlist` (if unlocked) : show the moderators of the group\n'
-                    ..'`/flag msg` (by reply and if unlocked) <optional description> : report the message to administrators\n'
+                    ..'`@admin` (if unlocked) : by reply= report the message replied to all the admins; no reply (with text)= send a feedback to all the admins\n'
                     ..'`/tell` : show your basical info or the info about the user you replied to\n'
                     ..'`/info` : show some useful informations about the bot\n'
                     ..'`/c` <feedback> : send a feedback/report a bug/ask a question to my creator. _ANY KIND OF SUGGESTION OR FEATURE REQUEST IS WELCOME_. He will reply ASAP\n'
@@ -136,11 +122,6 @@ return {
             demoted = '*&&&1* has been demoted',
             new_owner = '*&&&1* is the new owner of *&&&2*',
             modlist = '\nModerators list of &&&1:\n&&&2'
-        },
-        redisbackup = 'Backup saved as _redisbackup.json_',
-        redisinfo = {
-            hash_info = 'Info about the hash:\n\n&&&1',
-            found = 'User found'
         },
         report = {
             no_input = 'Write your suggestions/bugs/doubt near "/c"',
@@ -197,9 +178,11 @@ return {
                 extra_locked = '#extra commands are now available *only for moderators*',
                 rtl_already = 'Anti-RTL is already *on*',
                 rtl_locked = 'Anti-RTL is now *on*',
-                rtl_already = 'Anti-arab is already *on*',
-                rtl_locked = 'Anti-arab is now *on*',
-                wrong_input = 'Argument unavailable.\nUse `/disable [rules|about|welcome|modlist|flag|extra]` instead',
+                arab_already = 'Anti-arab characters is already *on*',
+                arab_locked = 'Anti-arab characters is now *on*',
+                report_already = '@admin command is already *not enabled*',
+                report_locked = '@admin command *won\'t be available* from now',
+                wrong_input = 'Argument unavailable.\nUse `/disable [rules|about|welcome|modlist|report|extra|rtl|arab]` instead',
             },
             enable = {
                 no_input = 'Enable what?',
@@ -217,9 +200,11 @@ return {
                 extra_unlocked = 'Extra # commands are now available *for all*',
                 rtl_already = 'Anti-RTL is already *off*',
                 rtl_unlocked = 'Anti-RTL is now *off*',
-                arab_already = 'Anti-arab is already *off*',
-                arab_unlocked = 'Anti-arab is now *off*',
-                wrong_input = 'Argument unavailable.\nUse `/enable [rules|about|welcome|modlist|flag|extra]` instead'
+                arab_already = 'Anti-arab characters is already *off*',
+                arab_unlocked = 'Anti-arab characters is now *off*',
+                report_already = '@admin command is already *available*',
+                report_unlocked = '@admin command is now *available*',
+                wrong_input = 'Argument unavailable.\nUse `/enable [rules|about|welcome|modlist|report|extra|rtl|arab]` instead'
             },
             welcome = {
                 no_input = 'Welcome and...?',
@@ -253,7 +238,8 @@ return {
             Extra = 'Extra',
             Flood = 'Flood',
             Rtl = 'Rtl',
-            Arab = 'Arab'
+            Arab = 'Arab',
+            Report = 'Report'
         },
         shell = {
             no_input = 'Please specify a command to run.',
@@ -288,7 +274,7 @@ return {
 		banhammer = {
             kicked_header = 'List of kicked users:\n\n',
             kicked_empty = 'The list of kicked users is empty',
-            kicked = '&&&1 have been kicked! Is still able to join',
+            kicked = '&&&1 have been kicked! (but is still able to join)',
             banned = '&&&1 have been banned!',
             unbanned = '&&&1 have been unbanned!',
             reply = 'Reply to someone',
@@ -341,6 +327,15 @@ return {
             [104] = 'I can\'t kick or ban an admin', --yes, I need two
             [105] = 'I\'m not an admin, I can\'t kick people',
             [106] = 'An unknown error occurred while kicking'
+        },
+        flag = {
+            no_input = 'Reply to a message to report it to an admin, or write something next \'@admin\' to send a feedback to them',
+            reported = 'Reported!',
+            no_reply = 'Reply to an user!',
+            blocked = 'The user from now can\'t use \'@admin\'',
+            already_blocked = 'The user is already unable to use \'@admin\'',
+            unblocked = 'The user now can use \'@admin\'',
+            already_unblocked = 'The user is already able to use \'@admin\'',
         },
     },
 }

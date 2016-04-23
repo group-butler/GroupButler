@@ -17,6 +17,7 @@ local function sendRequest(url, user_id)
 		print(code)
 		--403: bot blocked, 429: spam limit ...send a message to the admin, return the code
 		if code ~= 403 and code ~= 429 then
+			print(tab.description)
 			api.sendMessage(config.admin, vtext(dat)..'\n'..code..'\n(text in the log)')
 			return false, code
 		end
@@ -135,7 +136,7 @@ local function banUser(chat_id, user_id, ln, arg1, no_msg)--arg1: should be the 
 	res, code = api.kickChatMember(chat_id, user_id) --kick
 	if res then
 		no_msg = false
-		text = make_text(lang[ln].banhammer.kicked, name)
+		text = make_text(lang[ln].banhammer.banned, name)
 		client:hincrby('bot:general', 'ban', 1)
 	else
 		text = api.code2text(code, ln, chat_id)

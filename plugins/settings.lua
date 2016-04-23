@@ -1,3 +1,29 @@
+local function disable_set(field, msg, ln)
+    local hash = 'chat:'..msg.chat.id..':settings'
+    local field_lower = field:lower()
+    print(already, locked)
+    local now = client:hget(hash, field)
+    if now == 'yes' then
+        api.sendReply(msg, make_text(lang[ln].settings.disable[field_lower..'_already']), true)
+    else
+        client:hset(hash, field, 'yes')
+        api.sendReply(msg, make_text(lang[ln].settings.disable[field_lower..'_locked']), true)
+    end
+end
+
+local function enable_set(field, msg, ln)
+    local hash = 'chat:'..msg.chat.id..':settings'
+    local field_lower = field:lower()
+    print(field_lower)
+    local now = client:hget(hash, field)
+    if now == 'no' then
+        api.sendReply(msg, make_text(lang[ln].settings.enable[field_lower..'_already']), true)
+    else
+        client:hset(hash, field, 'no')
+        api.sendReply(msg, make_text(lang[ln].settings.enable[field_lower..'_unlocked']), true)
+    end
+end
+
 local action = function(msg, blocks, ln)
 
 --ignore if via pm
@@ -34,81 +60,31 @@ if blocks[1] == 'disable' then
         --check the command to lock
         if input == 'rules' then
             mystat('/disable rules') --save stats
-            now = client:hget(hash, 'Rules')
-            if now == 'yes' then
-                api.sendReply(msg, make_text(lang[ln].settings.disable.rules_already), true)
-            else
-                client:hset(hash, 'Rules', 'yes')
-                api.sendReply(msg, make_text(lang[ln].settings.disable.rules_locked), true)
-            end
-            
+            disable_set('Rules', msg, ln)  
         elseif input == 'about' then
             mystat('/disable about') --save stats
-            now = client:hget(hash, 'About')
-            if now == 'yes' then
-                api.sendReply(msg, make_text(lang[ln].settings.disable.about_already), true)
-            else
-                client:hset(hash, 'About', 'yes')
-                api.sendReply(msg, make_text(lang[ln].settings.disable.about_locked), true)
-            end
-        
+            disable_set('About', msg, ln)
         elseif input == 'welcome' then
             mystat('/disable welcome') --save stats
-            now = client:hget(hash, 'Welcome')
-            if now == 'yes' then
-                api.sendReply(msg, make_text(lang[ln].settings.disable.welcome_already), true)
-            else
-                client:hset(hash, 'Welcome', 'yes')
-                api.sendReply(msg, make_text(lang[ln].settings.disable.welcome_locked), true)
-            end
-        
+            disable_set('Welcome', msg, ln)
         elseif input == 'modlist' then
             mystat('/disable modlist') --save stats
-            now = client:hget(hash, 'Modlist')
-            if now == 'yes' then
-                api.sendReply(msg, make_text(lang[ln].settings.disable.modlist_already), true)
-            else
-                client:hset(hash, 'Modlist', 'yes')
-                api.sendReply(msg, make_text(lang[ln].settings.disable.modlist_locked), true)
-            end
-        
+            disable_set('Modlist', msg, ln)
         elseif input == 'flag' then
             mystat('/disable flag') --save stats
-            now = client:hget(hash, 'Flag')
-            if now == 'yes' then
-                api.sendReply(msg, make_text(lang[ln].settings.disable.flag_already), true)
-            else
-                client:hset(hash, 'Flag', 'yes')
-                api.sendReply(msg, make_text(lang[ln].settings.disable.flag_locked), true)
-            end
-            
+            disable_set('Flag', msg, ln)  
         elseif input == 'extra' then
             mystat('/disable extra') --save stats
-            now = client:hget(hash, 'Extra')
-            if now == 'yes' then
-                api.sendReply(msg, make_text(lang[ln].settings.disable.extra_already), true)
-            else
-                client:hset(hash, 'Extra', 'yes')
-                api.sendReply(msg, make_text(lang[ln].settings.disable.extra_locked), true)
-            end
+            disable_set('Extra', msg, ln)
         elseif input == 'rtl' then
             mystat('/disable rtl') --save stats
-            now = client:hget(hash, 'Rtl')
-            if now == 'yes' then
-                api.sendReply(msg, make_text(lang[ln].settings.disable.rtl_already), true)
-            else
-                client:hset(hash, 'Rtl', 'yes')
-                api.sendReply(msg, make_text(lang[ln].settings.disable.rtl_locked), true)
-            end
+            disable_set('Rtl', msg, ln)
         elseif input == 'arab' then
             mystat('/disable arab') --save stats
-            now = client:hget(hash, 'Arab')
-            if now == 'yes' then
-                api.sendReply(msg, make_text(lang[ln].settings.disable.rtl_already), true)
-            else
-                client:hset(hash, 'Arab', 'yes')
-                api.sendReply(msg, make_text(lang[ln].settings.disable.rtl_locked), true)
-            end
+            disable_set('Arab', msg, ln)
+        elseif input == 'report' then
+            mystat('/disable report') --save stats
+            disable_set('Report', msg, ln)
         else
             api.sendReply(msg, make_text(lang[ln].settings.disable.wrong_input), true)
         end
@@ -136,82 +112,31 @@ if blocks[1] == 'enable' then
         --check the command to enable
         if input == 'rules' then
             mystat('/enable rules') --save stats
-            now = client:hget(hash, 'Rules')
-            if now == 'no' then
-                api.sendReply(msg, make_text(lang[ln].settings.enable.rules_already), true)
-            else
-                client:hset(hash, 'Rules', 'no')
-                api.sendReply(msg, make_text(lang[ln].settings.enable.rules_unlocked), true)
-            end
-            
+            enable_set('Rules', msg, ln)
         elseif input == 'about' then
             mystat('/enable about') --save stats
-            now = client:hget(hash, 'About')
-            if now == 'no' then
-                api.sendReply(msg, make_text(lang[ln].settings.enableabout._already), true)
-            else
-                client:hset(hash, 'About', 'no')
-                api.sendReply(msg, make_text(lang[ln].settings.enable.about_unlocked), true)
-            end
-        
+            enable_set('About', msg, ln)
         elseif input == 'welcome' then
             mystat('/enable welcome') --save stats
-            now = client:hget(hash, 'Welcome')
-            if now == 'no' then
-                api.sendReply(msg, make_text(lang[ln].settings.enable.welcome_already), true)
-            else
-                client:hset(hash, 'Welcome', 'no')
-                api.sendReply(msg, make_text(lang[ln].settings.enable.welcome_unlocked), true)
-            end
-        
+            enable_set('Welcome', msg, ln)
         elseif input == 'modlist' then
             mystat('/enable modlist') --save stats
-            now = client:hget(hash, 'Modlist')
-            if now == 'no' then
-                api.sendReply(msg, make_text(lang[ln].settings.enable.modlist_already), true)
-            else
-                client:hset(hash, 'Modlist', 'no')
-                api.sendReply(msg, make_text(lang[ln].settings.enable.modlist_unlocked), true)
-            end
-        
+            enable_set('Modlist', msg, ln)
         elseif input == 'flag' then
             mystat('/enable flag') --save stats
-            now = client:hget(hash, 'Flag')
-            if now == 'no' then
-                api.sendReply(msg, make_text(lang[ln].settings.enable.flag_already), true)
-            else
-                client:hset(hash, 'Flag', 'no')
-                api.sendReply(msg, make_text(lang[ln].settings.enable.flag_unlocked), true)
-            end
-            
+            enable_set('Flag', msg, ln)
         elseif input == 'extra' then
             mystat('/enable extra') --save stats
-            now = client:hget(hash, 'Extra')
-            if now == 'no' then
-                api.sendReply(msg, make_text(lang[ln].settings.enable.extra_already), true)
-            else
-                client:hset(hash, 'Extra', 'no')
-                api.sendReply(msg, make_text(lang[ln].settings.enable.extra_unlocked), true)
-            end
+            enable_set('Extra', msg, ln)
         elseif input == 'rtl' then
             mystat('/enable rtl') --save stats
-            now = client:hget(hash, 'Rtl')
-            if now == 'no' then
-                api.sendReply(msg, make_text(lang[ln].settings.enable.rtl_already), true)
-            else
-                client:hset(hash, 'Rtl', 'no')
-                api.sendReply(msg, make_text(lang[ln].settings.enable.rtl_unlocked), true)
-            end
+            enable_set('Rtl', msg, ln)
         elseif input == 'arab' then
             mystat('/enable arab') --save stats
-            now = client:hget(hash, 'Arab')
-            if now == 'no' then
-                api.sendReply(msg, make_text(lang[ln].settings.enable.arab_already), true)
-            else
-                client:hset(hash, 'Arab', 'no')
-                api.sendReply(msg, make_text(lang[ln].settings.enable.arab_unlocked), true)
-            end
-            
+            enable_set('Arab', msg, ln)
+        elseif input == 'report' then
+            mystat('/enable report') --save stats
+            enable_set('Report', msg, ln)
         else
             api.sendReply(msg, make_text(lang[ln].settings.enable.wrong_input), true)
         end
