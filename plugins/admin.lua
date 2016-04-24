@@ -32,7 +32,9 @@ local triggers = {
 	'^/(send) (.*)$',
 	'^/(adminmode) (%a%a%a?)$',
 	'^/(delflag)$',
-	'^/(usernames)$'
+	'^/(usernames)$',
+	'^/(api errors)$',
+	'^/(rediscli) (.*)$'
 }
 
 local logtxt = ''
@@ -56,6 +58,19 @@ local function bot_leave(chat_id, ln)
 		client:hincrby('bot:general', 'groups', -1)
 		return lang[ln].admin.leave_chat_leaved
 	end
+end
+
+local function load_lua(code)
+	local output = loadstring(code)()
+	if not output then
+		output = 'Done! (not output)'
+	else
+		if type(output) == 'table' then
+			output = vtext(output)
+		end
+		output = '```\n' .. output .. '\n```'
+	end
+	return output
 end
 
 local action = function(msg, blocks, ln)
@@ -165,13 +180,8 @@ local action = function(msg, blocks, ln)
 			return
 		end
 		--execute
-		local output = loadstring(blocks[2])()
-		if not output then
-			output = make_text(lang[ln].luarun.done)
-		else
-			output = '```\n' .. output .. '\n```'
-		end
-		api.sendMessage(msg.chat.id, output, true, msg.message_id, true)
+		local output = load_lua(blocks[2])
+		api.sendMessage(msg.chat.id, output, true)
 		mystat('/lua')
 	end
 	if blocks[1] == 'run' then
@@ -497,6 +507,25 @@ local action = function(msg, blocks, ln)
         api.sendDocument(msg.from.id, './logs/usernames.txt')
         api.sendMessage(msg.chat.id, 'Instruction processed. Total number of usernames: '..#usernames)
         mystat('/usernames')
+    end
+    if blocks[1] == 'api errors' then
+    	local errors = client:hkeys('bot:errors')
+    	local times = client:hvals('bot:errors')
+    	local text = 'Api errors:\n'
+    	for i=1,#errors do
+    		text = text..errors[i]..': '..times[i]..'\n'
+    	end
+    	mystat('/apierrors')
+    	api.sendMessage(config.admin, text)
+    end
+    if blocks[1] == 'rediscli' then
+    	local redis_f = blocks[2]:gsub(' ', '(\'', 1)
+    	redis_f = redis_f:gsub(' ', '\',\'')
+    	redis_f = 'return client:'..redis_f..'\')'
+    	print(redis_f)
+    	local output = load_lua(redis_f)
+    	mystat('/rediscli')
+    	api.sendMessage(config.admin, output, true)
     end
 end
 
