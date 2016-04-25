@@ -10,6 +10,10 @@ local function sendRequest(url, user_id)
 
 	local dat, code = HTTPS.request(url)
 	
+	if not dat then 
+		return false, code 
+	end
+	
 	local tab = JSON.decode(dat)
 
 	if code ~= 200 then
