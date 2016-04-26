@@ -282,12 +282,13 @@ return {
             no_unbanned = 'This is a normal group, people is not blocked when kicked'
         },
         floodmanager = {
+            number_invalid = '`&&&1` is not a valid value!\nThe value should be *higher* than `3` and *lower* then `26`',
             not_changed = 'The max number of messages that can be sent in 5 seconds is already &&&1',
             changed = 'The max number of messages that can be sent in 5 seconds changed from &&&1 to &&&2',
             enabled = 'Antiflood enabled',
             disabled = 'Antiflood disabled',
             kick = 'Now flooders will be kicked',
-            ban = 'Now flooders will be banned'
+            ban = 'Now flooders will be banned',
         },
         mediasettings = {
             list_header = '*Here the list of the media you can block*:\n\n',

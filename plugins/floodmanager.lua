@@ -12,6 +12,10 @@ local action = function(msg, blocks, ln)
 		--show flood settings
 	else
 		if blocks[2]:match('(%d%d?)') then
+			if tonumber(blocks[2]) < 4 or tonumber(blocks[2]) > 25 then
+				api.sendReply(msg, make_text(lang[ln].floodmanager.number_invalid, blocks[2]), true)
+				return
+			end
 	    	local new = tonumber(blocks[2])
 	    	local old = tonumber(client:hget('chat:'..msg.chat.id..':flood', 'MaxFlood')) or 5
 	    	if new == old then
