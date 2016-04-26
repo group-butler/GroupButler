@@ -21,13 +21,13 @@ pre_process = function(msg, ln)
                 name = name.. ' (flood)'
                 if action == 'ban' then
     		        --out = make_text(lang[ln].preprocess.flood_ban, name:neat())
-    		        api.banUser(msg.chat.id, msg.from.id, ln, name:neat(), true)
+    		        api.banUser(msg.chat.id, msg.from.id, ln, name, true)
     		    else
     		        ---api.unbanChatMember(msg.chat.id, msg.from.id) --unblock
     		        ---client:hset('kicked:'..msg.chat.id, msg.from.id, name:neat()) --add in kicked list
     		        ---print('Kicked', msgs)
     		        ---out = make_text(lang[ln].preprocess.flood_kick, name:neat())
-    		        api.kickUser(msg.chat.id, msg.from.id, ln, name:neat(), true)
+    		        api.kickUser(msg.chat.id, msg.from.id, ln, name, true)
     		    end
     		    --api.sendMessage(msg.chat.id, out, true)
     		end
