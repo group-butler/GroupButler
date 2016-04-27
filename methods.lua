@@ -58,7 +58,7 @@ local function getUpdates(offset)
 end
 
 local function getKickError(error)
-	error = error:gsub('%[Error%]: Bad Request: ', '')
+	error = error:gsub('%[Error : 400 : Bad Request: ', ''):gsub('%]', '')
 	local known_errors = {
 		[101] = 'Not enough rights to kick participant', --SUPERGROUP: bot is not admin
 		[102] = 'USER_ADMIN_INVALID', --SUPERGROUP: trying to kick an admin
@@ -107,6 +107,8 @@ local function kickChatMember(chat_id, user_id)
 	local tab = JSON.decode(dat)
 
 	if res ~= 200 then
+		--if error, return false and the custom error code
+		print(tab.description)
 		return false, api.getKickError(tab.description)
 	end
 
@@ -137,15 +139,19 @@ end
 local function banUser(chat_id, user_id, ln, arg1, no_msg)--arg1: should be the name, no_msg: kick without message if kick is failed
 	local name = arg1
 	if not name then name = 'User' end
+	
 	res, code = api.kickChatMember(chat_id, user_id) --kick
+	
 	if res then
-		no_msg = false
 		text = make_text(lang[ln].banhammer.banned, name)
 		client:hincrby('bot:general', 'ban', 1)
+		--the kick went right: always display who have been kicked (and why, if included in the name)
+		no_msg = false --if the bot kicked successfully, then send a message with the motivation
 	else
 		text = api.code2text(code, ln, chat_id)
 	end
-	if no_msg then
+	--check if send a message after the kick. If a kick went successful, no_msg is always false: users need to know who and why
+	if no_msg or code == 106 then --if no_msg (don't reply with the error) or the error is unknown then...
 		return res
 	else
 		api.sendMessage(chat_id, text, true)
@@ -156,19 +162,24 @@ end
 local function kickUser(chat_id, user_id, ln, arg1, no_msg)--arg1: should be the name, no_msg: don't send the error message if kick is failed. If no_msg is false, it will return the motivation of the fail
 	local name = arg1
 	if not name then name = 'User' end
+	
 	res, code = api.kickChatMember(chat_id, user_id)
+	
 	if res then
+		--add the user to the kicked list
 		local hash = 'kicked:'..chat_id
 	    client:hset(hash, user_id, name) --save the id in the kicked list
 	    client:hincrby('bot:general', 'kick', 1) --genreal: save how many kicks
+		--unban
 		api.unbanChatMember(chat_id, user_id)
 		text = make_text(lang[ln].banhammer.kicked, name)
+		--the kick went right: always display who have been kicked (and why, if included in the name)
 		no_msg = false --if the bot kicked successfully, then send a message with the motivation
 	else
 		text = api.code2text(code, ln, chat_id)
 	end
-	--check if send a message after the kick
-	if no_msg or code == 106 then --if no_msg (don't reply with the error) or the error is unknown then..
+	--check if send a message after the kick. If a kick went successful, no_msg is always false: users need to know who and why
+	if no_msg or code == 106 then --if no_msg (don't reply with the error) or the error is unknown then...
 		return res
 	else
 		local sent, code_msg = api.sendMessage(chat_id, text, true)

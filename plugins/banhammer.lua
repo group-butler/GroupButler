@@ -34,6 +34,10 @@ local action = function(msg, blocks, ln)
 		    	end
 	    	end
 	   		if blocks[1] == 'ban' then
+	   			if msg.chat.type == 'group' then
+	   				api.sendReply(msg, 'You can\'t ban users in normal groups!\nOnly /kick is available')
+	   				return
+	   			end
 	    		if not is_mod(msg.reply_to_message) then
 	    			api.banUser(msg.chat.id, msg.reply.from.id, ln, name)
 		   			mystat('/ban')

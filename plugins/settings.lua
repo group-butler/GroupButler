@@ -70,9 +70,6 @@ if blocks[1] == 'disable' then
         elseif input == 'modlist' then
             mystat('/disable modlist') --save stats
             disable_set('Modlist', msg, ln)
-        elseif input == 'flag' then
-            mystat('/disable flag') --save stats
-            disable_set('Flag', msg, ln)  
         elseif input == 'extra' then
             mystat('/disable extra') --save stats
             disable_set('Extra', msg, ln)
@@ -122,9 +119,6 @@ if blocks[1] == 'enable' then
         elseif input == 'modlist' then
             mystat('/enable modlist') --save stats
             enable_set('Modlist', msg, ln)
-        elseif input == 'flag' then
-            mystat('/enable flag') --save stats
-            enable_set('Flag', msg, ln)
         elseif input == 'extra' then
             mystat('/enable extra') --save stats
             enable_set('Extra', msg, ln)
