@@ -147,7 +147,7 @@ if blocks[1] == 'owner' then
 	    client:hdel(hash, owner)
 	    client:hset(hash, new_owner, jsoname)
         
-        local out = make_text(lang[ln].mod.new_owner, msg.from.first_name)
+        local out = make_text(lang[ln].mod.new_owner, msg.from.first_name, msg.chat.title:neat())
         api.sendReply(msg, out, true)
         mystat('/owner')
     end

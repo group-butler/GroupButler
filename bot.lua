@@ -16,7 +16,7 @@ bot_init = function(on_reload) -- The function run when the bot is started or re
 	print(colors('%{blue bright}Loading utilities.lua...'))
 	dofile('utilities.lua') -- Load miscellaneous and cross-plugin functions.
 	print(colors('%{blue bright}Loading languages...'))
-	lang = dofile('languages.lua') -- All the languages available
+	lang = dofile(config.languages) -- All the languages available
 	print(colors('%{blue bright}Loading API functions table...'))
 	api = require('methods')
 	

@@ -247,7 +247,6 @@ end
 
 local function per_away(text)
 	local text = tostring(text):gsub('%%', '£&£')
-	print(text)
 	return text
 end
 

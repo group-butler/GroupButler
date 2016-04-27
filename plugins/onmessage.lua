@@ -16,20 +16,12 @@ pre_process = function(msg, ln)
                 local action = client:hget('chat:'..msg.chat.id..':flood', 'ActionFlood')
                 local name = msg.from.first_name
                 if msg.from.username then name = name..' (@'..msg.from.username..')' end
-                --api.kickChatMember(msg.chat.id, msg.from.id) --kick, then see if unban or not
-                --local out
                 name = name.. ' (flood)'
                 if action == 'ban' then
-    		        --out = make_text(lang[ln].preprocess.flood_ban, name:neat())
     		        api.banUser(msg.chat.id, msg.from.id, ln, name, true)
     		    else
-    		        ---api.unbanChatMember(msg.chat.id, msg.from.id) --unblock
-    		        ---client:hset('kicked:'..msg.chat.id, msg.from.id, name:neat()) --add in kicked list
-    		        ---print('Kicked', msgs)
-    		        ---out = make_text(lang[ln].preprocess.flood_kick, name:neat())
     		        api.kickUser(msg.chat.id, msg.from.id, ln, name, true)
     		    end
-    		    --api.sendMessage(msg.chat.id, out, true)
     		end
             return msg, true --if an user is spamming, don't go through plugins
         end
@@ -43,21 +35,11 @@ pre_process = function(msg, ln)
             local hash = 'media:'..msg.chat.id
             local status = client:hget(hash, media)
             local out
-            --api.kickChatMember(msg.chat.id, msg.from.id) --kick, then see if unblock
             if status == 'kick' then
                 api.kickUser(msg.chat.id, msg.from.id, ln, name:neat(), true)
-    		    --api.unbanChatMember(msg.chat.id, msg.from.id) --unblock
-    		    --client:hset('kicked:'..msg.chat.id, msg.from.id, name:neat()) --add in kicked list
-    		    --print('Kicked', media)
-    		    --out = make_text(lang[ln].preprocess.media_kick, name:neat())
     	    elseif status == 'ban' then
     	        api.banUser(msg.chat.id, msg.from.id, ln, name:neat(), true)
-    		    --print('Banned', media)
-    		    --out = make_text(lang[ln].preprocess.media_ban, name:neat())
     		end
-    		--if out then
-    		    --api.sendReply(msg, out, true)
-    		--end
         end
     
         if client:hget('chat:'..msg.chat.id..':settings', 'Rtl') == 'yes' then --no = not disabled
@@ -65,11 +47,7 @@ pre_process = function(msg, ln)
             if msg.from.username then name = name..' (@'..msg.from.username..')' end
             local rtl = '‮'
     	    local check = msg.text:find(rtl..'+') or msg.from.first_name:find(rtl..'+')
-    	    if check ~= nil then 
-    	        --print('RTL found')
-    	        --kickChatMember(msg.chat.id, msg.from.id) --kick
-        		--unbanChatMember(msg.chat.id, msg.from.id) --unblock
-    		    --sendReply(msg, make_text(lang[ln].preprocess.rtl, name), true)
+    	    if check ~= nil then
     		    name = name.. ' (RTL char)'
     		    api.kickUser(msg.chat.id, msg.from.id, ln, name:neat(), true)
     	    end
@@ -78,9 +56,6 @@ pre_process = function(msg, ln)
         if msg.text and msg.text:find('([\216-\219][\128-\191])') and client:hget('chat:'..msg.chat.id..':settings', 'Arab') == 'yes' then
             local name = msg.from.first_name
             if msg.from.username then name = name..' (@'..msg.from.username..')' end
-            --api.kickChatMember(msg.chat.id, msg.from.id) --kick
-    		--api.unbanChatMember(msg.chat.id, msg.from.id) --unblock
-    		--api.sendReply(msg, make_text(lang[ln].preprocess.arab, name), true)
     		name = name.. ' (arab)'
     		api.kickUser(msg.chat.id, msg.from.id, ln, name:neat(), true)
         end

@@ -17,16 +17,10 @@ local action = function(msg, blocks, ln)
         end
         
         local last_name = ''
-        --if msg.from.last_name then
-            --last_name = '\n*Last*: '..msg.from.last_name
-        --end
-        --local text = '*First*: '..msg.from.first_name..last_name..'\n*Username*: @'..msg.from.username..' ('..msg.from.id..')\n\n'..input
-	    --sendMessage(receiver, text, true)
-	    local target = msg.message_id
 	    
 	    api.forwardMessage (receiver, msg.from.id, target)
 	    local out = make_text(lang[ln].report.sent, input)
-	    api.sendMessage(msg.from.id, out, true)
+	    api.sendMessage(msg.from.id, out)
 	    mystat('/c')
 	end
 	
