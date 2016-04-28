@@ -415,8 +415,10 @@ local action = function(msg, blocks, ln)
 		end
 	end
 	if blocks[1] == 'forward' then
-		if msg.forward_from then
-			api.sendReply(msg, msg.forward_from.id)
+		if msg.chat.type == 'private' then
+			if msg.forward_from then
+				api.sendReply(msg, msg.forward_from.id)
+			end
 		end
 	end
 	if blocks[1] == 'reset' then

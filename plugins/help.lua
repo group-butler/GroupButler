@@ -1,45 +1,61 @@
 local action = function(msg, blocks, ln)
     -- save stats
-    if string.match(msg.text, '^/help') then
-        mystat('/help')
-    else
-        local hash = 'bot:general'
-        local num = client:hincrby(hash, 'users', 1)
-        print('Stats saved', 'Users: '..num)
-		hash = 'bot:users'
-		local savename = msg.from.first_name
-		if msg.from.username then
-			savename = savename..' [@'..msg.from.username..']'
-		end
-		client:hset(hash, msg.from.id, savename)
-    end
-    
-    local out = ''
-    if msg.chat.type == 'group' or msg.chat.type == 'supergroup' then
-        if is_owner(msg) then
-            out = out..make_text(lang[ln].help.owner)
+    if blocks[1] == 'start' then
+        if msg.chat.type == 'private' then
+            api.sendMessage(msg.chat.id, lang[ln].help.private, true)
         end
-        if is_mod(msg) then
-            out = out..make_text(lang[ln].help.moderator)
-            api.sendMessage(msg.from.id, out, true, true)
-            out = nil
+        return
+    end
+    if blocks[1] == 'help' then
+        if msg.chat.type == 'private' then
+            api.sendMessage(msg.chat.id, lang[ln].help.private, true)
+            return
         end
-        out = make_text(lang[ln].help.all)
-        
-        api.sendReply(msg, make_text(lang[ln].help.group), true)
+        keyboard = {}
+        keyboard.inline_keyboard = {
+    	    {
+    		    {text = "Normal user", callback_data = '/user'},
+			    {text = "Moderator", callback_data = '/mod'},
+    		    {text = "Owner", callback_data = '/owner'}
+	    	},
+    		{
+    			{text = "Info", callback_data = '/info'}
+	    	}
+    	}
+        local res = api.sendKeyboard(msg.from.id, 'Choose the *role* to see the available commands:', keyboard, true)
+        if res then
+            api.sendMessage(msg.chat.id, lang[ln].help.group_success, true)
+        else
+            api.sendMessage(msg.chat.id, lang[ln].help.group_not_success, true)
+        end
     end
-    
-    if msg.chat.type == 'private' then
-        out = make_text(lang[ln].help.private, msg.from.first_name)
+    if msg.cb then
+        local role = blocks[1]
+        local msg_id = msg.message_id
+        local text
+        if role == 'user' then
+            text = lang[ln].help.all
+        elseif role == 'mod' then
+            text = lang[ln].help.moderator
+        elseif role == 'owner' then
+            text = lang[ln].help.owner
+        elseif role == 'info' then
+            text = lang[ln].credits
+        end
+        api.editMessageText(msg.chat.id, msg_id, text, keyboard, true)
     end
-    
-    api.sendMessage(msg.from.id, out, true, true)
 end
 
 return {
 	action = action,
 	triggers = {
-    	'^/help[@'..bot.username..']*',
-	    '^/start[@'..bot.username..']*'
+    	'^/(help)@'..bot.username..'$',
+	    '^/(start)@'..bot.username..'$',
+	    '^/(start)$',
+	    '^/(help)$',
+	    '^###cb:/(user)',
+    	'^###cb:/(owner)',
+	    '^###cb:/(mod)',
+	    '^###cb:/(info)'
     }
 }

@@ -13,16 +13,16 @@ bot_init = function(on_reload) -- The function run when the bot is started or re
 	
 	print(colors('%{blue bright}Loading config.lua...'))
 	config = dofile('config.lua') -- Load configuration file.
+	if config.bot_api_key == '' then
+		print(colors('%{red bright}API KEY MISSING!'))
+		return
+	end
 	print(colors('%{blue bright}Loading utilities.lua...'))
 	dofile('utilities.lua') -- Load miscellaneous and cross-plugin functions.
 	print(colors('%{blue bright}Loading languages...'))
 	lang = dofile(config.languages) -- All the languages available
 	print(colors('%{blue bright}Loading API functions table...'))
 	api = require('methods')
-	
-	if config.bot_api_key == '' then
-		error('Api key missing!')
-	end
 	
 	bot = nil
 	while not bot do -- Get bot info and retry if unable to connect.
@@ -270,6 +270,17 @@ local function rethink_reply(msg)
 	return on_msg_receive(msg)
 end
 
+local function handle_inline_keyboards_cb(msg)
+	msg.text = '###cb:'..msg.data
+	msg.old_text = msg.message.text
+	msg.old_date = msg.message.date
+	msg.date = os.time()
+	msg.cb = true
+	msg.message_id = msg.message.message_id
+	msg.chat = msg.message.chat
+	msg.message = nil
+	return on_msg_receive(msg)
+end
 
 ---------WHEN THE BOT IS STARTED FROM THE TERMINAL, THIS IS THE FIRST FUNCTION HE FOUNDS
 
@@ -281,8 +292,10 @@ while is_started do -- Start a loop while the bot should be running.
 	if res then
 		for i,msg in ipairs(res.result) do -- Go through every new message.
 			last_update = msg.update_id
-			if msg.message then
-				if msg.message.new_chat_member or msg.message.left_chat_member then
+			if msg.message  or msg.callback_query then
+				if msg.callback_query then
+					handle_inline_keyboards_cb(msg.callback_query)
+				elseif msg.message.new_chat_member or msg.message.left_chat_member then
 					service_to_message(msg.message)
 				elseif msg.message.photo or msg.message.video or msg.message.document or msg.message.voice or msg.message.audio or msg.message.sticker then
 					media_to_msg(msg.message)

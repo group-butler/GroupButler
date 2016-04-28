@@ -1,3 +1,6 @@
+--1.0.1
+--help.group_success
+--help.group_not_success
 return {
     en = {
         pv = 'This is a command available only in a group',
@@ -63,7 +66,6 @@ return {
                         ..'`/enable <rules|about|modlist|extra>` : this commands will be available for all\n'
                         ..'`/enable|/disable <welcome|report>` : switch on/off the welcome message or the ability to use \'@admin\' shortcut\n'
                         ..'`/report [on/off]` (by reply) : the user won\'t be able/will be able to use \'@admin\' shortcut\n'
-                        ..'`/flag list` : show the list of users who can\'t flag messages\n'
                         ..'`/welcome <no|r|a|ra|ma|rm|rma>` : how the welcome message is composed\n'
                         ..'_no_ : only the simple welcome message\n'
                         ..'_r_ : the welcome message will be integrated with rules\n'
@@ -91,7 +93,8 @@ return {
                     ..'\nTo use my moderation powers (kick/ban), *you need to add me as administrator of the group*.\nRemember: moderator commands can be used only by who have been promoted with `/promote`. I can\'t see the real admins of the group, this is the only way for now.\n'
                     ..'\nYou can report bugs/send feedbacks/ask a question to my creator just using "`/c <feedback>`" command. EVERYTHING IS WELCOME!'
                     ..'\n\n[Official channel](https://telegram.me/GroupButler_ch) and [vote link](https://telegram.me/storebot?start=groupbutler_bot)',
-            group = 'I\'ve sent you the help message in *private*.\nIf you have never used me, *start* me and ask for help here *again*.'
+            group_success = '_I\'ve sent you the help message in private_',
+            group_not_success = '_Please message me first so I can message you_'
         },
         links = {
             no_link = '*No link* for this group. Ask the owner to generate one',
@@ -431,7 +434,8 @@ return {
                     ..'\nPer usarele mie funzioni da amministratore (kick/ban), *devi impostarmi come amministratore del gruppo*.\nRicorda: i poteri da amministratore possono essere usati solo da chi è stato promosso con `/promote`. Non posso vedere i veri admin, per cui per ora è l\'unica via.\n'
                     ..'\nPuoi segnalare un bug/inviare un feedback/fare una domanda al mio creatore usando "`/c <feedback>`". QUALSIASI MESSAGGIO E\' IL BENVENUTO!'
                     ..'\n\n[Canale ufficiale](https://telegram.me/GroupButler_ch) e [link per votarmi](https://telegram.me/storebot?start=groupbutler_bot)',
-            group = 'Ti ho inviato il messaggio in *privato*.\nSe non mi hai mai usato, *avviami* e chiedi l\'/help *nuovamente*.'
+            group_success = '_Ti ho inviato il messaggio in privato_',
+            group_not_success = '_Per favore, scrivimi prima cosicchè io possa risponderti_'
         },
         links = {
             no_link = '*Nessun link* per questo gruppo. Chiedi al proprietario di settarne uno',
@@ -744,7 +748,6 @@ return {
                         ..'`/enable <rules|about|modlist|extra>` : Estos comandos estaran disponibles para todos\n'
                         ..'`/enable|/disable <welcome|report>` : Activar/Desactivar el mensaje de bienvenida o la capacidad de usar el atajo \'@admin\'\n'
                         ..'`/report [on/off]` (mencionar) : El miembro no podra/sera capaz de utilizar el atajo \'@admin\'\n'
-                        ..'`/flag list` : Mostrar la lista de usuarios que no pueden marcar mensajes\n'
                         ..'`/welcome <no|r|a|ra|ma|rm|rma>` : Composicion de la bienvenida\n'
                         ..'_no_ : Solo mensaje de bienvenida\n'
                         ..'_r_ : Mensaje de bienvenida y reglas\n'
@@ -772,7 +775,8 @@ return {
                     ..'\nPara usar mis poderes de (expulsar/banear), *me tienes que añadir como administrador del grupo*.\nRecuerda: los comandos de moderador solo podran ser usador por lo miembros que hayas sido ascendidos con el comando `/promote`. No puedo ver los administradores del grupo por ahora.\n'
                     ..'\nPuedes reportar bugs o preguntar dudas al creador del bot utilizando el comando "`/c <tumensaje>`". ¡TODO ES BIENVENIDO!'
                     ..'\n\n[Canal OFICIAL](https://telegram.me/GroupButler_ch) y el [link para votar](https://telegram.me/storebot?start=groupbutler_bot)',
-            group = 'Te he mandado un mensaje por *privado*.\nSi nunca me has usado, *Iniciame* y usa de nuevo el comando */help*.'
+            group_success = '_Te he enviado el mensaje por privado_',
+            group_not_success = '_Please message me first so I can message you_'
         },
         links = {
             no_link = '*No hay enlace* para este grupo. Pidele al admin que lo añada',

@@ -222,6 +222,40 @@ local function sendReply(msg, text, markd, send_sound)
 
 end
 
+local function editMessageText(chat_id, message_id, text, keyboard, markdown)
+	
+	local url = BASE_URL .. '/editMessageText?chat_id=' .. chat_id .. '&message_id='..message_id..'&text=' .. URL.escape(text)
+	
+	if markdown then
+		url = url .. '&parse_mode=Markdown'
+	end
+	
+	url = url .. '&disable_web_page_preview=true'
+	
+	if keyboard then
+		url = url..'&reply_markup='..JSON.encode(keyboard)
+	end
+	
+	return sendRequest(url)
+
+end
+
+local function sendKeyboard(chat_id, text, keyboard, markdown)
+	
+	local url = BASE_URL .. '/sendMessage?chat_id=' .. chat_id
+	
+	if markdown then
+		url = url .. '&parse_mode=Markdown'
+	end
+	
+	url = url..'&text='..URL.escape(text)
+	
+	url = url..'&reply_markup='..JSON.encode(keyboard)
+	
+	return sendRequest(url)
+
+end
+
 local function sendChatAction(chat_id, action)
  -- Support actions are typing, upload_photo, record_video, upload_video, record_audio, upload_audio, upload_document, find_location
 
@@ -390,5 +424,7 @@ return {
 	kickUser = kickUser,
 	sendReply = sendReply,
 	getKickError = getKickError,
-	code2text = code2text
+	code2text = code2text,
+	sendKeyboard = sendKeyboard,
+	editMessageText = editMessageText
 }	

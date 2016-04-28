@@ -2,7 +2,7 @@ return {
 	bot_api_key = '',
 	time_offset = 0,
 	admin = 23646077,
-	channel = '',
+	channel = '@groupbutler_ch', --channel username with the '@'
 	languages = 'languages.lua',
 	plugins = {
 		'onmessage.lua', --THIS HAVE TO BE THE FIRST: IF AN USER IS SPAMMING/IS BLOCKED, THE BOT WON'T GO THROUGH PLUGINS
@@ -26,8 +26,6 @@ return {
 		'floodmanager.lua',
 		'mediasettings.lua',
 		'test.lua',
-		--'flag2.lua'
-		
 	},
 	available_languages = {
 		'en',

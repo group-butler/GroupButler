@@ -15,10 +15,8 @@ local action = function(msg, blocks, ln)
             api.sendMessage(msg.from.id, out)
             return nil
         end
-        
-        local last_name = ''
 	    
-	    api.forwardMessage (receiver, msg.from.id, target)
+	    api.forwardMessage (receiver, msg.from.id, msg.message_id)
 	    local out = make_text(lang[ln].report.sent, input)
 	    api.sendMessage(msg.from.id, out)
 	    mystat('/c')
