@@ -2,11 +2,14 @@ local action = function(msg, blocks, ln)
     -- save stats
     if blocks[1] == 'start' then
         if msg.chat.type == 'private' then
+            local hash = 'bot:general'
+-           client:hincrby(hash, 'users', 1)
             api.sendMessage(msg.chat.id, lang[ln].help.private, true)
         end
         return
     end
     if blocks[1] == 'help' then
+        mystat('/help')
         if msg.chat.type == 'private' then
             api.sendMessage(msg.chat.id, lang[ln].help.private, true)
             return
