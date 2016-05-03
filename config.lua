@@ -26,7 +26,8 @@ return {
 		'floodmanager.lua',
 		'mediasettings.lua',
 		'test.lua',
-		'all.lua'
+		'all.lua',
+		'tablehelp.lua',
 	},
 	available_languages = {
 		'en',
@@ -58,6 +59,10 @@ return {
 		[110] = 'PEER_ID_INVALID', --user never started the bot
 		[111] = 'message is not modified', --the edit message method hasn't modified the message
 		[112] = 'Can\'t parse message text: Can\'t find end of the entity starting at byte offset %d+', --the markdown is wrong and breaks the delivery
+		[120] = 'Can\'t parse reply keyboard markup JSON object', --keyboard table invalid
+		[121] = 'Field \\\"inline_keyboard\\\" of the InlineKeyboardMarkup should be an Array of Arrays', --inline keyboard is not an array of array
+		[122] = 'Can\'t parse inline keyboard button: InlineKeyboardButton should be an Object',
+		[123] = 'Bad Request: Object expected as reply markup',
 		[403] = 'Bot was blocked by the user', --user blocked the bot
 		[429] = 'Too many requests: retry later', --the bot is hitting api limits
 	}

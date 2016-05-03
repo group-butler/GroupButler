@@ -16,11 +16,11 @@ local function sendRequest(url, user_id)
 	local tab = JSON.decode(dat)
 
 	if code ~= 200 then
-		client:hincrby('bot:errors', code, 1)
+		print(tab.description)
 		--403: bot blocked, 429: spam limit ...send a message to the admin, return the code
 		if code == 400 then code = api.getCode(tab.description) end --error code 400 is general: try to specify
+		client:hincrby('bot:errors', code, 1)
 		if code ~= 403 and code ~= 429 and code ~= 110 and code ~= 111 then
-			print(tab.description)
 			api.sendMessage(config.admin, vtext(dat)..'\n'..code..'\n(text in the log)')
 			return false, code
 		end
@@ -58,6 +58,7 @@ end
 
 local function getCode(error)
 	error = error:gsub('%[Error : %d%d%d : Bad Request: ', ''):gsub('%]', '')
+	error = error:gsub('%[Error : 400 : ', ''):gsub('%]', '')
 	for k,v in pairs(config.api_errors) do
 		if error == v then
 			return k
