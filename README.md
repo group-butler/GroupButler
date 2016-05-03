@@ -6,7 +6,7 @@ This bot has been created to help people in the administration of a group, with 
 
 This bot takes the main loop and bindings from [Otouto](https://github.com/topkecleon/otouto) ([@mokubot](https://telegram.me/mokubot)).
 
-Otouto and Group Butler are licensed under the GNU General Public License. A copy of the license has been included in [LICENSE](https://github.com/topkecleon/otouto/blob/master/LICENSE).
+Otouto and Group Butler are licensed under the GNU General Public License. A copy of the license has been included in [LICENSE](https://github.com/RememberTheAir/GroupButler/blob/master/LICENSE).
 
 ##What is it?
 Group Butler is a Telegram API bot written in Lua. It has been created to help the members of a group to keep it clean and regulated, from the point of view of administrators and normal users.
@@ -24,7 +24,9 @@ Here you have the list of the available commands.
 >
 >/help | show the help message (in private)
 >
->/c [feedback] | contact the bot admin
+>/dasboard | receive in private a message delivered with an inline keyboard, to surf all the group info (rules/about/modlist/settings/extra commands list)
+>
+>/c [feedback] | talk with the bot admin
 >
 >/info | show some info about the bot (as the link to this repo)
 >
@@ -39,15 +41,13 @@ Here you have the list of the available commands.
 >/tell | show the basical info of the user/group. Can work by reply
 
 ###Moderators
->/kick [reply] | kick an user (it's still able to join)
+>/kick [reply|username] | kick an user (it's still able to join)
 >
->/ban [reply] | ban an user (not able to join again)
+>/ban [reply|username] | ban an user (not able to join again)
 >
->/unban [reply] | unban an user
+>/unban [reply|username] | unban an user
 >
->/gban [reply] | ban an user from all the groups where the bot is admin
->
->/kicked list | see the list of kicked users
+>/menu | receive in private an inline keyboard to manage all the settings of the bot
 >
 >/flood [number] | set the max number of messages allowed within 5 seconds before kick/ban
 >
@@ -124,12 +124,12 @@ Here you have the list of the available commands.
 >
 >/owner [reply] | change the ownership of the group (not really, the bot will se the replied user as the owner)
 >
->/promote [reply] | promote the user as moderators
+>/promote [reply|username] | promote the user as moderators
 >
->/demote [reply] | demote the user
+>/demote [reply|username] | demote the user
 
 ###Admin
->/reload | to reload the bot
+>/init | to reload the bot
 >
 >/backup | will send to the admin the bot folder, zipped
 >
@@ -151,6 +151,14 @@ Here you have the list of the available commands.
 >
 >/usernames | send a file with all the usernames that the bot has found
 >
+>/rediscli [query] [parameters] | execute a redis command and get the output (tables and not tables)
+>
+>/movechat [new chat id] | move the chat info of the current chat to the target id
+>
+>/redis backup | save all the info of all the groups administrated in a json file
+>
+>/group info [id] | get a text file with all the info of a group (table view)
+>
 >/save | perform a redis background save
 >
 >/reset [field] | reset a specific general statistic
@@ -165,7 +173,11 @@ Here you have the list of the available commands.
 >
 >/isblocked [reply] | check if an user is blocked
 >
->/changedb | for who is still using the json to store descriptions and rules, this will move all to redis
+>/movechat [new chat id] | move the current chat info to another group
+>
+>/group info | sends back a txt file with a lua table printed, with allthe info about that group
+>
+>/redis backup | backup all the groups info in a serialized json file
 >
 >/reply [text] | reply to a feedback
 >

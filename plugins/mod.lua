@@ -1,190 +1,169 @@
+local function promote(chat_id, user_id, name)
+    local hash = 'chat:'..chat_id..':mod'
+    local res = client:hset(hash, user_id, name)
+    return res   
+end
+
+local function demote(chat_id, user_id)
+    local hash = 'chat:'..chat_id..':mod'
+    local res = client:hdel(hash, user_id)
+    return res 
+end
+
+local function can_prom_dem(msg, blocks, ln)
+    if not is_owner(msg) then
+        return false, lang[ln].mod.not_owner
+    else
+        local id
+        if blocks[2] then
+            id = res_user(blocks[2])
+            if not id  then
+                return false, lang[ln].bonus.no_user
+            end
+        else
+            if not msg.reply then
+                return false, lang[ln].bonus.reply
+            end
+            id = msg.reply.from.id
+        end
+        if tonumber(id) == tonumber(bot.id) then
+            return false
+        else
+            if is_owner2(msg.chat.id, id) then
+                return false
+            else
+                return true, id
+            end
+        end
+    end
+end
+
 local action = function(msg, blocks, ln)
  
- --ignore if via pm
+    --ignore if via pm
     if msg.chat.type == 'private' then
         local out = make_text(lang[ln].pv)
         api.sendMessage(msg.from.id, out)
     	return nil
     end
  
-if blocks[1] == 'promote' then
-    --only the owner can promote
-    if not is_owner(msg) then
-        local out = make_text(lang[ln].mod.not_owner)
-        api.sendReply(msg, out, true)
-    else
-        --allert if is not a reply
-        if not msg.reply_to_message then
-            local out = make_text(lang[ln].mod.reply_promote)
-            api.sendReply(msg, out)
-			return nil
-		end
-	
-		msg = msg.reply_to_message
+    if blocks[1] == 'promote' or blocks[1] == 'demote' then
         
-        --ignore if replied to the bot
-        if msg.from.id == bot.id then
-	        return nil
-	    end
-	    
-	    --ignore if is promoting itself
-	    if is_owner(msg) then
-	        return nil
-	    end
+        local allowed, res = can_prom_dem(msg, blocks, ln)
         
-        --check if it has a username. if not, save the name
-        local jsoname = tostring(msg.from.first_name)
-        if msg.from.username then
-            jsoname = '@'..tostring(msg.from.username)
+        if not allowed then
+            if res then
+                api.sendReply(msg, res, true)
+            end
+            return
         end
         
-        --save him as a moderator in redis
-        local hash = 'bot:'..msg.chat.id..':mod'
-        local user = tostring(msg.from.id)
-        local val = client:hset(hash, user, jsoname)
+        local id = res
+        local name
+        if blocks[2] then
+            name = blocks[2]
+        else
+            name = getname(msg.reply)
+        end
         
+        local val  
+        if blocks[1] == 'promote' then
+            mystat('/promote')
+            val = promote(msg.chat.id, id, name)
+        elseif blocks[1] == 'demote' then
+            mystat('/demote')
+            val = demote(msg.chat.id, id)
+        end
+        print(val)    
         --warn and update the name if already a moderator
         if val == false then --don't know why, redis is returning boolean instead of intgers with hset
-            local out = make_text(lang[ln].mod.already_mod, msg.from.first_name, msg.chat.title)
+            if blocks[1] == 'promote' then
+                out = make_text(lang[ln].mod.already_mod, name:mEscape(), msg.chat.title:mEscape_hard())
+            elseif blocks[1] == 'demote' then
+                out = make_text(lang[ln].mod.not_mod, name:mEscape(), msg.chat.title:mEscape_hard())
+            end
             api.sendReply(msg, out, true)
-            return nil
+            return
         end
         
-        local out = make_text(lang[ln].mod.promoted, msg.from.first_name, msg.chat.title)
+        local out = make_text(lang[ln].mod[blocks[1]..'d'], name:mEscape_hard(), msg.chat.title:mEscape_hard())
         api.sendReply(msg, out, true)
-        mystat('/promote')
     end
-end
 
-if blocks[1] == 'demote' then
-    --only the owner can promote or demote
-    if not is_owner(msg) then
-        local out = make_text(lang[ln].mod.not_owner)
-        api.sendReply(msg, out, true)
-    else
-        --allert if is not a reply
-        if not msg.reply_to_message then
-            local out = make_text(lang[ln].mod.reply_demote)
-            api.sendReply(msg, out, false)
-			return nil
-		end
-	    
-		msg = msg.reply_to_message
+    if blocks[1] == 'owner' then
+        --only the owner can change the owner
+        if not is_owner(msg) then
+            local out = make_text(lang[ln].mod.not_owner)
+            api.sendReply(msg, out, true)
+        else
+          --allert if it's not a reply to someone and return nil
+            if not msg.reply_to_message then
+                local out = make_text(lang[ln].mod.reply_owner)
+                api.sendReply(msg, out, false)
+			    return nil
+		    end
 		
-	    --ignore if is demoting itself
-	    if is_owner(msg) then
-	        return nil
-	    end
+	        local old = msg.from.id --sender
+		    local msg = msg.reply_to_message --replied message
+        
+            --ignore if replied to the bot
+            if msg.from.id == bot.id then
+	            return nil
+	        end
+        
+            --allert if the owner is promoting as owner itself
+            if is_owner(msg) then
+                local out = make_text(lang[ln].mod.already_owner)
+                api.sendReply(msg, out, true)
+                return nil
+            end
+        
+            --check if the new owner has a username. If not, save the name
+            local jsoname = getname(msg)
+        
+            --remove old owner from owner hash and add the new one
+            local hash = 'chat:'..msg.chat.id..':owner'
+	        local owner_list = client:hkeys(hash) --get the current owner list (of only one item)
+	        local owner = owner_list[1] --get the current owner id
+	        client:hdel(hash, owner)
+	        local new_owner = tostring(msg.from.id)
+	        client:hset(hash, new_owner, jsoname) --add the new owner
 	    
-		--ignored if demoted the bot
-        if msg.from.id == bot.id then
-	        return nil
-	    end
+	        --remove the old owner from moderators list and add the new one
+	        hash = 'chat:'..msg.chat.id..':mod'
+	        client:hdel(hash, owner)
+	        client:hset(hash, new_owner, jsoname)
         
-        --remove the moderator from redis
-        local hash = 'bot:'..msg.chat.id..':mod'
-        local user = tostring(msg.from.id)
-        local val = client:hdel(hash, user)
-        
-        --ignore and warn if the user was not a moderator
-        if val == 0 then
-            local out = make_text(lang[ln].mod.not_mod, msg.from.first_name, msg.chat.title)
+            local out = make_text(lang[ln].mod.new_owner, msg.from.first_name, msg.chat.title:mEscape())
             api.sendReply(msg, out, true)
-            return nil
+            mystat('/owner')
         end
-        
-        local out = make_text(lang[ln].mod.demoted, msg.from.first_name)
-        api.sendReply(msg, out, true)
-        mystat('/demote')
     end
-end
 
-if blocks[1] == 'owner' then
-    --only the owner can change the owner
-    if not is_owner(msg) then
-        local out = make_text(lang[ln].mod.not_owner)
-        api.sendReply(msg, out, true)
-    else
-        --allert if it's not a reply to someone and return nil
-        if not msg.reply_to_message then
-            local out = make_text(lang[ln].mod.reply_owner)
-            api.sendReply(msg, out, false)
-			return nil
-		end
-		
-	    local old = msg.from.id --sender
-		local msg = msg.reply_to_message --replied message
-        
-        --ignore if replied to the bot
-        if msg.from.id == bot.id then
-	        return nil
-	    end
-        
-        --allert if the owner is promoting as owner itself
-        if is_owner(msg) then
-            local out = make_text(lang[ln].mod.already_owner)
-            api.sendReply(msg, out, true)
-            return nil
+    if blocks[1] == 'modlist' then
+        --ignore if the command is locked and the user is not a moderator
+        if is_locked(msg, 'Modlist') and not is_mod(msg) then
+        	return nil
         end
-        
-        --check if the new owner has a username. If not, save the name
-        local jsoname = tostring(msg.from.first_name)
-        if msg.from.username then
-            jsoname = '@'..tostring(msg.from.username)
-        end
-        
-        --remove old owner from owner hash and add the new one
-        --groups[tostring(msg.chat.id)]['mods'][tostring(old)] = nil
-        local hash = 'bot:'..msg.chat.id..':owner'
-	    local owner_list = client:hkeys(hash) --get the current owner list (of only one item)
-	    local owner = owner_list[1] --get the current owner id
-	    client:hdel(hash, owner)
-	    local new_owner = tostring(msg.from.id)
-	    client:hset(hash, new_owner, jsoname) --add the new owner
-	    
-	    --remove the old owner from moderators list and add the new one
-	    hash = 'bot:'..msg.chat.id..':mod'
-	    client:hdel(hash, owner)
-	    client:hset(hash, new_owner, jsoname)
-        
-        local out = make_text(lang[ln].mod.new_owner, msg.from.first_name, msg.chat.title:neat())
-        api.sendReply(msg, out, true)
-        mystat('/owner')
-    end
-end
-
-if blocks[1] == 'modlist' then
-    --ignore if the command is locked and the user is not a moderator
-    if is_locked(msg, 'Modlist') and not is_mod(msg) then
-    	return nil
-    end
     
-    --retrive the moderators list
-    local hash = 'bot:'..msg.chat.id..':mod'
-    local mlist = client:hvals(hash) --the array can't be empty: there is always the owner in
-    
-    local message = ''
+        local message = cross.getModlist(msg.chat.id):mEscape()
 
-    --build the list
-    for i=1, #mlist do
-        message = message..i..' - '..mlist[i]..'\n'
+        --send the list
+        local out = make_text(lang[ln].mod.modlist, msg.chat.title:mEscape_hard(), message)
+        api.sendReply(msg, out, true)
+        mystat('/modlist')
     end
-
-    --send the list
-    local out = make_text(lang[ln].mod.modlist, msg.chat.title, message)
-    api.sendReply(msg, out)
-    mystat('/modlist')
-end
-
 end
 
 return {
 	action = action,
 	triggers = {
 	    '^/(promote)$',
+	    '^/(promote) (@[%w_]+)$',
 	    '^/(demote)$',
+	    '^/(demote) (@[%w_]+)$',
 	    '^/(owner)$',
 	    '^/(modlist)$',
-	    '^/(modlist)@GroupButler_bot',
+	    '^/(modlist)@'..bot.username..'$',
     }
 }

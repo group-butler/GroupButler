@@ -17,7 +17,7 @@ local action = function(msg, blocks, ln)
 	        api.sendReply(msg, out)
 	        return nil
 	    end
-	    local hash = 'extra:'..msg.chat.id
+	    local hash = 'chat:'..msg.chat.id..':extra'
 	    client:hset(hash, blocks[2], blocks[3])
 	    local text = make_text(lang[ln].extra.new_command, blocks[2], blocks[3])
 	    api.sendReply(msg, text, true)
@@ -26,7 +26,7 @@ local action = function(msg, blocks, ln)
 	    if not is_mod(msg) then
 	        return nil
 	    end
-	    local hash = 'extra:'..msg.chat.id
+	    local hash = 'chat:'..msg.chat.id..':extra'
 	    local commands = client:hkeys(hash)
 	    local text = ''
 	    if commands[1] == nil then
@@ -44,7 +44,7 @@ local action = function(msg, blocks, ln)
         if not is_mod(msg) then
 	        return nil
 	    end
-	    local hash = 'extra:'..msg.chat.id
+	    local hash = 'chat:'..msg.chat.id..':extra'
 	    local success = client:hdel(hash, blocks[2])
 	    print(success)
 	    if success == 1 then
@@ -59,7 +59,7 @@ local action = function(msg, blocks, ln)
         if is_locked(msg, 'Extra') and not is_mod(msg) then
             return
         end
-        local hash = 'extra:'..msg.chat.id
+        local hash = 'chat:'..msg.chat.id..':extra'
         local commands = client:hkeys(hash)
         local replies = client:hvals(hash)
         local text

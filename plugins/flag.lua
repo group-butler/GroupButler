@@ -29,7 +29,7 @@ local action = function(msg, blocks, ln)
             if msg.reply and tonumber(msg.reply.from.id) == tonumber(bot.id) then
                 return
             end
-            local mods = client:hkeys('bot:'..msg.chat.id..':mod')
+            local mods = client:hkeys('chat:'..msg.chat.id..':mod')
             local msg_id = msg.message_id
             if msg.reply then
                 blocks[2] = false

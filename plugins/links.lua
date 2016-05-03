@@ -52,7 +52,7 @@ local action = function(msg, blocks, ln)
 			text = make_text(lang[ln].links.link_unsetted)
 		else
 			local succ = client:hset(hash, key, link)
-			local title = msg.chat.title:neat():gsub('%]', ''):gsub('%[', '')
+			local title = msg.chat.title:mEscape_hard()
 			if succ == false then
 				text = make_text(lang[ln].links.link_updated, title, link)
 			else

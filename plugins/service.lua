@@ -1,14 +1,57 @@
-local function remove_from_kicked_list(chat, user)
-    local hash = 'kicked:'..chat
-    client:hdel(hash, user)
+local function gsub_custom_welcome(msg, custom)
+	local name = msg.added.first_name:mEscape()
+	local id = msg.added.id
+	local username
+	local title = msg.chat.title:mEscape()
+	if msg.added.username then
+		username = '@'..msg.added.username:mEscape()
+	else
+		username = '(no username)'
+	end
+	custom = custom:gsub('$name', name):gsub('$username', username):gsub('$id', id):gsub('$title', title)
+	return custom
+end
+
+local function get_welcome(msg, ln)
+	if is_locked(msg, 'Welcome') then
+		return false
+	end
+	local custom = client:hget('chat:'..msg.chat.id..':welcome', 'custom')
+	if custom then
+		return gsub_custom_welcome(msg, custom)
+	end
+	local wlc_sett = client:hget('chat:'..msg.chat.id..':welcome', 'wel')
+	if not(wlc_sett == 'no') then
+		local abt = cross.getAbout(msg.chat.id, ln)
+		local rls = cross.getRules(msg.chat.id, ln)
+		local mods = lang[ln].service.welcome_modlist..cross.getModlist(msg.chat.id, ln):mEscape()
+		local text = make_text(lang[ln].service.welcome, msg.added.first_name:mEscape_hard(), msg.chat.title:mEscape_hard())
+		if wlc_sett == 'a' then
+			text = text..'\n\n'..abt
+		elseif wlc_sett == 'r' then
+			text = text..'\n\n'..rls
+		elseif wlc_sett == 'm' then
+			text = text..mods
+		elseif wlc_sett == 'ra' then
+			text = text..'\n\n'..abt..'\n\n'..rls
+    	elseif wlc_sett == 'am' then
+			text = text..'\n\n'..abt..mods
+    	elseif wlc_sett == 'rm' then
+			text = text..'\n\n'..rls..mods
+		elseif wlc_sett == 'ram' then
+			text = text..'\n\n'..abt..'\n\n'..rls..mods
+		end
+		print(text)
+		return text
+	else
+		return make_text(lang[ln].service.welcome, msg.added.first_name:mEscape_hard(), msg.chat.title:mEscape_hard())
+	end
 end
 
 local action = function(msg, blocks, ln)
 	
 	--avoid trolls
-	if not msg.service then
-		return
-	end
+	if not msg.service then return end
 	
 	--if the bot join the chat
 	if blocks[1] == 'botadded' then
@@ -32,12 +75,12 @@ local action = function(msg, blocks, ln)
 		save_log('added', msg.chat.title, msg.chat.id, jsoname, msg.adder.id)		
 		
 		--add owner as moderator
-		local hash = 'bot:'..msg.chat.id..':mod'
+		local hash = 'chat:'..msg.chat.id..':mod'
         local user = tostring(msg.from.id)
         client:hset(hash, user, jsoname)
         
         --add owner as owner
-        hash = 'bot:'..msg.chat.id..':owner'
+        hash = 'chat:'..msg.chat.id..':owner'
         client:hset(hash, user, jsoname)
 		
 		--default settings
@@ -77,62 +120,18 @@ local action = function(msg, blocks, ln)
 	--if someone join the chat
 	if blocks[1] == 'added' then
 		
-		remove_from_kicked_list(msg.chat.id, msg.added.id)
+		if msg.chat.type == 'group' and is_banned(msg.chat.id, msg.added.id) then
+			api.kickChatMember(msg.chat.id, msg.added.id)
+			return
+		end
 		
 		client:hdel('warn:'..msg.chat.id, msg.added.id)
 		
-		--basic text
-		text = make_text(lang[ln].service.welcome, msg.added.first_name:neat(), msg.chat.title:neat())
-		
-		--ignore if welcome is locked
-		if is_locked(msg, 'Welcome') then
-			return nil
+		local text = get_welcome(msg, ln)
+		if text then
+			api.sendMessage(msg.chat.id, text, true)
 		end
-		
-		--retrive welcome settings 
-		local wlc_sett = client:hget('chat:'..msg.chat.id..':welcome', 'wel')
-		
-		local abt = client:get('bot:'..msg.chat.id..':about')
-		local rls = client:get('bot:'..msg.chat.id..':rules')
-		local mods
-		
-		--check if the group has a decription
-		if not abt then
-            abt = lang[ln].service.welcome_abt
-        end
-		
-		--check if the group has rules
-		if not rls then
-            rls = lang[ln].service.welcome_rls
-        end		
-		
-		--build the modlist
-		local hash = 'bot:'..msg.chat.id..':mod'
-    	local mlist = client:hvals(hash) --the array can't be empty: there is always the owner in the modlist
-    	local mods = lang[ln].service.welcome_modlist
-    	for i=1, #mlist do
-        	mods = mods..'*'..i..'* - '..mlist[i]..'\n'
-    	end
-		mods = mods:neat()
-		
-		--read welcome settings and build the message
-		if wlc_sett == 'a' then
-			text = text..lang[ln].service.abt..abt
-		elseif wlc_sett == 'r' then
-			text = text..lang[ln].service.rls..rls
-		elseif wlc_sett == 'm' then
-			text = text..mods
-		elseif wlc_sett == 'ra' then
-			text = text..lang[ln].service.abt..abt..lang[ln].service.rls..rls
-    	elseif wlc_sett == 'am' then
-			text = text..lang[ln].service.abt..abt..mods
-    	elseif wlc_sett == 'rm' then
-			text = text..lang[ln].service.rls..rls..mods
-		elseif wlc_sett == 'ram' then
-			text = text..lang[ln].service.abt..abt..lang[ln].service.rls..rls..mods
-		end
-		
-		api.sendMessage(msg.chat.id, text, true)
+		--if not text: welcome is locked
 	end
 	
 	--if the bot is removed from the chat
@@ -149,7 +148,7 @@ local action = function(msg, blocks, ln)
 		--save stats
         local num = client:hincrby('bot:general', 'groups', -1)
         print('Stats saved', 'Groups: '..num)
-        local out = make_text(lang[ln].service.bot_removed, msg.chat.title:neat())
+        local out = make_text(lang[ln].service.bot_removed, msg.chat.title:mEscape_hard())
 		api.sendMessage(msg.remover.id, out, true)
 	end
 

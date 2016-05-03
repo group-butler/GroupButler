@@ -155,33 +155,39 @@ if blocks[1] == 'welcome' then
         local hash = 'chat:'..msg.chat.id..':welcome'
         local key = 'wel'
         
+        client:hdel(hash, 'custom') --will be hsetted again if the text is a custom welcome
         --change welcome settings
         if input == 'a' then
             client:hset(hash, key, 'a')
-            api.sendReply(msg, make_text(lang[ln].settings.welcome.a), true)
+            api.sendReply(msg, lang[ln].settings.welcome.a, true)
         elseif input == 'r' then
             client:hset(hash, key, 'r')
-            api.sendReply(msg, make_text(lang[ln].settings.welcome.r), true)
+            api.sendReply(msg, lang[ln].settings.welcome.r, true)
         elseif input == 'm' then
             client:hset(hash, key, 'm')
-            api.sendReply(msg, make_text(lang[ln].settings.welcome.m), true)
+            api.sendReply(msg, lang[ln].settings.welcome.m, true)
         elseif input == 'ar' or input == 'ra' then
             client:hset(hash, key, 'ra')
-            api.sendReply(msg, make_text(lang[ln].settings.welcome.ra), true)
+            api.sendReply(msg, lang[ln].settings.welcome.ra, true)
         elseif input == 'mr' or input == 'rm' then
             client:hset(hash, key, 'rm')
-            api.sendReply(msg, make_text(lang[ln].settings.welcome.rm), true)
+            api.sendReply(msg, lang[ln].settings.welcome.rm, true)
         elseif input == 'am' or input == 'ma' then
             client:hset(hash, key, 'am')
-            api.sendReply(msg, make_text(lang[ln].settings.welcome.am), true)
+            api.sendReply(msg, lang[ln].settings.welcome.am, true)
         elseif input == 'ram' or input == 'rma' or input == 'arm' or input == 'amr' or input == 'mra' or input == 'mar' then
             client:hset(hash, key, 'ram')
-            api.sendReply(msg, make_text(lang[ln].settings.welcome.ram), true)
+            api.sendReply(msg, lang[ln].settings.welcome.ram, true)
         elseif input == 'no' then
             client:hset(hash, key, 'no')
-            api.sendReply(msg, make_text(lang[ln].settings.welcome.no), true)
-        else 
-            api.sendReply(msg, make_text(lang[ln].settings.welcome.wrong_input), true)
+            api.sendReply(msg, lang[ln].settings.welcome.no, true)
+        else
+            client:hset(hash, 'custom', input)
+            local res = api.sendReply(msg, make_text(lang[ln].settings.welcome.custom, input), true)
+            if not res then
+                client:hdel(hash, 'custom')
+                api.sendReply(msg, lang[ln].settings.welcome.wrong_markdown, true)
+            end
         end
         
         mystat('/welcome') --save stats
@@ -194,54 +200,8 @@ if blocks[1] == 'settings' then
 			return nil
 		end
         
-        --get settings from redis
-        local hash = 'chat:'..msg.chat.id..':settings'
-        local settings_key = client:hkeys(hash)
-        local settings_val = client:hvals(hash)
-        local key
-        local val
-        
-        message = make_text(lang[ln].settings.resume.header, msg.chat.title, ln)
-        
-        --build the message
-        for i=1, #settings_key do
-            key = settings_key[i]
-            val = settings_val[i]
-            
-            local text
-            if val == 'yes' then
-                text = make_text(lang[ln].settings[key])..': 🔒\n'
-            else
-                text = '*'..make_text(lang[ln].settings[key])..'*: 🔓\n'
-            end
-            message = message..text --concatenete the text
-            if key == 'Flood' then
-                local max_msgs = client:hget('chat:'..msg.chat.id..':flood', 'MaxFlood') or 5
-                local action = client:hget('chat:'..msg.chat.id..':flood', 'ActionFlood')
-                message = message..make_text(lang[ln].settings.resume.flood_info, max_msgs, action)
-            end
-        end
-        
-        --build the "welcome" line
-        hash = 'chat:'..msg.chat.id..':welcome'
-        local wel = client:hget(hash, 'wel')
-        if wel == 'a' then
-            message = message..make_text(lang[ln].settings.resume.w_a)
-        elseif wel == 'r' then
-            message = message..make_text(lang[ln].settings.resume.w_r)
-        elseif wel == 'm' then
-            message = message..make_text(lang[ln].settings.resume.w_m)
-        elseif wel == 'ra' then
-            message = message..make_text(lang[ln].settings.resume.w_ra)
-        elseif wel == 'rm' then
-            message = message..make_text(lang[ln].settings.resume.w_rm)
-        elseif wel == 'am' then
-            message = message..make_text(lang[ln].settings.resume.w_am)
-        elseif wel == 'ram' then
-            message = message..make_text(lang[ln].settings.resume.w_ram)
-        elseif wel == 'no' then
-            message = message..make_text(lang[ln].settings.resume.w_no)
-        end
+        --get settings
+        local message = cross.getSettings(msg.chat.id, ln)
         
         mystat('/settings') --save stats
         api.sendReply(msg, message, true)

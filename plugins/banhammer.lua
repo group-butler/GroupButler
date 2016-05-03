@@ -1,59 +1,27 @@
 local action = function(msg, blocks, ln)
 	if msg.chat.type ~= 'private' then
 		if is_mod(msg) then
-		    if blocks[1] == 'kicked list' then
-		        --check if setting is unlocked here
-		        local hash = 'kicked:'..msg.chat.id
-		        local kicked_list = client:hvals(hash)
-		        local text = make_text(lang[ln].banhammer.kicked_header)
-	    	    for i=1,#kicked_list do
-		            text = text..i..' - '..kicked_list[i]
-		        end
-		        if text == lang[ln].banhammer.kicked_header then
-		            text = lang[ln].banhammer.kicked_empty
-		        end
-		        api.sendReply(msg, text)
-		        mystat('/kicked list')
-		        return
-		    end
-		    if not msg.reply_to_message then
+		    if not msg.reply_to_message and not blocks[2] then
 		        api.sendReply(msg, lang[ln].banhammer.reply)
 		        return nil
 		    end
-		    if msg.reply.from.id == bot.id then
+		    if msg.reply and msg.reply.from.id == bot.id then
 		    	return
-		    end
-		    local name = msg.reply.from.first_name
-		    if msg.reply.from.username then
-		        name = name..' [@'..msg.reply.from.username..']'
 		    end
 		 	local res
 		 	if blocks[1] == 'kick' then
-		 		if not is_mod(msg.reply) then
-		    		api.kickUser(msg.chat.id, msg.reply.from.id, ln, name)
-		    	end
+		    	api.kickUser(msg, true, false, blocks[2])
+		    	mystat('/kick')
 	    	end
 	   		if blocks[1] == 'ban' then
-	   			if msg.chat.type == 'group' then
-	   				api.sendReply(msg, 'You can\'t ban users in normal groups!\nOnly /kick is available')
-	   				return
-	   			end
-	    		if not is_mod(msg.reply_to_message) then
-	    			api.banUser(msg.chat.id, msg.reply.from.id, ln, name)
-		   			mystat('/ban')
-		   		end
+	   			api.banUser(msg, true, false, blocks[2])
+		   		mystat('/ban')
     		end
    			if blocks[1] == 'unban' then
-   				if msg.chat.type == 'group' then
-   					api.sendReply(msg, lang[ln].banhammer.no_unbanned)
-   				else
-   					api.unbanChatMember(msg.chat.id, msg.reply.from.id)
-   					api.sendReply(msg, make_text(lang[ln].banhammer.unbanned, name))
-   				end
+   				api.unbanUser(msg, true, false, blocks[2])
    				mystat('/unban')
    			end
    			if blocks[1] == 'gban' then
-   				print('in')
 	   			if is_admin(msg) then
 	   				local groups = client:smembers('bot:groupsid')
     				local succ = 0
@@ -82,9 +50,11 @@ return {
 	action = action,
 	triggers = {
 		'^/(kick)$',
+		'^/(kick) (@[%w_]+)$',
 		'^/(ban)$',
-		'^/(kicked list)$',
+		'^/(ban) (@[%w_]+)$',
 		'^/(unban)$',
+		'^/(unban) (@[%w_]+)$',
 		'^/(gban)$'
 	}
 }

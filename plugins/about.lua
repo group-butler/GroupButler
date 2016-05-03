@@ -4,20 +4,15 @@ local action = function(msg, blocks, ln)
 		api.sendMessage(msg.from.id, lang[ln].pv)
     	return nil
     end
-    local hash = 'bot:'..msg.chat.id..':about'
+    local hash = 'chat:'..msg.chat.id..':about'
     if blocks[1] == 'about' then
     	--ignore if is locked and is not mod
     	if is_locked(msg, 'About') and not is_mod(msg) then
     		return nil
     	end
     	--load the about
-        local about = client:get(hash)
-        if not about then
-            api.sendReply(msg, make_text(lang[ln].setabout.no_bio), true)
-        else
-        	local out = make_text(lang[ln].setabout.bio, msg.chat.title, about)
-            api.sendReply(msg, out, true)
-        end
+        local out = cross.getAbout(msg.chat.id, ln)
+        api.sendReply(msg, out, true)
         mystat('/about')mystat('')
     end
 	if blocks[1] == 'addabout' then
@@ -51,6 +46,7 @@ local action = function(msg, blocks, ln)
     end
 	if blocks[1] == 'setabout' then
 		local input = blocks[2]
+		print(input)
 		--ignore if not mod
 		if not is_mod(msg) then
 			api.sendReply(msg, make_text(lang[ln].not_mod), true)
@@ -62,7 +58,7 @@ local action = function(msg, blocks, ln)
 			return true
 		end
 		--check if the mod want to clean the about text
-		if input == '^clean' then
+		if input == 'clean' then
 			client:del(hash)
 			api.sendReply(msg, make_text(lang[ln].setabout.clean))
 			return nil
@@ -82,6 +78,7 @@ end
 
 return {
 	action = action,
+	get_about = get_about,
 	triggers = {
 		'^/(setabout)$', --to warn if an user don't add a text
 		'^/(setabout) (.*)',

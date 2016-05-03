@@ -4,19 +4,14 @@ local action = function(msg, blocks, ln)
     	api.sendMessage(msg.from.id, lang[ln].pv)
     	return nil
     end
-    local hash = 'bot:'..msg.chat.id..':rules'
+    local hash = 'chat:'..msg.chat.id..':rules'
     if blocks[1] == 'rules' then
         --ignore if rules are locked and not is a mod
     	if is_locked(msg, 'Rules') and not is_mod(msg) then
     		return nil
     	end
-        local rules = client:get(hash)
-        --cehck if rules are empty
-        if not rules then
-            api.sendReply(msg, make_text(lang[ln].setrules.no_rules), true)
-        else
-            api.sendReply(msg, make_text(lang[ln].setrules.rules, msg.chat.title, rules), true)
-        end
+        local out = cross.getRules(msg.chat.id, ln)
+        api.sendReply(msg, out, true)
         mystat('/rules') --save stats
     end
 	if blocks[1] == 'addrules' then

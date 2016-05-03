@@ -15,7 +15,7 @@ local action = function(msg, blocks, ln)
 	    api.sendReply(msg, text, true)
 	    mystat('/media list')
 	elseif blocks[1] == 'media' then
-		local media_sett = client:hgetall('media:'..msg.chat.id)
+		local media_sett = client:hgetall('chat:'..msg.chat.id..':media')
 		local text = lang[ln].mediasettings.settings_header
 		for k,v in pairs(media_sett) do
 			text = text..'`'..k..'`'..' ≡ '..v..'\n'
@@ -33,12 +33,12 @@ local action = function(msg, blocks, ln)
 	        end
 	    end
 	    if valid then
-	        local old_status = client:hget('media:'..msg.chat.id, media)
+	        local old_status = client:hget('chat:'..msg.chat.id..':media', media)
 	        if old_status == status then
 	            api.sendReply(msg, make_text(lang[ln].mediasettings.already, media, status), true)
 	        else
 	            if status == 'allow' then status = 'allowed' end --change the text passed to make-text
-	            client:hset('media:'..msg.chat.id, media, status)
+	            client:hset('chat:'..msg.chat.id..':media', media, status)
 	            api.sendReply(msg, make_text(lang[ln].mediasettings.changed, media, status), true)
 	        end
         else
@@ -51,9 +51,9 @@ end
 return {
 	action = action,
 	triggers = {
-		'^/(kick) (.*)$',
-		'^/(ban) (.*)$',
-		'^/(allow) (.*)$',
+		'^/media (kick) (.*)$',
+		'^/media (ban) (.*)$',
+		'^/media (allow) (.*)$',
 		'^/(media list)$',
 		'^/(media)$'
 	}

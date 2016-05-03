@@ -3,15 +3,17 @@ local action = function(msg, blocks, ln)
     if blocks[1] == 'start' then
         if msg.chat.type == 'private' then
             local hash = 'bot:general'
--           client:hincrby(hash, 'users', 1)
-            api.sendMessage(msg.chat.id, lang[ln].help.private, true)
+            client:hincrby(hash, 'users', 1)
+            local name = msg.from.first_name:mEscape()
+            api.sendMessage(msg.chat.id, make_text(lang[ln].help.private, name), true)
         end
         return
     end
     if blocks[1] == 'help' then
         mystat('/help')
         if msg.chat.type == 'private' then
-            api.sendMessage(msg.chat.id, lang[ln].help.private, true)
+            local name = msg.from.first_name:mEscape()
+            api.sendMessage(msg.chat.id, make_text(lang[ln].help.private, name), true)
             return
         end
         keyboard = {}

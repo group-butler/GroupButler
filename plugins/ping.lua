@@ -1,7 +1,5 @@
 local action = function(msg, blocks, ln)
-	if blocks[1] == 'ping' then
-		api.sendMessage(msg.chat.id, lang[ln].ping)
-	end
+	api.sendMessage(msg.from.id, lang[ln].ping)
 	mystat('/ping') --save stats
 end
 

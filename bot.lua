@@ -18,7 +18,7 @@ bot_init = function(on_reload) -- The function run when the bot is started or re
 		return
 	end
 	print(colors('%{blue bright}Loading utilities.lua...'))
-	dofile('utilities.lua') -- Load miscellaneous and cross-plugin functions.
+	cross = dofile('utilities.lua') -- Load miscellaneous and cross-plugin functions.
 	print(colors('%{blue bright}Loading languages...'))
 	lang = dofile(config.languages) -- All the languages available
 	print(colors('%{blue bright}Loading API functions table...'))
@@ -91,6 +91,24 @@ local function get_what(msg)
 	end
 end
 
+local function collect_stats(msg)
+	--count the number of messages
+	client:hincrby('bot:general', 'messages', 1)
+	--for resolve username (may be stored by groups of id in the future)
+	if msg.from and msg.from.username then
+		client:hset('bot:usernames', '@'..msg.from.username:lower(), msg.from.id)
+	end
+	if msg.forward_from and msg.forward_from.username then
+		client:hset('bot:usernames', '@'..msg.forward_from.username:lower(), msg.forward_from.id)
+	end
+	if not(msg.chat.type == 'private') then
+		if msg.from.id then
+			client:hincrby('chat:'..msg.chat.id..':userstats', msg.from.id, 1) --3D: number of messages for each user
+		end
+		client:incrby('chat:'..msg.chat.id..':totalmsgs', 1) --total number of messages of the group
+	end
+end
+
 on_msg_receive = function(msg) -- The fn run whenever a message is received.
 	--vardump(msg)
 	if not msg then
@@ -107,27 +125,18 @@ on_msg_receive = function(msg) -- The fn run whenever a message is received.
 	end
 	
 	--Group language
-	local group_lang = client:get('lang:'..msg.chat.id)
-	if not group_lang then
-		group_lang = 'en'
+	msg.lang = client:get('lang:'..msg.chat.id)
+	if not msg.lang then
+		msg.lang = 'en'
 	end
 	
-	--for resolve username (may be stored by groups of id in the future)
-	if msg.from.username then
-		client:hset('bot:usernames', '@'..msg.from.username, msg.from.id)
-	end
-	if msg.forward_from and msg.forward_from.username then
-		client:hset('bot:usernames', '@'..msg.forward_from.username, msg.forward_from.id)
-	end
-	
-	--count the number of messages
-	client:hincrby('bot:general', 'messages', 1)
+	collect_stats(msg) --resolve_username support, chat stats
 	
 	for i,v in pairs(plugins) do
 		--vardump(v)
 		local stop_loop
 		if v.on_each_msg then
-			msg, stop_loop = v.on_each_msg(msg, group_lang)
+			msg, stop_loop = v.on_each_msg(msg, msg.lang)
 		end
 		if stop_loop then --check if on_each_msg said to stop the triggers loop
 			break
@@ -140,12 +149,13 @@ on_msg_receive = function(msg) -- The fn run whenever a message is received.
 						if blocks[1] ~= '' then
       						print('Match found:', colors('%{blue bright}'..w))
       						client:hincrby('bot:general', 'query', 1)
+      						if msg.from then client:incrby('user:'..msg.from.id..':query', 1) end
       					end
 				
 						msg.text_lower = msg.text:lower()
 				
 						local success, result = pcall(function()
-							return v.action(msg, blocks, group_lang)
+							return v.action(msg, blocks, msg.lang)
 						end)
 						if not success then
 							api.sendReply(msg, '*This is a bug!*\nPlease report the problem with `/c <bug>` :)', true)
@@ -191,7 +201,7 @@ local function service_to_message(msg)
     		text = event,
     		service = true
     	}
-	else
+	elseif msg.left_chat_member then
 		if tonumber(msg.left_chat_member.id) == tonumber(bot.id) then
 			event = '###botremoved'
 		else
@@ -206,6 +216,17 @@ local function service_to_message(msg)
     		removed = msg.left_chat_member,
     		text = event,
     		service = true
+    	}
+	elseif msg.group_chat_created then
+		service = {
+			chat = msg.chat,
+    		date = msg.date,
+    		adder = msg.from,
+    		from = msg.from,
+    		message_id = message_id,
+    		text = '###botadded',
+    		service = true,
+    		chat_created = true
     	}
 	end
     return on_msg_receive(service)
@@ -276,6 +297,7 @@ local function handle_inline_keyboards_cb(msg)
 	msg.old_date = msg.message.date
 	msg.date = os.time()
 	msg.cb = true
+	msg.cb_id = msg.id
 	msg.message_id = msg.message.message_id
 	msg.chat = msg.message.chat
 	msg.message = nil
@@ -290,12 +312,15 @@ while is_started do -- Start a loop while the bot should be running.
 	
 	local res = api.getUpdates(last_update+1) -- Get the latest updates!
 	if res then
+		--vardump(res)
 		for i,msg in ipairs(res.result) do -- Go through every new message.
 			last_update = msg.update_id
 			if msg.message  or msg.callback_query then
 				if msg.callback_query then
 					handle_inline_keyboards_cb(msg.callback_query)
-				elseif msg.message.new_chat_member or msg.message.left_chat_member then
+				elseif msg.message.migrate_to_chat_id then
+					to_supergroup(msg.message)
+				elseif msg.message.new_chat_member or msg.message.left_chat_member or msg.message.group_chat_created then
 					service_to_message(msg.message)
 				elseif msg.message.photo or msg.message.video or msg.message.document or msg.message.voice or msg.message.audio or msg.message.sticker then
 					media_to_msg(msg.message)

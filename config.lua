@@ -26,55 +26,39 @@ return {
 		'floodmanager.lua',
 		'mediasettings.lua',
 		'test.lua',
+		'all.lua'
 	},
 	available_languages = {
 		'en',
 		'it',
 		'es',
-		--'br'
+		'br'
 		--more to come
 	},
-	settings = {
-		'Rules',
-		'About',
-		'Flag',
-		'Modlist',
-		'Welcome',
-		'Extra',
-		'Kicklist',
-		'Video',
-		'Gif',
-		'Photo',
-		'Sticker'
-		}
+	chat_data = {
+		'mod',
+		'owner',
+		'settings',
+		'about',
+		'rules',
+		'flood',
+		'extra',
+		'reportblocked',
+		'media',
+		'banned',
+		'welcome'
+	},
+	api_errors = {
+		[101] = 'Not enough rights to kick participant', --SUPERGROUP: bot is not admin
+		[102] = 'USER_ADMIN_INVALID', --SUPERGROUP: trying to kick an admin
+		[103] = 'method is available for supergroup chats only', --NORMAL: trying to unban
+		[104] = 'Only creator of the group can kick admins from the group', --NORMAL: trying to kick an admin
+		[105] = 'Need to be inviter of the user to kick it from the group', --NORMAL: bot is not an admin or everyone is an admin
+		[106] = 'USER_NOT_PARTICIPANT', --NORMAL: trying to kick an user that is not in the group
+		[110] = 'PEER_ID_INVALID', --user never started the bot
+		[111] = 'message is not modified', --the edit message method hasn't modified the message
+		[112] = 'Can\'t parse message text: Can\'t find end of the entity starting at byte offset %d+', --the markdown is wrong and breaks the delivery
+		[403] = 'Bot was blocked by the user', --user blocked the bot
+		[429] = 'Too many requests: retry later', --the bot is hitting api limits
+	}
 }
-
---AVAILABLE HASHES--
-
---General
---Users (id + username)     bot:users (3D)
---Groups     bot:groupsid (2D)
---Commands stat     commands:stats (3D)
---General stats + admin mode     bot:general (3D)
---Blocked users     bot:blocked (2D)
---Usernames     bot:usernames (3D)
---Requests errors     bot:errors (3D)
-
---Groups
---About     bot:chat_id:about (1D)
---Rules     bot:chat_id:rules (1D)
---Settings     bot:chat_id:2Dtings (3D)
---Kicked list     kicked:chat_id (3D)
---extra commands     extra:chat_id (3D)
---report blocked     chat:chat_id:reportblocked (2D)
---Flood     chat:chat_id:flood (3D, Maxflood, ActionFlood)
---Links     chat:chat_idlinks (3D)
---Media settings     medis:chat_id (3D)
---Mods     bot:chat_id:mod (3D)
---Owner     bot:chat_id:owner (3D)
---Antispam     spam:chat_id:user_id (1D)
---Welcome settings     chat:chat_id:welcome (3D)
---Language     lang:chat_id (1D)
---Type warn     warns:chat_id:type (1D)
---Max warns     warns:chat_id:max (1D)
---Warns number     warns:chat_id (3D)

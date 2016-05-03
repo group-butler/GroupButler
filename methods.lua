@@ -1,5 +1,4 @@
 
-
 local BASE_URL = 'https://api.telegram.org/bot' .. config.bot_api_key
 
 if not config.bot_api_key then
@@ -18,9 +17,9 @@ local function sendRequest(url, user_id)
 
 	if code ~= 200 then
 		client:hincrby('bot:errors', code, 1)
-		print(code)
 		--403: bot blocked, 429: spam limit ...send a message to the admin, return the code
-		if code ~= 403 and code ~= 429 then
+		if code == 400 then code = api.getCode(tab.description) end --error code 400 is general: try to specify
+		if code ~= 403 and code ~= 429 and code ~= 110 and code ~= 111 then
 			print(tab.description)
 			api.sendMessage(config.admin, vtext(dat)..'\n'..code..'\n(text in the log)')
 			return false, code
@@ -57,21 +56,14 @@ local function getUpdates(offset)
 
 end
 
-local function getKickError(error)
-	error = error:gsub('%[Error : 400 : Bad Request: ', ''):gsub('%]', '')
-	local known_errors = {
-		[101] = 'Not enough rights to kick participant', --SUPERGROUP: bot is not admin
-		[102] = 'USER_ADMIN_INVALID', --SUPERGROUP: trying to kick an admin
-		[103] = 'method is available for supergroup chats only', --NORMAL: trying to unban
-		[104] = 'Only creator of the group can kick admins from the group', --NORMAL: trying to kick an admin
-		[105] = 'Need to be inviter of the user to kick it from the group' --NORMAL: bot is not an admin or everyone is an admin
-	}
-	for k,v in pairs(known_errors) do
+local function getCode(error)
+	error = error:gsub('%[Error : %d%d%d : Bad Request: ', ''):gsub('%]', '')
+	for k,v in pairs(config.api_errors) do
 		if error == v then
 			return k
 		end
 	end
-	return 106 --if unknown
+	return 107 --if unknown
 end
 
 local function unbanChatMember(chat_id, user_id)
@@ -83,7 +75,7 @@ local function unbanChatMember(chat_id, user_id)
 	local dat, res = HTTPS.request(url)
 	
 	local tab = JSON.decode(dat)
-
+	
 	if res ~= 200 then
 		return false, res
 	end
@@ -109,7 +101,7 @@ local function kickChatMember(chat_id, user_id)
 	if res ~= 200 then
 		--if error, return false and the custom error code
 		print(tab.description)
-		return false, api.getKickError(tab.description)
+		return false, api.getCode(tab.description)
 	end
 
 	if not tab.ok then
@@ -121,6 +113,7 @@ local function kickChatMember(chat_id, user_id)
 end
 
 local function code2text(code, ln, chat_id)
+	--the default error description can't be sent as output, so a translation is needed
 	if code == 101 then
 		return lang[ln].kick_errors[code]
 	elseif code == 102 then
@@ -132,54 +125,141 @@ local function code2text(code, ln, chat_id)
 	elseif code == 105 then
 		return lang[ln].kick_errors[code]
 	elseif code == 106 then
+		return lang[ln].kick_errors[code]
+	elseif code == 107 then
 		return false
 	end
 end
 
-local function banUser(chat_id, user_id, ln, arg1, no_msg)--arg1: should be the name, no_msg: kick without message if kick is failed
-	local name = arg1
-	if not name then name = 'User' end
+local function unbanUser(msg, on_request, no_msg, username)
+	local name, user_id, text
+	local chat_id = msg.chat.id
+	local ln = msg.lang
+	if not username then
+		if on_request then
+		    user_id = msg.reply.from.id
+		    name = getname(msg.reply)
+		else
+		    user_id = msg.from.id
+		    name = getname(msg)
+		end
+	else
+		user_id = res_user(username)
+		if not user_id then
+			api.sendReply(msg, lang[ln].bonus.no_user)
+			return
+		end
+		name = username
+	end
+	name = name:mEscape()
 	
-	res, code = api.kickChatMember(chat_id, user_id) --kick
+	if is_mod2(chat_id, user_id) then return end
 	
-	if res then
+	if msg.chat.type == 'group' then
+	    local hash = 'chat:'..chat_id..':banned'
+	    local removed = client:srem(hash, user_id)
+	    if removed == 0 then
+		    text = lang[ln].banhammer.not_banned
+		    api.sendReply(msg, text, true)
+		    return false
+	    end
+	end
+	res, code = api.unbanChatMember(chat_id, user_id)
+	--che succede se unbanno un non bannato?
+	text = make_text(lang[ln].banhammer.unbanned, name)
+	api.sendReply(msg, text, true)
+	return true
+end
+
+local function banUser(msg, on_request, no_msg, username)--no_msg: kick without message if kick is failed
+	local name, user_id, text
+	local chat_id = msg.chat.id
+	local ln = msg.lang
+	if not username then
+		if on_request then
+		    user_id = msg.reply.from.id
+		    name = getname(msg.reply)
+		else
+		    user_id = msg.from.id
+		    name = getname(msg)
+		end
+	else
+		user_id = res_user(username)
+		if not user_id then
+			api.sendReply(msg, lang[ln].bonus.no_user)
+			return
+		end
+		name = username
+	end	
+	name = name:mEscape()
+	
+	if is_mod2(chat_id, user_id) then return end
+	
+	res, code = api.kickChatMember(chat_id, user_id) --try to kick
+	
+	if res then --if the user has been kicked, then...
+	    client:hincrby('bot:general', 'ban', 1) --genreal: save how many kicks
 		text = make_text(lang[ln].banhammer.banned, name)
-		client:hincrby('bot:general', 'ban', 1)
+		if msg.chat.type == 'group' then
+		    local hash = 'chat:'..chat_id..':banned'
+	        client:sadd(hash, user_id)
+	    end
 		--the kick went right: always display who have been kicked (and why, if included in the name)
 		no_msg = false --if the bot kicked successfully, then send a message with the motivation
 	else
 		text = api.code2text(code, ln, chat_id)
 	end
+	
 	--check if send a message after the kick. If a kick went successful, no_msg is always false: users need to know who and why
-	if no_msg or code == 106 then --if no_msg (don't reply with the error) or the error is unknown then...
+	if no_msg or code == 107 then --if no_msg (don't reply with the error) or the error is unknown then...
 		return res
 	else
-		api.sendMessage(chat_id, text, true)
+		local sent, code_msg = api.sendMessage(chat_id, text, true)
 		return res
 	end
 end
 
-local function kickUser(chat_id, user_id, ln, arg1, no_msg)--arg1: should be the name, no_msg: don't send the error message if kick is failed. If no_msg is false, it will return the motivation of the fail
-	local name = arg1
-	if not name then name = 'User' end
+local function kickUser(msg, on_request, no_msg, username)-- no_msg: don't send the error message if kick is failed. If no_msg is false, it will return the motivation of the fail
+	local name, user_id, text
+	local chat_id = msg.chat.id
+	local ln = msg.lang
+	if not username then
+		if on_request then
+		    user_id = msg.reply.from.id
+		    name = getname(msg.reply)
+		else
+		    user_id = msg.from.id
+		    name = getname(msg)
+		end
+	else
+		user_id = res_user(username)
+		if not user_id then
+			api.sendReply(msg, lang[ln].bonus.no_user)
+			return
+		end
+		name = username
+	end
+	name = name:mEscape()
 	
-	res, code = api.kickChatMember(chat_id, user_id)
+	if is_mod2(chat_id, user_id) then return end
 	
-	if res then
-		--add the user to the kicked list
-		local hash = 'kicked:'..chat_id
-	    client:hset(hash, user_id, name) --save the id in the kicked list
+	res, code = api.kickChatMember(chat_id, user_id) --try to kick
+	
+	if res then --if the user has been kicked, then...
 	    client:hincrby('bot:general', 'kick', 1) --genreal: save how many kicks
 		--unban
-		api.unbanChatMember(chat_id, user_id)
+		if msg.chat.type == 'supergroup' then
+		    api.unbanChatMember(chat_id, user_id)
+		end
 		text = make_text(lang[ln].banhammer.kicked, name)
 		--the kick went right: always display who have been kicked (and why, if included in the name)
 		no_msg = false --if the bot kicked successfully, then send a message with the motivation
 	else
 		text = api.code2text(code, ln, chat_id)
 	end
+	
 	--check if send a message after the kick. If a kick went successful, no_msg is always false: users need to know who and why
-	if no_msg or code == 106 then --if no_msg (don't reply with the error) or the error is unknown then...
+	if no_msg or code == 107 then --if no_msg (don't reply with the error) or the error is unknown then...
 		return res
 	else
 		local sent, code_msg = api.sendMessage(chat_id, text, true)
@@ -188,7 +268,7 @@ local function kickUser(chat_id, user_id, ln, arg1, no_msg)--arg1: should be the
 end
 
 local function sendMessage(chat_id, text, use_markdown, disable_web_page_preview, reply_to_message_id, send_sound)
-
+	--print(text)
 	local url = BASE_URL .. '/sendMessage?chat_id=' .. chat_id .. '&text=' .. URL.escape(text)
 
 	url = url .. '&disable_web_page_preview=true'
@@ -238,6 +318,18 @@ local function editMessageText(chat_id, message_id, text, keyboard, markdown)
 	
 	return sendRequest(url)
 
+end
+
+local function answerCallbackQuery(callback_query_id, text, show_alert)
+	
+	local url = BASE_URL .. '/answerCallbackQuery?callback_query_id=' .. callback_query_id .. '&text=' .. URL.escape(text)
+	
+	if show_alert then
+		url = url..'&show_alert=true'
+	end
+	
+	return sendRequest(url)
+	
 end
 
 local function sendKeyboard(chat_id, text, keyboard, markdown)
@@ -423,8 +515,10 @@ return {
 	banUser = banUser,
 	kickUser = kickUser,
 	sendReply = sendReply,
-	getKickError = getKickError,
 	code2text = code2text,
 	sendKeyboard = sendKeyboard,
-	editMessageText = editMessageText
+	editMessageText = editMessageText,
+	answerCallbackQuery = answerCallbackQuery,
+	unbanUser = unbanUser,
+	getCode = getCode
 }	

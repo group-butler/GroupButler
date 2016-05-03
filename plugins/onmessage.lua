@@ -1,7 +1,23 @@
+local function user_neverWarned(chat, user)
+    local hash = 'chat:'..chat..':'..user..':mediawarn'
+    local res = client:get(hash)
+    if res then return false else return true end
+end
+
+local function saveFirstWarn(chat, user, media, ln)
+    local hash = 'chat:'..chat..':'..user..':mediawarn'
+    client:set(hash, true)
+    local status = client:hget('chat:'..chat..':media', media)
+    return make_text(lang[ln].preprocess.first_warn, status)
+end
+
 pre_process = function(msg, ln)
     if msg.from.id and is_blocked(msg.from.id) then
         print('Blocked:', msg.from.id)
         return msg, true --if an user is blocked, don't go through plugins
+    end
+    if msg.cb then
+        return msg
     end
     if msg.chat.type ~= 'private' and not is_mod(msg) then
         local spamhash = 'spam:'..msg.chat.id..':'..msg.from.id
@@ -18,9 +34,9 @@ pre_process = function(msg, ln)
                 if msg.from.username then name = name..' (@'..msg.from.username..')' end
                 name = name.. ' (flood)'
                 if action == 'ban' then
-    		        api.banUser(msg.chat.id, msg.from.id, ln, name, true)
+    		        api.banUser(msg, false, true)
     		    else
-    		        api.kickUser(msg.chat.id, msg.from.id, ln, name, true)
+    		        api.kickUser(msg, false, true)
     		    end
     		end
             return msg, true --if an user is spamming, don't go through plugins
@@ -32,13 +48,18 @@ pre_process = function(msg, ln)
             local name = msg.from.first_name
             if msg.from.username then name = name..' (@'..msg.from.username..')' end
             local media = msg.text:gsub('###', '')
-            local hash = 'media:'..msg.chat.id
+            local hash = 'chat:'..msg.chat.id..':media'
             local status = client:hget(hash, media)
             local out
-            if status == 'kick' then
-                api.kickUser(msg.chat.id, msg.from.id, ln, name:neat(), true)
-    	    elseif status == 'ban' then
-    	        api.banUser(msg.chat.id, msg.from.id, ln, name:neat(), true)
+            if user_neverWarned(msg.chat.id, msg.from.id) and status and not(status == 'allowed') then
+                local message = saveFirstWarn(msg.chat.id, msg.from.id, media, ln)
+                api.sendReply(msg, message, true)
+            elseif not user_neverWarned(msg.chat.id, msg.from.id) and status and not(status == 'allowed') then
+                if status == 'kick' then
+                    api.kickUser(msg, false, true)
+    	        elseif status == 'ban' then
+    	            api.banUser(msg, false, true)
+    		    end
     		end
         end
     
@@ -49,7 +70,7 @@ pre_process = function(msg, ln)
     	    local check = msg.text:find(rtl..'+') or msg.from.first_name:find(rtl..'+')
     	    if check ~= nil then
     		    name = name.. ' (RTL char)'
-    		    api.kickUser(msg.chat.id, msg.from.id, ln, name:neat(), true)
+    		    api.kickUser(msg, false, true)
     	    end
         end
     
@@ -57,7 +78,7 @@ pre_process = function(msg, ln)
             local name = msg.from.first_name
             if msg.from.username then name = name..' (@'..msg.from.username..')' end
     		name = name.. ' (arab)'
-    		api.kickUser(msg.chat.id, msg.from.id, ln, name:neat(), true)
+    		api.kickUser(msg, false, true)
         end
     end
     

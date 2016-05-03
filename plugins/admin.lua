@@ -1,7 +1,8 @@
 local triggers = {
-	'^/(reload)$',
+	'^/(init)$',
+	'^/(init)@'..bot.username..'$',
 	'^/(stop)$',
-	'^/(backup)$',
+	'^/(backup)[@'..bot.username..']?',
 	'^/(bc) (.*)$',
 	'^/(bcg) (.*)$',
 	'^/(save)$',
@@ -10,7 +11,6 @@ local triggers = {
 	'^/(lua)$',
 	'^/(lua) (.*)$',
 	'^/(run) (.*)$',
-	'^/(changedb)$',
 	'^/(log) (del) (.*)',
 	'^/(log) (del)',
 	'^/(log) (.*)$',
@@ -34,7 +34,11 @@ local triggers = {
 	'^/(delflag)$',
 	'^/(usernames)$',
 	'^/(api errors)$',
-	'^/(rediscli) (.*)$'
+	'^/(rediscli) (.*)$',
+	'^/(update)$',
+	'^/(movechat) (-%d+)$',
+	'^/(redis backup)$',
+	'^/(group info) (-?%d+)$'
 }
 
 local logtxt = ''
@@ -60,10 +64,71 @@ local function bot_leave(chat_id, ln)
 	end
 end
 
+function change_redis_headers()
+	print('Groups list:')
+	local groups = client:smembers('bot:groupsid')
+	local logtxt = 'CHANGING REDIS KEYS AND HASHES...\n\n'
+	for k,id in pairs(groups) do
+		logtxt = logtxt..'\n-----------------------------------------------------\nGROUP ID: '..id..'\n'
+		print('Group:', id) --first: print this, once the for is done, print logtxt
+		
+		logtxt = logtxt..'---> PORTING MODS...\n'
+		local mods = client:hgetall('bot:'..id..':mod')
+		logtxt = logtxt..migrate_table(mods, 'chat:'..id..':mod')
+		
+		logtxt = logtxt..'---> PORTING OWNER...\n'
+		local owner_id = client:hkeys('bot:'..id..':owner')
+		local owner_name = client:hvals('bot:'..id..':owner')
+		if not next(owner_id) or not next(owner_name) then
+			logtxt = logtxt..'No owner!\n'
+		else
+			logtxt = logtxt..'Owner info: '..owner_id[1]..', '..owner_name[1]..' [migration:'
+			local res = client:hset('chat:'..id..':owner', owner_id[1], owner_name[1])
+			logtxt = logtxt..give_result(res)..'\n'
+		end
+		
+		logtxt = logtxt..'---> PORTING MEDIA SETTINGS...\n'
+		local media = client:hgetall('media:'..id)
+		logtxt = logtxt..migrate_table(media, 'chat:'..id..':media')
+		
+		logtxt = logtxt..'---> PORTING ABOUT...\n'
+		local about = client:get('bot:'..id..':about')
+		if not about then
+			logtxt = logtxt..'No about!\n'
+		else
+			logtxt = logtxt..'About found! [migration:'
+			local res = client:set('chat:'..id..':about', about)
+			logtxt = logtxt..give_result(res)..']\n'
+		end
+		
+		logtxt = logtxt..'---> PORTING RULES...\n'
+		local rules = client:get('bot:'..id..':rules')
+		if not rules then
+			logtxt = logtxt..'No rules!\n'
+		else
+			logtxt = logtxt..'Rules found!  [migration:'
+			local res = client:set('chat:'..id..':rules', rules)
+			logtxt = logtxt..give_result(res)..']\n'
+		end
+		
+		logtxt = logtxt..'---> PORTING EXTRA...\n'
+		local extra = client:hgetall('extra:'..id)
+		logtxt = logtxt..migrate_table(media, 'chat:'..id..':extra')
+	end
+	print('\n\n\n')
+	logtxt = 'Successful: '..voice_succ..'\nUpdated: '..voice_updated..'\n\n'..logtxt
+	print(logtxt)
+	local log_path = "./logs/changehashes.txt"
+	file = io.open(log_path, "w")
+	file:write(logtxt)
+    file:close()
+	api.sendDocument(config.admin, log_path)
+end
+
 local function load_lua(code)
 	local output = loadstring(code)()
 	if not output then
-		output = 'Done! (not output)'
+		output = 'Done! (no output)'
 	else
 		if type(output) == 'table' then
 			output = vtext(output)
@@ -87,7 +152,7 @@ local action = function(msg, blocks, ln)
 		api.sendMessage(config.admin, text)
 		mystat('/admin')
 	end
-	if blocks[1] == 'reload' then
+	if blocks[1] == 'init' then
 		--client:bgsave()
 		bot_init(true)
 		
@@ -196,47 +261,6 @@ local action = function(msg, blocks, ln)
 		api.sendMessage(msg.chat.id, output, true, msg.message_id, true)
 		mystat('/run')
 	end
-	if blocks[1] == 'changedb' then
-	    local data = load_data('groups.json')
-	    local total_items = 0
-	    local no_rules = 0
-	    local no_about = 0
-	    for k,v in pairs(data) do
-	        if total_items == 0 then
-	            logtxt = logtxt..'Id:\t'..k
-	        else
-	            logtxt = logtxt..'\n\nId:\t'..k
-	        end
-	        client:sadd('bot:groupsid', k)
-	        local rules = data[k]['rules']
-	        local about = data[k]['about']
-	        if rules then
-	            local hash = 'bot:'..k..':rules'
-	            logtxt = logtxt..'\nSaving rules...\t'..save_in_redis(hash, rules)
-	        else
-	            logtxt = logtxt..'\nSaving rules...\tno rules found'
-	            client:del('bot:'..k..':rules')
-	            no_rules = no_rules + 1
-	        end
-	        if about then
-	            local hash = 'bot:'..k..':about'
-	            logtxt = logtxt..'\nSaving about...\t'..save_in_redis(hash, about)
-	        else
-	            logtxt = logtxt..'\nSaving about...\tno about found'
-	            client:del('bot:'..k..':about')
-	            no_about = no_about + 1
-	        end
-	        total_items = total_items + 1
-        end
-        logtxt = logtxt..'\n\nItems (groups) checked:\t'..total_items..'\nItems with no rules:\t'..no_rules..'\nItems with no about\t'..no_about..'\nRedis saves failed:\t'..failed
-        print(logtxt)
-        local file = io.open("./logs/dbswitch.txt", "w")
-        file:write(logtxt)
-        file:close()
-        api.sendDocument(msg.from.id, './logs/dbswitch.txt')
-        api.sendMessage(msg.chat.id, 'Instruction processed. Check the log file I\'ve sent you')
-        mystat('/changedb')
-    end
     if blocks[1] == 'log' then
     	if blocks[2] then
     		if blocks[2] ~= 'del' then
@@ -420,6 +444,7 @@ local action = function(msg, blocks, ln)
 				api.sendReply(msg, msg.forward_from.id)
 			end
 		end
+		return msg.text:gsub('###forward:', '')
 	end
 	if blocks[1] == 'reset' then
 		if not blocks[2] then
@@ -526,13 +551,69 @@ local action = function(msg, blocks, ln)
     	redis_f = 'return client:'..redis_f..'\')'
     	print(redis_f)
     	local output = load_lua(redis_f)
+    	print(output)
     	mystat('/rediscli')
     	api.sendMessage(config.admin, output, true)
     end
+    if blocks[1] == 'update' then
+    	--change redis keys and hashes to replace my stupid fuckin headers that makes no sense
+    	change_redis_headers()
+    	api.sendMessage(config.admin, 'Processed. Check the log I\'ve sent you for further info')
+    end
+    if blocks[1] == 'movechat' then
+    	if msg.chat.type == 'private' then
+    		api.sendMessage(msg.chat.id, 'This command must be launched from the group you want to move')
+    	else
+    		if tonumber(blocks[2]) == tonumber(msg.chat.id) then
+    			api.sendMessage(msg.chat.id, 'The id sent is the id of this chat!')
+    		else
+    			local new = blocks[2]
+    			local old = msg.chat.id
+    			migrate_chat_info(old, new, true)
+    		end
+    	end
+	end
+	if blocks[1] == 'redis backup' then
+		local groups = client:smembers('bot:groupsid')
+		vardump(groups)
+		div()
+		local all_groups = {}
+		for k,v in pairs(groups) do
+			local current = {}
+			current = group_table(v)
+			vardump(current)
+			div()
+			table.insert(all_groups, current)
+		end
+		div()
+		vardump(all_groups)
+		save_data("./logs/redisbackup.json", all_groups)
+		if not (msg.chat.type == 'private') then
+			api.sendMessage(msg.chat.id, 'I\'ve sent you the .json file in private')
+		end
+		api.sendDocument(config.admin, "./logs/redisbackup.json")
+	end
+	if blocks[1] == 'group info' then
+		local id = blocks[2]
+		if not (id:find('-')) then
+			id = '-'..id
+		end
+		local group_info_table = group_table(id)
+		local text = vtext(group_info_table)
+		local path = "./logs/group["..id.."].txt"
+		local res = write_file(path, text)
+		if not res then
+			api.sendMessage(msg.chat.id, 'Path invalid. Probably a folder is wrong/missing')
+			return
+		end
+		if not (msg.chat.type == 'private') then
+			api.sendMessage(msg.chat.id, 'I\'ve sent you the file in private')
+		end
+		api.sendDocument(config.admin, path)
+	end
 end
 
 return {
 	action = action,
 	triggers = triggers
 }
-
