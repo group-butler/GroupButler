@@ -27,7 +27,7 @@ return {
 		'mediasettings.lua',
 		'test.lua',
 		'all.lua',
-		'tablehelp.lua',
+		--'tablehelp.lua',
 	},
 	available_languages = {
 		'en',
