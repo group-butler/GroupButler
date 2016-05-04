@@ -66,7 +66,7 @@ end
 
 function change_redis_headers()
 	print('Groups list:')
-	local groups = client:smembers('bot:groupsid')
+	local groups = client:smembers('bot:tofix')
 	local logtxt = 'CHANGING REDIS KEYS AND HASHES...\n\n'
 	for k,id in pairs(groups) do
 		logtxt = logtxt..'\n-----------------------------------------------------\nGROUP ID: '..id..'\n'
@@ -113,7 +113,7 @@ function change_redis_headers()
 		
 		logtxt = logtxt..'---> PORTING EXTRA...\n'
 		local extra = client:hgetall('extra:'..id)
-		logtxt = logtxt..migrate_table(media, 'chat:'..id..':extra')
+		logtxt = logtxt..migrate_table(extra, 'chat:'..id..':extra')
 	end
 	print('\n\n\n')
 	logtxt = 'Successful: '..voice_succ..'\nUpdated: '..voice_updated..'\n\n'..logtxt

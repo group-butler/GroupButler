@@ -101,8 +101,8 @@ local action = function(msg, blocks, ln)
 		client:hset(hash, 'MaxFlood', 5)
 		client:hset(hash, 'ActionFlood', 'kick')
 		--warn
-		client:set('warns:'..msg.chat.id..':max', 5)
-		client:set('warns:'..msg.chat.id..':action', 'ban')
+		client:set('chat:'..msg.chat.id..':max', 5)
+		client:set('chat:'..msg.chat.id..':warntype', 'ban')
 		--media moderation don't need to be setted up
 		--set the default welcome type
 		hash = 'chat:'..msg.chat.id..':welcome'

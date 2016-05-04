@@ -29,11 +29,7 @@ local function can_prom_dem(msg, blocks, ln)
         if tonumber(id) == tonumber(bot.id) then
             return false
         else
-            if is_owner2(msg.chat.id, id) then
-                return false
-            else
-                return true, id
-            end
+            return true, id
         end
     end
 end

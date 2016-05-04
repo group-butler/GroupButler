@@ -548,7 +548,7 @@ function to_supergroup(msg)
 	local old = msg.chat.id
 	local new = msg.migrate_to_chat_id
 	migrate_chat_info(old, new, false)
-	migrate_ban_list(old, new)
+	--migrate_ban_list(old, new)
 	api.sendMessage(new, '(_service notification: migration of the group executed_)', true)
 end
 
@@ -556,6 +556,87 @@ function getname(msg)
     local name = msg.from.first_name
 	if msg.from.username then name = name..' (@'..msg.from.username..')' end
     return name
+end
+
+function change_one_header(id)
+	voice_succ = 0
+	voice_updated = 0
+	logtxt = ''
+	logtxt = logtxt..'\n-----------------------------------------------------\nGROUP ID: '..id..'\n'
+	print('Group:', id) --first: print this, once the for is done, print logtxt
+		
+	logtxt = logtxt..'---> PORTING MODS...\n'
+	local mods = client:hgetall('bot:'..id..':mod')
+	logtxt = logtxt..migrate_table(mods, 'chat:'..id..':mod')
+		
+	logtxt = logtxt..'---> PORTING OWNER...\n'
+	local owner_id = client:hkeys('bot:'..id..':owner')
+	local owner_name = client:hvals('bot:'..id..':owner')
+	if not next(owner_id) or not next(owner_name) then
+		logtxt = logtxt..'No owner!\n'
+	else
+		logtxt = logtxt..'Owner info: '..owner_id[1]..', '..owner_name[1]..' [migration:'
+		local res = client:hset('chat:'..id..':owner', owner_id[1], owner_name[1])
+		logtxt = logtxt..give_result(res)..'\n'
+	end
+		
+	logtxt = logtxt..'---> PORTING MEDIA SETTINGS...\n'
+	local media = client:hgetall('media:'..id)
+	logtxt = logtxt..migrate_table(media, 'chat:'..id..':media')
+		
+	logtxt = logtxt..'---> PORTING ABOUT...\n'
+	local about = client:get('bot:'..id..':about')
+	if not about then
+		logtxt = logtxt..'No about!\n'
+	else
+		logtxt = logtxt..'About found! [migration:'
+		local res = client:set('chat:'..id..':about', about)
+		logtxt = logtxt..give_result(res)..']\n'
+	end
+		
+	logtxt = logtxt..'---> PORTING RULES...\n'
+	local rules = client:get('bot:'..id..':rules')
+	if not rules then
+		logtxt = logtxt..'No rules!\n'
+	else
+		logtxt = logtxt..'Rules found!  [migration:'
+		local res = client:set('chat:'..id..':rules', rules)
+		logtxt = logtxt..give_result(res)..']\n'
+	end
+		
+	logtxt = logtxt..'---> PORTING EXTRA...\n'
+	local extra = client:hgetall('extra:'..id)
+	logtxt = logtxt..migrate_table(extra, 'chat:'..id..':extra')
+	print('\n\n\n')
+	logtxt = 'Successful: '..voice_succ..'\nUpdated: '..voice_updated..'\n\n'..logtxt
+	print(logtxt)
+	local log_path = "./logs/changehashes"..id..".txt"
+	file = io.open(log_path, "w")
+	file:write(logtxt)
+    file:close()
+	api.sendDocument(config.admin, log_path)
+end
+
+function change_extra_header(id)
+	voice_succ = 0
+	voice_updated = 0
+	logtxt = ''
+	logtxt = logtxt..'\n-----------------------------------------------------\nGROUP ID: '..id..'\n'
+	print('Group:', id) --first: print this, once the for is done, print logtxt
+		
+	logtxt = logtxt..'---> PORTING EXTRA...\n'
+	local extra = client:hgetall('extra:'..id)
+	logtxt = logtxt..migrate_table(extra, 'chat:'..id..':extra')
+	
+	print('\n\n\n')
+	
+	logtxt = 'Successful: '..voice_succ..'\nUpdated: '..voice_updated..'\n\n'..logtxt
+	print(logtxt)
+	local log_path = "./logs/changehashesEXTRA"..id..".txt"
+	file = io.open(log_path, "w")
+	file:write(logtxt)
+    file:close()
+	api.sendDocument(config.admin, log_path)
 end
 
 ----------------------- specific cross-plugins functions---------------------

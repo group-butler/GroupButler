@@ -47,9 +47,9 @@ local action = function(msg, blocks, ln)
 	    name = name:gsub('_', ''):gsub('*', '')
 		
 		local hash = 'chat:'..msg.chat.id..':warns'
-		local hash_set = 'chat:'..msg.chat.id..':maxwarns'
+		local hash_set = 'chat:'..msg.chat.id..':max'
 		local num = client:hincrby(hash, replied.from.id, 1)
-		local nmax = client:get(hash_set)
+		local nmax = (client:get(hash_set)) or 5
 		local text
 		
 		if tonumber(num) >= tonumber(nmax) then
@@ -58,9 +58,9 @@ local action = function(msg, blocks, ln)
 			name = name..' (->'..num..'/'..nmax..')'
 			if type == 'ban' then
 				--text = make_text(lang[ln].warn.warned_max_ban, name)
-				api.kickUser(msg.chat.id, replied.from.id, ln, name)
+				api.kickUser(msg, true, false)
 		    else
-		    	api.banUser(msg.chat.id, replied.from.id, ln, name)
+		    	api.banUser(msg, true, false)
 		    	text = make_text(lang[ln].warn.warned_max_kick, name)
 		    end
 		    return --avoid to send another reply 6 lines below
@@ -78,7 +78,7 @@ local action = function(msg, blocks, ln)
             return nil
         end
         
-	    local hash = 'chat:'..msg.chat.id..':maxwarns'
+	    local hash = 'chat:'..msg.chat.id..':max'
 		local old = client:get(hash)
 		client:set(hash, blocks[2])
         local text = make_text(lang[ln].warn.warnmax, old, blocks[2])
@@ -120,7 +120,7 @@ local action = function(msg, blocks, ln)
 	    name = name:gsub('_', ''):gsub('*', '')
 		
 		local hash = 'chat:'..msg.chat.id..':warns'
-		local hash_set = 'chat:'..msg.chat.id..':maxwarns'
+		local hash_set = 'chat:'..msg.chat.id..':max'
 		local num = client:hget(hash, replied.from.id)
 		local nmax = client:get(hash_set)
 		local text
