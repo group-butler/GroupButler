@@ -589,7 +589,7 @@ local function getModlist(chat_id)
         message = message..i..' - '..mlist[i]..'\n'
     end
     if message == '' then
-    	return false
+    	return '()'
     else
     	return message
     end

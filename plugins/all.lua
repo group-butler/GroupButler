@@ -37,6 +37,10 @@ local function doKeyboard(action, chat_id)
         end
         local hash = 'chat:'..chat_id..':flood'
         local action = client:hget(hash, 'ActionFlood')
+        --if not action then
+            --action = 'kick'
+            --client:hset(hash, 'ActionFlood', 'kick')
+        --end
         local num = client:hget(hash, 'MaxFlood')
         local flood = {
             {text = '➖', callback_data = 'panelDimFlood//'..chat_id},
@@ -62,7 +66,7 @@ local action = function(msg, blocks, ln)
     local keyboard = {}
     
     --reply from the group
-    if not(msg.chat.type == 'private') then
+    if not(msg.chat.type == 'private') and not msg.cb then
         keyboard = doKeyboard(blocks[1], chat_id)
         if blocks[1] == 'dashboard' then
             --everyone can use this
@@ -83,6 +87,7 @@ local action = function(msg, blocks, ln)
         local msg_id = msg.message_id
         local text
         if blocks[1] == 'dash' then
+            keyboard = doKeyboard(blocks[1], chat_id)
             if blocks[2] == 'settings' then
                 text = cross.getSettings(chat_id, ln)
             end
@@ -99,24 +104,14 @@ local action = function(msg, blocks, ln)
             if blocks[2] == 'extra' then
                 text = cross.getExtraList(chat_id, ln)
             end
-            if blocks[2] == 'more' then
-                text = 'This is a test message. tap on the buttons below and have fun.\nbubbabxbsbxbsxbshbshbzshsbzszbhzsbs\n\nBut be quiet\nEach tap = one messagefor the bot'
-            end
-            if blocks[2] == 'alert' then
-                api.answerCallbackQuery(msg.cb_id, 'This is how you see an alert in Telegram Desktop')
-                return
-            end
-            local res = api.editMessageText(msg.chat.id, msg_id, text, keyboard, true)
-            if not res then --save the error
-                --save_log('send_msg', vtext(keyboard))
-                api.sendAdmin(vtext(keyboard))
-            end
+            api.editMessageText(msg.chat.id, msg_id, text, keyboard, true)
         end
         if blocks[1] == 'panel' then
             if blocks[2] == 'alert' then
                 api.answerCallbackQuery(msg.cb_id, 'Tap on a lock!')
                 return
             end
+            keyboard = doKeyboard(blocks[1], chat_id)
             if blocks[2] == 'DimFlood' or blocks[2] == 'RaiseFlood' or blocks[2] == 'ActionFlood' then
                 local action
                 if blocks[2] == 'DimFlood' then
@@ -131,11 +126,7 @@ local action = function(msg, blocks, ln)
                 text = cross.changeSettingStatus(chat_id, blocks[2], ln)
             end
             keyboard = doKeyboard(blocks[1], chat_id) --have to be updated with the new status of the settings
-            local res = api.editMessageText(msg.chat.id, msg_id, text, keyboard, true)
-            if not res then --save the error
-                --save_log('send_msg', vtext(keyboard))
-                api.sendAdmin(vtext(keyboard))
-            end
+            api.editMessageText(msg.chat.id, msg_id, text, keyboard, true)
         end
     end
 	

@@ -24,7 +24,8 @@ local function get_welcome(msg, ln)
 	if not(wlc_sett == 'no') then
 		local abt = cross.getAbout(msg.chat.id, ln)
 		local rls = cross.getRules(msg.chat.id, ln)
-		local mods = lang[ln].service.welcome_modlist..cross.getModlist(msg.chat.id, ln):mEscape()
+		local mods = cross.getModlist(msg.chat.id, ln):mEscape()
+		local mods = lang[ln].service.welcome_modlist..mods
 		local text = make_text(lang[ln].service.welcome, msg.added.first_name:mEscape_hard(), msg.chat.title:mEscape_hard())
 		if wlc_sett == 'a' then
 			text = text..'\n\n'..abt
@@ -126,6 +127,7 @@ local action = function(msg, blocks, ln)
 		end
 		
 		client:hdel('warn:'..msg.chat.id, msg.added.id)
+		client:del('chat:'..msg.chat.id..':'..msg.added.id..':mediawarn')
 		
 		local text = get_welcome(msg, ln)
 		if text then

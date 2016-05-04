@@ -7,7 +7,7 @@ end
 local function saveFirstWarn(chat, user, media, ln)
     local hash = 'chat:'..chat..':'..user..':mediawarn'
     client:set(hash, true)
-    local status = client:hget('chat:'..chat..':media', media)
+    local status = client:hget('chat:'..chat..':media', media) --get the current status, to say in the reply if the next time the user will be kicked or banned
     return make_text(lang[ln].preprocess.first_warn, status)
 end
 

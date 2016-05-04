@@ -13,7 +13,7 @@ local action = function(msg, blocks, ln)
     	--load the about
         local out = cross.getAbout(msg.chat.id, ln)
         api.sendReply(msg, out, true)
-        mystat('/about')mystat('')
+        mystat('/about')
     end
 	if blocks[1] == 'addabout' then
 		--ignore if not mod
@@ -38,9 +38,13 @@ local action = function(msg, blocks, ln)
 				return nil
 			end
 			--add the new string to the about text
-            about = about..'\n'..input
-            client:set(hash, about)
-            api.sendReply(msg, make_text(lang[ln].setabout.added, input), true)
+            local res = api.sendReply(msg, make_text(lang[ln].setabout.added, input), true)
+            if not res then
+            	api.sendReply(msg. lang[ln].breaks_markdown, true)
+            else
+            	about = about..'\n'..input
+            	client:set(hash, about)
+            end
         end
         mystat('/addabout')
     end
@@ -63,14 +67,14 @@ local action = function(msg, blocks, ln)
 			api.sendReply(msg, make_text(lang[ln].setabout.clean))
 			return nil
 		end
-		--check if the about text breaks the markdown
-		if breaks_markdown(input) then
-			api.sendReply(msg, 'The text inserted breaks the markdown.\nCheck how many times you used * or _ or `')
-			return nil
-		end
+		
 		--set the new about
-		client:set(hash, input)
-		api.sendReply(msg, make_text(lang[ln].setabout.new, input), true)
+		local res = api.sendReply(msg, make_text(lang[ln].setabout.new, input), true)
+		if not res then
+			api.sendReply(msg, lang[ln].breaks_markdown, true)
+		else
+			client:set(hash, input)
+		end
 		mystat('/setabout')
 	end
 
