@@ -24,7 +24,8 @@ local action = function(msg, blocks, ln)
 		if link == 'no' or link == nil then
 			text = make_text(lang[ln].links.no_link)
 		else
-			text = make_text(lang[ln].links.link, msg.chat.title, link)
+			local title = msg.chat.title:mEscape_hard()
+			text = make_text(lang[ln].links.link, title, link)
 		end
 		api.sendReply(msg, text, true)
 		mystat('/link')

@@ -30,11 +30,6 @@ local action = function(msg, blocks, ln)
 		        api.sendReply(msg, make_text(lang[ln].setrules.no_input_add), true)
 		        return nil
 	        end
-	        --check if breaks the markdown
-	        if breaks_markdown(input) then
-				api.sendReply(msg, make_text(lang[ln].breaks_markdown))
-				return nil
-			end
 			
 			--add the new string to the rules
             local res = api.sendReply(msg, make_text(lang[ln].setrules.added, input), true)
@@ -69,7 +64,7 @@ local action = function(msg, blocks, ln)
 		--set the new rules	
 		local res = api.sendReply(msg, make_text(lang[ln].setrules.new, input), true)
 		if not res then
-			api.sendReply(msg, lang[ln].breaks_markdown, true)
+			api.sendReply(msg, lang[ln].breaks_markdown)
 		else
 			client:set(hash, input)
 		end

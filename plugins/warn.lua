@@ -79,7 +79,7 @@ local action = function(msg, blocks, ln)
         end
         
 	    local hash = 'chat:'..msg.chat.id..':max'
-		local old = client:get(hash)
+		local old = (client:get(hash)) or 5
 		client:set(hash, blocks[2])
         local text = make_text(lang[ln].warn.warnmax, old, blocks[2])
         mystat('/warnmax') --save stats
@@ -122,7 +122,7 @@ local action = function(msg, blocks, ln)
 		local hash = 'chat:'..msg.chat.id..':warns'
 		local hash_set = 'chat:'..msg.chat.id..':max'
 		local num = client:hget(hash, replied.from.id)
-		local nmax = client:get(hash_set)
+		local nmax = (client:get(hash_set)) or 5
 		local text
 		
 		--if there isn't the hash

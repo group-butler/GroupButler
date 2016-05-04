@@ -496,8 +496,8 @@ local function sendVoice(chat_id, voice, reply_to_message_id)
 
 end
 
-local function sendAdmin(text)
-	return sendMessage(config.admin, text)
+local function sendAdmin(text, markdown)
+	return sendMessage(config.admin, text, markdown)
 end
 
 return {

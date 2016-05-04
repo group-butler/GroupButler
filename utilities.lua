@@ -28,7 +28,7 @@ function string:mEscape() -- Remove the markdown.
 end
 
 function string:mEscape_hard() -- Remove the markdown.
-	self = self:gsub('*', ''):gsub('_', ''):gsub('`', ''):gsub('%]', ''):gsub('%[', '')
+	self = self:gsub('*', ''):gsub('_', ''):gsub('`', ''):gsub('%[', ''):gsub('%]', '')
 	return self
 end
 

@@ -12,15 +12,14 @@ local action = function(msg, blocks, ln)
 	    if not is_mod(msg) then
 	        return nil
 	    end
-	    if breaks_markdown(blocks[2]) or breaks_markdown(blocks[3]) then
-	    	local out = make_text(lang[ln].breaks_markdown)
-	        api.sendReply(msg, out)
-	        return nil
-	    end
 	    local hash = 'chat:'..msg.chat.id..':extra'
-	    client:hset(hash, blocks[2], blocks[3])
 	    local text = make_text(lang[ln].extra.new_command, blocks[2], blocks[3])
-	    api.sendReply(msg, text, true)
+	    local res = api.sendReply(msg, text, true)
+	    if not res then
+	    	api.sendReply(msg, lang[ln].breaks_markdown)
+	    else
+	    	client:hset(hash, blocks[2], blocks[3])
+	    end
 	    mystat('/extra')
 	elseif blocks[1] == 'extra list' then
 	    if not is_mod(msg) then

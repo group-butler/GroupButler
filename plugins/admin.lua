@@ -38,7 +38,8 @@ local triggers = {
 	'^/(update)$',
 	'^/(movechat) (-%d+)$',
 	'^/(redis backup)$',
-	'^/(group info) (-?%d+)$'
+	'^/(group info) (-?%d+)$',
+	'^/(echo) (.*)$'
 }
 
 local logtxt = ''
@@ -62,67 +63,6 @@ local function bot_leave(chat_id, ln)
 		client:hincrby('bot:general', 'groups', -1)
 		return lang[ln].admin.leave_chat_leaved
 	end
-end
-
-function change_redis_headers()
-	print('Groups list:')
-	local groups = client:smembers('bot:tofix')
-	local logtxt = 'CHANGING REDIS KEYS AND HASHES...\n\n'
-	for k,id in pairs(groups) do
-		logtxt = logtxt..'\n-----------------------------------------------------\nGROUP ID: '..id..'\n'
-		print('Group:', id) --first: print this, once the for is done, print logtxt
-		
-		logtxt = logtxt..'---> PORTING MODS...\n'
-		local mods = client:hgetall('bot:'..id..':mod')
-		logtxt = logtxt..migrate_table(mods, 'chat:'..id..':mod')
-		
-		logtxt = logtxt..'---> PORTING OWNER...\n'
-		local owner_id = client:hkeys('bot:'..id..':owner')
-		local owner_name = client:hvals('bot:'..id..':owner')
-		if not next(owner_id) or not next(owner_name) then
-			logtxt = logtxt..'No owner!\n'
-		else
-			logtxt = logtxt..'Owner info: '..owner_id[1]..', '..owner_name[1]..' [migration:'
-			local res = client:hset('chat:'..id..':owner', owner_id[1], owner_name[1])
-			logtxt = logtxt..give_result(res)..'\n'
-		end
-		
-		logtxt = logtxt..'---> PORTING MEDIA SETTINGS...\n'
-		local media = client:hgetall('media:'..id)
-		logtxt = logtxt..migrate_table(media, 'chat:'..id..':media')
-		
-		logtxt = logtxt..'---> PORTING ABOUT...\n'
-		local about = client:get('bot:'..id..':about')
-		if not about then
-			logtxt = logtxt..'No about!\n'
-		else
-			logtxt = logtxt..'About found! [migration:'
-			local res = client:set('chat:'..id..':about', about)
-			logtxt = logtxt..give_result(res)..']\n'
-		end
-		
-		logtxt = logtxt..'---> PORTING RULES...\n'
-		local rules = client:get('bot:'..id..':rules')
-		if not rules then
-			logtxt = logtxt..'No rules!\n'
-		else
-			logtxt = logtxt..'Rules found!  [migration:'
-			local res = client:set('chat:'..id..':rules', rules)
-			logtxt = logtxt..give_result(res)..']\n'
-		end
-		
-		logtxt = logtxt..'---> PORTING EXTRA...\n'
-		local extra = client:hgetall('extra:'..id)
-		logtxt = logtxt..migrate_table(extra, 'chat:'..id..':extra')
-	end
-	print('\n\n\n')
-	logtxt = 'Successful: '..voice_succ..'\nUpdated: '..voice_updated..'\n\n'..logtxt
-	print(logtxt)
-	local log_path = "./logs/changehashes.txt"
-	file = io.open(log_path, "w")
-	file:write(logtxt)
-    file:close()
-	api.sendDocument(config.admin, log_path)
 end
 
 local function load_lua(code)
@@ -555,11 +495,6 @@ local action = function(msg, blocks, ln)
     	mystat('/rediscli')
     	api.sendMessage(config.admin, output, true)
     end
-    if blocks[1] == 'update' then
-    	--change redis keys and hashes to replace my stupid fuckin headers that makes no sense
-    	change_redis_headers()
-    	api.sendMessage(config.admin, 'Processed. Check the log I\'ve sent you for further info')
-    end
     if blocks[1] == 'movechat' then
     	if msg.chat.type == 'private' then
     		api.sendMessage(msg.chat.id, 'This command must be launched from the group you want to move')
@@ -610,6 +545,9 @@ local action = function(msg, blocks, ln)
 			api.sendMessage(msg.chat.id, 'I\'ve sent you the file in private')
 		end
 		api.sendDocument(config.admin, path)
+	end
+	if blocks[1] == 'echo' then
+		sendAdmin(blocks[2], true)
 	end
 end
 

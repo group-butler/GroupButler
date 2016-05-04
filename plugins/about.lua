@@ -28,10 +28,6 @@ local action = function(msg, blocks, ln)
             api.sendReply(msg, make_text(lang[ln].setabout.no_bio_add), true)
         else
             local input = blocks[2]
-            if not input then
-		        api.sendReply(msg, make_text(lang[ln].setabout.no_input_add), true)
-		        return nil
-	        end
 	        --check if breaks the markdown
 	        if breaks_markdown(input) then
 				api.sendReply(msg, make_text(lang[ln].breaks_markdown))
@@ -40,7 +36,7 @@ local action = function(msg, blocks, ln)
 			--add the new string to the about text
             local res = api.sendReply(msg, make_text(lang[ln].setabout.added, input), true)
             if not res then
-            	api.sendReply(msg. lang[ln].breaks_markdown, true)
+            	api.sendReply(msg. lang[ln].breaks_markdown)
             else
             	about = about..'\n'..input
             	client:set(hash, about)
@@ -71,7 +67,7 @@ local action = function(msg, blocks, ln)
 		--set the new about
 		local res = api.sendReply(msg, make_text(lang[ln].setabout.new, input), true)
 		if not res then
-			api.sendReply(msg, lang[ln].breaks_markdown, true)
+			api.sendReply(msg, lang[ln].breaks_markdown)
 		else
 			client:set(hash, input)
 		end
