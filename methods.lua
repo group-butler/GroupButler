@@ -496,6 +496,10 @@ local function sendVoice(chat_id, voice, reply_to_message_id)
 
 end
 
+local function sendAdmin(text)
+	return sendMessage(config.admin, text)
+end
+
 return {
 	sendMessage = sendMessage,
 	sendRequest = sendRequest,
@@ -521,5 +525,6 @@ return {
 	editMessageText = editMessageText,
 	answerCallbackQuery = answerCallbackQuery,
 	unbanUser = unbanUser,
-	getCode = getCode
+	getCode = getCode,
+	sendAdmin = sendAdmin
 }	

@@ -106,7 +106,11 @@ local action = function(msg, blocks, ln)
                 api.answerCallbackQuery(msg.cb_id, 'This is how you see an alert in Telegram Desktop')
                 return
             end
-            api.editMessageText(msg.chat.id, msg_id, text, keyboard, true)
+            local res = api.editMessageText(msg.chat.id, msg_id, text, keyboard, true)
+            if not res then --save the error
+                --save_log('send_msg', vtext(keyboard))
+                api.sendAdmin(vtext(keyboard))
+            end
         end
         if blocks[1] == 'panel' then
             if blocks[2] == 'alert' then
@@ -127,7 +131,11 @@ local action = function(msg, blocks, ln)
                 text = cross.changeSettingStatus(chat_id, blocks[2], ln)
             end
             keyboard = doKeyboard(blocks[1], chat_id) --have to be updated with the new status of the settings
-            api.editMessageText(msg.chat.id, msg_id, text, keyboard, true)
+            local res = api.editMessageText(msg.chat.id, msg_id, text, keyboard, true)
+            if not res then --save the error
+                --save_log('send_msg', vtext(keyboard))
+                api.sendAdmin(vtext(keyboard))
+            end
         end
     end
 	
