@@ -1,5 +1,5 @@
 local triggers = {
-	'^###gif'
+	'^/(test)'
 }
 
 local function on_each_msg(msg, ln)
@@ -8,7 +8,6 @@ end
 
 local action = function(msg, blocks, ln)
 	--try your crap here
-	api.sendAdmin('gif')
 end
 
 return {

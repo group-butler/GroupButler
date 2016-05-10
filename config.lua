@@ -25,10 +25,10 @@ return {
 		'banhammer.lua',
 		'floodmanager.lua',
 		'mediasettings.lua',
-		'test.lua',
+		--'test.lua',
 		'all.lua',
 		--'tablehelp.lua',
-		'bob.lua'
+		--'bob.lua'
 	},
 	available_languages = {
 		'en',
