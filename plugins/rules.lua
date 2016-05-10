@@ -20,7 +20,7 @@ local action = function(msg, blocks, ln)
 			api.sendReply(msg, make_text(lang[ln].not_mod), true)
 			return nil
 		end
-	    local rules = client:get(hash)
+	    local rules = db:get(hash)
         --check if rules are empty
         if not rules then
             api.sendReply(msg, make_text(lang[ln].setrules.no_rules_add), true)
@@ -37,7 +37,7 @@ local action = function(msg, blocks, ln)
             	api.sendReply(msg, lang[ln].breaks_markdown, true)
             else
             	rules = rules..'\n'..input
-            	client:set(hash, rules)
+            	db:set(hash, rules)
             end
         end
         mystat('/addrules')
@@ -56,7 +56,7 @@ local action = function(msg, blocks, ln)
 		end
     	--check if a mod want to clean the rules
 		if input == '^clean' then
-			client:del(hash)
+			db:del(hash)
 			api.sendReply(msg, make_text(lang[ln].setrules.clean))
 			return nil
 		end
@@ -66,7 +66,7 @@ local action = function(msg, blocks, ln)
 		if not res then
 			api.sendReply(msg, lang[ln].breaks_markdown)
 		else
-			client:set(hash, input)
+			db:set(hash, input)
 		end
 		mystat('/setrules')
 	end
@@ -79,7 +79,6 @@ return {
 		'^/(setrules)$',
 		'^/(setrules) (.*)',
 		'^/(rules)$',
-		'^/(rules)@GroupButler_bot',
 		'^/(addrules)$',
 		'^/(addrules) (.*)'	
 	}

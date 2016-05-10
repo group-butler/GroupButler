@@ -22,7 +22,7 @@ local action = function(msg, blocks, ln)
 			return nil
 		end
 	    --load about
-	    about = client:get(hash)
+	    about = db:get(hash)
         --check if there is an about text
         if not about then
             api.sendReply(msg, make_text(lang[ln].setabout.no_bio_add), true)
@@ -39,7 +39,7 @@ local action = function(msg, blocks, ln)
             	api.sendReply(msg. lang[ln].breaks_markdown)
             else
             	about = about..'\n'..input
-            	client:set(hash, about)
+            	db:set(hash, about)
             end
         end
         mystat('/addabout')
@@ -59,7 +59,7 @@ local action = function(msg, blocks, ln)
 		end
 		--check if the mod want to clean the about text
 		if input == 'clean' then
-			client:del(hash)
+			db:del(hash)
 			api.sendReply(msg, make_text(lang[ln].setabout.clean))
 			return nil
 		end
@@ -69,7 +69,7 @@ local action = function(msg, blocks, ln)
 		if not res then
 			api.sendReply(msg, lang[ln].breaks_markdown)
 		else
-			client:set(hash, input)
+			db:set(hash, input)
 		end
 		mystat('/setabout')
 	end
@@ -83,7 +83,6 @@ return {
 		'^/(setabout)$', --to warn if an user don't add a text
 		'^/(setabout) (.*)',
 		'^/(about)$',
-		'^/(about)@GroupButler_bot',
 		'^/(addabout)$', --to warn if an user don't add a text
 		'^/(addabout) (.*)',
 	}

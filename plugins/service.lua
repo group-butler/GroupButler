@@ -16,11 +16,11 @@ local function get_welcome(msg, ln)
 	if is_locked(msg, 'Welcome') then
 		return false
 	end
-	local custom = client:hget('chat:'..msg.chat.id..':welcome', 'custom')
+	local custom = db:hget('chat:'..msg.chat.id..':welcome', 'custom')
 	if custom then
 		return gsub_custom_welcome(msg, custom)
 	end
-	local wlc_sett = client:hget('chat:'..msg.chat.id..':welcome', 'wel')
+	local wlc_sett = db:hget('chat:'..msg.chat.id..':welcome', 'wel')
 	if not(wlc_sett == 'no') then
 		local abt = cross.getAbout(msg.chat.id, ln)
 		local rls = cross.getRules(msg.chat.id, ln)
@@ -59,7 +59,7 @@ local action = function(msg, blocks, ln)
 		
 		print('Bot added to '..msg.chat.title..' ['..msg.chat.id..']')
 		
-		if client:hget('bot:general', 'adminmode') == 'on' and not is_admin(msg) then
+		if db:hget('bot:general', 'adminmode') == 'on' and not is_admin(msg) then
 			api.sendMessage(msg.chat.id, 'Admin mode is on: only the admin can add me to a new group')
 			api.kickChatMember(msg.chat.id, bot.id)
 			return
@@ -78,41 +78,45 @@ local action = function(msg, blocks, ln)
 		--add owner as moderator
 		local hash = 'chat:'..msg.chat.id..':mod'
         local user = tostring(msg.from.id)
-        client:hset(hash, user, jsoname)
+        db:hset(hash, user, jsoname)
         
         --add owner as owner
         hash = 'chat:'..msg.chat.id..':owner'
-        client:hset(hash, user, jsoname)
+        db:hset(hash, user, jsoname)
 		
 		--default settings
 		hash = 'chat:'..msg.chat.id..':settings'
 		--disabled for users:yes / disabled for users:no
-		client:hset(hash, 'Rules', 'no')
-		client:hset(hash, 'About', 'no')
-		client:hset(hash, 'Modlist', 'no')
-		client:hset(hash, 'Report', 'yes')
-		client:hset(hash, 'Welcome', 'no')
-		client:hset(hash, 'Extra', 'no')
-		client:hset(hash, 'Rtl', 'no')
-		client:hset(hash, 'Arab', 'no')
-		client:hset(hash, 'Flood', 'no')--flood
+		db:hset(hash, 'Rules', 'no')
+		db:hset(hash, 'About', 'no')
+		db:hset(hash, 'Modlist', 'no')
+		db:hset(hash, 'Report', 'yes')
+		db:hset(hash, 'Welcome', 'no')
+		db:hset(hash, 'Extra', 'no')
+		db:hset(hash, 'Rtl', 'no')
+		db:hset(hash, 'Arab', 'no')
+		db:hset(hash, 'Flood', 'no')--flood
 		--flood
 		hash = 'chat:'..msg.chat.id..':flood'
-		client:hset(hash, 'MaxFlood', 5)
-		client:hset(hash, 'ActionFlood', 'kick')
+		db:hset(hash, 'MaxFlood', 5)
+		db:hset(hash, 'ActionFlood', 'kick')
 		--warn
-		client:set('chat:'..msg.chat.id..':max', 5)
-		client:set('chat:'..msg.chat.id..':warntype', 'ban')
-		--media moderation don't need to be setted up
+		db:set('chat:'..msg.chat.id..':max', 5)
+		db:set('chat:'..msg.chat.id..':warntype', 'ban')
+		--set media values
+		local list = {'image', 'audio', 'video', 'sticker', 'gif', 'voice', 'contact', 'file'}
+		hash = 'chat:'..msg.chat.id..':media'
+		for i=1,#list do
+			db:hset(hash, list[i], 'allowed')
+		end
 		--set the default welcome type
 		hash = 'chat:'..msg.chat.id..':welcome'
-		client:hset(hash, 'wel', 'no')
-		
+		db:hset(hash, 'wel', 'no')
 		--save group id
-		client:sadd('bot:groupsid', msg.chat.id)
+		db:sadd('bot:groupsid', msg.chat.id)
 		--save stats
 		hash = 'bot:general'
-        local num = client:hincrby(hash, 'groups', 1)
+        local num = db:hincrby(hash, 'groups', 1)
         print('Stats saved', 'Groups: '..num)
         local out = make_text(lang[ln].service.new_group, msg.from.first_name)
 		api.sendMessage(msg.chat.id, out, true)
@@ -126,8 +130,8 @@ local action = function(msg, blocks, ln)
 			return
 		end
 		
-		client:hdel('warn:'..msg.chat.id, msg.added.id)
-		client:del('chat:'..msg.chat.id..':'..msg.added.id..':mediawarn')
+		db:hdel('warn:'..msg.chat.id, msg.added.id)
+		db:del('chat:'..msg.chat.id..':'..msg.added.id..':mediawarn')
 		
 		local text = get_welcome(msg, ln)
 		if text then
@@ -145,13 +149,11 @@ local action = function(msg, blocks, ln)
 		clean_owner_modlist(msg.chat.id)
 		
 		--remove group id
-		client:srem('bot:groupsid', msg.chat.id)
+		db:srem('bot:groupsid', msg.chat.id)
 		
 		--save stats
-        local num = client:hincrby('bot:general', 'groups', -1)
+        local num = db:hincrby('bot:general', 'groups', -1)
         print('Stats saved', 'Groups: '..num)
-        local out = make_text(lang[ln].service.bot_removed, msg.chat.title:mEscape_hard())
-		api.sendMessage(msg.remover.id, out, true)
 	end
 
 end

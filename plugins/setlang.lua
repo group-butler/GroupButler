@@ -24,7 +24,7 @@ local action = function(msg, blocks, ln)
         if new == '' then
             api.sendReply(msg, make_text(lang[ln].setlang.error), true)
         else
-            client:set('lang:'..msg.chat.id, new)
+            db:set('lang:'..msg.chat.id, new)
             api.sendReply(msg, make_text(lang[ln].setlang.success, new), true)
             mystat('/lang code')
 	    end

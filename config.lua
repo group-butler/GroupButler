@@ -1,7 +1,7 @@
 return {
 	bot_api_key = '',
-	time_offset = 0,
 	admin = 23646077,
+	log_chat = -1001057801239,
 	channel = '@groupbutler_ch', --channel username with the '@'
 	languages = 'languages.lua',
 	plugins = {
@@ -28,6 +28,7 @@ return {
 		'test.lua',
 		'all.lua',
 		--'tablehelp.lua',
+		'bob.lua'
 	},
 	available_languages = {
 		'en',
@@ -57,12 +58,12 @@ return {
 		[105] = 'Need to be inviter of the user to kick it from the group', --NORMAL: bot is not an admin or everyone is an admin
 		[106] = 'USER_NOT_PARTICIPANT', --NORMAL: trying to kick an user that is not in the group
 		[110] = 'PEER_ID_INVALID', --user never started the bot
-		[111] = 'message is not modified', --the edit message method hasn't modified the message
-		[112] = 'Can\'t parse message text: Can\'t find end of the entity starting at byte offset %d+', --the markdown is wrong and breaks the delivery
+		[111] = 'Bad Request: message is not modified', --the edit message method hasn't modified the message
+		[112] = 'Bad Request: Can\'t parse message text: Can\'t find end of the entity starting at byte offset %d+', --the markdown is wrong and breaks the delivery
 		[120] = 'Can\'t parse reply keyboard markup JSON object', --keyboard table invalid
 		[121] = 'Field \\\"inline_keyboard\\\" of the InlineKeyboardMarkup should be an Array of Arrays', --inline keyboard is not an array of array
 		[122] = 'Can\'t parse inline keyboard button: InlineKeyboardButton should be an Object',
-		[123] = 'Bad Request: Object expected as reply markup',
+		[123] = 'Bad Request: Object expected as reply markup', --empty inline keyboard table
 		[403] = 'Bot was blocked by the user', --user blocked the bot
 		[429] = 'Too many requests: retry later', --the bot is hitting api limits
 	}

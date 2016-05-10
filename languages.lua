@@ -5,7 +5,7 @@
 --help.group_not_success
 
 --1.1
---E (done: it, en): help.owner, help.moderator, help.user (/menu, /dashboard, /kicked list [removed], /welcome custom, /media)
+--E (done: it, en): help.owner, help.moderator, help.user (/menu, /dashboard, /kicked list [removed], /welcome custom, /media, /media [kick|ban|allow])
 --E (done: it, en, es): credits
 --A (done: it, en): help.initial
 --A (done: it, en): bonus.the_group
@@ -32,10 +32,12 @@
 --A (done: it, en): settings.disable.flood X2
 --A (done: it, en): settings.welcome.custom
 --A (done: it, en): settings.welcome.wrong_markdown
+--A (done: it, en): settings.bonus.general_pm
 
 return {
     en = {
         bonus = {
+            general_pm = '_I\'ve sent you the message in private_',
             no_user = 'I\'ve never seen this user before.\nIf you want to teach me who he is, forward me a message from him',
             the_group = 'the group',
             mods_list = 'List of the *group\'s moderators*:\n&&&1',
@@ -62,7 +64,6 @@ return {
         },
         getstats = {
             redis = 'Redis updated',
-            stats = '&&&1'
         },
         help = {
             owner = '*Commands for the owner*:\n'
@@ -84,8 +85,8 @@ return {
                         ..'`/setabout <bio>` : set a completly new description for the group\n'
                         ..'`/addabout <bio>` : add at the end of the existing description other relevant informations\n'
                         ..'With this four commands above, you can use asterisks (*bold*), uderscores (_italic_) or the oblique accent (`monospace`) to markup your rules/description.\n'
-                        ..'`/media [kick|ban|allow] [type]` : choose the action to perform when the media (type) is sent\n'
-                        ..'`/media` : show the status of media settings\n'
+                        ..'`/media [kick|ban|allow] [type]` : choose the action to perform when the media (type) is sent (the first time, the user will be warned).\n'
+                        ..'`/media` : show the status of media settings (via inline keyboard)\n'
                         ..'`/link` : get the group link, if setted\n'
                         ..'`/lang` : see the list of available languages\n'
                         ..'`/lang` [code] : change the language of the bot\n'
@@ -398,11 +399,13 @@ return {
             dashboard = 'I\'ve sent you the resume dashboard in private',
             menu = 'I\'ve sent you the settings menu in private',
             dashboard_first = 'Navigate this message to see *all the info* about this group!',
-            menu_first = 'Tap on a lock to *change the group settings*, or use the last row to _manage the anti-flood behaviour_'
+            menu_first = 'Tap on a lock to *change the group settings*, or use the last row to _manage the anti-flood behaviour_',
+            media_first = 'Tap on a voice in the right colon to *change the setting*'
         },
     },
 	it = {
 	    bonus = {
+            general_pm = '_Ti ho inviato il messaggio in privato_',
             the_group = 'il gruppo',
             mods_list = 'Lista dei *moderatori del gruppo*:\n&&&1',
             settings_header = 'Impostazioni correnti per *il gruppo*:\n\n*Lingua*: `&&&1`\n',
@@ -451,8 +454,8 @@ return {
                         ..'`/setabout <descrizione>` : imposta una nuova descrizione. Usa \'clear\' per rimuoverla\n'
                         ..'`/addabout <descrizione>` : aggiungi del testo alla descrizione già esistente\n'
                         ..'Con i comandi descritti sopra, puoi usare asterischi (*bold*), uderscores (_italic_) o l\'accento obliquo (`monospace`) per usare la formattazione per le tue regole/descrizione.\n'
-                        ..'`/media [kick|ban|allow] [tipo]` : scegli cosa deve fare il bot quando un media specifico viene inviato\n'
-                        ..'`/media` : mostra le attuali impostazioni dei media\n'
+                        ..'`/media [kick|ban|allow] [tipo]` : scegli cosa deve fare il bot quando un media specifico viene inviato (la prima volta, l\'utente verrà avvisato)\n'
+                        ..'`/media` : mostra le attuali impostazioni dei media (via inline keyboard)\n'
                         ..'`/link` : ottieni il link del gruppo, se impostato\n'
                         ..'`/lang` : mostra la lista dei linguaggi disponibili\n'
                         ..'`/lang` [codice] : cambia la lingua del bot\n'
@@ -766,11 +769,13 @@ return {
             dashboard = 'Ti ho inviato la scheda con le info sul gruppo in privato',
             menu = 'Ti ho inviato il menu delle impostazioni in privato',
             dashboard_first = 'Usa la tastiera per vedere *tutte le info* su questo gruppo!',
-            menu_first = 'Tappa un lucchetto per *cambiare le impostazioni del gruppo*, o usa l\'ultima riga per _impostare il comportamento dell\'anti-flood_'
+            menu_first = 'Tappa un lucchetto per *cambiare le impostazioni del gruppo*, o usa l\'ultima riga per _impostare il comportamento dell\'anti-flood_',
+            media_first = 'Tocca una voce sulla colonna destra per *cambiare le impostazioni*'
         },
     },
 	es = {
 	    bonus = {
+            general_pm = '_I\'ve sent you the message in private_',
             no_user = 'I\'ve never seen this user before.\nIf you want to teach me who he is, forward me a message from him',
             the_group = 'the group',
             mods_list = 'List of the *group\'s moderators*:\n&&&1',
@@ -818,8 +823,8 @@ return {
                         ..'`/setabout <bio>` : Establecer la descripcion del grupo\n'
                         ..'`/addabout <bio>` : Añadir información a la descripcion del grupo existente\n'
                         ..'Con estos 4 comandos anteriores, puedes usar asteriscos (*negrita*), barra-bajas (_cursiva_) o acentos (`monospace`) para remarcar tus reglas/descripcion.\n'
-                        ..'`/media [kick|ban|allow] [type]` : choose the action to perform when the media is sent\n'
-                        ..'`/media` : Ver el estado de los ajustes\n'
+                        ..'`/media [kick|ban|allow] [type]` : choose the action to perform when the media is sent (the first time, the user will be warned)\n'
+                        ..'`/media` : Ver el estado de los ajustes (via inline keyboard)\n'
                         ..'`/link` : Devolver el link del grupo, si esta establecido\n'
                         ..'`/lang` : Ver la lista de los idiomas disponibles\n'
                         ..'`/lang` [code] : Cambiar el idioma del bot\n'
@@ -1133,11 +1138,13 @@ return {
             dashboard = 'I\'ve sent you the resume dashboard in private',
             menu = 'I\'ve sent you the settings menu in private',
             dashboard_first = 'Navigate this message to see *all the info* about this group!',
-            menu_first = 'Tap on a lock to *change the group settings*, or use the last row to _manage the anti-flood behaviour_'
+            menu_first = 'Tap on a lock to *change the group settings*, or use the last row to _manage the anti-flood behaviour_',
+            media_first = 'Tap on a voice in the right colon to *change the setting*'
         },
     },
     br = {
         bonus = {
+            general_pm = '_I\'ve sent you the message in private_',
             no_user = 'I\'ve never seen this user before.\nIf you want to teach me who he is, forward me a message from him',
             the_group = 'the group',
             mods_list = 'List of the *group\'s moderators*:\n&&&1',
@@ -1185,8 +1192,8 @@ return {
                         ..'`/setabout <bio>` : define uma descrição completamente nova para o grupo\n'
                         ..'`/addabout <bio>` : adiciona outras informações relevantes ao final da descrição atual\n'
                         ..'Nos quatro comandos acima, você pode usar asteriscos (*negrito*), underlines (_itálico_) ou o acento grave (`mono-espaçaco`) para formatar suas regras/descrição.\n'
-                        ..'`/media [kick|ban|allow] [type]` : escolhe uma ação a ser executada quando a midia é enviada\n'
-                        ..'`/media` : mostra o estado das configurações de midia\n'
+                        ..'`/media [kick|ban|allow] [type]` : escolhe uma ação a ser executada quando a midia é enviada (the first time, the user will be warned)\n'
+                        ..'`/media` : mostra o estado das configurações de midia (via inline keyboard)\n'
                         ..'`/link` : obtém o link do grupo, caso esteja definido\n'
                         ..'`/lang` : ver a lista de idiomas disponíveis\n'
                         ..'`/lang` [código] : muda o idioma do bot\n'
@@ -1500,7 +1507,8 @@ return {
             dashboard = 'I\'ve sent you the resume dashboard in private',
             menu = 'I\'ve sent you the settings menu in private',
             dashboard_first = 'Navigate this message to see *all the info* about this group!',
-            menu_first = 'Tap on a lock to *change the group settings*, or use the last row to _manage the anti-flood behaviour_'
+            menu_first = 'Tap on a lock to *change the group settings*, or use the last row to _manage the anti-flood behaviour_',
+            media_first = 'Tap on a voice in the right colon to *change the setting*'
         },
     },
 }

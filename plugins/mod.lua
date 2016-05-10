@@ -1,12 +1,12 @@
 local function promote(chat_id, user_id, name)
     local hash = 'chat:'..chat_id..':mod'
-    local res = client:hset(hash, user_id, name)
+    local res = db:hset(hash, user_id, name)
     return res   
 end
 
 local function demote(chat_id, user_id)
     local hash = 'chat:'..chat_id..':mod'
-    local res = client:hdel(hash, user_id)
+    local res = db:hdel(hash, user_id)
     return res 
 end
 
@@ -119,16 +119,16 @@ local action = function(msg, blocks, ln)
         
             --remove old owner from owner hash and add the new one
             local hash = 'chat:'..msg.chat.id..':owner'
-	        local owner_list = client:hkeys(hash) --get the current owner list (of only one item)
+	        local owner_list = db:hkeys(hash) --get the current owner list (of only one item)
 	        local owner = owner_list[1] --get the current owner id
-	        client:hdel(hash, owner)
+	        db:hdel(hash, owner)
 	        local new_owner = tostring(msg.from.id)
-	        client:hset(hash, new_owner, jsoname) --add the new owner
+	        db:hset(hash, new_owner, jsoname) --add the new owner
 	    
 	        --remove the old owner from moderators list and add the new one
 	        hash = 'chat:'..msg.chat.id..':mod'
-	        client:hdel(hash, owner)
-	        client:hset(hash, new_owner, jsoname)
+	        db:hdel(hash, owner)
+	        db:hset(hash, new_owner, jsoname)
         
             local out = make_text(lang[ln].mod.new_owner, msg.from.first_name, msg.chat.title:mEscape())
             api.sendReply(msg, out, true)
@@ -160,6 +160,5 @@ return {
 	    '^/(demote) (@[%w_]+)$',
 	    '^/(owner)$',
 	    '^/(modlist)$',
-	    '^/(modlist)@'..bot.username..'$',
     }
 }

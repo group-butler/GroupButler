@@ -23,11 +23,11 @@ local action = function(msg, blocks, ln)
    			end
    			if blocks[1] == 'gban' then
 	   			if is_admin(msg) then
-	   				local groups = client:smembers('bot:groupsid')
+	   				local groups = db:smembers('bot:groupsid')
     				local succ = 0
     				local not_succ = 0
 	    			for k,v in pairs(groups) do
-	    				local res = api.banUser(v, msg.reply.from.id, ln, false, true)
+	    				local res = api.banUserId(v, msg.reply.from.id, getname(msg.reply), true, true)
 	    				if res then
 	    					print('Global banned', v)
 	   						succ = succ + 1

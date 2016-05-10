@@ -3,7 +3,7 @@ local action = function(msg, blocks, ln)
     if blocks[1] == 'start' then
         if msg.chat.type == 'private' then
             local hash = 'bot:general'
-            client:hincrby(hash, 'users', 1)
+            db:hincrby(hash, 'users', 1)
             local name = msg.from.first_name:mEscape()
             api.sendMessage(msg.chat.id, make_text(lang[ln].help.private, name), true)
         end
@@ -54,8 +54,6 @@ end
 return {
 	action = action,
 	triggers = {
-    	'^/(help)@'..bot.username..'$',
-	    '^/(start)@'..bot.username..'$',
 	    '^/(start)$',
 	    '^/(help)$',
 	    '^###cb:/(user)',

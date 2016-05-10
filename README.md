@@ -65,7 +65,7 @@ Here you have the list of the available commands.
 >
 >/allow [media type] | the media can be sent freely
 >
->/media | show the current status for each media
+>/media | show the current status for each media via an inline keyboard, that allow ro edit media settings in private
 >
 >/media list | show the list of the media you can manage
 >
@@ -183,8 +183,12 @@ Here you have the list of the available commands.
 >
 >/ping redis | check if redis is on
 >
+>/echo | I use it to see if the markdown is correct (repeats the text, with parse mode on)
+>
 >/admin | returns the admin.lua plugin triggers
 
+
+If the bot doesn't receive some updates (it could happen when there are more than one bot in the chat), mention it in the message. The bot username will be removed before match the plugin triggers.
 * * *
 
 ##Setup
@@ -259,9 +263,7 @@ I wrote this here cause is always better to say this stuffs before start the bot
 
 * * *
 
-##Set a time offset and start the process
-
-You may also want to set your time_offset (a positive or negative number, in seconds, representing your computer's difference from UTC).
+##Start the process
 
 To start the bot, run `./launch.sh`. To stop the bot, press Ctrl+c twice.
 

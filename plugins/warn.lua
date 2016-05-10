@@ -15,7 +15,7 @@ local action = function(msg, blocks, ln)
         --action do do when max number of warns change:
 		if blocks[2] then
 			local hash = 'chat:'..msg.chat.id..':warntype'
-			client:set(hash, blocks[2])
+			db:set(hash, blocks[2])
 			api.sendReply(msg, make_text(lang[ln].warn.changed_type, blocks[2]), true)
 			return
 		end	
@@ -48,13 +48,13 @@ local action = function(msg, blocks, ln)
 		
 		local hash = 'chat:'..msg.chat.id..':warns'
 		local hash_set = 'chat:'..msg.chat.id..':max'
-		local num = client:hincrby(hash, replied.from.id, 1)
-		local nmax = (client:get(hash_set)) or 5
+		local num = db:hincrby(hash, replied.from.id, 1)
+		local nmax = (db:get(hash_set)) or 5
 		local text
 		
 		if tonumber(num) >= tonumber(nmax) then
 			text = make_text(lang[ln].warn.warned_max_kick, name)
-			local type = client:get('chat:'..msg.chat.id..':warntype')
+			local type = db:get('chat:'..msg.chat.id..':warntype')
 			name = name..' (->'..num..'/'..nmax..')'
 			if type == 'ban' then
 				--text = make_text(lang[ln].warn.warned_max_ban, name)
@@ -79,8 +79,8 @@ local action = function(msg, blocks, ln)
         end
         
 	    local hash = 'chat:'..msg.chat.id..':max'
-		local old = (client:get(hash)) or 5
-		client:set(hash, blocks[2])
+		local old = (db:get(hash)) or 5
+		db:set(hash, blocks[2])
         local text = make_text(lang[ln].warn.warnmax, old, blocks[2])
         mystat('/warnmax') --save stats
         api.sendReply(msg, text, true)
@@ -121,8 +121,8 @@ local action = function(msg, blocks, ln)
 		
 		local hash = 'chat:'..msg.chat.id..':warns'
 		local hash_set = 'chat:'..msg.chat.id..':max'
-		local num = client:hget(hash, replied.from.id)
-		local nmax = (client:get(hash_set)) or 5
+		local num = db:hget(hash, replied.from.id)
+		local nmax = (db:get(hash_set)) or 5
 		local text
 		
 		--if there isn't the hash
@@ -166,7 +166,7 @@ local action = function(msg, blocks, ln)
 	    end
 		
 		local hash = 'chat:'..msg.chat.id..':warns'
-		client:hdel(hash, replied.from.id)
+		db:hdel(hash, replied.from.id)
 		
 		local text = make_text(lang[ln].warn.nowarn)
         

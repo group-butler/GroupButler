@@ -49,7 +49,7 @@ function is_owner(msg)
 	local var = false
 	
 	local hash = 'chat:'..msg.chat.id..':owner'
-	local owner_list = client:hkeys(hash) --get the current owner id
+	local owner_list = db:hkeys(hash) --get the current owner id
 	local owner = owner_list[1]
 	
 	if owner == tostring(msg.from.id) then
@@ -67,7 +67,7 @@ function is_owner2(chat_id, user_id)
 	local var = false
 	
 	local hash = 'chat:'..chat_id..':owner'
-	local owner_list = client:hkeys(hash) --get the current owner id
+	local owner_list = db:hkeys(hash) --get the current owner id
 	local owner = owner_list[1]
 	
 	if owner == tostring(user_id) then
@@ -85,7 +85,7 @@ function is_mod(msg)
 	local var = false
 	
 	local hash = 'chat:'..msg.chat.id..':mod'
-	local modlist = client:hkeys(hash) --get the list of ids
+	local modlist = db:hkeys(hash) --get the list of ids
 	
 	for i=1, #modlist do
 		if tostring(modlist[i]) == tostring(msg.from.id) then
@@ -106,7 +106,7 @@ function is_mod2(chat_id, user_id)
 	local var = false
 	
 	local hash = 'chat:'..chat_id..':mod'
-	local modlist = client:hkeys(hash) --get the list of ids
+	local modlist = db:hkeys(hash) --get the list of ids
 	
 	for i=1, #modlist do
 		if tostring(modlist[i]) == tostring(user_id) then
@@ -124,7 +124,7 @@ function is_mod2(chat_id, user_id)
 end
 
 function is_blocked(id)
-	if client:sismember('bot:blocked', id) then
+	if db:sismember('bot:blocked', id) then
 		return true
 	else
 		return false
@@ -133,7 +133,7 @@ end
 
 function is_locked(msg, cmd)
   	local hash = 'chat:'..msg.chat.id..':settings'
-  	local current = client:hget(hash, cmd)
+  	local current = db:hget(hash, cmd)
   	if current == 'yes' then
   		return true
   	end
@@ -143,7 +143,7 @@ end
 function is_banned(chat_id, user_id)
 	--useful only for normal groups
 	local hash = 'chat:'..chat_id..':banned'
-	local res = client:sismember(hash, user_id)
+	local res = db:sismember(hash, user_id)
 	if res then
 		return true
 	else
@@ -153,8 +153,7 @@ end
 
 function mystat(cmd)
 	local hash = 'commands:stats'
-	local final = client:hincrby(hash, cmd, 1)
-	print('Stats saved', colors('%{green bright}'..cmd..': '..final))
+	db:hincrby(hash, cmd, 1)
 end	
 
 function string:trim() -- Trims whitespace from a string.
@@ -187,6 +186,7 @@ end
 
 function match_pattern(pattern, text)
   if text then
+  	text = text:gsub('@'..bot.username, '')
     local matches = {}
     matches = { string.match(text, pattern) }
     if next(matches) then
@@ -198,15 +198,15 @@ end
 function clean_owner_modlist(chat)
 	--clear the owner
 	local hash = 'chat:'..chat..':owner'
-	local owner_list = client:hkeys(hash) --get the current owner id
+	local owner_list = db:hkeys(hash) --get the current owner id
 	local owner = owner_list[1]
-	client:hdel(hash, owner)
+	db:hdel(hash, owner)
 	
 	--clean the modlist
 	hash = 'chat:'..chat..':mod'
-	local mod_list = client:hkeys(hash) --get mods id
+	local mod_list = db:hkeys(hash) --get mods id
 	for i=1, #mod_list do
-		client:hdel(hash, mod_list[i])
+		db:hdel(hash, mod_list[i])
 	end
 end
 
@@ -349,7 +349,7 @@ end
 
 function res_user(username)
 	local hash = 'bot:usernames'
-	local stored = client:hget(hash, username)
+	local stored = db:hget(hash, username)
 	if not stored then
 		return false
 	else
@@ -405,15 +405,15 @@ function group_table(chat_id)
 	}
 	
 	for k,v in pairs(redis.hgetall) do
-		local tab = client:hgetall(v)
+		local tab = db:hgetall(v)
 		group[k] = tab
 	end
 	for k,v in pairs(redis.get) do
-		local tab = client:get(v)
+		local tab = db:get(v)
 		group[k] = tab
 	end
 	for k,v in pairs(redis.smembers) do
-		local tab = client:smembers(v)
+		local tab = db:smembers(v)
 		group[k] = tab
 	end
 	
@@ -441,7 +441,7 @@ function migrate_table(t, hash)
 	local txt = ''
 	for k,v in pairs(t) do
 		txt = txt..k..' ('..v..') [migration:'
-		local res = client:hset(hash, k, v)
+		local res = db:hset(hash, k, v)
 		txt = txt..give_result(res)..']\n'
 	end
 	return txt
@@ -452,16 +452,16 @@ function migrate_chat_info(old, new, on_request)
 		print('A group id is missing')
 		return false
 	end
-	local mods = client:hgetall('chat:'..old..':mod')
-	local owner_id = client:hkeys('chat:'..old..':owner')
-	local owner_name = client:hvals('chat:'..old..':owner')
-	local settings = client:hgetall('chat:'..old..':settings')
-	local media = client:hgetall('chat:'..old..':media')
-	local flood = client:hgetall('chat:'..old..':flood')
-	local about = client:get('chat:'..old..':about')
-	local rules = client:get('chat:'..old..':rules')
-	local extra = client:hgetall('chat:'..old..':extra')
-	local admblock = client:smembers('chat:'..old..':reportblocked')
+	local mods = db:hgetall('chat:'..old..':mod')
+	local owner_id = db:hkeys('chat:'..old..':owner')
+	local owner_name = db:hvals('chat:'..old..':owner')
+	local settings = db:hgetall('chat:'..old..':settings')
+	local media = db:hgetall('chat:'..old..':media')
+	local flood = db:hgetall('chat:'..old..':flood')
+	local about = db:get('chat:'..old..':about')
+	local rules = db:get('chat:'..old..':rules')
+	local extra = db:hgetall('chat:'..old..':extra')
+	local admblock = db:smembers('chat:'..old..':reportblocked')
 	local logtxt = 'FROM ['..old..'] TO ['..new..']\n'
 	
 	--migrate mods
@@ -471,21 +471,21 @@ function migrate_chat_info(old, new, on_request)
 	--migrate owner
 	logtxt = logtxt..'Migrating owner...'
 	if next(owner_id) and next(owner_name) then
-		local res = client:hset('chat:'..new..':owner', owner_id[1], owner_name[1])
+		local res = db:hset('chat:'..new..':owner', owner_id[1], owner_name[1])
 		logtxt = logtxt..give_result(res)..'\n'
 	else logtxt = logtxt..' empty\n' end
 	
 	--migrate about
 	logtxt = logtxt..'Migrating about...'
 	if about then
-		res = client:set('chat:'..new..':about', about)
+		res = db:set('chat:'..new..':about', about)
 		logtxt = logtxt..give_result(res)..'\n'
 	else logtxt = logtxt..' empty\n' end
 	
 	--migrate rules
 	logtxt = logtxt..'Migrating rules...'
 	if rules then
-		res = client:set('chat:'..new..':rules', rules)
+		res = db:set('chat:'..new..':rules', rules)
 		logtxt = logtxt..give_result(res)..'\n'
 	else logtxt = logtxt..' empty\n' end
 	
@@ -510,7 +510,7 @@ function migrate_chat_info(old, new, on_request)
 	if admblocked and next(admblocked) then
 		for k,v in pairs(admblock) do
 			logtxt = logtxt..v..' migration: '
-			local res = client:sadd('chat:'..new..':reportblocked')
+			local res = db:sadd('chat:'..new..':reportblocked')
 			logtxt = logtxt..give_result(res)..'\n'
 		end
 	else
@@ -536,13 +536,13 @@ end
 
 local function migrate_ban_list(old, new)
 	local hash = 'chat:'..old..':banned'
-	local banned = client:smembers(hash)
+	local banned = db:smembers(hash)
 	if next(banned) then
 		for i=1, #banned do
 			api.kickChatMember(new, banned[i])
 		end
 	end
-end		
+end	
 
 function to_supergroup(msg)
 	local old = msg.chat.id
@@ -566,46 +566,46 @@ function change_one_header(id)
 	print('Group:', id) --first: print this, once the for is done, print logtxt
 		
 	logtxt = logtxt..'---> PORTING MODS...\n'
-	local mods = client:hgetall('bot:'..id..':mod')
+	local mods = db:hgetall('bot:'..id..':mod')
 	logtxt = logtxt..migrate_table(mods, 'chat:'..id..':mod')
 		
 	logtxt = logtxt..'---> PORTING OWNER...\n'
-	local owner_id = client:hkeys('bot:'..id..':owner')
-	local owner_name = client:hvals('bot:'..id..':owner')
+	local owner_id = db:hkeys('bot:'..id..':owner')
+	local owner_name = db:hvals('bot:'..id..':owner')
 	if not next(owner_id) or not next(owner_name) then
 		logtxt = logtxt..'No owner!\n'
 	else
 		logtxt = logtxt..'Owner info: '..owner_id[1]..', '..owner_name[1]..' [migration:'
-		local res = client:hset('chat:'..id..':owner', owner_id[1], owner_name[1])
+		local res = db:hset('chat:'..id..':owner', owner_id[1], owner_name[1])
 		logtxt = logtxt..give_result(res)..'\n'
 	end
 		
 	logtxt = logtxt..'---> PORTING MEDIA SETTINGS...\n'
-	local media = client:hgetall('media:'..id)
+	local media = db:hgetall('media:'..id)
 	logtxt = logtxt..migrate_table(media, 'chat:'..id..':media')
 		
 	logtxt = logtxt..'---> PORTING ABOUT...\n'
-	local about = client:get('bot:'..id..':about')
+	local about = db:get('bot:'..id..':about')
 	if not about then
 		logtxt = logtxt..'No about!\n'
 	else
 		logtxt = logtxt..'About found! [migration:'
-		local res = client:set('chat:'..id..':about', about)
+		local res = db:set('chat:'..id..':about', about)
 		logtxt = logtxt..give_result(res)..']\n'
 	end
 		
 	logtxt = logtxt..'---> PORTING RULES...\n'
-	local rules = client:get('bot:'..id..':rules')
+	local rules = db:get('bot:'..id..':rules')
 	if not rules then
 		logtxt = logtxt..'No rules!\n'
 	else
 		logtxt = logtxt..'Rules found!  [migration:'
-		local res = client:set('chat:'..id..':rules', rules)
+		local res = db:set('chat:'..id..':rules', rules)
 		logtxt = logtxt..give_result(res)..']\n'
 	end
 		
 	logtxt = logtxt..'---> PORTING EXTRA...\n'
-	local extra = client:hgetall('extra:'..id)
+	local extra = db:hgetall('extra:'..id)
 	logtxt = logtxt..migrate_table(extra, 'chat:'..id..':extra')
 	print('\n\n\n')
 	logtxt = 'Successful: '..voice_succ..'\nUpdated: '..voice_updated..'\n\n'..logtxt
@@ -625,7 +625,7 @@ function change_extra_header(id)
 	print('Group:', id) --first: print this, once the for is done, print logtxt
 		
 	logtxt = logtxt..'---> PORTING EXTRA...\n'
-	local extra = client:hgetall('extra:'..id)
+	local extra = db:hgetall('extra:'..id)
 	logtxt = logtxt..migrate_table(extra, 'chat:'..id..':extra')
 	
 	print('\n\n\n')
@@ -643,7 +643,7 @@ end
 
 local function getAbout(chat_id, ln)
 	local hash = 'chat:'..chat_id..':about'
-	local about = client:get(hash)
+	local about = db:get(hash)
     if not about then
         return lang[ln].setabout.no_bio
     else
@@ -653,7 +653,7 @@ end
 
 local function getRules(chat_id, ln)
 	local hash = 'chat:'..chat_id..':rules'
-	local rules = client:get(hash)
+	local rules = db:get(hash)
     if not rules then
         return lang[ln].setrules.no_rules
     else
@@ -663,7 +663,7 @@ end
 
 local function getModlist(chat_id)
 	local hash = 'chat:'..chat_id..':mod'
-	local mlist = client:hvals(hash) --the array can't be empty: there is always the owner in
+	local mlist = db:hvals(hash) --the array can't be empty: there is always the owner in
     local message = ''
     --build the list
     for i=1, #mlist do
@@ -678,7 +678,7 @@ end
 
 local function getExtraList(chat_id, ln)
 	local hash = 'chat:'..chat_id..':extra'
-	local commands = client:hkeys(hash)
+	local commands = db:hkeys(hash)
 	local text = ''
 	if commands[1] == nil then
 		return make_text(lang[ln].extra.no_commands)
@@ -693,8 +693,8 @@ end
 local function getSettings(chat_id, ln)
 	--get settings from redis
     local hash = 'chat:'..chat_id..':settings'
-    local settings_key = client:hkeys(hash)
-    local settings_val = client:hvals(hash)
+    local settings_key = db:hkeys(hash)
+    local settings_val = db:hvals(hash)
     local key
     local val
         
@@ -713,15 +713,15 @@ local function getSettings(chat_id, ln)
         end
         message = message..text --concatenete the text
         if key == 'Flood' then
-            local max_msgs = client:hget('chat:'..chat_id..':flood', 'MaxFlood') or 5
-            local action = client:hget('chat:'..chat_id..':flood', 'ActionFlood')
+            local max_msgs = db:hget('chat:'..chat_id..':flood', 'MaxFlood') or 5
+            local action = db:hget('chat:'..chat_id..':flood', 'ActionFlood')
             message = message..make_text(lang[ln].settings.resume.flood_info, max_msgs, action)
         end
     end
         
     --build the "welcome" line
     hash = 'chat:'..chat_id..':welcome'
-    local wel = client:hget(hash, 'wel')
+    local wel = db:hget(hash, 'wel')
     if wel == 'a' then
          message = message..make_text(lang[ln].settings.resume.w_a)
     elseif wel == 'r' then
@@ -746,11 +746,11 @@ end
 local function enableSetting(chat_id, field, ln)
 	local hash = 'chat:'..chat_id..':settings'
     local field_lower = field:lower()
-    local now = client:hget(hash, field)
+    local now = db:hget(hash, field)
     if now == 'no' then
         return lang[ln].settings.enable[field_lower..'_already']
     else
-        client:hset(hash, field, 'no')
+        db:hset(hash, field, 'no')
         return lang[ln].settings.enable[field_lower..'_unlocked']
     end
 end
@@ -758,11 +758,11 @@ end
 local function disableSetting(chat_id, field, ln)
 	local hash = 'chat:'..chat_id..':settings'
     local field_lower = field:lower()
-    local now = client:hget(hash, field)
+    local now = db:hget(hash, field)
     if now == 'yes' then
         return lang[ln].settings.disable[field_lower..'_already']
     else
-        client:hset(hash, field, 'yes')
+        db:hset(hash, field, 'yes')
         return lang[ln].settings.disable[field_lower..'_locked']
     end
 end
@@ -770,12 +770,12 @@ end
 local function changeSettingStatus(chat_id, field, ln)
 	local hash = 'chat:'..chat_id..':settings'
 	local field_lower = field:lower()
-	local now = client:hget(hash, field)
+	local now = db:hget(hash, field)
 	if now == 'no' then
-		client:hset(hash, field, 'yes')
+		db:hset(hash, field, 'yes')
 		return lang[ln].settings.disable[field_lower..'_locked']
 	else
-		client:hset(hash, field, 'no')
+		db:hset(hash, field, 'no')
 		return lang[ln].settings.enable[field_lower..'_unlocked']
 	end
 end
@@ -784,30 +784,54 @@ local function changeFloodSettings(chat_id, screm, ln)
 	local hash = 'chat:'..chat_id..':flood'
 	if type(screm) == 'string' then
 		if screm == 'kick' then
-			client:hset(hash, 'ActionFlood', 'ban')
+			db:hset(hash, 'ActionFlood', 'ban')
         	return lang[ln].floodmanager.ban
         elseif screm == 'ban' then
-        	client:hset(hash, 'ActionFlood', 'kick')
+        	db:hset(hash, 'ActionFlood', 'kick')
         	return lang[ln].floodmanager.kick
         end
     elseif type(screm) == 'number' then
-    	local old = tonumber(client:hget(hash, 'MaxFlood')) or 5
+    	local old = tonumber(db:hget(hash, 'MaxFlood')) or 5
     	local new
     	if screm > 0 then
-    		new = client:hincrby(hash, 'MaxFlood', 1)
+    		new = db:hincrby(hash, 'MaxFlood', 1)
     		if new > 25 then
-    			client:hincrby(hash, 'MaxFlood', -1)
+    			db:hincrby(hash, 'MaxFlood', -1)
     			return make_text(lang[ln].floodmanager.number_invalid, new)
     		end
     	elseif screm < 0 then
-    		new = client:hincrby(hash, 'MaxFlood', -1)
+    		new = db:hincrby(hash, 'MaxFlood', -1)
     		if new < 4 then
-    			client:hincrby(hash, 'MaxFlood', 1)
+    			db:hincrby(hash, 'MaxFlood', 1)
     			return make_text(lang[ln].floodmanager.number_invalid, new)
     		end
     	end
     	return make_text(lang[ln].floodmanager.changed, old, new)
     end 	
+end
+
+local function changeMediaStatus(chat_id, media, new_status, ln)
+	local old_status = db:hget('chat:'..chat_id..':media', media)
+	if new_status == 'next' then
+		if not old_status then
+			new_status = 'kick'
+		elseif old_status == 'kick' then
+			new_status = 'ban'
+		elseif old_status == 'ban' then
+			new_status = 'allowed'
+		elseif old_status == 'allowed' then
+			new_status = 'kick'
+		end
+	end
+	if new_status == 'allow' then
+		new_status = 'allowed'
+	end
+	if old_status == new_status then
+		return make_text(lang[ln].mediasettings.already, media, new_status), false
+	else
+		db:hset('chat:'..chat_id..':media', media, new_status)
+		return make_text(lang[ln].mediasettings.changed, media, new_status), true
+	end
 end
 
 return {
@@ -819,5 +843,6 @@ return {
 	enableSetting = enableSetting,
 	enableSetting = enableSetting,
 	changeSettingStatus = changeSettingStatus,
-	changeFloodSettings = changeFloodSettings
+	changeFloodSettings = changeFloodSettings,
+	changeMediaStatus = changeMediaStatus
 }

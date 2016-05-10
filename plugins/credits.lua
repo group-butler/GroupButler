@@ -6,7 +6,6 @@ end
 return {
 	action = action,
 	triggers = {
-		'^/(info)@groupbutler_bot',
 		'^/(info)'
 	}
 }

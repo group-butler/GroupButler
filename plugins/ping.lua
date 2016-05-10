@@ -7,7 +7,7 @@ local action = function(msg, blocks, ln)
 		if not is_owner(msg) or msg.chat.type == 'private' then
 			return
 		end
-		client:sadd('bot:tofix', msg.chat.id)
+		db:sadd('bot:tofix', msg.chat.id)
 		change_one_header(msg.chat.id)
 		api.sendReply(msg, 'All should be ok now.\nIf not, contact the bot owner! (with _/c_ command)', true)
 	end
@@ -15,7 +15,7 @@ local action = function(msg, blocks, ln)
 		if not is_owner(msg) or msg.chat.type == 'private' then
 			return
 		end
-		client:sadd('bot:tofixextra', msg.chat.id)
+		db:sadd('bot:tofixextra', msg.chat.id)
 		change_extra_header(msg.chat.id)
 		api.sendReply(msg, 'All should be ok now.\nIf not, contact the bot owner! (with _/c_ command)', true)
 	end
@@ -25,7 +25,6 @@ return {
 	action = action,
 	triggers = {
 		'^/(ping)$',
-		'^/(ping)@'..bot.username..'$',
 		'^/(helpme)$',
 		'^/(fixextra)$'
 	}

@@ -6,7 +6,7 @@ local action = function(msg, blocks, ln)
 	if not is_mod(msg) then
 		return nil
 	end
-	local list = {'image', 'audio', 'video', 'sticker', 'voice', 'contact', 'file'}
+	local list = {'image', 'audio', 'video', 'sticker', 'gif', 'voice', 'contact', 'file'}
 	if blocks[1] == 'media list' then
 	    local text = lang[ln].mediasettings.list_header
 	    for i=1,#list do
@@ -15,7 +15,7 @@ local action = function(msg, blocks, ln)
 	    api.sendReply(msg, text, true)
 	    mystat('/media list')
 	elseif blocks[1] == 'media' then
-		local media_sett = client:hgetall('chat:'..msg.chat.id..':media')
+		local media_sett = db:hgetall('chat:'..msg.chat.id..':media')
 		local text = lang[ln].mediasettings.settings_header
 		for k,v in pairs(media_sett) do
 			text = text..'`'..k..'`'..' ≡ '..v..'\n'
@@ -32,18 +32,13 @@ local action = function(msg, blocks, ln)
 	            break
 	        end
 	    end
+	    local text
 	    if valid then
-	        local old_status = client:hget('chat:'..msg.chat.id..':media', media)
-	        if old_status == status then
-	            api.sendReply(msg, make_text(lang[ln].mediasettings.already, media, status), true)
-	        else
-	            if status == 'allow' then status = 'allowed' end --change the text passed to make-text
-	            client:hset('chat:'..msg.chat.id..':media', media, status)
-	            api.sendReply(msg, make_text(lang[ln].mediasettings.changed, media, status), true)
-	        end
+	        text = cross.changeMediaStatus(msg.chat.id, media, status, ln)
         else
-            api.sendReply(msg, lang[ln].mediasettings.wrong_input, true)
+            text = lang[ln].mediasettings.wrong_input
         end
+        api.sendReply(msg, text, true)
         mystat('/kickbanallow media')
     end
 end
@@ -55,6 +50,6 @@ return {
 		'^/media (ban) (.*)$',
 		'^/media (allow) (.*)$',
 		'^/(media list)$',
-		'^/(media)$'
+		--'^/(media)$'
 	}
 }
