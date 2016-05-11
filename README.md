@@ -244,9 +244,7 @@ Before start the bot, you have to start Redis. Open a new window and type:
 ```bash
 # Start Redis
 
-$ redis-server
-
-# Don't close the window!
+$ sudo service redis-server start
 ```
 
 * * *
@@ -301,7 +299,7 @@ The official [Group Butler](http://github.com/groupbutler_bot). Yes, if you are 
 ##Credits
 Topkecleon, for the original bot.lua and bindings.lua
 
-Iman Daneshi and tiago Danin, because I like to take a look to Jack sometimes :^). Same for Yago Pérez and his telegram-bot
+Iman Daneshi and Tiago Danin, because I like to take a look to Jack sometimes :^). Same for Yago Pérez and his telegram-bot
 
 Lucas Montuano, for helping me a lot in the debugging of the bot
 
