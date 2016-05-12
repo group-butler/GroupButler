@@ -1,6 +1,9 @@
 #!/bin/bash
 
-while true; do
-	lua bot.lua
-	sleep 5s
-done
+  sudo screen -X -S keepsession kill
+  
+clear
+
+  sudo screen -S keepsession -t screen lua bot.lua
+
+exit
