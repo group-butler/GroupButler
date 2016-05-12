@@ -841,7 +841,7 @@ return {
 	getExtraList = getExtraList,
 	getSettings = getSettings,
 	enableSetting = enableSetting,
-	enableSetting = enableSetting,
+	disableSetting = disableSetting,
 	changeSettingStatus = changeSettingStatus,
 	changeFloodSettings = changeFloodSettings,
 	changeMediaStatus = changeMediaStatus
