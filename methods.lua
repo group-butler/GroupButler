@@ -69,13 +69,13 @@ local function getCode(error)
 end
 
 local function unbanChatMember(chat_id, user_id)
-	print('In unban')
+	
 	local url = BASE_URL .. '/unbanChatMember?chat_id=' .. chat_id .. '&user_id=' .. user_id
 
 	--return sendRequest(url)
 	
 	local dat, res = HTTPS.request(url)
-	print(res)
+	
 	local tab = JSON.decode(dat)
 	
 	if res ~= 200 then
@@ -146,7 +146,7 @@ local function unbanUser(msg, on_request, no_msg, username)
 		    name = getname(msg)
 		end
 	else
-		user_id = res_user_group(username)
+		user_id = res_user_group(username, chat_id)
 		if not user_id then
 			api.sendReply(msg, lang[ln].bonus.no_user)
 			return
@@ -186,7 +186,7 @@ local function banUser(msg, on_request, no_msg, username)--no_msg: kick without 
 		    name = getname(msg)
 		end
 	else
-		user_id = res_user_group(username)
+		user_id = res_user_group(username, chat_id)
 		if not user_id then
 			api.sendReply(msg, lang[ln].bonus.no_user)
 			return
@@ -244,7 +244,7 @@ local function kickUser(msg, on_request, no_msg, username)-- no_msg: don't send 
 		    name = getname(msg)
 		end
 	else
-		user_id = res_user_group(username)
+		user_id = res_user_group(username, chat_id)
 		if not user_id then
 			api.sendReply(msg, lang[ln].bonus.no_user)
 			return
