@@ -165,10 +165,10 @@ if blocks[1] == 'welcome' then
                 end
                 db:hset(hash, 'type', 'media')
                 db:hset(hash, 'content', file_id)
-                api.sendReply(msg, lang[ln].welcome.media_setted..'`'..replied_to..'`', true)
+                api.sendReply(msg, lang[ln].settings.welcome.media_setted..'`'..replied_to..'`', true)
                 return
             else
-                api.sendReply(msg, lang[ln].welcome.reply_media, true)
+                api.sendReply(msg, lang[ln].settings.welcome.reply_media, true)
                 return
             end
         end

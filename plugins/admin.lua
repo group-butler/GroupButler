@@ -189,7 +189,7 @@ local action = function(msg, blocks, ln)
     	mystat('/backup')
     end
     if blocks[1] == 'bc' then
-    	local res = api.sendAmin(blocks[2], true)
+    	local res = api.sendAdmin(blocks[2], true)
     	if not res then
     		api.sendAdmin('Can\'t broadcast: wrong markdown')
     	else
@@ -208,7 +208,7 @@ local action = function(msg, blocks, ln)
 	    end
 	end
 	if blocks[1] == 'bcg' then
-		local res = api.sendAmin(blocks[2], true)
+		local res = api.sendAdmin(blocks[2], true)
     	if not res then
     		api.sendAdmin('Can\'t broadcast: wrong markdown')
     		return

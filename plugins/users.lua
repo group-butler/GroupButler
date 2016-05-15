@@ -1,4 +1,4 @@
-local function tell(msg)
+local function tell(msg, ln)
 	if msg.reply then
 		msg = msg.reply
 	end
@@ -68,7 +68,7 @@ local action = function(msg, blocks, ln)
 		end
 	end
 	if blocks[1] == 'tell' then
-		local text = tell(msg)
+		local text = tell(msg, ln)
 		api.sendReply(msg, text, true)
 		mystat('/tell')
 	end
