@@ -99,7 +99,11 @@ local function update_welcome_settings()
 		else --if custom field is empty then...
 			local parts = db:hget(hash, 'wel')
 			db:hset(hash, 'type', 'composed')
-			db:hset(hash, 'content', parts)
+			if partes then
+				db:hset(hash, 'content', parts)
+			else
+				db:hset(hash, 'content', 'no')
+			end
 			logtxt = logtxt..'Found: composed. Moving...\n\n'
 		end
 		total = total + 1
