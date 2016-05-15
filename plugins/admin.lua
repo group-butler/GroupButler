@@ -99,7 +99,7 @@ local function update_welcome_settings()
 		else --if custom field is empty then...
 			local parts = db:hget(hash, 'wel')
 			db:hset(hash, 'type', 'composed')
-			if partes then
+			if prtes then
 				db:hset(hash, 'content', parts)
 			else
 				db:hset(hash, 'content', 'no')
