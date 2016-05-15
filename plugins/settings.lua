@@ -57,7 +57,7 @@ if blocks[1] == 'disable' then
         local hash = 'chat:'..msg.chat.id..':settings'
         local now
         
-        --check the command to lock
+        --check the command to unlock
         if input == 'rules' then
             mystat('/disable rules') --save stats
             disable_set('Rules', msg, ln)  
