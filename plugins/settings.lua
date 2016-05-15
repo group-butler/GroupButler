@@ -144,48 +144,75 @@ if blocks[1] == 'welcome' then
             return nil
         end
         
-        local input = msg.text:input()
+        local input = blocks[2]
         
-        --ignore if not input text
-        if not input then
+        --ignore if not input text and not reply
+        if not input and not msg.reply then
             api.sendReply(msg, make_text(lang[ln].settings.welcome.no_input), false)
             return nil
         end
         
         local hash = 'chat:'..msg.chat.id..':welcome'
-        local key = 'wel'
         
-        db:hdel(hash, 'custom') --will be hsetted again if the text is a custom welcome
+        if not input and msg.reply then
+            local replied_to = get_media_type(msg.reply)
+            if replied_to == 'sticker' or replied_to == 'gif' then
+                local file_id-- = msg[replied_to].file_id
+                if replied_to == 'sticker' then
+                    file_id = msg.reply.sticker.file_id
+                else
+                    file_id = msg.reply.document.file_id
+                end
+                db:hset(hash, 'type', 'media')
+                db:hset(hash, 'content', file_id)
+                api.sendReply(msg, lang[ln].welcome.media_setted..'`'..replied_to..'`', true)
+                return
+            else
+                api.sendReply(msg, lang[ln].welcome.reply_media, true)
+                return
+            end
+        end
+        
         --change welcome settings
         if input == 'a' then
-            db:hset(hash, key, 'a')
+            db:hset(hash, 'type', 'composed')
+            db:hset(hash, 'content', 'a')
             api.sendReply(msg, lang[ln].settings.welcome.a, true)
         elseif input == 'r' then
-            db:hset(hash, key, 'r')
+            db:hset(hash, 'type', 'composed')
+            db:hset(hash, 'content', 'r')
             api.sendReply(msg, lang[ln].settings.welcome.r, true)
         elseif input == 'm' then
-            db:hset(hash, key, 'm')
+            db:hset(hash, 'type', 'composed')
+            db:hset(hash, 'content', 'm')
             api.sendReply(msg, lang[ln].settings.welcome.m, true)
         elseif input == 'ar' or input == 'ra' then
-            db:hset(hash, key, 'ra')
+            db:hset(hash, 'type', 'composed')
+            db:hset(hash, 'content', 'ra')
             api.sendReply(msg, lang[ln].settings.welcome.ra, true)
         elseif input == 'mr' or input == 'rm' then
-            db:hset(hash, key, 'rm')
+            db:hset(hash, 'type', 'composed')
+            db:hset(hash, 'content', 'rm')
             api.sendReply(msg, lang[ln].settings.welcome.rm, true)
         elseif input == 'am' or input == 'ma' then
-            db:hset(hash, key, 'am')
+            db:hset(hash, 'type', 'composed')
+            db:hset(hash, 'content', 'am')
             api.sendReply(msg, lang[ln].settings.welcome.am, true)
         elseif input == 'ram' or input == 'rma' or input == 'arm' or input == 'amr' or input == 'mra' or input == 'mar' then
-            db:hset(hash, key, 'ram')
+            db:hset(hash, 'type', 'composed')
+            db:hset(hash, 'content', 'ram')
             api.sendReply(msg, lang[ln].settings.welcome.ram, true)
         elseif input == 'no' then
-            db:hset(hash, key, 'no')
+            db:hset(hash, 'type', 'composed')
+            db:hset(hash, 'content', 'no')
             api.sendReply(msg, lang[ln].settings.welcome.no, true)
         else
-            db:hset(hash, 'custom', input)
+            db:hset(hash, 'type', 'custom')
+            db:hset(hash, 'content', input)
             local res = api.sendReply(msg, make_text(lang[ln].settings.welcome.custom, input), true)
             if not res then
-                db:hdel(hash, 'custom')
+                db:hset(hash, 'type', 'composed') --if wrong markdown, remove 'custom' again
+                db:hset(hash, 'content', 'no')
                 api.sendReply(msg, lang[ln].settings.welcome.wrong_markdown, true)
             end
         end
@@ -215,6 +242,7 @@ return {
     	'^/(disable) (.*)$',
     	'^/(enable) (.*)$',
     	'^/(settings)$',
-    	'^/(welcome)'
+    	'^/(welcome)$',
+    	'^/(welcome) (.*)$'
     }
 }

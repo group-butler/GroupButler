@@ -16,36 +16,41 @@ local function get_welcome(msg, ln)
 	if is_locked(msg, 'Welcome') then
 		return false
 	end
-	local custom = db:hget('chat:'..msg.chat.id..':welcome', 'custom')
-	if custom then
-		return gsub_custom_welcome(msg, custom)
-	end
-	local wlc_sett = db:hget('chat:'..msg.chat.id..':welcome', 'wel')
-	if not(wlc_sett == 'no') then
-		local abt = cross.getAbout(msg.chat.id, ln)
-		local rls = cross.getRules(msg.chat.id, ln)
-		local mods = cross.getModlist(msg.chat.id, ln):mEscape()
-		local mods = lang[ln].service.welcome_modlist..mods
-		local text = make_text(lang[ln].service.welcome, msg.added.first_name:mEscape_hard(), msg.chat.title:mEscape_hard())
-		if wlc_sett == 'a' then
-			text = text..'\n\n'..abt
-		elseif wlc_sett == 'r' then
-			text = text..'\n\n'..rls
-		elseif wlc_sett == 'm' then
-			text = text..mods
-		elseif wlc_sett == 'ra' then
-			text = text..'\n\n'..abt..'\n\n'..rls
-    	elseif wlc_sett == 'am' then
-			text = text..'\n\n'..abt..mods
-    	elseif wlc_sett == 'rm' then
-			text = text..'\n\n'..rls..mods
-		elseif wlc_sett == 'ram' then
-			text = text..'\n\n'..abt..'\n\n'..rls..mods
+	local type = db:hget('chat:'..msg.chat.id..':welcome', 'type')
+	local content = db:hget('chat:'..msg.chat.id..':welcome', 'content')
+	if type == 'media' then
+		local file_id = content
+		api.sendDocumentId(msg.chat.id, file_id)
+		return false
+	elseif type == 'custom' then
+		return gsub_custom_welcome(msg, content)
+	elseif type == 'composed' then
+		if not(content == 'no') then
+			local abt = cross.getAbout(msg.chat.id, ln)
+			local rls = cross.getRules(msg.chat.id, ln)
+			local mods = cross.getModlist(msg.chat.id, ln):mEscape()
+			local mods = lang[ln].service.welcome_modlist..mods
+			local text = make_text(lang[ln].service.welcome, msg.added.first_name:mEscape_hard(), msg.chat.title:mEscape_hard())
+			if content == 'a' then
+				text = text..'\n\n'..abt
+			elseif content == 'r' then
+				text = text..'\n\n'..rls
+			elseif content == 'm' then
+				text = text..mods
+			elseif content == 'ra' then
+				text = text..'\n\n'..abt..'\n\n'..rls
+			elseif content == 'am' then
+				text = text..'\n\n'..abt..mods
+			elseif content == 'rm' then
+				text = text..'\n\n'..rls..mods
+			elseif content == 'ram' then
+				text = text..'\n\n'..abt..'\n\n'..rls..mods
+			end
+			print(text)
+			return text
+		else
+			return make_text(lang[ln].service.welcome, msg.added.first_name:mEscape_hard(), msg.chat.title:mEscape_hard())
 		end
-		print(text)
-		return text
-	else
-		return make_text(lang[ln].service.welcome, msg.added.first_name:mEscape_hard(), msg.chat.title:mEscape_hard())
 	end
 end
 
@@ -111,14 +116,15 @@ local action = function(msg, blocks, ln)
 		end
 		--set the default welcome type
 		hash = 'chat:'..msg.chat.id..':welcome'
-		db:hset(hash, 'wel', 'no')
+		db:hset(hash, 'type', 'composed')
+		db:hset(hash, 'content', 'no')
 		--save group id
 		db:sadd('bot:groupsid', msg.chat.id)
 		--save stats
 		hash = 'bot:general'
         local num = db:hincrby(hash, 'groups', 1)
         print('Stats saved', 'Groups: '..num)
-        local out = make_text(lang[ln].service.new_group, msg.from.first_name)
+        local out = make_text(lang[ln].service.new_group, msg.from.first_name:mEscape())
 		api.sendMessage(msg.chat.id, out, true)
 	end
 	

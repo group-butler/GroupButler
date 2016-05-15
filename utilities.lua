@@ -357,6 +357,54 @@ function res_user(username)
 	end
 end
 
+function res_user_group(username, chat_id)
+	local hash = 'bot:usernames:'..chat_id
+	local stored = db:hget(hash, username)
+	if stored then
+		return stored
+	else
+		hash = 'bot:usernames'
+		stored = db:hget(hash, username)
+		if stored then
+			return stored
+		else
+			return false
+		end
+	end
+end
+
+function is_lang_supported(code)
+	for i=1,#config.available_languages do
+		if code:lower() == config.available_languages[i] then
+			return true
+		end
+	end
+	return false
+end
+
+function get_media_type(msg)
+	if msg.photo then
+		return 'image'
+	elseif msg.video then
+		return 'video'
+	elseif msg.audio then
+		return 'audio'
+	elseif msg.voice then
+		return 'voice'
+	elseif msg.document then
+		if msg.document.mime_type == 'video/mp4' then
+			return 'gif'
+		else
+			return 'file'
+		end
+	elseif msg.sticker then
+		return 'sticker'
+	elseif msg.contact then
+		return 'contact'
+	end
+	return false
+end
+
 function res_type(string)
 	if string:match('(%d+)') then
 		return 1
@@ -721,24 +769,31 @@ local function getSettings(chat_id, ln)
         
     --build the "welcome" line
     hash = 'chat:'..chat_id..':welcome'
-    local wel = db:hget(hash, 'wel')
-    if wel == 'a' then
-         message = message..make_text(lang[ln].settings.resume.w_a)
-    elseif wel == 'r' then
-        message = message..make_text(lang[ln].settings.resume.w_r)
-    elseif wel == 'm' then
-        message = message..make_text(lang[ln].settings.resume.w_m)
-    elseif wel == 'ra' then
-        message = message..make_text(lang[ln].settings.resume.w_ra)
-    elseif wel == 'rm' then
-        message = message..make_text(lang[ln].settings.resume.w_rm)
-    elseif wel == 'am' then
-        message = message..make_text(lang[ln].settings.resume.w_am)
-    elseif wel == 'ram' then
-        message = message..make_text(lang[ln].settings.resume.w_ram)
-    elseif wel == 'no' then
-        message = message..make_text(lang[ln].settings.resume.w_no)
-    end
+    local type = db:hget(hash, 'type')
+    if type == 'composed' then
+    	local wel = db:hget(hash, 'content')
+    	if wel == 'a' then
+    	    message = message..lang[ln].settings.resume.w_a
+    	elseif wel == 'r' then
+    	    message = message..lang[ln].settings.resume.w_r
+    	elseif wel == 'm' then
+    	    message = message..lang[ln].settings.resume.w_m
+    	elseif wel == 'ra' then
+    	    message = message..lang[ln].settings.resume.w_ra
+    	elseif wel == 'rm' then
+    	    message = message..lang[ln].settings.resume.w_rm
+    	elseif wel == 'am' then
+    	    message = message..lang[ln].settings.resume.w_am
+    	elseif wel == 'ram' then
+    	    message = message..lang[ln].settings.resume.w_ram
+    	elseif wel == 'no' then
+    	    message = message..lang[ln].settings.resume.w_no
+    	end
+	elseif type == 'media' then
+		message = message..lang[ln].settings.resume.w_media
+	elseif type == 'custom' then
+		message = message..lang[ln].settings.resume.w_custom
+	end
     
     return message
 end
@@ -841,7 +896,7 @@ return {
 	getExtraList = getExtraList,
 	getSettings = getSettings,
 	enableSetting = enableSetting,
-	enableSetting = enableSetting,
+	disableSetting = disableSetting,
 	changeSettingStatus = changeSettingStatus,
 	changeFloodSettings = changeFloodSettings,
 	changeMediaStatus = changeMediaStatus

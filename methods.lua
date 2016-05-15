@@ -69,13 +69,13 @@ local function getCode(error)
 end
 
 local function unbanChatMember(chat_id, user_id)
-	
+	print('In unban')
 	local url = BASE_URL .. '/unbanChatMember?chat_id=' .. chat_id .. '&user_id=' .. user_id
 
 	--return sendRequest(url)
 	
 	local dat, res = HTTPS.request(url)
-	
+	print(res)
 	local tab = JSON.decode(dat)
 	
 	if res ~= 200 then
@@ -146,7 +146,7 @@ local function unbanUser(msg, on_request, no_msg, username)
 		    name = getname(msg)
 		end
 	else
-		user_id = res_user(username)
+		user_id = res_user_group(username)
 		if not user_id then
 			api.sendReply(msg, lang[ln].bonus.no_user)
 			return
@@ -186,7 +186,7 @@ local function banUser(msg, on_request, no_msg, username)--no_msg: kick without 
 		    name = getname(msg)
 		end
 	else
-		user_id = res_user(username)
+		user_id = res_user_group(username)
 		if not user_id then
 			api.sendReply(msg, lang[ln].bonus.no_user)
 			return
@@ -244,7 +244,7 @@ local function kickUser(msg, on_request, no_msg, username)-- no_msg: don't send 
 		    name = getname(msg)
 		end
 	else
-		user_id = res_user(username)
+		user_id = res_user_group(username)
 		if not user_id then
 			api.sendReply(msg, lang[ln].bonus.no_user)
 			return
@@ -392,7 +392,7 @@ end
 local function curlRequest(curl_command)
  -- Use at your own risk. Will not check for success.
 
-	io.popen(curl_command)
+	local res = io.popen(curl_command)
 
 end
 
@@ -412,6 +412,18 @@ local function sendPhoto(chat_id, photo, caption, reply_to_message_id)
 
 	return curlRequest(curl_command)
 
+end
+
+local function sendDocumentId(chat_id, file_id, reply_to_message_id)
+	
+	local url = BASE_URL .. '/sendDocument?chat_id=' .. chat_id .. '&document=' .. file_id
+	
+	if reply_to_message_id then
+		url = url..'&reply_to_message_id='..reply_to_message_id
+	end
+
+	return sendRequest(url)
+	
 end
 
 local function sendDocument(chat_id, document, reply_to_message_id)
@@ -440,6 +452,18 @@ local function sendSticker(chat_id, sticker, reply_to_message_id)
 
 	return curlRequest(curl_command)
 
+end
+
+local function sendStickerId(chat_id, file_id, reply_to_message_id)
+	
+	local url = BASE_URL .. '/sendSticker?chat_id=' .. chat_id .. '&sticker=' .. file_id
+	
+	if reply_to_message_id then
+		url = url..'&reply_to_message_id='..reply_to_message_id
+	end
+
+	return sendRequest(url)
+	
 end
 
 local function sendAudio(chat_id, audio, reply_to_message_id, duration, performer, title)
@@ -544,5 +568,7 @@ return {
 	getCode = getCode,
 	sendAdmin = sendAdmin,
 	sendLog = sendLog,
-	banUserId= banUserId
+	banUserId= banUserId,
+	sendDocumentId = sendDocumentId,
+	sendStickerId = sendStickerId
 }	

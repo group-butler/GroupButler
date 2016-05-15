@@ -1,6 +1,5 @@
 local action = function(msg, blocks, ln)
 	if msg.chat.type == 'private' then
-		api.sendMessage(msg.chat.id, lang[ln].pv)
 		return
 	end
 	
@@ -16,7 +15,7 @@ local action = function(msg, blocks, ln)
 	    local text = make_text(lang[ln].extra.new_command, blocks[2], blocks[3])
 	    local res = api.sendReply(msg, text, true)
 	    if not res then
-	    	api.sendReply(msg, lang[ln].breaks_markdown)
+	    	api.sendReply(msg, lang[ln].breaks_markdown, true)
 	    else
 	    	db:hset(hash, blocks[2], blocks[3])
 	    end

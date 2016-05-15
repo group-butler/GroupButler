@@ -64,7 +64,7 @@ local action = function(msg, blocks, ln)
 		--set the new rules	
 		local res = api.sendReply(msg, make_text(lang[ln].setrules.new, input), true)
 		if not res then
-			api.sendReply(msg, lang[ln].breaks_markdown)
+			api.sendReply(msg, lang[ln].breaks_markdown, true)
 		else
 			db:set(hash, input)
 		end

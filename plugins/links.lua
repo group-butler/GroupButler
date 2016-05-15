@@ -71,9 +71,9 @@ local action = function(msg, blocks, ln)
 		end
 		
 		--warn if the link has not the right lenght
-		if blocks[2] ~= 'no' and string.len(blocks[3]) ~= 36 then
+		if blocks[2] ~= 'no' and string.len(blocks[3]) ~= 44 then
 			local out = make_text(lang[ln].links.link_invalid)
-			sendReply(msg, out, true)
+			api.sendReply(msg, out, true)
 			return
 		end
 		
@@ -128,7 +128,7 @@ return {
 		'^/(setlink) https://telegram%.me/joinchat/(.*)',
 		'^/(setlink) (no)',
 		'^/(poll)$',
-		'^/(setpoll) (.*) telegram%.me/PollBot%?start=(.*)',
+		'^/(setpoll) (.*) http://telegram%.me/PollBot%?start=(.*)',
 		'^/(setpoll) (no)$'
 	}
 }

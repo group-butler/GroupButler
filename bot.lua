@@ -95,7 +95,6 @@ local function collect_stats(msg)
 	--count the number of messages
 	db:hincrby('bot:general', 'messages', 1)
 	--for resolve username (may be stored by groups of id in the future)
-	if not(msg.chat.type == 'private') then db:sadd('bot:groupsid', msg.chat.id) end --to be removed
 	if msg.from and msg.from.username then
 		db:hset('bot:usernames', '@'..msg.from.username:lower(), msg.from.id)
 		db:hset('bot:usernames:'..msg.chat.id, '@'..msg.from.username:lower(), msg.from.id)
@@ -266,6 +265,9 @@ end
 local function media_to_msg(msg)
 	if msg.photo then
 		msg.text = '###image'
+		--if msg.caption then
+			--msg.text = msg.text..':'..msg.caption
+		--end
 	elseif msg.video then
 		msg.text = '###video'
 	elseif msg.audio then
