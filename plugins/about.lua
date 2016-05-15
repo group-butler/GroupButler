@@ -28,11 +28,6 @@ local action = function(msg, blocks, ln)
             api.sendReply(msg, make_text(lang[ln].setabout.no_bio_add), true)
         else
             local input = blocks[2]
-	        --check if breaks the markdown
-	        if breaks_markdown(input) then
-				api.sendReply(msg, lang[ln].breaks_markdown, true)
-				return nil
-			end
 			--add the new string to the about text
             local res = api.sendReply(msg, make_text(lang[ln].setabout.added, input), true)
             if not res then
