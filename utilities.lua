@@ -358,6 +358,7 @@ function res_user(username)
 end
 
 function res_user_group(username, chat_id)
+	username = username:lower()
 	local hash = 'bot:usernames:'..chat_id
 	local stored = db:hget(hash, username)
 	if stored then

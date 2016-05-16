@@ -39,6 +39,8 @@ Here you have the list of the available commands.
 >/modlist (if unlocked) | show the moderators list
 >
 >/tell | show the basical info of the user/group. Can work by reply
+>
+>/echo | I use it to see if the markdown is correct (repeats the text, with parse mode on)
 
 ###Moderators
 >/kick [reply|username] | kick an user (it's still able to join)
@@ -181,9 +183,13 @@ Here you have the list of the available commands.
 >
 >/reply [text] | reply to a feedback
 >
->/ping redis | check if redis is on
+>/trfile [by reply] (language code optional, default: en) | set a lua file as the default file that will be sent when a user asks for the stings file
 >
->/echo | I use it to see if the markdown is correct (repeats the text, with parse mode on)
+>/sendplug [plugin name] | send the plugin
+>
+>/sendfile [path] | send the file
+>
+>/ping redis | check if redis is on
 >
 >/admin | returns the admin.lua plugin triggers
 
@@ -234,9 +240,9 @@ $ cd GroupButler && sudo chmod 777 launch.sh
 
 > • Set bot_api_key to the authentication token you received from the [BotFather](http://telegram.me/BotFather).
 >
-> • Set admin as your Telegram ID.
+> • Set admin as your Telegram ID. You can set up a log group where error messages will be sent: this allows to split errors from user feedbacks
 >
-> • Set your bot channel 8if you have one) in config.lua, under "channel".
+> • Set your bot channel (if you have one) in config.lua, under "channel".
 >
 > • If it asks for the sudo password during the installation or after, insert it.
 
@@ -253,7 +259,7 @@ $ sudo service redis-server start
 
 Before stop the bot, if you don't want to loose your redis datas (read: statistics and moderation), you have to perform a background saves.
 
-There are three ways to do this: use `/halt` command to stop the bot (datas will be saved automatically), use `/redis save` command to save datas (and then stop the bot), or open a terminal window and run `redis-cli bgsave` (and then stop the bot).
+There are three ways to do this: use `/stop` command to stop the bot (datas will be saved automatically), use `/redis save` command to save datas (and then stop the bot), or open a terminal window and run `redis-cli bgsave` (and then stop the bot).
 
 Please remember to do one of this easy things in order to avoid to loose important informations.
 

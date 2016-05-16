@@ -355,6 +355,8 @@ local function sendKeyboard(chat_id, text, keyboard, markdown)
 	
 	url = url..'&text='..URL.escape(text)
 	
+	url = url..'&disable_web_page_preview=true'
+	
 	url = url..'&reply_markup='..JSON.encode(keyboard)
 	
 	return sendRequest(url)

@@ -8,7 +8,6 @@ return {
 		'onmessage.lua', --THIS HAVE TO BE THE FIRST: IF AN USER IS SPAMMING/IS BLOCKED, THE BOT WON'T GO THROUGH PLUGINS
 		'admin.lua',
 		'mod.lua',
-		'credits.lua',
 		'users.lua',
 		'help.lua',
 		'rules.lua',
@@ -57,6 +56,7 @@ return {
 		[110] = 'PEER_ID_INVALID', --user never started the bot
 		[111] = 'Bad Request: message is not modified', --the edit message method hasn't modified the message
 		[112] = 'Bad Request: Can\'t parse message text: Can\'t find end of the entity starting at byte offset %d+', --the markdown is wrong and breaks the delivery
+		[113] = 'Bad Request: group chat is migrated to a supergroup chat', --group updated to supergroup
 		[120] = 'Can\'t parse reply keyboard markup JSON object', --keyboard table invalid
 		[121] = 'Field \\\"inline_keyboard\\\" of the InlineKeyboardMarkup should be an Array of Arrays', --inline keyboard is not an array of array
 		[122] = 'Can\'t parse inline keyboard button: InlineKeyboardButton should be an Object',

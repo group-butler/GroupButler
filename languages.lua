@@ -18,7 +18,7 @@ return {
         not_mod = 'You are *not* a moderator',
         breaks_markdown = 'This text breaks the markdown.\nMore info about a proper use of markdown [here](https://telegram.me/GroupButler_ch/46).',
         ping= 'Pong!',
-        credits = '*Channel* for updates and useful info: [channel](https://telegram.me/GroupButler_ch)\n*Github repository* to see how the bot works or which data are stored: [repository](https://github.com/RememberTheAir/GroupButler)\n*Vote link*: [vote link](https://telegram.me/storebot?start=groupbutler_bot)',
+        credits = '*Some useful links:*',
         extra = {
 			usage = 'Write next to /extra the title of the command and the text associated.\nFor example:\n/extra #motm stay positive. The bot will reply _\'Stay positive\'_ each time someone writes #motm',
             new_command = '*New command setted!*\n&&&1\n&&&2',
@@ -127,7 +127,7 @@ return {
 		            ..'\n\nIf you like this bot, please leave the vote you think it deserves [here](https://telegram.me/storebot?start=groupbutler_bot)',
 		    private = 'Hey, *&&&1*!\n'
                     ..'I\'m a simple bot created in order to help people to manage their groups.\n'
-                    ..'\n*How can you help me?*\n'
+                    ..'\n*How can I help you?*\n'
                     ..'Wew, I have a lot of useful tools! You can *kick or ban* users, set rules and a description, warn users, set some parameters to kick someone when something happens (read: *antiflood*/RTL/media...)\nDiscover more by adding me to a group!\n'
                     ..'\nThe user who adds me will be set up as owner of the group. If you are not the real owner, you can set it by repliyng one of his messages with `/owner`.'
                     ..'\nTo use my moderation powers (kick/ban), *you need to add me as administrator of the group*.\nRemember: moderator commands can be used only by who have been promoted with `/promote`. I can\'t see the real admins of the group, this is the only way for now.\n'
@@ -394,7 +394,7 @@ return {
         not_mod = '*Non sei* un moderatore!',
         breaks_markdown = 'Questo messaggio impedisce il markdown.\nControlla quante volte hai usato * oppure _ oppure `',
         ping= 'Funziono!',
-        credits = '*Canale ufficiale* per aggiornamenti ed info utili: [link canale](https://telegram.me/GroupButler_ch)\n*Github repository* se sei interessato a come il bot funziona o desideri capire quali dati sono memorizzati: [repository](https://github.com/RememberTheAir/GroupButler)\n*Votami qui* se ritieni che io sia utile: [link voto](https://telegram.me/storebot?start=groupbutler_bot)',
+        credits = '*Alcuni link utili:*',
         extra = {
 			usage = 'Scrivi accanto a /extra il titolo del comando ed il testo associato.\nAd esempio:\n/extra #ciao Hey, ciao!. Il bot risponderà _\'Hey, ciao!\'_ ogni volta che qualcuno scriverà #ciao',
             new_command = '*Nuovo comando impostato!*\n&&&1\n&&&2',
@@ -510,7 +510,7 @@ return {
                     ..'\nPuoi segnalare un bug/inviare un feedback/fare una domanda al mio creatore usando "`/c <feedback>`". QUALSIASI MESSAGGIO E\' IL BENVENUTO!'
                     ..'\n\n[Canale ufficiale](https://telegram.me/GroupButler_ch) e [link per votarmi](https://telegram.me/storebot?start=groupbutler_bot)',
             group_success = '_Ti ho inviato il messaggio in privato_',
-            group_not_success = '_Per favore, scrivimi prima cosicchè io possa risponderti_',
+            group_not_success = '_Per favore, avviami cosicchè io possa risponderti_',
             initial = 'Scegli un *ruolo* per visualizzarne i comandi:',
             kb_header = 'Scegli una voce per visualizzarne i *comandi associati*'
         },
@@ -794,7 +794,7 @@ return {
         not_mod = 'Tu *no* eres moderador',
         breaks_markdown = 'Este texto interrumpe.\nComprueba cuantas veces lo has usado * o _ o `',
         ping= '¡Pong!',
-        credits = '*Channel* for updates and useful info: [channel](https://telegram.me/GroupButler_ch)\n*Github repository* to see how the bot works or which data are stored: [repository](https://github.com/RememberTheAir/GroupButler)\n*Vote link*: [vote link](https://telegram.me/storebot?start=groupbutler_bot)',
+        credits = '*Some useful links:*',
         extra = {
 			usage = 'Escribe seguido de /extra el titulo del comando y el texto asociado.\nPor ejemplo:\n/extra #motm esta positivo. El bot respondera _\'Esta positivo\'_ cada vez que alguien escriba #motm',
             new_command = '*Nuevo comando programado!*\n&&&1\n&&&2',
@@ -1176,7 +1176,7 @@ return {
         not_mod = 'Você *não* é um(a) moderador(a)',
         breaks_markdown = 'Esse texto apresenta problemas com markdown.\nVerifique quantas vezes você usou * ou _ ou `',
         ping= 'Pong!',
-        credits = '*Channel* for updates and useful info: [channel](https://telegram.me/GroupButler_ch)\n*Github repository* to see how the bot works or which data are stored: [repository](https://github.com/RememberTheAir/GroupButler)\n*Vote link*: [vote link](https://telegram.me/storebot?start=groupbutler_bot)',
+        credits = '*Some useful links:*',
         extra = {
 			usage = 'Escreva ao lado de /extra o título do comando e o texto associado.\nPor exemplo:\n/extra #motm seja positivo. O bot irá respoder _\'seja positivo\'_ toda vez que alguém digitar #motm',
             new_command = '*Novo comando definido!*\n&&&1\n&&&2',

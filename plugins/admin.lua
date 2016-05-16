@@ -43,8 +43,8 @@ local triggers = {
 	'^/(fixaction) (-%d+)$',
 	'^/(sendplug) (.*)$',
 	'^/(sendfile) (.*)$',
-	'^/(reply)$',
-	'^/(reply) (.*)'
+	'^/?(reply)$',
+	'^/?(reply) (.*)'
 }
 
 local logtxt = ''
@@ -631,8 +631,10 @@ local action = function(msg, blocks, ln)
 				api.sendReply(msg, 'This is not a file')
 				return
 			end
-			if not(msg.reply.document.mime_type == 'text/plain') and not(msg.reply.document.mime_type == 'text/x-lua') then
-				api.sendReply(msg, 'This is not a txt/lua file')
+			if not blocks[2] then
+				local hash = 'trfile:EN'
+				db:set(hash, msg.reply.document.file_id)
+				api.sendReply(msg, 'Translation file setted!\n*Lang*: '..code:upper()..'\n*ID*: '..msg.reply.document.file_id..'\n*Path*: lang'..code:upper()..'.lua', true)
 				return
 			end
 			local code = blocks[2]

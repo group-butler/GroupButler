@@ -29,6 +29,18 @@ local function tell(msg, ln)
 	end
 end
 
+local function do_keybaord_credits()
+	local keyboard = {}
+    keyboard.inline_keyboard = {
+    	{
+    		{text = 'Channel', url = 'https://telegram.me/'..config.channel:gsub('@', '')},
+    		{text = 'GitHub', url = 'https://github.com/RememberTheAir/GroupButler'},
+    		{text = 'Rate me!', url = 'https://telegram.me/storebot?start='..bot.username},
+		}
+	}
+	return keyboard
+end
+
 local action = function(msg, blocks, ln)
 	if blocks[1] == 'ping' then
 		api.sendMessage(msg.from.id, lang[ln].ping)
@@ -100,6 +112,12 @@ local action = function(msg, blocks, ln)
 	    api.sendMessage(receiver, lang[ln].report.sent)
 	    mystat('/c')
 	end
+	if blocks[1] == 'info' then
+		local keyboard = {}
+		keyboard = do_keybaord_credits()
+		api.sendKeyboard(msg.chat.id, lang[ln].credits, keyboard, true)
+		mystat('/credits')
+	end
 end
 
 return {
@@ -114,5 +132,6 @@ return {
 		'^/(echo) (.*)$',
 		'^/(c)$',
 		'^/(c) (.*)',
+		'^/(info)$'
 	}
 }
