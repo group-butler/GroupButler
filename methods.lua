@@ -391,10 +391,18 @@ local function forwardMessage(chat_id, from_chat_id, message_id)
 	
 end
 
+local function getFile(file_id)
+	
+	local url = BASE_URL .. '/getFile?file_id='..file_id
+	
+	return sendRequest(url)
+	
+end
+
 local function curlRequest(curl_command)
  -- Use at your own risk. Will not check for success.
 
-	local res = io.popen(curl_command)
+	io.popen(curl_command)
 
 end
 
@@ -572,5 +580,6 @@ return {
 	sendLog = sendLog,
 	banUserId= banUserId,
 	sendDocumentId = sendDocumentId,
-	sendStickerId = sendStickerId
+	sendStickerId = sendStickerId,
+	getFile = getFile
 }	

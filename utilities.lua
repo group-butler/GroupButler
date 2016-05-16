@@ -677,6 +677,37 @@ function change_extra_header(id)
 	api.sendDocument(config.admin, log_path)
 end
 
+function download_to_file(url, file_path)--https://github.com/yagop/telegram-bot/blob/master/bot/utils.lua
+  print("url to download: "..url)
+
+  local respbody = {}
+  local options = {
+    url = url,
+    sink = ltn12.sink.table(respbody),
+    redirect = true
+  }
+  -- nil, code, headers, status
+  local response = nil
+    options.redirect = false
+    response = {HTTPS.request(options)}
+  local code = response[2]
+  local headers = response[3]
+  local status = response[4]
+  if code ~= 200 then return false, code end
+
+  print("Saved to: "..file_path)
+
+  file = io.open(file_path, "w+")
+  file:write(table.concat(respbody))
+  file:close()
+  return file_path, code
+end
+
+function telegram_file_link(res)
+	--res = table returned by getFile()
+	return "https://api.telegram.org/file/bot"..config.bot_api_key.."/"..res.result.file_path
+end
+
 ----------------------- specific cross-plugins functions---------------------
 
 local function getAbout(chat_id, ln)

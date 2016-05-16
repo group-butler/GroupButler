@@ -39,12 +39,15 @@ local triggers = {
 	'^/(redis backup)$',
 	'^/(group info) (-?%d+)$',
 	'^/(fill media)$',
+	'^/(genlang) (%a%a)$',
 	'^/(trfile) (%a%a)$',
+	'^/(trfile)$',
 	'^/(fixaction) (-%d+)$',
 	'^/(sendplug) (.*)$',
 	'^/(sendfile) (.*)$',
 	'^/?(reply)$',
-	'^/?(reply) (.*)'
+	'^/?(reply) (.*)',
+	'^/(download)$'
 }
 
 local logtxt = ''
@@ -648,6 +651,19 @@ local action = function(msg, blocks, ln)
 			end
 		end
 	end
+	if blocks[1] == 'genlang' then
+		local code = blocks[2]
+		local exists = is_lang_supported(code)
+		if not exists then
+			api.sendReply(msg, 'Language not supported')
+		else
+			local path = 'ln'..code:upper()..'.lua'
+			local instructions = dofile('instructions.lua')
+			local text = instructions..'\n\n\n\n\n\n\n\n\n\n\n'..vtext(lang[code])
+			write_file(path, text)
+			api.sendDocument(msg.chat.id, path)
+		end
+	end
 	if blocks[1] == 'fixaction' then
 		local id = blocks[2]
 		local hash = 'chat:'..id..':flood'
@@ -694,6 +710,39 @@ local action = function(msg, blocks, ln)
 			api.sendAdmin('Wrong markdown')
 		end
 		mystat('/reply')
+	end
+	if blocks[1] == 'download' then
+		if not msg.reply then
+			api.sendMessage(msg.chat.id, 'Reply to a message')
+		else
+			local type
+			local file_id
+			local file_name
+			local text
+			msg = msg.reply
+			if msg.document then
+				type = 'document'
+				file_id = msg.document.file_id
+				file_name = msg.document.file_name
+			elseif msg.sticker then
+				type = 'sticker'
+				file_id = msg.sticker.file_id
+				file_name = 'sticker.png'
+			elseif msg.audio then
+				type = 'audio'
+				file_id = msg.audio.file_id
+				file_name = msg.audio.title or msg.audio.performer or 'audio.mp3'
+			end
+			local res = api.getFile(file_id)
+			local download_link = telegram_file_link(res)
+			path, code = download_to_file(download_link, file_name)
+			if path then
+				text = 'Saved to:\n'..path
+			else
+				text = 'Download failed\nCode: '..code
+			end
+			api.sendMessage(msg.chat.id, text)
+		end
 	end
 end
 
