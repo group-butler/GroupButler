@@ -184,17 +184,6 @@ function save_data(filename, data) -- Saves a table to a JSON file.
 
 end
 
-function match_pattern(pattern, text)
-  if text then
-  	text = text:gsub('@'..bot.username, '')
-    local matches = {}
-    matches = { string.match(text, pattern) }
-    if next(matches) then
-    	return matches
-    end
-  end
-end
-
 function clean_owner_modlist(chat)
 	--clear the owner
 	local hash = 'chat:'..chat..':owner'

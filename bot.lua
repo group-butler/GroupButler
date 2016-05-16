@@ -111,6 +111,17 @@ local function collect_stats(msg)
 	end
 end
 
+local function match_pattern(pattern, text)
+  if text then
+  	text = text:gsub('@'..bot.username, '')
+    local matches = {}
+    matches = { string.match(text, pattern) }
+    if next(matches) then
+    	return matches
+    end
+  end
+end
+
 on_msg_receive = function(msg) -- The fn run whenever a message is received.
 	--vardump(msg)
 	if not msg then
@@ -147,7 +158,7 @@ on_msg_receive = function(msg) -- The fn run whenever a message is received.
 				for k,w in pairs(v.triggers) do
 					local blocks = match_pattern(w, msg.text)
 					if blocks then
-						print(colors('Msg info:\t %{red bright}'..get_from(msg)..'%{reset} ['..msg.chat.type..'] ('..os.date('at %X')..')'))  --('..os.date('on %A, %d %B %Y at %X')..')'))
+						print(colors('\nMsg info:\t %{red bright}'..get_from(msg)..'%{reset} ['..msg.chat.type..'] ('..os.date('at %X')..')'))  --('..os.date('on %A, %d %B %Y at %X')..')'))
 						if blocks[1] ~= '' then
       						print('Match found:', colors('%{blue bright}'..w))
       						db:hincrby('bot:general', 'query', 1)
@@ -317,15 +328,12 @@ end
 bot_init() -- Actually start the script. Run the bot_init function.
 
 while is_started do -- Start a loop while the bot should be running.
-	print(colors('%{green}------------------------------------------------------------------------'))
-	print(colors('%{blue bright}Polling...'))
 	local res = api.getUpdates(last_update+1) -- Get the latest updates!
 	if res then
 		--vardump(res)
 		for i,msg in ipairs(res.result) do -- Go through every new message.
 			last_update = msg.update_id
 			tot = tot + 1
-			print(os.date('%X'), 'Update:', last_update, 'Tot:', tot)
 			if msg.message  or msg.callback_query then
 				if msg.callback_query then
 					handle_inline_keyboards_cb(msg.callback_query)

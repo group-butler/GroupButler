@@ -221,7 +221,7 @@ local action = function(msg, blocks, ln)
 	    		api.sendMessage(groups[i], blocks[2], true)
 	        	print('Sent', groups[i])
 	    	end
-	    	api.sendMessage(config.admin, lang[ln].broadcast.delivered)
+	    	api.sendMessage(config.admin, 'Broadcast delivered')
 	    end
 	    mystat('/bcg')
 	end
