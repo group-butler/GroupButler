@@ -133,7 +133,7 @@ local function code2text(code, ln, chat_id)
 	end
 end
 
-local function unbanUser(msg, on_request, no_msg, username)
+--[[local function unbanUser(msg, on_request, no_msg, username)
 	local name, user_id, text
 	local chat_id = msg.chat.id
 	local ln = msg.lang
@@ -171,9 +171,9 @@ local function unbanUser(msg, on_request, no_msg, username)
 	text = make_text(lang[ln].banhammer.unbanned, name)
 	api.sendReply(msg, text, true)
 	return true
-end
+end]]
 
-local function banUser(msg, on_request, no_msg, username)--no_msg: kick without message if kick is failed
+--[[local function banUser(msg, on_request, no_msg, username)--no_msg: kick without message if kick is failed
 	local name, user_id, text
 	local chat_id = msg.chat.id
 	local ln = msg.lang
@@ -219,7 +219,7 @@ local function banUser(msg, on_request, no_msg, username)--no_msg: kick without 
 		local sent, code_msg = api.sendMessage(chat_id, text, true)
 		return res
 	end
-end
+end]]
 
 local function banUserId(chat_id, user_id, name, on_request, no_msg)
 	local msg = {}
@@ -231,7 +231,7 @@ local function banUserId(chat_id, user_id, name, on_request, no_msg)
 	return api.banUser(msg, on_request, no_msg)
 end
 
-local function kickUser(msg, on_request, no_msg, username)-- no_msg: don't send the error message if kick is failed. If no_msg is false, it will return the motivation of the fail
+--[[local function kickUser(msg, on_request, no_msg, username)-- no_msg: don't send the error message if kick is failed. If no_msg is false, it will return the motivation of the fail
 	local name, user_id, text
 	local chat_id = msg.chat.id
 	local ln = msg.lang
@@ -277,8 +277,60 @@ local function kickUser(msg, on_request, no_msg, username)-- no_msg: don't send 
 		local sent, code_msg = api.sendMessage(chat_id, text, true)
 		return res
 	end
+end]]
+--------------------------------------------------------------------
+local function banUser(chat_id, user_id, is_normal_group, ln)--no_msg: kick without message if kick is failed
+	
+	if is_mod2(chat_id, user_id) then return end
+	
+	local res, code = api.kickChatMember(chat_id, user_id) --try to kick. "code" is already specific
+	
+	if res then --if the user has been kicked, then...
+	    db:hincrby('bot:general', 'ban', 1) --genreal: save how many kicks
+		if is_normal_group then
+		    local hash = 'chat:'..chat_id..':banned'
+	        db:sadd(hash, user_id)
+	    end
+		return res --return res and not the text
+	else ---else, the user haven't been kicked
+		local text = api.code2text(code, ln, chat_id)
+		return res, text --return the motivation too
+	end
 end
 
+local function kickUser(chat_id, user_id, ln)-- no_msg: don't send the error message if kick is failed. If no_msg is false, it will return the motivation of the fail
+	
+	if is_mod2(chat_id, user_id) then return end
+	
+	local res, code = api.kickChatMember(chat_id, user_id) --try to kick
+	
+	if res then --if the user has been kicked, then...
+	    db:hincrby('bot:general', 'kick', 1) --genreal: save how many kicks
+		--unban
+		api.unbanChatMember(chat_id, user_id)
+		return res
+	else
+		local motivation = api.code2text(code, ln, chat_id)
+		return res, motivation
+	end
+end
+
+local function unbanUser(chat_id, user_id, is_normal_group)
+	
+	if is_mod2(chat_id, user_id) then return end
+	
+	if is_normal_group then
+	    local hash = 'chat:'..chat_id..':banned'
+	    local removed = db:srem(hash, user_id)
+	    if removed == 0 then
+		    --text = lang[ln].banhammer.not_banned
+		    return false
+	    end
+	end
+	local res, code = api.unbanChatMember(chat_id, user_id)
+	return true
+end
+--------------------------------------------------------------------
 local function sendMessage(chat_id, text, use_markdown, disable_web_page_preview, reply_to_message_id, send_sound)
 	--print(text)
 	

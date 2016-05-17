@@ -191,6 +191,8 @@ Here you have the list of the available commands.
 >
 >/ping redis | check if redis is on
 >
+>/download [by reply] | Download a file from Telegram servers (under 50 mb)
+>
 >/admin | returns the admin.lua plugin triggers
 
 
@@ -282,6 +284,8 @@ Interactions with the Telegram bot API are straightforward. Every function is na
 Several functions and methods used by multiple plugins and possibly the main script are kept in utilities.lua. Refer to that file for documentation.
 
 Group Butler uses dkjson, a pure-Lua JSON parser. This is provided with the code and does not need to be downloaded or installed separately.
+
+Strings are in languages.lua, admin commands are not trasnlated.
 
 * * *
 

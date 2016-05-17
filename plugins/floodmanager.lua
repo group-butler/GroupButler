@@ -19,10 +19,10 @@ local action = function(msg, blocks, ln)
 	    	local new = tonumber(blocks[2])
 	    	local old = tonumber(db:hget('chat:'..msg.chat.id..':flood', 'MaxFlood')) or 5
 	    	if new == old then
-	        	api.sendReply(msg, make_text(lang[ln].floodmanager.not_changed, new))
+	        	api.sendReply(msg, make_text(lang[ln].floodmanager.not_changed, new), true)
 	    	else
 	        	db:hset('chat:'..msg.chat.id..':flood', 'MaxFlood', new)
-	        	api.sendReply(msg, make_text(lang[ln].floodmanager.changed, old, new))
+	        	api.sendReply(msg, make_text(lang[ln].floodmanager.changed, old, new), true)
 	    	end
 	    	mystat('/flood num')
 		else

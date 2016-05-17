@@ -5,6 +5,7 @@ JSON = require('dkjson')
 redis = require('redis')
 colors = require('ansicolors')
 db = Redis.connect('127.0.0.1', 6379)
+--db:select(0)
 serpent = require('serpent')
 
 bot_init = function(on_reload) -- The function run when the bot is started or reloaded.

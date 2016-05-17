@@ -32,11 +32,19 @@ pre_process = function(msg, ln)
                 local action = db:hget('chat:'..msg.chat.id..':flood', 'ActionFlood')
                 local name = msg.from.first_name
                 if msg.from.username then name = name..' (@'..msg.from.username..')' end
-                name = name.. ' (flood)'
+                local is_normal_group = false
+                local res, message
+                --try to kick or ban
                 if action == 'ban' then
-    		        api.banUser(msg, false, true)
+                    if msg.chat.type == 'group' then is_normal_group = true end
+    		        res = api.banUser(msg.chat.id, msg.from.id, is_normal_group, ln)
     		    else
-    		        api.kickUser(msg, false, true)
+    		        res = api.kickUser(msg.chat.id, msg.from.id, ln)
+    		    end
+    		    --if kicked/banned, send a message
+    		    if res then
+    		        if action == 'ban' then message = make_text(lang[ln].preprocess.flood_ban, name:mEscape()) else message = make_text(lang[ln].preprocess.flood_kick, name:mEscape()) end
+    		        api.sendMessage(msg.chat.id, message)
     		    end
     		end
             return msg, true --if an user is spamming, don't go through plugins
@@ -55,10 +63,18 @@ pre_process = function(msg, ln)
                 local message = saveFirstWarn(msg.chat.id, msg.from.id, media, ln)
                 api.sendReply(msg, message, true)
             elseif not user_neverWarned(msg.chat.id, msg.from.id) and status and not(status == 'allowed') then
+                local is_normal_group = false
+                local res
                 if status == 'kick' then
-                    api.kickUser(msg, false, true)
+                    res = api.kickUser(msg.chat.id, msg.from.id, ln)
     	        elseif status == 'ban' then
-    	            api.banUser(msg, false, true)
+    	            if msg.chat.type == 'group' then is_normal_group = true end
+    	            res = api.banUser(msg.chat.id, msg.from.id, is_normal_group, ln)
+    		    end
+    		    if res then
+    		        local message
+    		        if status == 'ban' then message = make_text(lang[ln].preprocess.media_ban, name:mEscape()) else message = make_text(lang[ln].preprocess.media_kick, name:mEscape()) end
+    		        api.sendMessage(msg.chat.id, message, true)
     		    end
     		end
         end
@@ -69,16 +85,21 @@ pre_process = function(msg, ln)
             local rtl = '‮'
     	    local check = msg.text:find(rtl..'+') or msg.from.first_name:find(rtl..'+')
     	    if check ~= nil then
-    		    name = name.. ' (RTL char)'
-    		    api.kickUser(msg, false, true)
+    		    local res = api.kickUser(msg.chat.id, msg.from.id, ln)
+    		    if res then
+    		        api.sendMessage(msg.chat.id, make_text(lang[ln].preprocess.rtl, name:mEscape()), true)
+    		    end
     	    end
         end
     
         if msg.text and msg.text:find('([\216-\219][\128-\191])') and db:hget('chat:'..msg.chat.id..':settings', 'Arab') == 'yes' then
             local name = msg.from.first_name
             if msg.from.username then name = name..' (@'..msg.from.username..')' end
-    		name = name.. ' (arab)'
-    		api.kickUser(msg, false, true)
+    		local res = api.kickUser(msg.chat.id, msg.from.id, ln)
+    		vardump(res)
+    		if res then
+    		    api.sendMessage(msg.chat.id, make_text(lang[ln].preprocess.arab, name:mEscape()), true)
+    		end
         end
     end
     

@@ -73,7 +73,6 @@ local function doKeyboard_menu(chat_id)
 end
 
 local action = function(msg, blocks, ln)
-    print('Text', msg.text)
     --get the interested chat id
     local chat_id, msg_id
     if msg.cb then
@@ -82,7 +81,7 @@ local action = function(msg, blocks, ln)
     else
         chat_id = msg.chat.id
     end
-    
+    print('Chat id:', chat_id)
     local keyboard = {}
     
     if blocks[1] == 'dashboard' then
@@ -95,7 +94,7 @@ local action = function(msg, blocks, ln)
         end
         if msg.cb then
             local text
-            keyboard = doKeyboard_dashboard(blocks[1], chat_id)
+            keyboard = doKeyboard_dashboard(chat_id)
             if blocks[2] == 'settings' then
                 text = cross.getSettings(chat_id, ln)
             end

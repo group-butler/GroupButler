@@ -776,9 +776,9 @@ local function getSettings(chat_id, ln)
             
         local text
         if val == 'yes' then
-            text = make_text(lang[ln].settings[key])..': 🔒\n'
+            text = make_text(lang[ln].settings[key])..': 🚫\n'
         else
-            text = '*'..make_text(lang[ln].settings[key])..'*: 🔓\n'
+            text = '*'..make_text(lang[ln].settings[key])..'*: ✅\n'
         end
         message = message..text --concatenete the text
         if key == 'Flood' then
