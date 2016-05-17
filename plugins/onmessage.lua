@@ -96,7 +96,6 @@ pre_process = function(msg, ln)
             local name = msg.from.first_name
             if msg.from.username then name = name..' (@'..msg.from.username..')' end
     		local res = api.kickUser(msg.chat.id, msg.from.id, ln)
-    		vardump(res)
     		if res then
     		    api.sendMessage(msg.chat.id, make_text(lang[ln].preprocess.arab, name:mEscape()), true)
     		end

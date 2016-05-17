@@ -55,7 +55,7 @@ local action = function(msg, blocks, ln)
     				local succ = 0
     				local not_succ = 0
 	    			for k,v in pairs(groups) do
-	    				local res = api.banUser(v, user_id)
+	    				local res = api.banUserId(v, msg.reply.from.id, getname(msg.reply), true, true)
 	    				if res then
 	    					print('Global banned', v)
 	   						succ = succ + 1
