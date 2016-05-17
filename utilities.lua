@@ -716,7 +716,7 @@ local function getAbout(chat_id, ln)
     if not about then
         return lang[ln].setabout.no_bio
     else
-       	return make_text(lang[ln].setabout.bio, about)
+       	return about
     end
 end
 
@@ -726,7 +726,7 @@ local function getRules(chat_id, ln)
     if not rules then
         return lang[ln].setrules.no_rules
     else
-       	return make_text(lang[ln].setrules.rules, rules)
+       	return rules
     end
 end
 

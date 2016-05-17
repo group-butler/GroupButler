@@ -184,7 +184,6 @@ return {
         },
         setabout = {
             no_bio = '*NO BIO* for this group.',
-            bio = '*Description of the group:*\n&&&1',
             no_bio_add = '*No bio for this group*.\nUse /setabout [bio] to set-up a new description',
             no_input_add = 'Please write something next this poor "/addabout"',
             added = '*Description added:*\n"&&&1"',
@@ -194,7 +193,6 @@ return {
         },
         setrules = {
             no_rules = '*Total anarchy*!',
-            rules = '*Rules of the group:*\n&&&1',
             no_rules_add = '*No rules* for this group.\nUse /setrules [rules] to set-up a new constitution',
             no_input_add = 'Please write something next this poor "/addrules"',
             added = '*Rules added:*\n"&&&1"',
@@ -560,7 +558,6 @@ return {
         },
         setabout = {
             no_bio = '*Nessuna descrizione* per questo gruppo.',
-            bio = '*Descrizione del gruppo:*\n&&&1',
             no_bio_add = '*Nessuna descrizione per questo gruppo*.\nUsa /setabout [descrizione] per impostare una nuova descrizione',
             no_input_add = 'Per favore, scrivi qualcosa accanto a "/addabout"',
             added = '*Descrzione aggiunta:*\n"&&&1"',
@@ -570,7 +567,6 @@ return {
         },
         setrules = {
             no_rules = '*Anarchia totale*!',
-            rules = '*Regole del gruppo:*\n&&&1',
             no_rules_add = '*Nessuna regola* in questo gruppo.\nUsa /setrules [regole] per impostare delle nuove regole',
             no_input_add = 'Per favore, scrivi qualcosa accanto a "/addrules"',
             added = '*Rules added:*\n"&&&1"',
@@ -960,7 +956,6 @@ return {
         },
         setabout = {
             no_bio = '*NO hay descripcion* de este grupo.',
-            bio = '*Descripcion sobre este grupo:*\n&&&1',
             no_bio_add = '*No hay descripcion* de este grupo.\nUsa /setabout [bio] para añadir una descripcion',
             no_input_add = 'Por favor, escribe algo despues de "/addabout"',
             added = '*Descripcion añadida:*\n"&&&1"',
@@ -970,7 +965,6 @@ return {
         },
         setrules = {
             no_rules = '*¡Anarquia total*!',
-            rules = '*Reglas para este grupo:*\n&&&1',
             no_rules_add = '*No hay reglas* en este grupo.\nUsa /setrules [rules] para crear la constitucion',
             no_input_add = 'Por favor, escribe algo despues de "/addrules"',
             added = '*Reglas añadidas:*\n"&&&1"',
@@ -1342,7 +1336,6 @@ return {
         },
         setabout = {
             no_bio = '*SEM DESCRIÇÃO* para este grupo.',
-            bio = '*Descrição de este grupo:*\n&&&1',
             no_bio_add = '*Sem descrição para este grupo*.\nUse /setabout [descrição] para definir uma nova descrição',
             no_input_add = 'Por favor escreva algo após este pobre "/addabout"',
             added = '*Descrição adicionada:*\n"&&&1"',
@@ -1352,7 +1345,6 @@ return {
         },
         setrules = {
             no_rules = '*Anarquia total*!',
-            rules = '*Regras para este grupo:*\n&&&1',
             no_rules_add = '*Sem regras* para este grupo.\nUse /setrules [regras] para definir uma nova constituição',
             no_input_add = 'Por favor adicione algo após este pobre "/addrules"',
             added = '*Regras adicionadas:*\n"&&&1"',
@@ -1717,7 +1709,6 @@ return {
         },
         setabout = {
             no_bio = 'Описание этой группы *отсутствует*.',
-            bio = '*Description of the group:*\n&&&1',
             no_bio_add = 'Описание этой группы *отсутствует*.\nИспользуй /setabout [описание], чтобы установить описание для группы',
             no_input_add = ' Пожалуйста, напиши что-нибудь после "/addabout"',
             added = '* Описание добавлено:*\n"&&&1"',
@@ -1727,7 +1718,6 @@ return {
         },
         setrules = {
             no_rules = '*ТОЛЬКО АНАРХИЯ*!',
-            rules = '*Rules of the group:*\n&&&1',
             no_rules_add = 'У этой группы *нет правил*.\nИспользуй /setrules [правила], чтобы добавить правила',
             no_input_add = 'Пожалуйста, напиши что-нибудь после "/addrules"',
             added = '*Правила добавлены:*\n"&&&1"',
