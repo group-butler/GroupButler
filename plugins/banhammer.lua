@@ -83,12 +83,12 @@ end
 return {
 	action = action,
 	triggers = {
-		'^/(kick)',
 		'^/(kick) (@[%w_]+)$',
-		'^/(ban)',
+		'^/(kick)',
 		'^/(ban) (@[%w_]+)$',
-		'^/(unban)',
+		'^/(ban)',
 		'^/(unban) (@[%w_]+)$',
+		'^/(unban)',
 		'^/(gban)$'
 	}
 }
