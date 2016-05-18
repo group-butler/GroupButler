@@ -223,7 +223,7 @@ return {
                 arab_locked = 'Anti-arab characters is now *on*',
                 report_already = '@admin command is already *not enabled*',
                 report_locked = '@admin command *won\'t be available* from now',
-                wrong_input = 'Argument unavailable.\nUse `/disable [rules|about|welcome|modlist|report|extra|rtl|arab|info]` instead',
+                wrong_input = 'Argument unavailable.\nUse `/disable [rules|about|welcome|modlist|report|extra|rtl|arab]` instead',
             },
             enable = {
                 no_input = 'Enable what?',
@@ -247,7 +247,7 @@ return {
                 arab_unlocked = 'Anti-arab characters is now *off*',
                 report_already = '@admin command is already *available*',
                 report_unlocked = '@admin command is now *available*',
-                wrong_input = 'Argument unavailable.\nUse `/enable [rules|about|welcome|modlist|report|extra|rtl|arab|info]` instead'
+                wrong_input = 'Argument unavailable.\nUse `/enable [rules|about|welcome|modlist|report|extra|rtl|arab]` instead'
             },
             welcome = {
                 no_input = 'Welcome and...?',
@@ -598,7 +598,7 @@ return {
                 arab_locked = 'Anti-caratteri arabi è ora *on*',
                 report_already = '@admin è già *non disponibile*',
                 report_locked = '@admin *non sarà disponibile* da ora',
-                wrong_input = 'Argomento invalido.\nUsa invece `/disable [rules|about|welcome|modlist|report|extra|rtl|arab|info]`',
+                wrong_input = 'Argomento invalido.\nUsa invece `/disable [rules|about|welcome|modlist|report|extra|rtl|arab]`',
             },
             enable = {
                 no_input = 'Abilitare cosa?',
@@ -622,7 +622,7 @@ return {
                 arab_unlocked = 'Anti-caratteri arabi è ora *off*',
                 report_already = '@admin è già *disponibile*',
                 report_unlocked = '@admin è ora *disponibile*',
-                wrong_input = 'Argomento non disponibile.\nUsa invece `/enable [rules|about|welcome|modlist|report|extra|rtl|arab|info]`'
+                wrong_input = 'Argomento non disponibile.\nUsa invece `/enable [rules|about|welcome|modlist|report|extra|rtl|arab]`'
             },
             welcome = {
                 no_input = 'Welcome e...?',
@@ -665,8 +665,7 @@ return {
             Flood = 'Flood',
             Rtl = 'Rtl',
             Arab = 'Arabo',
-            Report = 'Report',
-            InfoInPrivate = 'Regole/descrizione/modlist nel gruppo',
+            Report = 'Report'
         },
         tell = {
             first_name = '*Nome*: &&&1\n',
@@ -1727,7 +1726,7 @@ return {
                 arab_locked = 'Anti-arab фильтр *включен*',
                 report_already = '@admin уже *выключена*',
                 report_locked = '@admin теперь не будет доступна',
-                wrong_input = 'Неправильно задан аргумент.\nИспользуй `/disable [rules|about|welcome|modlist|report|extra|rtl|arab|info]` ',
+                wrong_input = 'Неправильно задан аргумент.\nИспользуй `/disable [rules|about|welcome|modlist|report|extra|rtl|arab]` ',
             },
             enable = {
                 no_input = 'Что включить?',
@@ -1751,7 +1750,7 @@ return {
                 arab_unlocked = 'Anti-arab фильтр тепепь *выключен*',
                 report_already = '@admin уже *включена*',
                 report_unlocked = '@admin теперь *включена*',
-                wrong_input = 'Неправильный аргумент.\nИспользуй `/enable [rules|about|welcome|modlist|report|extra|rtl|arab|info]` '
+                wrong_input = 'Неправильный аргумент.\nИспользуй `/enable [rules|about|welcome|modlist|report|extra|rtl|arab]` '
             },
             welcome = {
                 no_input = 'Привет и ...?',
