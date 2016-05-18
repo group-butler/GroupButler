@@ -55,13 +55,13 @@ local action = function(msg, blocks, ln)
 			local type = db:get('chat:'..msg.chat.id..':warntype')
 			name = name..' (->'..num..'/'..nmax..')'
 			if type == 'ban' then
-				res, motivation = api.banUser(msg.chat.id, msg.reply.from.id, ln)
+				res, motivation = api.banUser(msg.chat.id, msg.reply.from.id, is_normal_group, ln)
 				if not res then text = motivation end
 	    	else
 	    		text = make_text(lang[ln].warn.warned_max_kick, name:mEscape())
 	    		local is_normal_group = false
 	    		if msg.chat.type == 'group' then is_normal_group = true end
-		    	res, motivation = api.kickUser(msg.chat.id, msg.reply.from.id, is_normal_group, ln)
+		    	res, motivation = api.kickUser(msg.chat.id, msg.reply.from.id, ln)
 		    	if not res then text = motivation end
 		    end
 		    return --avoid to send another reply 6 lines below
