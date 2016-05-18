@@ -207,40 +207,6 @@ function vtext(value)
   return serpent.block(value, {comment=false})
 end
 
-function breaks_markdown(text)
-	local i = 0
-	for word in string.gmatch(text, '%*') do
-		i = i+1	
-	end
-	local rest = i%2
-	if rest == 1 then
-		print('Wrong markdown *', i)
-		return true
-	end
-	
-	i = 0
-	for word in string.gmatch(text, '_') do
-		i = i+1	
-	end
-	local rest = i%2
-	if rest == 1 then
-		print('Wrong markdown _', i)
-		return true
-	end
-	
-	i = 0
-	for word in string.gmatch(text, '`') do
-		i = i+1	
-	end
-	local rest = i%2
-	if rest == 1 then
-		print('Wrong markdown `', i)
-		return true
-	end
-	
-	return false
-end
-
 local function per_away(text)
 	local text = tostring(text):gsub('%%', '£&£')
 	return text
@@ -326,7 +292,7 @@ function save_log(action, arg1, arg2, arg3, arg4)
     end
 end
 
-function clone_table(t) --doing "shit = table" in lua is create a pointer
+function clone_table(t) --doing "table1 = table2" in lua = create a pointer to table2
   local new_t = {}
   local i, v = next(t, nil)
   while i do
@@ -395,30 +361,6 @@ function get_media_type(msg)
 	return false
 end
 
-function res_type(string)
-	if string:match('(%d+)') then
-		return 1
-	elseif string:match('(@[%w_]+)') then
-		return 2
-	elseif string:match('') or not string then
-		return 3
-	else
-		return 0
-	end
-end
-
-function res_type_id(msg, string)
-	if string:match('(%d+)') then
-		return string
-	elseif string:match('(@[%w_]+)') then
-		return res_user(string)
-	elseif string:match('') or not string then
-		return msg.reply.from.id
-	else
-		return false
-	end
-end
-
 function group_table(chat_id)
 	local group = {
 		id = chat_id
@@ -431,7 +373,8 @@ function group_table(chat_id)
 			settings = 'chat:'..chat_id..':settings',
 			mediasettings = 'chat:'..chat_id..':media',
 			flood = 'chat:'..chat_id..':flood',
-			extra = 'chat:'..chat_id..':extra'
+			extra = 'chat:'..chat_id..':extra',
+			welcome = 'chat:'..chat_id..':welcome'
 		},
 		get = {
 			about = 'chat:'..chat_id..':about',
@@ -910,6 +853,16 @@ local function changeMediaStatus(chat_id, media, new_status, ln)
 	end
 end
 
+local function sendStartMe(msg, ln)
+    local keyboard = {}
+    keyboard.inline_keyboard = {
+    	{
+    		{text = 'Start me', url = 'https://telegram.me/'..bot.username}
+	    }
+    }
+	api.sendKeyboard(msg.chat.id, lang[ln].help.group_not_success, keyboard, true)
+end
+
 return {
 	getAbout = getAbout,
 	getRules = getRules,
@@ -920,5 +873,6 @@ return {
 	disableSetting = disableSetting,
 	changeSettingStatus = changeSettingStatus,
 	changeFloodSettings = changeFloodSettings,
-	changeMediaStatus = changeMediaStatus
+	changeMediaStatus = changeMediaStatus,
+	sendStartMe = sendStartMe
 }

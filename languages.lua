@@ -223,7 +223,7 @@ return {
                 arab_locked = 'Anti-arab characters is now *on*',
                 report_already = '@admin command is already *not enabled*',
                 report_locked = '@admin command *won\'t be available* from now',
-                wrong_input = 'Argument unavailable.\nUse `/disable [rules|about|welcome|modlist|report|extra|rtl|arab]` instead',
+                wrong_input = 'Argument unavailable.\nUse `/disable [rules|about|welcome|modlist|report|extra|rtl|arab|info]` instead',
             },
             enable = {
                 no_input = 'Enable what?',
@@ -247,7 +247,7 @@ return {
                 arab_unlocked = 'Anti-arab characters is now *off*',
                 report_already = '@admin command is already *available*',
                 report_unlocked = '@admin command is now *available*',
-                wrong_input = 'Argument unavailable.\nUse `/enable [rules|about|welcome|modlist|report|extra|rtl|arab]` instead'
+                wrong_input = 'Argument unavailable.\nUse `/enable [rules|about|welcome|modlist|report|extra|rtl|arab|info]` instead'
             },
             welcome = {
                 no_input = 'Welcome and...?',
@@ -288,7 +288,7 @@ return {
             Flood = 'Flood',
             Rtl = 'Rtl',
             Arab = 'Arab',
-            Report = 'Report'
+            Report = 'Report',
         },
         tell = {
             first_name = '*First name*: &&&1\n',
@@ -598,7 +598,7 @@ return {
                 arab_locked = 'Anti-caratteri arabi è ora *on*',
                 report_already = '@admin è già *non disponibile*',
                 report_locked = '@admin *non sarà disponibile* da ora',
-                wrong_input = 'Argomento invalido.\nUsa invece `/disable [rules|about|welcome|modlist|report|extra|rtl|arab]`',
+                wrong_input = 'Argomento invalido.\nUsa invece `/disable [rules|about|welcome|modlist|report|extra|rtl|arab|info]`',
             },
             enable = {
                 no_input = 'Abilitare cosa?',
@@ -622,7 +622,7 @@ return {
                 arab_unlocked = 'Anti-caratteri arabi è ora *off*',
                 report_already = '@admin è già *disponibile*',
                 report_unlocked = '@admin è ora *disponibile*',
-                wrong_input = 'Argomento non disponibile.\nUsa invece `/enable [rules|about|welcome|modlist|report|extra|rtl|arab]`'
+                wrong_input = 'Argomento non disponibile.\nUsa invece `/enable [rules|about|welcome|modlist|report|extra|rtl|arab|info]`'
             },
             welcome = {
                 no_input = 'Welcome e...?',
@@ -665,12 +665,8 @@ return {
             Flood = 'Flood',
             Rtl = 'Rtl',
             Arab = 'Arabo',
-            Report = 'Report'
-        },
-        shell = {
-            no_input = 'Please specify a command to run.',
-            done = 'Done!',
-            output = '```\n&&&1\n```'
+            Report = 'Report',
+            InfoInPrivate = 'Regole/descrizione/modlist nel gruppo',
         },
         tell = {
             first_name = '*Nome*: &&&1\n',
@@ -735,22 +731,6 @@ return {
             rtl = '&&&1 *kickato*: carattere rtl nel nome/nei messaggi non consentito',
             arab = '&&&1 *kickato*: caratteri arabi non consentiti',
             first_warn = 'Questo tipo di media *non è consentito* in questo gruppo. la prossima volta, *&&&1*'
-        },
-        broadcast = {
-            delivered = 'Broadcast delivered. Check the log for the list of reached ids',
-            no_users = 'No users saved, no broadcast',
-        },
-        admin = {
-            no_reply = 'This command need a reply',
-            blocked = '&&&1 have been blocked',
-            unblocked = '&&&1 have been unblocked',
-            already_blocked = '&&&1 was already blocked',
-            already_unblocked = '&&&1 was already unblocked',
-            bcg_no_groups = 'No (groups) id saved',
-            leave_id_missing = 'ID missing',
-            leave_chat_leaved = 'Chat leaved!',
-            leave_error = 'Check the id, it could be wrong'
-            
         },
         kick_errors = {
             [101] = 'Non sono admin, non posso kickare utenti',
@@ -997,7 +977,7 @@ return {
                 arab_locked = 'Anti-caracteres arabe *desactivado*',
                 report_already = 'Comando @admin ya *desactivado*',
                 report_locked = 'Comando @admin *no disponible*',
-                wrong_input = 'Argumento no valido.\nUsa `/disable [rules|about|welcome|modlist|report|extra|rtl|arab]`',
+                wrong_input = 'Argumento no valido.\nUsa `/disable [rules|about|welcome|modlist|report|extra|rtl|arab|private]`',
             },
             enable = {
                 no_input = '¿Activar el que?',
@@ -1021,7 +1001,7 @@ return {
                 arab_unlocked = 'Anti-caracteres arabe *apagado*',
                 report_already = 'Comando @admin ya *disponible*',
                 report_unlocked = 'Comando @admin *disponible*',
-                wrong_input = 'Argumento no disponible.\nUsa `/enable [rules|about|welcome|modlist|report|extra|rtl|arab]`'
+                wrong_input = 'Argumento no disponible.\nUsa `/enable [rules|about|welcome|modlist|report|extra|rtl|arab|private]`'
             },
             welcome = {
                 no_input = 'Bienvenida y...?',
@@ -1062,12 +1042,7 @@ return {
             Flood = 'Flood',
             Rtl = 'Rtl',
             Arab = 'Arabe',
-            Report = 'Reportar'
-        },
-        shell = {
-            no_input = 'Escribe un comando para ejecutarlo.',
-            done = '¡Hecho!',
-            output = '```\n&&&1\n```'
+            Report = 'Reportar',
         },
         tell = {
             first_name = '*Nombre*: &&&1\n',
@@ -1378,7 +1353,7 @@ return {
                 arab_locked = 'Anti-árabe agora está *ativado*',
                 report_already = 'comando @admin já está *desabilitado*',
                 report_locked = 'O comando @admin *não estará disponível* a partir de agora',
-                wrong_input = 'Argumento inválido.\nUse `/disable [rules|about|welcome|modlist|report|extra|rtl|arab]`',
+                wrong_input = 'Argumento inválido.\nUse `/disable [rules|about|welcome|modlist|report|extra|rtl|arab|private]`',
             },
             enable = {
                 no_input = 'Habilitar o que?',
@@ -1402,7 +1377,7 @@ return {
                 arab_unlocked = 'Anti-árabe agora está *desligado*',
                 report_already = 'O comando @admin já está *disponível*',
                 report_unlocked = 'O comando @admin agora está *disponível*',
-                wrong_input = 'Argumento inválido.\nUse `/enable [rules|about|welcome|modlist|report|extra|rtl|arab]`',
+                wrong_input = 'Argumento inválido.\nUse `/enable [rules|about|welcome|modlist|report|extra|rtl|arab|private]`',
             },
             welcome = {
                 no_input = 'Bem-vindo(a) e...?',
@@ -1443,7 +1418,7 @@ return {
 			Flood = 'Flood',
             Rtl = 'Rtl',
             Arab = 'Árabe',
-            Report = 'Denúncia'
+            Report = 'Denúncia',
         },
         tell = {
             first_name = '*Nome*: &&&1\n',
@@ -1538,21 +1513,21 @@ return {
     ru = {
         bonus = {
             general_pm = '_I\'ve sent you the message in private_',
-            no_user = 'I\'ve never seen this user before.\nIf you want to teach me who he is, forward me a message from him',
-            the_group = 'the group',
-            mods_list = '*Group moderators*:\n&&&1',
-            settings_header = 'Current settings for *the group*:\n\n*Language*: `&&&1`\n',
+            no_user = 'Я не видел этого человека раньше.\nЕсли ты хочешь объяснить мне, кто он, сделай мне forward его сообщения',
+            the_group = 'Группа',
+            mods_list = 'Список *модераторов группы*:\n&&&1',
+            settings_header = 'Текущие настройки для *the group*:\n\n*Язык*: `&&&1`\n',
             reply = '*Reply to someone* to use this command, or write a *username*',
-            msg_me = '_Message me first so I can message you_'
+            msg_me = '_Чтобы я мог тебе писать, сначала напиши мне_'
         },
         pv = 'Эта команда доступна только в группе',
         not_mod = 'Ты *не* модератор',
-        breaks_markdown = 'This text breaks the markdown.\nMore info about a proper use of markdown [here](https://telegram.me/GroupButler_ch/46).',
+        breaks_markdown = 'Этот текст содержит ошибку (markdown).\nИнформация о правильном использовании markdown [здесь](https://telegram.me/GroupButler_ch/46).',
         ping= 'Pong!',
         credits = '',
         extra = {
 			usage = 'Напиши после /extra хэштег и текст, который будет печататься при написании этого хэштега.\nНапример:\n/extra #hello Приветствую. Бот будет печатать _\' Приветствую\'_ каждый раз, когда кто-то будет писать #hello',
-            new_command = '*Команда установлена!*\n&&&1\n&&&2',
+            new_command = '*Команд�� установлена!*\n&&&1\n&&&2',
             no_commands = ' Нет команд!',
             commands_list = 'Список *установленных команд*:\n&&&1',
             command_deleted = '&&&1 команда удалена',
@@ -1682,27 +1657,27 @@ return {
         },
         mod = {
             not_owner = 'Ты *не* владелец этой группы.',
-            reply_promote = ' Ответь (reply) на чье-то сообщение, чтобы повысить его',
-            reply_demote = 'Ответь (reply) на чье-то сообщение, чтобы понизить его',
+            reply_promote = 'Ответь (reply) на чье-то сообщение, чтобы сделать его модератором',
+            reply_demote = 'Ответь (reply) на чье-то сообщение, чтобы исключить его из администраторов',
             reply_owner = 'Ответь (reply) на чье-то сообщение, чтобы сделать его владельцем', 
             already_mod = '*&&&1* уже является модератором *&&&2*',
             already_owner = '*&&&1* уже является владельцем *&&&2*', 
             not_mod = '*&&&1* is not a moderator of *&&&2*',
             promoted = '*&&&1* был повышен до модератора *&&&2*',
-            demoted = '*&&&1* был понижен',
+            demoted = '*&&&1* был исключён из администраторов',
             new_owner = '*&&&1* является новым владельцем *&&&2*',
             modlist = '\nСписок модераторов группы &&&1:\n&&&2'
         },
         report = {
             no_input = 'Напиши свои идеи / баги /ошибки после "/c"',
-            sent = ' Отправлено! :\n\n&&&1',
+            sent = ' Отправлено!',
             reply = ' Ответь на это сообщение, чтобы ответить этому человеку ',
             reply_no_input = ' Напиши свой ответ после команды "/reply"',
             feedback_reply = '*Привет, это ответ от создателя *:\n&&&1',
             reply_sent = '*Ответ отправлен*:\n\n&&&1',
         },
         service = {
-            new_group = 'Привет всем!\n*&&&1* добавил меня сюда, чтобы помочь следить за группой. you.\nЕсли ты хочешь узнать как я работаю, пожалуйста напиши мне в личном сообщении или напиши /help  :)',
+            new_group = 'Привет всем!\n*&&&1* добавил меня сюда, чтобы помочь следить за группой. \nЕсли ты хочешь узнать как я работаю, пожалуйста напиши мне в личном сообщении или напиши /help  :)',
             welcome = 'Привет, &&&! Добро пожаловать в *&&&2*!',
             welcome_rls = 'АНАРХИЯ!',
             welcome_abt = 'Описание этой группы отсутствует!',
@@ -1746,18 +1721,18 @@ return {
                 extra_locked = '#extra теперь доступна *только для модераторов*',
                 rtl_already = 'Anti-RTL фильтр уже *включен*',
                 rtl_locked = 'Anti-RTL фильтр *включен*',
-                flood_already = 'Anti-flood is already *on*',
-                flood_locked = 'Anti-flood is now *on*',
-                arab_already = 'Anti-arab фильтер уже *включен*',
+                flood_already = 'Анти-флуд уже *включен*',
+                flood_locked = 'Анти-флуд *включен*',
+                arab_already = 'Anti-arab фильтр уже *включен*',
                 arab_locked = 'Anti-arab фильтр *включен*',
                 report_already = '@admin уже *выключена*',
-                report_locked = '@admin тепепь не будет доступна',
-                wrong_input = 'Неправильно задан аргумент.\nИспользуй `/disable [rules|about|welcome|modlist|report|extra|rtl|arab]` ',
+                report_locked = '@admin теперь не будет доступна',
+                wrong_input = 'Неправильно задан аргумент.\nИспользуй `/disable [rules|about|welcome|modlist|report|extra|rtl|arab|info]` ',
             },
             enable = {
                 no_input = 'Что включить?',
-                rules_already = '`/rules` уже *выключена*',
-                rules_unlocked = '`/rules` command is now available *for all*',
+                rules_already = '`/rules` уже *включена*',
+                rules_unlocked = '`/rules` команда теперь доступна *всем*',
                 about_already = '`/about` уже *включена*',
                 about_unlocked = '`/about` теперь доступна *для всех*',
                 welcome_already = 'Приветственное сообщение уже *включено*',
@@ -1770,13 +1745,13 @@ return {
                 extra_unlocked = 'Extra # теперь доступна *для всех*',
                 rtl_already = 'Anti-RTL фильтр уже *выключен*',
                 rtl_unlocked = 'Anti-RTL фильтр *выключен*',
-                flood_already = 'Anti-flood is already *off*',
-                flood_unlocked = 'Anti-flood is now *off*',
+                flood_already = 'Анти-флуд уже *выключен*',
+                flood_unlocked = 'Анти-флуд *выключен*',
                 arab_already = 'Anti-arab фильтр уже *выключен*',
                 arab_unlocked = 'Anti-arab фильтр тепепь *выключен*',
                 report_already = '@admin уже *включена*',
                 report_unlocked = '@admin теперь *включена*',
-                wrong_input = 'Неправильный аргумент.\nИспользуй `/enable [rules|about|welcome|modlist|report|extra|rtl|arab]` '
+                wrong_input = 'Неправильный аргумент.\nИспользуй `/enable [rules|about|welcome|modlist|report|extra|rtl|arab|info]` '
             },
             welcome = {
                 no_input = 'Привет и ...?',
@@ -1809,14 +1784,14 @@ return {
             },
             Rules = 'Правила',
             About = 'Описание',
-            Welcome = 'Welcome message',
+            Welcome = 'Приветственное сообщение',
             Modlist = 'Список модераторов',
-            Flag = 'Флан',
+            Flag = 'Флаг',
             Extra = 'Экстра',
             Flood = 'Флуд',
             Rtl = 'Rtl',
             Arab = 'Арабский',
-            Report = 'Жалоба'
+            Report = 'Жалоба',
         },
         tell = {
             first_name = '*Имя*: &&&1\n',
@@ -1826,13 +1801,13 @@ return {
         },
         warn = {
             warn_reply = 'Ответь на сообщение пользователя, на которого ты хочешь пожаловаться',
-            changed_type = 'Новое максимальное количество предупреждений обновлено: *&&&1*',
+            changed_type = 'Новое максимальное количество предупреждений: *&&&1*',
             mod = 'Модераторы не могут быть предупреждены',
             warned_max_kick = 'Пользователь &&&1 *кикнут* по причине достижения максимального количества предупреждений',
             warned_max_ban = 'Пользователь &&&1 *забанен* по причине достижения максимального количества предупреждений', 
-            warned = '*Пользователь* &&&1 *был прндупрежден!*\n_Количество предупреждений_   *&&&2*\n_Максимальное разрешение_   *&&&3* (*-&&&4*)',
+            warned = '*Пользователь* &&&1 *был предупрежден!*\n_Количество предупреждений_   *&&&2*\n_Максимальное разрешение_   *&&&3* (*-&&&4*)',
             warnmax = 'Макмимальное количество предупреждений изменено.\n*Старое* значение: &&&1\n*Новое* значение: &&&2',
-            getwarns_reply = 'Ответь на сообщение пользователя, у которого хочешь проверить количество предупреждений на счету',
+            getwarns_reply = 'Ответь на сообщение пользователя, у которого хочешь проверить количество предупреждений',
             limit_reached = 'Этот пользователь уже получил максимальное количество предупреждений (*&&&1/&&&2*)',
             limit_lower = 'Этот пользователь почти достиг максимального количества предупреждений.\n*&&&1* предупреждений осталось до *&&&2* (*&&&3/&&&4*)',
             nowarn_reply = 'Ответь на сообщение пользователя, чтобы обнулить его счетчик предупреждений',
@@ -1848,7 +1823,7 @@ return {
             kicked_empty = 'Список пуст',
             kicked = '&&&1 был кикнут! ( все еще может зайти )',
             banned = '&&&1 был забанен!',
-            already_banned_normal = '&&&1 is *already banned*!',
+            already_banned_normal = '&&&1 *уже забанен*!',
             unbanned = 'User unbanned!',
             reply = 'Ответь (reply) на сообщение этого пользователя',
             globally_banned = '&&&1 был глобально забанен!',
@@ -1856,8 +1831,8 @@ return {
         },
         floodmanager = {
             number_invalid = '`&&&1` неправильное число!\nЧисло должно быть *больше* чем `3` и *меньше* чем `26`',
-            not_changed = ' Максимальное количество сообщений, которые можно отправить за 5 секунд уже &&&1',
-            changed = ' Максимальное количество сообщений, которые можно отправить за 5 секунд изменено с &&&1 на &&&2',
+            not_changed = 'Максимальное количество сообщений, которые можно отправить за 5 секунд уже &&&1',
+            changed = 'Максимальное количество сообщений, которые можно отправить за 5 секунд изменено с &&&1 на &&&2',
             enabled = 'Антифлуд фильтр включен',
             disabled = 'Антифлуд фильтр выключен',
             kick = 'Теперь флудеры будут кикнуты',
@@ -1887,7 +1862,7 @@ return {
             [103] = ' Нет необходимости на разбан, это обычная группа',
             [104] = ' Я не могу кикать или банить администратора', 
             [105] = ' Я не администратор, я не могу кикать или банить людей',
-            [106] = 'This user is not a chat member',
+            [106] = 'Этот пользователь не состоит в чате',
             [107] = 'Произошла ошибка'
         },
         flag = {
@@ -1896,12 +1871,12 @@ return {
             no_reply = 'Ответь пользователю на сообщение!',
             blocked = 'Теперь этот пользователь не сможет использовать команду \'@admin\'',
             already_blocked = 'Пользователь уже заблокирован на использование команды \'@admin\'',
-            unblocked = 'Теперь пользователь сможет использовать команду \'@admin\'',
-            already_unblocked = 'Пользоваьель уже мог использовать команду \'@admin\'',
+            unblocked = 'Теперь пользователь сможет использовать команду "@admin"',
+            already_unblocked = 'Пользователь уже мог использовать команду "@admin"',
         },
         all = {
-            dashboard = 'I\'ve sent you the group dashboard in private',
-            menu = 'I\'ve sent you the settings menu in private',
+            dashboard = 'Я отправил тебе меню управления личным сообщением',
+            menu = 'Я отправил тебе меню настроек личным сообщением',
             dashboard_first = 'Navigate this message to see *all the info* about this group!',
             menu_first = 'Tap on a lock to *change the group settings*, or use the last row to _manage the anti-flood behaviour_',
             media_first = 'Tap on a voice in the right colon to *change the setting*'

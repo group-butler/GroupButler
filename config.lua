@@ -67,6 +67,8 @@ return {
 		[122] = 'Can\'t parse inline keyboard button: InlineKeyboardButton should be an Object',
 		[123] = 'Bad Request: Object expected as reply markup', --empty inline keyboard table
 		
+		[130] = 'Type of file to send mismatch', --tryin to send a media with the wrong method
+		
 		[403] = 'Bot was blocked by the user', --user blocked the bot
 		[429] = 'Too many requests: retry later', --the bot is hitting api limits
 	}

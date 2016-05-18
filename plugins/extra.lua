@@ -54,24 +54,15 @@ local action = function(msg, blocks, ln)
 	    end
 	    mystat('/extra del')
     else
+    	local hash = 'chat:'..msg.chat.id..':extra'
+    	local text = db:hget(hash, blocks[1])
+        if not text then return end
         if is_locked(msg, 'Extra') and not is_mod(msg) then
-            return
-        end
-        local hash = 'chat:'..msg.chat.id..':extra'
-        local commands = db:hkeys(hash)
-        local replies = db:hvals(hash)
-        local text
-        for k,v in pairs(commands) do
-            if v == blocks[1] then
-                text = replies[k]
-                break
-            end
-        end
-		
-		if text then
+            api.sendMessage(msg.from.id, text, true)
+        else
         	api.sendReply(msg, text, true)
-        	mystat('/extra command')
         end
+		mystat('/extra command')
     end
 end
 

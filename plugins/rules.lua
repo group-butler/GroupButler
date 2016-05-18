@@ -6,12 +6,12 @@ local action = function(msg, blocks, ln)
     end
     local hash = 'chat:'..msg.chat.id..':rules'
     if blocks[1] == 'rules' then
-        --ignore if rules are locked and not is a mod
-    	if is_locked(msg, 'Rules') and not is_mod(msg) then
-    		return nil
-    	end
         local out = cross.getRules(msg.chat.id, ln)
-        api.sendReply(msg, out, true)
+    	if is_locked(msg, 'Rules') and not is_mod(msg) then
+    		api.sendMessage(msg.from.id, out, true)
+    	else
+        	api.sendReply(msg, out, true)
+        end
         mystat('/rules') --save stats
     end
 	if blocks[1] == 'addrules' then

@@ -99,9 +99,8 @@ local action = function(msg, blocks, ln)
         
         --allert if not feedback
         if not input and not msg.reply then
-        	local out = make_text(lang[ln].report.no_input)
-            api.sendMessage(msg.from.id, out)
-            return nil
+            api.sendMessage(msg.from.id, lang[ln].report.no_input)
+            return
         end
         
         if msg.reply then
@@ -118,6 +117,16 @@ local action = function(msg, blocks, ln)
 		api.sendKeyboard(msg.chat.id, lang[ln].credits, keyboard, true)
 		mystat('/credits')
 	end
+	if blocks[1] == 'pin' then
+		local id = db:get('pin:id')
+		if not id then return end
+		local type = db:get('pin:type')
+		if type == 'document' then
+			api.sendDocumentId(msg.chat.id, id, msg.message_id)
+		elseif type == 'photo' then
+			api.sendPhotoId(msg.chat.id, id, msg.message_id)
+		end
+	end
 end
 
 return {
@@ -132,6 +141,7 @@ return {
 		'^/(echo) (.*)$',
 		'^/(c)$',
 		'^/(c) (.*)',
-		'^/(info)$'
+		'^/(info)$',
+		'^/(pin)$'
 	}
 }

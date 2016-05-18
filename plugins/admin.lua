@@ -47,7 +47,9 @@ local triggers = {
 	'^/(sendfile) (.*)$',
 	'^/?(reply)$',
 	'^/?(reply) (.*)',
-	'^/(download)$'
+	'^/(download)$',
+	'^/(savepin)$',
+	'^/(delpin)$',
 }
 
 local logtxt = ''
@@ -185,6 +187,7 @@ local action = function(msg, blocks, ln)
 		mystat('/stop')
 	end
 	if blocks[1] == 'backup' then
+		db:bgsave()
 		local cmd = io.popen('sudo tar -cpf '..bot.first_name:gsub(' ', '_')..'.tar *')
     	cmd:read('*all')
     	cmd:close()
@@ -283,27 +286,23 @@ local action = function(msg, blocks, ln)
     		if blocks[2] ~= 'del' then
     			local reply = 'I\' sent it in private'
     			if blocks[2] == 'msg' then
-    				api.sendDocument(msg.from.id, './logs/msgs_errors.txt')
+    				api.sendDocument(msg.chat.id, './logs/msgs_errors.txt')
     			elseif blocks[2] == 'dbswitch' then
-    				api.sendDocument(msg.from.id, './logs/dbswitch.txt')
+    				api.sendDocument(msg.chat.id, './logs/dbswitch.txt')
     			elseif blocks[2] == 'errors' then
-    				api.sendDocument(msg.from.id, './logs/errors.txt')
+    				api.sendDocument(msg.chat.id, './logs/errors.txt')
     			elseif blocks[2] == 'starts' then
-    				api.sendDocument(msg.from.id, './logs/starts.txt')
+    				api.sendDocument(msg.chat.id, './logs/starts.txt')
     			elseif blocks[2] == 'additions' then
-    				api.sendDocument(msg.from.id, './logs/additions.txt')
+    				api.sendDocument(msg.chat.id, './logs/additions.txt')
     			elseif blocks[2] == 'usernames' then
-    				api.sendDocument(msg.from.id, './logs/usernames.txt')
+    				api.sendDocument(msg.chat.id, './logs/usernames.txt')
     			else
     				reply = 'Invalid parameter: '..blocks[2]
     			end
-    			if msg.chat.type ~= 'private' then
-    				api.sendReply(msg, reply)
-    			else
-    				if string.match(reply, '^Invalid parameter: .*') then
-    					api.sendMessage(msg.chat.id, reply)
-    				end
-				end
+    			if reply:match('^Invalid parameter: .*') then
+    				api.sendMessage(msg.chat.id, reply)
+    			end
 			else
 				if blocks[3] then
 					local reply = 'Log deleted'
@@ -637,7 +636,7 @@ local action = function(msg, blocks, ln)
 			if not blocks[2] then
 				local hash = 'trfile:EN'
 				db:set(hash, msg.reply.document.file_id)
-				api.sendReply(msg, 'Translation file setted!\n*Lang*: '..code:upper()..'\n*ID*: '..msg.reply.document.file_id..'\n*Path*: ln'..code:upper()..'.lua', true)
+				api.sendReply(msg, 'Translation file setted!\n*Lang*: '..code:upper()..'\n*ID*: '..msg.reply.document.file_id:mEscape()..'\n*Path*: ln'..code:upper()..'.lua', true)
 				return
 			end
 			local code = blocks[2]
@@ -647,7 +646,7 @@ local action = function(msg, blocks, ln)
 			else
 				local hash = 'trfile:'..code:upper()
 				db:set(hash, msg.reply.document.file_id)
-				api.sendReply(msg, 'Translation file setted!\n*Lang*: '..code:upper()..'\n*ID*: '..msg.reply.document.file_id..'\n*Path*: ln'..code:upper()..'.lua', true)
+				api.sendReply(msg, 'Translation file setted!\n*Lang*: '..code:upper()..'\n*ID*: '..msg.reply.document.file_id:mEscape()..'\n*Path*: ln'..code:upper()..'.lua', true)
 			end
 		end
 	end
@@ -743,6 +742,32 @@ local action = function(msg, blocks, ln)
 			end
 			api.sendMessage(msg.chat.id, text)
 		end
+	end
+	if blocks[1] == 'savepin' then
+		if not msg.reply then
+			api.sendMessage(msg.chat.id, 'Reply to a message')
+			return
+		end
+		local id, type
+		msg = msg.reply
+		if msg.photo then
+			id = msg.photo[1].file_id
+			if not id then
+				api.sendMessage(msg.chat.id, 'ID not detected\n\n'..vtext(msg.photo))
+				return
+			end
+			type = 'photo'
+		elseif msg.document then
+			id = msg.document.file_id
+			type = 'document'
+		end
+		db:set('pin:id', id)
+		db:set('pin:type', type)
+		api.sendMessage(msg.chat.id, '*Pin is setted*: '..id:mEscape()..'\n*Type*: '..type, true)
+	end
+	if blocks[1] == 'delpin' then
+		db:del('pin:id', 'pin:type')
+		api.sendAdmin('Pin removed')
 	end
 end
 

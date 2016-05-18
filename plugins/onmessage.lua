@@ -83,7 +83,9 @@ pre_process = function(msg, ln)
             local name = msg.from.first_name
             if msg.from.username then name = name..' (@'..msg.from.username..')' end
             local rtl = '‮'
-    	    local check = msg.text:find(rtl..'+') or msg.from.first_name:find(rtl..'+')
+    	    local last_name = 'x'
+    	    if msg.from.last_name then last_name = msg.from.last_name end
+    	    local check = msg.text:find(rtl..'+') or msg.from.first_name:find(rtl..'+') or last_name:find(rtl..'+')
     	    if check ~= nil then
     		    local res = api.kickUser(msg.chat.id, msg.from.id, ln)
     		    if res then

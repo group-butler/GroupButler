@@ -1,7 +1,6 @@
 local function disable_set(field, msg, ln)
     local hash = 'chat:'..msg.chat.id..':settings'
     local field_lower = field:lower()
-    print(already, locked)
     local now = db:hget(hash, field)
     if now == 'yes' then
         api.sendReply(msg, make_text(lang[ln].settings.disable[field_lower..'_already']), true)
@@ -14,7 +13,6 @@ end
 local function enable_set(field, msg, ln)
     local hash = 'chat:'..msg.chat.id..':settings'
     local field_lower = field:lower()
-    print(field_lower)
     local now = db:hget(hash, field)
     if now == 'no' then
         api.sendReply(msg, make_text(lang[ln].settings.enable[field_lower..'_already']), true)

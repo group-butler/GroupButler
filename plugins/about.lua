@@ -6,13 +6,12 @@ local action = function(msg, blocks, ln)
     end
     local hash = 'chat:'..msg.chat.id..':about'
     if blocks[1] == 'about' then
-    	--ignore if is locked and is not mod
+    	local out = cross.getAbout(msg.chat.id, ln)
     	if is_locked(msg, 'About') and not is_mod(msg) then
-    		return nil
-    	end
-    	--load the about
-        local out = cross.getAbout(msg.chat.id, ln)
-        api.sendReply(msg, out, true)
+    		api.sendMessage(msg.from.id, out, true)
+    	else
+        	api.sendReply(msg, out, true)
+        end
         mystat('/about')
     end
 	if blocks[1] == 'addabout' then

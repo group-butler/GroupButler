@@ -100,7 +100,7 @@ local action = function(msg, blocks, ln)
 		db:hset(hash, 'Extra', 'no')
 		db:hset(hash, 'Rtl', 'no')
 		db:hset(hash, 'Arab', 'no')
-		db:hset(hash, 'Flood', 'no')--flood
+		db:hset(hash, 'Flood', 'no')
 		--flood
 		hash = 'chat:'..msg.chat.id..':flood'
 		db:hset(hash, 'MaxFlood', 5)

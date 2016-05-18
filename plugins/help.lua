@@ -87,6 +87,7 @@ local action = function(msg, blocks, ln)
     -- save stats
     if blocks[1] == 'start' then
         db:hset('bot:users', msg.from.id, 'xx')
+        db:hincrby('bot:general', 'users', 1)
         if msg.chat.type == 'private' then
             local message = make_text(lang[ln].help.private, msg.from.first_name:mEscape())
             local keyboard = do_keyboard_private()

@@ -5,7 +5,7 @@ if not config.bot_api_key then
 	error('You did not set your bot token in config.lua!')
 end
 
-local function sendRequest(url, user_id)
+local function sendRequest(url)
 
 	local dat, code = HTTPS.request(url)
 	
@@ -315,6 +315,34 @@ local function getFile(file_id)
 	
 end
 
+----------------------------By Id-----------------------------------------
+
+local function sendPhotoId(chat_id, file_id, reply_to_message_id)
+	
+	local url = BASE_URL .. '/sendPhoto?chat_id=' .. chat_id .. '&photo=' .. file_id
+	
+	if reply_to_message_id then
+		url = url..'&reply_to_message_id='..reply_to_message_id
+	end
+
+	return sendRequest(url)
+	
+end
+
+local function sendDocumentId(chat_id, file_id, reply_to_message_id)
+	
+	local url = BASE_URL .. '/sendDocument?chat_id=' .. chat_id .. '&document=' .. file_id
+	
+	if reply_to_message_id then
+		url = url..'&reply_to_message_id='..reply_to_message_id
+	end
+
+	return sendRequest(url)
+	
+end
+
+----------------------------To curl--------------------------------------------
+
 local function curlRequest(curl_command)
  -- Use at your own risk. Will not check for success.
 
@@ -338,18 +366,6 @@ local function sendPhoto(chat_id, photo, caption, reply_to_message_id)
 
 	return curlRequest(curl_command)
 
-end
-
-local function sendDocumentId(chat_id, file_id, reply_to_message_id)
-	
-	local url = BASE_URL .. '/sendDocument?chat_id=' .. chat_id .. '&document=' .. file_id
-	
-	if reply_to_message_id then
-		url = url..'&reply_to_message_id='..reply_to_message_id
-	end
-
-	return sendRequest(url)
-	
 end
 
 local function sendDocument(chat_id, document, reply_to_message_id)
@@ -497,5 +513,6 @@ return {
 	banUserId= banUserId,
 	sendDocumentId = sendDocumentId,
 	sendStickerId = sendStickerId,
-	getFile = getFile
+	getFile = getFile,
+	sendPhotoId = sendPhotoId
 }	
