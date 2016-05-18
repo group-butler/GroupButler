@@ -9,7 +9,6 @@ return {
             general_pm = '_I\'ve sent you the message in private_',
             no_user = 'I\'ve never seen this user before.\nIf you want to teach me who he is, forward me a message from him',
             the_group = 'the group',
-            mods_list = '*Group moderators*:\n&&&1',
             settings_header = 'Current settings for *the group*:\n\n*Language*: `&&&1`\n',
             reply = '*Reply to someone* to use this command, or write a *username*',
             msg_me = '_Message me first so I can message you_'
@@ -17,7 +16,6 @@ return {
         pv = 'This is a command available only in a group',
         not_mod = 'You are *not* a moderator',
         breaks_markdown = 'This text breaks the markdown.\nMore info about a proper use of markdown [here](https://telegram.me/GroupButler_ch/46).',
-        ping= 'Pong!',
         credits = '*Some useful links:*',
         extra = {
 			usage = 'Write next to /extra the title of the command and the text associated.\nFor example:\n/extra #motm stay positive. The bot will reply _\'Stay positive\'_ each time someone writes #motm',
@@ -162,15 +160,12 @@ return {
             promoted = '&&&1 has been _promoted_ as moderator of *&&&2*',
             demoted = '&&&1 has been _demoted_',
             new_owner = '&&&1 is the _new owner_ of *&&&2*',
-            modlist = '\nModerators of *&&&1*:\n&&&2'
+            modlist = '\n*Group moderators*:\n&&&1'
         },
         report = {
             no_input = 'Write your suggestions/bugs/doubt near "/c"',
             sent = 'Feedback sent!',
-            reply = 'Reply to a feedback to reply to the user',
-            reply_no_input = 'Write your reply next to "/reply"',
             feedback_reply = '*Hello, this is a reply from the bot owner*:\n&&&1',
-            reply_sent = '*Reply sent*:\n\n&&&1',
         },
         service = {
             new_group = 'Hi all!\n*&&&1* added me here to help you to manage this group.\nIf you want to know how I work, please start me in private or type /help  :)',
@@ -291,9 +286,6 @@ return {
             Report = 'Report',
         },
         tell = {
-            first_name = '*First name*: &&&1\n',
-            last_name = '*Last name*: &&&1\n',
-            group_name = '\n*Group name*: &&&1\n',
             group_id = '*Group ID*: &&&1'
         },
         warn = {
@@ -354,13 +346,10 @@ return {
             first_warn = 'This type of media is *not allowed* in this chat. The next time, *&&&1*!'
         },
         kick_errors = {
-            [101] = 'I\'m not an admin, I can\'t kick people',
-            [102] = 'I can\'t kick or ban an admin',
-            [103] = 'There is no need to unban in a normal group',
-            [104] = 'I can\'t kick or ban an admin', --yes, I need two
-            [105] = 'I\'m not an admin, I can\'t kick people',
-            [106] = 'This user is not a chat member',
-            [107] = 'An unknown error occurred while kicking',
+            [1] = 'I\'m not an admin, I can\'t kick people',
+            [2] = 'I can\'t kick or ban an admin',
+            [3] = 'There is no need to unban in a normal group',
+            [4] = 'This user is not a chat member',
         },
         flag = {
             no_input = 'Reply to a message to report it to an admin, or write something next \'@admin\' to send a feedback to them',
@@ -383,7 +372,6 @@ return {
 	    bonus = {
             general_pm = '_Ti ho inviato il messaggio in privato_',
             the_group = 'il gruppo',
-            mods_list = 'Lista dei *moderatori del gruppo*:\n&&&1',
             settings_header = 'Impostazioni correnti per *il gruppo*:\n\n*Lingua*: `&&&1`\n',
             no_user = 'Non ho mai visto questo utente prima.\nSe vuoi insegnarmi dirmi chi è, inoltrami un suo messaggio',
             reply = '*Rispondi a qualcuno* per usare questo comando, o scrivi lo *username*',
@@ -391,8 +379,7 @@ return {
         },
         pv = 'Questo comando è disponibile solo in un gruppo!',
         not_mod = '*Non sei* un moderatore!',
-        breaks_markdown = 'Questo messaggio impedisce il markdown.\nControlla quante volte hai usato * oppure _ oppure `',
-        ping= 'Funziono!',
+        breaks_markdown = 'Questo messaggio impedisce il markdown.\nControlla quante volte hai usato * oppure _ oppure `.\nPiù info [qui](https://telegram.me/GroupButler_ch/46)',
         credits = '*Alcuni link utili:*',
         extra = {
 			usage = 'Scrivi accanto a /extra il titolo del comando ed il testo associato.\nAd esempio:\n/extra #ciao Hey, ciao!. Il bot risponderà _\'Hey, ciao!\'_ ogni volta che qualcuno scriverà #ciao',
@@ -537,15 +524,12 @@ return {
             promoted = '&&&1 è stato _promosso_ a moderatore di *&&&2*',
             demoted = '&&&1 è stato _rimosso dai moderatori_',
             new_owner = '&&&1 è il _nuovo proprietario_ di *&&&2*',
-            modlist = '\nLista dei moderatori di *&&&1*:\n&&&2'
+            modlist = '\n*Moderatori del gruppo*:\n&&&1',
         },
         report = {
             no_input = 'Scrivi il tuo suggerimento/bug/dubbio accanto a "/c"',
             sent = 'Feedback inviato!',
-            reply = 'Reply to a feedback to reply to the user',
-            reply_no_input = 'Write your reply next to "/reply"',
             feedback_reply = '*Hello, this is a reply from the bot owner*:\n&&&1',
-            reply_sent = '*Reply sent*:\n\n&&&1',
         },
         service = {
             new_group = 'Hi all!\n*&&&1* added me here to help you to manage this group.\nIf you want to know how I work, please start me in private or type /help  :)',
@@ -668,9 +652,6 @@ return {
             Report = 'Report'
         },
         tell = {
-            first_name = '*Nome*: &&&1\n',
-            last_name = '*Cognome*: &&&1\n',
-            group_name = '\n*nome gruppo*: &&&1\n',
             group_id = '*ID gruppo*: &&&1'
         },
         warn = {
@@ -732,13 +713,10 @@ return {
             first_warn = 'Questo tipo di media *non è consentito* in questo gruppo. la prossima volta, *&&&1*'
         },
         kick_errors = {
-            [101] = 'Non sono admin, non posso kickare utenti',
-            [102] = 'Non posso kickare o bannare un admin',
-            [103] = 'non c\'è bisogno di unbannare in un gruppo normale',
-            [104] = 'Non posso kickare/bannare un admin', --yes, I need two
-            [105] = 'Non sono admin, non posso kickare utenti',
-            [106] = 'Questo utente non fa parte del gruppo',
-            [107] = 'Si è verificato un errore sconosciuto durante il kick',
+            [1] = 'Non sono admin, non posso kickare utenti',
+            [2] = 'Non posso kickare o bannare un admin',
+            [3] = 'Non c\'è bisogno di unbannare in un gruppo normale',
+            [4] = 'Questo utente non fa parte del gruppo',
         },
         flag = {
             no_input = 'Rispondi ad un messaggio per segnalarlo agli admin, o scrivi qualcosa accanto ad \'@admin\' per inviare un feedback ai moderatori',
@@ -762,15 +740,13 @@ return {
             general_pm = '_I\'ve sent you the message in private_',
             no_user = 'I\'ve never seen this user before.\nIf you want to teach me who he is, forward me a message from him',
             the_group = 'the group',
-            mods_list = '*Group moderators*:\n&&&1',
             settings_header = 'Current settings for *the group*:\n\n*Language*: `&&&1`\n',
             reply = '*Reply to someone* to use this command, or write a *username*',
             msg_me = '_Message me first so I can message you_'
         },
         pv = 'Este comando solo esta disponible en los grupos',
         not_mod = 'Tu *no* eres moderador',
-        breaks_markdown = 'Este texto interrumpe.\nComprueba cuantas veces lo has usado * o _ o `',
-        ping= '¡Pong!',
+        breaks_markdown = 'This text breaks the markdown.\nMore info about a proper use of markdown [here](https://telegram.me/GroupButler_ch/46).',
         credits = '*Some useful links:*',
         extra = {
 			usage = 'Escribe seguido de /extra el titulo del comando y el texto asociado.\nPor ejemplo:\n/extra #motm esta positivo. El bot respondera _\'Esta positivo\'_ cada vez que alguien escriba #motm',
@@ -915,15 +891,12 @@ return {
             promoted = '*&&&1* ha sido ascendido a moderador de *&&&2*',
             demoted = '*&&&1* ha sido degradado',
             new_owner = '*&&&1* es el nuevo propietario de *&&&2*',
-            modlist = '\nLista de moderadores de &&&1:\n&&&2'
+            modlist = '\n*Group moderators*:\n&&&1'
         },
         report = {
             no_input = 'Escribe tus comentarios/bugs/dudas despues de "/c"',
             sent = 'Mensaje enviado!',
-            reply = 'Responde al mensaje mencionando al miembro',
-            reply_no_input = 'Escribe tu respuesta despues de "/reply"',
             feedback_reply = '*Hello, this is a reply from the bot owner*:\n&&&1',
-            reply_sent = '*Respuesta enviada*:\n\n&&&1',
         },
         service = {
             new_group = '¡Hola a todos!\n*&&&1* Me han añadido para administrar este grupo.\nSi quieres saber como funciono, iniciame en privado y escribe /help  :)',
@@ -1044,9 +1017,6 @@ return {
             Report = 'Reportar',
         },
         tell = {
-            first_name = '*Nombre*: &&&1\n',
-            last_name = '*Apellido*: &&&1\n',
-            group_name = '\n*Nombre del grupo*: &&&1\n',
             group_id = '*ID del grupo*: &&&1'
         },
         warn = {
@@ -1108,13 +1078,10 @@ return {
             first_warn = 'This type of media is *not allowed* in this chat. The next time, *&&&1*'
         },
         kick_errors = {
-            [101] = 'No soy administrador, no puedo expulsar miembros',
-            [102] = 'No puedo expulsar ni banear administradores',
-            [103] = 'No hay necesidad de desbanear en un grupo normal',
-            [104] = 'No puedo expulsar ni banear administradores', --Si, necesito dos
-            [105] = 'o soy administrador, no puedo expulsar miembros',
-            [106] = 'This user is not a chat member',
-            [107] = 'An unknown error occurred while kicking',
+            [1] = 'No soy administrador, no puedo expulsar miembros',
+            [2] = 'No puedo expulsar ni banear administradores',
+            [3] = 'No hay necesidad de desbanear en un grupo normal',
+            [4] = 'This user is not a chat member',
         },
         flag = {
             no_input = 'Responde al mensaje para reportarlo al administrador o escribe algo despues de \'@admin\' para enviarle un mensaje',
@@ -1146,7 +1113,6 @@ return {
         pv = 'Esse comando está disponível apenas em grupos',
         not_mod = 'Você *não* é um(a) moderador(a)',
         breaks_markdown = 'Esse texto apresenta problemas com markdown.\nVerifique quantas vezes você usou * ou _ ou `',
-        ping= 'Pong!',
         credits = '*Some useful links:*',
         extra = {
 			usage = 'Escreva ao lado de /extra o título do comando e o texto associado.\nPor exemplo:\n/extra #motm seja positivo. O bot irá respoder _\'seja positivo\'_ toda vez que alguém digitar #motm',
@@ -1291,15 +1257,12 @@ return {
             promoted = '*&&&1* foi promovido(a) a moderador de *&&&2*',
             demoted = '*&&&1* foi rebaixado(a)',
             new_owner = '*&&&1* é o(a) novo(a) dono(a) de *&&&2*',
-            modlist = '\nLista de moderadores(as) de &&&1:\n&&&2'
+            modlist = '\n*Group moderators*:\n&&&1'
         },
         report = {
             no_input = 'Envie suas sugestões/bugs/dúvidas com "/c"',
             sent = '*Feedback enviado!*',
-            reply = 'Responda um feedback para responder o(a) usuário(a)',
-            reply_no_input = 'Escreva sua resposta ao lado de "/reply"',
             feedback_reply = '*Olá, isto é uma resposta do dono do bot*:\n&&&1',
-            reply_sent = '*Resposta enviada*:\n\n&&&1',
         },
         service = {
             new_group = 'Olá, todo mundo!\n*&&&1* me adicionou aqui para ajudá-los(as) a gerenciar este grupo.\nSe você quiser saber como eu funciono, por favor inice uma conversa comigo no privado ou digite /help :)',
@@ -1420,9 +1383,6 @@ return {
             Report = 'Denúncia',
         },
         tell = {
-            first_name = '*Nome*: &&&1\n',
-            last_name = '*Sobrenome*: &&&1\n',
-            group_name = '\n*Nome do grupo*: &&&1\n',
             group_id = '*ID do grupo*: &&&1'
         },
         warn = {
@@ -1484,13 +1444,10 @@ return {
             first_warn = 'This type of media is *not allowed* in this chat. The next time, *&&&1*'
         },
         kick_errors = {
-            [101] = 'Não sou admin, não posso remover pessoas',
-            [102] = 'Não posso remover ou banir um(a) admin',
-            [103] = 'Não há necessidade de desbanir num grupo comum',
-            [104] = 'Não posso remover ou banir um(a) admin', --yes, I need two
-            [105] = 'Não sou admin, não posso remover pessoas',
-            [106] = 'This user is not a chat member',
-            [107] = 'An unknown error occurred while kicking',
+            [1] = 'Não sou admin, não posso remover pessoas',
+            [2] = 'Não posso remover ou banir um(a) admin',
+            [3] = 'Não há necessidade de desbanir num grupo comum',
+            [4] = 'This user is not a chat member',
         },
         flag = {
             no_input = 'Responda a uma mensagem para reportá-la para um(a) moderador(a) ou escreva algo ao lado de \'@admin\' para enviar um feedback a eles(as)',
@@ -1514,7 +1471,6 @@ return {
             general_pm = '_I\'ve sent you the message in private_',
             no_user = 'Я не видел этого человека раньше.\nЕсли ты хочешь объяснить мне, кто он, сделай мне forward его сообщения',
             the_group = 'Группа',
-            mods_list = 'Список *модераторов группы*:\n&&&1',
             settings_header = 'Текущие настройки для *the group*:\n\n*Язык*: `&&&1`\n',
             reply = '*Reply to someone* to use this command, or write a *username*',
             msg_me = '_Чтобы я мог тебе писать, сначала напиши мне_'
@@ -1522,7 +1478,6 @@ return {
         pv = 'Эта команда доступна только в группе',
         not_mod = 'Ты *не* модератор',
         breaks_markdown = 'Этот текст содержит ошибку (markdown).\nИнформация о правильном использовании markdown [здесь](https://telegram.me/GroupButler_ch/46).',
-        ping= 'Pong!',
         credits = '',
         extra = {
 			usage = 'Напиши после /extra хэштег и текст, который будет печататься при написании этого хэштега.\nНапример:\n/extra #hello Приветствую. Бот будет печатать _\' Приветствую\'_ каждый раз, когда кто-то будет писать #hello',
@@ -1665,15 +1620,12 @@ return {
             promoted = '*&&&1* был повышен до модератора *&&&2*',
             demoted = '*&&&1* был исключён из администраторов',
             new_owner = '*&&&1* является новым владельцем *&&&2*',
-            modlist = '\nСписок модераторов группы &&&1:\n&&&2'
+            modlist = '\nСписок *модераторов группы*:\n&&&1'
         },
         report = {
             no_input = 'Напиши свои идеи / баги /ошибки после "/c"',
             sent = ' Отправлено!',
-            reply = ' Ответь на это сообщение, чтобы ответить этому человеку ',
-            reply_no_input = ' Напиши свой ответ после команды "/reply"',
             feedback_reply = '*Привет, это ответ от создателя *:\n&&&1',
-            reply_sent = '*Ответ отправлен*:\n\n&&&1',
         },
         service = {
             new_group = 'Привет всем!\n*&&&1* добавил меня сюда, чтобы помочь следить за группой. \nЕсли ты хочешь узнать как я работаю, пожалуйста напиши мне в личном сообщении или напиши /help  :)',
@@ -1793,9 +1745,6 @@ return {
             Report = 'Жалоба',
         },
         tell = {
-            first_name = '*Имя*: &&&1\n',
-            last_name = '*Псевдоним*: &&&1\n',
-            group_name = '\n*Имя группы*: &&&1\n',
             group_id = '*ID группы*: &&&1'
         },
         warn = {
@@ -1856,13 +1805,10 @@ return {
             first_warn = 'This type of media is *not allowed* in this chat. The next time, *&&&1*'
         },
         kick_errors = {
-            [101] = 'Я не администратор этой группы, я не могу кикать людей',
-            [102] = 'Я не могу кикать или банить администратора',
-            [103] = ' Нет необходимости на разбан, это обычная группа',
-            [104] = ' Я не могу кикать или банить администратора', 
-            [105] = ' Я не администратор, я не могу кикать или банить людей',
-            [106] = 'Этот пользователь не состоит в чате',
-            [107] = 'Произошла ошибка'
+            [1] = 'Я не администратор этой группы, я не могу кикать людей', --1
+            [2] = 'Я не могу кикать или банить администратора',--2
+            [3] = 'Нет необходимости на разбан, это обычная группа',--3
+            [4] = 'Этот пользователь не состоит в чате',--4
         },
         flag = {
             no_input = 'Ответь на сообщение с текстом @admin, чтобы рассказать о нарушении всей администрации или напиши свое сообщение после @admin и оно тоже отправится всей администрации',

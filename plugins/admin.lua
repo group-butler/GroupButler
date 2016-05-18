@@ -685,8 +685,8 @@ local action = function(msg, blocks, ln)
 	end
 	if blocks[1] == 'reply' then
 	    --ignore if no reply
-	    if not msg.reply_to_message then
-            api.sendReply(msg, lang[ln].report.reply)
+	    if not msg.reply then
+            api.sendReply(msg, 'Reply to a message')
 			return nil
 		end
 		
@@ -694,15 +694,14 @@ local action = function(msg, blocks, ln)
 		
 		--ignore if not imput
 		if not input then
-            api.sendMessage(msg.from.id, lang[ln].report.reply_no_input)
+            api.sendMessage(msg.from.id, 'Write something to reply')
             return
         end
 		
 		msg = msg.reply_to_message
 		local receiver = msg.forward_from.id
-		local out = make_text(lang[ln].report.feedback_reply, input)
 		
-		local res = api.sendAdmin(make_text(lang[ln].report.reply_sent, input), true)
+		local res = api.sendAdmin('*Reply sent:*\n\n'..input, true)
 		if res then
 			api.sendMessage(receiver, out, true)
 		else

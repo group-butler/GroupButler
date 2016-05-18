@@ -62,7 +62,12 @@ local action = function(msg, blocks, ln)
 	    		local is_normal_group = false
 	    		if msg.chat.type == 'group' then is_normal_group = true end
 		    	res, motivation = api.kickUser(msg.chat.id, msg.reply.from.id, ln)
-		    	if not res then text = motivation end
+		    	if not res then
+		    		if not motivation then
+		    			motivation = lang[ln].banhammer.general_motivation
+		    		end
+		    		text = motivation
+		    	end
 		    end
 		else
 			local diff = tonumber(nmax)-tonumber(num)

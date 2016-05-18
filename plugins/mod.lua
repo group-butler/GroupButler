@@ -16,7 +16,7 @@ local function can_prom_dem(msg, blocks, ln)
     else
         local id
         if blocks[2] then
-            id = res_user(blocks[2])
+            id = res_user_group(blocks[2], msg.chat.id)
             if not id  then
                 return false, lang[ln].bonus.no_user
             end
@@ -137,7 +137,7 @@ local action = function(msg, blocks, ln)
 
     if blocks[1] == 'modlist' then
         local message = cross.getModlist(msg.chat.id):mEscape()
-        local out = make_text(lang[ln].mod.modlist, msg.chat.title:mEscape_hard(), message)
+        local out = make_text(lang[ln].mod.modlist, message)
         if is_locked(msg, 'Modlist') and not is_mod(msg) then
         	api.sendMessage(msg.from.id, out, true)
         else

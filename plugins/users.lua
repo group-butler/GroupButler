@@ -4,24 +4,10 @@ local function tell(msg, ln)
 	end
 	
 	local text = ''
-	text = text..make_text(lang[ln].tell.first_name, msg.from.first_name:mEscape())
-	
-	--check if the user has a last name
-	if msg.from.last_name then
-		text = text..make_text(lang[ln].tell.last_name, msg.from.last_name:mEscape())
-	end
-	
-	--check if the user has a username
-	if msg.from.username then
-		text = text..'*Username*: @'..msg.from.username:mEscape()..'\n'
-	end
-	
-	--add the id
+
 	text = text..'*ID*: '..msg.from.id..'\n'
 	
-	--if in a group, build group info
 	if msg.chat.type == 'group' or msg.chat.type == 'supergroup' then
-		text = text..make_text(lang[ln].tell.group_name, msg.chat.title:mEscape())
 		text = text..make_text(lang[ln].tell.group_id, msg.chat.id)
 		return text
 	else
@@ -43,7 +29,7 @@ end
 
 local action = function(msg, blocks, ln)
 	if blocks[1] == 'ping' then
-		api.sendMessage(msg.from.id, lang[ln].ping)
+		api.sendMessage(msg.from.id, '*Pong!*', true)
 		mystat('/ping') --save stats
 	end
 	if blocks[1] == 'helpme' then
@@ -127,6 +113,15 @@ local action = function(msg, blocks, ln)
 			api.sendPhotoId(msg.chat.id, id, msg.message_id)
 		end
 	end
+	if blocks[1] == 'resolve' then
+		local id = res_user_group(blocks[2], msg.chat.id)
+		if not id then
+			message = lang[ln].bonus.no_user
+		else
+			message = '*'..id..'*'
+		end
+		api.sendMessage(msg.chat.id, message, true)
+	end
 end
 
 return {
@@ -142,6 +137,7 @@ return {
 		'^/(c)$',
 		'^/(c) (.*)',
 		'^/(info)$',
-		'^/(pin)$'
+		'^/(pin)$',
+		'^/(resolve) (@[%w_]+)$'
 	}
 }

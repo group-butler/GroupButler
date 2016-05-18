@@ -21,11 +21,9 @@ local function sendRequest(url)
 		if code == 400 then code = api.getCode(tab.description) end --error code 400 is general: try to specify
 		db:hincrby('bot:errors', code, 1)
 		if code ~= 403 and code ~= 429 and code ~= 110 and code ~= 111 then
-			local out = vtext(dat)..'\n'..code..'\n(text in the log)'
-			api.sendLog(out)
-			return false, code
+			api.sendLog(vtext(dat)..'\n'..code..'\n(text in the log)')
 		end
-		return false, false --if the message is not sent because the bot is blocked, then don't return the code
+		return false, code
 	end
 	
 	--actually, this rarely happens
@@ -58,14 +56,12 @@ local function getUpdates(offset)
 end
 
 local function getCode(error)
-	--error = error:gsub('%[Error : %d%d%d : Bad Request: ', ''):gsub('%]', '')
-	--error = error:gsub('%[Error : 400 : ', ''):gsub('%]', '')
 	for k,v in pairs(config.api_errors) do
 		if error:match(v) then
 			return k
 		end
 	end
-	return 107 --if unknown
+	return 7 --if unknown
 end
 
 local function unbanChatMember(chat_id, user_id)
@@ -116,21 +112,18 @@ end
 
 local function code2text(code, ln)
 	--the default error description can't be sent as output, so a translation is needed
-	if code == 101 then
-		return lang[ln].kick_errors[code]
-	elseif code == 102 then
-		return lang[ln].kick_errors[code]
+	if code == 101 or code == 105 or code == 107 then
+		return lang[ln].kick_errors[1]
+	elseif code == 102 or code == 104 then
+		return lang[ln].kick_errors[2]
 	elseif code == 103 then
-		return lang[ln].kick_errors[code]
-	elseif code == 104 then
-		return lang[ln].kick_errors[code]
-	elseif code == 105 then
-		return lang[ln].kick_errors[code]
+		return lang[ln].kick_errors[3]
 	elseif code == 106 then
-		return lang[ln].kick_errors[code]
-	elseif code == 107 then
+		return lang[ln].kick_errors[4]
+	elseif code == 7 then
 		return false
 	end
+	return false
 end
 
 local function banUserId(chat_id, user_id, name, on_request, no_msg)
@@ -187,11 +180,11 @@ local function unbanUser(chat_id, user_id, is_normal_group)
 	    local hash = 'chat:'..chat_id..':banned'
 	    local removed = db:srem(hash, user_id)
 	    if removed == 0 then
-		    --text = lang[ln].banhammer.not_banned
 		    return false
 	    end
+	else
+		local res, code = api.unbanChatMember(chat_id, user_id)
 	end
-	local res, code = api.unbanChatMember(chat_id, user_id)
 	return true
 end
 

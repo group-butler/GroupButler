@@ -17,8 +17,12 @@ local action = function(msg, blocks, ln)
 	if blocks[1] == 'addrules' then
 	    --ignore if not mod
 		if not is_mod(msg) then
-			api.sendReply(msg, make_text(lang[ln].not_mod), true)
-			return nil
+			api.sendReply(msg, lang[ln].not_mod, true)
+			return
+		end
+		if not blocks[2] then
+			api.sendReply(msg, lang[ln].setabout.no_input_add)
+			return
 		end
 	    local rules = db:get(hash)
         --check if rules are empty
