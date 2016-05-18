@@ -64,7 +64,6 @@ local action = function(msg, blocks, ln)
 		    	res, motivation = api.kickUser(msg.chat.id, msg.reply.from.id, ln)
 		    	if not res then text = motivation end
 		    end
-		    return --avoid to send another reply 6 lines below
 		else
 			local diff = tonumber(nmax)-tonumber(num)
 			text = make_text(lang[ln].warn.warned, name, num, nmax, diff)

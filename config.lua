@@ -24,7 +24,6 @@ return {
 		'mediasettings.lua',
 		'test.lua',
 		'admin.lua',
-		--'bob.lua'
 	},
 	available_languages = {
 		'en',
@@ -60,10 +59,14 @@ return {
 		[112] = 'Bad Request: Can\'t parse message text: Can\'t find end of the entity starting at byte offset %d+', --the markdown is wrong and breaks the delivery
 		[113] = 'Bad Request: group chat is migrated to a supergroup chat', --group updated to supergroup
 		[114] = 'Bad Request: Message can\'t be forwarded', --unknown
+		[115] = 'Message text is empty', --empty message
+		[116] = 'message not found', --message id invalid, I guess
+		
 		[120] = 'Can\'t parse reply keyboard markup JSON object', --keyboard table invalid
 		[121] = 'Field \\\"inline_keyboard\\\" of the InlineKeyboardMarkup should be an Array of Arrays', --inline keyboard is not an array of array
 		[122] = 'Can\'t parse inline keyboard button: InlineKeyboardButton should be an Object',
 		[123] = 'Bad Request: Object expected as reply markup', --empty inline keyboard table
+		
 		[403] = 'Bot was blocked by the user', --user blocked the bot
 		[429] = 'Too many requests: retry later', --the bot is hitting api limits
 	}

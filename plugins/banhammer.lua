@@ -27,6 +27,9 @@ local action = function(msg, blocks, ln)
 		 	if blocks[1] == 'kick' then
 		    	local res, motivation = api.kickUser(chat_id, user_id, ln)
 		    	if not res then
+		    		if not motivation then
+		    			motivation = lang[ln].banhammer.general_motivation
+		    		end
 		    		api.sendReply(msg, motivation, true)
 		    	end
 		    	mystat('/kick')
@@ -36,6 +39,9 @@ local action = function(msg, blocks, ln)
 	   		if blocks[1] == 'ban' then
 	   			local res, motivation = api.banUser(chat_id, user_id, is_normal_group, ln)
 		    	if not res then
+		    		if not motivation then
+		    			motivation = lang[ln].banhammer.general_motivation
+		    		end
 		    		api.sendReply(msg, motivation, true)
 		    	end
 		    	mystat('/ban')
@@ -45,7 +51,7 @@ local action = function(msg, blocks, ln)
    				if not res and msg.chat.type == 'group' then
    					api.sendReply(msg, lang[ln].banhammer.not_banned, true)
    				else
-   					api.sendReply(msg, make_text(lang[ln].banhammer.unbanned, msg.reply.from.first_name:mEscape()), true)
+   					api.sendReply(msg, lang[ln].banhammer.unbanned, true)
    				end
    				mystat('/unban')
    			end

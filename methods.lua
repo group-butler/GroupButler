@@ -114,7 +114,7 @@ local function kickChatMember(chat_id, user_id)
 
 end
 
-local function code2text(code, ln, chat_id)
+local function code2text(code, ln)
 	--the default error description can't be sent as output, so a translation is needed
 	if code == 101 then
 		return lang[ln].kick_errors[code]
@@ -157,7 +157,7 @@ local function banUser(chat_id, user_id, is_normal_group, ln)--no_msg: kick with
 	    end
 		return res --return res and not the text
 	else ---else, the user haven't been kicked
-		local text = api.code2text(code, ln, chat_id)
+		local text = api.code2text(code, ln)
 		return res, text --return the motivation too
 	end
 end
@@ -174,7 +174,7 @@ local function kickUser(chat_id, user_id, ln)-- no_msg: don't send the error mes
 		api.unbanChatMember(chat_id, user_id)
 		return res
 	else
-		local motivation = api.code2text(code, ln, chat_id)
+		local motivation = api.code2text(code, ln)
 		return res, motivation
 	end
 end

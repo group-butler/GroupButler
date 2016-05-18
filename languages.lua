@@ -9,7 +9,7 @@ return {
             general_pm = '_I\'ve sent you the message in private_',
             no_user = 'I\'ve never seen this user before.\nIf you want to teach me who he is, forward me a message from him',
             the_group = 'the group',
-            mods_list = 'List of the *group\'s moderators*:\n&&&1',
+            mods_list = '*Group moderators*:\n&&&1',
             settings_header = 'Current settings for *the group*:\n\n*Language*: `&&&1`\n',
             reply = '*Reply to someone* to use this command, or write a *username*',
             msg_me = '_Message me first so I can message you_'
@@ -36,8 +36,8 @@ return {
                     ..'(obviuosly, the ability to appoint moderators is aimed to let users know who are the real moderators in the group, and so who can add and kick people.\nSo it\'s hardly suggested to point as moderator only who really is a moderator)\n\n',
             mods = {
                 banhammer = "*Moderators: banhammer powers*\n\n"
-                            .."`/kick [by reply|username]` = kick an user from the group (he can be added again).\n"
-                            .."`/ban [by reply|username]` = ban an user from the group (also from normal groups).\n"
+                            .."`/kick [by reply|username]` = kick a user from the group (he can be added again).\n"
+                            .."`/ban [by reply|username]` = ban a user from the group (also from normal groups).\n"
                             .."`/unban [by reply|username]` = unban the user from the group.\n",
                 info = "*Moderators: info about the group*\n\n"
                         .."`/setrules [group rules]` = set the new regulation for the group (the old will be overwritten).\n"
@@ -58,7 +58,7 @@ return {
                         .."_Example_ : `/media kick sticker`.\n"
                         .."`/media list` = show the current settings for all the media.\n"
                         .."\n*List of supported media*: _image, audio, video, sticker, gif, voice, contact, file_\n"
-                        .."\n*Note*: the first time an user send a forbidden media, the bot won't kick him. Instead, a warn is sent: the next time, the user will be kicked/banned.",
+                        .."\n*Note*: the first time a user send a forbidden media, the bot won't kick him. Instead, a warn is sent: the next time, the user will be kicked/banned.",
                 welcome = "*Moderators: welcome settings*\n\n"
                             .."`/enable welcome` = the welcome message will be sent when a new user join the group.\n"
                             .."`/disable welcome` = the welcome message won't be sent.\n"
@@ -82,10 +82,10 @@ return {
                         .."For a correct use of the markdown, check [this post](https://telegram.me/GroupButler_ch/46) in the channel",
                 warns = "*Moderators: warns*\n\n"
                         .."`/warn [kick/ban]` = choose the action to perform once the max number of warnings is reached.\n"
-                        .."`/warn [by reply]` = warn an user. Once the max number is reached, he will be kicked/banned.\n"
+                        .."`/warn [by reply]` = warn a user. Once the max number is reached, he will be kicked/banned.\n"
                         .."`/warnmax` = set the max number of the warns before the kick/ban.\n"
-                        .."`/getwarns [by reply]` = see how many times an user have been warned.\n"
-                        .."`/nowarns [by reply]` = reset to zero the warns of an user.\n",
+                        .."`/getwarns [by reply]` = see how many times a user have been warned.\n"
+                        .."`/nowarns [by reply]` = reset to zero the warns of a user.\n",
                 char = "*Moderators: special characters*\n\n"
                         .."`/disable rtl` = everyone with RTL (Righ To Left) character in the name will be kicked. Also, the same is applied to messages.\n"
                         .."`/enable rtl` = the RTL (Righ To Left) character will be ignored.\n"
@@ -162,7 +162,7 @@ return {
             promoted = '&&&1 has been _promoted_ as moderator of *&&&2*',
             demoted = '&&&1 has been _demoted_',
             new_owner = '&&&1 is the _new owner_ of *&&&2*',
-            modlist = '\nModerators list of *&&&1*:\n&&&2'
+            modlist = '\nModerators of *&&&1*:\n&&&2'
         },
         report = {
             no_input = 'Write your suggestions/bugs/doubt near "/c"',
@@ -304,10 +304,10 @@ return {
             warned_max_ban = 'User &&&1 *banned*: reached the max number of warnings',
             warned = '*User* &&&1 *have been warned.*\n_Number of warnings_   *&&&2*\n_Max allowed_   *&&&3* (*-&&&4*)',
             warnmax = 'Max number of warnings changed.\n*Old* value: &&&1\n*New* max: &&&2',
-            getwarns_reply = 'Reply to an user to check his numebr of warns',
+            getwarns_reply = 'Reply to a user to check his numebr of warns',
             limit_reached = 'This user has already reached the max number of warnings (*&&&1/&&&2*)',
             limit_lower = 'This user is under the max number of warnings.\n*&&&1* warnings missing on a total of *&&&2* (*&&&3/&&&4*)',
-            nowarn_reply = 'Reply to an user to delete his warns',
+            nowarn_reply = 'Reply to a user to delete his warns',
             nowarn = 'The number of warns received by this user have been *resetted*'
         },
         setlang = {
@@ -321,10 +321,11 @@ return {
             kicked = '&&&1 have been kicked! (but is still able to join)',
             banned = '&&&1 have been banned!',
             already_banned_normal = '&&&1 is *already banned*!',
-            unbanned = '&&&1 have been unbanned!',
+            unbanned = 'User unbanned!',
             reply = 'Reply to someone',
             globally_banned = '&&&1 have been globally banned!',
-            not_banned = 'The user is not banned'
+            not_banned = 'The user is not banned',
+            general_motivation = 'I can\'t kick this user.\nProbably I\'m not an Amdin, or the user is an Admin iself'
         },
         floodmanager = {
             number_invalid = '`&&&1` is not a valid value!\nThe value should be *higher* than `3` and *lower* then `26`',
@@ -364,14 +365,14 @@ return {
         flag = {
             no_input = 'Reply to a message to report it to an admin, or write something next \'@admin\' to send a feedback to them',
             reported = 'Reported!',
-            no_reply = 'Reply to an user!',
+            no_reply = 'Reply to a user!',
             blocked = 'The user from now can\'t use \'@admin\'',
             already_blocked = 'The user is already unable to use \'@admin\'',
             unblocked = 'The user now can use \'@admin\'',
             already_unblocked = 'The user is already able to use \'@admin\'',
         },
         all = {
-            dashboard = 'I\'ve sent you the resume dashboard in private',
+            dashboard = 'I\'ve sent you the group dashboard in private',
             menu = 'I\'ve sent you the settings menu in private',
             dashboard_first = 'Navigate this message to see *all the info* about this group!',
             menu_first = 'Tap on a lock to *change the group settings*, or use the last row to _manage the anti-flood behaviour_',
@@ -701,12 +702,13 @@ return {
             kicked_empty = 'la lista è vuota',
             kicked = '&&&1 è stato kickato! (ma può ancora rientrare)',
             banned = '&&&1 è stato bannato!',
-            unbanned = '&&&1 è stato unbannato!',
+            unbanned = 'L\'utente è stato unbannato!',
             reply = 'Rispondi a qualcuno',
             globally_banned = '&&&1 è stato bannato globalmente!',
             no_unbanned = 'Questo è un gruppo normale, gli utenti non vengono bloccati se kickati',
             already_banned_normal = '&&&1 è *già bannato*!',
-            not_banned = 'L\'utente non è bannato'
+            not_banned = 'L\'utente non è bannato',
+            general_motivation = 'Non posso kickare questo utente.\nProbabilmente non sono un Admin, o l\'utente che hai cercato di kickare è un Admin'
         },
         floodmanager = {
             number_invalid = '`&&&1` non è un valore valido!\nil valore deve essere *maggiore* di `3` e *minore* di `26`',
@@ -781,7 +783,7 @@ return {
             general_pm = '_I\'ve sent you the message in private_',
             no_user = 'I\'ve never seen this user before.\nIf you want to teach me who he is, forward me a message from him',
             the_group = 'the group',
-            mods_list = 'List of the *group\'s moderators*:\n&&&1',
+            mods_list = '*Group moderators*:\n&&&1',
             settings_header = 'Current settings for *the group*:\n\n*Language*: `&&&1`\n',
             reply = '*Reply to someone* to use this command, or write a *username*',
             msg_me = '_Message me first so I can message you_'
@@ -808,8 +810,8 @@ return {
                     ..'(Obviamente, la capacidad de nombrar moderadores pretende que los usuarios sepan que son los moderadores reales en el grupo, y así pueden añadir y echar a la gente.)\n\n',
             mods = {
                 banhammer = "*Moderators: banhammer powers*\n\n"
-                            .."`/kick [by reply|username]` = kick an user from the group (he can be added again).\n"
-                            .."`/ban [by reply|username]` = ban an user from the group (also from normal groups).\n"
+                            .."`/kick [by reply|username]` = kick a user from the group (he can be added again).\n"
+                            .."`/ban [by reply|username]` = ban a user from the group (also from normal groups).\n"
                             .."`/unban [by reply|username]` = unban the user from the group.\n",
                 info = "*Moderators: info about the group*\n\n"
                         .."`/setrules [group rules]` = set the new regulation for the group (the old will be overwritten).\n"
@@ -830,7 +832,7 @@ return {
                         .."_Example_ : `/media kick sticker`.\n"
                         .."`/media list` = show the current settings for all the media.\n"
                         .."\n*List of supported media*: _image, audio, video, sticker, gif, voice, contact, file_\n"
-                        .."\n*Note*: the first time an user send a forbidden media, the bot won't kick him. Instead, a warn is sent: the next time, the user will be kicked/banned.",
+                        .."\n*Note*: the first time a user send a forbidden media, the bot won't kick him. Instead, a warn is sent: the next time, the user will be kicked/banned.",
                 welcome = "*Moderators: welcome settings*\n\n"
                             .."`/enable welcome` = the welcome message will be sent when a new user join the group.\n"
                             .."`/disable welcome` = the welcome message won't be sent.\n"
@@ -854,10 +856,10 @@ return {
                         .."For a correct use of the markdown, check [this post](https://telegram.me/GroupButler_ch/46) in the channel",
                 warns = "*Moderators: warns*\n\n"
                         .."`/warn [kick/ban]` = choose the action to perform once the max number of warnings is reached.\n"
-                        .."`/warn [by reply]` = warn an user. Once the max number is reached, he will be kicked/banned.\n"
+                        .."`/warn [by reply]` = warn a user. Once the max number is reached, he will be kicked/banned.\n"
                         .."`/warnmax` = set the max number of the warns before the kick/ban.\n"
-                        .."`/getwarns [by reply]` = see how many times an user have been warned.\n"
-                        .."`/nowarns [by reply]` = reset to zero the warns of an user.\n",
+                        .."`/getwarns [by reply]` = see how many times a user have been warned.\n"
+                        .."`/nowarns [by reply]` = reset to zero the warns of a user.\n",
                 char = "*Moderators: special characters*\n\n"
                         .."`/disable rtl` = everyone with RTL (Righ To Left) character in the name will be kicked. Also, the same is applied to messages.\n"
                         .."`/enable rtl` = the RTL (Righ To Left) character will be ignored.\n"
@@ -1081,7 +1083,7 @@ return {
             warned_max_ban = '*&&&1 ha sido baneado*: alcanzado el numero maximo de advertencias',
             warned = '*&&&1 ha sido advertido.*\n_Numero de advertencias_   *&&&2*\n_Maximo_   *&&&3* (*-&&&4*)',
             warnmax = 'Numero maximo de advertencias cambiado.\n*Antes*: &&&1\n*Ahora*: &&&2',
-            getwarns_reply = 'Reply to an user to check his numebr of warns',
+            getwarns_reply = 'Reply to a user to check his numebr of warns',
             limit_reached = 'Este miembro ya ha alcanzado el número máximo de advertencias (*&&&1/&&&2*)',
             limit_lower = 'Este miembro esta por debajo de las advertencias maximas.\n*&&&1* de *&&&2* advertencias(*&&&3/&&&4*)',
             nowarn_reply = 'Menciona al miembro para eliminarle la advertencia',
@@ -1097,12 +1099,13 @@ return {
             kicked_empty = 'La lista de los miembros expulsados esta vacia',
             kicked = '&&&1 ha sido expulsado! (pero puede volver a entrar)',
             banned = '&&&1 ha sido baneado!',
-            unbanned = '&&&1 ha sido desbaneado!',
+            unbanned = 'User unbanned!',
             reply = 'Responder a alguien',
             globally_banned = '&&&1 ha sido baneado globalmente!',
             no_unbanned = 'Este es un grupo normal, los miembros no son bloqueados al expulsarlos',
             already_banned_normal = '&&&1 is *already banned*!',
-            not_banned = 'The user is not banned'
+            not_banned = 'The user is not banned',
+            general_motivation = 'I can\'t kick this user.\nProbably I\'m not an Amdin, or the user is an Admin iself'
         },
         floodmanager = {
             number_invalid = '`&&&1` no es un valor valido!\nel valor tiene que ser *mayor* que `3` y *menor* que `26`',
@@ -1149,7 +1152,7 @@ return {
             already_unblocked = 'El miembro ya puede usar \'@admin\'',
         },
         all = {
-            dashboard = 'I\'ve sent you the resume dashboard in private',
+            dashboard = 'I\'ve sent you the group dashboard in private',
             menu = 'I\'ve sent you the settings menu in private',
             dashboard_first = 'Navigate this message to see *all the info* about this group!',
             menu_first = 'Tap on a lock to *change the group settings*, or use the last row to _manage the anti-flood behaviour_',
@@ -1161,7 +1164,7 @@ return {
             general_pm = '_I\'ve sent you the message in private_',
             no_user = 'I\'ve never seen this user before.\nIf you want to teach me who he is, forward me a message from him',
             the_group = 'the group',
-            mods_list = 'List of the *group\'s moderators*:\n&&&1',
+            mods_list = '*Group moderators*:\n&&&1',
             settings_header = 'Current settings for *the group*:\n\n*Language*: `&&&1`\n',
             reply = '*Reply to someone* to use this command, or write a *username*',
             msg_me = '_Message me first so I can message you_'
@@ -1188,8 +1191,8 @@ return {
                     ..'(obviamente, a habilidade de apontar moderadores(as) tem como objetivo permitir usuários(as) de saberem quem são os verdadeiros moderadores(as) no grupo, e assim quem pode adicionar e remover pessoas.\nDesta forma, é altamente sugerido apontar como moderator(a) apenas quem realmente é um(a) moderador(a))\n\n',
             mods = {
                 banhammer = "*Moderators: banhammer powers*\n\n"
-                            .."`/kick [by reply|username]` = kick an user from the group (he can be added again).\n"
-                            .."`/ban [by reply|username]` = ban an user from the group (also from normal groups).\n"
+                            .."`/kick [by reply|username]` = kick a user from the group (he can be added again).\n"
+                            .."`/ban [by reply|username]` = ban a user from the group (also from normal groups).\n"
                             .."`/unban [by reply|username]` = unban the user from the group.\n",
                 info = "*Moderators: info about the group*\n\n"
                         .."`/setrules [group rules]` = set the new regulation for the group (the old will be overwritten).\n"
@@ -1210,7 +1213,7 @@ return {
                         .."_Example_ : `/media kick sticker`.\n"
                         .."`/media list` = show the current settings for all the media.\n"
                         .."\n*List of supported media*: _image, audio, video, sticker, gif, voice, contact, file_\n"
-                        .."\n*Note*: the first time an user send a forbidden media, the bot won't kick him. Instead, a warn is sent: the next time, the user will be kicked/banned.",
+                        .."\n*Note*: the first time a user send a forbidden media, the bot won't kick him. Instead, a warn is sent: the next time, the user will be kicked/banned.",
                 welcome = "*Moderators: welcome settings*\n\n"
                             .."`/enable welcome` = the welcome message will be sent when a new user join the group.\n"
                             .."`/disable welcome` = the welcome message won't be sent.\n"
@@ -1234,10 +1237,10 @@ return {
                         .."For a correct use of the markdown, check [this post](https://telegram.me/GroupButler_ch/46) in the channel",
                 warns = "*Moderators: warns*\n\n"
                         .."`/warn [kick/ban]` = choose the action to perform once the max number of warnings is reached.\n"
-                        .."`/warn [by reply]` = warn an user. Once the max number is reached, he will be kicked/banned.\n"
+                        .."`/warn [by reply]` = warn a user. Once the max number is reached, he will be kicked/banned.\n"
                         .."`/warnmax` = set the max number of the warns before the kick/ban.\n"
-                        .."`/getwarns [by reply]` = see how many times an user have been warned.\n"
-                        .."`/nowarns [by reply]` = reset to zero the warns of an user.\n",
+                        .."`/getwarns [by reply]` = see how many times a user have been warned.\n"
+                        .."`/nowarns [by reply]` = reset to zero the warns of a user.\n",
                 char = "*Moderators: special characters*\n\n"
                         .."`/disable rtl` = everyone with RTL (Righ To Left) character in the name will be kicked. Also, the same is applied to messages.\n"
                         .."`/enable rtl` = the RTL (Righ To Left) character will be ignored.\n"
@@ -1472,12 +1475,13 @@ return {
             kicked_empty = 'A lista de usuários(as) removido(as) está vazia',
             kicked = '&&&1 foi removido(a)! Ainda pode entrar no grupo',
             banned = '&&&1 foi banido(a)!',
-            unbanned = '&&&1 foi desbanido(a)!',
+            unbanned = 'User unbanned!',
 			reply = 'Responda alguém',
             globally_banned = '&&&1 foi banido(a) globalmente!',
             no_unbanned = 'Este é um grupo comum, pessoas não são bloqueadas quando excluídas',
             already_banned_normal = '&&&1 is *already banned*!',
-            not_banned = 'The user is not banned'
+            not_banned = 'The user is not banned',
+            general_motivation = 'I can\'t kick this user.\nProbably I\'m not an Amdin, or the user is an Admin iself'
         },
         floodmanager = {
             number_invalid = '`&&&1` não é um número válido!\nO valor deve ser *maior* que `3` e *menor* que `26`',
@@ -1524,7 +1528,7 @@ return {
             already_unblocked = 'O(a) usuário(a) já está permitido(a) a usar \'@admin\'',
         },
         all = {
-            dashboard = 'I\'ve sent you the resume dashboard in private',
+            dashboard = 'I\'ve sent you the group dashboard in private',
             menu = 'I\'ve sent you the settings menu in private',
             dashboard_first = 'Navigate this message to see *all the info* about this group!',
             menu_first = 'Tap on a lock to *change the group settings*, or use the last row to _manage the anti-flood behaviour_',
@@ -1536,7 +1540,7 @@ return {
             general_pm = '_I\'ve sent you the message in private_',
             no_user = 'I\'ve never seen this user before.\nIf you want to teach me who he is, forward me a message from him',
             the_group = 'the group',
-            mods_list = 'List of the *group\'s moderators*:\n&&&1',
+            mods_list = '*Group moderators*:\n&&&1',
             settings_header = 'Current settings for *the group*:\n\n*Language*: `&&&1`\n',
             reply = '*Reply to someone* to use this command, or write a *username*',
             msg_me = '_Message me first so I can message you_'
@@ -1563,8 +1567,8 @@ return {
                     ..'( также добавление в модераторы даст возможность понять участникам группы кто настоящий модератор в группе и кто может банить / кикать людей из группы.\n)',
             mods = {
                 banhammer = "*Moderators: banhammer powers*\n\n"
-                            .."`/kick [by reply|username]` = kick an user from the group (he can be added again).\n"
-                            .."`/ban [by reply|username]` = ban an user from the group (also from normal groups).\n"
+                            .."`/kick [by reply|username]` = kick a user from the group (he can be added again).\n"
+                            .."`/ban [by reply|username]` = ban a user from the group (also from normal groups).\n"
                             .."`/unban [by reply|username]` = unban the user from the group.\n",
                 info = "*Moderators: info about the group*\n\n"
                         .."`/setrules [group rules]` = set the new regulation for the group (the old will be overwritten).\n"
@@ -1585,7 +1589,7 @@ return {
                         .."_Example_ : `/media kick sticker`.\n"
                         .."`/media list` = show the current settings for all the media.\n"
                         .."\n*List of supported media*: _image, audio, video, sticker, gif, voice, contact, file_\n"
-                        .."\n*Note*: the first time an user send a forbidden media, the bot won't kick him. Instead, a warn is sent: the next time, the user will be kicked/banned.",
+                        .."\n*Note*: the first time a user send a forbidden media, the bot won't kick him. Instead, a warn is sent: the next time, the user will be kicked/banned.",
                 welcome = "*Moderators: welcome settings*\n\n"
                             .."`/enable welcome` = the welcome message will be sent when a new user join the group.\n"
                             .."`/disable welcome` = the welcome message won't be sent.\n"
@@ -1609,10 +1613,10 @@ return {
                         .."For a correct use of the markdown, check [this post](https://telegram.me/GroupButler_ch/46) in the channel",
                 warns = "*Moderators: warns*\n\n"
                         .."`/warn [kick/ban]` = choose the action to perform once the max number of warnings is reached.\n"
-                        .."`/warn [by reply]` = warn an user. Once the max number is reached, he will be kicked/banned.\n"
+                        .."`/warn [by reply]` = warn a user. Once the max number is reached, he will be kicked/banned.\n"
                         .."`/warnmax` = set the max number of the warns before the kick/ban.\n"
-                        .."`/getwarns [by reply]` = see how many times an user have been warned.\n"
-                        .."`/nowarns [by reply]` = reset to zero the warns of an user.\n",
+                        .."`/getwarns [by reply]` = see how many times a user have been warned.\n"
+                        .."`/nowarns [by reply]` = reset to zero the warns of a user.\n",
                 char = "*Moderators: special characters*\n\n"
                         .."`/disable rtl` = everyone with RTL (Righ To Left) character in the name will be kicked. Also, the same is applied to messages.\n"
                         .."`/enable rtl` = the RTL (Righ To Left) character will be ignored.\n"
@@ -1845,7 +1849,7 @@ return {
             kicked = '&&&1 был кикнут! ( все еще может зайти )',
             banned = '&&&1 был забанен!',
             already_banned_normal = '&&&1 is *already banned*!',
-            unbanned = '&&&1 был разбанен!',
+            unbanned = 'User unbanned!',
             reply = 'Ответь (reply) на сообщение этого пользователя',
             globally_banned = '&&&1 был глобально забанен!',
             not_unbanned = 'Это обычная группа, пользователи не блокируются, когда кикаются из группы'
@@ -1857,7 +1861,8 @@ return {
             enabled = 'Антифлуд фильтр включен',
             disabled = 'Антифлуд фильтр выключен',
             kick = 'Теперь флудеры будут кикнуты',
-            ban = 'Теперь флудеры будут забанены'
+            ban = 'Теперь флудеры будут забанены',
+            general_motivation = 'I can\'t kick this user.\nProbably I\'m not an Amdin, or the user is an Admin iself'
         },
         mediasettings = {
 			warn = 'Этот тип медиа *не разрешен* в этой группе.\n_В следующий раз_ ты будешь кикнут или забанен',
@@ -1895,7 +1900,7 @@ return {
             already_unblocked = 'Пользоваьель уже мог использовать команду \'@admin\'',
         },
         all = {
-            dashboard = 'I\'ve sent you the resume dashboard in private',
+            dashboard = 'I\'ve sent you the group dashboard in private',
             menu = 'I\'ve sent you the settings menu in private',
             dashboard_first = 'Navigate this message to see *all the info* about this group!',
             menu_first = 'Tap on a lock to *change the group settings*, or use the last row to _manage the anti-flood behaviour_',
