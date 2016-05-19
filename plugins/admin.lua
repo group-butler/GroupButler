@@ -704,7 +704,7 @@ local action = function(msg, blocks, ln)
 		
 		local res = api.sendAdmin('*Reply sent:*\n\n'..input, true)
 		if res then
-			api.sendMessage(receiver, out, true)
+			api.sendMessage(receiver, input, true)
 		else
 			api.sendAdmin('Wrong markdown')
 		end

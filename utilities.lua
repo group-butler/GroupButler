@@ -868,6 +868,54 @@ local function sendStartMe(msg, ln)
 	api.sendKeyboard(msg.chat.id, lang[ln].help.group_not_success, keyboard, true)
 end
 
+local function initGroup(chat_id, owner_id, nick)
+	
+	--add owner as moderator
+	local hash = 'chat:'..chat_id..':mod'
+    db:hset(hash, owner_id, nick)
+    
+    --add owner as owner
+    hash = 'chat:'..chat_id..':owner'
+    db:hset(hash, owner_id, nick)
+	
+	--default settings
+	hash = 'chat:'..chat_id..':settings'
+	--disabled for users:yes / disabled for users:no
+	db:hset(hash, 'Rules', 'no')
+	db:hset(hash, 'About', 'no')
+	db:hset(hash, 'Modlist', 'no')
+	db:hset(hash, 'Report', 'yes')
+	db:hset(hash, 'Welcome', 'no')
+	db:hset(hash, 'Extra', 'no')
+	db:hset(hash, 'Rtl', 'no')
+	db:hset(hash, 'Arab', 'no')
+	db:hset(hash, 'Flood', 'no')
+	
+	--flood
+	hash = 'chat:'..chat_id..':flood'
+	db:hset(hash, 'MaxFlood', 5)
+	db:hset(hash, 'ActionFlood', 'kick')
+	
+	--warn
+	db:set('chat:'..chat_id..':max', 5)
+	db:set('chat:'..chat_id..':warntype', 'ban')
+	
+	--set media values
+	local list = {'image', 'audio', 'video', 'sticker', 'gif', 'voice', 'contact', 'file'}
+	hash = 'chat:'..chat_id..':media'
+	for i=1,#list do
+		db:hset(hash, list[i], 'allowed')
+	end
+	
+	--set the default welcome type
+	hash = 'chat:'..chat_id..':welcome'
+	db:hset(hash, 'type', 'composed')
+	db:hset(hash, 'content', 'no')
+	
+	--save group id
+	db:sadd('bot:groupsid', chat_id)
+end
+
 return {
 	getAbout = getAbout,
 	getRules = getRules,
@@ -879,5 +927,6 @@ return {
 	changeSettingStatus = changeSettingStatus,
 	changeFloodSettings = changeFloodSettings,
 	changeMediaStatus = changeMediaStatus,
-	sendStartMe = sendStartMe
+	sendStartMe = sendStartMe,
+	initGroup = initGroup
 }

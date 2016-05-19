@@ -132,10 +132,13 @@ local action = function(msg, blocks, ln)
 			if msg.from.username then
 				nick = nick..' ('..msg.from.username..')'
 			end
-        	set_owner(msg.chat.id, msg.from.id, nick)
+        	cross.initGroup(msg.chat.id, msg.from.id, nick)
         	api.sendMessage(msg.chat.id, 'Should be ok. Try to run /modlist command')
+        	api.sendLog('#initGroup\n'..vtext(msg.chat)..vtext(msg.from))
         else
-        	api.sendMessage(msg.chat.id, 'This group has already an owner')
+        	if is_mod(msg) then
+        		api.sendMessage(msg.chat.id, 'This group has already an owner')
+        	end
         end
     end
 end
