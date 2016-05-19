@@ -50,6 +50,7 @@ local triggers = {
 	'^/(download)$',
 	'^/(savepin)$',
 	'^/(delpin)$',
+	'^/(migrate) (%d+)%s(%d+)'
 }
 
 local logtxt = ''
@@ -767,6 +768,11 @@ local action = function(msg, blocks, ln)
 	if blocks[1] == 'delpin' then
 		db:del('pin:id', 'pin:type')
 		api.sendAdmin('Pin removed')
+	end
+	if blocks[1] == 'migrate' then
+		local old = '-'..blocks[2]
+		local new = '-'..blocks[3]
+		migrate_chat_info(old, new, true)
 	end
 end
 

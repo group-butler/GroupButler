@@ -61,7 +61,7 @@ local action = function(msg, blocks, ln)
 	
 	--if the bot join the chat
 	if blocks[1] == 'botadded' then
-		
+		vardump(msg.adder)
 		print('Bot added to '..msg.chat.title..' ['..msg.chat.id..']')
 		
 		if db:hget('bot:general', 'adminmode') == 'on' and not is_admin(msg) then
@@ -73,16 +73,17 @@ local action = function(msg, blocks, ln)
 		local uname = ''
 		
 		--check if the owner has a username, and save it. If not, use the name
-		local jsoname = msg.from.first_name
-		if msg.from.username then
-			jsoname = '@'..tostring(msg.from.username)
+		local jsoname = msg.adder.first_name
+		if msg.adder.username then
+			jsoname = '@'..tostring(msg.adder.username)
 		end
 		
-		save_log('added', msg.chat.title, msg.chat.id, jsoname, msg.adder.id)		
+		save_log('added', msg.chat.title, msg.chat.id, jsoname, msg.adder.id)
+		api.sendLog(vtext(msg.chat)..vtext(msg.adder))
 		
 		--add owner as moderator
 		local hash = 'chat:'..msg.chat.id..':mod'
-        local user = tostring(msg.from.id)
+        local user = msg.adder.id
         db:hset(hash, user, jsoname)
         
         --add owner as owner

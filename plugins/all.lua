@@ -106,7 +106,7 @@ local action = function(msg, blocks, ln)
             end
             if blocks[2] == 'modlist' then
                 text = cross.getModlist(chat_id):mEscape()
-                text = make_text(lang[ln].bonus.mod.modlist, text)
+                text = make_text(lang[ln].mod.modlist, text)
             end
             if blocks[2] == 'extra' then
                 text = cross.getExtraList(chat_id, ln)

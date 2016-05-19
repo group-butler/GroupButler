@@ -28,13 +28,13 @@ local action = function(msg, blocks, ln)
 	    about = db:get(hash)
         --check if there is an about text
         if not about then
-            api.sendReply(msg, make_text(lang[ln].setabout.no_bio_add), true)
+            api.sendReply(msg, lang[ln].setabout.no_bio_add, true)
         else
             local input = blocks[2]
 			--add the new string to the about text
             local res = api.sendReply(msg, make_text(lang[ln].setabout.added, input), true)
             if not res then
-            	api.sendReply(msg. lang[ln].breaks_markdown, true)
+            	api.sendReply(msg, lang[ln].breaks_markdown, true)
             else
             	about = about..'\n'..input
             	db:set(hash, about)

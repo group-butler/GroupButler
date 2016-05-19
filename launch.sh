@@ -2,5 +2,5 @@
 
 while true; do
 	lua bot.lua
-	sleep 5s
+	sleep 4s
 done

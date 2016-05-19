@@ -505,7 +505,7 @@ function migrate_chat_info(old, new, on_request)
 	file:write(logtxt)
     file:close()
 	if on_request then
-		api.sendDocument(old, log_path)
+		api.sendDocument(config.admin, log_path)
 	end
 end
 

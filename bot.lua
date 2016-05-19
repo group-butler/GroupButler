@@ -3,24 +3,24 @@ HTTPS = require('ssl.https')
 URL = require('socket.url')
 JSON = require('dkjson')
 redis = require('redis')
-colors = require('ansicolors')
+colors = require 'term.colors'
 db = Redis.connect('127.0.0.1', 6379)
 --db:select(0)
 serpent = require('serpent')
 
 bot_init = function(on_reload) -- The function run when the bot is started or reloaded.
 	
-	print(colors('%{blue bright}Loading config.lua...'))
+	print(colors.blue..'Loading config.lua...')
 	config = dofile('config.lua') -- Load configuration file.
 	if config.bot_api_key == '' then
-		print(colors('%{red bright}API KEY MISSING!'))
+		print(colors.red..'API KEY MISSING!')
 		return
 	end
-	print(colors('%{blue bright}Loading utilities.lua...'))
+	print(colors.blue..'Loading utilities.lua...')
 	cross = dofile('utilities.lua') -- Load miscellaneous and cross-plugin functions.
-	print(colors('%{blue bright}Loading languages...'))
+	print(colors.blue..'Loading languages.lua...')
 	lang = dofile(config.languages) -- All the languages available
-	print(colors('%{blue bright}Loading API functions table...'))
+	print(colors.blue..'Loading API functions table...')
 	api = require('methods')
 	
 	tot = 0
@@ -34,12 +34,12 @@ bot_init = function(on_reload) -- The function run when the bot is started or re
 	plugins = {} -- Load plugins.
 	for i,v in ipairs(config.plugins) do
 		local p = dofile('plugins/'..v)
-		print(colors('%{red bright}Loading plugin...%{reset}'), v)
+		print(colors.red..'Loading plugin...'..colors.reset, v)
 		table.insert(plugins, p)
 	end
-	print(colors('%{blue}Plugins loaded:'), #plugins)
+	print(colors.blue..'Plugins loaded:', #plugins)
 
-	print(colors('%{blue bright}BOT RUNNING: @'..bot.username .. ', AKA ' .. bot.first_name ..' ('..bot.id..')'))
+	print(colors.blue..'BOT RUNNING: @'..bot.username .. ', AKA ' .. bot.first_name ..' ('..bot.id..')')
 	if not on_reload then
 		save_log('starts')
 		db:hincrby('bot:general', 'starts', 1)
@@ -159,14 +159,12 @@ on_msg_receive = function(msg) -- The fn run whenever a message is received.
 				for k,w in pairs(v.triggers) do
 					local blocks = match_pattern(w, msg.text)
 					if blocks then
-						print(colors('\nMsg info:\t %{red bright}'..get_from(msg)..'%{reset} ['..msg.chat.type..'] ('..os.date('at %X')..')'))  --('..os.date('on %A, %d %B %Y at %X')..')'))
+						print(colors.reset..colors.underscore..'\nMsg info:\t'..colors.reset..colors.red..get_from(msg)..colors.reset..' ['..msg.chat.type..'] ('..os.date('at %X')..')')
 						if blocks[1] ~= '' then
-      						print('Match found:', colors('%{blue bright}'..w))
+      						print(colors.reset..colors.underscore..'Match found:', colors.reset..colors.blue..w..colors.reset)
       						db:hincrby('bot:general', 'query', 1)
       						if msg.from then db:incrby('user:'..msg.from.id..':query', 1) end
       					end
-				
-						msg.text_lower = msg.text:lower()
 				
 						local success, result = pcall(function()
 							return v.action(msg, blocks, msg.lang)
@@ -175,7 +173,7 @@ on_msg_receive = function(msg) -- The fn run whenever a message is received.
 							api.sendReply(msg, '*This is a bug!*\nPlease report the problem with `/c <bug>` :)', true)
 							print(msg.text, result)
 							save_log('errors', result, msg.from.id or false, msg.chat.id or false, msg.text or false)
-          					api.sendLog('An error occurred.\nCheck the log')
+          					api.sendLog('An #error occurred.\n'..result)
 							return
 						end
 						-- If the action returns a table, make that table msg.

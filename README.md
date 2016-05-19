@@ -213,10 +213,7 @@ $ ./configure; sudo make bootstrap
 $ sudo luarocks install luasocket
 $ sudo luarocks install luasec
 $ sudo luarocks install redis-lua
-$ sudo luarocks install ansicolors
-
-#serpent is needed for debugging
-
+$ sudo luarocks install lua-term
 $ sudo luarocks install serpent
 $ cd ..
 ```
@@ -304,10 +301,10 @@ Strings are in languages.lua, admin commands are not trasnlated.
 ##Contributors
 Everybody is free to contribute to otouto and to Group Butler.
 
-The official [Group Butler](http://github.com/groupbutler_bot). Yes, if you are wondering, is off.
+The official [Group Butler](http://github.com/groupbutler_bot).
 
 ##Credits
-Topkecleon, for the original bot.lua and bindings.lua
+Topkecleon, for the original otouto
 
 Iman Daneshi and Tiago Danin, because I like to take a look to Jack sometimes :^). Same for Yago Pérez and his telegram-bot
 
@@ -319,4 +316,4 @@ Le Laide
 
 ##Final
 
-I hate when I break a plugin main function witha return. I have to change all, one day or another
+I hate when I break a plugin main function with a return. I have to change all, one day or another

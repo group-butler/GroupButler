@@ -27,11 +27,11 @@ local action = function(msg, blocks, ln)
 	    local rules = db:get(hash)
         --check if rules are empty
         if not rules then
-            api.sendReply(msg, make_text(lang[ln].setrules.no_rules_add), true)
+            api.sendReply(msg, lang[ln].setrules.no_rules_add, true)
         else
             local input = blocks[2]
             if not input then
-		        api.sendReply(msg, make_text(lang[ln].setrules.no_input_add), true)
+		        api.sendReply(msg, lang[ln].setrules.no_input_add, true)
 		        return nil
 	        end
 			
