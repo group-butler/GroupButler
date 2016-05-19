@@ -51,23 +51,24 @@ local action = function(msg, blocks, ln)
 		local text, res, motivation
 		
 		if tonumber(num) >= tonumber(nmax) then
-			text = make_text(lang[ln].warn.warned_max_ban, name:mEscape())
 			local type = db:get('chat:'..msg.chat.id..':warntype')
 			name = name..' (->'..num..'/'..nmax..')'
+			--try to kick/ban
 			if type == 'ban' then
+				text = make_text(lang[ln].warn.warned_max_ban, name:mEscape())
 				res, motivation = api.banUser(msg.chat.id, msg.reply.from.id, is_normal_group, ln)
-				if not res then text = motivation end
 	    	else
-	    		text = make_text(lang[ln].warn.warned_max_kick, name:mEscape())
+				text = make_text(lang[ln].warn.warned_max_kick, name:mEscape())
 	    		local is_normal_group = false
 	    		if msg.chat.type == 'group' then is_normal_group = true end
 		    	res, motivation = api.kickUser(msg.chat.id, msg.reply.from.id, ln)
-		    	if not res then
-		    		if not motivation then
-		    			motivation = lang[ln].banhammer.general_motivation
-		    		end
-		    		text = motivation
+		    end
+		    --if kick/ban fails, send the motivation
+		    if not res then
+		    	if not motivation then
+		    		motivation = lang[ln].banhammer.general_motivation
 		    	end
+		    	text = motivation
 		    end
 		else
 			local diff = tonumber(nmax)-tonumber(num)
