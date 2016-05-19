@@ -123,6 +123,11 @@ function is_mod2(chat_id, user_id)
 	return var
 end
 
+function set_owner(chat_id, user_id, nick)
+	db:hset('chat:'..chat_id..':mod', user_id, nick) --mod
+	db:hset('chat:'..chat_id..':owner', user_id, nick) --owner
+end
+
 function is_blocked(id)
 	if db:sismember('bot:blocked', id) then
 		return true
@@ -194,8 +199,8 @@ function clean_owner_modlist(chat)
 	--clean the modlist
 	hash = 'chat:'..chat..':mod'
 	local mod_list = db:hkeys(hash) --get mods id
-	for i=1, #mod_list do
-		db:hdel(hash, mod_list[i])
+	for id,nick in pairs(mod_list) do
+		db:hdel(hash, id)
 	end
 end
 

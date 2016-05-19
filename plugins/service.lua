@@ -61,7 +61,7 @@ local action = function(msg, blocks, ln)
 	
 	--if the bot join the chat
 	if blocks[1] == 'botadded' then
-		vardump(msg.adder)
+		
 		print('Bot added to '..msg.chat.title..' ['..msg.chat.id..']')
 		
 		if db:hget('bot:general', 'adminmode') == 'on' and not is_admin(msg) then

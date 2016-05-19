@@ -122,6 +122,22 @@ local action = function(msg, blocks, ln)
 		end
 		api.sendMessage(msg.chat.id, message, true)
 	end
+	if blocks[1] == 'fixowner' then
+		if msg.chat.type == 'private' then return end
+		local hash = 'chat:'..msg.chat.id..':owner'
+		local owner_list = db:hkeys(hash)
+		local owner = owner_list[1]
+		if not owner then
+			local nick = msg.from.first_name
+			if msg.from.username then
+				nick = nick..' ('..msg.from.username..')'
+			end
+        	set_owner(msg.chat.id, msg.from.id, nick)
+        	api.sendMessage(msg.chat.id, 'Should be ok. Try to run /modlist command')
+        else
+        	api.sendMessage(msg.chat.id, 'This group has already an owner')
+        end
+    end
 end
 
 return {
@@ -138,6 +154,7 @@ return {
 		'^/(c) (.*)',
 		'^/(info)$',
 		'^/(pin)$',
-		'^/(resolve) (@[%w_]+)$'
+		'^/(resolve) (@[%w_]+)$',
+		'^/(fixowner)$'
 	}
 }

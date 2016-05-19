@@ -1598,7 +1598,8 @@ return {
                     ..'\n\n[Официальный канал](https://telegram.me/GroupButler_ch) и [Поставить оценку](https://telegram.me/storebot?start=groupbutler_bot)',
             group_success = '_Я отправил тебе приватное сообщение_',
             group_not_success = '_Сначала напиши мне, потом я смогу писать тебе_',
-            initial = 'Выбери *роль*, которую ты хочешь посмотреть:'
+            initial = 'Выбери *роль*, которую ты хочешь посмотреть:',
+            kb_header = 'Tap on a button to see the *related commands*'
         },
         links = {
             no_link = '*Нет ссылки* на это группу. Попроси главного сгенерировать ссылку', 

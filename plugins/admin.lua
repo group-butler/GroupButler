@@ -27,7 +27,7 @@ local triggers = {
 	'^###(forward)',
 	'^/(reset) (.*)$',
 	'^/(reset)$',
-	'^/(send) (%d+) (.*)$',
+	'^/(send) (-?%d+) (.*)$',
 	'^/(send) (.*)$',
 	'^/(adminmode) (%a%a%a?)$',
 	'^/(delflag)$',
@@ -483,7 +483,7 @@ local action = function(msg, blocks, ln)
 			return
 		end
 		local id
-		if blocks[2]:match('(%d+)') then
+		if blocks[2]:match('(-?%d+)') then
 			if not blocks[3] then
 				api.sendMessage(config.admin, 'Text is missing')
 				return
@@ -498,7 +498,7 @@ local action = function(msg, blocks, ln)
 		end
 		local res = api.sendMessage(id, blocks[2])
 		if res then
-			api.sendMessage(config.admin, 'Successful delivery')
+			api.sendMessage(msg.chat.id, 'Successful delivery')
 		end
 	end
 	if blocks[1] == 'adminmode' then
