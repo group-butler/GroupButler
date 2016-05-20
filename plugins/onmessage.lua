@@ -43,7 +43,12 @@ pre_process = function(msg, ln)
     		    end
     		    --if kicked/banned, send a message
     		    if res then
-    		        if action == 'ban' then message = make_text(lang[ln].preprocess.flood_ban, name:mEscape()) else message = make_text(lang[ln].preprocess.flood_kick, name:mEscape()) end
+    		        if action == 'ban' then
+    		            cross.addBanList(msg.chat.id, msg.from.id, name, lang[ln].preprocess.flood_motivation)
+    		            message = make_text(lang[ln].preprocess.flood_ban, name:mEscape()) 
+    		        else
+    		            message = make_text(lang[ln].preprocess.flood_kick, name:mEscape())
+    		        end
     		        api.sendMessage(msg.chat.id, message)
     		    end
     		end
@@ -73,7 +78,12 @@ pre_process = function(msg, ln)
     		    end
     		    if res then
     		        local message
-    		        if status == 'ban' then message = make_text(lang[ln].preprocess.media_ban, name:mEscape()) else message = make_text(lang[ln].preprocess.media_kick, name:mEscape()) end
+    		        if status == 'ban' then
+    		            cross.addBanList(msg.chat.id, msg.from.id, name, lang[ln].preprocess.media_motivation)
+    		            message = make_text(lang[ln].preprocess.media_ban, name:mEscape())
+    		        else
+    		            message = make_text(lang[ln].preprocess.media_kick, name:mEscape())
+    		        end
     		        api.sendMessage(msg.chat.id, message, true)
     		    end
     		end

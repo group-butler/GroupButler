@@ -70,61 +70,17 @@ local action = function(msg, blocks, ln)
 			return
 		end
 		
-		local uname = ''
-		
 		--check if the owner has a username, and save it. If not, use the name
-		local jsoname = msg.adder.first_name
+		local name = msg.adder.first_name
 		if msg.adder.username then
-			jsoname = '@'..tostring(msg.adder.username)
+			name = name..' (@'..msg.adder.username..')'
 		end
 		
 		save_log('added', msg.chat.title, msg.chat.id, jsoname, msg.adder.id)
 		api.sendLog(vtext(msg.chat)..vtext(msg.adder))
 		
-		--add owner as moderator
-		local hash = 'chat:'..msg.chat.id..':mod'
-        local user = msg.adder.id
-        db:hset(hash, user, jsoname)
-        
-        --add owner as owner
-        hash = 'chat:'..msg.chat.id..':owner'
-        db:hset(hash, user, jsoname)
+		cross.groupInit(msg.chat.id, msg.adder.id, name)
 		
-		--default settings
-		hash = 'chat:'..msg.chat.id..':settings'
-		--disabled for users:yes / disabled for users:no
-		db:hset(hash, 'Rules', 'no')
-		db:hset(hash, 'About', 'no')
-		db:hset(hash, 'Modlist', 'no')
-		db:hset(hash, 'Report', 'yes')
-		db:hset(hash, 'Welcome', 'no')
-		db:hset(hash, 'Extra', 'no')
-		db:hset(hash, 'Rtl', 'no')
-		db:hset(hash, 'Arab', 'no')
-		db:hset(hash, 'Flood', 'no')
-		--flood
-		hash = 'chat:'..msg.chat.id..':flood'
-		db:hset(hash, 'MaxFlood', 5)
-		db:hset(hash, 'ActionFlood', 'kick')
-		--warn
-		db:set('chat:'..msg.chat.id..':max', 5)
-		db:set('chat:'..msg.chat.id..':warntype', 'ban')
-		--set media values
-		local list = {'image', 'audio', 'video', 'sticker', 'gif', 'voice', 'contact', 'file'}
-		hash = 'chat:'..msg.chat.id..':media'
-		for i=1,#list do
-			db:hset(hash, list[i], 'allowed')
-		end
-		--set the default welcome type
-		hash = 'chat:'..msg.chat.id..':welcome'
-		db:hset(hash, 'type', 'composed')
-		db:hset(hash, 'content', 'no')
-		--save group id
-		db:sadd('bot:groupsid', msg.chat.id)
-		--save stats
-		hash = 'bot:general'
-        local num = db:hincrby(hash, 'groups', 1)
-        print('Stats saved', 'Groups: '..num)
         local out = make_text(lang[ln].service.new_group, msg.from.first_name:mEscape())
 		api.sendMessage(msg.chat.id, out, true)
 	end
@@ -137,8 +93,9 @@ local action = function(msg, blocks, ln)
 			return
 		end
 		
-		db:hdel('warn:'..msg.chat.id, msg.added.id)
-		db:del('chat:'..msg.chat.id..':'..msg.added.id..':mediawarn')
+		cross.remBanList(msg.chat.id, msg.added.id) --remove him from the banlist
+		db:hdel('warn:'..msg.chat.id, msg.added.id) --remove the warns
+		db:del('chat:'..msg.chat.id..':'..msg.added.id..':mediawarn') --remove the warn for media
 		
 		local text = get_welcome(msg, ln)
 		if text then

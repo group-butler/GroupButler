@@ -147,7 +147,7 @@ if blocks[1] == 'welcome' then
         --ignore if not input text and not reply
         if not input and not msg.reply then
             api.sendReply(msg, make_text(lang[ln].settings.welcome.no_input), false)
-            return nil
+            return
         end
         
         local hash = 'chat:'..msg.chat.id..':welcome'
@@ -164,11 +164,10 @@ if blocks[1] == 'welcome' then
                 db:hset(hash, 'type', 'media')
                 db:hset(hash, 'content', file_id)
                 api.sendReply(msg, lang[ln].settings.welcome.media_setted..'`'..replied_to..'`', true)
-                return
             else
                 api.sendReply(msg, lang[ln].settings.welcome.reply_media, true)
-                return
             end
+            return
         end
         
         --change welcome settings

@@ -301,6 +301,7 @@ return {
             limit_reached = 'This user has already reached the max number of warnings (*&&&1/&&&2*)',
             limit_lower = 'This user is under the max number of warnings.\n*&&&1* warnings missing on a total of *&&&2* (*&&&3/&&&4*)',
             nowarn_reply = 'Reply to a user to delete his warns',
+            ban_motivation = 'Too many warnings',
             nowarn = 'The number of warns received by this user have been *resetted*'
         },
         setlang = {
@@ -318,6 +319,8 @@ return {
             reply = 'Reply to someone',
             globally_banned = '&&&1 have been globally banned!',
             not_banned = 'The user is not banned',
+            banlist_header = '*Banned users*:\n\n',
+            banlist_empty = '_The list is empty_',
             general_motivation = 'I can\'t kick this user.\nProbably I\'m not an Amdin, or the user is an Admin iself'
         },
         floodmanager = {
@@ -344,6 +347,8 @@ return {
             media_ban = '&&&1 *banned*: media sent not allowed!',
             rtl = '&&&1 *kicked*: rtl character in names/messages not allowed!',
             arab = '&&&1 *kicked*: arab message detected!',
+            flood_motivation = 'Banned for flood',
+            media_motivation = 'Sent a forbidden media',
             first_warn = 'This type of media is *not allowed* in this chat. The next time, *&&&1*!'
         },
         kick_errors = {
@@ -668,6 +673,7 @@ return {
             limit_reached = 'Questo utente ha già raggiunto il numero massimo di ammonizioni (*&&&1/&&&2*)',
             limit_lower = 'Questo utente si trova sotto la soglia massima di warnings.\n*&&&1* warning mancanti su un totale di *&&&2* (*&&&3/&&&4*)',
             nowarn_reply = 'Rispondi ad un utente per azzerarne le ammonizioni',
+            ban_motivation = 'Troppi warning',
             nowarn = 'Il numero di ammonizioni ricevute da questo utente è stato *azzerato*'
         },
         setlang = {
@@ -686,6 +692,8 @@ return {
             no_unbanned = 'Questo è un gruppo normale, gli utenti non vengono bloccati se kickati',
             already_banned_normal = '&&&1 è *già bannato*!',
             not_banned = 'L\'utente non è bannato',
+            banlist_header = '*Utenti bannati*:\n\n',
+            banlist_empty = '_La lista è vuota_',
             general_motivation = 'Non posso kickare questo utente.\nProbabilmente non sono un Admin, o l\'utente che hai cercato di kickare è un Admin'
         },
         floodmanager = {
@@ -712,6 +720,8 @@ return {
             media_ban = '&&&1 *bannato*: media inviato non consentito',
             rtl = '&&&1 *kickato*: carattere rtl nel nome/nei messaggi non consentito',
             arab = '&&&1 *kickato*: caratteri arabi non consentiti',
+            flood_motivation = 'Bannato per flood',
+            media_motivation = 'Ha inviato un media non consentito',
             first_warn = 'Questo tipo di media *non è consentito* in questo gruppo. la prossima volta, *&&&1*'
         },
         kick_errors = {
@@ -1034,6 +1044,7 @@ return {
             limit_reached = 'Este miembro ya ha alcanzado el número máximo de advertencias (*&&&1/&&&2*)',
             limit_lower = 'Este miembro esta por debajo de las advertencias maximas.\n*&&&1* de *&&&2* advertencias(*&&&3/&&&4*)',
             nowarn_reply = 'Menciona al miembro para eliminarle la advertencia',
+            ban_motivation = 'too many warnings',
             nowarn = 'El número de advertencias de este miembro ha sido *reseteado*'
         },
         setlang = {
@@ -1052,6 +1063,8 @@ return {
             no_unbanned = 'Este es un grupo normal, los miembros no son bloqueados al expulsarlos',
             already_banned_normal = '&&&1 is *already banned*!',
             not_banned = 'The user is not banned',
+            banlist_header = '*Banned users*:\n\n',
+            banlist_empty = '_The list is empty_',
             general_motivation = 'I can\'t kick this user.\nProbably I\'m not an Amdin, or the user is an Admin iself'
         },
         floodmanager = {
@@ -1078,6 +1091,8 @@ return {
             media_ban = '&&&1 *baneado*: multimedia no permitido',
             rtl = '&&&1 *expulsado*: caracter rtl en el nombre/mensage no permitido',
             arab = '&&&1 *expulsado*: mensaje arabe detectado',
+            flood_motivation = 'Banned for flood',
+            media_motivation = 'Sent a forbidden media',
             first_warn = 'This type of media is *not allowed* in this chat. The next time, *&&&1*'
         },
         kick_errors = {
@@ -1401,6 +1416,7 @@ return {
             limit_reached = 'Esse(a) usuário(a) já atingiu o número máximo de advertências (*&&&1/&&&2*)',
             limit_lower = 'Esse(a) usuário(a) está abaixo do número máximo de advertências.\nð*&&&1* restantes de um total de *&&&2* (*&&&3/&&&4*)',
             nowarn_reply = 'Responda a um(a) usuário(a) para deletar suas advertências',
+            ban_motivation = 'too many warnings',
             nowarn = 'O número de advertências recebidas por este(a) usuário(a) foi *resetado*'
         },
         setlang = {
@@ -1419,6 +1435,8 @@ return {
             no_unbanned = 'Este é um grupo comum, pessoas não são bloqueadas quando excluídas',
             already_banned_normal = '&&&1 is *already banned*!',
             not_banned = 'The user is not banned',
+            banlist_header = '*Banned users*:\n\n',
+            banlist_empty = '_The list is empty_',
             general_motivation = 'I can\'t kick this user.\nProbably I\'m not an Amdin, or the user is an Admin iself'
         },
         floodmanager = {
@@ -1445,6 +1463,8 @@ return {
             media_ban = '&&&1 *banido(a)*: midia enviada não permitida',
             rtl = '&&&1 *removido(a)*: caracteres RTL (Right-to-Left, Direita para esquerda) em nomes/mensagens não são permitidos',
             arab = '&&&1 *removido(a)*: mensagem em árabe detectada',
+            flood_motivation = 'Banned for flood',
+            media_motivation = 'Sent a forbidden media',
             first_warn = 'This type of media is *not allowed* in this chat. The next time, *&&&1*'
         },
         kick_errors = {
@@ -1482,7 +1502,7 @@ return {
         pv = 'Эта команда доступна только в группе',
         not_mod = 'Ты *не* модератор',
         breaks_markdown = 'Этот текст содержит ошибку (markdown).\nИнформация о правильном использовании markdown [здесь](https://telegram.me/GroupButler_ch/46).',
-        credits = '',
+        credits = '*Some useful links:*',
         extra = {
 			usage = 'Напиши после /extra хэштег и текст, который будет печататься при написании этого хэштега.\nНапример:\n/extra #hello Приветствую. Бот будет печатать _\' Приветствую\'_ каждый раз, когда кто-то будет писать #hello',
             new_command = '*Команд�� установлена!*\n&&&1\n&&&2',
@@ -1493,7 +1513,7 @@ return {
         },
         help = {
             owner = '*Команды для владельца*:\n'
-                    ..'`/owner (ответом) : сделать нового владельца\n'
+                    ..'`/owner (ответом)` : сделать нового владельца\n'
                     ..'`/promote` (ответом) : сделать модератором\n'
                     ..'`/demote` (ответом) : снять с модераторства\n'
                     ..'`/setlink [ссылка|\'no\']` : установить ссылку на группу. Может быть изменена модераторами\n'
@@ -1723,6 +1743,7 @@ return {
                 wrong_input = 'Неправильный аргумент.\nИспользуй _/welcome [no|r|a|ra|ar]_',
                 media_setted = 'New media setted as welcome message: ',
                 reply_media = 'Reply to a `sticker` or a `gif` to set them as *welcome message*',
+                custom = '*Custom welcome message* setted!\n\n&&&1',
                 wrong_markdown = '_Not setted_ : I can\'t send you back this message, probably the markdown is *wrong*.\nPlease check the text sent',
             },
             resume = {
@@ -1765,6 +1786,7 @@ return {
             limit_reached = 'Этот пользователь уже получил максимальное количество предупреждений (*&&&1/&&&2*)',
             limit_lower = 'Этот пользователь почти достиг максимального количества предупреждений.\n*&&&1* предупреждений осталось до *&&&2* (*&&&3/&&&4*)',
             nowarn_reply = 'Ответь на сообщение пользователя, чтобы обнулить его счетчик предупреждений',
+            ban_motivation = 'too many warnings',
             nowarn = 'Количество предупреждений у этого пользователя *сброшено*'
         },
         setlang = {
@@ -1781,7 +1803,10 @@ return {
             unbanned = 'User unbanned!',
             reply = 'Ответь (reply) на сообщение этого пользователя',
             globally_banned = '&&&1 был глобально забанен!',
-            not_unbanned = 'Это обычная группа, пользователи не блокируются, когда кикаются из группы'
+            not_unbanned = 'Это обычная группа, пользователи не блокируются, когда кикаются из группы',
+            banlist_header = '*Banned users*:\n\n',
+            banlist_empty = '_The list is empty_',
+            general_motivation = 'I can\'t kick this user.\nProbably I\'m not an Amdin, or the user is an Admin iself'
         },
         floodmanager = {
             number_invalid = '`&&&1` неправильное число!\nЧисло должно быть *больше* чем `3` и *меньше* чем `26`',
@@ -1808,6 +1833,8 @@ return {
             media_ban = '&&&1 *забанен*: отправленный тип медиа не разрешен',
             rtl = '&&&1 *кикнут*: rtl символы в имени/сообщениях не разрешены',
             arab = '&&&1 *кикнут*: арабские сообщения обнаружены',
+            flood_motivation = 'Banned for flood',
+            media_motivation = 'Sent a forbidden media',
             first_warn = 'This type of media is *not allowed* in this chat. The next time, *&&&1*'
         },
         kick_errors = {

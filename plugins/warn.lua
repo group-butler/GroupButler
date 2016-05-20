@@ -42,7 +42,6 @@ local action = function(msg, blocks, ln)
         if msg.reply.from.username then
             name = '@'..msg.reply.from.username
         end
-	    name = name:gsub('_', ''):gsub('*', '')
 		
 		local hash = 'chat:'..msg.chat.id..':warns'
 		local hash_set = 'chat:'..msg.chat.id..':max'
@@ -52,13 +51,15 @@ local action = function(msg, blocks, ln)
 		
 		if tonumber(num) >= tonumber(nmax) then
 			local type = db:get('chat:'..msg.chat.id..':warntype')
-			name = name..' (->'..num..'/'..nmax..')'
 			--try to kick/ban
 			if type == 'ban' then
-				text = make_text(lang[ln].warn.warned_max_ban, name:mEscape())
+				text = make_text(lang[ln].warn.warned_max_ban, name:mEscape())..' (->'..num..'/'..nmax..')'
 				res, motivation = api.banUser(msg.chat.id, msg.reply.from.id, is_normal_group, ln)
+				if res then
+					cross.addBanList(msg.chat.id, msg.reply.from.id, name, lang[ln].warn.ban_motivation)
+				end
 	    	else
-				text = make_text(lang[ln].warn.warned_max_kick, name:mEscape())
+				text = make_text(lang[ln].warn.warned_max_kick, name:mEscape())..' (->'..num..'/'..nmax..')'
 	    		local is_normal_group = false
 	    		if msg.chat.type == 'group' then is_normal_group = true end
 		    	res, motivation = api.kickUser(msg.chat.id, msg.reply.from.id, ln)
@@ -180,9 +181,9 @@ end
 return {
 	action = action,
 	triggers = {
-		'^/(warn)$',
 		'^/(warn) (kick)$',
 		'^/(warn) (ban)$',
+		'^/(warn)',
 		'^/(warnmax) (%d%d?)$',
 		'^/(getwarns)$',
 		'^/(nowarns)$',

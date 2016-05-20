@@ -8,6 +8,7 @@ db = Redis.connect('127.0.0.1', 6379)
 --db:select(0)
 serpent = require('serpent')
 
+
 bot_init = function(on_reload) -- The function run when the bot is started or reloaded.
 	
 	print(colors.blue..'Loading config.lua...')
@@ -17,7 +18,7 @@ bot_init = function(on_reload) -- The function run when the bot is started or re
 		return
 	end
 	print(colors.blue..'Loading utilities.lua...')
-	cross = dofile('utilities.lua') -- Load miscellaneous and cross-plugin functions.
+	cross, rdb = dofile('utilities.lua') -- Load miscellaneous and cross-plugin functions.
 	print(colors.blue..'Loading languages.lua...')
 	lang = dofile(config.languages) -- All the languages available
 	print(colors.blue..'Loading API functions table...')

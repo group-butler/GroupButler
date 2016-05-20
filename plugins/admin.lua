@@ -482,21 +482,23 @@ local action = function(msg, blocks, ln)
 			api.sendMessage(config.admin, 'Specify an id or reply with the message')
 			return
 		end
-		local id
+		local id, text
 		if blocks[2]:match('(-?%d+)') then
 			if not blocks[3] then
 				api.sendMessage(config.admin, 'Text is missing')
 				return
 			end
 			id = blocks[2]
+			text = blocks[3]
 		else
 			if not msg.reply then
 				api.sendMessage(config.admin, 'Reply to a user to send him a message')
 				return
 			end
 			id = msg.reply.from.id
+			text = blocks[2]
 		end
-		local res = api.sendMessage(id, blocks[2])
+		local res = api.sendMessage(id, text)
 		if res then
 			api.sendMessage(msg.chat.id, 'Successful delivery')
 		end

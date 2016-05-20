@@ -217,13 +217,12 @@ local function per_away(text)
 	return text
 end
 
-function make_text(text, par1, par2, par3, par4, par5, par6)
+function make_text(text, par1, par2, par3, par4, par5)
 	if par1 then text = text:gsub('&&&1', per_away(par1)) end
 	if par2 then text = text:gsub('&&&2', per_away(par2)) end
 	if par3 then text = text:gsub('&&&3', per_away(par3)) end
 	if par4 then text = text:gsub('&&&4', per_away(par4)) end
 	if par5 then text = text:gsub('&&&5', per_away(par5)) end
-	if par6 then text = text:gsub('&&&6', per_away(par6)) end
 	text = text:gsub('£&£', '%%')
 	return text
 end
@@ -534,7 +533,7 @@ function to_supergroup(msg)
 	local old = msg.chat.id
 	local new = msg.migrate_to_chat_id
 	migrate_chat_info(old, new, false)
-	--migrate_ban_list(old, new)
+	migrate_ban_list(old, new)
 	api.sendMessage(new, '(_service notification: migration of the group executed_)', true)
 end
 
@@ -914,9 +913,184 @@ local function initGroup(chat_id, owner_id, nick)
 	
 	--save group id
 	db:sadd('bot:groupsid', chat_id)
+	
+	--save stats
+	hash = 'bot:general'
+    local num = db:hincrby(hash, 'groups', 1)
+    print('Stats saved', 'Groups: '..num)
 end
 
-return {
+local function addBanList(chat_id, user_id, nick, why)
+    local hash = 'chat:'..chat_id..':bannedlist'
+    local res, is_id_added = rdb.set(hash, user_id, 'nick', nick)
+    if why and not(why == '') then
+        rdb.set(hash, user_id, 'why', why)
+    end
+    return is_id_added
+end
+
+local function remBanList(chat_id, user_id)
+	if not chat_id or not user_id then return false end
+    local hash = 'chat:'..chat_id..':bannedlist'
+    local res, des = rdb.rem(hash, user_id)
+    return res
+end
+
+-----------------------redis shorcuts---------------------------------------
+
+--[[
+
+------------|---------------------------|
+IDS SET     | SUB-HASH WITH SUB-KEY/VAL |
+------------|---------------------------|
+hash        | hash:id[n]                |
+------------|---------------------------|
+------------|---------------------------|
+            |             |
+id[1] ----->| key1 = val1 |
+            | key2 = val2 |
+            | key3 = val3 |
+            | key4 = val4 |
+------------|-------------|
+id[2] ----->| key1 = val1 |
+            | key2 = val2 |
+            | key3 = val3 |
+            | key4 = val4 |
+            | key5 = val5 |
+------------|-------------|
+
+extSet(hash, id, key, val)
+extGet(hash{, id{, key}})
+extSetTable(hash, table)
+extRem(hash{, id{, key}})
+]]
+
+local function extSet(hash, id, key, val)
+    
+    --returns false if an argument is missing
+    --else, returns true, true if the id has been added to the ids set or false if it hasn't, 0 the sub-key/val has been setted or 1 if only updated, 
+    
+    if not val then
+        return false, 'Missing field(s)'
+    else
+        local res_sadd = db:sadd(hash, id)
+		if res_sadd > 0 then res_sadd = false else res_sadd = true end
+        local res_hset = db:hset(hash..':'..id, key, val)
+        if res_hset then --or res_set == 1
+            return true, res_sadd, 1
+        else
+            return true, res_sadd, 0
+        end
+    end
+end
+
+local function extGet(hash, id, key)
+    
+    --returns false when the hash/id is not found or when the sub-hash/the ids set is empty, plus the descritption
+    --returns nil when the key passed does not exists
+    --else, returns the table/value
+    
+    local res = {}
+    local hash_exists = db:exists(hash)
+    if not hash_exists then
+        return false, 'hash does not exists'
+    else
+        if key then
+            return db:hegt(hahs..':'..id, key)
+        else
+            if id then
+                local hgetall_res = db:hgetall(hash..':'..id)
+                if not next(hgetall_res) then
+                    return false, 'empty sub-hash'
+                else
+                    return hgetall_res
+                end
+            else
+                local ids = db:smembers(hash)
+                if not next(ids) then
+                    return false, 'empty ids set'
+                else
+                    for i=1,#ids do
+                        local hgetall_res = db:hgetall(hash..':'..ids[i])
+                        if next(hgetall_res) then
+                            res[ids[i]] = hgetall_res
+                        end
+                    end
+                    return res
+                end
+            end
+        end
+    end
+end
+
+local function extSetTable(hash, table)
+    
+    --returns false if "table" argument is not a table, and the descriprion of the error
+    --else, returns true, the number of ids setted in the ids set, and the number of key/vals setted
+    
+    if not(type(table) == 'table') then
+        return false, 'the second argument is not a table'
+    else
+        local reset_res = rdb.rem(hash)
+        local id_setted = 0
+        local kv_setted = 0
+        for id,sub_table in pairs(table) do
+            id_setted = id_setted + 1
+            db:sadd(hash, id)
+            for key,val in pairs(sub_table) do
+                db:hset(hash..':'..id, key, val)
+                kv_setted = kv_setted + 1
+            end
+        end
+        return true, id_setted, kv_setted
+    end
+end
+
+local function extRem(hash, id, key)
+    
+    --if the hash/id/key is not found, returns false and a description of the error
+    --if the key/id/hash has been successfully removed, returns true with the number of sub-keys removed
+    
+    local hash_exists = db:exists(hash)
+    if not hash_exists then
+        return false, 'hash does not exists'
+    else
+        local ids = db:smembers(hash)
+        if next(ids) then --if the set is not empty
+            if not id then --if id and key are not provided, delete the whole hash
+                local subhash_removed = 0
+                for i,id in pairs(ids) do --delete each sub-hash, before delete the ids set
+                    db:del(hash..':'..id) --remove directly the entire sub-hash
+                    subhash_removed = subhash_removed + 1
+                end
+                db:del(hash) --remove the set of ids
+                return true, subhash_removed
+            else --else, if id is provided then
+                local id_exists = db:sismember(hash, id)
+                if not id_exists then
+                    return false, 'id does not exists'
+                else
+                    if key then --if the key is provided, then delete only the key
+                        local res_key = db:hdel(hash..':'..id, key)
+                        if res_key == 0 then --if the key does not exists then
+                            return false, 'key does not exists'
+                        else
+                            return true
+                        end
+                    else --if the key is not provided, then delete only id provided from the ids set, and the associated sub-hash
+                        db:del(hash..':'..id) --delete the whole sub-hash
+                        db:srem(hash, id) --remove the id from the set of ids
+                        return true, 1
+                    end
+                end
+            end
+        else
+            return false, 'id set is empty'
+        end
+    end
+end
+
+local cross = {
 	getAbout = getAbout,
 	getRules = getRules,
 	getModlist = getModlist,
@@ -928,5 +1102,16 @@ return {
 	changeFloodSettings = changeFloodSettings,
 	changeMediaStatus = changeMediaStatus,
 	sendStartMe = sendStartMe,
-	initGroup = initGroup
+	initGroup = initGroup,
+	addBanList= addBanList,
+	remBanList = remBanList
 }
+
+local rdb = {
+	set = extSet,
+	get = extGet,
+	rem = extRem,
+	setTable = extSetTable,
+}
+
+return cross, rdb
