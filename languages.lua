@@ -331,6 +331,7 @@ return {
             disabled = 'Antiflood disabled',
             kick = 'Now flooders will be kicked',
             ban = 'Now flooders will be banned',
+            general_motivation = 'I can\'t kick this user.\nProbably I\'m not an Amdin, or the user is an Admin iself'
         },
         mediasettings = {
 			warn = 'This kind of media are *not allowed* in this group.\n_The next time_ you will be kicked or banned',
@@ -704,6 +705,7 @@ return {
             disabled = 'Antiflood disabilitato',
             kick = 'I flooders verranno kickati',
             ban = 'I flooders verranno bannati',
+            general_motivation = 'I can\'t kick this user.\nProbably I\'m not an Amdin, or the user is an Admin iself'
         },
         mediasettings = {
 			warn = 'Questo tipo di media *non è consentito* in questo gruppo.\n_La prossima volta_ verrai kickato o bannato',
@@ -1075,6 +1077,7 @@ return {
             disabled = 'Antiflood desactivado',
             kick = 'Los flooders seran expulsados',
             ban = 'Los flooders seran baneados',
+            general_motivation = 'I can\'t kick this user.\nProbably I\'m not an Amdin, or the user is an Admin iself'
         },
         mediasettings = {
 			warn = 'Este tipo de multimedia *no esta permitida* en este grupo.\n_La proxima vez_ seras baneado o expulsado',
@@ -1447,6 +1450,7 @@ return {
             disabled = 'Antiflood desabilitado',
             kick = 'Agora floodadores(as) serão removidos(as)',
             ban = 'Agora floodadores(as) serão banidos(as)'
+            general_motivation = 'I can\'t kick this user.\nProbably I\'m not an Amdin, or the user is an Admin iself'
         },
         mediasettings = {
 			warn = 'Esse tipo de mídia *não é permitida* neste grupo.\n_Na próxima vez_ voce séra removido(a) ou banido(a)',
