@@ -200,7 +200,11 @@ function clean_owner_modlist(chat)
 	hash = 'chat:'..chat..':mod'
 	local mod_list = db:hkeys(hash) --get mods id
 	for id,nick in pairs(mod_list) do
-		db:hdel(hash, id)
+		if id then
+			db:hdel(hash, id)
+		else
+			api.sendLog('#removed\nUnknown group\nId: '..chat)
+		end
 	end
 end
 

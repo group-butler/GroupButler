@@ -76,10 +76,10 @@ local action = function(msg, blocks, ln)
 			name = name..' (@'..msg.adder.username..')'
 		end
 		
-		save_log('added', msg.chat.title, msg.chat.id, jsoname, msg.adder.id)
+		save_log('added', msg.chat.title, msg.chat.id, name, msg.adder.id)
 		api.sendLog(vtext(msg.chat)..vtext(msg.adder))
 		
-		cross.groupInit(msg.chat.id, msg.adder.id, name)
+		cross.initGroup(msg.chat.id, msg.adder.id, name)
 		
         local out = make_text(lang[ln].service.new_group, msg.from.first_name:mEscape())
 		api.sendMessage(msg.chat.id, out, true)
