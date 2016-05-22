@@ -197,8 +197,8 @@ return {
             new = '*New rules:*\n"&&&1"'
         },
         settings = {
-            disable = {
-                no_input = 'Disable what?',
+            enable = {
+                no_input = 'Enable what?',
                 rules_already = '`/rules` command is already *locked*',
                 rules_locked = '`/rules` command is now available *only for moderators*',
                 about_already = '`/about` command is already *locked*',
@@ -221,8 +221,8 @@ return {
                 report_locked = '@admin command *won\'t be available* from now',
                 wrong_input = 'Argument unavailable.\nUse `/disable [rules|about|welcome|modlist|report|extra|rtl|arab]` instead',
             },
-            enable = {
-                no_input = 'Enable what?',
+            disable = {
+                no_input = 'Disable what?',
                 rules_already = '`/rules` command is already *unlocked*',
                 rules_unlocked = '`/rules` command is now available *for all*',
                 about_already = '`/about` command is already *unlocked*',
@@ -567,8 +567,8 @@ return {
             new = '*Nuove regole:*\n"&&&1"'
         },
         settings = {
-            disable = {
-                no_input = 'Disabilitare cosa?',
+            enable = {
+                no_input = 'Abilitare cosa?',
                 rules_already = '`/rules` è già bloccato *bloccato*',
                 rules_locked = '`/rules` è ora utilizzabile *solo dai moderatori*',
                 about_already = '`/about` è già bloccato *bloccato*',
@@ -591,8 +591,8 @@ return {
                 report_locked = '@admin *non sarà disponibile* da ora',
                 wrong_input = 'Argomento invalido.\nUsa invece `/disable [rules|about|welcome|modlist|report|extra|rtl|arab]`',
             },
-            enable = {
-                no_input = 'Abilitare cosa?',
+            disable = {
+                no_input = 'Disabilitare cosa?',
                 rules_already = '`/rules` è già *sbloccato*',
                 rules_unlocked = '`/rules` è ora utilizzabile *da tutti*',
                 about_already = '`/about` è già *sbloccato*',
@@ -940,7 +940,7 @@ return {
             new = '*Nuevas reglas:*\n"&&&1"'
         },
         settings = {
-            disable = {
+            enable = {
                 no_input = '¿Desactivar el que?',
                 rules_already = '`/rules` comando ya *bloqueado*',
                 rules_locked = '`/rules` comando disponible *solo* para *moderadores*',
@@ -964,7 +964,7 @@ return {
                 report_locked = 'Comando @admin *no disponible*',
                 wrong_input = 'Argumento no valido.\nUsa `/disable [rules|about|welcome|modlist|report|extra|rtl|arab|private]`',
             },
-            enable = {
+            disable = {
                 no_input = '¿Activar el que?',
                 rules_already = '`/rules` comando ya *desbloqueado*',
                 rules_unlocked = '`/rules` comando disponible *para todos*',
@@ -1312,8 +1312,8 @@ return {
             new = '*Novas regras:*\n"&&&1"'
         },
         settings = {
-            disable = {
-                no_input = 'Desabilitar o que?',
+            enable = {
+                no_input = 'Habilitar o que?',
                 rules_already = 'O comando `/rules` já está *bloqueado*',
                 rules_locked = 'O comando `/rules` agora está disponível *apenas para moderadores(as)*',
                 about_already = 'O comando `/about` já está *bloqueado*',
@@ -1336,8 +1336,8 @@ return {
                 report_locked = 'O comando @admin *não estará disponível* a partir de agora',
                 wrong_input = 'Argumento inválido.\nUse `/disable [rules|about|welcome|modlist|report|extra|rtl|arab|private]`',
             },
-            enable = {
-                no_input = 'Habilitar o que?',
+            disable = {
+                no_input = 'Desabilitar o que?', 
                 rules_already = 'O comando `/rules` já está *desbloqueado*',
                 rules_unlocked = 'O comando `/rules` agora está disponível *para todos(as)*',
                 about_already = 'O comando `/about` já está *desbloqueado*',
@@ -1682,8 +1682,8 @@ return {
             new = '*Новые правила:*\n"&&&1"'
         },
         settings = {
-            disable = {
-                no_input = 'Что отключить?',
+            enable = {
+                no_input = 'Что включить?',
                 rules_already = '`/rules` уже *выключена*',
                 rules_locked = '`/rules` теперь доступна *только для модераторов*',
                 about_already = '`/about` уже *выключена*',
@@ -1706,8 +1706,8 @@ return {
                 report_locked = '@admin теперь не будет доступна',
                 wrong_input = 'Неправильно задан аргумент.\nИспользуй `/disable [rules|about|welcome|modlist|report|extra|rtl|arab]` ',
             },
-            enable = {
-                no_input = 'Что включить?',
+            disable = {
+                no_input = 'Что отключить?',
                 rules_already = '`/rules` уже *включена*',
                 rules_unlocked = '`/rules` команда теперь доступна *всем*',
                 about_already = '`/about` уже *включена*',
