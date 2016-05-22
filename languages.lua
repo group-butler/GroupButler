@@ -568,7 +568,7 @@ return {
         },
         settings = {
             enable = {
-                no_input = 'Disabilitare cosa?',
+                no_input = 'Abilitare cosa?',
                 rules_already = '`/rules` è già bloccato *bloccato*',
                 rules_locked = '`/rules` è ora utilizzabile *solo dai moderatori*',
                 about_already = '`/about` è già bloccato *bloccato*',
@@ -592,7 +592,7 @@ return {
                 wrong_input = 'Argomento invalido.\nUsa invece `/disable [rules|about|welcome|modlist|report|extra|rtl|arab]`',
             },
             disable = {
-                no_input = 'Abilitare cosa?',
+                no_input = 'Disabilitare cosa?',
                 rules_already = '`/rules` è già *sbloccato*',
                 rules_unlocked = '`/rules` è ora utilizzabile *da tutti*',
                 about_already = '`/about` è già *sbloccato*',
@@ -1313,7 +1313,7 @@ return {
         },
         settings = {
             enable = {
-                no_input = 'Desabilitar o que?',
+                no_input = 'Habilitar o que?',
                 rules_already = 'O comando `/rules` já está *bloqueado*',
                 rules_locked = 'O comando `/rules` agora está disponível *apenas para moderadores(as)*',
                 about_already = 'O comando `/about` já está *bloqueado*',
@@ -1337,7 +1337,7 @@ return {
                 wrong_input = 'Argumento inválido.\nUse `/disable [rules|about|welcome|modlist|report|extra|rtl|arab|private]`',
             },
             disable = {
-                no_input = 'Habilitar o que?',
+                no_input = 'Desabilitar o que?', 
                 rules_already = 'O comando `/rules` já está *desbloqueado*',
                 rules_unlocked = 'O comando `/rules` agora está disponível *para todos(as)*',
                 about_already = 'O comando `/about` já está *desbloqueado*',
@@ -1683,7 +1683,7 @@ return {
         },
         settings = {
             enable = {
-                no_input = 'Что отключить?',
+                no_input = 'Что включить?',
                 rules_already = '`/rules` уже *выключена*',
                 rules_locked = '`/rules` теперь доступна *только для модераторов*',
                 about_already = '`/about` уже *выключена*',
@@ -1707,7 +1707,7 @@ return {
                 wrong_input = 'Неправильно задан аргумент.\nИспользуй `/disable [rules|about|welcome|modlist|report|extra|rtl|arab]` ',
             },
             disable = {
-                no_input = 'Что включить?',
+                no_input = 'Что отключить?',
                 rules_already = '`/rules` уже *включена*',
                 rules_unlocked = '`/rules` команда теперь доступна *всем*',
                 about_already = '`/about` уже *включена*',
