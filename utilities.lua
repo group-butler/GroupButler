@@ -32,7 +32,7 @@ function string:mEscape_hard() -- Remove the markdown.
 	return self
 end
 
-function is_admin(msg)
+function is_bot_owner(msg)
 	local id
 	if msg.adder and msg.adder.id then
 		id = msg.adder.id
@@ -45,7 +45,7 @@ function is_admin(msg)
 	return false
 end
 
-function is_owner(msg)
+--[[function is_owner(msg)
 	local var = false
 	
 	local hash = 'chat:'..msg.chat.id..':owner'
@@ -79,9 +79,57 @@ function is_owner2(chat_id, user_id)
 	end
 	
 	return var
-end
+end]]
 
 function is_mod(msg)
+	if msg.from.id == config.admin then
+		return true
+	end
+	local status = api.getChatMember(msg.chat.id, msg.from.id).result.status
+	if status == 'creator' or status == 'administrator' then
+		return true
+	else
+		return false
+	end
+end
+
+function is_mod2(chat_id, user_id)
+	if tonumber(user_id) == config.admin then
+		return true
+	end
+	local status = api.getChatMember(chat_id, user_id).result.status
+	if status == 'creator' or status == 'administrator' then
+		return true
+	else
+		return false
+	end
+end
+
+function is_owner(msg)
+	if msg.from.id == config.admin then
+		return true
+	end
+	local status = api.getChatMember(msg.chat.id, msg.from.id).result.status
+	if status == 'creator' then
+		return true
+	else
+		return false
+	end
+end
+
+function is_owner2(chat_id, user_id)
+	if msg.from.id == config.admin then
+		return true
+	end
+	local status = api.getChatMember(chat_id, user_id).result.status
+	if status == 'creator' then
+		return true
+	else
+		return false
+	end
+end
+
+--[[function is_mod(msg)
 	local var = false
 	
 	local hash = 'chat:'..msg.chat.id..':mod'
@@ -121,7 +169,7 @@ function is_mod2(chat_id, user_id)
 	--no need to check if is owner: the owner id is already saved in the modlist
 	
 	return var
-end
+end]]
 
 function set_owner(chat_id, user_id, nick)
 	db:hset('chat:'..chat_id..':mod', user_id, nick) --mod
@@ -187,25 +235,6 @@ function save_data(filename, data) -- Saves a table to a JSON file.
 	f:write(s)
 	f:close()
 
-end
-
-function clean_owner_modlist(chat)
-	--clear the owner
-	local hash = 'chat:'..chat..':owner'
-	local owner_list = db:hkeys(hash) --get the current owner id
-	local owner = owner_list[1]
-	db:hdel(hash, owner)
-	
-	--clean the modlist
-	hash = 'chat:'..chat..':mod'
-	local mod_list = db:hkeys(hash) --get mods id
-	for id,nick in pairs(mod_list) do
-		if id then
-			db:hdel(hash, id)
-		else
-			api.sendLog('#removed\nUnknown group\nId: '..chat)
-		end
-	end
 end
 
 function vardump(value)
@@ -441,7 +470,6 @@ function migrate_chat_info(old, new, on_request)
 		print('A group id is missing')
 		return false
 	end
-	local mods = db:hgetall('chat:'..old..':mod')
 	local owner_id = db:hkeys('chat:'..old..':owner')
 	local owner_name = db:hvals('chat:'..old..':owner')
 	local settings = db:hgetall('chat:'..old..':settings')
@@ -452,17 +480,6 @@ function migrate_chat_info(old, new, on_request)
 	local extra = db:hgetall('chat:'..old..':extra')
 	local admblock = db:smembers('chat:'..old..':reportblocked')
 	local logtxt = 'FROM ['..old..'] TO ['..new..']\n'
-	
-	--migrate mods
-	logtxt = logtxt..'Migrating moderators (#'..#mods..')...\n'
-	logtxt = logtxt..migrate_table(mods, 'chat:'..new..':mod')
-	
-	--migrate owner
-	logtxt = logtxt..'Migrating owner...'
-	if next(owner_id) and next(owner_name) then
-		local res = db:hset('chat:'..new..':owner', owner_id[1], owner_name[1])
-		logtxt = logtxt..give_result(res)..'\n'
-	else logtxt = logtxt..' empty\n' end
 	
 	--migrate about
 	logtxt = logtxt..'Migrating about...'
@@ -682,18 +699,27 @@ local function getRules(chat_id, ln)
 end
 
 local function getModlist(chat_id)
-	local hash = 'chat:'..chat_id..':mod'
-	local mlist = db:hvals(hash) --the array can't be empty: there is always the owner in
-    local message = ''
-    --build the list
-    for i=1, #mlist do
-        message = message..i..' - '..mlist[i]..'\n'
-    end
-    if message == '' then
-    	return '()'
-    else
-    	return message
-    end
+	local list, code = api.getChatAdministrators(chat_id)
+	if not list and code == 107 then
+		return false, code
+	end
+	local creator
+	local adminlist = ''
+	local i = 1
+	for i,admin in pairs(list.result) do
+		local name
+		if admin.status == 'administrator' then
+			name = admin.user.first_name
+			if admin.user.username then name = name..' (@'..admin.user.username..')' end
+			adminlist = adminlist..'*'..i..'* - '..name:mEscape()..'\n'
+		elseif admin.status == 'creator' then
+			creator = admin.user.first_name
+			if admin.user.username then creator = creator..' (@'..admin.user.username..')' end
+			creator = creator:mEscape()
+		end
+	end
+	if adminlist == '' then adminlist = '-' end
+	return creator, adminlist
 end
 
 local function getExtraList(chat_id, ln)
@@ -714,11 +740,14 @@ local function getSettings(chat_id, ln)
 	--get settings from redis
     local hash = 'chat:'..chat_id..':settings'
     local settings_key = db:hkeys(hash)
+    if not next(settings_key) then
+    	return lang[ln].settings.broken_group, false
+    end
     local settings_val = db:hvals(hash)
     local key
     local val
         
-    message = make_text(lang[ln].bonus.settings_header, ln)
+    local message = make_text(lang[ln].bonus.settings_header, ln)
         
     --build the message
     for i=1, #settings_key do
@@ -871,15 +900,7 @@ local function sendStartMe(msg, ln)
 	api.sendKeyboard(msg.chat.id, lang[ln].help.group_not_success, keyboard, true)
 end
 
-local function initGroup(chat_id, owner_id, nick)
-	
-	--add owner as moderator
-	local hash = 'chat:'..chat_id..':mod'
-    db:hset(hash, owner_id, nick)
-    
-    --add owner as owner
-    hash = 'chat:'..chat_id..':owner'
-    db:hset(hash, owner_id, nick)
+local function initGroup(chat_id)
 	
 	--default settings
 	hash = 'chat:'..chat_id..':settings'

@@ -44,30 +44,35 @@ local action = function(msg, blocks, ln)
     end
 	if blocks[1] == 'setabout' then
 		local input = blocks[2]
-		print(input)
 		--ignore if not mod
 		if not is_mod(msg) then
-			api.sendReply(msg, make_text(lang[ln].not_mod), true)
-			return nil
+			api.sendReply(msg, lang[ln].not_mod, true)
+			return
 		end
 		--ignore if not text
 		if not input then
-			api.sendReply(msg, make_text(lang[ln].setabout.no_input_set), true)
-			return true
+			api.sendReply(msg, lang[ln].setabout.no_input_set, true)
+			return
 		end
 		--check if the mod want to clean the about text
 		if input == 'clean' then
 			db:del(hash)
-			api.sendReply(msg, make_text(lang[ln].setabout.clean))
-			return nil
+			api.sendReply(msg, lang[ln].setabout.clean)
+			return
 		end
 		
 		--set the new about
-		local res = api.sendReply(msg, make_text(lang[ln].setabout.new, input), true)
+		local res, code = api.sendReply(msg, make_text(lang[ln].setabout.new, input), true)
 		if not res then
-			api.sendReply(msg, lang[ln].breaks_markdown, true)
+			if code == 118 then
+				api.sendMessage(msg.chat.id, lang[ln].bonus.too_long)
+			else
+				api.sendMessage(msg.chat.id, lang[ln].breaks_markdown, true)
+			end
 		else
 			db:set(hash, input)
+			local id = res.result.message_id
+			api.editMessageText(msg.chat.id, id, lang[ln].setabout.about_setted, false, true)
 		end
 		mystat('/setabout')
 	end

@@ -8,7 +8,7 @@ local function tell(msg, ln)
 	text = text..'*ID*: '..msg.from.id..'\n'
 	
 	if msg.chat.type == 'group' or msg.chat.type == 'supergroup' then
-		text = text..make_text(lang[ln].tell.group_id, msg.chat.id)
+		text = text..make_text(lang[ln].bonus.tell, msg.chat.id)
 		return text
 	else
 		return text
@@ -71,9 +71,13 @@ local action = function(msg, blocks, ln)
 		mystat('/tell')
 	end
 	if blocks[1] == 'echo' then
-		local res = api.sendMessage(msg.chat.id, blocks[2], true)
+		local res, code = api.sendMessage(msg.chat.id, blocks[2], true)
 		if not res then
-			api.sendMessage(msg.chat.id, lang[ln].breaks_markdown, true)
+			if code == 118 then
+				api.sendMessage(msg.chat.id, lang[ln].bonus.too_long)
+			else
+				api.sendMessage(msg.chat.id, lang[ln].breaks_markdown, true)
+			end
 		end
 	end
 	if blocks[1] == 'c' then
@@ -122,25 +126,61 @@ local action = function(msg, blocks, ln)
 		end
 		api.sendMessage(msg.chat.id, message, true)
 	end
-	if blocks[1] == 'fixowner' then
+	if blocks[1] == 'initgroup' then
 		if msg.chat.type == 'private' then return end
-		local hash = 'chat:'..msg.chat.id..':owner'
-		local owner_list = db:hkeys(hash)
-		local owner = owner_list[1]
-		if not owner then
-			local nick = msg.from.first_name
-			if msg.from.username then
-				nick = nick..' ('..msg.from.username..')'
-			end
-        	cross.initGroup(msg.chat.id, msg.from.id, nick)
-        	api.sendMessage(msg.chat.id, 'Should be ok. Try to run /modlist command')
-        	api.sendLog('#initGroup\n'..vtext(msg.chat)..vtext(msg.from))
-        else
-        	if is_mod(msg) then
-        		api.sendMessage(msg.chat.id, 'This group has already an owner')
+		if is_mod(msg) then
+			local set, is_ok = cross.getSettings(msg.chat.id, ln)
+			if not is_ok then
+				local nick = msg.from.first_name
+				if msg.from.username then
+					nick = nick..' ('..msg.from.username..')'
+				end
+        		cross.initGroup(msg.chat.id, msg.from.id, nick)
+        		api.sendMessage(msg.chat.id, 'Should be ok. Try to run /settings command')
+        		api.sendLog('#initGroup\n'..vtext(msg.chat)..vtext(msg.from))
+        	else
+        		api.sendMessage(msg.chat.id, 'This is already ok')
         	end
         end
     end
+    if blocks[1] == 'adminlist' then
+    	local out
+        local creator, adminlist = cross.getModlist(msg.chat.id)
+        if not creator then
+            out = lang[ln].bonus.adminlist_admin_required --creator is false, admins is the error code
+        else
+            out = make_text(lang[ln].mod.modlist, creator, adminlist)
+        end
+        if is_locked(msg, 'Modlist') and not is_mod(msg) then
+        	api.sendMessage(msg.from.id, out, true)
+        else
+            api.sendReply(msg, out, true)
+        end
+        mystat('/adminlist')
+    end
+    if blocks[1] == 'status' then
+    	if msg.chat.type == 'private' then return end
+    	if is_mod(msg) then
+    		local user_id = res_user_group(blocks[2], msg.chat.id)
+    		if not user_id then
+		 		api.sendReply(msg, lang[ln].bonus.no_user, true)
+		 	else
+		 		local res = api.getChatMember(msg.chat.id, user_id)
+		 		if not res then
+		 			api.sendReply(msg, lang[ln].status.unknown)
+		 			return
+		 		end
+		 		local status = res.result.status
+				local name = res.result.user.first_name
+				if res.result.user.username then name = name..' (@'..res.result.user.username..')' end
+				if msg.chat.type == 'group' and is_banned(msg.chat.id, user_id) then
+					status = 'kicked'
+				end
+		 		local text = make_text(lang[ln].status[status], name)
+		 		api.sendReply(msg, text, true)
+		 	end
+	 	end
+ 	end
 end
 
 return {
@@ -158,6 +198,8 @@ return {
 		'^/(info)$',
 		'^/(pin)$',
 		'^/(resolve) (@[%w_]+)$',
-		'^/(fixowner)$'
+		'^/(initgroup)$',
+		'^/(adminlist)$',
+		'^/(status) (@[%w_]+)$',
 	}
 }

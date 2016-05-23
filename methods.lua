@@ -188,6 +188,46 @@ local function unbanUser(chat_id, user_id, is_normal_group)
 	return true
 end
 
+local function getChat(chat_id)
+	
+	local url = BASE_URL .. '/getChat?chat_id=' .. chat_id
+	
+	return sendRequest(url)
+	
+end
+
+local function getChatAdministrators(chat_id)
+	
+	local url = BASE_URL .. '/getChatAdministrators?chat_id=' .. chat_id
+	
+	return sendRequest(url)
+	
+end
+
+local function getChatMembersCount(chat_id)
+	
+	local url = BASE_URL .. '/getChatMembersCount?chat_id=' .. chat_id
+	
+	return sendRequest(url)
+	
+end
+
+local function getChatMember(chat_id, user_id)
+	
+	local url = BASE_URL .. '/getChatMember?chat_id=' .. chat_id .. '&user_id=' .. user_id
+	
+	return sendRequest(url)
+	
+end
+
+local function leaveChat(chat_id)
+	
+	local url = BASE_URL .. '/leaveChat?chat_id=' .. chat_id
+	
+	return sendRequest(url)
+	
+end
+
 local function sendMessage(chat_id, text, use_markdown, disable_web_page_preview, reply_to_message_id, send_sound)
 	--print(text)
 	
@@ -507,5 +547,10 @@ return {
 	sendDocumentId = sendDocumentId,
 	sendStickerId = sendStickerId,
 	getFile = getFile,
-	sendPhotoId = sendPhotoId
+	sendPhotoId = sendPhotoId,
+	getChat = getChat,
+	getChatAdministrators = getChatAdministrators,
+	getChatMembersCount = getChatMembersCount,
+	getChatMember = getChatMember,
+	leaveChat = leaveChat
 }	

@@ -33,7 +33,7 @@ local action = function(msg, blocks, ln)
 	
 	if blocks[1] == 'setlink' then
 		--ignore if not owner
-		if not is_owner(msg) then
+		if not is_mod(msg) then
 			return
 		end
 		
@@ -75,13 +75,6 @@ local action = function(msg, blocks, ln)
 	if blocks[1] == 'setpoll' then
 		--ignore if not owner
 		if not is_mod(msg) then
-			return
-		end
-		
-		--warn if the link has not the right lenght
-		if blocks[2] ~= 'no' and string.len(blocks[3]) ~= 44 then
-			local out = make_text(lang[ln].links.link_invalid)
-			api.sendReply(msg, out, true)
 			return
 		end
 		

@@ -1,56 +1,57 @@
-local triggers = {
-	'^/(init)$',
-	'^/(stop)$',
-	'^/(backup)$',
-	'^/(bc) (.*)$',
-	'^/(bcg) (.*)$',
-	'^/(save)$',
-	'^/(commands)$',
-	'^/(stats)$',
-	'^/(lua)$',
-	'^/(lua) (.*)$',
-	'^/(run) (.*)$',
-	'^/(log) (del) (.*)',
-	'^/(log) (del)',
-	'^/(log) (.*)$',
-	'^/(log)$',
-	'^/(admin)$',
-	'^/(block) (%d+)$',
-	'^/(block)$',
-	'^/(unblock) (%d+)$',
-	'^/(unblock)$',
-	'^/(isblocked)$',
-	'^/(ping redis)$',
-	'^/(leave) (-%d+)$',
-	'^/(leave)$',
-	'^/(post) (.*)$',
+local triggers2 = {
+	'^/a(init)$',
+	'^/a(stop)$',
+	'^/a(backup)$',
+	'^/a(bc) (.*)$',
+	'^/a(bcg) (.*)$',
+	'^/a(save)$',
+	'^/a(commands)$',
+	'^/a(stats)$',
+	'^/a(lua)$',
+	'^/a(lua) (.*)$',
+	'^/a(run) (.*)$',
+	'^/a(log) (del) (.*)',
+	'^/a(log) (del)',
+	'^/a(log) (.*)$',
+	'^/a(log)$',
+	'^/a(admin)$',
+	'^/a(block) (%d+)$',
+	'^/a(block)$',
+	'^/a(unblock) (%d+)$',
+	'^/a(unblock)$',
+	'^/a(isblocked)$',
+	'^/a(ping redis)$',
+	'^/a(leave) (-%d+)$',
+	'^/a(leave)$',
+	'^/a(post) (.*)$',
 	'^###(forward)',
-	'^/(reset) (.*)$',
-	'^/(reset)$',
-	'^/(send) (-?%d+) (.*)$',
-	'^/(send) (.*)$',
-	'^/(adminmode) (%a%a%a?)$',
-	'^/(delflag)$',
-	'^/(usernames)$',
-	'^/(api errors)$',
-	'^/(rediscli) (.*)$',
-	'^/(update)$',
-	'^/(movechat) (-%d+)$',
-	'^/(redis backup)$',
-	'^/(group info) (-?%d+)$',
-	'^/(fill media)$',
-	'^/(genlang) (%a%a)$',
-	'^/(trfile) (%a%a)$',
-	'^/(trfile)$',
-	'^/(fixaction) (-%d+)$',
-	'^/(sendplug) (.*)$',
-	'^/(sendfile) (.*)$',
-	'^/?(reply)$',
-	'^/?(reply) (.*)',
-	'^/(download)$',
-	'^/(savepin)$',
-	'^/(delpin)$',
-	'^/(migrate) (%d+)%s(%d+)'
+	'^/a(reset) (.*)$',
+	'^/a(reset)$',
+	'^/a(send) (-?%d+) (.*)$',
+	'^/a(send) (.*)$',
+	'^/a(adminmode) (%a%a%a?)$',
+	'^/a(delflag)$',
+	'^/a(usernames)$',
+	'^/a(api errors)$',
+	'^/a(rediscli) (.*)$',
+	'^/a(update)$',
+	'^/a(movechat) (-%d+)$',
+	'^/a(redis backup)$',
+	'^/a(group info) (-?%d+)$',
+	'^/a(fill media)$',
+	'^/a(genlang) (%a%a)$',
+	'^/a(trfile) (%a%a)$',
+	'^/a(trfile)$',
+	'^/a(fixaction) (-%d+)$',
+	'^/a(sendplug) (.*)$',
+	'^/a(sendfile) (.*)$',
+	'^/a(reply)$',
+	'^/a(reply) (.*)',
+	'^/a(download)$',
+	'^/a(savepin)$',
+	'^/a(delpin)$',
+	'^/a(migrate) (%d+)%s(%d+)',
+	'^/a(resid) (%d+)$'
 }
 
 local logtxt = ''
@@ -67,7 +68,7 @@ local function save_in_redis(hash, text)
 end
 
 local function bot_leave(chat_id, ln)
-	local res = api.kickChatMember(chat_id, bot.id)
+	local res = api.leaveChat(chat_id)
 	if not res then
 		return 'Check the id, it could be wrong'
 	else
@@ -161,11 +162,29 @@ local function fill_media_settings()
     api.sendDocument(config.admin, path)
 end
 
+local function match_pattern(pattern, text)
+  if text then
+  	text = text:gsub('@'..bot.username, '')
+    local matches = {}
+    matches = { string.match(text, pattern) }
+    if next(matches) then
+    	return matches
+    end
+  end
+end
+
 local action = function(msg, blocks, ln)
 	
-	if msg.from.id ~= config.admin then
-		return
+	if msg.from.id ~= config.admin then return end
+	
+	blocks = {}
+	
+	for k,v in pairs(triggers2) do
+		blocks = match_pattern(v, msg.text)
+		if blocks then break end
 	end
+	
+	if not blocks or not next(blocks) then return end
 	
 	if blocks[1] == 'admin' then
 		local text = ''
@@ -776,9 +795,20 @@ local action = function(msg, blocks, ln)
 		local new = '-'..blocks[3]
 		migrate_chat_info(old, new, true)
 	end
+	if blocks[1] == 'resid' then
+		local user_id = blocks[2]
+		local all = db:hgetall('bot:usernames')
+		for username,id in pairs(all) do
+			if tostring(id) == user_id then
+				api.sendReply(msg, username)
+				return
+			end
+		end
+		api.sendReply(msg, 'Not found')
+	end
 end
 
 return {
 	action = action,
-	triggers = triggers
+	triggers = {'^/a', '^###(forward)',}
 }

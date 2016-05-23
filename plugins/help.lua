@@ -34,7 +34,6 @@ local function make_keyboard(mod)
     local bottom_bar = {
 		{text = '🔰 User', callback_data = '!user'},
 		{text = '🔰 Admin', callback_data = '!mod'},
-		{text = '🔰 Owner', callback_data = '!owner'},
 	}
 	table.insert(keyboard.inline_keyboard, bottom_bar)
 	local info_button = {
@@ -126,9 +125,6 @@ local action = function(msg, blocks, ln)
             with_mods_lines = false
         elseif query == 'mod' then
             text = lang[ln].help.kb_header
-        elseif query == 'owner' then
-            text = lang[ln].help.owner
-            with_mods_lines = false
         end
         if query == 'info' then
         	text = lang[ln].help.mods[query]
@@ -165,7 +161,6 @@ return {
 	    '^/(help)$',
 	    '^###cb:!(user)',
 	    '^###cb:!(info_button)',
-    	'^###cb:!(owner)',
 	    '^###cb:!(mod)',
 	    '^###cb:!(info)',
 	    '^###cb:!(banhammer)',

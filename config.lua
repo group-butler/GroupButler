@@ -8,7 +8,6 @@ return {
 		'onmessage.lua', --THIS HAVE TO BE THE FIRST: IF AN USER IS SPAMMING/IS BLOCKED, THE BOT WON'T GO THROUGH PLUGINS
 		'all.lua',
 		'banhammer.lua',
-		'mod.lua',
 		'users.lua',
 		'help.lua',
 		'rules.lua',
@@ -22,15 +21,16 @@ return {
 		'setlang.lua',
 		'floodmanager.lua',
 		'mediasettings.lua',
-		'test.lua',
 		'admin.lua',
+		--'test.lua',
 	},
 	available_languages = {
 		'en',
 		'it',
 		'es',
 		'br',
-		'ru'
+		'ru',
+		'de'
 		--more to come
 	},
 	chat_data = {
@@ -62,11 +62,15 @@ return {
 		[114] = 'Bad Request: Message can\'t be forwarded', --unknown
 		[115] = 'Message text is empty', --empty message
 		[116] = 'message not found', --message id invalid, I guess
+		[117] = 'chat not found', --I don't know
+		[118] = 'Message is too long', --over 4096 char
+		[119] = 'User not found', --unknown user_id
 		
 		[120] = 'Can\'t parse reply keyboard markup JSON object', --keyboard table invalid
 		[121] = 'Field \\\"inline_keyboard\\\" of the InlineKeyboardMarkup should be an Array of Arrays', --inline keyboard is not an array of array
 		[122] = 'Can\'t parse inline keyboard button: InlineKeyboardButton should be an Object',
 		[123] = 'Bad Request: Object expected as reply markup', --empty inline keyboard table
+		[124] = 'QUERY_ID_INVALID', --callback query id invalid
 		
 		[130] = 'Type of file to send mismatch', --tryin to send a media with the wrong method
 		

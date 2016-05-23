@@ -24,25 +24,18 @@ end
 
 local action = function(msg, blocks, ln)
 
---ignore if via pm
-if msg.chat.type == 'private' then
-    api.sendMessage(msg.from.id, make_text(lang[ln].pv))
-    return nil
-end
-
-if blocks[1] == 'disable' then
-        
-        --ignore if via pm
-        if msg.chat.type == 'private' then
-            api.sendMessage(msg.from.id, make_text(lang[ln].pv))
-    	    return nil
-        end
-        
-        --ignore if not mod
-        if not is_mod(msg) then
-            api.sendReply(msg, make_text(lang[ln].not_mod), true)
-            return nil
-        end
+    --ignore if via pm
+    if msg.chat.type == 'private' then
+        api.sendMessage(msg.from.id, lang[ln].pv)
+        return
+    end
+    
+    if not is_mod(msg) then
+        api.sendReply(msg, lang[ln].not_mod, true)
+        return
+    end
+    
+    if blocks[1] == 'disable' then
         
         local input = msg.text:input()
         
@@ -85,13 +78,8 @@ if blocks[1] == 'disable' then
         end
         
 end
-
-if blocks[1] == 'enable' then
-        --ignore if not mod
-        if not is_mod(msg) then
-            api.sendReply(msg, make_text(lang[ln].not_mod), true)
-            return nil
-        end
+    
+    if blocks[1] == 'enable' then
         
         local input = msg.text:input()
         
@@ -134,13 +122,8 @@ if blocks[1] == 'enable' then
         end
         
     end
-    
-if blocks[1] == 'welcome' then
-        --ignore if not mod
-        if not is_mod(msg) then
-            api.sendReply(msg, make_text(lang[ln].not_mod), true)
-            return nil
-        end
+        
+    if blocks[1] == 'welcome' then
         
         local input = blocks[2]
         
@@ -206,23 +189,25 @@ if blocks[1] == 'welcome' then
         else
             db:hset(hash, 'type', 'custom')
             db:hset(hash, 'content', input)
-            local res = api.sendReply(msg, make_text(lang[ln].settings.welcome.custom, input), true)
+            local res, code = api.sendReply(msg, make_text(lang[ln].settings.welcome.custom, input), true)
             if not res then
                 db:hset(hash, 'type', 'composed') --if wrong markdown, remove 'custom' again
                 db:hset(hash, 'content', 'no')
-                api.sendReply(msg, lang[ln].settings.welcome.wrong_markdown, true)
+                if code == 118 then
+				    api.sendMessage(msg.chat.id, lang[ln].bonus.too_long)
+			    else
+				    api.sendMessage(msg.chat.id, lang[ln].breaks_markdown, true)
+			    end
+            else
+                local id = res.result.message_id
+                api.editMessageText(msg.chat.id, id, lang[ln].settings.welcome.custom_setted, false, true)
             end
         end
-        
+       
         mystat('/welcome') --save stats
     end
-
-if blocks[1] == 'settings' then
-        --ignore if is not mod
-        if not is_mod(msg) then
-			api.sendReply(msg, make_text(lang[ln].not_mod), true)
-			return nil
-		end
+    
+    if blocks[1] == 'settings' then
         
         --get settings
         local message = cross.getSettings(msg.chat.id, ln)

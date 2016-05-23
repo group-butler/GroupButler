@@ -91,7 +91,7 @@ local action = function(msg, blocks, ln)
    				mystat('/unban')
    			end
    			if blocks[1] == 'gban' then
-	   			if is_admin(msg) then
+	   			if is_bot_owner(msg) then
 	   				local groups = db:smembers('bot:groupsid')
     				local succ = 0
     				local not_succ = 0

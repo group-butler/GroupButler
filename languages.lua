@@ -1,23 +1,31 @@
---[[
-Added:
-Edited:
-]]
 
 return {
     en = {
+        status = {
+            kicked = '&&&1 is banned from this group',
+            left = '&&&1 left the group or has been kicked and unbanned',
+            administrator = '&&&1 is an Admin',
+            creator = '&&&1 is the group creator',
+            unknown = 'This user has nothing to do with this chat',
+            member = '&&&1 is a chat member'
+        },
         bonus = {
             general_pm = '_I\'ve sent you the message in private_',
             no_user = 'I\'ve never seen this user before.\nIf you want to teach me who he is, forward me a message from him',
             the_group = 'the group',
+            adminlist_admin_required = 'I\'m not a group Admin.\n*Only an Admin can see the administrators list*',
             settings_header = 'Current settings for *the group*:\n\n*Language*: `&&&1`\n',
             reply = '*Reply to someone* to use this command, or write a *username*',
-            msg_me = '_Message me first so I can message you_'
+            too_long = 'This text is too long, I can\'t send it',
+            msg_me = '_Message me first so I can message you_',
+            tell = '*Group ID*: &&&1'
         },
         pv = 'This is a command available only in a group',
         not_mod = 'You are *not* a moderator',
         breaks_markdown = 'This text breaks the markdown.\nMore info about a proper use of markdown [here](https://telegram.me/GroupButler_ch/46).',
         credits = '*Some useful links:*',
         extra = {
+            setted = '&&&1 command saved!',
 			usage = 'Write next to /extra the title of the command and the text associated.\nFor example:\n/extra #motm stay positive. The bot will reply _\'Stay positive\'_ each time someone writes #motm',
             new_command = '*New command set!*\n&&&1\n&&&2',
             no_commands = 'No commands set!',
@@ -26,17 +34,15 @@ return {
             command_empty = '&&&1 command does not exist'
         },
         help = {
-            owner = '*Commands for the owner*:\n'
-                    ..'`/owner` (by reply) : set a new owner\n'
-                    ..'`/promote` (by reply|username) : promote as moderator a member\n'
-                    ..'`/demote` (by reply|username) : demote a member\n'
-                    ..'`/setlink [link|\'no\']` : set the group link, so it can be re-called by mods, or unset it\n'
-                    ..'(obviuosly, the ability to appoint moderators is aimed to let users know who are the real moderators in the group, and so who can add and kick people.\nSo it\'s hardly suggested to point as moderator only who really is a moderator)\n\n',
             mods = {
                 banhammer = "*Moderators: banhammer powers*\n\n"
                             .."`/kick [by reply|username]` = kick a user from the group (he can be added again).\n"
                             .."`/ban [by reply|username]` = ban a user from the group (also from normal groups).\n"
-                            .."`/unban [by reply|username]` = unban the user from the group.\n",
+                            .."`/unban [by reply|username]` = unban the user from the group.\n"
+                            .."`/status [username]` = show the current status of the user `(member|kicked/left the chat|banned|admin/creator|never seen)`.\n"
+                            .."`/banlist` = show a list of banned users. Includes the motivations (if given during the ban)\n"
+                            .."\n*Note*: you can write something after `/ban` command (or after the username, if you are banning by username)."
+                            .." This comment will be used as the motivation of the ban.",
                 info = "*Moderators: info about the group*\n\n"
                         .."`/setrules [group rules]` = set the new regulation for the group (the old will be overwritten).\n"
                         .."`/addrules [text]` = add some text at the end of the existing rules.\n"
@@ -90,6 +96,7 @@ return {
                         .."`/disable arab` = the bot will kick everyone sends a message that includes arabic characters.\n"
                         .."`/enable arab` = arabic characters will be ignored.\n",
                 links = "*Moderators: links*\n\n"
+                        ..'`/setlink [link|\'no\']` : set the group link, so it can be re-called by other admins, or unset it\n'
                         .."`/link` = get the group link, if already setted by the owner\n"
                         .."`/setpoll [pollbot link]` = save a poll link from @pollbot. Once setted, moderators can retrieve it with `/poll`.\n"
                         .."`/setpoll no` = delete the current poll link.\n"
@@ -115,22 +122,27 @@ return {
                     ..'`/dashboard` : see all the group info from private\n'
                     ..'`/rules` (if unlocked) : show the group rules\n'
                     ..'`/about` (if unlocked) : show the group description\n'
-                    ..'`/modlist` (if unlocked) : show the moderators of the group\n'
+                    ..'`/adminlist` (if unlocked) : show the moderators of the group\n'
                     ..'`@admin` (if unlocked) : by reply= report the message replied to all the admins; no reply (with text)= send a feedback to all the admins\n'
                     ..'`/tell` : show your basical info or the info about the user you replied to\n'
-                    ..'`/echo [text]` : the bot will send the text back (with markdown)\n'
+                    ..'`/echo [text]` : the bot will send the text back (with markdown, available only in private for non-admin users)\n'
                     ..'`/info` : show some useful informations about the bot\n'
                     ..'`/c` <feedback> : send a feedback/report a bug/ask a question to my creator. _ANY KIND OF SUGGESTION OR FEATURE REQUEST IS WELCOME_. He will reply ASAP\n'
                     ..'`/help` : show this message.'
 		            ..'\n\nIf you like this bot, please leave the vote you think it deserves [here](https://telegram.me/storebot?start=groupbutler_bot)',
 		    private = 'Hey, *&&&1*!\n'
                     ..'I\'m a simple bot created in order to help people to manage their groups.\n'
-                    ..'\n*How can I help you?*\n'
-                    ..'Wew, I have a lot of useful tools! You can *kick or ban* users, set rules and a description, warn users, set some parameters to kick someone when something happens (read: *antiflood*/RTL/media...)\nDiscover more by adding me to a group!\n'
-                    ..'\nThe user who adds me will be set up as owner of the group. If you are not the real owner, you can set it by repliyng one of his messages with `/owner`.'
-                    ..'\nTo use my moderation powers (kick/ban), *you need to add me as administrator of the group*.\nRemember: moderator commands can be used only by who have been promoted with `/promote`. I can\'t see the real admins of the group, this is the only way for now.\n'
-                    ..'\nYou can report bugs/send feedbacks/ask a question to my creator just using "`/c <feedback>`" command. EVERYTHING IS WELCOME!'
-                    ..'\n\n[Official channel](https://telegram.me/GroupButler_ch) and [vote link](https://telegram.me/storebot?start=groupbutler_bot)',
+                    ..'\n*What can I do for you?*\n'
+                    ..'Wew, I have a lot of useful tools!\n'
+                    ..'• You can *kick or ban* users (even in normal groups) by reply/username\n'
+                    ..'• Set rules and a description\n'
+                    ..'• Turn on a configurable *anti-flood* system\n'
+                    ..'• Customize the *welcome message*, also with gif and stickers\n'
+                    ..'• Warn users, and kick/ban them if they reach a max number of warns\n'
+                    ..'• Warn or kick users if they send a specific media\n'
+                    ..'...and more, below you can find the "all commands" button to get the whole list!\n'
+                    ..'\nTo use my moderation powers (kick/ban), *you need to add me as administrator of the group*.'
+                    ..'\nYou can report bugs/send feedbacks/ask a question to my creator just using "`/c <feedback>`" command. EVERYTHING IS WELCOME!',
             group_success = '_I\'ve sent you the help message in private_',
             group_not_success = '_Please message me first so I can message you_',
             initial = 'Choose the *role* to see the available commands:',
@@ -161,7 +173,7 @@ return {
             promoted = '&&&1 has been _promoted_ as moderator of *&&&2*',
             demoted = '&&&1 has been _demoted_',
             new_owner = '&&&1 is the _new owner_ of *&&&2*',
-            modlist = '\n*Group moderators*:\n&&&1'
+            modlist = '*Creator*:\n&&&1\n\n*Admins*:\n&&&2'
         },
         report = {
             no_input = 'Write your suggestions/bugs/doubt near "/c"',
@@ -185,7 +197,8 @@ return {
             added = '*Description added:*\n"&&&1"',
             no_input_set = 'Please write something next this poor "/setabout"',
             clean = 'The bio has been cleaned.',
-            new = '*New bio:*\n"&&&1"'
+            new = '*New bio:*\n"&&&1"',
+            about_setted = 'New description *saved successfully*!'
         },
         setrules = {
             no_rules = '*Total anarchy*!',
@@ -194,7 +207,8 @@ return {
             added = '*Rules added:*\n"&&&1"',
             no_input_set = 'Please write something next this poor "/setrules"',
             clean = 'Rules has been wiped.',
-            new = '*New rules:*\n"&&&1"'
+            new = '*New rules:*\n"&&&1"',
+            rules_setted = 'New rules *saved successfully*!'
         },
         settings = {
             disable = {
@@ -205,8 +219,8 @@ return {
                 about_locked = '`/about` command is now available *only for moderators*',
                 welcome_already = 'Welcome message is already *locked*',
                 welcome_locked = 'Welcome message *won\'t be displayed* from now',
-                modlist_already = '`/modlist` command is already *locked*',
-                modlist_locked = '`/modlist` command is now available *only for moderators*',
+                modlist_already = '`/adminlist` command is already *locked*',
+                modlist_locked = '`/adminlist` command is now available *only for moderators*',
                 flag_already = '`/flag` command is already *not enabled*',
                 flag_locked = '`/flag` command *won\'t be available* from now',
                 extra_already = '#extra commands are already *locked*',
@@ -229,8 +243,8 @@ return {
                 about_unlocked = '`/about` command is now available *for all*',
                 welcome_already = 'Welcome message is already *unlocked*',
                 welcome_unlocked = 'Welcome message from now will be displayed',
-                modlist_already = '`/modlist` command is already *unlocked*',
-                modlist_unlocked = '`/modlist` command is now available *for all*',
+                modlist_already = '`/adminlist` command is already *unlocked*',
+                modlist_unlocked = '`/adminlist` command is now available *for all*',
                 flag_already = '`/flag` command is already *available*',
                 flag_unlocked = '`/flag` command is now *available*',
                 extra_already = 'Extra # commands are already *unlocked*',
@@ -259,6 +273,7 @@ return {
                 no = 'New settings for the welcome message:\nRules\nAbout\nModerators list',
                 wrong_input = 'Argument unavailable.\nUse _/welcome [no|r|a|ra|ar]_ instead',
                 custom = '*Custom welcome message* setted!\n\n&&&1',
+                custom_setted = '*Custom welcome message saved!*',
                 wrong_markdown = '_Not setted_ : I can\'t send you back this message, probably the markdown is *wrong*.\nPlease check the text sent',
             },
             resume = {
@@ -275,6 +290,7 @@ return {
                 w_custom = '*Welcome type*: `custom message`\n',
                 flood_info = '_Flood sensitivity:_ *&&&1* (_action:_ *&&&2*)\n'
             },
+            broken_group = 'There are no settings saved for this group.\nPlease run /initgroup to solve the problem :)',
             Rules = 'Rules',
             About = 'About',
             Welcome = 'Welcome message',
@@ -285,9 +301,6 @@ return {
             Rtl = 'Rtl',
             Arab = 'Arab',
             Report = 'Report',
-        },
-        tell = {
-            group_id = '*Group ID*: &&&1'
         },
         warn = {
             warn_reply = 'Reply to a message to warn the user',
@@ -310,8 +323,6 @@ return {
             success = '*New language setted:* &&&1'
         },
 		banhammer = {
-            kicked_header = 'List of kicked users:\n\n',
-            kicked_empty = 'The list of kicked users is empty',
             kicked = '&&&1 have been kicked! (but is still able to join)',
             banned = '&&&1 have been banned!',
             already_banned_normal = '&&&1 is *already banned*!',
@@ -375,19 +386,31 @@ return {
         },
     },
 	it = {
+	    status = {
+            kicked = '&&&1 è bannato da questo gruppo',
+            left = '&&&1 ha lasciato il gruppo, o è stato kickato e unbannato',
+            administrator = '&&&1 è un Admin',
+            creator = '&&&1 è il creatore del gruppo',
+            unknown = 'Questo utente non ha nulla a che fare con questo gruppo',
+            member = '&&&1 è un membro del gruppo'
+        },
 	    bonus = {
             general_pm = '_Ti ho inviato il messaggio in privato_',
             the_group = 'il gruppo',
             settings_header = 'Impostazioni correnti per *il gruppo*:\n\n*Lingua*: `&&&1`\n',
             no_user = 'Non ho mai visto questo utente prima.\nSe vuoi insegnarmi dirmi chi è, inoltrami un suo messaggio',
             reply = '*Rispondi a qualcuno* per usare questo comando, o scrivi lo *username*',
-            msg_me = '_Scrivimi prima tu, in modo che io possa scriverti_'
+            adminlist_admin_required = 'Non sono un Admin del gruppo.\n*Solo un Admin puà vedere la lista degli amministratori*',
+            too_long = 'Questo testo è troppo lungo, non posso inviarlo',
+            msg_me = '_Scrivimi prima tu, in modo che io possa scriverti_',
+            tell = '*ID gruppo*: &&&1'
         },
         pv = 'Questo comando è disponibile solo in un gruppo!',
         not_mod = '*Non sei* un moderatore!',
         breaks_markdown = 'Questo messaggio impedisce il markdown.\nControlla quante volte hai usato * oppure _ oppure `.\nPiù info [qui](https://telegram.me/GroupButler_ch/46)',
         credits = '*Alcuni link utili:*',
         extra = {
+            setted = '&&&1 salvato!',
 			usage = 'Scrivi accanto a /extra il titolo del comando ed il testo associato.\nAd esempio:\n/extra #ciao Hey, ciao!. Il bot risponderà _\'Hey, ciao!\'_ ogni volta che qualcuno scriverà #ciao',
             new_command = '*Nuovo comando impostato!*\n&&&1\n&&&2',
             no_commands = 'Nessun comando impostato!',
@@ -396,17 +419,15 @@ return {
             command_empty = 'Il comando &&&1 non esiste'
         },
         help = {
-            owner = '*Comandi per il proprietario*:\n'
-                    ..'`/owner` (by reply) : imposta un nuovo proprietario\n'
-                    ..'`/promote` (by reply|username) : promuovi a moderatore un membro\n'
-                    ..'`/demote` (by reply|username) : rimuovi un membro dai moderatori\n'
-                    ..'`/setlink [link|\'no\']` : imposta il link al gruppo, in modo tale che i moderatori possano mostrarlo. O rimuovilo con "no"\n'
-                    ..'(ovviamente, la possibilità di nominare dei moderatori serve a far sapere al bot chi sono i reali admin del gruppo, e quindi chi può usare comandi sensibili per kickare e bannare.\nQuindi è caldamente consigliato di nominare admin solo chi lo è realmente)\n\n',
             mods = {
                 banhammer = "*Moderatori: il banhammer*\n\n"
                             .."`/kick [by reply|username]` = kicka un utente dal gruppo (potrà essere aggiunto nuovamente).\n"
                             .."`/ban [by reply|username]` = banna un utente dal gruppo (anche per gruppi normali).\n"
-                            .."`/unban [by reply|username]` = unbanna l\'utente dal gruppo.\n",
+                            .."`/unban [by reply|username]` = unbanna l\'utente dal gruppo.\n"
+                            .."`/status [username]` = mostra la posizione attuale dell\'utente `(membro|kickato/ha lasciato il gruppo|bannato|admin/creatore|mai visto)`.\n"
+                            .."`/banlist` = mostra la lista degli utenti bannati. Sono incluse le motivazioni (se descritte durante il ban)\n"
+                            .."\n*Nota*: puoi scrivere qualcosa dopo il comando `/ban` (o dopo l'username, se stai bannando per username)."
+                            .." Questo commento verrà considerato la motivazione.",
                 info = "*Moderatori: info sul gruppo*\n\n"
                         .."`/setrules [regole del gruppo]` = imposta il regolamento del gruppo (quello vecchio verrà eventualmente sovrascritto).\n"
                         .."`/addrules [testo]` = aggiungi del testo al regolamento già esistente.\n"
@@ -460,6 +481,7 @@ return {
                         .."`/disable arab` = il bot kickerà chiunque scriva un messaggio con all\'interno dei caratteri arabi.\n"
                         .."`/enable arab` = i caratteri arabi verranno ignorati.\n",
                 links = "*Moderatori: link*\n\n"
+                        ..'`/setlink [link|\'no\']` : imposta il link del gruppo, in modo che possa essere richiesto da altri Admin, oppure eliminalo\n'
                         .."`/link` = ottieni il link del gruppo, se già impostato dal proprietario\n"
                         .."`/setpoll [link pollbot]` = salva un link ad un sondaggio di @pollbot. Una volta impostato, i moderatori possono ottenerlo con `/poll`.\n"
                         .."`/setpoll no` = elimina il link al sondaggio corrente.\n"
@@ -485,22 +507,27 @@ return {
                     ..'`/dashboard` : consulta tutte le info sul gruppo in privato\n'
                     ..'`/rules` (se sbloccato) : mostra le regole del gruppo\n'
                     ..'`/about` (se sbloccato) : mostra la descrizione del gruppo\n'
-                    ..'`/modlist` (se sbloccato) : mostra la lista dei moderatori\n'
+                    ..'`/adminlist` (se sbloccato) : mostra la lista dei moderatori\n'
                     ..'`@admin` (se sbloccato) : by reply= inoltra il messaggio a cui hai risposto agli admin; no reply (con descrizione)= inoltra un feedback agli admin\n'
                     ..'`/tell` : mostra le tue informazioni basilari o quelle dell\'utente a cui hai risposto\n'
-                    ..'`/echo [testo]` : il bot replicherà il testo scritto (markdown supportato)\n'
+                    ..'`/echo [testo]` : il bot replicherà il testo scritto (markdown supportato, disponibile solo in privato per non-admin)\n'
                     ..'`/info` : mostra alcune info sul bot\n'
                     ..'`/c` <feedback> : invia un feedback/segnala un bug/fai una domanda al creatore. _OGNI GENERE DI SUGGERIMENTO E\' IL BENVENUTO_. Risponderà ASAP\n'
                     ..'`/help` : show this message.'
 		            ..'\n\nSe ti piace questo bot, per favore lascia il voto che credi si meriti [qui](https://telegram.me/storebot?start=groupbutler_bot)',
 		    private = 'Hey, *&&&1*!\n'
-                    ..'Sono un semplice bot creato allo scopo di semplificare l\'amministrazione di un gruppo.\n'
-                    ..'\n*Come puoi aiutarmi?*\n'
-                    ..'Wow, ho un sacco di strumenti utili! Puoi *kickare o bannare* utenti, impostare regole e descrizione, abilitare l\'antiflood/anti RTL/anti messaggi in arabo e molto altro!\nScopri di più aggiungendomi ad un gruppo\n'
-                    ..'\nL\'utente che mi aggiunge verrà riconosciuto come proprietario. Se il proprietario non rispecchia la realtà, può essere cambiato rispondendo con `/owner` a quello reale'
-                    ..'\nPer usarele mie funzioni da amministratore (kick/ban), *devi impostarmi come amministratore del gruppo*.\nRicorda: i poteri da amministratore possono essere usati solo da chi è stato promosso con `/promote`. Non posso vedere i veri admin, per cui per ora è l\'unica via.\n'
-                    ..'\nPuoi segnalare un bug/inviare un feedback/fare una domanda al mio creatore usando "`/c <feedback>`". QUALSIASI MESSAGGIO E\' IL BENVENUTO!'
-                    ..'\n\n[Canale ufficiale](https://telegram.me/GroupButler_ch) e [link per votarmi](https://telegram.me/storebot?start=groupbutler_bot)',
+                    ..'Sono un semplice bot creato con lo scopo di aiutare gli utenti di Telegram ad amministrare i propri gruppi.\n'
+                    ..'\n*Cosa posso fare per aiutarti?*\n'
+                    ..'Beh, ho un sacco di funzioni utili!\n'
+                    ..'• Puoi *kickare or bannare* gli utenti (anche in gruppi normali) by replyo by username\n'
+                    ..'• Puoi impostare regole e descrizione\n'
+                    ..'• Puoi attivare un *anti-flood* configurabile\n'
+                    ..'• Puoi personalizzare il *messaggio di benvenuto*, ed usare anche gif e sticker\n'
+                    ..'• Puoi ammonire gli utenti, e kickarli/bannarli se raggiungono il numero massimo di ammonizioni\n'
+                    ..'• Puoi decidere se ammonire o kickare gli utenti che inviano un media specifico\n'
+                    ..'...e questo è solo l\'inizio, puoi trovare tutti i comandi disponibili premendo sul pulsante "all commands", appena qui sotto :)\n'
+                    ..'\nAffinchè io possa kickare o bannare, *devo poter essere impostato come amministratore del gruppo*. Se vuoi impostarmi ad admin, puoi promuovermi come faresti con un qualsiasi altro utente :)'
+                    ..'\nPuoi segnalare bug/inviare un feedback/fare una domanda al mio creatore usando il comando "`/c <feedback>`". SI ACCETTA QUALSIASI RICHIESTA/SEGNALAZIONE!',
             group_success = '_Ti ho inviato il messaggio in privato_',
             group_not_success = '_Per favore, avviami cosicchè io possa risponderti_',
             initial = 'Scegli un *ruolo* per visualizzarne i comandi:',
@@ -531,7 +558,7 @@ return {
             promoted = '&&&1 è stato _promosso_ a moderatore di *&&&2*',
             demoted = '&&&1 è stato _rimosso dai moderatori_',
             new_owner = '&&&1 è il _nuovo proprietario_ di *&&&2*',
-            modlist = '\n*Moderatori del gruppo*:\n&&&1',
+            modlist = '*Creatore*:\n&&&1\n\n*Admin*:\n&&&2',
         },
         report = {
             no_input = 'Scrivi il tuo suggerimento/bug/dubbio accanto a "/c"',
@@ -555,7 +582,8 @@ return {
             added = '*Descrzione aggiunta:*\n"&&&1"',
             no_input_set = 'Per favore, scrivi qualcosa accanto a "/setabout"',
             clean = 'La descrizione è stata eliminata.',
-            new = '*Nuova descrizione:*\n"&&&1"'
+            new = '*Nuova descrizione:*\n"&&&1"',
+            about_setted = 'La nuova descrizione *è stata salvata correttamente*!'
         },
         setrules = {
             no_rules = '*Anarchia totale*!',
@@ -564,7 +592,8 @@ return {
             added = '*Rules added:*\n"&&&1"',
             no_input_set = 'Per favore, scrivi qualcosa accanto a "/setrules"',
             clean = 'Le regole sono state eliminate.',
-            new = '*Nuove regole:*\n"&&&1"'
+            new = '*Nuove regole:*\n"&&&1"',
+            rules_setted = 'Le nuove regole *sono state salvate correttamente*!'
         },
         settings = {
             disable = {
@@ -575,8 +604,8 @@ return {
                 about_locked = '`/about` è ora utilizzabile *solo dai moderatori*',
                 welcome_already = 'Il messaggio di benvenuto è *già bloccato*',
                 welcome_locked = 'Il messaggio di benvenuto *non verrà mostrato* da ora',
-                modlist_already = '`/modlist` è già bloccato *bloccato*',
-                modlist_locked = '`/modlist` è ora utilizzabile *solo dai moderatori*',
+                modlist_already = '`/adminlist` è già bloccato *bloccato*',
+                modlist_locked = '`/adminlist` è ora utilizzabile *solo dai moderatori*',
                 flag_already = '`/flag` command is already *not enabled*',
                 flag_locked = '`/flag` command *won\'t be available* from now',
                 extra_already = 'I comandi #extra sono *già bloccati*',
@@ -599,8 +628,8 @@ return {
                 about_unlocked = '`/about` è ora utilizzabile *da tutti*',
                 welcome_already = 'Il messaggio dibenvenuto è già *sbloccato*',
                 welcome_unlocked = 'il messaggio di benvenuto da ora verrà mostrato',
-                modlist_already = '`/modlist` è già *sbloccato*',
-                modlist_unlocked = '`/modlist` è ora utilizzabile *da tutti*',
+                modlist_already = '`/adminlist` è già *sbloccato*',
+                modlist_unlocked = '`/adminlist` è ora utilizzabile *da tutti*',
                 flag_already = '`/flag` command is already *available*',
                 flag_unlocked = '`/flag` command is now *available*',
                 extra_already = 'I comandi #extra sono già *sbloccati*',
@@ -629,6 +658,7 @@ return {
                 no = 'Nuove impostazioni per il messaggio di benvenuto:\nRegole\nDescrizione\nLista dei moderatori',
                 wrong_input = 'Argomento non disponibile.\nUsa invece _/welcome [no|r|a|ra|ar]_',
                 custom = '*Messaggio di benvenuto personalizzato* impostato!\n\n&&&1',
+                custom_setted = '*Messaggio di benvenuto personalizzato salvato!*',
                 wrong_markdown = '_Non impostato_ : non posso reinviarti il messaggio, probabilmente il markdown usato è *sbagliato*.\nPer favore, controlla il messaggio inviato e riprova',
             },
             resume = {
@@ -647,6 +677,7 @@ return {
                 w_custom = '*Tipo di benvenuto*: `personalizzato`\n',
                 flood_info = '_Sensitività flood:_ *&&&1* (_azione:_ *&&&2*)\n'
             },
+            broken_group = 'Sembra che questo gruppo non abbia delle impostazioni salvate.\nPer favore, usa /initgroup per risolvere il problem :)',
             Rules = 'Regole',
             About = 'Descrizione',
             Welcome = 'Benvenuto',
@@ -657,9 +688,6 @@ return {
             Rtl = 'Rtl',
             Arab = 'Arabo',
             Report = 'Report'
-        },
-        tell = {
-            group_id = '*ID gruppo*: &&&1'
         },
         warn = {
             warn_reply = 'Rispondi ad un messaggio per ammonire un utente (warn)',
@@ -682,8 +710,6 @@ return {
             success = '*Nuovo linguaggio impostato:* &&&1'
         },
 		banhammer = {
-            kicked_header = 'Lista degli utenti kickati:\n\n',
-            kicked_empty = 'la lista è vuota',
             kicked = '&&&1 è stato kickato! (ma può ancora rientrare)',
             banned = '&&&1 è stato bannato!',
             unbanned = 'L\'utente è stato unbannato!',
@@ -748,19 +774,31 @@ return {
         },
     },
 	es = {
+	    status = {
+            kicked = '&&&1 is banned from this group',
+            left = '&&&1 left the group or has been kicked and unbanned',
+            administrator = '&&&1 is an Admin',
+            creator = '&&&1 is the group creator',
+            unknown = 'This user has nothing to do with this chat',
+            member = '&&&1 is a chat member'
+        },
 	    bonus = {
             general_pm = '_I\'ve sent you the message in private_',
             no_user = 'I\'ve never seen this user before.\nIf you want to teach me who he is, forward me a message from him',
             the_group = 'the group',
             settings_header = 'Current settings for *the group*:\n\n*Language*: `&&&1`\n',
             reply = '*Reply to someone* to use this command, or write a *username*',
-            msg_me = '_Message me first so I can message you_'
+            adminlist_admin_required = 'I\'m not a group Admin.\n*Only an Admin can see the administrators list*',
+            too_long = 'This text is too long, I can\'t send it',
+            msg_me = '_Message me first so I can message you_',
+            tell = '*ID del grupo*: &&&1'
         },
         pv = 'Este comando solo esta disponible en los grupos',
         not_mod = 'Tu *no* eres moderador',
         breaks_markdown = 'This text breaks the markdown.\nMore info about a proper use of markdown [here](https://telegram.me/GroupButler_ch/46).',
         credits = '*Some useful links:*',
         extra = {
+            setted = '&&&1 command saved!',
 			usage = 'Escribe seguido de /extra el titulo del comando y el texto asociado.\nPor ejemplo:\n/extra #motm esta positivo. El bot respondera _\'Esta positivo\'_ cada vez que alguien escriba #motm',
             new_command = '*Nuevo comando programado!*\n&&&1\n&&&2',
             no_commands = 'No hay comandos programados!',
@@ -769,17 +807,15 @@ return {
             command_empty = 'El comando &&&1 no existe'
         },
         help = {
-            owner = '*Comandos para el propietario*:\n'
-                    ..'`/owner` (mencionar) : Añade nuevo propietario\n'
-                    ..'`/promote` (mencionar|username) : Ascender como moderador a un miembro\n'
-                    ..'`/demote` (mencionar|username) : Degradar a un miembro\n'
-                    ..'`/setlink [link|\'no\']` : Ajustar el link del grupo\n'
-                    ..'(Obviamente, la capacidad de nombrar moderadores pretende que los usuarios sepan que son los moderadores reales en el grupo, y así pueden añadir y echar a la gente.)\n\n',
             mods = {
                 banhammer = "*Moderators: banhammer powers*\n\n"
                             .."`/kick [by reply|username]` = kick a user from the group (he can be added again).\n"
                             .."`/ban [by reply|username]` = ban a user from the group (also from normal groups).\n"
-                            .."`/unban [by reply|username]` = unban the user from the group.\n",
+                            .."`/unban [by reply|username]` = unban the user from the group.\n"
+                            .."`/status [username]` = show the current status of the user `(member|kicked/left the chat|banned|admin/creator|never seen)`.\n"
+                            .."`/banlist` = show a list of banned users. Includes the motivations (if given during the ban)\n"
+                            .."\n*Note*: you can write something after `/ban` command (or after the username, if you are banning by username)."
+                            .." This comment will be used as the motivation of the ban.",
                 info = "*Moderators: info about the group*\n\n"
                         .."`/setrules [group rules]` = set the new regulation for the group (the old will be overwritten).\n"
                         .."`/addrules [text]` = add some text at the end of the existing rules.\n"
@@ -833,6 +869,7 @@ return {
                         .."`/disable arab` = the bot will kick everyone sends a message that includes arabic characters.\n"
                         .."`/enable arab` = arabic characters will be ignored.\n",
                 links = "*Moderators: links*\n\n"
+                        ..'`/setlink [link|\'no\']` : set the group link, so it can be re-called by other admins, or unset it\n'
                         .."`/link` = get the group link, if already setted by the owner\n"
                         .."`/setpoll [pollbot link]` = save a poll link from @pollbot. Once setted, moderators can retrieve it with `/poll`.\n"
                         .."`/setpoll no` = delete the current poll link.\n"
@@ -858,22 +895,27 @@ return {
                     ..'`/dashboard` : see all the group info from private\n'
                     ..'`/rules` (si desbloqueado) : Ver reglas del grupo\n'
                     ..'`/about` (si desbloqueado) : Ver descripcion de grupo\n'
-                    ..'`/modlist` (si desbloqueado) : Ver los moderadores del grupo\n'
+                    ..'`/adminlist` (si desbloqueado) : Ver los moderadores del grupo\n'
                     ..'`@admin` (si desbloqueado) : mencionar= informar del mensaje contestado a todos los administradores; sin respuesta (con texto)= enviar el mensaje a todos los administradores\n'
                     ..'`/tell` : Ver tu información básica o la información sobre el usuario que ha respondido\n'
-                    ..'`/echo [text]` : the bot will send the text back (with markdown)\n'
+                    ..'`/echo [text]` : the bot will send the text back (with markdown, available only in private for non-admin users)\n'
                     ..'`/info` : Ver informacion sobre el bot\n'
                     ..'`/c` <feedback> : send a feedback/report a bug/ask a question to my creator. _ANY KIND OF SUGGESTION OR FEATURE REQUEST IS WELCOME_. He will reply ASAP\n'
                     ..'`/help` : Ver este mensaje.'
 		            ..'\n\nSi te gusta este bot, por favor deja tu voto [aqui](https://telegram.me/storebot?start=groupbutler_bot)',
-		    private = 'Hola, *&&&1*!\n'
-                    ..'Soy un simple bot creado para ayudar a la gente a gestionar sus grupos.\n'
-                    ..'\n*¿Como puedes ayudarme?*\n'
-                    ..'¡Tengo un monton de herramientas utiles! Puedes *expulsar* o *banear* miembros, establecer reglas y descripcion al grupo, advertir a miembros, ajustar varios parametros para expulsar para expulsar a miembros cuando pasa algo (Lee: *antiflood*/RTL/media...)\nDescrubre mas añadiendome a un grupo!\n'
-                    ..'\nEl usuario que me añada a un grupo sera condifugrado como el propietario del grupo. Si tu no eres el propietario del grupo, puedes establecer al propietario mencionadole despues de escribir `/owner`.'
-                    ..'\nPara usar mis poderes de (expulsar/banear), *me tienes que añadir como administrador del grupo*.\nRecuerda: los comandos de moderador solo podran ser usador por lo miembros que hayas sido ascendidos con el comando `/promote`. No puedo ver los administradores del grupo por ahora.\n'
-                    ..'\nPuedes reportar bugs o preguntar dudas al creador del bot utilizando el comando "`/c <tumensaje>`". ¡TODO ES BIENVENIDO!'
-                    ..'\n\n[Canal OFICIAL](https://telegram.me/GroupButler_ch) y el [link para votar](https://telegram.me/storebot?start=groupbutler_bot)',
+		    private = 'Hey, *&&&1*!\n'
+                    ..'I\'m a simple bot created in order to help people to manage their groups.\n'
+                    ..'\n*What can I do for you?*\n'
+                    ..'Wew, I have a lot of useful tools!\n'
+                    ..'• You can *kick or ban* users (even in normal groups) by reply/username\n'
+                    ..'• Set rules and a description\n'
+                    ..'• Turn on a configurable *anti-flood* system\n'
+                    ..'• Customize the *welcome message*, also with gif and stickers\n'
+                    ..'• Warn users, and kick/ban them if they reach a max number of warns\n'
+                    ..'• Warn or kick users if they send a specific media\n'
+                    ..'...and more, below you can find the "all commands" button to get the whole list!\n'
+                    ..'\nTo use my moderation powers (kick/ban), *you need to add me as administrator of the group*.'
+                    ..'\nYou can report bugs/send feedbacks/ask a question to my creator just using "`/c <feedback>`" command. EVERYTHING IS WELCOME!',
             group_success = '_Te he enviado el mensaje por privado_',
             group_not_success = '_Please message me first so I can message you_',
             initial = 'Choose the *role* to see the available commands:',
@@ -904,7 +946,7 @@ return {
             promoted = '*&&&1* ha sido ascendido a moderador de *&&&2*',
             demoted = '*&&&1* ha sido degradado',
             new_owner = '*&&&1* es el nuevo propietario de *&&&2*',
-            modlist = '\n*Group moderators*:\n&&&1'
+            modlist = '*Creator*:\n&&&1\n\n*Admins*:\n&&&2'
         },
         report = {
             no_input = 'Escribe tus comentarios/bugs/dudas despues de "/c"',
@@ -928,7 +970,8 @@ return {
             added = '*Descripcion añadida:*\n"&&&1"',
             no_input_set = 'Por favor, escribe algo despues de "/setabout"',
             clean = 'La descripcion ha sido eliminada.',
-            new = '*Nueva descripcion:*\n"&&&1"'
+            new = '*Nueva descripcion:*\n"&&&1"',
+            about_setted = 'New description *saved successfully*!'
         },
         setrules = {
             no_rules = '*¡Anarquia total*!',
@@ -937,7 +980,8 @@ return {
             added = '*Reglas añadidas:*\n"&&&1"',
             no_input_set = 'Por favor, escribe algo despues de "/setrules"',
             clean = 'Las reglas han sido eliminadas.',
-            new = '*Nuevas reglas:*\n"&&&1"'
+            new = '*Nuevas reglas:*\n"&&&1"',
+            rules_setted = 'New rules *saved successfully*!'
         },
         settings = {
             disable = {
@@ -948,8 +992,8 @@ return {
                 about_locked = '`/about` comando disponible *solo* para *moderadores*',
                 welcome_already = 'Mensaje de bienvenida ya *bloqueado*',
                 welcome_locked = 'Mensaje de bienvenida *no* sera mostrado',
-                modlist_already = '`/modlist` comando ya *bloqueado*',
-                modlist_locked = '`/modlist` comando disponible *solo* para *moderadores*',
+                modlist_already = '`/adminlist` comando ya *bloqueado*',
+                modlist_locked = '`/adminlist` comando disponible *solo* para *moderadores*',
                 flag_already = '`/flag` comando ya *no activado*',
                 flag_locked = '`/flag` comando *no disponible*',
                 extra_already = 'Comandos #extra ya *bloqueados*',
@@ -972,8 +1016,8 @@ return {
                 about_unlocked = '`/about` comando disponible *para todos*',
                 welcome_already = 'Mensaje de bienvenida ya *desbloqueado*',
                 welcome_unlocked = 'El mensaje de bienvenida sera mostrado',
-                modlist_already = '`/modlist` comando ya *desbloqueado*',
-                modlist_unlocked = '`/modlist` comando disponible *para todos*',
+                modlist_already = '`/adminlist` comando ya *desbloqueado*',
+                modlist_unlocked = '`/adminlist` comando disponible *para todos*',
                 flag_already = '`/flag` comando ya *disponible*',
                 flag_unlocked = '`/flag` comando *disponible*',
                 extra_already = 'Comandos #extra ya *desbloqueados*',
@@ -1002,6 +1046,7 @@ return {
                 no = 'Nuevos ajustes para el mensaje de bienvenida:\nReglas\nDescripcion\nModeradores',
                 wrong_input = 'Argumento no disponible.\nUsa _/welcome [no|r|a|ra|ar]_',
                 custom = '*Custom welcome message* setted!\n\n&&&1',
+                custom_setted = '*Custom welcome message saved!*',
                 wrong_markdown = '_Not setted_ : I can\'t send you back this message, probably the markdown is *wrong*.\nPlease check the text sent',
             },
             resume = {
@@ -1018,6 +1063,7 @@ return {
                 w_custom = '*Tipo de Bienvenida*: `custom message`\n',
                 flood_info = '_Sensibilidad del Flood:_ *&&&1* (_Accion:_ *&&&2*)\n'
             },
+            broken_group = 'There are no settings saved for this group.\nPlease run /initgroup to solve the problem :)',
             Rules = 'Reglas',
             About = 'Informacion',
             Welcome = 'Mensaje Bienvenida',
@@ -1028,9 +1074,6 @@ return {
             Rtl = 'Rtl',
             Arab = 'Arabe',
             Report = 'Reportar',
-        },
-        tell = {
-            group_id = '*ID del grupo*: &&&1'
         },
         warn = {
             warn_reply = 'Menciona el mensaje para advertir al usuario',
@@ -1053,8 +1096,6 @@ return {
             success = '*New language setted:* &&&1'
         },
 		banhammer = {
-            kicked_header = 'Miembros expulsados:\n\n',
-            kicked_empty = 'La lista de los miembros expulsados esta vacia',
             kicked = '&&&1 ha sido expulsado! (pero puede volver a entrar)',
             banned = '&&&1 ha sido baneado!',
             unbanned = 'User unbanned!',
@@ -1119,20 +1160,32 @@ return {
         },
     },
     br = {
+        status = {
+            kicked = '&&&1 is banned from this group',
+            left = '&&&1 left the group or has been kicked and unbanned',
+            administrator = '&&&1 is an Admin',
+            creator = '&&&1 is the group creator',
+            unknown = 'This user has nothing to do with this chat',
+            member = '&&&1 is a chat member'
+        },
         bonus = {
             general_pm = '_I\'ve sent you the message in private_',
             no_user = 'I\'ve never seen this user before.\nIf you want to teach me who he is, forward me a message from him',
             the_group = 'the group',
+            adminlist_admin_required = 'I\'m not a group Admin.\n*Only an Admin can see the administrators list*',
             mods_list = '*Group moderators*:\n&&&1',
             settings_header = 'Current settings for *the group*:\n\n*Language*: `&&&1`\n',
             reply = '*Reply to someone* to use this command, or write a *username*',
-            msg_me = '_Message me first so I can message you_'
+            too_long = 'This text is too long, I can\'t send it',
+            msg_me = '_Message me first so I can message you_',
+            tell = '*ID do grupo*: &&&1'
         },
         pv = 'Esse comando está disponível apenas em grupos',
         not_mod = 'Você *não* é um(a) moderador(a)',
         breaks_markdown = 'Esse texto apresenta problemas com markdown.\nVerifique quantas vezes você usou * ou _ ou `',
         credits = '*Some useful links:*',
         extra = {
+            setted = '&&&1 command saved!',
 			usage = 'Escreva ao lado de /extra o título do comando e o texto associado.\nPor exemplo:\n/extra #motm seja positivo. O bot irá respoder _\'seja positivo\'_ toda vez que alguém digitar #motm',
             new_command = '*Novo comando definido!*\n&&&1\n&&&2',
             no_commands = 'Sem comandos definidos!',
@@ -1141,17 +1194,15 @@ return {
             command_empty = 'O comando &&&1 não existe'
         },
         help = {
-            owner = '*Comandos para o(a) dono(a)*:\n'
-                    ..'`/owner` (por resposta) : define um(a) novo(a) dono(a)\n'
-                    ..'`/promote` (por resposta|username) : promove membro(a) à moderador(a)\n'
-                    ..'`/demote` (por resposta|username) : rebaixa um(a) membro(a)\n'
-                    ..'`/setlink [link|\'no\']` : define o link do grupo para que possa ser chamado por moderadores(as), ou o desativa\n'
-                    ..'(obviamente, a habilidade de apontar moderadores(as) tem como objetivo permitir usuários(as) de saberem quem são os verdadeiros moderadores(as) no grupo, e assim quem pode adicionar e remover pessoas.\nDesta forma, é altamente sugerido apontar como moderator(a) apenas quem realmente é um(a) moderador(a))\n\n',
             mods = {
                 banhammer = "*Moderators: banhammer powers*\n\n"
                             .."`/kick [by reply|username]` = kick a user from the group (he can be added again).\n"
                             .."`/ban [by reply|username]` = ban a user from the group (also from normal groups).\n"
-                            .."`/unban [by reply|username]` = unban the user from the group.\n",
+                            .."`/unban [by reply|username]` = unban the user from the group.\n"
+                            .."`/status [username]` = show the current status of the user `(member|kicked/left the chat|banned|admin/creator|never seen)`.\n"
+                            .."`/banlist` = show a list of banned users. Includes the motivations (if given during the ban)\n"
+                            .."\n*Note*: you can write something after `/ban` command (or after the username, if you are banning by username)."
+                            .." This comment will be used as the motivation of the ban.",
                 info = "*Moderators: info about the group*\n\n"
                         .."`/setrules [group rules]` = set the new regulation for the group (the old will be overwritten).\n"
                         .."`/addrules [text]` = add some text at the end of the existing rules.\n"
@@ -1205,6 +1256,7 @@ return {
                         .."`/disable arab` = the bot will kick everyone sends a message that includes arabic characters.\n"
                         .."`/enable arab` = arabic characters will be ignored.\n",
                 links = "*Moderators: links*\n\n"
+                        ..'`/setlink [link|\'no\']` : set the group link, so it can be re-called by other admins, or unset it\n'
                         .."`/link` = get the group link, if already setted by the owner\n"
                         .."`/setpoll [pollbot link]` = save a poll link from @pollbot. Once setted, moderators can retrieve it with `/poll`.\n"
                         .."`/setpoll no` = delete the current poll link.\n"
@@ -1230,22 +1282,27 @@ return {
                     ..'`/dashboard` : see all the group info from private\n'
                     ..'`/rules` (se desbloqueado) : mostra as regra do grupo\n'
                     ..'`/about` (se desbloqueado) : mostra a descrição do grupo \n'
-                    ..'`/modlist` (se desbloqueado) : mostra a lista de moderadores(as) do group\n'
+                    ..'`/adminlist` (se desbloqueado) : mostra a lista de moderadores(as) do group\n'
                     ..'`@admin` (se desbloqueado) : by reply= report the message replied to all the admins; no reply (with text)= send a feedback to all the admins\n'
                     ..'`/tell` : mostra sua informação básica ou do(a) usuário(a) que você respondeu\n'
-                    ..'`/echo [text]` : the bot will send the text back (with markdown)\n'
+                    ..'`/echo [text]` : the bot will send the text back (with markdown, available only in private for non-admin users)\n'
                     ..'`/info` : mostra algumas informações úteis sobre o bot\n'
                     ..'`/c` <feedback> : envia um feedback/bug/pergunta ao meu criador. _TODO TIPO DE SUGESTÃO OU PEDIDO DE FUNCIONALIDADE É BEM-VINDO_. Ele irá responder o mais breve possível\n'
                     ..'`/help` : exibe esta mensagem.'
 		            ..'\n\nSe você gosta deste bot, por favor vote no quanto você acha que ele merece [aqui](https://telegram.me/storebot?start=groupbutler_bot)',
-		    private = 'Olá, *&&&1*!\n'
-                    ..'Eu sou um bot simples criado para ajudar pessoas a gerenciarem seus grupos.\n'
-                    ..'\n*Como você pode me ajudar?*\n'
-                    ..'Wew, Eu tenho várias ferraments úteis! Você pode *remover ou banir* usuários, definir regras e uma descrição, advertir usuários, definir alguns parâmetros parameters para remover alguem quando algo acontece (ler: *antiflood*/RTL/mídia...)\nDescubra mais me adicionando a um grupo!\n'
-                    ..'\nO(a) usuário(a) que me adicionar será definido(a) automaticamente como o(a) dono(a) do grupo. Se você não for o(a) verdadeiro(a) dono(a), você pode definir respondendo uma das mensagens dele(a) com `/owner`.\n'
-                    ..'\nPara usar meus poderes de administrador(remover/banir), *você deve me adicionar como administrador do grupo*.\nLembre-se: comandos de moderação só podem ser usados por quem foi promovido com `/promote`. Eu não posso ver quem são os(as) reais administradores(as) do grupo, esse é o único método por enquanto.\n'
-                    ..'\nVocê pode relatar bugs/enviar feedbacks/fazer uma pergunta ao meu criador apenas usando o comando "`/c <feedback>`". TUDO É BEM-VINDO!'
-                    ..'\n\n[Canal Oficial](https://telegram.me/GroupButler_ch) and [vote link](https://telegram.me/storebot?start=groupbutler_bot)',
+		    private = 'Hey, *&&&1*!\n'
+                    ..'I\'m a simple bot created in order to help people to manage their groups.\n'
+                    ..'\n*What can I do for you?*\n'
+                    ..'Wew, I have a lot of useful tools!\n'
+                    ..'• You can *kick or ban* users (even in normal groups) by reply/username\n'
+                    ..'• Set rules and a description\n'
+                    ..'• Turn on a configurable *anti-flood* system\n'
+                    ..'• Customize the *welcome message*, also with gif and stickers\n'
+                    ..'• Warn users, and kick/ban them if they reach a max number of warns\n'
+                    ..'• Warn or kick users if they send a specific media\n'
+                    ..'...and more, below you can find the "all commands" button to get the whole list!\n'
+                    ..'\nTo use my moderation powers (kick/ban), *you need to add me as administrator of the group*.'
+                    ..'\nYou can report bugs/send feedbacks/ask a question to my creator just using "`/c <feedback>`" command. EVERYTHING IS WELCOME!',
 			group_success = '_Eu enviei a mensagem de ajuda no privado_',
 			group_not_success = '_Caso você nunca tenha me usado, me *inicie* e envie o comando /help por aqui novamente_',
 			initial = 'Choose the *role* to see the available commands:',
@@ -1276,7 +1333,7 @@ return {
             promoted = '*&&&1* foi promovido(a) a moderador de *&&&2*',
             demoted = '*&&&1* foi rebaixado(a)',
             new_owner = '*&&&1* é o(a) novo(a) dono(a) de *&&&2*',
-            modlist = '\n*Group moderators*:\n&&&1'
+            modlist = '*Creator*:\n&&&1\n\n*Admins*:\n&&&2'
         },
         report = {
             no_input = 'Envie suas sugestões/bugs/dúvidas com "/c"',
@@ -1300,7 +1357,8 @@ return {
             added = '*Descrição adicionada:*\n"&&&1"',
             no_input_set = 'Por favor escreva algo após este pobre "/setabout"',
             clean = 'A descrição foi limpada.',
-            new = '*Nova descrição:*\n"&&&1"'
+            new = '*Nova descrição:*\n"&&&1"',
+            about_setted = 'New description *saved successfully*!'
         },
         setrules = {
             no_rules = '*Anarquia total*!',
@@ -1309,7 +1367,8 @@ return {
             added = '*Regras adicionadas:*\n"&&&1"',
             no_input_set = 'Por favor escreva algo após este pobre "/setrules"',
             clean = 'As regras foram removidas.',
-            new = '*Novas regras:*\n"&&&1"'
+            new = '*Novas regras:*\n"&&&1"',
+            rules_setted = 'New rules *saved successfully*!'
         },
         settings = {
             disable = {
@@ -1320,8 +1379,8 @@ return {
                 about_locked = 'O comando `/about` agora está disponível *apenas para moderadores(as)*',
                 welcome_already = 'Mensagem de boas-vindas já está *bloqueada*',
                 welcome_locked = 'Mensagem de boas-vindas *não será mostrada* a partir de agora',
-                modlist_already = 'O comando `/modlist` já está *bloqueado*',
-                modlist_locked = 'O comando `/modlist` agora está disponível *apenas para moderadores(as)*',
+                modlist_already = 'O comando `/adminlist` já está *bloqueado*',
+                modlist_locked = 'O comando `/adminlist` agora está disponível *apenas para moderadores(as)*',
                 flag_already = 'O comando `/flag` já está *desabilitado*',
                 flag_locked = 'O comando `/flag` *não estará disponível* a partir de agora',
                 extra_already = 'Comandos #extra já estão *bloqueados*',
@@ -1344,8 +1403,8 @@ return {
                 about_unlocked = 'O comando `/about` agora está disponível *para todos(as)*',
                 welcome_already = 'Mensagem de boas-vindas já está *desbloqueada*',
                 welcome_unlocked = 'Mensagem de boas-vindas será mostrada a partir de agora',
-                modlist_already = 'O comando `/modlist` já está *desbloqueado*',
-                modlist_unlocked = 'O comando `/modlist` agora está disponível *para todos(as)*',
+                modlist_already = 'O comando `/adminlist` já está *desbloqueado*',
+                modlist_unlocked = 'O comando `/adminlist` agora está disponível *para todos(as)*',
                 flag_already = 'O comando `/flag` já está *disponível*',
                 flag_unlocked = 'O comando `/flag` agora está *disponível*',
                 extra_already = 'Comandos # Extra já estão *desbloqueados*',
@@ -1374,6 +1433,7 @@ return {
                 no = 'Nova configuração para a mensagem de boas-vindas:\nRegras\nDescrição\nLista de moderadores(as)',
                 wrong_input = 'Argumento inválido.\nUse _/welcome [no|r|a|ra|ar]_',
                 custom = '*Custom welcome message* setted!\n\n&&&1',
+                custom_setted = '*Custom welcome message saved!*',
                 wrong_markdown = '_Not setted_ : I can\'t send you back this message, probably the markdown is *wrong*.\nPlease check the text sent',
             },
             resume = {
@@ -1390,6 +1450,7 @@ return {
                 w_custom = '*Tipo de boas-vindas*: `custom message`\n',
 			    flood_info = '_Sensibilidade de flood :_ *&&&1* (_ação:_ *&&&2*)\n',
 		    },
+		    broken_group = 'There are no settings saved for this group.\nPlease run /initgroup to solve the problem :)',
             Rules = 'Regras',
             About = 'Descrição',
             Welcome = 'Mensagem de boas-vindas',
@@ -1400,9 +1461,6 @@ return {
             Rtl = 'Rtl',
             Arab = 'Árabe',
             Report = 'Denúncia',
-        },
-        tell = {
-            group_id = '*ID do grupo*: &&&1'
         },
         warn = {
             warn_reply = 'Responda a uma mensagem para adventir o(a) usuário(a)',
@@ -1425,8 +1483,6 @@ return {
             success = '*Novo idioma selecionado:* &&&1'
         },
 		banhammer = {
-            kicked_header = 'Lista de usuários(as) removido(as):\n\n',
-            kicked_empty = 'A lista de usuários(as) removido(as) está vazia',
             kicked = '&&&1 foi removido(a)! Ainda pode entrar no grupo',
             banned = '&&&1 foi banido(a)!',
             unbanned = 'User unbanned!',
@@ -1491,19 +1547,31 @@ return {
         },
     },
     ru = {
+        status = {
+            kicked = '&&&1 is banned from this group',
+            left = '&&&1 left the group or has been kicked and unbanned',
+            administrator = '&&&1 is an Admin',
+            creator = '&&&1 is the group creator',
+            unknown = 'This user has nothing to do with this chat',
+            member = '&&&1 is a chat member'
+        },
         bonus = {
             general_pm = '_I\'ve sent you the message in private_',
             no_user = 'Я не видел этого человека раньше.\nЕсли ты хочешь объяснить мне, кто он, сделай мне forward его сообщения',
             the_group = 'Группа',
+            adminlist_admin_required = 'I\'m not a group Admin.\n*Only an Admin can see the administrators list*',
             settings_header = 'Текущие настройки для *the group*:\n\n*Язык*: `&&&1`\n',
             reply = '*Reply to someone* to use this command, or write a *username*',
-            msg_me = '_Чтобы я мог тебе писать, сначала напиши мне_'
+            too_long = 'This text is too long, I can\'t send it',
+            msg_me = '_Чтобы я мог тебе писать, сначала напиши мне_',
+            tell = '*ID группы*: &&&1'
         },
         pv = 'Эта команда доступна только в группе',
         not_mod = 'Ты *не* модератор',
         breaks_markdown = 'Этот текст содержит ошибку (markdown).\nИнформация о правильном использовании markdown [здесь](https://telegram.me/GroupButler_ch/46).',
         credits = '*Some useful links:*',
         extra = {
+            setted = '&&&1 command saved!',
 			usage = 'Напиши после /extra хэштег и текст, который будет печататься при написании этого хэштега.\nНапример:\n/extra #hello Приветствую. Бот будет печатать _\' Приветствую\'_ каждый раз, когда кто-то будет писать #hello',
             new_command = '*Команд�� установлена!*\n&&&1\n&&&2',
             no_commands = ' Нет команд!',
@@ -1512,17 +1580,15 @@ return {
             command_empty = '&&&1 такой команды не существует'
         },
         help = {
-            owner = '*Команды для владельца*:\n'
-                    ..'`/owner (ответом)` : сделать нового владельца\n'
-                    ..'`/promote` (ответом) : сделать модератором\n'
-                    ..'`/demote` (ответом) : снять с модераторства\n'
-                    ..'`/setlink [ссылка|\'no\']` : установить ссылку на группу. Может быть изменена модераторами\n'
-                    ..'( также добавление в модераторы даст возможность понять участникам группы кто настоящий модератор в группе и кто может банить / кикать людей из группы.\n)',
             mods = {
                 banhammer = "*Moderators: banhammer powers*\n\n"
                             .."`/kick [by reply|username]` = kick a user from the group (he can be added again).\n"
                             .."`/ban [by reply|username]` = ban a user from the group (also from normal groups).\n"
-                            .."`/unban [by reply|username]` = unban the user from the group.\n",
+                            .."`/unban [by reply|username]` = unban the user from the group.\n"
+                            .."`/status [username]` = show the current status of the user `(member|kicked/left the chat|banned|admin/creator|never seen)`.\n"
+                            .."`/banlist` = show a list of banned users. Includes the motivations (if given during the ban)\n"
+                            .."\n*Note*: you can write something after `/ban` command (or after the username, if you are banning by username)."
+                            .." This comment will be used as the motivation of the ban.",
                 info = "*Moderators: info about the group*\n\n"
                         .."`/setrules [group rules]` = set the new regulation for the group (the old will be overwritten).\n"
                         .."`/addrules [text]` = add some text at the end of the existing rules.\n"
@@ -1576,6 +1642,7 @@ return {
                         .."`/disable arab` = the bot will kick everyone sends a message that includes arabic characters.\n"
                         .."`/enable arab` = arabic characters will be ignored.\n",
                 links = "*Moderators: links*\n\n"
+                        ..'`/setlink [link|\'no\']` : set the group link, so it can be re-called by other admins, or unset it\n'
                         .."`/link` = get the group link, if already setted by the owner\n"
                         .."`/setpoll [pollbot link]` = save a poll link from @pollbot. Once setted, moderators can retrieve it with `/poll`.\n"
                         .."`/setpoll no` = delete the current poll link.\n"
@@ -1600,22 +1667,27 @@ return {
             all = '*Команды для всех*:\n'
                     ..'`/rules` (если включено) : показать правила группы\n'
                     ..'`/about` (если включено) : показать описание группы\n'
-                    ..'`/modlist` (если включено) : показать модераторов этой группы\n'
+                    ..'`/adminlist` (если включено) : показать модераторов этой группы\n'
                     ..'`@admin` (если включено) : ответом= жалоба на это сообщение будет отправлена всем модераторам | без ответа (но с текстом после @admin)= отправит этот текст всем модераторам\n'
                     ..'`/tell` : показать информацию о человеке, которому ты отвечаешь\n'
-                    ..'`/echo [text]` : the bot will send the text back (with markdown)\n'
+                    ..'`/echo [text]` : the bot will send the text back (with markdown, available only in private for non-admin users)\n'
                     ..'`/info` : показать информацию о боте\n'
                     ..'`/c` <сообщение> : отправить текст/ отчет об ошибке/ вопрос моему создателю . _Любая темя обсуждения и общения приветствуется_. Он ответит тебе здесь\n'
                     ..'`/help` : show this message.'
 		            ..'\n\nЕсли тебе нравится этот бот, то ты можешь оценить его и заплатить эту ссылку куда-нибудь. Поставь свою оценку [ТУТ](https://telegram.me/storebot?start=groupbutler_bot)',
 		    private = 'Hey, *&&&1*!\n'
-                    ..'Я бот, который создан, чтобы помогать администрации в организовании группы\n'
-                    ..'\n*Чем я могу помочь тебе?*\n'
-                    ..' Нус, у меня есть очень много полезных функций. Ты можешь банить, кикать людей. устанавливать правила и описание для группы, выдавать предупреждения людям с плохим поведением, задавать параметры, при которых кикать человека и ЕЩЕ ОЧЕНЬ МНОГО ВЕЩЕЙ, например антифлуд, медиа, фильтр символов.\nУзнай больше, добавив меня в группу\n'
-                    ..'\nПользователь, который добавит меня в группу автоматически становится моим владельцем. Если ты не настоящий владелец, ты можешь поставить любого другого человека владельцем, ответив на его сообщение текстом `/owner`.'
-                    ..'\n Чтобы я мог кикать/банить людей, *тебе нужно добавить меня как администратора в группу*.\nЗапомни: команды модератора доступны только тем, кто был повышен с помощью команды `/promote`. Я не могу видеть администраторов группы! \n'
-                    ..'\nТы можешь сообщать разработчику о багах, недоработках. Задавать ему вопросы просто написав "`/c <сообщение>`" . Любые сообщения приветствуются!'
-                    ..'\n\n[Официальный канал](https://telegram.me/GroupButler_ch) и [Поставить оценку](https://telegram.me/storebot?start=groupbutler_bot)',
+                    ..'I\'m a simple bot created in order to help people to manage their groups.\n'
+                    ..'\n*What can I do for you?*\n'
+                    ..'Wew, I have a lot of useful tools!\n'
+                    ..'• You can *kick or ban* users (even in normal groups) by reply/username\n'
+                    ..'• Set rules and a description\n'
+                    ..'• Turn on a configurable *anti-flood* system\n'
+                    ..'• Customize the *welcome message*, also with gif and stickers\n'
+                    ..'• Warn users, and kick/ban them if they reach a max number of warns\n'
+                    ..'• Warn or kick users if they send a specific media\n'
+                    ..'...and more, below you can find the "all commands" button to get the whole list!\n'
+                    ..'\nTo use my moderation powers (kick/ban), *you need to add me as administrator of the group*.'
+                    ..'\nYou can report bugs/send feedbacks/ask a question to my creator just using "`/c <feedback>`" command. EVERYTHING IS WELCOME!',
             group_success = '_Я отправил тебе приватное сообщение_',
             group_not_success = '_Сначала напиши мне, потом я смогу писать тебе_',
             initial = 'Выбери *роль*, которую ты хочешь посмотреть:',
@@ -1646,7 +1718,7 @@ return {
             promoted = '*&&&1* был повышен до модератора *&&&2*',
             demoted = '*&&&1* был исключён из администраторов',
             new_owner = '*&&&1* является новым владельцем *&&&2*',
-            modlist = '\nСписок *модераторов группы*:\n&&&1'
+            modlist = '*Creator*:\n&&&1\n\n*Admins*:\n&&&2'
         },
         report = {
             no_input = 'Напиши свои идеи / баги /ошибки после "/c"',
@@ -1670,7 +1742,8 @@ return {
             added = '* Описание добавлено:*\n"&&&1"',
             no_input_set = ' Пожалуйста, напиши что-нибудь после "/setabout"',
             clean = ' Описание было изменено.',
-            new = '*Новое описание:*\n"&&&1"'
+            new = '*Новое описание:*\n"&&&1"',
+            about_setted = 'New description *saved successfully*!'
         },
         setrules = {
             no_rules = '*ТОЛЬКО АНАРХИЯ*!',
@@ -1679,7 +1752,8 @@ return {
             added = '*Правила добавлены:*\n"&&&1"',
             no_input_set = 'Пожалуйста, напиши что-нибудь после "/setrules"',
             clean = 'Правила были очищены.',
-            new = '*Новые правила:*\n"&&&1"'
+            new = '*Новые правила:*\n"&&&1"',
+            rules_setted = 'New rules *saved successfully*!'
         },
         settings = {
             disable = {
@@ -1690,8 +1764,8 @@ return {
                 about_locked = '`/about` теперь доступна *только для модераторов*',
                 welcome_already = 'Приветственное сообщение уже *выключено*',
                 welcome_locked = 'Приветственное сообщение теперь не будет показано.',
-                modlist_already = '`/modlist` уже *выключена*',
-                modlist_locked = '`/modlist` теперь доступна *только для модераторов*',
+                modlist_already = '`/adminlist` уже *выключена*',
+                modlist_locked = '`/adminlist` теперь доступна *только для модераторов*',
                 flag_already = '`/flag` уже *выключена*',
                 flag_locked = '`/flag` теперь не будет доступна',
                 extra_already = '#extra уже *выключена*',
@@ -1714,8 +1788,8 @@ return {
                 about_unlocked = '`/about` теперь доступна *для всех*',
                 welcome_already = 'Приветственное сообщение уже *включено*',
                 welcome_unlocked = 'Приветственное сообщение теперь будет показываться',
-                modlist_already = '`/modlist` уже *включена*',
-                modlist_unlocked = '`/modlist` теперь доступна *для всех*',
+                modlist_already = '`/adminlist` уже *включена*',
+                modlist_unlocked = '`/adminlist` теперь доступна *для всех*',
                 flag_already = '`/flag` уже *включена*',
                 flag_unlocked = '`/flag` теперь *включена*',
                 extra_already = 'Extra # уже *включена*',
@@ -1744,6 +1818,7 @@ return {
                 media_setted = 'New media setted as welcome message: ',
                 reply_media = 'Reply to a `sticker` or a `gif` to set them as *welcome message*',
                 custom = '*Custom welcome message* setted!\n\n&&&1',
+                custom_setted = '*Custom welcome message saved!*',
                 wrong_markdown = '_Not setted_ : I can\'t send you back this message, probably the markdown is *wrong*.\nPlease check the text sent',
             },
             resume = {
@@ -1760,6 +1835,7 @@ return {
                 w_custom = '*Welcome type*: `custom message`\n',
                 flood_info = '_Чувствительность флуд-фильтра:_ *&&&1* (_action:_ *&&&2*)\n'
             },
+            broken_group = 'There are no settings saved for this group.\nPlease run /initgroup to solve the problem :)',
             Rules = 'Правила',
             About = 'Описание',
             Welcome = 'Приветственное сообщение',
@@ -1795,8 +1871,6 @@ return {
             success = '*Новый язык установлен:* &&&1'
         },
 		banhammer = {
-            kicked_header = 'Список кикнутых пользователей:\n\n',
-            kicked_empty = 'Список пуст',
             kicked = '&&&1 был кикнут! ( все еще может зайти )',
             banned = '&&&1 был забанен!',
             already_banned_normal = '&&&1 *уже забанен*!',
@@ -1858,6 +1932,383 @@ return {
             dashboard_first = 'Navigate this message to see *all the info* about this group!',
             menu_first = 'Tap on a lock to *change the group settings*, or use the last row to _manage the anti-flood behaviour_',
             media_first = 'Tap on a voice in the right colon to *change the setting*'
+        },
+    },
+    de = {
+        status = {
+            kicked = '&&&1 is banned from this group',
+            left = '&&&1 left the group or has been kicked and unbanned',
+            administrator = '&&&1 is an Admin',
+            creator = '&&&1 is the group creator',
+            unknown = 'This user has nothing to do with this chat',
+            member = '&&&1 is a chat member'
+        },
+        bonus = {
+            general_pm = '_Ich habe dir die Nachricht als Direktnachricht geschickt_',
+            no_user = 'Ich habe den Nutzer (user) noch nicht kennen gelernt.\nWenn du ihn mir vorstellen möchtest damit ich weiß wen du meinst, leite eine seiner Nachrichten an mich weiter',
+            the_group = 'die Gruppe',
+            adminlist_admin_required = 'I\'m not a group Admin.\n*Only an Admin can see the administrators list*',
+            settings_header = 'Current settings for *the group*:\n\n*Language*: `&&&1`\n',
+            reply = '*Antworte (reply) jemandem* um diesen Befehl (command) zu nutzen oder schreibe einen *Nutzernamen (username)*',
+            too_long = 'This text is too long, I can\'t send it',
+            msg_me = '_Schreibe zuerst mir, damit ich dann dir schreiben kann_',
+            tell = '*Gruppen ID*: &&&1'
+        },
+        pv = 'Dieser Befehel (command) ist nur in der Gruppe verfügbar',
+        not_mod = 'Du bist *kein* Moderator',
+        breaks_markdown = 'Dieser Text sprengt die Formatierung (markdown).\nMehr Informationen über die korrekte Nutzung der Formatierungsoptionen gibt es [hier](https://telegram.me/GroupButler_ch/46).',
+        credits = '*Einige nützliche Links:*',
+        extra = {
+            setted = '&&&1 command saved!',
+			command_deleted = '&&&1 Befehl (command) wurde gelöscht',
+            command_empty = '&&&1 Befehl (command) existiert nicht',
+            commands_list = 'Liste der *selbsterstellten Befehle (custom commands)*:\n&&&1',
+            new_command = '*Neuer Befehl gespeichert (command set)!*\n&&&1\n&&&2',
+            no_commands = 'Keine Befehle (commands) gespeichert!',
+            usage = 'Schreibe nach /extra den Namen des Befehls (title of command) und den dazugehörigen Text,\nZum Beispiel:\n/extra #motto Bleib geschmeidig. Der Bot wird jedesmal wenn jemand #motto schreibt mit  _"Bleib geschmeidig"_ antworten'
+        },
+        help = {
+            mods = {
+                banhammer = "*Moderators: banhammer powers*\n\n"
+                            .."`/kick [by reply|username]` = kick a user from the group (he can be added again).\n"
+                            .."`/ban [by reply|username]` = ban a user from the group (also from normal groups).\n"
+                            .."`/unban [by reply|username]` = unban the user from the group.\n"
+                            .."`/status [username]` = show the current status of the user `(member|kicked/left the chat|banned|admin/creator|never seen)`.\n"
+                            .."`/banlist` = show a list of banned users. Includes the motivations (if given during the ban)\n"
+                            .."\n*Note*: you can write something after `/ban` command (or after the username, if you are banning by username)."
+                            .." This comment will be used as the motivation of the ban.",
+                info = "*Moderators: info about the group*\n\n"
+                        .."`/setrules [group rules]` = set the new regulation for the group (the old will be overwritten).\n"
+                        .."`/addrules [text]` = add some text at the end of the existing rules.\n"
+                        .."`/setabout [group description]` = set a new description for the group (the old will be overwritten).\n"
+                        .."`/addabout [text]` = add some text at the end of the existing description.\n"
+                        .."\n*Note:* the markdown is supported. If the text sent breaks the markdown, the bot will notify that something is wrong.\n"
+                        .."For a correct use of the markdown, check [this post](https://telegram.me/GroupButler_ch/46) in the channel",
+                flood = "*Moderators: flood settings*\n\n"
+                        .."`/flood [on/off]` = turn on/off the anti-flood system.\n"
+                        .."`/flood [number]` = set how many messages a user can write in 5 seconds.\n"
+                        .."_Note_ : the number must be higher than 3 and lower than 26.\n"
+                        .."`/flood [kick/ban]` = choose what the bot should do (kick or ban) when the flood limit is triggered.\n"
+                        .."\n*Note:* you can manage flood settings in private from the inline keyboard called with `/menu`.",
+                media = "*Moderators: media settings*\n\n"
+                        .."`/media` = receive via private message an inline keyboard to change all the media settings.\n"
+                        .."`/media [kick|ban|allow] [type]` = change the action to perform when that specific media is sent.\n"
+                        .."_Example_ : `/media kick sticker`.\n"
+                        .."`/media list` = show the current settings for all the media.\n"
+                        .."\n*List of supported media*: _image, audio, video, sticker, gif, voice, contact, file_\n"
+                        .."\n*Note*: the first time a user send a forbidden media, the bot won't kick him. Instead, a warn is sent: the next time, the user will be kicked/banned.",
+                welcome = "*Moderators: welcome settings*\n\n"
+                            .."`/enable welcome` = the welcome message will be sent when a new user join the group.\n"
+                            .."`/disable welcome` = the welcome message won't be sent.\n"
+                            .."\n*Custom welcome message:*\n"
+                            .."`/welcome Welcome $name, enjoy the group!`\n"
+                            .."Write after \"/welcome\" your welcome message. You can use some placeholders to include the name/username/id of the new member of the group\n"
+                            .."Placeholders: _$username_ (will be replaced with the username); _$name_ (will be replaced with the name); _$id_ (will be replaced with the id); _$title_ (will be replaced with the group title).\n"
+                            .."\n*GIF/sticker as welcome message*\n"
+                            .."You can use a particular gif/sticker as welcome message. To set it, reply to a gif/sticker with \'/welcome\'\n"
+                            .."\n*Composed welcome message*\n"
+                            .."You can compose your welcome message with the rules, the description and the moderators list.\n"
+                            .."You can compose it by writing `/welcome` followed by the codes of what the welcome message has to include.\n"
+                            .."_Codes_ : *r* = rules; *a* = description (about); *m* = modlist.\n"
+                            .."For example, with \"`/welcome rm`\", the welcome message will show rules and moderators list",
+                extra = "*Moderators: extra commands*\n\n"
+                        .."`/extra [#trigger] [reply]` = set a reply to be sent when someone writes the trigger.\n"
+                        .."_Example_ : with \"`/extra #hello Good morning!`\", the bot will reply \"Good morning!\" each time someone writes #hello.\n"
+                        .."`/extra list` = get the list of your custom commands.\n"
+                        .."`/extra del [#trigger]` = delete the trigger and its message.\n"
+                        .."\n*Note:* the markdown is supported. If the text sent breaks the markdown, the bot will notify that something is wrong.\n"
+                        .."For a correct use of the markdown, check [this post](https://telegram.me/GroupButler_ch/46) in the channel",
+                warns = "*Moderators: warns*\n\n"
+                        .."`/warn [kick/ban]` = choose the action to perform once the max number of warnings is reached.\n"
+                        .."`/warn [by reply]` = warn a user. Once the max number is reached, he will be kicked/banned.\n"
+                        .."`/warnmax` = set the max number of the warns before the kick/ban.\n"
+                        .."`/getwarns [by reply]` = see how many times a user have been warned.\n"
+                        .."`/nowarns [by reply]` = reset to zero the warns of a user.\n",
+                char = "*Moderators: special characters*\n\n"
+                        .."`/disable rtl` = everyone with RTL (Righ To Left) character in the name will be kicked. Also, the same is applied to messages.\n"
+                        .."`/enable rtl` = the RTL (Righ To Left) character will be ignored.\n"
+                        .."`/disable arab` = the bot will kick everyone sends a message that includes arabic characters.\n"
+                        .."`/enable arab` = arabic characters will be ignored.\n",
+                links = "*Moderators: links*\n\n"
+                        ..'`/setlink [link|\'no\']` : set the group link, so it can be re-called by other admins, or unset it\n'
+                        .."`/link` = get the group link, if already setted by the owner\n"
+                        .."`/setpoll [pollbot link]` = save a poll link from @pollbot. Once setted, moderators can retrieve it with `/poll`.\n"
+                        .."`/setpoll no` = delete the current poll link.\n"
+                        .."`/poll` = get the current poll link, if setted\n"
+                        .."\n*Note*: the bot can recognize valid group links/poll links. If a link is not valid, you won't receive a reply.",
+                lang = "*Moderators: group language*\n\n"
+                        .."`/lang` = see the list of available languages\n"
+                        .."`/lang [code]` = change the language of the bot\n"
+                        .."\n*Note*: translators are volunteers, so I can't ensure the correctness of all the translations. And I can't force them to translate the new strings after each update (not translated strings are in english)."
+                        .."\nAnyway, translations are open to everyone. Use `/strings` command to receive a _.lua_ file with all the strings (in english).\n"
+                        .."Use `/strings [lang code]` to receive the file for that specific language (example: _/strings es_ ).\n"
+                        .."In the file you will find all the instructions: follow them, and as soon as possible your language will be available ;)",
+                settings = "*Moderators: group settings*\n\n"
+                            .."`/menu` = manage the group settings in private with an handy inline keyboard.\n"
+                            .."`/disable [rules|about|modlist|extra]` = this commands will be available *only for moderators* (the bot won't reply to normal users).\n"
+                            .."_Example_ : with \"`/disable extra`\", #extra commands will be available only for moderators. The same can be done with _rules, about, modlist_.\n"
+                            .."`/enable [rules|about|modlist|extra]` = the commands will be available for everyone (and not only for moderators). Enabled it's the default status.\n"
+                            .."`/enable report` = users will be able to send feedback/report messages to moderators, using \"@admin\" command.\n"
+                            .."`/disable report` = users won't be able to send feedback/report messages to moderators (default status: disabled).\n"
+                            .."`/report [on/off]` (by reply) = the user won't be able (_off_) or will be able (_on_) to use \"@admin\" command.\n",
+            },
+            all = '*Commands for all*:\n'
+                    ..'`/dashboard` : see all the group info from private\n'
+                    ..'`/rules` (if unlocked) : show the group rules\n'
+                    ..'`/about` (if unlocked) : show the group description\n'
+                    ..'`/adminlist` (if unlocked) : show the moderators of the group\n'
+                    ..'`@admin` (if unlocked) : by reply= report the message replied to all the admins; no reply (with text)= send a feedback to all the admins\n'
+                    ..'`/tell` : show your basical info or the info about the user you replied to\n'
+                    ..'`/echo [text]` : the bot will send the text back (with markdown, available only in private for non-admin users)\n'
+                    ..'`/info` : show some useful informations about the bot\n'
+                    ..'`/c` <feedback> : send a feedback/report a bug/ask a question to my creator. _ANY KIND OF SUGGESTION OR FEATURE REQUEST IS WELCOME_. He will reply ASAP\n'
+                    ..'`/help` : show this message.'
+		            ..'\n\nIf you like this bot, please leave the vote you think it deserves [here](https://telegram.me/storebot?start=groupbutler_bot)',
+		    private = 'Hey, *&&&1*!\n'
+                    ..'I\'m a simple bot created in order to help people to manage their groups.\n'
+                    ..'\n*What can I do for you?*\n'
+                    ..'Wew, I have a lot of useful tools!\n'
+                    ..'• You can *kick or ban* users (even in normal groups) by reply/username\n'
+                    ..'• Set rules and a description\n'
+                    ..'• Turn on a configurable *anti-flood* system\n'
+                    ..'• Customize the *welcome message*, also with gif and stickers\n'
+                    ..'• Warn users, and kick/ban them if they reach a max number of warns\n'
+                    ..'• Warn or kick users if they send a specific media\n'
+                    ..'...and more, below you can find the "all commands" button to get the whole list!\n'
+                    ..'\nTo use my moderation powers (kick/ban), *you need to add me as administrator of the group*.'
+                    ..'\nYou can report bugs/send feedbacks/ask a question to my creator just using "`/c <feedback>`" command. EVERYTHING IS WELCOME!',
+            group_success = '_Ich habe dir das Hilfsmenü als Direktnachricht geschickt_',
+            group_not_success = '_Schreibe zuerst mir, damit ich dann dir schreiben kann>_',
+            initial = 'Wähle die *Rolle (role)* um die möglichen Befehle (available commands) anzuzeigen:',
+            kb_header = 'Klicke auf ein Feld (button) um die *damit verbundenen Befehle (related commands)* anzuzeigen'
+        },
+        links = {
+            link = "[&&&1](&&&2)",
+            link_invalid = "Dieser Link ist *ungültig (not valid!)!*",
+            link_setted = "Der Link wurde gespeichert.\n*Er lautet wie folgt*: [&&&1](&&&2)",
+            link_no_input = 'This is not a *public supergroup*, so you need to write the link near /setlink',
+            link_updated = "Der Link wurde geupdated.\n*Er lautet jetzt*: [&&&1](&&&2)",
+            link_unsetted = "Link *entfernt*",
+            no_link = "Es existiert *kein Link* für diese Gruppe. Bitte den Besitzer (owner) einen zu generieren",
+            no_poll = "*Keine aktiven Umfragen (polls)* für diese Gruppe",
+            poll = "*Stimme (vote) hier ab*: [&&&1](&&&2)",
+            poll_setted = "Der Link wurde gespeichert.\n*Stimme (vote) hier ab*: [&&&1](&&&2)",
+            poll_unsetted = "Umfrage (poll) *entfernt*",
+            poll_updated = "Die Umfrage (poll) wurde aktualisiert (updated).\n*Stimme (vote) hier ab*: [&&&1](&&&2)"
+        },
+        mod = {
+            modlist = '*Creator*:\n&&&1\n\n*Admins*:\n&&&2'
+        },
+        report = {
+            feedback_reply = "*Moin! Das ist eine Antwort (reply) des Botbesitzers (bot owner)*:\n&&&1",
+            no_input = "Fasse deine Vorschläge/Fehler/Zweifel nach \"/c\" zusammen",
+            sent = "Feedback gesendet (sent)!"
+        },
+        service = {
+            abt = "\n\n*Beschreibung*:\n",
+            new_group = "Moin, moin!\nWenn du wissen willst wie ich funktioniere, starte mich einfach direkt (in private) oder schicke ein /help  :)",
+            rls = "\n\n*Gruppenregeln (rules)*:\n",
+            welcome = "Moin &&&1, und Willkommen in der Gruppe *&&&2*!",
+            welcome_abt = "Es gibt keine Gruppenbeschreibung (description).",
+            welcome_modlist = "\n\n*Liste der Moderatoren*:\n",
+            welcome_rls = "PAARRTY!"
+        },
+        setabout = {
+            added = "*Beschreibung hinzugefügt (description added)*:\n\"&&&1\"",
+            clean = "Die Gruppenbeschreibung (bio/description) wurde gelöscht.",
+            new = "*Neue Biografie (bio/description):*\n\"&&&1\"",
+            no_bio = "*KEINE BIO* für diese Gruppe.",
+            no_bio_add = "*Es gibt keine Biografie (bio/description) für diese Gruppe*.\nNutze /setabout [bio] um eine Biografie (bio/description) zu verfassen",
+            no_input_add = "Bitte schreibe etwas nach diesem armen, einsamen \"/addabout\"",
+            no_input_set = "Bitte schreibe etwas nach diesem armen, einsamen \"/setabout\"",
+            about_setted = 'New description *saved successfully*!'
+        },
+        setrules = {
+            added = "*Gruppenregeln hinzugefügt (rules added):*\n\"&&&1\"",
+            clean = "Die Gruppenregeln wurden gelöscht (rules wiped).",
+            new = "*Neue Gruppenregeln (new rules)*:\n\"&&&1\"",
+            no_input_add = "Bitte schreibe etwas nach diesem armen, einsamen \"/addrules\"",
+            no_input_set = "Bitte schreibe etwas nach diesem armen, einsamen \"/setrules\"",
+            no_rules = "*PAARRTY*!",
+            no_rules_add = "Es gibt *keine Regeln (no rules)* für diese Gruppe.\nNutze /setrules [rules] um einen neuen Regelsatz anzulegen",
+            rules_setted = 'New rules *saved successfully*!'
+        },
+        settings = {
+            disable = {
+                about_already = "Der `/about` Befehl (command) ist bereits *gesperrt*",
+                about_locked = "`Der /about` Befehl (command) ist von nun an *nur für Moderatoren verfügbar*",
+                arab_already = "Das System gegen Arabische Zeichen ist bereits *aktiv*",
+                arab_locked = "Das System gegen Arabische Zeichen ist von nun an *aktiv*",
+                extra_already = "#Eigene Befehle (#extra commands) sind bereits *gesperrt*",
+                extra_locked = "#Eigene Befehle (#extra commands) sind von nun an *nur für Moderatoren verfügbar*",
+                flag_already = "Der `/flag` Befehl (command) ist bereits *deaktiviert*",
+                flag_locked = "Der `/flag` Befehl (command) *wird nun an nicht mehr* verfügbar sein",
+                flood_already = "Flutschutz (antiflood) ist bereits *aktiv*",
+                flood_locked = "Flutschutz (antiflood) ist nun *aktiviert*",
+                modlist_already = "Der `/adminlist` Befehl (command) ist bereits *gesperrt*",
+                modlist_locked = "Der `/adminlist` Befehl (command) ist von nun an *nur für Moderatoren verfügbar*",
+                no_input = "Was oder wen soll ich ausschalten?",
+                report_already = "Der @admin Befehl (command) ist bereits *deaktiviert*",
+                report_locked = "Der @admin Befehl (command) *wird nun an nicht mehr* verfügbar sein",
+                rtl_already = "Das Anti-RNL-System (anti-RTL) ist bereits *aktiviert*",
+                rtl_locked = "Das Anti-RNL-System (anti-RTL) ist jetzt *aktiviert*",
+                rules_already = "Der `/rules` Befehl (command) ist bereits *gesperrt*",
+                rules_locked = "Der `/rules` Befehl (command) ist von nun an *nur für Moderatoren verfügbar*",
+                welcome_already = "Die Willkommensnachricht ist bereits *gesperrt*",
+                welcome_locked = "Die Willkommensnachricht wird nun *nicht mehr angezeigt*",
+                wrong_input = "Eingabe ungültig.\nNutze `/disable [rules|about|welcome|modlist|report|extra|rtl|arab]`"
+            },
+            enable = {
+                about_already = "Der `/about` Befehl (command) ist bereits *entsperrt*",
+                about_unlocked = "Der `/about` Befehl (command) ist jetzt *für alle verfügbar*",
+                arab_already = "Das Anti-Arabische-Zeichen-System ist bereits *deaktiviert*",
+                arab_unlocked = "Das Anti-Arabische-Zeichen-System ist nun *deaktiviert*",
+                extra_already = "Eigene # (extra # commands) sind bereits *entsperrt*",
+                extra_unlocked = "Eigene # (extra # commands) sind nun *für alle verfügbar*",
+                flag_already = "Der `/flag` Befehl (command) ist bereits *verfügbar*",
+                flag_unlocked = "Der `/flag` Befehl (command) ist *von nun an verfügbar*",
+                flood_already = "Der Flutschutz (antiflood) ist bereits *deaktiviert*",
+                flood_unlocked = "Der Flutschutz (antiflood) ist nun *deaktiviert*",
+                modlist_already = "Der `/adminlist` Befehl (command) ist bereits *verfügbar*",
+                modlist_unlocked = "Der `/adminlist` Befehl (command) ist jetzt *für alle verfügbar*",
+                no_input = "Was oder wen soll ich ausschalten?",
+                report_already = "Der @admin Befehl (command) ist bereits *verfügbar*",
+                report_unlocked = "Der @admin Befehl (command) *wird nun verfügbar sein*",
+                rtl_already = "Das Anti-RNL-System (anti-RTL) ist bereits *deaktiviert*",
+                rtl_unlocked = "Das Anti-RNL-System (anti-RTL) ist nun *deaktiviert*",
+                rules_already = "Der `/rules` Befehl (command) ist bereits *verfügbar*",
+                rules_unlocked = "Der `/rules` Befehl (command) ist jetzt *für alle verfügbar*",
+                welcome_already = "Die Willkommensnachricht ist bereits *verfügbar*",
+                welcome_unlocked = "Die Willkommensnachricht wird von nun an angezeigt",
+                wrong_input = "Eingabe ungültig.\nNutze `/enable [rules|about|welcome|modlist|report|extra|rtl|arab]`"
+            },
+            welcome = {
+                a = "Neue Zusammensetzung der Willkommensnachricht:\nGruppenregeln (rules)\n*Gruppenbeschreibung (bio/description)*\nModeratorenliste",
+                am = "Neue Zusammensetzung der Willkommensnachricht:\nGruppenregeln (rules)\n*Gruppenbeschreibung (bio/description)*\n*Moderatoreniste*",
+                custom = "*Eigene Willkommensnachricht* gesetzt!\n\n&&&1",
+                m = "Neue Zusammensetzung der Willkommensnachricht:\nGruppenregeln (rules)\nGruppenbeschreibung (bio/description)\n*Moderatorenliste*",
+                media_setted = "Neuer Medientyp als Willkommensnachricht gesetzt: ",
+                no = "Neue Zusammensetzung der Willkommensnachricht:\nGruppenregeln (rules)\nGruppenbeschreibung (bio/description)\nModeratorenliste",
+                no_input = "Willkommen und weiter...?",
+                r = "Neue Zusammensetzung der Willkommensnachricht:\n*Gruppenregeln (rules)*\nGruppenbeschreibung (bio/description)\nModeratorenliste",
+                ra = "Neue Zusammensetzung der Willkommensnachricht:\n*Gruppenregeln (rules)*\n*Gruppenbeschreibung (bio/description)*\nModeratorenliste",
+                ram = "Neue Zusammensetzung der Willkommensnachricht:\n*Gruppenregeln (rules)*\n*Gruppenbeschreibung (bio/description)*\n*Moderatorenliste*",
+                reply_media = "Antwort (reply) auf einen `sticker` oder  ein `gif` um diesen/dieses as *Willkommensnachricht* zu setzen",
+                rm = "Neue Zusammensetzung der Willkommensnachricht:\n*Gruppenregeln (rules)*\nGruppenbeschreibung (bio/description)\n*Moderatorenliste*",
+                wrong_input = "Eingabe ungültig.\nNutze _/welcome [no|r|a|ra|ar]_",
+                wrong_markdown = "_Nicht speicherbar_ : Ich kann dir diese Nachricht nicht zurückschicken, wahrscheinlich wurden die *Formatierungsoptionen falsch* benutzt.\nBitte überarbeite den gesendeten Text nochmal",
+                custom_setted = '*Custom welcome message saved!*',
+            },
+            resume = {
+                flood_info = "_Flutschwelle (flood sensitivity):_ *&&&1* (_Maßnahme:_ *&&&2*)\n",
+                header = "Momentane Einstellungen für *&&&1*:\n\n*Sprache*: `&&&2`\n",
+                w_a = "*Willkommensnachrichtenzusammensetzung*: `Willkommensnachricht + Gruppenbeschreibung (bio/description)`\n",
+                w_am = "*Willkommensnachrichtenzusammensetzung*: `Willkommensnachricht + Gruppenbeschreibung (bio/description) + Moderatorenliste`\n",
+                w_custom = "*Willkommensnachrichtenzusammensetzung*: `Eigene Willkommensnachricht (custom message)`\n",
+                w_m = "*Willkommensnachrichtenzusammensetzung*: `welcome + modlist`\n",
+                w_media = "*Willkommensnachrichtenzusammensetzung*: `GIF/Sticker`\n",
+                w_no = "*Willkommensnachrichtenzusammensetzung*: `Nur die Willkommensnachricht`\n",
+                w_r = "*Willkommensnachrichtenzusammensetzung*: `Willkommensnachricht + Gruppenregeln (rules)`\n",
+                w_ra = "Willkommensnachrichtenzusammensetzung type*: `Willkommensnachricht + Gruppenregeln (rules) + Gruppenbeschreibung (bio/description)`\n",
+                w_ram = "*Willkommensnachrichtenzusammensetzung*: `Willkommensnachricht + Gruppenregeln (rules) + Gruppenbeschreibung (bio/description) + Moderatorenliste`\n",
+                w_rm = "*Willkommensnachrichtenzusammensetzung*: `Willkommensnachricht + Gruppenregeln (rules) + Moderatorenliste`\n"
+            },
+            broken_group = 'There are no settings saved for this group.\nPlease run /initgroup to solve the problem :)',
+            About = "Über (about)",
+            Arab = "Arabische Zeichen",
+            Extra = "Eigenes (extra)",
+            Flag = "Schandmal (flag)",
+            Flood = "Flutschutz (antiflood)",
+            Modlist = "Moderatorenliste (modlist)",
+            Report = "Melden(report)",
+            Rtl = "RNL (RTL)",
+            Rules = "Gruppenregeln (rules)",
+            Welcome = "Willkommensnachricht",
+        },
+        tell = {
+            group_id = '*Gruppen ID*: &&&1'
+        },
+        warn = {
+            changed_type = "Neue Maßnahme, die ausgeführt wird, wenn das Limit an Verwarnungen erreicht ist: *&&&1*",
+            getwarns_reply = "Antworte (reply) einem Nutzer um die Zahl seiner Verwarnungen (warns) angezeigt zu bekommen",
+            limit_lower = "Dieser Nutzer hat das Limit von Verwarnungen (warns) noch nicht erreicht.\n*&&&1* Verwarnungen fehlen noch bis zum Limit von *&&&2* Verwarnungen (*&&&3/&&&4*)",
+            limit_reached = "Dieser Nutzer hat das Limit von maximalen Verwarnungen (warns) bereits erreicht (*&&&1/&&&2*)",
+            mod = "Ein Moderator kann nicht verwarnt (warned) werden",
+            nowarn = "Die Anzahl der Verwarnungen (warns) des Nutzers (user) wurde auf den Ausgangszustand zurückgesetzt (reseted)",
+            nowarn_reply = "Antworte (reply) einem Nutzer um die Anzahl seiner Verwarnungen zu löschen (delete warns)",
+            warn_reply = "Antworte (reply) auf die Nachricht eines Nutzers (user) um ihn zu verwarnen (warn)",
+            warned = "*Nutzer* &&&1 *wurde verwarnt.*\n_Anzahl der Verwarnungen_    *&&&2*\n_Limit_    *&&&3* (*-&&&4*)",
+            warned_max_ban = "Nutzer &&&1 *gesperrt (banned)*: Das Limit der Verwarnungen wurde erreicht",
+            warned_max_kick = "Nutzer &&&1 *entfernt (kicked)*: Das Limit der Verwarnungen wurde erreicht",
+            warnmax = "Das Limit der Verwarnungen wurde geändert.\n*Vorher*: &&&1\n*Jetzt* max: &&&2",
+            ban_motivation = 'Too many warnings',
+        },
+        setlang = {
+            error = "Die eingestellte Sprache *wird nicht unterstützt*. Nutze `/lang` für eine Liste der unterstützten Sprachen",
+            list = "*Liste der unterstützten Sprachen (available languages)*:\n\n&&&1\nBenutze `/lang xx` um die Sprache zu ändern",
+            success = "*Folgende Sprache wurde eingestellt:* &&&1"
+        },
+		banhammer = {
+            kicked = '&&&1 wurde entfernt  (kicked)! (Aber es ist dem Nutzer (user) noch immer möglich zurückzukommen (rejoin))',
+            banned = '&&&1 wurde gesperrt (banned)!',
+            already_banned_normal = '&&&1 ist *bereits gesperrt (banned)*!',
+            unbanned = 'Nutzer (user) entsperrt (unbanned)!',
+            reply = 'Antworte (reply) jemandem',
+            globally_banned = '&&&1 have been globally banned!',
+            not_banned = 'Der Nutzer (user) ist nicht gesperrt',
+            banlist_header = '*Banned users*:\n\n',
+            banlist_empty = '_The list is empty_',
+            general_motivation = 'Ich kann diesen Nutzer (user) nicht entfernen (kick).\nWahrscheinlich bin ich entweder kein Administrator oder der Nutzer ist selbst Admin'
+        },
+        floodmanager = {
+            ban = "Fluter (flooders) werden gesperrt (bannend)",
+            changed = "Die *maximale Anzahl* von Nachrichten, die in *5 Sekunden* gesendet werden können, wurde _von_ &&&1 _auf_ &&&2 geändert",
+            disabled = "Flutschutz (antiflood) deaktiviert",
+            enabled = "Flutschutz (antiflood) aktiviert",
+            kick = "Fluter (flooders) werden entfernt (kicked)",
+            not_changed = "Die maximale Anzahl von Nachrichten, die innerhalb von 5 Sekunden gesendet werden können, ist bereits &&&1",
+            number_invalid = "`&&&1` ist kein gültiger Wert!\nDer Wert sollte *größer* als `3` und *kleiner* als `26` sein"
+        },
+        mediasettings = {
+            already = "Die Einstellung für den Medientyp (media) (`&&&1`) ist bereits (`&&&2`)",
+            changed = "Neue Einstellung für (`&&&1`) = *&&&2*",
+            list_header = "*Folgende Medientypen (media) können geblockt werden*:\n\n",
+            settings_header = "*Momentane Einstellungen für Medientypen*:\n\n",
+            warn = "Dieser Medientyp ist in dieser Gruppe *nicht gestattet*.\n_Beim nächsten Mal_ wirst du entfernt oder gesperrt (kicked or banned)",
+            wrong_input = "Fehlerhafte Eingabe (wrong input). Nutze `/media list` um die erlaubten Medientypen aufzulisten"
+        },
+        preprocess = {
+            arab = "&&&1 *entfernt (kicked)*: Nachricht mit arabischen Zeichen entdeckt!",
+            first_warn = "Dieser Medientyp ist in diesem Chat *nicht gestattet (not allowed)*. Beim nächsten Mal, *&&&1*!",
+            flood_ban = "&&&1 *gesperrt (bannend)* wegen flutens (flooding)!",
+            flood_kick = "&&&1 *entfernt (kicked)* wegen flutens (flodding)!",
+            media_ban = "&&&1 *gesperrt (bannend)*: Der gesendete Medientyp ist nicht gestattet (not allowed)!",
+            media_kick = "&&&1 *entfernt (kicked)*: Der gesendete Medientyp ist nicht gestattet (not allowed)!",
+            rtl = "&&&1 *entfernt (kicked)*: RNL (RTL) Zeichen sind weder in Nachrichten noch in Namen gestattet (not allowed)!",
+            flood_motivation = 'Banned for flood',
+            media_motivation = 'Sent a forbidden media',
+        },
+        kick_errors = {
+            [1] = 'Ich bin kein Administrator, ich kann keine Luete entfernen (kick)',
+            [2] = 'Ich kann einen Administrator weder entfernen, noch sperren (kick/ban)',
+            [3] = 'Es gibt keinen Grund in einer normalen Gruppe jemanden wieder zu entsperren (unban)',
+            [4] = 'Dieser Nutzer ist kein Mitglied (member) dieses Chats',
+        },
+        flag = {
+            already_blocked = 'Dem Nutzer (user) ist es bereits untersagt "@admin" zu nutzen',
+            already_unblocked = 'Dem Nutzer (user) ist es bereits erlaubt "@admin" zu nutzen',
+            blocked = 'Von nun an ist es dem Nutzer (user) untersagt/unmölgich "@admin" zu nutzen',
+            no_input = 'Antworte (reply) auf eine Nachricht um sie zu melden (report) oder schreibe eine Nachricht nach "@admin" um diesen ein Feedback zukommen zu lassen',
+            no_reply = 'Antworte (reply) einem Nutzer (user)!',
+            reported = 'Gemeldet (reported)!',
+            unblocked = 'Dem Nutzer ist von nun an erlaubt/möglich "@admin" zu nutzen'
+        },
+        all = {
+            dashboard = 'Ich habe dir das Übersichtsmenü für die Gruppeneinstellungen als Direktnachricht geschickt',
+            dashboard_first = 'Klicke dich durch diese Nachricht um *alle Informationen* über diese Gruppe zu bekommen!',
+            media_first = 'Klicke auf eine Stimme (?) in der rechten Spalte um *die entsprechende Einstellung zu ändern*',
+            menu = 'Ich habe dir das Einstellungsmenü als Direktnachricht geschickt',
+            menu_first = 'Klicke auf ein Schloss um *die Gruppeneinstellungen zu ändern*, oder nutze die letzte Zeile um das _Antiflood Verhalten zu bestimmen_'
         },
     },
 }

@@ -12,7 +12,7 @@ local function saveFirstWarn(chat, user, media, ln)
 end
 
 pre_process = function(msg, ln)
-    if msg.from.id and is_blocked(msg.from.id) then
+    if is_blocked(msg.from.id) then
         print('Blocked:', msg.from.id)
         return msg, true --if an user is blocked, don't go through plugins
     end

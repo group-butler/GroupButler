@@ -148,7 +148,6 @@ on_msg_receive = function(msg) -- The fn run whenever a message is received.
 	collect_stats(msg) --resolve_username support, chat stats
 	
 	for i,v in pairs(plugins) do
-		--vardump(v)
 		local stop_loop
 		if v.on_each_msg then
 			msg, stop_loop = v.on_each_msg(msg, msg.lang)
@@ -160,6 +159,11 @@ on_msg_receive = function(msg) -- The fn run whenever a message is received.
 				for k,w in pairs(v.triggers) do
 					local blocks = match_pattern(w, msg.text)
 					if blocks then
+						--workaround for the stupid bug
+						if not(msg.chat.type == 'private') and not db:exists('chat:'..msg.chat.id..':settings') then
+							cross.initGroup(msg.chat.id)
+							api.sendLog('#initGroup\n'..vtext(msg.chat)..vtext(msg.from))
+						end
 						print(colors.reset..colors.underscore..'\nMsg info:\t'..colors.reset..colors.red..get_from(msg)..colors.reset..' ['..msg.chat.type..'] ('..os.date('at %X')..')')
 						if blocks[1] ~= '' then
       						print(colors.reset..colors.underscore..'Match found:', colors.reset..colors.blue..w..colors.reset)
@@ -334,7 +338,11 @@ while is_started do -- Start a loop while the bot should be running.
 		for i,msg in ipairs(res.result) do -- Go through every new message.
 			last_update = msg.update_id
 			tot = tot + 1
-			if msg.message  or msg.callback_query then
+			if msg.message  or msg.callback_query --[[or msg.edited_message]]then
+				--[[if msg.edited_message then
+					msg.message = msg.edited_message
+					msg.edited_message = nil
+				end]]
 				if msg.callback_query then
 					handle_inline_keyboards_cb(msg.callback_query)
 				elseif msg.message.migrate_to_chat_id then

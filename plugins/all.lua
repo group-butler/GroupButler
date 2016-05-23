@@ -6,6 +6,37 @@ local included_fields = {
     'extra'
 }
 
+local function getWelcomeMessage(chat_id, ln)
+    hash = 'chat:'..chat_id..':welcome'
+    local type = db:hget(hash, 'type')
+    local message = ''
+    if type == 'composed' then
+    	local wel = db:hget(hash, 'content')
+    	if wel == 'a' then
+    	    message = message..lang[ln].settings.resume.w_a
+    	elseif wel == 'r' then
+    	    message = message..lang[ln].settings.resume.w_r
+    	elseif wel == 'm' then
+    	    message = message..lang[ln].settings.resume.w_m
+    	elseif wel == 'ra' then
+    	    message = message..lang[ln].settings.resume.w_ra
+    	elseif wel == 'rm' then
+    	    message = message..lang[ln].settings.resume.w_rm
+    	elseif wel == 'am' then
+    	    message = message..lang[ln].settings.resume.w_am
+    	elseif wel == 'ram' then
+    	    message = message..lang[ln].settings.resume.w_ram
+    	elseif wel == 'no' then
+    	    message = message..lang[ln].settings.resume.w_no
+    	end
+	elseif type == 'media' then
+		message = message..lang[ln].settings.resume.w_media
+	elseif type == 'custom' then
+		message = db:hget(hash, 'content')
+	end
+    return message
+end
+
 local function doKeyboard_media(chat_id)
     local keyboard = {}
     keyboard.inline_keyboard = {}
@@ -32,13 +63,14 @@ local function doKeyboard_dashboard(chat_id)
     keyboard.inline_keyboard = {
 	    {
             {text = "Settings", callback_data = 'dashboardsettings//'..chat_id},
+            {text = "Admins", callback_data = 'dashboardmodlist//'..chat_id}
 		},
 	    {
 		    {text = "Rules", callback_data = 'dashboardrules//'..chat_id},
 		    {text = "About", callback_data = 'dashboardabout//'..chat_id}
         },
 	   	{
-	   	    {text = "Moderators", callback_data = 'dashboardmodlist//'..chat_id},
+	   	    {text = "Welcome", callback_data = 'dashboardwelcome//'..chat_id},
 	   	    {text = "Extra commands", callback_data = 'dashboardextra//'..chat_id}
 	    }
     }
@@ -105,11 +137,18 @@ local action = function(msg, blocks, ln)
                 text = cross.getAbout(chat_id, ln)
             end
             if blocks[2] == 'modlist' then
-                text = cross.getModlist(chat_id):mEscape()
-                text = make_text(lang[ln].mod.modlist, text)
+                local creator, admins = cross.getModlist(chat_id)
+                if not creator then
+                    text = lang[ln].bonus.adminlist_admin_required --creator is false, admins is the error code
+                else
+                    text = make_text(lang[ln].mod.modlist, creator, admins)
+                end
             end
             if blocks[2] == 'extra' then
                 text = cross.getExtraList(chat_id, ln)
+            end
+            if blocks[2] == 'welcome' then
+                text = getWelcomeMessage(chat_id, ln)
             end
             api.editMessageText(msg.chat.id, msg_id, text, keyboard, true)
             return
@@ -174,6 +213,7 @@ return {
 	    '^###cb:(dashboard)(about)//',
 	    '^###cb:(dashboard)(modlist)//',
 	    '^###cb:(dashboard)(extra)//',
+	    '^###cb:(dashboard)(welcome)//',
     	'^###cb:(menu)(alert)//',
     	'^###cb:(menu)(Rules)//',
     	'^###cb:(menu)(About)//',
