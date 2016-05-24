@@ -961,6 +961,15 @@ local function remBanList(chat_id, user_id)
     return res
 end
 
+local function getUserStatus(chat_id, user_id)
+	local res = api.getChatMember(chat_id, user_id)
+	if res then
+		return res.result.status
+	else
+		return false
+	end
+end
+
 -----------------------redis shorcuts---------------------------------------
 
 --[[
@@ -1129,7 +1138,8 @@ local cross = {
 	sendStartMe = sendStartMe,
 	initGroup = initGroup,
 	addBanList= addBanList,
-	remBanList = remBanList
+	remBanList = remBanList,
+	getUserStatus = getUserStatus
 }
 
 local rdb = {

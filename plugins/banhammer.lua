@@ -81,6 +81,11 @@ local action = function(msg, blocks, ln)
 		    	mystat('/ban')
     		end
    			if blocks[1] == 'unban' then
+   				local status = cross.getUserStatus(chat_id, user_id)
+   				if not(status == 'kicked') then
+   					api.sendReply(msg, lang[ln].banhammer.not_banned, true)
+   					return
+   				end
    				local res = api.unbanUser(chat_id, user_id, is_normal_group)
    				if not res and msg.chat.type == 'group' then
    					api.sendReply(msg, lang[ln].banhammer.not_banned, true)

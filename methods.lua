@@ -165,6 +165,7 @@ local function kickUser(chat_id, user_id, ln)-- no_msg: don't send the error mes
 	    db:hincrby('bot:general', 'kick', 1) --genreal: save how many kicks
 		--unban
 		api.unbanChatMember(chat_id, user_id)
+		api.unbanChatMember(chat_id, user_id)
 		return res
 	else
 		local motivation = api.code2text(code, ln)
