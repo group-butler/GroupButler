@@ -28,8 +28,14 @@ local function get_welcome(msg, ln)
 		if not(content == 'no') then
 			local abt = cross.getAbout(msg.chat.id, ln)
 			local rls = cross.getRules(msg.chat.id, ln)
-			local mods = cross.getModlist(msg.chat.id, ln):mEscape()
-			local mods = lang[ln].service.welcome_modlist..mods
+			local creator, admins = cross.getModlist(msg.chat.id, ln)
+			print(admins)
+			local mods
+			if not creator then
+				mods = '\n'
+			else
+				mods = make_text(lang[ln].service.welcome_modlist, creator:mEscape(), admins:gsub('*', ''):mEscape())
+			end
 			local text = make_text(lang[ln].service.welcome, msg.added.first_name:mEscape_hard(), msg.chat.title:mEscape_hard())
 			if content == 'a' then
 				text = text..'\n\n'..abt
@@ -119,6 +125,7 @@ end
 
 return {
 	action = action,
+	admin_not_needed = true,
 	triggers = {
 		'^###(botadded)',
 		'^###(added)',

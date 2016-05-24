@@ -31,7 +31,6 @@ local action = function(msg, blocks, ln)
     end
     
     if not is_mod(msg) then
-        api.sendReply(msg, lang[ln].not_mod, true)
         return
     end
     

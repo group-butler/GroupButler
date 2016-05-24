@@ -34,9 +34,9 @@ local action = function(msg, blocks, ln)
             api.sendReply(msg, lang[ln].flag.no_input)
         else
             if is_report_blocked(msg) then
-                return nil
+                return
             end
-            if msg.reply and ((tonumber(msg.reply.from.id) == tonumber(bot.id)) or is_mod(msg.reply)) then
+            if msg.reply and ((tonumber(msg.reply.from.id) == tonumber(bot.id)) --[[or is_mod(msg.reply)]]) then
                 return
             end
             local mods = get_mods_id(msg.chat.id)

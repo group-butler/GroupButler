@@ -81,10 +81,16 @@ function is_owner2(chat_id, user_id)
 	return var
 end]]
 
-function is_mod(msg)
-	if msg.from.id == config.admin then
-		return true, true
+function is_bot_admin(chat_id)
+	local status = api.getChatMember(chat_id, bot.id).result.status
+	if not(status == 'administrator') then
+		return false
+	else
+		return true
 	end
+end
+
+function is_mod(msg)
 	local res = api.getChatMember(msg.chat.id, msg.from.id)
 	if not res then
 		return false, false
@@ -98,9 +104,6 @@ function is_mod(msg)
 end
 
 function is_mod2(chat_id, user_id)
-	if tonumber(user_id) == config.admin then
-		return true, true
-	end
 	local res = api.getChatMember(chat_id, user_id)
 	if not res then
 		return false, false
@@ -114,9 +117,6 @@ function is_mod2(chat_id, user_id)
 end
 
 function is_owner(msg)
-	if msg.from.id == config.admin then
-		return true
-	end
 	local status = api.getChatMember(msg.chat.id, msg.from.id).result.status
 	if status == 'creator' then
 		return true
@@ -700,8 +700,12 @@ end
 
 local function getModlist(chat_id)
 	local list, code = api.getChatAdministrators(chat_id)
-	if not list and code == 107 then
-		return false, code
+	if not list then
+		if code == 107 then
+			return false, code
+		else
+			return false, false
+		end
 	end
 	local creator
 	local adminlist = ''

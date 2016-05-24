@@ -186,7 +186,7 @@ return {
             welcome = 'Hi &&&1, and welcome to *&&&2*!',
             welcome_rls = 'Total anarchy!',
             welcome_abt = 'No description for this group.',
-            welcome_modlist = '\n\n*Moderators list*:\n',
+            welcome_modlist = '\n\n*Creator*:\n&&&1\n*Admins*:\n&&&2',
             abt = '\n\n*Description*:\n',
             rls = '\n\n*Rules*:\n',
             bot_removed = '*&&&1* datas have been flushed.\nThanks for having used me!\nI\'m always here if you need an hand ;)'
@@ -572,7 +572,7 @@ return {
             welcome = 'Ciao &&&1, e benvenuto/a in *&&&2*!',
             welcome_rls = 'Anarchia totale!',
             welcome_abt = 'Nessuna descrizione per questo gruppo.',
-            welcome_modlist = '\n\n*Lista dei moderatori*:\n',
+            welcome_modlist = '\n\n*Creatore*:\n&&&1\n*Admin*:\n&&&2',
             abt = '\n\n*Descrizione*:\n',
             rls = '\n\n*Regole*:\n',
             bot_removed = 'I dati su *&&&1* sono stati rimossi.\nGrazie per avermi usato!\nSono sempre qui, se serve una mano;)'
@@ -961,7 +961,7 @@ return {
             welcome = 'Hola &&&1, bienvenido a *&&&2*!',
             welcome_rls = '¡Anarquia total!',
             welcome_abt = 'No hay descripcion sobre este grupo.',
-            welcome_modlist = '\n\n*Lista de moderadores*:\n',
+            welcome_modlist = '\n\n*Creator*:\n&&&1\n*Admins*:\n&&&2',
             abt = '\n\n*Descripcion*:\n',
             rls = '\n\n*Reglas*:\n',
             bot_removed = '*&&&1* los datos se han vaciado.\n¡Gracias por usarme!\nSiempre estoy aqui para lo que necesites ;)'
@@ -1349,7 +1349,7 @@ return {
             welcome = 'Olá, &&&1, e seja bem-vindo(a) ao *&&&2*!',
             welcome_rls = 'Anarquia total!',
             welcome_abt = 'Sem descrição para este grupo.',
-            welcome_modlist = '\n\n*Lista de moderadores(as)*:\n',
+            welcome_modlist = '\n\n*Creator*:\n&&&1\n*Admins*:\n&&&2',
             abt = '\n\n*Descrição*:\n',
             rls = '\n\n*Regras*:\n',
             bot_removed = '*&&&1* dados foram deletados.\nObrigado por ter me usado!\nEu estarei sempre aqui caso precise de uma mãozinha ;)'
@@ -1735,7 +1735,7 @@ return {
             welcome = 'Привет, &&&! Добро пожаловать в *&&&2*!',
             welcome_rls = 'АНАРХИЯ!',
             welcome_abt = 'Описание этой группы отсутствует!',
-            welcome_modlist = '\n\n*Список модераторов*:\n',
+            welcome_modlist = '\n\n*Creator*:\n&&&1\n*Admins*:\n&&&2',
             abt = '\n\n*Описание*:\n',
             rls = '\n\n*Правила*:\n',
             bot_removed = '*&&&1* информация была удалена.\nСпасибо за пользование!\nЯ всегда здесь, если тебе понадобится правая рука - обращайся ;)'
@@ -2116,7 +2116,7 @@ return {
             rls = "\n\n*Gruppenregeln (rules)*:\n",
             welcome = "Moin &&&1, und Willkommen in der Gruppe *&&&2*!",
             welcome_abt = "Es gibt keine Gruppenbeschreibung (description).",
-            welcome_modlist = "\n\n*Liste der Moderatoren*:\n",
+            welcome_modlist = '\n\n*Creator*:\n&&&1\n*Admins*:\n&&&2',
             welcome_rls = "PAARRTY!"
         },
         setabout = {

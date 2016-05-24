@@ -14,12 +14,12 @@ local action = function(msg, blocks, ln)
         end
         mystat('/rules') --save stats
     end
+	
+	if not is_mod(msg) then
+		return
+	end
+	
 	if blocks[1] == 'addrules' then
-	    --ignore if not mod
-		if not is_mod(msg) then
-			api.sendReply(msg, lang[ln].not_mod, true)
-			return
-		end
 		if not blocks[2] then
 			api.sendReply(msg, lang[ln].setabout.no_input_add)
 			return
@@ -47,11 +47,6 @@ local action = function(msg, blocks, ln)
         mystat('/addrules')
     end
 	if blocks[1] == 'setrules' then
-    	--ignore if not mod
-		if not is_mod(msg) then
-			api.sendReply(msg, make_text(lang[ln].not_mod), true)
-			return
-		end
 		local input = blocks[2]
 		--ignore if not input text
 		if not input then

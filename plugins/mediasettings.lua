@@ -4,7 +4,7 @@ local action = function(msg, blocks, ln)
 	    return
 	end
 	if not is_mod(msg) then
-		return nil
+		return
 	end
 	local list = {'image', 'audio', 'video', 'sticker', 'gif', 'voice', 'contact', 'file'}
 	if blocks[1] == 'media list' then

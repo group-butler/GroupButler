@@ -1,9 +1,9 @@
 local action = function(msg, blocks, ln)
 	--ignore if via pm
 	if msg.chat.type == 'private' then
-		api.sendMessage(msg.from.id, lang[ln].pv)
-    	return nil
+    	return
     end
+    
     local hash = 'chat:'..msg.chat.id..':about'
     if blocks[1] == 'about' then
     	local out = cross.getAbout(msg.chat.id, ln)
@@ -14,12 +14,12 @@ local action = function(msg, blocks, ln)
         end
         mystat('/about')
     end
+    
+    if not is_mod(msg) then
+		return
+	end
+	
 	if blocks[1] == 'addabout' then
-		--ignore if not mod
-		if not is_mod(msg) then
-			api.sendReply(msg, lang[ln].not_mod, true)
-			return
-		end
 		if not blocks[2] then
 			api.sendReply(msg, lang[ln].setabout.no_input_add)
 			return
@@ -45,10 +45,7 @@ local action = function(msg, blocks, ln)
 	if blocks[1] == 'setabout' then
 		local input = blocks[2]
 		--ignore if not mod
-		if not is_mod(msg) then
-			api.sendReply(msg, lang[ln].not_mod, true)
-			return
-		end
+		
 		--ignore if not text
 		if not input then
 			api.sendReply(msg, lang[ln].setabout.no_input_set, true)

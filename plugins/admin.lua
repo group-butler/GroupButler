@@ -810,5 +810,6 @@ end
 
 return {
 	action = action,
+	for_bot_admin = true,
 	triggers = {'^/a', '^###(forward)',}
 }

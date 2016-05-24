@@ -19,7 +19,7 @@ pre_process = function(msg, ln)
     if msg.cb then
         return msg
     end
-    if msg.chat.type ~= 'private' and not is_mod(msg) then
+    if msg.chat.type ~= 'private' then
         local spamhash = 'spam:'..msg.chat.id..':'..msg.from.id
         local msgs = tonumber(db:get(spamhash)) or 0
         if msgs == 0 then msgs = 1 end

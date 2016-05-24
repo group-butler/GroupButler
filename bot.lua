@@ -164,20 +164,24 @@ on_msg_receive = function(msg) -- The fn run whenever a message is received.
 							cross.initGroup(msg.chat.id)
 							api.sendLog('#initGroup\n'..vtext(msg.chat)..vtext(msg.from))
 						end
+						--print in the terminal
 						print(colors.reset..colors.underscore..'\nMsg info:\t'..colors.reset..colors.red..get_from(msg)..colors.reset..' ['..msg.chat.type..'] ('..os.date('at %X')..')')
+						--print the match
 						if blocks[1] ~= '' then
       						print(colors.reset..colors.underscore..'Match found:', colors.reset..colors.blue..w..colors.reset)
       						db:hincrby('bot:general', 'query', 1)
       						if msg.from then db:incrby('user:'..msg.from.id..':query', 1) end
       					end
-						local xxx, is_bot_admin = is_mod(msg)
-						if not is_bot_admin and not(msg.chat.type == 'private') and not msg.text:match('^###botadded$') then
+      					--check if the bot is admin
+      					if msg.chat.type == 'supergroup' and not is_bot_admin(msg.chat.id) and not v.admin_not_needed and not v.for_bot_admin then
 							api.sendMessage(msg.chat.id, lang[msg.lang].not_admin, true)
 							return
 						end
+						--execute plugin
 						local success, result = pcall(function()
 							return v.action(msg, blocks, msg.lang)
 						end)
+						--if bugs
 						if not success then
 							api.sendReply(msg, '*This is a bug!*\nPlease report the problem with `/c <bug>` :)', true)
 							print(msg.text, result)

@@ -21,8 +21,9 @@ return {
 		'setlang.lua',
 		'floodmanager.lua',
 		'mediasettings.lua',
+		'private.lua',
 		'admin.lua',
-		--'test.lua',
+		'test.lua',
 	},
 	available_languages = {
 		'en',
@@ -34,8 +35,6 @@ return {
 		--more to come
 	},
 	chat_data = {
-		'mod',
-		'owner',
 		'settings',
 		'about',
 		'rules',
