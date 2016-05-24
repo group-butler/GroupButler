@@ -170,7 +170,11 @@ on_msg_receive = function(msg) -- The fn run whenever a message is received.
       						db:hincrby('bot:general', 'query', 1)
       						if msg.from then db:incrby('user:'..msg.from.id..':query', 1) end
       					end
-				
+						local xxx, is_bot_admin = is_mod(msg)
+						if not is_bot_admin and not(msg.chat.type == 'private') and not msg.text:match('^###botadded$') then
+							api.sendMessage(msg.chat.id, lang[msg.lang].not_admin, true)
+							return
+						end
 						local success, result = pcall(function()
 							return v.action(msg, blocks, msg.lang)
 						end)

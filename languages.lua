@@ -24,6 +24,7 @@ return {
         not_mod = 'You are *not* a moderator',
         breaks_markdown = 'This text breaks the markdown.\nMore info about a proper use of markdown [here](https://telegram.me/GroupButler_ch/46).',
         credits = '*Some useful links:*',
+        not_admin = '_I can\'t work if I\'m not Admin of the group. It\'s the only way I have to see if an user is an admin or not :(\nFor more info, check_  [here](https://telegram.me/GroupButler_ch/63)',
         extra = {
             setted = '&&&1 command saved!',
 			usage = 'Write next to /extra the title of the command and the text associated.\nFor example:\n/extra #motm stay positive. The bot will reply _\'Stay positive\'_ each time someone writes #motm',
@@ -141,7 +142,7 @@ return {
                     ..'• Warn users, and kick/ban them if they reach a max number of warns\n'
                     ..'• Warn or kick users if they send a specific media\n'
                     ..'...and more, below you can find the "all commands" button to get the whole list!\n'
-                    ..'\nTo use my moderation powers (kick/ban), *you need to add me as administrator of the group*.'
+                    ..'\nTo use me, *you need to add me as administrator of the group*, or Telegram won\'t let me work! (if you have some doubts about this, check [this post](https://telegram.me/GroupButler_ch/63))'
                     ..'\nYou can report bugs/send feedbacks/ask a question to my creator just using "`/c <feedback>`" command. EVERYTHING IS WELCOME!',
             group_success = '_I\'ve sent you the help message in private_',
             group_not_success = '_Please message me first so I can message you_',
@@ -409,6 +410,7 @@ return {
         not_mod = '*Non sei* un moderatore!',
         breaks_markdown = 'Questo messaggio impedisce il markdown.\nControlla quante volte hai usato * oppure _ oppure `.\nPiù info [qui](https://telegram.me/GroupButler_ch/46)',
         credits = '*Alcuni link utili:*',
+        not_admin = '_I can\'t work if I\'m not Admin of the group. It\'s the only way I have to see if an user is an admin or not :(\nFor more info, check_  [here](https://telegram.me/GroupButler_ch/63)',
         extra = {
             setted = '&&&1 salvato!',
 			usage = 'Scrivi accanto a /extra il titolo del comando ed il testo associato.\nAd esempio:\n/extra #ciao Hey, ciao!. Il bot risponderà _\'Hey, ciao!\'_ ogni volta che qualcuno scriverà #ciao',
@@ -526,7 +528,7 @@ return {
                     ..'• Puoi ammonire gli utenti, e kickarli/bannarli se raggiungono il numero massimo di ammonizioni\n'
                     ..'• Puoi decidere se ammonire o kickare gli utenti che inviano un media specifico\n'
                     ..'...e questo è solo l\'inizio, puoi trovare tutti i comandi disponibili premendo sul pulsante "all commands", appena qui sotto :)\n'
-                    ..'\nAffinchè io possa kickare o bannare, *devo poter essere impostato come amministratore del gruppo*. Se vuoi impostarmi ad admin, puoi promuovermi come faresti con un qualsiasi altro utente :)'
+                    ..'\nPer usarmi, *devo essere impostato come amministratore*, o non potrò funzionare correttamente! (se non ti fidi, spero di toglierti qualche dubbio sul perchè di questa necessità con [questo post](https://telegram.me/GroupButler_ch/63))'
                     ..'\nPuoi segnalare bug/inviare un feedback/fare una domanda al mio creatore usando il comando "`/c <feedback>`". SI ACCETTA QUALSIASI RICHIESTA/SEGNALAZIONE!',
             group_success = '_Ti ho inviato il messaggio in privato_',
             group_not_success = '_Per favore, avviami cosicchè io possa risponderti_',
@@ -797,6 +799,7 @@ return {
         not_mod = 'Tu *no* eres moderador',
         breaks_markdown = 'This text breaks the markdown.\nMore info about a proper use of markdown [here](https://telegram.me/GroupButler_ch/46).',
         credits = '*Some useful links:*',
+        not_admin = '_I can\'t work if I\'m not Admin of the group. It\'s the only way I have to see if an user is an admin or not :(\nFor more info, check_  [here](https://telegram.me/GroupButler_ch/63)',
         extra = {
             setted = '&&&1 command saved!',
 			usage = 'Escribe seguido de /extra el titulo del comando y el texto asociado.\nPor ejemplo:\n/extra #motm esta positivo. El bot respondera _\'Esta positivo\'_ cada vez que alguien escriba #motm',
@@ -914,7 +917,7 @@ return {
                     ..'• Warn users, and kick/ban them if they reach a max number of warns\n'
                     ..'• Warn or kick users if they send a specific media\n'
                     ..'...and more, below you can find the "all commands" button to get the whole list!\n'
-                    ..'\nTo use my moderation powers (kick/ban), *you need to add me as administrator of the group*.'
+                    ..'\nTo use me, *you need to add me as administrator of the group*, or Telegram won\'t let me work! (if you have some doubts about this, check [this post](https://telegram.me/GroupButler_ch/63))'
                     ..'\nYou can report bugs/send feedbacks/ask a question to my creator just using "`/c <feedback>`" command. EVERYTHING IS WELCOME!',
             group_success = '_Te he enviado el mensaje por privado_',
             group_not_success = '_Please message me first so I can message you_',
@@ -1184,6 +1187,7 @@ return {
         not_mod = 'Você *não* é um(a) moderador(a)',
         breaks_markdown = 'Esse texto apresenta problemas com markdown.\nVerifique quantas vezes você usou * ou _ ou `',
         credits = '*Some useful links:*',
+        not_admin = '_I can\'t work if I\'m not Admin of the group. It\'s the only way I have to see if an user is an admin or not :(\nFor more info, check_  [here](https://telegram.me/GroupButler_ch/63)',
         extra = {
             setted = '&&&1 command saved!',
 			usage = 'Escreva ao lado de /extra o título do comando e o texto associado.\nPor exemplo:\n/extra #motm seja positivo. O bot irá respoder _\'seja positivo\'_ toda vez que alguém digitar #motm',
@@ -1301,7 +1305,7 @@ return {
                     ..'• Warn users, and kick/ban them if they reach a max number of warns\n'
                     ..'• Warn or kick users if they send a specific media\n'
                     ..'...and more, below you can find the "all commands" button to get the whole list!\n'
-                    ..'\nTo use my moderation powers (kick/ban), *you need to add me as administrator of the group*.'
+                    ..'\nTo use me, *you need to add me as administrator of the group*, or Telegram won\'t let me work! (if you have some doubts about this, check [this post](https://telegram.me/GroupButler_ch/63))'
                     ..'\nYou can report bugs/send feedbacks/ask a question to my creator just using "`/c <feedback>`" command. EVERYTHING IS WELCOME!',
 			group_success = '_Eu enviei a mensagem de ajuda no privado_',
 			group_not_success = '_Caso você nunca tenha me usado, me *inicie* e envie o comando /help por aqui novamente_',
@@ -1570,6 +1574,7 @@ return {
         not_mod = 'Ты *не* модератор',
         breaks_markdown = 'Этот текст содержит ошибку (markdown).\nИнформация о правильном использовании markdown [здесь](https://telegram.me/GroupButler_ch/46).',
         credits = '*Some useful links:*',
+        not_admin = '_I can\'t work if I\'m not Admin of the group. It\'s the only way I have to see if an user is an admin or not :(\nFor more info, check_  [here](https://telegram.me/GroupButler_ch/63)',
         extra = {
             setted = '&&&1 command saved!',
 			usage = 'Напиши после /extra хэштег и текст, который будет печататься при написании этого хэштега.\nНапример:\n/extra #hello Приветствую. Бот будет печатать _\' Приветствую\'_ каждый раз, когда кто-то будет писать #hello',
@@ -1686,7 +1691,7 @@ return {
                     ..'• Warn users, and kick/ban them if they reach a max number of warns\n'
                     ..'• Warn or kick users if they send a specific media\n'
                     ..'...and more, below you can find the "all commands" button to get the whole list!\n'
-                    ..'\nTo use my moderation powers (kick/ban), *you need to add me as administrator of the group*.'
+                    ..'\nTo use me, *you need to add me as administrator of the group*, or Telegram won\'t let me work! (if you have some doubts about this, check [this post](https://telegram.me/GroupButler_ch/63))'
                     ..'\nYou can report bugs/send feedbacks/ask a question to my creator just using "`/c <feedback>`" command. EVERYTHING IS WELCOME!',
             group_success = '_Я отправил тебе приватное сообщение_',
             group_not_success = '_Сначала напиши мне, потом я смогу писать тебе_',
@@ -1958,6 +1963,7 @@ return {
         not_mod = 'Du bist *kein* Moderator',
         breaks_markdown = 'Dieser Text sprengt die Formatierung (markdown).\nMehr Informationen über die korrekte Nutzung der Formatierungsoptionen gibt es [hier](https://telegram.me/GroupButler_ch/46).',
         credits = '*Einige nützliche Links:*',
+        not_admin = '_I can\'t work if I\'m not Admin of the group. It\'s the only way I have to see if an user is an admin or not :(\nFor more info, check_  [here](https://telegram.me/GroupButler_ch/63)',
         extra = {
             setted = '&&&1 command saved!',
 			command_deleted = '&&&1 Befehl (command) wurde gelöscht',
@@ -2075,7 +2081,7 @@ return {
                     ..'• Warn users, and kick/ban them if they reach a max number of warns\n'
                     ..'• Warn or kick users if they send a specific media\n'
                     ..'...and more, below you can find the "all commands" button to get the whole list!\n'
-                    ..'\nTo use my moderation powers (kick/ban), *you need to add me as administrator of the group*.'
+                    ..'\nTo use me, *you need to add me as administrator of the group*, or Telegram won\'t let me work! (if you have some doubts about this, check [this post](https://telegram.me/GroupButler_ch/63))'
                     ..'\nYou can report bugs/send feedbacks/ask a question to my creator just using "`/c <feedback>`" command. EVERYTHING IS WELCOME!',
             group_success = '_Ich habe dir das Hilfsmenü als Direktnachricht geschickt_',
             group_not_success = '_Schreibe zuerst mir, damit ich dann dir schreiben kann>_',

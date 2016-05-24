@@ -83,25 +83,33 @@ end]]
 
 function is_mod(msg)
 	if msg.from.id == config.admin then
-		return true
+		return true, true
 	end
-	local status = api.getChatMember(msg.chat.id, msg.from.id).result.status
+	local res = api.getChatMember(msg.chat.id, msg.from.id)
+	if not res then
+		return false, false
+	end
+	local status = res.result.status
 	if status == 'creator' or status == 'administrator' then
-		return true
+		return true, true
 	else
-		return false
+		return false, true
 	end
 end
 
 function is_mod2(chat_id, user_id)
 	if tonumber(user_id) == config.admin then
-		return true
+		return true, true
 	end
-	local status = api.getChatMember(chat_id, user_id).result.status
+	local res = api.getChatMember(chat_id, user_id)
+	if not res then
+		return false, false
+	end
+	local status = res.result.status
 	if status == 'creator' or status == 'administrator' then
-		return true
+		return true, true
 	else
-		return false
+		return false, true
 	end
 end
 
@@ -313,14 +321,6 @@ function save_log(action, arg1, arg2, arg3, arg4)
     elseif action == 'starts' then
     	local path = "./logs/starts.txt"
     	local text = 'Started: '..os.date('%A, %d %B %Y at %X')..'\n'
-    	local res = write_file(path, text, "a")
-    	if not res then
-			create_folder('logs')
-			write_file(path, text, "a")
-		end
-	elseif action == 'added' then
-		local text = 'BOT ADDED ['..os.date('%A, %d %B %Y at %X')..'] to ['..arg1..'] ['..arg2..'] by ['..arg3..'] ['..arg4..']\n'
-    	local path = "./logs/additions.txt"
     	local res = write_file(path, text, "a")
     	if not res then
 			create_folder('logs')
