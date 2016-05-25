@@ -67,7 +67,7 @@ local action = function(msg, blocks, ln)
 		    end
 		else
 			local diff = tonumber(nmax)-tonumber(num)
-			text = make_text(lang[ln].warn.warned, name, num, nmax, diff)
+			text = make_text(lang[ln].warn.warned, name:mEscape(), num, nmax, diff)
 		end
         
         mystat('/warn') --save stats
@@ -165,8 +165,8 @@ return {
 	triggers = {
 		'^/(warn) (kick)$',
 		'^/(warn) (ban)$',
-		'^/(warn)',
 		'^/(warnmax) (%d%d?)$',
+		'^/(warn)',
 		'^/(getwarns)$',
 		'^/(nowarns)$',
 	}

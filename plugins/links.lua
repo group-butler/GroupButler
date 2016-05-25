@@ -116,6 +116,7 @@ return {
 		'^/(setlink) (no)',
 		'^/(poll)$',
 		'^/(setpoll) (.*) http://telegram%.me/PollBot%?start=(.*)',
+		'^/(setpoll) (.*) telegram%.me/PollBot%?start=(.*)',
 		'^/(setpoll) (no)$'
 	}
 }

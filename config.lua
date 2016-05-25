@@ -24,6 +24,7 @@ return {
 		'private.lua',
 		'admin.lua',
 		'test.lua',
+		'faq.lua'
 	},
 	available_languages = {
 		'en',
@@ -53,6 +54,7 @@ return {
 		[105] = 'Bad Request: Need to be inviter of the user to kick it from the group', --NORMAL: bot is not an admin or everyone is an admin
 		[106] = 'USER_NOT_PARTICIPANT', --NORMAL: trying to kick an user that is not in the group
 		[107] = 'CHAT_ADMIN_REQUIRED', --NORMAL: bot is not an admin or everyone is an admin
+		[108] = 'there is no administrators in the private chat', --something asked in a private chat with the api methods 2.1
 		
 		[110] = 'PEER_ID_INVALID', --user never started the bot
 		[111] = 'Bad Request: message is not modified', --the edit message method hasn't modified the message
@@ -75,5 +77,6 @@ return {
 		
 		[403] = 'Bot was blocked by the user', --user blocked the bot
 		[429] = 'Too many requests: retry later', --the bot is hitting api limits
+		[430] = 'Too big total timeout', --too many callback_data requests
 	}
 }

@@ -27,6 +27,10 @@ end
 local action = function(msg, blocks, ln)
 	if msg.chat.type ~= 'private' then
 		if is_mod(msg) then
+			if blocks[1] == 'kickme' then
+				api.sendReply(msg, lang[ln].kick_errors[2], true)
+				return
+			end
 			if blocks[1] == 'banlist' then
    				local banlist = getBanList(msg.chat.id, ln)
    				api.sendReply(msg, banlist, true)
@@ -114,6 +118,10 @@ local action = function(msg, blocks, ln)
     				mystat('/gban')
     			end
     		end
+		else
+			if blocks[1] == 'kickme' then
+				api.kickUser(msg.chat.id, msg.from.id, ln)
+			end
 		end
 	else
     	api.sendMessage(msg.chat.id, lang[ln].pv)
@@ -123,6 +131,7 @@ end
 return {
 	action = action,
 	triggers = {
+		'^/(kickme)',
 		'^/(kick) (@[%w_]+)',
 		'^/(kick)',
 		'^/(banlist)$',

@@ -46,14 +46,26 @@ local action = function(msg, blocks, ln)
         end
     end
     if blocks[1] == 'adminlist' then
+    	local no_usernames
+    	local send_reply = true
+    	if is_locked(msg, 'Modlist') then
+    		if is_mod(msg) then
+        		no_usernames = true
+        	else
+        		no_usernames = false
+        		send_reply = false
+        	end
+        else
+            no_usernames = true
+        end
     	local out
-        local creator, adminlist = cross.getModlist(msg.chat.id)
+        local creator, adminlist = cross.getModlist(msg.chat.id, no_usernames)
         if not creator then
             out = lang[ln].bonus.adminlist_admin_required --creator is false, admins is the error code
         else
             out = make_text(lang[ln].mod.modlist, creator, adminlist)
         end
-        if is_locked(msg, 'Modlist') and not is_mod(msg) then
+        if not send_reply then
         	api.sendMessage(msg.from.id, out, true)
         else
             api.sendReply(msg, out, true)
@@ -85,7 +97,7 @@ local action = function(msg, blocks, ln)
  	end
  	if blocks[1] == 'tell' then
  		local text = tell(msg, ln)
- 		api.sendReply(msg. text, true)
+ 		api.sendReply(msg, text, true)
  		mystat('/tell')
  	end
 end

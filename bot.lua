@@ -114,14 +114,14 @@ local function collect_stats(msg)
 end
 
 local function match_pattern(pattern, text)
-  if text then
-  	text = text:gsub('@'..bot.username, '')
-    local matches = {}
-    matches = { string.match(text, pattern) }
-    if next(matches) then
-    	return matches
-    end
-  end
+  	if text then
+  		text = text:gsub('@'..bot.username, '')
+    	local matches = {}
+    	matches = { string.match(text, pattern) }
+    	if next(matches) then
+    		return matches
+		end
+  	end
 end
 
 on_msg_receive = function(msg) -- The fn run whenever a message is received.
@@ -160,7 +160,7 @@ on_msg_receive = function(msg) -- The fn run whenever a message is received.
 					local blocks = match_pattern(w, msg.text)
 					if blocks then
 						--workaround for the stupid bug
-						if not(msg.chat.type == 'private') and not db:exists('chat:'..msg.chat.id..':settings') then
+						if not(msg.chat.type == 'private') and not db:exists('chat:'..msg.chat.id..':settings') and not msg.service then
 							cross.initGroup(msg.chat.id)
 							api.sendLog('#initGroup\n'..vtext(msg.chat)..vtext(msg.from))
 						end

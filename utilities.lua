@@ -698,7 +698,7 @@ local function getRules(chat_id, ln)
     end
 end
 
-local function getModlist(chat_id)
+local function getModlist(chat_id, no_usernames)
 	local list, code = api.getChatAdministrators(chat_id)
 	if not list then
 		if code == 107 then
@@ -714,11 +714,15 @@ local function getModlist(chat_id)
 		local name
 		if admin.status == 'administrator' then
 			name = admin.user.first_name
-			if admin.user.username then name = name..' (@'..admin.user.username..')' end
+			if not no_usernames then
+				if admin.user.username then name = name..' (@'..admin.user.username..')' end
+			end
 			adminlist = adminlist..'*'..i..'* - '..name:mEscape()..'\n'
 		elseif admin.status == 'creator' then
 			creator = admin.user.first_name
-			if admin.user.username then creator = creator..' (@'..admin.user.username..')' end
+			if not no_usernames then
+				if admin.user.username then creator = creator..' (@'..admin.user.username..')' end
+			end
 			creator = creator:mEscape()
 		end
 	end

@@ -188,7 +188,7 @@ local action = function(msg, blocks, ln)
 	
 	if blocks[1] == 'admin' then
 		local text = ''
-		for k,v in pairs(triggers) do
+		for k,v in pairs(triggers2) do
 			text = text..v..'\n'
 		end
 		api.sendMessage(config.admin, text)
