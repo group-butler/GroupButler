@@ -93,7 +93,7 @@ local action = function(msg, blocks, ln)
 		end
 		
 		cross.remBanList(msg.chat.id, msg.added.id) --remove him from the banlist
-		db:hdel('warn:'..msg.chat.id, msg.added.id) --remove the warns
+		db:hdel('chat:'..msg.chat.id..':warns', msg.added.id) --remove the warns
 		db:del('chat:'..msg.chat.id..':'..msg.added.id..':mediawarn') --remove the warn for media
 		
 		if msg.added.username then
@@ -116,6 +116,8 @@ local action = function(msg, blocks, ln)
 		--remove group id
 		db:srem('bot:groupsid', msg.chat.id)
 		
+		api.sendLog(vtext(msg.chat)..vtext(msg.remover))
+		
 		--save stats
         local num = db:hincrby('bot:general', 'groups', -1)
         print('Stats saved', 'Groups: '..num)
@@ -125,7 +127,6 @@ end
 
 return {
 	action = action,
-	admin_not_needed = true,
 	triggers = {
 		'^###(botadded)',
 		'^###(added)',

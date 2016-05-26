@@ -95,7 +95,6 @@ end
 
 return {
 	action = action,
-	admin_not_needed = true,
 	triggers = {
 		'^/(ping)$',
 		'^/(strings)$',

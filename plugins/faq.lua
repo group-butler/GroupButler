@@ -21,6 +21,9 @@ local function action(msg, blocks, ln)
         'What can the bot owner do?',
         'Some strings of my language are not updated. What can I do?',
         'Why this faq are not translated in the supported languages?',
+        'Why this faq are not sent with an inline keyboard?',
+        'Why the bot doesn\'t report something flagged with the @admin command to all the group admins?',
+        
     }
     
     local answer = {
@@ -42,6 +45,8 @@ local function action(msg, blocks, ln)
         'Well, not much, all the privileged functions are made for debugging purpose.\nThe most rilevant functions I can use: see the bot stats, query the database, broadcast to groups and users (even if I never do it, i find it annoiyng for users), send a message in a group/to an user, post in the selected channel with the bot, make the bot leave a chat, turn on the admin mode (the bot can\'t be added to new groups), migrate the group info to a new group, global ban an user (even if I won\'t never use this function), block an user (will be ignored by the bot). And some other useless things',
         'If you want to translate them, you can run "/strings [your language code]" to get the most updated file with all the translated and untranslated strings. The steps to follow are the same of a normal translation',
         'Because I\'m lazy :P',
+        'Will arrive ;)',
+        'Probably, they haven\'t started the bot yet. Bots can\'t write to an user if not started first',
     }
     
     local text

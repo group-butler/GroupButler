@@ -30,7 +30,7 @@ local function sendRequest(url)
 	if not tab.ok then
 		return false, tab.description
 	end
-
+	
 	return tab
 
 end
@@ -87,15 +87,13 @@ local function unbanChatMember(chat_id, user_id)
 end
 
 local function kickChatMember(chat_id, user_id)
-
+	
 	local url = BASE_URL .. '/kickChatMember?chat_id=' .. chat_id .. '&user_id=' .. user_id
 
-	--return sendRequest(url)
-	
 	local dat, res = HTTPS.request(url)
 
 	local tab = JSON.decode(dat)
-
+	
 	if res ~= 200 then
 		--if error, return false and the custom error code
 		print(tab.description)
@@ -105,7 +103,7 @@ local function kickChatMember(chat_id, user_id)
 	if not tab.ok then
 		return false, tab.description
 	end
-
+	
 	return tab
 
 end
@@ -138,7 +136,7 @@ end
 
 local function banUser(chat_id, user_id, is_normal_group, ln)--no_msg: kick without message if kick is failed
 	
-	if is_mod2(chat_id, user_id) then return end
+	--if is_mod2(chat_id, user_id) then return false, api.code2text(2, ln) end
 	
 	local res, code = api.kickChatMember(chat_id, user_id) --try to kick. "code" is already specific
 	
@@ -157,7 +155,7 @@ end
 
 local function kickUser(chat_id, user_id, ln)-- no_msg: don't send the error message if kick is failed. If no_msg is false, it will return the motivation of the fail
 	
-	if is_mod2(chat_id, user_id) then return end
+	--if is_mod2(chat_id, user_id) then return false, api.code2text(2, ln) end
 	
 	local res, code = api.kickChatMember(chat_id, user_id) --try to kick
 	

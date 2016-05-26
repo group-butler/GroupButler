@@ -83,6 +83,8 @@ return {
                         .."_Example_ : with \"`/extra #hello Good morning!`\", the bot will reply \"Good morning!\" each time someone writes #hello.\n"
                         .."`/extra list` = get the list of your custom commands.\n"
                         .."`/extra del [#trigger]` = delete the trigger and its message.\n"
+                        .."`/disable extra` = only an admin can use #extra commands in a group. For the other users, the bot will reply in private.\n"
+                        .."`/enable extra` = everyone use #extra commands in a group, and not only the Admins.\n"
                         .."\n*Note:* the markdown is supported. If the text sent breaks the markdown, the bot will notify that something is wrong.\n"
                         .."For a correct use of the markdown, check [this post](https://telegram.me/GroupButler_ch/46) in the channel",
                 warns = "*Moderators: warns*\n\n"
@@ -471,6 +473,8 @@ return {
                         .."_Esempio_ : con \"`/extra #ciao Buon giorno!`\", il bot risponderà \"Buon giorno!\" ogni qualvolta qualcuno scriverà #ciao.\n"
                         .."`/extra list` = ottieni la lista dei comandi personalizzati impostati.\n"
                         .."`/extra del [#comando]` = elimina il comando ed il messaggio associato.\n"
+                        .."`/disable extra` = solo gli admin potranno usare un comando #extra nel gruppo. Per gli altri utenti, verrà inviato in privato.\n"
+                        .."`/enable extra` = chiunque potrà usare i comandi #extra in un gruppo, non solo gli admin.\n"
                         .."\n*Nota:* il markdown è permesso. Se del testo presenta un markdown scorretto, il bot notificherà che qualcosa è andato storto.\n"
                         .."Per un markdown corretto, consulta [questo post](https://telegram.me/GroupButler_ch/46) nel canale ufficiale",
                 warns = "*Moderatori: warns*\n\n"
@@ -862,6 +866,8 @@ return {
                         .."_Example_ : with \"`/extra #hello Good morning!`\", the bot will reply \"Good morning!\" each time someone writes #hello.\n"
                         .."`/extra list` = get the list of your custom commands.\n"
                         .."`/extra del [#trigger]` = delete the trigger and its message.\n"
+                        .."`/disable extra` = only an admin can use #extra commands in a group. For the other users, the bot will reply in private.\n"
+                        .."`/enable extra` = everyone use #extra commands in a group, and not only the Admins.\n"
                         .."\n*Note:* the markdown is supported. If the text sent breaks the markdown, the bot will notify that something is wrong.\n"
                         .."For a correct use of the markdown, check [this post](https://telegram.me/GroupButler_ch/46) in the channel",
                 warns = "*Moderators: warns*\n\n"
@@ -1252,6 +1258,8 @@ return {
                         .."_Example_ : with \"`/extra #hello Good morning!`\", the bot will reply \"Good morning!\" each time someone writes #hello.\n"
                         .."`/extra list` = get the list of your custom commands.\n"
                         .."`/extra del [#trigger]` = delete the trigger and its message.\n"
+                        .."`/disable extra` = only an admin can use #extra commands in a group. For the other users, the bot will reply in private.\n"
+                        .."`/enable extra` = everyone use #extra commands in a group, and not only the Admins.\n"
                         .."\n*Note:* the markdown is supported. If the text sent breaks the markdown, the bot will notify that something is wrong.\n"
                         .."For a correct use of the markdown, check [this post](https://telegram.me/GroupButler_ch/46) in the channel",
                 warns = "*Moderators: warns*\n\n"
@@ -1641,6 +1649,8 @@ return {
                         .."_Example_ : with \"`/extra #hello Good morning!`\", the bot will reply \"Good morning!\" each time someone writes #hello.\n"
                         .."`/extra list` = get the list of your custom commands.\n"
                         .."`/extra del [#trigger]` = delete the trigger and its message.\n"
+                        .."`/disable extra` = only an admin can use #extra commands in a group. For the other users, the bot will reply in private.\n"
+                        .."`/enable extra` = everyone use #extra commands in a group, and not only the Admins.\n"
                         .."\n*Note:* the markdown is supported. If the text sent breaks the markdown, the bot will notify that something is wrong.\n"
                         .."For a correct use of the markdown, check [this post](https://telegram.me/GroupButler_ch/46) in the channel",
                 warns = "*Moderators: warns*\n\n"
@@ -2032,6 +2042,8 @@ return {
                         .."_Example_ : with \"`/extra #hello Good morning!`\", the bot will reply \"Good morning!\" each time someone writes #hello.\n"
                         .."`/extra list` = get the list of your custom commands.\n"
                         .."`/extra del [#trigger]` = delete the trigger and its message.\n"
+                        .."`/disable extra` = only an admin can use #extra commands in a group. For the other users, the bot will reply in private.\n"
+                        .."`/enable extra` = everyone use #extra commands in a group, and not only the Admins.\n"
                         .."\n*Note:* the markdown is supported. If the text sent breaks the markdown, the bot will notify that something is wrong.\n"
                         .."For a correct use of the markdown, check [this post](https://telegram.me/GroupButler_ch/46) in the channel",
                 warns = "*Moderators: warns*\n\n"

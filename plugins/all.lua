@@ -113,7 +113,7 @@ local action = function(msg, blocks, ln)
     else
         chat_id = msg.chat.id
     end
-    print('Chat id:', chat_id)
+    
     local keyboard = {}
     
     if blocks[1] == 'dashboard' then
@@ -164,7 +164,7 @@ local action = function(msg, blocks, ln)
 	    end
 	    if msg.cb then
 	        if blocks[2] == 'alert' then
-                api.answerCallbackQuery(msg.cb_id, 'Tap on a lock!')
+                api.answerCallbackQuery(msg.cb_id, '⚠️ Tap on a lock!')
                 return
             end
             --keyboard = doKeyboard(blocks[1], chat_id)
@@ -198,6 +198,7 @@ local action = function(msg, blocks, ln)
 	        local text = cross.changeMediaStatus(chat_id, media, 'next', ln)
             keyboard = doKeyboard_media(chat_id)
             api.editMessageText(msg.chat.id, msg_id, text, keyboard, true)
+            api.answerCallbackQuery(msg.cb_id, '✅ '..media..' updated!')
         end
     end
 end

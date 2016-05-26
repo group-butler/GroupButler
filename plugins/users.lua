@@ -46,6 +46,7 @@ local action = function(msg, blocks, ln)
         end
     end
     if blocks[1] == 'adminlist' then
+    	if msg.chat.type == 'private' then return end
     	local no_usernames
     	local send_reply = true
     	if is_locked(msg, 'Modlist') then
