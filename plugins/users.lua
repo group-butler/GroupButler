@@ -61,11 +61,7 @@ local action = function(msg, blocks, ln)
         end
     	local out
         local creator, adminlist = cross.getModlist(msg.chat.id, no_usernames)
-        if not creator then
-            out = lang[ln].bonus.adminlist_admin_required --creator is false, admins is the error code
-        else
-            out = make_text(lang[ln].mod.modlist, creator, adminlist)
-        end
+        out = make_text(lang[ln].mod.modlist, creator, adminlist)
         if not send_reply then
         	api.sendMessage(msg.from.id, out, true)
         else
@@ -92,7 +88,7 @@ local action = function(msg, blocks, ln)
 					status = 'kicked'
 				end
 		 		local text = make_text(lang[ln].status[status], name)
-		 		api.sendReply(msg, text, true)
+		 		api.sendReply(msg, text)
 		 	end
 	 	end
  	end
@@ -100,6 +96,18 @@ local action = function(msg, blocks, ln)
  		local text = tell(msg, ln)
  		api.sendReply(msg, text, true)
  		mystat('/tell')
+ 	end
+ 	if blocks[1] == 's' then
+ 		if not msg.reply or not config.admin.admins[msg.from.id] then return end
+ 		local original
+ 		if msg.reply.text then
+ 			original = msg.reply.text
+ 		else
+ 			return
+ 		end
+ 		original = original:gsub(blocks[2], blocks[3])
+ 		original = 'Forse volevi dire:\n"'..original..'"'
+ 		api.sendReply(msg.reply, original, false, msg.reply.message_id)
  	end
 end
 
@@ -110,5 +118,6 @@ return {
 		'^/(initgroup)$',
 		'^/(adminlist)$',
 		'^/(status) (@[%w_]+)$',
+		'^(s)/(.*)/(.*)$'
 	}
 }

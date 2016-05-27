@@ -103,7 +103,7 @@ local function kickChatMember(chat_id, user_id)
 	if not tab.ok then
 		return false, tab.description
 	end
-	
+	vardump(tab)
 	return tab
 
 end
@@ -136,8 +136,6 @@ end
 
 local function banUser(chat_id, user_id, is_normal_group, ln)--no_msg: kick without message if kick is failed
 	
-	--if is_mod2(chat_id, user_id) then return false, api.code2text(2, ln) end
-	
 	local res, code = api.kickChatMember(chat_id, user_id) --try to kick. "code" is already specific
 	
 	if res then --if the user has been kicked, then...
@@ -154,8 +152,6 @@ local function banUser(chat_id, user_id, is_normal_group, ln)--no_msg: kick with
 end
 
 local function kickUser(chat_id, user_id, ln)-- no_msg: don't send the error message if kick is failed. If no_msg is false, it will return the motivation of the fail
-	
-	--if is_mod2(chat_id, user_id) then return false, api.code2text(2, ln) end
 	
 	local res, code = api.kickChatMember(chat_id, user_id) --try to kick
 	
@@ -227,7 +223,7 @@ local function leaveChat(chat_id)
 	
 end
 
-local function sendMessage(chat_id, text, use_markdown, disable_web_page_preview, reply_to_message_id, send_sound)
+local function sendMessage(chat_id, text, use_markdown, reply_to_message_id, send_sound)
 	--print(text)
 	
 	local url = BASE_URL .. '/sendMessage?chat_id=' .. chat_id .. '&text=' .. URL.escape(text)
@@ -259,7 +255,7 @@ end
 
 local function sendReply(msg, text, markd, send_sound)
 
-	return sendMessage(msg.chat.id, text, markd, true, msg.message_id, send_sound)
+	return sendMessage(msg.chat.id, text, markd, msg.message_id, send_sound)
 
 end
 
@@ -507,11 +503,11 @@ local function sendVoice(chat_id, voice, reply_to_message_id)
 end
 
 local function sendAdmin(text, markdown)
-	return api.sendMessage(config.admin, text, markdown)
+	return api.sendMessage(config.admin.owner, text, markdown)
 end
 
 local function sendLog(text, markdown)
-	return api.sendMessage(config.log_chat or config.admin, text, markdown)
+	return api.sendMessage(config.log_chat or config.admin.owner, text, markdown)
 end
 
 return {

@@ -32,54 +32,24 @@ function string:mEscape_hard() -- Remove the markdown.
 	return self
 end
 
-function is_bot_owner(msg)
+function is_bot_owner(msg, real_owner) --if real owner is true, the function will return true only if msg.from.id == config.admin.owner
 	local id
 	if msg.adder and msg.adder.id then
 		id = msg.adder.id
 	else
 		id = msg.from.id
 	end
-	if id and tonumber(id) == config.admin then
-		return true
+	if real_owner then
+		if id == config.admin.owner then
+			return true
+		end
+	else
+		if id and config.admin.admins[id] then
+			return true
+		end
 	end
 	return false
 end
-
---[[function is_owner(msg)
-	local var = false
-	
-	local hash = 'chat:'..msg.chat.id..':owner'
-	local owner_list = db:hkeys(hash) --get the current owner id
-	local owner = owner_list[1]
-	
-	if owner == tostring(msg.from.id) then
-		var = true
-	end
-	
-	if msg.from.id == config.admin then
-		var = true
-	end
-	
-	return var
-end
-
-function is_owner2(chat_id, user_id)
-	local var = false
-	
-	local hash = 'chat:'..chat_id..':owner'
-	local owner_list = db:hkeys(hash) --get the current owner id
-	local owner = owner_list[1]
-	
-	if owner == tostring(user_id) then
-		var = true
-	end
-	
-	if user_id == config.admin then
-		var = true
-	end
-	
-	return var
-end]]
 
 function is_bot_admin(chat_id)
 	local status = api.getChatMember(chat_id, bot.id).result.status
@@ -126,9 +96,6 @@ function is_owner(msg)
 end
 
 function is_owner2(chat_id, user_id)
-	if msg.from.id == config.admin then
-		return true
-	end
 	local status = api.getChatMember(chat_id, user_id).result.status
 	if status == 'creator' then
 		return true
@@ -136,48 +103,6 @@ function is_owner2(chat_id, user_id)
 		return false
 	end
 end
-
---[[function is_mod(msg)
-	local var = false
-	
-	local hash = 'chat:'..msg.chat.id..':mod'
-	local modlist = db:hkeys(hash) --get the list of ids
-	
-	for i=1, #modlist do
-		if tostring(modlist[i]) == tostring(msg.from.id) then
-			var = true
-		end
-	end
-
-	if msg.from.id == config.admin then
-		var = true
-	end
-	
-	--no need to check if is owner: the owner id is already saved in the modlist
-	
-	return var
-end
-
-function is_mod2(chat_id, user_id)
-	local var = false
-	
-	local hash = 'chat:'..chat_id..':mod'
-	local modlist = db:hkeys(hash) --get the list of ids
-	
-	for i=1, #modlist do
-		if tostring(modlist[i]) == tostring(user_id) then
-			var = true
-		end
-	end
-
-	if user_id == config.admin then
-		var = true
-	end
-	
-	--no need to check if is owner: the owner id is already saved in the modlist
-	
-	return var
-end]]
 
 function set_owner(chat_id, user_id, nick)
 	db:hset('chat:'..chat_id..':mod', user_id, nick) --mod
@@ -530,7 +455,7 @@ function migrate_chat_info(old, new, on_request)
 	file:write(logtxt)
     file:close()
 	if on_request then
-		api.sendDocument(config.admin, log_path)
+		api.sendDocument(config.admin.owner, log_path)
 	end
 end
 
@@ -620,7 +545,7 @@ function change_one_header(id)
 	file = io.open(log_path, "w")
 	file:write(logtxt)
     file:close()
-	api.sendDocument(config.admin, log_path)
+	api.sendDocument(config.admin.owner, log_path)
 end
 
 function change_extra_header(id)
@@ -642,7 +567,7 @@ function change_extra_header(id)
 	file = io.open(log_path, "w")
 	file:write(logtxt)
     file:close()
-	api.sendDocument(config.admin, log_path)
+	api.sendDocument(config.admin.owner, log_path)
 end
 
 function download_to_file(url, file_path)--https://github.com/yagop/telegram-bot/blob/master/bot/utils.lua
@@ -707,7 +632,7 @@ local function getModlist(chat_id, no_usernames)
 			return false, false
 		end
 	end
-	local creator
+	local creator = ''
 	local adminlist = ''
 	local i = 1
 	for i,admin in pairs(list.result) do
@@ -727,6 +652,7 @@ local function getModlist(chat_id, no_usernames)
 		end
 	end
 	if adminlist == '' then adminlist = '-' end
+	if creator == '' then creator = '-' end
 	return creator, adminlist
 end
 
@@ -933,7 +859,7 @@ local function initGroup(chat_id)
 	db:set('chat:'..chat_id..':warntype', 'ban')
 	
 	--set media values
-	local list = {'image', 'audio', 'video', 'sticker', 'gif', 'voice', 'contact', 'file'}
+	local list = {'image', 'audio', 'video', 'sticker', 'gif', 'voice', 'contact', 'file', 'link'}
 	hash = 'chat:'..chat_id..':media'
 	for i=1,#list do
 		db:hset(hash, list[i], 'allowed')

@@ -44,7 +44,7 @@ bot_init = function(on_reload) -- The function run when the bot is started or re
 	if not on_reload then
 		save_log('starts')
 		db:hincrby('bot:general', 'starts', 1)
-		api.sendMessage(config.admin, '*Bot started!*\n_'..os.date('On %A, %d %B %Y\nAt %X')..'_\n'..#plugins..' plugins loaded', true)
+		api.sendAdmin('*Bot started!*\n_'..os.date('On %A, %d %B %Y\nAt %X')..'_\n'..#plugins..' plugins loaded', true)
 	end
 	
 	-- Generate a random seed and "pop" the first random number. :)
@@ -127,7 +127,7 @@ end
 on_msg_receive = function(msg) -- The fn run whenever a message is received.
 	--vardump(msg)
 	if not msg then
-		api.sendMessage(config.admin, 'Shit, a loop without msg!')
+		api.sendAdmin('Shit, a loop without msg!')
 		return
 	end
 	
@@ -301,6 +301,13 @@ local function media_to_msg(msg)
 		msg.text = '###sticker'
 	elseif msg.contact then
 		msg.text = '###contact'
+	elseif msg.entities then
+		for i,entity in pairs(msg.entities) do
+			if entity.type == 'url' then
+				msg.url = true
+				break
+			end
+		end
 	end
 	if msg.reply_to_message then
 		msg.reply = msg.reply_to_message
@@ -352,7 +359,7 @@ while is_started do -- Start a loop while the bot should be running.
 					to_supergroup(msg.message)
 				elseif msg.message.new_chat_member or msg.message.left_chat_member or msg.message.group_chat_created then
 					service_to_message(msg.message)
-				elseif msg.message.photo or msg.message.video or msg.message.document or msg.message.voice or msg.message.audio or msg.message.sticker then
+				elseif msg.message.photo or msg.message.video or msg.message.document or msg.message.voice or msg.message.audio or msg.message.sticker or msg.message.entities then
 					media_to_msg(msg.message)
 				elseif msg.message.forward_from then
 					forward_to_msg(msg.message)
@@ -365,6 +372,19 @@ while is_started do -- Start a loop while the bot should be running.
 		end
 	else
 		print('Connection error')
+	end
+	if last_cron ~= os.date('%M') then -- Run cron jobs every minute.
+		last_cron = os.date('%M')
+		--db:bgsave()
+		for i,v in ipairs(plugins) do
+			if v.cron then -- Call each plugin's cron function, if it has one.
+				local res, err = pcall(function() v.cron() end)
+				if not res then
+          			api.sendLog('An #error occurred.\n'..err)
+					return
+				end
+			end
+		end
 	end
 end
 

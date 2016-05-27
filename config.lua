@@ -1,6 +1,12 @@
 return {
 	bot_api_key = '',
-	admin = 23646077,
+	admin = {
+		owner = 23646077,
+		admins = {
+			[141956218] = false,
+			[23646077] = true
+		} 
+	},
 	log_chat = -1001057801239,
 	channel = '@groupbutler_ch', --channel username with the '@'
 	languages = 'languages.lua',
@@ -24,7 +30,8 @@ return {
 		'private.lua',
 		'admin.lua',
 		'test.lua',
-		'faq.lua'
+		'faq.lua',
+		--'test2.lua'
 	},
 	available_languages = {
 		'en',
@@ -57,10 +64,10 @@ return {
 		[108] = 'there is no administrators in the private chat', --something asked in a private chat with the api methods 2.1
 		
 		[110] = 'PEER_ID_INVALID', --user never started the bot
-		[111] = 'Bad Request: message is not modified', --the edit message method hasn't modified the message
-		[112] = 'Bad Request: Can\'t parse message text: Can\'t find end of the entity starting at byte offset %d+', --the markdown is wrong and breaks the delivery
-		[113] = 'Bad Request: group chat is migrated to a supergroup chat', --group updated to supergroup
-		[114] = 'Bad Request: Message can\'t be forwarded', --unknown
+		[111] = 'message is not modified', --the edit message method hasn't modified the message
+		[112] = 'Can\'t parse message text: Can\'t find end of the entity starting at byte offset %d+', --the markdown is wrong and breaks the delivery
+		[113] = 'group chat is migrated to a supergroup chat', --group updated to supergroup
+		[114] = 'Message can\'t be forwarded', --unknown
 		[115] = 'Message text is empty', --empty message
 		[116] = 'message not found', --message id invalid, I guess
 		[117] = 'chat not found', --I don't know
@@ -72,6 +79,7 @@ return {
 		[122] = 'Can\'t parse inline keyboard button: InlineKeyboardButton should be an Object',
 		[123] = 'Bad Request: Object expected as reply markup', --empty inline keyboard table
 		[124] = 'QUERY_ID_INVALID', --callback query id invalid
+		[125] = 'CHANNEL_PRIVATE', --I don't know
 		
 		[130] = 'Type of file to send mismatch', --tryin to send a media with the wrong method
 		

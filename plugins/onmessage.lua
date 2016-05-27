@@ -49,7 +49,7 @@ pre_process = function(msg, ln)
     		        else
     		            message = make_text(lang[ln].preprocess.flood_kick, name:mEscape())
     		        end
-    		        api.sendMessage(msg.chat.id, message)
+    		        api.sendMessage(msg.chat.id, message, true)
     		    end
     		end
             return msg, true --if an user is spamming, don't go through plugins
@@ -61,6 +61,7 @@ pre_process = function(msg, ln)
             local name = msg.from.first_name
             if msg.from.username then name = name..' (@'..msg.from.username..')' end
             local media = msg.text:gsub('###', '')
+            if msg.url then media = 'link' end
             local hash = 'chat:'..msg.chat.id..':media'
             local status = db:hget(hash, media)
             local out

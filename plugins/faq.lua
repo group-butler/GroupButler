@@ -9,7 +9,7 @@ local function action(msg, blocks, ln)
         'What does the "wrong markdown" message mean?',
         'Why I can\'t global ban users?',
         'Why sometimes commands by username are sooo slow?',
-        'How can I clone the bot?',
+        'How can I clone the bot? I\'m getting <insert error> error, I need help',
         'Why I can\'t contact you in private?',
         'Can you please create a support group?',
         'Why I\'m warned by the bot to reply to someone, even if I\'ve replied to a message?',
@@ -23,7 +23,12 @@ local function action(msg, blocks, ln)
         'Why this faq are not translated in the supported languages?',
         'Why this faq are not sent with an inline keyboard?',
         'Why the bot doesn\'t report something flagged with the @admin command to all the group admins?',
-        
+        'A bot is spamming, why the antiflood can\'t kick it?',
+        'Would you like to collaborate to a project? Like a groups network?',
+        'Where are you from?',
+        'Can I move my group info to another group?',
+        'Will you ever add other plugins not related to the group administration? Like something to search on google, to get a definition from UD..?',
+        'Please add an anti-emoji system',
     }
     
     local answer = {
@@ -47,6 +52,12 @@ local function action(msg, blocks, ln)
         'Because I\'m lazy :P',
         'Will arrive ;)',
         'Probably, they haven\'t started the bot yet. Bots can\'t write to an user if not started first',
+        'Bots can\'t see the messages sent by other bots, so it\'s not possible to detect the spam from other bots',
+        'No, sorry but I\'m not interested in ths kind of things. I don\'t want to associate the bot with small/big Telegram Networks or with other bots which do the same thing.',
+        'This could sound wierd, but a lot of people start a conversation with this question. I\'m from Italy. And, just to put the record straight, the "/c" command is not intended to start a random conversation with me. It shoud be a fast way to get direct support, nothing else.',
+        'Yes, yes you can. But you need to contact me with "/c" command, and provide the ids of both the old and the new groups. And you need to be the creator of both the groups, or at leat creator of the old and admin of the new one.',
+        'No, I\'m not going to add recreative things. I want to keep the bot focused on what is doing now, and less invasive as possible in the group chat.',
+        'I\'m not going to add this dictatorial things. In my opinion, the bot already allows you to block everything could be source of spam or off-topic in a group, and for me it already feels like an Hitlerian weapon for a paranoid admin.'
     }
     
     local text

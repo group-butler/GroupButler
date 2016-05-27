@@ -79,9 +79,6 @@ local action = function(msg, blocks, ln)
 		cross.initGroup(msg.chat.id)
 		
 		api.sendLog(vtext(msg.chat)..vtext(msg.adder))
-		
-        local out = make_text(lang[ln].service.new_group, msg.from.first_name:mEscape())
-		api.sendMessage(msg.chat.id, out, true)
 	end
 	
 	--if someone join the chat
@@ -116,7 +113,7 @@ local action = function(msg, blocks, ln)
 		--remove group id
 		db:srem('bot:groupsid', msg.chat.id)
 		
-		api.sendLog(vtext(msg.chat)..vtext(msg.remover))
+		api.sendLog('#removed\n'..vtext(msg.chat)..vtext(msg.remover))
 		
 		--save stats
         local num = db:hincrby('bot:general', 'groups', -1)

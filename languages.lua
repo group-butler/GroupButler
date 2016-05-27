@@ -39,6 +39,7 @@ return {
                 banhammer = "*Moderators: banhammer powers*\n\n"
                             .."`/kick [by reply|username]` = kick a user from the group (he can be added again).\n"
                             .."`/ban [by reply|username]` = ban a user from the group (also from normal groups).\n"
+                            .."`/tempban [minutes]` = ban an user for a specific amount of minutes (minutes must be < 10.080, one week). For now, only by reply.\n"
                             .."`/unban [by reply|username]` = unban the user from the group.\n"
                             .."`/status [username]` = show the current status of the user `(member|kicked/left the chat|banned|admin/creator|never seen)`.\n"
                             .."`/banlist` = show a list of banned users. Includes the motivations (if given during the ban)\n"
@@ -62,7 +63,7 @@ return {
                         .."`/media [kick|ban|allow] [type]` = change the action to perform when that specific media is sent.\n"
                         .."_Example_ : `/media kick sticker`.\n"
                         .."`/media list` = show the current settings for all the media.\n"
-                        .."\n*List of supported media*: _image, audio, video, sticker, gif, voice, contact, file_\n"
+                        .."\n*List of supported media*: _image, audio, video, sticker, gif, voice, contact, file, link_\n"
                         .."\n*Note*: the first time a user send a forbidden media, the bot won't kick him. Instead, a warn is sent: the next time, the user will be kicked/banned.",
                 welcome = "*Moderators: welcome settings*\n\n"
                             .."`/enable welcome` = the welcome message will be sent when a new user join the group.\n"
@@ -337,6 +338,10 @@ return {
             not_banned = 'The user is not banned',
             banlist_header = '*Banned users*:\n\n',
             banlist_empty = '_The list is empty_',
+            tempban_zero = 'For this, you can directly use /ban',
+            tempban_week = 'The time limit is one week (10.080 minutes)',
+            tempban_banned = 'User &&&1 banned. Ban expiration:',
+            tempban_updated = 'Ban time updated for &&&1. Ban expiration:',
             general_motivation = 'I can\'t kick this user.\nProbably I\'m not an Amdin, or the user is an Admin iself'
         },
         floodmanager = {
@@ -429,6 +434,7 @@ return {
                 banhammer = "*Moderatori: il banhammer*\n\n"
                             .."`/kick [by reply|username]` = kicka un utente dal gruppo (potrà essere aggiunto nuovamente).\n"
                             .."`/ban [by reply|username]` = banna un utente dal gruppo (anche per gruppi normali).\n"
+                            .."`/tempban [minutes]` = banna un utente per un tot di minuti (i minuti devono essere < 10.080, ovvero una settimana). Per ora funziona solo by reply.\n"
                             .."`/unban [by reply|username]` = unbanna l\'utente dal gruppo.\n"
                             .."`/status [username]` = mostra la posizione attuale dell\'utente `(membro|kickato/ha lasciato il gruppo|bannato|admin/creatore|mai visto)`.\n"
                             .."`/banlist` = mostra la lista degli utenti bannati. Sono incluse le motivazioni (se descritte durante il ban)\n"
@@ -452,7 +458,7 @@ return {
                         .."`/media [kick|ban|allow] [tipo media]` = cambia l\'impostazione relativa ad un media specifico.\n"
                         .."_Esempio_ : `/media kick sticker`.\n"
                         .."`/media list` = mostra l\'elenco delle impostazioni attuali per i media.\n"
-                        .."\n*Lista dei media supportati*: _image, audio, video, sticker, gif, voice, contact, file_\n"
+                        .."\n*Lista dei media supportati*: _image, audio, video, sticker, gif, voice, contact, file, link_\n"
                         .."\n*Nota*: la prima volta che un utente invia un media non permesso, non verrà kickato dal bot. Riceverà invece un avvertimento: alla prossima violazione, l\'utente verrà kickato/bannato.",
                 welcome = "*Moderatori: messaggio di benvenuto*\n\n"
                             .."`/enable welcome` = il messaggio di benvenuto verrà inviato quando un utente si unisce al gruppo.\n"
@@ -730,6 +736,10 @@ return {
             not_banned = 'L\'utente non è bannato',
             banlist_header = '*Utenti bannati*:\n\n',
             banlist_empty = '_La lista è vuota_',
+            tempban_zero = 'Puoi usare direttamente /ban per questo',
+            tempban_week = 'Il limite è una settimana (10.080 minuti)',
+            tempban_banned = 'L\'utente &&&1 è stato bannato. Scadenza del ban:',
+            tempban_updated = 'Scadenza aggiornata per &&&1. Scadenza ban:',
             general_motivation = 'Non posso kickare questo utente.\nProbabilmente non sono un Admin, o l\'utente che hai cercato di kickare è un Admin'
         },
         floodmanager = {
@@ -822,6 +832,7 @@ return {
                 banhammer = "*Moderators: banhammer powers*\n\n"
                             .."`/kick [by reply|username]` = kick a user from the group (he can be added again).\n"
                             .."`/ban [by reply|username]` = ban a user from the group (also from normal groups).\n"
+                            .."`/tempban [minutes]` = ban an user for a specific amount of minutes (minutes must be < 10.080, one week). For now, only by reply.\n"
                             .."`/unban [by reply|username]` = unban the user from the group.\n"
                             .."`/status [username]` = show the current status of the user `(member|kicked/left the chat|banned|admin/creator|never seen)`.\n"
                             .."`/banlist` = show a list of banned users. Includes the motivations (if given during the ban)\n"
@@ -845,7 +856,7 @@ return {
                         .."`/media [kick|ban|allow] [type]` = change the action to perform when that specific media is sent.\n"
                         .."_Example_ : `/media kick sticker`.\n"
                         .."`/media list` = show the current settings for all the media.\n"
-                        .."\n*List of supported media*: _image, audio, video, sticker, gif, voice, contact, file_\n"
+                        .."\n*List of supported media*: _image, audio, video, sticker, gif, voice, contact, file, link_\n"
                         .."\n*Note*: the first time a user send a forbidden media, the bot won't kick him. Instead, a warn is sent: the next time, the user will be kicked/banned.",
                 welcome = "*Moderators: welcome settings*\n\n"
                             .."`/enable welcome` = the welcome message will be sent when a new user join the group.\n"
@@ -1121,6 +1132,10 @@ return {
             not_banned = 'The user is not banned',
             banlist_header = '*Banned users*:\n\n',
             banlist_empty = '_The list is empty_',
+            tempban_zero = 'For this, you can directly use /ban',
+            tempban_week = 'The time limit is one week (10.080 minutes)',
+            tempban_banned = 'User &&&1 banned. Ban expiration:',
+            tempban_updated = 'Ban time updated for &&&1. Ban expiration:',
             general_motivation = 'I can\'t kick this user.\nProbably I\'m not an Amdin, or the user is an Admin iself'
         },
         floodmanager = {
@@ -1214,6 +1229,7 @@ return {
                 banhammer = "*Moderators: banhammer powers*\n\n"
                             .."`/kick [by reply|username]` = kick a user from the group (he can be added again).\n"
                             .."`/ban [by reply|username]` = ban a user from the group (also from normal groups).\n"
+                            .."`/tempban [minutes]` = ban an user for a specific amount of minutes (minutes must be < 10.080, one week). For now, only by reply.\n"
                             .."`/unban [by reply|username]` = unban the user from the group.\n"
                             .."`/status [username]` = show the current status of the user `(member|kicked/left the chat|banned|admin/creator|never seen)`.\n"
                             .."`/banlist` = show a list of banned users. Includes the motivations (if given during the ban)\n"
@@ -1237,7 +1253,7 @@ return {
                         .."`/media [kick|ban|allow] [type]` = change the action to perform when that specific media is sent.\n"
                         .."_Example_ : `/media kick sticker`.\n"
                         .."`/media list` = show the current settings for all the media.\n"
-                        .."\n*List of supported media*: _image, audio, video, sticker, gif, voice, contact, file_\n"
+                        .."\n*List of supported media*: _image, audio, video, sticker, gif, voice, contact, file, link_\n"
                         .."\n*Note*: the first time a user send a forbidden media, the bot won't kick him. Instead, a warn is sent: the next time, the user will be kicked/banned.",
                 welcome = "*Moderators: welcome settings*\n\n"
                             .."`/enable welcome` = the welcome message will be sent when a new user join the group.\n"
@@ -1513,6 +1529,10 @@ return {
             not_banned = 'The user is not banned',
             banlist_header = '*Banned users*:\n\n',
             banlist_empty = '_The list is empty_',
+            tempban_zero = 'For this, you can directly use /ban',
+            tempban_week = 'The time limit is one week (10.080 minutes)',
+            tempban_banned = 'User &&&1 banned. Ban expiration:',
+            tempban_updated = 'Ban time updated for &&&1. Ban expiration:',
             general_motivation = 'I can\'t kick this user.\nProbably I\'m not an Amdin, or the user is an Admin iself'
         },
         floodmanager = {
@@ -1605,6 +1625,7 @@ return {
                 banhammer = "*Moderators: banhammer powers*\n\n"
                             .."`/kick [by reply|username]` = kick a user from the group (he can be added again).\n"
                             .."`/ban [by reply|username]` = ban a user from the group (also from normal groups).\n"
+                            .."`/tempban [minutes]` = ban an user for a specific amount of minutes (minutes must be < 10.080, one week). For now, only by reply.\n"
                             .."`/unban [by reply|username]` = unban the user from the group.\n"
                             .."`/status [username]` = show the current status of the user `(member|kicked/left the chat|banned|admin/creator|never seen)`.\n"
                             .."`/banlist` = show a list of banned users. Includes the motivations (if given during the ban)\n"
@@ -1628,7 +1649,7 @@ return {
                         .."`/media [kick|ban|allow] [type]` = change the action to perform when that specific media is sent.\n"
                         .."_Example_ : `/media kick sticker`.\n"
                         .."`/media list` = show the current settings for all the media.\n"
-                        .."\n*List of supported media*: _image, audio, video, sticker, gif, voice, contact, file_\n"
+                        .."\n*List of supported media*: _image, audio, video, sticker, gif, voice, contact, file, link_\n"
                         .."\n*Note*: the first time a user send a forbidden media, the bot won't kick him. Instead, a warn is sent: the next time, the user will be kicked/banned.",
                 welcome = "*Moderators: welcome settings*\n\n"
                             .."`/enable welcome` = the welcome message will be sent when a new user join the group.\n"
@@ -1905,6 +1926,10 @@ return {
             not_unbanned = 'Это обычная группа, пользователи не блокируются, когда кикаются из группы',
             banlist_header = '*Banned users*:\n\n',
             banlist_empty = '_The list is empty_',
+            tempban_zero = 'For this, you can directly use /ban',
+            tempban_week = 'The time limit is one week (10.080 minutes)',
+            tempban_banned = 'User &&&1 banned. Ban expiration:',
+            tempban_updated = 'Ban time updated for &&&1. Ban expiration:',
             general_motivation = 'I can\'t kick this user.\nProbably I\'m not an Amdin, or the user is an Admin iself'
         },
         floodmanager = {
@@ -1998,6 +2023,7 @@ return {
                 banhammer = "*Moderators: banhammer powers*\n\n"
                             .."`/kick [by reply|username]` = kick a user from the group (he can be added again).\n"
                             .."`/ban [by reply|username]` = ban a user from the group (also from normal groups).\n"
+                            .."`/tempban [minutes]` = ban an user for a specific amount of minutes (minutes must be < 10.080, one week). For now, only by reply.\n"
                             .."`/unban [by reply|username]` = unban the user from the group.\n"
                             .."`/status [username]` = show the current status of the user `(member|kicked/left the chat|banned|admin/creator|never seen)`.\n"
                             .."`/banlist` = show a list of banned users. Includes the motivations (if given during the ban)\n"
@@ -2021,7 +2047,7 @@ return {
                         .."`/media [kick|ban|allow] [type]` = change the action to perform when that specific media is sent.\n"
                         .."_Example_ : `/media kick sticker`.\n"
                         .."`/media list` = show the current settings for all the media.\n"
-                        .."\n*List of supported media*: _image, audio, video, sticker, gif, voice, contact, file_\n"
+                        .."\n*List of supported media*: _image, audio, video, sticker, gif, voice, contact, file, link_\n"
                         .."\n*Note*: the first time a user send a forbidden media, the bot won't kick him. Instead, a warn is sent: the next time, the user will be kicked/banned.",
                 welcome = "*Moderators: welcome settings*\n\n"
                             .."`/enable welcome` = the welcome message will be sent when a new user join the group.\n"
@@ -2288,6 +2314,10 @@ return {
             not_banned = 'Der Nutzer (user) ist nicht gesperrt',
             banlist_header = '*Banned users*:\n\n',
             banlist_empty = '_The list is empty_',
+            tempban_zero = 'For this, you can directly use /ban',
+            tempban_week = 'The time limit is one week (10.080 minutes)',
+            tempban_banned = 'User &&&1 banned. Ban expiration:',
+            tempban_updated = 'Ban time updated for &&&1. Ban expiration:',
             general_motivation = 'Ich kann diesen Nutzer (user) nicht entfernen (kick).\nWahrscheinlich bin ich entweder kein Administrator oder der Nutzer ist selbst Admin'
         },
         floodmanager = {

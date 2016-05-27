@@ -40,7 +40,7 @@ end
 local function doKeyboard_media(chat_id)
     local keyboard = {}
     keyboard.inline_keyboard = {}
-    local list = {'image', 'audio', 'video', 'sticker', 'gif', 'voice', 'contact', 'file'}
+    local list = {'image', 'audio', 'video', 'sticker', 'gif', 'voice', 'contact', 'file', 'link'}
     local media_sett = db:hgetall('chat:'..chat_id..':media')
     for media,status in pairs(media_sett) do
         if status == 'allowed' then
@@ -236,5 +236,6 @@ return {
     	'^###cb:(media)(contact)//',
     	'^###cb:(media)(file)//',
     	'^###cb:(media)(gif)//',
+    	'^###cb:(media)(link)//',
 	}
 }

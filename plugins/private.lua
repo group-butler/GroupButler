@@ -62,7 +62,7 @@ local action = function(msg, blocks, ln)
         	msg = msg.reply
         end
 	    
-	    api.forwardMessage (config.admin, msg.from.id, msg.message_id)
+	    api.forwardMessage (config.admin.owner, msg.from.id, msg.message_id)
 	    api.sendMessage(receiver, lang[ln].report.sent)
 	    mystat('/c')
 	end
