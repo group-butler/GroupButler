@@ -6,7 +6,7 @@ local action = function(msg, blocks, ln)
 	if not is_mod(msg) then
 		return
 	end
-	local list = {'image', 'audio', 'video', 'sticker', 'gif', 'voice', 'contact', 'file'}
+	local list = {'image', 'audio', 'video', 'sticker', 'gif', 'voice', 'contact', 'file', 'link'}
 	if blocks[1] == 'media list' then
 	    local text = lang[ln].mediasettings.list_header
 	    for i=1,#list do

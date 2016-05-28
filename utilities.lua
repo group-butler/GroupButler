@@ -634,7 +634,7 @@ local function getModlist(chat_id, no_usernames)
 	end
 	local creator = ''
 	local adminlist = ''
-	local i = 1
+	local count = 1
 	for i,admin in pairs(list.result) do
 		local name
 		if admin.status == 'administrator' then
@@ -642,7 +642,8 @@ local function getModlist(chat_id, no_usernames)
 			if not no_usernames then
 				if admin.user.username then name = name..' (@'..admin.user.username..')' end
 			end
-			adminlist = adminlist..'*'..i..'* - '..name:mEscape()..'\n'
+			adminlist = adminlist..'*'..count..'* - '..name:mEscape()..'\n'
+			count = count + 1
 		elseif admin.status == 'creator' then
 			creator = admin.user.first_name
 			if not no_usernames then

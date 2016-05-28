@@ -103,7 +103,7 @@ local function kickChatMember(chat_id, user_id)
 	if not tab.ok then
 		return false, tab.description
 	end
-	vardump(tab)
+	
 	return tab
 
 end

@@ -1,20 +1,3 @@
-local function tell(msg, ln)
-	if msg.reply then
-		msg = msg.reply
-	end
-	
-	local text = ''
-
-	text = text..'*ID*: '..msg.from.id..'\n'
-	
-	if msg.chat.type == 'group' or msg.chat.type == 'supergroup' then
-		text = text..make_text(lang[ln].bonus.tell, msg.chat.id)
-		return text
-	else
-		return text
-	end
-end
-
 local function do_keybaord_credits()
 	local keyboard = {}
     keyboard.inline_keyboard = {
@@ -93,8 +76,7 @@ local action = function(msg, blocks, ln)
 	 	end
  	end
  	if blocks[1] == 'tell' then
- 		local text = tell(msg, ln)
- 		api.sendReply(msg, text, true)
+ 		api.sendReply(msg, '`'..msg.chat.id..'`', true)
  		mystat('/tell')
  	end
  	if blocks[1] == 's' then

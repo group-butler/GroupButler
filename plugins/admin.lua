@@ -849,14 +849,14 @@ local action = function(msg, blocks, ln)
 		local ids = db:smembers('bot:groupsid')
 		local i = 0
 		local txt = ''
-		for i,chat_id in ipairs(ids) do
+		for i,chat_id in pairs(ids) do
 			db:hset('chat:'..chat_id..':media', 'link', 'allowed')
 			txt = txt..chat_id..'\n'
 			i = i + 1
 		end
 		txt = i..'\n\n'..txt
 		write_file('logs/mediaupdate2.txt', txt)
-		api.sendDocument(config.admin, './logs/mediaupdate2.txt')
+		api.sendDocument(config.admin.owner, './logs/mediaupdate2.txt')
 	end
 	if blocks[1] == 'subadmin' then
 		--the status will be resetted at the next stop

@@ -1893,9 +1893,6 @@ return {
             Arab = 'Арабский',
             Report = 'Жалоба',
         },
-        tell = {
-            group_id = '*ID группы*: &&&1'
-        },
         warn = {
             warn_reply = 'Ответь на сообщение пользователя, на которого ты хочешь пожаловаться',
             changed_type = 'Новое максимальное количество предупреждений: *&&&1*',
@@ -2280,9 +2277,6 @@ return {
             Rtl = "RNL (RTL)",
             Rules = "Gruppenregeln (rules)",
             Welcome = "Willkommensnachricht",
-        },
-        tell = {
-            group_id = '*Gruppen ID*: &&&1'
         },
         warn = {
             changed_type = "Neue Maßnahme, die ausgeführt wird, wenn das Limit an Verwarnungen erreicht ist: *&&&1*",
