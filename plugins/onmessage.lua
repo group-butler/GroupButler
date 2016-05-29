@@ -58,6 +58,7 @@ pre_process = function(msg, ln)
         db:setex(spamhash, max_time, msgs+1)
     
         if msg.media then
+            if is_mod(msg) then return end
             local name = msg.from.first_name
             if msg.from.username then name = name..' (@'..msg.from.username..')' end
             local media = msg.text:gsub('###', '')

@@ -150,7 +150,10 @@ local action = function(msg, blocks, ln)
         	text = lang[ln].help.mods[query]
         end
         keyboard = make_keyboard(with_mods_lines)
-        api.editMessageText(msg.chat.id, msg_id, text, keyboard, true)
+        local res, code = api.editMessageText(msg.chat.id, msg_id, text, keyboard, true)
+        if not res and code and code == 111 then
+            api.answerCallbackQuery(msg.cb_id, '📍 Already on this tab')
+        end
     end
 end
 

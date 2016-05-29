@@ -164,7 +164,7 @@ local action = function(msg, blocks, ln)
 	    end
 	    if msg.cb then
 	        if blocks[2] == 'alert' then
-                api.answerCallbackQuery(msg.cb_id, '⚠️ Tap on a lock!')
+                api.answerCallbackQuery(msg.cb_id, '⚠️ Tap on an icon!')
                 return
             end
             --keyboard = doKeyboard(blocks[1], chat_id)

@@ -75,8 +75,14 @@ local action = function(msg, blocks, ln)
 		 	end
 	 	end
  	end
- 	if blocks[1] == 'tell' then
- 		api.sendReply(msg, '`'..msg.chat.id..'`', true)
+ 	if blocks[1] == 'id' then
+ 		local id
+ 		if msg.reply then
+ 			id = msg.reply.from.id
+ 		else
+ 			id = msg.chat.id
+ 		end
+ 		api.sendReply(msg, '`'..id..'`', true)
  		mystat('/tell')
  	end
  	if blocks[1] == 's' then
@@ -96,7 +102,7 @@ end
 return {
 	action = action,
 	triggers = {
-		'^/(tell)$',
+		'^/(id)$',
 		'^/(initgroup)$',
 		'^/(adminlist)$',
 		'^/(status) (@[%w_]+)$',

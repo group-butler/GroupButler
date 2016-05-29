@@ -3,7 +3,7 @@ return {
 	admin = {
 		owner = 23646077,
 		admins = {
-			[141956218] = false,
+			[141956218] = true,
 			[23646077] = true
 		} 
 	},
@@ -39,7 +39,8 @@ return {
 		'es',
 		'br',
 		'ru',
-		'de'
+		'de',
+		'sv'
 		--more to come
 	},
 	chat_data = {
