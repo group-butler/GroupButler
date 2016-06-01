@@ -1706,7 +1706,7 @@ return {
             kb_header = 'Tap on a button to see the *related commands*'
         },
         links = {
-            no_link = '*Нет ссылки* на это группу. Попроси главного сгенерировать ссылку', 
+            no_link = '*Нет ссылки* на это группу. Попроси главного сгенерировать ссылку',
             link = '[&&&1](&&&2)',
             link_invalid = 'Эта ссылка *неправильна!*',
             link_no_input = 'This is not a *public supergroup*, so you need to write the link near /setlink',
@@ -1853,7 +1853,7 @@ return {
             changed_type = 'Новое максимальное количество предупреждений: *&&&1*',
             mod = 'Модераторы не могут быть предупреждены',
             warned_max_kick = 'Пользователь &&&1 *кикнут* по причине достижения максимального количества предупреждений',
-            warned_max_ban = 'Пользователь &&&1 *забанен* по причине достижения максимального количества предупреждений', 
+            warned_max_ban = 'Пользователь &&&1 *забанен* по причине достижения максимального количества предупреждений',
             warned = '*Пользователь* &&&1 *был предупрежден!*\n_Количество предупреждений_   *&&&2*\n_Максимальное разрешение_   *&&&3* (*-&&&4*)',
             warnmax = 'Макмимальное количество предупреждений изменено.\n*Старое* значение: &&&1\n*Новое* значение: &&&2',
             getwarns_reply = 'Ответь на сообщение пользователя, у которого хочешь проверить количество предупреждений',
@@ -2583,7 +2583,7 @@ return {
                 rm = "Ny inställning för välkomstmeddelande:\n*Rules*\nAbout\n*Moderators list*",
                 wrong_input = "Fel argument.\nAnvänd _/welcome [no|r|a|ra|ar]_ istället",
                 wrong_markdown = "_Inte ändrat_ : Jag kan inte skicka texten tillbaka till dig, antagligen har den *fel* markdown-formattering.\nVänligen kontrollera texten."
-            }   
+            }
         },
         warn = {
             ban_motivation = 'Too many warnings',
@@ -2678,7 +2678,7 @@ return {
             left = 'لقد تم ترك &&&1 من المجموعة أم إزالته وإلغاء حظره',
             administrator = 'إن &&&1 مشرف',
             creator = 'إن &&&1 خالق المجموعة',
-            unknown = 'هذا المستخدم ليس لديه علاقة بهذا الردرشة',
+            unknown = 'هذا المستخدم ليس لديه علاقة بهذا الدردشة',
             member = 'إن &&&1 عضو في الدردشة'
         },
         bonus = {
@@ -2712,7 +2712,7 @@ _لا أستطيع أن أعمل دون أن أكون مشرف المجموعة.
                 banhammer = "*مشرفون: سلطات الإزالة*\n\n"
                             .."`/kick [by reply|username]` = أزل المستخدم من المجموعة (يمكن إضافته مرة أخرى).\n"
                             .."`/ban [by reply|username]` = احظر المستخدم من المجموعة (أيضاً من مجموعات عادية).\n"
-                            .."`/tempban [minutes]` = 
+                            .."`/tempban [minutes]` =
 احظر المستخدم لفترة محددة من دقائق (يجب أن يكون أقل من 10.080 دقائق، أي أسبوع واحد). في الوقت الراهن، فقط بواسطة الرد.\n"
                             .."`/unban [by reply|username]` = ارفع حظر المستخدم من المجموعة.\n"
                             .."`/status [username]` = اظهر الحالة الحالية للمستخدم `(member|kicked/left the chat|banned|admin/creator|never seen)`.\n"
@@ -2732,69 +2732,69 @@ _لا أستطيع أن أعمل دون أن أكون مشرف المجموعة.
                         .."_ملاحظة_: يجب أن يكون العدد أكبر من 3 وأقل من 26.\n"
                         .."`/flood [kick/ban]` = اختر ما يجب أن يفعله البوت (إزالة أم حظر) إذا تم تجاوز حد إغراق الرسائل.\n"
                         .."\n*ملاحظة:* بإكنانك تغيير إعدادات مكافحة إغراق الرسائل بشكل خاص من خلال لوحة المفاتيح (أمر `/menu`).",
-                media = "*Moderators: media settings*\n\n"
-                        .."`/media` = receive via private message an inline keyboard to change all the media settings.\n"
-                        .."`/media [kick|ban|allow] [type]` = change the action to perform when that specific media is sent.\n"
-                        .."_Example_ : `/media kick sticker`.\n"
-                        .."`/media list` = show the current settings for all the media.\n"
-                        .."\n*List of supported media*: _image, audio, video, sticker, gif, voice, contact, file, link_\n"
-                        .."\n*Note*: the first time a user send a forbidden media, the bot won't kick him. Instead, a warn is sent: the next time, the user will be kicked/banned.",
-                welcome = "*Moderators: welcome settings*\n\n"
-                            .."`/enable welcome` = the welcome message will be sent when a new user join the group.\n"
-                            .."`/disable welcome` = the welcome message won't be sent.\n"
-                            .."\n*Custom welcome message:*\n"
-                            .."`/welcome Welcome $name, enjoy the group!`\n"
-                            .."Write after \"/welcome\" your welcome message. You can use some placeholders to include the name/username/id of the new member of the group\n"
-                            .."Placeholders: _$username_ (will be replaced with the username); _$name_ (will be replaced with the name); _$id_ (will be replaced with the id); _$title_ (will be replaced with the group title).\n"
-                            .."\n*GIF/sticker as welcome message*\n"
-                            .."You can use a particular gif/sticker as welcome message. To set it, reply to a gif/sticker with \'/welcome\'\n"
-                            .."\n*Composed welcome message*\n"
-                            .."You can compose your welcome message with the rules, the description and the moderators list.\n"
-                            .."You can compose it by writing `/welcome` followed by the codes of what the welcome message has to include.\n"
-                            .."_Codes_ : *r* = rules; *a* = description (about); *m* = modlist.\n"
-                            .."For example, with \"`/welcome rm`\", the welcome message will show rules and moderators list",
-                extra = "*Moderators: extra commands*\n\n"
-                        .."`/extra [#trigger] [reply]` = set a reply to be sent when someone writes the trigger.\n"
-                        .."_Example_ : with \"`/extra #hello Good morning!`\", the bot will reply \"Good morning!\" each time someone writes #hello.\n"
-                        .."`/extra list` = get the list of your custom commands.\n"
-                        .."`/extra del [#trigger]` = delete the trigger and its message.\n"
-                        .."`/disable extra` = only an admin can use #extra commands in a group. For the other users, the bot will reply in private.\n"
-                        .."`/enable extra` = everyone use #extra commands in a group, and not only the Admins.\n"
-                        .."\n*Note:* the markdown is supported. If the text sent breaks the markdown, the bot will notify that something is wrong.\n"
-                        .."For a correct use of the markdown, check [this post](https://telegram.me/GroupButler_ch/46) in the channel",
-                warns = "*Moderators: warns*\n\n"
-                        .."`/warn [kick/ban]` = choose the action to perform once the max number of warnings is reached.\n"
-                        .."`/warn [by reply]` = warn a user. Once the max number is reached, he will be kicked/banned.\n"
-                        .."`/warnmax` = set the max number of the warns before the kick/ban.\n"
-                        .."`/getwarns [by reply]` = see how many times a user have been warned.\n"
-                        .."`/nowarns [by reply]` = reset to zero the warns of a user.\n",
-                char = "*Moderators: special characters*\n\n"
-                        .."`/disable rtl` = everyone with RTL (Righ To Left) character in the name will be kicked. Also, the same is applied to messages.\n"
-                        .."`/enable rtl` = the RTL (Righ To Left) character will be ignored.\n"
-                        .."`/disable arab` = the bot will kick everyone sends a message that includes arabic characters.\n"
-                        .."`/enable arab` = arabic characters will be ignored.\n",
-                links = "*Moderators: links*\n\n"
-                        ..'`/setlink [link|\'no\']` : set the group link, so it can be re-called by other admins, or unset it\n'
-                        .."`/link` = get the group link, if already setted by the owner\n"
-                        .."`/setpoll [pollbot link]` = save a poll link from @pollbot. Once setted, moderators can retrieve it with `/poll`.\n"
-                        .."`/setpoll no` = delete the current poll link.\n"
-                        .."`/poll` = get the current poll link, if setted\n"
-                        .."\n*Note*: the bot can recognize valid group links/poll links. If a link is not valid, you won't receive a reply.",
-                lang = "*Moderators: group language*\n\n"
-                        .."`/lang` = see the list of available languages\n"
-                        .."`/lang [code]` = change the language of the bot\n"
-                        .."\n*Note*: translators are volunteers, so I can't ensure the correctness of all the translations. And I can't force them to translate the new strings after each update (not translated strings are in english)."
-                        .."\nAnyway, translations are open to everyone. Use `/strings` command to receive a _.lua_ file with all the strings (in english).\n"
-                        .."Use `/strings [lang code]` to receive the file for that specific language (example: _/strings es_ ).\n"
-                        .."In the file you will find all the instructions: follow them, and as soon as possible your language will be available ;)",
-                settings = "*Moderators: group settings*\n\n"
-                            .."`/menu` = manage the group settings in private with an handy inline keyboard.\n"
-                            .."`/disable [rules|about|modlist|extra]` = this commands will be available *only for moderators* (the bot won't reply to normal users).\n"
-                            .."_Example_ : with \"`/disable extra`\", #extra commands will be available only for moderators. The same can be done with _rules, about, modlist_.\n"
-                            .."`/enable [rules|about|modlist|extra]` = the commands will be available for everyone (and not only for moderators). Enabled it's the default status.\n"
-                            .."`/enable report` = users will be able to send feedback/report messages to moderators, using \"@admin\" command.\n"
-                            .."`/disable report` = users won't be able to send feedback/report messages to moderators (default status: disabled).\n"
-                            .."`/report [on/off]` (by reply) = the user won't be able (_off_) or will be able (_on_) to use \"@admin\" command.\n",
+                media = "*مشرف: إعدادات الوسائط*\n\n"
+                        .."`/media` = استلم من خلال رسالة خاصة لوحة المفاتيح لتغيير إعدادات الوسائط.\n"
+                        .."`/media [kick|ban|allow] [type]` = غيّر إجراء سيتم اتخاذه بعد إرسال هذه الوسائط المعينة.\n"
+                        .."_مثال_ : `/media kick sticker`.\n"
+                        .."`/media list` = أظهر الإعدادات الحالية لجمع الوسائط.\n"
+                        .."\n*قائمة وسائط يجري دعمها*: _image, audio, video, sticker, gif, voice, contact, file, link_\n"
+                        .."\n*ملاحظة*: بعد أول حدوث إرسال وسائط ممنوعة من قبل المستخدم، البوت لن يقم بإزالته، بل بتحذيره: المرة القادمة، سيتم إزالة المستخدم.",
+                welcome = "*مشرف: إعدادات الترحيب*\n\n"
+                            .."`/enable welcome` = يستم إرسال رسالة الترحيب عند انضمام مستخدم جديد إلى لمجموعة.\n"
+                            .."`/disable welcome` = لن يتم إرسال رسالة النرحيب.\n"
+                            .."\n*رسالة الترحيب الخاصة:*\n"
+                            .."`/welcome مرحباً $name، استمتع بالمجموعة!`\n"
+                            .."اكبت رسالتك للترحيب بعد أمر \"/welcome\". استطيع أن تكتب شيء بشكل مؤقت لتشل اسم مستخدم العضو الجديد للمجموعة.\n"
+                            .."بديل مؤقت: _$username_ (سيتم استبداله باسم المستخدم); _$name_ (سيتم استبداله بالاسم); _$id_ (سيتم استدباله بالهوية); _$title_ (سيتم استبداله بعنوان المجموعة).\n"
+                            .."\n*صورة متحركة أم ملصق كرسالة الترحيب*\n"
+                            .."بإمكانك استخدام صورة متحركة أم ملصق كرسالة الترحيب. لتحديده، رد لصورة متحركة أو لملصق ب \"/welcome\"\n"
+                            .."\n*إنشاء رسالة الترحيب*\n"
+                            .."بإمكانك إنشاء رسالة الترحيب التي تشمل قواعد، الوصف وقائمة المشرفين.\n"
+                            .."تستطيع أن تكتبها بدءً من `/welcome` يتبعه المعلومات التي ترغب عن تشملها رسالة الترحيب\n"
+                            .."_Codes_ : *r* = قواعد; *a* = وصف (حول); *m* = قائمة المشرفين.\n"
+                            .."مثلا، مع \"`/welcome rm`\", ستظهر رسالة الترحيب قواعد وقائمة المشرفين",
+                extra = "*المشرفون: أوامر إضافية*\n\n"
+                        .."`/extra [#trigger] [reply]` = حدد در سيتم إرساله عندما يكتب أحد الكامةالمحفزة.\n"
+                        .."_مثال_ : مع \"`/extra #hello صباح الخير!`\", سيرد البوت \"صباح الخير\" كلما أحد كتب #hello.\n"
+                        .."`/extra list` = حصول على قائمة الأوامر الخاصة بك.\n"
+                        .."`/extra del [#trigger]` = حذف الكلمةالمحفزة ورسالتها.\n"
+                        .."`/disable extra` = فقط المشرف يستطيع أن يستخدم أوامر #extra في المجموعة. إذا تم كتابة الأمر من قبل مستخدم أخر، البوت سيرد برسالة خاصة.\n"
+                        .."`/enable extra` = كل الناس يستخدمون أوامر #extra في المجموعة، وليس فقط المشرفون.\n"
+                        .."\n*ملاحظة:* يجري دعم تنسيق ماركداون. إذا كسب النص المرسل تنسيق ماركداون، البوت سيبلغ أن هناك شيء خاطئ.\n"
+                        .."من أجل تعرف عن الاستخدام السليم لتنسيق ماركداون، اضغط [هنا](https://telegram.me/GroupButler_ch/46) في القناة",
+                warns = "*المشرفون: تحذير*\n\n"
+                        .."`/warn [kick/ban]` = اختر إجراء سيتم اتخاذه بعد الوصول إلى المبلغ الأقصى من التحذيرات.\n"
+                        .."`/warn [by reply]` = تحذير المستخدم. بعد وصول إلى المبلغ الأقصى، سيتم إزالته أم حظره.\n"
+                        .."`/warnmax` = حدد المبلغ الأقصى للتحذيرات قبل الإزالة أم الحظر.\n"
+                        .."`/getwarns [by reply]` = حصول على عدد المرات تم تحذير المستخدم.\n"
+                        .."`/nowarns [by reply]` = إعادة تعيين تحذيرات المستخدم لصفر.\n",
+                char = "*المشرفون: محارف خاصةModerators: special characters*\n\n"
+                        .."`/disable rtl` = سيتم إزالة كل شخص يحمل اسم مكتوب مع محارف من اليمين إلى اليسار. هذا ينطبق أيضاً للرسائل.\n"
+                        .."`/enable rtl` = سيتم تجاهل المحارف المكتوبة من اليمين إلى اليسار.\n"
+                        .."`/disable arab` =  البوت سيقوم بإزالة أي شخص يكتب رسالة تشمل محارف عربية.\n"
+                        .."`/enable arab` = سيتم تجاهل المحارف العربية.\n",
+                links = "*المشرفون: روابط*\n\n"
+                        ..'`/setlink [link|\'no\']` : أدخل رابط المجموعة، كي يمكن مشرفين أخرين استخدامه، أم احذفه.\n'
+                        .."`/link` = حصول على رابط المجموعة، إذا تم تحديده من قبل المالك.\n"
+                        .."`/setpoll [pollbot link]` = احفظ رابط استبيان من جانب @pollbot. بعد تحديده، يمكن المشرفون الحصول عليه مع أمر `/poll`.\n"
+                        .."`/setpoll no` = احذف الرابط للاستبيان الحالي.\n"
+                        .."`/poll` = حصول على الرابط للاستبيان الحالي، إذا تم تحديده\n"
+                        .."\n*ملاخظة*: يمكن للبوت أن يعترف الروابط الصحيحة لمجموعات أم استبيانات. إذا لم يكون الرابط صحيح، لن تستلم رداً.",
+                lang = "*المشرفون: لغات المجموعات*\n\n"
+                        .."`/lang` = حصول على قائمة اللغات المتاحة.\n"
+                        .."`/lang [code]` = تغيير لغة البوت\n"
+                        .."\n*ملاحظة*: إن المترجمون متطوعين، فلا أستطيع أن أؤكد تصحيح كل الترجمات. وأيضاً لا أستطيع أن أضطرهم لترجمة النصوص الجديدة بعد كل تحديث )النصوص غير مترجمة ستظل باللغة لإنجليزية."
+                        .."\nعلى أي حال، إن الترجمات مفتوح أي شخص. استدخم أمر `/strings` لاستلام ملف من شكل ".lua" مع كل النصوص (باللغة الإنجليزية) .\n"
+                        .."استخدم `/strings [lang code]` لاستلام الملف لهذا اللغة المعينة (مثال: _/strings es_ ).\n"
+                        .."في داخل الملف ستجد كل التعليمات. اتتبعها، وفي أقرب وقت ممكن يتكون لغتك متاحة ;)",
+                settings = "*المشرفون: إعدادات المجموعة*\n\n"
+                            .."`/menu` = إدارة إعدادات المجموعة بشكل خاص مع لوحة المفاتيح خاصة و مفيدة.\n"
+                            .."`/disable [rules|about|modlist|extra]` = هذه الأوامر ستكون متاحة *لمشرفين فقط* (لن يرد البوت إلى مستخدمين عاديين).\n"
+                            .."_مثال_ : مع أمر  \"`/disable extra`\", أوامر #extra ستكون متاح للمشرفين فقط. يمكنك نفس الشئء مع _rules, about, modlist_.\n"
+                            .."`/enable [rules|about|modlist|extra]` = الأوامر ستكون متاحة لكل الناس )وليس فقط للمشرفين). هذا الإعاداد مفعل إذا لم يتم تغيير.\n"
+                            .."`/enable report` = تمكين المستخدمين بإرسال رسائل التعليق و رسائل التقرير، باستخدام أمر \"@admin\" command.\n"
+                            .."`/disable report` = عدم تمكين المستخدمين بإرسال رسائل التعليق و رسائل التقرير، باستخدام أمر (إن هذا ال حالة إذا لم يتم تغيير).\n"
+                            .."`/report [on/off]` (by reply) = هل تستطيع المستخدم أن تستخدم الأمر\"@admin\" command?\n",
             },
             all = '*Commands for all*:\n'
                     ..'`/dashboard` : see all the group info from private\n'
