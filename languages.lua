@@ -2715,8 +2715,8 @@ _لا أستطيع أن أعمل دون أن أكون مشرف المجموعة.
                             .."`/tempban [minutes]` =
 احظر المستخدم لفترة محددة من دقائق (يجب أن يكون أقل من 10.080 دقائق، أي أسبوع واحد). في الوقت الراهن، فقط بواسطة الرد.\n"
                             .."`/unban [by reply|username]` = ارفع حظر المستخدم من المجموعة.\n"
-                            .."`/status [username]` = اظهر الحالة الحالية للمستخدم `(member|kicked/left the chat|banned|admin/creator|never seen)`.\n"
-                            .."`/banlist` = اظهر قائمة المستخدمون المحظورون. يشمل الدوافع (إذا تم ذكرها أثناء الحظر).\n"
+                            .."`/status [username]` = أظهر الحالة الحالية للمستخدم `(member|kicked/left the chat|banned|admin/creator|never seen)`.\n"
+                            .."`/banlist` = أظهر قائمة المستخدمون المحظورون. يشمل الدوافع (إذا تم ذكرها أثناء الحظر).\n"
                             .."\n*ملاحظة*:يمكنك أن تكتب شيئاً ما بعد أمر `/ban` (أم بعد اسم المستخدم، إذا كنت تحظر بواسطة اسم المستخدم)."
                             .." هذا التعليق سيُستخدم كدافع الحظر.",
                 info = "*مشرفون: مزيد من المعلومات عن المجموعة*\n\n"
@@ -2733,7 +2733,7 @@ _لا أستطيع أن أعمل دون أن أكون مشرف المجموعة.
                         .."`/flood [kick/ban]` = اختر ما يجب أن يفعله البوت (إزالة أم حظر) إذا تم تجاوز حد إغراق الرسائل.\n"
                         .."\n*ملاحظة:* بإكنانك تغيير إعدادات مكافحة إغراق الرسائل بشكل خاص من خلال لوحة المفاتيح (أمر `/menu`).",
                 media = "*مشرف: إعدادات الوسائط*\n\n"
-                        .."`/media` = استلم من خلال رسالة خاصة لوحة المفاتيح لتغيير إعدادات الوسائط.\n"
+                        .."`/media` = استقبل من خلال رسالة خاصة لوحة المفاتيح لتغيير إعدادات الوسائط.\n"
                         .."`/media [kick|ban|allow] [type]` = غيّر إجراء سيتم اتخاذه بعد إرسال هذه الوسائط المعينة.\n"
                         .."_مثال_ : `/media kick sticker`.\n"
                         .."`/media list` = أظهر الإعدادات الحالية لجمع الوسائط.\n"
@@ -2779,13 +2779,13 @@ _لا أستطيع أن أعمل دون أن أكون مشرف المجموعة.
                         .."`/setpoll [pollbot link]` = احفظ رابط استبيان من جانب @pollbot. بعد تحديده، يمكن المشرفون الحصول عليه مع أمر `/poll`.\n"
                         .."`/setpoll no` = احذف الرابط للاستبيان الحالي.\n"
                         .."`/poll` = حصول على الرابط للاستبيان الحالي، إذا تم تحديده\n"
-                        .."\n*ملاخظة*: يمكن للبوت أن يعترف الروابط الصحيحة لمجموعات أم استبيانات. إذا لم يكون الرابط صحيح، لن تستلم رداً.",
+                        .."*ملاخظة*: يمكن للبوت أن يعترف الروابط الصحيحة لمجموعات أم استبيانات. إذا لم يكون الرابط صحيح، لن تستقبل ردا.\n",
                 lang = "*المشرفون: لغات المجموعات*\n\n"
                         .."`/lang` = حصول على قائمة اللغات المتاحة.\n"
                         .."`/lang [code]` = تغيير لغة البوت\n"
                         .."\n*ملاحظة*: إن المترجمون متطوعين، فلا أستطيع أن أؤكد تصحيح كل الترجمات. وأيضاً لا أستطيع أن أضطرهم لترجمة النصوص الجديدة بعد كل تحديث )النصوص غير مترجمة ستظل باللغة لإنجليزية."
-                        .."\nعلى أي حال، إن الترجمات مفتوح أي شخص. استدخم أمر `/strings` لاستلام ملف من شكل ".lua" مع كل النصوص (باللغة الإنجليزية) .\n"
-                        .."استخدم `/strings [lang code]` لاستلام الملف لهذا اللغة المعينة (مثال: _/strings es_ ).\n"
+                        .."\nعلى أي حال، إن الترجمات مفتوح أي شخص. استدخم أمر `/strings` للاستقبال ملف من شكل ".lua" مع كل النصوص (باللغة الإنجليزية) .\n"
+                        .."استخدم `/strings [lang code]` لاستقبال الملف لهذا اللغة المعينة (مثال: _/strings es_ ).\n"
                         .."في داخل الملف ستجد كل التعليمات. اتتبعها، وفي أقرب وقت ممكن يتكون لغتك متاحة ;)",
                 settings = "*المشرفون: إعدادات المجموعة*\n\n"
                             .."`/menu` = إدارة إعدادات المجموعة بشكل خاص مع لوحة المفاتيح خاصة و مفيدة.\n"
@@ -2796,123 +2796,123 @@ _لا أستطيع أن أعمل دون أن أكون مشرف المجموعة.
                             .."`/disable report` = عدم تمكين المستخدمين بإرسال رسائل التعليق و رسائل التقرير، باستخدام أمر (إن هذا ال حالة إذا لم يتم تغيير).\n"
                             .."`/report [on/off]` (by reply) = هل تستطيع المستخدم أن تستخدم الأمر\"@admin\" command?\n",
             },
-            all = '*Commands for all*:\n'
-                    ..'`/dashboard` : see all the group info from private\n'
-                    ..'`/rules` (if unlocked) : show the group rules\n'
-                    ..'`/about` (if unlocked) : show the group description\n'
-                    ..'`/adminlist` (if unlocked) : show the moderators of the group\n'
+            all = '*الأوامر المتاح لكل المستخدمين*:\n'
+                    ..'`/dashboard` : حصول على كل المعلومات الخاصة بالمجموعة\n'
+                    ..'`/rules` (if unlocked) : أظهر قواعد المجموعة\n'
+                    ..'`/about` (if unlocked) : أظهر وصف المجموعة\n'
+                    ..'`/adminlist` (if unlocked) : أظهر مشرفين المجموعة\n'
                     ..'`@admin` (if unlocked) : by reply= report the message replied to all the admins; no reply (with text)= send a feedback to all the admins\n'
-                    ..'`/kickme` : get kicked by the bot\n'
-                    ..'`/faq` : some useful answers to frequent quetions\n'
-                    ..'`/id` : get the chat id, or the user id if by reply\n'
-                    ..'`/echo [text]` : the bot will send the text back (with markdown, available only in private for non-admin users)\n'
-                    ..'`/info` : show some useful informations about the bot\n'
-                    ..'`/c` <feedback> : send a feedback/report a bug/ask a question to my creator. _ANY KIND OF SUGGESTION OR FEATURE REQUEST IS WELCOME_. He will reply ASAP\n'
-                    ..'`/help` : show this message.'
-		            ..'\n\nIf you like this bot, please leave the vote you think it deserves [here](https://telegram.me/storebot?start=groupbutler_bot)',
-		    private = 'Hey, *&&&1*!\n'
-                    ..'I\'m a simple bot created in order to help people to manage their groups.\n'
-                    ..'\n*What can I do for you?*\n'
-                    ..'Wew, I have a lot of useful tools!\n'
-                    ..'• You can *kick or ban* users (even in normal groups) by reply/username\n'
-                    ..'• Set rules and a description\n'
-                    ..'• Turn on a configurable *anti-flood* system\n'
-                    ..'• Customize the *welcome message*, also with gif and stickers\n'
-                    ..'• Warn users, and kick/ban them if they reach a max number of warns\n'
-                    ..'• Warn or kick users if they send a specific media\n'
-                    ..'...and more, below you can find the "all commands" button to get the whole list!\n'
-                    ..'\nTo use me, *you need to add me as administrator of the group*, or Telegram won\'t let me work! (if you have some doubts about this, check [this post](https://telegram.me/GroupButler_ch/63))'
-                    ..'\nYou can report bugs/send feedbacks/ask a question to my creator just using "`/c <feedback>`" command. EVERYTHING IS WELCOME!',
-            group_success = '_I\'ve sent you the help message in private_',
-            group_not_success = '_Please message me first so I can message you_',
-            initial = 'Choose the *role* to see the available commands:',
-            kb_header = 'Tap on a button to see the *related commands*'
+                    ..'`/kickme` : سيتم إزالتك من قبل البوت\n'
+                    ..'`/faq` : بعض الردور المفيدة على الأسئلة الأكثر تكرارا \n'
+                    ..'`/id` : حصول على هوية الدردشة أم هوية المستخدم لو تم الحصول بواسطة الرد\n'
+                    ..'`/echo [text]` :سيقوم البوت بإعادة الرسالة إليك (بإستخدام تنسيق مارك داون، متاح فقط بدردشة خاصة لمستخدم غير مشرف)\n'
+                    ..'`/info` : أظهر بعض المعلومات المفيدة حول البوت\n'
+                    ..'`/c` <feedback> : ارسل تعليق، تقرير خطأ أم سؤال للخالق. أنا أرحب أن نوع من الاقتراحات أم أي طلب ميزة وسيوف أرد عليك في أقرب وقت ممكن.\n'
+                    ..'`/help` : أظهر هذه الرسالة'
+		            ..'\n\nلو أحببت هذا البوت، رجاءً اترك التصويت الذي يستحقه البوت [هنا](https://telegram.me/storebot?start=groupbutler_bot)',
+		    private = 'مرحباً,يا *&&&1*!\n'
+                    ..'إنني بوت بسيط مخلوق لمساعدة الناس في إدارة مجموعتهم\n'
+                    ..'\n*ماذا يمكنني أن أفعل  لك؟*\n'
+                    ..'رائع، عندي كثير من الأدوات المفيدة!\n'
+                    ..'• يمكنك إزالة أم حظر المستخدمين (حتي في مجموعات عادية) بإستخدام الرد أم اسم المستخدم\n'
+                    ..'• حدد القواعد ووصف المجموعةSet rules and a description\n'
+                    ..'• شغل نظام مكافحة إرسال عدد ساحق من الرسائل، قابل للإعداد\n'
+                    ..'• عدل رسالة الترحيب، بما في ذلك صور متحركة وملصقات\n'
+                    ..'• حذر مستخدمين، وقم بإزالتهم أم حظرهم لو وصلوا إلى المبلغ الأقصى من التحذيرات\n'
+                    ..'• حذر وأزل المستخدمين لو قاموا بإرسال ملف وسائطي معين\n'
+                    ..'...وأكثر من ذلك، فيما يلي يمكنك أن تجد رز \"كل ال أوامر\" للحصول على القائمة الكاملة!\n'
+                    ..'\nلاستخدامي، عليك أن تضفني كمشرف إلى المجموعة، وإلا تلجرام لن يسمح لي بالعمل! إذا كان لديك شكوك حول ذلك، اقرأ [هذا](https://telegram.me/GroupButler_ch/63))'
+                    ..'\nيمكنك إرسال تقارير خطأ، تعليقات أم أسألة لخالقي باستخدام أمر "`/c <feedback>`" أنا سعيدة لكل!',
+            group_success = '_لقد قمت بإرسال لك رسالة المساعدة برسالة خاصة_',
+            group_not_success = '_رجاءً أرسل لي رسالة أولاً، حتي يمكنني إرسال رسائل لك.',
+            initial = 'اختر الدور حتي ترى الأوامر المتاحة:',
+            kb_header = 'اضغط زر حتى ترى الأوامر ذات الصلة'
         },
         links = {
-            no_link = '*No link* for this group. Ask the owner to generate one',
+            no_link = '*ليس هناك رابط* لهذه المجموعة. اسأل المالك من أجل خلقه',
             link = '[&&&1](&&&2)',
-            link_no_input = 'This is not a *public supergroup*, so you need to write the link near /setlink',
-            link_invalid = 'This link is *not valid!*',
-            link_updated = 'The link has been updated.\n*Here\'s the new link*: [&&&1](&&&2)',
-            link_setted = 'The link has been setted.\n*Here\'s the link*: [&&&1](&&&2)',
-            link_unsetted = 'Link *unsetted*',
-            poll_unsetted = 'Poll *unsetted*',
-            poll_updated = 'The poll have been updated.\n*Vote here*: [&&&1](&&&2)',
-            poll_setted = 'The link have been setted.\n*Vote here*: [&&&1](&&&2)',
-            no_poll = '*No active polls* for this group',
-            poll = '*Vote here*: [&&&1](&&&2)'
+            link_no_input = 'إن هذا ليس مجموعة عامة من شكل سوبر، عليك أن تكتب الرابط ب /setlink',
+            link_invalid = 'هذا الرابط *غير صحيح*!',
+            link_updated = 'تم تحديث الرابط، وهو الآن: [&&&1](&&&2)',
+            link_setted = 'تم تحديد الرابط، إنه الآن: [&&&1](&&&2)',
+            link_unsetted = 'تم *حذف* الرابط',
+            poll_unsetted = 'تم *حذف* الاستبيان',
+            poll_updated = 'تم تحديث الاستبيان. صوت هنا: [&&&1](&&&2)',
+            poll_setted = 'تم تحديد رابط الاستبيان. صوت هنا: [&&&1](&&&2)',
+            no_poll = 'ليس هناك استبيان نشط لهذه المجموعة',
+            poll = '*صوت هنا*: [&&&1](&&&2)'
         },
         mod = {
-            not_owner = 'You are *not* the owner of this group.',
-            reply_promote = 'Reply to someone to promote him',
-            reply_demote = 'Reply to someone to demote him',
-            reply_owner = 'Reply to someone to set him as owner',
-            already_mod = '&&&1 is _already_ a moderator of *&&&2*',
-            already_owner = 'You are _already the owner_ of this group',
-            not_mod = '&&&1 is _not_ a moderator of *&&&2*',
-            promoted = '&&&1 has been _promoted_ as moderator of *&&&2*',
-            demoted = '&&&1 has been _demoted_',
-            new_owner = '&&&1 is the _new owner_ of *&&&2*',
-            modlist = '*Creator*:\n&&&1\n\n*Admins*:\n&&&2'
+            not_owner = 'إنك لست مالك هذه المجموعة.',
+            reply_promote = 'رد على شخص ما لتعزيزه',
+            reply_demote = 'رد على شحص ما لإنزاله',
+            reply_owner = 'رد على شخص ما لعطائه دور المالك',
+            already_mod = 'إن &&&1 بالقعل مشرف في مجموعة *&&&2*',
+            already_owner = 'إنك بالفعل مالك هذه المجموعة',
+            not_mod = '&&&1 ليس مشرفا في مجموعة *&&&2*',
+            promoted = 'تم تعزيز &&&1 كمشرف في مجموعة *&&&2*',
+            demoted = 'تم إنزال &&&1 ',
+            new_owner = 'إن &&&1 المالك الجديد ل *&&&2*',
+            modlist = '*خالق*:\n&&&1\n\n*مشرفون*:\n&&&2'
         },
         report = {
-            no_input = 'Write your suggestions/bugs/doubt near "/c"',
-            sent = 'Feedback sent!',
-            feedback_reply = '*Hello, this is a reply from the bot owner*:\n&&&1',
+            no_input = 'اكبت رسالة مع اقتراح، تقرير خطأ أم أي شك في أمر "/c"',
+            sent = 'تم إرسال التعليق!',
+            feedback_reply = '*مرحباً، هذا رد مالك البوت:\n&&&1',
         },
         service = {
-            new_group = 'Hi all!\n*&&&1* added me here to help you to manage this group.\nIf you want to know how I work, please start me in private or type /help  :)',
-            welcome = 'Hi &&&1, and welcome to *&&&2*!',
-            welcome_rls = 'Total anarchy!',
-            welcome_abt = 'No description for this group.',
-            welcome_modlist = '\n\n*Creator*:\n&&&1\n*Admins*:\n&&&2',
-            abt = '\n\n*Description*:\n',
-            rls = '\n\n*Rules*:\n',
+            new_group = 'مرحباً يا جماعة!\nتم *&&&1* بإضافتي هنا لمساعدتكم في إدارة هذه المجموعة.\nلو تريد أن تعرف عن تفاصيل كيفية عملي، رجاءً شغلي بدردشة خاصة أم اكتب أمر /help  :)',
+            welcome = 'السلام عليكم يا &&&1, ومرحباً بكم في *&&&2*!',
+            welcome_rls = 'الفوضوية الكلية!',
+            welcome_abt = 'لا يوجد وصف لهذه المجموعة',
+            welcome_modlist = '\n\n*خالق*:\n&&&1\n*مشرفون*:\n&&&2',
+            abt = '\n\n*وصف*:\n',
+            rls = '\n\n*قواعد*:\n',
         },
         setabout = {
-            no_bio = '*No description* for this group.',
-            no_bio_add = '*No description for this group*.\nUse /setabout [bio] to set-up a new description',
-            no_input_add = 'Please write something next this poor "/addabout"',
-            added = '*Description added:*\n"&&&1"',
-            no_input_set = 'Please write something next this poor "/setabout"',
-            clean = 'The bio has been cleaned.',
-            new = '*New bio:*\n"&&&1"',
-            about_setted = 'New description *saved successfully*!'
+            no_bio = '*لا يوجد وصف لهذه المجموعة.',
+            no_bio_add = '*لا يوجد وصف لهذه المجموعة*.\nاستخدم /setabout [bio] لتحديد وصف جديد',
+            no_input_add = 'رجاءً اكتب شيء بعد "/addabout"',
+            added = '*تم إضافة وصف:*\n"&&&1"',
+            no_input_set = 'رجاءً، اكتب شيء بعد "/setabout"',
+            clean = 'تم حذف الوصف.',
+            new = '*وصف جديد:*\n"&&&1"',
+            about_setted = 'تم حفظ الوصف الجديد بنجاح!'
         },
         setrules = {
-            no_rules = '*Total anarchy*!',
-            no_rules_add = '*No rules* for this group.\nUse /setrules [rules] to set-up a new constitution',
-            no_input_add = 'Please write something next this poor "/addrules"',
-            added = '*Rules added:*\n"&&&1"',
-            no_input_set = 'Please write something next this poor "/setrules"',
-            clean = 'Rules has been wiped.',
-            new = '*New rules:*\n"&&&1"',
-            rules_setted = 'New rules *saved successfully*!'
+            no_rules = '*الفوضوية الكلية*!',
+            no_rules_add = 'ليس هناك قواعد لهذه المجموعة.\nاستخذم /setrules [rules] لتحديد قواعد جديدة',
+            no_input_add = 'رجاءً اكتب شيء بعد "/addrules"',
+            added = '*تم إضافة القواعد:*\n"&&&1"',
+            no_input_set = 'رجاءً اكتب شيء بعد "/setrules"',
+            clean = 'تم حذف القواعد.',
+            new = '*القواعد الجديدة:*\n"&&&1"',
+            rules_setted = 'تم حفظ القواعد الجديدة بنجاح!'
         },
         settings = {
             disable = {
-                no_input = 'Disable what?',
-                rules_already = '`/rules` command is already *locked*',
-                rules_locked = '`/rules` command is now available *only for moderators*',
-                about_already = '`/about` command is already *locked*',
-                about_locked = '`/about` command is now available *only for moderators*',
-                welcome_already = 'Welcome message is already *locked*',
-                welcome_locked = 'Welcome message *won\'t be displayed* from now',
-                modlist_already = '`/adminlist` command is already *locked*',
-                modlist_locked = '`/adminlist` command is now available *only for moderators*',
-                flag_already = '`/flag` command is already *not enabled*',
-                flag_locked = '`/flag` command *won\'t be available* from now',
-                extra_already = '#extra commands are already *locked*',
-                extra_locked = '#extra commands are now available *only for moderators*',
-                rtl_already = 'Anti-RTL is already *on*',
-                rtl_locked = 'Anti-RTL is now *on*',
-                flood_already = 'Anti-flood is already *on*',
-                flood_locked = 'Anti-flood is now *on*',
-                arab_already = 'Anti-arab characters is already *on*',
-                arab_locked = 'Anti-arab characters is now *on*',
-                report_already = '@admin command is already *not enabled*',
-                report_locked = '@admin command *won\'t be available* from now',
-                wrong_input = 'Argument unavailable.\nUse `/disable [rules|about|welcome|modlist|report|extra|rtl|arab]` instead',
+                no_input = 'ماذا عاي أن أعطله?',
+                rules_already = 'إن أمر`/rules` بالفعل *مغلق*',
+                rules_locked = 'إن أمر `/rules` متاح لمشرفين فقط',
+                about_already = 'إن أمر `/about` بالفعل *مغلق*',
+                about_locked = 'إن أمر `/about` متاح لمشرفين فقط',
+                welcome_already = 'إن رسالة الترحيب بالفعل مغلقة.',
+                welcome_locked = 'لن يتم عرض رسالة الترحيب من الآن',
+                modlist_already = 'إن أمر `/adminlist` بالفعل *مغلق*',
+                modlist_locked = 'إن أمر `/adminlist` متاح لمشرفين فقط',
+                flag_already = 'إن أمر `/flag` بالفعل غير مفعل',
+                flag_locked = 'إن أمر `/flag` سيكن غير متاح من الآن',
+                extra_already = 'إن أوامر #extra بالفعل مغقلة',
+                extra_locked = 'إن أوامر #extra متاحة لمشرفين فقط',
+                rtl_already = 'إن نظام مكافحة الكتابة من اليمين إلى اليسير بالفعل مفعل',
+                rtl_locked = 'إن نظام مكافحة الكتابة من اليمين إلى اليسير مفعل الآن',
+                flood_already = 'إن نظام مكافحة إرسال عدد ساحق من الرسائل مفعل بالفعل',
+                flood_locked = 'إن نظام مكافحة إرسال عدد ساحق من الرسائل مفعل الآن',
+                arab_already = 'إن نظام مكافحة الكتابة بمحارف عربية بالفعل مفعل',
+                arab_locked = 'إن نظام مكافحة الكتابة بمحارف عربية مفعل الآن',
+                report_already = 'إن أمر @admin غير مفعل بالفعل',
+                report_locked = 'إن أمر @admin لن يكن متاح من الآن',
+                wrong_input = 'هذا الأمر غير متاح. استخدم أحد الأوامر التالية بدلاً من هذا:  [rules|about|welcome|modlist|report|extra|rtl|arab]`',
             },
             enable = {
                 no_input = 'Enable what?',
