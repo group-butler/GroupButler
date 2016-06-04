@@ -1,5 +1,5 @@
 return {
-	bot_api_key = '198733539:AAGV9pV-ry2He6PozSlAWRPXW3tO5DoNSe4',
+	bot_api_key = '',
 	admin = {
 		owner = 23646077,
 		admins = {
