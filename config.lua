@@ -1,5 +1,5 @@
 return {
-	bot_api_key = '',
+	bot_api_key = '198733539:AAGV9pV-ry2He6PozSlAWRPXW3tO5DoNSe4',
 	admin = {
 		owner = 23646077,
 		admins = {
@@ -81,6 +81,7 @@ return {
 		[123] = 'Bad Request: Object expected as reply markup', --empty inline keyboard table
 		[124] = 'QUERY_ID_INVALID', --callback query id invalid
 		[125] = 'CHANNEL_PRIVATE', --I don't know
+		[126] = 'MESSAGE_TOO_LONG', --text of an inline callback answer is too long
 		
 		[130] = 'Type of file to send mismatch', --tryin to send a media with the wrong method
 		

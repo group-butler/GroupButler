@@ -64,6 +64,10 @@ local triggers2 = {
 local logtxt = ''
 local failed = 0
 
+local function cron()
+	db:bgsave()
+end
+
 local function save_in_redis(hash, text)
     local redis_res = db:set(hash, text)
     if redis_res == true then
@@ -893,5 +897,6 @@ end
 
 return {
 	action = action,
+	cron = false,
 	triggers = {'^/a', '^###(forward)',}
 }

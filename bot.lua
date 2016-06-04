@@ -111,6 +111,9 @@ local function collect_stats(msg)
 		end
 		db:incrby('chat:'..msg.chat.id..':totalmsgs', 1) --total number of messages of the group
 	end
+	if msg.cb and msg.from and msg.chat then
+		db:hincrby('chat:'..msg.chat.id..':cb', msg.from.id, 1)
+	end
 end
 
 local function match_pattern(pattern, text)

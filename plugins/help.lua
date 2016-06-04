@@ -1,4 +1,4 @@
-local function make_keyboard(mod)
+local function make_keyboard(mod, mod_current_position)
 	local keyboard = {}
 	keyboard.inline_keyboard = {}
 	if mod then --extra options for the mod
@@ -17,29 +17,34 @@ local function make_keyboard(mod)
         }
         local line = {}
         for k,v in pairs(list) do
+            --if mod_current_position ~= v:gsub('!', '') then --(to remove the current tab button)
             if next(line) then
                 local button = {text = '📍'..k, callback_data = v}
+                --change emoji if it's the current position button
+                if mod_current_position == v:gsub('!', '') then button.text = '📜 '..k end
                 table.insert(line, button)
                 table.insert(keyboard.inline_keyboard, line)
                 line = {}
             else
                 local button = {text = '📍'..k, callback_data = v}
+                --change emoji if it's the current position button
+                if mod_current_position == v:gsub('!', '') then button.text = '📜 '..k end
                 table.insert(line, button)
             end
+            --end --(to remove the current tab button)
         end
         if next(line) then --if the numer of buttons is odd, then add the last button alone
             table.insert(keyboard.inline_keyboard, line)
         end
     end
-    local bottom_bar = {
-		{text = '🔰 User', callback_data = '!user'},
-		{text = '🔰 Admin', callback_data = '!mod'},
-	}
+    local bottom_bar
+    if mod then
+		bottom_bar = {{text = '🔰 User commands', callback_data = '!user'}}
+	else
+	    bottom_bar = {{text = '🔰 Admin commands', callback_data = '!mod'}}
+	end
+	table.insert(bottom_bar, {text = 'Info', callback_data = '!info_button'}) --insert the "Info" button
 	table.insert(keyboard.inline_keyboard, bottom_bar)
-	local info_button = {
-	    {text = 'Info', callback_data = '!info_button'}
-    }
-    table.insert(keyboard.inline_keyboard, info_button)
 	return keyboard
 end
 
@@ -149,10 +154,12 @@ local action = function(msg, blocks, ln)
         elseif query == 'settings' then
         	text = lang[ln].help.mods[query]
         end
-        keyboard = make_keyboard(with_mods_lines)
+        keyboard = make_keyboard(with_mods_lines, query)
         local res, code = api.editMessageText(msg.chat.id, msg_id, text, keyboard, true)
         if not res and code and code == 111 then
-            api.answerCallbackQuery(msg.cb_id, '📍 Already on this tab')
+            api.answerCallbackQuery(msg.cb_id, '❗️ Already on this tab')
+        elseif query ~= 'user' and query ~= 'mod' and query ~= 'info_button' then
+            api.answerCallbackQuery(msg.cb_id, '💡 '..lang[ln].help.mods[query]:sub(1, string.find(lang[ln].help.mods[query], '\n')):mEscape_hard())
         end
     end
 end

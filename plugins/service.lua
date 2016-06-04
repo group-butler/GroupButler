@@ -90,7 +90,6 @@ local action = function(msg, blocks, ln)
 		end
 		
 		cross.remBanList(msg.chat.id, msg.added.id) --remove him from the banlist
-		db:hdel('chat:'..msg.chat.id..':warns', msg.added.id) --remove the warns
 		db:del('chat:'..msg.chat.id..':'..msg.added.id..':mediawarn') --remove the warn for media
 		
 		if msg.added.username then

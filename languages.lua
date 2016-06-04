@@ -346,11 +346,12 @@ return {
         floodmanager = {
             number_invalid = '`&&&1` is not a valid value!\nThe value should be *higher* than `3` and *lower* then `26`',
             not_changed = 'The max number of messages that can be sent in 5 seconds is already &&&1',
-            changed = 'The *max number* of messages that can be sent in *5 seconds* changed _from_  &&&1 _to_  &&&2',
+            changed_plug = 'The *max number* of messages that can be sent in *5 seconds* changed _from_  &&&1 _to_  &&&2',
             enabled = 'Antiflood enabled',
             disabled = 'Antiflood disabled',
             kick = 'Now flooders will be kicked',
             ban = 'Now flooders will be banned',
+            changed_cross = '&&&1 -> &&&2',
         },
         mediasettings = {
 			warn = 'This kind of media are *not allowed* in this group.\n_The next time_ you will be kicked or banned',
@@ -733,11 +734,12 @@ return {
         floodmanager = {
             number_invalid = '`&&&1` non è un valore valido!\nil valore deve essere *maggiore* di `3` e *minore* di `26`',
             not_changed = 'il massimo numero di messaggi che può essere inviato in 5 secondi è già &&&1',
-            changed = 'Il numero *massimo di messaggi* che possono essere inviato in *5 secondi* è passato _da_  &&&1 _a_  &&&2',
+            changed_plug = 'Il numero *massimo di messaggi* che possono essere inviato in *5 secondi* è passato _da_  &&&1 _a_  &&&2',
             enabled = 'Antiflood abilitato',
             disabled = 'Antiflood disabilitato',
             kick = 'I flooders verranno kickati',
             ban = 'I flooders verranno bannati',
+            changed_cross = '&&&1 -> &&&2',
         },
         mediasettings = {
 			warn = 'Questo tipo di media *non è consentito* in questo gruppo.\n_La prossima volta_ verrai kickato o bannato',
@@ -1118,11 +1120,12 @@ return {
         floodmanager = {
             number_invalid = '`&&&1` no es un valor valido!\nel valor tiene que ser *mayor* que `3` y *menor* que `26`',
             not_changed = 'El numero maximo de mensajes que pueden ser enviados en 5 segundos es &&&1',
-            changed = 'El numero maximo de mensajes que pueden ser enviados en 5 segundos por &&&1 a &&&2',
+            changed_plug = 'El numero maximo de mensajes que pueden ser enviados en 5 segundos por &&&1 a &&&2',
             enabled = 'Antiflood activado',
             disabled = 'Antiflood desactivado',
             kick = 'Los flooders seran expulsados',
             ban = 'Los flooders seran baneados',
+            changed_cross = '&&&1 -> &&&2',
         },
         mediasettings = {
 			warn = 'Este tipo de multimedia *no esta permitida* en este grupo.\n_La proxima vez_ seras baneado o expulsado',
@@ -1504,11 +1507,12 @@ return {
         floodmanager = {
             number_invalid = '`&&&1` não é um número válido!\nO valor deve ser *maior* que `3` e *menor* que `26`',
             not_changed = 'O número máximo de mensagens que podem ser enviadas em 5 segundos já é &&&1',
-            changed = 'O número máximo de mensagen que podem ser enviadas em 5 segundos foi alterada de &&&1 para &&&2',
+            changed_plug = 'O número máximo de mensagen que podem ser enviadas em 5 segundos foi alterada de &&&1 para &&&2',
             enabled = 'Antiflood habilitado',
             disabled = 'Antiflood desabilitado',
             kick = 'Agora floodadores(as) serão removidos(as)',
-            ban = 'Agora floodadores(as) serão banidos(as)'
+            ban = 'Agora floodadores(as) serão banidos(as)',
+            changed_cross = '&&&1 -> &&&2',
         },
         mediasettings = {
 			warn = 'Esse tipo de mídia *não é permitida* neste grupo.\n_Na próxima vez_ voce séra removido(a) ou banido(a)',
@@ -1887,12 +1891,13 @@ return {
         floodmanager = {
             number_invalid = '`&&&1` неправильное число!\nЧисло должно быть *больше* чем `3` и *меньше* чем `26`',
             not_changed = 'Максимальное количество сообщений, которые можно отправить за 5 секунд уже &&&1',
-            changed = 'Максимальное количество сообщений, которые можно отправить за 5 секунд изменено с &&&1 на &&&2',
+            changed_plug = 'Максимальное количество сообщений, которые можно отправить за 5 секунд изменено с &&&1 на &&&2',
             enabled = 'Антифлуд фильтр включен',
             disabled = 'Антифлуд фильтр выключен',
             kick = 'Теперь флудеры будут кикнуты',
             ban = 'Теперь флудеры будут забанены',
-            general_motivation = 'I can\'t kick this user.\nProbably I\'m not an Amdin, or the user is an Admin iself'
+            general_motivation = 'I can\'t kick this user.\nProbably I\'m not an Amdin, or the user is an Admin iself',
+            changed_cross = '&&&1 -> &&&2',
         },
         mediasettings = {
 			warn = 'Этот тип медиа *не разрешен* в этой группе.\n_В следующий раз_ ты будешь кикнут или забанен',
@@ -2257,12 +2262,13 @@ return {
         },
         floodmanager = {
             ban = "Fluter (flooders) werden gesperrt (bannend)",
-            changed = "Die *maximale Anzahl* von Nachrichten, die in *5 Sekunden* gesendet werden können, wurde _von_ &&&1 _auf_ &&&2 geändert",
+            changed_plug = "Die *maximale Anzahl* von Nachrichten, die in *5 Sekunden* gesendet werden können, wurde _von_ &&&1 _auf_ &&&2 geändert",
             disabled = "Flutschutz (antiflood) deaktiviert",
             enabled = "Flutschutz (antiflood) aktiviert",
             kick = "Fluter (flooders) werden entfernt (kicked)",
             not_changed = "Die maximale Anzahl von Nachrichten, die innerhalb von 5 Sekunden gesendet werden können, ist bereits &&&1",
-            number_invalid = "`&&&1` ist kein gültiger Wert!\nDer Wert sollte *größer* als `3` und *kleiner* als `26` sein"
+            number_invalid = "`&&&1` ist kein gültiger Wert!\nDer Wert sollte *größer* als `3` und *kleiner* als `26` sein",
+            changed_cross = '&&&1 -> &&&2',
         },
         mediasettings = {
             already = "Die Einstellung für den Medientyp (media) (`&&&1`) ist bereits (`&&&2`)",
@@ -2623,12 +2629,13 @@ return {
         },
         floodmanager = {
             ban = "Nu blir man bannad om man postar för mycket",
-            changed = "*Max antal* meddelanden som får skickas under *5 sekunder* ändrades _från_  &&&1 _till_  &&&2",
+            changed_plug = "*Max antal* meddelanden som får skickas under *5 sekunder* ändrades _från_  &&&1 _till_  &&&2",
             disabled = "Antiflood avstängt",
             enabled = "Antiflood aktiverat",
             kick = "Nu blir man kickad om man postar för mycket",
             not_changed = "Max antal meddelanden som kan skickas under 5 sekunder är redan &&&1",
-            number_invalid = "`&&&1` är inte ett giltigt värde!\nVärdet ska vara *högre* än `3` och *lägre* än `26`"
+            number_invalid = "`&&&1` är inte ett giltigt värde!\nVärdet ska vara *högre* än `3` och *lägre* än `26`",
+            changed_cross = '&&&1 -> &&&2',
         },
         mediasettings = {
             already = "Status för media (`&&&1`) är redan (`&&&2`)",

@@ -797,7 +797,7 @@ local function changeFloodSettings(chat_id, screm, ln)
     			return make_text(lang[ln].floodmanager.number_invalid, new)
     		end
     	end
-    	return make_text(lang[ln].floodmanager.changed, old, new)
+    	return make_text(lang[ln].floodmanager.changed_cross, old, new)
     end 	
 end
 

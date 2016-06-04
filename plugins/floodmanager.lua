@@ -22,7 +22,7 @@ local action = function(msg, blocks, ln)
 	        	api.sendReply(msg, make_text(lang[ln].floodmanager.not_changed, new), true)
 	    	else
 	        	db:hset('chat:'..msg.chat.id..':flood', 'MaxFlood', new)
-	        	api.sendReply(msg, make_text(lang[ln].floodmanager.changed, old, new), true)
+	        	api.sendReply(msg, make_text(lang[ln].floodmanager.changed_plug, old, new), true)
 	    	end
 	    	mystat('/flood num')
 		else

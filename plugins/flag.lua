@@ -13,17 +13,17 @@ local function is_report_blocked(msg)
     return db:sismember(hash, msg.from.id)
 end
 
-local function send_to_admin(mods, chat, msg_id)
+local function send_to_admin(mods, chat, msg_id, reporter, is_by_reply)
     for i=1,#mods do
         api.forwardMessage(mods[i], chat, msg_id)
+        if is_by_reply then api.sendMessage(mods[i], reporter) end
     end
 end       
 
 local action = function(msg, blocks, ln)
-    if msg.chat.type == 'private' then--return nil if it's a private chat
-		api.sendMessage(msg.from.id, lang[ln].pv)
-    	return
-    end
+    
+    if msg.chat.type == 'private' then return end
+    
     local hash = 'chat:'..msg.chat.id..':reportblocked'
     if blocks[1] == 'admin' then
         --return nil if 'report' is locked, if is a mod or if the user is blocked from using @admin
@@ -44,11 +44,14 @@ local action = function(msg, blocks, ln)
                 api.sendReply(msg, lang[ln].bonus.adminlist_admin_required, true)
             end
             local msg_id = msg.message_id
+            local is_by_reply = false
             if msg.reply then
-                blocks[2] = false
+                is_by_reply = true
                 msg_id = msg.reply.message_id
             end
-            send_to_admin(mods, msg.chat.id, msg_id)
+            local reporter = msg.from.first_name
+            if msg.from.username then reporter = reporter..' (@'..msg.from.username..')' end
+            send_to_admin(mods, msg.chat.id, msg_id, reporter, is_by_reply)
             api.sendReply(msg, lang[ln].flag.reported)
         end
     end

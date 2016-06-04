@@ -151,6 +151,7 @@ local action = function(msg, blocks, ln)
                 text = getWelcomeMessage(chat_id, ln)
             end
             api.editMessageText(msg.chat.id, msg_id, text, keyboard, true)
+            api.answerCallbackQuery(msg.cb_id, 'ℹ️ Group ► '..blocks[2])
             return
         end
     end
@@ -182,7 +183,8 @@ local action = function(msg, blocks, ln)
                 text = cross.changeSettingStatus(chat_id, blocks[2], ln)
             end
             keyboard = doKeyboard_menu(chat_id)
-            api.editMessageText(msg.chat.id, msg_id, text, keyboard, true)
+            api.editMessageText(msg.chat.id, msg_id, lang[ln].all.menu_first, keyboard, true)
+            api.answerCallbackQuery(msg.cb_id, '⚙ '..text:mEscape_hard())
         end
     end
     if blocks[1] == 'media' then
@@ -197,8 +199,8 @@ local action = function(msg, blocks, ln)
 	        local media = blocks[2]
 	        local text = cross.changeMediaStatus(chat_id, media, 'next', ln)
             keyboard = doKeyboard_media(chat_id)
-            api.editMessageText(msg.chat.id, msg_id, text, keyboard, true)
-            api.answerCallbackQuery(msg.cb_id, '✅ '..media..' updated!')
+            api.editMessageText(msg.chat.id, msg_id, lang[ln].all.media_first, keyboard, true)
+            api.answerCallbackQuery(msg.cb_id, '⚡️ '..text:mEscape_hard())
         end
     end
 end
