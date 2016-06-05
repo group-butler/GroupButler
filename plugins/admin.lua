@@ -1,64 +1,64 @@
 local triggers2 = {
-	'^/a(init)$',
-	'^/a(stop)$',
-	'^/a(backup)$',
-	'^/a(bc) (.*)$',
-	'^/a(bcg) (.*)$',
-	'^/a(save)$',
-	'^/a(commands)$',
-	'^/a(stats)$',
-	'^/a(lua)$',
-	'^/a(lua) (.*)$',
-	'^/a(run) (.*)$',
-	'^/a(log) (del) (.*)',
-	'^/a(log) (del)',
-	'^/a(log) (.*)$',
-	'^/a(log)$',
-	'^/a(admin)$',
-	'^/a(block) (%d+)$',
-	'^/a(block)$',
-	'^/a(unblock) (%d+)$',
-	'^/a(unblock)$',
-	'^/a(isblocked)$',
-	'^/a(ping redis)$',
-	'^/a(leave) (-%d+)$',
-	'^/a(leave)$',
-	'^/a(post) (.*)$',
+	'^/(init)$',
+	'^/(stop)$',
+	'^/(backup)$',
+	'^/(bc) (.*)$',
+	'^/(bcg) (.*)$',
+	'^/(save)$',
+	'^/(commands)$',
+	'^/(stats)$',
+	'^/(lua)$',
+	'^/(lua) (.*)$',
+	'^/(run) (.*)$',
+	'^/(log) (del) (.*)',
+	'^/(log) (del)',
+	'^/(log) (.*)$',
+	'^/(log)$',
+	'^/(admin)$',
+	'^/(banall) (%d+)$',
+	'^/(banall$',
+	'^/(unbanall) (%d+)$',
+	'^/(unbanall)$',
+	'^/(isgbanned)$',
+	'^/(ping redis)$',
+	'^/(leave) (-%d+)$',
+	'^/(leave)$',
+	'^/(post) (.*)$',
 	'^###(forward)',
-	'^/a(reset) (.*)$',
-	'^/a(reset)$',
-	'^/a(send) (-?%d+) (.*)$',
-	'^/a(send) (.*)$',
-	'^/a(adminmode) (%a%a%a?)$',
-	'^/a(delflag)$',
-	'^/a(usernames)$',
-	'^/a(api errors)$',
-	'^/a(rediscli) (.*)$',
-	'^/a(updatewelcome)$',
-	'^/a(movechat) (-%d+)$',
-	'^/a(redis backup)$',
-	'^/a(group info) (-?%d+)$',
-	'^/a(fill media)$',
-	'^/a(genlang) (%a%a)$',
-	'^/a(trfile) (%a%a)$',
-	'^/a(trfile)$',
-	'^/a(fixaction) (-%d+)$',
-	'^/a(sendplug) (.*)$',
-	'^/a(sendfile) (.*)$',
-	'^/a(reply)$',
-	'^/a(reply) (.*)',
-	'^/a(download)$',
-	'^/a(savepin)$',
-	'^/a(delpin)$',
-	'^/a(migrate) (%d+)%s(%d+)',
-	'^/a(resid) (%d+)$',
-	'^/a(checkgroups)$',
-	'^/a(update)$',
-	'^/a(subadmin) (yes)$',
-	'^/a(subadmin) (no)$',
-	'^/a(req) (.*)$',
-	'^/a(tban) (get)$',
-	'^/a(tban) (flush)$',
+	'^/(reset) (.*)$',
+	'^/(reset)$',
+	'^/(send) (-?%d+) (.*)$',
+	'^/(send) (.*)$',
+	'^/(adminmode) (%a%a%a?)$',
+	'^/(delflag)$',
+	'^/(usernames)$',
+	'^/(api errors)$',
+	'^/(rediscli) (.*)$',
+	'^/(updatewelcome)$',
+	'^/(movechat) (-%d+)$',
+	'^/(redis backup)$',
+	'^/(group info) (-?%d+)$',
+	'^/(fill media)$',
+	'^/(genlang) (%a%a)$',
+	'^/(trfile) (%a%a)$',
+	'^/(trfile)$',
+	'^/(fixaction) (-%d+)$',
+	'^/(sendplug) (.*)$',
+	'^/(sendfile) (.*)$',
+	'^/(reply)$',
+	'^/(reply) (.*)',
+	'^/(download)$',
+	'^/(savepin)$',
+	'^/(delpin)$',
+	'^/(migrate) (%d+)%s(%d+)',
+	'^/(resid) (%d+)$',
+	'^/(checkgroups)$',
+	'^/(update)$',
+	'^/(subadmin) (yes)$',
+	'^/(subadmin) (no)$',
+	'^/(req) (.*)$',
+	'^/(tban) (get)$',
+	'^/(tban) (flush)$',
 }
 
 local logtxt = ''
@@ -391,11 +391,11 @@ local action = function(msg, blocks, ln)
 		end
 		mystat('/log')
     end
-	if blocks[1] == 'block' then
+	if blocks[1] == 'banall' then
 		local id
 		if not blocks[2] then
 			if not msg.reply then
-				api.sendReply(msg, 'This command need a reply')
+				api.sendReply(msg, '*This command need a reply*', true)
 				return
 			else
 				id = msg.reply.from.id
@@ -406,19 +406,19 @@ local action = function(msg, blocks, ln)
 		local response = db:sadd('bot:blocked', id)
 		local text
 		if response == 1 then
-			text = id..' have been blocked'
+			text = 'ID ' ..id..' have been *globally banned*.'
 		else
-			text = id..' was already blocked'
+			text = 'ID' ..id..' was already *globally banned*.'
 		end
-		api.sendReply(msg, text)
-		mystat('/block')
+		api.sendReply(msg, text, true)
+		mystat('/banall')
 	end
-	if blocks[1] == 'unblock' then
+	if blocks[1] == 'unbanall' then
 		local id
 		local response
 		if not blocks[2] then
 			if not msg.reply then
-				api.sendReply(msg, 'This command need a reply')
+				api.sendReply(msg, '*This command need a reply*', true)
 				return
 			else
 				id = msg.reply.from.id
@@ -429,25 +429,25 @@ local action = function(msg, blocks, ln)
 		local response = db:srem('bot:blocked', id)
 		local text
 		if response == 1 then
-			text = id..' have been unblocked'
+			text = 'ID ' ..id..' have been *unglobally banned*.'
 		else
-			text = id..' was already unblocked'
+			text = 'ID ' ..id..' was already *unglobally banned*.'
 		end
-		api.sendReply(msg, text)
-		mystat('/unblock')
+		api.sendReply(msg, text, true)
+		mystat('/unbanall')
 	end
-	if blocks[1] == 'isblocked' then
+	if blocks[1] == 'isgbanned' then
 		if not msg.reply then
-			api.sendReply(msg, 'This command need a reply')
+			api.sendReply(msg, '*This command need a reply*', true)
 			return
 		else
 			if is_blocked(msg.reply.from.id) then
-				api.sendReply(msg, 'yes')
+				api.sendReply(msg, '_Yes_', true)
 			else
-				api.sendReply(msg, 'no')
+				api.sendReply(msg, '_No_', true)
 			end
 		end
-		mystat('/isblocked')
+		mystat('/isgbanned')
 	end
 	if blocks[1] == 'ping redis' then
 		local ris = db:ping()
@@ -898,5 +898,5 @@ end
 return {
 	action = action,
 	cron = false,
-	triggers = {'^/a', '^###(forward)',}
+	triggers = triggers2
 }
