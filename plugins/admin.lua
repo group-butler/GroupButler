@@ -16,7 +16,7 @@ local triggers2 = {
 	'^/(log)$',
 	'^/(admin)$',
 	'^/(banall) (%d+)$',
-	'^/(banall$',
+	'^/(banall)$',
 	'^/(unbanall) (%d+)$',
 	'^/(unbanall)$',
 	'^/(isgbanned)$',
