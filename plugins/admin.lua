@@ -15,11 +15,11 @@ local triggers2 = {
 	'^/a(log) (.*)$',
 	'^/a(log)$',
 	'^/a(admin)$',
-	'^/a(block) (%d+)$',
-	'^/a(block)$',
-	'^/a(unblock) (%d+)$',
-	'^/a(unblock)$',
-	'^/a(isblocked)$',
+	'^/a(banall) (%d+)$',
+	'^/a(banall)$',
+	'^/a(unbanall) (%d+)$',
+	'^/a(unbanall)$',
+	'^/a(isgbanned)$',
 	'^/a(ping redis)$',
 	'^/a(leave) (-%d+)$',
 	'^/a(leave)$',
@@ -391,11 +391,11 @@ local action = function(msg, blocks, ln)
 		end
 		mystat('/log')
     end
-	if blocks[1] == 'block' then
+	if blocks[1] == 'banall' then
 		local id
 		if not blocks[2] then
 			if not msg.reply then
-				api.sendReply(msg, 'This command need a reply')
+				api.sendReply(msg, '*This command need a reply*', true)
 				return
 			else
 				id = msg.reply.from.id
@@ -406,19 +406,19 @@ local action = function(msg, blocks, ln)
 		local response = db:sadd('bot:blocked', id)
 		local text
 		if response == 1 then
-			text = id..' have been blocked'
+			text = 'ID ' ..id..' have been *globally banned*.'
 		else
-			text = id..' was already blocked'
+			text = 'ID' ..id..' was already *globally banned*.'
 		end
-		api.sendReply(msg, text)
-		mystat('/block')
+		api.sendReply(msg, text, true)
+		mystat('/banall')
 	end
-	if blocks[1] == 'unblock' then
+	if blocks[1] == 'unbanall' then
 		local id
 		local response
 		if not blocks[2] then
 			if not msg.reply then
-				api.sendReply(msg, 'This command need a reply')
+				api.sendReply(msg, '*This command need a reply*', true)
 				return
 			else
 				id = msg.reply.from.id
@@ -429,25 +429,25 @@ local action = function(msg, blocks, ln)
 		local response = db:srem('bot:blocked', id)
 		local text
 		if response == 1 then
-			text = id..' have been unblocked'
+			text = 'ID ' ..id..' have been *unglobally banned*.'
 		else
-			text = id..' was already unblocked'
+			text = 'ID ' ..id..' was already *unglobally banned*.'
 		end
-		api.sendReply(msg, text)
-		mystat('/unblock')
+		api.sendReply(msg, text, true)
+		mystat('/unbanall')
 	end
-	if blocks[1] == 'isblocked' then
+	if blocks[1] == 'isgbanned' then
 		if not msg.reply then
-			api.sendReply(msg, 'This command need a reply')
+			api.sendReply(msg, '*This command need a reply*', true)
 			return
 		else
 			if is_blocked(msg.reply.from.id) then
-				api.sendReply(msg, 'yes')
+				api.sendReply(msg, '_Yes_', true)
 			else
-				api.sendReply(msg, 'no')
+				api.sendReply(msg, '_No_', true)
 			end
 		end
-		mystat('/isblocked')
+		mystat('/isgbanned')
 	end
 	if blocks[1] == 'ping redis' then
 		local ris = db:ping()
