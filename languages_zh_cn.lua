@@ -15,7 +15,7 @@
             settings_header = '当前*群组*的语言设定是:\n\n*简体中文*: `&&&1`\n',
             reply = '通过*回复某人*或*@用户名*来使用这个指令',
             too_long = '这段文本太长了，我无法发送它。',
-            msg_me = '_Message me first so I can message you_',
+            msg_me = '_给我发条消息，我就能为您服务。_',
             tell = '*Group ID*: &&&1'
         },
         pv = '这条指令仅在群组中可以使用',
