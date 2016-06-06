@@ -1,7 +1,7 @@
     zh_cn = {
         status = {
-            kicked = '&&&1 在这个群组已被屏蔽',
-            left = '&&&1 离开或被移出了群组',
+            kicked = '&&&1 已被封禁',
+            left = '&&&1 已离开或被移出了群组',
             administrator = '&&&1 是群组管理员',
             creator = '&&&1 是群组创建者',
             unknown = '此用户与本群没有关系',
@@ -13,63 +13,63 @@
             the_group = '群组',
             adminlist_admin_required = '我还不是群组管理员。\n*只有群组管理员才能看见管理员名单*',
             settings_header = '当前*群组*的语言设定是:\n\n*简体中文*: `&&&1`\n',
-            reply = '通过*回复某人*或写下对方的*用户名*来使用这个指令',
+            reply = '通过*回复某人*或*@用户名*来使用这个指令',
             too_long = '这段文本太长了，我无法发送它。',
             msg_me = '_Message me first so I can message you_',
             tell = '*Group ID*: &&&1'
         },
         pv = '这条指令仅在群组中可以使用',
         not_mod = '你*不是*监督员',
-        breaks_markdown = 'This text breaks the markdown.\nMore info about a proper use of markdown [here](https://telegram.me/GroupButler_ch/46).',
-        credits = '*Some useful links:*',
-        not_admin = '_I can\'t work if I\'m not Admin of the group. It\'s the only way I have to see if an user is an admin or not :(\nFor more info, check_  [here](https://telegram.me/GroupButler_ch/63)',
+        breaks_markdown = '这段文本不符合*markdown*语法。\n有关Markdown语言的正确使用方法，可见[此处](https://telegram.me/GroupButler_ch/46)。',
+        credits = '*一些常用链接：*',
+        not_admin = '_我只有在成为群组管理员时才能正常运作，否则我无法判断谁是管理员:(\n详情见_ [此处](https://telegram.me/GroupButler_ch/63)',
         extra = {
-            setted = '&&&1 command saved!',
-			usage = 'Write next to /extra the title of the command and the text associated.\nFor example:\n/extra #motm stay positive. The bot will reply _\'Stay positive\'_ each time someone writes #motm',
-            new_command = '*New command set!*\n&&&1\n&&&2',
-            no_commands = 'No commands set!',
-            commands_list = 'List of *custom commands*:\n&&&1',
-            command_deleted = '&&&1 command have been deleted',
-            command_empty = '&&&1 command does not exist'
+            setted = '&&&1 指令已保存！',
+			usage = '在 /extra 后添加指令的标题和要提及的内容。\n例如：\n/extra #cat Meow~ 机器人将会在每次使用 #cat 的时候回复_\'Meow~\'_ ',
+            new_command = '*新的指令已设置！*\n&&&1\n&&&2',
+            no_commands = '还没有设置指令！',
+            commands_list = '*自定义指令*列表：\n&&&1',
+            command_deleted = '&&&1 指令已被删除',
+            command_empty = '&&&1 指令不存在'
         },
         help = {
             mods = {
-                banhammer = "*Moderators: banhammer powers*\n\n"
-                            .."`/kick [by reply|username]` = kick a user from the group (he can be added again).\n"
-                            .."`/ban [by reply|username]` = ban a user from the group (also from normal groups).\n"
-                            .."`/tempban [minutes]` = ban an user for a specific amount of minutes (minutes must be < 10.080, one week). For now, only by reply.\n"
-                            .."`/unban [by reply|username]` = unban the user from the group.\n"
-                            .."`/status [username]` = show the current status of the user `(member|kicked/left the chat|banned|admin/creator|never seen)`.\n"
-                            .."`/banlist` = show a list of banned users. Includes the motivations (if given during the ban)\n"
-                            .."\n*Note*: you can write something after `/ban` command (or after the username, if you are banning by username)."
-                            .." This comment will be used as the motivation of the ban.",
-                info = "*Moderators: info about the group*\n\n"
-                        .."`/setrules [group rules]` = set the new regulation for the group (the old will be overwritten).\n"
-                        .."`/addrules [text]` = add some text at the end of the existing rules.\n"
-                        .."`/setabout [group description]` = set a new description for the group (the old will be overwritten).\n"
-                        .."`/addabout [text]` = add some text at the end of the existing description.\n"
-                        .."\n*Note:* the markdown is supported. If the text sent breaks the markdown, the bot will notify that something is wrong.\n"
-                        .."For a correct use of the markdown, check [this post](https://telegram.me/GroupButler_ch/46) in the channel",
-                flood = "*Moderators: flood settings*\n\n"
-                        .."`/flood [on/off]` = turn on/off the anti-flood system.\n"
-                        .."`/flood [number]` = set how many messages a user can write in 5 seconds.\n"
-                        .."_Note_ : the number must be higher than 3 and lower than 26.\n"
-                        .."`/flood [kick/ban]` = choose what the bot should do (kick or ban) when the flood limit is triggered.\n"
-                        .."\n*Note:* you can manage flood settings in private from the inline keyboard called with `/menu`.",
-                media = "*Moderators: media settings*\n\n"
-                        .."`/media` = receive via private message an inline keyboard to change all the media settings.\n"
-                        .."`/media [kick|ban|allow] [type]` = change the action to perform when that specific media is sent.\n"
-                        .."_Example_ : `/media kick sticker`.\n"
-                        .."`/media list` = show the current settings for all the media.\n"
-                        .."\n*List of supported media*: _image, audio, video, sticker, gif, voice, contact, file, link_\n"
-                        .."\n*Note*: the first time a user send a forbidden media, the bot won't kick him. Instead, a warn is sent: the next time, the user will be kicked/banned.",
-                welcome = "*Moderators: welcome settings*\n\n"
-                            .."`/enable welcome` = the welcome message will be sent when a new user join the group.\n"
-                            .."`/disable welcome` = the welcome message won't be sent.\n"
-                            .."\n*Custom welcome message:*\n"
-                            .."`/welcome Welcome $name, enjoy the group!`\n"
-                            .."Write after \"/welcome\" your welcome message. You can use some placeholders to include the name/username/id of the new member of the group\n"
-                            .."Placeholders: _$username_ (will be replaced with the username); _$name_ (will be replaced with the name); _$id_ (will be replaced with the id); _$title_ (will be replaced with the group title).\n"
+                banhammer = "*监督员权限: 禁令之锤*\n\n"
+                            .."`/kick [通过回复|@用户名]` = 将某人移出群组。（可以被添加回群组）\n"
+                            .."`/ban [通过回复|@用户名]` = 封禁某人。（包括普通群组）\n"
+                            .."`/tempban [时长（分钟）]` = 将某人临时屏蔽一段时间（时长必须 < 10080 分钟 = 1周）. 目前仅支持通过回复执行此指令。\n"
+                            .."`/unban [通过回复|@用户名]` = 将某人从黑名单中移除.\n"
+                            .."`/status [@用户名]` = 显示某人的状态 `(群员|已离开/被移出|被封禁|管理员/创建者|不认识)`.\n"
+                            .."`/banlist` = 显示被封禁的用户及原因（如果有记录）\n"
+                            .."\n*注*：你可以在 `/ban` 指令后附上备注（如果你是通过 `@用户名` 封禁的，可以在用户名后附上）."
+                            .." 这段备注将会作为封禁原因记录。",
+                info = "*监督员权限: 群组介绍*\n\n"
+                        .."`/setrules [群组规则]` = 设置新的群组规则。（旧规则将会被覆盖）\n"
+                        .."`/addrules [文本]` = 在现有规则后添加文本。\n"
+                        .."`/setabout [群组简介]` = 设置新的群组简介。（旧简介将会被覆盖）\n"
+                        .."`/addabout [文本]` = 在现有简介后添加新的文本。\n"
+                        .."\n*注*：支持markdown语言，如果您发送的文本里有语法错误，机器人将会提醒您。\n"
+                        .."有关Markdown语言的正确使用方法，可见[此处](https://telegram.me/GroupButler_ch/46)。",
+                flood = "*监督员权限: 刷屏控制*\n\n"
+                        .."`/flood [开启/关闭]` = 开启/关闭防刷屏系统。\n"
+                        .."`/flood [数字]` = 设置一个用户在 5 秒内可以发送多少条信息。\n"
+                        .."_注_：数字必须 > 3 且 < 26。\n"
+                        .."`/flood [移除/封禁]` = 达到限制值时机器人应执行什么指令？（移除/封禁）\n"
+                        .."\n*注*：你可以在私聊中使用 `/menu` 指令获取内联菜单以管理防刷屏设置。",
+                media = "*监督员权限: 媒体消息*\n\n"
+                        .."`/media` = 在私聊中获取内联菜单以更改媒体消息设置。\n"
+                        .."`/media [移除|封禁|放行] [媒体类型]` = 当特定媒体类型被发送时，机器人执行的指令。\n"
+                        .."_如_ ： `/media kick sticker`.\n"
+                        .."`/media list` = 列出目前的媒体消息设置。\n"
+                        .."\n*支持的媒体类型列表*: _image, audio, video, sticker, gif, voice, contact, file, link_\n"
+                        .."\n*注*：若有人第一次发送被禁止的媒体消息，机器人将会先进行警告。只有在第二次触犯时才会被移除/封禁。",
+                welcome = "*监督员权限: 新用户欢迎*\n\n"
+                            .."`/enable welcome` = 当有新用户加入时会发送欢迎语。\n"
+                            .."`/disable welcome` = 欢迎语将不会被发送。\n"
+                            .."\n*自定义欢迎语：*\n"
+                            .."`/welcome 欢迎 $name，快和其他人打成一片吧！`\n"
+                            .."在\"/welcome\" 指令后附上欢迎语，同时你也可以使用一些占位符来添加新群员的 name/username/id。\n"
+                            .."占位符: _$username_ （将会被代入为用户名）; _$name_ （将会被代入为姓名）; _$id_ （将会被代入为ID）; _$title_ （将会被代入为群组名）。\n"
                             .."\n*GIF/sticker as welcome message*\n"
                             .."You can use a particular gif/sticker as welcome message. To set it, reply to a gif/sticker with \'/welcome\'\n"
                             .."\n*Composed welcome message*\n"
