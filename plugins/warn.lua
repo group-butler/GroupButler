@@ -63,7 +63,7 @@ local action = function(msg, blocks, ln)
 		    	if not motivation then
 		    		motivation = lang[ln].banhammer.general_motivation
 		    	else
-		    		db:hdel('chat:'..msg.chat.id..':warns', msg.added.id) --if kick/ban works, remove the warns
+		    		db:hdel('chat:'..msg.chat.id..':warns', msg.from.id) --if kick/ban works, remove the warns
 		    	end
 		    	text = motivation
 		    end

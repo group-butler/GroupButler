@@ -214,10 +214,10 @@ return {
 	action = action,
 	cron = cron,
 	triggers = {
-		'^/(kickme)%s',
+		'^/(kickme)%s?',
 		'^/(kick) (@[%w_]+)',
 		'^/(kick)',
-		--'^/(banlist)$',
+		'^/(banlist)$',
 		'^/(ban) (@[%w_]+)',
 		'^/(ban)',
 		--'^/(tempban) (@[%w_]+) (%d+)',

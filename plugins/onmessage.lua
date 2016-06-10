@@ -12,13 +12,11 @@ local function saveFirstWarn(chat, user, media, ln)
 end
 
 pre_process = function(msg, ln)
-    if is_blocked(msg.from.id) then
-        print('Blocked:', msg.from.id)
-        return msg, true --if an user is blocked, don't go through plugins
-    end
-    if msg.cb then
+    
+    if msg.cb then --ignore callbacks
         return msg
     end
+    
     if msg.chat.type ~= 'private' then
         local spamhash = 'spam:'..msg.chat.id..':'..msg.from.id
         local msgs = tonumber(db:get(spamhash)) or 0
@@ -114,6 +112,11 @@ pre_process = function(msg, ln)
     		    api.sendMessage(msg.chat.id, make_text(lang[ln].preprocess.arab, name:mEscape()), true)
     		end
         end
+    end
+    
+    if is_blocked(msg.from.id) then --ignore blocked users
+        print('Blocked:', msg.from.id)
+        return msg, true --if an user is blocked, don't go through plugins
     end
     
     return msg

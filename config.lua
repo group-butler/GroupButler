@@ -1,5 +1,6 @@
 return {
 	bot_api_key = '',
+	version = '2.1.1', -- /aupdate for v2.1.1
 	admin = {
 		owner = 23646077,
 		admins = {
@@ -82,8 +83,9 @@ return {
 		[123] = 'Bad Request: Object expected as reply markup', --empty inline keyboard table
 		[124] = 'QUERY_ID_INVALID', --callback query id invalid
 		[125] = 'CHANNEL_PRIVATE', --I don't know
+		[126] = 'MESSAGE_TOO_LONG', --text of an inline callback answer is too long
 
-		[130] = 'Type of file to send mismatch', --tryin to send a media with the wrong method
+		[130] = 'Type of file to send mismatch', --trying to send a media with the wrong method
 
 		[403] = 'Bot was blocked by the user', --user blocked the bot
 		[429] = 'Too many requests: retry later', --the bot is hitting api limits

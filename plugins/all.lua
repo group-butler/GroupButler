@@ -80,17 +80,21 @@ end
 
 local function doKeyboard_menu(chat_id)
     local keyboard = {}
+    
+    --settings
     local settings = db:hgetall('chat:'..chat_id..':settings')
     keyboard.inline_keyboard = {}
     for key,val in pairs(settings) do
         if val == 'yes' then val = '🚫' end
         if val == 'no' then val = '☑️' end
         local current = {
-            {text = key, callback_data = 'menualert//'},
+            {text = key:gsub('_', ' '), callback_data = 'menualert//'},
             {text = val, callback_data = 'menu'..key..'//'..chat_id}
         }
         table.insert(keyboard.inline_keyboard, current)
     end
+    
+    --flood
     local hash = 'chat:'..chat_id..':flood'
     local action = db:hget(hash, 'ActionFlood')
     local num = db:hget(hash, 'MaxFlood')
@@ -101,6 +105,8 @@ local function doKeyboard_menu(chat_id)
     }
     table.insert(keyboard.inline_keyboard, flood)
     
+    --warn
+    
     return keyboard
 end
 
@@ -108,7 +114,7 @@ local action = function(msg, blocks, ln)
     --get the interested chat id
     local chat_id, msg_id
     if msg.cb then
-        chat_id = msg.data:gsub('%a+//', '')
+        chat_id = msg.data:gsub('[%a _]+//', '')
         msg_id = msg.message_id
     else
         chat_id = msg.chat.id
@@ -226,6 +232,7 @@ return {
     	'^###cb:(menu)(Report)//',
     	'^###cb:(menu)(Welcome)//',
     	'^###cb:(menu)(Extra)//',
+    	'^###cb:(menu)(Admin_mode)//',
     	'^###cb:(menu)(Flood)//',
     	'^###cb:(menu)(DimFlood)//',
     	'^###cb:(menu)(RaiseFlood)//',

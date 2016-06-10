@@ -56,7 +56,7 @@ $ cd GroupButler && sudo chmod 777 launch.sh
 
 > • Set bot_api_key to the authentication token you received from the [BotFather](http://telegram.me/BotFather).
 >
-> • Set admin as your Telegram ID (under `admin.owner` field). You can set up a log group where error messages will be sent: this allows to split errors from user feedbacks. Replace the current id with the id of your designed group, otherwise remove it.
+> • Set admin as your Telegram ID (under `admin.owner` field and under `admin.admins`, as a table element with `true` value). You can set up a log group where error messages will be sent: this allows to split errors from user feedbacks. Replace the current id with the id of your designed group, otherwise remove it.
 >
 > • Set your bot channel (if you have one) in config.lua, under `channel` field. You should add the bot to the channel admins, if you want to post something through it.
 >
@@ -69,6 +69,7 @@ Before start the bot, you have to start Redis. Open a new window and type:
 $ sudo service redis-server start
 ```
 
+If you are updating the bot, always check near the `version` field if you have to run `/aupdate` command after the first start.
 * * *
 
 ##MUST READ!!!

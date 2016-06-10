@@ -119,6 +119,10 @@ end
 
 function is_locked(msg, cmd)
   	local hash = 'chat:'..msg.chat.id..':settings'
+  	local is_adminmode_locked = db:hget(hash, 'Admin_mode')
+  	if is_adminmode_locked == 'no' and (cmd == 'Rules' or cmd == 'About' or cmd == 'Modlist' or cmd == 'Extra') then
+  		return true
+  	end
   	local current = db:hget(hash, cmd)
   	if current == 'yes' then
   		return true
@@ -691,9 +695,9 @@ local function getSettings(chat_id, ln)
             
         local text
         if val == 'yes' then
-            text = make_text(lang[ln].settings[key])..': 🚫\n'
+            text = lang[ln].settings[key]..': 🚫\n'
         else
-            text = '*'..make_text(lang[ln].settings[key])..'*: ✅\n'
+            text = '*'..lang[ln].settings[key]..'*: ✅\n'
         end
         message = message..text --concatenete the text
         if key == 'Flood' then
@@ -856,7 +860,7 @@ local function initGroup(chat_id)
 	db:hset(hash, 'ActionFlood', 'kick')
 	
 	--warn
-	db:set('chat:'..chat_id..':max', 5)
+	db:set('chat:'..chat_id..':max', 3)
 	db:set('chat:'..chat_id..':warntype', 'ban')
 	
 	--set media values

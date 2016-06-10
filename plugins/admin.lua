@@ -59,6 +59,8 @@ local triggers2 = {
 	'^/a(req) (.*)$',
 	'^/a(tban) (get)$',
 	'^/a(tban) (flush)$',
+	'^/a(db) (.*)$',
+	'^a(aa)$'
 }
 
 local logtxt = ''
@@ -195,7 +197,7 @@ local action = function(msg, blocks, ln)
 		if blocks then break end
 	end
 	
-	if not blocks or not next(blocks) then return end
+	if not blocks or not next(blocks) then return true end --continue to match plugins
 	
 	if blocks[1] == 'admin' then
 		local text = ''
@@ -854,13 +856,14 @@ local action = function(msg, blocks, ln)
 		local i = 0
 		local txt = ''
 		for i,chat_id in pairs(ids) do
-			db:hset('chat:'..chat_id..':media', 'link', 'allowed')
+			db:hset('chat:'..chat_id..':settings', 'Admin_mode', 'yes')
+			db:hdel('chat:'..chat_id..':settings', 'Admin mode')
 			txt = txt..chat_id..'\n'
 			i = i + 1
 		end
 		txt = i..'\n\n'..txt
-		write_file('logs/mediaupdate2.txt', txt)
-		api.sendDocument(config.admin.owner, './logs/mediaupdate2.txt')
+		write_file('logs/adminmode.txt', txt)
+		api.sendDocument(config.admin.owner, './logs/adminmode.txt')
 	end
 	if blocks[1] == 'subadmin' then
 		--the status will be resetted at the next stop
@@ -892,6 +895,23 @@ local action = function(msg, blocks, ln)
 		if blocks[2] == 'get' then
 			api.sendMessage(msg.chat.id, vtext(db:hgetall('tempbanned')))
 		end
+	end
+	if blocks[1] == 'db' then
+		if blocks[2] == '00' then
+			local output = io.popen('redis-cli config get databases'):read('*all')
+			if output then
+				api.sendReply(msg, output)
+			else
+				api.sendReply(msg, 'No output')
+			end
+			return
+		end
+		local db_number = tonumber(blocks[2])
+		db:select(db_number)
+		api.sendReply(msg, 'Current database: *'..db_number..'*\n(Main: *0*)', true)
+	end
+	if blocks[1] == 'aa' then
+		api.sendAdmin(msg.chat.id)
 	end
 end
 

@@ -97,6 +97,27 @@ local action = function(msg, blocks, ln)
  		original = 'Forse volevi dire:\n"'..original..'"'
  		api.sendReply(msg.reply, original, false, msg.reply.message_id)
  	end
+ 	if blocks[1] == 'adminmode' then
+ 		if msg.chat.type == 'private' or not is_mod(msg) then return end
+ 		local hash = 'chat:'..msg.chat.id..':settings'
+ 		local status = db:hget(hash, 'Admin_mode')
+ 		print(status)
+ 		if blocks[2] == 'on' then
+ 			if status == 'yes' then
+ 				db:hset(hash, 'Admin_mode', 'no')
+ 				api.sendReply(msg, lang[ln].settings.enable.admin_mode_unlocked, true)
+ 			else
+ 				api.sendReply(msg, lang[ln].settings.enable.admin_mode_already, true)
+ 			end
+ 		elseif blocks[2] == 'off' then
+ 			if status == 'no' then
+ 				db:hset(hash, 'Admin_mode', 'yes')
+ 				api.sendReply(msg, lang[ln].settings.disable.admin_mode_locked, true)
+ 			else
+ 				api.sendReply(msg, lang[ln].settings.disable.admin_mode_already, true)
+ 			end
+ 		end
+	 end
 end
 
 return {
@@ -106,6 +127,8 @@ return {
 		'^/(initgroup)$',
 		'^/(adminlist)$',
 		'^/(status) (@[%w_]+)$',
-		'^(s)/(.*)/(.*)$'
+		'^(s)/(.*)/(.*)$',
+		'^/(adminmode) (off)$',
+		'^/(adminmode) (on)$'
 	}
 }

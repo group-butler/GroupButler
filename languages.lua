@@ -18,7 +18,7 @@ return {
             reply = '*Reply to someone* to use this command, or write a *username*',
             too_long = 'This text is too long, I can\'t send it',
             msg_me = '_Message me first so I can message you_',
-            tell = '*Group ID*: &&&1'
+            tell = '*Group ID*: &&&1',
         },
         pv = 'This is a command available only in a group',
         not_mod = 'You are *not* a moderator',
@@ -77,7 +77,7 @@ return {
                             .."\n*Composed welcome message*\n"
                             .."You can compose your welcome message with the rules, the description and the moderators list.\n"
                             .."You can compose it by writing `/welcome` followed by the codes of what the welcome message has to include.\n"
-                            .."_Codes_ : *r* = rules; *a* = description (about); *m* = modlist.\n"
+                            .."_Codes_ : *r* = rules; *a* = description (about); *m* = adminlist.\n"
                             .."For example, with \"`/welcome rm`\", the welcome message will show rules and moderators list",
                 extra = "*Moderators: extra commands*\n\n"
                         .."`/extra [#trigger] [reply]` = set a reply to be sent when someone writes the trigger.\n"
@@ -115,9 +115,9 @@ return {
                         .."In the file you will find all the instructions: follow them, and as soon as possible your language will be available ;)",
                 settings = "*Moderators: group settings*\n\n"
                             .."`/menu` = manage the group settings in private with an handy inline keyboard.\n"
-                            .."`/disable [rules|about|modlist|extra]` = this commands will be available *only for moderators* (the bot won't reply to normal users).\n"
-                            .."_Example_ : with \"`/disable extra`\", #extra commands will be available only for moderators. The same can be done with _rules, about, modlist_.\n"
-                            .."`/enable [rules|about|modlist|extra]` = the commands will be available for everyone (and not only for moderators). Enabled it's the default status.\n"
+                            .."`/disable [rules|about|adminlist|extra]` = this commands will be available *only for moderators* (the bot won't reply to normal users).\n"
+                            .."_Example_ : with \"`/disable extra`\", #extra commands will be available only for moderators. The same can be done with _rules, about, adminlist_.\n"
+                            .."`/enable [rules|about|adminlist|extra]` = the commands will be available for everyone (and not only for moderators). Enabled it's the default status.\n"
                             .."`/enable report` = users will be able to send feedback/report messages to moderators, using \"@admin\" command.\n"
                             .."`/disable report` = users won't be able to send feedback/report messages to moderators (default status: disabled).\n"
                             .."`/report [on/off]` (by reply) = the user won't be able (_off_) or will be able (_on_) to use \"@admin\" command.\n",
@@ -238,7 +238,9 @@ return {
                 arab_locked = 'Anti-arab characters is now *on*',
                 report_already = '@admin command is already *not enabled*',
                 report_locked = '@admin command *won\'t be available* from now',
-                wrong_input = 'Argument unavailable.\nUse `/disable [rules|about|welcome|modlist|report|extra|rtl|arab]` instead',
+                admin_mode_already = 'Admin mode already *off*',
+                admin_mode_locked = 'Admin mode *off*',
+                wrong_input = 'Argument unavailable.\nUse `/disable [rules|about|welcome|adminlist|report|extra|rtl|arab]` instead',
             },
             enable = {
                 no_input = 'Enable what?',
@@ -262,7 +264,9 @@ return {
                 arab_unlocked = 'Anti-arab characters is now *off*',
                 report_already = '@admin command is already *available*',
                 report_unlocked = '@admin command is now *available*',
-                wrong_input = 'Argument unavailable.\nUse `/enable [rules|about|welcome|modlist|report|extra|rtl|arab]` instead'
+                admin_mode_already = 'Admin mode is already *on*',
+                admin_mode_unlocked = 'Admin mode *on*',
+                wrong_input = 'Argument unavailable.\nUse `/enable [rules|about|welcome|adminlist|report|extra|rtl|arab]` instead'
             },
             welcome = {
                 no_input = 'Welcome and...?',
@@ -285,11 +289,11 @@ return {
                 header = 'Current settings for *&&&1*:\n\n*Language*: `&&&2`\n',
                 w_a = '*Welcome type*: `welcome + about`\n',
                 w_r = '*Welcome type*: `welcome + rules`\n',
-                w_m = '*Welcome type*: `welcome + modlist`\n',
+                w_m = '*Welcome type*: `welcome + adminlist`\n',
                 w_ra = '*Welcome type*: `welcome + rules + about`\n',
-                w_rm = '*Welcome type*: `welcome + rules + modlist`\n',
-                w_am = '*Welcome type*: `welcome + about + modlist`\n',
-                w_ram = '*Welcome type*: `welcome + rules + about + modlist`\n',
+                w_rm = '*Welcome type*: `welcome + rules + adminlist`\n',
+                w_am = '*Welcome type*: `welcome + about + adminlist`\n',
+                w_ram = '*Welcome type*: `welcome + rules + about + adminlist`\n',
                 w_no = '*Welcome type*: `welcome only`\n',
                 w_media = '*Welcome type*: `gif/sticker`\n',
                 w_custom = '*Welcome type*: `custom message`\n',
@@ -299,13 +303,14 @@ return {
             Rules = 'Rules',
             About = 'About',
             Welcome = 'Welcome message',
-            Modlist = 'Modlist',
+            Modlist = 'Adminlist',
             Flag = 'Flag',
             Extra = 'Extra',
             Flood = 'Flood',
             Rtl = 'Rtl',
             Arab = 'Arab',
             Report = 'Report',
+            Admin_mode = 'Admin mode',
         },
         warn = {
             warn_reply = 'Reply to a message to warn the user',
@@ -510,9 +515,9 @@ return {
                         .."Nel file troverai tutte le istruzioni: seguile, e il linguggio sarà disponibile il prima possibile ;)  (traduzione in italiano NON NECESSARIA)",
                 settings = "*Moderatori: impostazioni del gruppo*\n\n"
                             .."`/menu` = gestisci le impostazioni del gruppo in privato tramite una comoda tastiera inline.\n"
-                            .."`/disable [rules|about|modlist|extra]` = questi comandi saranno disponibili *solamente ai moderatori* (il bot non risponderà agli utenti normali).\n"
-                            .."_Esempio_ : con \"`/disable extra`\", i comanid #extra potranno essere usati solo dai moderatori. Lo stesso vale per _rules, about, modlist_.\n"
-                            .."`/enable [rules|about|modlist|extra]` = il comando sarà diponibile a tutti (e non solamente ai moderatori). \"Abilitato\" è lo stato di default.\n"
+                            .."`/disable [rules|about|adminlist|extra]` = questi comandi saranno disponibili *solamente ai moderatori* (il bot non risponderà agli utenti normali).\n"
+                            .."_Esempio_ : con \"`/disable extra`\", i comanid #extra potranno essere usati solo dai moderatori. Lo stesso vale per _rules, about, adminlist_.\n"
+                            .."`/enable [rules|about|adminlist|extra]` = il comando sarà diponibile a tutti (e non solamente ai moderatori). \"Abilitato\" è lo stato di default.\n"
                             .."`/enable report` = gli utenti potranno inviare un feedback o segnalare un messaggio ai moderatori, usando il comando \"@admin\".\n"
                             .."`/disable report` = gli utenti non potranno inviare un feedback/segnalare un messaggio ai moderatori con il comando \"@admin\" (stato di default: disabilitato).\n"
                             .."`/report [on/off]` (by reply) = l'utente non potrà (_off_) o potrà (_on_) usare il comando \"@admin\".\n",
@@ -623,7 +628,9 @@ return {
                 arab_locked = 'Anti-caratteri arabi è ora *on*',
                 report_already = '@admin è già *non disponibile*',
                 report_locked = '@admin *non sarà disponibile* da ora',
-                wrong_input = 'Argomento invalido.\nUsa invece `/disable [rules|about|welcome|modlist|report|extra|rtl|arab]`',
+                admin_mode_already = 'L\'admin mode è già *off*',
+                admin_mode_locked = 'Admin mode *off*',
+                wrong_input = 'Argomento invalido.\nUsa invece `/disable [rules|about|welcome|adminlist|report|extra|rtl|arab]`',
             },
             enable = {
                 no_input = 'Abilitare cosa?',
@@ -647,7 +654,9 @@ return {
                 arab_unlocked = 'Anti-caratteri arabi è ora *off*',
                 report_already = '@admin è già *disponibile*',
                 report_unlocked = '@admin è ora *disponibile*',
-                wrong_input = 'Argomento non disponibile.\nUsa invece `/enable [rules|about|welcome|modlist|report|extra|rtl|arab]`'
+                admin_mode_already = 'L\'admin mode è già *on*',
+                admin_mode_unlocked = 'Admin mode *on*',
+                wrong_input = 'Argomento non disponibile.\nUsa invece `/enable [rules|about|welcome|adminlist|report|extra|rtl|arab]`'
             },
             welcome = {
                 no_input = 'Welcome e...?',
@@ -692,7 +701,8 @@ return {
             Flood = 'Flood',
             Rtl = 'Rtl',
             Arab = 'Arabo',
-            Report = 'Report'
+            Report = 'Report',
+            Admin_mode = 'Admin mode',
         },
         warn = {
             warn_reply = 'Rispondi ad un messaggio per ammonire un utente (warn)',
@@ -860,7 +870,7 @@ return {
                             .."\n*Composed welcome message*\n"
                             .."You can compose your welcome message with the rules, the description and the moderators list.\n"
                             .."You can compose it by writing `/welcome` followed by the codes of what the welcome message has to include.\n"
-                            .."_Codes_ : *r* = rules; *a* = description (about); *m* = modlist.\n"
+                            .."_Codes_ : *r* = rules; *a* = description (about); *m* = adminlist.\n"
                             .."For example, with \"`/welcome rm`\", the welcome message will show rules and moderators list",
                 extra = "*Moderators: extra commands*\n\n"
                         .."`/extra [#trigger] [reply]` = set a reply to be sent when someone writes the trigger.\n"
@@ -898,9 +908,9 @@ return {
                         .."In the file you will find all the instructions: follow them, and as soon as possible your language will be available ;)",
                 settings = "*Moderators: group settings*\n\n"
                             .."`/menu` = manage the group settings in private with an handy inline keyboard.\n"
-                            .."`/disable [rules|about|modlist|extra]` = this commands will be available *only for moderators* (the bot won't reply to normal users).\n"
-                            .."_Example_ : with \"`/disable extra`\", #extra commands will be available only for moderators. The same can be done with _rules, about, modlist_.\n"
-                            .."`/enable [rules|about|modlist|extra]` = the commands will be available for everyone (and not only for moderators). Enabled it's the default status.\n"
+                            .."`/disable [rules|about|adminlist|extra]` = this commands will be available *only for moderators* (the bot won't reply to normal users).\n"
+                            .."_Example_ : with \"`/disable extra`\", #extra commands will be available only for moderators. The same can be done with _rules, about, adminlist_.\n"
+                            .."`/enable [rules|about|adminlist|extra]` = the commands will be available for everyone (and not only for moderators). Enabled it's the default status.\n"
                             .."`/enable report` = users will be able to send feedback/report messages to moderators, using \"@admin\" command.\n"
                             .."`/disable report` = users won't be able to send feedback/report messages to moderators (default status: disabled).\n"
                             .."`/report [on/off]` (by reply) = the user won't be able (_off_) or will be able (_on_) to use \"@admin\" command.\n",
@@ -1011,7 +1021,9 @@ return {
                 arab_locked = 'Anti-caracteres arabe *desactivado*',
                 report_already = 'Comando @admin ya *desactivado*',
                 report_locked = 'Comando @admin *no disponible*',
-                wrong_input = 'Argumento no valido.\nUsa `/disable [rules|about|welcome|modlist|report|extra|rtl|arab|private]`',
+                admin_mode_already = 'Admin mode already *off*',
+                admin_mode_locked = 'Admin mode *off*',
+                wrong_input = 'Argumento no valido.\nUsa `/disable [rules|about|welcome|adminlist|report|extra|rtl|arab|private]`',
             },
             enable = {
                 no_input = '¿Activar el que?',
@@ -1035,7 +1047,9 @@ return {
                 arab_unlocked = 'Anti-caracteres arabe *apagado*',
                 report_already = 'Comando @admin ya *disponible*',
                 report_unlocked = 'Comando @admin *disponible*',
-                wrong_input = 'Argumento no disponible.\nUsa `/enable [rules|about|welcome|modlist|report|extra|rtl|arab|private]`'
+                admin_mode_already = 'Admin mode is already *on*',
+                admin_mode_unlocked = 'Admin mode *on*',
+                wrong_input = 'Argumento no disponible.\nUsa `/enable [rules|about|welcome|adminlist|report|extra|rtl|arab|private]`'
             },
             welcome = {
                 no_input = 'Bienvenida y...?',
@@ -1079,6 +1093,7 @@ return {
             Rtl = 'Rtl',
             Arab = 'Arabe',
             Report = 'Reportar',
+            Admin_mode = 'Admin mode',
         },
         warn = {
             warn_reply = 'Menciona el mensaje para advertir al usuario',
@@ -1247,7 +1262,7 @@ return {
                             .."\n*Composed welcome message*\n"
                             .."You can compose your welcome message with the rules, the description and the moderators list.\n"
                             .."You can compose it by writing `/welcome` followed by the codes of what the welcome message has to include.\n"
-                            .."_Codes_ : *r* = rules; *a* = description (about); *m* = modlist.\n"
+                            .."_Codes_ : *r* = rules; *a* = description (about); *m* = adminlist.\n"
                             .."For example, with \"`/welcome rm`\", the welcome message will show rules and moderators list",
                 extra = "*Moderators: extra commands*\n\n"
                         .."`/extra [#trigger] [reply]` = set a reply to be sent when someone writes the trigger.\n"
@@ -1285,9 +1300,9 @@ return {
                         .."In the file you will find all the instructions: follow them, and as soon as possible your language will be available ;)",
                 settings = "*Moderators: group settings*\n\n"
                             .."`/menu` = manage the group settings in private with an handy inline keyboard.\n"
-                            .."`/disable [rules|about|modlist|extra]` = this commands will be available *only for moderators* (the bot won't reply to normal users).\n"
-                            .."_Example_ : with \"`/disable extra`\", #extra commands will be available only for moderators. The same can be done with _rules, about, modlist_.\n"
-                            .."`/enable [rules|about|modlist|extra]` = the commands will be available for everyone (and not only for moderators). Enabled it's the default status.\n"
+                            .."`/disable [rules|about|adminlist|extra]` = this commands will be available *only for moderators* (the bot won't reply to normal users).\n"
+                            .."_Example_ : with \"`/disable extra`\", #extra commands will be available only for moderators. The same can be done with _rules, about, adminlist_.\n"
+                            .."`/enable [rules|about|adminlist|extra]` = the commands will be available for everyone (and not only for moderators). Enabled it's the default status.\n"
                             .."`/enable report` = users will be able to send feedback/report messages to moderators, using \"@admin\" command.\n"
                             .."`/disable report` = users won't be able to send feedback/report messages to moderators (default status: disabled).\n"
                             .."`/report [on/off]` (by reply) = the user won't be able (_off_) or will be able (_on_) to use \"@admin\" command.\n",
@@ -1398,7 +1413,9 @@ return {
                 arab_locked = 'Anti-árabe agora está *ativado*',
                 report_already = 'comando @admin já está *desabilitado*',
                 report_locked = 'O comando @admin *não estará disponível* a partir de agora',
-                wrong_input = 'Argumento inválido.\nUse `/disable [rules|about|welcome|modlist|report|extra|rtl|arab|private]`',
+                admin_mode_already = 'Admin mode already *off*',
+                admin_mode_locked = 'Admin mode *off*',
+                wrong_input = 'Argumento inválido.\nUse `/disable [rules|about|welcome|adminlist|report|extra|rtl|arab|private]`',
             },
             enable = {
                 no_input = 'Habilitar o que?',
@@ -1422,7 +1439,9 @@ return {
                 arab_unlocked = 'Anti-árabe agora está *desligado*',
                 report_already = 'O comando @admin já está *disponível*',
                 report_unlocked = 'O comando @admin agora está *disponível*',
-                wrong_input = 'Argumento inválido.\nUse `/enable [rules|about|welcome|modlist|report|extra|rtl|arab|private]`',
+                admin_mode_already = 'Admin mode is already *on*',
+                admin_mode_unlocked = 'Admin mode *on*',
+                wrong_input = 'Argumento inválido.\nUse `/enable [rules|about|welcome|adminlist|report|extra|rtl|arab|private]`',
             },
             welcome = {
                 no_input = 'Bem-vindo(a) e...?',
@@ -1466,6 +1485,7 @@ return {
             Rtl = 'Rtl',
             Arab = 'Árabe',
             Report = 'Denúncia',
+            Admin_mode = 'Admin mode',
         },
         warn = {
             warn_reply = 'Responda a uma mensagem para adventir o(a) usuário(a)',
@@ -1633,7 +1653,7 @@ return {
                             .."\n*Composed welcome message*\n"
                             .."You can compose your welcome message with the rules, the description and the moderators list.\n"
                             .."You can compose it by writing `/welcome` followed by the codes of what the welcome message has to include.\n"
-                            .."_Codes_ : *r* = rules; *a* = description (about); *m* = modlist.\n"
+                            .."_Codes_ : *r* = rules; *a* = description (about); *m* = adminlist.\n"
                             .."For example, with \"`/welcome rm`\", the welcome message will show rules and moderators list",
                 extra = "*Moderators: extra commands*\n\n"
                         .."`/extra [#trigger] [reply]` = set a reply to be sent when someone writes the trigger.\n"
@@ -1671,9 +1691,9 @@ return {
                         .."In the file you will find all the instructions: follow them, and as soon as possible your language will be available ;)",
                 settings = "*Moderators: group settings*\n\n"
                             .."`/menu` = manage the group settings in private with an handy inline keyboard.\n"
-                            .."`/disable [rules|about|modlist|extra]` = this commands will be available *only for moderators* (the bot won't reply to normal users).\n"
-                            .."_Example_ : with \"`/disable extra`\", #extra commands will be available only for moderators. The same can be done with _rules, about, modlist_.\n"
-                            .."`/enable [rules|about|modlist|extra]` = the commands will be available for everyone (and not only for moderators). Enabled it's the default status.\n"
+                            .."`/disable [rules|about|adminlist|extra]` = this commands will be available *only for moderators* (the bot won't reply to normal users).\n"
+                            .."_Example_ : with \"`/disable extra`\", #extra commands will be available only for moderators. The same can be done with _rules, about, adminlist_.\n"
+                            .."`/enable [rules|about|adminlist|extra]` = the commands will be available for everyone (and not only for moderators). Enabled it's the default status.\n"
                             .."`/enable report` = users will be able to send feedback/report messages to moderators, using \"@admin\" command.\n"
                             .."`/disable report` = users won't be able to send feedback/report messages to moderators (default status: disabled).\n"
                             .."`/report [on/off]` (by reply) = the user won't be able (_off_) or will be able (_on_) to use \"@admin\" command.\n",
@@ -1783,7 +1803,9 @@ return {
                 arab_locked = 'Anti-arab фильтр *включен*',
                 report_already = '@admin уже *выключена*',
                 report_locked = '@admin теперь не будет доступна',
-                wrong_input = 'Неправильно задан аргумент.\nИспользуй `/disable [rules|about|welcome|modlist|report|extra|rtl|arab]` ',
+                admin_mode_already = 'Admin mode already *off*',
+                admin_mode_locked = 'Admin mode *off*',
+                wrong_input = 'Неправильно задан аргумент.\nИспользуй `/disable [rules|about|welcome|adminlist|report|extra|rtl|arab]` ',
             },
             enable = {
                 no_input = 'Что включить?',
@@ -1807,7 +1829,9 @@ return {
                 arab_unlocked = 'Anti-arab фильтр тепепь *выключен*',
                 report_already = '@admin уже *включена*',
                 report_unlocked = '@admin теперь *включена*',
-                wrong_input = 'Неправильный аргумент.\nИспользуй `/enable [rules|about|welcome|modlist|report|extra|rtl|arab]` '
+                admin_mode_already = 'Admin mode is already *on*',
+                admin_mode_unlocked = 'Admin mode *on*',
+                wrong_input = 'Неправильный аргумент.\nИспользуй `/enable [rules|about|welcome|adminlist|report|extra|rtl|arab]` '
             },
             welcome = {
                 no_input = 'Привет и ...?',
@@ -1851,6 +1875,7 @@ return {
             Rtl = 'Rtl',
             Arab = 'Арабский',
             Report = 'Жалоба',
+            Admin_mode = 'Admin mode',
         },
         warn = {
             warn_reply = 'Ответь на сообщение пользователя, на которого ты хочешь пожаловаться',
@@ -1980,7 +2005,7 @@ return {
                 .."`/dashboard` : Bekomme das Übersichtsmenü der Gruppe in einer Direktnachrticht gesendet\n"
                 .."`/rules` (wenn genutzt) : Zeige die Gruppenregeln\n"
                 .."`/about` (wenn genutzt) : Zeige die Beschreibung\n"
-                .."`/modlist` (wenn genutzt) : Zeige die Moderatoren (mods) der Gruppe\n"
+                .."`/adminlist` (wenn genutzt) : Zeige die Moderatoren (mods) der Gruppe\n"
                 .."`@admin` (wenn genutzt) : per Antwort (by reply) = melde (report) die Nachricht auf die geantwortet wurde an alle Administratoren; ohne Direktantwort (reply) dafür mit Nachricht = Lasse allen Admins ein Feedback zukommen\n"
                 .."`/id` : get the chat id, or the user id if by reply\n"
                 .."`/echo [text]` : Der Bot wird dir den Text (formatiert (with markdown)) zurückschicken\n"
@@ -2054,10 +2079,10 @@ return {
                     .."Statdessen wird eine Warnung gesendet: Das nächtse Mal wird der Nutzer entfernt oder gesperrt (kicked or bannend).",
                 settings = "*Moderatoren: Gruppeneinstellungen*\n\n"
                     .."`/menu` = Bearbeite die Gruppeneinstellungen ohne, dass es jemand mitbekommt (private) mit einer nützlichen inline Tastatur (inline keyboard).\n"
-                    .."`/disable [rules|about|modlist|extra]` = Dieser Befehl (command) wird *nur für Moderatoren* verfügbar sein (der Bot antwortet normalen Nutzern einfach nicht).\n"
+                    .."`/disable [rules|about|adminlist|extra]` = Dieser Befehl (command) wird *nur für Moderatoren* verfügbar sein (der Bot antwortet normalen Nutzern einfach nicht).\n"
                     .."_Zum Beispiel_ : Mit \"`/disable extra`\", werden #selbsterstellte Befehle (extra commands) nur für Moderatoren verfügbar sein. "
-                    .."Das gleiche gilt für _rules, about, modlist (Gruppenregeln, -einstellungen und die Liste der Moderatoren)_.\n"
-                    .."`/enable [rules|about|modlist|extra]` = Die Befehle (commands) können von jedem (und nicht nur den Moderatoren) genutzt werden. Per Voreinstellung sind diese Befehle für alle freigegeben.\n"
+                    .."Das gleiche gilt für _rules, about, adminlist (Gruppenregeln, -einstellungen und die Liste der Moderatoren)_.\n"
+                    .."`/enable [rules|about|adminlist|extra]` = Die Befehle (commands) können von jedem (und nicht nur den Moderatoren) genutzt werden. Per Voreinstellung sind diese Befehle für alle freigegeben.\n"
                     .."`/enable report` = Die Nutzer (users) werden in der Lage sein mit dem \"@admin\" Befehl (command) eine Rückmeldung/Meldung (feedback/report) zu senden.\n"
                     .."`/disable report` = Nutzer werden nicht in der Lage sein eine Rückmeldung/Meldung an die Moderatoren zu schicken. In der Voreinstellung ist dies deaktiviert.\n"
                     .."`/report [on/off]` (by reply) = Der Nutzer (user) wird (_on_) oder wird nicht (_off_) in der Lage sein den\"@admin\" Befehl (command) zu nutzen.\n",
@@ -2076,8 +2101,8 @@ return {
                     .."*GIF/Sticker als Willkommensnachricht*\nDu kannst ein bestimmtes GIF/einen bestimten Sticker als Willkommensnachricht verwenden. Dafür antworte (reply) einfach mit '/welcome' auf ein GIF/Sticker\n\n"
                     .."*Zusammengesetzte Willkommensnachricht*\n"
                     .."Du kannst deine Willkommensnachricht mit den Gruppenregeln, der Gruppenbeschreibung und der Liste der Moderatoren versehen (rules, description, moderators list).\n"
-                    .."Dazu schreibe `/welcome` gefolgt von dem entsprechenden Code.\n_Codes_ : *r* = Gruppenregeln (rules); *a* = Gruppenbeschreibung (description, about); *m* = Liste der Moderatoren (modlist).\n"
-                    .."Zum Beispiel wird die Willkommensnachricht mit \"`/welcome rm`\" die Gruppenregeln und die Liste der Moderatoren (rules and modlist) enthalten",
+                    .."Dazu schreibe `/welcome` gefolgt von dem entsprechenden Code.\n_Codes_ : *r* = Gruppenregeln (rules); *a* = Gruppenbeschreibung (description, about); *m* = Liste der Moderatoren (adminlist).\n"
+                    .."Zum Beispiel wird die Willkommensnachricht mit \"`/welcome rm`\" die Gruppenregeln und die Liste der Moderatoren (rules and adminlist) enthalten",
             },
             private = "Moin, *&&&1*!\nIch bin ein einfacher Bot, dazu geschaffen Leuten wie dir dabie zu helfen ihre Gruppen zu organisieren.\n\n*Wie ich dir helfen kann?*\nPuhh - ich habe so einige nützliche Fertigkeiten! Du kannst Nutzer *entfernen oder sperren (kick or ban)*, einen Regelsatz (rules)  und eine -beschreibung (description) definieren, Nutzer (users) verwarnen (warn), einige Parameter setzen um jemanden zu entfernen (kick) wenn bestimmte Voraussetzungen zutreffen (lies hierzu: *Flutschutz (antiflood)*/RNL (RTL)/Medientypen (media)...)\nErfahre mehr indem du mich zu einer Gruppe hinzufügst!\n\nDer Nutzer (user), der mich hinzufügt wird als Besitzer (owner) der Gruppe gespeichert. Wenn du nicht der tatsächliche Besitzer der Gruppe bist, kannst du jemand anders als solchen setzten indem du einfach auf eine seiner Nachrichten mit `/owner` antwortest.\nUm meine Moderationsfähigkeiten (entfernen/sperren; kick/ban) voll entfalten zu können, *musst du mich als Administrator zur Gruppe hinzufügen*.\nMerke: Moderationsbefehle (moderator commands) können nur von mit `/promote` beförderten Nutzern (user) genutzt werden. Ich bin leider nicht in der Lage herauszufinden, wer Administrator in der Gruppe ist - das ist momentan der einzige Weg.\n\nKontaktiere den Entwickler wegen einer Rückmeldung (feeback), einem Fehlerbericht (bug report) oder einer Frage mittels des \"`/c <feedback>`\" Befehls (command). EGAL WEGEN WAS - ER FREUT SICH ÜBER ALLES!\n\n[Offizieller Kanal (official channel)](https://telegram.me/GroupButler_ch) und der [Bewertungslink (vote link)](https://telegram.me/storebot?start=groupbutler_bot)"
         },
@@ -2155,7 +2180,9 @@ return {
                 rules_locked = "Der `/rules` Befehl (command) ist von nun an *nur für Moderatoren verfügbar*",
                 welcome_already = "Die Willkommensnachricht ist bereits *gesperrt*",
                 welcome_locked = "Die Willkommensnachricht wird nun *nicht mehr angezeigt*",
-                wrong_input = "Eingabe ungültig.\nNutze `/disable [rules|about|welcome|modlist|report|extra|rtl|arab]`"
+                admin_mode_already = 'Admin mode already *off*',
+                admin_mode_locked = 'Admin mode *off*',
+                wrong_input = "Eingabe ungültig.\nNutze `/disable [rules|about|welcome|adminlist|report|extra|rtl|arab]`"
             },
             enable = {
                 about_already = "Der `/about` Befehl (command) ist bereits *entsperrt*",
@@ -2179,7 +2206,9 @@ return {
                 rules_unlocked = "Der `/rules` Befehl (command) ist jetzt *für alle verfügbar*",
                 welcome_already = "Die Willkommensnachricht ist bereits *verfügbar*",
                 welcome_unlocked = "Die Willkommensnachricht wird von nun an angezeigt",
-                wrong_input = "Eingabe ungültig.\nNutze `/enable [rules|about|welcome|modlist|report|extra|rtl|arab]`"
+                admin_mode_already = 'Admin mode is already *on*',
+                admin_mode_unlocked = 'Admin mode *on*',
+                wrong_input = "Eingabe ungültig.\nNutze `/enable [rules|about|welcome|adminlist|report|extra|rtl|arab]`"
             },
             welcome = {
                 a = "Neue Zusammensetzung der Willkommensnachricht:\nGruppenregeln (rules)\n*Gruppenbeschreibung (bio/description)*\nModeratorenliste",
@@ -2204,7 +2233,7 @@ return {
                 w_a = "*Willkommensnachrichtenzusammensetzung*: `Willkommensnachricht + Gruppenbeschreibung (bio/description)`\n",
                 w_am = "*Willkommensnachrichtenzusammensetzung*: `Willkommensnachricht + Gruppenbeschreibung (bio/description) + Moderatorenliste`\n",
                 w_custom = "*Willkommensnachrichtenzusammensetzung*: `Eigene Willkommensnachricht (custom message)`\n",
-                w_m = "*Willkommensnachrichtenzusammensetzung*: `welcome + modlist`\n",
+                w_m = "*Willkommensnachrichtenzusammensetzung*: `welcome + adminlist`\n",
                 w_media = "*Willkommensnachrichtenzusammensetzung*: `GIF/Sticker`\n",
                 w_no = "*Willkommensnachrichtenzusammensetzung*: `Nur die Willkommensnachricht`\n",
                 w_r = "*Willkommensnachrichtenzusammensetzung*: `Willkommensnachricht + Gruppenregeln (rules)`\n",
@@ -2218,11 +2247,12 @@ return {
             Extra = "Eigenes (extra)",
             Flag = "Schandmal (flag)",
             Flood = "Flutschutz (antiflood)",
-            Modlist = "Moderatorenliste (modlist)",
+            Modlist = "Moderatorenliste (adminlist)",
             Report = "Melden(report)",
             Rtl = "RNL (RTL)",
             Rules = "Gruppenregeln (rules)",
             Welcome = "Willkommensnachricht",
+            Admin_mode = 'Admin mode',
         },
         warn = {
             changed_type = "Neue Maßnahme, die ausgeführt wird, wenn das Limit an Verwarnungen erreicht ist: *&&&1*",
@@ -2420,9 +2450,9 @@ return {
               .."*Obs:* Första gången en användare skickar en förbjuden mediatyp så blir hen inte kickad. Istället så skickas en varning. Andra gången så blir användaren kickad eller bannad.",
               settings = "*Moderatorer: gruppinställningar*\n\n"
               .."`/menu` = Visar en meny för gruppinställningar i ett privat meddelande.\n"
-              .."`/disable [rules|about|modlist|extra]` = *Endast för moderatorer* (botten svarar inte andra användare).\n"
-              .."_Exempel_ : med \"`/disable extra`\", så blir #extra kommandon bara tillgängliga för moderatorer. Kan även göras med _rules, about, modlist_."
-              .."\n`/enable [rules|about|modlist|extra]` = Gör kommandona tillgängliga för alla (inte bara moderatorer). Från början gäller det alla dessa inställningar.\n"
+              .."`/disable [rules|about|adminlist|extra]` = *Endast för moderatorer* (botten svarar inte andra användare).\n"
+              .."_Exempel_ : med \"`/disable extra`\", så blir #extra kommandon bara tillgängliga för moderatorer. Kan även göras med _rules, about, adminlist_."
+              .."\n`/enable [rules|about|adminlist|extra]` = Gör kommandona tillgängliga för alla (inte bara moderatorer). Från början gäller det alla dessa inställningar.\n"
               .."`/enable report` = Användare kan skicka feedback eller rapportera meddelanden till moderatorerna med kommandot \"@admin\".\n"
               .."`/disable report` = Användare kan inte skicka feedback eller rapportera meddelanden till moderatorerna (detta är förinställt i nya grupper).\n"
               .."`/report [on/off]` (som meddelandesvar) = Användaren kan inte (_off_) eller kan (_on_) använda kommandot \"@admin\".\n",
@@ -2506,11 +2536,12 @@ return {
             Extra = "Extra",
             Flag = "Flagga",
             Flood = "Flood",
-            Modlist = "Modlist",
+            Modlist = "Adminlist",
             Report = "Rapportera",
             Rtl = "Rtl",
             Rules = "Regler",
             Welcome = "Välkomstmeddelande",
+            Admin_mode = 'Admin mode',
             broken_group = 'There are no settings saved for this group.\nPlease run /initgroup to solve the problem :)',
             disable = {
                 about_already = "Kommandot `/about` är redan *låst*",
@@ -2523,8 +2554,8 @@ return {
                 flag_locked = "Kommandot `/flag` är nu *avstängt*",
                 flood_already = "Anti-flood är redan *aktiverat*",
                 flood_locked = "Anti-flood är nu *aktiverat*",
-                modlist_already = "Kommandot `/modlist` är redan *låst*",
-                modlist_locked = "Kommandot `/modlist` är nu tillgängligt *bara för moderatorer*",
+                modlist_already = "Kommandot `/adminlist` är redan *låst*",
+                modlist_locked = "Kommandot `/adminlist` är nu tillgängligt *bara för moderatorer*",
                 no_input = "Avaktivera vad?",
                 report_already = "Kommandot @admin är redan *avstängt*",
                 report_locked = "Kommandot @admin är nu *avstängt*",
@@ -2534,7 +2565,9 @@ return {
                 rules_locked = "Kommandot `/rules` är nu tillgängligt *bara för moderatorer*",
                 welcome_already = "Välkomstmeddelandet är redan *låst*",
                 welcome_locked = "Välkomstmeddelande komma *inte visas* mer",
-                wrong_input = "Fel argument.\nAnvänd `/disable [rules|about|welcome|modlist|report|extra|rtl|arab]` istället"
+                admin_mode_already = 'Admin mode already *off*',
+                admin_mode_locked = 'Admin mode *off*',
+                wrong_input = "Fel argument.\nAnvänd `/disable [rules|about|welcome|adminlist|report|extra|rtl|arab]` istället"
             },
             enable = {
                 about_already = "Kommandot `/about` är redan *tillgängligt*",
@@ -2547,8 +2580,8 @@ return {
                 flag_unlocked = "Kommandot `/flag` är nu *tillgängligt*",
                 flood_already = "Anti-flood är redan *avstängt*",
                 flood_unlocked = "Anti-flood är nu *avstängt*",
-                modlist_already = "Kommandot `/modlist` är redan *tillgängligt*",
-                modlist_unlocked = "Kommandot `/modlist` är nu tillgängligt *för alla*",
+                modlist_already = "Kommandot `/adminlist` är redan *tillgängligt*",
+                modlist_unlocked = "Kommandot `/adminlist` är nu tillgängligt *för alla*",
                 no_input = "Aktivera vad?",
                 report_already = "Kommandot @admin är redan *tillgängligt*",
                 report_unlocked = "Kommandot @admin nu *tillgängligt*",
@@ -2558,21 +2591,23 @@ return {
                 rules_unlocked = "Kommandot `/rules` är nu tillgängligt *för alla*",
                 welcome_already = "Välkomstmeddelande är redan *tillgängligt*",
                 welcome_unlocked = "Välkomstmeddelande kommer nu visas när någon kommer in i gruppen",
-                wrong_input = "Fel argument.\nAnvänd `/enable [rules|about|welcome|modlist|report|extra|rtl|arab]` istället"
+                admin_mode_already = 'Admin mode is already *on*',
+                admin_mode_unlocked = 'Admin mode *on*',
+                wrong_input = "Fel argument.\nAnvänd `/enable [rules|about|welcome|adminlist|report|extra|rtl|arab]` istället"
             },
             resume = {
                 flood_info = "_Flood-känslighet:_ *&&&1* (_följd:_ *&&&2*)\n",
                 header = "Inställningar för *&&&1*:\n\n*Språk*: `&&&2`\n",
                 w_a = "*Välkomsttyp*: `welcome + about`\n",
-                w_am = "*Välkomsttyp*: `welcome + about + modlist`\n",
+                w_am = "*Välkomsttyp*: `welcome + about + adminlist`\n",
                 w_custom = "*Välkomsttyp*: `custom message`\n",
-                w_m = "*Välkomsttyp*: `welcome + modlist`\n",
+                w_m = "*Välkomsttyp*: `welcome + adminlist`\n",
                 w_media = "*Välkomsttyp*: `gif/sticker`\n",
                 w_no = "*Välkomsttyp*: `bara welcome`\n",
                 w_r = "*Välkomsttyp*: `welcome + rules`\n",
                 w_ra = "*Välkomsttyp*: `welcome + rules + about`\n",
-                w_ram = "*Välkomsttyp*: `welcome + rules + about + modlist`\n",
-                w_rm = "*Välkomsttyp*: `welcome + rules + modlist`\n"
+                w_ram = "*Välkomsttyp*: `welcome + rules + about + adminlist`\n",
+                w_rm = "*Välkomsttyp*: `welcome + rules + adminlist`\n"
             },
             welcome = {
                 a = "Ny inställning för välkomstmeddelande:\nRules\n*About*\nModerators list",
@@ -2703,11 +2738,10 @@ return {
         not_mod = 'إنك لست مشرفاً',
         breaks_markdown = 'هذا النص يكسر تنسيق ماركداون.. لمزيد من المعلومات حول الاستخدام السليم لماركداون [هنا](https://telegram.me/GroupButler_ch/46).',
         credits = '*بعض الروابط المفيد:*',
-        not_admin = '
-_لا أستطيع أن أعمل دون أن أكون مشرف المجموعة. هذا الطريق الوحيد لأرى إذا كان المستخدم مشرفاً أم لا. لمزيد من المعلومات، تحقق_ [هنا](https://telegram.me/GroupButler_ch/63)',
+        not_admin = '_لا أستطيع أن أعمل دون أن أكون مشرف المجموعة. هذا الطريق الوحيد لأرى إذا كان المستخدم مشرفاً أم لا. لمزيد من المعلومات، تحقق_ [هنا](https://telegram.me/GroupButler_ch/63)',
         extra = {
             setted = 'أمر &&&1 محفوظ!',
-			usage = 'أكتب بجانب /extra عنوان الأمر والنص المرتبط.\nمثلاً:\n/extra #motm كن سعيداً\nالبوت سيرد 'كن سعيداً' كل مرة أحد يكتب #motm',
+			usage = 'أكتب بجانب /extra عنوان الأمر والنص المرتبط.\nمثلاً:\n/extra #motm0كن سعيداً\nالبوت سيرد "كن سعيداً" كل مرة أحد يكتب #motm',
             new_command = '*أمر جديد محفوظ!*\n&&&1\n&&&2',
             no_commands = 'ليست هناك أي أوامر محفوظة!',
             commands_list = 'قائمة *أوامر خاصة*:\n&&&1',
@@ -2719,8 +2753,7 @@ _لا أستطيع أن أعمل دون أن أكون مشرف المجموعة.
                 banhammer = "*مشرفون: سلطات الإزالة*\n\n"
                             .."`/kick [by reply|username]` = أزل المستخدم من المجموعة (يمكن إضافته مرة أخرى).\n"
                             .."`/ban [by reply|username]` = احظر المستخدم من المجموعة (أيضاً من مجموعات عادية).\n"
-                            .."`/tempban [minutes]` =
-احظر المستخدم لفترة محددة من دقائق (يجب أن يكون أقل من 10.080 دقائق، أي أسبوع واحد). في الوقت الراهن، فقط بواسطة الرد.\n"
+                            .."`/tempban [minutes]` = 'احظر المستخدم لفترة محددة من دقائق (يجب أن يكون أقل من 10.080 دقائق، أي أسبوع واحد). في الوقت الراهن، فقط بواسطة الرد.\n"
                             .."`/unban [by reply|username]` = ارفع حظر المستخدم من المجموعة.\n"
                             .."`/status [username]` = أظهر الحالة الحالية للمستخدم `(member|kicked/left the chat|banned|admin/creator|never seen)`.\n"
                             .."`/banlist` = أظهر قائمة المستخدمون المحظورون. يشمل الدوافع (إذا تم ذكرها أثناء الحظر).\n"
@@ -2782,7 +2815,7 @@ _لا أستطيع أن أعمل دون أن أكون مشرف المجموعة.
                         .."`/enable arab` = سيتم تجاهل المحارف العربية.\n",
                 links = "*المشرفون: روابط*\n\n"
                         ..'`/setlink [link|\'no\']` : أدخل رابط المجموعة، كي يمكن مشرفين أخرين استخدامه، أم احذفه.\n'
-                        .."`/link` = حصول على رابط المجموعة، إذا تم تحديده من قبل المالك.\n"
+                        .."`/link` = حصول على رابط المجموعة، إذا تم تحديده من قبل ��لمالك.\n"
                         .."`/setpoll [pollbot link]` = احفظ رابط استبيان من جانب @pollbot. بعد تحديده، يمكن المشرفون الحصول عليه مع أمر `/poll`.\n"
                         .."`/setpoll no` = احذف الرابط للاستبيان الحالي.\n"
                         .."`/poll` = حصول على الرابط للاستبيان الحالي، إذا تم تحديده\n"
@@ -2791,14 +2824,14 @@ _لا أستطيع أن أعمل دون أن أكون مشرف المجموعة.
                         .."`/lang` = حصول على قائمة اللغات المتاحة.\n"
                         .."`/lang [code]` = تغيير لغة البوت\n"
                         .."\n*ملاحظة*: إن المترجمون متطوعين، فلا أستطيع أن أؤكد تصحيح كل الترجمات. وأيضاً لا أستطيع أن أضطرهم لترجمة النصوص الجديدة بعد كل تحديث )النصوص غير مترجمة ستظل باللغة لإنجليزية."
-                        .."\nعلى أي حال، إن الترجمات مفتوح أي شخص. استدخم أمر `/strings` للاستقبال ملف من شكل ".lua" مع كل النصوص (باللغة الإنجليزية) .\n"
+                        .."\nعلى أي حال، إن الترجمات مفتوح أي شخص. استدخم أمر `/strings` للاستقبال ملف من شكل '.lua' مع كل النصوص (باللغة الإنجليزية) .\n"
                         .."استخدم `/strings [lang code]` لاستقبال الملف لهذا اللغة المعينة (مثال: _/strings es_ ).\n"
                         .."في داخل الملف ستجد كل التعليمات. اتتبعها، وفي أقرب وقت ممكن يتكون لغتك متاحة ;)",
                 settings = "*المشرفون: إعدادات المجموعة*\n\n"
                             .."`/menu` = إدارة إعدادات المجموعة بشكل خاص مع لوحة المفاتيح خاصة و مفيدة.\n"
-                            .."`/disable [rules|about|modlist|extra]` = هذه الأوامر ستكون متاحة *لمشرفين فقط* (لن يرد البوت إلى مستخدمين عاديين).\n"
-                            .."_مثال_ : مع أمر  \"`/disable extra`\", أوامر #extra ستكون متاح للمشرفين فقط. يمكنك نفس الشئء مع _rules, about, modlist_.\n"
-                            .."`/enable [rules|about|modlist|extra]` = الأوامر ستكون متاحة لكل الناس )وليس فقط للمشرفين). هذا الإعاداد مفعل إذا لم يتم تغيير.\n"
+                            .."`/disable [rules|about|adminlist|extra]` = هذه الأوامر ستكون متاحة *لمشرفين فقط* (لن يرد البوت إلى مستخدمين عاديين).\n"
+                            .."_مثال_ : مع أمر  \"`/disable extra`\", أوامر #extra ستكون متاح للمشرفين فقط. يمكنك نفس الشئء مع _rules, about, adminlist_.\n"
+                            .."`/enable [rules|about|adminlist|extra]` = الأوامر ستكون متاحة لكل الناس )وليس فقط للمشرفين). هذا الإعاداد مفعل إذا لم يتم تغيير.\n"
                             .."`/enable report` = تمكين المستخدمين بإرسال رسائل التعليق و رسائل التقرير، باستخدام أمر \"@admin\" command.\n"
                             .."`/disable report` = عدم تمكين المستخدمين بإرسال رسائل التعليق و رسائل التقرير، باستخدام أمر (إن هذا ال حالة إذا لم يتم تغيير).\n"
                             .."`/report [on/off]` (by reply) = هل تستطيع المستخدم أن تستخدم الأمر\"@admin\" command?\n",
@@ -2919,7 +2952,9 @@ _لا أستطيع أن أعمل دون أن أكون مشرف المجموعة.
                 arab_locked = 'إن نظام مكافحة الكتابة بمحارف عربية مفعل الآن',
                 report_already = 'إن أمر @admin غير مفعل بالفعل',
                 report_locked = 'إن أمر @admin لن يكن متاح من الآن',
-                wrong_input = 'هذا الأمر غير متاح. استخدم أحد الأوامر التالية بدلاً من هذا:  [rules|about|welcome|modlist|report|extra|rtl|arab]`',
+                admin_mode_already = 'Admin mode already *off*',
+                admin_mode_locked = 'Admin mode *off*',
+                wrong_input = 'هذا الأمر غير متاح. استخدم أحد الأوامر التالية بدلاً من هذا:  [rules|about|welcome|adminlist|report|extra|rtl|arab]`',
             },
             enable = {
                 no_input = 'تشغيل ماذا؟',
@@ -2943,7 +2978,9 @@ _لا أستطيع أن أعمل دون أن أكون مشرف المجموعة.
                 arab_unlocked = 'نظام مكافحة كتابة محارف عربية معطل الآن.',
                 report_already = 'أمر @admin متاح بالفعل.',
                 report_unlocked = 'أمر @admin متاح الآن.',
-                wrong_input = 'معطى غير صحيح.\nاستخدم `/enable [rules|about|welcome|modlist|report|extra|rtl|arab]` بدلا من ذلك'
+                admin_mode_already = 'Admin mode is already *on*',
+                admin_mode_unlocked = 'Admin mode *on*',
+                wrong_input = 'معطى غير صحيح.\nاستخدم `/enable [rules|about|welcome|adminlist|report|extra|rtl|arab]` بدلا من ذلك'
             },
             welcome = {
                 no_input = 'مرحباً و...?',
@@ -2987,6 +3024,7 @@ _لا أستطيع أن أعمل دون أن أكون مشرف المجموعة.
             Rtl = 'نص مكبوت من اليمين إلى اليسار',
             Arab = 'نص عربي',
             Report = 'إبلاغ',
+            Admin_mode = 'Admin mode',
         },
         warn = {
             warn_reply = 'رد على رسالة لتحذير المستخدم',

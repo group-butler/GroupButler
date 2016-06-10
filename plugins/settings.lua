@@ -57,7 +57,7 @@ local action = function(msg, blocks, ln)
         elseif input == 'welcome' then
             mystat('/disable welcome') --save stats
             disable_set('Welcome', msg, ln)
-        elseif input == 'modlist' then
+        elseif input == 'adminlist' then
             mystat('/disable modlist') --save stats
             disable_set('Modlist', msg, ln)
         elseif input == 'extra' then
@@ -101,7 +101,7 @@ end
         elseif input == 'welcome' then
             mystat('/enable welcome') --save stats
             enable_set('Welcome', msg, ln)
-        elseif input == 'modlist' then
+        elseif input == 'adminlist' then
             mystat('/enable modlist') --save stats
             enable_set('Modlist', msg, ln)
         elseif input == 'extra' then
