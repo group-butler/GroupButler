@@ -12,10 +12,14 @@ local function saveFirstWarn(chat, user, media, ln)
 end
 
 pre_process = function(msg, ln)
-    if is_blocked(msg.from.id) then
-        print('Blocked:', msg.from.id)
+    if msg.from.id and is_blocked(msg.from.id) then
+        id = msg.from.id
+        api.sendMessage(msg.chat.id, make_text 'ID ' ..id..' *was globally banned*.\n\nIf it's a error, please, send a message to admin bot.', true)
+        print('Globally banned:', id)
+        api.kickChatMember(msg.chat.id, id)
         return msg, true --if an user is blocked, don't go through plugins
     end
+    
     if msg.cb then
         return msg
     end
