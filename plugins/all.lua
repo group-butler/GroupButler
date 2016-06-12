@@ -217,12 +217,14 @@ return {
 		'^/(dashboard)$',
 		'^/(menu)$',
 		'^/(media)$',
+		
 		'^###cb:(dashboard)(settings)//',
     	'^###cb:(dashboard)(rules)//',
 	    '^###cb:(dashboard)(about)//',
 	    '^###cb:(dashboard)(modlist)//',
 	    '^###cb:(dashboard)(extra)//',
 	    '^###cb:(dashboard)(welcome)//',
+    	
     	'^###cb:(menu)(alert)//',
     	'^###cb:(menu)(Rules)//',
     	'^###cb:(menu)(About)//',
@@ -237,6 +239,7 @@ return {
     	'^###cb:(menu)(DimFlood)//',
     	'^###cb:(menu)(RaiseFlood)//',
     	'^###cb:(menu)(ActionFlood)//',
+    	
     	'^###cb:(media)(image)//',
     	'^###cb:(media)(audio)//',
     	'^###cb:(media)(video)//',

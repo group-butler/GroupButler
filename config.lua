@@ -1,6 +1,6 @@
 return {
 	bot_api_key = '',
-	version = '2.1.1', -- /aupdate for v2.1.1
+	version = '2.1.2', -- /aupdate for v2.1.1
 	admin = {
 		owner = 23646077,
 		admins = {

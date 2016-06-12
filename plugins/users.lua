@@ -94,7 +94,7 @@ local action = function(msg, blocks, ln)
  			return
  		end
  		original = original:gsub(blocks[2], blocks[3])
- 		original = 'Forse volevi dire:\n"'..original..'"'
+ 		original = 'Did you mean:\n"'..original..'"'
  		api.sendReply(msg.reply, original, false, msg.reply.message_id)
  	end
  	if blocks[1] == 'adminmode' then

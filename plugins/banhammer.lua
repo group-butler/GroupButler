@@ -5,6 +5,7 @@ local function cron()
 			if os.time() > tonumber(unban_time) then
 				local chat_id, user_id = info:match('(-%d+):(%d+)')
 				api.unbanUser(chat_id, user_id, true)
+				api.unbanUser(chat_id, user_id, false)
 				db:hdel('tempbanned', unban_time)
 				db:srem('chat:'..chat_id..':tempbanned', user_id) --hash needed to check if an user is already tempbanned or not
 			end
@@ -119,7 +120,6 @@ local action = function(msg, blocks, ln)
 					local time_reply = get_time_reply(temp)
 					local banned_name = getname(msg.reply)
 					local is_already_tempbanned = db:sismember('chat:'..chat_id..':tempbanned', user_id) --hash needed to check if an user is already tempbanned or not
-					vardump(is_already_tempbanned)
 					if is_already_tempbanned then
 						api.sendMessage(chat_id, make_text(lang[ln].banhammer.tempban_updated..time_reply, banned_name))
 					else
@@ -181,25 +181,6 @@ local action = function(msg, blocks, ln)
    				end
    				mystat('/unban')
    			end
-   			if blocks[1] == 'gban' then
-	   			if is_bot_owner(msg) then
-	   				local groups = db:smembers('bot:groupsid')
-    				local succ = 0
-    				local not_succ = 0
-	    			for k,v in pairs(groups) do
-	    				local res = api.banUserId(v, msg.reply.from.id, getname(msg.reply), true, true)
-	    				if res then
-	    					print('Global banned', v)
-	   						succ = succ + 1
-	   					else
-	   						print('Not banned', v)
-	   						not_succ = not_succ + 1
-    					end
-    				end
-    				api.sendMessage(msg.chat.id, make_text(lang[ln].banhammer.globally_banned, name)..'\nDone: '..succ..'\nErrors: '..not_succ)
-    				mystat('/gban')
-    			end
-			end
 		else
 			if blocks[1] == 'kickme' then
 				api.kickUser(msg.chat.id, msg.from.id, ln)
@@ -224,6 +205,5 @@ return {
 		'^/(tempban) (%d+)',
 		'^/(unban) (@[%w_]+)',
 		'^/(unban)',
-		'^/(gban)$',
 	}
 }

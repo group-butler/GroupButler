@@ -62,9 +62,10 @@ return {
                         .."`/media` = receive via private message an inline keyboard to change all the media settings.\n"
                         .."`/media [kick|ban|allow] [type]` = change the action to perform when that specific media is sent.\n"
                         .."_Example_ : `/media kick sticker`.\n"
+                        .."`/warnmax media [number]` = set the max number of warnings before be kicked/banned for have sent a forbidden media.\n"
+                        .."`/nowarns (by reply)` = reset the number of warnings for the users (*NOTE: both regular warnings and media warnings*).\n"
                         .."`/media list` = show the current settings for all the media.\n"
-                        .."\n*List of supported media*: _image, audio, video, sticker, gif, voice, contact, file, link_\n"
-                        .."\n*Note*: the first time a user send a forbidden media, the bot won't kick him. Instead, a warn is sent: the next time, the user will be kicked/banned.",
+                        .."\n*List of supported media*: _image, audio, video, sticker, gif, voice, contact, file, link_\n",
                 welcome = "*Moderators: welcome settings*\n\n"
                             .."`/enable welcome` = the welcome message will be sent when a new user join the group.\n"
                             .."`/disable welcome` = the welcome message won't be sent.\n"
@@ -93,7 +94,7 @@ return {
                         .."`/warn [by reply]` = warn a user. Once the max number is reached, he will be kicked/banned.\n"
                         .."`/warnmax` = set the max number of the warns before the kick/ban.\n"
                         .."`/getwarns [by reply]` = see how many times a user have been warned.\n"
-                        .."`/nowarns [by reply]` = reset to zero the warns of a user.\n",
+                        .."`/nowarns (by reply)` = reset the number of warnings for the users (*NOTE: both regular warnings and media warnings*).\n",
                 char = "*Moderators: special characters*\n\n"
                         .."`/disable rtl` = everyone with RTL (Righ To Left) character in the name will be kicked. Also, the same is applied to messages.\n"
                         .."`/enable rtl` = the RTL (Righ To Left) character will be ignored.\n"
@@ -115,6 +116,8 @@ return {
                         .."In the file you will find all the instructions: follow them, and as soon as possible your language will be available ;)",
                 settings = "*Moderators: group settings*\n\n"
                             .."`/menu` = manage the group settings in private with an handy inline keyboard.\n"
+                            .."`/adminmode on` = _/rules, /adminlist_ and every #extra command will be sent in private unless if triggered by an admin.\n"
+                            .."`/adminmode off` = _/rules, /adminlist_ and every #extra command will be sent in the group, no exceptions.\n"
                             .."`/disable [rules|about|adminlist|extra]` = this commands will be available *only for moderators* (the bot won't reply to normal users).\n"
                             .."_Example_ : with \"`/disable extra`\", #extra commands will be available only for moderators. The same can be done with _rules, about, adminlist_.\n"
                             .."`/enable [rules|about|adminlist|extra]` = the commands will be available for everyone (and not only for moderators). Enabled it's the default status.\n"
@@ -319,10 +322,9 @@ return {
             warned_max_kick = 'User &&&1 *kicked*: reached the max number of warnings',
             warned_max_ban = 'User &&&1 *banned*: reached the max number of warnings',
             warned = '*User* &&&1 *have been warned.*\n_Number of warnings_   *&&&2*\n_Max allowed_   *&&&3* (*-&&&4*)',
-            warnmax = 'Max number of warnings changed.\n*Old* value: &&&1\n*New* max: &&&2',
+            warnmax = 'Max number of warnings changed&&&3.\n*Old* value: &&&1\n*New* max: &&&2',
             getwarns_reply = 'Reply to a user to check his numebr of warns',
-            limit_reached = 'This user has already reached the max number of warnings (*&&&1/&&&2*)',
-            limit_lower = 'This user is under the max number of warnings.\n*&&&1* warnings missing on a total of *&&&2* (*&&&3/&&&4*)',
+            getwarns = '&&&1 (*&&&2/&&&3*)\nMedia: (*&&&4/&&&5*)',
             nowarn_reply = 'Reply to a user to delete his warns',
             ban_motivation = 'Too many warnings',
             nowarn = 'The number of warns received by this user have been *resetted*'
@@ -375,7 +377,7 @@ return {
             arab = '&&&1 *kicked*: arab message detected!',
             flood_motivation = 'Banned for flood',
             media_motivation = 'Sent a forbidden media',
-            first_warn = 'This type of media is *not allowed* in this chat. The next time, *&&&1*!'
+            first_warn = 'This type of media is *not allowed* in this chat.'
         },
         kick_errors = {
             [1] = 'I\'m not an admin, I can\'t kick people',
@@ -462,9 +464,10 @@ return {
                         .."`/media` = ricevi in privato una tastiera inline per gestire le impostazioni di tutti i media.\n"
                         .."`/media [kick|ban|allow] [tipo media]` = cambia l\'impostazione relativa ad un media specifico.\n"
                         .."_Esempio_ : `/media kick sticker`.\n"
-                        .."`/media list` = mostra l\'elenco delle impostazioni attuali per i media.\n"
-                        .."\n*Lista dei media supportati*: _image, audio, video, sticker, gif, voice, contact, file, link_\n"
-                        .."\n*Nota*: la prima volta che un utente invia un media non permesso, non verrà kickato dal bot. Riceverà invece un avvertimento: alla prossima violazione, l\'utente verrà kickato/bannato.",
+                        .."`/warnmax media [numero]` = imposta il numero massimo di warning prima di essere kickato/bannato per aver inviato un media vietato.\n"
+                        .."`/nowarns (by reply)` = resetta il numero di warnings ricevuti dall'utente (*NOTA: sia warn normali che warn per i media*).\n"
+                        .."`/media list` = mostra l'elenco delle impostazioni attuali per i media.\n"
+                        .."\n*Lista dei media supportati*: _image, audio, video, sticker, gif, voice, contact, file, link_\n",
                 welcome = "*Moderatori: messaggio di benvenuto*\n\n"
                             .."`/enable welcome` = il messaggio di benvenuto verrà inviato quando un utente si unisce al gruppo.\n"
                             .."`/disable welcome` = il messaggio di benvenuto non verrà mostrato.\n"
@@ -493,7 +496,7 @@ return {
                         .."`/warn [by reply]` = ammonisci (warn) un utente. Quando il numero massimo di warn viene raggiunto dall\'utente, verrà kickato/bannato.\n"
                         .."`/warnmax` = imposta il numero massimo di richiami prima di kickare/bannare.\n"
                         .."`/getwarns [by reply]` = restituisce il numero di volte che un utente è stato richiamato.\n"
-                        .."`/nowarns [by reply]` = azzera il numero di richiami dell\'utente.\n",
+                        .."`/nowarns (by reply)` = resetta il numero di warnings ricevuti dall'utente (*NOTA: sia warn normali che warn per i media*).\n",
                 char = "*Moderatori: i caratteri*\n\n"
                         .."`/disable rtl` = tutti coloro che scriveranno un messaggio con il carattere RTL (Righ To Left) nel testo stesso del messaggio o nel nome, verranno kickati.\n"
                         .."`/enable rtl` = il carattere RTL (Righ To Left) verrà ignorato, e nessuna azione intrapresa.\n"
@@ -515,6 +518,8 @@ return {
                         .."Nel file troverai tutte le istruzioni: seguile, e il linguggio sarà disponibile il prima possibile ;)  (traduzione in italiano NON NECESSARIA)",
                 settings = "*Moderatori: impostazioni del gruppo*\n\n"
                             .."`/menu` = gestisci le impostazioni del gruppo in privato tramite una comoda tastiera inline.\n"
+                            .."`/adminmode on` = _/rules, /adminlist_ ed ogni comando #extra verranno inviati in privato a meno che non sia un Admin ad usarli.\n"
+                            .."`/adminmode off` = _/rules, /adminlist_ ed ogni comando #extra verranno inviati sempre nel gruppo.\n"
                             .."`/disable [rules|about|adminlist|extra]` = questi comandi saranno disponibili *solamente ai moderatori* (il bot non risponderà agli utenti normali).\n"
                             .."_Esempio_ : con \"`/disable extra`\", i comanid #extra potranno essere usati solo dai moderatori. Lo stesso vale per _rules, about, adminlist_.\n"
                             .."`/enable [rules|about|adminlist|extra]` = il comando sarà diponibile a tutti (e non solamente ai moderatori). \"Abilitato\" è lo stato di default.\n"
@@ -711,10 +716,9 @@ return {
             warned_max_kick = 'Utente &&&1 *kickato*: raggiunto il numero massimo di warns',
             warned_max_ban = 'Utente &&&1 *bannato*: raggiunto il numero massimo di warns',
             warned = '*L\'utente* &&&1 *è stato ammonito.*\n_Numero di ammonizioni_   *&&&2*\n_Max consentito_   *&&&3* (*-&&&4*)',
-            warnmax = 'Numero massimo di waning aggiornato.\n*Vecchio* valore: &&&1\n*Nuovo* valore: &&&2',
+            warnmax = 'Numero massimo di waning aggiornato&&&3.\n*Vecchio* valore: &&&1\n*Nuovo* valore: &&&2',
             getwarns_reply = 'Rispondi ad un utente per ottenere il suo numero di ammonizioni',
-            limit_reached = 'Questo utente ha già raggiunto il numero massimo di ammonizioni (*&&&1/&&&2*)',
-            limit_lower = 'Questo utente si trova sotto la soglia massima di warnings.\n*&&&1* warning mancanti su un totale di *&&&2* (*&&&3/&&&4*)',
+            getwarns = '&&&1 (*&&&2/&&&3*)\nMedia: (*&&&4/&&&5*)',
             nowarn_reply = 'Rispondi ad un utente per azzerarne le ammonizioni',
             ban_motivation = 'Troppi warning',
             nowarn = 'Il numero di ammonizioni ricevute da questo utente è stato *azzerato*'
@@ -768,7 +772,7 @@ return {
             arab = '&&&1 *kickato*: caratteri arabi non consentiti',
             flood_motivation = 'Bannato per flood',
             media_motivation = 'Ha inviato un media non consentito',
-            first_warn = 'Questo tipo di media *non è consentito* in questo gruppo. la prossima volta, *&&&1*'
+            first_warn = 'Questo tipo di media *non è consentito* in questo gruppo.'
         },
         kick_errors = {
             [1] = 'Non sono admin, non posso kickare utenti',
@@ -855,9 +859,10 @@ return {
                         .."`/media` = receive via private message an inline keyboard to change all the media settings.\n"
                         .."`/media [kick|ban|allow] [type]` = change the action to perform when that specific media is sent.\n"
                         .."_Example_ : `/media kick sticker`.\n"
+                        .."`/warnmax media [number]` = set the max number of warnings before be kicked/banned for have sent a forbidden media.\n"
+                        .."`/nowarns (by reply)` = reset the number of warnings for the users (*NOTE: both regular warnings and media warnings*).\n"
                         .."`/media list` = show the current settings for all the media.\n"
-                        .."\n*List of supported media*: _image, audio, video, sticker, gif, voice, contact, file, link_\n"
-                        .."\n*Note*: the first time a user send a forbidden media, the bot won't kick him. Instead, a warn is sent: the next time, the user will be kicked/banned.",
+                        .."\n*List of supported media*: _image, audio, video, sticker, gif, voice, contact, file, link_\n",
                 welcome = "*Moderators: welcome settings*\n\n"
                             .."`/enable welcome` = the welcome message will be sent when a new user join the group.\n"
                             .."`/disable welcome` = the welcome message won't be sent.\n"
@@ -886,7 +891,7 @@ return {
                         .."`/warn [by reply]` = warn a user. Once the max number is reached, he will be kicked/banned.\n"
                         .."`/warnmax` = set the max number of the warns before the kick/ban.\n"
                         .."`/getwarns [by reply]` = see how many times a user have been warned.\n"
-                        .."`/nowarns [by reply]` = reset to zero the warns of a user.\n",
+                        .."`/nowarns (by reply)` = reset the number of warnings for the users (*NOTE: both regular warnings and media warnings*).\n",
                 char = "*Moderators: special characters*\n\n"
                         .."`/disable rtl` = everyone with RTL (Righ To Left) character in the name will be kicked. Also, the same is applied to messages.\n"
                         .."`/enable rtl` = the RTL (Righ To Left) character will be ignored.\n"
@@ -908,6 +913,8 @@ return {
                         .."In the file you will find all the instructions: follow them, and as soon as possible your language will be available ;)",
                 settings = "*Moderators: group settings*\n\n"
                             .."`/menu` = manage the group settings in private with an handy inline keyboard.\n"
+                            .."`/adminmode on` = _/rules, /adminlist_ and every #extra command will be sent in private unless if triggered by an admin.\n"
+                            .."`/adminmode off` = _/rules, /adminlist_ and every #extra command will be sent in the group, no exceptions.\n"
                             .."`/disable [rules|about|adminlist|extra]` = this commands will be available *only for moderators* (the bot won't reply to normal users).\n"
                             .."_Example_ : with \"`/disable extra`\", #extra commands will be available only for moderators. The same can be done with _rules, about, adminlist_.\n"
                             .."`/enable [rules|about|adminlist|extra]` = the commands will be available for everyone (and not only for moderators). Enabled it's the default status.\n"
@@ -1102,10 +1109,9 @@ return {
             warned_max_kick = '*&&&1 ha sido expulsado*: alcanzado el numero maximo de advertencias',
             warned_max_ban = '*&&&1 ha sido baneado*: alcanzado el numero maximo de advertencias',
             warned = '*&&&1 ha sido advertido.*\n_Numero de advertencias_   *&&&2*\n_Maximo_   *&&&3* (*-&&&4*)',
-            warnmax = 'Numero maximo de advertencias cambiado.\n*Antes*: &&&1\n*Ahora*: &&&2',
+            warnmax = 'Numero maximo de advertencias cambiado&&&3.\n*Antes*: &&&1\n*Ahora*: &&&2',
             getwarns_reply = 'Reply to a user to check his numebr of warns',
-            limit_reached = 'Este miembro ya ha alcanzado el número máximo de advertencias (*&&&1/&&&2*)',
-            limit_lower = 'Este miembro esta por debajo de las advertencias maximas.\n*&&&1* de *&&&2* advertencias(*&&&3/&&&4*)',
+            getwarns = '&&&1 (*&&&2/&&&3*)\nMedia: (*&&&4/&&&5*)',
             nowarn_reply = 'Menciona al miembro para eliminarle la advertencia',
             ban_motivation = 'too many warnings',
             nowarn = 'El número de advertencias de este miembro ha sido *reseteado*'
@@ -1159,7 +1165,7 @@ return {
             arab = '&&&1 *expulsado*: mensaje arabe detectado',
             flood_motivation = 'Banned for flood',
             media_motivation = 'Sent a forbidden media',
-            first_warn = 'This type of media is *not allowed* in this chat. The next time, *&&&1*'
+            first_warn = 'This type of media is *not allowed* in this chat.'
         },
         kick_errors = {
             [1] = 'No soy administrador, no puedo expulsar miembros',
@@ -1247,9 +1253,10 @@ return {
                         .."`/media` = receive via private message an inline keyboard to change all the media settings.\n"
                         .."`/media [kick|ban|allow] [type]` = change the action to perform when that specific media is sent.\n"
                         .."_Example_ : `/media kick sticker`.\n"
+                        .."`/warnmax media [number]` = set the max number of warnings before be kicked/banned for have sent a forbidden media.\n"
+                        .."`/nowarns (by reply)` = reset the number of warnings for the users (*NOTE: both regular warnings and media warnings*).\n"
                         .."`/media list` = show the current settings for all the media.\n"
-                        .."\n*List of supported media*: _image, audio, video, sticker, gif, voice, contact, file, link_\n"
-                        .."\n*Note*: the first time a user send a forbidden media, the bot won't kick him. Instead, a warn is sent: the next time, the user will be kicked/banned.",
+                        .."\n*List of supported media*: _image, audio, video, sticker, gif, voice, contact, file, link_\n",
                 welcome = "*Moderators: welcome settings*\n\n"
                             .."`/enable welcome` = the welcome message will be sent when a new user join the group.\n"
                             .."`/disable welcome` = the welcome message won't be sent.\n"
@@ -1278,7 +1285,7 @@ return {
                         .."`/warn [by reply]` = warn a user. Once the max number is reached, he will be kicked/banned.\n"
                         .."`/warnmax` = set the max number of the warns before the kick/ban.\n"
                         .."`/getwarns [by reply]` = see how many times a user have been warned.\n"
-                        .."`/nowarns [by reply]` = reset to zero the warns of a user.\n",
+                        .."`/nowarns (by reply)` = reset the number of warnings for the users (*NOTE: both regular warnings and media warnings*).\n",
                 char = "*Moderators: special characters*\n\n"
                         .."`/disable rtl` = everyone with RTL (Righ To Left) character in the name will be kicked. Also, the same is applied to messages.\n"
                         .."`/enable rtl` = the RTL (Righ To Left) character will be ignored.\n"
@@ -1300,6 +1307,8 @@ return {
                         .."In the file you will find all the instructions: follow them, and as soon as possible your language will be available ;)",
                 settings = "*Moderators: group settings*\n\n"
                             .."`/menu` = manage the group settings in private with an handy inline keyboard.\n"
+                            .."`/adminmode on` = _/rules, /adminlist_ and every #extra command will be sent in private unless if triggered by an admin.\n"
+                            .."`/adminmode off` = _/rules, /adminlist_ and every #extra command will be sent in the group, no exceptions.\n"
                             .."`/disable [rules|about|adminlist|extra]` = this commands will be available *only for moderators* (the bot won't reply to normal users).\n"
                             .."_Example_ : with \"`/disable extra`\", #extra commands will be available only for moderators. The same can be done with _rules, about, adminlist_.\n"
                             .."`/enable [rules|about|adminlist|extra]` = the commands will be available for everyone (and not only for moderators). Enabled it's the default status.\n"
@@ -1494,10 +1503,9 @@ return {
 			warned_max_kick = 'Usuário(a) &&&1 *removido(a)*: atingiu o número máximo de advertências',
             warned_max_ban = 'Usuário(a) &&&1 *banido(a)*: atingiu o número máximo de advertências',
             warned = '*Usuário(a)* &&&1 *foi advertido(a).*\n_Número de advertências_   *&&&2*\n_Máximo permitido_   *&&&3* (*-&&&4*)',
-            warnmax = 'Número máximo de advertências foi alterado.\n*Antigo* valor: &&&1\n*Novo* valor: &&&2',
+            warnmax = 'Número máximo de advertências foi alterado&&&3.\n*Antigo* valor: &&&1\n*Novo* valor: &&&2',
             getwarns_reply = 'Responda a um(a) usuário(a) para verificar seu número de advertências',
-            limit_reached = 'Esse(a) usuário(a) já atingiu o número máximo de advertências (*&&&1/&&&2*)',
-            limit_lower = 'Esse(a) usuário(a) está abaixo do número máximo de advertências.\nð*&&&1* restantes de um total de *&&&2* (*&&&3/&&&4*)',
+            getwarns = '&&&1 (*&&&2/&&&3*)\nMedia: (*&&&4/&&&5*)',
             nowarn_reply = 'Responda a um(a) usuário(a) para deletar suas advertências',
             ban_motivation = 'too many warnings',
             nowarn = 'O número de advertências recebidas por este(a) usuário(a) foi *resetado*'
@@ -1551,7 +1559,7 @@ return {
             arab = '&&&1 *removido(a)*: mensagem em árabe detectada',
             flood_motivation = 'Banned for flood',
             media_motivation = 'Sent a forbidden media',
-            first_warn = 'This type of media is *not allowed* in this chat. The next time, *&&&1*'
+            first_warn = 'This type of media is *not allowed* in this chat.'
         },
         kick_errors = {
             [1] = 'Não sou admin, não posso remover pessoas',
@@ -1638,9 +1646,10 @@ return {
                         .."`/media` = receive via private message an inline keyboard to change all the media settings.\n"
                         .."`/media [kick|ban|allow] [type]` = change the action to perform when that specific media is sent.\n"
                         .."_Example_ : `/media kick sticker`.\n"
+                        .."`/warnmax media [number]` = set the max number of warnings before be kicked/banned for have sent a forbidden media.\n"
+                        .."`/nowarns (by reply)` = reset the number of warnings for the users (*NOTE: both regular warnings and media warnings*).\n"
                         .."`/media list` = show the current settings for all the media.\n"
-                        .."\n*List of supported media*: _image, audio, video, sticker, gif, voice, contact, file, link_\n"
-                        .."\n*Note*: the first time a user send a forbidden media, the bot won't kick him. Instead, a warn is sent: the next time, the user will be kicked/banned.",
+                        .."\n*List of supported media*: _image, audio, video, sticker, gif, voice, contact, file, link_\n",
                 welcome = "*Moderators: welcome settings*\n\n"
                             .."`/enable welcome` = the welcome message will be sent when a new user join the group.\n"
                             .."`/disable welcome` = the welcome message won't be sent.\n"
@@ -1669,7 +1678,7 @@ return {
                         .."`/warn [by reply]` = warn a user. Once the max number is reached, he will be kicked/banned.\n"
                         .."`/warnmax` = set the max number of the warns before the kick/ban.\n"
                         .."`/getwarns [by reply]` = see how many times a user have been warned.\n"
-                        .."`/nowarns [by reply]` = reset to zero the warns of a user.\n",
+                        .."`/nowarns (by reply)` = reset the number of warnings for the users (*NOTE: both regular warnings and media warnings*).\n",
                 char = "*Moderators: special characters*\n\n"
                         .."`/disable rtl` = everyone with RTL (Righ To Left) character in the name will be kicked. Also, the same is applied to messages.\n"
                         .."`/enable rtl` = the RTL (Righ To Left) character will be ignored.\n"
@@ -1691,6 +1700,8 @@ return {
                         .."In the file you will find all the instructions: follow them, and as soon as possible your language will be available ;)",
                 settings = "*Moderators: group settings*\n\n"
                             .."`/menu` = manage the group settings in private with an handy inline keyboard.\n"
+                            .."`/adminmode on` = _/rules, /adminlist_ and every #extra command will be sent in private unless if triggered by an admin.\n"
+                            .."`/adminmode off` = _/rules, /adminlist_ and every #extra command will be sent in the group, no exceptions.\n"
                             .."`/disable [rules|about|adminlist|extra]` = this commands will be available *only for moderators* (the bot won't reply to normal users).\n"
                             .."_Example_ : with \"`/disable extra`\", #extra commands will be available only for moderators. The same can be done with _rules, about, adminlist_.\n"
                             .."`/enable [rules|about|adminlist|extra]` = the commands will be available for everyone (and not only for moderators). Enabled it's the default status.\n"
@@ -1884,10 +1895,9 @@ return {
             warned_max_kick = 'Пользователь &&&1 *кикнут* по причине достижения максимального количества предупреждений',
             warned_max_ban = 'Пользователь &&&1 *забанен* по причине достижения максимального количества предупреждений',
             warned = '*Пользователь* &&&1 *был предупрежден!*\n_Количество предупреждений_   *&&&2*\n_Максимальное разрешение_   *&&&3* (*-&&&4*)',
-            warnmax = 'Макмимальное количество предупреждений изменено.\n*Старое* значение: &&&1\n*Новое* значение: &&&2',
+            warnmax = 'Макмимальное количество предупреждений изменено&&&3.\n*Старое* значение: &&&1\n*Новое* значение: &&&2',
             getwarns_reply = 'Ответь на сообщение пользователя, у которого хочешь проверить количество предупреждений',
-            limit_reached = 'Этот пользователь уже получил максимальное количество предупреждений (*&&&1/&&&2*)',
-            limit_lower = 'Этот пользователь почти достиг максимального количества предупреждений.\n*&&&1* предупреждений осталось до *&&&2* (*&&&3/&&&4*)',
+            getwarns = '&&&1 (*&&&2/&&&3*)\nMedia: (*&&&4/&&&5*)',
             nowarn_reply = 'Ответь на сообщение пользователя, чтобы обнулить его счетчик предупреждений',
             ban_motivation = 'too many warnings',
             nowarn = 'Количество предупреждений у этого пользователя *сброшено*'
@@ -1941,7 +1951,7 @@ return {
             arab = '&&&1 *кикнут*: арабские сообщения обнаружены',
             flood_motivation = 'Banned for flood',
             media_motivation = 'Sent a forbidden media',
-            first_warn = 'This type of media is *not allowed* in this chat. The next time, *&&&1*'
+            first_warn = 'This type of media is *not allowed* in this chat.'
         },
         kick_errors = {
             [1] = 'Я не администратор этой группы, я не могу кикать людей', --1
@@ -2073,12 +2083,14 @@ return {
                     .."`/media` = Erhalte per Direktnachricht eine inline Tastatur (inline keyboard) um die Medieneinstellungen zu ändern.\n"
                     .."`/media [kick|ban|allow] [type]` = Verändere die Maßnahme (action), die angewendet wird wenn dieser bestimmte Medientyp gesendet wird.\n"
                     .."_Zum Beispiel_ : `/media kick sticker`.\n"
+                    .."`/warnmax media [number]` = set the max number of warnings before be kicked/banned for have sent a forbidden media.\n"
+                    .."`/nowarns (by reply)` = reset the number of warnings for the users (*NOTE: both regular warnings and media warnings*).\n"
                     .."`/media list` = Zeige die momentanen Einstellungen für alle Medientypen.\n\n"
-                    .."*Liste der unterstützten Medientypen (supported media)*: _image, audio, aideo, sticker, gif, voic), contact, file, link_\n\n"
-                    .."*Merke*: Beim ersten Mal wenn ein Nutzer (user) einen untersagten Medientype sendet, wird der Bot ihn nicht entfernen (kick). "
-                    .."Statdessen wird eine Warnung gesendet: Das nächtse Mal wird der Nutzer entfernt oder gesperrt (kicked or bannend).",
+                    .."*Liste der unterstützten Medientypen (supported media)*: _image, audio, aideo, sticker, gif, voic), contact, file, link_\n\n",
                 settings = "*Moderatoren: Gruppeneinstellungen*\n\n"
                     .."`/menu` = Bearbeite die Gruppeneinstellungen ohne, dass es jemand mitbekommt (private) mit einer nützlichen inline Tastatur (inline keyboard).\n"
+                    .."`/adminmode on` = _/rules, /adminlist_ and every #extra command will be sent in private unless if triggered by an admin.\n"
+                    .."`/adminmode off` = _/rules, /adminlist_ and every #extra command will be sent in the group, no exceptions.\n"
                     .."`/disable [rules|about|adminlist|extra]` = Dieser Befehl (command) wird *nur für Moderatoren* verfügbar sein (der Bot antwortet normalen Nutzern einfach nicht).\n"
                     .."_Zum Beispiel_ : Mit \"`/disable extra`\", werden #selbsterstellte Befehle (extra commands) nur für Moderatoren verfügbar sein. "
                     .."Das gleiche gilt für _rules, about, adminlist (Gruppenregeln, -einstellungen und die Liste der Moderatoren)_.\n"
@@ -2091,7 +2103,7 @@ return {
                     .."`/warn [by reply]` = Verwarne (warn) einen Nutzer (user). Ist das Limit einmal erreicht, wird dieser entfernt/gesperrt (kicked/banned).\n"
                     .."`/warnmax` = Setze das Limit für Verwarnungen bevor der Nutzer entfernt/gesperrt (kicked/bannend) wird.\n"
                     .."`/getwarns [by reply]` = Zeige an wie oft ein Nutzer bereits verwarnt (warnend) wurde.\n"
-                    .."`/nowarns [by reply]` = Setze die Zahl der Verwarnungen eines Nutzers auf 0 zurück (reset warns of user to zero).\n",
+                    .."`/nowarns (by reply)` = reset the number of warnings for the users (*NOTE: both regular warnings and media warnings*).\n",
                 welcome = "*Moderatoren: Willkommensnachrichteinstellungen*\n\n"
                     .."`/enable welcome` = Die Willkommensnachricht (welcome message) wird gesendet wenn ein neuer Nutzer (user) der Gruppe beitritt (join).\n"
                     .."`/disable welcome` = Die Willkommensnachricht wird nicht gesendet.\n\n"
@@ -2257,8 +2269,7 @@ return {
         warn = {
             changed_type = "Neue Maßnahme, die ausgeführt wird, wenn das Limit an Verwarnungen erreicht ist: *&&&1*",
             getwarns_reply = "Antworte (reply) einem Nutzer um die Zahl seiner Verwarnungen (warns) angezeigt zu bekommen",
-            limit_lower = "Dieser Nutzer hat das Limit von Verwarnungen (warns) noch nicht erreicht.\n*&&&1* Verwarnungen fehlen noch bis zum Limit von *&&&2* Verwarnungen (*&&&3/&&&4*)",
-            limit_reached = "Dieser Nutzer hat das Limit von maximalen Verwarnungen (warns) bereits erreicht (*&&&1/&&&2*)",
+            getwarns = '&&&1 (*&&&2/&&&3*)\nMedia: (*&&&4/&&&5*)',
             mod = "Ein Moderator kann nicht verwarnt (warned) werden",
             nowarn = "Die Anzahl der Verwarnungen (warns) des Nutzers (user) wurde auf den Ausgangszustand zurückgesetzt (reseted)",
             nowarn_reply = "Antworte (reply) einem Nutzer um die Anzahl seiner Verwarnungen zu löschen (delete warns)",
@@ -2266,7 +2277,7 @@ return {
             warned = "*Nutzer* &&&1 *wurde verwarnt.*\n_Anzahl der Verwarnungen_    *&&&2*\n_Limit_    *&&&3* (*-&&&4*)",
             warned_max_ban = "Nutzer &&&1 *gesperrt (banned)*: Das Limit der Verwarnungen wurde erreicht",
             warned_max_kick = "Nutzer &&&1 *entfernt (kicked)*: Das Limit der Verwarnungen wurde erreicht",
-            warnmax = "Das Limit der Verwarnungen wurde geändert.\n*Vorher*: &&&1\n*Jetzt* max: &&&2",
+            warnmax = "Das Limit der Verwarnungen wurde geändert&&&3.\n*Vorher*: &&&1\n*Jetzt* max: &&&2",
             ban_motivation = 'Too many warnings',
         },
         setlang = {
@@ -2310,7 +2321,7 @@ return {
         },
         preprocess = {
             arab = "&&&1 *entfernt (kicked)*: Nachricht mit arabischen Zeichen entdeckt!",
-            first_warn = "Dieser Medientyp ist in diesem Chat *nicht gestattet (not allowed)*. Beim nächsten Mal, *&&&1*!",
+            first_warn = "Dieser Medientyp ist in diesem Chat *nicht gestattet (not allowed)*.",
             flood_ban = "&&&1 *gesperrt (bannend)* wegen flutens (flooding)!",
             flood_kick = "&&&1 *entfernt (kicked)* wegen flutens (flodding)!",
             media_ban = "&&&1 *gesperrt (bannend)*: Der gesendete Medientyp ist nicht gestattet (not allowed)!",
@@ -2446,10 +2457,14 @@ return {
               .."`/media` = Skickar dig en meny för mediainställningar privat.\n"
               .."`/media [kick|ban|allow] [mediatyp]` = Ändrar vad som händer när någon skickar en specifik mediatyp.\n"
               .."_Exempel_ : `/media kick sticker`.\n`/media list` = Visar nuvarande mediainställningar.\n\n"
-              .."*Mediatyper*: _image, audio, video, sticker, gif, voice, contact, file, link_\n\n"
-              .."*Obs:* Första gången en användare skickar en förbjuden mediatyp så blir hen inte kickad. Istället så skickas en varning. Andra gången så blir användaren kickad eller bannad.",
+              .."`/warnmax media [number]` = set the max number of warnings before be kicked/banned for have sent a forbidden media.\n"
+              .."`/nowarns (by reply)` = reset the number of warnings for the users (*NOTE: both regular warnings and media warnings*).\n"
+              .."`/media list` = show the current settings for all the media.\n"
+              .."\n*Mediatyper*: _image, audio, video, sticker, gif, voice, contact, file, link_",
               settings = "*Moderatorer: gruppinställningar*\n\n"
               .."`/menu` = Visar en meny för gruppinställningar i ett privat meddelande.\n"
+              .."`/adminmode on` = _/rules, /adminlist_ and every #extra command will be sent in private unless if triggered by an admin.\n"
+              .."`/adminmode off` = _/rules, /adminlist_ and every #extra command will be sent in the group, no exceptions.\n"
               .."`/disable [rules|about|adminlist|extra]` = *Endast för moderatorer* (botten svarar inte andra användare).\n"
               .."_Exempel_ : med \"`/disable extra`\", så blir #extra kommandon bara tillgängliga för moderatorer. Kan även göras med _rules, about, adminlist_."
               .."\n`/enable [rules|about|adminlist|extra]` = Gör kommandona tillgängliga för alla (inte bara moderatorer). Från början gäller det alla dessa inställningar.\n"
@@ -2461,7 +2476,7 @@ return {
               .."`/warn (som meddelandesvar)` = Warnar användaren. Efter max antal varningar blir användaren kickad/bannad.\n"
               .."`/warnmax` = Sätter max antal varningar.\n"
               .."`/getwarns (som meddelandesvar)` = Se hur många gånger användaren blivit varnad.\n"
-              .."`/nowarns (som meddelandesvar)` = Nollställer antal varningar en användare har.\n",
+              .."`/nowarns (by reply)` = reset the number of warnings for the users (*NOTE: both regular warnings and media warnings*).\n",
               welcome = "*Moderatorer: välkomstinställningar*\n\n"
               .."`/enable welcome` = Ett välkomstmeddelande skickas när en ny användare kommer in i gruppen.\n"
               .."`/disable welcome` = Välkomstmeddelande skickas inte.\n\n"
@@ -2630,8 +2645,7 @@ return {
             ban_motivation = 'Too many warnings',
             changed_type = "Nytt resultat av för många varningar: *&&&1*",
             getwarns_reply = "Besvara ett meddelande för att se hur många varningar meddelandets avsändare har",
-            limit_lower = "Användaren har mindre än max antal varningar.\n*&&&1* varningar saknas av totalt *&&&2* (*&&&3/&&&4*)",
-            limit_reached = "Användaren har redan nått max antal varningar (*&&&1/&&&2*)",
+            getwarns = '&&&1 (*&&&2/&&&3*)\nMedia: (*&&&4/&&&5*)',
             mod = "Moderatorer kan inte varnas",
             nowarn = "Antalet varningar har *nollställts* för denna användare",
             nowarn_reply = "Besvara ett meddelande för att nollställa den användarens varningar",
@@ -2639,7 +2653,7 @@ return {
             warned = "*Användare* &&&1 *har varnats.*\n_Antal varningar_   *&&&2*\n_Max tillåtet_   *&&&3* (*-&&&4*)",
             warned_max_ban = "Användare &&&1 *bannad*: nådde max antal varningar",
             warned_max_kick = "Användare &&&1 *kickad*: nådde max antal varningar",
-            warnmax = "Max antal varningar ändrat.\n*Tidigare* värde: &&&1\n*Nytt* maxvärde: &&&2"
+            warnmax = "Max antal varningar ändrat&&&3.\n*Tidigare* värde: &&&1\n*Nytt* maxvärde: &&&2"
         },
         setlang = {
             error = "Det språket är *inte tillgängligt*. Använd `/lang` för att se vilka språk som finns.",
@@ -2682,7 +2696,7 @@ return {
         },
         preprocess = {
             arab = "&&&1 *kickad* för arabiskt meddelande!",
-            first_warn = "Denna mediatyp är *inte tillåten* i denna grupp. Nästa gång, *&&&1*!",
+            first_warn = "Denna mediatyp är *inte tillåten* i denna grupp.",
             flood_ban = "&&&1 *bannad* för flood!",
             flood_kick = "&&&1 *kickad* för flood!",
             media_ban = "&&&1 *bannad* för otillåten media!",
@@ -2776,9 +2790,10 @@ return {
                         .."`/media` = استقبل من خلال رسالة خاصة لوحة المفاتيح لتغيير إعدادات الوسائط.\n"
                         .."`/media [kick|ban|allow] [type]` = غيّر إجراء سيتم اتخاذه بعد إرسال هذه الوسائط المعينة.\n"
                         .."_مثال_ : `/media kick sticker`.\n"
+                        .."`/warnmax media [number]` = set the max number of warnings before be kicked/banned for have sent a forbidden media.\n"
+                        .."`/nowarns (by reply)` = reset the number of warnings for the users (*NOTE: both regular warnings and media warnings*).\n"
                         .."`/media list` = أظهر الإعدادات الحالية لجمع الوسائط.\n"
-                        .."\n*قائمة وسائط يجري دعمها*: _image, audio, video, sticker, gif, voice, contact, file, link_\n"
-                        .."\n*ملاحظة*: بعد أول حدوث إرسال وسائط ممنوعة من قبل المستخدم، البوت لن يقم بإزالته، بل بتحذيره: المرة القادمة، سيتم إزالة المستخدم.",
+                        .."\n*قائمة وسائط يجري دعمها*: _image, audio, video, sticker, gif, voice, contact, file, link_\n",
                 welcome = "*مشرف: إعدادات الترحيب*\n\n"
                             .."`/enable welcome` = يستم إرسال رسالة الترحيب عند انضمام مستخدم جديد إلى لمجموعة.\n"
                             .."`/disable welcome` = لن يتم إرسال رسالة النرحيب.\n"
@@ -2809,7 +2824,7 @@ return {
                         .."`/getwarns [by reply]` = حصول على عدد المرات تم تحذير المستخدم.\n"
                         .."`/nowarns [by reply]` = إعادة تعيين تحذيرات المستخدم لصفر.\n",
                 char = "*المشرفون: محارف خاصة*\n\n"
-                        .."`/disable rtl` = سيتم إزالة كل شخص يحمل اسم مكتوب مع محارف من اليمين إلى اليسار. هذا ينطبق أيضاً للرسائل.\n"
+                        .."`/disable rtl` = سيتم إزالة كل شخص يحمل اسم مكتوب مع محارف من ا��يمين إلى اليسار. هذا ينطبق أيضاً للرسائل.\n"
                         .."`/enable rtl` = سيتم تجاهل المحارف المكتوبة من اليمين إلى اليسار.\n"
                         .."`/disable arab` =  البوت سيقوم بإزالة أي شخص يكتب رسالة تشمل محارف عربية.\n"
                         .."`/enable arab` = سيتم تجاهل المحارف العربية.\n",
@@ -2829,6 +2844,8 @@ return {
                         .."في داخل الملف ستجد كل التعليمات. اتتبعها، وفي أقرب وقت ممكن يتكون لغتك متاحة ;)",
                 settings = "*المشرفون: إعدادات المجموعة*\n\n"
                             .."`/menu` = إدارة إعدادات المجموعة بشكل خاص مع لوحة المفاتيح خاصة و مفيدة.\n"
+                            .."`/adminmode on` = _/rules, /adminlist_ and every #extra command will be sent in private unless if triggered by an admin.\n"
+                            .."`/adminmode off` = _/rules, /adminlist_ and every #extra command will be sent in the group, no exceptions.\n"
                             .."`/disable [rules|about|adminlist|extra]` = هذه الأوامر ستكون متاحة *لمشرفين فقط* (لن يرد البوت إلى مستخدمين عاديين).\n"
                             .."_مثال_ : مع أمر  \"`/disable extra`\", أوامر #extra ستكون متاح للمشرفين فقط. يمكنك نفس الشئء مع _rules, about, adminlist_.\n"
                             .."`/enable [rules|about|adminlist|extra]` = الأوامر ستكون متاحة لكل الناس )وليس فقط للمشرفين). هذا الإعاداد مفعل إذا لم يتم تغيير.\n"
@@ -3035,8 +3052,7 @@ return {
             warned = 'تم تحذير مستخدم &&&1.\n_عدد التحذيرات_   *&&&2*\n_مبلغ أقصى مسموح_   *&&&3* (*-&&&4*)',
             warnmax = 'تم تغيير مبلغ أقصى التحذيرات.\nمبلغ قديم: &&&1\nمبلغ جديد: &&&2',
             getwarns_reply = 'رد على مستخدم لترى عدده التحذيرات',
-            limit_reached = 'هذا المستخدم وصل بالفعل إلى ملبغ أقصى من التحذيرات (*&&&1/&&&2*)',
-            limit_lower = 'هذا المستخدم تحت ملبغ أقصى للتحذيرات.\n*&&&1* تحذيرات مفقودة مع مبلغ إجمالي *&&&2* (*&&&3/&&&4*)',
+            getwarns = '&&&1 (*&&&2/&&&3*)\nMedia: (*&&&4/&&&5*)',
             nowarn_reply = 'رد على مستخدم حذف تحذيراته',
             ban_motivation = 'الكثير من التحذيرات',
             nowarn = 'تم إعادة تعيين مبلغ تحذيرات هذا المستخدم.'
@@ -3072,7 +3088,7 @@ return {
             ban = 'الآن، سوف يتم حظر مستخدمين يقومون بتكرار رسائل.',
         },
         mediasettings = {
-      warn = 'هذا نوع من الوسائط غير مسموح في هذه المجموعة.\n_المرة القادمة_ سيتم إزالتك أم حظرك من المجموعة.',
+            warn = 'هذا نوع من الوسائط غير مسموح في هذه المجموعة.\n_المرة القادمة_ سيتم إزالتك أم حظرك من المجموعة.',
             list_header = 'هنا قائمة وسائط تستطيع أن تحجزها:\n\n',
             settings_header = '*الإعدادات الحالية لوسائط:\n\n',
             already = 'إن حالة لوسائط (`&&&1`) بالفعل (`&&&2`)',

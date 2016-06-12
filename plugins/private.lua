@@ -69,7 +69,7 @@ local action = function(msg, blocks, ln)
 	if blocks[1] == 'info' then
 		local keyboard = {}
 		keyboard = do_keybaord_credits()
-		api.sendKeyboard(msg.chat.id, lang[ln].credits, keyboard, true)
+		api.sendKeyboard(msg.chat.id, '`v'..config.version..'`\n'..lang[ln].credits, keyboard, true)
 		mystat('/credits')
 	end
 	if blocks[1] == 'pin' then

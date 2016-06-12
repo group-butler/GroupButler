@@ -39,6 +39,7 @@ local triggers2 = {
 	'^/a(redis backup)$',
 	'^/a(group info) (-?%d+)$',
 	'^/a(fill media)$',
+	'^/a(genlang)$',
 	'^/a(genlang) (%a%a)$',
 	'^/a(trfile) (%a%a)$',
 	'^/a(trfile)$',
@@ -688,6 +689,16 @@ local action = function(msg, blocks, ln)
 		end
 	end
 	if blocks[1] == 'genlang' then
+		if not blocks[2] then
+			local instructions = dofile('instructions.lua')
+			for i,ln in pairs(config.available_languages) do
+				local path = 'ln'..ln:upper()..'.lua'
+				local text = instructions..'\n\n\n\n\n\n\n\n\n\n\n'..vtext(lang[ln])
+				write_file(path, text)
+				api.sendDocument(msg.chat.id, path)
+			end
+			return
+		end
 		local code = blocks[2]
 		local exists = is_lang_supported(code)
 		if not exists then

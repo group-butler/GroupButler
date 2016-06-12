@@ -11,6 +11,16 @@ local function saveFirstWarn(chat, user, media, ln)
     return make_text(lang[ln].preprocess.first_warn, status)
 end
 
+local function max_reached(chat_id, user_id)
+    local max = tonumber(db:get('chat:'..chat_id..':mediamax')) or 2
+    local n = tonumber(db:hincrby('chat:'..chat_id..':mediawarn', user_id, 1))
+    if n >= max then
+        return true, n, max
+    else
+        return false, n, max
+    end
+end
+
 pre_process = function(msg, ln)
     
     if msg.cb then --ignore callbacks
@@ -64,28 +74,31 @@ pre_process = function(msg, ln)
             local hash = 'chat:'..msg.chat.id..':media'
             local status = db:hget(hash, media)
             local out
-            if user_neverWarned(msg.chat.id, msg.from.id) and status and not(status == 'allowed') then
-                local message = saveFirstWarn(msg.chat.id, msg.from.id, media, ln)
-                api.sendReply(msg, message, true)
-            elseif not user_neverWarned(msg.chat.id, msg.from.id) and status and not(status == 'allowed') then
-                local is_normal_group = false
-                local res
-                if status == 'kick' then
-                    res = api.kickUser(msg.chat.id, msg.from.id, ln)
-    	        elseif status == 'ban' then
-    	            if msg.chat.type == 'group' then is_normal_group = true end
-    	            res = api.banUser(msg.chat.id, msg.from.id, is_normal_group, ln)
-    		    end
-    		    if res then
-    		        local message
-    		        if status == 'ban' then
-    		            cross.addBanList(msg.chat.id, msg.from.id, name, lang[ln].preprocess.media_motivation)
-    		            message = make_text(lang[ln].preprocess.media_ban, name:mEscape())
-    		        else
-    		            message = make_text(lang[ln].preprocess.media_kick, name:mEscape())
+            if not(status == 'allowed') then
+                local max_reached_var, n, max = max_reached(msg.chat.id, msg.from.id)
+    		    if max_reached_var then --max num reached. Kick/ban the user
+    		        --try to kick/ban
+    		        if status == 'kick' then
+                        res = api.kickUser(msg.chat.id, msg.from.id, ln)
+    	            elseif status == 'ban' then
+    	                if msg.chat.type == 'group' then is_normal_group = true end
+    	                res = api.banUser(msg.chat.id, msg.from.id, is_normal_group, ln)
     		        end
-    		        api.sendMessage(msg.chat.id, message, true)
-    		    end
+    		        if res then --kick worked
+    		            db:hdel('chat:'..msg.chat.id..':mediawarn', msg.from.id)
+    		            local message
+    		            if status == 'ban' then
+    		                cross.addBanList(msg.chat.id, msg.from.id, name, lang[ln].preprocess.media_motivation)
+    		                message = make_text(lang[ln].preprocess.media_ban, name:mEscape())..'\n`('..n..'/'..max..')`'
+    		            else
+    		                message = make_text(lang[ln].preprocess.media_kick, name:mEscape())..'\n`('..n..'/'..max..')`'
+    		            end
+    		            api.sendMessage(msg.chat.id, message, true)
+    		        end
+		        else --max num not reached -> warn
+		            local message = lang[ln].preprocess.first_warn..'\n*('..n..'/'..max..')*'
+		            api.sendReply(msg, message, true)
+		        end
     		end
         end
     
