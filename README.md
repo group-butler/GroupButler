@@ -35,14 +35,14 @@ $ sudo luarocks install serpent
 $ cd ..
 ```
 
-Install Curl, only if is missing:
+Install Curl, only if missing:
 ```bash
 $ sudo apt-get install curl
 ```
 
 Clone the github repository:
 ```bash
-# Clone the repo and give the permission to start the launch script
+# Clone the repo and give the permissions to start the launch script
 
 $ git clone https://github.com/RememberTheAir/GroupButler.git
 $ cd GroupButler && sudo chmod 777 launch.sh
@@ -56,11 +56,13 @@ $ cd GroupButler && sudo chmod 777 launch.sh
 
 > • Set bot_api_key to the authentication token you received from the [BotFather](http://telegram.me/BotFather).
 >
-> • Set admin as your Telegram ID (under `admin.owner` field and under `admin.admins`, as a table element with `true` value). You can set up a log group where error messages will be sent: this allows to split errors from user feedbacks. Replace the current id with the id of your designed group, otherwise remove it.
+> • Set admin as your Telegram ID (under `admin.owner` field and under `admin.admins`, as a table element with `true` value).
+>
+> • You can set up a log group where error messages will be sent: this allows to split errors from user feedbacks. Replace the current id with the id of your designed group, otherwise remove the line.
 >
 > • Set your bot channel (if you have one) in config.lua, under `channel` field. You should add the bot to the channel admins, if you want to post something through it.
 >
-> • If it asks for the sudo password during the installation or after, insert it.
+> • If it asks for the sudo password during/after the installation, insert it.
 
 Before start the bot, you have to start Redis. Open a new window and type:
 ```bash

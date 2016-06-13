@@ -150,16 +150,16 @@ on_msg_receive = function(msg) -- The fn run whenever a message is received.
 	
 	collect_stats(msg) --resolve_username support, chat stats
 	
-	for i,v in pairs(plugins) do
+	for i,plugin in pairs(plugins) do
 		local stop_loop
-		if v.on_each_msg then
-			msg, stop_loop = v.on_each_msg(msg, msg.lang)
+		if plugin.on_each_msg then
+			msg, stop_loop = plugin.on_each_msg(msg, msg.lang)
 		end
 		if stop_loop then --check if on_each_msg said to stop the triggers loop
 			break
 		else
-			if v.triggers then
-				for k,w in pairs(v.triggers) do
+			if plugin.triggers then
+				for k,w in pairs(plugin.triggers) do
 					local blocks = match_pattern(w, msg.text)
 					if blocks then
 						--workaround for the stupid bug
@@ -177,7 +177,7 @@ on_msg_receive = function(msg) -- The fn run whenever a message is received.
       					end
 						--execute plugin
 						local success, result = pcall(function()
-							return v.action(msg, blocks, msg.lang)
+							return plugin.action(msg, blocks, msg.lang)
 						end)
 						--if bugs
 						if not success then
@@ -304,18 +304,24 @@ local function media_to_msg(msg)
 		msg.text = '###sticker'
 	elseif msg.contact then
 		msg.text = '###contact'
-	elseif msg.entities then
+	end
+	msg.media = true
+	
+	if msg.entities then
 		for i,entity in pairs(msg.entities) do
 			if entity.type == 'url' then
 				msg.url = true
+				msg.media = true
 				break
 			end
 		end
+		if not msg.url then msg.media = false end --if the entity it's not an url (username/bot command), set msg.media as false
 	end
+	
 	if msg.reply_to_message then
 		msg.reply = msg.reply_to_message
 	end
-	msg.media = true
+	
 	return on_msg_receive(msg)
 end
 

@@ -6,6 +6,35 @@ local included_fields = {
     'extra'
 }
 
+local function changeWarnSettings(chat_id, action, ln)
+    local current = tonumber(db:get('chat:'..chat_id..':max')) or 3
+    local new_val
+    if action == 1 then
+        if current > 12 then
+            return lang[ln].warn.inline_high
+        else
+            new_val = db:incrby('chat:'..chat_id..':max', 1)
+            return current..'->'..new_val
+        end
+    elseif action == -1 then
+        if current < 2 then
+            return lang[ln].warn.inline_low
+        else
+            new_val = db:incrby('chat:'..chat_id..':max', -1)
+            return current..'->'..new_val
+        end
+    elseif action == 'status' then
+        local status = (db:get('chat:'..chat_id..':warntype')) or 'kick'
+        if status == 'kick' then
+            db:set('chat:'..chat_id..':warntype', 'ban')
+            return make_text(lang[ln].warn.changed_type, 'ban')
+        elseif status == 'ban' then
+            db:set('chat:'..chat_id..':warntype', 'kick')
+            return make_text(lang[ln].warn.changed_type, 'kick')
+        end
+    end
+end
+
 local function getWelcomeMessage(chat_id, ln)
     hash = 'chat:'..chat_id..':welcome'
     local type = db:hget(hash, 'type')
@@ -88,7 +117,7 @@ local function doKeyboard_menu(chat_id)
         if val == 'yes' then val = '🚫' end
         if val == 'no' then val = '☑️' end
         local current = {
-            {text = key:gsub('_', ' '), callback_data = 'menualert//'},
+            {text = key:gsub('_', ' '), callback_data = 'menualertsettings//'},
             {text = val, callback_data = 'menu'..key..'//'..chat_id}
         }
         table.insert(keyboard.inline_keyboard, current)
@@ -103,9 +132,19 @@ local function doKeyboard_menu(chat_id)
         {text = '📍'..num..' ⚡️'..action, callback_data = 'menuActionFlood//'..chat_id},
         {text = '➕', callback_data = 'menuRaiseFlood//'..chat_id},
     }
+    table.insert(keyboard.inline_keyboard, {{text = 'Flood 👇🏼', callback_data = 'menualertflood//'}})
     table.insert(keyboard.inline_keyboard, flood)
     
     --warn
+    local max = (db:get('chat:'..chat_id..':max')) or 3
+    action = (db:get('chat:'..chat_id..':warntype')) or 'kick'
+    local warn = {
+        {text = '➖', callback_data = 'menuDimWarn//'..chat_id},
+        {text = '📍'..max..' 🔨️'..action, callback_data = 'menuActionWarn//'..chat_id},
+        {text = '➕', callback_data = 'menuRaiseWarn//'..chat_id},
+    }
+    table.insert(keyboard.inline_keyboard, {{text = 'Warns 👇🏼', callback_data = 'menualertwarns//'}})
+    table.insert(keyboard.inline_keyboard, warn)
     
     return keyboard
 end
@@ -128,6 +167,7 @@ local action = function(msg, blocks, ln)
             --everyone can use this
             api.sendMessage(msg.chat.id, lang[ln].all.dashboard, true)
 	        api.sendKeyboard(msg.from.id, lang[ln].all.dashboard_first, keyboard, true)
+	        mystat('/dashboard')
 	        return
         end
         if msg.cb then
@@ -167,14 +207,22 @@ local action = function(msg, blocks, ln)
             keyboard = doKeyboard_menu(chat_id)
             api.sendMessage(msg.chat.id, lang[ln].all.menu, true)
 	        api.sendKeyboard(msg.from.id, lang[ln].all.menu_first, keyboard, true)
+	        mystat('/menu')
 	        return
 	    end
 	    if msg.cb then
+	        local text
 	        if blocks[2] == 'alert' then
-                api.answerCallbackQuery(msg.cb_id, '⚠️ Tap on an icon!')
+	            if blocks[3] == 'settings' then
+                    text = '⚠️ '..lang[ln].bonus.menu_cb_settings
+                elseif blocks[3] == 'flood' then
+                    text = '⚠️ '..lang[ln].bonus.menu_cb_flood
+                elseif blocks[3] == 'warns' then
+                    text = '⚠️ '..lang[ln].bonus.menu_cb_warns
+                end
+                api.answerCallbackQuery(msg.cb_id, text)
                 return
             end
-            --keyboard = doKeyboard(blocks[1], chat_id)
             if blocks[2] == 'DimFlood' or blocks[2] == 'RaiseFlood' or blocks[2] == 'ActionFlood' then
                 local action
                 if blocks[2] == 'DimFlood' then
@@ -185,6 +233,14 @@ local action = function(msg, blocks, ln)
                     action = (db:hget('chat:'..chat_id..':flood', 'ActionFlood')) or 'kick'
                 end
                 text = cross.changeFloodSettings(chat_id, action, ln)
+            elseif blocks[2] == 'DimWarn' or blocks[2] == 'RaiseWarn' or blocks[2] == 'ActionWarn' then
+                if blocks[2] == 'DimWarn' then
+                    text = changeWarnSettings(chat_id, -1, ln)
+                elseif blocks[2] == 'RaiseWarn' then
+                    text = changeWarnSettings(chat_id, 1, ln)
+                elseif blocks[2] == 'ActionWarn' then
+                    text = changeWarnSettings(chat_id, 'status', ln)
+                end
             else
                 text = cross.changeSettingStatus(chat_id, blocks[2], ln)
             end
@@ -199,6 +255,7 @@ local action = function(msg, blocks, ln)
             keyboard = doKeyboard_media(chat_id)
             api.sendMessage(msg.chat.id, lang[ln].bonus.general_pm, true)
 	        api.sendKeyboard(msg.from.id, lang[ln].all.media_first, keyboard, true)
+	        mystat('/media')
 	        return
 	    end
 	    if msg.cb then
@@ -225,7 +282,10 @@ return {
 	    '^###cb:(dashboard)(extra)//',
 	    '^###cb:(dashboard)(welcome)//',
     	
-    	'^###cb:(menu)(alert)//',
+    	'^###cb:(menu)(alert)(settings)//',
+    	'^###cb:(menu)(alert)(flood)//',
+    	'^###cb:(menu)(alert)(warns)//',
+    	
     	'^###cb:(menu)(Rules)//',
     	'^###cb:(menu)(About)//',
     	'^###cb:(menu)(Modlist)//',
@@ -236,9 +296,13 @@ return {
     	'^###cb:(menu)(Extra)//',
     	'^###cb:(menu)(Admin_mode)//',
     	'^###cb:(menu)(Flood)//',
+    	
     	'^###cb:(menu)(DimFlood)//',
     	'^###cb:(menu)(RaiseFlood)//',
     	'^###cb:(menu)(ActionFlood)//',
+    	'^###cb:(menu)(DimWarn)//',
+    	'^###cb:(menu)(RaiseWarn)//',
+    	'^###cb:(menu)(ActionWarn)//',
     	
     	'^###cb:(media)(image)//',
     	'^###cb:(media)(audio)//',

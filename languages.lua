@@ -18,6 +18,9 @@ return {
             reply = '*Reply to someone* to use this command, or write a *username*',
             too_long = 'This text is too long, I can\'t send it',
             msg_me = '_Message me first so I can message you_',
+            menu_cb_settings = 'Tap on an icon!',
+            menu_cb_flood = 'Use the row below to change the flood settings!',
+            menu_cb_warns = 'Use the row below to change the warns settings!',
             tell = '*Group ID*: &&&1',
         },
         pv = 'This is a command available only in a group',
@@ -108,8 +111,7 @@ return {
                         .."`/poll` = get the current poll link, if setted\n"
                         .."\n*Note*: the bot can recognize valid group links/poll links. If a link is not valid, you won't receive a reply.",
                 lang = "*Moderators: group language*\n\n"
-                        .."`/lang` = see the list of available languages\n"
-                        .."`/lang [code]` = change the language of the bot\n"
+                        .."`/lang` = choose the group language (can be changed in private too).\n"
                         .."\n*Note*: translators are volunteers, so I can't ensure the correctness of all the translations. And I can't force them to translate the new strings after each update (not translated strings are in english)."
                         .."\nAnyway, translations are open to everyone. Use `/strings` command to receive a _.lua_ file with all the strings (in english).\n"
                         .."Use `/strings [lang code]` to receive the file for that specific language (example: _/strings es_ ).\n"
@@ -321,16 +323,19 @@ return {
             mod = 'A moderator can\'t be warned',
             warned_max_kick = 'User &&&1 *kicked*: reached the max number of warnings',
             warned_max_ban = 'User &&&1 *banned*: reached the max number of warnings',
-            warned = '*User* &&&1 *have been warned.*\n_Number of warnings_   *&&&2*\n_Max allowed_   *&&&3* (*-&&&4*)',
+            warned = '&&&1 *have been warned.*\n_Number of warnings_   *&&&2*\n_Max allowed_   *&&&3*',
             warnmax = 'Max number of warnings changed&&&3.\n*Old* value: &&&1\n*New* max: &&&2',
             getwarns_reply = 'Reply to a user to check his numebr of warns',
             getwarns = '&&&1 (*&&&2/&&&3*)\nMedia: (*&&&4/&&&5*)',
             nowarn_reply = 'Reply to a user to delete his warns',
+            warn_removed = '*Warn removed!*\n_Number of warnings_   *&&&1*\n_Max allowed_   *&&&2*',
             ban_motivation = 'Too many warnings',
+            inline_high = 'The new value is too high (>12)',
+            inline_low = 'The new value is too low (<1)',
             nowarn = 'The number of warns received by this user have been *resetted*'
         },
         setlang = {
-            list = '*List of available languages:*\n\n&&&1\nUse `/lang xx` to change you language',
+            list = '*List of available languages:*',
             error = 'The language setted is *not supported*. Use `/lang` to see the list of the available languages',
             success = '*New language setted:* &&&1'
         },
@@ -420,6 +425,9 @@ return {
             adminlist_admin_required = 'Non sono un Admin del gruppo.\n*Solo un Admin puà vedere la lista degli amministratori*',
             too_long = 'Questo testo è troppo lungo, non posso inviarlo',
             msg_me = '_Scrivimi prima tu, in modo che io possa scriverti_',
+            menu_cb_settings = 'Tocca le icone sulla destra!',
+            menu_cb_flood = 'Usa la riga sottostante per modificare le impostazioni dell\'anti-flood!',
+            menu_cb_warns = 'Usa la riga sottostante per modificare le impostazioni dei warns!',
             tell = '*ID gruppo*: &&&1'
         },
         pv = 'Questo comando è disponibile solo in un gruppo!',
@@ -510,8 +518,7 @@ return {
                         .."`/poll` = ottieni il link al sondaggio corrente, se impostato.\n"
                         .."\n*Note*: il bot può riconoscere link validi a gruppi/sondaggi. Se il link non è valido, non otterrai una risposta.",
                 lang = "*Moderatori: linguaggio del bot*\n\n"
-                        .."`/lang` = ottieni l\'elenco delle lingue disponibili\n"
-                        .."`/lang [codice]` = cambia la lingua del bot\n"
+                        .."`/lang` = scegli la lingua del bot (può essere cambiata anche in privato).\n"
                         .."\n*Nota*: i traduttori sono utenti volontari, quindi non posso assicurare la correttezza delle traduzioni. E non posso costringerli a tradurre le nuove stringhe dopo un aggiornamento (le stringhe non tradotte saranno in inglese)."
                         .."\nComunque, chiunque può tradurre il bot. Usa il comando `/strings` per ricevere un file _.lua_ con tutte le stringhe (in inglese).\n"
                         .."Usa `/strings [codice lingua]` per ricevere il file associato alla lingua richiesta (esempio: _/strings es_ ).\n"
@@ -715,16 +722,19 @@ return {
             mod = 'Un moderatore non può essere ammonito',
             warned_max_kick = 'Utente &&&1 *kickato*: raggiunto il numero massimo di warns',
             warned_max_ban = 'Utente &&&1 *bannato*: raggiunto il numero massimo di warns',
-            warned = '*L\'utente* &&&1 *è stato ammonito.*\n_Numero di ammonizioni_   *&&&2*\n_Max consentito_   *&&&3* (*-&&&4*)',
+            warned = '*L\'utente* &&&1 *è stato ammonito.*\n_Numero di ammonizioni_   *&&&2*\n_Max consentito_   *&&&3*',
             warnmax = 'Numero massimo di waning aggiornato&&&3.\n*Vecchio* valore: &&&1\n*Nuovo* valore: &&&2',
             getwarns_reply = 'Rispondi ad un utente per ottenere il suo numero di ammonizioni',
             getwarns = '&&&1 (*&&&2/&&&3*)\nMedia: (*&&&4/&&&5*)',
             nowarn_reply = 'Rispondi ad un utente per azzerarne le ammonizioni',
             ban_motivation = 'Troppi warning',
+            inline_high = 'Il nuovo valore è troppo alto (>12)',
+            inline_low = 'Il nuovo valore è troppo basso (<1)',
+            warn_removed = '*Warn rimosso!*\n_Numero di ammonizioni_   *&&&1*\n_Max consentito_   *&&&2*',
             nowarn = 'Il numero di ammonizioni ricevute da questo utente è stato *azzerato*'
         },
         setlang = {
-            list = '*Elenco delle lingue disponibili:*\n\n&&&1\nUsa `/lang xx` per cambiare lingua',
+            list = '*Elenco delle lingue disponibili:*',
             error = 'Questo codice *non è supportato*. Usa `/lang` per vedere la lista dei linguaggi disponibili',
             success = '*Nuovo linguaggio impostato:* &&&1'
         },
@@ -815,6 +825,9 @@ return {
             adminlist_admin_required = 'I\'m not a group Admin.\n*Only an Admin can see the administrators list*',
             too_long = 'This text is too long, I can\'t send it',
             msg_me = '_Message me first so I can message you_',
+            menu_cb_settings = 'Tap on an icon!',
+            menu_cb_flood = 'Use the row below to change the flood settings!',
+            menu_cb_warns = 'Use the row below to change the warns settings!',
             tell = '*ID del grupo*: &&&1'
         },
         pv = 'Este comando solo esta disponible en los grupos',
@@ -905,8 +918,7 @@ return {
                         .."`/poll` = get the current poll link, if setted\n"
                         .."\n*Note*: the bot can recognize valid group links/poll links. If a link is not valid, you won't receive a reply.",
                 lang = "*Moderators: group language*\n\n"
-                        .."`/lang` = see the list of available languages\n"
-                        .."`/lang [code]` = change the language of the bot\n"
+                        .."`/lang` = choose the group language (can be changed in private too).\n"
                         .."\n*Note*: translators are volunteers, so I can't ensure the correctness of all the translations. And I can't force them to translate the new strings after each update (not translated strings are in english)."
                         .."\nAnyway, translations are open to everyone. Use `/strings` command to receive a _.lua_ file with all the strings (in english).\n"
                         .."Use `/strings [lang code]` to receive the file for that specific language (example: _/strings es_ ).\n"
@@ -1108,16 +1120,19 @@ return {
             mod = 'Un moderador *no* puede ser advertido',
             warned_max_kick = '*&&&1 ha sido expulsado*: alcanzado el numero maximo de advertencias',
             warned_max_ban = '*&&&1 ha sido baneado*: alcanzado el numero maximo de advertencias',
-            warned = '*&&&1 ha sido advertido.*\n_Numero de advertencias_   *&&&2*\n_Maximo_   *&&&3* (*-&&&4*)',
+            warned = '*&&&1 ha sido advertido.*\n_Numero de advertencias_   *&&&2*\n_Maximo_   *&&&3*',
             warnmax = 'Numero maximo de advertencias cambiado&&&3.\n*Antes*: &&&1\n*Ahora*: &&&2',
             getwarns_reply = 'Reply to a user to check his numebr of warns',
             getwarns = '&&&1 (*&&&2/&&&3*)\nMedia: (*&&&4/&&&5*)',
+            warn_removed = '*Warn removed!*\n_Number of warnings_   *&&&1*\n_Max allowed_   *&&&2*',
             nowarn_reply = 'Menciona al miembro para eliminarle la advertencia',
             ban_motivation = 'too many warnings',
+            inline_high = 'The new value is too high (>12)',
+            inline_low = 'The new value is too low (<1)',
             nowarn = 'El número de advertencias de este miembro ha sido *reseteado*'
         },
         setlang = {
-            list = '*Idiomas disponibles:*\n\n&&&1\nUsa `/lang xx` para cambiar el idioma',
+            list = '*Idiomas disponibles:*',
             error = 'Idioma seleccionado *no disponible*. Usa `/lang` para ver los idiomas disponibles',
             success = '*New language setted:* &&&1'
         },
@@ -1209,6 +1224,9 @@ return {
             reply = '*Reply to someone* to use this command, or write a *username*',
             too_long = 'This text is too long, I can\'t send it',
             msg_me = '_Message me first so I can message you_',
+            menu_cb_settings = 'Tap on an icon!',
+            menu_cb_flood = 'Use the row below to change the flood settings!',
+            menu_cb_warns = 'Use the row below to change the warns settings!',
             tell = '*ID do grupo*: &&&1'
         },
         pv = 'Esse comando está disponível apenas em grupos',
@@ -1299,8 +1317,7 @@ return {
                         .."`/poll` = get the current poll link, if setted\n"
                         .."\n*Note*: the bot can recognize valid group links/poll links. If a link is not valid, you won't receive a reply.",
                 lang = "*Moderators: group language*\n\n"
-                        .."`/lang` = see the list of available languages\n"
-                        .."`/lang [code]` = change the language of the bot\n"
+                        .."`/lang` = choose the group language (can be changed in private too).\n"
                         .."\n*Note*: translators are volunteers, so I can't ensure the correctness of all the translations. And I can't force them to translate the new strings after each update (not translated strings are in english)."
                         .."\nAnyway, translations are open to everyone. Use `/strings` command to receive a _.lua_ file with all the strings (in english).\n"
                         .."Use `/strings [lang code]` to receive the file for that specific language (example: _/strings es_ ).\n"
@@ -1502,16 +1519,19 @@ return {
 			mod = 'Moderadores(as) não podem ser advertidos',
 			warned_max_kick = 'Usuário(a) &&&1 *removido(a)*: atingiu o número máximo de advertências',
             warned_max_ban = 'Usuário(a) &&&1 *banido(a)*: atingiu o número máximo de advertências',
-            warned = '*Usuário(a)* &&&1 *foi advertido(a).*\n_Número de advertências_   *&&&2*\n_Máximo permitido_   *&&&3* (*-&&&4*)',
+            warned = '*Usuário(a)* &&&1 *foi advertido(a).*\n_Número de advertências_   *&&&2*\n_Máximo permitido_   *&&&3*',
             warnmax = 'Número máximo de advertências foi alterado&&&3.\n*Antigo* valor: &&&1\n*Novo* valor: &&&2',
             getwarns_reply = 'Responda a um(a) usuário(a) para verificar seu número de advertências',
             getwarns = '&&&1 (*&&&2/&&&3*)\nMedia: (*&&&4/&&&5*)',
             nowarn_reply = 'Responda a um(a) usuário(a) para deletar suas advertências',
             ban_motivation = 'too many warnings',
+            inline_high = 'The new value is too high (>12)',
+            inline_low = 'The new value is too low (<1)',
+            warn_removed = '*Warn removed!*\n_Number of warnings_   *&&&1*\n_Max allowed_   *&&&2*',
             nowarn = 'O número de advertências recebidas por este(a) usuário(a) foi *resetado*'
         },
         setlang = {
-            list = '*Lista de idiomas disponíveis:*\n\n&&&1\nUse `/lang xx` para mudar seu idioma',
+            list = '*Lista de idiomas disponíveis:*',
             error = 'O idioma selecionado *não é suportado*. Use `/lang` para ver a lista de idiomas disponíveis',
             success = '*Novo idioma selecionado:* &&&1'
         },
@@ -1602,6 +1622,9 @@ return {
             reply = '*Reply to someone* to use this command, or write a *username*',
             too_long = 'This text is too long, I can\'t send it',
             msg_me = '_Чтобы я мог тебе писать, сначала напиши мне_',
+            menu_cb_settings = 'Tap on an icon!',
+            menu_cb_flood = 'Use the row below to change the flood settings!',
+            menu_cb_warns = 'Use the row below to change the warns settings!',
             tell = '*ID группы*: &&&1'
         },
         pv = 'Эта команда доступна только в группе',
@@ -1692,8 +1715,7 @@ return {
                         .."`/poll` = get the current poll link, if setted\n"
                         .."\n*Note*: the bot can recognize valid group links/poll links. If a link is not valid, you won't receive a reply.",
                 lang = "*Moderators: group language*\n\n"
-                        .."`/lang` = see the list of available languages\n"
-                        .."`/lang [code]` = change the language of the bot\n"
+                        .."`/lang` = choose the group language (can be changed in private too).\n"
                         .."\n*Note*: translators are volunteers, so I can't ensure the correctness of all the translations. And I can't force them to translate the new strings after each update (not translated strings are in english)."
                         .."\nAnyway, translations are open to everyone. Use `/strings` command to receive a _.lua_ file with all the strings (in english).\n"
                         .."Use `/strings [lang code]` to receive the file for that specific language (example: _/strings es_ ).\n"
@@ -1894,16 +1916,19 @@ return {
             mod = 'Модераторы не могут быть предупреждены',
             warned_max_kick = 'Пользователь &&&1 *кикнут* по причине достижения максимального количества предупреждений',
             warned_max_ban = 'Пользователь &&&1 *забанен* по причине достижения максимального количества предупреждений',
-            warned = '*Пользователь* &&&1 *был предупрежден!*\n_Количество предупреждений_   *&&&2*\n_Максимальное разрешение_   *&&&3* (*-&&&4*)',
+            warned = '*Пользователь* &&&1 *был предупрежден!*\n_Количество предупреждений_   *&&&2*\n_Максимальное разрешение_   *&&&3*',
             warnmax = 'Макмимальное количество предупреждений изменено&&&3.\n*Старое* значение: &&&1\n*Новое* значение: &&&2',
             getwarns_reply = 'Ответь на сообщение пользователя, у которого хочешь проверить количество предупреждений',
             getwarns = '&&&1 (*&&&2/&&&3*)\nMedia: (*&&&4/&&&5*)',
             nowarn_reply = 'Ответь на сообщение пользователя, чтобы обнулить его счетчик предупреждений',
             ban_motivation = 'too many warnings',
+            inline_high = 'The new value is too high (>12)',
+            inline_low = 'The new value is too low (<1)',
+            warn_removed = '*Warn removed!*\n_Number of warnings_   *&&&1*\n_Max allowed_   *&&&2*',
             nowarn = 'Количество предупреждений у этого пользователя *сброшено*'
         },
         setlang = {
-            list = '*Список доступных языков:*\n\n&&&1\nИспользуй `/lang xx` чтобы сменить язык',
+            list = '*Список доступных языков:*',
             error = 'Выбранный язык *не поддерживается*. Используй `/lang`, чтобы просмотреть список доступных языков',
             success = '*Новый язык установлен:* &&&1'
         },
@@ -1994,6 +2019,9 @@ return {
             reply = '*Antworte (reply) jemandem* um diesen Befehl (command) zu nutzen oder schreibe einen *Nutzernamen (username)*',
             too_long = 'This text is too long, I can\'t send it',
             msg_me = '_Schreibe zuerst mir, damit ich dann dir schreiben kann_',
+            menu_cb_settings = 'Tap on an icon!',
+            menu_cb_flood = 'Use the row below to change the flood settings!',
+            menu_cb_warns = 'Use the row below to change the warns settings!',
             tell = '*Gruppen ID*: &&&1'
         },
         pv = 'Dieser Befehel (command) ist nur in der Gruppe verfügbar',
@@ -2066,8 +2094,7 @@ return {
                     .."*Merke* : Formatierungsoptionen werden unterstützt. Wenn der Text die Formatierung sprengt wird der Bot sich beschweren.\n"
                     .."Für korrekten Umgang mit den Formatierungsoptionen sieh dir [diese Nachricht](https://telegram.me/GroupButler_ch/46) im Kanal (channel) an",
                 lang = "*Moderatoren: Spracheinstellungen*\n\n"
-                    .."`/lang` = Zeige eine Liste der unterstützten Sprachen\n"
-                    .."`/lang [code]` = Ändere die Spracheinstellungen des Bots\n\n"
+                    .."`/lang` = choose the group language (can be changed in private too).\n"
                     .."*Beachte*: Übersetzter sind ehrenamtliche Freiwillige, ich kann also nicht für die Korrektheit aller Übersetzungen garantieren. "
                     .."Ich kann auch niemanden dazu zwingen die neuen Zeichenketten (strings) nach jedem neuen Update zu aktualisieren (nicht Übersetztes ist auf Englisch).\n"
                     .."Wie dem auch sei - jeder ist herzlich eingeladen bei der Übersetzung zu helfen. Nutze einfach den `strings` Befehl um eine _.lua_ Datei mit allen zu übersetzenden Zeichenketten (strings) auf Englisch zu erhalten.\n"
@@ -2274,15 +2301,18 @@ return {
             nowarn = "Die Anzahl der Verwarnungen (warns) des Nutzers (user) wurde auf den Ausgangszustand zurückgesetzt (reseted)",
             nowarn_reply = "Antworte (reply) einem Nutzer um die Anzahl seiner Verwarnungen zu löschen (delete warns)",
             warn_reply = "Antworte (reply) auf die Nachricht eines Nutzers (user) um ihn zu verwarnen (warn)",
-            warned = "*Nutzer* &&&1 *wurde verwarnt.*\n_Anzahl der Verwarnungen_    *&&&2*\n_Limit_    *&&&3* (*-&&&4*)",
+            warned = "*Nutzer* &&&1 *wurde verwarnt.*\n_Anzahl der Verwarnungen_    *&&&2*\n_Limit_    *&&&3*",
             warned_max_ban = "Nutzer &&&1 *gesperrt (banned)*: Das Limit der Verwarnungen wurde erreicht",
             warned_max_kick = "Nutzer &&&1 *entfernt (kicked)*: Das Limit der Verwarnungen wurde erreicht",
+            warn_removed = '*Warn removed!*\n_Number of warnings_   *&&&1*\n_Max allowed_   *&&&2*',
+            inline_high = 'The new value is too high (>12)',
+            inline_low = 'The new value is too low (<1)',
             warnmax = "Das Limit der Verwarnungen wurde geändert&&&3.\n*Vorher*: &&&1\n*Jetzt* max: &&&2",
             ban_motivation = 'Too many warnings',
         },
         setlang = {
             error = "Die eingestellte Sprache *wird nicht unterstützt*. Nutze `/lang` für eine Liste der unterstützten Sprachen",
-            list = "*Liste der unterstützten Sprachen (available languages)*:\n\n&&&1\nBenutze `/lang xx` um die Sprache zu ändern",
+            list = "*Liste der unterstützten Sprachen (available languages)*",
             success = "*Folgende Sprache wurde eingestellt:* &&&1"
         },
 		banhammer = {
@@ -2371,6 +2401,9 @@ return {
             reply = '*Skicka som meddelandesvar* för att använda detta kommando eller skriv ett *användarnamn*',
             too_long = 'This text is too long, I can\'t send it',
             msg_me = '_Skicka mig meddelande privat först, så jag kan skicka till dig efter det_',
+            menu_cb_settings = 'Tap on an icon!',
+            menu_cb_flood = 'Use the row below to change the flood settings!',
+            menu_cb_warns = 'Use the row below to change the warns settings!',
             tell = '*Group ID*: &&&1'
         },
         pv = 'Detta kommando är bara tillgängligt i grupper',
@@ -2442,8 +2475,7 @@ return {
               .."*Obs!* Man kan använda markdown-formatering. Om det inte är korrekt markdown, så får du ett meddelande om det.\n"
               .."Hur man skriver korrekt markdown kan de se [här](https://telegram.me/GroupButler_ch/46) i kanalen",
               lang = "*Moderatorer: gruppspråk*\n\n"
-              .."`/lang` = Visar tillgängliga språk\n"
-              .."`/lang [kod]` = byt botens språk\n\n"
+              .."`/lang` = choose the group language (can be changed in private too).\n"
               .."*Obs!* översättarna jobbar ideellt och frivilligt, så jag kan inte garantera att all översättning är korrekt. Och jag kan inte tvinga dem att översätta allt nytt vid uppdateringar (texter som inte är översatta visas på engelska).\n"
               .."Vem som helst får översätta i alla fall. Använd kommandot `/strings` för att få en _.lua_-fil med alla texter på engelska.\n"
               .."Använd `/strings [språkkod]` för att få en fil för ett specifikt språk (exempel: _/strings es_ ).\nI filen finns alla instruktioner: följ dem, så blir ditt språk tillgängligt så snart som möjligt ;)",
@@ -2649,15 +2681,18 @@ return {
             mod = "Moderatorer kan inte varnas",
             nowarn = "Antalet varningar har *nollställts* för denna användare",
             nowarn_reply = "Besvara ett meddelande för att nollställa den användarens varningar",
+            warn_removed = '*Warn removed!*\n_Number of warnings_   *&&&1*\n_Max allowed_   *&&&2*',
             warn_reply = "Besvara en användares meddelande för att varna den användaren",
-            warned = "*Användare* &&&1 *har varnats.*\n_Antal varningar_   *&&&2*\n_Max tillåtet_   *&&&3* (*-&&&4*)",
+            warned = "*Användare* &&&1 *har varnats.*\n_Antal varningar_   *&&&2*\n_Max tillåtet_   *&&&3*",
             warned_max_ban = "Användare &&&1 *bannad*: nådde max antal varningar",
             warned_max_kick = "Användare &&&1 *kickad*: nådde max antal varningar",
+            inline_high = 'The new value is too high (>12)',
+            inline_low = 'The new value is too low (<1)',
             warnmax = "Max antal varningar ändrat&&&3.\n*Tidigare* värde: &&&1\n*Nytt* maxvärde: &&&2"
         },
         setlang = {
             error = "Det språket är *inte tillgängligt*. Använd `/lang` för att se vilka språk som finns.",
-            list = "*Tillgängliga språk:*\n\n&&&1\nAnvänd `/lang xx` för att ändra språk",
+            list = "*Tillgängliga språk:*",
             success = "*Nytt språk:* &&&1"
         },
 		banhammer = {
@@ -2745,6 +2780,9 @@ return {
             settings_header = 'الإعدادات الحالية *للمجموعة*:\n\n*لغة*: `&&&1`\n',
             reply = '*رد على شخص ما* لاستخدام هذا الأمر، أم اكتب *اسم مستخدم*',
             too_long = 'إن هذا النص طويل جداً، ليس بإمكاني إرساله',
+            menu_cb_settings = 'Tap on an icon!',
+            menu_cb_flood = 'Use the row below to change the flood settings!',
+            menu_cb_warns = 'Use the row below to change the warns settings!',
             msg_me = '_أرسل لي رسالة اولاً حتى أستطيع إرسال رسائل لك_',
             tell = '*هوية المجموعة*: &&&1'
         },
@@ -2837,7 +2875,6 @@ return {
                         .."*ملاخظة*: يمكن للبوت أن يعترف الروابط الصحيحة لمجموعات أم استبيانات. إذا لم يكون الرابط صحيح، لن تستقبل ردا.\n",
                 lang = "*المشرفون: لغات المجموعات*\n\n"
                         .."`/lang` = حصول على قائمة اللغات المتاحة.\n"
-                        .."`/lang [code]` = تغيير لغة البوت\n"
                         .."\n*ملاحظة*: إن المترجمون متطوعين، فلا أستطيع أن أؤكد تصحيح كل الترجمات. وأيضاً لا أستطيع أن أضطرهم لترجمة النصوص الجديدة بعد كل تحديث )النصوص غير مترجمة ستظل باللغة لإنجليزية."
                         .."\nعلى أي حال، إن الترجمات مفتوح أي شخص. استدخم أمر `/strings` للاستقبال ملف من شكل '.lua' مع كل النصوص (باللغة الإنجليزية) .\n"
                         .."استخدم `/strings [lang code]` لاستقبال الملف لهذا اللغة المعينة (مثال: _/strings es_ ).\n"
@@ -3049,11 +3086,14 @@ return {
             mod = 'لا يمكن تحذير مشرف',
             warned_max_kick = 'تم إزالة مستخدم &&&1: وصل إلى المبلغ الأقصى من التحذيرات',
             warned_max_ban = 'تم حظر مستخدم &&&1: وصل إلى المبلغ الأقصى من التحذيرات',
-            warned = 'تم تحذير مستخدم &&&1.\n_عدد التحذيرات_   *&&&2*\n_مبلغ أقصى مسموح_   *&&&3* (*-&&&4*)',
+            warned = 'تم تحذير مستخدم &&&1.\n_عدد التحذيرات_   *&&&2*\n_مبلغ أقصى مسموح_   *&&&3*',
             warnmax = 'تم تغيير مبلغ أقصى التحذيرات.\nمبلغ قديم: &&&1\nمبلغ جديد: &&&2',
             getwarns_reply = 'رد على مستخدم لترى عدده التحذيرات',
             getwarns = '&&&1 (*&&&2/&&&3*)\nMedia: (*&&&4/&&&5*)',
             nowarn_reply = 'رد على مستخدم حذف تحذيراته',
+            warn_removed = '*Warn removed!*\n_Number of warnings_   *&&&1*\n_Max allowed_   *&&&2*',
+            inline_high = 'The new value is too high (>12)',
+            inline_low = 'The new value is too low (<1)',
             ban_motivation = 'الكثير من التحذيرات',
             nowarn = 'تم إعادة تعيين مبلغ تحذيرات هذا المستخدم.'
         },

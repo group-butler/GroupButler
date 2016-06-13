@@ -276,7 +276,7 @@ local action = function(msg, blocks, ln)
 	    local names = db:hkeys(hash)
 	    local num = db:hvals(hash)
 	    for i=1, #names do
-	        text = text..'- *'..names[i]..'*: '..num[i]..'\n'
+	        text = text..'- `'..names[i]..': '..num[i]..'`\n'
 	    end
 		api.sendMessage(msg.chat.id, text, true)
 		mystat('/commands')
@@ -502,12 +502,16 @@ local action = function(msg, blocks, ln)
 			return
 		end
 		local key = blocks[2]
-		local hash = 'bot:general'
-		local res = db:hdel(hash, key)
-		if res == 1 then
-			api.sendMessage(msg.from.id, 'Resetted!')
+		local hash, res
+		if key == 'commands' then
+			res = db:del('commands:stats')
 		else
-			api.sendMessage(msg.from.id, 'Field empty or invalid')
+			res = db:hdel('bot:general', key)
+		end
+		if res > 0 then
+			api.sendReply(msg.chat.id, 'Resetted!')
+		else
+			api.sendReply(msg.chat.id, 'Field empty or invalid')
 		end
 	end
 	if blocks[1] == 'send' then
@@ -686,9 +690,11 @@ local action = function(msg, blocks, ln)
 				db:set(hash, msg.reply.document.file_id)
 				api.sendReply(msg, 'Translation file setted!\n*Lang*: '..code:upper()..'\n*ID*: '..msg.reply.document.file_id:mEscape()..'\n*Path*: ln'..code:upper()..'.lua', true)
 			end
+			mystat('/trfile')
 		end
 	end
 	if blocks[1] == 'genlang' then
+		mystat('/genlang')
 		if not blocks[2] then
 			local instructions = dofile('instructions.lua')
 			for i,ln in pairs(config.available_languages) do
@@ -723,10 +729,12 @@ local action = function(msg, blocks, ln)
 	if blocks[1] == 'sendplug' then
 		local path = './plugins/'..blocks[2]..'.lua'
 		api.sendDocument(msg.from.id, path)
+		mystat('/sendplug')
 	end
 	if blocks[1] == 'sendfile' then
 		local path = './'..blocks[2]
 		api.sendDocument(msg.from.id, path)
+		mystat('/sendfile')
 	end
 	if blocks[1] == 'updatewelcome' then
 		update_welcome_settings()
@@ -822,6 +830,7 @@ local action = function(msg, blocks, ln)
 		migrate_chat_info(old, new, true)
 	end
 	if blocks[1] == 'resid' then
+		mystat('/resid')
 		local user_id = blocks[2]
 		local all = db:hgetall('bot:usernames')
 		for username,id in pairs(all) do

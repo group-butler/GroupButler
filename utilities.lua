@@ -142,8 +142,7 @@ function is_banned(chat_id, user_id)
 end
 
 function mystat(cmd)
-	local hash = 'commands:stats'
-	db:hincrby(hash, cmd, 1)
+	db:hincrby('commands:stats', cmd, 1)
 end	
 
 function string:trim() -- Trims whitespace from a string.
@@ -706,7 +705,7 @@ local function getSettings(chat_id, ln)
             message = message..make_text(lang[ln].settings.resume.flood_info, max_msgs, action)
         end
     end
-        
+    
     --build the "welcome" line
     hash = 'chat:'..chat_id..':welcome'
     local type = db:hget(hash, 'type')

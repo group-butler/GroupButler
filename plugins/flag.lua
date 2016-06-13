@@ -53,6 +53,7 @@ local action = function(msg, blocks, ln)
             if msg.from.username then reporter = reporter..' (@'..msg.from.username..')' end
             send_to_admin(mods, msg.chat.id, msg_id, reporter, is_by_reply)
             api.sendReply(msg, lang[ln].flag.reported)
+            mystat('/uadmin')
         end
     end
     if blocks[1] == 'report' then

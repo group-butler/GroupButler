@@ -37,7 +37,7 @@ local function action(msg, blocks, ln)
     local answer = {
         'The Bot Api doesn\'t offer a method to delete message, but the Bot Support said that this feature will arrive. You can read the conversation [here](https://telegram.me/GroupButler_ch/32)',
         'I\'ve received many requests about this feature, I\'m sorry but I think everyone could avoid the words check just by changing an "_E_ " with a "_3_ ", or in general every character can be replaced with any other character. This function will probably added when bots can delete messages, but is not 100% confirmed',
-        'You can promote the bot as you would do with every other normal user. Make sure your client is updated to the latest version. If you are trying to promote the bot in a supergroup and you can\'t find the bot username, well, I really don\'t know how to solve this problem :)',
+        'First, make sure your client is updated to the latest version.\n\n*Normal groups*: group info screen, click on "administrators", under the group name. Remove the check from "all the member are admins", and select the bot. Then save.\n\n*Supergroups*: from the group info screen, click on "administrators" (Telegram Desktop: under the group name, Android client: three dots menu in the upper right corner, iOS/Webogram: never tried), than on "new administrator" and search for the bot username, then select it and save.\n\nIf you are trying to promote the bot in a supergroup and you can\'t find the bot username, well, I really don\'t know how to solve this problem :)',
         'It means that the message can\'t be sent back to you, because of a wrong number of \\_ or \\* or other markdown symbols. More info [here](https://telegram.me/GroupButler_ch/46)',
         'This is a public bot, this means that everyone can use it and add it to their group. A user you don\'t like to see in your groups, could be not be a problem in others. Or maybe he\'s using the bot too. A global ban would be pointless.',
         'Commands by username are so slower than commands by reply because a bot can\'t retrieve a user id from a username. I need to store a table of ids and usernames, then I have to search the username and get the related id. Each group has its own table of usernames, but if a username is not found locally, it is searched in the global one. So in this case the research could be a bit slow. Tables are updated on each message.',
@@ -87,6 +87,7 @@ local function action(msg, blocks, ln)
             api.sendMessage(msg.chat.id, text, true)
         end
     end
+    mystat('/faq')
 end
     
 return {

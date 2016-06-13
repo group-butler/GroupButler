@@ -73,6 +73,7 @@ local action = function(msg, blocks, ln)
 		 		local text = make_text(lang[ln].status[status], name)
 		 		api.sendReply(msg, text)
 		 	end
+		 	mystat('/status')
 	 	end
  	end
  	if blocks[1] == 'id' then
@@ -117,6 +118,7 @@ local action = function(msg, blocks, ln)
  				api.sendReply(msg, lang[ln].settings.disable.admin_mode_already, true)
  			end
  		end
+ 		mystat('/adminmode')
 	 end
 end
 

@@ -14,7 +14,9 @@ local function cron()
 end
 
 local function get_user_id(msg, blocks)
-	if msg.reply then
+	if msg.cb then
+		return blocks[2]
+	elseif msg.reply then
 		return msg.reply.from.id
 	elseif blocks[2] then
 		return res_user_group(blocks[2], msg.chat.id)
@@ -74,18 +76,21 @@ local action = function(msg, blocks, ln)
 				api.sendReply(msg, lang[ln].kick_errors[2], true)
 				return
 			end
-			--[[if blocks[1] == 'banlist' then
+			if blocks[1] == 'banlist' then
    				local banlist = getBanList(msg.chat.id, ln)
    				api.sendReply(msg, banlist, true)
+   				mystat('/banlist')
    				return
-   			end]]
-		    if not msg.reply_to_message and not blocks[2] then
+   			end
+		    
+		    if not msg.reply_to_message and not blocks[2] and not msg.cb then
 		        api.sendReply(msg, lang[ln].banhammer.reply)
-		        return nil
+		        return
 		    end
 		    if msg.reply and msg.reply.from.id == bot.id then
 		    	return
 		    end
+		 	
 		 	--now, try to kick
 		 	local res
 		 	local chat_id = msg.chat.id
@@ -163,6 +168,7 @@ local action = function(msg, blocks, ln)
 		    			why = msg.text:gsub('^/ban @[%w_]+%s?', '')
 		    		end
 		    		cross.addBanList(msg.chat.id, user_id, nick, why)
+		    		api.sendKeyboard(msg.chat.id, 'User '..nick:mEscape()..' banned!', {inline_keyboard = {{{text = 'Unban', callback_data = 'unban:'..user_id}}}}, true)
 		    	end
 		    	mystat('/ban')
     		end
@@ -173,17 +179,29 @@ local action = function(msg, blocks, ln)
    					return
    				end
    				local res = api.unbanUser(chat_id, user_id, is_normal_group)
+   				local text
    				if not res and msg.chat.type == 'group' then
-   					api.sendReply(msg, lang[ln].banhammer.not_banned, true)
+   					--api.sendReply(msg, lang[ln].banhammer.not_banned, true)
+   					text = lang[ln].banhammer.not_banned
    				else
    					cross.remBanList(msg.chat.id, user_id)
-   					api.sendReply(msg, lang[ln].banhammer.unbanned, true)
+   					text = lang[ln].banhammer.unbanned
+   					--api.sendReply(msg, lang[ln].banhammer.unbanned, true)
+   				end
+   				if not msg.cb then
+   					api.sendreply(msg, text, true)
+   				else
+   					api.editMessageText(msg.chat.id, msg.message_id, text..'\n`['..user_id..']`', false, true)
    				end
    				mystat('/unban')
    			end
 		else
 			if blocks[1] == 'kickme' then
 				api.kickUser(msg.chat.id, msg.from.id, ln)
+				mystat('/kickme')
+			end
+			if msg.cb then --if the user tap on 'unban', show the pop-up
+				api.answerCallbackQuery(msg.cb_id, lang[ln].not_mod:mEscape_hard())
 			end
 		end
 	else
@@ -205,5 +223,6 @@ return {
 		'^/(tempban) (%d+)',
 		'^/(unban) (@[%w_]+)',
 		'^/(unban)',
+		'^###cb:(unban):(%d+)$'
 	}
 }
