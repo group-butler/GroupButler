@@ -34,6 +34,7 @@ pre_process = function(msg, ln)
     if msg.chat.type == 'private' then default_spam_value = 12 end
     local max_msgs = tonumber(db:hget('chat:'..msg.chat.id..':flood', 'MaxFlood')) or default_spam_value
     local max_time = 5
+    db:setex(spamhash, max_time, msgs+1)
     if msgs > max_msgs then
         local status = db:hget('chat:'..msg.chat.id..':settings', 'Flood') or 'yes'
         --how flood on/off works: yes->yes, antiflood is diabled. no->no, anti flood is not disbaled
@@ -58,7 +59,10 @@ pre_process = function(msg, ln)
     		        else
     		            message = make_text(lang[ln].preprocess.flood_kick, name:mEscape())
     		        end
-    		        api.sendMessage(msg.chat.id, message, true)
+    		        print('msgs:', msgs, 'max:', max_msgs)
+    		        if msgs == (max_msgs + 1) or msgs == max_msgs + 5 then --send the message only if it's the message after the first message flood. Repeat after 5
+    		            api.sendMessage(msg.chat.id, message, true)
+    		        end
     		    end
     		end
         
@@ -67,8 +71,6 @@ pre_process = function(msg, ln)
         end
         return msg, true --if an user is spamming, don't go through plugins
     end
-
-    db:setex(spamhash, max_time, msgs+1)
     
     if msg.media and not(msg.chat.type == 'private') then
         if is_mod(msg) then return msg end

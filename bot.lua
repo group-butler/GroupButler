@@ -3,7 +3,7 @@ HTTPS = require('ssl.https')
 URL = require('socket.url')
 JSON = require('dkjson')
 redis = require('redis')
-colors = require 'term.colors'
+clr = require 'term.colors'
 db = Redis.connect('127.0.0.1', 6379)
 --db:select(0)
 serpent = require('serpent')
@@ -11,17 +11,17 @@ serpent = require('serpent')
 
 bot_init = function(on_reload) -- The function run when the bot is started or reloaded.
 	
-	print(colors.blue..'Loading config.lua...')
+	print(clr.blue..'Loading config.lua...')
 	config = dofile('config.lua') -- Load configuration file.
 	if config.bot_api_key == '' then
-		print(colors.red..'API KEY MISSING!')
+		print(clr.red..'API KEY MISSING!')
 		return
 	end
-	print(colors.blue..'Loading utilities.lua...')
+	print(clr.blue..'Loading utilities.lua...')
 	cross, rdb = dofile('utilities.lua') -- Load miscellaneous and cross-plugin functions.
-	print(colors.blue..'Loading languages.lua...')
+	print(clr.blue..'Loading languages.lua...')
 	lang = dofile(config.languages) -- All the languages available
-	print(colors.blue..'Loading API functions table...')
+	print(clr.blue..'Loading API functions table...')
 	api = require('methods')
 	
 	tot = 0
@@ -35,12 +35,12 @@ bot_init = function(on_reload) -- The function run when the bot is started or re
 	plugins = {} -- Load plugins.
 	for i,v in ipairs(config.plugins) do
 		local p = dofile('plugins/'..v)
-		print(colors.red..'Loading plugin...'..colors.reset, v)
+		print(clr.red..'Loading plugin...'..clr.reset, v)
 		table.insert(plugins, p)
 	end
-	print(colors.blue..'Plugins loaded:', #plugins)
+	print(clr.blue..'Plugins loaded:', #plugins)
 
-	print(colors.blue..'BOT RUNNING: @'..bot.username .. ', AKA ' .. bot.first_name ..' ('..bot.id..')')
+	print(clr.blue..'BOT RUNNING: @'..bot.username .. ', AKA ' .. bot.first_name ..' ('..bot.id..')')
 	if not on_reload then
 		save_log('starts')
 		db:hincrby('bot:general', 'starts', 1)
@@ -58,14 +58,15 @@ bot_init = function(on_reload) -- The function run when the bot is started or re
 end
 
 local function get_from(msg)
-	local user = msg.from.first_name
+	local user = '['..msg.from.first_name
 	if msg.from.last_name then
 		user = user..' '..msg.from.last_name
 	end
+	user = user..']'
 	if msg.from.username then
 		user = user..' [@'..msg.from.username..']'
 	end
-	user = user..' ('..msg.from.id..')'
+	user = user..' ['..msg.from.id..']'
 	return user
 end
 
@@ -168,10 +169,11 @@ on_msg_receive = function(msg) -- The fn run whenever a message is received.
 							api.sendLog('#initGroup\n'..vtext(msg.chat)..vtext(msg.from))
 						end
 						--print in the terminal
-						print(colors.reset..colors.underscore..'\nMsg info:\t'..colors.reset..colors.red..get_from(msg)..colors.reset..' ['..msg.chat.type..'] ('..os.date('at %X')..')')
+						print('\n'..clr.reset..clr.blue..clr.onwhite..'['..os.date('%X')..']'..clr.reset, get_from(msg))
+						print(clr.blue..clr.onwhite..'[CHAT]\t', clr.reset..'['..msg.chat.id..'] ['..msg.chat.type..']')
 						--print the match
 						if blocks[1] ~= '' then
-      						print(colors.reset..colors.underscore..'Match found:', colors.reset..colors.blue..w..colors.reset)
+      						print(clr.reset..clr.blue..clr.onwhite..'[TRIGGER]', clr.reset..clr.red..clr.onwhite..w..clr.reset)
       						db:hincrby('bot:general', 'query', 1)
       						if msg.from then db:incrby('user:'..msg.from.id..':query', 1) end
       					end
