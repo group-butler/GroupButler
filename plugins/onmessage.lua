@@ -39,32 +39,32 @@ pre_process = function(msg, ln)
     if msgs > max_msgs then
         local status = db:hget('chat:'..msg.chat.id..':settings', 'Flood') or 'yes'
         --how flood on/off works: yes->yes, antiflood is diabled. no->no, anti flood is not disbaled
-        if status == 'no' then
-                local action = db:hget('chat:'..msg.chat.id..':flood', 'ActionFlood')
-                local name = msg.from.first_name
-                if msg.from.username then name = name..' (@'..msg.from.username..')' end
-                local is_normal_group = false
-                local res, message
-                --try to kick or ban
-                if action == 'ban' then
-                    if msg.chat.type == 'group' then is_normal_group = true end
-    		        res = api.banUser(msg.chat.id, msg.from.id, is_normal_group, ln)
-    		    else
-    		        res = api.kickUser(msg.chat.id, msg.from.id, ln)
-    		    end
-    		    --if kicked/banned, send a message
-    		    if res then
-    		        if action == 'ban' then
-    		            cross.addBanList(msg.chat.id, msg.from.id, name, lang[ln].preprocess.flood_motivation)
-    		            message = make_text(lang[ln].preprocess.flood_ban, name:mEscape()) 
-    		        else
-    		            message = make_text(lang[ln].preprocess.flood_kick, name:mEscape())
-    		        end
-    		        if msgs == (max_msgs + 1) or msgs == max_msgs + 5 then --send the message only if it's the message after the first message flood. Repeat after 5
-    		            api.sendMessage(msg.chat.id, message, true)
-    		        end
-    		    end
-    		end
+        if status == 'no' and not msg.cb then
+            local action = db:hget('chat:'..msg.chat.id..':flood', 'ActionFlood')
+            local name = msg.from.first_name
+            if msg.from.username then name = name..' (@'..msg.from.username..')' end
+            local is_normal_group = false
+            local res, message
+            --try to kick or ban
+            if action == 'ban' then
+                if msg.chat.type == 'group' then is_normal_group = true end
+    	        res = api.banUser(msg.chat.id, msg.from.id, is_normal_group, ln)
+    	    else
+    	        res = api.kickUser(msg.chat.id, msg.from.id, ln)
+    	    end
+    	    --if kicked/banned, send a message
+    	    if res then
+    	        if action == 'ban' then
+    	            cross.addBanList(msg.chat.id, msg.from.id, name, lang[ln].preprocess.flood_motivation)
+    	            message = make_text(lang[ln].preprocess.flood_ban, name:mEscape()) 
+    	        else
+    	            message = make_text(lang[ln].preprocess.flood_kick, name:mEscape())
+    	        end
+    	        if msgs == (max_msgs + 1) or msgs == max_msgs + 5 then --send the message only if it's the message after the first message flood. Repeat after 5
+    	            api.sendMessage(msg.chat.id, message, true)
+    	        end
+    	    end
+    	end
         
         if msg.cb then
             api.answerCallbackQuery(msg.cb_id, '‼️ Please don\'t abuse the keyboard, requests will be ignored')

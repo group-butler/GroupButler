@@ -291,12 +291,12 @@ local action = function(msg, blocks, ln)
 	    end
 	    text = text..'- *messages from last start*: '..tot
 	    
-	    local uptime = bash('uptime')
+	    --[[local uptime = bash('uptime')
 	    local ut_d, ut_h = uptime:match('.* up (%d%d) days?, (%d+:%d%d?)')
 	    local la_1, la_2, la_3 = uptime:match('.*(%d%d?%.%d%d), (%d%d?%.%d%d), (%d%d?%.%d%d)')
 	    local n_core = bash('grep processor /proc/cpuinfo | wc -l')
 	    
-	    text = text..'\n- *uptime*: `'..ut_d..'d, '..ut_h..'h`\n'..'- *load average* ('..n_core:gsub('\n', '')..'): `'..la_1..', '..la_2..', '..la_3..'`'
+	    text = text..'\n- *uptime*: `'..ut_d..'d, '..ut_h..'h`\n'..'- *load average* ('..n_core:gsub('\n', '')..'): `'..la_1..', '..la_2..', '..la_3..'`']]
 	    
 		api.sendMessage(msg.chat.id, text, true)
 		mystat('/stats')
