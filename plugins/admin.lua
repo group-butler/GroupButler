@@ -46,8 +46,8 @@ local triggers2 = {
 	'^/a(fixaction) (-%d+)$',
 	'^/a(sendplug) (.*)$',
 	'^/a(sendfile) (.*)$',
-	'^/a(reply)$',
-	'^/a(reply) (.*)',
+	'^/(r)$',
+	'^/(r) (.*)',
 	'^/a(download)$',
 	'^/a(savepin)$',
 	'^/a(delpin)$',
@@ -747,7 +747,7 @@ local action = function(msg, blocks, ln)
 	if blocks[1] == 'updatewelcome' then
 		update_welcome_settings()
 	end
-	if blocks[1] == 'reply' then
+	if blocks[1] == 'r' then
 	    --ignore if no reply
 	    if not msg.reply then
             api.sendReply(msg, 'Reply to a message')
@@ -946,5 +946,5 @@ end
 return {
 	action = action,
 	cron = false,
-	triggers = {'^/a', '^###(forward)',}
+	triggers = {'^/a', '^###(forward)', '^/r'}
 }

@@ -149,6 +149,15 @@ local function doKeyboard_menu(chat_id)
     return keyboard
 end
 
+local function get_group_name(text)
+    local name = text:match('.*%((.+)%)$')
+    if not name then
+        return ''
+    end
+    name = '\n(*'..name..'*)'
+    return name
+end
+
 local action = function(msg, blocks, ln)
     --get the interested chat id
     local chat_id, msg_id
@@ -245,7 +254,8 @@ local action = function(msg, blocks, ln)
                 text = cross.changeSettingStatus(chat_id, blocks[2], ln)
             end
             keyboard = doKeyboard_menu(chat_id)
-            api.editMessageText(msg.chat.id, msg_id, lang[ln].all.menu_first..'\n(*'..msg.old_text:match('.*%((.+)%)')..'*)', keyboard, true)
+            local group_name = get_group_name(msg.old_text)
+            api.editMessageText(msg.chat.id, msg_id, lang[ln].all.menu_first..group_name, keyboard, true)
             api.answerCallbackQuery(msg.cb_id, '⚙ '..text:mEscape_hard())
         end
     end
@@ -262,7 +272,8 @@ local action = function(msg, blocks, ln)
 	        local media = blocks[2]
 	        local text = cross.changeMediaStatus(chat_id, media, 'next', ln)
             keyboard = doKeyboard_media(chat_id)
-            api.editMessageText(msg.chat.id, msg_id, lang[ln].all.media_first..'\n(*'..msg.old_text:match('.*%((.+)%)')..'*)', keyboard, true)
+            local group_name = get_group_name(msg.old_text)
+            api.editMessageText(msg.chat.id, msg_id, lang[ln].all.media_first..group_name, keyboard, true)
             api.answerCallbackQuery(msg.cb_id, '⚡️ '..text:mEscape_hard())
         end
     end
