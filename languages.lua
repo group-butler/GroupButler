@@ -187,7 +187,7 @@ return {
             modlist = '*Creator*:\n&&&1\n\n*Admins*:\n&&&2'
         },
         report = {
-            no_input = 'Write your suggestions/bugs/doubt near "/c"',
+            no_input = 'Write your suggestions/bugs/doubt near the !',
             sent = 'Feedback sent!',
             feedback_reply = '*Hello, this is a reply from the bot owner*:\n&&&1',
         },
@@ -584,7 +584,7 @@ return {
             modlist = '*Creatore*:\n&&&1\n\n*Admin*:\n&&&2',
         },
         report = {
-            no_input = 'Scrivi il tuo suggerimento/bug/dubbio accanto a "/c"',
+            no_input = 'Scrivi il tuo suggerimento/bug/dubbio accanto al punto esclamativo (!)',
             sent = 'Feedback inviato!',
             feedback_reply = '*Hello, this is a reply from the bot owner*:\n&&&1',
         },
@@ -984,7 +984,7 @@ return {
             modlist = '*Creator*:\n&&&1\n\n*Admins*:\n&&&2'
         },
         report = {
-            no_input = 'Escribe tus comentarios/bugs/dudas despues de "/c"',
+            no_input = 'Escribe tus comentarios/bugs/dudas despues del !',
             sent = 'Mensaje enviado!',
             feedback_reply = '*Hello, this is a reply from the bot owner*:\n&&&1',
         },
@@ -1383,7 +1383,7 @@ return {
             modlist = '*Creator*:\n&&&1\n\n*Admins*:\n&&&2'
         },
         report = {
-            no_input = 'Envie suas sugestões/bugs/dúvidas com "/c"',
+            no_input = 'Envie suas sugestões/bugs/dúvidas com !\nExample: !hello, this is a test',
             sent = '*Feedback enviado!*',
             feedback_reply = '*Olá, isto é uma resposta do dono do bot*:\n&&&1',
         },
@@ -1780,7 +1780,7 @@ return {
             modlist = '*Creator*:\n&&&1\n\n*Admins*:\n&&&2'
         },
         report = {
-            no_input = 'Напиши свои идеи / баги /ошибки после "/c"',
+            no_input = 'Напиши свои идеи / баги /ошибки после !\nExample: !hello, this is a test',
             sent = ' Отправлено!',
             feedback_reply = '*Привет, это ответ от создателя *:\n&&&1',
         },
@@ -2164,7 +2164,7 @@ return {
         },
         report = {
             feedback_reply = "*Moin! Das ist eine Antwort (reply) des Botbesitzers (bot owner)*:\n&&&1",
-            no_input = "Fasse deine Vorschläge/Fehler/Zweifel nach \"/c\" zusammen",
+            no_input = "Fasse deine Vorschläge/Fehler/Zweifel nach ! zusammen\nExample: !hello, this is a test",
             sent = "Feedback gesendet (sent)!"
         },
         service = {
@@ -2544,7 +2544,7 @@ return {
             modlist = '*Creator*:\n&&&1\n\n*Admins*:\n&&&2',
         },
         report = {
-            no_input = "Skriv ditt förslag/bug/fråga efter '/c'",
+            no_input = "Skriv ditt förslag/bug/fråga efter '!'\nExample: !hello, this is a test",
             sent = 'Feedback skickad!',
             feedback_reply = '*Hej, det här är ett svar från bot-ägaren*:\n&&&1',
         },
@@ -2950,7 +2950,7 @@ return {
             modlist = '*خالق*:\n&&&1\n\n*مشرفون*:\n&&&2'
         },
         report = {
-            no_input = 'اكبت رسالة مع اقتراح، تقرير خطأ أم أي شك في أمر "/c"',
+            no_input = 'Write your feedback near the !\nExample: !hello, this is a test',
             sent = 'تم إرسال التعليق!',
             feedback_reply = '*مرحباً، هذا رد مالك البوت:\n&&&1',
         },

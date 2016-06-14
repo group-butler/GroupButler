@@ -49,6 +49,12 @@ local action = function(msg, blocks, ln)
 		if msg.chat.type ~= 'private' then
         	return
     	end
+    	api.sendMessage(msg.chat.id, 'This command *has been replaced!*\n\nNow you can start your message with an ! to communicate with the bot owner. Example:\n_!hello, how are you?_', true)
+    end
+    if blocks[1] == '!' then
+    	if msg.chat.type ~= 'private' then
+        	return
+    	end
         local input = blocks[2]
         local receiver = msg.from.id
         
@@ -100,8 +106,9 @@ return {
 		'^/(strings)$',
 		'^/(strings) (%a%a)$',
 		'^/(echo) (.*)$',
-		'^/(c)$',
-		'^/(c) (.*)',
+		'^/(c)%s?',
+		'^(!)$',
+		'^(!)(.+)',
 		'^/(info)$',
 		'^/(pin)$',
 		'^/(resolve) (@[%w_]+)$',
