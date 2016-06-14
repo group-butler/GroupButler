@@ -1,6 +1,7 @@
 return {
 	bot_api_key = '',
-	version = '2.2', -- /aupdate for v2.1.1
+	version = '2.2.1', -- /aupdate for v2.1.1
+	testing_mode = false,
 	admin = {
 		owner = 23646077,
 		admins = {
@@ -30,7 +31,7 @@ return {
 		'mediasettings.lua',
 		'private.lua',
 		'admin.lua',
-		'test.lua',
+		--'test.lua',
 		'faq.lua',
 		--'test2.lua'
 	},
@@ -84,6 +85,9 @@ return {
 		[124] = 'QUERY_ID_INVALID', --callback query id invalid
 		[125] = 'CHANNEL_PRIVATE', --I don't know
 		[126] = 'MESSAGE_TOO_LONG', --text of an inline callback answer is too long
+		[127] = 'wrong user_id specified', --invalid user_id
+		[128] = 'Too big total timeout [%d%.]+', --something about spam an inline keyboards
+		[129] = 'BUTTON_DATA_INVALID', --callback_data string invalid
 
 		[130] = 'Type of file to send mismatch', --trying to send a media with the wrong method
 

@@ -206,7 +206,7 @@ local action = function(msg, blocks, ln)
             if not is_mod(msg) then return end --only mods can use this
             keyboard = doKeyboard_menu(chat_id)
             api.sendMessage(msg.chat.id, lang[ln].all.menu, true)
-	        api.sendKeyboard(msg.from.id, lang[ln].all.menu_first, keyboard, true)
+	        api.sendKeyboard(msg.from.id, lang[ln].all.menu_first..'\n(*'..msg.chat.title:mEscape()..'*)', keyboard, true)
 	        mystat('/menu')
 	        return
 	    end
@@ -245,7 +245,7 @@ local action = function(msg, blocks, ln)
                 text = cross.changeSettingStatus(chat_id, blocks[2], ln)
             end
             keyboard = doKeyboard_menu(chat_id)
-            api.editMessageText(msg.chat.id, msg_id, lang[ln].all.menu_first, keyboard, true)
+            api.editMessageText(msg.chat.id, msg_id, lang[ln].all.menu_first..'\n(*'..msg.old_text:match('.*%((.+)%)')..'*)', keyboard, true)
             api.answerCallbackQuery(msg.cb_id, '⚙ '..text:mEscape_hard())
         end
     end
@@ -254,7 +254,7 @@ local action = function(msg, blocks, ln)
             if not is_mod(msg) then return end --only mods can use this
             keyboard = doKeyboard_media(chat_id)
             api.sendMessage(msg.chat.id, lang[ln].bonus.general_pm, true)
-	        api.sendKeyboard(msg.from.id, lang[ln].all.media_first, keyboard, true)
+	        api.sendKeyboard(msg.from.id, lang[ln].all.media_first..'\n(*'..msg.chat.title:mEscape()..'*)', keyboard, true)
 	        mystat('/media')
 	        return
 	    end
@@ -262,7 +262,7 @@ local action = function(msg, blocks, ln)
 	        local media = blocks[2]
 	        local text = cross.changeMediaStatus(chat_id, media, 'next', ln)
             keyboard = doKeyboard_media(chat_id)
-            api.editMessageText(msg.chat.id, msg_id, lang[ln].all.media_first, keyboard, true)
+            api.editMessageText(msg.chat.id, msg_id, lang[ln].all.media_first..'\n(*'..msg.old_text:match('.*%((.+)%)')..'*)', keyboard, true)
             api.answerCallbackQuery(msg.cb_id, '⚡️ '..text:mEscape_hard())
         end
     end

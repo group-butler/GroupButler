@@ -332,12 +332,12 @@ return {
             ban_motivation = 'Too many warnings',
             inline_high = 'The new value is too high (>12)',
             inline_low = 'The new value is too low (<1)',
-            nowarn = 'The number of warns received by this user have been *resetted*'
+            nowarn = 'The number of warns received by this user have been *reset*'
         },
         setlang = {
             list = '*List of available languages:*',
-            error = 'The language setted is *not supported*. Use `/lang` to see the list of the available languages',
-            success = '*New language setted:* &&&1'
+            error = 'The language set is *not supported*. Use `/lang` to see the list of the available languages',
+            success = '*New language set:* &&&1'
         },
 		banhammer = {
             kicked = '&&&1 have been kicked! (but is still able to join)',
@@ -1134,7 +1134,7 @@ return {
         setlang = {
             list = '*Idiomas disponibles:*',
             error = 'Idioma seleccionado *no disponible*. Usa `/lang` para ver los idiomas disponibles',
-            success = '*New language setted:* &&&1'
+            success = '*New language set:* &&&1'
         },
 		banhammer = {
             kicked = '&&&1 ha sido expulsado! (pero puede volver a entrar)',

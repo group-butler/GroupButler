@@ -33,6 +33,7 @@ pre_process = function(msg, ln)
     local default_spam_value = 5
     if msg.chat.type == 'private' then default_spam_value = 12 end
     local max_msgs = tonumber(db:hget('chat:'..msg.chat.id..':flood', 'MaxFlood')) or default_spam_value
+    if msg.cb then max_msgs = 15 end
     local max_time = 5
     db:setex(spamhash, max_time, msgs+1)
     if msgs > max_msgs then
@@ -59,7 +60,6 @@ pre_process = function(msg, ln)
     		        else
     		            message = make_text(lang[ln].preprocess.flood_kick, name:mEscape())
     		        end
-    		        print('msgs:', msgs, 'max:', max_msgs)
     		        if msgs == (max_msgs + 1) or msgs == max_msgs + 5 then --send the message only if it's the message after the first message flood. Repeat after 5
     		            api.sendMessage(msg.chat.id, message, true)
     		        end

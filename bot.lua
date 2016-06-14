@@ -4,6 +4,8 @@ URL = require('socket.url')
 JSON = require('dkjson')
 redis = require('redis')
 clr = require 'term.colors'
+clr.wb = clr.onwhite..clr.blue
+clr.wr = clr.onwhite..clr.red
 db = Redis.connect('127.0.0.1', 6379)
 --db:select(0)
 serpent = require('serpent')
@@ -17,11 +19,11 @@ bot_init = function(on_reload) -- The function run when the bot is started or re
 		print(clr.red..'API KEY MISSING!')
 		return
 	end
-	print(clr.blue..'Loading utilities.lua...')
+	print('Loading utilities.lua...')
 	cross, rdb = dofile('utilities.lua') -- Load miscellaneous and cross-plugin functions.
-	print(clr.blue..'Loading languages.lua...')
+	print('Loading languages.lua...')
 	lang = dofile(config.languages) -- All the languages available
-	print(clr.blue..'Loading API functions table...')
+	print('Loading API functions table...')
 	api = require('methods')
 	
 	tot = 0
@@ -35,14 +37,12 @@ bot_init = function(on_reload) -- The function run when the bot is started or re
 	plugins = {} -- Load plugins.
 	for i,v in ipairs(config.plugins) do
 		local p = dofile('plugins/'..v)
-		print(clr.red..'Loading plugin...'..clr.reset, v)
 		table.insert(plugins, p)
 	end
-	print(clr.blue..'Plugins loaded:', #plugins)
+	print(clr.wr..'Plugins loaded:', #plugins)
 
-	print(clr.blue..'BOT RUNNING: @'..bot.username .. ', AKA ' .. bot.first_name ..' ('..bot.id..')')
+	print('\n'..clr.wb..'BOT RUNNING:'..clr.reset, clr.wr..'[@'..bot.username .. '] [' .. bot.first_name ..'] ['..bot.id..']'..clr.reset)
 	if not on_reload then
-		save_log('starts')
 		db:hincrby('bot:general', 'starts', 1)
 		api.sendAdmin('*Bot started!*\n_'..os.date('On %A, %d %B %Y\nAt %X')..'_\n'..#plugins..' plugins loaded', true)
 	end
@@ -131,12 +131,15 @@ end
 on_msg_receive = function(msg) -- The fn run whenever a message is received.
 	--vardump(msg)
 	if not msg then
-		api.sendAdmin('Shit, a loop without msg!')
+		api.sendAdmin('A loop without msg!')
 		return
 	end
 	
 	if msg.date < os.time() - 5 then return end -- Do not process old messages.
 	if not msg.text then msg.text = msg.caption or '' end
+	
+	msg.normal_group = false
+	if msg.chat.type == 'group' then msg.normal_group = true end
 	
 	--for commands link
 	if msg.text:match('^/start .+') then
@@ -160,43 +163,45 @@ on_msg_receive = function(msg) -- The fn run whenever a message is received.
 			break
 		else
 			if plugin.triggers then
-				for k,w in pairs(plugin.triggers) do
-					local blocks = match_pattern(w, msg.text)
-					if blocks then
-						--workaround for the stupid bug
-						if not(msg.chat.type == 'private') and not db:exists('chat:'..msg.chat.id..':settings') and not msg.service then
-							cross.initGroup(msg.chat.id)
-							api.sendLog('#initGroup\n'..vtext(msg.chat)..vtext(msg.from))
-						end
-						--print in the terminal
-						print('\n'..clr.reset..clr.blue..clr.onwhite..'['..os.date('%X')..']'..clr.reset, get_from(msg))
-						print(clr.blue..clr.onwhite..'[CHAT]\t', clr.reset..'['..msg.chat.id..'] ['..msg.chat.type..']')
-						--print the match
-						if blocks[1] ~= '' then
-      						print(clr.reset..clr.blue..clr.onwhite..'[TRIGGER]', clr.reset..clr.red..clr.onwhite..w..clr.reset)
-      						db:hincrby('bot:general', 'query', 1)
-      						if msg.from then db:incrby('user:'..msg.from.id..':query', 1) end
-      					end
-						--execute plugin
-						local success, result = pcall(function()
-							return plugin.action(msg, blocks, msg.lang)
-						end)
-						--if bugs
-						if not success then
-							api.sendReply(msg, '*This is a bug!*\nPlease report the problem with `/c <bug>` :)', true)
-							print(msg.text, result)
-							save_log('errors', result, msg.from.id or false, msg.chat.id or false, msg.text or false)
-          					api.sendLog('An #error occurred.\n'..result)
-							return
-						end
-						-- If the action returns a table, make that table msg.
-						if type(result) == 'table' then
-							msg = result
-						elseif type(result) == 'string' then
-							msg.text = result
-						-- If the action returns true, don't stop.
-						elseif result ~= true then
-							return
+				if (config.testing_mode and plugin.test) or not plugin.test then --run test plugins only if test mode it's on
+					for k,w in pairs(plugin.triggers) do
+						local blocks = match_pattern(w, msg.text)
+						if blocks then
+							--workaround for the stupid bug
+							if not(msg.chat.type == 'private') and not db:exists('chat:'..msg.chat.id..':settings') and not msg.service then
+								cross.initGroup(msg.chat.id)
+								api.sendLog('#initGroup\n'..vtext(msg.chat)..vtext(msg.from))
+							end
+							--print in the terminal
+							print('\n'..clr.reset..clr.blue..clr.onwhite..'['..os.date('%X')..']'..clr.reset, get_from(msg))
+							print(clr.blue..clr.onwhite..'[CHAT]\t', clr.reset..'['..msg.chat.id..'] ['..msg.chat.type..']')
+							--print the match
+							if blocks[1] ~= '' then
+      							print(clr.reset..clr.blue..clr.onwhite..'[TRIGGER]', clr.reset..clr.red..clr.onwhite..w..clr.reset)
+      							db:hincrby('bot:general', 'query', 1)
+      							if msg.from then db:incrby('user:'..msg.from.id..':query', 1) end
+      						end
+							--execute plugin
+							local success, result = pcall(function()
+								return plugin.action(msg, blocks, msg.lang)
+							end)
+							--if bugs
+							if not success then
+								api.sendReply(msg, '*This is a bug!*\nPlease report the problem with `/c <bug>` :)', true)
+								print(msg.text, result)
+								save_log('errors', result, msg.from.id or false, msg.chat.id or false, msg.text or false)
+          						api.sendLog('An #error occurred.\n'..result)
+								return
+							end
+							-- If the action returns a table, make that table msg.
+							if type(result) == 'table' then
+								msg = result
+							elseif type(result) == 'string' then
+								msg.text = result
+							-- If the action returns true, don't stop.
+							elseif result ~= true then
+								return
+							end
 						end
 					end
 				end
@@ -342,6 +347,7 @@ local function handle_inline_keyboards_cb(msg)
 	msg.date = os.time()
 	msg.cb = true
 	msg.cb_id = msg.id
+	--msg.cb_table = JSON.decode(msg.data)
 	msg.message_id = msg.message.message_id
 	msg.chat = msg.message.chat
 	msg.message = nil

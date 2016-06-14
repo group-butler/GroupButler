@@ -189,7 +189,7 @@ local action = function(msg, blocks, ln)
    					--api.sendReply(msg, lang[ln].banhammer.unbanned, true)
    				end
    				if not msg.cb then
-   					api.sendreply(msg, text, true)
+   					api.sendReply(msg, text, true)
    				else
    					api.editMessageText(msg.chat.id, msg.message_id, text..'\n`['..user_id..']`', false, true)
    				end

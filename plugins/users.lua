@@ -77,6 +77,7 @@ local action = function(msg, blocks, ln)
 	 	end
  	end
  	if blocks[1] == 'id' then
+ 		if not(msg.chat.type == 'private') and not is_mod(msg) then return end
  		local id
  		if msg.reply then
  			id = msg.reply.from.id

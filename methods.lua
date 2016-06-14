@@ -6,7 +6,7 @@ if not config.bot_api_key then
 end
 
 local function sendRequest(url)
-
+	--print(url)
 	local dat, code = HTTPS.request(url)
 	
 	if not dat then 
@@ -16,7 +16,7 @@ local function sendRequest(url)
 	local tab = JSON.decode(dat)
 
 	if code ~= 200 then
-		if tab and tab.description then print(code, tab.description) end
+		if tab and tab.description then print(clr.onwhite..clr.red..code, tab.description..clr.reset) end
 		--403: bot blocked, 429: spam limit ...send a message to the admin, return the code
 		if code == 400 then code = api.getCode(tab.description) end --error code 400 is general: try to specify
 		db:hincrby('bot:errors', code, 1)
@@ -89,7 +89,7 @@ end
 local function kickChatMember(chat_id, user_id)
 	
 	local url = BASE_URL .. '/kickChatMember?chat_id=' .. chat_id .. '&user_id=' .. user_id
-
+	
 	local dat, res = HTTPS.request(url)
 
 	local tab = JSON.decode(dat)
@@ -223,6 +223,24 @@ local function leaveChat(chat_id)
 	
 end
 
+local function sendKeyboard(chat_id, text, keyboard, markdown)
+	
+	local url = BASE_URL .. '/sendMessage?chat_id=' .. chat_id
+	
+	if markdown then
+		url = url .. '&parse_mode=Markdown'
+	end
+	
+	url = url..'&text='..URL.escape(text)
+	
+	url = url..'&disable_web_page_preview=true'
+	
+	url = url..'&reply_markup='..JSON.encode(keyboard)
+	
+	return sendRequest(url)
+
+end
+
 local function sendMessage(chat_id, text, use_markdown, reply_to_message_id, send_sound)
 	--print(text)
 	
@@ -287,24 +305,6 @@ local function answerCallbackQuery(callback_query_id, text, show_alert)
 	
 	return sendRequest(url)
 	
-end
-
-local function sendKeyboard(chat_id, text, keyboard, markdown)
-	
-	local url = BASE_URL .. '/sendMessage?chat_id=' .. chat_id
-	
-	if markdown then
-		url = url .. '&parse_mode=Markdown'
-	end
-	
-	url = url..'&text='..URL.escape(text)
-	
-	url = url..'&disable_web_page_preview=true'
-	
-	url = url..'&reply_markup='..JSON.encode(keyboard)
-	
-	return sendRequest(url)
-
 end
 
 local function sendChatAction(chat_id, action)

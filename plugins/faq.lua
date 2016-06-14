@@ -30,7 +30,6 @@ local function action(msg, blocks, ln)
         'Will you ever add other plugins not related to the group administration? Like something to search on google, to get a definition from UD..?',
         'Please add an anti-emoji system',
         'Can you make the "anti media" directly kick/ban instead of warn? Or can you make the number of warns configurable?',
-        'Why when someone is flooding, the bot sends twice/three times/more times the "User xxx kicked/banned for flood" message?',
         'Can you make something to block only Telegram links?',
     }
     
@@ -62,7 +61,6 @@ local function action(msg, blocks, ln)
         'No, I\'m not going to add recreative things. I want to keep the bot focused on what is doing now, and less invasive as possible in the group chat.',
         'I\'m not going to add this dictatorial things. In my opinion, the bot already allows you to block everything could be source of spam or off-topic in a group, and for me it already feels like an Hitlerian weapon for a paranoid admin.',
         'This "media warns" system will change as soon as I have some time to make some tests. For now it will stay as it is. My idea is to allow Admins to choose how many warns are needed to kick someone for posting a forbidden media. I\'ll see',
-        'This is something related on how the anti-flood system works.\nFor example, with the flood limit at 5: if an user sends the 6th message in less then 5 seconds, the bot will detect it as spam and will try to kick the user. But in the time between the delivery of the 6th messages and the moment when the bot receives the message and try to kick the user, this user could have the time to send other few messages.\nThe bot will receive this messages (for example, the 6th, the 7th and the 8th messages), and because they all exceed the limit of 5, it will send the "user is flooding" message. I\'ll fix this problem, but it will take some time due to tests.',
         'No, the current system uses a nice field in the messages object given by the api that includes all the links in a message, I\'m not going to add other plugins with arranged triggers only for Telegram links. I\'m sorry :(',
         
     }

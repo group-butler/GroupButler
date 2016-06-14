@@ -246,14 +246,6 @@ function save_log(action, arg1, arg2, arg3, arg4)
 			create_folder('logs')
 			write_file(path, text, "a")
 		end
-    elseif action == 'starts' then
-    	local path = "./logs/starts.txt"
-    	local text = 'Started: '..os.date('%A, %d %B %Y at %X')..'\n'
-    	local res = write_file(path, text, "a")
-    	if not res then
-			create_folder('logs')
-			write_file(path, text, "a")
-		end
     end
 end
 
@@ -490,6 +482,13 @@ function getname(msg)
     local name = msg.from.first_name
 	if msg.from.username then name = name..' (@'..msg.from.username..')' end
     return name
+end
+
+function bash(str)
+	local cmd = io.popen(str)
+    local result = cmd:read('*all')
+    cmd:close()
+    return result
 end
 
 function change_one_header(id)
@@ -733,6 +732,11 @@ local function getSettings(chat_id, ln)
 	elseif type == 'custom' then
 		message = message..lang[ln].settings.resume.w_custom
 	end
+    
+    local warnmax_std = (db:get('chat:'..chat_id..':max')) or 3
+    local warnmax_media = (db:get('chat:'..chat_id..':mediamax')) or 2
+    
+    message = message..'`Warn (standard)`: *'..warnmax_std..'*\n`Warn (media)`: *'..warnmax_media..'*'
     
     return message
 end
