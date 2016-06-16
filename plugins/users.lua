@@ -203,6 +203,10 @@ local action = function(msg, blocks, ln)
 		end
 	end
 	if blocks[1] == 'kick' or blocks[1] == 'ban' then
+		if not is_mod(msg) then
+    		api.answerCallbackQuery(msg.cb_id, lang[ln].not_mod:mEscape_hard())
+    		return
+		end
 		local res, text
 		local user_id = msg.text:match('^###cb:getban:%a%a%a%a?:(%d+)$')
 		if blocks[1] == 'kick' then
