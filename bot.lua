@@ -35,6 +35,7 @@ bot_init = function(on_reload) -- The function run when the bot is started or re
 	bot = bot.result
 
 	plugins = {} -- Load plugins.
+	print('Loading plugins...')
 	for i,v in ipairs(config.plugins) do
 		local p = dofile('plugins/'..v)
 		table.insert(plugins, p)
@@ -210,56 +211,30 @@ on_msg_receive = function(msg) -- The fn run whenever a message is received.
 	end
 end
 
-
-
 local function service_to_message(msg)
-	local service
-	local event
+	msg.service = true
 	if msg.new_chat_member then
-		if tonumber(msg.new_chat_member.id) == tonumber(bot.id) then
-			event = '###botadded'
+    	if tonumber(msg.new_chat_member.id) == tonumber(bot.id) then
+			msg.text = '###botadded'
 		else
-			event = '###added'
+			msg.text = '###added'
 		end
-		service = {
-			chat = msg.chat,
-    		date = msg.date,
-    		adder = msg.from,
-    		from = msg.from,
-    		message_id = message_id,
-    		added = msg.new_chat_member,
-    		text = event,
-    		service = true
-    	}
+		msg.adder = clone_table(msg.from)
+		msg.added = clone_table(msg.new_chat_member)
 	elseif msg.left_chat_member then
-		if tonumber(msg.left_chat_member.id) == tonumber(bot.id) then
-			event = '###botremoved'
+    	if tonumber(msg.left_chat_member.id) == tonumber(bot.id) then
+			msg.text = '###botremoved'
 		else
-			event = '###removed'
+			msg.text = '###removed'
 		end
-		service = {
-			chat = msg.chat,
-    		date = msg.date,
-    		remover = msg.from,
-    		from = msg.from,
-    		message_id = message_id,
-    		removed = msg.left_chat_member,
-    		text = event,
-    		service = true
-    	}
+		msg.remover = clone_table(msg.from)
+		msg.removed = clone_table(msg.left_chat_member)
 	elseif msg.group_chat_created then
-		service = {
-			chat = msg.chat,
-    		date = msg.date,
-    		adder = msg.from,
-    		from = msg.from,
-    		message_id = message_id,
-    		text = '###botadded',
-    		service = true,
-    		chat_created = true
-    	}
+    	msg.chat_created = true
+    	msg.adder = clone_table(msg.from)
+    	msg.text = '###botadded'
 	end
-    return on_msg_receive(service)
+    return on_msg_receive(msg)
 end
 
 local function forward_to_msg(msg)

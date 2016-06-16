@@ -9,6 +9,20 @@ return {
             unknown = 'This user has nothing to do with this chat',
             member = '&&&1 is a chat member'
         },
+        getban = {
+            header = '*Global stats* for ',
+            nothing = '`Nothing to display`',
+            kick = 'Kick: ',
+            ban = 'Ban: ',
+            tempban = 'Tempban: ',
+            flood = 'Removed for flood: ',
+            warn = 'Removed for warns: ',
+            media = 'Removed for forbidden media: ',
+            arab = 'Removed for arab chars: ',
+            rtl = 'Removed for RTL char: ',
+            kicked = '_Kicked!_',
+            banned = '_Banned!_'
+        },
         bonus = {
             general_pm = '_I\'ve sent you the message in private_',
             no_user = 'I\'ve never seen this user before.\nIf you want to teach me who he is, forward me a message from him',
@@ -44,6 +58,7 @@ return {
                             .."`/ban [by reply|username]` = ban a user from the group (also from normal groups).\n"
                             .."`/tempban [minutes]` = ban an user for a specific amount of minutes (minutes must be < 10.080, one week). For now, only by reply.\n"
                             .."`/unban [by reply|username]` = unban the user from the group.\n"
+                            .."`/getban [by reply|username]` = returns the *global* number of bans/kicks received by the user. Divided in categories.\n"
                             .."`/status [username]` = show the current status of the user `(member|kicked/left the chat|banned|admin/creator|never seen)`.\n"
                             .."`/banlist` = show a list of banned users. Includes the motivations (if given during the ban)\n"
                             .."\n*Note*: you can write something after `/ban` command (or after the username, if you are banning by username)."
@@ -237,8 +252,8 @@ return {
                 extra_locked = '#extra commands are now available *only for moderators*',
                 rtl_already = 'Anti-RTL is already *on*',
                 rtl_locked = 'Anti-RTL is now *on*',
-                flood_already = 'Anti-flood is already *on*',
-                flood_locked = 'Anti-flood is now *on*',
+                flood_already = 'Anti-flood is already *off*',
+                flood_locked = 'Anti-flood is now *off*',
                 arab_already = 'Anti-arab characters is already *on*',
                 arab_locked = 'Anti-arab characters is now *on*',
                 report_already = '@admin command is already *not enabled*',
@@ -263,8 +278,8 @@ return {
                 extra_unlocked = 'Extra # commands are now available *for all*',
                 rtl_already = 'Anti-RTL is already *off*',
                 rtl_unlocked = 'Anti-RTL is now *off*',
-                flood_already = 'Anti-flood is already *off*',
-                flood_unlocked = 'Anti-flood is now *off*',
+                flood_already = 'Anti-flood is already *on*',
+                flood_unlocked = 'Anti-flood is now *on*',
                 arab_already = 'Anti-arab characters is already *off*',
                 arab_unlocked = 'Anti-arab characters is now *off*',
                 report_already = '@admin command is already *available*',
@@ -416,6 +431,20 @@ return {
             unknown = 'Questo utente non ha nulla a che fare con questo gruppo',
             member = '&&&1 è un membro del gruppo'
         },
+        getban = {
+            header = '*Info globali* su ',
+            nothing = '`Nulla da segnalare`',
+            kick = 'Kick: ',
+            ban = 'Ban: ',
+            tempban = 'Tempban: ',
+            flood = 'Rimosso per flood: ',
+            warn = 'Rimosso per warns: ',
+            media = 'Rimosso per media vietati: ',
+            arab = 'Rimosso per caratteri arabi: ',
+            rtl = 'Rimosso per carattere RTL: ',
+            kicked = '_Kickato!_',
+            banned = '_Bannato!_'
+        },
 	    bonus = {
             general_pm = '_Ti ho inviato il messaggio in privato_',
             the_group = 'il gruppo',
@@ -451,6 +480,7 @@ return {
                             .."`/ban [by reply|username]` = banna un utente dal gruppo (anche per gruppi normali).\n"
                             .."`/tempban [minutes]` = banna un utente per un tot di minuti (i minuti devono essere < 10.080, ovvero una settimana). Per ora funziona solo by reply.\n"
                             .."`/unban [by reply|username]` = unbanna l\'utente dal gruppo.\n"
+                            .."`/getban [by reply|username]` = mostra il *numero globale* di ban/kick ricevuti dall'utente, e divisi per categoria.\n"
                             .."`/status [username]` = mostra la posizione attuale dell\'utente `(membro|kickato/ha lasciato il gruppo|bannato|admin/creatore|mai visto)`.\n"
                             .."`/banlist` = mostra la lista degli utenti bannati. Sono incluse le motivazioni (se descritte durante il ban)\n"
                             .."\n*Nota*: puoi scrivere qualcosa dopo il comando `/ban` (o dopo l'username, se stai bannando per username)."
@@ -634,8 +664,8 @@ return {
                 extra_locked = 'I comandi #extra sono ora utilizzabili *solo dai moderatori*',
                 rtl_already = 'Anti-RTL è già *on*',
                 rtl_locked = 'Anti-RTL è ora *on*',
-                flood_already = 'L\'anti-flood è già *on*',
-                flood_locked = 'L\'anti-flood è ora *on*',
+                flood_already = 'L\'anti-flood è già *off*',
+                flood_locked = 'L\'anti-flood è ora *off*',
                 arab_already = 'Anti-caratteri arabi è già *on*',
                 arab_locked = 'Anti-caratteri arabi è ora *on*',
                 report_already = '@admin è già *non disponibile*',
@@ -660,8 +690,8 @@ return {
                 extra_unlocked = 'I comandi #extra sono già disponibili *per tutti*',
                 rtl_already = 'Anti-RTL è già *off*',
                 rtl_unlocked = 'Anti-RTL è ora *off*',
-                flood_already = 'L\'anti-flood è già *off*',
-                flood_unlocked = 'L\'anti-flood è ora *off*',
+                flood_already = 'L\'anti-flood è già *on*',
+                flood_unlocked = 'L\'anti-flood è ora *on*',
                 arab_already = 'Anti-caratteri arabi è già *off*',
                 arab_unlocked = 'Anti-caratteri arabi è ora *off*',
                 report_already = '@admin è già *disponibile*',
@@ -816,6 +846,20 @@ return {
             unknown = 'This user has nothing to do with this chat',
             member = '&&&1 is a chat member'
         },
+        getban = {
+            header = '*Global stats* for ',
+            nothing = '`Nothing to display`',
+            kick = 'Kick: ',
+            ban = 'Ban: ',
+            tempban = 'Tempban: ',
+            flood = 'Removed for flood: ',
+            warn = 'Removed for warns: ',
+            media = 'Removed for forbidden media: ',
+            arab = 'Removed for arab chars: ',
+            rtl = 'Removed for RTL char: ',
+            kicked = '_Kicked!_',
+            banned = '_Banned!_'
+        },
 	    bonus = {
             general_pm = '_I\'ve sent you the message in private_',
             no_user = 'I\'ve never seen this user before.\nIf you want to teach me who he is, forward me a message from him',
@@ -851,6 +895,7 @@ return {
                             .."`/ban [by reply|username]` = ban a user from the group (also from normal groups).\n"
                             .."`/tempban [minutes]` = ban an user for a specific amount of minutes (minutes must be < 10.080, one week). For now, only by reply.\n"
                             .."`/unban [by reply|username]` = unban the user from the group.\n"
+                            .."`/getban [by reply|username]` = returns the *global* number of bans/kicks received by the user. Divided in categories.\n"
                             .."`/status [username]` = show the current status of the user `(member|kicked/left the chat|banned|admin/creator|never seen)`.\n"
                             .."`/banlist` = show a list of banned users. Includes the motivations (if given during the ban)\n"
                             .."\n*Note*: you can write something after `/ban` command (or after the username, if you are banning by username)."
@@ -1034,8 +1079,8 @@ return {
                 extra_locked = 'Comandos #extra *solo* para *moderadores*',
                 rtl_already = 'Anti-RTL ya *desactivado*',
                 rtl_locked = 'Anti-RTL *desactivado*',
-                flood_already = 'Anti-flood is already *on*',
-                flood_locked = 'Anti-flood is now *on*',
+                flood_already = 'Anti-flood is already *off*',
+                flood_locked = 'Anti-flood is now *off*',
                 arab_already = 'Anti-caracteres arabe ya *desactivado*',
                 arab_locked = 'Anti-caracteres arabe *desactivado*',
                 report_already = 'Comando @admin ya *desactivado*',
@@ -1060,8 +1105,8 @@ return {
                 extra_unlocked = 'Comandos #extra disponibles *para todos*',
                 rtl_already = 'Anti-RTL ya *apagado*',
                 rtl_unlocked = 'Anti-RTL *apagado*',
-                flood_already = 'Anti-flood is already *off*',
-                flood_unlocked = 'Anti-flood is now *off*',
+                flood_already = 'Anti-flood is already *on*',
+                flood_unlocked = 'Anti-flood is now *on*',
                 arab_already = 'Anti-caracteres arabe ya *apagado*',
                 arab_unlocked = 'Anti-caracteres arabe *apagado*',
                 report_already = 'Comando @admin ya *disponible*',
@@ -1214,6 +1259,20 @@ return {
             unknown = 'This user has nothing to do with this chat',
             member = '&&&1 is a chat member'
         },
+        getban = {
+            header = '*Global stats* for ',
+            nothing = '`Nothing to display`',
+            kick = 'Kick: ',
+            ban = 'Ban: ',
+            tempban = 'Tempban: ',
+            flood = 'Removed for flood: ',
+            warn = 'Removed for warns: ',
+            media = 'Removed for forbidden media: ',
+            arab = 'Removed for arab chars: ',
+            rtl = 'Removed for RTL char: ',
+            kicked = '_Kicked!_',
+            banned = '_Banned!_'
+        },
         bonus = {
             general_pm = '_I\'ve sent you the message in private_',
             no_user = 'I\'ve never seen this user before.\nIf you want to teach me who he is, forward me a message from him',
@@ -1250,6 +1309,7 @@ return {
                             .."`/ban [by reply|username]` = ban a user from the group (also from normal groups).\n"
                             .."`/tempban [minutes]` = ban an user for a specific amount of minutes (minutes must be < 10.080, one week). For now, only by reply.\n"
                             .."`/unban [by reply|username]` = unban the user from the group.\n"
+                            .."`/getban [by reply|username]` = returns the *global* number of bans/kicks received by the user. Divided in categories.\n"
                             .."`/status [username]` = show the current status of the user `(member|kicked/left the chat|banned|admin/creator|never seen)`.\n"
                             .."`/banlist` = show a list of banned users. Includes the motivations (if given during the ban)\n"
                             .."\n*Note*: you can write something after `/ban` command (or after the username, if you are banning by username)."
@@ -1433,8 +1493,8 @@ return {
                 extra_locked = 'Comandos #extra agora estão disponíveis *apenas para moderadores(as)*',
                 rtl_already = 'Anti-RTL já está *ativado*',
                 rtl_locked = 'Anti-RTL agora está *ativado*',
-                flood_already = 'Anti-flood is already *on*',
-                flood_locked = 'Anti-flood is now *on*',
+                flood_already = 'Anti-flood is already *off*',
+                flood_locked = 'Anti-flood is now *off*',
                 arab_already = 'Anti-árabe já está *ativado*',
                 arab_locked = 'Anti-árabe agora está *ativado*',
                 report_already = 'comando @admin já está *desabilitado*',
@@ -1459,8 +1519,8 @@ return {
                 extra_unlocked = 'Comandos # Extra agora estão disponíveis *para todos(as)*',
                 rtl_already = 'Anti-RTL já está *desligado*',
                 rtl_unlocked = 'Anti-RTL agora está *desligado*',
-                flood_already = 'Anti-flood is already *off*',
-                flood_unlocked = 'Anti-flood is now *off*',
+                flood_already = 'Anti-flood is already *on*',
+                flood_unlocked = 'Anti-flood is now *on*',
                 arab_already = 'Anti-árabe já está *desligado*',
                 arab_unlocked = 'Anti-árabe agora está *desligado*',
                 report_already = 'O comando @admin já está *disponível*',
@@ -1613,6 +1673,20 @@ return {
             unknown = 'This user has nothing to do with this chat',
             member = '&&&1 is a chat member'
         },
+        getban = {
+            header = '*Global stats* for ',
+            nothing = '`Nothing to display`',
+            kick = 'Kick: ',
+            ban = 'Ban: ',
+            tempban = 'Tempban: ',
+            flood = 'Removed for flood: ',
+            warn = 'Removed for warns: ',
+            media = 'Removed for forbidden media: ',
+            arab = 'Removed for arab chars: ',
+            rtl = 'Removed for RTL char: ',
+            kicked = '_Kicked!_',
+            banned = '_Banned!_'
+        },
         bonus = {
             general_pm = '_I\'ve sent you the message in private_',
             no_user = 'Я не видел этого человека раньше.\nЕсли ты хочешь объяснить мне, кто он, сделай мне forward его сообщения',
@@ -1648,6 +1722,7 @@ return {
                             .."`/ban [by reply|username]` = ban a user from the group (also from normal groups).\n"
                             .."`/tempban [minutes]` = ban an user for a specific amount of minutes (minutes must be < 10.080, one week). For now, only by reply.\n"
                             .."`/unban [by reply|username]` = unban the user from the group.\n"
+                            .."`/getban [by reply|username]` = returns the *global* number of bans/kicks received by the user. Divided in categories.\n"
                             .."`/status [username]` = show the current status of the user `(member|kicked/left the chat|banned|admin/creator|never seen)`.\n"
                             .."`/banlist` = show a list of banned users. Includes the motivations (if given during the ban)\n"
                             .."\n*Note*: you can write something after `/ban` command (or after the username, if you are banning by username)."
@@ -1830,8 +1905,8 @@ return {
                 extra_locked = '#extra теперь доступна *только для модераторов*',
                 rtl_already = 'Anti-RTL фильтр уже *включен*',
                 rtl_locked = 'Anti-RTL фильтр *включен*',
-                flood_already = 'Анти-флуд уже *включен*',
-                flood_locked = 'Анти-флуд *включен*',
+                flood_already = 'Аntiflood is already *off*',
+                flood_locked = 'Antiflood is nor *off*',
                 arab_already = 'Anti-arab фильтр уже *включен*',
                 arab_locked = 'Anti-arab фильтр *включен*',
                 report_already = '@admin уже *выключена*',
@@ -1856,8 +1931,8 @@ return {
                 extra_unlocked = 'Extra # теперь доступна *для всех*',
                 rtl_already = 'Anti-RTL фильтр уже *выключен*',
                 rtl_unlocked = 'Anti-RTL фильтр *выключен*',
-                flood_already = 'Анти-флуд уже *выключен*',
-                flood_unlocked = 'Анти-флуд *выключен*',
+                flood_already = 'Аnti-flood is already *on*',
+                flood_unlocked = 'Аnti-flood is now *on*',
                 arab_already = 'Anti-arab фильтр уже *выключен*',
                 arab_unlocked = 'Anti-arab фильтр тепепь *выключен*',
                 report_already = '@admin уже *включена*',
@@ -2010,6 +2085,20 @@ return {
             unknown = 'This user has nothing to do with this chat',
             member = '&&&1 is a chat member'
         },
+        getban = {
+            header = '*Global stats* for ',
+            nothing = '`Nothing to display`',
+            kick = 'Kick: ',
+            ban = 'Ban: ',
+            tempban = 'Tempban: ',
+            flood = 'Removed for flood: ',
+            warn = 'Removed for warns: ',
+            media = 'Removed for forbidden media: ',
+            arab = 'Removed for arab chars: ',
+            rtl = 'Removed for RTL char: ',
+            kicked = '_Kicked!_',
+            banned = '_Banned!_'
+        },
         bonus = {
             general_pm = '_Ich habe dir die Nachricht als Direktnachricht geschickt_',
             no_user = 'Ich habe den Nutzer (user) noch nicht kennen gelernt.\nWenn du ihn mir vorstellen möchtest damit ich weiß wen du meinst, leite eine seiner Nachrichten an mich weiter',
@@ -2062,6 +2151,7 @@ return {
                     .."`/ban [per Antwort|Nutzername]` = sperre einen Nutzer der Gruppe  (ban user) (funktioniert auch bei normalen Gruppen).\n"
                     .."`/tempban [minutes]` = ban an user for a specific amount of minutes (minutes must be < 10.080, one week). For now, only by reply.\n"
                     .."`/unban [per Antwort|Nutzername]` = Entsperre einen Nutzer der Gruppe.\n"
+                    .."`/getban [by reply|username]` = returns the *global* number of bans/kicks received by the user. Divided in categories.\n"
                     .."`/status [username]` = show the current status of the user `(member|kicked/left the chat|banned|admin/creator|never seen)`.\n"
                     .."`/banlist` = show a list of banned users. Includes the motivations (if given during the ban)\n"
                     .."\n*Note*: you can write something after `/ban` command (or after the username, if you are banning by username)."
@@ -2206,8 +2296,8 @@ return {
                 extra_locked = "#Eigene Befehle (#extra commands) sind von nun an *nur für Moderatoren verfügbar*",
                 flag_already = "Der `/flag` Befehl (command) ist bereits *deaktiviert*",
                 flag_locked = "Der `/flag` Befehl (command) *wird nun an nicht mehr* verfügbar sein",
-                flood_already = "Flutschutz (antiflood) ist bereits *aktiv*",
-                flood_locked = "Flutschutz (antiflood) ist nun *aktiviert*",
+                flood_already = "Antiflood is already *off*",
+                flood_locked = "Antiflood is now *off*",
                 modlist_already = "Der `/adminlist` Befehl (command) ist bereits *gesperrt*",
                 modlist_locked = "Der `/adminlist` Befehl (command) ist von nun an *nur für Moderatoren verfügbar*",
                 no_input = "Was oder wen soll ich ausschalten?",
@@ -2232,8 +2322,8 @@ return {
                 extra_unlocked = "Eigene # (extra # commands) sind nun *für alle verfügbar*",
                 flag_already = "Der `/flag` Befehl (command) ist bereits *verfügbar*",
                 flag_unlocked = "Der `/flag` Befehl (command) ist *von nun an verfügbar*",
-                flood_already = "Der Flutschutz (antiflood) ist bereits *deaktiviert*",
-                flood_unlocked = "Der Flutschutz (antiflood) ist nun *deaktiviert*",
+                flood_already = "Аnti-flood is already *on*",
+                flood_unlocked = "Аnti-flood is now *on*",
                 modlist_already = "Der `/adminlist` Befehl (command) ist bereits *verfügbar*",
                 modlist_unlocked = "Der `/adminlist` Befehl (command) ist jetzt *für alle verfügbar*",
                 no_input = "Was oder wen soll ich ausschalten?",
@@ -2392,6 +2482,20 @@ return {
             unknown = 'This user has nothing to do with this chat',
             member = '&&&1 is a chat member'
         },
+        getban = {
+            header = '*Global stats* for ',
+            nothing = '`Nothing to display`',
+            kick = 'Kick: ',
+            ban = 'Ban: ',
+            tempban = 'Tempban: ',
+            flood = 'Removed for flood: ',
+            warn = 'Removed for warns: ',
+            media = 'Removed for forbidden media: ',
+            arab = 'Removed for arab chars: ',
+            rtl = 'Removed for RTL char: ',
+            kicked = '_Kicked!_',
+            banned = '_Banned!_'
+        },
         bonus = {
             general_pm = '_Jag har skickat dig meddelandet privat_',
             no_user = 'Jag har inte sett den användaren förut.\nOm du vill lära mig vem det är så kan du vidarebefordra ett meddelande från användaren till mig.',
@@ -2444,6 +2548,7 @@ return {
               .."`/unban [meddelandesvar|användarnamn]` = avbanna en användare.\n"
               .."`/tempban [minutes]` = ban an user for a specific amount of minutes (minutes must be < 10.080, one week). For now, only by reply.\n"
               .."`/unban [by reply|username]` = unban the user from the group.\n"
+              .."`/getban [by reply|username]` = returns the *global* number of bans/kicks received by the user. Divided in categories.\n"
               .."`/status [username]` = show the current status of the user `(member|kicked/left the chat|banned|admin/creator|never seen)`.\n"
               .."`/banlist` = show a list of banned users. Includes the motivations (if given during the ban) (temporary disabled)\n"
               .."\n*Note*: you can write something after `/ban` command (or after the username, if you are banning by username)."
@@ -2599,8 +2704,8 @@ return {
                 extra_locked = "Kommandot #extra är nu tillgängligt *bara för moderatorer*",
                 flag_already = "Kommandot `/flag` är redan *avstängt*",
                 flag_locked = "Kommandot `/flag` är nu *avstängt*",
-                flood_already = "Anti-flood är redan *aktiverat*",
-                flood_locked = "Anti-flood är nu *aktiverat*",
+                flood_already = "Antiflood is already *off*",
+                flood_locked = "Antiflood is now *off*",
                 modlist_already = "Kommandot `/adminlist` är redan *låst*",
                 modlist_locked = "Kommandot `/adminlist` är nu tillgängligt *bara för moderatorer*",
                 no_input = "Avaktivera vad?",
@@ -2625,8 +2730,8 @@ return {
                 extra_unlocked = "Kommandot #extra är nu tillgängligt *för alla*",
                 flag_already = "Kommandot `/flag` är redan *tillgängligt*",
                 flag_unlocked = "Kommandot `/flag` är nu *tillgängligt*",
-                flood_already = "Anti-flood är redan *avstängt*",
-                flood_unlocked = "Anti-flood är nu *avstängt*",
+                flood_already = "Аnti-flood is already *on*",
+                flood_unlocked = "Аnti-flood is now *on*",
                 modlist_already = "Kommandot `/adminlist` är redan *tillgängligt*",
                 modlist_unlocked = "Kommandot `/adminlist` är nu tillgängligt *för alla*",
                 no_input = "Aktivera vad?",
@@ -2772,6 +2877,20 @@ return {
             unknown = 'هذا المستخدم ليس لديه علاقة بهذا الدردشة',
             member = 'إن &&&1 عضو في الدردشة'
         },
+        getban = {
+            header = '*Global stats* for ',
+            nothing = '`Nothing to display`',
+            kick = 'Kick: ',
+            ban = 'Ban: ',
+            tempban = 'Tempban: ',
+            flood = 'Removed for flood: ',
+            warn = 'Removed for warns: ',
+            media = 'Removed for forbidden media: ',
+            arab = 'Removed for arab chars: ',
+            rtl = 'Removed for RTL char: ',
+            kicked = '_Kicked!_',
+            banned = '_Banned!_'
+        },
         bonus = {
             general_pm = '_لقد أرسلت لك الرسالة بواسطة رسالة خاصة_',
             no_user = 'لم أرى هذا المستخدم من قبل.\nإذا رغبت تخبرني عن هويته، عليك تحويل رسالة منه إلي.',
@@ -2807,6 +2926,7 @@ return {
                             .."`/ban [by reply|username]` = احظر المستخدم من المجموعة (أيضاً من مجموعات عادية).\n"
                             .."`/tempban [minutes]` = 'احظر المستخدم لفترة محددة من دقائق (يجب أن يكون أقل من 10.080 دقائق، أي أسبوع واحد). في الوقت الراهن، فقط بواسطة الرد.\n"
                             .."`/unban [by reply|username]` = ارفع حظر المستخدم من المجموعة.\n"
+                            .."`/getban [by reply|username]` = returns the *global* number of bans/kicks received by the user. Divided in categories.\n"
                             .."`/status [username]` = أظهر الحالة الحالية للمستخدم `(member|kicked/left the chat|banned|admin/creator|never seen)`.\n"
                             .."`/banlist` = أظهر قائمة المستخدمون المحظورون. يشمل الدوافع (إذا تم ذكرها أثناء الحظر).\n"
                             .."\n*ملاحظة*:يمكنك أن تكتب شيئاً ما بعد أمر `/ban` (أم بعد اسم المستخدم، إذا كنت تحظر بواسطة اسم المستخدم)."
@@ -3000,8 +3120,8 @@ return {
                 extra_locked = 'إن أوامر #extra متاحة لمشرفين فقط',
                 rtl_already = 'إن نظام مكافحة الكتابة من اليمين إلى اليسير بالفعل مفعل',
                 rtl_locked = 'إن نظام مكافحة الكتابة من اليمين إلى اليسير مفعل الآن',
-                flood_already = 'إن نظام مكافحة إرسال عدد ساحق من الرسائل مفعل بالفعل',
-                flood_locked = 'إن نظام مكافحة إرسال عدد ساحق من الرسائل مفعل الآن',
+                flood_already = 'نظام مكافحة تكرار الرسائل بالفعل معطل.',
+                flood_locked = 'نظام مكافحة تكرار الرسائل معطل الآن.',
                 arab_already = 'إن نظام مكافحة الكتابة بمحارف عربية بالفعل مفعل',
                 arab_locked = 'إن نظام مكافحة الكتابة بمحارف عربية مفعل الآن',
                 report_already = 'إن أمر @admin غير مفعل بالفعل',
@@ -3026,8 +3146,8 @@ return {
                 extra_unlocked = 'أوامر إكسترا # الآن متاحة لكل الناس.',
                 rtl_already = 'نظام مكافحة كتابة من اليمين إلى اليسار بالفعل معطل.',
                 rtl_unlocked = 'نظام مكافحة كتابة من اليمين إلى اليسار معطل الآن.',
-                flood_already = 'نظام مكافحة تكرار الرسائل بالفعل معطل.',
-                flood_unlocked = 'نظام مكافحة تكرار الرسائل معطل الآن.',
+                flood_already = 'إن نظام مكافحة إرسال عدد ساحق من الرسائل مفعل بالفعل',
+                flood_unlocked = 'إن نظام مكافحة إرسال عدد ساحق من الرسائل مفعل الآن',
                 arab_already = 'نظام مكافحة كتابة محارف عربية معطل بالفعل.',
                 arab_unlocked = 'نظام مكافحة كتابة محارف عربية معطل الآن.',
                 report_already = 'أمر @admin متاح بالفعل.',

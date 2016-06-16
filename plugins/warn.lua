@@ -126,8 +126,9 @@ local function action(msg, blocks, ln)
 		    	end
 		    	text = motivation
 		    else
-		    	db:hdel('chat:'..msg.chat.id..':warns', msg.from.id) --if kick/ban works, remove the warns
-		    	db:hdel('chat:'..msg.chat.id..':mediawarn', msg.from.id)
+		    	cross.saveBan(msg.reply.from.id, 'warn') --add ban
+		    	db:hdel('chat:'..msg.chat.id..':warns', msg.reply.from.id) --if kick/ban works, remove the warns
+		    	db:hdel('chat:'..msg.chat.id..':mediawarn', msg.reply.from.id)
 		    end
 		    api.sendReply(msg, text, true) --if the user reached the max num of warns, kick and send message
 		else

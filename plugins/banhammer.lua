@@ -120,8 +120,8 @@ local action = function(msg, blocks, ln)
 		    		end
 		    		api.sendReply(msg, motivation, true)
 		    	else
-		    		--set the hash
-		    		db:hset('tempbanned', unban_time, val)
+		    		cross.saveBan(user_id, 'tempban') --save the ban
+		    		db:hset('tempbanned', unban_time, val) --set the hash
 					local time_reply = get_time_reply(temp)
 					local banned_name = getname(msg.reply)
 					local is_already_tempbanned = db:sismember('chat:'..chat_id..':tempbanned', user_id) --hash needed to check if an user is already tempbanned or not
@@ -133,11 +133,14 @@ local action = function(msg, blocks, ln)
 					end
 				end
 			end
+		 	
+		 	--get the user id, send message and break if not found
 		 	local user_id = get_user_id(msg, blocks)
 		 	if not user_id then
 		 		api.sendReply(msg, lang[ln].bonus.no_user, true)
 		 		return
 		 	end
+		 	
 		 	if blocks[1] == 'kick' then
 		    	local res, motivation = api.kickUser(chat_id, user_id, ln)
 		    	if not res then
@@ -145,6 +148,8 @@ local action = function(msg, blocks, ln)
 		    			motivation = lang[ln].banhammer.general_motivation
 		    		end
 		    		api.sendReply(msg, motivation, true)
+		    	else
+		    		cross.saveBan(user_id, 'kick')
 		    	end
 		    	mystat('/kick')
 	    	end
@@ -158,6 +163,8 @@ local action = function(msg, blocks, ln)
 		    		end
 		    		api.sendReply(msg, motivation, true)
 		    	else
+		    		--save the ban
+		    		cross.saveBan(user_id, 'ban')
 		    		--add to banlist
 		    		local why, nick
 		    		if msg.reply then

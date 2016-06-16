@@ -61,7 +61,8 @@ local triggers2 = {
 	'^/a(tban) (get)$',
 	'^/a(tban) (flush)$',
 	'^/a(db) (.*)$',
-	'^a(aa)$'
+	'^a(aa)$',
+	'^/a(remban) (@[%w_]+)$',
 }
 
 local logtxt = ''
@@ -940,6 +941,17 @@ local action = function(msg, blocks, ln)
 	end
 	if blocks[1] == 'aa' then
 		api.sendAdmin(msg.chat.id)
+	end
+	if blocks[1] == 'remban' then
+		local user_id = res_user(blocks[2])
+		local text
+		if user_id then
+			db:del('ban:'..user_id)
+			text = 'Done'
+		else
+			text = 'Username not stored'
+		end
+		api.sendReply(msg, text)
 	end
 end
 

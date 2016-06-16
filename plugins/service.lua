@@ -118,7 +118,20 @@ local action = function(msg, blocks, ln)
         local num = db:hincrby('bot:general', 'groups', -1)
         print('Stats saved', 'Groups: '..num)
 	end
-
+	
+	if blocks[1] == 'removed' then
+		if msg.remover and msg.removed then
+			if msg.remover.id ~= msg.removed.id and msg.remover.id ~= bot.id then
+				local action
+				if msg.chat.type == 'supergroup' then
+					action = 'ban'
+				elseif msg.chat.type == 'group' then
+					action = 'kick'
+				end
+				cross.saveBan(msg.removed.id, action)
+			end
+		end
+	end
 end
 
 return {
@@ -126,6 +139,7 @@ return {
 	triggers = {
 		'^###(botadded)',
 		'^###(added)',
-		'^###(botremoved)'
+		'^###(botremoved)',
+		'^###(removed)'
 	}
 }

@@ -1,16 +1,3 @@
-local function user_neverWarned(chat, user)
-    local hash = 'chat:'..chat..':'..user..':mediawarn'
-    local res = db:get(hash)
-    if res then return false else return true end
-end
-
-local function saveFirstWarn(chat, user, media, ln)
-    local hash = 'chat:'..chat..':'..user..':mediawarn'
-    db:set(hash, true)
-    local status = db:hget('chat:'..chat..':media', media) --get the current status, to say in the reply if the next time the user will be kicked or banned
-    return make_text(lang[ln].preprocess.first_warn, status)
-end
-
 local function max_reached(chat_id, user_id)
     local max = tonumber(db:get('chat:'..chat_id..':mediamax')) or 2
     local n = tonumber(db:hincrby('chat:'..chat_id..':mediawarn', user_id, 1))
@@ -22,10 +9,6 @@ local function max_reached(chat_id, user_id)
 end
 
 pre_process = function(msg, ln)
-    
-    --[[if msg.cb then --ignore callbacks
-        return msg
-    end]]
     
     local spamhash = 'spam:'..msg.chat.id..':'..msg.from.id
     local msgs = tonumber(db:get(spamhash)) or 0
@@ -54,6 +37,7 @@ pre_process = function(msg, ln)
     	    end
     	    --if kicked/banned, send a message
     	    if res then
+    	        cross.saveBan(msg.from.id, 'flood') --save ban
     	        if action == 'ban' then
     	            cross.addBanList(msg.chat.id, msg.from.id, name, lang[ln].preprocess.flood_motivation)
     	            message = make_text(lang[ln].preprocess.flood_ban, name:mEscape()) 
@@ -92,7 +76,8 @@ pre_process = function(msg, ln)
                     res = api.banUser(msg.chat.id, msg.from.id, is_normal_group, ln)
     	        end
     	        if res then --kick worked
-    	            db:hdel('chat:'..msg.chat.id..':mediawarn', msg.from.id)
+    	            cross.saveBan(msg.from.id, 'media') --save ban
+    	            db:hdel('chat:'..msg.chat.id..':mediawarn', msg.from.id) --remove media warns
     	            local message
     	            if status == 'ban' then
     	                cross.addBanList(msg.chat.id, msg.from.id, name, lang[ln].preprocess.media_motivation)
@@ -119,6 +104,7 @@ pre_process = function(msg, ln)
         if check ~= nil then
     	    local res = api.kickUser(msg.chat.id, msg.from.id, ln)
     	    if res then
+    	        cross.saveBan(msg.from.id, 'rtl') --save ban
     	        api.sendMessage(msg.chat.id, make_text(lang[ln].preprocess.rtl, name:mEscape()), true)
     	    end
         end
@@ -129,12 +115,12 @@ pre_process = function(msg, ln)
         if msg.from.username then name = name..' (@'..msg.from.username..')' end
     	local res = api.kickUser(msg.chat.id, msg.from.id, ln)
     	if res then
+    	    cross.saveBan(msg.from.id, 'arab') --save ban
     	    api.sendMessage(msg.chat.id, make_text(lang[ln].preprocess.arab, name:mEscape()), true)
     	end
     end
     
     if is_blocked(msg.from.id) then --ignore blocked users
-        print('Blocked:', msg.from.id)
         return msg, true --if an user is blocked, don't go through plugins
     end
     

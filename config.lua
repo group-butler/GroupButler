@@ -1,6 +1,6 @@
 return {
 	bot_api_key = '',
-	version = '2.2.2', -- /aupdate for v2.1.1
+	version = '2.2.5', -- /aupdate for v2.1.1
 	testing_mode = false,
 	admin = {
 		owner = 23646077,
@@ -90,6 +90,7 @@ return {
 		[129] = 'BUTTON_DATA_INVALID', --callback_data string invalid
 
 		[130] = 'Type of file to send mismatch', --trying to send a media with the wrong method
+		[131] = 'MESSAGE_ID_INVALID', --I don't know
 
 		[403] = 'Bot was blocked by the user', --user blocked the bot
 		[429] = 'Too many requests: retry later', --the bot is hitting api limits

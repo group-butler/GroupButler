@@ -912,6 +912,11 @@ local function getUserStatus(chat_id, user_id)
 	end
 end
 
+local function saveBan(user_id, motivation)
+	local hash = 'ban:'..user_id
+	return db:hincrby(hash, motivation, 1)
+end
+
 -----------------------redis shorcuts---------------------------------------
 
 --[[
@@ -1081,7 +1086,8 @@ local cross = {
 	initGroup = initGroup,
 	addBanList= addBanList,
 	remBanList = remBanList,
-	getUserStatus = getUserStatus
+	getUserStatus = getUserStatus,
+	saveBan = saveBan
 }
 
 local rdb = {
