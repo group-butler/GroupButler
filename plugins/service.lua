@@ -68,10 +68,13 @@ local action = function(msg, blocks, ln)
 	--if the bot join the chat
 	if blocks[1] == 'botadded' then
 		
-		print('Bot added to '..msg.chat.title..' ['..msg.chat.id..']')
-		
 		if db:hget('bot:general', 'adminmode') == 'on' and not is_bot_owner(msg) then
 			api.sendMessage(msg.chat.id, 'Admin mode is on: only the admin can add me to a new group')
+			api.leaveChat(msg.chat.id)
+			return
+		end
+		if is_blocked(msg.adder.id) then
+			api.sendMessage(msg.chat.id, '_You ('..msg.adder.first_name:mEscape()..', '..msg.adder.id..') have been blocked_', true)
 			api.leaveChat(msg.chat.id)
 			return
 		end

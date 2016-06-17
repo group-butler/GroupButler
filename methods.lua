@@ -1,6 +1,8 @@
 
 local BASE_URL = 'https://api.telegram.org/bot' .. config.bot_api_key
 
+local PWR_URL = 'https://api.pwrtelegram.xyz/bot' .. config.bot_api_key
+
 if not config.bot_api_key then
 	error('You did not set your bot token in config.lua!')
 end
@@ -188,6 +190,28 @@ local function getChat(chat_id)
 	local url = BASE_URL .. '/getChat?chat_id=' .. chat_id
 	
 	return sendRequest(url)
+	
+end
+
+local function resolveUsername(username)
+	
+	local url = PWR_URL..'/getChat?chat_id=' .. username
+	
+	local dat, code = HTTPS.request(url)
+	
+	if not dat then 
+		return false, code 
+	end
+	
+	local tab = JSON.decode(dat)
+	
+	if not tab then
+		return false
+	else
+		if tab.ok then
+			return tab.result
+		end
+	end
 	
 end
 
@@ -548,5 +572,6 @@ return {
 	getChatAdministrators = getChatAdministrators,
 	getChatMembersCount = getChatMembersCount,
 	getChatMember = getChatMember,
-	leaveChat = leaveChat
+	leaveChat = leaveChat,
+	resolveUsername = resolveUsername
 }	

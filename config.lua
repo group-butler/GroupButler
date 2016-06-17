@@ -1,6 +1,6 @@
 return {
 	bot_api_key = '',
-	version = '2.2.5', -- /aupdate for v2.1.1
+	version = '2.2.6', -- /aupdate for v2.1.1
 	testing_mode = false,
 	admin = {
 		owner = 23646077,
@@ -11,6 +11,7 @@ return {
 	},
 	log_chat = -1001057801239,
 	channel = '@groupbutler_ch', --channel username with the '@'
+	help_group = '', --group link, not username!
 	languages = 'languages.lua',
 	plugins = {
 		'onmessage.lua', --THIS HAVE TO BE THE FIRST: IF AN USER IS SPAMMING/IS BLOCKED, THE BOT WON'T GO THROUGH PLUGINS
@@ -61,7 +62,7 @@ return {
 		[101] = 'Not enough rights to kick participant', --SUPERGROUP: bot is not admin
 		[102] = 'USER_ADMIN_INVALID', --SUPERGROUP: trying to kick an admin
 		[103] = 'method is available for supergroup chats only', --NORMAL: trying to unban
-		[104] = 'Bad Request: Only creator of the group can kick admins from the group', --NORMAL: trying to kick an admin
+		[104] = 'Only creator of the group can kick administrators from the group', --NORMAL: trying to kick an admin
 		[105] = 'Bad Request: Need to be inviter of the user to kick it from the group', --NORMAL: bot is not an admin or everyone is an admin
 		[106] = 'USER_NOT_PARTICIPANT', --NORMAL: trying to kick an user that is not in the group
 		[107] = 'CHAT_ADMIN_REQUIRED', --NORMAL: bot is not an admin or everyone is an admin

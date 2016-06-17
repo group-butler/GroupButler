@@ -259,6 +259,13 @@ function clone_table(t) --doing "table1 = table2" in lua = create a pointer to t
   return new_t
 end
 
+function get_date(timestamp)
+	if not timestamp then
+		timestamp = os.time()
+	end
+	return os.date('%d/%m/%y')
+end
+
 function res_user(username)
 	local hash = 'bot:usernames'
 	local stored = db:hget(hash, username)
@@ -445,13 +452,13 @@ function migrate_chat_info(old, new, on_request)
 	
 	--flood
 	print(logtxt)
-	local log_path = "./logs/migration_from["..tostring(old):gsub('-', '').."]to["..tostring(new):gsub('-', '').."].txt"
+	--[[local log_path = "./logs/migration_from["..tostring(old):gsub('-', '').."]to["..tostring(new):gsub('-', '').."].txt"
 	file = io.open(log_path, "w")
 	file:write(logtxt)
     file:close()
 	if on_request then
 		api.sendDocument(config.admin.owner, log_path)
-	end
+	end]]
 end
 
 function div()

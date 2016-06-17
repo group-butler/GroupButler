@@ -50,13 +50,58 @@ local function do_keyboard_getban(user_id)
 	local keyboard = {}
 	keyboard.inline_keyboard = {
 		{
-			{text = 'Kick', callback_data = 'getban:kick:'..user_id},
-			{text = 'Ban', callback_data = 'getban:ban:'..user_id}
+			{text = 'Kick', callback_data = 'users:kick:'..user_id},
+			{text = 'Ban', callback_data = 'users:ban:'..user_id}
 		}
 	}
 	
 	return keyboard
-end	
+end
+
+--[[local function do_keyboard_userinfo(user_id)
+	local keyboard = {}
+	keyboard.inline_keyboard = {
+		{
+			{text = 'Next', callback_data = 'users:next:'..user_id}
+		},
+		{
+			{text = 'Kick', callback_data = 'users:kick:'..user_id},
+			{text = 'Ban', callback_data = 'users:ban:'..user_id}
+		},
+		{
+			{text = 'Warn', callback_data = 'users:warn:'..user_id},
+			{text = 'Hide', callback_data = 'users:hide:'..user_id}
+		}
+	}
+	
+	return keyboard
+end]]
+
+--[[local function get_userinfo(user_id, chat_id, name, info_required, ln)
+	if not name then name = 'User' end
+	local text = name..':\n'
+	if info_required == 'ban' then
+		text = '2- '..text..getUserBanText(user_id, ln)
+	elseif info_required == 'other' then
+		std_warns = (db:hget('chat:'..chat_id..':warns', user_id)) or 0
+		media_warns = (db:hget('chat:'..chat_id..':mediawarn', user_id)) or 0
+		group_msgs = (db:hget('chat:'..chat_id..':userstats', user_id)) or 0
+		global_msgs = (db:hget('user:'..user_id, 'msgs')) or 0
+		global_media = (db:hget('user:'..user_id, 'media')) or 0
+		group_media = (db:hget('chat:'..chat_id..':usermedia', user_id)) or 0
+		last_msg = (db:hget('chat:'..chat_id..':userlast', user_id)) or '-'
+		
+		text = '1- '..text..'Normal warns: '..std_warns..'\n'
+		text = text..'Media warns: '..media_warns..'\n'
+		text = text..'Messages in the group: '..group_msgs..'\n'
+		text = text..'Total messages: '..global_msgs..'\n'
+		text = text..'Media sent in the group: '..group_media..'\n'
+		text = text..'Total media sent: '..global_media..'\n'
+		if last_msg ~= '-' then last_msg = get_date(last_msg) end
+		text = text..'Last message: '..last_msg..'\n'
+	end
+	return text
+end]]
 
 local action = function(msg, blocks, ln)
 	if blocks[1] == 'initgroup' then
@@ -135,18 +180,6 @@ local action = function(msg, blocks, ln)
  		api.sendReply(msg, '`'..id..'`', true)
  		mystat('/tell')
  	end
- 	if blocks[1] == 's' then
- 		if not msg.reply or not config.admin.admins[msg.from.id] then return end
- 		local original
- 		if msg.reply.text then
- 			original = msg.reply.text
- 		else
- 			return
- 		end
- 		original = original:gsub(blocks[2], blocks[3])
- 		original = 'Did you mean:\n"'..original..'"'
- 		api.sendReply(msg.reply, original, false, msg.reply.message_id)
- 	end
  	if blocks[1] == 'adminmode' then
  		if msg.chat.type == 'private' or not is_mod(msg) then return end
  		local hash = 'chat:'..msg.chat.id..':settings'
@@ -208,11 +241,11 @@ local action = function(msg, blocks, ln)
     		return
 		end
 		local res, text
-		local user_id = msg.text:match('^###cb:getban:%a%a%a%a?:(%d+)$')
+		local user_id = msg.text:match('^###cb:users:%a%a%a%a?:(%d+)$')
 		if blocks[1] == 'kick' then
 			res, text = api.kickUser(msg.chat.id, user_id, ln)
 		elseif blocks[1] == 'ban' then
-			res, text = api.kickUser(msg.chat.id, user_id, msg.normal_group, ln)
+			res, text = api.banUser(msg.chat.id, user_id, msg.normal_group, ln)
 		end
 		if res then
 			cross.saveBan(user_id, blocks[1])
@@ -223,7 +256,49 @@ local action = function(msg, blocks, ln)
 			end
 		end
 		api.editMessageText(msg.chat.id, msg.message_id, text, false, true)
-	end		
+	end
+	--[[if blocks[1] == 'userinfo' then
+		if msg.chat.type == 'private' or not is_mod(msg) then return end
+		local user_id
+		if blocks[2] then
+			user_id = res_user_group(blocks[2], msg.chat.id)
+			if not user_id then
+				api.sendReply(msg, lang[ln].bonus.no_user, true)
+		 		return
+		 	end
+		elseif msg.reply then
+			if msg.reply.from.id == bot.id then return end
+			user_id = msg.reply.from.id
+		else
+			api.sendReply(msg, lang[ln].banhammer.reply)
+			return
+		end
+		
+		local name = get_name_getban(msg, blocks, user_id)
+		local keyboard = do_keyboard_userinfo(user_id)
+		local text = get_userinfo(user_id, msg.chat.id, name, 'other', ln)
+		
+		api.sendKeyboard(msg.chat.id, text, keyboard, true)
+	end
+	if blocks[1] == 'next' then
+		if msg.chat.type == 'private' then return end
+		if not is_mod(msg) then
+			api.answerCallbackQuery(msg.cb_id, 'Not admin')
+			return
+		end
+		local user_id = blocks[2]
+		local keyboard = do_keyboard_userinfo(user_id)
+		local next_i
+		local n = msg.old_text:sub(1, 1)
+		if n == '1' then
+			next_i = 'ban'
+		elseif n == '2' then
+			next_i = 'other'
+		end
+		print(n, next_i)
+		local text = get_userinfo(user_id, msg.chat.id, name, next_i, ln)
+		api.editMessageText(msg.chat.id, msg.message_id, text, keyboard, true)
+	end]]
 end
 
 return {
@@ -233,12 +308,15 @@ return {
 		'^/(initgroup)$',
 		'^/(adminlist)$',
 		'^/(status) (@[%w_]+)$',
-		'^(s)/(.*)/(.*)$',
 		'^/(adminmode) (off)$',
 		'^/(adminmode) (on)$',
 		'^/(getban)$',
 		'^/(getban) (@[%w_]+)$',
-		'^###cb:getban:(kick):(%d+)$',
-		'^###cb:getban:(ban):(%d+)$',
+		--'^/(userinfo)$',
+		--'^/(userinfo) (@[%w_]+)$',
+		
+		'^###cb:users:(kick):(%d+)$',
+		'^###cb:users:(ban):(%d+)$',
+		--'^###cb:users:(next):(%d+)$',
 	}
 }

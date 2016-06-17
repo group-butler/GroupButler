@@ -78,8 +78,8 @@ local function doKeyboard_media(chat_id)
             status = '🔐 '..status
         end
         local line = {
-            {text = media, callback_data = 'menualert//'},
-            {text = status, callback_data = 'media'..media..'//'..chat_id}
+            {text = media, callback_data = 'menu:alert:media'},
+            {text = status, callback_data = 'media:'..media..':'..chat_id}
         }
         table.insert(keyboard.inline_keyboard, line)
     end
@@ -91,16 +91,16 @@ local function doKeyboard_dashboard(chat_id)
     local keyboard = {}
     keyboard.inline_keyboard = {
 	    {
-            {text = "Settings", callback_data = 'dashboardsettings//'..chat_id},
-            {text = "Admins", callback_data = 'dashboardmodlist//'..chat_id}
+            {text = "Settings", callback_data = 'dashboard:settings:'..chat_id},
+            {text = "Admins", callback_data = 'dashboard:modlist:'..chat_id}
 		},
 	    {
-		    {text = "Rules", callback_data = 'dashboardrules//'..chat_id},
-		    {text = "About", callback_data = 'dashboardabout//'..chat_id}
+		    {text = "Rules", callback_data = 'dashboard:rules:'..chat_id},
+		    {text = "About", callback_data = 'dashboard:about:'..chat_id}
         },
 	   	{
-	   	    {text = "Welcome", callback_data = 'dashboardwelcome//'..chat_id},
-	   	    {text = "Extra commands", callback_data = 'dashboardextra//'..chat_id}
+	   	    {text = "Welcome", callback_data = 'dashboard:welcome:'..chat_id},
+	   	    {text = "Extra commands", callback_data = 'dashboard:extra:'..chat_id}
 	    }
     }
     
@@ -117,8 +117,8 @@ local function doKeyboard_menu(chat_id)
         if val == 'yes' then val = '🚫' end
         if val == 'no' then val = '☑️' end
         local current = {
-            {text = key:gsub('_', ' '), callback_data = 'menualertsettings//'},
-            {text = val, callback_data = 'menu'..key..'//'..chat_id}
+            {text = key:gsub('_', ' '), callback_data = 'menu:alert:settings'},
+            {text = val, callback_data = 'menu:'..key..':'..chat_id}
         }
         table.insert(keyboard.inline_keyboard, current)
     end
@@ -128,22 +128,22 @@ local function doKeyboard_menu(chat_id)
     local action = db:hget(hash, 'ActionFlood')
     local num = db:hget(hash, 'MaxFlood')
     local flood = {
-        {text = '➖', callback_data = 'menuDimFlood//'..chat_id},
-        {text = '📍'..num..' ⚡️'..action, callback_data = 'menuActionFlood//'..chat_id},
-        {text = '➕', callback_data = 'menuRaiseFlood//'..chat_id},
+        {text = '➖', callback_data = 'menu:DimFlood:'..chat_id},
+        {text = '📍'..num..' ⚡️'..action, callback_data = 'menu:ActionFlood:'..chat_id},
+        {text = '➕', callback_data = 'menu:RaiseFlood:'..chat_id},
     }
-    table.insert(keyboard.inline_keyboard, {{text = 'Flood 👇🏼', callback_data = 'menualertflood//'}})
+    table.insert(keyboard.inline_keyboard, {{text = 'Flood 👇🏼', callback_data = 'menu:alert:flood:'}})
     table.insert(keyboard.inline_keyboard, flood)
     
     --warn
     local max = (db:get('chat:'..chat_id..':max')) or 3
     action = (db:get('chat:'..chat_id..':warntype')) or 'kick'
     local warn = {
-        {text = '➖', callback_data = 'menuDimWarn//'..chat_id},
-        {text = '📍'..max..' 🔨️'..action, callback_data = 'menuActionWarn//'..chat_id},
-        {text = '➕', callback_data = 'menuRaiseWarn//'..chat_id},
+        {text = '➖', callback_data = 'menu:DimWarn:'..chat_id},
+        {text = '📍'..max..' 🔨️'..action, callback_data = 'menu:ActionWarn:'..chat_id},
+        {text = '➕', callback_data = 'menu:RaiseWarn:'..chat_id},
     }
-    table.insert(keyboard.inline_keyboard, {{text = 'Warns 👇🏼', callback_data = 'menualertwarns//'}})
+    table.insert(keyboard.inline_keyboard, {{text = 'Warns 👇🏼', callback_data = 'menu:alert:warns:'}})
     table.insert(keyboard.inline_keyboard, warn)
     
     return keyboard
@@ -155,14 +155,15 @@ local function get_group_name(text)
         return ''
     end
     name = '\n(*'..name..'*)'
-    return name
+    return name:mEscape()
 end
 
 local action = function(msg, blocks, ln)
+    print(msg.target_id)
     --get the interested chat id
     local chat_id, msg_id
     if msg.cb then
-        chat_id = msg.data:gsub('[%a _]+//', '')
+        chat_id = msg.data:gsub('[%a _]+:', '')
         msg_id = msg.message_id
     else
         chat_id = msg.chat.id
@@ -228,6 +229,8 @@ local action = function(msg, blocks, ln)
                     text = '⚠️ '..lang[ln].bonus.menu_cb_flood
                 elseif blocks[3] == 'warns' then
                     text = '⚠️ '..lang[ln].bonus.menu_cb_warns
+                elseif blocks[3] == 'media' then
+                    text = '⚠️ '..'Media alert'--lang[ln].bonus.menu_cb_warns
                 end
                 api.answerCallbackQuery(msg.cb_id, text)
                 return
@@ -286,43 +289,44 @@ return {
 		'^/(menu)$',
 		'^/(media)$',
 		
-		'^###cb:(dashboard)(settings)//',
-    	'^###cb:(dashboard)(rules)//',
-	    '^###cb:(dashboard)(about)//',
-	    '^###cb:(dashboard)(modlist)//',
-	    '^###cb:(dashboard)(extra)//',
-	    '^###cb:(dashboard)(welcome)//',
+		'^###cb:(dashboard):(settings):',
+    	'^###cb:(dashboard):(rules):',
+	    '^###cb:(dashboard):(about):',
+	    '^###cb:(dashboard):(modlist):',
+	    '^###cb:(dashboard):(extra):',
+	    '^###cb:(dashboard):(welcome):',
     	
-    	'^###cb:(menu)(alert)(settings)//',
-    	'^###cb:(menu)(alert)(flood)//',
-    	'^###cb:(menu)(alert)(warns)//',
+    	'^###cb:(menu):(alert):(media)',
+    	'^###cb:(menu):(alert):(settings)',
+    	'^###cb:(menu):(alert):(flood)',
+    	'^###cb:(menu):(alert):(warns)',
     	
-    	'^###cb:(menu)(Rules)//',
-    	'^###cb:(menu)(About)//',
-    	'^###cb:(menu)(Modlist)//',
-    	'^###cb:(menu)(Rtl)//',
-    	'^###cb:(menu)(Arab)//',
-    	'^###cb:(menu)(Report)//',
-    	'^###cb:(menu)(Welcome)//',
-    	'^###cb:(menu)(Extra)//',
-    	'^###cb:(menu)(Admin_mode)//',
-    	'^###cb:(menu)(Flood)//',
+    	'^###cb:(menu):(Rules):',
+    	'^###cb:(menu):(About):',
+    	'^###cb:(menu):(Modlist):',
+    	'^###cb:(menu):(Rtl):',
+    	'^###cb:(menu):(Arab):',
+    	'^###cb:(menu):(Report):',
+    	'^###cb:(menu):(Welcome):',
+    	'^###cb:(menu):(Extra):',
+    	'^###cb:(menu):(Admin_mode):',
+    	'^###cb:(menu):(Flood):',
     	
-    	'^###cb:(menu)(DimFlood)//',
-    	'^###cb:(menu)(RaiseFlood)//',
-    	'^###cb:(menu)(ActionFlood)//',
-    	'^###cb:(menu)(DimWarn)//',
-    	'^###cb:(menu)(RaiseWarn)//',
-    	'^###cb:(menu)(ActionWarn)//',
+    	'^###cb:(menu):(DimFlood):',
+    	'^###cb:(menu):(RaiseFlood):',
+    	'^###cb:(menu):(ActionFlood):',
+    	'^###cb:(menu):(DimWarn):',
+    	'^###cb:(menu):(RaiseWarn):',
+    	'^###cb:(menu):(ActionWarn):',
     	
-    	'^###cb:(media)(image)//',
-    	'^###cb:(media)(audio)//',
-    	'^###cb:(media)(video)//',
-    	'^###cb:(media)(voice)//',
-    	'^###cb:(media)(sticker)//',
-    	'^###cb:(media)(contact)//',
-    	'^###cb:(media)(file)//',
-    	'^###cb:(media)(gif)//',
-    	'^###cb:(media)(link)//',
+    	'^###cb:(media):(image):',
+    	'^###cb:(media):(audio):',
+    	'^###cb:(media):(video):',
+    	'^###cb:(media):(voice):',
+    	'^###cb:(media):(sticker):',
+    	'^###cb:(media):(contact):',
+    	'^###cb:(media):(file):',
+    	'^###cb:(media):(gif):',
+    	'^###cb:(media):(link):',
 	}
 }

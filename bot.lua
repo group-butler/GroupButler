@@ -98,7 +98,8 @@ end
 local function collect_stats(msg)
 	--count the number of messages
 	db:hincrby('bot:general', 'messages', 1)
-	--for resolve username (may be stored by groups of id in the future)
+	
+	--for resolve username
 	if msg.from and msg.from.username then
 		db:hset('bot:usernames', '@'..msg.from.username:lower(), msg.from.id)
 		db:hset('bot:usernames:'..msg.chat.id, '@'..msg.from.username:lower(), msg.from.id)
@@ -107,12 +108,28 @@ local function collect_stats(msg)
 		db:hset('bot:usernames', '@'..msg.forward_from.username:lower(), msg.forward_from.id)
 		db:hset('bot:usernames:'..msg.chat.id, '@'..msg.forward_from.username:lower(), msg.forward_from.id)
 	end
+	
+	--group stats
 	if not(msg.chat.type == 'private') then
+		--user in the group stats
 		if msg.from.id then
-			db:hincrby('chat:'..msg.chat.id..':userstats', msg.from.id, 1) --3D: number of messages for each user
+			db:hset('chat:'..msg.chat.id..':userlast', msg.from.id, os.time()) --last message for each user
+			db:hincrby('chat:'..msg.chat.id..':userstats', msg.from.id, 1) --number of messages for each user
+			if msg.media then	
+				db:hincrby('chat:'..msg.chat.id..':usermedia', msg.from.id, 1)
+			end
 		end
 		db:incrby('chat:'..msg.chat.id..':totalmsgs', 1) --total number of messages of the group
 	end
+	
+	--user stats
+	if msg.from then
+		db:hincrby('user:'..msg.from.id, 'msgs', 1)
+		if msg.media then
+			db:hincrby('user:'..msg.from.id, 'media', 1)
+		end
+	end
+	
 	if msg.cb and msg.from and msg.chat then
 		db:hincrby('chat:'..msg.chat.id..':cb', msg.from.id, 1)
 	end
@@ -143,9 +160,9 @@ on_msg_receive = function(msg) -- The fn run whenever a message is received.
 	if msg.chat.type == 'group' then msg.normal_group = true end
 	
 	--for commands link
-	if msg.text:match('^/start .+') then
+	--[[if msg.text:match('^/start .+') then
 		msg.text = '/' .. msg.text:input()
-	end
+	end]]
 	
 	--Group language
 	msg.lang = db:get('lang:'..msg.chat.id)
@@ -326,6 +343,7 @@ local function handle_inline_keyboards_cb(msg)
 	msg.message_id = msg.message.message_id
 	msg.chat = msg.message.chat
 	msg.message = nil
+	msg.target_id = msg.data:match('.*:(-?%d+)')
 	return on_msg_receive(msg)
 end
 

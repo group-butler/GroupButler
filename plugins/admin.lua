@@ -46,8 +46,8 @@ local triggers2 = {
 	'^/a(fixaction) (-%d+)$',
 	'^/a(sendplug) (.*)$',
 	'^/a(sendfile) (.*)$',
-	'^/(r)$',
-	'^/(r) (.*)',
+	'^/a(r)$',
+	'^/a(r) (.*)',
 	'^/a(download)$',
 	'^/a(savepin)$',
 	'^/a(delpin)$',
@@ -290,7 +290,7 @@ local action = function(msg, blocks, ln)
 	    for i=1, #names do
 	        text = text..'- *'..names[i]..'*: '..num[i]..'\n'
 	    end
-	    text = text..'- *messages from last start*: '..tot
+	    text = text..'- *messages from last start*: '..tot..'\n`['..get_date()..']`'
 	    
 	    --[[local uptime = bash('uptime')
 	    local ut_d, ut_h = uptime:match('.* up (%d%d) days?, (%d+:%d%d?)')
@@ -407,7 +407,7 @@ local action = function(msg, blocks, ln)
 		local id
 		if not blocks[2] then
 			if not msg.reply then
-				api.sendReply(msg, 'This command need a reply')
+				api.sendReply(msg, 'This command need a reply or an username')
 				return
 			else
 				id = msg.reply.from.id
@@ -958,5 +958,5 @@ end
 return {
 	action = action,
 	cron = false,
-	triggers = {'^/a', '^###(forward)', '^/r'}
+	triggers = {'^/a', '^###(forward)'}
 }
