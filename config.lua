@@ -1,6 +1,6 @@
 return {
 	bot_api_key = '',
-	version = '2.2.6', -- /aupdate for v2.1.1
+	version = '3.0', -- /aupdate for v3.0
 	testing_mode = false,
 	admin = {
 		owner = 23646077,
@@ -20,7 +20,6 @@ return {
 		'users.lua',
 		'help.lua',
 		'rules.lua',
-		'settings.lua',
 		'about.lua',
 		'flag.lua',
 		'service.lua',
@@ -32,9 +31,8 @@ return {
 		'mediasettings.lua',
 		'private.lua',
 		'admin.lua',
-		--'test.lua',
 		'faq.lua',
-		--'test2.lua'
+		'test.lua'
 	},
 	available_languages = {
 		'en',
@@ -47,16 +45,16 @@ return {
 		'ar'
 		--more to come
 	},
-	chat_data = {
-		'settings',
-		'about',
-		'rules',
-		'flood',
-		'extra',
-		'reportblocked',
-		'media',
-		'banned',
-		'welcome'
+	media_list = {
+		'image',
+		'audio',
+		'video',
+		'sticker',
+		'gif',
+		'voice',
+		'contact',
+		'file',
+		'link'
 	},
 	api_errors = {
 		[101] = 'Not enough rights to kick participant', --SUPERGROUP: bot is not admin
@@ -92,6 +90,7 @@ return {
 
 		[130] = 'Type of file to send mismatch', --trying to send a media with the wrong method
 		[131] = 'MESSAGE_ID_INVALID', --I don't know
+		[132] = 'Can\'t parse inline keyboard button: Can\'t find field "text"', --the text of a button could be nil
 
 		[403] = 'Bot was blocked by the user', --user blocked the bot
 		[429] = 'Too many requests: retry later', --the bot is hitting api limits

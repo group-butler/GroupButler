@@ -4,8 +4,6 @@ URL = require('socket.url')
 JSON = require('dkjson')
 redis = require('redis')
 clr = require 'term.colors'
-clr.wb = clr.onwhite..clr.blue
-clr.wr = clr.onwhite..clr.red
 db = Redis.connect('127.0.0.1', 6379)
 --db:select(0)
 serpent = require('serpent')
@@ -40,9 +38,9 @@ bot_init = function(on_reload) -- The function run when the bot is started or re
 		local p = dofile('plugins/'..v)
 		table.insert(plugins, p)
 	end
-	print(clr.wr..'Plugins loaded:', #plugins)
+	print(clr.red..'Plugins loaded:', #plugins)
 
-	print('\n'..clr.wb..'BOT RUNNING:'..clr.reset, clr.wr..'[@'..bot.username .. '] [' .. bot.first_name ..'] ['..bot.id..']'..clr.reset)
+	print('\n'..clr.blue..'BOT RUNNING:'..clr.reset, clr.red..'[@'..bot.username .. '] [' .. bot.first_name ..'] ['..bot.id..']'..clr.reset)
 	if not on_reload then
 		db:hincrby('bot:general', 'starts', 1)
 		api.sendAdmin('*Bot started!*\n_'..os.date('On %A, %d %B %Y\nAt %X')..'_\n'..#plugins..' plugins loaded', true)
@@ -191,11 +189,11 @@ on_msg_receive = function(msg) -- The fn run whenever a message is received.
 								api.sendLog('#initGroup\n'..vtext(msg.chat)..vtext(msg.from))
 							end
 							--print in the terminal
-							print('\n'..clr.reset..clr.blue..clr.onwhite..'['..os.date('%X')..']'..clr.reset, get_from(msg))
-							print(clr.blue..clr.onwhite..'[CHAT]\t', clr.reset..'['..msg.chat.id..'] ['..msg.chat.type..']')
+							print('\n'..clr.reset..clr.blue..'['..os.date('%X')..']'..clr.reset, get_from(msg))
+							print(clr.blue..'[CHAT]\t', clr.reset..'['..msg.chat.id..'] ['..msg.chat.type..']')
 							--print the match
 							if blocks[1] ~= '' then
-      							print(clr.reset..clr.blue..clr.onwhite..'[TRIGGER]', clr.reset..clr.red..clr.onwhite..w..clr.reset)
+      							print(clr.reset..clr.blue..'[TRIGGER]', clr.reset..clr.red..w..clr.reset)
       							db:hincrby('bot:general', 'query', 1)
       							if msg.from then db:incrby('user:'..msg.from.id..':query', 1) end
       						end
@@ -205,7 +203,7 @@ on_msg_receive = function(msg) -- The fn run whenever a message is received.
 							end)
 							--if bugs
 							if not success then
-								api.sendReply(msg, '*This is a bug!*\nPlease report the problem with `!bug description` :)', true)
+								api.sendReply(msg, '*This is a bug!*\nPlease report the problem with `"/c"` command :)', true)
 								print(msg.text, result)
 								save_log('errors', result, msg.from.id or false, msg.chat.id or false, msg.text or false)
           						api.sendLog('An #error occurred.\n'..result)
@@ -385,7 +383,6 @@ while is_started do -- Start a loop while the bot should be running.
 	end
 	if last_cron ~= os.date('%M') then -- Run cron jobs every minute.
 		last_cron = os.date('%M')
-		--db:bgsave()
 		for i,v in ipairs(plugins) do
 			if v.cron then -- Call each plugin's cron function, if it has one.
 				local res, err = pcall(function() v.cron() end)

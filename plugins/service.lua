@@ -1,5 +1,6 @@
 local function gsub_custom_welcome(msg, custom)
 	local name = msg.added.first_name:mEscape()
+	local name = name:gsub('%%', '')
 	local id = msg.added.id
 	local username
 	local title = msg.chat.title:mEscape()
@@ -91,6 +92,17 @@ local action = function(msg, blocks, ln)
 			api.kickChatMember(msg.chat.id, msg.added.id)
 			return
 		end
+		
+		--[[if msg.chat.type == 'supergroup' and db:sismember('chat:'..msg.chat.id..':prevban') then
+			if msg.adder and is_mod(msg) then --if the user is added by a moderator, remove the added user from the prevbans
+				db:srem('chat:'..msg.chat.id..':prevban', msg.added.id)
+			else --if added by a not-mod, ban the user
+				local res = api.banUser(msg.chat.id, msg.added.id, false, ln)
+				if res then
+					api.sendMessage(msg.chat.id, make_text(lang[ln].banhammer.was_banned, msg.added.first_name))
+				end
+			end
+		end]]
 		
 		cross.remBanList(msg.chat.id, msg.added.id) --remove him from the banlist
 		db:del('chat:'..msg.chat.id..':'..msg.added.id..':mediawarn') --remove the warn for media

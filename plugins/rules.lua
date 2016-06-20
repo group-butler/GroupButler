@@ -1,9 +1,7 @@
 local action = function(msg, blocks, ln)
-    --ignore if via pm
-    if msg.chat.type == 'private' then
-    	api.sendMessage(msg.from.id, lang[ln].pv)
-    	return nil
-    end
+    
+    if msg.chat.type == 'private' then return end
+    
     local hash = 'chat:'..msg.chat.id..':rules'
     if blocks[1] == 'rules' then
         local out = cross.getRules(msg.chat.id, ln)

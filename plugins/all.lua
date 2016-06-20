@@ -35,6 +35,27 @@ local function changeWarnSettings(chat_id, action, ln)
     end
 end
 
+local function changeCharSettings(chat_id, field, ln)
+    local hash = 'chat:'..chat_id..':char'
+    local status = db:hget(hash, field)
+    local text
+    if status == 'allowed' then
+        db:hset(hash, field, 'kick')
+        text = lang[ln].settings.char[field:lower()..'_kick']
+    elseif status == 'kick' then
+        db:hset(hash, field, 'ban')
+        text = lang[ln].settings.char[field:lower()..'_ban']
+    elseif status == 'ban' then
+        db:hset(hash, field, 'allowed')
+        text = lang[ln].settings.char[field:lower()..'_allow']
+    else
+        db:hset(hash, field, 'allowed')
+        text = lang[ln].settings.char[field:lower()..'_allow']
+    end
+    
+    return text
+end
+
 local function getWelcomeMessage(chat_id, ln)
     hash = 'chat:'..chat_id..':welcome'
     local type = db:hget(hash, 'type')
@@ -66,74 +87,103 @@ local function getWelcomeMessage(chat_id, ln)
     return message
 end
 
-local function doKeyboard_media(chat_id)
-    local keyboard = {}
-    keyboard.inline_keyboard = {}
-    local list = {'image', 'audio', 'video', 'sticker', 'gif', 'voice', 'contact', 'file', 'link'}
-    local media_sett = db:hgetall('chat:'..chat_id..':media')
-    for media,status in pairs(media_sett) do
-        if status == 'allowed' then
-            status = '✅'
-        else
-            status = '🔐 '..status
-        end
-        local line = {
-            {text = media, callback_data = 'menu:alert:media'},
-            {text = status, callback_data = 'media:'..media..':'..chat_id}
-        }
-        table.insert(keyboard.inline_keyboard, line)
-    end
-    
-    return keyboard
-end
-
-local function doKeyboard_dashboard(chat_id)
+local function doKeyboard_dashboard(chat_id, ln)
     local keyboard = {}
     keyboard.inline_keyboard = {
 	    {
-            {text = "Settings", callback_data = 'dashboard:settings:'..chat_id},
-            {text = "Admins", callback_data = 'dashboard:modlist:'..chat_id}
+            {text = lang[ln].all.dashboard.settings, callback_data = 'dashboard:settings:'..chat_id},
+            {text = lang[ln].all.dashboard.admins, callback_data = 'dashboard:modlist:'..chat_id}
 		},
 	    {
-		    {text = "Rules", callback_data = 'dashboard:rules:'..chat_id},
-		    {text = "About", callback_data = 'dashboard:about:'..chat_id}
+		    {text = lang[ln].all.dashboard.rules, callback_data = 'dashboard:rules:'..chat_id},
+		    {text = lang[ln].all.dashboard.about, callback_data = 'dashboard:about:'..chat_id}
         },
 	   	{
-	   	    {text = "Welcome", callback_data = 'dashboard:welcome:'..chat_id},
-	   	    {text = "Extra commands", callback_data = 'dashboard:extra:'..chat_id}
-	    }
+	   	    {text = lang[ln].all.dashboard.welcome, callback_data = 'dashboard:welcome:'..chat_id},
+	   	    {text = lang[ln].all.dashboard.extra, callback_data = 'dashboard:extra:'..chat_id}
+	    },
+	    {
+	   	    {text = lang[ln].all.dashboard.flood, callback_data = 'dashboard:flood:'..chat_id},
+	   	    {text = lang[ln].all.dashboard.media, callback_data = 'dashboard:media:'..chat_id}
+	    },
     }
     
     return keyboard
 end
 
-local function doKeyboard_menu(chat_id)
-    local keyboard = {}
+local function usersettings_table(settings)
+    local return_table = {}
+    local icon_yes, icon_no = '👤', '👥'
+    for field, status in pairs(settings) do
+        if field == 'Modlist' or field == 'About' or field == 'Rules' or field == 'Extra' then
+            if status == 'yes' then
+                return_table[field] = icon_yes
+            elseif status == 'no' then
+                return_table[field] = icon_no
+            end
+        end
+    end
     
-    --settings
-    local settings = db:hgetall('chat:'..chat_id..':settings')
-    keyboard.inline_keyboard = {}
-    for key,val in pairs(settings) do
-        if val == 'yes' then val = '🚫' end
-        if val == 'no' then val = '☑️' end
+    return return_table
+end
+
+local function adminsettings_table(settings)
+    local return_table = {}
+    local icon_yes, icon_no = '🚫', '✅'
+    for field, status in pairs(settings) do
+        if field == 'Flood' or field == 'Report' or field == 'Welcome' or field == 'Admin_mode' then
+            if status == 'yes' then
+                return_table[field] = icon_yes
+            elseif status == 'no' then
+                return_table[field] = icon_no
+            end
+        end
+    end
+    
+    return return_table
+end
+
+local function charsettings_table(chat_id)
+    local settings = db:hgetall('chat:'..chat_id..':char')
+    local return_table = {}
+    local icon_allow, icon_not_allow = '✅', '🔐'
+    for field, status in pairs(settings) do
+        if status == 'kick' or status == 'ban' then
+            return_table[field] = icon_not_allow..' '..status
+        elseif status == 'allowed' then
+            return_table[field] = icon_allow
+        end
+    end
+    
+    return return_table
+end
+
+local function insert_settings_section(keyboard, settings_section, chat_id, ln)
+    for key, icon in pairs(settings_section) do
         local current = {
-            {text = key:gsub('_', ' '), callback_data = 'menu:alert:settings'},
-            {text = val, callback_data = 'menu:'..key..':'..chat_id}
+            {text = lang[ln].settings[key], callback_data = 'menu:alert:settings'},
+            {text = icon, callback_data = 'menu:'..key..':'..chat_id}
         }
         table.insert(keyboard.inline_keyboard, current)
     end
     
-    --flood
-    local hash = 'chat:'..chat_id..':flood'
-    local action = db:hget(hash, 'ActionFlood')
-    local num = db:hget(hash, 'MaxFlood')
-    local flood = {
-        {text = '➖', callback_data = 'menu:DimFlood:'..chat_id},
-        {text = '📍'..num..' ⚡️'..action, callback_data = 'menu:ActionFlood:'..chat_id},
-        {text = '➕', callback_data = 'menu:RaiseFlood:'..chat_id},
-    }
-    table.insert(keyboard.inline_keyboard, {{text = 'Flood 👇🏼', callback_data = 'menu:alert:flood:'}})
-    table.insert(keyboard.inline_keyboard, flood)
+    return keyboard
+end
+
+local function doKeyboard_menu(chat_id, ln)
+    local keyboard = {inline_keyboard = {}}
+    
+    --settings
+    local settings = db:hgetall('chat:'..chat_id..':settings')
+    
+    local settings_section = adminsettings_table(settings)
+    keyboad = insert_settings_section(keyboard, settings_section, chat_id, ln)
+    
+    settings_section = usersettings_table(settings)
+    keyboad = insert_settings_section(keyboard, settings_section, chat_id, ln)
+    
+    settings_section = charsettings_table(chat_id)
+    keyboad = insert_settings_section(keyboard, settings_section, chat_id, ln)
     
     --warn
     local max = (db:get('chat:'..chat_id..':max')) or 3
@@ -154,12 +204,12 @@ local function get_group_name(text)
     if not name then
         return ''
     end
-    name = '\n(*'..name..'*)'
+    name = '\n('..name..')'
     return name:mEscape()
 end
 
 local action = function(msg, blocks, ln)
-    print(msg.target_id)
+    
     --get the interested chat id
     local chat_id, msg_id
     if msg.cb then
@@ -173,26 +223,31 @@ local action = function(msg, blocks, ln)
     
     if blocks[1] == 'dashboard' then
         if not(msg.chat.type == 'private') and not msg.cb then
-            keyboard = doKeyboard_dashboard(chat_id)
+            keyboard = doKeyboard_dashboard(chat_id, ln)
             --everyone can use this
-            api.sendMessage(msg.chat.id, lang[ln].all.dashboard, true)
-	        api.sendKeyboard(msg.from.id, lang[ln].all.dashboard_first, keyboard, true)
+            local res = api.sendKeyboard(msg.from.id, lang[ln].all.dashboard.first, keyboard, true)
+            if res then
+                api.sendMessage(msg.chat.id, lang[ln].all.dashboard.private, true)
+            else
+                cross.sendStartMe(msg, ln)
+            end
 	        mystat('/dashboard')
 	        return
         end
         if msg.cb then
+            local request = blocks[2]
             local text
-            keyboard = doKeyboard_dashboard(chat_id)
-            if blocks[2] == 'settings' then
+            keyboard = doKeyboard_dashboard(chat_id, ln)
+            if request == 'settings' then
                 text = cross.getSettings(chat_id, ln)
             end
-            if blocks[2] == 'rules' then
+            if request == 'rules' then
                 text = cross.getRules(chat_id, ln)
             end
-            if blocks[2] == 'about' then
+            if request == 'about' then
                 text = cross.getAbout(chat_id, ln)
             end
-            if blocks[2] == 'modlist' then
+            if request == 'modlist' then
                 local creator, admins = cross.getModlist(chat_id)
                 if not creator then
                     text = lang[ln].bonus.adminlist_admin_required --creator is false, admins is the error code
@@ -200,23 +255,71 @@ local action = function(msg, blocks, ln)
                     text = make_text(lang[ln].mod.modlist, creator, admins)
                 end
             end
-            if blocks[2] == 'extra' then
+            if request == 'extra' then
                 text = cross.getExtraList(chat_id, ln)
             end
-            if blocks[2] == 'welcome' then
+            if request == 'welcome' then
                 text = getWelcomeMessage(chat_id, ln)
             end
+            if request == 'flood' then
+                local status = db:hget('chat:'..chat_id..':settings', 'Flood') or 'yes' --check (default: disabled)
+                if status == 'no' then
+                    status = '✅ | ON'
+                elseif status == 'yes' then
+                    status = '❌ | OFF'
+                end
+                local hash = 'chat:'..chat_id..':flood'
+                local action = (db:hget(hash, 'ActionFlood')) or 'kick'
+                if action == 'kick' then
+                    action = '⚡️ '..action
+                else
+                    action = '⛔ ️'..action
+                end
+                local num = (db:hget(hash, 'MaxFlood')) or 5
+                local exceptions = {
+                    ['text'] = lang[ln].floodmanager.text,
+                    ['sticker'] = lang[ln].floodmanager.sticker,
+                    ['image'] = lang[ln].floodmanager.image,
+                    ['gif'] = lang[ln].floodmanager.gif,
+                    ['video'] = lang[ln].floodmanager.video
+                }
+                hash = 'chat:'..chat_id..':floodexceptions'
+                local list_exc = ''
+                for media, translation in pairs(exceptions) do
+                    --ignored by the antiflood-> yes, no
+                    local exc_status = (db:hget(hash, media)) or 'no'
+                    if exc_status == 'yes' then
+                        exc_status = '✅'
+                    else
+                        exc_status = '❌'
+                    end
+                    list_exc = list_exc..'• `'..translation..'`: '..exc_status..'\n'
+                end
+                text = make_text(lang[ln].all.dashboard.flood, status, action, num, list_exc)
+            end
+            if request == 'media' then
+                text = lang[ln].mediasettings.settings_header
+                for i, media in pairs(config.media_list) do
+                    local status = (db:hget('chat:'..chat_id..':media', media)) or 'allowed'
+                    if status == 'allowed' then
+                        status = '✅'
+                    else
+                        status = '🔐 '..status
+                    end
+                    text = text..'`'..media..'` ≡ '..status..'\n'
+                end
+            end
             api.editMessageText(msg.chat.id, msg_id, text, keyboard, true)
-            api.answerCallbackQuery(msg.cb_id, 'ℹ️ Group ► '..blocks[2])
+            api.answerCallbackQuery(msg.cb_id, 'ℹ️ Group ► '..request)
             return
         end
     end
     if blocks[1] == 'menu' then
         if not(msg.chat.type == 'private') and not msg.cb then
             if not is_mod(msg) then return end --only mods can use this
-            keyboard = doKeyboard_menu(chat_id)
+            keyboard = doKeyboard_menu(chat_id, ln)
             api.sendMessage(msg.chat.id, lang[ln].all.menu, true)
-	        api.sendKeyboard(msg.from.id, lang[ln].all.menu_first..'\n(*'..msg.chat.title:mEscape()..'*)', keyboard, true)
+	        api.sendKeyboard(msg.from.id, lang[ln].all.menu_first..'\n('..msg.chat.title:mEscape()..')', keyboard, true)
 	        mystat('/menu')
 	        return
 	    end
@@ -225,27 +328,13 @@ local action = function(msg, blocks, ln)
 	        if blocks[2] == 'alert' then
 	            if blocks[3] == 'settings' then
                     text = '⚠️ '..lang[ln].bonus.menu_cb_settings
-                elseif blocks[3] == 'flood' then
-                    text = '⚠️ '..lang[ln].bonus.menu_cb_flood
                 elseif blocks[3] == 'warns' then
                     text = '⚠️ '..lang[ln].bonus.menu_cb_warns
-                elseif blocks[3] == 'media' then
-                    text = '⚠️ '..'Media alert'--lang[ln].bonus.menu_cb_warns
                 end
                 api.answerCallbackQuery(msg.cb_id, text)
                 return
             end
-            if blocks[2] == 'DimFlood' or blocks[2] == 'RaiseFlood' or blocks[2] == 'ActionFlood' then
-                local action
-                if blocks[2] == 'DimFlood' then
-                    action = -1
-                elseif blocks[2] == 'RaiseFlood' then
-                    action = 1
-                elseif blocks[2] == 'ActionFlood' then
-                    action = (db:hget('chat:'..chat_id..':flood', 'ActionFlood')) or 'kick'
-                end
-                text = cross.changeFloodSettings(chat_id, action, ln)
-            elseif blocks[2] == 'DimWarn' or blocks[2] == 'RaiseWarn' or blocks[2] == 'ActionWarn' then
+            if blocks[2] == 'DimWarn' or blocks[2] == 'RaiseWarn' or blocks[2] == 'ActionWarn' then
                 if blocks[2] == 'DimWarn' then
                     text = changeWarnSettings(chat_id, -1, ln)
                 elseif blocks[2] == 'RaiseWarn' then
@@ -253,31 +342,15 @@ local action = function(msg, blocks, ln)
                 elseif blocks[2] == 'ActionWarn' then
                     text = changeWarnSettings(chat_id, 'status', ln)
                 end
+            elseif blocks[2] == 'Rtl' or blocks[2] == 'Arab' then
+                text = changeCharSettings(chat_id, blocks[2], ln)
             else
                 text = cross.changeSettingStatus(chat_id, blocks[2], ln)
             end
-            keyboard = doKeyboard_menu(chat_id)
+            keyboard = doKeyboard_menu(chat_id, ln)
             local group_name = get_group_name(msg.old_text)
             api.editMessageText(msg.chat.id, msg_id, lang[ln].all.menu_first..group_name, keyboard, true)
-            api.answerCallbackQuery(msg.cb_id, '⚙ '..text:mEscape_hard())
-        end
-    end
-    if blocks[1] == 'media' then
-        if not(msg.chat.type == 'private') and not msg.cb then
-            if not is_mod(msg) then return end --only mods can use this
-            keyboard = doKeyboard_media(chat_id)
-            api.sendMessage(msg.chat.id, lang[ln].bonus.general_pm, true)
-	        api.sendKeyboard(msg.from.id, lang[ln].all.media_first..'\n(*'..msg.chat.title:mEscape()..'*)', keyboard, true)
-	        mystat('/media')
-	        return
-	    end
-	    if msg.cb then
-	        local media = blocks[2]
-	        local text = cross.changeMediaStatus(chat_id, media, 'next', ln)
-            keyboard = doKeyboard_media(chat_id)
-            local group_name = get_group_name(msg.old_text)
-            api.editMessageText(msg.chat.id, msg_id, lang[ln].all.media_first..group_name, keyboard, true)
-            api.answerCallbackQuery(msg.cb_id, '⚡️ '..text:mEscape_hard())
+            api.answerCallbackQuery(msg.cb_id, '⚙ '..text)
         end
     end
 end
@@ -287,46 +360,12 @@ return {
 	triggers = {
 		'^/(dashboard)$',
 		'^/(menu)$',
-		'^/(media)$',
 		
-		'^###cb:(dashboard):(settings):',
-    	'^###cb:(dashboard):(rules):',
-	    '^###cb:(dashboard):(about):',
-	    '^###cb:(dashboard):(modlist):',
-	    '^###cb:(dashboard):(extra):',
-	    '^###cb:(dashboard):(welcome):',
+		'^###cb:(dashboard):(%a+):(-%d+)',
     	
-    	'^###cb:(menu):(alert):(media)',
     	'^###cb:(menu):(alert):(settings)',
-    	'^###cb:(menu):(alert):(flood)',
     	'^###cb:(menu):(alert):(warns)',
     	
-    	'^###cb:(menu):(Rules):',
-    	'^###cb:(menu):(About):',
-    	'^###cb:(menu):(Modlist):',
-    	'^###cb:(menu):(Rtl):',
-    	'^###cb:(menu):(Arab):',
-    	'^###cb:(menu):(Report):',
-    	'^###cb:(menu):(Welcome):',
-    	'^###cb:(menu):(Extra):',
-    	'^###cb:(menu):(Admin_mode):',
-    	'^###cb:(menu):(Flood):',
-    	
-    	'^###cb:(menu):(DimFlood):',
-    	'^###cb:(menu):(RaiseFlood):',
-    	'^###cb:(menu):(ActionFlood):',
-    	'^###cb:(menu):(DimWarn):',
-    	'^###cb:(menu):(RaiseWarn):',
-    	'^###cb:(menu):(ActionWarn):',
-    	
-    	'^###cb:(media):(image):',
-    	'^###cb:(media):(audio):',
-    	'^###cb:(media):(video):',
-    	'^###cb:(media):(voice):',
-    	'^###cb:(media):(sticker):',
-    	'^###cb:(media):(contact):',
-    	'^###cb:(media):(file):',
-    	'^###cb:(media):(gif):',
-    	'^###cb:(media):(link):',
+    	'^###cb:(menu):(.*):',
 	}
 }

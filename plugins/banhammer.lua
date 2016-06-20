@@ -28,7 +28,7 @@ local function getBanList(chat_id, ln)
     local hash = 'chat:'..chat_id..':bannedlist'
     local banned_users, mot = rdb.get(hash)
     if not banned_users or not next(banned_users) then
-        return lang[ln].banhammer.banlist_empty
+        return lang[ln].banhammer.banlist_empty, true
     else
         local i = 1
         for banned_id,info in pairs(banned_users) do
@@ -72,28 +72,60 @@ end
 local action = function(msg, blocks, ln)
 	if msg.chat.type ~= 'private' then
 		if is_mod(msg) then
+			
+			--commands that don't need a target user
+			
 			if blocks[1] == 'kickme' then
 				api.sendReply(msg, lang[ln].kick_errors[2], true)
 				return
 			end
-			if blocks[1] == 'banlist' then
-   				local banlist = getBanList(msg.chat.id, ln)
-   				api.sendReply(msg, banlist, true)
+			if blocks[1] == 'banlist' and not blocks[2] then
+   				local banlist, is_empty = getBanList(msg.chat.id, ln)
+   				if is_empty then
+   					api.sendReply(msg, banlist, true)
+   				else
+   					api.sendKeyboard(msg.chat.id, banlist, {inline_keyboard={{{text = 'Clean', callback_data = 'banlist-'}}}}, true)
+   				end
    				mystat('/banlist')
    				return
    			end
+		    if blocks[1] == 'banlist' and blocks[2] and blocks[2] == '-' then
+		    	local res, error = rdb.rem('chat:'..msg.chat.id..':bannedlist')
+		    	if res then
+		    		if msg.cb then --if cleaned via the inline button
+		    			api.editMessageText(msg.chat.id, msg.message_id, lang[ln].banhammer.banlist_cleaned, false, true)
+		    		else --if cleaned via message
+		    			api.sendReply(msg, lang[ln].banhammer.banlist_cleaned, true)
+		    		end
+	    		else
+	    			local text
+	    			--get thetext
+		    		if error:match('hash does not exists') then
+		    			text = lang[ln].banhammer.banlist_empty
+		    		else
+		    			text = lang[ln].banhammer.banlist_error
+		    		end
+		    		--reply or edit
+		    		if msg.cb then
+		    			api.editMessageText(msg.chat.id, msg.message_id, text, false, true)
+		    		else
+		    			api.sendReply(msg, text, true)
+		    		end
+    			end
+    			return
+	    	end
+		    
+		    --commands that need a target user
 		    
 		    if not msg.reply_to_message and not blocks[2] and not msg.cb then
 		        api.sendReply(msg, lang[ln].banhammer.reply)
 		        return
 		    end
-		    if msg.reply and msg.reply.from.id == bot.id then
-		    	return
-		    end
+		    if msg.reply and msg.reply.from.id == bot.id then return end
 		 	
-		 	--now, try to kick
 		 	local res
 		 	local chat_id = msg.chat.id
+		 	
 		 	if blocks[1] == 'tempban' then
 				if not msg.reply then
 					api.sendReply(msg, lang[ln].banhammer.reply)
@@ -153,8 +185,10 @@ local action = function(msg, blocks, ln)
 		    	end
 		    	mystat('/kick')
 	    	end
+	   		
 	   		local is_normal_group = false
 	   		if msg.chat.type == 'group' then is_normal_group = true end
+	   		
 	   		if blocks[1] == 'ban' then
 	   			local res, motivation = api.banUser(chat_id, user_id, is_normal_group, ln)
 		    	if not res then
@@ -211,8 +245,6 @@ local action = function(msg, blocks, ln)
 				api.answerCallbackQuery(msg.cb_id, lang[ln].not_mod:mEscape_hard())
 			end
 		end
-	else
-    	api.sendMessage(msg.chat.id, lang[ln].pv)
 	end
 end
 
@@ -224,12 +256,14 @@ return {
 		'^/(kick) (@[%w_]+)',
 		'^/(kick)',
 		'^/(banlist)$',
+		'^/(banlist) (-)$',
 		'^/(ban) (@[%w_]+)',
 		'^/(ban)',
 		--'^/(tempban) (@[%w_]+) (%d+)',
 		'^/(tempban) (%d+)',
 		'^/(unban) (@[%w_]+)',
 		'^/(unban)',
-		'^###cb:(unban):(%d+)$'
+		'^###cb:(unban):(%d+)$',
+		'^###cb:(banlist)(-)$'
 	}
 }

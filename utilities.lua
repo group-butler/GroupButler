@@ -202,12 +202,15 @@ function write_file(path, text, mode)
 	end
 	file = io.open(path, mode)
 	if not file then
-		return false --path uncorrect
-	else
-		file:write(text)
-		file:close()
-		return true
+		create_folder('logs')
+		file = io.open(path, mode)
+		if not file then
+			return false
+		end
 	end
+	file:write(text)
+	file:close()
+	return true
 end
 
 local function create_folder(name)
@@ -258,6 +261,26 @@ function clone_table(t) --doing "table1 = table2" in lua = create a pointer to t
   end
   return new_t
 end
+
+function remove_duplicates(t)
+	if type(t) ~= 'table' then
+		return false, 'Table expected, got '..type(t)
+	else
+		local kv_table = {}
+		for i, element in pairs(t) do
+			if not kv_table[element] then
+				kv_table[element] = true
+			end
+		end
+		
+		local k_table = {}
+		for key, boolean in pairs(kv_table) do
+			k_table[#k_table + 1] = key
+		end
+		
+		return k_table
+	end
+end		
 
 function get_date(timestamp)
 	if not timestamp then
@@ -580,7 +603,7 @@ function change_extra_header(id)
 end
 
 function download_to_file(url, file_path)--https://github.com/yagop/telegram-bot/blob/master/bot/utils.lua
-  print("url to download: "..url)
+  --print("url to download: "..url)
 
   local respbody = {}
   local options = {
@@ -683,33 +706,28 @@ end
 local function getSettings(chat_id, ln)
 	--get settings from redis
     local hash = 'chat:'..chat_id..':settings'
-    local settings_key = db:hkeys(hash)
-    if not next(settings_key) then
+    local settings = db:hgetall(hash)
+    if not next(settings) then
     	return lang[ln].settings.broken_group, false
     end
-    local settings_val = db:hvals(hash)
-    local key
-    local val
         
     local message = make_text(lang[ln].bonus.settings_header, ln)
         
     --build the message
-    for i=1, #settings_key do
-        key = settings_key[i]
-        val = settings_val[i]
-            
+    for key,val in pairs(settings) do
+        
+        local yes_icon, no_icon = '🚫', '✅'
+        if cross.is_info_message_key(key) then
+        	yes_icon, no_icon = '👤', '👥'
+        end
+        
         local text
         if val == 'yes' then
-            text = lang[ln].settings[key]..': 🚫\n'
+            text = '`'..lang[ln].settings[key]..'`: '..yes_icon..'\n'
         else
-            text = '*'..lang[ln].settings[key]..'*: ✅\n'
+            text = '`'..lang[ln].settings[key]..'`: '..no_icon..'\n'
         end
         message = message..text --concatenete the text
-        if key == 'Flood' then
-            local max_msgs = db:hget('chat:'..chat_id..':flood', 'MaxFlood') or 5
-            local action = db:hget('chat:'..chat_id..':flood', 'ActionFlood')
-            message = message..make_text(lang[ln].settings.resume.flood_info, max_msgs, action)
-        end
     end
     
     --build the "welcome" line
@@ -743,7 +761,7 @@ local function getSettings(chat_id, ln)
     local warnmax_std = (db:get('chat:'..chat_id..':max')) or 3
     local warnmax_media = (db:get('chat:'..chat_id..':mediamax')) or 2
     
-    message = message..'`Warn (standard)`: *'..warnmax_std..'*\n`Warn (media)`: *'..warnmax_media..'*'
+    message = message..'`Warn (standard)`: *'..warnmax_std..'*\n`Warn (media)`: *'..warnmax_media..'*\n\n'..lang[ln].settings.resume.legenda
     
     return message
 end
@@ -874,10 +892,9 @@ local function initGroup(chat_id)
 	db:set('chat:'..chat_id..':warntype', 'ban')
 	
 	--set media values
-	local list = {'image', 'audio', 'video', 'sticker', 'gif', 'voice', 'contact', 'file', 'link'}
 	hash = 'chat:'..chat_id..':media'
-	for i=1,#list do
-		db:hset(hash, list[i], 'allowed')
+	for i=1,#config.media_list do
+		db:hset(hash, config.media_list[i], 'allowed')
 	end
 	
 	--set the default welcome type
@@ -922,6 +939,32 @@ end
 local function saveBan(user_id, motivation)
 	local hash = 'ban:'..user_id
 	return db:hincrby(hash, motivation, 1)
+end
+
+local function is_info_message_key(key)
+    if key == 'Modlist' or key == 'Rules' or key == 'About' or key == 'Extra' then
+        return true
+    else
+        return false
+    end
+end
+
+local function table2keyboard(t)
+	local keyboard = {inline_keyboard = {}}
+    for i, line in pairs(t) do
+        if type(line) ~= 'table' then return false, 'Wrong structure (each line need to be a table, not a single value)' end
+        local new_line ={}
+        for k,v in pairs(line) do
+            if type(k) ~= 'string' then return false, 'Wrong structure (table of arrays)' end
+            local button = {}
+            button.text = k
+            button.callback_data = v
+            table.insert(new_line, button)
+        end
+        table.insert(keyboard.inline_keyboard, new_line)
+    end
+    
+    return keyboard
 end
 
 -----------------------redis shorcuts---------------------------------------
@@ -1094,7 +1137,8 @@ local cross = {
 	addBanList= addBanList,
 	remBanList = remBanList,
 	getUserStatus = getUserStatus,
-	saveBan = saveBan
+	saveBan = saveBan,
+	is_info_message_key = is_info_message_key
 }
 
 local rdb = {

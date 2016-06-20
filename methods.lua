@@ -148,6 +148,15 @@ local function banUser(chat_id, user_id, is_normal_group, ln)--no_msg: kick with
 	    end
 		return res --return res and not the text
 	else ---else, the user haven't been kicked
+		--[[if code == 106 then --if trying to ban an user that is not in the group, add it to the prevban list. The user will be banned as soon as he join. Return true if the user is a new entry
+			local db_res = db:sadd('chat:'..chat_id..':prevban', user_id)
+			if db_res == 1 then --if not already added, then return an error and the motivation
+				return false, make_text(lang[ln].banhammer.already_banned_normal, user_id)
+			else
+				return true
+			end
+		end]]
+		--else, if the user has not been banned because of different errors from the error [106], then...
 		local text = api.code2text(code, ln)
 		return res, text --return the motivation too
 	end
@@ -171,8 +180,6 @@ end
 
 local function unbanUser(chat_id, user_id, is_normal_group)
 	
-	if is_mod2(chat_id, user_id) then return end
-	
 	if is_normal_group then
 	    local hash = 'chat:'..chat_id..':banned'
 	    local removed = db:srem(hash, user_id)
@@ -180,6 +187,7 @@ local function unbanUser(chat_id, user_id, is_normal_group)
 		    return false
 	    end
 	else
+		--db:srem('chat:'..chat_id..':prevban', user_id) --remove from the prevban list
 		local res, code = api.unbanChatMember(chat_id, user_id)
 	end
 	return true
@@ -261,7 +269,15 @@ local function sendKeyboard(chat_id, text, keyboard, markdown)
 	
 	url = url..'&reply_markup='..JSON.encode(keyboard)
 	
-	return sendRequest(url)
+	local res, code = sendRequest(url)
+	
+	if not res and code then --if the request failed and a code is returned (not 403 and 429)
+		if code ~= 403 and code ~= 429 and code ~= 110 and code ~= 111 then
+			save_log('send_msg', code..'\n'..text)
+		end
+	end
+	
+	return res, code --return false, and the code
 
 end
 
@@ -316,7 +332,15 @@ local function editMessageText(chat_id, message_id, text, keyboard, markdown)
 		url = url..'&reply_markup='..JSON.encode(keyboard)
 	end
 	
-	return sendRequest(url)
+	local res, code = sendRequest(url)
+	
+	if not res and code then --if the request failed and a code is returned (not 403 and 429)
+		if code ~= 403 and code ~= 429 and code ~= 110 and code ~= 111 then
+			save_log('send_msg', code..'\n'..text)
+		end
+	end
+	
+	return res, code --return false, and the code
 
 end
 

@@ -21,14 +21,14 @@ local function make_keyboard(mod, mod_current_position)
             if next(line) then
                 local button = {text = '📍'..k, callback_data = v}
                 --change emoji if it's the current position button
-                if mod_current_position == v:gsub('!', '') then button.text = '📜 '..k end
+                if mod_current_position == v:gsub('!', '') then button.text = '💡 '..k end
                 table.insert(line, button)
                 table.insert(keyboard.inline_keyboard, line)
                 line = {}
             else
                 local button = {text = '📍'..k, callback_data = v}
                 --change emoji if it's the current position button
-                if mod_current_position == v:gsub('!', '') then button.text = '📜 '..k end
+                if mod_current_position == v:gsub('!', '') then button.text = '💡 '..k end
                 table.insert(line, button)
             end
             --end --(to remove the current tab button)

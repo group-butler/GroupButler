@@ -1,16 +1,14 @@
 local action = function(msg, blocks, ln)
-	if msg.chat.type == 'private' then
-		return
-	end
+	
+	if msg.chat.type == 'private' then return end
 	
 	if blocks[1] == 'extra' then
 		if not blocks[2] then
-			api.sendReply(msg, make_text(lang[ln].extra.usage), true)
-	        return nil
-		end
-	    if not is_mod(msg) then
+			api.sendReply(msg, lang[ln].extra.usage, true)
 	        return
-	    end
+		end
+	    if not is_mod(msg) then return end
+	    
 	    local hash = 'chat:'..msg.chat.id..':extra'
 	    local res, code = api.sendReply(msg, blocks[3], true)
 	    if not res then
@@ -26,9 +24,8 @@ local action = function(msg, blocks, ln)
 	    end
 	    mystat('/extra')
 	elseif blocks[1] == 'extra list' then
-	    if not is_mod(msg) then
-	        return
-	    end
+	    if not is_mod(msg) then return end
+	    
 	    local hash = 'chat:'..msg.chat.id..':extra'
 	    local commands = db:hkeys(hash)
 	    local text = ''
@@ -44,9 +41,8 @@ local action = function(msg, blocks, ln)
 	    end
 	    mystat('/extra list')
     elseif blocks[1] == 'extra del' then
-        if not is_mod(msg) then
-	        return
-	    end
+        if not is_mod(msg) then return end
+	    
 	    local hash = 'chat:'..msg.chat.id..':extra'
 	    local success = db:hdel(hash, blocks[2])
 	    if success == 1 then

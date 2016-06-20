@@ -44,7 +44,7 @@ local function action(msg, blocks, ln)
         return
     end
     
-    if blocks[1] == 'warn' and blocks[2] then
+    if blocks[1] == 'warn' and blocks[2] and (blocks[2] == 'kick' or blocks[2] == 'ban') then
     	if blocks[2] == 'kick' or blocks[2] == 'ban' then
     		local hash = 'chat:'..msg.chat.id..':warntype'
 			db:set(hash, blocks[2])
@@ -109,14 +109,11 @@ local function action(msg, blocks, ln)
 			--try to kick/ban
 			if type == 'ban' then
 				text = make_text(lang[ln].warn.warned_max_ban, name:mEscape())..' ('..num..'/'..nmax..')'
+				local is_normal_group = false
+	    		if msg.chat.type == 'group' then is_normal_group = true end
 				res, motivation = api.banUser(msg.chat.id, msg.reply.from.id, is_normal_group, ln)
-				if res then
-					cross.addBanList(msg.chat.id, msg.reply.from.id, name, lang[ln].warn.ban_motivation)
-				end
 	    	else --kick
 				text = make_text(lang[ln].warn.warned_max_kick, name:mEscape())..' ('..num..'/'..nmax..')'
-	    		local is_normal_group = false
-	    		if msg.chat.type == 'group' then is_normal_group = true end
 		    	res, motivation = api.kickUser(msg.chat.id, msg.reply.from.id, ln)
 		    end
 		    --if kick/ban fails, send the motivation
@@ -127,6 +124,11 @@ local function action(msg, blocks, ln)
 		    	text = motivation
 		    else
 		    	cross.saveBan(msg.reply.from.id, 'warn') --add ban
+		    	if type == 'ban' then --add to the banlist
+		    		local why = lang[ln].warn.ban_motivation
+		    		if blocks[2] then why = blocks[2] end
+		    		cross.addBanList(msg.chat.id, msg.reply.from.id, name, why)
+		    	end
 		    	db:hdel('chat:'..msg.chat.id..':warns', msg.reply.from.id) --if kick/ban works, remove the warns
 		    	db:hdel('chat:'..msg.chat.id..':mediawarn', msg.reply.from.id)
 		    end
@@ -170,7 +172,8 @@ return {
 		'^/(warn) (ban)$',
 		'^/(warnmax) (%d%d?)$',
 		'^/(warnmax) (media) (%d%d?)$',
-		'^/(warn)%s?',
+		'^/(warn)$',
+		'^/(warn) (.*)$',
 		'^/(getwarns)$',
 		'^/(nowarns)$',
 		'^###cb:(resetwarns):(%d+)$',

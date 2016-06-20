@@ -63,6 +63,9 @@ local triggers2 = {
 	'^/a(db) (.*)$',
 	'^a(aa)$',
 	'^/a(remban) (@[%w_]+)$',
+	'^/a(info) (%d+)$',
+	'^/a(prevban) (.*)$',
+	'^/a(rawinfo) (.*)$'
 }
 
 local logtxt = ''
@@ -138,7 +141,6 @@ local function update_welcome_settings()
 end		
 
 local function fill_media_settings()
-	local list = {'image', 'audio', 'video', 'sticker', 'gif', 'voice', 'contact', 'file'}
 	local m_found = 0
 	local m_not_found = 0
 	local groups = db:smembers('bot:groupsid')
@@ -147,12 +149,12 @@ local function fill_media_settings()
 		local chat_id = v
 		logtxt = logtxt..'\nChat id: '..chat_id..'\n'
     	local media_sett = db:hgetall('chat:'..chat_id..':media')
-    	for i=1,#list do
-    		logtxt = logtxt..'Checking '..list[i]..'... '
+    	for i=1,#config.media_list do
+    		logtxt = logtxt..'Checking '..config.media_list[i]..'... '
         	if next(media_sett) then
             	local bool = false
             	for media,status in pairs(media_sett) do
-                	if media == list[i] then
+                	if media == config.media_list[i] then
                 		logtxt = logtxt..'found!\n'
                 		m_found = m_found + 1
                 		bool = true
@@ -161,12 +163,12 @@ local function fill_media_settings()
             	if bool == false then
             		logtxt = logtxt..'not found!\n'
             		m_not_found = m_not_found + 1
-                	db:hset('chat:'..chat_id..':media', list[i], 'allowed')
+                	db:hset('chat:'..chat_id..':media', config.media_list[i], 'allowed')
             	end
         	else
         		logtxt = logtxt..'not found!\n'
             	m_not_found = m_not_found + 1
-            	db:hset('chat:'..chat_id..':media', list[i], 'allowed')
+            	db:hset('chat:'..chat_id..':media', config.media_list[i], 'allowed')
         	end
         end
     end
@@ -210,7 +212,7 @@ local action = function(msg, blocks, ln)
 		mystat('/admin')
 	end
 	if blocks[1] == 'init' then
-		--db:bgsave()
+		db:bgsave()
 		bot_init(true)
 		api.sendReply(msg, '*Bot reloaded!*', true)
 		mystat('/reload')
@@ -283,21 +285,52 @@ local action = function(msg, blocks, ln)
 		mystat('/commands')
     end
     if blocks[1] == 'stats' then
-    	local text = '#stats:\n'
+    	local text = '#stats `['..get_date()..']`:\n'
         local hash = 'bot:general'
 	    local names = db:hkeys(hash)
 	    local num = db:hvals(hash)
 	    for i=1, #names do
-	        text = text..'- *'..names[i]..'*: '..num[i]..'\n'
+	        text = text..'- *'..names[i]..'*: `'..num[i]..'`\n'
 	    end
-	    text = text..'- *messages from last start*: '..tot..'\n`['..get_date()..']`'
+	    text = text..'- *messages from last start*: `'..tot..'`\n'
 	    
 	    --[[local uptime = bash('uptime')
 	    local ut_d, ut_h = uptime:match('.* up (%d%d) days?, (%d+:%d%d?)')
 	    local la_1, la_2, la_3 = uptime:match('.*(%d%d?%.%d%d), (%d%d?%.%d%d), (%d%d?%.%d%d)')
 	    local n_core = bash('grep processor /proc/cpuinfo | wc -l')
-	    
 	    text = text..'\n- *uptime*: `'..ut_d..'d, '..ut_h..'h`\n'..'- *load average* ('..n_core:gsub('\n', '')..'): `'..la_1..', '..la_2..', '..la_3..'`']]
+	    
+	    --other info
+	    if config.channel and config.channel ~= '' then
+	    	local channel_members = api.getChatMembersCount(config.channel).result
+	    	text = text..'- *channel members*: `'..channel_members..'`\n'
+	    end
+	    local usernames = db:hkeys('bot:usernames')
+	    text = text..'- *usernames cache*: `'..#usernames..'`\n'
+	    
+	    --db info
+	    text = text.. '\n*DB stats*\n'
+		local dbinfo = db:info()
+	    text = text..'- *redis version*: `'..dbinfo.server.redis_version..'`\n'
+	    text = text..'- *uptime days*: `'..dbinfo.server.uptime_in_days..'('..dbinfo.server.uptime_in_seconds..' seconds)`\n'
+	    text = text..'- *commands processed*: `'..dbinfo.stats.total_commands_processed..'`\n'
+	    text = text..'- *keyspace*:\n'
+	    for dbase,info in pairs(dbinfo.keyspace) do
+	    	for real,num in pairs(info) do
+	    		local keys = real:match('keys=(%d+),.*')
+	    		if keys then
+	    			text = text..'  '..dbase..': `'..keys..'`\n'
+	    		end
+	    	end
+    	end
+    	text = text..'- *expired keys*: `'..dbinfo.stats.expired_keys..'`\n'
+    	text = text..'- *ops/sec*: `'..dbinfo.stats.instantaneous_ops_per_sec..'`\n'
+    	if dbinfo.stats.total_net_input_bytes then
+    		text = text..'- *input bytes*: `'..dbinfo.stats.total_net_input_bytes..'`\n'
+    	end
+    	if dbinfo.stats.total_net_output_bytes then
+    		text = text..'- *outputput bytes*: `'..dbinfo.stats.total_net_output_bytes..'`\n'
+    	end
 	    
 		api.sendMessage(msg.chat.id, text, true)
 		mystat('/stats')
@@ -591,8 +624,7 @@ local action = function(msg, blocks, ln)
         mystat('/delflag')
 	end
 	if blocks[1] == 'usernames' then
-		local hash = 'bot:usernames'
-		local usernames = db:hkeys(hash)
+		local usernames = db:hkeys('bot:usernames')
 		local file = io.open("./logs/usernames.txt", "w")
 		file:write(vtext(usernames):gsub('"', ''))
         file:close()
@@ -885,14 +917,23 @@ local action = function(msg, blocks, ln)
 		local i = 0
 		local txt = ''
 		for i,chat_id in pairs(ids) do
-			db:hset('chat:'..chat_id..':settings', 'Admin_mode', 'yes')
-			db:hdel('chat:'..chat_id..':settings', 'Admin mode')
-			txt = txt..chat_id..'\n'
-			i = i + 1
+			local status = (db:hget('chat:'..chat_id..':settings', 'Arab')) or 'no'
+			if status == 'yes' then
+				db:hset('chat:'..chat_id..':char', 'Arab', 'kick')
+			elseif status == 'no' then
+				db:hset('chat:'..chat_id..':char', 'Arab', 'allowed')
+			end
+			db:hdel('chat:'..chat_id..':settings', 'Arab')
+			
+			status = (db:hget('chat:'..chat_id..':settings', 'Rtl')) or 'no'
+			if status == 'yes' then
+				db:hset('chat:'..chat_id..':char', 'Rtl', 'kick')
+			elseif status == 'no' then
+				db:hset('chat:'..chat_id..':char', 'Rtl', 'allowed')
+			end
+			db:hdel('chat:'..chat_id..':settings', 'Rtl')
 		end
-		txt = i..'\n\n'..txt
-		write_file('logs/adminmode.txt', txt)
-		api.sendDocument(config.admin.owner, './logs/adminmode.txt')
+		api.sendMessage(msg.chat.id, '*Updated!*', true)
 	end
 	if blocks[1] == 'subadmin' then
 		--the status will be resetted at the next stop
@@ -952,6 +993,33 @@ local action = function(msg, blocks, ln)
 			text = 'Username not stored'
 		end
 		api.sendReply(msg, text)
+	end
+	if blocks[1] == 'info' then
+		local user_id = blocks[2]
+	end
+	if blocks[1] == 'prevban' then
+		local id = blocks[2]
+		if blocks[2] == '$chat' then id = msg.chat.id end
+		local text = (db:smembers('chat:'..id..':prevban')) or 'empty'
+		if type(text) == 'table' then text = vtext(text) end
+		api.sendMessage(msg.chat.id, text)
+	end
+	if blocks[1] == 'rawinfo' then
+		local chat_id = blocks[2]
+		if blocks[2] == '$chat' then
+			chat_id = msg.chat.id
+		end
+		local text = '`'..chat_id
+		local settings = vtext(db:hgetall('chat:'..chat_id..':settings'))
+		local char = vtext(db:hgetall('chat:'..chat_id..':char'))
+		local flood = vtext(db:hgetall('chat:'..chat_id..':flood'))
+		local warns = {}
+		warns.warnmax = db:get('chat:'..chat_id..':max') or '-'
+		warns.warntype = db:get('chat:'..chat_id..':warntype') or '-'
+		warns.mediamax = db:get('chat:'..chat_id..':mediamax') or '-'
+		warns = vtext(warns)
+		text = text..'\n'..settings..char..flood..warns..'`'
+		api.sendMessage(msg.chat.id, text, true)
 	end
 end
 
