@@ -878,14 +878,17 @@ local function initGroup(chat_id)
 	db:hset(hash, 'Report', 'yes')
 	db:hset(hash, 'Welcome', 'no')
 	db:hset(hash, 'Extra', 'no')
-	db:hset(hash, 'Rtl', 'no')
-	db:hset(hash, 'Arab', 'no')
 	db:hset(hash, 'Flood', 'no')
 	
 	--flood
 	hash = 'chat:'..chat_id..':flood'
 	db:hset(hash, 'MaxFlood', 5)
 	db:hset(hash, 'ActionFlood', 'kick')
+	
+	--char
+	hash = 'chat:'..chat_id..':char'
+	db:hset(hash, 'Arab', 'allowed')
+	db:hset(hash, 'Rtl', 'allowed')
 	
 	--warn
 	db:set('chat:'..chat_id..':max', 3)
