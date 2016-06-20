@@ -517,6 +517,7 @@ return {
 		'^/(export)(save)$',
 		'^/(importban)$',
 		'^/(group)$',
+		'^/(welcome) (.*)$',
 		
 		--'^/(userinfo)$',
 		'^/(userinfo) (@[%w_]+)$',
