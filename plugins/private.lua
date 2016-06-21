@@ -49,7 +49,11 @@ local action = function(msg, blocks, ln)
 		if msg.chat.type ~= 'private' then
         	return
     	end
-    	api.sendMessage(msg.chat.id, 'This command *has been replaced!*\n\nNow you can start your message with an ! to communicate with the bot owner. Example:\n_!hello, how are you?_', true)
+    	local text = 'This command *has been replaced!*\n\nNow you can start your message with an ! to communicate with the bot owner. Example:\n_!hello, how are you?_'
+    	if config.help_group and config.help_group ~= '' then
+    		text = text..'\n\nYou can also join the discussion group to ask your question/report a bug. You can join with [this link]('..config.help_group..')'
+    	end
+    	api.sendMessage(msg.chat.id, text, true)
     end
     if blocks[1] == '!' then
     	if msg.chat.type ~= 'private' then

@@ -1,7 +1,5 @@
 local function action(msg, blocks, ln)
     
-    if not(msg.chat.type == 'private') then return end
-    
     local questions = {
         'Can you make a command to delete <insert what you would like to delete here>?',
         'Can you add a function to kick/ban who writes a specific word?',
@@ -72,15 +70,15 @@ local function action(msg, blocks, ln)
             text = text..'*'..i..'* - `'..v..'`\n'
             i = i + 1
         end
-        api.sendMessage(msg.chat.id, text, true)
+        api.sendMessage(msg.from.id, text, true)
     end
     if blocks[2] then
         local n = tonumber(blocks[2])
         if n > #answer or n == 0 then
-            api.sendMessage(msg.chat.id, '_Number not valid_', true)
+            api.sendMessage(msg.from.id, '_Number not valid_', true)
         else
             text = '*'..questions[n]..'*\n\n'..answer[n]
-            api.sendMessage(msg.chat.id, text, true)
+            api.sendMessage(msg.from.id, text, true)
         end
     end
     mystat('/faq')

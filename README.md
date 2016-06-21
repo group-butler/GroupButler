@@ -96,6 +96,10 @@ You may also start the bot with `lua bot.lua`, but then it will not restart auto
 
 * * *
 
+Don't worry if in your log chat/private chat with the bot you will find a lot of messages marked with the #BadRequest tag. Most of them are users fault, check `config.lua` and your log for more info about the api response.
+
+* * *
+
 Note that this bot is not opensource because everyone can be able to clone it and run its own copy. It's opensource because everyone can take a look on how the bot works, and see which data are stored. There are some installation intructions just because why not.
 
 Everyone who will try to reach me via Telegram will be instantly blocked. I'm sorry but I won't give any kind of tecnical support, bacause of four reasons: I'm a noob, I have few time, the bot is very easy to install and lua is a very friendly programming language.

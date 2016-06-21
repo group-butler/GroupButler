@@ -183,32 +183,38 @@ on_msg_receive = function(msg) -- The fn run whenever a message is received.
 					for k,w in pairs(plugin.triggers) do
 						local blocks = match_pattern(w, msg.text)
 						if blocks then
+							
 							--workaround for the stupid bug
 							if not(msg.chat.type == 'private') and not db:exists('chat:'..msg.chat.id..':settings') and not msg.service then
 								cross.initGroup(msg.chat.id)
 								api.sendLog('#initGroup\n'..vtext(msg.chat)..vtext(msg.from))
 							end
+							
 							--print in the terminal
 							print('\n'..clr.reset..clr.blue..'['..os.date('%X')..']'..clr.reset, get_from(msg))
 							print(clr.blue..'[CHAT]\t', clr.reset..'['..msg.chat.id..'] ['..msg.chat.type..']')
+							
 							--print the match
 							if blocks[1] ~= '' then
       							print(clr.reset..clr.blue..'[TRIGGER]', clr.reset..clr.red..w..clr.reset)
       							db:hincrby('bot:general', 'query', 1)
       							if msg.from then db:incrby('user:'..msg.from.id..':query', 1) end
       						end
-							--execute plugin
+							
+							--execute the plugin
 							local success, result = pcall(function()
 								return plugin.action(msg, blocks, msg.lang)
 							end)
+							
 							--if bugs
 							if not success then
-								api.sendReply(msg, '*This is a bug!*\nPlease report the problem with `"/c"` command :)', true)
 								print(msg.text, result)
+								api.sendReply(msg, '*This is a bug!*\nPlease report the problem with `"/c"` command :)', true)
 								save_log('errors', result, msg.from.id or false, msg.chat.id or false, msg.text or false)
-          						api.sendLog('An #error occurred.\n'..result)
+          						api.sendLog('An #error occurred.\n'..result..'\n'..msg.lang..'\n'..msg.text)
 								return
 							end
+							
 							-- If the action returns a table, make that table msg.
 							if type(result) == 'table' then
 								msg = result

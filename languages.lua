@@ -56,7 +56,7 @@ return {
                             .."`/tempban [minutes]` = ban an user for a specific amount of minutes (minutes must be < 10.080, one week). For now, only by reply.\n"
                             .."`/unban [by reply|username]` = unban the user from the group.\n"
                             .."`/getban [by reply|username]` = returns the *global* number of bans/kicks received by the user. Divided in categories.\n"
-                            .."`/status [username]` = show the current status of the user `(member|kicked/left the chat|banned|admin/creator|never seen)`.\n"
+                            .."`/status [username|id]` = show the current status of the user `(member|kicked/left the chat|banned|admin/creator|never seen)`.\n"
                             .."`/banlist` = show a list of banned users. Includes the motivations (if given during the ban)\n"
                             .."`/banlist -` = clean the banlist.\n"
                             .."\n*Note*: you can write something after `/ban` command (or after the username, if you are banning by username)."
@@ -475,7 +475,7 @@ return {
                             .."`/tempban [minutes]` = banna un utente per un tot di minuti (i minuti devono essere < 10.080, ovvero una settimana). Per ora funziona solo by reply.\n"
                             .."`/unban [by reply|username]` = unbanna l\'utente dal gruppo.\n"
                             .."`/getban [by reply|username]` = mostra il *numero globale* di ban/kick ricevuti dall'utente, e divisi per categoria.\n"
-                            .."`/status [username]` = mostra la posizione attuale dell\'utente `(membro|kickato/ha lasciato il gruppo|bannato|admin/creatore|mai visto)`.\n"
+                            .."`/status [username|id]` = mostra la posizione attuale dell\'utente `(membro|kickato/ha lasciato il gruppo|bannato|admin/creatore|mai visto)`.\n"
                             .."`/banlist` = mostra la lista degli utenti bannati. Sono incluse le motivazioni (se descritte durante il ban).\n"
                             .."`/banlist -` = elimina la lista degli utenti bannati.\n"
                             .."\n*Nota*: puoi scrivere qualcosa dopo il comando `/ban` (o dopo l'username, se stai bannando per username)."
@@ -901,7 +901,7 @@ return {
                             .."`/tempban [minutes]` = ban an user for a specific amount of minutes (minutes must be < 10.080, one week). For now, only by reply.\n"
                             .."`/unban [by reply|username]` = unban the user from the group.\n"
                             .."`/getban [by reply|username]` = returns the *global* number of bans/kicks received by the user. Divided in categories.\n"
-                            .."`/status [username]` = show the current status of the user `(member|kicked/left the chat|banned|admin/creator|never seen)`.\n"
+                            .."`/status [username|id]` = show the current status of the user `(member|kicked/left the chat|banned|admin/creator|never seen)`.\n"
                             .."`/banlist` = show a list of banned users. Includes the motivations (if given during the ban).\n"
                             .."`/banlist -` = clean the banlist.\n"
                             .."\n*Note*: you can write something after `/ban` command (or after the username, if you are banning by username)."
@@ -1277,21 +1277,21 @@ return {
             administrator = '&&&1 é o administrador do grupo',
             creator = '&&&1 é o criador do grupo.',
             unknown = 'Não está no grupo.',
-            member = '&&&1 is a chat member'
+            member = '&&&1 é um membro do grupo'
         },
         getban = {
             header = '*Global stats* for ',
             nothing = '`Nothing to display`',
             kick = 'Kick: ',
             ban = 'Ban: ',
-            tempban = 'Tempban: ',
-            flood = 'Removed for flood: ',
-            warn = 'Removed for warns: ',
-            media = 'Removed for forbidden media: ',
-            arab = 'Removed for arab chars: ',
-            rtl = 'Removed for RTL char: ',
-            kicked = '_Kicked!_',
-            banned = '_Banned!_'
+            tempban = 'Ban temporàrio: ',
+            flood = 'Removido por flood: ',
+            warn = 'Removido por warns: ',
+            media = 'Removido por mìdia: ',
+            arab = 'Removido por caracteres arabes: ',
+            rtl = 'Removido por caracteres RTL: ',
+            kicked = '_Removido!_',
+            banned = '_Banido!_'
         },
         bonus = {
             general_pm = '_Enviei a mensagem no seu privado_',
@@ -1328,7 +1328,7 @@ return {
                             .."`/tempban [minutes]` = ban an user for a specific amount of minutes (minutes must be < 10.080, one week). For now, only by reply.\n"
                             .."`/unban [by reply|username]` = Desbanir um usuário que havia sido banido anteriormente.\n"
                             .."`/getban [by reply|username]` = returns the *global* number of bans/kicks received by the user. Divided in categories.\n"
-                            .."`/status [username]` = show the current status of the user `(member|kicked/left the chat|banned|admin/creator|never seen)`.\n"
+                            .."`/status [username|id]` = show the current status of the user `(member|kicked/left the chat|banned|admin/creator|never seen)`.\n"
                             .."`/banlist` = show a list of banned users. Includes the motivations (if given during the ban).\n"
                             .."`/banlist -` = clean the banlist.\n"
                             .."\n*Note*: you can write something after `/ban` command (or after the username, if you are banning by username)."
@@ -1754,7 +1754,7 @@ return {
                             .."`/tempban [minutes]` = ban an user for a specific amount of minutes (minutes must be < 10.080, one week). For now, only by reply.\n"
                             .."`/unban [by reply|username]` = unban the user from the group.\n"
                             .."`/getban [by reply|username]` = returns the *global* number of bans/kicks received by the user. Divided in categories.\n"
-                            .."`/status [username]` = show the current status of the user `(member|kicked/left the chat|banned|admin/creator|never seen)`.\n"
+                            .."`/status [username|id]` = show the current status of the user `(member|kicked/left the chat|banned|admin/creator|never seen)`.\n"
                             .."`/banlist` = show a list of banned users. Includes the motivations (if given during the ban).\n"
                             .."`/banlist -` = clean the banlist.\n"
                             .."\n*Note*: you can write something after `/ban` command (or after the username, if you are banning by username)."
@@ -2197,7 +2197,7 @@ return {
                     .."`/tempban [minutes]` = ban an user for a specific amount of minutes (minutes must be < 10.080, one week). For now, only by reply.\n"
                     .."`/unban [per Antwort|Nutzername]` = Entsperre einen Nutzer der Gruppe.\n"
                     .."`/getban [by reply|username]` = returns the *global* number of bans/kicks received by the user. Divided in categories.\n"
-                    .."`/status [username]` = show the current status of the user `(member|kicked/left the chat|banned|admin/creator|never seen)`.\n"
+                    .."`/status [username|id]` = show the current status of the user `(member|kicked/left the chat|banned|admin/creator|never seen)`.\n"
                     .."`/banlist` = show a list of banned users. Includes the motivations (if given during the ban).\n"
                     .."`/banlist -` = clean the banlist.\n"
                     .."\n*Note*: you can write something after `/ban` command (or after the username, if you are banning by username)."
@@ -2606,7 +2606,7 @@ return {
               .."`/tempban [minutes]` = ban an user for a specific amount of minutes (minutes must be < 10.080, one week). For now, only by reply.\n"
               .."`/unban [by reply|username]` = unban the user from the group.\n"
               .."`/getban [by reply|username]` = returns the *global* number of bans/kicks received by the user. Divided in categories.\n"
-              .."`/status [username]` = show the current status of the user `(member|kicked/left the chat|banned|admin/creator|never seen)`.\n"
+              .."`/status [username|id]` = show the current status of the user `(member|kicked/left the chat|banned|admin/creator|never seen)`.\n"
               .."`/banlist` = show a list of banned users. Includes the motivations (if given during the ban) (temporary disabled).\n"
               .."`/banlist -` = clean the banlist.\n"
               .."\n*Note*: you can write something after `/ban` command (or after the username, if you are banning by username)."
@@ -2997,7 +2997,7 @@ return {
                             .."`/tempban [minutes]` = 'احظر المستخدم لفترة محددة من دقائق (يجب أن يكون أقل من 10.080 دقائق، أي أسبوع واحد). في الوقت الراهن، فقط بواسطة الرد.\n"
                             .."`/unban [by reply|username]` = ارفع حظر المستخدم من المجموعة.\n"
                             .."`/getban [by reply|username]` = returns the *global* number of bans/kicks received by the user. Divided in categories.\n"
-                            .."`/status [username]` = أظهر الحالة الحالية للمستخدم `(member|kicked/left the chat|banned|admin/creator|never seen)`.\n"
+                            .."`/status [username|id]` = أظهر الحالة الحالية للمستخدم `(member|kicked/left the chat|banned|admin/creator|never seen)`.\n"
                             .."`/banlist` = أظهر قائمة المستخدمون المحظورون. يشمل الدوافع (إذا تم ذكرها أثناء الحظر).\n"
                             .."`/banlist -` = clean the banlist.\n"
                             .."\n*ملاحظة*:يمكنك أن تكتب شيئاً ما بعد أمر `/ban` (أم بعد اسم المستخدم، إذا كنت تحظر بواسطة اسم المستخدم)."
@@ -3007,7 +3007,7 @@ return {
                         .."`/addrules [text]` = أضف بعض النص في نهاية القواعد الموجودة.\n"
                         .."`/setabout [group description]` = احفظ وصفاً جديداً للمجموعة (سيتم حذف الوصف القاديم).\n"
                         .."`/addabout [text]` = أضف بعض النص في نهاية الوصف.\n"
-                        .."\n*ملاحظة:* هذا البرنامج متوافق مع تنسيق ماركداون. إذا تم إرسال نص يكسر تنسيق ماركداون، البوت سيبلغ أن هناك شيء خاطئ.\n"
+                        .."\n*ملاحظة:* هذا البرنا��ج متوافق مع تنسيق ماركداون. إذا تم إرسال نص يكسر تنسيق ماركداون، البوت سيبلغ أن هناك شيء خاطئ.\n"
                         .."للاستخدام السليم لتنسيق ماركداون، برجاء الرجوع إلى [هذا الرابط](https://telegram.me/GroupButler_ch/46) في القناة.",
                 flood = "*مشرفون: إعدادات مكافحة إغراق رسائل*\n\n"
                         .."`/antiflood` = manage the flood settings in private, with an inline keyboard. You can change the sensitivity, the action (kick/ban), and even set some exceptions.\n"
@@ -3101,7 +3101,7 @@ return {
                     ..'\nلاستخدامي، عليك أن تضفني كمشرف إلى المجموعة، وإلا تلجرام لن يسمح لي بالعمل! إذا كان لديك شكوك حول ذلك، اقرأ [هذا](https://telegram.me/GroupButler_ch/63))'
                     ..'\nيمكنك إرسال تقارير خطأ، تعليقات أم أسألة لخالقي باستخدام أمر "`/c <feedback>`" أنا سعيدة لكل!',
             group_success = '_لقد قمت بإرسال لك رسالة المساعدة برسالة خاصة_',
-            group_not_success = '_رجاءً أرسل لي رسالة أولاً، حتي يمكنني إرسال رسائل لك.',
+            group_not_success = '_رجاءً أرسل لي رسالة أولاً، حتي يمكنني إرسال رسائل لك._',
             initial = 'اختر الدور حتي ترى الأوامر المتاحة:',
             kb_header = 'اضغط زر حتى ترى الأوامر ذات الصلة'
         },
@@ -3135,7 +3135,7 @@ return {
         report = {
             no_input = 'Write your feedback near the !\nExample: !hello, this is a test',
             sent = 'تم إرسال التعليق!',
-            feedback_reply = '*مرحباً، هذا رد مالك البوت:\n&&&1',
+            feedback_reply = 'مرحباً، هذا رد مالك البوت:\n&&&1',
         },
         service = {
             welcome = 'السلام عليكم يا &&&1, ومرحباً بكم في *&&&2*!',
@@ -3146,7 +3146,7 @@ return {
             rls = '\n\n*قواعد*:\n',
         },
         setabout = {
-            no_bio = '*لا يوجد وصف لهذه المجموعة.',
+            no_bio = 'لا يوجد وصف لهذه المجموعة.',
             no_bio_add = '*لا يوجد وصف لهذه المجموعة*.\nاستخدم /setabout [bio] لتحديد وصف جديد',
             no_input_add = 'رجاءً اكتب شيء بعد "/addabout"',
             added = '*تم إضافة وصف:*\n"&&&1"',
@@ -3317,7 +3317,7 @@ return {
         },
         mediasettings = {
             warn = 'هذا نوع من الوسائط غير مسموح في هذه المجموعة.\n_المرة القادمة_ سيتم إزالتك أم حظرك من المجموعة.',
-            settings_header = '*الإعدادات الحالية لوسائط:\n\n',
+            settings_header = 'الإعدادات الحالية لوسائط:\n\n',
             changed = 'الحالة الجديدة ل(`&&&1`) = *&&&2*',
         },
         preprocess = {

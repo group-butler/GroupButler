@@ -164,7 +164,12 @@ local action = function(msg, blocks, ln)
     if blocks[1] == 'status' then
     	if msg.chat.type == 'private' then return end
     	if is_mod(msg) then
-    		local user_id = res_user_group(blocks[2], msg.chat.id)
+    		local user_id
+    		if blocks[2]:match('%d+$') then
+    			user_id = blovks[2]
+    		else
+    			user_id = res_user_group(blocks[2], msg.chat.id)
+    		end
     		if not user_id then
 		 		api.sendReply(msg, lang[ln].bonus.no_user, true)
 		 	else
@@ -196,28 +201,6 @@ local action = function(msg, blocks, ln)
  		api.sendReply(msg, '`'..id..'`', true)
  		mystat('/tell')
  	end
- 	if blocks[1] == 'adminmode' then
- 		if msg.chat.type == 'private' or not is_mod(msg) then return end
- 		local hash = 'chat:'..msg.chat.id..':settings'
- 		local status = db:hget(hash, 'Admin_mode')
- 		print(status)
- 		if blocks[2] == 'on' then
- 			if status == 'yes' then
- 				db:hset(hash, 'Admin_mode', 'no')
- 				api.sendReply(msg, lang[ln].settings.enable.admin_mode_unlocked, true)
- 			else
- 				api.sendReply(msg, lang[ln].settings.enable.admin_mode_already, true)
- 			end
- 		elseif blocks[2] == 'off' then
- 			if status == 'no' then
- 				db:hset(hash, 'Admin_mode', 'yes')
- 				api.sendReply(msg, lang[ln].settings.disable.admin_mode_locked, true)
- 			else
- 				api.sendReply(msg, lang[ln].settings.disable.admin_mode_already, true)
- 			end
- 		end
- 		mystat('/adminmode')
-	 end
 	if blocks[1] == 'getban' then
 		if msg.chat.type ~= 'private' and not is_mod(msg) then return end
 		local user_id
@@ -508,8 +491,7 @@ return {
 		'^/(initgroup)$',
 		'^/(adminlist)$',
 		'^/(status) (@[%w_]+)$',
-		'^/(adminmode) (off)$',
-		'^/(adminmode) (on)$',
+		'^/(status) (%d+)$',
 		'^/(getban)$',
 		'^/(getban) (@[%w_]+)$',
 		'^/(settings)$',

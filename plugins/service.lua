@@ -75,7 +75,7 @@ local action = function(msg, blocks, ln)
 			return
 		end
 		if is_blocked(msg.adder.id) then
-			api.sendMessage(msg.chat.id, '_You ('..msg.adder.first_name:mEscape()..', '..msg.adder.id..') have been blocked_', true)
+			api.sendMessage(msg.chat.id, '_You ('..msg.adder.first_name:mEscape()..', '..msg.adder.id..') are in the blocked list_', true)
 			api.leaveChat(msg.chat.id)
 			return
 		end

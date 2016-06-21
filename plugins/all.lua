@@ -350,7 +350,7 @@ local action = function(msg, blocks, ln)
             keyboard = doKeyboard_menu(chat_id, ln)
             local group_name = get_group_name(msg.old_text)
             api.editMessageText(msg.chat.id, msg_id, lang[ln].all.menu_first..group_name, keyboard, true)
-            api.answerCallbackQuery(msg.cb_id, '⚙ '..text)
+            if text then api.answerCallbackQuery(msg.cb_id, '⚙ '..text) end --workaround to avoid to send an error to users who are using an old inline keyboard
         end
     end
 end
