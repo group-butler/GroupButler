@@ -166,7 +166,7 @@ local action = function(msg, blocks, ln)
     	if is_mod(msg) then
     		local user_id
     		if blocks[2]:match('%d+$') then
-    			user_id = blovks[2]
+    			user_id = blocks[2]
     		else
     			user_id = res_user_group(blocks[2], msg.chat.id)
     		end
