@@ -11,8 +11,8 @@ fi
 if [ "$1" = "tmux" ]; then
   clear
   tmux kill-session -t tmuxsession 
-  tmux new-session -d -s tmuxsession "lua bot.lua" && echo -e '\e[0;32mBot started with tmux.\e[0m'
-  echo "Nombre de tmux con nombre running" || echo -e '\e[0;31mError.\e[0m'
+  tmux new-session -d -s tmuxsession "lua bot.lua" && echo -e '\e[0;32mBot started sucessfully.\e[0m'
+  echo "Tmux session with name tmuxsession" || echo -e '\e[0;31mError.\e[0m'
 
 fi
 
