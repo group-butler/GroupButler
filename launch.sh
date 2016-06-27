@@ -3,13 +3,19 @@
 # Tmux session name
 NAME=GroupButler
 
+if [ ! -f "/usr/bin/tmux" ]; then
+	clear
+	echo -e '\e[0;31mError. Tmux not found\e[0m' && read -t5 -r -p 'Press enter to install tmux'
+	sudo apt-get install tmux
+	clear
+fi
+
 if [ "$1" = "" ]; then
 	while true; do
 		lua bot.lua
 		sleep 4s
 	done
 fi
-
 
 if [ "$1" = "tmux" ]; then
   tmux kill-session -t $NAME 
