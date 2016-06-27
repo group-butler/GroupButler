@@ -4,8 +4,7 @@
 NAME=GroupButler
 
 if [ ! -f "/usr/bin/tmux" ]; then
-	clear
-	echo -e '\e[0;31mError. Tmux not found\e[0m' && read -t5 -r -p 'Press enter to install tmux'
+	clear && echo -e '\e[0;31mError. Dependence Tmux not found\e[0m' && read -t5 -r -p 'Press enter to install tmux' && clear && echo -en '\n'
 	sudo apt-get install tmux
 	clear
 fi
