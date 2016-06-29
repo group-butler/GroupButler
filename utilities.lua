@@ -360,15 +360,15 @@ end
 
 function get_media_id(msg)
 	if msg.photo then
-		return msg.photo.file_id
+		return msg.photo[3].file_id, 'photo'
 	elseif msg.document then
 		return msg.document.file_id
 	elseif msg.video then
-		return msg.video.file_id
+		return msg.video.file_id, 'video'
 	elseif msg.audio then
 		return msg.audio.file_id
 	elseif msg.voice then
-		return msg.voice.file_id
+		return msg.voice.file_id, 'voice'
 	elseif msg.sticker then
 		return msg.sticker.file_id
 	else

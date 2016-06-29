@@ -448,6 +448,10 @@ local action = function(msg, blocks, ln)
 		api.editMessageText(msg.chat.id, msg.message_id, text, false, true)
 	end
 	if blocks[1] == 'remwarns' then
+		if not is_mod(msg) then
+    		api.answerCallbackQuery(msg.cb_id, lang[ln].not_mod:mEscape_hard())
+    		return
+		end
 		db:hdel('chat:'..msg.chat.id..':warns', msg.target_id)
 		db:hdel('chat:'..msg.chat.id..':mediawarn', msg.target_id)
         

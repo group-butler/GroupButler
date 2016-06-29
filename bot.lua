@@ -192,7 +192,6 @@ on_msg_receive = function(msg) -- The fn run whenever a message is received.
 							--workaround for the stupid bug
 							if not(msg.chat.type == 'private') and not db:exists('chat:'..msg.chat.id..':settings') and not msg.service then
 								cross.initGroup(msg.chat.id)
-								api.sendLog('#initGroup\n'..vtext(msg.chat)..vtext(msg.from))
 							end
 							
 							--print in the terminal

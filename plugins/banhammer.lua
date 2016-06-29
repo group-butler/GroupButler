@@ -185,7 +185,6 @@ local action = function(msg, blocks, ln)
 		 	
 		 	if blocks[1] == 'kick' then
 		    	local res, motivation = api.kickUser(chat_id, user_id, ln)
-		    	vardump(res)
 		    	if not res then
 		    		if not motivation then
 		    			motivation = lang[ln].banhammer.general_motivation
