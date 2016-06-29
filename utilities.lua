@@ -109,14 +109,6 @@ function set_owner(chat_id, user_id, nick)
 	db:hset('chat:'..chat_id..':owner', user_id, nick) --owner
 end
 
-function is_blocked(id)
-	if db:sismember('bot:blocked', id) then
-		return true
-	else
-		return false
-	end
-end
-
 function is_locked(msg, cmd)
   	local hash = 'chat:'..msg.chat.id..':settings'
   	local is_adminmode_locked = db:hget(hash, 'Admin_mode')
@@ -135,6 +127,14 @@ function is_banned(chat_id, user_id)
 	local hash = 'chat:'..chat_id..':banned'
 	local res = db:sismember(hash, user_id)
 	if res then
+		return true
+	else
+		return false
+	end
+end
+
+function is_blocked_global(id)
+	if db:sismember('bot:blocked', id) then
 		return true
 	else
 		return false
@@ -194,6 +194,16 @@ function make_text(text, par1, par2, par3, par4, par5)
 	if par5 then text = text:gsub('&&&5', per_away(par5)) end
 	text = text:gsub('£&£', '%%')
 	return text
+end
+
+function string:build_text(par1, par2, par3, par4, par5)
+	if par1 then self = self:gsub('&&&1', per_away(par1)) end
+	if par2 then self = self:gsub('&&&2', per_away(par2)) end
+	if par3 then self = self:gsub('&&&3', per_away(par3)) end
+	if par4 then self = self:gsub('&&&4', per_away(par4)) end
+	if par5 then self = self:gsub('&&&5', per_away(par5)) end
+	self = self:gsub('£&£', '%%')
+	return self
 end
 
 function write_file(path, text, mode)
@@ -348,44 +358,22 @@ function get_media_type(msg)
 	return false
 end
 
-function group_table(chat_id)
-	local group = {
-		id = chat_id
-		}
-	
-	local redis = {
-		hgetall = {
-			mods = 'chat:'..chat_id..':mod',
-			owner = 'chat:'..chat_id..':owner',
-			settings = 'chat:'..chat_id..':settings',
-			mediasettings = 'chat:'..chat_id..':media',
-			flood = 'chat:'..chat_id..':flood',
-			extra = 'chat:'..chat_id..':extra',
-			welcome = 'chat:'..chat_id..':welcome'
-		},
-		get = {
-			about = 'chat:'..chat_id..':about',
-			rules = 'chat:'..chat_id..':rules'
-		},
-		smembers = {
-			admblock = 'chat:'..chat_id..':reportblocked'
-		}
-	}
-	
-	for k,v in pairs(redis.hgetall) do
-		local tab = db:hgetall(v)
-		group[k] = tab
+function get_media_id(msg)
+	if msg.photo then
+		return msg.photo.file_id
+	elseif msg.document then
+		return msg.document.file_id
+	elseif msg.video then
+		return msg.video.file_id
+	elseif msg.audio then
+		return msg.audio.file_id
+	elseif msg.voice then
+		return msg.voice.file_id
+	elseif msg.sticker then
+		return msg.sticker.file_id
+	else
+		return false, 'The message has not a media file_id'
 	end
-	for k,v in pairs(redis.get) do
-		local tab = db:get(v)
-		group[k] = tab
-	end
-	for k,v in pairs(redis.smembers) do
-		local tab = db:smembers(v)
-		group[k] = tab
-	end
-	
-	return group
 end
 
 voice_updated = 0
@@ -402,86 +390,37 @@ function give_result(res)
 	end
 end
 
-function migrate_table(t, hash)
-	if not next(t) then
-		return '[empty table]\n'
-	end
-	local txt = ''
-	for k,v in pairs(t) do
-		txt = txt..k..' ('..v..') [migration:'
-		local res = db:hset(hash, k, v)
-		txt = txt..give_result(res)..']\n'
-	end
-	return txt
-end
-
 function migrate_chat_info(old, new, on_request)
 	if not old or not new then
 		print('A group id is missing')
 		return false
 	end
-	local owner_id = db:hkeys('chat:'..old..':owner')
-	local owner_name = db:hvals('chat:'..old..':owner')
-	local settings = db:hgetall('chat:'..old..':settings')
-	local media = db:hgetall('chat:'..old..':media')
-	local flood = db:hgetall('chat:'..old..':flood')
+	
 	local about = db:get('chat:'..old..':about')
-	local rules = db:get('chat:'..old..':rules')
-	local extra = db:hgetall('chat:'..old..':extra')
-	local admblock = db:smembers('chat:'..old..':reportblocked')
-	local logtxt = 'FROM ['..old..'] TO ['..new..']\n'
-	
-	--migrate about
-	logtxt = logtxt..'Migrating about...'
 	if about then
-		res = db:set('chat:'..new..':about', about)
-		logtxt = logtxt..give_result(res)..'\n'
-	else logtxt = logtxt..' empty\n' end
-	
-	--migrate rules
-	logtxt = logtxt..'Migrating rules...'
-	if rules then
-		res = db:set('chat:'..new..':rules', rules)
-		logtxt = logtxt..give_result(res)..'\n'
-	else logtxt = logtxt..' empty\n' end
-	
-	--migrate settings
-	logtxt = logtxt..'Migrating settings...\n'
-	logtxt = logtxt..migrate_table(settings, 'chat:'..new..':settings')
-	
-	--migrate media settings
-	logtxt = logtxt..'Migrating media settings...\n'
-	logtxt = logtxt..migrate_table(media, 'chat:'..new..':media')
-	
-	--migrate extra
-	logtxt = logtxt..'Migrating extra...\n'
-	logtxt = logtxt..migrate_table(extra, 'chat:'..new..':extra')
-	
-	--migrate flood settings
-	logtxt = logtxt..'Migrating flood settings...\n'
-	logtxt = logtxt..migrate_table(flood, 'chat:'..new..':flood')
-	
-	--migrate adminblocked list
-	logtxt = logtxt..'Migrating admin-blocked...\n'
-	if admblocked and next(admblocked) then
-		for k,v in pairs(admblock) do
-			logtxt = logtxt..v..' migration: '
-			local res = db:sadd('chat:'..new..':reportblocked')
-			logtxt = logtxt..give_result(res)..'\n'
-		end
-	else
-		logtxt = logtxt..'List empty\n'
+		db:set('chat:'..new..':about', about)
 	end
 	
-	--flood
-	print(logtxt)
-	--[[local log_path = "./logs/migration_from["..tostring(old):gsub('-', '').."]to["..tostring(new):gsub('-', '').."].txt"
-	file = io.open(log_path, "w")
-	file:write(logtxt)
-    file:close()
+	local rules = db:get('chat:'..old..':rules')
+	if rules then
+		db:set('chat:'..new..':rules', rules)
+	end
+	
+	for set, default in pairs(config.chat_settings) do
+		local old_t = db:hgetall('chat:'..old..':'..set)
+		for field, val in pairs(old_t) do
+			db:hset('chat:'..new..':'..set, field, val)
+		end
+	end
+	
+	local extra = db:hgetall('chat:'..old..':extra')
+	for trigger, response in pairs(extra) do
+		db:hset('chat:'..new..':extra', trigger, response)
+	end
+	
 	if on_request then
-		api.sendDocument(config.admin.owner, log_path)
-	end]]
+		api.sendReply(msg, 'Should be done')
+	end
 end
 
 function div()
@@ -490,21 +429,11 @@ function div()
 	print('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX')
 end
 
-local function migrate_ban_list(old, new)
-	local hash = 'chat:'..old..':banned'
-	local banned = db:smembers(hash)
-	if next(banned) then
-		for i=1, #banned do
-			api.kickChatMember(new, banned[i])
-		end
-	end
-end	
-
 function to_supergroup(msg)
 	local old = msg.chat.id
 	local new = msg.migrate_to_chat_id
 	migrate_chat_info(old, new, false)
-	migrate_ban_list(old, new)
+	cross.remGroup(old, true)
 	api.sendMessage(new, '(_service notification: migration of the group executed_)', true)
 end
 
@@ -512,6 +441,10 @@ function getname(msg)
     local name = msg.from.first_name
 	if msg.from.username then name = name..' (@'..msg.from.username..')' end
     return name
+end
+
+function getname_id(msg)
+    return msg.from.first_name..' ('..msg.from.id..')'
 end
 
 function bash(str)
@@ -869,49 +802,39 @@ end
 
 local function initGroup(chat_id)
 	
-	--default settings
-	hash = 'chat:'..chat_id..':settings'
-	--disabled for users:yes / disabled for users:no
-	db:hset(hash, 'Rules', 'no')
-	db:hset(hash, 'About', 'no')
-	db:hset(hash, 'Modlist', 'no')
-	db:hset(hash, 'Report', 'yes')
-	db:hset(hash, 'Welcome', 'no')
-	db:hset(hash, 'Extra', 'no')
-	db:hset(hash, 'Flood', 'no')
-	
-	--flood
-	hash = 'chat:'..chat_id..':flood'
-	db:hset(hash, 'MaxFlood', 5)
-	db:hset(hash, 'ActionFlood', 'kick')
-	
-	--char
-	hash = 'chat:'..chat_id..':char'
-	db:hset(hash, 'Arab', 'allowed')
-	db:hset(hash, 'Rtl', 'allowed')
-	
-	--warn
-	db:set('chat:'..chat_id..':max', 3)
-	db:set('chat:'..chat_id..':warntype', 'ban')
-	
-	--set media values
-	hash = 'chat:'..chat_id..':media'
-	for i=1,#config.media_list do
-		db:hset(hash, config.media_list[i], 'allowed')
+	for set, setting in pairs(config.chat_settings) do
+		local hash = 'chat:'..chat_id..':'..set
+		for field, value in pairs(setting) do
+			db:hset(hash, field, value)
+		end
 	end
-	
-	--set the default welcome type
-	hash = 'chat:'..chat_id..':welcome'
-	db:hset(hash, 'type', 'composed')
-	db:hset(hash, 'content', 'no')
 	
 	--save group id
 	db:sadd('bot:groupsid', chat_id)
+	--remove the group id from the list of dead groups
+	db:srem('bot:groupsid:removed', chat_id)
 	
 	--save stats
 	hash = 'bot:general'
     local num = db:hincrby(hash, 'groups', 1)
     print('Stats saved', 'Groups: '..num)
+end
+
+local function remGroup(chat_id, full)
+	--remove group id
+	db:srem('bot:groupsid', chat_id)
+	--add to the removed groups list
+	db:sadd('bot:groupsid:removed', chat_id)
+	
+	for set,field in pairs(config.chat_settings) do
+		db:del('chat:'..chat_id..':'..set)
+	end
+	
+	if full then
+		for i, set in pairs(config.chat_custom_texts) do
+			db:del('chat:'..chat_id..':'..set)
+		end
+	end
 end
 
 local function addBanList(chat_id, user_id, nick, why)
@@ -1137,6 +1060,7 @@ local cross = {
 	changeMediaStatus = changeMediaStatus,
 	sendStartMe = sendStartMe,
 	initGroup = initGroup,
+	remGroup = remGroup,
 	addBanList= addBanList,
 	remBanList = remBanList,
 	getUserStatus = getUserStatus,

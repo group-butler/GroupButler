@@ -13,10 +13,10 @@ local function is_report_blocked(msg)
     return db:sismember(hash, msg.from.id)
 end
 
-local function send_to_admin(mods, chat, msg_id, reporter, is_by_reply)
+local function send_to_admin(mods, chat, msg_id, reporter, is_by_reply, chat_title)
     for i=1,#mods do
         api.forwardMessage(mods[i], chat, msg_id)
-        if is_by_reply then api.sendMessage(mods[i], reporter) end
+        if is_by_reply then api.sendMessage(mods[i], reporter..'\n\n'..chat_title) end
     end
 end       
 
@@ -51,7 +51,7 @@ local action = function(msg, blocks, ln)
             end
             local reporter = msg.from.first_name
             if msg.from.username then reporter = reporter..' (@'..msg.from.username..')' end
-            send_to_admin(mods, msg.chat.id, msg_id, reporter, is_by_reply)
+            send_to_admin(mods, msg.chat.id, msg_id, reporter, is_by_reply, msg.chat.title)
             api.sendReply(msg, lang[ln].flag.reported)
             mystat('/uadmin')
         end

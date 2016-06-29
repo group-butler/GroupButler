@@ -1,6 +1,6 @@
 return {
 	bot_api_key = '',
-	version = '3.0', -- /aupdate for v3.0
+	version = '3.1', -- /aupdate for v3.1
 	testing_mode = false,
 	admin = {
 		owner = 23646077,
@@ -11,7 +11,7 @@ return {
 	},
 	log_chat = -1001057801239,
 	channel = '@groupbutler_ch', --channel username with the '@'
-	help_group = 'https://telegram.me/joinchat/CHYUej9jFxFHi6iNcZpe9w', --group link, not username!
+	help_group = 'https://telegram.me/joinchat/CHYUej9jFxFN12MQqrLnUg', --group link, not username!
 	languages = 'languages.lua',
 	plugins = {
 		'onmessage.lua', --THIS HAVE TO BE THE FIRST: IF AN USER IS SPAMMING/IS BLOCKED, THE BOT WON'T GO THROUGH PLUGINS
@@ -42,7 +42,8 @@ return {
 		'ru',
 		'de',
 		'sv',
-		'ar'
+		'ar',
+		'fr'
 		--more to come
 	},
 	media_list = {
@@ -56,6 +57,52 @@ return {
 		'file',
 		'link'
 	},
+	chat_settings = {
+		['settings'] = {
+			['Rules'] = 'no',
+			['About'] = 'no',
+			['Modlist'] = 'no',
+			['Report'] = 'yes',
+			['Welcome'] = 'no',
+			['Extra'] = 'no',
+			['Flood'] = 'no'
+		},
+		['flood'] = {
+			['MaxFlood'] = 5,
+			['ActionFlood'] = 'kick'
+		},
+		['char'] = {
+			['Arab'] = 'allowed',
+			['Rtl'] = 'allowed'
+		},
+		['floodexceptions'] = {
+			['image'] = 'no',
+			['video'] = 'no',
+			['sticker'] = 'no',
+			['gif'] = 'no'
+		},
+		['warnsettings'] = {
+			['type'] = 'ban',
+			['max'] = 3,
+			['mediamax'] = 2
+		},
+		['welcome'] = {
+			['type'] = 'composed',
+			['content'] = 'no'
+		},
+		['media'] = {
+			['image'] = 'allowed',
+			['audio'] = 'allowed',
+			['video'] = 'allowed',
+			['sticker'] = 'allowed',
+			['gif'] = 'allowed',
+			['voice'] = 'allowed',
+			['contact'] = 'allowed',
+			['file'] = 'allowed',
+			['link'] = 'allowed'
+		},
+	},
+	chat_custom_texts = {'rules', 'about', 'extra'},
 	api_errors = {
 		[101] = 'Not enough rights to kick participant', --SUPERGROUP: bot is not admin
 		[102] = 'USER_ADMIN_INVALID', --SUPERGROUP: trying to kick an admin
@@ -91,6 +138,9 @@ return {
 		[130] = 'Type of file to send mismatch', --trying to send a media with the wrong method
 		[131] = 'MESSAGE_ID_INVALID', --I don't know
 		[132] = 'Can\'t parse inline keyboard button: Can\'t find field "text"', --the text of a button could be nil
+		[133] = 'Can\'t parse inline keyboard button: Field \\\"text\\\" must be of type String',
+		[134] = 'USER_ID_INVALID',
+		[135] = 'CHAT_INVALID',
 
 		[403] = 'Bot was blocked by the user', --user blocked the bot
 		[429] = 'Too many requests: retry later', --the bot is hitting api limits

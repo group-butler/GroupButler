@@ -7,29 +7,29 @@ local included_fields = {
 }
 
 local function changeWarnSettings(chat_id, action, ln)
-    local current = tonumber(db:get('chat:'..chat_id..':max')) or 3
+    local current = tonumber(db:hget('chat:'..chat_id..':warnsettings', 'max')) or 3
     local new_val
     if action == 1 then
         if current > 12 then
             return lang[ln].warn.inline_high
         else
-            new_val = db:incrby('chat:'..chat_id..':max', 1)
+            new_val = db:hincrby('chat:'..chat_id..':warnsettings', 'max', 1)
             return current..'->'..new_val
         end
     elseif action == -1 then
         if current < 2 then
             return lang[ln].warn.inline_low
         else
-            new_val = db:incrby('chat:'..chat_id..':max', -1)
+            new_val = db:hincrby('chat:'..chat_id..':warnsettings', 'max', -1)
             return current..'->'..new_val
         end
     elseif action == 'status' then
-        local status = (db:get('chat:'..chat_id..':warntype')) or 'kick'
+        local status = (db:hget('chat:'..chat_id..':warnsettings', 'type')) or 'kick'
         if status == 'kick' then
-            db:set('chat:'..chat_id..':warntype', 'ban')
+            db:hset('chat:'..chat_id..':warnsettings', 'type', 'ban')
             return make_text(lang[ln].warn.changed_type, 'ban')
         elseif status == 'ban' then
-            db:set('chat:'..chat_id..':warntype', 'kick')
+            db:hset('chat:'..chat_id..':warnsettings', 'type', 'kick')
             return make_text(lang[ln].warn.changed_type, 'kick')
         end
     end
@@ -186,8 +186,8 @@ local function doKeyboard_menu(chat_id, ln)
     keyboad = insert_settings_section(keyboard, settings_section, chat_id, ln)
     
     --warn
-    local max = (db:get('chat:'..chat_id..':max')) or 3
-    action = (db:get('chat:'..chat_id..':warntype')) or 'kick'
+    local max = (db:hget('chat:'..chat_id..':warnsettings', 'max')) or 3
+    action = (db:hget('chat:'..chat_id..':warnsettings', 'type')) or 'kick'
     local warn = {
         {text = '➖', callback_data = 'menu:DimWarn:'..chat_id},
         {text = '📍'..max..' 🔨️'..action, callback_data = 'menu:ActionWarn:'..chat_id},

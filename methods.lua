@@ -172,6 +172,7 @@ local function kickUser(chat_id, user_id, ln)-- no_msg: don't send the error mes
 		--unban
 		api.unbanChatMember(chat_id, user_id)
 		api.unbanChatMember(chat_id, user_id)
+		api.unbanChatMember(chat_id, user_id)
 		return res
 	else
 		local motivation = api.code2text(code, ln)
@@ -304,7 +305,7 @@ local function sendMessage(chat_id, text, use_markdown, reply_to_message_id, sen
 	local res, code = sendRequest(url)
 	
 	if not res and code then --if the request failed and a code is returned (not 403 and 429)
-		if code ~= 403 and code ~= 429 and code ~= 110 and code ~= 111 and code ~= 116 then
+		if code ~= 403 and code ~= 429 and code ~= 110 and code ~= 111 and code ~= 116 and code ~= 131 then
 			save_log('send_msg', code..'\n'..text)
 		end
 	end
@@ -336,7 +337,7 @@ local function editMessageText(chat_id, message_id, text, keyboard, markdown)
 	local res, code = sendRequest(url)
 	
 	if not res and code then --if the request failed and a code is returned (not 403 and 429)
-		if code ~= 403 and code ~= 429 and code ~= 110 and code ~= 111 then
+		if code ~= 403 and code ~= 429 and code ~= 110 and code ~= 111 and code ~= 131 then
 			save_log('send_msg', code..'\n'..text)
 		end
 	end

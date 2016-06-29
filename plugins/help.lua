@@ -117,11 +117,10 @@ local action = function(msg, blocks, ln)
     end
     if msg.cb then
         local query = blocks[1]
-        local msg_id = msg.message_id
         local text
         if query == 'info_button' then
             keyboard = do_keybaord_credits()
-		    api.editMessageText(msg.chat.id, msg_id, lang[ln].credits, keyboard, true)
+		    api.editMessageText(msg.chat.id, msg.message_id, lang[ln].credits, keyboard, true)
 		    return
 		end
         local with_mods_lines = true
@@ -155,7 +154,7 @@ local action = function(msg, blocks, ln)
         	text = lang[ln].help.mods[query]
         end
         keyboard = make_keyboard(with_mods_lines, query)
-        local res, code = api.editMessageText(msg.chat.id, msg_id, text, keyboard, true)
+        local res, code = api.editMessageText(msg.chat.id, msg.message_id, text, keyboard, true)
         if not res and code and code == 111 then
             api.answerCallbackQuery(msg.cb_id, '❗️ Already on this tab')
         elseif query ~= 'user' and query ~= 'mod' and query ~= 'info_button' then

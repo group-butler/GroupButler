@@ -74,15 +74,13 @@ local action = function(msg, blocks, ln)
 			api.leaveChat(msg.chat.id)
 			return
 		end
-		if is_blocked(msg.adder.id) then
+		if is_blocked_global(msg.adder.id) then
 			api.sendMessage(msg.chat.id, '_You ('..msg.adder.first_name:mEscape()..', '..msg.adder.id..') are in the blocked list_', true)
 			api.leaveChat(msg.chat.id)
 			return
 		end
 		
 		cross.initGroup(msg.chat.id)
-		
-		api.sendLog(vtext(msg.chat)..vtext(msg.adder))
 	end
 	
 	--if someone join the chat
@@ -105,7 +103,6 @@ local action = function(msg, blocks, ln)
 		end]]
 		
 		cross.remBanList(msg.chat.id, msg.added.id) --remove him from the banlist
-		db:del('chat:'..msg.chat.id..':'..msg.added.id..':mediawarn') --remove the warn for media
 		
 		if msg.added.username then
 			local username = msg.added.username:lower()
@@ -122,16 +119,11 @@ local action = function(msg, blocks, ln)
 	--if the bot is removed from the chat
 	if blocks[1] == 'botremoved' then
 		
-		print('Bot left '..msg.chat.title..' ['..msg.chat.id..']')
-		
-		--remove group id
-		db:srem('bot:groupsid', msg.chat.id)
-		
-		api.sendLog('#removed\n'..vtext(msg.chat)..vtext(msg.remover))
+		--remove the group settings
+		cross.remGroup(msg.chat.id, true)
 		
 		--save stats
-        local num = db:hincrby('bot:general', 'groups', -1)
-        print('Stats saved', 'Groups: '..num)
+        db:hincrby('bot:general', 'groups', -1)
 	end
 	
 	if blocks[1] == 'removed' then

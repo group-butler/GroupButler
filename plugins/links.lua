@@ -1,14 +1,7 @@
 local action = function(msg, blocks, ln)
+    if msg.chat.type == 'private' then return end
+	if not is_mod(msg) then return end
 	
-    if msg.chat.type == 'private' then
-    	return
-    end
-	
-	if not is_mod(msg) then
-		return
-	end
-	
-	--initialize the hash
 	local hash = 'chat:'..msg.chat.id..'links'
 	local text
 	
@@ -64,47 +57,6 @@ local action = function(msg, blocks, ln)
 		api.sendReply(msg, text, true)
 		mystat('/setlink')
 	end
-	
-	if blocks[1] == 'setpoll' then
-		
-		local key = 'poll'
-		
-		--set to nul the poll, or update/set it
-		if blocks[2] == 'no' then
-			db:hset(hash, key, 'no')
-			text = lang[ln].links.poll_unsetted
-		else
-			local link = 'telegram.me/PollBot?start='..blocks[3]
-			local succ = db:hset(hash, key, link)
-			local description = blocks[2]
-			
-			--save description of the poll in redis
-			db:hset(hash, 'polldesc', description)
-			if succ == false then
-				text = make_text(lang[ln].links.poll_updated, description, link)
-			else
-				text = make_text(lang[ln].links.poll_setted, description, link)
-			end
-		end
-		api.sendReply(msg, text, true)
-		mystat('/setpoll')
-	end
-
-	if blocks[1] == 'poll' then
-		
-		local key = 'poll'
-		local link = db:hget(hash, key)
-		local description = db:hget(hash, 'polldesc')
-		
-		--check if link is nil or nul
-		if link == 'no' or link == nil then
-			text = make_text(lang[ln].links.no_poll)
-		else
-			text = make_text(lang[ln].links.poll, description, link)
-		end
-		api.sendReply(msg, text, true)
-		mystat('/poll')
-	end
 end
 
 return {
@@ -113,10 +65,6 @@ return {
 		'^/(link)$',
 		'^/(setlink)$',
 		'^/(setlink) https://telegram%.me/joinchat/(.*)',
-		'^/(setlink) (no)',
-		'^/(poll)$',
-		'^/(setpoll) (.*) http://telegram%.me/PollBot%?start=(.*)',
-		'^/(setpoll) (.*) telegram%.me/PollBot%?start=(.*)',
-		'^/(setpoll) (no)$'
+		'^/(setlink) (no)'
 	}
 }

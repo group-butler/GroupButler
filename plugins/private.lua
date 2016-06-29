@@ -82,16 +82,6 @@ local action = function(msg, blocks, ln)
 		api.sendKeyboard(msg.chat.id, '`v'..config.version..'`\n'..lang[ln].credits, keyboard, true)
 		mystat('/credits')
 	end
-	if blocks[1] == 'pin' then
-		local id = db:get('pin:id')
-		if not id then return end
-		local type = db:get('pin:type')
-		if type == 'document' then
-			api.sendDocumentId(msg.chat.id, id, msg.message_id)
-		elseif type == 'photo' then
-			api.sendPhotoId(msg.chat.id, id, msg.message_id)
-		end
-	end
 	if blocks[1] == 'resolve' then
 		local id = res_user_group(blocks[2], msg.chat.id)
 		if not id then
@@ -114,7 +104,6 @@ return {
 		'^(!)$',
 		'^(!)(.+)',
 		'^/(info)$',
-		'^/(pin)$',
 		'^/(resolve) (@[%w_]+)$',
 	}
 }

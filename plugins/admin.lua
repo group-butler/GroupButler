@@ -30,15 +30,9 @@ local triggers2 = {
 	'^/a(send) (-?%d+) (.*)$',
 	'^/a(send) (.*)$',
 	'^/a(adminmode) (%a%a%a?)$',
-	'^/a(delflag)$',
 	'^/a(usernames)$',
 	'^/a(api errors)$',
 	'^/a(rediscli) (.*)$',
-	'^/a(updatewelcome)$',
-	'^/a(movechat) (-%d+)$',
-	'^/a(redis backup)$',
-	'^/a(group info) (-?%d+)$',
-	'^/a(fill media)$',
 	'^/a(genlang)$',
 	'^/a(genlang) (%a%a)$',
 	'^/a(trfile) (%a%a)$',
@@ -49,15 +43,12 @@ local triggers2 = {
 	'^/a(r)$',
 	'^/a(r) (.*)',
 	'^/a(download)$',
-	'^/a(savepin)$',
-	'^/a(delpin)$',
 	'^/a(migrate) (%d+)%s(%d+)',
 	'^/a(resid) (%d+)$',
 	'^/a(checkgroups)$',
 	'^/a(update)$',
 	'^/a(subadmin) (yes)$',
 	'^/a(subadmin) (no)$',
-	'^/a(req) (.*)$',
 	'^/a(tban) (get)$',
 	'^/a(tban) (flush)$',
 	'^/a(db) (.*)$',
@@ -65,7 +56,9 @@ local triggers2 = {
 	'^/a(remban) (@[%w_]+)$',
 	'^/a(info) (%d+)$',
 	'^/a(prevban) (.*)$',
-	'^/a(rawinfo) (.*)$'
+	'^/a(rawinfo) (.*)$',
+	'^/a(editpost) (%d%d%d?) (.*)$',
+	'^/a(cleandeadgroups)$'
 }
 
 local logtxt = ''
@@ -106,78 +99,7 @@ local function load_lua(code)
 		output = '```\n' .. output .. '\n```'
 	end
 	return output
-end
-
-local function update_welcome_settings()
-	local total = 0
-	local groups = db:smembers('bot:groupsid')
-	local logtxt = 'UPDATINS WELCOME SETTINGS\n\n'
-	for i=1,#groups do
-		local chat = groups[i]
-		logtxt = logtxt..'CHAT ID: '..chat..'\n'
-		local hash = 'chat:'..chat..':welcome'
-		local content = db:hget(hash, 'custom')
-		if content then
-			db:hset(hash, 'type', 'custom')
-			db:hset(hash, 'content', content)
-			logtxt = logtxt..'Found: custom. Moving...\n\n'
-		else --if custom field is empty then...
-			local parts = db:hget(hash, 'wel')
-			db:hset(hash, 'type', 'composed')
-			if parts then
-				db:hset(hash, 'content', parts)
-			else
-				db:hset(hash, 'content', 'no')
-			end
-			logtxt = logtxt..'Found: composed. Moving...\n\n'
-		end
-		total = total + 1
-	end
-	logtxt = logtxt..'\n\nTotal items: '..total
-    --print(logtxt)
-    local path = "./logs/update_welcome_settings.txt"
-    write_file(path, logtxt)
-    api.sendDocument(config.admin.owner, path)
-end		
-
-local function fill_media_settings()
-	local m_found = 0
-	local m_not_found = 0
-	local groups = db:smembers('bot:groupsid')
-	local logtxt = ''
-	for k,v in pairs(groups) do
-		local chat_id = v
-		logtxt = logtxt..'\nChat id: '..chat_id..'\n'
-    	local media_sett = db:hgetall('chat:'..chat_id..':media')
-    	for i=1,#config.media_list do
-    		logtxt = logtxt..'Checking '..config.media_list[i]..'... '
-        	if next(media_sett) then
-            	local bool = false
-            	for media,status in pairs(media_sett) do
-                	if media == config.media_list[i] then
-                		logtxt = logtxt..'found!\n'
-                		m_found = m_found + 1
-                		bool = true
-                	end
-            	end
-            	if bool == false then
-            		logtxt = logtxt..'not found!\n'
-            		m_not_found = m_not_found + 1
-                	db:hset('chat:'..chat_id..':media', config.media_list[i], 'allowed')
-            	end
-        	else
-        		logtxt = logtxt..'not found!\n'
-            	m_not_found = m_not_found + 1
-            	db:hset('chat:'..chat_id..':media', config.media_list[i], 'allowed')
-        	end
-        end
-    end
-    logtxt = 'MISSING MEDIA SETTINGS\nFound (ignored): '..m_found..'\nNot found (setted): '..m_not_found..'\n'..logtxt
-    print(logtxt)
-    local path = "./logs/fill_media_settings.txt"
-    write_file(path, logtxt)
-    api.sendDocument(config.admin.owner, path)
-end
+end	
 
 local function match_pattern(pattern, text)
   if text then
@@ -208,7 +130,7 @@ local action = function(msg, blocks, ln)
 		for k,v in pairs(triggers2) do
 			text = text..v..'\n'
 		end
-		api.sendMessage(config.admin.owner, text)
+		api.sendMessage(msg.from.id, text)
 		mystat('/admin')
 	end
 	if blocks[1] == 'init' then
@@ -292,7 +214,7 @@ local action = function(msg, blocks, ln)
 	    for i=1, #names do
 	        text = text..'- *'..names[i]..'*: `'..num[i]..'`\n'
 	    end
-	    text = text..'- *messages from last start*: `'..tot..'`\n'
+	    text = text..'- *last minute msgs*: `'..last_m..'`\n'
 	    
 	    --[[local uptime = bash('uptime')
 	    local ut_d, ut_h = uptime:match('.* up (%d%d) days?, (%d+:%d%d?)')
@@ -596,33 +518,6 @@ local action = function(msg, blocks, ln)
 			api.sendMessage(msg.from.id, 'Admin mode: *'..status..'*', true)
 		end
 	end
-	if blocks[1] == 'delflag' then
-		--with @admin command, flag is no longer needed
-		local groups = db:smembers('bot:groupsid')
-		local logtxt = ''
-		local deleted = 0
-		local not_deleted = 0
-		logtxt = logtxt..'Number of groups:\t'..#groups..'\n\n'
-		for i=1,#groups do
-			logtxt = logtxt..i..' - Group id:\t'..groups[i]..'\n'
-			local hash = 'chat:'..groups[i]..':settings'
-			local res = db:hdel(hash, 'Flag')
-			if res == 1 then
-				deleted = deleted + 1
-			elseif res == 0 then
-				not_deleted = not_deleted + 1
-			end
-			logtxt = logtxt..'Result for the group:\t'..res..'\n\n'
-		end
-		logtxt = logtxt..'\nDeleted:\t'..deleted..'\nNot deleted:\t'..not_deleted
-		print(logtxt)
-		local file = io.open("./logs/delflag.txt", "w")
-        file:write(logtxt)
-        file:close()
-        api.sendDocument(msg.from.id, './logs/delflag.txt')
-        api.sendMessage(msg.chat.id, 'Instruction processed. Check the log file I\'ve sent you')
-        mystat('/delflag')
-	end
 	if blocks[1] == 'usernames' then
 		local usernames = db:hkeys('bot:usernames')
 		local file = io.open("./logs/usernames.txt", "w")
@@ -654,60 +549,6 @@ local action = function(msg, blocks, ln)
     	mystat('/rediscli')
     	api.sendReply(msg, output, true)
     end
-    if blocks[1] == 'movechat' then
-    	if msg.chat.type == 'private' then
-    		api.sendMessage(msg.chat.id, 'This command must be launched from the group you want to move')
-    	else
-    		if tonumber(blocks[2]) == tonumber(msg.chat.id) then
-    			api.sendMessage(msg.chat.id, 'The id sent is the id of this chat!')
-    		else
-    			local new = blocks[2]
-    			local old = msg.chat.id
-    			migrate_chat_info(old, new, true)
-    		end
-    	end
-	end
-	if blocks[1] == 'redis backup' then
-		local groups = db:smembers('bot:groupsid')
-		vardump(groups)
-		div()
-		local all_groups = {}
-		for k,v in pairs(groups) do
-			local current = {}
-			current = group_table(v)
-			vardump(current)
-			div()
-			table.insert(all_groups, current)
-		end
-		div()
-		vardump(all_groups)
-		save_data("./logs/redisbackup.json", all_groups)
-		if not (msg.chat.type == 'private') then
-			api.sendMessage(msg.chat.id, 'I\'ve sent you the .json file in private')
-		end
-		api.sendDocument(config.admin, "./logs/redisbackup.json")
-	end
-	if blocks[1] == 'group info' then
-		local id = blocks[2]
-		if not (id:find('-')) then
-			id = '-'..id
-		end
-		local group_info_table = group_table(id)
-		local text = vtext(group_info_table)
-		local path = "./logs/group["..id.."].txt"
-		local res = write_file(path, text)
-		if not res then
-			api.sendMessage(msg.chat.id, 'Path invalid. Probably a folder is wrong/missing')
-			return
-		end
-		if not (msg.chat.type == 'private') then
-			api.sendMessage(msg.chat.id, 'I\'ve sent you the file in private')
-		end
-		api.sendDocument(msg.from.id, path)
-	end
-	if blocks[1] == 'fill media' then
-		fill_media_settings()
-	end
 	if blocks[1] == 'trfile' then
 		if not msg.reply then
 			api.sendReply(msg, 'Reply to a file')
@@ -777,9 +618,6 @@ local action = function(msg, blocks, ln)
 		api.sendDocument(msg.from.id, path)
 		mystat('/sendfile')
 	end
-	if blocks[1] == 'updatewelcome' then
-		update_welcome_settings()
-	end
 	if blocks[1] == 'r' then
 	    --ignore if no reply
 	    if not msg.reply then
@@ -839,32 +677,6 @@ local action = function(msg, blocks, ln)
 			api.sendMessage(msg.chat.id, text)
 		end
 	end
-	if blocks[1] == 'savepin' then
-		if not msg.reply then
-			api.sendMessage(msg.chat.id, 'Reply to a message')
-			return
-		end
-		local id, type
-		msg = msg.reply
-		if msg.photo then
-			id = msg.photo[1].file_id
-			if not id then
-				api.sendMessage(msg.chat.id, 'ID not detected\n\n'..vtext(msg.photo))
-				return
-			end
-			type = 'photo'
-		elseif msg.document then
-			id = msg.document.file_id
-			type = 'document'
-		end
-		db:set('pin:id', id)
-		db:set('pin:type', type)
-		api.sendMessage(msg.chat.id, '*Pin is setted*: '..id:mEscape()..'\n*Type*: '..type, true)
-	end
-	if blocks[1] == 'delpin' then
-		db:del('pin:id', 'pin:type')
-		api.sendAdmin('Pin removed')
-	end
 	if blocks[1] == 'migrate' then
 		local old = '-'..blocks[2]
 		local new = '-'..blocks[3]
@@ -913,25 +725,31 @@ local action = function(msg, blocks, ln)
 		api.sendDocument(config.admin, './logs/groupcount.txt')
 	end
 	if blocks[1] == 'update' then
+		db:del('pin:id', 'pin:type')
 		local ids = db:smembers('bot:groupsid')
-		local i = 0
-		local txt = ''
+		--TO DELETE
+		--chat:chat_id:warntype
+		--chat:chat_id:max
+		--chat:chat_id:mediamax
 		for i,chat_id in pairs(ids) do
-			local status = (db:hget('chat:'..chat_id..':settings', 'Arab')) or 'no'
-			if status == 'yes' then
-				db:hset('chat:'..chat_id..':char', 'Arab', 'kick')
-			elseif status == 'no' then
-				db:hset('chat:'..chat_id..':char', 'Arab', 'allowed')
-			end
-			db:hdel('chat:'..chat_id..':settings', 'Arab')
-			
-			status = (db:hget('chat:'..chat_id..':settings', 'Rtl')) or 'no'
-			if status == 'yes' then
-				db:hset('chat:'..chat_id..':char', 'Rtl', 'kick')
-			elseif status == 'no' then
-				db:hset('chat:'..chat_id..':char', 'Rtl', 'allowed')
-			end
-			db:hdel('chat:'..chat_id..':settings', 'Rtl')
+			--moving media settings
+			local new = 'chat:'..chat_id..':warnsettings'
+			local max = (db:get('chat:'..chat_id..':max')) or 3
+			local type = (db:get('chat:'..chat_id..':type')) or 'kick'
+			local mediamax = (db:get('chat:'..chat_id..':mediamax')) or 2
+			db:hset(new, 'max', max)
+			db:hset(new, 'type', type)
+			db:hset(new, 'mediamax', mediamax)
+			--cleaning up old stuffs
+			db:del('bot:'..chat_id..':mod')
+			db:del('bot:'..chat_id..':owner')
+			db:hdel('chat:'..chat_id..'links', 'poll')
+			db:del('bot:'..chat_id..':rules')
+			db:del('bot:'..chat_id..':about')
+			db:del('media:'..chat_id)
+			db:del('extra:'..chat_id)
+			db:del('warns:'..chat_id..':type')
+			db:del('warns:'..chat_id..':max')
 		end
 		api.sendMessage(msg.chat.id, '*Updated!*', true)
 	end
@@ -948,14 +766,6 @@ local action = function(msg, blocks, ln)
 			config.admin.admins[user_id] = false
 		end
 		api.sendAdmin('Changed')
-	end
-	if blocks[1] == 'req' then
-		local url = 'https://api.telegram.org/bot' .. config.bot_api_key..'/'
-		url = url..blocks[2]
-		print(url)
-		local dat, code = HTTPS.request(url)
-		vardump(dat)
-		api.sendAdmin(vtext(dat))
 	end
 	if blocks[1] == 'tban' then
 		if blocks[2] == 'flush' then
@@ -994,9 +804,6 @@ local action = function(msg, blocks, ln)
 		end
 		api.sendReply(msg, text)
 	end
-	if blocks[1] == 'info' then
-		local user_id = blocks[2]
-	end
 	if blocks[1] == 'prevban' then
 		local id = blocks[2]
 		if blocks[2] == '$chat' then id = msg.chat.id end
@@ -1009,17 +816,31 @@ local action = function(msg, blocks, ln)
 		if blocks[2] == '$chat' then
 			chat_id = msg.chat.id
 		end
-		local text = '`'..chat_id
-		local settings = vtext(db:hgetall('chat:'..chat_id..':settings'))
-		local char = vtext(db:hgetall('chat:'..chat_id..':char'))
-		local flood = vtext(db:hgetall('chat:'..chat_id..':flood'))
-		local warns = {}
-		warns.warnmax = db:get('chat:'..chat_id..':max') or '-'
-		warns.warntype = db:get('chat:'..chat_id..':warntype') or '-'
-		warns.mediamax = db:get('chat:'..chat_id..':mediamax') or '-'
-		warns = vtext(warns)
-		text = text..'\n'..settings..char..flood..warns..'`'
+		local text = '`'..chat_id..'\n'
+		for set, info in pairs(config.chat_settings) do
+			text = text..vtext(db:hgetall('chat:'..chat_id..':'..set))
+		end
+		text = text..'`'
 		api.sendMessage(msg.chat.id, text, true)
+	end
+	if blocks[1] == 'editpost' then
+		local msg_id = blocks[2]
+		local text = blocks[3]
+		local res = api.sendMessage(msg.from.id, text, true)
+		if res then
+			api.editMessageText(config.channel, msg_id, text, false, true)
+			api.sendReply(msg, 'Edited in '..config.channel)
+		else
+			api.sendReply(msg, 'Breaks the markdown')
+		end
+	end
+	if blocks[1] == 'cleandeadgroups' then
+		--not tested
+		local dead_groups = db:smembers('bot:groupsid:removed')
+		for _, chat_id in pairs(dead_groups) do
+			cross.remGroup(chat_id, true)
+		end
+		api.sendReply(msg, 'Done. Groups passed: '..#dead_groups)
 	end
 end
 

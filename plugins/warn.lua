@@ -11,9 +11,7 @@ end
 
 local function action(msg, blocks, ln)
     
-    --chat:id:warntype
-    --chat:id:warns (3d)
-    --chat:id:max
+    --warns/mediawarn
     
     if msg.chat.type == 'private' then return end
     if not is_mod(msg) then
@@ -24,35 +22,25 @@ local function action(msg, blocks, ln)
     end
     
     if blocks[1] == 'warnmax' then
-    	local hash, new, default, is_media
+    	local new, default, is_media, key
+    	local hash = 'chat:'..msg.chat.id..':warnsettings'
     	if blocks[2] == 'media' then
-    		hash = 'chat:'..msg.chat.id..':mediamax'
     		new = blocks[3]
     		default = 2
+    		key = 'mediamax'
     		is_media = ' (media)'
     	else
-    		hash = 'chat:'..msg.chat.id..':max'
+    		key = 'max'
     		new = blocks[2]
     		default = 3
     		is_media = ''
     	end
-		local old = (db:get(hash)) or default
-		db:set(hash, new)
+		local old = (db:hget(hash, key)) or default
+		db:hset(hash, key, new)
         local text = make_text(lang[ln].warn.warnmax, old, new, is_media)
         api.sendReply(msg, text, true)
         mystat('/warnmax') --save stats
         return
-    end
-    
-    if blocks[1] == 'warn' and blocks[2] and (blocks[2] == 'kick' or blocks[2] == 'ban') then
-    	if blocks[2] == 'kick' or blocks[2] == 'ban' then
-    		local hash = 'chat:'..msg.chat.id..':warntype'
-			db:set(hash, blocks[2])
-			api.sendReply(msg, make_text(lang[ln].warn.changed_type, blocks[2]), true)
-			mystat('/warnkickban')
-			return
-		end
-		--else, consider it a normal warn
     end
     
     if blocks[1] == 'resetwarns' and msg.cb then
@@ -61,21 +49,25 @@ local function action(msg, blocks, ln)
     	db:hdel('chat:'..msg.chat.id..':warns', user_id)
 		db:hdel('chat:'..msg.chat.id..':mediawarn', user_id)
 		
-		api.editMessageText(msg.chat.id, msg.message_id, lang[ln].warn.nowarn, false, true)
+		api.editMessageText(msg.chat.id, msg.message_id, lang[ln].warn.nowarn..'\n`(Admin: '..msg.from.first_name:mEscape()..')`', false, true)
 		mystat('/cbresetwarns')
 		return
 	end
 	
 	if blocks[1] == 'removewarn' and msg.cb then
     	local user_id = blocks[2]
-    	print(msg.chat.id, user_id)
 		local num = db:hincrby('chat:'..msg.chat.id..':warns', user_id, -1) --add one warn
-		local nmax = (db:get('chat:'..msg.chat.id..':max')) or 3 --get the max num of warnings
-		local diff = tonumber(nmax)-tonumber(num)
+		local text, nmax, diff
+		if tonumber(num) < 0 then
+			text = lang[ln].warn.zero
+			db:hincrby('chat:'..msg.chat.id..':warns', user_id, 1) --restore the previouvs number
+		else
+			nmax = (db:hget('chat:'..msg.chat.id..':warnsettings', 'max')) or 3 --get the max num of warnings
+			diff = tonumber(nmax)-tonumber(num)
+			text = make_text(lang[ln].warn.warn_removed, num, nmax)
+		end
 		
-		local text = make_text(lang[ln].warn.warn_removed, num, nmax)
-		
-		api.editMessageText(msg.chat.id, msg.message_id, text, false, true)
+		api.editMessageText(msg.chat.id, msg.message_id, text..'\n`(Admin: '..msg.from.first_name:mEscape()..')`', false, true)
 		mystat('/cbremovewarn')
 		return
 	end
@@ -99,13 +91,12 @@ local function action(msg, blocks, ln)
 	    
 	    local name = getname(msg.reply)
 		local hash = 'chat:'..msg.chat.id..':warns'
-		local hash_max = 'chat:'..msg.chat.id..':max'
 		local num = db:hincrby(hash, msg.reply.from.id, 1) --add one warn
-		local nmax = (db:get(hash_max)) or 3 --get the max num of warnings
+		local nmax = (db:hget('chat:'..msg.chat.id..':warnsettings', 'max')) or 3 --get the max num of warnings
 		local text, res, motivation
 		
 		if tonumber(num) >= tonumber(nmax) then
-			local type = db:get('chat:'..msg.chat.id..':warntype')
+			local type = (db:hget('chat:'..msg.chat.id..':warnsettings', 'type')) or 'kick'
 			--try to kick/ban
 			if type == 'ban' then
 				text = make_text(lang[ln].warn.warned_max_ban, name:mEscape())..' ('..num..'/'..nmax..')'
@@ -142,40 +133,15 @@ local function action(msg, blocks, ln)
         
         mystat('/warn') --save stats
     end
-    
-    if blocks[1] == 'getwarns' then
-        
-	    local name = getname(msg.reply):mEscape()
-		local num = (db:hget('chat:'..msg.chat.id..':warns', msg.reply.from.id)) or 0
-		local max = (db:get('chat:'..msg.chat.id..':max')) or 3
-		local num_media = (db:hget('chat:'..msg.chat.id..':mediawarn', msg.reply.from.id)) or 0
-		local max_media = (db:get('chat:'..msg.chat.id..':mediamax')) or 2
-		local text = make_text(lang[ln].warn.getwarns, name, num, max, num_media, max_media)
-        
-        api.sendReply(msg, text, true)
-        mystat('/getwarns') --save stats
-    end
-    
-    if blocks[1] == 'nowarns' then
-		db:hdel('chat:'..msg.chat.id..':warns', msg.reply.from.id)
-		db:hdel('chat:'..msg.chat.id..':mediawarn', msg.reply.from.id)
-        
-        api.sendReply(msg, lang[ln].warn.nowarn, true)
-        mystat('/nowarns') --save stats
-    end
 end
 
 return {
 	action = action,
 	triggers = {
-		'^/(warn) (kick)$',
-		'^/(warn) (ban)$',
 		'^/(warnmax) (%d%d?)$',
 		'^/(warnmax) (media) (%d%d?)$',
 		'^/(warn)$',
 		'^/(warn) (.*)$',
-		'^/(getwarns)$',
-		'^/(nowarns)$',
 		'^###cb:(resetwarns):(%d+)$',
 		'^###cb:(removewarn):(%d+)$',
 	}

@@ -23,6 +23,16 @@ local function get_user_id(msg, blocks)
 	end
 end
 
+local function get_nick(msg, blocks, sender)
+	if sender then
+		return getname_id(msg)
+	elseif msg.reply then
+		return getname_id(msg.reply)
+	elseif blocks[2] then
+		return blocks[2]
+	end
+end
+
 local function getBanList(chat_id, ln)
     local text = lang[ln].banhammer.banlist_header
     local hash = 'chat:'..chat_id..':bannedlist'
@@ -93,7 +103,7 @@ local action = function(msg, blocks, ln)
 		    	local res, error = rdb.rem('chat:'..msg.chat.id..':bannedlist')
 		    	if res then
 		    		if msg.cb then --if cleaned via the inline button
-		    			api.editMessageText(msg.chat.id, msg.message_id, lang[ln].banhammer.banlist_cleaned, false, true)
+		    			api.editMessageText(msg.chat.id, msg.message_id, lang[ln].banhammer.banlist_cleaned..'\n`(Admin: '..msg.from.first_name:mEscape()..')`', false, true)
 		    		else --if cleaned via message
 		    			api.sendReply(msg, lang[ln].banhammer.banlist_cleaned, true)
 		    		end
@@ -175,6 +185,7 @@ local action = function(msg, blocks, ln)
 		 	
 		 	if blocks[1] == 'kick' then
 		    	local res, motivation = api.kickUser(chat_id, user_id, ln)
+		    	vardump(res)
 		    	if not res then
 		    		if not motivation then
 		    			motivation = lang[ln].banhammer.general_motivation
@@ -182,6 +193,7 @@ local action = function(msg, blocks, ln)
 		    		api.sendReply(msg, motivation, true)
 		    	else
 		    		cross.saveBan(user_id, 'kick')
+		    		api.sendMessage(msg.chat.id, lang[ln].banhammer.kicked:build_text(get_nick(msg, false, true):mEscape(), get_nick(msg, blocks):mEscape()), true)
 		    	end
 		    	mystat('/kick')
 	    	end
@@ -200,16 +212,15 @@ local action = function(msg, blocks, ln)
 		    		--save the ban
 		    		cross.saveBan(user_id, 'ban')
 		    		--add to banlist
-		    		local why, nick
+		    		local nick = get_nick(msg, blocks) --banned user
+		    		local why
 		    		if msg.reply then
-		    			nick = getname(msg.reply)
 		    			why = msg.text:input()
 		    		else
-		    			nick = blocks[2]
 		    			why = msg.text:gsub('^/ban @[%w_]+%s?', '')
 		    		end
 		    		cross.addBanList(msg.chat.id, user_id, nick, why)
-		    		api.sendKeyboard(msg.chat.id, 'User '..nick:mEscape()..' banned!', {inline_keyboard = {{{text = 'Unban', callback_data = 'unban:'..user_id}}}}, true)
+		    		api.sendKeyboard(msg.chat.id, lang[ln].banhammer.banned:build_text(get_nick(msg, false, true):mEscape(), nick:mEscape()), {inline_keyboard = {{{text = 'Unban', callback_data = 'unban:'..user_id}}}}, true)
 		    	end
 		    	mystat('/ban')
     		end
@@ -232,7 +243,7 @@ local action = function(msg, blocks, ln)
    				if not msg.cb then
    					api.sendReply(msg, text, true)
    				else
-   					api.editMessageText(msg.chat.id, msg.message_id, text..'\n`['..user_id..']`', false, true)
+   					api.editMessageText(msg.chat.id, msg.message_id, text..'\n`['..user_id..']\n(Admin: '..msg.from.first_name:mEscape()..')`', false, true)
    				end
    				mystat('/unban')
    			end

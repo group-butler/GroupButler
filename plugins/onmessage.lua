@@ -1,5 +1,5 @@
 local function max_reached(chat_id, user_id)
-    local max = tonumber(db:get('chat:'..chat_id..':mediamax')) or 2
+    local max = tonumber(db:hget('chat:'..chat_id..':warnsettings', 'mediamax')) or 2
     local n = tonumber(db:hincrby('chat:'..chat_id..':mediawarn', user_id, 1))
     if n >= max then
         return true, n, max
@@ -16,6 +16,14 @@ local function is_ignored(chat_id, msg_type)
     elseif status == 'no' then
         return false
     end
+end
+
+local function is_blocked(id)
+	if db:sismember('bot:blocked', id) then
+		return true
+	else
+		return false
+	end
 end
 
 pre_process = function(msg, ln)

@@ -24,12 +24,20 @@ local function doKeyboard_media(chat_id)
         table.insert(keyboard.inline_keyboard, line)
     end
     
+    --media warn
+    local max = (db:hget('chat:'..chat_id..':warnsettings', 'mediamax')) or 2
+    table.insert(keyboard.inline_keyboard, {{text = 'Warns (media) 📍 '..max, callback_data = 'mediallert'}})
+    local warn = {
+        {text = '➖', callback_data = 'mediawarn:dim:'..chat_id},
+        {text = '➕', callback_data = 'mediawarn:raise:'..chat_id},
+    }
+    table.insert(keyboard.inline_keyboard, warn)
     return keyboard
 end
 
 local action = function(msg, blocks, ln)
 	
-	if not msg.cb  and msg.chat.type ~= 'private' then
+	if not msg.cb and msg.chat.type ~= 'private' then
 		
 		if not is_mod(msg) then return end
 		
@@ -57,16 +65,37 @@ local action = function(msg, blocks, ln)
 	if msg.cb then
 		if blocks[1] == 'mediallert' then
 			api.answerCallbackQuery(msg.cb_id, '⚠️ '..lang[ln].bonus.menu_cb_media)
+			return
+		end
+		local cb_text
+		local group_name = get_group_name(msg.old_text)
+		local chat_id = msg.target_id
+		if blocks[1] == 'mediawarn' then
+			local current = tonumber(db:hget('chat:'..chat_id..':warnsettings', 'mediamax')) or 2
+			if blocks[2] == 'dim' then
+				if current < 2 then
+					cb_text = lang[ln].warn.inline_low
+				else
+					local new = db:hincrby('chat:'..chat_id..':warnsettings', 'mediamax', -1)
+					cb_text = make_text(lang[ln].floodmanager.changed_cross, current, new)
+				end
+			elseif blocks[2] == 'raise' then
+				if current > 11 then
+					cb_text = lang[ln].warn.inline_high
+				else
+					local new = db:hincrby('chat:'..chat_id..':warnsettings', 'mediamax', 1)
+					cb_text = make_text(lang[ln].floodmanager.changed_cross, current, new)
+				end
+			end
+			cb_text = '⚙ '..cb_text
 		end
 		if blocks[1] == 'media' then
-			local chat_id = msg.target_id
 			local media = blocks[2]
-	    	local text = cross.changeMediaStatus(chat_id, media, 'next', ln)
-        	keyboard = doKeyboard_media(chat_id)
-        	local group_name = get_group_name(msg.old_text)
-        	api.editMessageText(msg.chat.id, msg.message_id, lang[ln].all.media_first..group_name, keyboard, true)
-        	api.answerCallbackQuery(msg.cb_id, '⚡️ '..text)
+	    	cb_text = '⚡️ '..cross.changeMediaStatus(chat_id, media, 'next', ln)
         end
+        keyboard = doKeyboard_media(chat_id)
+    	api.editMessageText(msg.chat.id, msg.message_id, lang[ln].all.media_first..group_name, keyboard, true)
+        api.answerCallbackQuery(msg.cb_id, cb_text)
     end
 end
 
@@ -76,6 +105,7 @@ return {
 		'^/(media list)$',
 		'^/(media)$',
 		'^###cb:(media):(%a+):(-%d+)',
+		'^###cb:(mediawarn):(%a+):(-%d+)',
 		'^###cb:(mediallert)',
 	}
 }
