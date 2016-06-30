@@ -454,7 +454,7 @@ return {
             header_2 = '*Info generali*:\n',
             warns = '`Warns`: ',
             media_warns = '`Warns per media`: ',
-            group_msgs = '`Messagi nel gruppo`: ',
+            group_msgs = '`Messaggi nel gruppo`: ',
             group_media = '`Media nel gruppo`: ',
             last_msg = '`Ultimo messaggio`: ',
             global_msgs = '`Numero totale di messaggi`: ',
@@ -544,8 +544,8 @@ return {
                         .."\nCome vedere quanti warn ha ricevuto un utente: il numero è mostrato nella seconda pagina del comando `/user`. In questa pagina, potrai trovare un tasto per resettare il numero.",
                 char = "*Moderatori: i caratteri*\n\n"
                         .."`/menu` = riceverai la tastiera del menu in privato dove potrai trovare due opzioni particolari: _Arabo ed Rtl_.\n"
-                        .."\n*Arabo*: quando l'arabo non è permesso (🚫), chiunque scriva un carattere arabo evrrà kickato dal gruppo.\n"
-                        .."*Rtl*: sta per carattere 'Righ To Left'. In poche parole, se inserito nel proprio nome, qualsiasi stringa (scritta) dell\'app di Telegram che contiene il nome dell'utente verrà visualizzata al contrario"
+                        .."\n*Arabo*: quando l'arabo non è permesso (🚫), chiunque scriva un carattere arabo verrà kickato dal gruppo.\n"
+                        .."*Rtl*: sta per carattere 'Right To Left'. In poche parole, se inserito nel proprio nome, qualsiasi stringa (scritta) dell\'app di Telegram che contiene il nome dell'utente verrà visualizzata al contrario"
                         .." (ad esempio, lo 'sta scrivendo'). Quando il carattere Rtl non è permesso (🚫), chiunque ne farà utilizzo nel nome (o nei messaggi) verrà kickato.",
                 links = "*Moderatori: link*\n\n"
                         ..'`/setlink [link|\'no\']` : imposta il link del gruppo, in modo che possa essere richiesto da altri Admin, oppure eliminalo\n'
@@ -580,7 +580,7 @@ return {
                     ..'Sono un semplice bot creato con lo scopo di aiutare gli utenti di Telegram ad amministrare i propri gruppi.\n'
                     ..'\n*Cosa posso fare per aiutarti?*\n'
                     ..'Beh, ho un sacco di funzioni utili!\n'
-                    ..'• Puoi *kickare or bannare* gli utenti (anche in gruppi normali) by replyo by username\n'
+                    ..'• Puoi *kickare or bannare* gli utenti (anche in gruppi normali) by reply o by username\n'
                     ..'• Puoi impostare regole e descrizione\n'
                     ..'• Puoi attivare un *anti-flood* configurabile\n'
                     ..'• Puoi personalizzare il *messaggio di benvenuto*, ed usare anche gif e sticker\n'
@@ -748,8 +748,8 @@ return {
             error = 'Lingua non ancora supportata'
         },
 		banhammer = {
-            kicked = '&&&1 è stato kickato! (ma può ancora rientrare)',
-            banned = '&&&1 è stato bannato!',
+            kicked = '&&&1 ha kickato &&&2! (ma può ancora rientrare)',
+            banned = '&&&1 ha bannato &&&2!',
             unbanned = 'L\'utente è stato unbannato!',
             reply = 'Rispondi a qualcuno',
             globally_banned = '&&&1 è stato bannato globalmente!',

@@ -269,7 +269,6 @@ return {
 		'^/(banlist) (-)$',
 		'^/(ban) (@[%w_]+)',
 		'^/(ban)',
-		--'^/(tempban) (@[%w_]+) (%d+)',
 		'^/(tempban) (%d+)',
 		'^/(unban) (@[%w_]+)',
 		'^/(unban)',
