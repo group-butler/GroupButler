@@ -310,6 +310,7 @@ function res_user(username)
 end
 
 function res_user_group(username, chat_id)
+	if not username then return false end
 	username = username:lower()
 	local hash = 'bot:usernames:'..chat_id
 	local stored = db:hget(hash, username)
@@ -360,7 +361,19 @@ end
 
 function get_media_id(msg)
 	if msg.photo then
-		return msg.photo[3].file_id, 'photo'
+		if msg.photo[3] then
+			return msg.photo[3].file_id, 'photo'
+		else
+			if msg.photo[2] then
+				return msg.photo[2].file_id, 'photo'
+			else
+				if msg.photo[1] then
+					return msg.photo[1].file_id, 'photo'
+				else
+					return msg.photo.file_id, 'photo'
+				end
+			end
+		end
 	elseif msg.document then
 		return msg.document.file_id
 	elseif msg.video then
@@ -452,87 +465,6 @@ function bash(str)
     local result = cmd:read('*all')
     cmd:close()
     return result
-end
-
-function change_one_header(id)
-	voice_succ = 0
-	voice_updated = 0
-	logtxt = ''
-	logtxt = logtxt..'\n-----------------------------------------------------\nGROUP ID: '..id..'\n'
-	print('Group:', id) --first: print this, once the for is done, print logtxt
-		
-	logtxt = logtxt..'---> PORTING MODS...\n'
-	local mods = db:hgetall('bot:'..id..':mod')
-	logtxt = logtxt..migrate_table(mods, 'chat:'..id..':mod')
-		
-	logtxt = logtxt..'---> PORTING OWNER...\n'
-	local owner_id = db:hkeys('bot:'..id..':owner')
-	local owner_name = db:hvals('bot:'..id..':owner')
-	if not next(owner_id) or not next(owner_name) then
-		logtxt = logtxt..'No owner!\n'
-	else
-		logtxt = logtxt..'Owner info: '..owner_id[1]..', '..owner_name[1]..' [migration:'
-		local res = db:hset('chat:'..id..':owner', owner_id[1], owner_name[1])
-		logtxt = logtxt..give_result(res)..'\n'
-	end
-		
-	logtxt = logtxt..'---> PORTING MEDIA SETTINGS...\n'
-	local media = db:hgetall('media:'..id)
-	logtxt = logtxt..migrate_table(media, 'chat:'..id..':media')
-		
-	logtxt = logtxt..'---> PORTING ABOUT...\n'
-	local about = db:get('bot:'..id..':about')
-	if not about then
-		logtxt = logtxt..'No about!\n'
-	else
-		logtxt = logtxt..'About found! [migration:'
-		local res = db:set('chat:'..id..':about', about)
-		logtxt = logtxt..give_result(res)..']\n'
-	end
-		
-	logtxt = logtxt..'---> PORTING RULES...\n'
-	local rules = db:get('bot:'..id..':rules')
-	if not rules then
-		logtxt = logtxt..'No rules!\n'
-	else
-		logtxt = logtxt..'Rules found!  [migration:'
-		local res = db:set('chat:'..id..':rules', rules)
-		logtxt = logtxt..give_result(res)..']\n'
-	end
-		
-	logtxt = logtxt..'---> PORTING EXTRA...\n'
-	local extra = db:hgetall('extra:'..id)
-	logtxt = logtxt..migrate_table(extra, 'chat:'..id..':extra')
-	print('\n\n\n')
-	logtxt = 'Successful: '..voice_succ..'\nUpdated: '..voice_updated..'\n\n'..logtxt
-	print(logtxt)
-	local log_path = "./logs/changehashes"..id..".txt"
-	file = io.open(log_path, "w")
-	file:write(logtxt)
-    file:close()
-	api.sendDocument(config.admin.owner, log_path)
-end
-
-function change_extra_header(id)
-	voice_succ = 0
-	voice_updated = 0
-	logtxt = ''
-	logtxt = logtxt..'\n-----------------------------------------------------\nGROUP ID: '..id..'\n'
-	print('Group:', id) --first: print this, once the for is done, print logtxt
-		
-	logtxt = logtxt..'---> PORTING EXTRA...\n'
-	local extra = db:hgetall('extra:'..id)
-	logtxt = logtxt..migrate_table(extra, 'chat:'..id..':extra')
-	
-	print('\n\n\n')
-	
-	logtxt = 'Successful: '..voice_succ..'\nUpdated: '..voice_updated..'\n\n'..logtxt
-	print(logtxt)
-	local log_path = "./logs/changehashesEXTRA"..id..".txt"
-	file = io.open(log_path, "w")
-	file:write(logtxt)
-    file:close()
-	api.sendDocument(config.admin.owner, log_path)
 end
 
 function download_to_file(url, file_path)--https://github.com/yagop/telegram-bot/blob/master/bot/utils.lua

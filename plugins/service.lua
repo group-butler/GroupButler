@@ -53,7 +53,6 @@ local function get_welcome(msg, ln)
 			elseif content == 'ram' then
 				text = text..'\n\n'..abt..'\n\n'..rls..mods
 			end
-			print(text)
 			return text
 		else
 			return make_text(lang[ln].service.welcome, msg.added.first_name:mEscape_hard(), msg.chat.title:mEscape_hard())

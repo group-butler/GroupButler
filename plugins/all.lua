@@ -87,6 +87,43 @@ local function getWelcomeMessage(chat_id, ln)
     return message
 end
 
+local function getFloodSettings_text(chat_id, ln)
+    local status = db:hget('chat:'..chat_id..':settings', 'Flood') or 'yes' --check (default: disabled)
+    if status == 'no' then
+        status = '✅ | ON'
+    elseif status == 'yes' then
+        status = '❌ | OFF'
+    end
+    local hash = 'chat:'..chat_id..':flood'
+    local action = (db:hget(hash, 'ActionFlood')) or 'kick'
+    if action == 'kick' then
+        action = '⚡️ '..action
+    else
+        action = '⛔ ️'..action
+    end
+    local num = (db:hget(hash, 'MaxFlood')) or 5
+    local exceptions = {
+        ['text'] = lang[ln].floodmanager.text,
+        ['sticker'] = lang[ln].floodmanager.sticker,
+        ['image'] = lang[ln].floodmanager.image,
+        ['gif'] = lang[ln].floodmanager.gif,
+        ['video'] = lang[ln].floodmanager.video
+    }
+    hash = 'chat:'..chat_id..':floodexceptions'
+    local list_exc = ''
+    for media, translation in pairs(exceptions) do
+        --ignored by the antiflood-> yes, no
+        local exc_status = (db:hget(hash, media)) or 'no'
+        if exc_status == 'yes' then
+            exc_status = '✅'
+        else
+            exc_status = '❌'
+        end
+        list_exc = list_exc..'• `'..translation..'`: '..exc_status..'\n'
+    end
+    return make_text(lang[ln].all.dashboard.antiflood, status, action, num, list_exc)
+end
+
 local function doKeyboard_dashboard(chat_id, ln)
     local keyboard = {}
     keyboard.inline_keyboard = {
@@ -262,40 +299,7 @@ local action = function(msg, blocks, ln)
                 text = getWelcomeMessage(chat_id, ln)
             end
             if request == 'flood' then
-                local status = db:hget('chat:'..chat_id..':settings', 'Flood') or 'yes' --check (default: disabled)
-                if status == 'no' then
-                    status = '✅ | ON'
-                elseif status == 'yes' then
-                    status = '❌ | OFF'
-                end
-                local hash = 'chat:'..chat_id..':flood'
-                local action = (db:hget(hash, 'ActionFlood')) or 'kick'
-                if action == 'kick' then
-                    action = '⚡️ '..action
-                else
-                    action = '⛔ ️'..action
-                end
-                local num = (db:hget(hash, 'MaxFlood')) or 5
-                local exceptions = {
-                    ['text'] = lang[ln].floodmanager.text,
-                    ['sticker'] = lang[ln].floodmanager.sticker,
-                    ['image'] = lang[ln].floodmanager.image,
-                    ['gif'] = lang[ln].floodmanager.gif,
-                    ['video'] = lang[ln].floodmanager.video
-                }
-                hash = 'chat:'..chat_id..':floodexceptions'
-                local list_exc = ''
-                for media, translation in pairs(exceptions) do
-                    --ignored by the antiflood-> yes, no
-                    local exc_status = (db:hget(hash, media)) or 'no'
-                    if exc_status == 'yes' then
-                        exc_status = '✅'
-                    else
-                        exc_status = '❌'
-                    end
-                    list_exc = list_exc..'• `'..translation..'`: '..exc_status..'\n'
-                end
-                text = make_text(lang[ln].all.dashboard.flood, status, action, num, list_exc)
+                text = getFloodSettings_text(chat_id, ln)
             end
             if request == 'media' then
                 text = lang[ln].mediasettings.settings_header

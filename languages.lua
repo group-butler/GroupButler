@@ -401,15 +401,15 @@ return {
             dashboard = {
                 private = '_I\'ve sent you the group dashboard in private_',
                 first = 'Navigate this message to see *all the info* about this group!',
-                flood = '- *Status*: `&&&1`\n- *Action* when an user floods: `&&&2`\n- Number of messages *every 5 seconds* allowed: `&&&3`\n- *Ignored media*:\n&&&4',
+                antiflood = '- *Status*: `&&&1`\n- *Action* when an user floods: `&&&2`\n- Number of messages *every 5 seconds* allowed: `&&&3`\n- *Ignored media*:\n&&&4',
                 settings = 'Settings',
                 admins = 'Admins',
                 rules = 'Rules',
                 about = 'Description',
                 welcome = 'Welcome message',
                 extra = 'Extra commands',
-                flood = 'Anti-flood settings',
-                media = 'Media settings'
+                media = 'Media settings',
+                flood = 'Flood settings'
             },
             menu = '_I\'ve sent you the settings menu in private_',
             menu_first = 'Manage the settings of the group.\n'
@@ -835,7 +835,7 @@ return {
             dashboard = {
                 private = '_Ti ho inviato la scheda del gruppo in privato_',
                 first = 'Naviga questo messaggio tramite i tasti per consultare *tutte le info* sul gruppo!',
-                flood = '- *Stato*: `&&&1`\n- *Azione* da intraprendere quando un utente sta floodando: `&&&2`\n- Numero di messaggi *in 5 secondi* consentito: `&&&3`\n- *Media ignorati*:\n&&&4',
+                antiflood = '- *Stato*: `&&&1`\n- *Azione* da intraprendere quando un utente sta floodando: `&&&2`\n- Numero di messaggi *in 5 secondi* consentito: `&&&3`\n- *Media ignorati*:\n&&&4',
                 settings = 'Impostazioni',
                 admins = 'Admin',
                 rules = 'Regole',
@@ -1183,8 +1183,8 @@ return {
             error = 'Language not yet supported'
         },
 		banhammer = {
-            kicked = '&&&1 ha sido expulsado! (pero puede volver a entrar)',
-            banned = '&&&1 ha sido baneado!',
+            kicked = '&&&1 ha expulsado &&&2! (pero puede volver a entrar)',
+            banned = '&&&1 ha baneado &&&2!',
             unbanned = 'User unbanned!',
             reply = 'Responder a alguien',
             globally_banned = '&&&1 ha sido baneado globalmente!',
@@ -1270,7 +1270,7 @@ return {
             dashboard = {
                 private = '_I\'ve sent you the group dashboard in private_',
                 first = 'Navigate this message to see *all the info* about this group!',
-                flood = '- *Status*: `&&&1`\n- *Action* when an user floods: `&&&2`\n- Number of messages *every 5 seconds* allowed: `&&&3`\n- *Ignored media*:\n&&&4',
+                antiflood = '- *Status*: `&&&1`\n- *Action* when an user floods: `&&&2`\n- Number of messages *every 5 seconds* allowed: `&&&3`\n- *Ignored media*:\n&&&4',
                 settings = 'Settings',
                 admins = 'Admins',
                 rules = 'Rules',
@@ -1619,8 +1619,8 @@ return {
             error = 'Language not yet supported'
         },
 		banhammer = {
-            kicked = '&&&1 foi removido(a)! Ainda pode entrar no grupo',
-            banned = '&&&1 foi banido(a)!',
+            kicked = '`&&&1` kicked `&&&2`! Ainda pode entrar no grupo',
+            banned = '`&&&1` banned `&&&2`!',
             unbanned = 'User unbanned!',
 			reply = 'Responda alguém',
             globally_banned = '&&&1 foi banido(a) globalmente!',
@@ -1706,7 +1706,7 @@ return {
             dashboard = {
                 private = '_I\'ve sent you the group dashboard in private_',
                 first = 'Navigate this message to see *all the info* about this group!',
-                flood = '- *Status*: `&&&1`\n- *Action* when an user floods: `&&&2`\n- Number of messages *every 5 seconds* allowed: `&&&3`\n- *Ignored media*:\n&&&4',
+                antiflood = '- *Status*: `&&&1`\n- *Action* when an user floods: `&&&2`\n- Number of messages *every 5 seconds* allowed: `&&&3`\n- *Ignored media*:\n&&&4',
                 settings = 'Settings',
                 admins = 'Admins',
                 rules = 'Rules',
@@ -1923,7 +1923,7 @@ return {
             feedback_reply = '*Привет, это ответ от создателя *:\n&&&1',
         },
         service = {
-            welcome = 'Привет, &&&! Добро пожаловать в *&&&2*!',
+            welcome = 'Привет, &&&1! Добро пожаловать в *&&&2*!',
             welcome_rls = 'АНАРХИЯ!',
             welcome_abt = 'Описание этой группы отсутствует!',
             welcome_modlist = '\n\n*Creator*:\n&&&1\n*Admins*:\n&&&2',
@@ -2053,8 +2053,8 @@ return {
             error = 'Language not yet supported'
         },
 		banhammer = {
-            kicked = '&&&1 был кикнут! ( все еще может зайти )',
-            banned = '&&&1 был забанен!',
+            kicked = '`&&&1` kicked `&&&2`! ( все еще может зайти )',
+            banned = '`&&&1` banned `&&&2`!',
             already_banned_normal = '&&&1 *уже забанен*!',
             unbanned = 'User unbanned!',
             reply = 'Ответь (reply) на сообщение этого пользователя',
@@ -2140,7 +2140,7 @@ return {
             dashboard = {
                 private = '_I\'ve sent you the group dashboard in private_',
                 first = 'Navigate this message to see *all the info* about this group!',
-                flood = '- *Status*: `&&&1`\n- *Action* when an user floods: `&&&2`\n- Number of messages *every 5 seconds* allowed: `&&&3`\n- *Ignored media*:\n&&&4',
+                antiflood = '- *Status*: `&&&1`\n- *Action* when an user floods: `&&&2`\n- Number of messages *every 5 seconds* allowed: `&&&3`\n- *Ignored media*:\n&&&4',
                 settings = 'Settings',
                 admins = 'Admins',
                 rules = 'Rules',
@@ -2473,8 +2473,8 @@ return {
             error = 'Language not yet supported'
         },
 		banhammer = {
-            kicked = '&&&1 wurde entfernt  (kicked)! (Aber es ist dem Nutzer (user) noch immer möglich zurückzukommen (rejoin))',
-            banned = '&&&1 wurde gesperrt (banned)!',
+            kicked = '`&&&1` kicked `&&&2`! (Aber es ist dem Nutzer (user) noch immer möglich zurückzukommen (rejoin))',
+            banned = '`&&&1` banned `&&&2`!',
             already_banned_normal = '&&&1 ist *bereits gesperrt (banned)*!',
             unbanned = 'Nutzer (user) entsperrt (unbanned)!',
             reply = 'Antworte (reply) jemandem',
@@ -2559,7 +2559,7 @@ return {
             dashboard = {
                 private = '_I\'ve sent you the group dashboard in private_',
                 first = 'Navigate this message to see *all the info* about this group!',
-                flood = '- *Status*: `&&&1`\n- *Action* when an user floods: `&&&2`\n- Number of messages *every 5 seconds* allowed: `&&&3`\n- *Ignored media*:\n&&&4',
+                antiflood = '- *Status*: `&&&1`\n- *Action* when an user floods: `&&&2`\n- Number of messages *every 5 seconds* allowed: `&&&3`\n- *Ignored media*:\n&&&4',
                 settings = 'Settings',
                 admins = 'Admins',
                 rules = 'Rules',
@@ -2892,8 +2892,8 @@ return {
             error = 'Language not yet supported'
         },
 		banhammer = {
-            kicked = '&&&1 har kickats! (men kan komma tillbaka)',
-            banned = '&&&1 har bannats!',
+            kicked = '`&&&1` kicked `&&&2`! (men kan komma tillbaka)',
+            banned = '`&&&1` banned `&&&2`!',
             already_banned_normal = '&&&1 är *redan bannad*!',
             unbanned = '&&&1 är inte bannad längre!',
             reply = 'Skicka som svar till någon',
@@ -2978,7 +2978,7 @@ return {
             dashboard = {
                 private = '_Jag har sänt informationen till dig i privat chat_',
                 first = 'Använd knapparna nedan för att se *all information* om denna grupp!',
-                flood = '- *Status*: `&&&1`\n- *Action* when an user floods: `&&&2`\n- Number of messages *every 5 seconds* allowed: `&&&3`\n- *Ignored media*:\n&&&4',
+                antiflood = '- *Status*: `&&&1`\n- *Action* when an user floods: `&&&2`\n- Number of messages *every 5 seconds* allowed: `&&&3`\n- *Ignored media*:\n&&&4',
                 settings = 'Settings',
                 admins = 'Admins',
                 rules = 'Rules',
@@ -3073,7 +3073,7 @@ return {
                             .."`/user [by reply|username|id]` = returns a two pages messages: the first shows how many times the user has been banned *in all the groups* (divided in sections), "
                             .."the second page shows some general stats about the user: messages/media in the group, warns received and so on.\n"
                             .."`/status [username|id]` = أظهر الحالة الحالية للمستخدم `(member|kicked/left the chat|banned|admin/creator|never seen)`.\n"
-                            .."`/banlist` = أظهر قائمة المستخدمون المحظورون. يشمل الدوافع (إذا تم ذكرها أثناء الحظر).\n"
+                            .."`/banlist` = أظهر قائمة المستخدمون المحظورون. يشم�� الدوافع (إذا تم ذكرها أثناء الحظر).\n"
                             .."`/banlist -` = clean the banlist.\n"
                             .."\n*ملاحظة*:يمكنك أن تكتب شيئاً ما بعد أمر `/ban` (أم بعد اسم المستخدم، إذا كنت تحظر بواسطة اسم المستخدم)."
                             .." هذا التعليق سيُستخدم كدافع الحظر.",
@@ -3336,8 +3336,8 @@ return {
             error = 'Language not yet supported'
         },
 		banhammer = {
-            kicked = 'تم إزالة &&&1! (ولكن ما رال يستطيع أن يرجع)',
-            banned = 'تم حظر &&&1!',
+            kicked = '`&&&1` kicked `&&&2`!',
+            banned = '`&&&1` banned `&&&2`!',
             already_banned_normal = '&&&1 محظور بالفعل!',
             unbanned = 'تم حذف حظر المستخدم!',
             reply = 'رد على شخص ما',
@@ -3422,7 +3422,7 @@ return {
             dashboard = {
                 private = 'I\'ve sent you the group dashboard in private',
                 first = 'Navigate this message to see *all the info* about this group!',
-                flood = '- *Status*: `&&&1`\n- *Action* when an user floods: `&&&2`\n- Number of messages *every 5 seconds* allowed: `&&&3`\n- *Ignored media*:\n&&&4',
+                antiflood = '- *Status*: `&&&1`\n- *Action* when an user floods: `&&&2`\n- Number of messages *every 5 seconds* allowed: `&&&3`\n- *Ignored media*:\n&&&4',
                 settings = 'Settings',
                 admins = 'Admins',
                 rules = 'Rules',
