@@ -48,7 +48,7 @@
             tell = '*群组ID*: &&&1',
         },
         not_mod = '您 *不是* 监督员',
-        breaks_markdown = '这段文本不符合*markdown*语法。\n有关Markdown语言的正确使用方法，可见[此处](https://telegram.me/GroupButler_ch/46)。',
+        breaks_markdown = '这段文本不符合*markdown*语法。\n有关Markdown语言的正确使用方法，可参考[此文](https://telegram.me/GroupButler_ch/46)。',
         credits = '*一些常用链接：*',
         extra = {
             setted = '&&&1 指令已保存！',
@@ -65,8 +65,8 @@
                             .."`/ban [通过回复|@用户名]` = 封禁某人。（包括普通群组）\n"
                             .."`/tempban [时长（分钟）]` = 将某人临时屏蔽一段时间（时长必须 < 10080 分钟 = 1周）。目前仅支持通过回复执行此指令。\n"
                             .."`/unban [通过回复|@用户名]` = 将某人从黑名单中移除.\n"
-                            .."`/user [通过回复|@用户名|id]` = 返回一条2页长的消息：第一页将展示此用户在 *所有群组中* 被封禁的次数(divided in sections), "
-                            .."第二页将会展示一些有关此用户的常规统计，包括但不限于: 在群组内发送信息/媒体消息的次数、被警告的次数等。\n"
+                            .."`/user [通过回复|@用户名|id]` = 返回一条2页长的消息：第一页将显示此用户在 *所有群组中* 被封禁的次数(divided in sections), "
+                            .."第二页将会显示一些有关此用户的常规统计，包括但不限于: 在群组内发送信息/媒体消息的次数、被警告的次数等。\n"
                             .."`/status [@用户名]` = 显示某人的状态 `(群员|已离开/被移出|被封禁|管理员/创建者|不认识)`.\n"
                             .."`/banlist` = 显示被封禁的用户及原因（如果有记录）\n"
                             .."`/banlist -` = 清空封禁列表。\n"
@@ -78,7 +78,7 @@
                         .."`/setabout [群组简介]` = 设置新的群组简介。（旧简介将会被覆盖）\n"
                         .."`/addabout [文本]` = 在现有简介后添加新的文本。\n"
                         .."\n*注*：支持markdown语言，如果您发送的文本里有语法错误，机器人将会提醒您。\n"
-                        .."有关Markdown语言的正确使用方法，可见[此处](https://telegram.me/GroupButler_ch/46)。",
+                        .."有关Markdown语言的正确使用方法，可参考[此文](https://telegram.me/GroupButler_ch/46)。",
                 flood = "*监督员权限: 刷屏控制*\n\n"
                         .."`/antiflood` = 使用内联菜单以在私聊中管理防刷屏设置，包括：灵敏度、防刷屏措施（移除/封禁）、例外情况。\n"
                         .."`/antiflood [数字]` = 设置一个用户在 5 秒内可以发送多少条信息。\n"
@@ -101,7 +101,7 @@
                             .."您可以借助 `群组规则`、 `群组介绍` 、 `监督员名单` 等素材来构造欢迎语。\n"
                             .."您可以依照 `/welcome` + `素材代号` 的格式，将必要的内容构造成欢迎语。\n"
                             .."_素材代号_ : *r* = 群组规则; *a* = 群组介绍; *m* = 监督员名单。\n"
-                            .."举例来说：若您输入指令 \"`/welcome rm`\" ，欢迎语将会展示 群组规则 和 监督员名单。",
+                            .."举例来说：若您输入指令 \"`/welcome rm`\" ，欢迎语将会显示 群组规则 和 监督员名单。",
                 extra = "*监督员权限: 附加指令*\n\n"
                         .."`/extra [#触发文本] [回复]` = 当某人的消息中涉及了指定触发文本时，设置机器人要回复的内容。\n"
                         .."_例如_ : 若输入指令 \"`/extra #早呀 早上好！`\"，那么在每次有人发送 #早呀 的文本时，机器人将回复 \"早上好！\"。\n"
@@ -109,10 +109,10 @@
                         .."`/extra list` = 列出目前已经设置的附加指令。\n"
                         .."`/extra del [#触发文本]` = 删除指定触发文本的回复规则。\n"
                         .."\n*注：* 支持markdown语言，如果您发送的文本里有语法错误，机器人将会提醒您。\n"
-                        .."有关Markdown语言的正确使用方法，可见[此处](https://telegram.me/GroupButler_ch/46)",
+                        .."有关Markdown语言的正确使用方法，可参考[此文](https://telegram.me/GroupButler_ch/46)",
                 warns = "*监督员权限: 警告*\n\n"
                         .."`/warn [通过回复]` = 警告指定用户，若此用户达到最大警告数限制，他将被移除/封禁.\n"
-                        .."`/warnmax` = 设置最大警告次数，若某用户获警告次数达到次数，将被移除/封禁\n"
+                        .."`/warnmax` = 设置最大警告次数，若某用户获警告次数达到此数值，将被移除/封禁\n"
                         .."\n查看一名用户获警告次数的方法: 此数值在 `/user` 指令返回信息中第2页中出现。您也可以在这一页的内联菜单中重置警告次数。",
                 char = "*监督员权限: 特殊字符*\n\n"
                         .."`/menu` = 您可以在私聊中通过菜单获取此设置。\n"
@@ -129,38 +129,38 @@
                         .."\n*注*: 译者均为志愿翻译，因此我不能保证所有翻译的准确性。我也不能强迫他们在每次更新后翻译新的字符串（未被翻译的字符串将会以英语语言出现）."
                         .."\n无论如何，翻译的权利是开放给任何人的。使用 `/strings` 指令来获取一份包括所有字符串的 _.lua_ 文件（英语）。\n"
                         .."使用 `/strings [lang code]` 来获取特定语言的文件（如: _/strings es_ ）。\n"
-                        .."在文件里你可以找到全部的操作指南：遵守它们，你翻译的语言将会被尽早投入使用;)",
+                        .."在文件里您可以找到全部的操作指南：遵守它们，您翻译的语言将会被尽早投入使用;)",
                 settings = "*监督员权限: 群组设置*\n\n"
                             .."`/menu` = 在私聊中通过方便的内联键盘来管理群组设置\n"
-                            .."`/report [on/off]` (通过回复) = 用户不能使用(_off_)或可以使用(_on_) \"@admin\" 指令。\n",
+                            .."`/report [on/off]` (通过回复) = 指定用户不能使用(_off_)或可以使用(_on_) \"@admin\" 指令。\n",
             },
-            all = '*Commands for all*:\n'
-                    ..'`/dashboard` : see all the group info from private\n'
-                    ..'`/rules` (if unlocked) : show the group rules\n'
-                    ..'`/about` (if unlocked) : show the group description\n'
-                    ..'`/adminlist` (if unlocked) : show the moderators of the group\n'
-                    ..'`@admin` (if unlocked) : by reply= report the message replied to all the admins; no reply (with text)= send a feedback to all the admins\n'
-                    ..'`/kickme` : get kicked by the bot\n'
-                    ..'`/faq` : some useful answers to frequent quetions\n'
-                    ..'`/id` : get the chat id, or the user id if by reply\n'
-                    ..'`/echo [text]` : the bot will send the text back (with markdown, available only in private for non-admin users)\n'
-                    ..'`/info` : show some useful informations about the bot\n'
-                    ..'`/group` : get the discussion group link\n'
-                    ..'`/c` <feedback> : send a feedback/report a bug/ask a question to my creator. _ANY KIND OF SUGGESTION OR FEATURE REQUEST IS WELCOME_. He will reply ASAP\n'
-                    ..'`/help` : show this message.'
-		            ..'\n\nIf you like this bot, please leave the vote you think it deserves [here](https://telegram.me/storebot?start=groupbutler_bot)',
-		    private = 'Hey, *&&&1*!\n'
-                    ..'I\'m a simple bot created in order to help people to manage their groups.\n'
-                    ..'\n*What can I do for you?*\n'
-                    ..'Wew, I have a lot of useful tools!\n'
-                    ..'• You can *kick or ban* users (even in normal groups) by reply/username\n'
-                    ..'• Set rules and a description\n'
-                    ..'• Turn on a configurable *anti-flood* system\n'
-                    ..'• Customize the *welcome message*, also with gif and stickers\n'
-                    ..'• Warn users, and kick/ban them if they reach a max number of warns\n'
-                    ..'• Warn or kick users if they send a specific media\n'
-                    ..'...and more, below you can find the "all commands" button to get the whole list!\n'
-                    ..'\nTo use me, *you need to add me as administrator of the group*, or Telegram won\'t let me work! (if you have some doubts about this, check [this post](https://telegram.me/GroupButler_ch/63))'
+            all = '*公共指令*:\n'
+                    ..'`/dashboard` : 通过私聊获取群组仪表盘\n'
+                    ..'`/rules` (若未锁定) : 显示群组规则\n'
+                    ..'`/about` (若未锁定) : 显示群组介绍\n'
+                    ..'`/adminlist` (若未锁定) : 显示群组监督员\n'
+                    ..'`@admin` (若未锁定) : 通过回复 = report the message replied to all the admins; no reply (with text)= send a feedback to all the admins\n'
+                    ..'`/kickme` : 请求被机器人移出群组\n'
+                    ..'`/faq` : 一些常见问题的回答\n'
+                    ..'`/id` : 获取群组ID，或通过回复获取用户ID。\n'
+                    ..'`/echo [文本]` : 机器人将会送回文本 (使用Markdown语言，对非管理员仅可通过私聊使用此指令)\n'
+                    ..'`/info` : 显示有关机器人的一些信息\n'
+                    ..'`/group` : 获取讨论群组邀请链接（限定英语）\n'
+                    ..'`/c` <反馈内容> : （请使用英语）发送反馈/报告bug/向我的创建者提问。 _任何建议和功能请求都是欢迎的_。他将尽快回复。\n'
+                    ..'`/help` : 显示本条消息。'
+		            ..'\n\n如果您喜欢这个机器人，请在[这里](https://telegram.me/storebot?start=groupbutler_bot)给予我相应的评价。',
+		    private = '嘿，*&&&1*！\n'
+                    ..'我只是一个用来帮助人们管理他们的群组的机器人。\n'
+                    ..'\n*我能为您做什么？*\n'
+                    ..'哇哦，我可是有很多实用工具的！\n'
+                    ..'• 您可以通过回复/@用户名来 *移除/封禁* 用户(即使在普通群组)\n'
+                    ..'• 设置群组规则和简介\n'
+                    ..'• 开启一个可配置的 *防刷屏* 系统\n'
+                    ..'• 定制 *欢迎语*，亦能使用贴纸和gif\n'
+                    ..'• 警告用户，并在达到最大警告次数将他们移除/封禁 \n'
+                    ..'• 在用户发送特定媒体消息时发送警告或移出群组\n'
+                    ..'……以及更多，您可以通过"All the commands"按钮来获取完整列表！\n'
+                    ..'\n若要使用我，*您需要让我成为一个群组的管理员*，否则我无法正常为您提供服务！（如果您对此表示怀疑，请查看[此文](https://telegram.me/GroupButler_ch/63)）'
                     ..'\nYou can report bugs/send feedbacks/ask a question to my creator just using "`/c <feedback>`" command. EVERYTHING IS WELCOME!',
             group_success = '_I\'ve sent you the help message in private_',
             group_not_success = '_Please message me first so I can message you_',
