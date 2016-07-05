@@ -161,54 +161,54 @@
                     ..'• 在用户发送特定媒体消息时发送警告或移出群组\n'
                     ..'……以及更多，您可以通过"All the commands"按钮来获取完整列表！\n'
                     ..'\n若要使用我，*您需要让我成为一个群组的管理员*，否则我无法正常为您提供服务！（如果您对此表示怀疑，请查看[此文](https://telegram.me/GroupButler_ch/63)）'
-                    ..'\nYou can report bugs/send feedbacks/ask a question to my creator just using "`/c <feedback>`" command. EVERYTHING IS WELCOME!',
-            group_success = '_I\'ve sent you the help message in private_',
-            group_not_success = '_Please message me first so I can message you_',
-            initial = 'Choose the *role* to see the available commands:',
-            kb_header = 'Tap on a button to see the *related commands*'
+                    ..'\n仅需使用 "`/c <反馈内容>`" 指令，您就可以（在使用英语的前提下）报告bugs/发送反馈/向我的创建者提问。所有内容都是欢迎的！',
+            group_success = '_我已经将消息私聊给您了_',
+            group_not_success = '_给我发条消息，我就能为您服务_',
+            initial = '选择一个*角色*以查看可用指令:',
+            kb_header = '轻击一个按钮来查看 *相关指令*'
         },
         links = {
-            no_link = '*No link* for this group. Ask the owner to generate one',
+            no_link = '此群组尚未有*邀请链接*。快呼唤群组创建者生成一个',
             link = '[&&&1](&&&2)',
-            link_no_input = 'This is not a *public supergroup*, so you need to write the link near /setlink',
-            link_invalid = 'This link is *not valid!*',
-            link_updated = 'The link has been updated.\n*Here\'s the new link*: [&&&1](&&&2)',
-            link_setted = 'The link has been setted.\n*Here\'s the link*: [&&&1](&&&2)',
-            link_unsetted = 'Link *unsetted*',
-            poll_unsetted = 'Poll *unsetted*',
-            poll_updated = 'The poll have been updated.\n*Vote here*: [&&&1](&&&2)',
-            poll_setted = 'The link have been setted.\n*Vote here*: [&&&1](&&&2)',
-            no_poll = '*No active polls* for this group',
-            poll = '*Vote here*: [&&&1](&&&2)'
+            link_no_input = '这里并不是*公共超级群组*，你需要在 /setlink 后附上群组邀请连接',
+            link_invalid = '这个链接是*非法的*！',
+            link_updated = '链接已更新。\n*这是新的链接*: [&&&1](&&&2)',
+            link_setted = '链接已设置。\n*这是链接*: [&&&1](&&&2)',
+            link_unsetted = '链接*已清除*',
+            poll_unsetted = '投票*已清除*',
+            poll_updated = '投票已更新.\n*请在此处投票*: [&&&1](&&&2)',
+            poll_setted = '链接已设置.\n*请在此处投票*: [&&&1](&&&2)',
+            no_poll = '这个群组*没有进行中的投票*',
+            poll = '*请在此处投票*: [&&&1](&&&2)'
         },
         mod = {
-            modlist = '*Creator*:\n&&&1\n\n*Admins*:\n&&&2'
+            modlist = '*群组创建者*:\n&&&1\n\n*管理员*:\n&&&2'
         },
         report = {
-            no_input = 'Write your suggestions/bugs/doubt near the !',
-            sent = 'Feedback sent!',
-            feedback_reply = '*Hello, this is a reply from the bot owner*:\n&&&1',
+            no_input = '请在 `!` 后写下您的建议/要报告的bugs/疑惑（请勿使用中文输入感叹号！，使用`!`而非`！`）',
+            sent = '反馈已发送！',
+            feedback_reply = '*你好，这是来自本机器人所有人的回复*：\n&&&1',
         },
         service = {
-            welcome = 'Hi &&&1, and welcome to *&&&2*!',
-            welcome_rls = 'Total anarchy!',
-            welcome_abt = 'No description for this group.',
-            welcome_modlist = '\n\n*Creator*:\n&&&1\n*Admins*:\n&&&2',
-            abt = '\n\n*Description*:\n',
-            rls = '\n\n*Rules*:\n',
+            welcome = '你好 &&&1，欢迎来到 *&&&2*!',
+            welcome_rls = '乱死了！',
+            welcome_abt = '这个群组没有简介。',
+            welcome_modlist = '\n\n*群组创建人*:\n&&&1\n*管理员*:\n&&&2',
+            abt = '\n\n*群组简介*:\n',
+            rls = '\n\n*群组规则*:\n',
         },
         setabout = {
-            no_bio = '*No description* for this group.',
-            no_bio_add = '*No description for this group*.\nUse /setabout [bio] to set-up a new description',
-            no_input_add = 'Please write something next this poor "/addabout"',
-            added = '*Description added:*\n"&&&1"',
-            no_input_set = 'Please write something next this poor "/setabout"',
-            clean = 'The bio has been cleaned.',
-            new = '*New bio:*\n"&&&1"',
-            about_setted = 'New description *saved successfully*!'
+            no_bio = '这个群组*没有简介*。',
+            no_bio_add = '*这个群组没有简介*。\n请使用 /setabout [群组简介] 来设置一个新的群组简介',
+            no_input_add = '请在这可怜的"/addabout"后面写点什么吧',
+            added = '*已追加新的群组简介：*\n"&&&1"',
+            no_input_set = '请在这可怜的"/setabout"后面写点什么吧',
+            clean = '群组简介已清除。',
+            new = '*新的群组简介：*\n"&&&1"',
+            about_setted = '新的群组简介*已成功记录*！'
         },
         setrules = {
-            no_rules = '*Total anarchy*!',
+            no_rules = '*乱死了*！',
             no_rules_add = '*No rules* for this group.\nUse /setrules [rules] to set-up a new constitution',
             no_input_add = 'Please write something next this poor "/addrules"',
             added = '*Rules added:*\n"&&&1"',
