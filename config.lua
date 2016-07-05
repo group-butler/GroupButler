@@ -32,7 +32,8 @@ return {
 		'private.lua',
 		'admin.lua',
 		'faq.lua',
-		'test.lua'
+		'restore.lua'
+		--'test.lua'
 	},
 	available_languages = {
 		'en',
@@ -65,7 +66,8 @@ return {
 			['Report'] = 'yes',
 			['Welcome'] = 'no',
 			['Extra'] = 'no',
-			['Flood'] = 'no'
+			['Flood'] = 'no',
+			['Admin_mode'] = 'yes',
 		},
 		['flood'] = {
 			['MaxFlood'] = 5,

@@ -96,45 +96,28 @@ end
 
 local function collect_stats(msg)
 	
-	if not msg.cb then --ignore taps on inline keyboards
-		
-		--count the number of messages
-		db:hincrby('bot:general', 'messages', 1)
-		
-		--for resolve username
-		if msg.from and msg.from.username then
-			db:hset('bot:usernames', '@'..msg.from.username:lower(), msg.from.id)
-			db:hset('bot:usernames:'..msg.chat.id, '@'..msg.from.username:lower(), msg.from.id)
+	--count the number of messages
+	db:hincrby('bot:general', 'messages', 1)
+	
+	--for resolve username
+	if msg.from and msg.from.username then
+		db:hset('bot:usernames', '@'..msg.from.username:lower(), msg.from.id)
+		db:hset('bot:usernames:'..msg.chat.id, '@'..msg.from.username:lower(), msg.from.id)
+	end
+	if msg.forward_from and msg.forward_from.username then
+		db:hset('bot:usernames', '@'..msg.forward_from.username:lower(), msg.forward_from.id)
+		db:hset('bot:usernames:'..msg.chat.id, '@'..msg.forward_from.username:lower(), msg.forward_from.id)
+	end
+	
+	if not(msg.chat.type == 'private') then
+		if msg.from and msg.from.id then
+			db:hset('chat:'..msg.chat.id..':userlast', msg.from.id, os.time()) --last message for each user
 		end
-		if msg.forward_from and msg.forward_from.username then
-			db:hset('bot:usernames', '@'..msg.forward_from.username:lower(), msg.forward_from.id)
-			db:hset('bot:usernames:'..msg.chat.id, '@'..msg.forward_from.username:lower(), msg.forward_from.id)
-		end
-		
-		--group stats
-		if not(msg.chat.type == 'private') then
-			--user in the group stats
-			if msg.from.id then
-				db:hset('chat:'..msg.chat.id..':userlast', msg.from.id, os.time()) --last message for each user
-				db:hincrby('chat:'..msg.chat.id..':userstats', msg.from.id, 1) --number of messages for each user
-				if msg.media then	
-					db:hincrby('chat:'..msg.chat.id..':usermedia', msg.from.id, 1)
-				end
-			end
-			db:incrby('chat:'..msg.chat.id..':totalmsgs', 1) --total number of messages of the group
-		end
-		
-		--user stats
-		if msg.from then
-			db:hincrby('user:'..msg.from.id, 'msgs', 1)
-			if msg.media then
-				db:hincrby('user:'..msg.from.id, 'media', 1)
-			end
-		end
-		
-		if msg.cb and msg.from and msg.chat then
-			db:hincrby('chat:'..msg.chat.id..':cb', msg.from.id, 1)
-		end
+	end
+	
+	--user stats
+	if msg.from then
+		db:hincrby('user:'..msg.from.id, 'msgs', 1)
 	end
 end
 
@@ -266,25 +249,6 @@ local function forward_to_msg(msg)
 	else
 		msg.text = '###forward'
 	end
-    return on_msg_receive(msg)
-end
-
-local function inline_to_msg(inline)
-	local msg = {
-		id = inline.id,
-    	chat = {
-      		id = inline.id,
-      		type = 'inline',
-      		title = inline.from.first_name
-    	},
-    	from = inline.from,
-		message_id = math.random(1,800),
-    	text = '###inline:'..inline.query,
-    	query = inline.query,
-    	date = os.time() + 100
-    }
-    --vardump(msg)
-    db:hincrby('bot:general', 'inline', 1)
     return on_msg_receive(msg)
 end
 

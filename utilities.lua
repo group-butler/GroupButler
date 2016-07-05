@@ -762,6 +762,8 @@ local function remGroup(chat_id, full)
 		db:del('chat:'..chat_id..':'..set)
 	end
 	
+	db:del('chat:'..chat_id..'links')
+	
 	if full then
 		for i, set in pairs(config.chat_custom_texts) do
 			db:del('chat:'..chat_id..':'..set)
@@ -997,7 +999,8 @@ local cross = {
 	remBanList = remBanList,
 	getUserStatus = getUserStatus,
 	saveBan = saveBan,
-	is_info_message_key = is_info_message_key
+	is_info_message_key = is_info_message_key,
+	table2keyboard = table2keyboard
 }
 
 local rdb = {

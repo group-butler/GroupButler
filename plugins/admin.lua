@@ -58,7 +58,10 @@ local triggers2 = {
 	'^/a(prevban) (.*)$',
 	'^/a(rawinfo) (.*)$',
 	'^/a(editpost) (%d%d%d?) (.*)$',
-	'^/a(cleandeadgroups)$'
+	'^/a(cleandeadgroups)$',
+	'^/a(initgroup) (-%d+)$',
+	'^/a(remgroup) (-%d+)$',
+	'^/a(remgroup) (true) (-%d+)$',
 }
 
 local logtxt = ''
@@ -91,7 +94,7 @@ end
 local function load_lua(code)
 	local output = loadstring(code)()
 	if not output then
-		output = 'Done! (no output)'
+		output = '`Done! (no output)`'
 	else
 		if type(output) == 'table' then
 			output = vtext(output)
@@ -160,12 +163,24 @@ local action = function(msg, blocks, ln)
     	else
 	        local hash = 'bot:users'
 	        local ids = db:hkeys(hash)
-	        if ids then
+	        local sent, not_sent, err_429, err_403 = 0, 0, 0, 0
+	        if next(ids) then
 	            for i=1,#ids do
-	                api.sendMessage(ids[i], blocks[2], true)
-	                print('Sent', ids[i])
+	                local res, code = api.sendMessage(ids[i], blocks[2], true)
+	                if not res then
+	                	if code == 429 then
+	                		err_429 = err_429 + 1
+	                		db:sadd('bc:err429', ids[i])
+	                	elseif code == 403 then
+	                		err_403 = err_403 + 1
+	                	else
+	                		not_sent = not_sent + 1
+	                	end
+	                else
+	                	sent = sent + 1
+	                end
 	            end
-	            api.sendMessage(msg.from.id, 'Broadcast delivered. Check the log for the list of reached ids')
+	            api.sendMessage(msg.from.id, 'Broadcast delivered\n\n*Sent: '..sent..'\nNot sent: '..not_sent + err_429 + err_403..'*\n- Requests rejected for flood (hash: _bc:err429_ ): '..err_429..'\n- Users that blocked the bot: '..err_403, true)
 	        else
 	            api.sendMessage(msg.from.id, 'No users saved, no broadcast')
 	        end
@@ -543,9 +558,7 @@ local action = function(msg, blocks, ln)
     	redis_f = 'return db:'..redis_f..'\')'
     	redis_f = redis_f:gsub('$chat', msg.chat.id)
     	redis_f = redis_f:gsub('$from', msg.from.id)
-    	print(redis_f)
     	local output = load_lua(redis_f)
-    	print(output)
     	mystat('/rediscli')
     	api.sendReply(msg, output, true)
     end
@@ -841,6 +854,20 @@ local action = function(msg, blocks, ln)
 			cross.remGroup(chat_id, true)
 		end
 		api.sendReply(msg, 'Done. Groups passed: '..#dead_groups)
+	end
+	if blocks[1] == 'initgroup' then
+		cross.initGroup(blocks[2])
+		api.sendMessage(msg.chat.id, 'Done')
+	end
+	if blocks[1] == 'remgroup' then
+		local full = false
+		local chat_id = blocks[2]
+		if blocks[2] == 'true' then
+			full = true
+			chat_id = blocks[3]
+		end
+		cross.remGroup(chat_id, full)
+		api.sendMessage(msg.chat.id, 'Removed (heavy: '..tostring(full)..')')
 	end
 end
 
