@@ -47,7 +47,7 @@
             menu_cb_media = 'Tap on a switch!',
             tell = '*群组ID*: &&&1',
         },
-        not_mod = '你 *不是* 监督员',
+        not_mod = '您 *不是* 监督员',
         breaks_markdown = '这段文本不符合*markdown*语法。\n有关Markdown语言的正确使用方法，可见[此处](https://telegram.me/GroupButler_ch/46)。',
         credits = '*一些常用链接：*',
         extra = {
@@ -70,7 +70,7 @@
                             .."`/status [@用户名]` = 显示某人的状态 `(群员|已离开/被移出|被封禁|管理员/创建者|不认识)`.\n"
                             .."`/banlist` = 显示被封禁的用户及原因（如果有记录）\n"
                             .."`/banlist -` = 清空封禁列表。\n"
-                            .."\n*注*：你可以在 `/ban` 指令后附上备注（如果你是通过 `@用户名` 封禁的，可以在用户名后附上）."
+                            .."\n*注*：您可以在 `/ban` 指令后附上备注（如果您是通过 `@用户名` 封禁的，可以在用户名后附上）."
                             .." 这段备注将会作为封禁原因记录。",
                 info = "*监督员权限: 群组介绍*\n\n"
                         .."`/setrules [群组规则]` = 设置新的群组规则。（旧规则将会被覆盖）\n"
@@ -90,49 +90,49 @@
                         .."`/media list` = 列出目前的媒体消息设置。\n"
                         .."\n*支持的媒体类型列表*: _image, audio, video, sticker, gif, voice, contact, file, link_\n",
                 welcome = "*监督员权限: 新用户欢迎*\n\n"
-                            .."`/menu` = 通过在私聊中操作菜单，你将会找到一个可以控制欢迎语开启与否的选项。\n"
+                            .."`/menu` = 通过在私聊中操作菜单，您将会找到一个可以控制欢迎语开启与否的选项。\n"
                             .."\n*自定义欢迎语：*\n"
                             .."`/welcome 欢迎 $name，快和其他人打成一片吧！`\n"
-                            .."在\"/welcome\" 指令后附上欢迎语，同时你也可以使用一些占位符来添加新群员的 name/username/id。\n"
+                            .."在\"/welcome\" 指令后附上欢迎语，同时您也可以使用一些占位符来添加新群员的 name/username/id。\n"
                             .."占位符: _$username_ （将会被代入为用户名）; _$name_ （将会被代入为姓名）; _$id_ （将会被代入为ID）; _$title_ （将会被代入为群组名）。\n"
                             .."\n*将GIF/贴纸作为欢迎语*\n"
-                            .."你可以使用特定的gif/贴纸作为欢迎语，你可以通过对gif/贴纸消息回复 \'/welcome\' 来进行设置。\n"
+                            .."您可以使用特定的gif/贴纸作为欢迎语，您可以通过对gif/贴纸消息回复 \'/welcome\' 来进行设置。\n"
                             .."\n*构造欢迎语*\n"
-                            .."你可以借助 `群组规则`、 `群组介绍` 、 `监督员名单` 等素材来构造欢迎语。\n"
-                            .."你可以依照 `/welcome` + `素材代号` 的格式，将必要的内容构造成欢迎语。\n"
+                            .."您可以借助 `群组规则`、 `群组介绍` 、 `监督员名单` 等素材来构造欢迎语。\n"
+                            .."您可以依照 `/welcome` + `素材代号` 的格式，将必要的内容构造成欢迎语。\n"
                             .."_素材代号_ : *r* = 群组规则; *a* = 群组介绍; *m* = 监督员名单。\n"
                             .."举例来说：若您输入指令 \"`/welcome rm`\" ，欢迎语将会展示 群组规则 和 监督员名单。",
                 extra = "*监督员权限: 附加指令*\n\n"
                         .."`/extra [#触发文本] [回复]` = 当某人的消息中涉及了指定触发文本时，设置机器人要回复的内容。\n"
                         .."_例如_ : 若输入指令 \"`/extra #早呀 早上好！`\"，那么在每次有人发送 #早呀 的文本时，机器人将回复 \"早上好！\"。\n"
-                        .."你也可以使用 `/extra #触发文本` 回复一条媒体消息 (_包括图片、文件、语音、视频、音频、gif_)来保存这条回复规则，以让机器人每逢检测到此触发文本时，自动回复此媒体消息。\n"
+                        .."您也可以使用 `/extra #触发文本` 回复一条媒体消息 (_包括图片、文件、语音、视频、音频、gif_)来保存这条回复规则，以让机器人每逢检测到此触发文本时，自动回复此媒体消息。\n"
                         .."`/extra list` = 列出目前已经设置的附加指令。\n"
                         .."`/extra del [#触发文本]` = 删除指定触发文本的回复规则。\n"
-                        .."\n*Note:* the markdown is supported. If the text sent breaks the markdown, the bot will notify that something is wrong.\n"
-                        .."For a correct use of the markdown, check [this post](https://telegram.me/GroupButler_ch/46) in the channel",
-                warns = "*Moderators: warns*\n\n"
-                        .."`/warn [by reply]` = warn a user. Once the max number is reached, he will be kicked/banned.\n"
-                        .."`/warnmax` = set the max number of the warns before the kick/ban.\n"
-                        .."\nHow to see how many warns a user has received: the number is showed in the second page of the `/user` command. In this page, you will see a button to reset this number.",
-                char = "*Moderators: special characters*\n\n"
-                        .."`/menu` = you will receive in private the menu keyboard.\n"
-                        .."Here you will find two particular options: _Arab and RTL_.\n"
-                        .."\n*Arab*: when Arab it's not allowed (🚫), everyone who will write an arab character will be kicked from the group.\n"
-                        .."*Rtl*: it stands for 'Righ To Left' character, and it's the responsible of the weird service messages that are written in the opposite sense.\n"
-                        .."When Rtl is not allowed (🚫), everyone that writes this character (or that has it in his name) will be kicked.",
-                links = "*Moderators: links*\n\n"
-                        .."`/setlink [link|'no']` : set the group link, so it can be re-called by other admins, or unset it.\n"
-                        .."`/link` = get the group link, if already setted by the owner.\n"
-                        .."\n*Note*: the bot can recognize valid group links. If a link is not valid, you won't receive a reply.",
-                lang = "*Moderators: group language*\n\n"
-                        .."`/lang` = choose the group language (can be changed in private too).\n"
-                        .."\n*Note*: translators are volunteers, so I can't ensure the correctness of all the translations. And I can't force them to translate the new strings after each update (not translated strings are in english)."
-                        .."\nAnyway, translations are open to everyone. Use `/strings` command to receive a _.lua_ file with all the strings (in english).\n"
-                        .."Use `/strings [lang code]` to receive the file for that specific language (example: _/strings es_ ).\n"
-                        .."In the file you will find all the instructions: follow them, and as soon as possible your language will be available ;)",
-                settings = "*Moderators: group settings*\n\n"
-                            .."`/menu` = manage the group settings in private with an handy inline keyboard.\n"
-                            .."`/report [on/off]` (by reply) = the user won't be able (_off_) or will be able (_on_) to use \"@admin\" command.\n",
+                        .."\n*注：* 支持markdown语言，如果您发送的文本里有语法错误，机器人将会提醒您。\n"
+                        .."有关Markdown语言的正确使用方法，可见[此处](https://telegram.me/GroupButler_ch/46)",
+                warns = "*监督员权限: 警告*\n\n"
+                        .."`/warn [通过回复]` = 警告指定用户，若此用户达到最大警告数限制，他将被移除/封禁.\n"
+                        .."`/warnmax` = 设置最大警告次数，若某用户获警告次数达到次数，将被移除/封禁\n"
+                        .."\n查看一名用户获警告次数的方法: 此数值在 `/user` 指令返回信息中第2页中出现。您也可以在这一页的内联菜单中重置警告次数。",
+                char = "*监督员权限: 特殊字符*\n\n"
+                        .."`/menu` = 您可以在私聊中通过菜单获取此设置。\n"
+                        .."这里为您提供2个设置项: _阿拉伯字母 和 RTL字符_.\n"
+                        .."\n*阿拉伯字母*: 若阿拉伯字母被禁止(🚫)，任何在消息中使用阿拉伯字母的行为，将导致此用户被移出群组。\n"
+                        .."*Rtl字符*: 即'右向左'字符，它是造成“消息倒序显示”的怪诞现象的元凶。\n"
+                        .."若Rtl字符被禁止(🚫)，任何在消息中使用此类字符（或在名字中使用）的行为，将导致此用户被移出群组。",
+                links = "*监督员权限: 链接*\n\n"
+                        .."`/setlink [链接地址|'no']` : set the group link, so it can be re-called by other admins, or unset it.\n"
+                        .."`/link` = 获取群组链接（当群组创始人设置时）。\n"
+                        .."\n*注*: 机器人能够识别链接是否有效。若链接是非法的，则不会回复任何信息。",
+                lang = "*监督员权限: 群组语言*\n\n"
+                        .."`/lang` = 选择群组语言（同样可以在私聊中设置）。\n"
+                        .."\n*注*: 译者均为志愿翻译，因此我不能保证所有翻译的准确性。我也不能强迫他们在每次更新后翻译新的字符串（未被翻译的字符串将会以英语语言出现）."
+                        .."\n无论如何，翻译的权利是开放给任何人的。使用 `/strings` 指令来获取一份包括所有字符串的 _.lua_ 文件（英语）。\n"
+                        .."使用 `/strings [lang code]` 来获取特定语言的文件（如: _/strings es_ ）。\n"
+                        .."在文件里你可以找到全部的操作指南：遵守它们，你翻译的语言将会被尽早投入使用;)",
+                settings = "*监督员权限: 群组设置*\n\n"
+                            .."`/menu` = 在私聊中通过方便的内联键盘来管理群组设置\n"
+                            .."`/report [on/off]` (通过回复) = 用户不能使用(_off_)或可以使用(_on_) \"@admin\" 指令。\n",
             },
             all = '*Commands for all*:\n'
                     ..'`/dashboard` : see all the group info from private\n'
