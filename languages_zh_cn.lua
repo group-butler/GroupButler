@@ -10,14 +10,14 @@
         userinfo = {
             header_1 = '*Ban info (globals)*:\n',
             header_2 = '*General info*:\n',
-            warns = '`Warns`: ',
-            media_warns = '`Media warns`: ',
+            warns = '`警告`: ',
+            media_warns = '`媒体消息警告`: ',
             group_msgs = '`Messages in the group`: ',
             group_media = '`Media sent in the group`: ',
             last_msg = '`Last message here`: ',
             global_msgs = '`Total number of messages`: ',
             global_media = '`Total number of media`: ',
-            remwarns_kb = 'Remove warns'
+            remwarns_kb = '移除警告'
         },
         getban = {
             header = '*Global stats* for ',
@@ -63,13 +63,13 @@
                 banhammer = "*监督员权限: 禁令之锤*\n\n"
                             .."`/kick [通过回复|@用户名]` = 将某人移出群组。（可以被添加回群组）\n"
                             .."`/ban [通过回复|@用户名]` = 封禁某人。（包括普通群组）\n"
-                            .."`/tempban [时长（分钟）]` = 将某人临时屏蔽一段时间（时长必须 < 10080 分钟 = 1周）. 目前仅支持通过回复执行此指令。\n"
+                            .."`/tempban [时长（分钟）]` = 将某人临时屏蔽一段时间（时长必须 < 10080 分钟 = 1周）。目前仅支持通过回复执行此指令。\n"
                             .."`/unban [通过回复|@用户名]` = 将某人从黑名单中移除.\n"
-                            .."`/user [by reply|username|id]` = returns a two pages messages: the first shows how many times the user has been banned *in all the groups* (divided in sections), "
-                            .."the second page shows some general stats about the user: messages/media in the group, warns received and so on.\n"
+                            .."`/user [通过回复|@用户名|id]` = 返回一条2页长的消息：第一页将展示此用户在 *所有群组中* 被封禁的次数(divided in sections), "
+                            .."第二页将会展示一些有关此用户的常规统计，包括但不限于: 在群组内发送信息/媒体消息的次数、被警告的次数等。\n"
                             .."`/status [@用户名]` = 显示某人的状态 `(群员|已离开/被移出|被封禁|管理员/创建者|不认识)`.\n"
                             .."`/banlist` = 显示被封禁的用户及原因（如果有记录）\n"
-                            .."`/banlist -` = clean the banlist.\n"
+                            .."`/banlist -` = 清空封禁列表。\n"
                             .."\n*注*：你可以在 `/ban` 指令后附上备注（如果你是通过 `@用户名` 封禁的，可以在用户名后附上）."
                             .." 这段备注将会作为封禁原因记录。",
                 info = "*监督员权限: 群组介绍*\n\n"
@@ -90,7 +90,7 @@
                         .."`/media list` = 列出目前的媒体消息设置。\n"
                         .."\n*支持的媒体类型列表*: _image, audio, video, sticker, gif, voice, contact, file, link_\n",
                 welcome = "*监督员权限: 新用户欢迎*\n\n"
-                            .."`/menu` = receive in private the menu keyboard. You will find an option to enable/disable the welcome message.\n"
+                            .."`/menu` = 通过在私聊中操作菜单，你将会找到一个可以控制欢迎语开启与否的选项。\n"
                             .."\n*自定义欢迎语：*\n"
                             .."`/welcome 欢迎 $name，快和其他人打成一片吧！`\n"
                             .."在\"/welcome\" 指令后附上欢迎语，同时你也可以使用一些占位符来添加新群员的 name/username/id。\n"
