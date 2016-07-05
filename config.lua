@@ -32,7 +32,7 @@ return {
 		'private.lua',
 		'admin.lua',
 		'faq.lua',
-		'restore.lua'
+		--'restore.lua'
 		--'test.lua'
 	},
 	available_languages = {
