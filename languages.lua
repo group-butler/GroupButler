@@ -176,11 +176,6 @@ return {
             link_updated = 'The link has been updated.\n*Here\'s the new link*: [&&&1](&&&2)',
             link_setted = 'The link has been setted.\n*Here\'s the link*: [&&&1](&&&2)',
             link_unsetted = 'Link *unsetted*',
-            poll_unsetted = 'Poll *unsetted*',
-            poll_updated = 'The poll have been updated.\n*Vote here*: [&&&1](&&&2)',
-            poll_setted = 'The link have been setted.\n*Vote here*: [&&&1](&&&2)',
-            no_poll = '*No active polls* for this group',
-            poll = '*Vote here*: [&&&1](&&&2)'
         },
         mod = {
             modlist = '*Creator*:\n&&&1\n\n*Admins*:\n&&&2'
@@ -602,11 +597,6 @@ return {
             link_updated = 'Il link è stato aggiornato.\n*Ecco il nuovo link*: [&&&1](&&&2)',
             link_setted = 'Il link è stato impostato.\n*Ecco il link*: [&&&1](&&&2)',
             link_unsetted = 'Link *rimosso*',
-            poll_unsetted = 'Sondaggio *rimosso*',
-            poll_updated = 'Il sondaggio è stato aggiornato.\n*Vota qui*: [&&&1](&&&2)',
-            poll_setted = 'Il sondaggio è stato impostato.\n*Vota qui*: [&&&1](&&&2)',
-            no_poll = '*Nessun sondaggio attivo* in questo gruppo',
-            poll = '*Vota qui*: [&&&1](&&&2)'
         },
         mod = {
             modlist = '*Creatore*:\n&&&1\n\n*Admin*:\n&&&2',
@@ -1038,11 +1028,6 @@ return {
             link_updated = 'El enlace ha sido actualizado.\n*Este es el nuevo enlace*: [&&&1](&&&2)',
             link_setted = 'El link ha sido configurado.\n*Este es el enlace*: [&&&1](&&&2)',
             link_unsetted = 'Enlace *sin establecer*',
-            poll_unsetted = 'Encuesta *sin establecer*',
-            poll_updated = 'La encuesta ha sido actualizada.\n*Vota aqui*: [&&&1](&&&2)',
-            poll_setted = 'El enlace ha sido configurado.\n*Vota aqui*: [&&&1](&&&2)',
-            no_poll = '*No hay encuestas activas* en este grupo',
-            poll = '*Vota aqui*: [&&&1](&&&2)'
         },
         mod = {
             modlist = '*Creator*:\n&&&1\n\n*Admins*:\n&&&2'
@@ -1474,11 +1459,6 @@ return {
             link_updated = 'O link foi atualizado.\n*Aqui está o novo link*: [&&&1](&&&2)',
             link_setted = 'O link foi definido.\n*Aqui está o link*: [&&&1](&&&2)',
             link_unsetted = 'Link *desativado*',
-            poll_unsetted = 'Enquete *desativada*',
-            poll_updated = 'A enquete foi atualizada.\n*Vote aqui*: [&&&1](&&&2)',
-            poll_setted = 'O link foi definido.\n*Vote aqui*: [&&&1](&&&2)',
-            no_poll = '*Nenhuma enquete disponível* para este grupo',
-            poll = '*Vote aqui*: [&&&1](&&&2)'
         },
         mod = {
             modlist = '*Criador*:\n&&&1\n\n*Admins*:\n&&&2'
@@ -1908,11 +1888,6 @@ return {
             link_updated = 'Ссылка была обновлена. \n*Вот новая ссылка*: [&&&1](&&&2)',
             link_setted = 'Ссылка установлена.\n*Вот новая ссылка*: [&&&1](&&&2)',
             link_unsetted = 'Ссылка *удалена*',
-            poll_unsetted = 'Опрос*удален*',
-            poll_updated = 'Опрос обновлен.\n*Голосуй здесь*: [&&&1](&&&2)',
-            poll_setted = 'Ссылка установлена! \n*Голосуй здесь*: [&&&1](&&&2)',
-            no_poll = '*Нет активных опросов* для этой группы',
-            poll = '*Голосуй здесь*: [&&&1](&&&2)'
         },
         mod = {
             modlist = '*Creator*:\n&&&1\n\n*Admins*:\n&&&2'
@@ -2328,11 +2303,6 @@ return {
             link_updated = "Der Link wurde geupdated.\n*Er lautet jetzt*: [&&&1](&&&2)",
             link_unsetted = "Link *entfernt*",
             no_link = "Es existiert *kein Link* für diese Gruppe. Bitte den Besitzer (owner) einen zu generieren",
-            no_poll = "*Keine aktiven Umfragen (polls)* für diese Gruppe",
-            poll = "*Stimme (vote) hier ab*: [&&&1](&&&2)",
-            poll_setted = "Der Link wurde gespeichert.\n*Stimme (vote) hier ab*: [&&&1](&&&2)",
-            poll_unsetted = "Umfrage (poll) *entfernt*",
-            poll_updated = "Die Umfrage (poll) wurde aktualisiert (updated).\n*Stimme (vote) hier ab*: [&&&1](&&&2)"
         },
         mod = {
             modlist = '*Creator*:\n&&&1\n\n*Admins*:\n&&&2'
@@ -2748,11 +2718,6 @@ return {
             link_updated = "Länken uppdaterad.\n*Här är nya länken*: [&&&1](&&&2)",
             link_unsetted = "Länk *borttagen*",
             no_link = "*Ingen länk* för den här gruppen. Be gruppägaren generera en",
-            no_poll = "*Ingen aktiv poll* för den här gruppen",
-            poll = "*Rösta här*: [&&&1](&&&2)",
-            poll_setted = "Länken har sats.\n*Rösta här*: [&&&1](&&&2)",
-            poll_unsetted = "Pollen *borttagen*",
-            poll_updated = "Pollen har uppdaterats.\n*Rösta här*: [&&&1](&&&2)"
         },
         mod = {
             modlist = '*Creator*:\n&&&1\n\n*Admins*:\n&&&2',
@@ -3181,11 +3146,6 @@ return {
             link_updated = 'تم تحديث الرابط، وهو الآن: [&&&1](&&&2)',
             link_setted = 'تم تحديد الرابط، إنه الآن: [&&&1](&&&2)',
             link_unsetted = 'تم *حذف* الرابط',
-            poll_unsetted = 'تم *حذف* الاستبيان',
-            poll_updated = 'تم تحديث الاستبيان. صوت هنا: [&&&1](&&&2)',
-            poll_setted = 'تم تحديد رابط الاستبيان. صوت هنا: [&&&1](&&&2)',
-            no_poll = 'ليس هناك استبيان نشط لهذه المجموعة',
-            poll = '*صوت هنا*: [&&&1](&&&2)'
         },
         mod = {
             not_owner = 'إنك لست مالك هذه المجموعة.',
@@ -3620,11 +3580,6 @@ return {
             link_unsetted = "Lien *détruit*",
             link_updated = "Le lien a été mis à jour.\n*Voici le nouveau lien*: [&&&1](&&&2)",
             no_link = "*Pas de lien* pour ce groupe. Demande au créateur d'en générer un",
-            no_poll = "*Pas de sondage actif* pour ce groupe",
-            poll = "*Vote ici*: [&&&1](&&&2)",
-            poll_setted = "Le lien a été configuré.\n*Vote ici*: [&&&1](&&&2)",
-            poll_unsetted = "Sondage *détruit*",
-            poll_updated = "Le sondage a été mis à jour.\n*Vote ici*: [&&&1](&&&2)"
         },
         mod = {
             modlist = "*Créateur*:\n&&&1\n\n*Admins*:\n&&&2"
@@ -3867,6 +3822,399 @@ return {
                     .."• 👤: le bot va répondre *en privé* avec les utilisateurs normaux et dans le groupe pour les admins\n\n"
                     .."*Autres paramètres*: pour les autres paramètres, les icônes sont explicatives\n",
             media_first = 'Tap on a voice in the right colon to *change the setting*'
+                        ..'You can use the last line to change how many warnings should the bot give before kick/ban someone for a forbidden media\n'
+                        ..'The number is not related the the normal `/warn` command',
+        },
+    },
+    tc = {
+        status = {
+            administrator = "&&&1 是管理員",
+            creator = "&&&1 是創群者",
+            kicked = "&&&1 已被驅逐出群組",
+            left = "&&&1 離開了群組／被驅逐／被解除封鎖",
+            member = "&&&1 是聊天成員",
+            unknown = "此用戶沒有參與聊天"
+        },
+        userinfo = {
+            header_1 = '*Ban info (globals)*:\n',
+            header_2 = '*General info*:\n',
+            warns = '`Warns`: ',
+            media_warns = '`Media warns`: ',
+            group_msgs = '`Messages in the group`: ',
+            group_media = '`Media sent in the group`: ',
+            last_msg = '`Last message here`: ',
+            global_msgs = '`Total number of messages`: ',
+            global_media = '`Total number of media`: ',
+            remwarns_kb = 'Remove warns'
+        },
+        getban = {
+            arab = "因使用阿拉伯文字，已驅逐︰",
+            ban = "已封鎖︰",
+            banned = "〝已被封鎖！〞",
+            flood = "因洗版，已移除︰",
+            header = "全面數據關於",
+            kick = "已驅逐︰",
+            kicked = "〝已被驅逐！〞",
+            media = "因使用被禁止的媒體，已驅逐︰",
+            nothing = "沒有內容可以顯示。",
+            rtl = "因使用右至左的文字，已驅逐",
+            tempban = "暫時封鎖︰",
+            warn = "因警告太多，已驅逐︰"
+        },
+        bonus = {
+            adminlist_admin_required = "我不是群組管理員。\n只有群組管理員可以查看管理員名單。",
+            general_pm = "〝我已經私下向你傳送了訊息內容。〞",
+            menu_cb_media = "點擊開關變更設定！",
+            menu_cb_settings = "點擊圖宗變更設定！",
+            menu_cb_warns = "使用下面的橫列變更警告設定",
+            msg_me = "〝你必須先對我私訊（PM），我才能向你私訊（PM）。〞",
+            no_user = "我從未見過這用戶。\n如若你想告訴我他是誰，請向我轉發（Forward）一條他的訊息。",
+            reply = "必須透過回覆（Reply）使用該指令，或是在指令後加上用戶名稱",
+            settings_header = "目前群組設定︰\n\n語言︰&&&1\n",
+            tell = "群組ＩＤ︰&&&1",
+            the_group = "該群組",
+            too_long = "內容太長，無法傳送。"
+        },
+        not_mod = "你不是管理員。",
+        breaks_markdown = "字型符號（Markdown）使用不當。\n關於字型符號的詳細解說請點擊[這裏](https://telegram.me/GroupButler_ch/46)。",
+        credits = "有用連結︰",
+        extra = {
+            command_deleted = "&&&1 指令已被刪除。",
+            command_empty = "&&&1 指令不存在",
+            commands_list = "自訂指令列表︰\n&&&1",
+            new_command = "*新的指令已被紀錄！\n&&&1\n&&&2",
+            no_commands = "不存在自訂指令！",
+            setted = "&&&1 指令已更新！",
+        },
+        help = {
+            mods = {
+                banhammer = "【選項︰驅逐及封鎖】\n\n"
+                    .."`/kick [透過回覆|用戶名稱]` = 驅逐用戶（他能重新加入群組）\n"
+                    .."`/ban [透過回覆|用戶名稱]` = 封鎖（在普通群組中也可以）用戶\n"
+                    .."`/tempban [分鐘]` = 暫時封鎖用戶（最多 10,080 分鐘，相當於一星期），只能透過回覆使用\n"
+                    .."`/unban [透過回覆|用戶名稱]` = 解除封鎖\n`/getban [透過回覆|用戶名稱]` = 獲取用戶的總被封鎖次數，按類別排列\n"
+                    .."`/status [用戶名稱]` = 顯示用戶目前的狀況 `(會藉|驅逐/離群|封鎖|管理員/創群者|從未出現)`\n"
+                    .."`/banlist` = 封鎖名單，以及封鎖原因（如有）\n"
+                    .."`/banlist -` = 清空封鎖名單\n\n備註︰你可以在 "
+                    .."`/ban` 指令後方輸入封鎖原因（如非透過回覆封鎖的話，則在用戶名稱之後）",
+                info = "【選項︰群組簡介】\n\n"
+                    .."`/setrules [群組規矩]` = 建立群組規矩（舊規矩會被捨棄）\n"
+                    .."`/addrules [新規矩]` = 在原有的規矩的最後加上新規矩\n"
+                    .."`/setabout [群組簡介]` = 建立群組簡介（舊簡介會被捨棄）.\n"
+                    .."`/addabout [新簡介]` = 在原有的簡介的最後加上新簡介\n\n備註︰可使用字型符號（Markdown），如果使用不當，人機會告知訊息出錯\n正確的使用方法請參考[這裏](https://telegram.me/GroupButler_ch/46) in the channel",
+                flood = "【選項︰防洗版】\n\n"
+                    .."`/antiflood` = 透過私訊變更防洗版設定﹐可更改洗版的定義、應對方法和排除某種形式。\n"
+                    .."`/antiflood [數值]` = 設定用戶在 5 秒內可以傳送的最大訊息數量\n備註︰數值必須介乎 4 到 25 之間\n",
+                media = "【選項︰媒體設定】\n\n"
+                    .."`/media` = 透過私訊接收到媒體控制面板\n"
+                    .."`/warnmax media [數值]` = 關於媒體的警告上限，超過便會被驅逐或封鎖\n"
+                    .."`/nowarns (透過回覆)` = 清空用戶的警告（同時清空媒體和普通警告）\n"
+                    .."`/media list` = 顯示關於媒體的設定\n\n"
+                    .."支援的媒體︰圖像、音訊、影片、貼圖、Gif、錄音、聯絡人、檔案、連結",
+                welcome = "【歡迎訊息】\n\n"
+                    .."`/menu` = 透過私訊接收到控制面板，可以選擇開啓／關閉歡迎訊息\n\n．自訂歡迎訊息︰\n"
+                    .."`/welcome Welcome $name, enjoy the group!`\n在 \"/welcome\" 之後打上你想要的訊息，你可以使用代碼來指出新用戶的 䁥稱／用戶名稱／用戶ＩＤ\n"
+                    .."代碼︰_$username_（用戶名稱戶）；_$name_（䁥稱）；_$id_（用戶ＩＤ）；_$title_（群組名字）\n\n．GIF/貼圖作為歡迎訊息︰\n用 '/welcome' 指令來回覆Gif／貼圖便可設定成歡迎圖\n\n．"
+                    .."合成歡迎訊息\n透過簡單的代碼，你可以利用群組規矩、簡介和管理員列表來製作觀迎訊息。\n代碼︰_r_（規矩）；_a_（簡介）；_m_（管理員名單）\n"
+                    .."例子︰「/welcome rm」，然後歡迎訊息便會有規矩和管理員名單。",
+                extra = "【選項︰自訂指令】\n\n"
+                    .."`/extra [#發動文字] [預設回覆內容]` = 當發動文字出現，會自動回覆預設內容\n例子︰「/extra #謝謝 不用客氣」，當「#謝謝」出現時，人機會自動回覆「不用客氣」\n"
+                    .."`/extra list` = 獲取自訂指令列表\n"
+                    .."`/extra del [#發動文字]` = 移除發動文字及預設回覆\n"
+                    .."`/disable extra` = 只有管理員可使用自訂指令；其他人使用時，人機會透過私訊回覆。\n"
+                    .."`/enable extra` = 所有人都可以在群組內使用自訂指令\n\n"
+                    .."備註︰可使用字型符號（Markdown），如果使用不當，人機會告知訊息出錯\n正確的使用方法請參考[這裏](https://telegram.me/GroupButler_ch/46) in the channel",
+                warns = "【選項︰警告】\n\n"
+                        .."`/warn [透過回覆]` = 警告該用戶一次\n"
+                        .."`/warnmax` = 設定最高警告次數\n"
+                        .."\nHow to see how many warns a user has received: the number is showed with the `/user` command. In this page, you will see a button to reset this number.",
+                char = "【選項︰特殊字元】\n\n"
+                        .."`/menu` = 透過私訊接收到控制面板\n"
+                        .."可以針對阿拉伯文字和右至左文字進行設定。\n\n"
+                        .."阿拉伯文字︰若被禁止（🚫），使用阿拉伯文字的人，將被驅逐。\n右至左文字︰若被禁止（🚫），使用右至左文字的人，或名字帶有右至左文字的人，將被驅逐。",
+                links = "【選項︰連結】\n\n"
+                        .."`/setlink [連結|'no']` : 設定一條連結，讓其他管理員能隨時使用；或是移除它\n"
+                        .."`/link` = 獲取連結（必須先設定連結）\n",
+                lang = "【選項︰群組語言】\n\n"
+                        .."`/lang` = 選擇群組語言（也可在私訊中設定）\n\n備註︰翻譯人員都是志願義工，無法保證翻譯絕對正確，我也不能確保他們能即時配合更新。\n"
+                        .."任何人都可以幫忙翻譯，利用 `/strings` 指令來獲取一個包含所有文串的 _.lua_ 檔（英文）\n"
+                        .."使用 `/strings [語言代號]` 來獲取特定語言的檔案（例子: _/strings es_ ）\n在檔案裏面你會找到足夠的指引，請盡量跟從那些指引",
+                settings = "【選項︰基本設定】\n\n"
+                        .."`/menu` = 透過私訊接收到控制面板\n"
+                        .."`/report [on/off]` (透過回覆) = 該用戶不能（Off）／能（On）使用 \"@admin\" 指令\n",
+            },
+            all = "任何人皆可使用的指令︰\n"
+                .."`/dashboard`︰透過私訊查看所有群組資訊\n"
+                .."`/rules`（如允許）︰顯示群組規矩\n"
+                .."`/about`（如允許）︰顯示群組簡介\n"
+                .."`/adminlist`（如允許）︰顯示管理員名單\n"
+                .."`@admin`（如允許）︰透過回覆來向管理員回報該訊息；不透過回覆（在後方輸入文字）來向管理員表達意見\n"
+                .."`/kickme`︰將自己驅逐出群組\n"
+                .."`/faq`︰常見問題及答案\n"
+                .."`/id`︰獲取群組ＩＤ，或是玩家ＩＤ（透過回覆）\n"
+                .."`/echo [訊息內容]`︰人機會向你重複訊息內容（會實施字型符號，只在私訊有用）\n"
+                .."`/info`︰顯示關於人機的有用資訊\n`/group`︰獲取討論（人機）群組的連結\n"
+                .."`/c` <回報內容>︰向本人機的製作者回報錯誤／查詢問題（請用英文），也可以提出任何建議\n\n"
+                .."如果你喜歡本人機，請在[here](https://telegram.me/storebot?start=groupbutler_bot)表達你的想法（也是英文）\n（中文內容由 @Firewood\\_LoKi 翻譯）",
+            private = 'Hey, *&&&1*!\n'
+                    ..'I\'m a simple bot created in order to help people to manage their groups.\n'
+                    ..'\n*What can I do for you?*\n'
+                    ..'Wew, I have a lot of useful tools!\n'
+                    ..'• You can *kick or ban* users (even in normal groups) by reply/username\n'
+                    ..'• Set rules and a description\n'
+                    ..'• Turn on a configurable *anti-flood* system\n'
+                    ..'• Customize the *welcome message*, also with gif and stickers\n'
+                    ..'• Warn users, and kick/ban them if they reach a max number of warns\n'
+                    ..'• Warn or kick users if they send a specific media\n'
+                    ..'...and more, below you can find the "all commands" button to get the whole list!\n'
+                    ..'\nTo use me, *you need to add me as administrator of the group*, or Telegram won\'t let me work! (if you have some doubts about this, check [this post](https://telegram.me/GroupButler_ch/63))'
+                    ..'\nYou can report bugs/send feedbacks/ask a question to my creator just using "`/c <feedback>`" command. EVERYTHING IS WELCOME!',
+            group_success = "〝我已經私下向你傳送了說明訊息。〞",
+            group_not_success = "〝你必須先對我私訊（PM），我才能向你私訊（PM）。〞",
+            initial = "選擇你的身份來瀏覽可用指令︰",
+            kb_header = "點擊選項來查看相關指令。",
+        },
+        links = {
+            link = "[&&&1](&&&2)",
+            link_invalid = "連結無效！",
+            link_no_input = "這不是公開的超級群組（Public Supergroup）你需要在 /setlink 後補上連結。",
+            link_setted = "已儲存連結。\n這就是連結︰[&&&1](&&&2)",
+            link_unsetted = "已刪除連結！",
+            link_updated = "已更新連結。\n這是新的連結︰[&&&1](&&&2)",
+            no_link = "此群組沒有連結，請向群組管理員查詢。",
+        },
+        mod = {
+            modlist = "創群者︰\n&&&1\n\n管理員︰\n&&&2"
+        },
+        report = {
+            feedback_reply = "你好，這是人機作者的回覆︰\n&&&1",
+            no_input = "在 ! 旁寫上的你的建議、回報錯誤或疑問。",
+            sent = "已回報至作者。"
+        },
+        service = {
+            abt = "\n\n簡介︰\n",
+            rls = "\n\n規矩︰\n",
+            welcome = "你好 &&&1，歡迎來到 *&&&2*！",
+            welcome_abt = "此群組沒有設定簡介。",
+            welcome_modlist = "\n\n創群者︰\n&&&1\n管理員︰\n&&&2",
+            welcome_rls = "為所欲為！"
+        },
+        setabout = {
+            about_setted = "已成功儲存新的簡介！",
+            added = "已加上新的簡介︰\n「&&&1」",
+            clean = "已清空簡介內容。",
+            new = "全新的簡介︰\n\"&&&1\"",
+            no_bio = "此群組沒有設定簡介。",
+            no_bio_add = "此群組沒有設定簡介。\n使用「/setabout [簡介內容]」來設定新的簡介。",
+            no_input_add = "請在可憐的 \"/addabout\" 後方加入內容。",
+            no_input_set = "請在可憐的 \"/setabout\" 後方加入內容。"
+        },
+        setrules = {
+            added = "已加上新的規矩︰\n「&&&1」",
+            clean = "已廢除所有規矩。",
+            new = "全新的規矩*\n「&&&1」",
+            no_input_add = "請在可憐的 \"/addrules\" 後方加入內容。",
+            no_input_set = "請在可憐的 \"/setrules\" 後方加入內容。",
+            no_rules = "為所欲為！",
+            no_rules_add = "此群組沒有制定規矩。\n使用「/setrules [規矩內容]」來設定新的規矩。",
+            rules_setted = "已成功儲存新的規矩！"
+        },
+        settings = {
+            About = "簡介（/about）",
+            Admin_mode = "管理員模式",
+            Arab = "阿拉伯文字",
+            Extra = "自訂指令",
+            Flag = "旗㡨",
+            Flood = "防洗版",
+            Modlist = "管理員名單（/adminlist）",
+            Report = "回報管理員",
+            Rtl = "右至左文字",
+            Rules = "規矩（/rules）",
+            Welcome = "歡迎訊息",
+            broken_group = "這群組沒有已儲存的設定。\n請使用 /initgroup 指令來建立設定。",
+            char = {
+              arab_allow = "已允許阿拉伯文字",
+              arab_ban = "使用阿拉伯文字將會被封鎖",
+              arab_kick = "使用阿拉伯文字將會被驅逐",
+              rtl_allow = "已允許右至左文字",
+              rtl_ban = "使用右至左文字將會被封鎖",
+              rtl_kick = "使用右至左文字將會被驅逐"
+            },
+            disable = {
+              about_locked = "只有管理員可使用 /about 指令",
+              admin_mode_locked = "管理員模式︰關閉",
+              extra_locked = "只有管理員可使用自訂指令",
+              flag_locked = "/flag 指令已被禁止使用",
+              flood_locked = "防洗版設定︰關閉",
+              modlist_locked = "只有管理員可使用 /adminlist 指令",
+              report_locked = "@admin 指令已被禁止使用",
+              rules_locked = "只有管理員可使用 /rules 指令",
+              welcome_locked = "歡迎訊息將不會被展示"
+            },
+            enable = {
+              about_unlocked = "所有人皆可以使用 /about 指令",
+              admin_mode_unlocked = "管理員模式︰開啟",
+              extra_unlocked = "所有人皆可以使用自訂指令",
+              flag_unlocked = "/flag 指令已被允許使用",
+              modlist_unlocked = "所有人皆可以使用 /adminlist 指令",
+              report_unlocked = "@admin 指令已被允許使用",
+              rules_unlocked = "所有人皆可以使用 /rules 指令",
+              welcome_unlocked = "歡迎訊息將會被展示"
+            },
+            resume = {
+              header = "*&&&1* 目前的設定︰\n\n語言︰`&&&2`\n",
+              legenda = "✅ = 開啟／允許\n🚫 = 關閉／禁止\n👥 = 在群組內回覆（只影響普通用戶）\n👤 = 透過私訊回覆（只影響普通用戶）〞",
+              w_a = "歡迎訊息組合︰「歡迎短句＋簡介」\n",
+              w_am = "歡迎訊息組合︰「歡迎短句＋簡介＋管理員名單」\n",
+              w_custom = "歡迎訊息組合︰「自訂歡迎訊息」\n",
+              w_m = "歡迎訊息組合︰「歡迎短句＋管理員名單」\n",
+              w_media = "歡迎訊息組合︰「Gif／貼圖」\n",
+              w_no = "歡迎訊息組合︰「歡迎短句」\n",
+              w_r = "歡迎訊息組合︰「歡迎短句＋規矩」\n",
+              w_ra = "歡迎訊息組合︰「歡迎短句＋規矩＋簡介」\n",
+              w_ram = "歡迎訊息組合︰「歡迎短句＋規矩＋簡介＋管理員名單」\n",
+              w_rm = "歡迎訊息組合︰「歡迎短句＋規矩＋管理員名單」\n"
+            },
+            welcome = {
+              a = "歡迎訊息的新設定︰\n簡介",
+              am = "歡迎訊息的新設定︰\n簡介\n管理員名單",
+              custom = "已設定歡迎訊息。\n\n&&&1",
+              custom_setted = "已更新歡迎訊息。",
+              m = "歡迎訊息的新設定︰\n管理員名單",
+              media_setted = "新媒體被設定成歡迎訊息︰",
+              no = "歡迎訊息的新設定︰空",
+              no_input = "歡迎然後……？",
+              r = "歡迎訊息的新設定︰\n規矩",
+              ra = "歡迎訊息的新設定︰\n規矩\n簡介",
+              ram = "歡迎訊息的新設定︰\n規矩\n簡介\n管理員名單",
+              reply_media = "對 Gif 或貼圖回覆，將它設定成歡迎訊息",
+              rm = "歡迎訊息的新設定︰\n規矩\n管理員名單",
+              wrong_input = "選項無效\n請使用 _/welcome [no|r|a|ra|ar]_",
+              wrong_markdown = "〝未能設定︰我不能向你傳送此訊息，可能是字型符號出錯\n請檢查訊息內容"
+            }
+        },
+        warn = {
+            ban_motivation = "警告次數達上限",
+            changed_type = "警告次數上限設置為︰*&&&1*",
+            getwarns = "&&&1 (*&&&2/&&&3*)\n媒體警告: (*&&&4/&&&5*)",
+            getwarns_reply = "透過回覆（Reply）檢查該用戶的警告數量",
+            inline_high = "新的數值太高（>12）",
+            inline_low = "新的數值太低（<1）",
+            mod = "管理員不能被警告",
+            nowarn = "該用戶的警告已歸零",
+            nowarn_reply = "透過回覆（Reply）移除該用戶的警告",
+            warn_removed = "已移除警告\n警告數量︰&&&1\n警告上限︰&&&2",
+            warn_reply = "透過回覆（Reply）警告該用戶",
+            warned = "*&&&1* 已被警告。\n警告數量︰*&&&2*\n警告上限︰*&&&3*",
+            warned_max_ban = "用戶【&&&1】被封鎖︰警告次數達上限",
+            warned_max_kick = "用戶【&&&1】被驅逐︰警告次數達上限",
+            warnmax = "警告次數上限設置被更改 &&&3.\n原有上限︰&&&1\n現在上限︰&&&2"
+        },
+        setlang = {
+            list = "可使用的語言列表︰",
+            success = "已採用語言︰&&&1"
+        },
+		banhammer = {
+            kicked = '`&&&1` kicked `&&&2`!',
+            banned = '`&&&1` banned `&&&2`!',
+            already_banned_normal = '&&&1 is *already banned*!',
+            unbanned = 'User unbanned!',
+            reply = 'Reply to someone',
+            globally_banned = '&&&1 have been globally banned!',
+            not_banned = 'The user is not banned',
+            banlist_header = '*Banned users*:\n\n',
+            banlist_empty = '_The list is empty_',
+            banlist_error = '_An error occurred while cleaning the banlist_',
+            banlist_cleaned = '_The banlist has been cleaned_',
+            tempban_zero = 'For this, you can directly use /ban',
+            tempban_week = 'The time limit is one week (10.080 minutes)',
+            tempban_banned = 'User &&&1 banned. Ban expiration:',
+            tempban_updated = 'Ban time updated for &&&1. Ban expiration:',
+            general_motivation = 'I can\'t kick this user.\nProbably I\'m not an Amdin, or the user is an Admin iself'
+        },
+        floodmanager = {
+            ban = "洗版者將會被封鎖！",
+            changed_cross = "&&&1 → &&&2",
+            changed_plug = "（五秒內的）最大傳送訊息上限由 &&&1 條變為 &&&2 條。",
+            gif = "Gif",
+            header = "你可以在這裏變更洗版設定。\n\n"
+                    .."【第一列】\n．開關︰防洗版的目前狀況\n．"
+                    .."驅逐（Kick）／封鎖（Ban）︰如何對付洗版的人\n\n【第二列】\n．"
+                    .."你可以用加減號來調整洗版的定義\n．"
+                    .."數字代表用戶在 5 秒內可以傳送的最大訊息數量\n．上限為 25，下限為 4\n\n"
+                    .."【第三列及以下】\n你可以排除某些形式的洗版︰\n．✅︰會被無視的洗版形式\n"
+                    .."．❌︰會被封鎖的洗版形式\n．"
+                    .."備註︰「文字」 包含各種其他的媒體（如檔案、音訊…)",
+            ignored = "﹝&&&1﹞不會被視作洗版。",
+            image = "圖像",
+            kick = "洗版者將會被驅逐！",
+            not_changed = "傳送訊息的上限維持在 &&&1 條。",
+            not_ignored = "﹝&&&1﹞會被視作洗版。",
+            number_cb = "目前定義。使用加減號變更設定。",
+            number_invalid = "〝&&&1〞不是有效數值。\n數值應介乎 4 至 25 之間。",
+            sent = "〝我已經私下向你傳送了洗版設定目錄。〞",
+            sticker = "貼圖（Stickers）",
+            text = "文字",
+            video = "影片"
+        },
+        mediasettings = {
+			warn = 'This kind of media are *not allowed* in this group.\n_The next time_ you will be kicked or banned',
+            settings_header = '*Current settings for media*:\n\n',
+            changed = 'New status for [&&&1] = &&&2',
+        },
+        preprocess = {
+            arab_banned = "已封鎖 &&&1 ，原因︰使用阿拉伯文字。",
+            arab_kicked = "已驅逐 &&&1 ，原因︰使用阿拉伯文字。",
+            first_warn = "這群組裏禁止使用這種媒體。",
+            flood_ban = "已封鎖 &&&1 ，原因︰洗版。",
+            flood_kick = "已驅逐 &&&1 ，原因︰洗版。",
+            flood_motivation = "洗版",
+            media_ban = "已封鎖 &&&1 ，原因︰所發媒體被禁止使用。",
+            media_kick = "已驅逐 &&&1 ，原因︰所發媒體被禁止使用。",
+            media_motivation = "發送被禁止的媒體",
+            rtl_banned = "已封鎖 &&&1 ，原因︰使用右至左文字。",
+            rtl_kicked = "已驅逐 &&&1 ，原因︰使用右至左文字。"
+        },
+        kick_errors = {
+            [1] = "我不是群組管理員，不能驅逐用戶。",
+            [2] = "我不能驅逐或封鎖管理員。",
+            [3] = "普通群組不需要解除封鎖（Unban）。",
+            [4] = "這用戶沒有參與聊天。"
+        },
+        flag = {
+            already_blocked = "該用戶早就不能使用「@admin」",
+            already_unblocked = "該用戶早就可以使用「@admin」",
+            blocked = "該用戶不可再使用「@admin」",
+            no_input = "透過回覆來向管理員表達意見，或是使用「@admin」來向他們傳遞意見。",
+            no_reply = "請透過回覆（Reply）使用指令。",
+            reported = "已回報！",
+            unblocked = "該用戶現可使用「@admin」"
+        },
+        all = {
+            dashboard = {
+                private = '_I\'ve sent you the group dashboard in private_',
+                first = 'Navigate this message to see *all the info* about this group!',
+                antiflood = '- *Status*: `&&&1`\n- *Action* when an user floods: `&&&2`\n- Number of messages *every 5 seconds* allowed: `&&&3`\n- *Ignored media*:\n&&&4',
+                settings = 'Settings',
+                admins = 'Admins',
+                rules = 'Rules',
+                about = 'Description',
+                welcome = 'Welcome message',
+                extra = 'Extra commands',
+                media = 'Media settings',
+                flood = 'Flood settings'
+            },
+            menu = '_I\'ve sent you the settings menu in private_',
+            menu_first = 'Manage the settings of the group.\n'
+                ..'\nSome commands (_/rules, /about, /adminlist, #extra commands_) can be *disabled for non-admin users*\n'
+                ..'What happens if a command is disabled for non-admins:\n'
+                ..'• If the command is triggered by an admin, the bot will reply *in the group*\n'
+                ..'• If the command is triggered by a normal user, the bot will reply *in the private chat with the user* (obviously, only if the user has already started the bot)\n'
+                ..'\nThe icons near the command will show the current status:\n'
+                ..'• 👥: the bot will reply *in the group*, with everyone\n'
+                ..'• 👤: the bot will reply *in private* with normal users and in the group with admins\n'
+                ..'\n*Other settings*: for the other settings, icon are self explanatory\n',
+            media_first = 'Tap on a voice in the right colon to *change the setting*\n'
                         ..'You can use the last line to change how many warnings should the bot give before kick/ban someone for a forbidden media\n'
                         ..'The number is not related the the normal `/warn` command',
         },

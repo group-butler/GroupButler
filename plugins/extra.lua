@@ -37,7 +37,6 @@ local action = function(msg, blocks, ln)
 				api.editMessageText(msg.chat.id, msg_id, make_text(lang[ln].extra.setted, blocks[2]), false)
     		end
     	end
-	    mystat('/extra')
 	elseif blocks[1] == 'extra list' then
 	    if not is_mod(msg) then return end
 	    
@@ -53,7 +52,6 @@ local action = function(msg, blocks, ln)
 	        local out = make_text(lang[ln].extra.commands_list, text)
 	        api.sendReply(msg, out, true)
 	    end
-	    mystat('/extra list')
     elseif blocks[1] == 'extra del' then
         if not is_mod(msg) then return end
 	    
@@ -66,7 +64,6 @@ local action = function(msg, blocks, ln)
 	        local out = make_text(lang[ln].extra.command_empty, blocks[2])
 	        api.sendReply(msg, out)
 	    end
-	    mystat('/extra del')
     else
     	local hash = 'chat:'..msg.chat.id..':extra'
     	local text = db:hget(hash, blocks[1])
@@ -100,7 +97,6 @@ local action = function(msg, blocks, ln)
         		api.sendMessage(msg.chat.id, text, true, msg_to_reply) --if the mod replies to an user, the bot will reply to the user too
         	end
         end
-		mystat('/extra command')
     end
 end
 
