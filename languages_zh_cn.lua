@@ -232,7 +232,7 @@
             enable = {
                 rules_unlocked = '现在全员都可以使用 /rules 指令了',
                 about_unlocked = '现在全员都可以使用 /about 指令了',
-                welcome_unlocked = 'Welcome message will be displayed',
+                welcome_unlocked = '已启用欢迎语',
                 modlist_unlocked = '/adminlist command is now available for all',
                 flag_unlocked = '/flag command is now available',
                 extra_unlocked = 'Extra # commands are now available for all',
