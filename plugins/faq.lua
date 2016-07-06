@@ -81,7 +81,6 @@ local function action(msg, blocks, ln)
             api.sendMessage(msg.from.id, text, true)
         end
     end
-    mystat('/faq')
 end
     
 return {

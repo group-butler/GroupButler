@@ -16,7 +16,6 @@ local action = function(msg, blocks, ln)
     
 	if blocks[1] == 'ping' then
 		api.sendMessage(msg.from.id, '*Pong!*', true)
-		mystat('/ping') --save stats
 	end
 	if blocks[1] == 'strings' then
 		if not blocks[2] then
@@ -74,13 +73,11 @@ local action = function(msg, blocks, ln)
 	    
 	    api.forwardMessage (config.admin.owner, msg.from.id, msg.message_id)
 	    api.sendMessage(receiver, lang[ln].report.sent)
-	    mystat('/c')
 	end
 	if blocks[1] == 'info' then
 		local keyboard = {}
 		keyboard = do_keybaord_credits()
 		api.sendKeyboard(msg.chat.id, '`v'..config.version..'`\n'..lang[ln].credits, keyboard, true)
-		mystat('/credits')
 	end
 	if blocks[1] == 'resolve' then
 		local id = res_user_group(blocks[2], msg.chat.id)

@@ -121,7 +121,6 @@ local action = function(msg, blocks, ln)
         else
             api.sendReply(msg, out, true)
         end
-        mystat('/adminlist')
     end
     if blocks[1] == 'status' then
     	if msg.chat.type == 'private' then return end
@@ -149,7 +148,6 @@ local action = function(msg, blocks, ln)
 		 		local text = make_text(lang[ln].status[status], name)
 		 		api.sendReply(msg, text)
 		 	end
-		 	mystat('/status')
 	 	end
  	end
  	if blocks[1] == 'id' then
@@ -161,7 +159,6 @@ local action = function(msg, blocks, ln)
  			id = msg.chat.id
  		end
  		api.sendReply(msg, '`'..id..'`', true)
- 		mystat('/tell')
  	end
 	if blocks[1] == 'settings' then
         
@@ -169,7 +166,6 @@ local action = function(msg, blocks, ln)
         
         local message = cross.getSettings(msg.chat.id, ln)
         api.sendReply(msg, message, true)
-        mystat('/settings') --save stats
     end
     if blocks[1] == 'welcome' then
         
@@ -253,8 +249,6 @@ local action = function(msg, blocks, ln)
                 api.editMessageText(msg.chat.id, id, lang[ln].settings.welcome.custom_setted, false, true)
             end
         end
-       
-        mystat('/welcome') --save stats
     end
     if blocks[1] == 'export' then
     	if msg.chat.type ~= 'private' then return end

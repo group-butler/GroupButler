@@ -101,7 +101,6 @@ local action = function(msg, blocks, ln)
     end
     local keyboard = make_keyboard()
     if blocks[1] == 'help' then
-        mystat('/help')
         if msg.chat.type == 'private' then
             local message = make_text(lang[ln].help.private, msg.from.first_name:mEscape())
             local keyboard = do_keyboard_private()

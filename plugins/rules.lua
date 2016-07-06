@@ -10,7 +10,6 @@ local action = function(msg, blocks, ln)
     	else
         	api.sendReply(msg, out, true)
         end
-        mystat('/rules') --save stats
     end
 	
 	if not is_mod(msg) then
@@ -42,7 +41,6 @@ local action = function(msg, blocks, ln)
             	db:set(hash, rules)
             end
         end
-        mystat('/addrules')
     end
 	if blocks[1] == 'setrules' then
 		local input = blocks[2]
@@ -71,7 +69,6 @@ local action = function(msg, blocks, ln)
 			local id = res.result.message_id
 			api.editMessageText(msg.chat.id, id, lang[ln].setrules.rules_setted, false, true)
 		end
-		mystat('/setrules')
 	end
 
 end

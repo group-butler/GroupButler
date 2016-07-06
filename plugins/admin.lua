@@ -5,7 +5,6 @@ local triggers2 = {
 	'^/a(bc) (.*)$',
 	'^/a(bcg) (.*)$',
 	'^/a(save)$',
-	'^/a(commands)$',
 	'^/a(stats)$',
 	'^/a(lua)$',
 	'^/a(lua) (.*)$',
@@ -134,19 +133,16 @@ local action = function(msg, blocks, ln)
 			text = text..v..'\n'
 		end
 		api.sendMessage(msg.from.id, text)
-		mystat('/admin')
 	end
 	if blocks[1] == 'init' then
 		db:bgsave()
 		bot_init(true)
 		api.sendReply(msg, '*Bot reloaded!*', true)
-		mystat('/reload')
 	end
 	if blocks[1] == 'stop' then
 		db:bgsave()
 		is_started = false
 		api.sendReply(msg, '*Stopping bot*', true)
-		mystat('/stop')
 	end
 	if blocks[1] == 'backup' then
 		db:bgsave()
@@ -154,7 +150,6 @@ local action = function(msg, blocks, ln)
     	cmd:read('*all')
     	cmd:close()
     	api.sendDocument(msg.from.id, './'..bot.first_name:gsub(' ', '_')..'.tar')
-    	mystat('/backup')
     end
     if blocks[1] == 'bc' then
     	local res = api.sendAdmin(blocks[2], true)
@@ -184,7 +179,6 @@ local action = function(msg, blocks, ln)
 	        else
 	            api.sendMessage(msg.from.id, 'No users saved, no broadcast')
 	        end
-	        mystat('/bc')
 	    end
 	end
 	if blocks[1] == 'bcg' then
@@ -203,24 +197,11 @@ local action = function(msg, blocks, ln)
 	    	end
 	    	api.sendMessage(msg.from.id, 'Broadcast delivered')
 	    end
-	    mystat('/bcg')
 	end
 	if blocks[1] == 'save' then
 		db:bgsave()
 		api.sendMessage(msg.chat.id, 'Redis updated', true)
-		mystat('/save')
 	end
-	if blocks[1] == 'commands' then
-		local text = 'Stats:\n'
-	    local hash = 'commands:stats'
-	    local names = db:hkeys(hash)
-	    local num = db:hvals(hash)
-	    for i=1, #names do
-	        text = text..'- `'..names[i]..': '..num[i]..'`\n'
-	    end
-		api.sendMessage(msg.chat.id, text, true)
-		mystat('/commands')
-    end
     if blocks[1] == 'stats' then
     	local text = '#stats `['..get_date()..']`:\n'
         local hash = 'bot:general'
@@ -270,7 +251,6 @@ local action = function(msg, blocks, ln)
     	end
 	    
 		api.sendMessage(msg.chat.id, text, true)
-		mystat('/stats')
 	end
 	if blocks[1] == 'lua' then
 		if not blocks[2] then
@@ -280,7 +260,6 @@ local action = function(msg, blocks, ln)
 		--execute
 		local output = load_lua(blocks[2])
 		api.sendMessage(msg.chat.id, output, true)
-		mystat('/lua')
 	end
 	if blocks[1] == 'run' then
 		--read the output
@@ -292,7 +271,6 @@ local action = function(msg, blocks, ln)
 			output = '```\n'..output..'\n```'
 		end
 		api.sendMessage(msg.chat.id, output, true, msg.message_id, true)
-		mystat('/run')
 	end
     if blocks[1] == 'log' then
     	if blocks[2] then
@@ -371,7 +349,6 @@ local action = function(msg, blocks, ln)
 				api.sendReply(msg, reply, true)
 			end
 		end
-		mystat('/log')
     end
 	if blocks[1] == 'block' then
 		local id
@@ -393,7 +370,6 @@ local action = function(msg, blocks, ln)
 			text = id..' was already blocked'
 		end
 		api.sendReply(msg, text)
-		mystat('/block')
 	end
 	if blocks[1] == 'unblock' then
 		local id
@@ -416,7 +392,6 @@ local action = function(msg, blocks, ln)
 			text = id..' was already unblocked'
 		end
 		api.sendReply(msg, text)
-		mystat('/unblock')
 	end
 	if blocks[1] == 'isblocked' then
 		if not msg.reply then
@@ -429,14 +404,12 @@ local action = function(msg, blocks, ln)
 				api.sendReply(msg, 'no')
 			end
 		end
-		mystat('/isblocked')
 	end
 	if blocks[1] == 'ping redis' then
 		local ris = db:ping()
 		if ris == true then
 			api.sendMessage(msg.from.id, lang[ln].ping)
 		end
-		mystat('/ping redis')
 	end
 	if blocks[1] == 'leave' then
 		local text
@@ -450,7 +423,6 @@ local action = function(msg, blocks, ln)
 			text = bot_leave(blocks[2], ln)
 		end
 		api.sendMessage(msg.from.id, text)
-		mystat('/leave')
 	end
 	if blocks[1] == 'post' then
 		if config.channel == '' then
@@ -464,7 +436,6 @@ local action = function(msg, blocks, ln)
 				text = 'Delivery failed. Check the markdown used or the channel username setted'
 			end
 			api.sendMessage(msg.from.id, text)
-			mystat('/post')
 		end
 	end
 	if blocks[1] == 'forward' then
@@ -540,7 +511,6 @@ local action = function(msg, blocks, ln)
         file:close()
         api.sendDocument(msg.from.id, './logs/usernames.txt')
         api.sendMessage(msg.chat.id, 'Instruction processed. Total number of usernames: '..#usernames)
-        mystat('/usernames')
     end
     if blocks[1] == 'api errors' then
     	local errors = db:hkeys('bot:errors')
@@ -549,7 +519,6 @@ local action = function(msg, blocks, ln)
     	for i=1,#errors do
     		text = text..errors[i]..': '..times[i]..'\n'
     	end
-    	mystat('/apierrors')
     	api.sendMessage(msg.from.id, text)
     end
     if blocks[1] == 'rediscli' then
@@ -559,7 +528,6 @@ local action = function(msg, blocks, ln)
     	redis_f = redis_f:gsub('$chat', msg.chat.id)
     	redis_f = redis_f:gsub('$from', msg.from.id)
     	local output = load_lua(redis_f)
-    	mystat('/rediscli')
     	api.sendReply(msg, output, true)
     end
 	if blocks[1] == 'trfile' then
@@ -585,11 +553,9 @@ local action = function(msg, blocks, ln)
 				db:set(hash, msg.reply.document.file_id)
 				api.sendReply(msg, 'Translation file setted!\n*Lang*: '..code:upper()..'\n*ID*: '..msg.reply.document.file_id:mEscape()..'\n*Path*: ln'..code:upper()..'.lua', true)
 			end
-			mystat('/trfile')
 		end
 	end
 	if blocks[1] == 'genlang' then
-		mystat('/genlang')
 		if not blocks[2] then
 			local instructions = dofile('instructions.lua')
 			for i,ln in pairs(config.available_languages) do
@@ -624,12 +590,10 @@ local action = function(msg, blocks, ln)
 	if blocks[1] == 'sendplug' then
 		local path = './plugins/'..blocks[2]..'.lua'
 		api.sendDocument(msg.from.id, path)
-		mystat('/sendplug')
 	end
 	if blocks[1] == 'sendfile' then
 		local path = './'..blocks[2]
 		api.sendDocument(msg.from.id, path)
-		mystat('/sendfile')
 	end
 	if blocks[1] == 'r' then
 	    --ignore if no reply
@@ -655,7 +619,6 @@ local action = function(msg, blocks, ln)
 		else
 			api.sendAdmin('Wrong markdown')
 		end
-		mystat('/reply')
 	end
 	if blocks[1] == 'download' then
 		if not msg.reply then
@@ -696,7 +659,6 @@ local action = function(msg, blocks, ln)
 		migrate_chat_info(old, new, true)
 	end
 	if blocks[1] == 'resid' then
-		mystat('/resid')
 		local user_id = blocks[2]
 		local all = db:hgetall('bot:usernames')
 		for username,id in pairs(all) do

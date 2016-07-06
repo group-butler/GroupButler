@@ -12,7 +12,6 @@ local action = function(msg, blocks, ln)
     	else
         	api.sendReply(msg, out, true)
         end
-        mystat('/about')
     end
     
     if not is_mod(msg) then
@@ -40,7 +39,6 @@ local action = function(msg, blocks, ln)
             	db:set(hash, about)
             end
         end
-        mystat('/addabout')
     end
 	if blocks[1] == 'setabout' then
 		local input = blocks[2]
@@ -71,7 +69,6 @@ local action = function(msg, blocks, ln)
 			local id = res.result.message_id
 			api.editMessageText(msg.chat.id, id, lang[ln].setabout.about_setted, false, true)
 		end
-		mystat('/setabout')
 	end
 
 end

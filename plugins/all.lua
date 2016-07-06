@@ -268,7 +268,6 @@ local action = function(msg, blocks, ln)
             else
                 cross.sendStartMe(msg, ln)
             end
-	        mystat('/dashboard')
 	        return
         end
         if msg.cb then
@@ -324,7 +323,6 @@ local action = function(msg, blocks, ln)
             keyboard = doKeyboard_menu(chat_id, ln)
             api.sendMessage(msg.chat.id, lang[ln].all.menu, true)
 	        api.sendKeyboard(msg.from.id, lang[ln].all.menu_first..'\n('..msg.chat.title:mEscape()..')', keyboard, true)
-	        mystat('/menu')
 	        return
 	    end
 	    if msg.cb then

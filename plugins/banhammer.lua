@@ -82,9 +82,7 @@ end
 local action = function(msg, blocks, ln)
 	if msg.chat.type ~= 'private' then
 		if is_mod(msg) then
-			
 			--commands that don't need a target user
-			
 			if blocks[1] == 'kickme' then
 				api.sendReply(msg, lang[ln].kick_errors[2], true)
 				return
@@ -96,7 +94,6 @@ local action = function(msg, blocks, ln)
    				else
    					api.sendKeyboard(msg.chat.id, banlist, {inline_keyboard={{{text = 'Clean', callback_data = 'banlist-'}}}}, true)
    				end
-   				mystat('/banlist')
    				return
    			end
 		    if blocks[1] == 'banlist' and blocks[2] and blocks[2] == '-' then
@@ -194,7 +191,6 @@ local action = function(msg, blocks, ln)
 		    		cross.saveBan(user_id, 'kick')
 		    		api.sendMessage(msg.chat.id, lang[ln].banhammer.kicked:build_text(get_nick(msg, false, true):mEscape(), get_nick(msg, blocks):mEscape()), true)
 		    	end
-		    	mystat('/kick')
 	    	end
 	   		
 	   		local is_normal_group = false
@@ -221,7 +217,6 @@ local action = function(msg, blocks, ln)
 		    		cross.addBanList(msg.chat.id, user_id, nick, why)
 		    		api.sendKeyboard(msg.chat.id, lang[ln].banhammer.banned:build_text(get_nick(msg, false, true):mEscape(), nick:mEscape()), {inline_keyboard = {{{text = 'Unban', callback_data = 'unban:'..user_id}}}}, true)
 		    	end
-		    	mystat('/ban')
     		end
    			if blocks[1] == 'unban' then
    				local status = cross.getUserStatus(chat_id, user_id)
@@ -244,12 +239,10 @@ local action = function(msg, blocks, ln)
    				else
    					api.editMessageText(msg.chat.id, msg.message_id, text..'\n`['..user_id..']\n(Admin: '..msg.from.first_name:mEscape()..')`', false, true)
    				end
-   				mystat('/unban')
    			end
 		else
 			if blocks[1] == 'kickme' then
 				api.kickUser(msg.chat.id, msg.from.id, ln)
-				mystat('/kickme')
 			end
 			if msg.cb then --if the user tap on 'unban', show the pop-up
 				api.answerCallbackQuery(msg.cb_id, lang[ln].not_mod:mEscape_hard())
@@ -273,6 +266,6 @@ return {
 		'^/(unban) (@[%w_]+)',
 		'^/(unban)',
 		'^###cb:(unban):(%d+)$',
-		'^###cb:(banlist)(-)$'
+		'^###cb:(banlist)(-)$',
 	}
 }

@@ -39,7 +39,6 @@ local function action(msg, blocks, ln)
 		db:hset(hash, key, new)
         local text = make_text(lang[ln].warn.warnmax, old, new, is_media)
         api.sendReply(msg, text, true)
-        mystat('/warnmax') --save stats
         return
     end
     
@@ -50,7 +49,6 @@ local function action(msg, blocks, ln)
 		db:hdel('chat:'..msg.chat.id..':mediawarn', user_id)
 		
 		api.editMessageText(msg.chat.id, msg.message_id, lang[ln].warn.nowarn..'\n`(Admin: '..msg.from.first_name:mEscape()..')`', false, true)
-		mystat('/cbresetwarns')
 		return
 	end
 	
@@ -68,7 +66,6 @@ local function action(msg, blocks, ln)
 		end
 		
 		api.editMessageText(msg.chat.id, msg.message_id, text..'\n`(Admin: '..msg.from.first_name:mEscape()..')`', false, true)
-		mystat('/cbremovewarn')
 		return
 	end
     
@@ -130,8 +127,6 @@ local function action(msg, blocks, ln)
 			local keyboard = doKeyboard_warn(msg.reply.from.id)
 			api.sendKeyboard(msg.chat.id, text, keyboard, true, msg.message_id) --if the user is under the max num of warnings, send the inline keyboard
 		end
-        
-        mystat('/warn') --save stats
     end
 end
 

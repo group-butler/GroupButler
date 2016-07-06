@@ -48,7 +48,6 @@ local action = function(msg, blocks, ln)
 				text = text..'`'..k..'`'..' ≡ '..v..'\n'
 			end
 			api.sendReply(msg, text, true)
-			mystat('/media')
 		end
 		if blocks[1] == 'media' then
             keyboard = doKeyboard_media(msg.chat.id)
@@ -58,7 +57,6 @@ local action = function(msg, blocks, ln)
             else
             	cross.sendStartMe(msg, ln)
             end
-	        mystat('/media')
 	    end
 	end
 	

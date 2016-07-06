@@ -23,13 +23,11 @@ local action = function(msg, blocks, ln)
 		keyboard = doKeyboard_lang()
 		
 		api.sendKeyboard(msg.chat.id, lang[ln].setlang.list, keyboard, true)
-	    mystat('/lang')
 	end
 	if blocks[1] == 'langselected' and msg.cb then
 	    local selected = blocks[2]
 	    db:set('lang:'..msg.chat.id, selected)
         api.editMessageText(msg.chat.id, msg.message_id, make_text(lang[selected].setlang.success, selected), false, true)
-        mystat('/lang code')
 	end
 end
 

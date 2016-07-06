@@ -18,7 +18,6 @@ local action = function(msg, blocks, ln)
 			text = make_text(lang[ln].links.link, title, link)
 		end
 		api.sendReply(msg, text, true)
-		mystat('/link')
 	end
 	
 	if blocks[1] == 'setlink' then
@@ -55,7 +54,6 @@ local action = function(msg, blocks, ln)
 			end
 		end
 		api.sendReply(msg, text, true)
-		mystat('/setlink')
 	end
 end
 
