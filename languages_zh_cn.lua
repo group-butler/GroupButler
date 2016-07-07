@@ -12,11 +12,11 @@
             header_2 = '*常规信息*:\n',
             warns = '`警告`: ',
             media_warns = '`媒体消息警告`: ',
-            group_msgs = '`Messages in the group`: ',
-            group_media = '`Media sent in the group`: ',
-            last_msg = '`Last message here`: ',
-            global_msgs = '`Total number of messages`: ',
-            global_media = '`Total number of media`: ',
+            group_msgs = '`在群组中发送的消息`: ',
+            group_media = '`在本群组中发送的媒体消息`: ',
+            last_msg = '`上一条消息是`: ',
+            global_msgs = '`消息总数`: ',
+            global_media = '`媒体消息总数`: ',
             remwarns_kb = '移除警告'
         },
         getban = {
@@ -42,9 +42,9 @@
             reply = '通过*回复某人*或*@用户名*来使用这个命令',
             too_long = '这段文本太长了，我无法发送它。',
             msg_me = '_给我发条消息，我就能为您服务。_',
-            menu_cb_settings = 'Tap on an icon!',
-            menu_cb_warns = 'Use the row below to change the warns settings!',
-            menu_cb_media = 'Tap on a switch!',
+            menu_cb_settings = '敲击一个图标！',
+            menu_cb_warns = '使用下方按钮来更改警告设置！',
+            menu_cb_media = '敲击一个开关！',
             tell = '*群组ID*: &&&1',
         },
         not_mod = '您 *不是* 监督员',
@@ -165,7 +165,7 @@
             group_success = '_我已经将消息私聊给您了_',
             group_not_success = '_给我发条消息，我就能为您服务_',
             initial = '选择一个*角色*以查看可用命令:',
-            kb_header = '轻击一个按钮来查看 *相关命令*'
+            kb_header = '敲击一个按钮来查看 *相关命令*'
         },
         links = {
             no_link = '此群组尚未有*邀请链接*。快呼唤群组创建者生成一个',
