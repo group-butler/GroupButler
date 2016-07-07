@@ -129,6 +129,7 @@
                         .."\n*注*： 译者均为志愿翻译，因此我不能保证所有翻译的准确性。我也不能强迫他们在每次更新后翻译新的字符串（未被翻译的字符串将会以英语语言出现）."
                         .."\n无论如何，翻译的权利是开放给任何人的。使用 `/strings` 命令来获取一份包括所有字符串的 _.lua_ 文件（英语）。\n"
                         .."使用 `/strings [lang code]` 来获取特定语言的文件（如： _/strings es_ ）。\n"
+                        .."若您想要向本汉化递交相关意见，您可以通过issue的形式发送至我们的[Github仓库](https://github.com/KochiyaNoro/GroupButler_zh_cn/issues)（注：此项目与GroupButler官方没有关联）。\n"
                         .."在文件里您可以找到全部的操作指南：遵守它们，您翻译的语言将会被尽早投入使用;)",
                 settings = "*监督员权限： 群组设置*\n\n"
                             .."`/menu` = 在私聊中通过方便的内联键盘来管理群组设置\n"
@@ -136,10 +137,10 @@
             },
             all = '*公共命令*：\n'
                     ..'`/dashboard` ： 通过私聊获取群组仪表盘\n'
-                    ..'`/rules` (若未锁定) ： 显示群组规则\n'
-                    ..'`/about` (若未锁定) ： 显示群组介绍\n'
-                    ..'`/adminlist` (若未锁定) ： 显示群组监督员\n'
-                    ..'`@admin` (若未锁定) ： 通过回复 = report the message replied to all the admins; no reply (with text)= send a feedback to all the admins\n'
+                    ..'`/rules` (如允许) ： 显示群组规则\n'
+                    ..'`/about` (如允许) ： 显示群组介绍\n'
+                    ..'`/adminlist` (如允许) ： 显示群组监督员\n'
+                    ..'`@admin` (如允许) ： 通过回复 = 向管理员报告信息; 不通过回复（但通过在命令后输入文字）= 向管理员发送建议\n'
                     ..'`/kickme` ： 请求被机器人移出群组\n'
                     ..'`/faq` ： 一些常见问题的回答\n'
                     ..'`/id` ： 获取群组ID，或通过回复获取用户ID。\n'
@@ -191,7 +192,7 @@
         },
         service = {
             welcome = '您好 &&&1，欢迎来到 *&&&2*！',
-            welcome_rls = '乱死了！',
+            welcome_rls = '太乱了！',
             welcome_abt = '这个群组没有简介。',
             welcome_modlist = '\n\n*群组创建人*：\n&&&1\n*管理员*：\n&&&2',
             abt = '\n\n*群组简介*：\n',
@@ -208,7 +209,7 @@
             about_setted = '新的群组简介*已成功记录*！'
         },
         setrules = {
-            no_rules = '*乱死了*！',
+            no_rules = '*太乱了*！',
             no_rules_add = '这个群组没有*群规*。\n请使用 /setrules [群组规则] 来设置一个新的群组规则',
             no_input_add = '请在这可怜的"/addrules"后面写点什么吧',
             added = '*已追加新的群组规则：*\n"&&&1"',
@@ -411,7 +412,7 @@
                 media = '消息类型设置',
                 flood = '防刷屏设置'
             },
-            menu = '_设置菜单已私聊_',
+            menu = '_已将设置菜单私聊给您了_',
             menu_first = '管理群组设置。\n'
                 ..'\n一些命令 (_/rules, /about, /adminlist, #extra commands_) 可以*对非管理员禁用*\n'
                 ..'当一个命令对非管理员禁用时会发生什么\n'
