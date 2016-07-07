@@ -4264,7 +4264,7 @@ return {
             too_long = '这段文本太长了，我无法发送它。',
             msg_me = '_给我发条消息，我就能为您服务。_',
             menu_cb_settings = '点击图标以更改设定！',
-            menu_cb_warns = '使用下方按钮来更改警告设置！',
+            menu_cb_warns = '您可以使用最后一行修改警告设置！',
             menu_cb_media = '点击开关以更改设定！',
             tell = '*群组ID*： &&&1',
         },
