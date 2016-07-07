@@ -42,9 +42,9 @@
             reply = '通过*回复某人*或*@用户名*来使用这个命令',
             too_long = '这段文本太长了，我无法发送它。',
             msg_me = '_给我发条消息，我就能为您服务。_',
-            menu_cb_settings = '敲击一个图标！',
+            menu_cb_settings = '点击图标以更改设定！',
             menu_cb_warns = '使用下方按钮来更改警告设置！',
-            menu_cb_media = '敲击一个开关！',
+            menu_cb_media = '点击开关以更改设定！',
             tell = '*群组ID*： &&&1',
         },
         not_mod = '您 *不是* 监督员',
@@ -165,7 +165,7 @@
             group_success = '_我已经将消息私聊给您了_',
             group_not_success = '_给我发条消息，我就能为您服务_',
             initial = '选择一个*角色*以查看可用命令：',
-            kb_header = '敲击一个按钮来查看 *相关命令*'
+            kb_header = '点击一个按钮来查看 *相关命令*'
         },
         links = {
             no_link = '此群组尚未有*邀请链接*。快呼唤群组创建者生成一个',
