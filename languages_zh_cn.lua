@@ -8,8 +8,8 @@
             member = '&&&1 是本群群员'
         },
         userinfo = {
-            header_1 = '*Ban info (globals)*:\n',
-            header_2 = '*General info*:\n',
+            header_1 = '*封禁信息（全局）*:\n',
+            header_2 = '*常规信息*:\n',
             warns = '`警告`: ',
             media_warns = '`媒体消息警告`: ',
             group_msgs = '`Messages in the group`: ',
@@ -20,13 +20,13 @@
             remwarns_kb = '移除警告'
         },
         getban = {
-            header = '*Global stats* for ',
-            nothing = '`Nothing to display`',
-            kick = 'Kick: ',
-            ban = 'Ban: ',
-            tempban = 'Tempban: ',
-            flood = 'Removed for flood: ',
-            warn = 'Removed for warns: ',
+            header = '有关此人的*全局统计*： ',
+            nothing = '`没有可以显示的信息`',
+            kick = '移除: ',
+            ban = '封禁: ',
+            tempban = '临时屏蔽: ',
+            flood = '因刷屏而移除: ',
+            warn = '因多次警告而移除: ',
             media = 'Removed for forbidden media: ',
             arab = 'Removed for arab chars: ',
             rtl = 'Removed for RTL char: ',
