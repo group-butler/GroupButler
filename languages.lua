@@ -1290,48 +1290,48 @@ return {
             member = '&&&1 é um membro do grupo'
         },
         getban = {
-            header = '*Global stats* for ',
-            nothing = '`Nothing to display`',
-            kick = 'Kick: ',
-            ban = 'Ban: ',
-            tempban = 'Ban temporàrio: ',
+            header = '*Status global * para ',
+            nothing = '`Nada para mostrar`',
+            kick = 'Removido: ',
+            ban = 'Banido: ',
+            tempban = 'Banido temporáriamente: ',
             flood = 'Removido por flood: ',
             warn = 'Removido por warns: ',
-            media = 'Removido por mìdia: ',
-            arab = 'Removido por caracteres arabes: ',
+            media = 'Removido por mídia: ',
+            arab = 'Removido por caracteres árabes: ',
             rtl = 'Removido por caracteres RTL: ',
             kicked = '_Removido!_',
             banned = '_Banido!_'
         },
         userinfo = {
-            header_1 = '*Ban info (globals)*:\n',
-            header_2 = '*General info*:\n',
-            warns = '`Warns`: ',
-            media_warns = '`Media warns`: ',
-            group_msgs = '`Messages in the group`: ',
-            group_media = '`Media sent in the group`: ',
-            last_msg = '`Last message here`: ',
-            global_msgs = '`Total number of messages`: ',
-            global_media = '`Total number of media`: ',
-            remwarns_kb = 'Remove warns'
+            header_1 = '*Informação de Banidos (globais)*:\n',
+            header_2 = '*Informação Geral*:\n',
+            warns = '`Advertências`: ',
+            media_warns = '`Advertências sobre Arquivo`: ',
+            group_msgs = '`Mensagens no grupo`: ',
+            group_media = '`Arquivo enviado no grupo`: ',
+            last_msg = '`Última mensagem aqui`: ',
+            global_msgs = '`Total  de número de mensagens`: ',
+            global_media = '`Total de números de arquivos`: ',
+            remwarns_kb = 'Remover advertências'
         },
         bonus = {
             general_pm = '_Enviei a mensagem no seu privado_',
-            no_user = 'I\'ve never seen this user before.\nIf you want to teach me who he is, forward me a message from him',
-            the_group = 'the group',
-            adminlist_admin_required = 'I\'m not a group Admin.\n*Only an Admin can see the administrators list*',
-            mods_list = '*Group moderators*:\n&&&1',
-            settings_header = 'Current settings for *the group*:\n\n*Language*: `&&&1`\n',
+            no_user = 'Eu nunca vi este usuário antes.\nSe você deseja me ensinar quem ele é, me encaminhe uma mensagem dele',
+            the_group = 'o grupo',
+            adminlist_admin_required = 'Eu não sou administrador do grupo. Somente um administrador pode ver a lista de administradores*',
+            mods_list = '*Moderadores do grupo*:\n&&&1',
+            settings_header = 'Configurações atuais para *o grupo*:\n\n*Linguagem*: `&&&1`\n',
             reply = '*Responda alguém!* Não reconheci o *username*',
-            too_long = 'This text is too long, I can\'t send it',
-            msg_me = '_Message me first so I can message you_',
-            menu_cb_settings = 'Clique em um botãl!',
-            menu_cb_warns = 'Use the row below to change the warns settings!',
-            menu_cb_media = 'Tap on a switch!',
+            too_long = 'Este texto é muito grande. Eu não posso enviá-lo',
+            msg_me = '_Envie-me uma mensagem primeiro, então poderei enviar uma mensagem para você_',
+            menu_cb_settings = 'Clique em um botão!',
+            menu_cb_warns = 'Use a linha abaixo para mudar as configurações de advertências!',
+            menu_cb_media = 'Toque em cima para mudar!',
             tell = '*ID do grupo*: &&&1'
         },
         not_mod = 'Você *não* é um(a) moderador(a)',
-        breaks_markdown = 'This text breaks the markdown.\nMore info about a proper use of markdown [here](https://telegram.me/GroupButler_ch/46).',
+        breaks_markdown = 'Esta é a quebra de markdown.\nMais informações sobre o uso correto de marcaçõesroper use of markdown [aqui](https://telegram.me/GroupButler_ch/46).',
         credits = '*Clique em alguma informação desejada abaixo:*',
         extra = {
             setted = '&&&1 comando salvo!',
@@ -1343,19 +1343,19 @@ return {
         },
         help = {
             mods = {
-                banhammer = "*Moderators: banhammer powers*\n\n"
+                banhammer = "*Moderadores: Poderes do banhammer *\n\n"
                             .."`/kick [por resposta|username]` = remover o usuário do grupo (poderá retornar).\n"
-                            .."`/ban [por resposta|username]` = bamir o usuário do grupo (não poderá voltar).\n"
-                            .."`/tempban [minutes]` = ban an user for a specific amount of minutes (minutes must be < 10.080, one week). For now, only by reply.\n"
+                            .."`/ban [por resposta|username]` = banir o usuário do grupo (não poderá voltar).\n"
+                            .."`/tempban [minutes]` = banir um usuário específico por uma certa quantidade de minutos (minutos devem ser < 10.080, uma semana). Por agora, somente por reposta.\n"
                             .."`/unban [by reply|username]` = Desbanir um usuário que havia sido banido anteriormente.\n"
-                            .."`/user [by reply|username|id]` = returns a two pages messages: the first shows how many times the user has been banned *in all the groups* (divided in sections), "
-                            .."the second page shows some general stats about the user: messages/media in the group, warns received and so on.\n"
-                            .."`/status [username|id]` = show the current status of the user `(member|kicked/left the chat|banned|admin/creator|never seen)`.\n"
-                            .."`/banlist` = show a list of banned users. Includes the motivations (if given during the ban).\n"
-                            .."`/banlist -` = clean the banlist.\n"
-                            .."\n*Note*: you can write something after `/ban` command (or after the username, if you are banning by username)."
-                            .." This comment will be used as the motivation of the ban.",
-                info = "*Moderators: info about the group*\n\n"
+                            .."`/user [by reply|username|id]` = Retornar a duas páginas de mensagens: A primeira mostra quantas vezes o usuário foi banido *em todos os grupos* (dividido em seções), "
+                            .."a segunda página mostra alguns status gerais sobre o usuário: mensagens/arquivos no grupo, advertências recebidas e assim por diante.\n"
+                            .."`/status [username|id]` = mostrar o status atual do usuário `(membro|removido/saiu da conversa|banido|admin/criador|nunca visto)`.\n"
+                            .."`/banlist` = exibir a lista de usuários banidos. Inclusive os motivos (Se foi registrado no momento do banimento).\n"
+                            .."`/banlist -` = limpar a lista de banidos.\n"
+                            .."\n*Nota*: você pode escrever alguma coisa depois do comando `/ban` (ou depois do username, se você estiver banindo por username)."
+                            .." Este comentário será usado como motivo do banimento.",
+                info = "*Moderadores: informação sobre o grupo*\n\n"
                         .."`/setrules [group rules]` = define as regras para o grupo (the old will be overwritten).\n"
                         .."`/addrules [text]` = acrescentar algo as regras já definidas.\n"
                         .."`/setabout [group description]` = define a descrição do grupo (the old will be overwritten).\n"
