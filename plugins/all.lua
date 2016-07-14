@@ -321,8 +321,12 @@ local action = function(msg, blocks, ln)
         if not(msg.chat.type == 'private') and not msg.cb then
             if not is_mod(msg) then return end --only mods can use this
             keyboard = doKeyboard_menu(chat_id, ln)
-            api.sendMessage(msg.chat.id, lang[ln].all.menu, true)
-	        api.sendKeyboard(msg.from.id, lang[ln].all.menu_first..'\n('..msg.chat.title:mEscape()..')', keyboard, true)
+	    	local res = api.sendKeyboard(msg.from.id, lang[ln].all.menu_first..'\n('..msg.chat.title:mEscape()..')', keyboard, true)
+	        if res then
+	        	api.sendMessage(msg.chat.id, lang[ln].all.menu, true)
+	        else
+	        	cross.sendStartMe(msg, ln)
+	        end
 	        return
 	    end
 	    if msg.cb then
