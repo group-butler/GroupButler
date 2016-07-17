@@ -1290,8 +1290,8 @@ return {
             member = '&&&1 é um membro do grupo.'
         },
         getban = {
-            header = '*Status global * para ',
-            nothing = '`Nada para mostrar`',
+            header = '*Status global* para ',
+            nothing = '`Nada para ser exibido`',
             kick = 'Removido: ',
             ban = 'Banido: ',
             tempban = 'Banido temporariamente: ',
@@ -1304,7 +1304,7 @@ return {
             banned = '_Banido!_'
         },
         userinfo = {
-            header_1 = '*Informação sobre Banidos (globais)*:\n',
+            header_1 = '*Informação sobre Banidos (global)*:\n',
             header_2 = '*Informação Geral*:\n',
             warns = '`Advertências`: ',
             media_warns = '`Advertências sobre mídia`: ',
@@ -1464,7 +1464,7 @@ return {
             modlist = '*Criador*:\n&&&1\n\n*Admins*:\n&&&2'
         },
         report = {
-            no_input = 'Envie suas sugestões/bugs/dúvidas com !\nExamplo: !olá, este é um teste',
+            no_input = 'Envie suas sugestões/bugs/dúvidas com !\nExemplo: !olá, este é um teste',
             sent = '*Comentário enviado!*',
             feedback_reply = '*Olá, isto é uma resposta do dono do bot*:\n&&&1',
         },
@@ -1537,7 +1537,7 @@ return {
                 no = 'Nova configuração para a mensagem de boas-vindas:\nRegras\nDescrição\nLista de moderadores(as)',
                 wrong_input = 'Argumento inválido.\nUse _/welcome [no|r|a|ra|ar]_',
                 custom = '*Mensagem de boas-vindas personalizada* configurada!\n\n&&&1',
-                custom_setted = '*ensagem de boas-vindas personalizada salva!*',
+                custom_setted = '*Mensagem de boas-vindas personalizada salva!*',
                 wrong_markdown = '_Não configurada_ : Eu não posso enviar de volta esta mensagem, provavelmente o markdown está *errado*.\nPor favor verifique o texto enviado',
             },
             resume = {
@@ -1640,7 +1640,7 @@ return {
                 ..'• *ON/OFF*: o atual status do sistema anti-flood\n'
                 ..'• *Kick/Ban*: O que será feito quando alguém estiver floodando\n'
                 ..'\n*segunda linha*\n'
-                ..'• Voc6e pode usar *+/-* para mudar a sensibilidade atual do sistema anti-flood\n'
+                ..'• Você pode usar *+/-* para mudar a sensibilidade atual do sistema anti-flood\n'
                 ..'• o número é o máximo de mensagens que podem ser enviadas em _5 segundos_\n'
                 ..'• valor máximo: _25_ - valor mínimo: _4_\n'
                 ..'\n*terceira linha* e abaixo\n'
