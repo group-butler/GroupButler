@@ -43,7 +43,8 @@ return {
 		'de',
 		'sv',
 		'ar',
-		'fr'
+		'fr',
+		'fa'
 		--more to come
 	},
 	media_list = {
