@@ -44,6 +44,7 @@ return {
 		'sv',
 		'ar',
 		'fr',
+		'tc',
 		'fa'
 		--more to come
 	},
