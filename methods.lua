@@ -534,22 +534,18 @@ local function sendAudio(chat_id, audio, reply_to_message_id, duration, performe
 
 end
 
-local function editMessageCaption(chat_id, message_id, inline_message_id, caption)
+local function editMessageCaption(chat_id, message_id, caption)
 	local url = BASE_URL .. '/editMessageCaption'
-	local cmd = 'curl "'.. url ..'" -F "chat_id='.. chat_id ..'" -F "message_id='.. message_id ..'" -F "caption='.. caption ..'"'
-	if inline_message_id then
-		cmd = cmd .. ' -F "inline_message_id='.. inline_message_id ..'"'
+	if chat_id then
+		url = url .. '?chat_id='.. chat_id ..'&message_id='.. message_id .. '&caption='.. caption
 	end
-	return curlRequest(cmd)
+	return sendRequest(url)
 end
 
-local function editMessageReplyMarkup(chat_id, message_id, inline_message_id, reply_markup)
-	local url = BASE_URL .. '/editMessageReplyMarkup'
-	local cmd = 'curl "'.. url ..'" -F "chat_id='.. chat_id ..'" -F "message_id='.. message_id ..'" -F "reply_markup='.. JOSN.encode(reply_markup)'"'
-	if inline_message_id then
-		cmd = cmd .. ' -F "inline_message_id='.. inline_message_id ..'"' 
-	end
-	return curlRequest(cmd)
+
+local function editMessageReplyMarkup(chat_id, message_id, reply_markup)
+	local url = BASE_URL .. '/editMessageReplyMarkup?chat_id='.. chat_id .. '&message_id='.. message_id ..'&reply_markup='.. JSON.encode(reply_markup)
+	return sendRequest(url)
 end
 
 local function sendVideo(chat_id, video, reply_to_message_id, duration, performer, title)
