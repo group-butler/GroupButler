@@ -417,12 +417,17 @@ local function sendMediaId(chat_id, file_id, media, reply_to_message_id)
 	return sendRequest(url)
 end
 
-local function sendPhotoId(chat_id, file_id, reply_to_message_id)
+local function sendPhotoId(chat_id, file_id, reply_to_message_id, caption)
 	
 	local url = BASE_URL .. '/sendPhoto?chat_id=' .. chat_id .. '&photo=' .. file_id
 	
 	if reply_to_message_id then
 		url = url..'&reply_to_message_id='..reply_to_message_id
+	end
+	
+	if caption then
+	url = url..'&caption='..caption
+	
 	end
 
 	return sendRequest(url)
