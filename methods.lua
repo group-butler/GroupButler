@@ -556,7 +556,7 @@ local function sendVideo(chat_id, video, reply_to_message_id, duration, performe
 
 end
 
-local function sendVoice(chat_id, voice, duration, reply_to_message_id)
+local function sendVoice(chat_id, voice, reply_to_message_id, duration)
 
 	local url = BASE_URL .. '/sendVoice'
 
