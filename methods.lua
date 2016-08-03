@@ -538,7 +538,16 @@ local function editMessageCaption(chat_id, message_id, inline_message_id, captio
 	local url = BASE_URL .. '/editMessageCaption'
 	local cmd = 'curl "'.. url ..'" -F "chat_id='.. chat_id ..'" -F "message_id='.. message_id ..'" -F "caption='.. caption ..'"'
 	if inline_message_id then
-		cmd = cmd .. '-F "inline_message_id='.. inline_message_id ..'"'
+		cmd = cmd .. ' -F "inline_message_id='.. inline_message_id ..'"'
+	end
+	return curlRequest(cmd)
+end
+
+local function editMessageReplyMarkup(chat_id, message_id, inline_message_id, reply_markup)
+	local url = BASE_URL .. '/editMessageReplyMarkup'
+	local cmd = 'curl "'.. url ..'" -F "chat_id='.. chat_id ..'" -F "message_id='.. message_id ..'" -F "reply_markup='.. JOSN.encode(reply_markup)'"'
+	if inline_message_id then
+		cmd = cmd .. ' -F "inline_message_id='.. inline_message_id ..'"' 
 	end
 	return curlRequest(cmd)
 end
@@ -614,6 +623,8 @@ return {
 	code2text = code2text,
 	sendKeyboard = sendKeyboard,
 	editMessageText = editMessageText,
+	editMessageCaption = editMessageCaption,
+	editMessageReplyMarkup = editMessageReplyMarkup,
 	answerCallbackQuery = answerCallbackQuery,
 	unbanUser = unbanUser,
 	getCode = getCode,
