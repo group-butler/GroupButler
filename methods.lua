@@ -540,6 +540,7 @@ local function editMessageCaption(chat_id, message_id, inline_message_id, captio
 	if inline_message_id then
 		cmd = cmd .. '-F "inline_message_id='.. inline_message_id ..'"'
 	end
+	return curlRequest(cmd)
 end
 
 local function sendVideo(chat_id, video, reply_to_message_id, duration, performer, title)
