@@ -104,10 +104,10 @@ return {
 	action = action,
 	triggers = {
 		'^/(extra)$',
-		'^/(extra) (#[%w_]*)%s(.*)$',
-		'^/(extra) (#[%w_]*)',
-		'^/(extra del) (#[%w_]*)$',
+		'^/(extra) (#[^%s_]*)%s(.*)$',
+		'^/(extra) (#[^%s_]*)',
+		'^/(extra del) (#[^%s_]*)$',
 		'^/(extra list)$',
-		'^(#[%w_]*)$'
+		'^(#[^%s_]*)$'
 	}
 }
