@@ -1283,7 +1283,7 @@ return {
     br = {
         status = {
             kicked = '&&&1 já foi banido deste grupo.',
-            left = '&&&1 deixou o grupo ou fui expulso/banido.',
+            left = '&&&1 deixou o grupo ou foi expulso/banido.',
             administrator = '&&&1 é o administrador do grupo.',
             creator = '&&&1 é o criador do grupo.',
             unknown = 'Não está no grupo.',
@@ -1316,7 +1316,7 @@ return {
             remwarns_kb = 'Remover advertências'
         },
         bonus = {
-            general_pm = '_Enviei a mensagem em privado a você_',
+            general_pm = '_Enviei a mensagem para você no privado _',
             no_user = 'Eu nunca vi este usuário antes.\nSe você deseja me ensinar quem ele é; me encaminhe uma mensagem dele',
             the_group = 'o grupo',
             adminlist_admin_required = 'Eu não sou administrador do grupo. Somente um administrador pode ver a lista de administradores*',
@@ -1412,22 +1412,22 @@ return {
                         .."`/lang` = Escolha a linguagem do grupo (pode ser alterada em privado também).\n"
                         .."\n*Note*: traduções são feitas por voluntários, então não posso garantir correções para todas traduções. E eu não posso forçar pessoas a traduzirem novas palavras após cada atualização (palavras não traduziadas ficarão em Inglês)."
                         .."\nDe qualquer forma, traduções estão abertas a todos. Use o comando `/strings` para receber o arquivo _.lua_ com todas as palavras (em Inglês).\n"
-                        .."Use o comando `/strings [lang code]` para receber o arquivo com a linguage especificada (examplo: _/strings es_ ).\n"
+                        .."Use o comando `/strings [lang code]` para receber o arquivo com a linguagem especificada (exemplo: _/strings es_ ).\n"
                         .."No arquivo você irá encontrar todas as instruções: siga elas, e o mais breve possível sua língua estará disponível ;)",
                 settings = "*Moderadores: configurações do grupo*\n\n"
                             .."`/menu` = gerencie as configurações do grupo em privado com o prático teclado embutido.\n"
                             .."`/report [on/off]` (por resposta) = não será possível ao usuário desabilitar (_off_) ou habilitar (_on_) Pois é um comando de \"@admin\".\n",
             },
             all = '*Comandos para todos*:\n'
-                    ..'`/dashboard` : veja todas as informações do grupo em privado\n'
-                    ..'`/rules` (se desbloqueado) : mostra as regra do grupo\n'
+                    ..'`/dashboard` : veja todas as informações do grupo no privado\n'
+                    ..'`/rules` (se desbloqueado) : mostra as regras do grupo\n'
                     ..'`/about` (se desbloqueado) : mostra a descrição do grupo \n'
-                    ..'`/adminlist` (se desbloqueado) : mostra a lista de moderadores(as) do group\n'
+                    ..'`/adminlist` (se desbloqueado) : mostra a lista de moderadores(as) do grupo\n'
                     ..'`@admin` (se desbloqueado) : por resposta= reporta a mensagem respondida para todos os administradores; sem resposta (com texto)= envia um comentário para todos os administradores\n'
                     ..'`/kickme` : remove você do grupo\n'
                     ..'`/faq` : Algumas respostas úteis para perguntas frequentes\n'
                     ..'`/id` : exibe o id da conversa, ou o id do usuário se for por resposta\n'
-                    ..'`/echo [text]` : repitir o texto desejado (markdown permitido, disponível somente em privado para usuários não administradores)\n'
+                    ..'`/echo [text]` : repetir o texto desejado (markdown permitido, disponível somente em privado para usuários não administradores)\n'
                     ..'`/info` : mostra algumas informações úteis sobre o bot\n'
                     ..'`/group` : obtenha o link do grupo de discussão do bot\n'
                     ..'`/c` <comentário> : envia um comentário/bug/pergunta ao meu criador. _TODO TIPO DE SUGESTÃO OU PEDIDO DE FUNCIONALIDADE É BEM-VINDO_. Ele irá responder o mais breve possível\n'
@@ -1436,7 +1436,7 @@ return {
             private = 'Olá, *&&&1*!\n'
                     ..'Eu sou um simples bot criado com o objetivo de ajudar pessoas a gerenciarem seus grupos.\n'
                     ..'\n*O que posso fazer por você?*\n'
-                    ..'Wew, eu tenho encontrado um monte de ferramentas úteis!\n'
+                    ..'Wew, tenho encontrado um monte de ferramentas úteis!\n'
                     ..'• Você pode *kickar or banir* usuários (até em grupos normais) por resposta/username\n'
                     ..'• Configure regras e descrição\n'
                     ..'• Ative a configuração do sistema *anti-flood*\n'
@@ -1447,7 +1447,7 @@ return {
                     ..'\nPara me usar, *você precisa me adicionar como administrador no seu grupo*, ou Telegram não irá me deixar trabalhar! (se você tem alguma dúvida sobre isto, verifique [esta postagem](https://telegram.me/GroupButler_ch/63))'
                     ..'\nVocê pode reportar bugs/enviar comentário/perguntar questões ao meu criador apenas usando o comando "`/c <comentário>`". TUDO É BEM VINDO!',
             group_success = '_Enviei a mensagem de ajuda no privado_',
-            group_not_success = '_Caso você nunca tenha me usado, me *inicie* e envie o comando /help por aqui novamente_',
+            group_not_success = '_Aparenmtente nunca nos falamos antes, por favor me *inicie* clicando no botão abaixo e envie o comando /help por aqui novamente_',
             initial = '*Clique em algum comando abaixo:*',
             kb_header = 'Toque em um botão para ver os *comandos relacionados*'
         },
@@ -1461,7 +1461,7 @@ return {
             link_unsetted = 'Link *desativado*',
         },
         mod = {
-            modlist = '*Criador*:\n&&&1\n\n*Admins*:\n&&&2'
+            modlist = '*Criador*:\n&&&1\n\n*Administradores*:\n&&&2'
         },
         report = {
             no_input = 'Envie suas sugestões/bugs/dúvidas com !\nExemplo: !olá, este é um teste',
@@ -1472,7 +1472,7 @@ return {
             welcome = 'Olá, &&&1, e seja bem-vindo(a) ao *&&&2*!',
             welcome_rls = 'Anarquia total!',
             welcome_abt = 'Sem descrição para este grupo.',
-            welcome_modlist = '\n\n*Creator*:\n&&&1\n*Admins*:\n&&&2',
+            welcome_modlist = '\n\n*Criador*:\n&&&1\n*Administradores*:\n&&&2',
             abt = '\n\n*Descrição*:\n',
             rls = '\n\n*Regras*:\n',
         },
@@ -1573,30 +1573,30 @@ return {
             Rtl = 'Rtl',
             Arab = 'Árabe',
             Report = 'Denúncia',
-            Admin_mode = 'Admin mode',
+            Admin_mode = 'Modo Admin',
         },
         warn = {
             warn_reply = 'Responda a uma mensagem para advertir o(a) usuário(a)',
             changed_type = 'Nova ação ao receber máximo número de advertências: *&&&1*',
             mod = 'Moderadores(as) não podem ser advertidos',
-            warned_max_kick = 'Usuário(a) &&&1 *removido(a)*: atingiu o número máximo de advertências',
+            warned_max_kick = 'Usuário(a) &&&1 *kickado(a)*: atingiu o número máximo de advertências',
             warned_max_ban = 'Usuário(a) &&&1 *banido(a)*: atingiu o número máximo de advertências',
-            warned = '*Usuário(a)* &&&1 *foi advertido(a).*\n_Número de advertências_   *&&&2*\n_Máximo permitido_   *&&&3*',
-            warnmax = 'Número m��ximo de advertências foi alterado&&&3.\n*Antigo* valor: &&&1\n*Novo* valor: &&&2',
+            warned = '*Usuário(a)* &&&1 *foi advertido(a).*\n_Número de advertências_:   *&&&2*\n_Máximo permitido_:   *&&&3*',
+            warnmax = 'Número máximo de advertências foi alterado: &&&3.\n*Antigo* valor: &&&1\n*Novo* valor: &&&2',
             getwarns_reply = 'Responda a um(a) usuário(a) para verificar seu número de advertências',
-            getwarns = '&&&1 (*&&&2/&&&3*)\nMedia: (*&&&4/&&&5*)',
+            getwarns = '&&&1 (*&&&2/&&&3*)\nMídia: (*&&&4/&&&5*)',
             nowarn_reply = 'Responda a um(a) usuário(a) para deletar suas advertências',
             ban_motivation = 'limite de advertências alcançado',
             inline_high = 'O novo valor é muito alto (>12)',
             inline_low = 'O novo valor é muito baixo (<1)',
             zero = 'O número de advertências recebidas por este usuário já é _zero_',
-            warn_removed = '*Advertência removida!*\n_Número de advertências_   *&&&1*\n_Máximo permitido é de_   *&&&2*',
+            warn_removed = '*Advertência removida!*\n_Número de advertências_:   *&&&1*\n_Máximo permitido é de_   *&&&2*',
             nowarn = 'O número de advertências recebidas por este(a) usuário(a) foi *resetado*'
         },
         setlang = {
             list = '*Lista de idiomas disponíveis:*',
             success = '*Novo idioma selecionado:* &&&1',
-            error = 'Língua não é ainda suportado'
+            error = 'A língua escolhida não é ainda suportada'
         },
         banhammer = {
             kicked = '`&&&1` kickado `&&&2`! Ainda pode entrar no grupo',
@@ -1626,11 +1626,11 @@ return {
             kick = 'Agora floodadores(as) serão removidos(as)',
             ban = 'Agora floodadores(as) serão banidos(as)',
             changed_cross = '&&&1 -> &&&2',
-            text = 'Texts',
-            image = 'Images',
+            text = 'Textos',
+            image = 'Imagens',
             sticker = 'Stickers',
             gif = 'Gif',
-            video = 'Videos',
+            video = 'Vídeos',
             sent = '_Enviei para você o menu anti-flood no privado_',
             ignored = '[&&&1] será ignorado pelo sistema anti-flood',
             not_ignored = '[&&&1] não será ignorado pelo sistema anti-flood',
@@ -1671,11 +1671,11 @@ return {
             [1] = 'Não sou admin, não posso remover pessoas',
             [2] = 'Não posso remover ou banir um(a) admin',
             [3] = 'Não há necessidade de desbanir num grupo comum',
-            [4] = 'This user is not a chat member',
+            [4] = 'Esté usuário não é membro do grupo',
         },
         flag = {
             no_input = 'Responda a uma mensagem para reportá-la para um(a) moderador(a) ou escreva algo ao lado de \'@admin\' para enviar um feedback a eles(as)',
-            reported = 'Denunciado!',
+            reported = 'Denúncia registrada!',
             no_reply = 'Responda a um(a) usuário(a)!',
             blocked = 'O(A) usuário(a) a partir de agora não pode usar \'@admin\'',
             already_blocked = 'O(a) usuário(a) já está impedido(a) de usar \'@admin\'',
