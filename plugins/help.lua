@@ -11,7 +11,7 @@ local function make_keyboard(mod, mod_current_position)
 	        ['General settings'] = '!settings',
 	        ['Extra commands'] = '!extra',
 	        ['Warns'] = '!warns',
-	        ['Characters strictness'] = '!char',
+	        ['Character strictness'] = '!char',
 	        ['Links'] = '!links',
 	        ['Languages'] = '!lang'
         }
@@ -48,7 +48,7 @@ local function make_keyboard(mod, mod_current_position)
 	return keyboard
 end
 
-local function do_keybaord_credits()
+local function do_keyboard_credits()
 	local keyboard = {}
     keyboard.inline_keyboard = {
     	{
@@ -118,7 +118,7 @@ local action = function(msg, blocks, ln)
         local query = blocks[1]
         local text
         if query == 'info_button' then
-            keyboard = do_keybaord_credits()
+            keyboard = do_keyboard_credits()
 		    api.editMessageText(msg.chat.id, msg.message_id, lang[ln].credits, keyboard, true)
 		    return
 		end
