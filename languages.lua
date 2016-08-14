@@ -4772,7 +4772,7 @@ return {
                         .."\n*注*： 译者均为志愿翻译，因此我不能保证所有翻译的准确性。我也不能强迫他们在每次更新后翻译新的字符串（未被翻译的字符串将会以英语语言出现）."
                         .."\n无论如何，翻译的权利是开放给任何人的。使用 `/strings` 命令来获取一份包括所有字符串的 _.lua_ 文件（英语）。\n"
                         .."使用 `/strings [语言代号]` 来获取特定语言的文件（如： _/strings es_ ）。\n"
-                        .."若您想要向本汉化递交相关意见，您可以通过issue的形式发送至我们的[Github仓库](https://github.com/Telegram-CN/GroupButler/issues)（注：此项目与GroupButler官方没有关联）。\n"
+                        .."若您想要向本汉化递交相关意见，您可以通过issue的形式发送至我们的[Github仓库](https://github.com/Telegram-CN/GroupButler/issues)（注：此项目与GroupButler官方没有关联）。\n",
                 settings = "*监督员权限： 群组设置*\n\n"
                             .."`/menu` = 在私聊中通过方便的内联键盘来管理群组设置\n"
                             .."`/report [on/off]` (通过回复) = 指定用户不能使用(_off_)或可以使用(_on_) \"@admin\" 命令。\n",
