@@ -20,6 +20,11 @@ You **must** have Lua (5.2+) installed, plus some modules: LuaSocket, LuaSec, Re
 
 How to install LuaRocks and set-up the modules:
 
+Install unzip, only if missing:
+```bash
+$ sudo apt install unzip
+```
+
 ```bash
 # Download and install LuaSocket, LuaSec, Redis-Lua, Lua-term and serpent
 
@@ -37,7 +42,7 @@ $ cd ..
 
 Install Curl, only if missing:
 ```bash
-$ sudo apt-get install curl
+$ sudo apt install curl
 ```
 
 Clone the github repository:
