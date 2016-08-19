@@ -1,4 +1,4 @@
-#Group Butler
+#Group Butler, Telegram Api Bot.
 
 ##Introduction
 
@@ -15,17 +15,17 @@ Follow the [channel](https://telegram.me/groupbutler_ch) if you want to be updat
 
 * * *
 
-##Setup
+#Setup
 You **must** have Lua (5.2+) installed, plus some modules: LuaSocket, LuaSec, Redis-Lua, Lua term and Lua serpent. And, to upload files, you need Curl installed too.
 
 
-#How to install Lua (5.2+):
+###How to install Lua (5.2+):
 ```bash
 # Download and install Lua (5.2+)
 sudo apt-get update; sudo apt-get upgrade -y --force-yes; sudo apt-get dist-upgrade -y --force-yes; sudo apt-get install libreadline-dev libconfig-dev libssl-dev lua5.2 liblua5.2-dev lua-socket lua-sec lua-expat libevent-dev libjansson* libpython-dev make unzip git redis-server g++ autoconf -y --force-yes
 ```
 
-#How to install LuaRocks and set-up the modules:
+###How to install LuaRocks and set-up the modules:
 ```bash
 # Download and install LuaSocket, LuaSec, Redis-Lua, Lua-term and serpent
 
@@ -40,20 +40,19 @@ sudo apt-get update; sudo apt-get upgrade -y --force-yes; sudo apt-get dist-upgr
   sudo luarocks install serpent
   cd ..
 ```
-Install Curl, only if missing:
+###Install Curl, only if missing:
 ```bash
   sudo apt-get install curl
 ```
 
-Clone the github repository:
+###Clone the github repository:
 ```bash
 # Clone the repo and give the permissions to start the launch script
 
-  git clone https://github.com/RememberTheAir/GroupButler.git
-  cd GroupButler && sudo chmod 777 launch.sh
+  git clone https://github.com/RememberTheAir/GroupButler.git && cd GroupButler && sudo chmod 777 launch.sh
 ```
 
-install everything in one command (useful for VPS deployment) on Debian-based distros:
+###install everything in one command (useful for VPS deployment) on Debian-based distros:
 ```bash
 #do not forgot you should full access (root) to VPS
 sudo apt-get update; sudo apt-get upgrade -y --force-yes; sudo apt-get dist-upgrade -y --force-yes; sudo apt-get install libreadline-dev libconfig-dev libssl-dev lua5.2 liblua5.2-dev lua-socket lua-sec lua-expat libevent-dev libjansson* libpython-dev make unzip git redis-server g++ autoconf -y --force-yes && wget http://luarocks.org/releases/luarocks-2.2.2.tar.gz && tar zxpf luarocks-2.2.2.tar.gz && cd luarocks-2.2.2 && ./configure; sudo make bootstrap && sudo luarocks install luasocket && sudo luarocks install luasec && sudo luarocks install redis-lua && sudo luarocks install lua-term && sudo luarocks install serpent && cd .. && sudo apt-get install curl && git clone https://github.com/RememberTheAir/GroupButler.git && cd GroupButler && sudo chmod 777 launch.sh
