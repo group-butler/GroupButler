@@ -11,43 +11,54 @@ Group Butler is a Telegram API bot written in Lua. It has been created to help t
 
 This bot takes its long-polling loop and its structure from Otouto 3.1 and it's plugin-based. This makes easier to manage each function and command of the bot, and allows to split the different capabilities of it in different files for a more specific vision of what it should do.
 
-Follow the [channel](https://telegram.me/groupbutler_ch) if you want to be updated about new changes. The official bot is [@GroupButler_bot](http://github.com/groupbutler_bot).
+Follow the [channel](https://telegram.me/groupbutler_ch) if you want to be updated about new changes. The official bot is [GroupButler_bot](http://github.com/groupbutler_bot).
 
 * * *
 
 ##Setup
 You **must** have Lua (5.2+) installed, plus some modules: LuaSocket, LuaSec, Redis-Lua, Lua term and Lua serpent. And, to upload files, you need Curl installed too.
 
-How to install LuaRocks and set-up the modules:
 
+#How to install Lua (5.2+):
+```bash
+# Download and install Lua (5.2+)
+sudo apt-get update; sudo apt-get upgrade -y --force-yes; sudo apt-get dist-upgrade -y --force-yes; sudo apt-get install libreadline-dev libconfig-dev libssl-dev lua5.2 liblua5.2-dev lua-socket lua-sec lua-expat libevent-dev libjansson* libpython-dev make unzip git redis-server g++ autoconf -y --force-yes
+```
+
+#How to install LuaRocks and set-up the modules:
 ```bash
 # Download and install LuaSocket, LuaSec, Redis-Lua, Lua-term and serpent
 
-$ wget http://luarocks.org/releases/luarocks-2.2.2.tar.gz
-$ tar zxpf luarocks-2.2.2.tar.gz
-$ cd luarocks-2.2.2
-$ ./configure; sudo make bootstrap
-$ sudo luarocks install luasocket
-$ sudo luarocks install luasec
-$ sudo luarocks install redis-lua
-$ sudo luarocks install lua-term
-$ sudo luarocks install serpent
-$ cd ..
+  wget http://luarocks.org/releases/luarocks-2.2.2.tar.gz
+  tar zxpf luarocks-2.2.2.tar.gz
+  cd luarocks-2.2.2
+  ./configure; sudo make bootstrap
+  sudo luarocks install luasocket
+  sudo luarocks install luasec
+  sudo luarocks install redis-lua
+  sudo luarocks install lua-term
+  sudo luarocks install serpent
+  cd ..
 ```
-
 Install Curl, only if missing:
 ```bash
-$ sudo apt-get install curl
+  sudo apt-get install curl
 ```
 
 Clone the github repository:
 ```bash
 # Clone the repo and give the permissions to start the launch script
 
-$ git clone https://github.com/RememberTheAir/GroupButler.git
-$ cd GroupButler && sudo chmod 777 launch.sh
+  git clone https://github.com/RememberTheAir/GroupButler.git
+  cd GroupButler && sudo chmod 777 launch.sh
 ```
 
+install everything in one command (useful for VPS deployment) on Debian-based distros:
+```bash
+#do not forgot you should full access (root) to VPS
+sudo apt-get update; sudo apt-get upgrade -y --force-yes; sudo apt-get dist-upgrade -y --force-yes; sudo apt-get install libreadline-dev libconfig-dev libssl-dev lua5.2 liblua5.2-dev lua-socket lua-sec lua-expat libevent-dev libjansson* libpython-dev make unzip git redis-server g++ autoconf -y --force-yes && wget http://luarocks.org/releases/luarocks-2.2.2.tar.gz && tar zxpf luarocks-2.2.2.tar.gz && cd luarocks-2.2.2 && ./configure; sudo make bootstrap && sudo luarocks install luasocket && sudo luarocks install luasec && sudo luarocks install redis-lua && sudo luarocks install lua-term && sudo luarocks install serpent && cd .. && sudo apt-get install curl && git clone https://github.com/RememberTheAir/GroupButler.git && cd GroupButler && sudo chmod 777 launch.sh
+```
+ 
 **First of all, take a look to your bot settings:**
 
 > • Make sure that privacy is disabled (more info in the [official Bots FAQ page](https://core.telegram.org/bots/faq#what-messages-will-my-bot-get)). Write `/setprivacy` to [BotFather](http://telegram.me/BotFather) to check the current setting.
@@ -66,9 +77,9 @@ $ cd GroupButler && sudo chmod 777 launch.sh
 
 Before start the bot, you have to start Redis. Open a new window and type:
 ```bash
-# Start Redis
+# Start Redis (only if missing)
 
-$ sudo service redis-server start
+sudo service redis-server start
 ```
 
 If you are updating the bot, always check near the `version` field if you have to run `/aupdate` command after the first start.
@@ -94,6 +105,7 @@ To start the bot, run `./launch.sh`. To stop the bot, press Ctrl+c twice.
 
 You may also start the bot with `lua bot.lua`, but then it will not restart automatically.
 
+for steady bot in the terminal without definitive `sudo nohup bash ./launch.sh`.
 * * *
 
 Don't worry if in your log chat/private chat with the bot you will find a lot of messages marked with the #BadRequest tag. Most of them are users fault, check `config.lua` and your log for more info about the api responses.
