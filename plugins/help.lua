@@ -3,17 +3,17 @@ local function make_keyboard(mod, mod_current_position)
 	keyboard.inline_keyboard = {}
 	if mod then --extra options for the mod
 	    local list = {
-	        ['Banhammer'] = '!banhammer',
-	        ['Group info'] = '!info',
-	        ['Flood manager'] = '!flood',
-	        ['Media settings'] = '!media',
-	        ['Welcome settings'] = '!welcome',
-	        ['General settings'] = '!settings',
-	        ['Extra commands'] = '!extra',
-	        ['Warns'] = '!warns',
-	        ['Characters strictness'] = '!char',
-	        ['Links'] = '!links',
-	        ['Languages'] = '!lang'
+	        ['Banhammer'] = 'banhammer',
+	        ['Group info'] = 'info',
+	        ['Flood manager'] = 'flood',
+	        ['Media settings'] = 'media',
+	        ['Welcome settings'] = 'welcome',
+	        ['General settings'] = 'settings',
+	        ['Extra commands'] = 'extra',
+	        ['Warns'] = 'warns',
+	        ['Characters strictness'] = 'char',
+	        ['Links'] = 'links',
+	        ['Languages'] = 'lang'
         }
         local line = {}
         for k,v in pairs(list) do
@@ -21,7 +21,7 @@ local function make_keyboard(mod, mod_current_position)
             if next(line) then
                 local button = {text = '📍'..k, callback_data = v}
                 --change emoji if it's the current position button
-                if mod_current_position == v:gsub('!', '') then button.text = '💡 '..k end
+                if mod_current_position == v then button.text = '💡 '..k end
                 table.insert(line, button)
                 table.insert(keyboard.inline_keyboard, line)
                 line = {}
@@ -39,27 +39,12 @@ local function make_keyboard(mod, mod_current_position)
     end
     local bottom_bar
     if mod then
-		bottom_bar = {{text = '🔰 User commands', callback_data = '!user'}}
+		bottom_bar = {{text = '🔰 User commands', callback_data = 'user'}}
 	else
-	    bottom_bar = {{text = '🔰 Admin commands', callback_data = '!mod'}}
+	    bottom_bar = {{text = '🔰 Admin commands', callback_data = 'mod'}}
 	end
-	table.insert(bottom_bar, {text = 'Info', callback_data = '!info_button'}) --insert the "Info" button
+	table.insert(bottom_bar, {text = 'Info', callback_data = 'fromhelp:info'}) --insert the "Info" button
 	table.insert(keyboard.inline_keyboard, bottom_bar)
-	return keyboard
-end
-
-local function do_keybaord_credits()
-	local keyboard = {}
-    keyboard.inline_keyboard = {
-    	{
-    		{text = 'Channel', url = 'https://telegram.me/'..config.channel:gsub('@', '')},
-    		{text = 'GitHub', url = 'https://github.com/RememberTheAir/GroupButler'},
-    		{text = 'Rate me!', url = 'https://telegram.me/storebot?start='..bot.username},
-		},
-		{
-		    {text = '🔙', callback_data = '!user'}
-        }
-	}
 	return keyboard
 end
 
@@ -71,7 +56,7 @@ local function do_keyboard_private()
     		{text = '📢 Bot channel', url = 'https://telegram.me/'..config.channel:gsub('@', '')},
 	    },
 	    {
-	        {text = '📕 All the commands', callback_data = '!user'}
+	        {text = '📕 All the commands', callback_data = 'user'}
         }
     }
     return keyboard
@@ -87,13 +72,12 @@ local function do_keyboard_startme()
     return keyboard
 end
 
-local action = function(msg, blocks, ln)
+local action = function(msg, blocks)
     -- save stats
     if blocks[1] == 'start' then
-        db:hset('bot:users', msg.from.id, 'xx')
-        db:hincrby('bot:general', 'users', 1)
         if msg.chat.type == 'private' then
-            local message = make_text(lang[ln].help.private, msg.from.first_name:mEscape())
+            db:hincrby('bot:general', 'users', 1)
+            local message = lang[msg.ln].help.private:compose(msg.from.first_name:mEscape())
             local keyboard = do_keyboard_private()
             api.sendKeyboard(msg.from.id, message, keyboard, true)
         end
@@ -101,17 +85,15 @@ local action = function(msg, blocks, ln)
     end
     local keyboard = make_keyboard()
     if blocks[1] == 'help' then
-        if msg.chat.type == 'private' then
-            local message = make_text(lang[ln].help.private, msg.from.first_name:mEscape())
-            local keyboard = do_keyboard_private()
-            api.sendKeyboard(msg.from.id, message, keyboard, true)
-            return
-        end
-        local res = api.sendKeyboard(msg.from.id, 'Choose the *role* to see the available commands:', keyboard, true)
-        if res then
-            api.sendMessage(msg.chat.id, lang[ln].help.group_success, true)
-        else
-            api.sendKeyboard(msg.chat.id, lang[ln].help.group_not_success, do_keyboard_startme(), true)
+        local res = api.sendKeyboard(msg.from.id, lang[msg.ln].help.initial, keyboard, true)
+        if not misc.is_silentmode_on(msg.chat.id) then --send the responde in the group only if the silent mode is off
+            if res then
+                if msg.chat.type ~= 'private' then
+                    api.sendMessage(msg.chat.id, lang[msg.ln].help.group_success, true)
+                end
+            else
+                api.sendKeyboard(msg.chat.id, lang[msg.ln].help.group_not_success, do_keyboard_startme(), true)
+            end
         end
     end
     if msg.cb then
@@ -119,45 +101,45 @@ local action = function(msg, blocks, ln)
         local text
         if query == 'info_button' then
             keyboard = do_keybaord_credits()
-		    api.editMessageText(msg.chat.id, msg.message_id, lang[ln].credits, keyboard, true)
+		    api.editMessageText(msg.chat.id, msg.message_id, lang[msg.ln].credits, keyboard, true)
 		    return
 		end
         local with_mods_lines = true
         if query == 'user' then
-            text = lang[ln].help.all
+            text = lang[msg.ln].help.all
             with_mods_lines = false
         elseif query == 'mod' then
-            text = lang[ln].help.kb_header
+            text = lang[msg.ln].help.kb_header
         end
         if query == 'info' then
-        	text = lang[ln].help.mods[query]
+        	text = lang[msg.ln].help.mods[query]
         elseif query == 'banhammer' then
-        	text = lang[ln].help.mods[query]
+        	text = lang[msg.ln].help.mods[query]
         elseif query == 'flood' then
-        	text = lang[ln].help.mods[query]
+        	text = lang[msg.ln].help.mods[query]
         elseif query == 'media' then
-        	text = lang[ln].help.mods[query]
+        	text = lang[msg.ln].help.mods[query]
         elseif query == 'welcome' then
-        	text = lang[ln].help.mods[query]
+        	text = lang[msg.ln].help.mods[query]
         elseif query == 'extra' then
-        	text = lang[ln].help.mods[query]
+        	text = lang[msg.ln].help.mods[query]
         elseif query == 'warns' then
-        	text = lang[ln].help.mods[query]
+        	text = lang[msg.ln].help.mods[query]
         elseif query == 'char' then
-        	text = lang[ln].help.mods[query]
+        	text = lang[msg.ln].help.mods[query]
         elseif query == 'links' then
-        	text = lang[ln].help.mods[query]
+        	text = lang[msg.ln].help.mods[query]
         elseif query == 'lang' then
-        	text = lang[ln].help.mods[query]
+        	text = lang[msg.ln].help.mods[query]
         elseif query == 'settings' then
-        	text = lang[ln].help.mods[query]
+        	text = lang[msg.ln].help.mods[query]
         end
         keyboard = make_keyboard(with_mods_lines, query)
         local res, code = api.editMessageText(msg.chat.id, msg.message_id, text, keyboard, true)
         if not res and code and code == 111 then
             api.answerCallbackQuery(msg.cb_id, '❗️ Already on this tab')
         elseif query ~= 'user' and query ~= 'mod' and query ~= 'info_button' then
-            api.answerCallbackQuery(msg.cb_id, '💡 '..lang[ln].help.mods[query]:sub(1, string.find(lang[ln].help.mods[query], '\n')):mEscape_hard())
+            api.answerCallbackQuery(msg.cb_id, '💡 '..lang[msg.ln].help.mods[query]:sub(1, string.find(lang[msg.ln].help.mods[query], '\n')):mEscape_hard())
         end
     end
 end
@@ -166,21 +148,20 @@ return {
 	action = action,
 	admin_not_needed = true,
 	triggers = {
-	    '^/(start)$',
-	    '^/(help)$',
-	    '^###cb:!(user)',
-	    '^###cb:!(info_button)',
-	    '^###cb:!(mod)',
-	    '^###cb:!(info)',
-	    '^###cb:!(banhammer)',
-	    '^###cb:!(flood)',
-	    '^###cb:!(media)',
-	    '^###cb:!(links)',
-	    '^###cb:!(lang)',
-	    '^###cb:!(welcome)',
-	    '^###cb:!(extra)',
-	    '^###cb:!(warns)',
-	    '^###cb:!(char)',
-	    '^###cb:!(settings)',
+	    config.cmd..'(start)$',
+	    config.cmd..'(help)$',
+	    '^###cb:(user)$',
+	    '^###cb:(mod)$',
+	    '^###cb:(info)$',
+	    '^###cb:(banhammer)$',
+	    '^###cb:(flood)$',
+	    '^###cb:(media)$',
+	    '^###cb:(links)$',
+	    '^###cb:(lang)$',
+	    '^###cb:(welcome)$',
+	    '^###cb:(extra)$',
+	    '^###cb:(warns)$',
+	    '^###cb:(char)$',
+	    '^###cb:(settings)$',
     }
 }
