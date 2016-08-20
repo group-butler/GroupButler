@@ -9,14 +9,14 @@ local function doKeyboard_warn(user_id)
     return keyboard
 end
 
-local function action(msg, blocks, ln)
+local function action(msg, blocks)
     
     --warns/mediawarn
     
     if msg.chat.type == 'private' then return end
-    if not is_mod(msg) then
+    if not roles.is_admin(msg) then
     	if msg.cb then --show a pop up if a normal user tap on an inline button
-    		api.answerCallbackQuery(msg.cb_id, lang[ln].not_mod:mEscape_hard())
+    		api.answerCallbackQuery(msg.cb_id, lang[msg.ln].not_mod:mEscape_hard())
     	end
     	return
     end
@@ -37,7 +37,7 @@ local function action(msg, blocks, ln)
     	end
 		local old = (db:hget(hash, key)) or default
 		db:hset(hash, key, new)
-        local text = make_text(lang[ln].warn.warnmax, old, new, is_media)
+        local text = make_text(lang[msg.ln].warn.warnmax, old, new, is_media)
         api.sendReply(msg, text, true)
         return
     end
@@ -48,7 +48,7 @@ local function action(msg, blocks, ln)
     	db:hdel('chat:'..msg.chat.id..':warns', user_id)
 		db:hdel('chat:'..msg.chat.id..':mediawarn', user_id)
 		
-		api.editMessageText(msg.chat.id, msg.message_id, lang[ln].warn.nowarn..'\n`(Admin: '..msg.from.first_name:mEscape()..')`', false, true)
+		api.editMessageText(msg.chat.id, msg.message_id, lang[msg.ln].warn.nowarn..'\n`(Admin: '..msg.from.first_name:mEscape()..')`', false, true)
 		return
 	end
 	
@@ -57,12 +57,12 @@ local function action(msg, blocks, ln)
 		local num = db:hincrby('chat:'..msg.chat.id..':warns', user_id, -1) --add one warn
 		local text, nmax, diff
 		if tonumber(num) < 0 then
-			text = lang[ln].warn.zero
+			text = lang[msg.ln].warn.zero
 			db:hincrby('chat:'..msg.chat.id..':warns', user_id, 1) --restore the previouvs number
 		else
 			nmax = (db:hget('chat:'..msg.chat.id..':warnsettings', 'max')) or 3 --get the max num of warnings
 			diff = tonumber(nmax)-tonumber(num)
-			text = make_text(lang[ln].warn.warn_removed, num, nmax)
+			text = make_text(lang[msg.ln].warn.warn_removed, num, nmax)
 		end
 		
 		api.editMessageText(msg.chat.id, msg.message_id, text..'\n`(Admin: '..msg.from.first_name:mEscape()..')`', false, true)
@@ -71,12 +71,12 @@ local function action(msg, blocks, ln)
     
     --warning to reply to a message
     if not msg.reply then
-        api.sendReply(msg, lang[ln].warn.warn_reply)
+        api.sendReply(msg, lang[msg.ln].warn.warn_reply)
 	    return
 	end
 	--return nil if a mod is warned
-	if is_mod(msg.reply) then
-		api.sendReply(msg, lang[ln].warn.mod)
+	if roles.is_admin(msg.reply) then
+		api.sendReply(msg, lang[msg.ln].warn.mod)
 	    return
 	end		
 	--return nil if an user flag the bot
@@ -86,7 +86,7 @@ local function action(msg, blocks, ln)
     
     if blocks[1] == 'warn' then
 	    
-	    local name = getname(msg.reply)
+	    local name = misc.getname(msg.reply)
 		local hash = 'chat:'..msg.chat.id..':warns'
 		local num = db:hincrby(hash, msg.reply.from.id, 1) --add one warn
 		local nmax = (db:hget('chat:'..msg.chat.id..':warnsettings', 'max')) or 3 --get the max num of warnings
@@ -96,26 +96,26 @@ local function action(msg, blocks, ln)
 			local type = (db:hget('chat:'..msg.chat.id..':warnsettings', 'type')) or 'kick'
 			--try to kick/ban
 			if type == 'ban' then
-				text = make_text(lang[ln].warn.warned_max_ban, name:mEscape())..' ('..num..'/'..nmax..')'
+				text = make_text(lang[msg.ln].warn.warned_max_ban, name:mEscape())..' ('..num..'/'..nmax..')'
 				local is_normal_group = false
 	    		if msg.chat.type == 'group' then is_normal_group = true end
-				res, motivation = api.banUser(msg.chat.id, msg.reply.from.id, is_normal_group, ln)
+				res, motivation = api.banUser(msg.chat.id, msg.reply.from.id, is_normal_group, msg.ln)
 	    	else --kick
-				text = make_text(lang[ln].warn.warned_max_kick, name:mEscape())..' ('..num..'/'..nmax..')'
-		    	res, motivation = api.kickUser(msg.chat.id, msg.reply.from.id, ln)
+				text = make_text(lang[msg.ln].warn.warned_max_kick, name:mEscape())..' ('..num..'/'..nmax..')'
+		    	res, motivation = api.kickUser(msg.chat.id, msg.reply.from.id, msg.ln)
 		    end
 		    --if kick/ban fails, send the motivation
 		    if not res then
 		    	if not motivation then
-		    		motivation = lang[ln].banhammer.general_motivation
+		    		motivation = lang[msg.ln].banhammer.general_motivation
 		    	end
 		    	text = motivation
 		    else
-		    	cross.saveBan(msg.reply.from.id, 'warn') --add ban
+		    	misc.saveBan(msg.reply.from.id, 'warn') --add ban
 		    	if type == 'ban' then --add to the banlist
-		    		local why = lang[ln].warn.ban_motivation
+		    		local why = lang[msg.ln].warn.ban_motivation
 		    		if blocks[2] then why = blocks[2] end
-		    		cross.addBanList(msg.chat.id, msg.reply.from.id, name, why)
+		    		misc.remGroup(msg.chat.id, msg.reply.from.id, name, why)
 		    	end
 		    	db:hdel('chat:'..msg.chat.id..':warns', msg.reply.from.id) --if kick/ban works, remove the warns
 		    	db:hdel('chat:'..msg.chat.id..':mediawarn', msg.reply.from.id)
@@ -123,7 +123,7 @@ local function action(msg, blocks, ln)
 		    api.sendReply(msg, text, true) --if the user reached the max num of warns, kick and send message
 		else
 			local diff = tonumber(nmax)-tonumber(num)
-			text = make_text(lang[ln].warn.warned, name:mEscape(), num, nmax)
+			text = make_text(lang[msg.ln].warn.warned, name:mEscape(), num, nmax)
 			local keyboard = doKeyboard_warn(msg.reply.from.id)
 			api.sendKeyboard(msg.chat.id, text, keyboard, true, msg.message_id) --if the user is under the max num of warnings, send the inline keyboard
 		end
@@ -133,10 +133,10 @@ end
 return {
 	action = action,
 	triggers = {
-		'^/(warnmax) (%d%d?)$',
-		'^/(warnmax) (media) (%d%d?)$',
-		'^/(warn)$',
-		'^/(warn) (.*)$',
+		config.cmd..'(warnmax) (%d%d?)$',
+		config.cmd..'(warnmax) (media) (%d%d?)$',
+		config.cmd..'(warn)$',
+		config.cmd..'(warn) (.*)$',
 		'^###cb:(resetwarns):(%d+)$',
 		'^###cb:(removewarn):(%d+)$',
 	}

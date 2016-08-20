@@ -5,14 +5,17 @@ local function do_keybaord_credits()
     		{text = 'Channel', url = 'https://telegram.me/'..config.channel:gsub('@', '')},
     		{text = 'GitHub', url = 'https://github.com/RememberTheAir/GroupButler'},
     		{text = 'Rate me!', url = 'https://telegram.me/storebot?start='..bot.username},
+		},
+		{
+			{text = '👥 Groups', callback_data = 'private:groups'}
 		}
 	}
 	return keyboard
 end
 
-local action = function(msg, blocks, ln)
+local action = function(msg, blocks)
     
-    if not(msg.chat.type == 'private') then return end
+    if msg.chat.type ~= 'private' then return end
     
 	if blocks[1] == 'ping' then
 		api.sendMessage(msg.from.id, '*Pong!*', true)
@@ -24,13 +27,13 @@ local action = function(msg, blocks, ln)
 			api.sendDocumentId(msg.chat.id, file_id, msg.message_id)
 		else
 			local l_code = blocks[2]
-			local exists = is_lang_supported(l_code)
+			local exists = misc.is_lang_supported(l_code)
 			if exists then
 				local file_id = db:get('trfile:'..l_code:upper())
 				if not file_id then return end
 				api.sendDocumentId(msg.chat.id, file_id, msg.message_id)
 			else
-				api.sendReply(msg, lang[ln].setlang.error, true)
+				api.sendReply(msg, lang[msg.ln].setlang.error, true)
 			end
 		end
 	end
@@ -38,51 +41,43 @@ local action = function(msg, blocks, ln)
 		local res, code = api.sendMessage(msg.chat.id, blocks[2], true)
 		if not res then
 			if code == 118 then
-				api.sendMessage(msg.chat.id, lang[ln].bonus.too_long)
+				api.sendMessage(msg.chat.id, lang[msg.ln].bonus.too_long)
 			else
-				api.sendMessage(msg.chat.id, lang[ln].breaks_markdown, true)
+				api.sendMessage(msg.chat.id, lang[msg.ln].breaks_markdown, true)
 			end
 		end
 	end
-	if blocks[1] == 'c' then
-		if msg.chat.type ~= 'private' then
-        	return
-    	end
-    	local text = 'This command *has been replaced!*\n\nNow you can start your message with an ! to communicate with the bot owner. Example:\n_!hello, how are you?_'
-    	if config.help_group and config.help_group ~= '' then
-    		text = text..'\n\nYou can also join the discussion group to ask your question/report a bug. You can join with [this link]('..config.help_group..')'
-    	end
-    	api.sendMessage(msg.chat.id, text, true)
-    end
-    if blocks[1] == '!' then
-    	if msg.chat.type ~= 'private' then
-        	return
-    	end
-        local input = blocks[2]
-        local receiver = msg.from.id
-        
-        --allert if not feedback
-        if not input and not msg.reply then
-            api.sendMessage(msg.from.id, lang[ln].report.no_input)
-            return
-        end
-        
-        if msg.reply then
-        	msg = msg.reply
-        end
-	    
-	    api.forwardMessage (config.admin.owner, msg.from.id, msg.message_id)
-	    api.sendMessage(receiver, lang[ln].report.sent)
-	end
 	if blocks[1] == 'info' then
-		local keyboard = {}
-		keyboard = do_keybaord_credits()
-		api.sendKeyboard(msg.chat.id, '`v'..config.version..'`\n'..lang[ln].credits, keyboard, true)
+		local keyboard = do_keybaord_credits()
+		local text = '🕔 Bot version: `'..config.version..'`\n🔗 '..lang[msg.ln].credits, keyboard
+		if msg.cb then
+			api.editMessageText(msg.chat.id, msg.message_id, text, keyboard, true)
+		else
+			api.sendKeyboard(msg.chat.id, text, keyboard, true)
+		end
+	end
+	if blocks[1] == 'groups' then
+		if config.help_groups and next(config.help_groups) then
+			keyboard = {inline_keyboard = {}}
+			for group, link in pairs(config.help_groups) do
+				if link then
+					local line = {{text = group, url = link}}
+					table.insert(keyboard.inline_keyboard, line)
+				end
+			end
+			if next(keyboard.inline_keyboard) then
+				if msg.cb then
+					api.editMessageText(msg.chat.id, msg.message_id, 'Select a group:', keyboard, true)
+				else
+					api.sendKeyboard(msg.chat.id, 'Select a group:', keyboard, true)
+				end
+			end
+		end
 	end
 	if blocks[1] == 'resolve' then
-		local id = res_user_group(blocks[2], msg.chat.id)
+		local id = misc.res_user_group(blocks[2], msg.chat.id)
 		if not id then
-			message = lang[ln].bonus.no_user
+			message = lang[msg.ln].bonus.no_user
 		else
 			message = '*'..id..'*'
 		end
@@ -93,14 +88,15 @@ end
 return {
 	action = action,
 	triggers = {
-		'^/(ping)$',
-		'^/(strings)$',
-		'^/(strings) (%a%a)$',
-		'^/(echo) (.*)$',
-		'^/(c)%s?',
-		'^(!)$',
-		'^(!)(.+)',
-		'^/(info)$',
-		'^/(resolve) (@[%w_]+)$',
+		config.cmd..'(ping)$',
+		config.cmd..'(strings)$',
+		config.cmd..'(strings) (%a%a)$',
+		config.cmd..'(echo) (.*)$',
+		config.cmd..'(info)$',
+		config.cmd..'(groups)$',
+		config.cmd..'(resolve) (@[%w_]+)$',
+		
+		'^###cb:fromhelp:(info)$',
+		'^###cb:private:(groups)$'
 	}
 }
