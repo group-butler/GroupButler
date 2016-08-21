@@ -71,7 +71,7 @@ return {
 `/user [by reply|username|text mention|id]` = shows how many times the user has been banned *in all the groups*, and the warns received.
 `/status [username|id]` = show the current status of the user `(member|kicked/left the chat|banned|admin/creator|never seen)`.]],
                 info = [[*Moderators: info about the group*
-                
+
 `/setrules [group rules]` = set the new regulation for the group (the old will be overwritten).
 `/setrules -` = delete the current rules.
 `/addrules [text]` = add some text at the end of the existing rules.
@@ -1153,7 +1153,7 @@ The inline keyboard has three sub-menus:
 Puedes usar la última línea para cambiar cuántas advertencias debería dar el bot antes de expulsar/banear a alguien por enviar multimedia prohibida
 El número no está relacionado con el comando normal `/warn`]],
             menu_first = [["Administra los ajustes del grupo.
-            
+
 Algunos comandos (_/rules, /about, /adminlist, comandos #extra_) pueden ser *desactivados para usuarios no administradores*
 Qué ocurre si un comando es desactivado para los que no son administradores:
 • Si el comando es ejecutado por un admin, el bot responderá *en el grupo*
@@ -1168,8 +1168,8 @@ Los iconos junto al comando mostrarán el estado actual:
     },
     br = {
         config = {
-            private = '_I\'ve sent you the settings keyboard in private_',
-            main = 'Surf this keyboard to change the group settings'
+            private = '_Enviei para vocês o teclado de configurações no privado_',
+            main = 'Navegue por este teclado para modificar as configurações do grupo'
         },
         status = {
             kicked = '&&&1 já foi banido deste grupo.',
@@ -1198,10 +1198,10 @@ Los iconos junto al comando mostrarán el estado actual:
             warns = '`Advertências`: ',
             media_warns = '`Advertências sobre mídia`: ',
             remwarns_kb = 'Remover advertências',
-            reply_or_mention = 'Reply to an user or mention him (works by id too)'
+            reply_or_mention = 'Responda para um usuário ou mencione ele (funciona com o ID também)'
         },
         bonus = {
-            general_pm = '_Enviei a mensagem em privado a você_',
+            general_pm = '_Enviei a mensagem no privado a você_',
             no_user = 'Eu nunca vi este usuário antes.\nSe você deseja me ensinar quem ele é; me encaminhe uma mensagem dele',
             the_group = 'o grupo',
             adminlist_admin_required = 'Eu não sou administrador do grupo. Somente um administrador pode ver a lista de administradores*',
@@ -1244,7 +1244,7 @@ Los iconos junto al comando mostrarán el estado actual:
 *Nota:* markdown é suportado. Se o texto enviado quebrar o markdown, o bot irá notificar que alguma coisa está errada.
 Para o uso correto de markdown, verifique [esta postagem](https://telegram.me/GroupButler_ch/46) no canal]],
                 flood = "*Moderadores: configurações de flood*\n\n"
-                        .."`/antiflood` = gerencie as configurações de flood em privado, através do teclado embutido. Você pode alterar a severidade, a ação (kickar/banir), e até um conjunto de exceções.\n"
+                        .."`/antiflood` = gerencie as configurações de flood no privado, através do teclado embutido. Você pode alterar a severidade, a ação (kickar/banir), e até um conjunto de exceções.\n"
                         .."`/antiflood [number]` = define a quantidade de mensagems permitidas no intervalo de 5 segundos.\n"
                         .."_Nota_ : mínimo: *3* e máximo: *26*.\n",
                 media = [[*Moderadores: configurações de mídia*
@@ -1272,15 +1272,15 @@ Para o uso correto de markdown, verifique [esta postagem](https://telegram.me/Gr
                         .."Para o uso correto de markdown, verifique [esta postagem](https://telegram.me/GroupButler_ch/46) no canal",
                 warns = [[*Moderators: warns*
 
-`/warn [by reply]` = warn a user. Once the max number is reached, he will be kicked/banned.
-`/warnmax [number]` = set the max number of the warns before the kick/ban.
-`/warnmax media [number]` = set the max number of the warns before kick/ban when an unallowed media is sent.
+`/warn [by reply]` = Advertir um usuário. Uma vez o número máximo é alcançado, ele irá ser kickado/banido.
+`/warnmax [number]` = Configure o número máximo de advertências antes de kickar/banir.
+`/warnmax media [number]` = Configure o número máximo de advertências antes de kickar/banir quando um mídia não autorizada é enviada.
 
-How to see how many warns a user has received (or to reset them): use `/user` command.
-How to change the max. number of warnings allowed: `/config` command, then `menu` button.
-How to change the max. number of warnings allowed for media: `/config` command, then `media` button.]],
+Como ver quantas advertências um usuário já recebeu (ou para resetar elas): use o comando `/user`.
+Como mudar o número máximo de advertências permitidas: comando `/config`, então use o botão `menu`.
+Como mudar o número máximo de advertências permitidas para mídias: comando `/config`, então use o botão `media`.]],
                 char = "*Moderadores: caracteres especiais*\n\n"
-                        .."`/config` command, then `menu` button = você irá receber em privado o teclado de menu.\n"
+                        .."comando `/config`, então use o botão `menu` = você irá receber no privado o teclado de menu.\n"
                         .."Aqui você irá encontrar duas opções particulares: _Arab e RTL_.\n"
                         .."\n*Arab*: Quando Árabe não é permitido (🚫), todos que escreverem utilizando caracteres árabes serão kickados do grupo.\n"
                         .."*Rtl*: É a abreviação para caracteres de escrita da 'direita para esqueda', e são responsáveis pela estranheza nas mensagens devido ao nosso hábito de escrever da esquerda para direita.\n"
@@ -1290,30 +1290,30 @@ How to change the max. number of warnings allowed for media: `/config` command, 
                         .."`/link` = enviar o link do grupo, se ele já estiver sido configurado pelo criador\n"
                         .."\n*Nota*: o bot pode reconhecer um group links/enquetes válido. Se o link não for válido, você não receberá uma resposta.",
                 lang = "*Moderadores: linguagem do grupo*\n\n"
-                        .."`/lang` = Escolha a linguagem do grupo (pode ser alterada em privado também).\n"
-                        .."\n*Note*: traduções são feitas por voluntários, então não posso garantir correções para todas traduções. E eu não posso forçar pessoas a traduzirem novas palavras após cada atualização (palavras não traduziadas ficarão em Inglês)."
+                        .."`/lang` = Escolha a linguagem do grupo (pode ser alterada no privado também).\n"
+                        .."\n*Nota*: traduções são feitas por voluntários, então não posso garantir correções para todas traduções. E eu não posso forçar pessoas a traduzirem novas palavras após cada atualização (palavras não traduziadas ficarão em Inglês)."
                         .."\nDe qualquer forma, traduções estão abertas a todos. Use o comando `/strings` para receber o arquivo _.lua_ com todas as palavras (em Inglês).\n"
                         .."Use o comando `/strings [lang code]` para receber o arquivo com a linguage especificada (examplo: _/strings es_ ).\n"
                         .."No arquivo você irá encontrar todas as instruções: siga elas, e o mais breve possível sua língua estará disponível ;)",
-                settings = [[*Moderators: group settings*
+                settings = [[*Moderadores: configurações do grupo*
 
-`/config` = manage the group settings in private with a comfortable inline keyboard.
-The inline keyboard has three sub-menus:
+`/config` = Gerencie as configurações do grupo no privado com o conforto do teclado embutido.
+O teclado embutido tem 3 sub-menus:
 
-*Menu*: manage the most important group settings
-*Antiflood*: turn on or off the antiflood, set its sensitivity and choose some media to ignore, if you want
-*Media*: choose which media to forbid in your group, and set the number of times that an user will be warned before being kicked/banned]],
+*Menu*: Gerencia as configurações mais importantes do grupo
+*Antiflood*: Ativa e desativada o sistema de antiflood, configura a sensibilidade e permite escolher algumas mídias para serem ignoradas
+*Media*: Escolha quais mídias são proibidas no seu grupo, e configure o número de vezes que um usuário irá ser advertido antes de ser kickado/banido]],
             },
             all = [[*Comandos para todos*:
-`/dashboard` : veja todas as informações do grupo em privado
+`/dashboard` : veja todas as informações do grupo no privado
 `/rules` : mostra as regra do grupo (via pm)
 `/about` : mostra a descrição do grupo (via pm)
 `/adminlist` : mostra a lista de moderadores(as) do group (via pm)
 `/kickme` : remove você do grupo
 `/id` : exibe o id da conversa, ou o id do usuário se for por resposta
-`/echo [text]` : repitir o texto desejado (markdown permitido, disponível somente em privado para usuários não administradores)
+`/echo [text]` : repitir o texto desejado (markdown permitido, disponível somente no privado para usuários não administradores)
 `/info` : mostra algumas informações úteis sobre o bot
-`/groups` : get the list of the discussion groups
+`/groups` : recebe a lista de todos os grupos de discussão
 `/help` : exibe esta mensagem]],
             private = 'Hello *&&&1* '..emoji.shaking_hand..', nice to meet you!\n'
                     ..'I\'m Group Butler, the first administration bot using the official Bot API.\n'
@@ -1347,7 +1347,7 @@ The inline keyboard has three sub-menus:
             welcome = 'Olá, &&&1, e seja bem-vindo(a) ao *&&&2*!',
             welcome_rls = 'Anarquia total!',
             welcome_abt = 'Sem descrição para este grupo.',
-            welcome_modlist = '\n\n*Creator*:\n&&&1\n*Admins*:\n&&&2',
+            welcome_modlist = '\n\n*Criador*:\n&&&1\n*Admins*:\n&&&2',
             abt = '\n\n*Descrição*:\n',
             rls = '\n\n*Regras*:\n',
         },
@@ -1399,12 +1399,12 @@ The inline keyboard has three sub-menus:
                 w_media = '*Tipo de boas-vindas*: `gif/sticker`\n',
                 w_custom = '*Tipo de boas-vindas*: `custom message`\n',
                 w_default = '*Welcome type*: `default message`\n',
-                legenda = '✅ = _habilitado/permitido\n🚫 = _desabilitado/não permitido_\n👥 = _enviado no grupo (sempre para administradores)_\n👤 = _enviado em privado_'
+                legenda = '✅ = _habilitado/permitido\n🚫 = _desabilitado/não permitido_\n👥 = _enviado no grupo (sempre para administradores)_\n👤 = _enviado no privado_'
             },
             char = {
                 arab_kick = 'Quem enviar mensagens em árabe será kickado',
                 arab_ban = 'Quem enviar mensagens em árabe será banido',
-                arab_allow = 'Línga Árabe é permitida',
+                arab_allow = 'Língua Árabe é permitida',
                 rtl_kick = 'Quem usar o caracter RTL será kickado',
                 rtl_ban = 'Quem usar o caracter RTL será banido',
                 rtl_allow = 'Caracter RTL é permitido',
@@ -1415,7 +1415,7 @@ The inline keyboard has three sub-menus:
             Rtl = 'Rtl',
             Rules = '/rules',
             Arab = 'Árabe',
-            Silent = 'Silent mode',
+            Silent = 'Modo silencioso',
         },
         warn = {
             warn_reply = 'Responda a uma mensagem para advertir o(a) usuário(a)',
@@ -1423,12 +1423,12 @@ The inline keyboard has three sub-menus:
             mod = 'Moderadores(as) não podem ser advertidos',
             warned_max_kick = 'Usuário(a) &&&1 *removido(a)*: atingiu o número máximo de advertências',
             warned_max_ban = 'Usuário(a) &&&1 *banido(a)*: atingiu o número máximo de advertências',
-            warned = '*Usuário(a)* &&&1 *foi advertido(a).*\n_Número de advertências_   *&&&2*\n_Máximo permitido_   *&&&3*',
-            warnmax = 'Número m��ximo de advertências foi alterado&&&3.\n*Antigo* valor: &&&1\n*Novo* valor: &&&2',
-            inline_high = 'O novo valor é muito alto (>12)',
-            inline_low = 'O novo valor é muito baixo (<1)',
+            warned = '*Usuário(a)* &&&1 *foi advertido(a).*\n_Número de advertências_: *&&&2*\n_Máximo permitido_: *&&&3*',
+            warnmax = 'Número máximo de advertências foi alterado&&&3.\n*Antigo* valor: &&&1\n*Novo* valor: &&&2',
+            inline_high = 'O novo valor é muito alto (> 12)',
+            inline_low = 'O novo valor é muito baixo (< 1)',
             zero = 'O número de advertências recebidas por este usuário já é _zero_',
-            warn_removed = '*Advertência removida!*\n_Número de advertências_   *&&&1*\n_Máximo permitido é de_   *&&&2*',
+            warn_removed = '*Advertência removida!*\n_Número de advertências_: *&&&1*\n_Máximo permitido é de_ *&&&2*',
             nowarn = 'O número de advertências recebidas por este(a) usuário(a) foi *resetado*'
         },
         setlang = {
@@ -1462,11 +1462,11 @@ The inline keyboard has three sub-menus:
             kick = 'Agora floodadores(as) serão removidos(as)',
             ban = 'Agora floodadores(as) serão banidos(as)',
             changed_cross = '&&&1 -> &&&2',
-            text = 'Texts',
-            image = 'Images',
+            text = 'Textos',
+            image = 'Imagens',
             sticker = 'Stickers',
             gif = 'Gif',
-            video = 'Videos',
+            video = 'Vídeos',
             sent = '_Enviei para você o menu anti-flood no privado_',
             ignored = '[&&&1] será ignorado pelo sistema anti-flood',
             not_ignored = '[&&&1] não será ignorado pelo sistema anti-flood',
@@ -1487,19 +1487,19 @@ The inline keyboard has three sub-menus:
         },
         mediasettings = {
             media_texts = {
-                image = 'Images',
-                video = 'Videos',
-                file = 'Documents',
-                TGlink = 'telegram.me links',
-                voice = 'Vocal messages',
+                image = 'Imagens',
+                video = 'Vídeos',
+                file = 'Documentos',
+                TGlink = 'Links telegram.me',
+                voice = 'Messagens de voz',
                 gif = 'Gifs',
                 link = 'Links',
-                audio = 'Music',
+                audio = 'Músicas',
                 sticker = 'Stickers',
-                contact = 'Contacts',
+                contact = 'Contatos',
             },
             settings_header = '*Atuais configurações de mídia*:\n\n',
-            cb_alert = emoji.alert..' Tap on the right column',
+            cb_alert = emoji.alert..' toque na coluna da direita',
             changed = 'Novo estado = &&&1',
         },
         preprocess = {
@@ -1509,15 +1509,15 @@ The inline keyboard has three sub-menus:
             media_ban = ' *banido(a)*: mídia enviada não permitida',
             rtl_kicked = ' *removido(a)*: caracteres RTL (Right-to-Left, Direita para esquerda) em nomes/mensagens não são permitidos',
             arab_kicked = ' *removido(a)*: mensagem em árabe detectada',
-            rtl_banned = ' *banned*: rtl character in names/messages not allowed!',
-            arab_banned = ' *banned*: arab message detected!',
-            first_warn = 'This type of media is *not allowed* in this chat.'
+            rtl_banned = ' *banido(a)*: caracteres RTL no nome/mensagem não permitido!',
+            arab_banned = ' *banido(a)*: mensagem arab detectada!',
+            first_warn = 'Este tipo de mídia *não é permitida* neste grupo.'
         },
         kick_errors = {
             [1] = 'Não sou admin, não posso remover pessoas',
             [2] = 'Não posso remover ou banir um(a) admin',
             [3] = 'Não há necessidade de desbanir num grupo comum',
-            [4] = 'This user is not a chat member',
+            [4] = 'Este usuário não é um membro do grupo',
         },
         all = {
             dashboard = {
