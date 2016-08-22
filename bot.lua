@@ -299,14 +299,14 @@ local function media_to_msg(msg)
 		msg.media = false
 	end
 	
-	--cehck entities for links/text mentions
+	--check entities for links/text mentions. Increased strictness!
 	if msg.entities then
 		for i,entity in pairs(msg.entities) do
 			if entity.type == 'text_mention' then
 				msg.mention_id = entity.user.id
 			end
 			if entity.type == 'url' or entity.type == 'text_link' then
-				if msg.text:match('[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm]%.[Mm][Ee]') then
+				if msg.text:match('([Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[%a][%a][%a]/)') or msg.text:match('([Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[%a][%a]/)') then 
 					msg.media_type = 'TGlink'
 				else
 					msg.media_type = 'link'
@@ -345,7 +345,7 @@ local function handle_inline_keyboards_cb(msg)
 	return on_msg_receive(msg)
 end
 
----------WHEN THE BOT IS STARTED FROM THE TERMINAL, THIS IS THE FIRST FUNCTION HE FOUNDS
+---------WHEN THE BOT IS STARTED FROM THE TERMINAL, THIS IS THE FIRST FUNCTION IT FINDS
 
 bot_init() -- Actually start the script. Run the bot_init function.
 
