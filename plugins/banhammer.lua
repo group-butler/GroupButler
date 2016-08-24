@@ -188,7 +188,6 @@ local action = function(msg, blocks, ln)
    				if not res and msg.chat.type == 'group' then
    					text = lang[msg.ln].banhammer.not_banned
    				else
-   					misc.remBanList(msg.chat.id, user_id)
    					text = lang[msg.ln].banhammer.unbanned:compose(misc.getname_link(msg.from.first_name, msg.from.username) or msg.from.first_name:mEscape())
    				end
    				--send reply if normal message, edit message if callback
