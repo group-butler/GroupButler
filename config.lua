@@ -1,5 +1,5 @@
 return {
-	bot_api_key = '198733539:AAGV9pV-ry2He6PozSlAWRPXW3tO5DoNSe4',
+	bot_api_key = os.getenv('BOT_TOKEN'),
 	version = '4.0',
 	cmd = '^[/!#]',
 	db = 2, --default redis db: 0
@@ -26,7 +26,7 @@ return {
 		['Persian'] = 'https://telegram.me/joinchat/CHYUej8VRwlY9dzoKMERog',
 		['Spanish'] = false
 	},
-	languages = 'languages.lua',
+	languages = 'languages.lua~',
 	plugins = {
 		'onmessage.lua', --THIS MUST BE THE FIRST: IF AN USER IS SPAMMING/IS BLOCKED, THE BOT WON'T GO THROUGH PLUGINS
 		'configure.lua',
@@ -55,17 +55,17 @@ return {
 	},
 	available_languages = {
 		['en'] = 'English 🇬🇧',
-		['it'] = 'Italiano 🇮🇹',
-		['es'] = 'Español 🇪🇸',
-		['br'] = 'Português 🇧🇷',
-		['ru'] = 'русский 🇷🇺',
-		['de'] = 'Deutschland 🇩🇪',
-		['sv'] = 'Svensk 🇸🇪',
-		['ar'] = 'العربية 🇸🇩',
-		['fr'] = 'Français 🇫🇷',
-		['tc'] = '中文 🇨🇳',
-		['fa'] = 'فارسی 🇮🇷'
-		--more to come
+		--['it'] = 'Italiano 🇮🇹',
+		--['es'] = 'Español 🇪🇸',
+		--['br'] = 'Português 🇧🇷',
+		--['ru'] = 'русский 🇷🇺',
+		--['de'] = 'Deutschland 🇩🇪',
+		--['sv'] = 'Svensk 🇸🇪',
+		--['ar'] = 'العربية 🇸🇩',
+		--['fr'] = 'Français 🇫🇷',
+		--['tc'] = '中文 🇨🇳',
+		--['fa'] = 'فارسی 🇮🇷'
+		-- more to come
 	},
 	media_list = {
 		'image',

@@ -27,17 +27,14 @@ function bot_init(on_reload) -- The function run when the bot is started or relo
 		return
 	end
 	misc, roles = dofile('utilities.lua') -- Load miscellaneous and cross-plugin functions.
+	locale = dofile('languages.lua')
 	lang = dofile(config.languages) -- All the languages available
 	api = require('methods')
 	
 	current_m = 0
 	last_m = 0
 	
-	bot = nil
-	while not bot do -- Get bot info and retry if unable to connect.
-		bot = api.getMe()
-	end
-	bot = bot.result
+	bot = api.getMe().result -- Get bot info
 
 	plugins = {} -- Load plugins.
 	for i,v in ipairs(config.plugins) do
@@ -163,7 +160,8 @@ on_msg_receive = function(msg) -- The fn run whenever a message is received.
 	end]]
 	
 	--Group language
-	msg.ln = (db:get('lang:'..msg.chat.id)) or 'en'
+	locale.language = db:get('lang:'..msg.chat.id) or 'en'
+	msg.ln = locale.language
 	
 	collect_stats(msg) --resolve_username support, chat stats
 	
@@ -199,13 +197,12 @@ on_msg_receive = function(msg) -- The fn run whenever a message is received.
       					end
 						
 						--execute the plugin
-						local success, result = pcall(function()
-							return plugin.action(msg, blocks)
-						end)
+						local success, result = xpcall(plugin.action, debug.traceback, msg, blocks)
 						
 						--if bugs
 						if not success then
-							print(msg.text, result)
+							vardump(msg)
+							print(result)
 							if config.bot_settings.notify_bug then
 								api.sendReply(msg, '*A bug occurred*', true)
 							end
