@@ -137,9 +137,7 @@ When Rtl is not allowed (🚫), everyone that writes this character (or that has
 
 *Note*: translators are volunteers, so I can't ensure the correctness of all the translations. And I can't force them to translate the new strings after each update (not translated strings are in english).
 
-Anyway, translations are open to everyone. Use `/strings` command to receive a _.lua_ file with all the strings (in english).
-Use `/strings [lang code]` to receive the file for that specific language (example: _/strings es_ ).
-In the file you will find all the instructions: follow them, and as soon as possible your language will be available
+Anyway, translations are open to everyone. If you want to translate the bot, see an [information](https://github.com/RememberTheAir/GroupButler#translators) on GitHub.
 ]])
 	elseif key == 'mods_settings' then
 		return _([[

@@ -323,12 +323,7 @@ function misc.res_user_group(username, chat_id)
 end
 
 function misc.is_lang_supported(code)
-	for code, description in pairs(config.avaliable_languages) do
-		if code:lower() == code then
-			return true
-		end
-	end
-	return false
+	return config.available_languages[code:lower()] ~= nil
 end
 
 function misc.create_folder(name)
