@@ -36,6 +36,7 @@ return {
 	action = action,
 	triggers = {
 		config.cmd..'(lang)$',
-		'^###cb:(langselected):(%a%a)$'
+		'^###cb:(langselected):(%l%l)$',
+		'^###cb:(langselected):(%l%l_%u%u)$',
 	}
 }
