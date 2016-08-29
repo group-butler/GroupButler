@@ -23,7 +23,7 @@ local function gsub_custom_welcome(msg, custom)
 	return custom
 end
 
-local function get_welcome(msg, ln)
+local function get_welcome(msg)
 	if is_locked(msg.chat.id) then
 		return false
 	end
@@ -36,7 +36,7 @@ local function get_welcome(msg, ln)
 	elseif type == 'custom' then
 		return gsub_custom_welcome(msg, content)
 	else
-		return lang[ln].service.welcome:compose(msg.added.first_name:mEscape_hard(), msg.chat.title:mEscape_hard())
+		return _("Hi %s, and welcome to *%s*!"):format(msg.added.first_name:mEscape_hard(), msg.chat.title:mEscape_hard())
 	end
 end
 
@@ -90,7 +90,7 @@ local action = function(msg, blocks)
 			if username:find('bot', -3) then return end
 		end
 		
-		local text = get_welcome(msg, msg.ln)
+		local text = get_welcome(msg)
 		if text then
 			api.sendMessage(msg.chat.id, text, true)
 		end

@@ -28,7 +28,6 @@ function bot_init(on_reload) -- The function run when the bot is started or relo
 	end
 	misc, roles = dofile('utilities.lua') -- Load miscellaneous and cross-plugin functions.
 	locale = dofile('languages.lua')
-	lang = dofile(config.languages) -- All the languages available
 	api = require('methods')
 	
 	current_m = 0
@@ -161,14 +160,13 @@ on_msg_receive = function(msg) -- The fn run whenever a message is received.
 	
 	--Group language
 	locale.language = db:get('lang:'..msg.chat.id) or 'en'
-	msg.ln = locale.language
 	
 	collect_stats(msg) --resolve_username support, chat stats
 	
 	local stop_loop
 	for i, plugin in pairs(plugins) do
 		if plugin.on_each_msg then
-			msg, stop_loop = plugin.on_each_msg(msg, msg.lang)
+			msg, stop_loop = plugin.on_each_msg(msg)
 		end
 		if stop_loop then --check if on_each_msg said to stop the triggers loop
 			return
@@ -204,10 +202,10 @@ on_msg_receive = function(msg) -- The fn run whenever a message is received.
 							vardump(msg)
 							print(result)
 							if config.bot_settings.notify_bug then
-								api.sendReply(msg, '*A bug occurred*', true)
+								api.sendReply(msg, _("Sorry, a *bug* occurred"), true)
 							end
 							--misc.save_log('errors', result, msg.from.id or false, msg.chat.id or false, msg.text or false)
-          					api.sendAdmin('An #error occurred.\n'..result..'\n'..msg.ln..'\n'..msg.text)
+          					api.sendAdmin('An #error occurred.\n'..result..'\n'..locale.language..'\n'..msg.text)
 							return
 						end
 						

@@ -107,16 +107,16 @@ function api.kickChatMember(chat_id, user_id)
 
 end
 
-local function code2text(code, ln)
+local function code2text(code)
 	--the default error description can't be sent as output, so a translation is needed
 	if code == 101 or code == 105 or code == 107 then
-		return lang[ln].kick_errors[1]
+		return _("I'm not an admin, I can't kick people")
 	elseif code == 102 or code == 104 then
-		return lang[ln].kick_errors[2]
+		return _("I can't kick or ban an admin")
 	elseif code == 103 then
-		return lang[ln].kick_errors[3]
+		return _("There is no need to unban in a normal group")
 	elseif code == 106 then
-		return lang[ln].kick_errors[4]
+		return _("This user is not a chat member")
 	elseif code == 7 then
 		return false
 	end
@@ -133,7 +133,7 @@ function api.banUserId(chat_id, user_id, name, on_request, no_msg)
 	return api.banUser(msg, on_request, no_msg)
 end
 
-function api.banUser(chat_id, user_id, is_normal_group, ln)
+function api.banUser(chat_id, user_id, is_normal_group)
 	
 	local res, code = api.kickChatMember(chat_id, user_id) --try to kick. "code" is already specific
 	
@@ -145,12 +145,12 @@ function api.banUser(chat_id, user_id, is_normal_group, ln)
 	    end
 		return res --return res and not the text
 	else ---else, the user haven't been kicked
-		local text = code2text(code, ln)
+		local text = code2text(code)
 		return res, text --return the motivation too
 	end
 end
 
-function api.kickUser(chat_id, user_id, ln)
+function api.kickUser(chat_id, user_id)
 	
 	local res, code = api.kickChatMember(chat_id, user_id) --try to kick
 	
@@ -162,7 +162,7 @@ function api.kickUser(chat_id, user_id, ln)
 		api.unbanChatMember(chat_id, user_id)
 		return res
 	else
-		local motivation = code2text(code, ln)
+		local motivation = code2text(code)
 		return res, motivation
 	end
 end
@@ -547,4 +547,4 @@ function api.sendLog(text, markdown)
 	return api.sendMessage(config.log_chat or config.admin.owner, text, markdown)
 end
 
-return api	
+return api

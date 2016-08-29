@@ -1,4 +1,4 @@
-local function doKeyboard_media(chat_id, ln)
+local function doKeyboard_media(chat_id)
 	if not ln then ln = 'en' end
     local keyboard = {}
     keyboard.inline_keyboard = {}
@@ -9,7 +9,20 @@ local function doKeyboard_media(chat_id, ln)
         else
             status = '❌'
         end
-        local media_text = lang[ln].mediasettings.media_texts[media] or media
+
+		local media_texts = {
+			image = _("Images"),
+			gif = _("GIFs"),
+			video = _("Videos"),
+			file = _("Documents"),
+			TGlink = _("telegram.me links"),
+			voice = _("Vocal messages"),
+			link = _("Links"),
+			audio = _("Music"),
+			sticker = _("Stickers"),
+			contact = _("Contacts"),
+		}
+        local media_text = media_texts[media] or media
         local line = {
             {text = media_text, callback_data = 'mediallert'},
             {text = status, callback_data = 'media:'..media..':'..chat_id}
@@ -21,7 +34,13 @@ local function doKeyboard_media(chat_id, ln)
     --action line
     local max = (db:hget('chat:'..chat_id..':warnsettings', 'mediamax')) or config.chat_settings['warnsettings']['mediamax']
     local action = (db:hget('chat:'..chat_id..':warnsettings', 'mediatype')) or config.chat_settings['warnsettings']['mediatype']
-    table.insert(keyboard.inline_keyboard, {{text = 'Warns (media) 📍 '..max..' | '..action, callback_data = 'mediatype:'..chat_id}})
+	local caption
+	if action == 'kick' then
+		caption = _("Warns (media) 📍 %d | kick"):format(tonumber(max))
+	else
+		caption = _("Warns (media) 📍 %d | ban"):format(tonumber(max))
+	end
+    table.insert(keyboard.inline_keyboard, {{text = caption, callback_data = 'mediatype:'..chat_id}})
     --buttons line
     local warn = {
         {text = '➖', callback_data = 'mediawarn:dim:'..chat_id},
@@ -36,54 +55,58 @@ local function doKeyboard_media(chat_id, ln)
 end
 
 local action = function(msg, blocks)
-	
+	local media_first = _([[
+Tap on a voice in the right colon to *change the setting*
+You can use the last line to change how many warnings should the bot give before kick / ban someone for a forbidden media
+The number is not related the the normal `/warn` command
+]])
+
 	local chat_id = msg.target_id
 	
 	if  blocks[1] == 'config' then
-		local keyboard = doKeyboard_media(chat_id, msg.ln)
-		local text = lang[msg.ln].all.media_first
-	    api.editMessageText(msg.chat.id, msg.message_id, text, keyboard, true)
+		local keyboard = doKeyboard_media(chat_id)
+	    api.editMessageText(msg.chat.id, msg.message_id, media_first, keyboard, true)
 	else
 		if blocks[1] == 'mediallert' then
-			api.answerCallbackQuery(msg.cb_id, lang[msg.ln].mediasettings.cb_alert) return
+			api.answerCallbackQuery(msg.cb_id, _("⚠️ Tap on the right column"))
+			return
 		end
 		local cb_text
 		if blocks[1] == 'mediawarn' then
 			local current = tonumber(db:hget('chat:'..chat_id..':warnsettings', 'mediamax')) or 2
 			if blocks[2] == 'dim' then
 				if current < 2 then
-					cb_text = lang[msg.ln].warn.inline_low
+					cb_text = _("⚙ The new value is too low ( < 1)")
 				else
 					local new = db:hincrby('chat:'..chat_id..':warnsettings', 'mediamax', -1)
-					cb_text = make_text(lang[msg.ln].floodmanager.changed_cross, current, new)
+					cb_text = string.format('⚙ %d → %d', current, new)
 				end
 			elseif blocks[2] == 'raise' then
 				if current > 11 then
-					cb_text = lang[msg.ln].warn.inline_high
+					cb_text = _("⚙ The new value is too high ( > 12)")
 				else
 					local new = db:hincrby('chat:'..chat_id..':warnsettings', 'mediamax', 1)
-					cb_text = make_text(lang[msg.ln].floodmanager.changed_cross, current, new)
+					cb_text = string.format('⚙ %d → %d', current, new)
 				end
 			end
-			cb_text = '⚙ '..cb_text
 		end
 		if blocks[1] == 'mediatype' then
 			local hash = 'chat:'..chat_id..':warnsettings'
 			local current = (db:hget(hash, 'mediatype')) or config.chat_settings['warnsettings']['mediatype']
 			if current == 'ban' then
 				db:hset(hash, 'mediatype', 'kick')
-				cb_text = '🔨 '..lang[msg.ln].mediasettings.changed:compose('kick')
+				cb_text = _("🔨 New status is kick")
 			else
 				db:hset(hash, 'mediatype', 'ban')
-				cb_text = '🔨 '..lang[msg.ln].mediasettings.changed:compose('ban')
+				cb_text = _("🔨 New status is ban")
 			end
 		end
 		if blocks[1] == 'media' then
 			local media = blocks[2]
-	    	cb_text = '⚡️ '..misc.changeMediaStatus(chat_id, media, 'next', msg.ln)
+	    	cb_text = '⚡️ '..misc.changeMediaStatus(chat_id, media, 'next')
         end
-        keyboard = doKeyboard_media(chat_id, msg.ln)
-    	api.editMessageText(msg.chat.id, msg.message_id, lang[msg.ln].all.media_first, keyboard, true)
+        keyboard = doKeyboard_media(chat_id)
+		api.editMessageText(msg.chat.id, msg.message_id, media_first, keyboard, true)
         api.answerCallbackQuery(msg.cb_id, cb_text)
     end
 end

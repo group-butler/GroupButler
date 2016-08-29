@@ -1,38 +1,38 @@
-local function getWelcomeMessage(chat_id, ln)
+local function getWelcomeMessage(chat_id)
     hash = 'chat:'..chat_id..':welcome'
     local type = db:hget(hash, 'type')
     local message = ''
     if type == 'no' then
-    	message = message..lang[ln].settings.resume.w_default
+    	message = message .. _("*Welcome type*: `default message`\n")
 	elseif type == 'media' then
-		message = message..lang[ln].settings.resume.w_media
+		message = message .. _("*Welcome type*: `GIF / sticker`\n")
 	elseif type == 'custom' then
 		message = db:hget(hash, 'content')
 	end
     return message
 end
 
-local function getFloodSettings_text(chat_id, ln)
+local function getFloodSettings_text(chat_id)
     local status = db:hget('chat:'..chat_id..':settings', 'Flood') or 'yes' --check (default: disabled)
     if status == 'no' then
-        status = '✅ | ON'
+        status = _("✅ | ON")
     elseif status == 'yes' then
-        status = '❌ | OFF'
+        status = _("❌ | OFF")
     end
     local hash = 'chat:'..chat_id..':flood'
     local action = (db:hget(hash, 'ActionFlood')) or 'kick'
     if action == 'kick' then
-        action = '⚡️ '..action
+        action = _("⚡️ kick")
     else
-        action = '⛔ ️'..action
+        action = _("⛔ ️ban")
     end
     local num = (db:hget(hash, 'MaxFlood')) or 5
     local exceptions = {
-        ['text'] = lang[ln].floodmanager.text,
-        ['sticker'] = lang[ln].floodmanager.sticker,
-        ['image'] = lang[ln].floodmanager.image,
-        ['gif'] = lang[ln].floodmanager.gif,
-        ['video'] = lang[ln].floodmanager.video
+        text = _("Texts"),
+        sticker = _("Stickers"),
+        image = _("Images"),
+        gif = _("GIFs"),
+        video = _("Videos"),
     }
     hash = 'chat:'..chat_id..':floodexceptions'
     local list_exc = ''
@@ -46,27 +46,30 @@ local function getFloodSettings_text(chat_id, ln)
         end
         list_exc = list_exc..'• `'..translation..'`: '..exc_status..'\n'
     end
-    return make_text(lang[ln].all.dashboard.antiflood, status, action, num, list_exc)
+    return _("- *Status*: `%s`\n"):format(status)
+			.. _("- *Action* when an user floods: `%s`\n"):format(action)
+			.. _("- Number of messages *every 5 seconds* allowed: `%d`\n"):format(num)
+			.. _("- *Ignored media*:\n%s"):format(list_exc)
 end
 
-local function doKeyboard_dashboard(chat_id, ln)
+local function doKeyboard_dashboard(chat_id)
     local keyboard = {}
     keyboard.inline_keyboard = {
 	    {
-            {text = lang[ln].all.dashboard.settings, callback_data = 'dashboard:settings:'..chat_id},
-            {text = lang[ln].all.dashboard.admins, callback_data = 'dashboard:adminlist:'..chat_id}
+            {text = _("Settings"), callback_data = 'dashboard:settings:'..chat_id},
+            {text = _("Admins"), callback_data = 'dashboard:adminlist:'..chat_id}
 		},
 	    {
-		    {text = lang[ln].all.dashboard.rules, callback_data = 'dashboard:rules:'..chat_id},
-		    {text = lang[ln].all.dashboard.about, callback_data = 'dashboard:about:'..chat_id}
+		    {text = _("Rules"), callback_data = 'dashboard:rules:'..chat_id},
+		    {text = _("Description"), callback_data = 'dashboard:about:'..chat_id}
         },
 	   	{
-	   	    {text = lang[ln].all.dashboard.welcome, callback_data = 'dashboard:welcome:'..chat_id},
-	   	    {text = lang[ln].all.dashboard.extra, callback_data = 'dashboard:extra:'..chat_id}
+	   	    {text = _("Welcome message"), callback_data = 'dashboard:welcome:'..chat_id},
+	   	    {text = _("Extra commands"), callback_data = 'dashboard:extra:'..chat_id}
 	    },
 	    {
-	   	    {text = lang[ln].all.dashboard.flood, callback_data = 'dashboard:flood:'..chat_id},
-	   	    {text = lang[ln].all.dashboard.media, callback_data = 'dashboard:media:'..chat_id}
+	   	    {text = _("Flood settings"), callback_data = 'dashboard:flood:'..chat_id},
+	   	    {text = _("Media settings"), callback_data = 'dashboard:media:'..chat_id}
 	    },
     }
     
@@ -90,12 +93,12 @@ local action = function(msg, blocks)
     local keyboard = {}
     
     if not(msg.chat.type == 'private') and not msg.cb then
-        keyboard = doKeyboard_dashboard(chat_id, msg.ln)
+        keyboard = doKeyboard_dashboard(chat_id)
         --everyone can use this
-        local res = api.sendKeyboard(msg.from.id, lang[msg.ln].all.dashboard.first, keyboard, true)
+        local res = api.sendKeyboard(msg.from.id, _("Navigate this message to see *all the info* about this group!"), keyboard, true)
         if not misc.is_silentmode_on(msg.chat.id) then --send the responde in the group only if the silent mode is off
             if res then
-                api.sendMessage(msg.chat.id, lang[msg.ln].all.dashboard.private, true)
+                api.sendMessage(msg.chat.id, _("_I've sent you the group dashboard in private_"), true)
             else
                 misc.sendStartMe(msg, msg.ln)
             end
@@ -105,35 +108,36 @@ local action = function(msg, blocks)
     if msg.cb then
         local request = blocks[2]
         local text
-        keyboard = doKeyboard_dashboard(chat_id, msg.ln)
+        keyboard = doKeyboard_dashboard(chat_id)
         if request == 'settings' then
-            text = misc.getSettings(chat_id, msg.ln)
+            text = misc.getSettings(chat_id)
         end
         if request == 'rules' then
-            text = misc.getRules(chat_id, msg.ln)
+            text = misc.getRules(chat_id)
         end
         if request == 'about' then
-            text = misc.getAbout(chat_id, msg.ln)
+            text = misc.getAbout(chat_id)
         end
         if request == 'adminlist' then
             local creator, admins = misc.getAdminlist(chat_id)
             if not creator then
-                text = lang[msg.ln].bonus.adminlist_admin_required --creator is false, admins is the error code
+                -- creator is false, admins is the error code
+                text = _("I'm not a group Admin.\n*Only an Admin can see the administrators list*")
             else
-                text = make_text(lang[msg.ln].mod.modlist, creator, admins)
+                text = _("*Creator*:\n%s\n\n*Admins*:\n%s"):format(creator, admins)
             end
         end
         if request == 'extra' then
-            text = misc.getExtraList(chat_id, msg.ln)
+            text = misc.getExtraList(chat_id)
         end
         if request == 'welcome' then
-            text = getWelcomeMessage(chat_id, msg.ln)
+            text = getWelcomeMessage(chat_id)
         end
         if request == 'flood' then
-            text = getFloodSettings_text(chat_id, msg.ln)
+            text = getFloodSettings_text(chat_id)
         end
         if request == 'media' then
-            text = lang[msg.ln].mediasettings.settings_header
+            text = _("*Current settings for media*:\n\n")
             for media, default_status in pairs(config.chat_settings['media']) do
                 local status = (db:hget('chat:'..chat_id..':media', media)) or default_status
                 if status == 'ok' then

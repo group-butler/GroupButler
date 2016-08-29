@@ -26,7 +26,6 @@ return {
 		['Persian'] = 'https://telegram.me/joinchat/CHYUej8VRwlY9dzoKMERog',
 		['Spanish'] = false
 	},
-	languages = 'languages.lua~',
 	plugins = {
 		'onmessage.lua', --THIS MUST BE THE FIRST: IF AN USER IS SPAMMING/IS BLOCKED, THE BOT WON'T GO THROUGH PLUGINS
 		'configure.lua',
@@ -67,6 +66,7 @@ return {
 		--['fa'] = 'فارسی 🇮🇷'
 		-- more to come
 	},
+	allow_fuzzy_translations = false,
 	media_list = {
 		'image',
 		'audio',

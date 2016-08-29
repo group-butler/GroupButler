@@ -607,6 +607,10 @@ local action = function(msg, blocks)
 		end
 	end
 	if blocks[1] == 'genlang' then
+		do
+			api.sendReply(msg, _("Not implemented"))
+			return
+		end
 		if not blocks[2] then
 			local instructions = dofile('instructions.lua')
 			for i,ln in pairs(config.available_languages) do

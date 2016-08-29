@@ -1,16 +1,16 @@
-local function changeWarnSettings(chat_id, action, ln)
+local function changeWarnSettings(chat_id, action)
     local current = tonumber(db:hget('chat:'..chat_id..':warnsettings', 'max')) or 3
     local new_val
     if action == 1 then
         if current > 12 then
-            return lang[ln].warn.inline_high
+            return _("The new value is too high ( > 12)")
         else
             new_val = db:hincrby('chat:'..chat_id..':warnsettings', 'max', 1)
             return current..'->'..new_val
         end
     elseif action == -1 then
         if current < 2 then
-            return lang[ln].warn.inline_low
+            return _("The new value is too low ( < 1)")
         else
             new_val = db:hincrby('chat:'..chat_id..':warnsettings', 'max', -1)
             return current..'->'..new_val
@@ -19,32 +19,41 @@ local function changeWarnSettings(chat_id, action, ln)
         local status = (db:hget('chat:'..chat_id..':warnsettings', 'type')) or 'kick'
         if status == 'kick' then
             db:hset('chat:'..chat_id..':warnsettings', 'type', 'ban')
-            return make_text(lang[ln].warn.changed_type, 'ban')
+            return _("New action on max number of warns received: *ban*")
         elseif status == 'ban' then
             db:hset('chat:'..chat_id..':warnsettings', 'type', 'kick')
-            return make_text(lang[ln].warn.changed_type, 'kick')
+            return _("New action on max number of warns received: *kick*")
         end
     end
 end
 
-local function changeCharSettings(chat_id, field, ln)
+local function changeCharSettings(chat_id, field)
+	local chars = {
+		arab_kick = _("Senders of arab messages will be kicked"),
+		arab_ban = _("Senders of arab messages will be banned"),
+		arab_allow = _("Arab language allowed"),
+		rtl_kick = _("The use of the RTL character will lead to a kick"),
+		rtl_ban = _("The use of the RTL character will lead to a ban"),
+		rtl_allow = _("RTL character allowed"),
+	}
+
     local hash = 'chat:'..chat_id..':char'
     local status = db:hget(hash, field)
     local text
     if status == 'allowed' then
         db:hset(hash, field, 'kick')
-        text = lang[ln].settings.char[field:lower()..'_kick']
+        text = chars[field:lower()..'_kick']
     elseif status == 'kick' then
         db:hset(hash, field, 'ban')
-        text = lang[ln].settings.char[field:lower()..'_ban']
+        text = chars[field:lower()..'_ban']
     elseif status == 'ban' then
         db:hset(hash, field, 'allowed')
-        text = lang[ln].settings.char[field:lower()..'_allow']
+        text = chars[field:lower()..'_allow']
     else
         db:hset(hash, field, 'allowed')
-        text = lang[ln].settings.char[field:lower()..'_allow']
+        text = chars[field:lower()..'_allow']
     end
-    
+
     return text
 end
 
@@ -97,10 +106,20 @@ local function charsettings_table(settings, chat_id)
     return return_table
 end
 
-local function insert_settings_section(keyboard, settings_section, chat_id, ln)
+local function insert_settings_section(keyboard, settings_section, chat_id)
+	local strings = {
+		Welcome = _("Welcome message"),
+		Extra = _("Extra"),
+		Flood = _("Anti-flood"),
+		Silent = _("Silent mode"),
+		Rules = _("Rules"),
+		Arab = _("Arab"),
+		Rtl = _("RTL"),
+	}
+
     for key, icon in pairs(settings_section) do
         local current = {
-            {text = lang[ln].settings[key] or key, callback_data = 'menu:alert:settings'},
+            {text = strings[key] or key, callback_data = 'menu:alert:settings'},
             {text = icon, callback_data = 'menu:'..key..':'..chat_id}
         }
         table.insert(keyboard.inline_keyboard, current)
@@ -109,27 +128,32 @@ local function insert_settings_section(keyboard, settings_section, chat_id, ln)
     return keyboard
 end
 
-local function doKeyboard_menu(chat_id, ln)
+local function doKeyboard_menu(chat_id)
     local keyboard = {inline_keyboard = {}}
     
     local settings_section = adminsettings_table(config.chat_settings['settings'], chat_id)
-    keyboad = insert_settings_section(keyboard, settings_section, chat_id, ln)
+    keyboad = insert_settings_section(keyboard, settings_section, chat_id)
     
     settings_section = usersettings_table(config.chat_settings['settings'], chat_id)
-    keyboad = insert_settings_section(keyboard, settings_section, chat_id, ln)
+    keyboad = insert_settings_section(keyboard, settings_section, chat_id)
     
     settings_section = charsettings_table(config.chat_settings['char'], chat_id)
-    keyboad = insert_settings_section(keyboard, settings_section, chat_id, ln)
+    keyboad = insert_settings_section(keyboard, settings_section, chat_id)
     
     --warn
     local max = (db:hget('chat:'..chat_id..':warnsettings', 'max')) or config.chat_settings['warnsettings']['max']
     local action = (db:hget('chat:'..chat_id..':warnsettings', 'type')) or config.chat_settings['warnsettings']['type']
+	if action == 'kick' then
+		action = _("📍 %d 🔨️ kick"):format(tonumber(max))
+	else
+		action = _("📍 %d 🔨️ ban"):format(tonumber(max))
+	end
     local warn = {
-        {text = '➖', callback_data = 'menu:DimWarn:'..chat_id},
-        {text = '📍'..max..' 🔨️'..action, callback_data = 'menu:ActionWarn:'..chat_id},
-        {text = '➕', callback_data = 'menu:RaiseWarn:'..chat_id},
+		{text = '➖', callback_data = 'menu:DimWarn:'..chat_id},
+		{text = action, callback_data = 'menu:ActionWarn:'..chat_id},
+		{text = '➕', callback_data = 'menu:RaiseWarn:'..chat_id},
     }
-    table.insert(keyboard.inline_keyboard, {{text = 'Warns 👇🏼', callback_data = 'menu:alert:warns:'}})
+    table.insert(keyboard.inline_keyboard, {{text = _("Warns 👇🏼"), callback_data = 'menu:alert:warns:'}})
     table.insert(keyboard.inline_keyboard, warn)
     
     --back button
@@ -139,40 +163,52 @@ local function doKeyboard_menu(chat_id, ln)
 end
 
 local action = function(msg, blocks)
+	local menu_first = _([[
+Manage the settings of the group.
+📘 _Short legenda_:
+
+*Extra*:
+• 👥: the bot will reply *in the group*, with everyone
+• 👤: the bot will reply *in private* with normal users and in the group with admins
+
+*Silent mode*:
+If enabled, the bot won't send a confirmation message in the group when soemone use /config, /dashboard or /help commands.
+It will just send the message in private.
+]])
+
     --get the interested chat id
     local chat_id = msg.target_id
     
     local keyboard, text
     
     if blocks[1] == 'config' then
-        local text = lang[msg.ln].all.menu_first
-        keyboard = doKeyboard_menu(chat_id, msg.ln)
-        api.editMessageText(msg.chat.id, msg.message_id, text, keyboard, true)
+        keyboard = doKeyboard_menu(chat_id)
+        api.editMessageText(msg.chat.id, msg.message_id, menu_first, keyboard, true)
     else
 	    if blocks[2] == 'alert' then
 	        if blocks[3] == 'settings' then
-                text = '⚠️ '..lang[msg.ln].bonus.menu_cb_settings
+                text = _("⚠️ Tap on an icon!")
             elseif blocks[3] == 'warns' then
-                text = '⚠️ '..lang[msg.ln].bonus.menu_cb_warns
+                text = _("⚠️ Use the row below to change the warns settings!")
             end
             api.answerCallbackQuery(msg.cb_id, text)
             return
         end
         if blocks[2] == 'DimWarn' or blocks[2] == 'RaiseWarn' or blocks[2] == 'ActionWarn' then
             if blocks[2] == 'DimWarn' then
-                text = changeWarnSettings(chat_id, -1, msg.ln)
+                text = changeWarnSettings(chat_id, -1)
             elseif blocks[2] == 'RaiseWarn' then
-                text = changeWarnSettings(chat_id, 1, msg.ln)
+                text = changeWarnSettings(chat_id, 1)
             elseif blocks[2] == 'ActionWarn' then
-                text = changeWarnSettings(chat_id, 'status', msg.ln)
+                text = changeWarnSettings(chat_id, 'status')
             end
         elseif blocks[2] == 'Rtl' or blocks[2] == 'Arab' then
-            text = changeCharSettings(chat_id, blocks[2], msg.ln)
+            text = changeCharSettings(chat_id, blocks[2])
         else
-            text = misc.changeSettingStatus(chat_id, blocks[2], msg.ln)
+            text = misc.changeSettingStatus(chat_id, blocks[2])
         end
-        keyboard = doKeyboard_menu(chat_id, msg.ln)
-        api.editMessageText(msg.chat.id, msg.message_id, lang[msg.ln].all.menu_first, keyboard, true)
+        keyboard = doKeyboard_menu(chat_id)
+        api.editMessageText(msg.chat.id, msg.message_id, menu_first, keyboard, true)
         if text then api.answerCallbackQuery(msg.cb_id, '⚙ '..text) end --workaround to avoid to send an error to users who are using an old inline keyboard
     end
 end

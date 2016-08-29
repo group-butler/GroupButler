@@ -202,9 +202,9 @@ function string:compose(par1, par2, par3, par4, par5)
 end
 
 local function create_folder(name)
-	local cmd = io.popen('sudo mkdir '..name)
+	local cmd = io.popen('mkdir '..name)
     cmd:read('*all')
-    cmd = io.popen('sudo chmod -R 777 '..name)
+    cmd = io.popen('chmod -R 775 '..name)
     cmd:read('*all')
     cmd:close()
 end
@@ -332,9 +332,9 @@ function misc.is_lang_supported(code)
 end
 
 function misc.create_folder(name)
-	local cmd = io.popen('sudo mkdir '..name)
+	local cmd = io.popen('mkdir '..name)
     cmd:read('*all')
-    cmd = io.popen('sudo chmod -R 777 '..name)
+    cmd = io.popen('chmod -R 775 '..name)
     cmd:read('*all')
     cmd:close()
 end
@@ -530,21 +530,21 @@ function misc.is_silentmode_on(chat_id)
 	end
 end
 
-function misc.getAbout(chat_id, ln)
+function misc.getAbout(chat_id)
 	local hash = 'chat:'..chat_id..':info'
 	local about = db:hget(hash, 'about')
     if not about then
-        return lang[ln].setabout.no_bio
+		return _("*No description* for this group.")
     else
        	return about
     end
 end
 
-function misc.getRules(chat_id, ln)
+function misc.getRules(chat_id)
 	local hash = 'chat:'..chat_id..':info'
 	local rules = db:hget(hash, 'rules')
     if not rules then
-        return lang[ln].setrules.no_rules
+        return _("-*empty*-")
     else
        	return rules
     end
@@ -593,26 +593,36 @@ function misc.getAdminlist(chat_id)
 	return creator, adminlist
 end
 
-function misc.getExtraList(chat_id, ln)
+function misc.getExtraList(chat_id)
 	local hash = 'chat:'..chat_id..':extra'
 	local commands = db:hkeys(hash)
 	local text = ''
 	if commands[1] == nil then
-		return make_text(lang[ln].extra.no_commands)
+		return _("No commands set!")
 	else
 	    for k,v in pairs(commands) do
 	    	text = text..v..'\n'
 	    end
-	    return make_text(lang[ln].extra.commands_list, text)
+	    return _("List of *custom commands*:\n") .. text
 	end
 end
 
-function misc.getSettings(chat_id, ln)
+function misc.getSettings(chat_id)
     local hash = 'chat:'..chat_id..':settings'
         
-    local message = lang[ln].bonus.settings_header:compose(ln)
+    local message = _("Current settings for *the group*:\n\n")
+			.. _("*Language*: `%s`\n"):format(locale.language)
         
     --build the message
+	local strings = {
+		Welcome = _("Welcome message"),
+		Extra = _("Extra"),
+		Flood = _("Anti-flood"),
+		Silent = _("Silent mode"),
+		Rules = _("Rules"),
+		Arab = _("Arab"),
+		Rtl = _("RTL"),
+	}
     for key, default in pairs(config.chat_settings['settings']) do
         
         local off_icon, on_icon = '🚫', '✅'
@@ -623,13 +633,11 @@ function misc.getSettings(chat_id, ln)
         local db_val = db:hget(hash, key)
         if not db_val then db_val = default end
         
-        local text
         if db_val == 'off' then
-            text = '`'..lang[ln].settings[key]..'`: '..off_icon..'\n'
+            message = message .. string.format('%s: %s\n', strings[key], off_icon)
         else
-            text = '`'..lang[ln].settings[key]..'`: '..on_icon..'\n'
+            message = message .. string.format('%s: %s\n', strings[key], on_icon)
         end
-        message = message..text --concatenete the text
     end
     
     --build the char settings lines
@@ -639,9 +647,9 @@ function misc.getSettings(chat_id, ln)
     	db_val = db:hget(hash, key)
         if not db_val then db_val = default end
     	if db_val == 'off' then
-            message = message..'`'..lang[ln].settings[key]..'`: '..off_icon..'\n'
+            message = message .. string.format('%s: %s\n', strings[key], off_icon)
         else
-            message = message..'`'..lang[ln].settings[key]..'`: '..on_icon..'\n'
+            message = message .. string.format('%s: %s\n', strings[key], on_icon)
         end
     end
     	
@@ -649,43 +657,60 @@ function misc.getSettings(chat_id, ln)
     hash = 'chat:'..chat_id..':welcome'
     local type = db:hget(hash, 'type')
     if type == 'media' then
-		message = message..lang[ln].settings.resume.w_media
+		message = message .. _("*Welcome type*: `GIF / sticker`\n")
 	elseif type == 'custom' then
-		message = message..lang[ln].settings.resume.w_custom
+		message = message .. _("*Welcome type*: `custom message`\n")
 	elseif type == 'no' then
-		message = message..lang[ln].settings.resume.w_default
+		message = message .. _("*Welcome type*: `default message`\n")
 	end
     
     local warnmax_std = (db:hget('chat:'..chat_id..':warnsettings', 'max')) or config.chat_settings['warnsettings']['max']
     local warnmax_media = (db:hget('chat:'..chat_id..':warnsettings', 'mediamax')) or config.chat_settings['warnsettings']['mediamax']
     
-    message = message..'`Warn (standard)`: *'..warnmax_std..'*\n`Warn (media)`: *'..warnmax_media..'*\n\n'..lang[ln].settings.resume.legenda
-    
-    return message
+	return message .. _("Warns (`standard`): *%s*\n"):format(warnmax_std)
+				 .. _("Warns (`media`): *%s*\n\n"):format(warnmax_media)
+				 .. _("✅ = _enabled / allowed_\n")
+				 .. _("🚫 = _disabled / not allowed_\n")
+				 .. _("👥 = _sent in group (always for admins)_\n")
+				 .. _("👤 = _sent in private_")
+
 end
 
-function misc.changeSettingStatus(chat_id, field, ln)
+function misc.changeSettingStatus(chat_id, field)
+	local disabled = {
+		 welcome = _("Welcome message won't be displayed from now"),
+		 extra = _("#extra commands are now available only for moderator"),
+		 flood = _("Anti-flood is now off"),
+		 rules = _("`/rules` will reply in private (for users)"),
+	}
+	local enabled = {
+		 welcome = _("Welcome message will be displayed"),
+		 extra = _("#extra commands are now available for all"),
+		 flood = _("Anti-flood is now on"),
+		 rules = _("`/rules` will reply in the group (with everyone)"),
+	}
+
 	local hash = 'chat:'..chat_id..':settings'
 	local field_lower = field:lower()
 	local now = db:hget(hash, field)
 	if now == 'on' then
 		db:hset(hash, field, 'off')
-		return lang[ln].settings.disable[field_lower..'_locked']
+		return disabled[field:lower()]
 	else
 		db:hset(hash, field, 'on')
-		return lang[ln].settings.enable[field_lower..'_unlocked']
+		return enabled[field:lower()]
 	end
 end
 
-function misc.changeFloodSettings(chat_id, screm, ln)
+function misc.changeFloodSettings(chat_id, screm)
 	local hash = 'chat:'..chat_id..':flood'
 	if type(screm) == 'string' then
 		if screm == 'kick' then
 			db:hset(hash, 'ActionFlood', 'ban')
-        	return lang[ln].floodmanager.ban
+        	return _("Now flooders will be banned")
         elseif screm == 'ban' then
         	db:hset(hash, 'ActionFlood', 'kick')
-        	return lang[ln].floodmanager.kick
+        	return _("Now flooders will be kicked")
         end
     elseif type(screm) == 'number' then
     	local old = tonumber(db:hget(hash, 'MaxFlood')) or 5
@@ -694,20 +719,22 @@ function misc.changeFloodSettings(chat_id, screm, ln)
     		new = db:hincrby(hash, 'MaxFlood', 1)
     		if new > 25 then
     			db:hincrby(hash, 'MaxFlood', -1)
-    			return make_text(lang[ln].floodmanager.number_invalid, new)
+    			return _("%d is not a valid value!\n"):format(new)
+					.. ("The value should be *higher* than 3 and *lower* then 26")
     		end
     	elseif screm < 0 then
     		new = db:hincrby(hash, 'MaxFlood', -1)
     		if new < 4 then
     			db:hincrby(hash, 'MaxFlood', 1)
-    			return make_text(lang[ln].floodmanager.number_invalid, new)
+    			return _("%d is not a valid value!\n"):format(new)
+					.. ("The value should be *higher* than 3 and *lower* then 26")
     		end
     	end
-    	return make_text(lang[ln].floodmanager.changed_cross, old, new)
+    	return string.format('%d → %d', old, new)
     end 	
 end
 
-function misc.changeMediaStatus(chat_id, media, new_status, ln)
+function misc.changeMediaStatus(chat_id, media, new_status)
 	local old_status = db:hget('chat:'..chat_id..':media', media)
 	local new_status_icon
 	if new_status == 'next' then
@@ -723,17 +750,17 @@ function misc.changeMediaStatus(chat_id, media, new_status, ln)
 		end
 	end
 	db:hset('chat:'..chat_id..':media', media, new_status)
-	return lang[ln].mediasettings.changed:compose(new_status_icon), true
+	return _("New status = %s"):format(new_status_icon), true
 end
 
 function misc.sendStartMe(msg, ln)
     local keyboard = {}
     keyboard.inline_keyboard = {
     	{
-    		{text = 'Start me', url = 'https://telegram.me/'..bot.username}
+    		{text = _("Start me"), url = 'https://telegram.me/'..bot.username}
 	    }
     }
-	api.sendKeyboard(msg.chat.id, lang[ln].help.group_not_success, keyboard, true)
+	api.sendKeyboard(msg.chat.id, _("_Please message me first so I can message you_"), keyboard, true)
 end
 
 function misc.initGroup(chat_id)

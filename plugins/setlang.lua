@@ -12,7 +12,7 @@ end
 local action = function(msg, blocks)
 	if msg.chat.type ~= 'private' and not roles.is_admin_cached(msg) then
 		if msg.cb then
-			api.answerCallbackQuery(msg.cb_id, lang[msg.ln].not_mod:mEscape_hard())
+			api.answerCallbackQuery(msg.cb_id, _("You are not an admin"))
     	end
     	return
     end
@@ -22,12 +22,13 @@ local action = function(msg, blocks)
 	if blocks[1] == 'lang' and not blocks[2] then
 		keyboard = doKeyboard_lang()
 		
-		api.sendKeyboard(msg.chat.id, lang[msg.ln].setlang.list, keyboard, true)
+		api.sendKeyboard(msg.chat.id, _("*List of available languages*:"), keyboard, true)
 	end
 	if blocks[1] == 'langselected' and msg.cb then
-	    local selected = blocks[2]
-	    db:set('lang:'..msg.chat.id, selected)
-        api.editMessageText(msg.chat.id, msg.message_id, make_text(lang[selected].setlang.success, selected), false, true)
+		locale.language = blocks[2]
+	    db:set('lang:'..msg.chat.id, locale.language)
+		-- TRANSLATORS: replace word 'English' with name of your language
+        api.editMessageText(msg.chat.id, msg.message_id, _("English language is *set*"), false, true)
 	end
 end
 

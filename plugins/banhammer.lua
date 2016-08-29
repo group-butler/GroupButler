@@ -20,7 +20,7 @@ local function get_user_id(msg, blocks)
 		return msg.reply.from.id
 	elseif blocks[2] then
 		if msg.mention_id then
-			return msg.mention_target_id
+			return msg.mention_id
 		else
 			return misc.res_user_group(blocks[2], msg.chat.id)
 		end
@@ -76,19 +76,19 @@ local function get_time_reply(minutes)
 	return time_string, time_table
 end
 
-local action = function(msg, blocks, ln)
+local action = function(msg, blocks)
 	if msg.chat.type ~= 'private' then
 		if roles.is_admin_cached(msg) then
 			--commands that don't need a target user
 			if blocks[1] == 'kickme' then
-				api.sendReply(msg, lang[msg.ln].kick_errors[2], true)
+				api.sendReply(msg, _("I can't kick or ban an admin"), true)
 				return
 			end
 		    
 		    --commands that need a target user
 		    
 		    if not msg.reply_to_message and not blocks[2] and not msg.cb then
-		        api.sendReply(msg, lang[msg.ln].banhammer.reply) return
+		        api.sendReply(msg, _("Reply to someone")) return
 		    end
 		    if msg.reply and msg.reply.from.id == bot.id then return end
 		 	
@@ -97,16 +97,16 @@ local action = function(msg, blocks, ln)
 		 	
 		 	if blocks[1] == 'tempban' then
 				if not msg.reply then
-					api.sendReply(msg, lang[msg.ln].banhammer.reply)
+					api.sendReply(msg, _("Reply to someone"))
 					return
 				end
 				local user_id = msg.reply.from.id
 				local temp, code = check_valid_time(blocks[2])
 				if not temp then
 					if code == 1 then
-						api.sendReply(msg, lang[msg.ln].banhammer.tempban_zero)
+						api.sendReply(msg, _("For this, you can directly use /ban"))
 					else
-						api.sendReply(msg, lang[msg.ln].banhammer.tempban_week)
+						api.sendReply(msg, _("The time limit is one week (10 080 minutes)"))
 					end
 					return
 				end
@@ -114,10 +114,11 @@ local action = function(msg, blocks, ln)
 				local unban_time = os.time() + (temp * 60)
 				
 				--try to kick
-				local res, motivation = api.banUser(chat_id, user_id, is_normal_group, msg.ln)
+				local res, motivation = api.banUser(chat_id, user_id, is_normal_group)
 		    	if not res then
 		    		if not motivation then
-		    			motivation = lang[msg.ln].banhammer.general_motivation
+		    			motivation = _("I can't kick this user.\n"
+								.. "Probably I'm not an Amdin, or the user is an Admin iself")
 		    		end
 		    		api.sendReply(msg, motivation, true)
 		    	else
@@ -126,40 +127,45 @@ local action = function(msg, blocks, ln)
 					local time_reply = get_time_reply(temp)
 					local banned_name = misc.getname(msg.reply)
 					local is_already_tempbanned = db:sismember('chat:'..chat_id..':tempbanned', user_id) --hash needed to check if an user is already tempbanned or not
+					local text
 					if is_already_tempbanned then
-						api.sendMessage(chat_id, make_text(lang[msg.ln].banhammer.tempban_updated..time_reply, banned_name))
+						text = _("Ban time updated for %s. Ban expiration: %s"):format(banned_name, time_reply)
 					else
-						api.sendMessage(chat_id, make_text(lang[msg.ln].banhammer.tempban_banned..time_reply, banned_name))
+						text = _("User %s banned. Ban expiration: %s"):format(banned_name, time_reply)
 						db:sadd('chat:'..chat_id..':tempbanned', user_id) --hash needed to check if an user is already tempbanned or not
 					end
+					api.sendMessage(chat_id, text)
 				end
 			end
 		 	
 		 	--get the user id, send message and break if not found
 		 	local user_id = get_user_id(msg, blocks)
 		 	if not user_id then
-		 		api.sendReply(msg, lang[msg.ln].bonus.no_user, true)
+		 		api.sendReply(msg, _("I've never seen this user before.\n"
+						.. "If you want to teach me who is he, forward me a message from him"), true)
 		 		return
 		 	end
 		 	
 		 	if blocks[1] == 'kick' then
-		    	local res, motivation = api.kickUser(chat_id, user_id, msg.ln)
+		    	local res, motivation = api.kickUser(chat_id, user_id)
 		    	if not res then
 		    		if not motivation then
-		    			motivation = lang[msg.ln].banhammer.general_motivation
+		    			motivation = _("I can't kick this user.\n"
+								.. "Probably I'm not an Amdin, or the user is an Admin iself")
 		    		end
 		    		api.sendReply(msg, motivation, true)
 		    	else
 		    		local kicker, kicked = get_nick(msg, blocks)
 		    		misc.saveBan(user_id, 'kick')
-		    		api.sendMessage(msg.chat.id, lang[msg.ln].banhammer.kicked:compose(kicker, kicked), true)
+		    		api.sendMessage(msg.chat.id, _("%s kicked %s!"):format(kicker, kicked), true)
 		    	end
 	    	end
 	   		if blocks[1] == 'ban' then
-	   			local res, motivation = api.banUser(chat_id, user_id, msg.normal_group, msg.ln)
+	   			local res, motivation = api.banUser(chat_id, user_id, msg.normal_group)
 		    	if not res then
 		    		if not motivation then
-		    			motivation = lang[msg.ln].banhammer.general_motivation
+		    			motivation = _("I can't kick this user.\n"
+								.. "Probably I'm not an Amdin, or the user is an Admin iself")
 		    		end
 		    		api.sendReply(msg, motivation, true)
 		    	else
@@ -174,21 +180,22 @@ local action = function(msg, blocks, ln)
 		    			why = msg.text:gsub(config.cmd..'ban @[%w_]+%s?', '')
 		    		end
 		    		local banner, banned = get_nick(msg, blocks)
-		    		api.sendKeyboard(msg.chat.id, lang[msg.ln].banhammer.banned:compose(banner, banned), {inline_keyboard = {{{text = 'Unban', callback_data = 'unban:'..user_id}}}}, true)
+					local keyboard = {inline_keyboard = {{{text = _("Unban"), callback_data = 'unban:'..user_id}}}}
+		    		api.sendKeyboard(msg.chat.id, _("%s banned %s!"):format(banner, banned), keyboard, true)
 		    	end
     		end
    			if blocks[1] == 'unban' then
    				local status = misc.getUserStatus(chat_id, user_id)
    				if not(status == 'kicked') and not(msg.chat.type == 'group') then
-   					api.sendReply(msg, lang[msg.ln].banhammer.not_banned, true)
+   					api.sendReply(msg, _("The user is not banned"), true)
    					return
    				end
    				local res = api.unbanUser(chat_id, user_id, msg.normal_group)
    				local text
    				if not res and msg.chat.type == 'group' then
-   					text = lang[msg.ln].banhammer.not_banned
+   					text = _("The user is not banned")
    				else
-   					text = lang[msg.ln].banhammer.unbanned:compose(misc.getname_link(msg.from.first_name, msg.from.username) or msg.from.first_name:mEscape())
+   					text = _("User unbanned by %s!"):format(misc.getname_link(msg.from.first_name, msg.from.username) or msg.from.first_name:mEscape())
    				end
    				--send reply if normal message, edit message if callback
    				if not msg.cb then
@@ -199,10 +206,10 @@ local action = function(msg, blocks, ln)
    			end
 		else
 			if blocks[1] == 'kickme' then
-				api.kickUser(msg.chat.id, msg.from.id, msg.ln)
+				api.kickUser(msg.chat.id, msg.from.id)
 			end
 			if msg.cb then --if the user tap on 'unban', show the pop-up
-				api.answerCallbackQuery(msg.cb_id, lang[msg.ln].not_mod:mEscape_hard())
+				api.answerCallbackQuery(msg.cb_id, _("You are not an admin"))
 			end
 		end
 	end

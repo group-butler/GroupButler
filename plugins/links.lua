@@ -12,10 +12,10 @@ local action = function(msg, blocks)
 		
 		--check if link is nil or nul
 		if not link then
-			text = lang[msg.ln].links.no_link
+			text = _("*No link* for this group. Ask the owner to generate one")
 		else
 			local title = msg.chat.title:mEscape_hard()
-			text = make_text(lang[msg.ln].links.link, title, link)
+			text = string.format('[%s](%s)', title, link)
 		end
 		api.sendReply(msg, text, true)
 	end
@@ -27,12 +27,13 @@ local action = function(msg, blocks)
 			link = 'https://telegram.me/'..msg.chat.username
 		else
 			if not blocks[2] then
-				api.sendReply(msg, lang[msg.ln].links.link_no_input, true)
+				local text = _("This is not a *public supergroup*, so you need to write the link near /setlink")
+				api.sendReply(msg, text, true)
 				return
 			end
 			--warn if the link has not the right lenght
 			if string.len(blocks[2]) ~= 22 and blocks[2] ~= '-' then
-				api.sendReply(msg, lang[msg.ln].links.link_invalid, true)
+				api.sendReply(msg, _("This link is *not valid!*"), true)
 				return
 			end
 			link = 'https://telegram.me/joinchat/'..blocks[2]
@@ -43,14 +44,15 @@ local action = function(msg, blocks)
 		--set to nul the link, or update/set it
 		if blocks[2] == '-' then
 			db:hdel(hash, key)
-			text = lang[msg.ln].links.link_unsetted
+			text = _("Link *unsetted*")
 		else
 			local succ = db:hset(hash, key, link)
 			local title = msg.chat.title:mEscape_hard()
+			local substitution = string.format('[%s](%s)', title, link)
 			if succ == false then
-				text = make_text(lang[msg.ln].links.link_updated, title, link)
+				text = _("The link has been updated.\n*Here's the new link*: %s"):format(substitution)
 			else
-				text = make_text(lang[msg.ln].links.link_setted, title, link)
+				text = _("The link has been setted.\n*Here's the link*: %s"):format(substitution)
 			end
 		end
 		api.sendReply(msg, text, true)
