@@ -4059,7 +4059,7 @@ The inline keyboard has three sub-menus:
         },
 		banhammer = {
             kicked = '&&&1 اخراج &&&2!',
-            banned = '&&&1 مسدود &&&2`!',
+            banned = '&&&1 مسدود &&&2!',
             already_banned_normal = '&&&1 قبلا مسدود شده!',
             unbanned = 'User unbanned by &&&1!',
             reply = 'کاربری را ریپلای کنید',
