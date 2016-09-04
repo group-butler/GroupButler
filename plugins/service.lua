@@ -1,3 +1,13 @@
+local function is_locked(chat_id)
+  	local hash = 'chat:'..chat_id..':settings'
+  	local current = db:hget(hash, 'Welcome')
+  	if current == 'off' then
+  		return true
+  	else
+  		return false
+  	end
+end
+
 local function gsub_custom_welcome(msg, custom)
 	local name = msg.added.first_name:mEscape()
 	local name = name:gsub('%%', '')
@@ -13,54 +23,24 @@ local function gsub_custom_welcome(msg, custom)
 	return custom
 end
 
-local function get_welcome(msg, ln)
-	if is_locked(msg, 'Welcome') then
+local function get_welcome(msg)
+	if is_locked(msg.chat.id) then
 		return false
 	end
-	local type = db:hget('chat:'..msg.chat.id..':welcome', 'type')
-	local content = db:hget('chat:'..msg.chat.id..':welcome', 'content')
+	local type = (db:hget('chat:'..msg.chat.id..':welcome', 'type')) or config.chat_settings['welcome']['type']
+	local content = (db:hget('chat:'..msg.chat.id..':welcome', 'content')) or config.chat_settings['welcome']['content']
 	if type == 'media' then
 		local file_id = content
 		api.sendDocumentId(msg.chat.id, file_id)
 		return false
 	elseif type == 'custom' then
 		return gsub_custom_welcome(msg, content)
-	elseif type == 'composed' then
-		if not(content == 'no') then
-			local abt = cross.getAbout(msg.chat.id, ln)
-			local rls = cross.getRules(msg.chat.id, ln)
-			local creator, admins = cross.getModlist(msg.chat.id, ln)
-			print(admins)
-			local mods
-			if not creator then
-				mods = '\n'
-			else
-				mods = make_text(lang[ln].service.welcome_modlist, creator:mEscape(), admins:gsub('*', ''):mEscape())
-			end
-			local text = make_text(lang[ln].service.welcome, msg.added.first_name:mEscape_hard(), msg.chat.title:mEscape_hard())
-			if content == 'a' then
-				text = text..'\n\n'..abt
-			elseif content == 'r' then
-				text = text..'\n\n'..rls
-			elseif content == 'm' then
-				text = text..mods
-			elseif content == 'ra' then
-				text = text..'\n\n'..abt..'\n\n'..rls
-			elseif content == 'am' then
-				text = text..'\n\n'..abt..mods
-			elseif content == 'rm' then
-				text = text..'\n\n'..rls..mods
-			elseif content == 'ram' then
-				text = text..'\n\n'..abt..'\n\n'..rls..mods
-			end
-			return text
-		else
-			return make_text(lang[ln].service.welcome, msg.added.first_name:mEscape_hard(), msg.chat.title:mEscape_hard())
-		end
+	else
+		return _("Hi %s, and welcome to *%s*!"):format(msg.added.first_name:mEscape_hard(), msg.chat.title:mEscape_hard())
 	end
 end
 
-local action = function(msg, blocks, ln)
+local action = function(msg, blocks)
 	
 	--avoid trolls
 	if not msg.service then return end
@@ -68,58 +48,60 @@ local action = function(msg, blocks, ln)
 	--if the bot join the chat
 	if blocks[1] == 'botadded' then
 		
-		if db:hget('bot:general', 'adminmode') == 'on' and not is_bot_owner(msg) then
-			api.sendMessage(msg.chat.id, 'Admin mode is on: only the admin can add me to a new group')
+		if db:hget('bot:general', 'adminmode') == 'on' and not roles.is_bot_owner(msg.adder.id) then
+			api.sendMessage(msg.chat.id, 'Admin mode is on: only the bot admin can add me to a new group')
 			api.leaveChat(msg.chat.id)
 			return
 		end
-		if is_blocked_global(msg.adder.id) then
+		if misc.is_blocked_global(msg.adder.id) then
 			api.sendMessage(msg.chat.id, '_You ('..msg.adder.first_name:mEscape()..', '..msg.adder.id..') are in the blocked list_', true)
 			api.leaveChat(msg.chat.id)
 			return
 		end
 		
-		cross.initGroup(msg.chat.id)
+		misc.initGroup(msg.chat.id)
 	end
 	
 	--if someone join the chat
 	if blocks[1] == 'added' then
 		
-		if msg.chat.type == 'group' and is_banned(msg.chat.id, msg.added.id) then
-			api.kickChatMember(msg.chat.id, msg.added.id)
-			return
+		if msg.chat.type == 'group' and misc.is_banned(msg.chat.id, msg.added.id) then
+			if not roles.is_admin2(msg.chat.id, msg.adder.id) then
+				api.kickChatMember(msg.chat.id, msg.added.id)
+				return
+			else
+				api.unbanUser(msg.chat.id, msg.added.id, true)
+			end
 		end
 		
 		--[[if msg.chat.type == 'supergroup' and db:sismember('chat:'..msg.chat.id..':prevban') then
-			if msg.adder and is_mod(msg) then --if the user is added by a moderator, remove the added user from the prevbans
+			if msg.adder and roles.is_admin_cached(msg) then --if the user is added by a moderator, remove the added user from the prevbans
 				db:srem('chat:'..msg.chat.id..':prevban', msg.added.id)
 			else --if added by a not-mod, ban the user
-				local res = api.banUser(msg.chat.id, msg.added.id, false, ln)
+				local res = api.banUser(msg.chat.id, msg.added.id, false, msg.ln)
 				if res then
-					api.sendMessage(msg.chat.id, make_text(lang[ln].banhammer.was_banned, msg.added.first_name))
+					api.sendMessage(msg.chat.id, make_text(lang[msg.ln].banhammer.was_banned, msg.added.first_name))
 				end
 			end
 		end]]
-		
-		cross.remBanList(msg.chat.id, msg.added.id) --remove him from the banlist
 		
 		if msg.added.username then
 			local username = msg.added.username:lower()
 			if username:find('bot', -3) then return end
 		end
 		
-		local text = get_welcome(msg, ln)
+		local text = get_welcome(msg)
 		if text then
 			api.sendMessage(msg.chat.id, text, true)
 		end
-		--if not text: welcome is locked
+		--if not text: welcome is locked or is a gif/sticker
 	end
 	
 	--if the bot is removed from the chat
 	if blocks[1] == 'botremoved' then
 		
 		--remove the group settings
-		cross.remGroup(msg.chat.id, true)
+		misc.remGroup(msg.chat.id, true)
 		
 		--save stats
         db:hincrby('bot:general', 'groups', -1)
@@ -134,7 +116,7 @@ local action = function(msg, blocks, ln)
 				elseif msg.chat.type == 'group' then
 					action = 'kick'
 				end
-				cross.saveBan(msg.removed.id, action)
+				misc.saveBan(msg.removed.id, action)
 			end
 		end
 	end

@@ -2,11 +2,11 @@ local triggers = {
 	'^/test'
 }
 
-local function on_each_msg(msg, ln)
+local function on_each_msg(msg)
 	return msg
 end
 
-local action = function(msg, blocks, ln)
+local action = function(msg, blocks)
 	--test your stuffs here
 end
 

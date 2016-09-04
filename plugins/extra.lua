@@ -1,14 +1,24 @@
-local action = function(msg, blocks, ln)
+local function is_locked(chat_id)
+  	local hash = 'chat:'..chat_id..':settings'
+  	local current = db:hget(hash, 'Extra')
+  	if current == 'off' then
+  		return true
+  	else
+  		return false
+  	end
+end
+
+local action = function(msg, blocks)
 	
 	if msg.chat.type == 'private' then return end
 	
 	if blocks[1] == 'extra' then
-		if not is_mod(msg) then return end
+		if not roles.is_admin_cached(msg) then return end
 		if not blocks[2] then return end
 		if not blocks[3] and not msg.reply then return end
 		
 	    if msg.reply and not blocks[3] then
-	    	local file_id, media_with_special_method = get_media_id(msg.reply)
+	    	local file_id, media_with_special_method = misc.get_media_id(msg.reply)
 	    	if not file_id then
 	    		return
 	    	else
@@ -19,7 +29,7 @@ local action = function(msg, blocks, ln)
 	    			to_save = '###file_id###:'..file_id
 	    		end
 	    		db:hset('chat:'..msg.chat.id..':extra', blocks[2], to_save)
-	    		api.sendReply(msg, 'This media has been saved as response to '..blocks[2])
+	    		api.sendReply(msg, _("This media has been saved as response to %s"):format(blocks[2]))
 	    	end
 		else
 	    	local hash = 'chat:'..msg.chat.id..':extra'
@@ -27,50 +37,53 @@ local action = function(msg, blocks, ln)
 	    	local res, code = api.sendReply(msg, blocks[3], true)
 	    	if not res then
 	    		if code == 118 then
-					api.sendMessage(msg.chat.id, lang[ln].bonus.too_long)
+					api.sendMessage(msg.chat.id, _("This text is too long, I can't send it"))
 				else
-					api.sendMessage(msg.chat.id, lang[ln].breaks_markdown, true)
+					local text = _("This text breaks the markdown.\n"
+							.. "More info about a proper use of markdown [here]"
+							.. "(https://telegram.me/GroupButler_ch/46).")
+					api.sendMessage(msg.chat.id, text, true)
 				end
     		else
 	    		db:hset(hash, blocks[2], blocks[3])
 	    		local msg_id = res.result.message_id
-				api.editMessageText(msg.chat.id, msg_id, make_text(lang[ln].extra.setted, blocks[2]), false)
+				api.editMessageText(msg.chat.id, msg_id, _("%s command saved!"):format(blocks[2]), false)
     		end
     	end
 	elseif blocks[1] == 'extra list' then
-	    if not is_mod(msg) then return end
+	    if not roles.is_admin_cached(msg) then return end
 	    
 	    local hash = 'chat:'..msg.chat.id..':extra'
 	    local commands = db:hkeys(hash)
 	    local text = ''
 	    if commands[1] == nil then
-	        api.sendReply(msg, lang[ln].extra.no_commands)
+	        api.sendReply(msg, _("No commands set"))
 	    else
 	        for k,v in pairs(commands) do
 	            text = text..v..'\n'
 	        end
-	        local out = make_text(lang[ln].extra.commands_list, text)
+	        local out = _("List of *custom commands*:\n") .. text
 	        api.sendReply(msg, out, true)
 	    end
     elseif blocks[1] == 'extra del' then
-        if not is_mod(msg) then return end
+        if not roles.is_admin_cached(msg) then return end
 	    
 	    local hash = 'chat:'..msg.chat.id..':extra'
 	    local success = db:hdel(hash, blocks[2])
 	    if success == 1 then
-	    	local out = make_text(lang[ln].extra.command_deleted, blocks[2])
+	    	local out = _("%s command has been deleted"):format(blocks[2])
 	        api.sendReply(msg, out)
 	    else
-	        local out = make_text(lang[ln].extra.command_empty, blocks[2])
+	        local out = _("%s command does not exist"):format(blocks[2])
 	        api.sendReply(msg, out)
 	    end
     else
     	local hash = 'chat:'..msg.chat.id..':extra'
     	local text = db:hget(hash, blocks[1])
-        if not text then return end
+        if not text then return true end --continue to match plugins
         local file_id = text:match('^###.+###:(.*)')
         local special_method = text:match('^###file_id!(.*)###') --photo, voices, video need their method to be sent by file_id
-        if is_locked(msg, 'Extra') and not is_mod(msg) then --send it in private
+        if is_locked(msg.chat.id) and not roles.is_admin_cached(msg) then --send it in private
         	if not file_id then
             	api.sendMessage(msg.from.id, text, true)
             else
@@ -103,11 +116,11 @@ end
 return {
 	action = action,
 	triggers = {
-		'^/(extra)$',
-		'^/(extra) (#[%w_]*)%s(.*)$',
-		'^/(extra) (#[%w_]*)',
-		'^/(extra del) (#[%w_]*)$',
-		'^/(extra list)$',
-		'^(#[%w_]*)$'
+		config.cmd..'(extra)$',
+		config.cmd..'(extra) (#[%s_]*)%s(.*)$',
+		config.cmd..'(extra) (#[%s_]*)',
+		config.cmd..'(extra del) (#[%s_]*)$',
+		config.cmd..'(extra list)$',
+		'^(#[%s_]*)$'
 	}
 }

@@ -2,17 +2,17 @@ local function doKeyboard_lang()
 	local keyboard = {
 		inline_keyboard = {}
 	}
-	for i,lang in pairs(config.available_languages) do
-		local line = {{text = lang, callback_data = 'langselected:'..lang}}
+	for lang, flag in pairs(config.available_languages) do
+		local line = {{text = flag, callback_data = 'langselected:'..lang}}
 		table.insert(keyboard.inline_keyboard, line)
 	end
 	return keyboard
 end
 
-local action = function(msg, blocks, ln)
-	if msg.chat.type ~= 'private' and not is_mod(msg) then
+local action = function(msg, blocks)
+	if msg.chat.type ~= 'private' and not roles.is_admin_cached(msg) then
 		if msg.cb then
-			api.answerCallbackQuery(msg.cb_id, lang[ln].not_mod:mEscape_hard())
+			api.answerCallbackQuery(msg.cb_id, _("You are not an admin"))
     	end
     	return
     end
@@ -22,19 +22,21 @@ local action = function(msg, blocks, ln)
 	if blocks[1] == 'lang' and not blocks[2] then
 		keyboard = doKeyboard_lang()
 		
-		api.sendKeyboard(msg.chat.id, lang[ln].setlang.list, keyboard, true)
+		api.sendKeyboard(msg.chat.id, _("*List of available languages*:"), keyboard, true)
 	end
 	if blocks[1] == 'langselected' and msg.cb then
-	    local selected = blocks[2]
-	    db:set('lang:'..msg.chat.id, selected)
-        api.editMessageText(msg.chat.id, msg.message_id, make_text(lang[selected].setlang.success, selected), false, true)
+		locale.language = blocks[2]
+	    db:set('lang:'..msg.chat.id, locale.language)
+		-- TRANSLATORS: replace word 'English' with name of your language
+        api.editMessageText(msg.chat.id, msg.message_id, _("English language is *set*"), false, true)
 	end
 end
 
 return {
 	action = action,
 	triggers = {
-		'^/(lang)$',
-		'^###cb:(langselected):(%a%a)$'
+		config.cmd..'(lang)$',
+		'^###cb:(langselected):(%l%l)$',
+		'^###cb:(langselected):(%l%l_%u%u)$',
 	}
 }

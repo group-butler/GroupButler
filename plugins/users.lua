@@ -2,32 +2,62 @@ local function do_keybaord_credits()
 	local keyboard = {}
     keyboard.inline_keyboard = {
     	{
-    		{text = 'Channel', url = 'https://telegram.me/'..config.channel:gsub('@', '')},
-    		{text = 'GitHub', url = 'https://github.com/RememberTheAir/GroupButler'},
-    		{text = 'Rate me!', url = 'https://telegram.me/storebot?start='..bot.username},
+    		{text = _("Channel"), url = 'https://telegram.me/'..config.channel:gsub('@', '')},
+    		{text = _("GitHub"), url = 'https://github.com/RememberTheAir/GroupButler'},
+    		{text = _("Rate me!"), url = 'https://telegram.me/storebot?start='..bot.username},
 		}
 	}
 	return keyboard
 end
 
+local function do_keyboard_cache(chat_id)
+	local keyboard = {inline_keyboard = {{{text = _("🔄️ Refresh cache"), callback_data = 'cc:rel:'..chat_id}}}}
+	return keyboard
+end
+
+local function get_time_remaining(seconds)
+	local final = ''
+	local hours = math.floor(seconds/3600)
+	seconds = seconds - (hours*60*60)
+	local min = math.floor(seconds/60)
+	seconds = seconds - (min*60)
+	
+	if hours and hours > 0 then
+		final = final..hours..'h '
+	end
+	if min and min > 0 then
+		final = final..min..'m '
+	end
+	if seconds and seconds > 0 then
+		final = final..seconds..'s'
+	end
+	
+	return final
+end
+
 local function get_user_id(msg, blocks)
-	if msg.target_id then
-		return msg.target_id
-	elseif msg.reply then
+	if msg.reply then
+		print('reply')
 		return msg.reply.from.id
 	elseif blocks[2] then
-		if blocks[2]:match('@[%w_]+') then
-			local user_id = res_user_group(blocks[2], msg.chat.id)
+		if blocks[2]:match('@[%w_]+$') then --by username
+			local user_id = misc.res_user_group(blocks[2], msg.chat.id)
 			if not user_id then
+				print('username (not found)')
 				return false
 			else
+				print('username (found)')
 				return user_id
 			end
-		elseif blocks[2]:match('%d+') then
+		elseif blocks[2]:match('%d+$') then --by id
+			print('id')
 			return blocks[2]
+		elseif msg.mention_id then --by text mention
+			print('text mention')
+			return msg.mention_id
+		else
+			return false
 		end
-	else
-		return false
 	end
 end
 
@@ -39,87 +69,59 @@ local function get_name_getban(msg, blocks, user_id)
 	end
 end
 
-local function get_ban_info(user_id, chat_id, ln)
+local function get_ban_info(user_id, chat_id)
 	local hash = 'ban:'..user_id
 	local ban_info = db:hgetall(hash)
+	local text
 	if not next(ban_info) then
-		return lang[ln].getban.nothing
+		text = _("Nothing to display\n")
 	else
 		local ban_index = {
-			['kick'] = lang[ln].getban.kick,
-			['ban'] = lang[ln].getban.ban,
-			['tempban'] = lang[ln].getban.tempban,
-			['flood'] = lang[ln].getban.flood,
-			['media'] = lang[ln].getban.media,
-			['warn'] = lang[ln].getban.warn,
-			['arab'] = lang[ln].getban.arab,
-			['rtl'] = lang[ln].getban.rtl,
+			kick = _("Kicked: *%d*"),
+			ban = _("Banned: *%d*"),
+			tempban = _("Temporary banned: *%d*"),
+			flood = _("Removed for flood: *%d*"),
+			media = _("Removed for forbidden media: *%d*"),
+			warn = _("Removed for warns: *%d*"),
+			arab = _("Removed for arab chars: *%d*"),
+			rtl = _("Removed for RTL char: *%d*"),
 		}
-		local text = ''
+		text = ''
 		for type,n in pairs(ban_info) do
 			text = text..'`'..ban_index[type]..'`'..'*'..n..'*\n'
 		end
 		if text == '' then
-			return lang[ln].getban.nothing
-		else
-			local warns = (db:hget('chat:'..chat_id..':warns', user_id)) or 0
-			local media_warns = (db:hget('chat:'..chat_id..':mediawarn', user_id)) or 0
-			text = text..'\n`Warns`: '..warns..'\n`Media warns`: '..media_warns
-			return text
+			return _("Nothing to display")
 		end
 	end
+	local warns = (db:hget('chat:'..chat_id..':warns', user_id)) or 0
+	local media_warns = (db:hget('chat:'..chat_id..':mediawarn', user_id)) or 0
+	text = text..'\n`Warns`: '..warns..'\n`Media warns`: '..media_warns
+	return text
 end
 
-local function do_keyboard_userinfo(user_id, ln)
+local function do_keyboard_userinfo(user_id)
 	local keyboard = {
 		inline_keyboard = {
-			{{text = lang[ln].userinfo.remwarns_kb, callback_data = 'userbutton:remwarns:'..user_id}},
-			{{text ='🔨 Ban', callback_data = 'userbutton:banuser:'..user_id}},
+			{{text = _("Remove warns"), callback_data = 'userbutton:remwarns:'..user_id}},
+			{{text = _("🔨 Ban"), callback_data = 'userbutton:banuser:'..user_id}},
 		}
 	}
 	
 	return keyboard
 end
 
-local function check_reply(msg)
-	if not msg.reply then
-		return false, 'Reply to the file'
-	else
-		if not msg.reply.document then
-			return false, 'This is not a file'
-		else
-			if msg.reply.document.file_name ~= 'ban_data.json' then
-				return false, 'This is not a valid file'
-			else
-				return true
-			end
-		end
-	end
+local function get_userinfo(user_id, chat_id)
+	return _("*Ban info* (globals):\n") .. get_ban_info(user_id, chat_id)
 end
 
-local function get_userinfo(user_id, chat_id, ln)
-	return lang[ln].userinfo.header_1..get_ban_info(user_id, chat_id, ln)
-end
-
-local action = function(msg, blocks, ln)
+local action = function(msg, blocks)
     if blocks[1] == 'adminlist' then
     	if msg.chat.type == 'private' then return end
-    	local no_usernames
-    	local send_reply = true
-    	if is_locked(msg, 'Modlist') then
-    		if is_mod(msg) then
-        		no_usernames = true
-        	else
-        		no_usernames = false
-        		send_reply = false
-        	end
-        else
-            no_usernames = true
-        end
     	local out
-        local creator, adminlist = cross.getModlist(msg.chat.id, no_usernames)
-        out = make_text(lang[ln].mod.modlist, creator, adminlist)
-        if not send_reply then
+        local creator, adminlist = misc.getAdminlist(msg.chat.id)
+		out = _("*Creator*:\n%s\n\n*Admins*:\n%s"):format(creator, adminlist)
+        if not roles.is_admin_cached(msg) then
         	api.sendMessage(msg.from.id, out, true)
         else
             api.sendReply(msg, out, true)
@@ -127,34 +129,42 @@ local action = function(msg, blocks, ln)
     end
     if blocks[1] == 'status' then
     	if msg.chat.type == 'private' then return end
-    	if is_mod(msg) then
+    	if roles.is_admin_cached(msg) then
     		local user_id
     		if blocks[2]:match('%d+$') then
     			user_id = blocks[2]
     		else
-    			user_id = res_user_group(blocks[2], msg.chat.id)
+    			user_id = misc.res_user_group(blocks[2], msg.chat.id)
     		end
     		if not user_id then
-		 		api.sendReply(msg, lang[ln].bonus.no_user, true)
+				api.sendReply(msg, _("I've never seen this user before.\n"
+					.. "If you want to teach me who is he, forward me a message from him"), true)
 		 	else
 		 		local res = api.getChatMember(msg.chat.id, user_id)
 		 		if not res then
-		 			api.sendReply(msg, lang[ln].status.unknown)
+					api.sendReply(msg, _("This user has nothing to do with this chat"))
 		 			return
 		 		end
 		 		local status = res.result.status
 				local name = res.result.user.first_name
 				if res.result.user.username then name = name..' (@'..res.result.user.username..')' end
-				if msg.chat.type == 'group' and is_banned(msg.chat.id, user_id) then
+				if msg.chat.type == 'group' and misc.is_banned(msg.chat.id, user_id) then
 					status = 'kicked'
 				end
-		 		local text = make_text(lang[ln].status[status], name)
-		 		api.sendReply(msg, text)
+				local texts = {
+					kicked = _("%s is banned from this group"),
+					left = _("%s left the group or has been kicked and unbanned"),
+					administrator = _("%s is an admin"),
+					creator = _("%s is the group creator"),
+					unknown = _("%s has nothing to do with this chat"),
+					member = _("%s is a chat member")
+				}
+				api.sendReply(msg, texts[status]:format(name))
 		 	end
 	 	end
  	end
  	if blocks[1] == 'id' then
- 		if not(msg.chat.type == 'private') and not is_mod(msg) then return end
+ 		if not(msg.chat.type == 'private') and not roles.is_admin_cached(msg) then return end
  		local id
  		if msg.reply then
  			id = msg.reply.from.id
@@ -163,31 +173,24 @@ local action = function(msg, blocks, ln)
  		end
  		api.sendReply(msg, '`'..id..'`', true)
  	end
-	if blocks[1] == 'settings' then
-        
-        if msg.chat.type == 'private' then return end
-        
-        local message = cross.getSettings(msg.chat.id, ln)
-        api.sendReply(msg, message, true)
-    end
     if blocks[1] == 'welcome' then
         
-        if msg.chat.type == 'private' or not is_mod(msg) then return end
+        if msg.chat.type == 'private' or not roles.is_admin_cached(msg) then return end
         
         local input = blocks[2]
         
         --ignore if not input text and not reply
         if not input and not msg.reply then
-            api.sendReply(msg, make_text(lang[ln].settings.welcome.no_input), false)
-            return
+			api.sendReply(msg, _("Welcome and...?"), false)
+			return
         end
         
         local hash = 'chat:'..msg.chat.id..':welcome'
         
         if not input and msg.reply then
-            local replied_to = get_media_type(msg.reply)
+            local replied_to = misc.get_media_type(msg.reply)
             if replied_to == 'sticker' or replied_to == 'gif' then
-                local file_id-- = msg[replied_to].file_id
+                local file_id
                 if replied_to == 'sticker' then
                     file_id = msg.reply.sticker.file_id
                 else
@@ -195,243 +198,146 @@ local action = function(msg, blocks, ln)
                 end
                 db:hset(hash, 'type', 'media')
                 db:hset(hash, 'content', file_id)
-                api.sendReply(msg, lang[ln].settings.welcome.media_setted..'`'..replied_to..'`', true)
+                api.sendReply(msg, _("New media setted as welcome message: `%s`"):format(replied_to), true)
             else
-                api.sendReply(msg, lang[ln].settings.welcome.reply_media, true)
+                api.sendReply(msg, _("Reply to a `sticker` or a `gif` to set them as *welcome message*"), true)
             end
-            return
-        end
-        
-        --change welcome settings
-        if input == 'a' then
-            db:hset(hash, 'type', 'composed')
-            db:hset(hash, 'content', 'a')
-            api.sendReply(msg, lang[ln].settings.welcome.a, true)
-        elseif input == 'r' then
-            db:hset(hash, 'type', 'composed')
-            db:hset(hash, 'content', 'r')
-            api.sendReply(msg, lang[ln].settings.welcome.r, true)
-        elseif input == 'm' then
-            db:hset(hash, 'type', 'composed')
-            db:hset(hash, 'content', 'm')
-            api.sendReply(msg, lang[ln].settings.welcome.m, true)
-        elseif input == 'ar' or input == 'ra' then
-            db:hset(hash, 'type', 'composed')
-            db:hset(hash, 'content', 'ra')
-            api.sendReply(msg, lang[ln].settings.welcome.ra, true)
-        elseif input == 'mr' or input == 'rm' then
-            db:hset(hash, 'type', 'composed')
-            db:hset(hash, 'content', 'rm')
-            api.sendReply(msg, lang[ln].settings.welcome.rm, true)
-        elseif input == 'am' or input == 'ma' then
-            db:hset(hash, 'type', 'composed')
-            db:hset(hash, 'content', 'am')
-            api.sendReply(msg, lang[ln].settings.welcome.am, true)
-        elseif input == 'ram' or input == 'rma' or input == 'arm' or input == 'amr' or input == 'mra' or input == 'mar' then
-            db:hset(hash, 'type', 'composed')
-            db:hset(hash, 'content', 'ram')
-            api.sendReply(msg, lang[ln].settings.welcome.ram, true)
-        elseif input == 'no' then
-            db:hset(hash, 'type', 'composed')
-            db:hset(hash, 'content', 'no')
-            api.sendReply(msg, lang[ln].settings.welcome.no, true)
         else
             db:hset(hash, 'type', 'custom')
             db:hset(hash, 'content', input)
-            local res, code = api.sendReply(msg, make_text(lang[ln].settings.welcome.custom, input), true)
+            local res, code = api.sendReply(msg, input, true)
             if not res then
-                db:hset(hash, 'type', 'composed') --if wrong markdown, remove 'custom' again
+                db:hset(hash, 'type', 'no') --if wrong markdown, remove 'custom' again
                 db:hset(hash, 'content', 'no')
                 if code == 118 then
-				    api.sendMessage(msg.chat.id, lang[ln].bonus.too_long)
+				    api.sendMessage(msg.chat.id, _("This text is too long, I can't send it"))
 			    else
-				    api.sendMessage(msg.chat.id, lang[ln].breaks_markdown, true)
+					api.sendMessage(msg.chat.id, _("This text breaks the markdown.\n"
+						.. "More info about a proper use of markdown "
+						.. "[here](https://telegram.me/GroupButler_ch/46)."), true)
 			    end
             else
                 local id = res.result.message_id
-                api.editMessageText(msg.chat.id, id, lang[ln].settings.welcome.custom_setted, false, true)
+                api.editMessageText(msg.chat.id, id, _("*Custom welcome message saved!*"), false, true)
             end
         end
     end
-    if blocks[1] == 'export' then
-    	if msg.chat.type ~= 'private' then return end
-    	if blocks[2] == 'ban' then
-    		if is_bot_owner(msg) then
-    			local users = db:hvals('bot:usernames')
-				users = remove_duplicates(users)
-				local final_table = {}
-				for i,id in pairs(users) do
-					local user_info = db:hgetall('ban:'..id)
-					if next(user_info) then
-						final_table[id] = {}
-						for field, count in pairs(user_info) do
-							final_table[id][field] = count
-						end
-					end
-				end
-				if next(final_table) then
-					local path = 'ban_data.json'
-					save_data(path, final_table)
-					api.sendDocument(msg.chat.id, path)
-				else
-					api.sendMessage(msg.chat.id, 'Empty table')
-				end
-			else
-				local file_id = db:get('bandata')
-				if not file_id then
-					api.sendReply(msg, 'Datas not available')
-				else
-					api.sendDocumentId(msg.chat.id, file_id)
-				end
-			end
-		end
-		if blocks[2] == 'save' then
-			local is_valid, text = check_reply(msg)
-			if is_valid then
-				db:set('bandata', msg.reply.document.file_id)
-				text = 'File id saved: '..msg.reply.document.file_id
-			end
-			api.sendReply(msg, text)
-		end
-	end
-	if blocks[1] == 'importban' then
-		if is_bot_owner(msg, true) then
-			local is_valid, text = check_reply(msg)
-			if is_valid then
-				local file_name = 'ban_data_imported.json'
-				local res = api.getFile(msg.reply.document.file_id)
-				local download_link = telegram_file_link(res)
-				path, code = download_to_file(download_link, file_name)
-				local ban_info = load_data(file_name)
-				if not ban_info or not next(ban_info) then
-					text = 'Something went wrong: no data available'
-				else
-					local i = 0
-					for user_id, info in pairs(ban_info) do
-						
-						--[[        SUM MODE
-						local save_body = {} --user info to be saved in redis
-						
-						--get the already saved info
-						local old_info = db:hgetall('ban:'..user_id)
-						if old_info and next(old_info) then
-							for field, count in pairs(old_info) do
-								save_body[field] = tonumber(count)
-							end
-						end
-						
-						--add to the already saved info the new imported info
-						for key, n in pairs(info) do
-							local old_value = save_body[key] or 0
-							save_body[key] = old_value + tonumber(n)
-						end
-						
-						--save on redis
-						if next(save_body) then
-							for key,val in pairs(save_body) do
-								db:hset('ban:'..user_id, key, val)
-							end
-						end]]
-						
-						--save on redis
-						if next(info) then
-							for field,count in pairs(info) do
-								db:hset('ban:'..user_id, field, count)
-							end
-							i = i + 1
-						end
-					end
-					text = 'Imported! New entries: '..i
-				end
-			end
-			api.sendReply(msg, text)
-		end
-	end
-	if blocks[1] == 'group' then
-		if msg.chat.type ~= 'private' then return end
-		if config.help_group and config.help_group ~= '' then
-			api.sendMessage(msg.chat.id, '[Click/tap here to join :)]('..config.help_group..')', true)
-		end
-	end
 	if blocks[1] == 'user' then
-		if msg.chat.type == 'private' then return end
-		if not is_mod(msg) then
-			if msg.cb then
-				api.answerCallbackQuery(msg.cb_id, lang[ln].not_mod:mEscape_hard())
-			end
+		if msg.chat.type == 'private' or not roles.is_admin_cached(msg) then return end
+		
+		if not msg.reply and (not blocks[2] or (not blocks[2]:match('@[%w_]+$') and not blocks[2]:match('%d+$') and not msg.mention_id)) then
+			api.sendReply(msg, _("Reply to an user or mention him (works by id too)"))
 			return
 		end
 		
+		------------------ get user_id --------------------------
 		local user_id = get_user_id(msg, blocks)
 		
-		if is_bot_owner(msg) and msg.reply and not msg.cb then
+		if roles.is_bot_owner(msg.from.id) and msg.reply and not msg.cb then
 			if msg.reply.forward_from then
 				user_id = msg.reply.forward_from.id
 			end
 		end
 		
 		if not user_id then
-			api.sendReply(msg, lang[ln].bonus.no_user, true)
+			api.sendReply(msg, _("I've never seen this user before.\n"
+				.. "If you want to teach me who is he, forward me a message from him"), true)
 		 	return
 		end
 		-----------------------------------------------------------------------------
 		
-		local keyboard = do_keyboard_userinfo(user_id, ln)
+		local keyboard = do_keyboard_userinfo(user_id)
 		
-		local text = get_userinfo(user_id, msg.chat.id, ln)
+		local text = get_userinfo(user_id, msg.chat.id)
 		
-		if msg.cb then
-			api.editMessageText(msg.chat.id, msg.message_id, text, keyboard, true)
-		else
-			api.sendKeyboard(msg.chat.id, text, keyboard, true)
-		end
+		api.sendKeyboard(msg.chat.id, text, keyboard, true)
 	end
 	if blocks[1] == 'banuser' then
-		if not is_mod(msg) then
-    		api.answerCallbackQuery(msg.cb_id, lang[ln].not_mod:mEscape_hard())
+		if not roles.is_admin_cached(msg) then
+			api.answerCallbackQuery(msg.cb_id, _("You are not an admin"))
     		return
 		end
 		
 		local user_id = msg.target_id
 		
-		local res, text = api.banUser(msg.chat.id, user_id, msg.normal_group, ln)
+		local res, text = api.banUser(msg.chat.id, user_id, msg.normal_group)
 		if res then
-			cross.saveBan(user_id, 'ban')
-			text = lang[ln].getban.banned..'\n`(Admin: '..msg.from.first_name:mEscape()..')`'
+			misc.saveBan(user_id, 'ban')
+			local name = misc.getname_link(msg.from.first_name, msg.from.username) or msg.from.first_name:mEscape()
+			text = _("_Banned!_\n(Admin: %s)"):format(name)
 		end
 		api.editMessageText(msg.chat.id, msg.message_id, text, false, true)
 	end
 	if blocks[1] == 'remwarns' then
-		if not is_mod(msg) then
-    		api.answerCallbackQuery(msg.cb_id, lang[ln].not_mod:mEscape_hard())
+		if not roles.is_admin_cached(msg) then
+			api.answerCallbackQuery(msg.cb_id, _("You are not an admin"))
     		return
 		end
 		db:hdel('chat:'..msg.chat.id..':warns', msg.target_id)
 		db:hdel('chat:'..msg.chat.id..':mediawarn', msg.target_id)
         
-        api.editMessageText(msg.chat.id, msg.message_id, lang[ln].warn.nowarn..'\n`(Admin: '..msg.from.first_name:mEscape()..')`', false, true)
+        local name = misc.getname_link(msg.from.first_name, msg.from.username) or msg.from.first_name:mEscape()
+		local text = _("The number of warns received by this user has been *reset*\n(Admin: %s)")
+		api.editMessageText(msg.chat.id, msg.message_id, text:format(name), false, true)
+    end
+    if blocks[1] == 'cache' then
+    	if msg.chat.type == 'private' or not roles.is_admin_cached(msg) then return end
+    	local text
+    	local hash = 'cache:chat:'..msg.chat.id..':admins'
+    	if db:exists(hash) then
+    		local seconds = db:ttl(hash)
+    		local cached_admins = db:smembers(hash)
+    		text = '📌 Status: `CACHED`\n⌛ ️Remaining: `'..get_time_remaining(tonumber(seconds))..'`\n👥 Admins cached: `'..#cached_admins..'`'
+    	else
+    		text = 'Status: NOT CACHED'
+    	end
+    	local keyboard = do_keyboard_cache(msg.chat.id)
+    	api.sendKeyboard(msg.chat.id, text, keyboard, true)
+    end
+    if blocks[1] == 'msglink' then
+    	if roles.is_admin_cached(msg) and msg.reply and msg.chat.username then
+    		api.sendReply(msg, '[msg n° '..msg.reply.message_id..'](https://telegram.me/'..msg.chat.username..'/'..msg.reply.message_id..')', true)
+    	end
+    end
+    if blocks[1] == 'cc:rel' and msg.cb then
+    	if not roles.is_admin_cached(msg) then
+			api.answerCallbackQuery(msg.cb_id, _("You are not an admin"))
+			return
+		end
+		local missing_sec = tonumber(db:ttl('cache:chat:'..msg.target_id..':admins') or 0)
+		if (config.bot_settings.cache_time.adminlist - missing_sec) < 3600 then
+			api.answerCallbackQuery(msg.cb_id, 'The adminlist has just been updated. This button will be available in an hour after the last update', true)
+		else
+    		local res = misc.cache_adminlist(msg.target_id)
+    		if res then
+    			local cached_admins = db:smembers('cache:chat:'..msg.target_id..':admins')
+    			local time = get_time_remaining(config.bot_settings.cache_time.adminlist)
+    			local text = '📌 Status: `CACHED`\n⌛ ️Remaining: `'..time..'`\n👥 Admins cached: `'..#cached_admins..'`'
+    			api.answerCallbackQuery(msg.cb_id, '✅ Updated. Next update in '..time)
+    			api.editMessageText(msg.chat.id, msg.message_id, text, do_keyboard_cache(msg.target_id), true)
+    			api.sendLog('#recache\nChat: '..msg.target_id..'\nFrom: '..msg.from.id)
+    		end
+    	end
     end
 end
 
 return {
 	action = action,
 	triggers = {
-		'^/(id)$',
-		'^/(adminlist)$',
-		'^/(status) (@[%w_]+)$',
-		'^/(status) (%d+)$',
-		'^/(settings)$',
-		'^/(export)(ban)$',
-		'^/(export)(save)$',
-		'^/(importban)$',
-		'^/(group)$',
-		'^/(welcome) (.*)$',
+		config.cmd..'(id)$',
+		config.cmd..'(adminlist)$',
+		config.cmd..'(status) (@[%w_]+)$',
+		config.cmd..'(status) (%d+)$',
+		config.cmd..'(welcome) (.*)$',
+		config.cmd..'(welcome)$',
+		config.cmd..'(cache)$',
+		config.cmd..'(msglink)$',
 		
-		'^/(user)$',
-		'^/(user) (@[%w_]+)$',
-		'^/(user) (%d+)$',
+		config.cmd..'(user)$',
+		config.cmd..'(user) (.*)',
 		
 		'^###cb:userbutton:(banuser):(%d+)$',
 		'^###cb:userbutton:(remwarns):(%d+)$',
+		'^###cb:(cc:rel):'
 	}
 }
