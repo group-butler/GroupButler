@@ -66,7 +66,7 @@ return {
 		['fa'] = 'فارسی 🇮🇷'
 		-- more to come
 	},
-	allow_fuzzy_translations = false,
+	allow_fuzzy_translations = true,
 	media_list = {
 		'image',
 		'audio',
