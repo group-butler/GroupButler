@@ -154,6 +154,8 @@ also use Poedit to translate the bot. List of avaible locales see in [gettext
 manual](https://www.gnu.org/software/gettext/manual/gettext.html#Language-Codes).
 After add your new locale in the file `config.lua`.
 
+_At the moment, the bot speaks only English._ `3809e50952a5917744e4b9785a90fb05775ea44d` (24/08/2016) _is the hash of the latest commit that is not using the new language system, if you need to use an older stable version of the bot_.
+
 * * *
 
 ###Notes about this repository

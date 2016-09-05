@@ -5,7 +5,6 @@ JSON = require('dkjson')
 redis = require('redis')
 clr = require 'term.colors'
 db = Redis.connect('127.0.0.1', 6379)
---db:select(0)
 serpent = require('serpent')
 
 local function check_config()
@@ -26,6 +25,9 @@ function bot_init(on_reload) -- The function run when the bot is started or relo
 		print(clr.red..error)
 		return
 	end
+	
+	db:select(config.db or 0) --select the redis db
+	
 	misc, roles = dofile('utilities.lua') -- Load miscellaneous and cross-plugin functions.
 	locale = dofile('languages.lua')
 	api = require('methods')

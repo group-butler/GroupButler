@@ -1,5 +1,5 @@
 return {
-	bot_api_key = os.getenv('BOT_TOKEN'),
+	bot_api_key = '',
 	version = '4.0',
 	cmd = '^[/!#]',
 	db = 2, --default redis db: 0
