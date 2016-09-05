@@ -117,10 +117,10 @@ return {
 	action = action,
 	triggers = {
 		config.cmd..'(extra)$',
-		config.cmd..'(extra) (#[%s_]*)%s(.*)$',
-		config.cmd..'(extra) (#[%s_]*)',
-		config.cmd..'(extra del) (#[%s_]*)$',
+		config.cmd..'(extra) (#[%w_]*)%s(.*)$',
+		config.cmd..'(extra) (#[%w_]*)',
+		config.cmd..'(extra del) (#[%w_]*)$',
 		config.cmd..'(extra list)$',
-		'^(#[%s_]*)$'
+		'^(#[%w_]*)$'
 	}
 }
