@@ -133,16 +133,11 @@ function api.banUserId(chat_id, user_id, name, on_request, no_msg)
 	return api.banUser(msg, on_request, no_msg)
 end
 
-function api.banUser(chat_id, user_id, is_normal_group)
+function api.banUser(chat_id, user_id)
 	
 	local res, code = api.kickChatMember(chat_id, user_id) --try to kick. "code" is already specific
 	
 	if res then --if the user has been kicked, then...
-	    db:hincrby('bot:general', 'ban', 1) --general: save how many kicks
-		if is_normal_group then
-		    local hash = 'chat:'..chat_id..':banned'
-	        db:sadd(hash, user_id)
-	    end
 		return res --return res and not the text
 	else ---else, the user haven't been kicked
 		local text = code2text(code)
@@ -155,7 +150,6 @@ function api.kickUser(chat_id, user_id)
 	local res, code = api.kickChatMember(chat_id, user_id) --try to kick
 	
 	if res then --if the user has been kicked, then...
-	    db:hincrby('bot:general', 'kick', 1) --genreal: save how many kicks
 		--unban
 		api.unbanChatMember(chat_id, user_id)
 		api.unbanChatMember(chat_id, user_id)
@@ -167,18 +161,9 @@ function api.kickUser(chat_id, user_id)
 	end
 end
 
-function api.unbanUser(chat_id, user_id, is_normal_group)
+function api.unbanUser(chat_id, user_id)
 	
-	if is_normal_group then
-	    local hash = 'chat:'..chat_id..':banned'
-	    local removed = db:srem(hash, user_id)
-	    if removed == 0 then
-		    return false
-	    end
-	else
-		--db:srem('chat:'..chat_id..':prevban', user_id) --remove from the prevban list
-		local res, code = api.unbanChatMember(chat_id, user_id)
-	end
+	local res, code = api.unbanChatMember(chat_id, user_id)
 	return true
 end
 
@@ -218,7 +203,13 @@ function api.leaveChat(chat_id)
 	
 	local url = BASE_URL .. '/leaveChat?chat_id=' .. chat_id
 	
-	return sendRequest(url)
+	local res, code = sendRequest(url)
+	
+	if res then
+		db:hincrby('bot:general', 'groups', -1)
+	end
+	
+	return res, code
 	
 end
 
@@ -308,6 +299,14 @@ function api.editMessageText(chat_id, message_id, text, keyboard, markdown)
 	end
 	
 	return res, code --return false, and the code
+
+end
+
+function api.editMarkup(chat_id, message_id, reply_markup)
+	
+	local url = BASE_URL .. '/editMessageReplyMarkup?chat_id=' .. chat_id .. '&message_id='..message_id..'&reply_markup='..JSON.encode(keyboard)
+	
+	return sendRequest(url)
 
 end
 
@@ -540,7 +539,7 @@ function api.sendVoice(chat_id, voice, reply_to_message_id)
 end
 
 function api.sendAdmin(text, markdown)
-	return api.sendMessage(config.admin.owner, text, markdown)
+	return api.sendMessage(config.log_admin, text, markdown)
 end
 
 function api.sendLog(text, markdown)

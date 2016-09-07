@@ -28,7 +28,7 @@ local action = function(msg, blocks)
 		locale.language = blocks[2]
 	    db:set('lang:'..msg.chat.id, locale.language)
 		-- TRANSLATORS: replace word 'English' with name of your language
-        api.editMessageText(msg.chat.id, msg.message_id, _("English language is *set*"), false, true)
+        api.editMessageText(msg.chat.id, msg.message_id, _("English language is *set*"), nil, true)
 	end
 end
 

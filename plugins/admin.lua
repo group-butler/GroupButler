@@ -28,6 +28,7 @@ local triggers2 = {
 	'^%$(tban) (flush)$',
 	'^%$(selectdb) (.*)$',
 	'^%$(aa)$',
+	'^%$(remold)$',
 	'^%$(remban) (@[%w_]+)$',
 	'^%$(info) (%d+)$',
 	'^%$(prevban) (.*)$',
@@ -38,7 +39,7 @@ local triggers2 = {
 	'^%$(remgroup) (true) (-%d+)$',
 	'^%$(cache) (.*)$',
 	'^%$(cacheinit) (.*)$',
-	'^%$(arestore) (.*)?'
+	'^%$(arestore) (.*)?',
 }
 
 local logtxt = ''
@@ -146,7 +147,7 @@ end
 
 local action = function(msg, blocks)
 	
-	if not roles.is_bot_owner(msg.from.id) then return end
+	if not roles.is_superadmin(msg.from.id) then return end
 	
 	blocks = {}
 	
@@ -392,33 +393,19 @@ local action = function(msg, blocks)
 		api.sendReply(msg, 'Not found')
 	end
 	if blocks[1] == 'update' then
-		db:del('pin:id', 'pin:type')
-		local ids = db:smembers('bot:groupsid')
-		--TO DELETE
-		--chat:chat_id:warntype
-		--chat:chat_id:max
-		--chat:chat_id:mediamax
-		for i,chat_id in pairs(ids) do
-			--moving media settings
-			local new = 'chat:'..chat_id..':warnsettings'
-			local max = (db:get('chat:'..chat_id..':max')) or 3
-			local type = (db:get('chat:'..chat_id..':type')) or 'kick'
-			local mediamax = (db:get('chat:'..chat_id..':mediamax')) or 2
-			db:hset(new, 'max', max)
-			db:hset(new, 'type', type)
-			db:hset(new, 'mediamax', mediamax)
-			--cleaning up old stuffs
-			db:del('bot:'..chat_id..':mod')
-			db:del('bot:'..chat_id..':owner')
-			db:hdel('chat:'..chat_id..'links', 'poll')
-			db:del('bot:'..chat_id..':rules')
-			db:del('bot:'..chat_id..':about')
-			db:del('media:'..chat_id)
-			db:del('extra:'..chat_id)
-			db:del('warns:'..chat_id..':type')
-			db:del('warns:'..chat_id..':max')
+		db:hdel('bot:general', 'ban')
+		db:hdel('bot:general', 'kick')
+		db:hdel('bot:general', 'query')
+		db:hdel('bot:general', 'users')
+		local groups = db:smembers('bot:groupsid')
+		for chat_id in pairs(groups) do
+			db:del('chat:'..chat_id..':banned')
+			local about = db:hget('chat:'..chat_id..':info', 'about')
+			if about then
+				db:hset('chat:'..chat_id..':extra', '#about', about)
+				db:hdel('chat:'..chat_id..':info', 'about')
+			end
 		end
-		api.sendMessage(msg.chat.id, '*Updated!*', true)
 	end
 	if blocks[1] == 'subadmin' then
 		--the status will be resetted at the next stop
@@ -495,6 +482,23 @@ local action = function(msg, blocks)
 		end
 		misc.remGroup(chat_id, full)
 		api.sendMessage(msg.chat.id, 'Removed (heavy: '..tostring(full)..')')
+	end
+	if blocks[1] == 'remold' then
+		local hash = 'bot:chat:latsmsg'
+		local removed_groups = 0
+		local today_n = tonumber(os.date("%j"))
+		print('TODAY N°\t'..today_n..'\nRemoved groups:\n')
+		for chat_id, group_timestamp in pairs(db:hgetall(hash)) do
+			local groupday_n = tonumber(os.date("%j", group_timestamp))
+			if 7 < (today_n - groupday_n) then
+				print(chat_id, 'day n° '..groupday_n)
+				misc.remGroup(chat_id, true)
+				--db:hdel(hash, chat_id)
+				--db:sadd('remolden_chats', chat_id)
+				removed_groups = removed_groups + 1
+			end
+		end
+		api.sendReply(msg, 'Groups older than 7 days removed from the db: '..removed_groups)
 	end
 	if blocks[1] == 'cache' then
 		local chat_id

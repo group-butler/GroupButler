@@ -3,13 +3,9 @@ return {
 	version = '4.0',
 	cmd = '^[/!#]',
 	db = 2, --default redis db: 0
-	admin = {
-		owner = 23646077,
-		admins = {
-			[141956218] = true
-		}
-	},
+	superadmins = {23646077, 1},
 	log_chat = -1001057801239,
+	log_admin = 23646077,
 	bot_settings = {
 		cache_time = {
 			adminlist = 18000, --5 hours (18000s)
@@ -17,11 +13,13 @@ return {
 		testing_mode = true,
 		multipurpose_mode = true,
 		notify_bug = true,
-		log_api_errors = false
+		log_api_errors = false,
+		stream_commands = true
 	},
-	channel = '@groupbutler_ch', --channel username with the '@'
+	channel = '@groupbutler_beta', --channel username with the '@'
+	source_code = 'https://github.com/RememberTheAir/GroupButler',
 	help_groups = {
-		['Internatonal (English)'] = 'https://telegram.me/joinchat/CHYUej9jFxFN12MQqrLnUg', --group link, not username!
+		['Internatonal (English)'] = false, --'https://telegram.me/joinchat/CHYUej9jFxFN12MQqrLnUg', --group link, not username!
 		['Italian'] = false, --'https://telegram.me/joinchat/CHYUej7oPES-Gdw5hmgAXg',
 		['Persian'] = 'https://telegram.me/joinchat/CHYUej8VRwlY9dzoKMERog',
 		['Spanish'] = false
@@ -35,7 +33,6 @@ return {
 		'users.lua',
 		'help.lua',
 		'rules.lua',
-		'about.lua',
 		'service.lua',
 		'links.lua',
 		'warn.lua',
@@ -44,9 +41,10 @@ return {
 		'mediasettings.lua',
 		'private.lua',
 		'admin.lua',
-		'restore.lua',
-		'test.lua',
-		'extra.lua', --has to be the last
+		--'restore.lua',
+		--'test.lua',
+		--'logchannel.lua',
+		'extra.lua', --must be the last
 	},
 	multipurpose_plugins = {
 		'commit.lua',
@@ -66,7 +64,7 @@ return {
 		['fa'] = 'فارسی 🇮🇷'
 		-- more to come
 	},
-	allow_fuzzy_translations = false,
+	allow_fuzzy_translations = true,
 	media_list = {
 		'image',
 		'audio',
@@ -132,7 +130,7 @@ return {
 	chat_custom_texts = {'extra', 'info', 'links', 'warns', 'mediawarn'},
 	bot_keys = {
 		d3 = {'bot:general', 'bot:usernames', 'bot:chat:latsmsg'},
-		d2 = {'bot:groupsid', 'bot:groupsid:removed', 'tempbanned', 'bot:blocked'}
+		d2 = {'bot:groupsid', 'bot:groupsid:removed', 'tempbanned', 'bot:blocked', 'remolden_chats'} --remolden_chats: chat removed with $remold command
 	},
 	api_errors = {
 		[101] = 'Not enough rights to kick participant', --SUPERGROUP: bot is not admin

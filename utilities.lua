@@ -35,12 +35,9 @@ function string:mEscape_hard() -- Remove the markdown.
 	return self
 end
 
-function roles.is_bot_owner(user_id, real_owner) --if real owner is true, the function will return true only if msg.from.id == config.admin.owner
-	if user_id == config.admin.owner then
-		return true
-	end
-	if not real_owner then
-		if user_id and config.admin.admins[user_id] then
+function roles.is_superadmin(user_id) --if real owner is true, the function will return true only if msg.from.id == config.admin.owner
+	for i=1, #config.superadmins do
+		if tonumber(user_id) == config.superadmins[i] then
 			return true
 		end
 	end
@@ -121,17 +118,6 @@ function misc.cache_adminlist(chat_id)
 	return true
 end
 
-function misc.is_banned(chat_id, user_id)
-	--useful only for normal groups
-	local hash = 'chat:'..chat_id..':banned'
-	local res = db:sismember(hash, user_id)
-	if res then
-		return true
-	else
-		return false
-	end
-end
-
 function misc.is_blocked_global(id)
 	if db:sismember('bot:blocked', id) then
 		return true
@@ -174,87 +160,6 @@ end
 
 function vtext(value)
   return serpent.block(value, {comment=false})
-end
-
-local function per_away(text)
-	local text = tostring(text):gsub('%%', '£&£')
-	return text
-end
-
-function make_text(text, par1, par2, par3, par4, par5)
-	if par1 then text = text:gsub('&&&1', per_away(par1)) end
-	if par2 then text = text:gsub('&&&2', per_away(par2)) end
-	if par3 then text = text:gsub('&&&3', per_away(par3)) end
-	if par4 then text = text:gsub('&&&4', per_away(par4)) end
-	if par5 then text = text:gsub('&&&5', per_away(par5)) end
-	text = text:gsub('£&£', '%%')
-	return text
-end
-
-function string:compose(par1, par2, par3, par4, par5)
-	if par1 then self = self:gsub('&&&1', per_away(par1)) end
-	if par2 then self = self:gsub('&&&2', per_away(par2)) end
-	if par3 then self = self:gsub('&&&3', per_away(par3)) end
-	if par4 then self = self:gsub('&&&4', per_away(par4)) end
-	if par5 then self = self:gsub('&&&5', per_away(par5)) end
-	self = self:gsub('£&£', '%%')
-	return self
-end
-
-local function create_folder(name)
-	local cmd = io.popen('mkdir '..name)
-    cmd:read('*all')
-    cmd = io.popen('chmod -R 775 '..name)
-    cmd:read('*all')
-    cmd:close()
-end
-
-function misc.write_file(path, text, mode)
-	if not mode then
-		mode = "w"
-	end
-	file = io.open(path, mode)
-	if not file then
-		create_folder('logs')
-		file = io.open(path, mode)
-		if not file then
-			return false
-		end
-	end
-	file:write(text)
-	file:close()
-	return true
-end
-
-function misc.save_log(action, arg1, arg2, arg3, arg4)
-	if action == 'send_msg' then
-		local text = os.date('[%A, %d %B %Y at %X]')..'\n'..arg1..'\n\n'
-		local path = "./logs/msgs_errors.txt"
-		local res = misc.write_file(path, text, "a")
-		if not res then
-			create_folder('logs')
-			misc.write_file(path, text, "a")
-		end
-    elseif action == 'errors' then
-    	--error, from, chat, text
-    	local path = "./logs/errors.txt"
-    	local text = os.date('[%A, %d %B %Y at %X]')..'\nERROR: '..arg1
-    	if arg2 then
-    		text = text..'\nFROM: '..arg2
-    	end
- 		if arg3 then
- 			text = text..'\nCHAT: '..arg3
- 		end
- 		if arg4 then
- 			text = text..'\nTEXT: '..arg4
- 		end
- 		text = text..'\n\n'
- 		local res = misc.write_file(path, text, "a")
-    	if not res then
-			create_folder('logs')
-			misc.write_file(path, text, "a")
-		end
-    end
 end
 
 function misc.clone_table(t) --doing "table1 = table2" in lua = create a pointer to table2
@@ -326,14 +231,6 @@ function misc.is_lang_supported(code)
 	return config.available_languages[code:lower()] ~= nil
 end
 
-function misc.create_folder(name)
-	local cmd = io.popen('mkdir '..name)
-    cmd:read('*all')
-    cmd = io.popen('chmod -R 775 '..name)
-    cmd:read('*all')
-    cmd:close()
-end
-
 function misc.write_file(path, text, mode)
 	if not mode then
 		mode = "w"
@@ -352,13 +249,9 @@ function misc.write_file(path, text, mode)
 end
 
 function misc.save_br(code, text)
-	text = os.date('[%A, %d %B %Y at %X]')..', code: '..code..'\n'..text
-	local path = "./logs/msgs_errors.txt"
+	text = os.date('[%A, %d %B %Y at %X]')..', code: ['..code..']\n'..text
+	local path = "./msgs_errors.txt"
 	local res = misc.write_file(path, text, "a")
-	if not res then
-		create_folder('logs')
-		misc.write_file(path, text, "a")
-	end
 end
 
 function misc.get_media_type(msg)
@@ -451,14 +344,6 @@ function div()
 	print('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX')
 	print('XXXXXXXXXXXXXXXXXX BREAK XXXXXXXXXXXXXXXXXXX')
 	print('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX')
-end
-
-function misc.to_supergroup(msg)
-	local old = msg.chat.id
-	local new = msg.migrate_to_chat_id
-	misc.migrate_chat_info(old, new, false)
-	misc.remGroup(old, true)
-	api.sendMessage(new, '(_service notification: migration of the group executed_)', true)
 end
 
 function misc.getname(msg)
@@ -790,12 +675,113 @@ function misc.remGroup(chat_id, full)
 	end
 	
 	db:del('cache:chat:'..chat_id..':admins') --delete the cache
+	db:hdel('bot:logchats', chat_id) --delete the associated log chat
 	
 	if full then
 		for i, set in pairs(config.chat_custom_texts) do
 			db:del('chat:'..chat_id..':'..set)
 		end
 		db:del('lang:'..chat_id)
+	end
+end
+
+function misc.getnames_complete(msg, blocks)
+	local admin, kicked
+	
+	if msg.from.username then
+		admin = misc.getname_link(msg.from.first_name, msg.from.username)
+	else
+		admin = '`'..msg.from.first_name:mEscape()..'`'
+	end
+	
+	if msg.reply then
+		if msg.reply.from.username then
+			kicked = misc.getname_link(msg.reply.from.first_name, msg.reply.from.username)
+		else
+			kicked = '`'..msg.reply.from.first_name:mEscape()..'`'
+		end
+	elseif msg.text:match(config.cmd..'%w%w%w%w?%w?%s(@[%w_]+)%s?') then
+		local username = msg.text:match('%s(@[%w_]+)')
+		kicked = username:mEscape()
+	elseif msg.mention_id then
+		for _, entity in pairs(msg.entities) do
+			if entity.user then
+				kicked = '`'..entity.user.first_name:mEscape()..'`'
+			end
+		end
+	elseif msg.text:match(config.cmd..'%w%w%w%w?%w?%s(%d+)') then
+		local id = msg.text:match(config.cmd..'%w%w%w%w?%w?%s(%d+)')
+		kicked = '`'..id..'`'
+	end
+	
+	return admin, kicked
+end
+
+function misc.get_user_id(msg, blocks)
+	if not msg.reply and not blocks[2] then
+		return false, "Reply to someone"
+	else
+		if msg.reply then
+			return msg.reply.from.id
+		elseif msg.text:match(config.cmd..'%w%w%w%w?%w?%s(@[%w_]+)%s?') then
+			local username = msg.text:match('%s(@[%w_]+)')
+			return misc.res_user_group(username, msg.chat.id)
+		elseif msg.mention_id then
+			return msg.mention_id
+		elseif msg.text:match(config.cmd..'%w%w%w%w?%w?%s(%d+)') then
+			local id = msg.text:match(config.cmd..'%w%w%w%w?%w?%s(%d+)')
+			return id
+		else
+			return false, "I've never seen this user before.\n"
+					.. "If you want to teach me who is he, forward me a message from him"
+		end
+	end
+end
+
+function misc.logEvent(event, msg, blocks, motivation, warns, warnmax, type)
+	local log_id = db:hget('bot:chatlogs', msg.chat.id)
+	
+	if not log_id then return end
+	--if not is_loggable(msg.chat.id, event) then return end
+	
+	local text
+	if event == 'ban' then
+		local admin, banned = misc.getnames_complete(msg, blocks)
+		local admin_id, banned_id = msg.from.id, misc.get_user_id(msg, blocks)
+		if admin and banned and admin_id and banned_id then
+			text = '#BAN\n*Admin*: '..admin..'  #'..admin_id..'\n*User*: '..banned..'  #'..banned_id
+			if motivation then
+				text = text..'\n\n> _'..motivation:mEscape()..'_'
+			end
+		end
+	end
+	if event == 'kick' then
+		local admin, kicked = misc.getnames_complete(msg, blocks)
+		local admin_id, kicked_id = msg.from.id, misc.get_user_id(msg, blocks)
+		if admin and kicked and admin_id and kicked_id then
+			text = '#KICK\n*Admin*: '..admin..'  #'..admin_id..'\n*User*: '..banned..'  #'..banned_id
+			if motivation then
+				text = text..'\n\n> _'..motivation:mEscape()..'_'
+			end
+		end
+	end
+	if event == 'join' then
+		local member = misc.getname_link(msg.added.first_name, msg.added.username) or '`'..msg.added.first_name:mEscape()..'`'
+		text = '#NEW_MEMBER\n'..member.. '  #'..msg.added.id
+	end
+	if event == 'warn' then
+		local admin, warned = misc.getnames_complete(msg, blocks)
+		local admin_id, warned_id = msg.from.id, misc.get_user_id(msg, blocks)
+		if admin and warned and admin_id and warned_id then
+			text = '#WARN ('..warn..'/'..warnmax..') ('..type..')\n*Admin*: '..admin..'  #'..admin_id..']\n*User*: '..banned..'  #'..banned_id..']'
+			if motivation then
+				text = text..'\n\n> _'..motivation:mEscape()..'_'
+			end
+		end
+	end
+	
+	if text then
+		api.sendMessage(log_id, text, true)
 	end
 end
 

@@ -233,7 +233,7 @@ local action = function(msg, blocks)
 		------------------ get user_id --------------------------
 		local user_id = get_user_id(msg, blocks)
 		
-		if roles.is_bot_owner(msg.from.id) and msg.reply and not msg.cb then
+		if roles.is_superadmin(msg.from.id) and msg.reply and not msg.cb then
 			if msg.reply.forward_from then
 				user_id = msg.reply.forward_from.id
 			end

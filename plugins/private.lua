@@ -18,23 +18,10 @@ local action = function(msg, blocks)
     if msg.chat.type ~= 'private' then return end
     
 	if blocks[1] == 'ping' then
-		api.sendMessage(msg.from.id, '*Pong!*', true)
-	end
-	if blocks[1] == 'strings' then
-		if not blocks[2] then
-			local file_id = db:get('trfile:EN')
-			if not file_id then return end
-			api.sendDocumentId(msg.chat.id, file_id, msg.message_id)
-		else
-			local l_code = blocks[2]
-			local exists = misc.is_lang_supported(l_code)
-			if exists then
-				local file_id = db:get('trfile:'..l_code:upper())
-				if not file_id then return end
-				api.sendDocumentId(msg.chat.id, file_id, msg.message_id)
-			else
-				api.sendReply(msg, _("Language not yet supported"), true)
-			end
+		local res = api.sendMessage(msg.from.id, 'Pong!', true)
+		vardump(res)
+		if res then
+			api.editMessageText(msg.chat.id, res.result.message_id, 'Response time: '..(os.clock() - clocktime_last_update))
 		end
 	end
 	if blocks[1] == 'echo' then
@@ -76,16 +63,6 @@ local action = function(msg, blocks)
 				end
 			end
 		end
-	end
-	if blocks[1] == 'resolve' then
-		local id = misc.resolve_user(blocks[2], msg.chat.id)
-		if not id then
-			message = _("I've never seen this user before.\n"
-				.. "If you want to teach me who is he, forward me a message from him")
-		else
-			message = '*'..id..'*'
-		end
-		api.sendMessage(msg.chat.id, message, true)
 	end
 end
 

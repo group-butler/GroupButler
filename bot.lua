@@ -10,7 +10,7 @@ serpent = require('serpent')
 local function check_config()
 	if not config.bot_api_key or config.bot_api_key == '' then
 		return 'Bot token missing. You must set it!'
-	elseif not config.admin.owner or config.admin.owner == '' then
+	elseif not next(config.superadmins) then
 		return 'You have to set the id of the owner'
 	elseif not config.bot_settings.cache_time.adminlist or config.bot_settings.cache_time.adminlist == '' then
 		return 'Please set up a cache time for the adminlist'
@@ -80,30 +80,6 @@ local function get_from(msg)
 	return user
 end
 
-local function get_what(msg)
-	if msg.sticker then
-		return 'sticker'
-	elseif msg.photo then
-		return 'photo'
-	elseif msg.document then
-		return 'document'
-	elseif msg.audio then
-		return 'audio'
-	elseif msg.video then
-		return 'video'
-	elseif msg.voice then
-		return 'voice'
-	elseif msg.contact then
-		return 'contact'
-	elseif msg.location then
-		return 'location'
-	elseif msg.text then
-		return 'text'
-	else
-		return 'service message'
-	end
-end
-
 local function collect_stats(msg)
 	
 	--count the number of messages
@@ -146,22 +122,28 @@ end
 on_msg_receive = function(msg) -- The fn run whenever a message is received.
 	--vardump(msg)
 	if not msg then
-		api.sendAdmin('A loop without msg') return
+		return
 	end
 	
 	if msg.date < os.time() - 7 then return end -- Do not process old messages.
 	if not msg.text then msg.text = msg.caption or '' end
-	
-	msg.normal_group = false
-	if msg.chat.type == 'group' then msg.normal_group = true end
 	
 	--for commands link
 	--[[if msg.text:match('^/start .+') then
 		msg.text = '/' .. msg.text:input()
 	end]]
 	
+	if msg.chat.type == 'group' then
+		api.sendMessage(msg.chat.id, '_I\'m sorry, I work only in supergroups_', true)
+		api.leaveChat(msg.chat.id)
+		misc.remGroup(msg.chat.id, true)
+	end
+	
 	--Group language
 	locale.language = db:get('lang:'..msg.chat.id) or 'en'
+	if not config.available_languages[locale.language] then
+		locale.language = 'en'
+	end
 	
 	collect_stats(msg) --resolve_username support, chat stats
 	
@@ -188,11 +170,11 @@ on_msg_receive = function(msg) -- The fn run whenever a message is received.
 						end
 						
 						--print in the terminal
-						print(clr.reset..clr.blue..'['..os.date('%X')..']'..clr.red..' '..w..clr.reset..' '..get_from(msg)..' -> ['..msg.chat.id..'] ['..msg.chat.type..']')
+						if config.bot_settings.stream_commands then
+							print(clr.reset..clr.blue..'['..os.date('%X')..']'..clr.red..' '..w..clr.reset..' '..get_from(msg)..' -> ['..msg.chat.id..']')
+						end
 						
-						--print the match
 						if blocks[1] ~= '' then
-      						db:hincrby('bot:general', 'query', 1)
       						if msg.from then db:incrby('user:'..msg.from.id..':query', 1) end
       					end
 						
@@ -201,12 +183,10 @@ on_msg_receive = function(msg) -- The fn run whenever a message is received.
 						
 						--if bugs
 						if not success then
-							vardump(msg)
 							print(result)
 							if config.bot_settings.notify_bug then
 								api.sendReply(msg, _("Sorry, a *bug* occurred"), true)
 							end
-							--misc.save_log('errors', result, msg.from.id or false, msg.chat.id or false, msg.text or false)
           					api.sendAdmin('An #error occurred.\n'..result..'\n'..locale.language..'\n'..msg.text)
 							return
 						end
@@ -347,9 +327,9 @@ end
 bot_init() -- Actually start the script. Run the bot_init function.
 
 while is_started do -- Start a loop while the bot should be running.
-	local res = api.getUpdates(last_update+1) -- Get the latest updates!
+	local res = api.getUpdates(last_update+1) -- Get the latest updates
 	if res then
-		--vardump(res)
+		clocktime_last_update = os.clock()
 		for i,msg in ipairs(res.result) do -- Go through every new message.
 			last_update = msg.update_id
 			current_m = current_m + 1

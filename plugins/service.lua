@@ -17,7 +17,7 @@ local function gsub_custom_welcome(msg, custom)
 	if msg.added.username then
 		username = '@'..msg.added.username:mEscape()
 	else
-		username = '(no username)'
+		username = '(@ -)'
 	end
 	custom = custom:gsub('$name', name):gsub('$username', username):gsub('$id', id):gsub('$title', title)
 	return custom
@@ -48,8 +48,13 @@ local action = function(msg, blocks)
 	--if the bot join the chat
 	if blocks[1] == 'botadded' then
 		
-		if db:hget('bot:general', 'adminmode') == 'on' and not roles.is_bot_owner(msg.adder.id) then
+		if db:hget('bot:general', 'adminmode') == 'on' and not roles.is_superadmin(msg.adder.id) then
 			api.sendMessage(msg.chat.id, 'Admin mode is on: only the bot admin can add me to a new group')
+			api.leaveChat(msg.chat.id)
+			return
+		end
+		if msg.chat.type == 'group' then
+			api.sendMessage(msg.chat.id, 'I\'m sorry. I work only in [supergroups](https://telegram.org/faq#q-what-39s-the-difference-between-groups-supergroups-and-channel)', true)
 			api.leaveChat(msg.chat.id)
 			return
 		end
@@ -74,17 +79,6 @@ local action = function(msg, blocks)
 			end
 		end
 		
-		--[[if msg.chat.type == 'supergroup' and db:sismember('chat:'..msg.chat.id..':prevban') then
-			if msg.adder and roles.is_admin_cached(msg) then --if the user is added by a moderator, remove the added user from the prevbans
-				db:srem('chat:'..msg.chat.id..':prevban', msg.added.id)
-			else --if added by a not-mod, ban the user
-				local res = api.banUser(msg.chat.id, msg.added.id, false, msg.ln)
-				if res then
-					api.sendMessage(msg.chat.id, make_text(lang[msg.ln].banhammer.was_banned, msg.added.first_name))
-				end
-			end
-		end]]
-		
 		if msg.added.username then
 			local username = msg.added.username:lower()
 			if username:find('bot', -3) then return end
@@ -101,7 +95,7 @@ local action = function(msg, blocks)
 	if blocks[1] == 'botremoved' then
 		
 		--remove the group settings
-		misc.remGroup(msg.chat.id, true)
+		misc.remGroup(msg.chat.id)
 		
 		--save stats
         db:hincrby('bot:general', 'groups', -1)
