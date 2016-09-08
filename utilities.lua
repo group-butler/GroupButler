@@ -25,12 +25,12 @@ function string:input() -- Returns the string after the first space.
 	return self:sub(self:find(' ')+1)
 end
 
-function string:mEscape() -- Remove the markdown.
+function string:escape() -- Remove the markdown.
 	self = self:gsub('*', '\\*'):gsub('_', '\\_'):gsub('`', '\\`'):gsub('%]', '\\]'):gsub('%[', '\\[')
 	return self
 end
 
-function string:mEscape_hard() -- Remove the markdown.
+function string:escape_hard() -- Remove the markdown.
 	self = self:gsub('*', ''):gsub('_', ''):gsub('`', ''):gsub('%[', ''):gsub('%]', '')
 	return self
 end
@@ -452,7 +452,7 @@ function misc.getAdminlist(chat_id)
 				end
 				name = '['..name..'](https://telegram.me/'..admin.user.username..')'
 			else
-				name = name:mEscape()
+				name = name:escape()
 			end
 			adminlist = adminlist..'*'..count..'* - '..name..'\n'
 			count = count + 1
@@ -464,7 +464,7 @@ function misc.getAdminlist(chat_id)
 				end
 				creator = '['..creator..'](https://telegram.me/'..admin.user.username..')'
 			else
-				creator = creator:mEscape()
+				creator = creator:escape()
 			end
 		end
 	end
@@ -557,28 +557,29 @@ function misc.getSettings(chat_id)
 end
 
 function misc.changeSettingStatus(chat_id, field)
-	local disabled = {
+	local turned_off = {
 		 welcome = _("Welcome message won't be displayed from now"),
 		 extra = _("#extra commands are now available only for moderator"),
 		 flood = _("Anti-flood is now off"),
 		 rules = _("`/rules` will reply in private (for users)"),
+		 antibot = _("Bots won't be kicked if added by an user")
 	}
-	local enabled = {
+	local turned_on = {
 		 welcome = _("Welcome message will be displayed"),
 		 extra = _("#extra commands are now available for all"),
 		 flood = _("Anti-flood is now on"),
 		 rules = _("`/rules` will reply in the group (with everyone)"),
+		 antibot = _("Bots will be kicked if added by an user")
 	}
 
 	local hash = 'chat:'..chat_id..':settings'
-	local field_lower = field:lower()
 	local now = db:hget(hash, field)
 	if now == 'on' then
 		db:hset(hash, field, 'off')
-		return disabled[field:lower()]
+		return turned_off[field:lower()]
 	else
 		db:hset(hash, field, 'on')
-		return enabled[field:lower()]
+		return turned_on[field:lower()]
 	end
 end
 
@@ -691,22 +692,22 @@ function misc.getnames_complete(msg, blocks)
 	if msg.from.username then
 		admin = misc.getname_link(msg.from.first_name, msg.from.username)
 	else
-		admin = '`'..msg.from.first_name:mEscape()..'`'
+		admin = '`'..msg.from.first_name:escape()..'`'
 	end
 	
 	if msg.reply then
 		if msg.reply.from.username then
 			kicked = misc.getname_link(msg.reply.from.first_name, msg.reply.from.username)
 		else
-			kicked = '`'..msg.reply.from.first_name:mEscape()..'`'
+			kicked = '`'..msg.reply.from.first_name:escape()..'`'
 		end
 	elseif msg.text:match(config.cmd..'%w%w%w%w?%w?%s(@[%w_]+)%s?') then
 		local username = msg.text:match('%s(@[%w_]+)')
-		kicked = username:mEscape()
+		kicked = username:escape()
 	elseif msg.mention_id then
 		for _, entity in pairs(msg.entities) do
 			if entity.user then
-				kicked = '`'..entity.user.first_name:mEscape()..'`'
+				kicked = '`'..entity.user.first_name:escape()..'`'
 			end
 		end
 	elseif msg.text:match(config.cmd..'%w%w%w%w?%w?%s(%d+)') then
@@ -738,7 +739,7 @@ function misc.get_user_id(msg, blocks)
 	end
 end
 
-function misc.logEvent(event, msg, blocks, motivation, warns, warnmax, type)
+function misc.logEvent(event, msg, blocks, extra)
 	local log_id = db:hget('bot:chatlogs', msg.chat.id)
 	
 	if not log_id then return end
@@ -750,8 +751,8 @@ function misc.logEvent(event, msg, blocks, motivation, warns, warnmax, type)
 		local admin_id, banned_id = msg.from.id, misc.get_user_id(msg, blocks)
 		if admin and banned and admin_id and banned_id then
 			text = '#BAN\n*Admin*: '..admin..'  #'..admin_id..'\n*User*: '..banned..'  #'..banned_id
-			if motivation then
-				text = text..'\n\n> _'..motivation:mEscape()..'_'
+			if extra.motivation then
+				text = text..'\n\n> _'..extra.motivation:escape()..'_'
 			end
 		end
 	end
@@ -760,23 +761,37 @@ function misc.logEvent(event, msg, blocks, motivation, warns, warnmax, type)
 		local admin_id, kicked_id = msg.from.id, misc.get_user_id(msg, blocks)
 		if admin and kicked and admin_id and kicked_id then
 			text = '#KICK\n*Admin*: '..admin..'  #'..admin_id..'\n*User*: '..banned..'  #'..banned_id
-			if motivation then
-				text = text..'\n\n> _'..motivation:mEscape()..'_'
+			if extra.motivation then
+				text = text..'\n\n> _'..extra.motivation:escape()..'_'
 			end
 		end
 	end
 	if event == 'join' then
-		local member = misc.getname_link(msg.added.first_name, msg.added.username) or '`'..msg.added.first_name:mEscape()..'`'
+		local member = misc.getname_link(msg.added.first_name, msg.added.username) or '`'..msg.added.first_name:escape()..'`'
 		text = '#NEW_MEMBER\n'..member.. '  #'..msg.added.id
 	end
 	if event == 'warn' then
 		local admin, warned = misc.getnames_complete(msg, blocks)
 		local admin_id, warned_id = msg.from.id, misc.get_user_id(msg, blocks)
 		if admin and warned and admin_id and warned_id then
-			text = '#WARN ('..warn..'/'..warnmax..') ('..type..')\n*Admin*: '..admin..'  #'..admin_id..']\n*User*: '..banned..'  #'..banned_id..']'
-			if motivation then
-				text = text..'\n\n> _'..motivation:mEscape()..'_'
+			text = '#WARN ('..extra.warns..'/'..extra.warnmax..') ('..type..')\n*Admin*: '..admin..'  #'..admin_id..']\n*User*: '..banned..'  #'..banned_id..']'
+			if extra.motivation then
+				text = text..'\n\n> _'..extra.motivation:escape()..'_'
 			end
+		end
+	end
+	if event == 'mediawarn' then
+		local name = misc.getname_link(msg.from.first_name, msg.from.username) or '`'..msg.from.first_name:escape()..'`'
+		text = '#MEDIAWARN ('..extra.warns..'/'..extra.warnmax..') '..extra.media..'\n'..name..'  #'..msg.from.id
+		if extra.hammered then
+			text = text..'\n*'..extra.hammered..'*'
+		end
+	end
+	if event == 'flood' then
+		local name = misc.getname_link(msg.from.first_name, msg.from.username) or '`'..msg.from.first_name:escape()..'`'
+		text = '#FLOOD\n'..name..'  #'..msg.from.id
+		if extra.hammered then
+			text = text..'\n*'..extra.hammered..'*'
 		end
 	end
 	

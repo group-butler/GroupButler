@@ -145,12 +145,12 @@ You can set some exceptions for the antiflood:
             elseif blocks[1] == 'raise' then
                 action = 1
             end
-            text = misc.changeFloodSettings(chat_id, action):mEscape_hard()
+            text = misc.changeFloodSettings(chat_id, action):escape_hard()
         end
         
         if blocks[1] == 'status' then
             local status = db:hget('chat:'..chat_id..':settings', 'Flood') or config.chat_settings['settings']['Flood']
-            text = misc.changeSettingStatus(chat_id, 'Flood'):mEscape_hard()
+            text = misc.changeSettingStatus(chat_id, 'Flood'):escape_hard()
         end
         
         keyboard = do_keyboard_flood(chat_id)

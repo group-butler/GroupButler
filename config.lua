@@ -1,6 +1,6 @@
 return {
 	bot_api_key = '',
-	version = '4.0',
+	version = '4.1.1',
 	cmd = '^[/!#]',
 	db = 2, --default redis db: 0
 	superadmins = {23646077, 1},
@@ -19,8 +19,8 @@ return {
 	channel = '@groupbutler_beta', --channel username with the '@'
 	source_code = 'https://github.com/RememberTheAir/GroupButler',
 	help_groups = {
-		['Internatonal (English)'] = false, --'https://telegram.me/joinchat/CHYUej9jFxFN12MQqrLnUg', --group link, not username!
-		['Italian'] = false, --'https://telegram.me/joinchat/CHYUej7oPES-Gdw5hmgAXg',
+		['Internatonal (English)'] = 'https://telegram.me/joinchat/ENgroupbutler', --group link, not username!
+		['Italian'] = 'https://telegram.me/joinchat/ITgroupbutler',
 		['Persian'] = 'https://telegram.me/joinchat/CHYUej8VRwlY9dzoKMERog',
 		['Spanish'] = false
 	},
@@ -82,7 +82,8 @@ return {
 			['Extra'] = 'on',
 			['Flood'] = 'off',
 			['Silent'] = 'off',
-			['Rules'] = 'off'
+			['Rules'] = 'off',
+			['Antibot'] = 'off'
 		},
 		['flood'] = {
 			['MaxFlood'] = 5,
@@ -120,6 +121,14 @@ return {
 			['file'] = 'ok',
 			['link'] = 'ok',
 			['TGlink'] = 'ok'
+		},
+		['tolog'] = {
+			['ban'] = 'yes',
+			['kick'] = 'yes',
+			['warn'] = 'yes',
+			['join'] = 'yes',
+			['mediawarn'] = 'yes',
+			['flood'] = 'yes',
 		},
 	},
 	private_settings = {

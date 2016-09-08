@@ -9,13 +9,13 @@ local function is_locked(chat_id)
 end
 
 local function gsub_custom_welcome(msg, custom)
-	local name = msg.added.first_name:mEscape()
+	local name = msg.added.first_name:escape()
 	local name = name:gsub('%%', '')
 	local id = msg.added.id
 	local username
-	local title = msg.chat.title:mEscape()
+	local title = msg.chat.title:escape()
 	if msg.added.username then
-		username = '@'..msg.added.username:mEscape()
+		username = '@'..msg.added.username:escape()
 	else
 		username = '(@ -)'
 	end
@@ -36,7 +36,7 @@ local function get_welcome(msg)
 	elseif type == 'custom' then
 		return gsub_custom_welcome(msg, content)
 	else
-		return _("Hi %s, and welcome to *%s*!"):format(msg.added.first_name:mEscape_hard(), msg.chat.title:mEscape_hard())
+		return _("Hi %s, and welcome to *%s*!"):format(msg.added.first_name:escape_hard(), msg.chat.title:escape_hard())
 	end
 end
 
@@ -49,17 +49,12 @@ local action = function(msg, blocks)
 	if blocks[1] == 'botadded' then
 		
 		if db:hget('bot:general', 'adminmode') == 'on' and not roles.is_superadmin(msg.adder.id) then
-			api.sendMessage(msg.chat.id, 'Admin mode is on: only the bot admin can add me to a new group')
-			api.leaveChat(msg.chat.id)
-			return
-		end
-		if msg.chat.type == 'group' then
-			api.sendMessage(msg.chat.id, 'I\'m sorry. I work only in [supergroups](https://telegram.org/faq#q-what-39s-the-difference-between-groups-supergroups-and-channel)', true)
+			api.sendMessage(msg.chat.id, '_Admin mode is on: only the bot admin can add me to a new group_', true)
 			api.leaveChat(msg.chat.id)
 			return
 		end
 		if misc.is_blocked_global(msg.adder.id) then
-			api.sendMessage(msg.chat.id, '_You ('..msg.adder.first_name:mEscape()..', '..msg.adder.id..') are in the blocked list_', true)
+			api.sendMessage(msg.chat.id, '_You ('..msg.adder.first_name:escape()..', '..msg.adder.id..') are in the blocked list_', true)
 			api.leaveChat(msg.chat.id)
 			return
 		end
@@ -70,18 +65,15 @@ local action = function(msg, blocks)
 	--if someone join the chat
 	if blocks[1] == 'added' then
 		
-		if msg.chat.type == 'group' and misc.is_banned(msg.chat.id, msg.added.id) then
-			if not roles.is_admin2(msg.chat.id, msg.adder.id) then
-				api.kickChatMember(msg.chat.id, msg.added.id)
-				return
-			else
-				api.unbanUser(msg.chat.id, msg.added.id, true)
-			end
-		end
-		
 		if msg.added.username then
 			local username = msg.added.username:lower()
-			if username:find('bot', -3) then return end
+			if username:find('bot', -3) then
+				local antibot_status = db:hget('chat:'..msg.chat.id..':settings', 'Antibot')
+				if antibot_status and antibot_status == 'on' and msg.from and not roles.is_admin_cached(msg) then
+					api.banUser(msg.chat.id, msg.added.id)
+				end
+				return
+			end
 		end
 		
 		local text = get_welcome(msg)

@@ -82,7 +82,7 @@ local function get_group_name(text)
         return ''
     end
     name = '\n('..name..')'
-    return name:mEscape()
+    return name:escape()
 end
 
 local action = function(msg, blocks)

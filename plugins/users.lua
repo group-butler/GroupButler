@@ -263,7 +263,7 @@ local action = function(msg, blocks)
 		local res, text = api.banUser(msg.chat.id, user_id, msg.normal_group)
 		if res then
 			misc.saveBan(user_id, 'ban')
-			local name = misc.getname_link(msg.from.first_name, msg.from.username) or msg.from.first_name:mEscape()
+			local name = misc.getname_link(msg.from.first_name, msg.from.username) or msg.from.first_name:escape()
 			text = _("_Banned!_\n(Admin: %s)"):format(name)
 		end
 		api.editMessageText(msg.chat.id, msg.message_id, text, false, true)
@@ -276,7 +276,7 @@ local action = function(msg, blocks)
 		db:hdel('chat:'..msg.chat.id..':warns', msg.target_id)
 		db:hdel('chat:'..msg.chat.id..':mediawarn', msg.target_id)
         
-        local name = misc.getname_link(msg.from.first_name, msg.from.username) or msg.from.first_name:mEscape()
+        local name = misc.getname_link(msg.from.first_name, msg.from.username) or msg.from.first_name:escape()
 		local text = _("The number of warns received by this user has been *reset*\n(Admin: %s)")
 		api.editMessageText(msg.chat.id, msg.message_id, text:format(name), false, true)
     end

@@ -14,7 +14,7 @@ local action = function(msg, blocks)
 		if not link then
 			text = _("*No link* for this group. Ask the owner to generate one")
 		else
-			local title = msg.chat.title:mEscape_hard()
+			local title = msg.chat.title:escape_hard()
 			text = string.format('[%s](%s)', title, link)
 		end
 		api.sendReply(msg, text, true)
@@ -47,7 +47,7 @@ local action = function(msg, blocks)
 			text = _("Link *unsetted*")
 		else
 			local succ = db:hset(hash, key, link)
-			local title = msg.chat.title:mEscape_hard()
+			local title = msg.chat.title:escape_hard()
 			local substitution = string.format('[%s](%s)', title, link)
 			if succ == false then
 				text = _("The link has been updated.\n*Here's the new link*: %s"):format(substitution)

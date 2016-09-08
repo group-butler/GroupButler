@@ -234,7 +234,7 @@ local action = function(msg, blocks)
     if blocks[1] == 'start' then
         if msg.chat.type == 'private' then
             db:hincrby('bot:general', 'users', 1)
-            local message = get_helped_string('private'):format(msg.from.first_name:mEscape())
+            local message = get_helped_string('private'):format(msg.from.first_name:escape())
             local keyboard = do_keyboard_private()
             api.sendKeyboard(msg.from.id, message, keyboard, true)
         end

@@ -49,7 +49,7 @@ local function action(msg, blocks)
 		db:hdel('chat:'..msg.chat.id..':mediawarn', user_id)
 		
 		local text = _("The number of warns received by this user has been *reset*\n"
-			.. "`(Admin: %s)`"):format(msg.from.first_name:mEscape())
+			.. "`(Admin: %s)`"):format(msg.from.first_name:escape())
 		api.editMessageText(msg.chat.id, msg.message_id, text, false, true)
 		return
 	end
@@ -69,7 +69,7 @@ local function action(msg, blocks)
 				.. "_Max allowed_ *%d*"):format(tonumber(num), tonumber(nmax))
 		end
 		
-		text = text .. _("\n`(Admin: %s)`"):format(msg.from.first_name:mEscape())
+		text = text .. _("\n`(Admin: %s)`"):format(msg.from.first_name:escape())
 		api.editMessageText(msg.chat.id, msg.message_id, text, false, true)
 		return
 	end
@@ -102,12 +102,12 @@ local function action(msg, blocks)
 			local type = (db:hget('chat:'..msg.chat.id..':warnsettings', 'type')) or 'kick'
 			--try to kick/ban
 			if type == 'ban' then
-				text = _("User %s *banned*: reached the max number of warnings (%d / %d)"):format(name:mEscape(), num , nmax)
+				text = _("User %s *banned*: reached the max number of warnings (%d / %d)"):format(name:escape(), num , nmax)
 				local is_normal_group = false
 	    		if msg.chat.type == 'group' then is_normal_group = true end
 				res, motivation = api.banUser(msg.chat.id, msg.reply.from.id, is_normal_group)
 	    	else --kick
-				text = _("User %s *kicked*: reached the max number of warnings (%d / %d)"):format(name:mEscape(), num , nmax)
+				text = _("User %s *kicked*: reached the max number of warnings (%d / %d)"):format(name:escape(), num , nmax)
 		    	res, motivation = api.kickUser(msg.chat.id, msg.reply.from.id)
 		    end
 		    --if kick/ban fails, send the motivation
@@ -133,7 +133,7 @@ local function action(msg, blocks)
 			local diff = nmax - num
 			text = _("%s *has been warned*.\n"
 				.. "_Number of warnings_ *%d*\n"
-				.. "_Max allowed_ *%d*"):format(name:mEscape(), num, nmax)
+				.. "_Max allowed_ *%d*"):format(name:escape(), num, nmax)
 			local keyboard = doKeyboard_warn(msg.reply.from.id)
 			--if the user is under the max num of warnings, send the inline keyboard
 			api.sendKeyboard(msg.chat.id, text, keyboard, true)

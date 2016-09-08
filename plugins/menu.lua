@@ -115,6 +115,7 @@ local function insert_settings_section(keyboard, settings_section, chat_id)
 		Rules = _("Rules"),
 		Arab = _("Arab"),
 		Rtl = _("RTL"),
+		Antibot = _("Ban bots")
 	}
 
     for key, icon in pairs(settings_section) do
