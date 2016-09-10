@@ -543,7 +543,7 @@ function api.sendAdmin(text, markdown)
 end
 
 function api.sendLog(text, markdown)
-	return api.sendMessage(config.log_chat or config.admin.owner, text, markdown)
+	return api.sendMessage(config.log_chat or config.superadmins, text, markdown)
 end
 
 return api
