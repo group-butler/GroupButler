@@ -68,11 +68,7 @@ function bot_init(on_reload) -- The function run when the bot is started or relo
 end
 
 local function get_from(msg)
-	local user = '['..msg.from.first_name
-	if msg.from.last_name then
-		user = user..' '..msg.from.last_name
-	end
-	user = user..']'
+	local user = '['..msg.from.first_name..']'
 	if msg.from.username then
 		user = user..' [@'..msg.from.username..']'
 	end
@@ -125,79 +121,56 @@ on_msg_receive = function(msg) -- The fn run whenever a message is received.
 		return
 	end
 	
-	if msg.date < os.time() - 7 then return end -- Do not process old messages.
-	if not msg.text then msg.text = msg.caption or '' end
-	
-	--for commands link
-	--[[if msg.text:match('^/start .+') then
-		msg.text = '/' .. msg.text:input()
-	end]]
-	
-	if msg.chat.type == 'group' then
-		api.sendMessage(msg.chat.id, '_I\'m sorry, I work only in supergroups_', true)
-		api.leaveChat(msg.chat.id)
-		misc.remGroup(msg.chat.id, true)
-	end
-	
-	--Group language
-	locale.language = db:get('lang:'..msg.chat.id) or 'en'
-	if not config.available_languages[locale.language] then
-		locale.language = 'en'
-	end
-	
-	collect_stats(msg) --resolve_username support, chat stats
-	
-	local stop_loop
-	for i, plugin in pairs(plugins) do
-		if plugin.on_each_msg then
-			msg, stop_loop = plugin.on_each_msg(msg)
+	if msg.chat.type ~= 'group' then --do not process messages from normal groups
+		
+		if msg.date < os.time() - 7 then return end -- Do not process old messages.
+		if not msg.text then msg.text = msg.caption or '' end
+		
+		--[[if msg.text:match('^/start .+') then
+			msg.text = '/' .. msg.text:input()
+		end]]
+		
+		locale.language = db:get('lang:'..msg.chat.id) or 'en' --group language
+		if not config.available_languages[locale.language] then
+			locale.language = 'en'
 		end
-		if stop_loop then --check if on_each_msg said to stop the triggers loop
-			return
+		
+		collect_stats(msg)
+		
+		local continue
+		for i, plugin in pairs(plugins) do
+			if plugin.onmessage then continue = plugin.onmessage(msg) end
+			if not continue then return end
 		end
-	end
-	
-	for i,plugin in pairs(plugins) do
-		if plugin.triggers then
-			if (config.bot_settings.testing_mode and plugin.test) or not plugin.test then --run test plugins only if test mode is on
+		
+		for i,plugin in pairs(plugins) do
+			if plugin.triggers then
 				for k,w in pairs(plugin.triggers) do
 					local blocks = match_pattern(w, msg.text)
 					if blocks then
 						
-						--workaround for the stupid bug
-						if not(msg.chat.type == 'private') and not db:exists('chat:'..msg.chat.id..':settings') and not msg.service then
+						if msg.chat.type ~= 'private' and not db:exists('chat:'..msg.chat.id..':settings') and not msg.service then --init agroup if the bot wasn't aware to be in
 							misc.initGroup(msg.chat.id)
 						end
 						
-						--print in the terminal
-						if config.bot_settings.stream_commands then
+						if config.bot_settings.stream_commands then --print some info in the terminal
 							print(clr.reset..clr.blue..'['..os.date('%X')..']'..clr.red..' '..w..clr.reset..' '..get_from(msg)..' -> ['..msg.chat.id..']')
 						end
 						
-						if blocks[1] ~= '' then
-      						if msg.from then db:incrby('user:'..msg.from.id..':query', 1) end
-      					end
+						local success, result = xpcall(plugin.action, debug.traceback, msg, blocks) --execute the main function of the plugin triggered
 						
-						--execute the plugin
-						local success, result = xpcall(plugin.action, debug.traceback, msg, blocks)
-						
-						--if bugs
-						if not success then
+						if not success then --if a bug happens
 							print(result)
 							if config.bot_settings.notify_bug then
 								api.sendReply(msg, _("Sorry, a *bug* occurred"), true)
 							end
-          					api.sendAdmin('An #error occurred.\n'..result..'\n'..locale.language..'\n'..msg.text)
+    	      				api.sendAdmin('An #error occurred.\n'..result..'\n'..locale.language..'\n'..msg.text)
 							return
 						end
 						
-						-- If the action returns a table, make that table msg.
-						if type(result) == 'table' then
-							msg = result
-						elseif type(result) == 'string' then
+						if type(result) == 'string' then --if the action returns a string, make that string the new msg.text
 							msg.text = result
-						-- If the action returns true, don't stop.
-						elseif result ~= true then
+						elseif result ~= true then --if the action returns true, then don't stop the loop of the plugin's actions
 							return
 						end
 					end

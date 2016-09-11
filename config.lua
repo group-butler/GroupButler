@@ -1,16 +1,15 @@
 return {
 	bot_api_key = '',
-	version = '4.1.1',
+	version = '4.1.2',
 	cmd = '^[/!#]',
 	db = 2, --default redis db: 0
-	superadmins = {23646077, 1},
+	superadmins = {23646077, 278941742},
 	log_chat = -1001057801239,
 	log_admin = 23646077,
 	bot_settings = {
 		cache_time = {
 			adminlist = 18000, --5 hours (18000s)
 		},
-		testing_mode = true,
 		multipurpose_mode = true,
 		notify_bug = true,
 		log_api_errors = false,
@@ -19,9 +18,10 @@ return {
 	channel = '@groupbutler_beta', --channel username with the '@'
 	source_code = 'https://github.com/RememberTheAir/GroupButler',
 	help_groups = {
-		['Internatonal (English)'] = 'https://telegram.me/joinchat/ENgroupbutler', --group link, not username!
+		['Internatonal (English)'] = 'https://telegram.me/joinchat/EKBQLj7Zf6lE2K_Pk0Epcg', --group link, not username!
 		['Italian'] = 'https://telegram.me/joinchat/ITgroupbutler',
-		['Persian'] = 'https://telegram.me/joinchat/CHYUej8VRwlY9dzoKMERog',
+		['Persian'] = 'https://telegram.me/joinchat/CTDUTkCOsEvtZl09w32-Qg',
+		['Russian'] = 'https://telegram.me/rubutler',
 		['Spanish'] = false
 	},
 	plugins = {

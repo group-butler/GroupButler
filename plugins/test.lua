@@ -2,8 +2,8 @@ local triggers = {
 	'^/test'
 }
 
-local function on_each_msg(msg)
-	return msg
+local function onmessage(msg)
+	return true
 end
 
 local action = function(msg, blocks)
@@ -13,5 +13,5 @@ end
 return {
 	action = action,
 	triggers = triggers,
-	test = true
+	onmessage = false,
 }

@@ -13,6 +13,17 @@ local function do_keybaord_credits()
 	return keyboard
 end
 
+local function doKeyboard_strings()
+	local keyboard = {
+		inline_keyboard = {}
+	}
+	for lang, flag in pairs(config.available_languages) do
+		local line = {{text = flag, callback_data = 'sendpo:'..lang}}
+		table.insert(keyboard.inline_keyboard, line)
+	end
+	return keyboard
+end
+
 local action = function(msg, blocks)
     
     if msg.chat.type ~= 'private' then return end
@@ -64,6 +75,19 @@ local action = function(msg, blocks)
 			end
 		end
 	end
+	if blocks[1] == 'strings' then
+		keyboard = doKeyboard_strings()
+		
+		api.sendKeyboard(msg.chat.id, _("*Choose your language:*"), keyboard, true)
+	end
+	if blocks[1] == 'sendpo' then
+		local lang = blocks[2]
+		local instr_url = 'telegram.me/groupbutler_ch'
+		local path = 'locales/'..lang..'.po'
+		local button = {inline_keyboard = {{{text = _("Instructions"), url = instr_url}}}}
+		api.editMessageText(msg.chat.id, msg.message_id, _("Sending `%s.po` file..."):format(lang), button, true)
+		api.sendDocument(msg.chat.id, path)
+	end
 end
 
 return {
@@ -75,9 +99,9 @@ return {
 		config.cmd..'(echo) (.*)$',
 		config.cmd..'(info)$',
 		config.cmd..'(groups)$',
-		config.cmd..'(resolve) (@[%w_]+)$',
 		
 		'^###cb:fromhelp:(info)$',
-		'^###cb:private:(groups)$'
+		'^###cb:private:(groups)$',
+		'^###cb:(sendpo):(.*)$',
 	}
 }

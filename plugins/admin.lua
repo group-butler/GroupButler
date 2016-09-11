@@ -196,26 +196,13 @@ local action = function(msg, blocks)
 	    end
 	    text = text..'- *last minute msgs*: `'..last_m..'`\n'
 	    
-	    --[[local uptime = misc.bash('uptime')
-	    local ut_d, ut_h = uptime:match('.* up (%d%d) days?, (%d+:%d%d?)')
-	    local la_1, la_2, la_3 = uptime:match('.*(%d%d?%.%d%d), (%d%d?%.%d%d), (%d%d?%.%d%d)')
-	    local n_core = misc.bash('grep processor /proc/cpuinfo | wc -l')
-	    text = text..'\n- *uptime*: `'..ut_d..'d, '..ut_h..'h`\n'..'- *load average* ('..n_core:gsub('\n', '')..'): `'..la_1..', '..la_2..', '..la_3..'`']]
-	    
-	    --other info
-	    if config.channel and config.channel ~= '' then
-	    	local channel_members = api.getChatMembersCount(config.channel).result
-	    	text = text..'- *channel members*: `'..channel_members..'`\n'
-	    end
 	    local usernames = db:hkeys('bot:usernames')
 	    text = text..'- *usernames cache*: `'..#usernames..'`\n'
 	    
 	    --db info
 	    text = text.. '\n*DB stats*\n'
 		local dbinfo = db:info()
-	    text = text..'- *redis version*: `'..dbinfo.server.redis_version..'`\n'
 	    text = text..'- *uptime days*: `'..dbinfo.server.uptime_in_days..'('..dbinfo.server.uptime_in_seconds..' seconds)`\n'
-	    text = text..'- *commands processed*: `'..dbinfo.stats.total_commands_processed..'`\n'
 	    text = text..'- *keyspace*:\n'
 	    for dbase,info in pairs(dbinfo.keyspace) do
 	    	for real,num in pairs(info) do
@@ -225,14 +212,7 @@ local action = function(msg, blocks)
 	    		end
 	    	end
     	end
-    	text = text..'- *expired keys*: `'..dbinfo.stats.expired_keys..'`\n'
     	text = text..'- *ops/sec*: `'..dbinfo.stats.instantaneous_ops_per_sec..'`\n'
-    	if dbinfo.stats.total_net_input_bytes then
-    		text = text..'- *input bytes*: `'..dbinfo.stats.total_net_input_bytes..'`\n'
-    	end
-    	if dbinfo.stats.total_net_output_bytes then
-    		text = text..'- *outputput bytes*: `'..dbinfo.stats.total_net_output_bytes..'`\n'
-    	end
 	    
 		api.sendMessage(msg.chat.id, text, true)
 	end
@@ -394,6 +374,7 @@ local action = function(msg, blocks)
 	end
 	if blocks[1] == 'update' then
 		db:hdel('bot:general', 'ban')
+		db:hdel('bot:general', 'groups')
 		db:hdel('bot:general', 'kick')
 		db:hdel('bot:general', 'query')
 		db:hdel('bot:general', 'users')

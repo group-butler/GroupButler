@@ -25,7 +25,7 @@ function string:input() -- Returns the string after the first space.
 	return self:sub(self:find(' ')+1)
 end
 
-function string:escape() -- Remove the markdown.
+function string:escape()
 	self = self:gsub('*', '\\*'):gsub('_', '\\_'):gsub('`', '\\`'):gsub('%]', '\\]'):gsub('%[', '\\[')
 	return self
 end
@@ -309,34 +309,31 @@ end
 
 function misc.migrate_chat_info(old, new, on_request)
 	if not old or not new then
-		print('A group id is missing')
 		return false
 	end
 	
-	local about = db:get('chat:'..old..':about')
-	if about then
-		db:set('chat:'..new..':about', about)
+	for hash_name, hash_content in pairs(config.chat_settings) do
+		local old_t = db:hgetall('chat:'..old..':'..hash_name)
+		db:hmset('chat:'..new..':'..hash_name, old_t)
 	end
 	
-	local rules = db:get('chat:'..old..':rules')
-	if rules then
-		db:set('chat:'..new..':rules', rules)
-	end
-	
-	for set, default in pairs(config.chat_settings) do
-		local old_t = db:hgetall('chat:'..old..':'..set)
-		for field, val in pairs(old_t) do
-			db:hset('chat:'..new..':'..set, field, val)
-		end
-	end
-	
-	local extra = db:hgetall('chat:'..old..':extra')
-	for trigger, response in pairs(extra) do
-		db:hset('chat:'..new..':extra', trigger, response)
+	for _, hash_name in pairs(config.chat_custom_texts) do
+		local old_t = db:hgetall('chat:'..old..':'..hash_name)
+		db:hmset('chat:'..new..':'..hash_name, old_t)
 	end
 	
 	if on_request then
 		api.sendReply(msg, 'Should be done')
+	end
+end
+
+function misc.to_supergroup(msg)
+	local old = msg.chat.id
+	local new = msg.migrate_to_chat_id
+	local done = misc.migrate_chat_info(old, new, false)
+	if done then
+		misc.remGroup(old, true)
+		api.sendMessage(new, '(_service notification: migration of the group executed_)', true)
 	end
 end
 
@@ -350,6 +347,10 @@ function misc.getname(msg)
     local name = msg.from.first_name
 	if msg.from.username then name = name..' (@'..msg.from.username..')' end
     return name
+end
+
+function misc.getname_final(user)
+	return misc.getname_link(user.first_name, user.username) or '`'..user.first_name:escape()..'`'
 end
 
 function misc.getname_id(msg)
@@ -635,12 +636,7 @@ function misc.changeMediaStatus(chat_id, media, new_status)
 end
 
 function misc.sendStartMe(msg, ln)
-    local keyboard = {}
-    keyboard.inline_keyboard = {
-    	{
-    		{text = _("Start me"), url = 'https://telegram.me/'..bot.username}
-	    }
-    }
+    local keyboard = {inline_keyboard = {{{text = _("Start me"), url = 'https://telegram.me/'..bot.username}}}}
 	api.sendKeyboard(msg.chat.id, _("_Please message me first so I can message you_"), keyboard, true)
 end
 
@@ -659,10 +655,6 @@ function misc.initGroup(chat_id)
 	db:sadd('bot:groupsid', chat_id)
 	--remove the group id from the list of dead groups
 	db:srem('bot:groupsid:removed', chat_id)
-	
-	--save stats
-	hash = 'bot:general'
-    db:hincrby(hash, 'groups', 1)
 end
 
 function misc.remGroup(chat_id, full)
@@ -677,6 +669,7 @@ function misc.remGroup(chat_id, full)
 	
 	db:del('cache:chat:'..chat_id..':admins') --delete the cache
 	db:hdel('bot:logchats', chat_id) --delete the associated log chat
+	db:del('chat:'..chat_id..':pin') --delete the msg id of the (maybe) pinned message
 	
 	if full then
 		for i, set in pairs(config.chat_custom_texts) do
@@ -719,17 +712,24 @@ function misc.getnames_complete(msg, blocks)
 end
 
 function misc.get_user_id(msg, blocks)
+	--if no user id: returns false and the msg id of the translation for the problem
 	if not msg.reply and not blocks[2] then
 		return false, "Reply to someone"
 	else
 		if msg.reply then
 			return msg.reply.from.id
-		elseif msg.text:match(config.cmd..'%w%w%w%w?%w?%s(@[%w_]+)%s?') then
+		elseif msg.text:match(config.cmd..'%w%w%w%w?%w?%w?%s(@[%w_]+)%s?') then
 			local username = msg.text:match('%s(@[%w_]+)')
-			return misc.res_user_group(username, msg.chat.id)
+			local id = misc.res_user_group(username, msg.chat.id)
+			if not id then
+				return false, "I've never seen this user before.\n"
+					.. "If you want to teach me who is he, forward me a message from him"
+			else
+				return id
+			end
 		elseif msg.mention_id then
 			return msg.mention_id
-		elseif msg.text:match(config.cmd..'%w%w%w%w?%w?%s(%d+)') then
+		elseif msg.text:match(config.cmd..'%w%w%w%w?%w?%w?%s(%d+)') then
 			local id = msg.text:match(config.cmd..'%w%w%w%w?%w?%s(%d+)')
 			return id
 		else

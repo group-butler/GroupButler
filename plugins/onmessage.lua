@@ -26,7 +26,7 @@ local function is_blocked(id)
 	end
 end
 
-local pre_process = function(msg)
+local function onmessage(msg)
     
     local msg_type = 'text'
     if msg.media then msg_type = msg.media_type end
@@ -71,7 +71,7 @@ local pre_process = function(msg)
             if msg.cb then
                 api.answerCallbackQuery(msg.cb_id, '‼️ Please don\'t abuse the keyboard, requests will be ignored')
             end
-            return msg, true --if an user is spamming, don't go through plugins
+            return false --if an user is spamming, don't go through plugins
         end
     end
     
@@ -81,7 +81,7 @@ local pre_process = function(msg)
         local media_status = (db:hget(hash, media)) or 'ok'
         local out
         if not(media_status == 'ok') then
-            if roles.is_admin_cached(msg) then return msg end --ignore admins
+            if roles.is_admin_cached(msg) then return true end --ignore admins
             local name = misc.getname_link(msg.from.first_name, msg.from.username) or misc.getname_id(msg):escape()
             local max_reached_var, n, max = max_reached(msg.chat.id, msg.from.id)
     	    if max_reached_var then --max num reached. Kick/ban the user
@@ -160,12 +160,12 @@ local pre_process = function(msg)
     end
     
     if is_blocked(msg.from.id) then --ignore blocked users
-        return msg, true --if an user is blocked, don't go through plugins
+        return false --if an user is blocked, don't go through plugins
     end
     
-    return msg
+    return true
 end
 
 return {
-    on_each_msg = pre_process
+    onmessage = onmessage
 }
