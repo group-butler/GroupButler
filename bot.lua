@@ -331,8 +331,8 @@ while is_started do -- Start a loop while the bot should be running.
 	else
 		print('Connection error')
 	end
-	if last_cron ~= os.date('%M') then -- Run cron jobs every minute.
-		last_cron = os.date('%M')
+	if last_cron ~= os.date('%H') then -- Run cron jobs every hour.
+		last_cron = os.date('%H')
 		last_m = current_m
 		current_m = 0
 		for i,v in ipairs(plugins) do

@@ -17,27 +17,38 @@ local function check_valid_time(temp)
 	temp = tonumber(temp)
 	if temp == 0 then
 		return false, 1
-	elseif temp > 10080 then --1 week
+	elseif temp > 168 then --1 week
 		return false, 2
 	else
 		return temp
 	end
 end
 
-local function get_time_reply(minutes)
+local function get_hours_from_string(input)
+	if input:match('^%d+$') then
+		return tonumber(input)
+	else
+		local days = input:match('(%d)%s?d')
+		local hours = input:match('(%d)%s?h')
+		if not days and not hours then
+			return input:match('(%d+)')
+		else
+			return ((tonumber(days))*24)+(tonumber(hours))
+		end
+	end
+end
+
+local function get_time_reply(hours)
 	local time_string = ''
 	local time_table = {}
-	time_table.days = math.floor(minutes/(60*24))
-	minutes = minutes - (time_table.days*60*24)
-	time_table.hours = math.floor(minutes/60)
-	time_table.minutes = minutes % 60
-	if not(time_table.days == 0) then
+	time_table.days = math.floor(hours/24)
+	time_table.hours = hours - (time_table.days*24)
+	if time_table.days ~= 0 then
 		time_string = time_table.days..'d'
 	end
-	if not(time_table.hours == 0) then
+	if time_table.hours ~= 0 then
 		time_string = time_string..' '..time_table.hours..'h'
 	end
-	time_string = time_string..' '..time_table.minutes..'m'
 	return time_string, time_table
 end
 
@@ -62,17 +73,19 @@ local action = function(msg, blocks)
 					return
 				end
 				local user_id = msg.reply.from.id
-				local temp, code = check_valid_time(blocks[2])
+				local hours = get_hours_from_string(blocks[2])
+				if not hours then return end
+				local temp, code = check_valid_time(hours)
 				if not temp then
 					if code == 1 then
 						api.sendReply(msg, _("For this, you can directly use /ban"))
 					else
-						api.sendReply(msg, _("The time limit is one week (10 080 minutes)"))
+						api.sendReply(msg, _("The time limit is one week (168 hours)"))
 					end
 					return
 				end
 				local val = msg.chat.id..':'..user_id
-				local unban_time = os.time() + (temp * 60)
+				local unban_time = os.time() + (temp * 60 * 60)
 				
 				--try to kick
 				local res, motivation = api.banUser(chat_id, user_id)
@@ -89,12 +102,12 @@ local action = function(msg, blocks)
 					local is_already_tempbanned = db:sismember('chat:'..chat_id..':tempbanned', user_id) --hash needed to check if an user is already tempbanned or not
 					local text
 					if is_already_tempbanned then
-						text = _("Ban time updated for %s. Ban expiration: %s"):format(banned_name, time_reply)
+						text = _("Ban time updated for %s. Ban expiration: %s"):format(kicked, time_reply)
 					else
 						text = _("User %s banned. Ban expiration: %s"):format(kicked, time_reply)
 						db:sadd('chat:'..chat_id..':tempbanned', user_id) --hash needed to check if an user is already tempbanned or not
 					end
-					api.sendMessage(chat_id, text)
+					api.sendMessage(chat_id, text, true)
 				end
 			end
 		 	if blocks[1] == 'kick' then
@@ -153,7 +166,7 @@ return {
 		config.cmd..'(kick)$',
 		config.cmd..'(ban) (.+)',
 		config.cmd..'(ban)$',
-		config.cmd..'(tempban) (%d+)',
+		config.cmd..'(tempban) (.+)',
 		config.cmd..'(unban) (.+)',
 		config.cmd..'(unban)$',
 	}
