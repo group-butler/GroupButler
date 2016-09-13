@@ -126,7 +126,7 @@ You may also start the bot with `lua bot.lua`, but then it will not restart auto
 
 *Everything* is stored on Redis, and the faster way to edit your database is the [Redis command line interface](http://redis.io/topics/rediscli).
 
-You can find a backup of your Redis database under `/etc/redis/dump.rdb`. The name of this file and the frequency of the saves depend on your redis configuration file.
+You can find a backup of your Redis database under `/var/lib/redis/dump.rdb`. The name of this file and the frequency of the saves depend on your redis configuration file.
 
 * * *
 
