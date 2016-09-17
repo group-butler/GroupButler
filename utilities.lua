@@ -315,12 +315,20 @@ function misc.migrate_chat_info(old, new, on_request)
 	
 	for hash_name, hash_content in pairs(config.chat_settings) do
 		local old_t = db:hgetall('chat:'..old..':'..hash_name)
-		--db:hmset('chat:'..new..':'..hash_name, old_t)
+		if next(old_t) then
+			for key, val in pairs(old_t) then
+				db:hset('chat:'..new..':'..hash_name, key, val)
+			end
+		end
 	end
 	
 	for _, hash_name in pairs(config.chat_custom_texts) do
 		local old_t = db:hgetall('chat:'..old..':'..hash_name)
-		--db:hmset('chat:'..new..':'..hash_name, old_t)
+		if next(old_t) then
+			for key, val in pairs(old_t) then
+				db:hset('chat:'..new..':'..hash_name, key, val)
+			end
+		end
 	end
 	
 	if on_request then
