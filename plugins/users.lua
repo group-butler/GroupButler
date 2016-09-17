@@ -319,6 +319,8 @@ local action = function(msg, blocks)
 				    	api.sendMessage(msg.chat.id, _("This text is too long, I can't send it"))
 				    elseif code == 116 then
 				    	api.sendMessage(msg.chat.id, _("The preview pinned message I sent *does no longer exist*. I can't edit it"), true)
+				    elseif code == 111 then
+				    	api.sendMessage(msg.chat.id, _("The text is not modified"), true)
 			    	else
 						api.sendMessage(msg.chat.id, _("This text breaks the markdown.\n"
 							.. "More info about a proper use of markdown "
