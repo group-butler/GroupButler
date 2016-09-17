@@ -76,7 +76,7 @@ msgstr "Scadenza aggiornata per %s. Scadenza ban: %s"
 #: plugins/banhammer.lua:107
 #, fuzzy, lua-format
 msgid "User %s banned. Ban expiration: %s"
-msgstr "L'utente %s è stato bannato. Scadenza del ban:"
+msgstr "L'utente %s è stato bannato. Scadenza del ban: %s"
 
 #: plugins/banhammer.lua:123
 #, fuzzy, lua-format

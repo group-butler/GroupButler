@@ -29,7 +29,7 @@ local function get_hours_from_string(input)
 		return tonumber(input)
 	else
 		local days = input:match('(%d)%s?d')
-		local hours = input:match('(%d)%s?h')
+		local hours = input:match('(%d%d?)%s?h')
 		if not days and not hours then
 			return input:match('(%d+)')
 		else

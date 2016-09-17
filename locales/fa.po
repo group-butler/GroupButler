@@ -85,7 +85,7 @@ msgstr "%s مسدود %s`!"
 #: plugins/banhammer.lua:136
 #, fuzzy, lua-format
 msgid "User unbanned by %s!"
-msgstr "%s مسدود %s`!"
+msgstr ""
 
 #: plugins/configure.lua:4
 msgid "🛠 Menu"
