@@ -420,7 +420,7 @@ local action = function(msg, blocks)
 		api.sendAdmin(msg.chat.id)
 	end
 	if blocks[1] == 'remban' then
-		local user_id = misc.res_user(blocks[2])
+		local user_id = misc.resolve_user(blocks[2])
 		local text
 		if user_id then
 			db:del('ban:'..user_id)
