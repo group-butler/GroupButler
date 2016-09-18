@@ -520,6 +520,7 @@ function misc.getSettings(chat_id)
 		Welcome = _("Welcome message"),
 		Extra = _("Extra"),
 		Flood = _("Anti-flood"),
+		Antibot = _("Ban bots"),
 		Silent = _("Silent mode"),
 		Rules = _("Rules"),
 		Arab = _("Arab"),

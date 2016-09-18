@@ -76,26 +76,47 @@ local function get_from(msg)
 	return user
 end
 
+-- for resolve username
+local function extract_usernames(msg)
+	if msg.from then
+		if msg.from.username then
+			db:hset('bot:usernames', '@'..msg.from.username:lower(), msg.from.id)
+		end
+		db:sadd(string.format('chat:%d:members', msg.chat.id), msg.from.id)
+	end
+	if msg.forward_from and msg.forward_from.username then
+		db:hset('bot:usernames', '@'..msg.forward_from.username:lower(), msg.forward_from.id)
+	end
+	if msg.added then
+		if msg.added.username then
+			db:hset('bot:usernames', '@'..msg.added.username:lower(), msg.added.id)
+		end
+		db:sadd(string.format('chat:%d:members', msg.chat.id), msg.added.id)
+	end
+	if msg.removed then
+		if msg.removed.username then
+			db:hset('bot:usernames', '@'..msg.removed.username:lower(), msg.removed.id)
+		end
+		db:srem(string.format('chat:%d:members', msg.chat.id), msg.removed.id)
+	end
+	if msg.reply then
+		extract_usernames(msg.reply)
+	end
+	if msg.pinned_message then
+		extract_usernames(msg.pinned_message)
+	end
+end
+
 local function collect_stats(msg)
 	
 	--count the number of messages
 	db:hincrby('bot:general', 'messages', 1)
+
+	extract_usernames(msg)
 	
-	--for resolve username
-	if msg.from and msg.from.username then
-		db:hset('bot:usernames', '@'..msg.from.username:lower(), msg.from.id)
-		db:hset('bot:usernames:'..msg.chat.id, '@'..msg.from.username:lower(), msg.from.id)
-	end
-	if msg.forward_from and msg.forward_from.username then
-		db:hset('bot:usernames', '@'..msg.forward_from.username:lower(), msg.forward_from.id)
-		db:hset('bot:usernames:'..msg.chat.id, '@'..msg.forward_from.username:lower(), msg.forward_from.id)
-	end
-	
-	if not(msg.chat.type == 'private') then
-		if msg.from then
-			db:hset('chat:'..msg.chat.id..':userlast', msg.from.id, os.time()) --last message for each user
-			db:hset('bot:chat:latsmsg', msg.chat.id, os.time()) --last message in the group
-		end
+	if msg.chat.type ~= 'private' and msg.from then
+		db:hset('chat:'..msg.chat.id..':userlast', msg.from.id, os.time()) --last message for each user
+		db:hset('bot:chat:latsmsg', msg.chat.id, os.time()) --last message in the group
 	end
 	
 	--user stats
@@ -254,6 +275,9 @@ local function media_to_msg(msg)
 		for i,entity in pairs(msg.entities) do
 			if entity.type == 'text_mention' then
 				msg.mention_id = entity.user.id
+				if entity.user.username then
+					db:hset('bot:usernames', '@'..entity.user.username:lower(), entity.user.id)
+				end
 			end
 			if entity.type == 'url' or entity.type == 'text_link' then
 				if msg.text:match('[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm]%.[Mm][Ee]') then
