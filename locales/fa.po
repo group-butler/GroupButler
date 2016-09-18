@@ -80,7 +80,7 @@ msgstr "%s اخراج %s!"
 #: plugins/banhammer.lua:131
 #, fuzzy, lua-format
 msgid "%s banned %s!"
-msgstr "%s مسدود %s`!"
+msgstr "%s مسدود %s!"
 
 #: plugins/banhammer.lua:136
 #, fuzzy, lua-format
