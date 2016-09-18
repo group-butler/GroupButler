@@ -1,6 +1,6 @@
 return {
 	bot_api_key = '',
-	version = '4.1.4',
+	version = '4.1.5',
 	cmd = '^[/!#]',
 	db = 2, --default redis db: 0
 	superadmins = {23646077, 278941742},

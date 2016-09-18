@@ -34,7 +34,7 @@ local action = function(msg, blocks)
 		else
 	    	local hash = 'chat:'..msg.chat.id..':extra'
 	    	
-	    	local res, code = api.sendReply(msg, blocks[3], true)
+	    	local res, code = api.sendReply(msg, blocks[3]:replaceholders(msg), true)
 	    	if not res then
 	    		if code == 118 then
 					api.sendMessage(msg.chat.id, _("This text is too long, I can't send it"))

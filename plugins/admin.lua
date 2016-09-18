@@ -373,6 +373,7 @@ local action = function(msg, blocks)
 		api.sendReply(msg, 'Not found')
 	end
 	if blocks[1] == 'update' then
+		db:del('bot:chats:latsmsg')
 		db:hdel('bot:general', 'ban')
 		db:hdel('bot:general', 'groups')
 		db:hdel('bot:general', 'kick')

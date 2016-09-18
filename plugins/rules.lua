@@ -8,13 +8,19 @@ local function send_in_group(chat_id)
 end
 
 local action = function(msg, blocks)
-    
-    if msg.chat.type == 'private' then return end
+    vardump(msg)
+    if msg.chat.type == 'private' then
+    	if blocks[1] == 'start' then
+    		msg.chat.id = tonumber(blocks[2])
+    	else
+    		return
+    	end
+    end
     
     local hash = 'chat:'..msg.chat.id..':info'
-    if blocks[1] == 'rules' then
+    if blocks[1] == 'rules' or blocks[1] == 'start' then
         local out = misc.getRules(msg.chat.id)
-    	if not roles.is_admin_cached(msg) and not send_in_group(msg.chat.id) then
+    	if msg.chat.type == 'private' or (not roles.is_admin_cached(msg) and not send_in_group(msg.chat.id)) then
     		api.sendMessage(msg.from.id, out, true)
     	else
         	api.sendReply(msg, out, true)
@@ -23,36 +29,6 @@ local action = function(msg, blocks)
 	
 	if not roles.is_admin_cached(msg) then return end
 	
-	if blocks[1] == 'addrules' then
-		if not blocks[2] then
-			api.sendReply(msg, _("Please write something next this poor `/addabout`"), true)
-			return
-		end
-	    local rules = db:hget(hash, 'rules')
-        --check if rules are empty
-        if not rules then
-            api.sendReply(msg, _("*No rules* for this group.\n"
-				.. "Use `/setrules [rules]` to set them"), true)
-        else
-            local input = blocks[2]
-			if not input then
-				api.sendReply(msg, _("Please write something next this poor `/addabout`"), true)
-				return
-			end
-			
-			--add the new string to the rules
-			local message = _("*Rules added:*\n\n") ..  input
-            local res = api.sendReply(msg, message, true)
-            if not res then
-            	api.sendReply(msg, _("This text breaks the markdown.\n"
-					.. "More info about a proper use of markdown "
-					.. "[here](https://telegram.me/GroupButler_ch/46)."), true)
-            else
-            	rules = rules..'\n'..input
-            	db:hset(hash, 'rules', rules)
-            end
-        end
-    end
 	if blocks[1] == 'setrules' then
 		local input = blocks[2]
 		--ignore if not input text
@@ -92,7 +68,6 @@ return {
 		config.cmd..'(setrules)$',
 		config.cmd..'(setrules) (.*)',
 		config.cmd..'(rules)$',
-		config.cmd..'(addrules)$',
-		config.cmd..'(addrules) (.*)'	
+		'^/(start) (-%d+):rules$'
 	}
 }

@@ -163,6 +163,10 @@ function vtext(value)
   return serpent.block(value, {comment=false})
 end
 
+function misc.deeplink_constructor(chat_id, what)
+	return 'telegram.me/'..bot.username..'?start='..chat_id..':'..what
+end
+
 function misc.clone_table(t) --doing "table1 = table2" in lua = create a pointer to table2
   local new_t = {}
   local i, v = next(t, nil)
@@ -322,12 +326,13 @@ end
 function string:replaceholders(msg) -- Returns the string after the first space.
 	self = self:gsub('$name', msg.from.first_name:escape())
 	if msg.from.username then
-		self = self:gsub('$username', msg.from.username:escape())
+		self = self:gsub('$username', '@'..msg.from.username:escape())
 	else
 		self = self:gsub('$username', '@-')
 	end
 	self = self:gsub('$id', msg.from.id)
 	self = self:gsub('$title', msg.chat.title:escape())
+	self = self:gsub('$rules', misc.deeplink_constructor(msg.chat.id, 'rules'))
 	return self
 end
 

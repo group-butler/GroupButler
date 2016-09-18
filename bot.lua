@@ -116,7 +116,8 @@ local function collect_stats(msg)
 	
 	if msg.chat.type ~= 'private' and msg.from then
 		db:hset('chat:'..msg.chat.id..':userlast', msg.from.id, os.time()) --last message for each user
-		db:hset('bot:chat:latsmsg', msg.chat.id, os.time()) --last message in the group
+		db:hset('bot:chats:latsmsg', msg.chat.id, os.time()) --last message in the group
+		db:hset('chat:'..msg.chat.id..':userlast', msg.from.id, os.time())
 	end
 	
 	--user stats

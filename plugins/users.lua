@@ -196,7 +196,7 @@ local action = function(msg, blocks)
         else
             db:hset(hash, 'type', 'custom')
             db:hset(hash, 'content', input)
-            local res, code = api.sendReply(msg, input, true)
+            local res, code = api.sendReply(msg, input:replaceholders(msg), true)
             if not res then
                 db:hset(hash, 'type', 'no') --if wrong markdown, remove 'custom' again
                 db:hset(hash, 'content', 'no')
