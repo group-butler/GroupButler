@@ -1,6 +1,6 @@
 return {
 	bot_api_key = '',
-	version = '4.1.3',
+	version = '4.1.4',
 	cmd = '^[/!#]',
 	db = 2, --default redis db: 0
 	superadmins = {23646077, 278941742},
@@ -42,7 +42,7 @@ return {
 		'private.lua',
 		'admin.lua',
 		--'restore.lua',
-		--'test.lua',
+		'test.lua',
 		--'logchannel.lua',
 		'extra.lua', --must be the last
 	},
