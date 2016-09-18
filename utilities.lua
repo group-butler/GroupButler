@@ -200,36 +200,19 @@ function misc.get_date(timestamp)
 	return os.date('%d/%m/%y')
 end
 
-function misc.res_user(username)
-	local hash = 'bot:usernames'
-	local stored = db:hget(hash, username)
-	if not stored then
-		return false
-	else
-		return stored
-	end
-end
+-- Resolves username. Returns ID of user if it was early stored in date base.
+-- Argument username must begin with symbol @ (commercial 'at')
+function misc.resolve_user(username)
+	assert(username:byte(1) == string.byte('@'))
 
-function misc.res_user_group(username, chat_id)
-	if not username then return false end
-	username = username:lower()
-	local hash = 'bot:usernames:'..chat_id
-	local stored = db:hget(hash, username)
-	if stored then
-		return stored
-	else
-		hash = 'bot:usernames'
-		stored = db:hget(hash, username)
-		if stored then
-			return stored
-		else
-			return false
-		end
-	end
-end
+	local stored_id = db:hget('bot:usernames', username:lower())
+	if not stored_id then return false end
+	local user_obj = api.getChat(stored_id)
+	if not user_obj then return stored_id end
 
-function misc.is_lang_supported(code)
-	return config.available_languages[code:lower()] ~= nil
+	-- User could change his username. Update it
+	db:hset('bot:usernames', username:lower(), user_obj.result.id)
+	return user_obj.result.id
 end
 
 function misc.write_file(path, text, mode)
@@ -520,6 +503,7 @@ function misc.getSettings(chat_id)
 		Welcome = _("Welcome message"),
 		Extra = _("Extra"),
 		Flood = _("Anti-flood"),
+		Antibot = _("Ban bots"),
 		Silent = _("Silent mode"),
 		Rules = _("Rules"),
 		Arab = _("Arab"),
@@ -741,7 +725,7 @@ function misc.get_user_id(msg, blocks)
 			return msg.reply.from.id
 		elseif msg.text:match(config.cmd..'%w%w%w%w?%w?%w?%s(@[%w_]+)%s?') then
 			local username = msg.text:match('%s(@[%w_]+)')
-			local id = misc.res_user_group(username, msg.chat.id)
+			local id = misc.resolve_user(username)
 			if not id then
 				return false, "I've never seen this user before.\n"
 					.. "If you want to teach me who is he, forward me a message from him"

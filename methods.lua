@@ -103,6 +103,7 @@ function api.kickChatMember(chat_id, user_id)
 		return false, tab.description
 	end
 	
+	db:srem(string.format('chat:%d:members', chat_id), user_id)
 	return tab
 
 end
@@ -207,6 +208,7 @@ function api.leaveChat(chat_id)
 	
 	if res then
 		db:hincrby('bot:general', 'groups', -1)
+		db:srem(string.format('chat:%d:members', chat_id), bot.id)
 	end
 	
 	return res, code

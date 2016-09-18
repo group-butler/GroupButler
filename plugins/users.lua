@@ -41,7 +41,7 @@ local function get_user_id(msg, blocks)
 		return msg.reply.from.id
 	elseif blocks[2] then
 		if blocks[2]:match('@[%w_]+$') then --by username
-			local user_id = misc.res_user_group(blocks[2], msg.chat.id)
+			local user_id = misc.resolve_user(blocks[2])
 			if not user_id then
 				print('username (not found)')
 				return false

@@ -142,7 +142,7 @@ return {
 		d2 = {'bot:groupsid', 'bot:groupsid:removed', 'tempbanned', 'bot:blocked', 'remolden_chats'} --remolden_chats: chat removed with $remold command
 	},
 	api_errors = {
-		[101] = 'Not enough rights to kick participant', --SUPERGROUP: bot is not admin
+		[101] = 'Not enough rights to kick/unban chat member', --SUPERGROUP: bot is not admin
 		[102] = 'USER_ADMIN_INVALID', --SUPERGROUP: trying to kick an admin
 		[103] = 'method is available for supergroup chats only', --NORMAL: trying to unban
 		[104] = 'Only creator of the group can kick administrators from the group', --NORMAL: trying to kick an admin
