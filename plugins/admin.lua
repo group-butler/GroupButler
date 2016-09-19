@@ -196,7 +196,7 @@ local action = function(msg, blocks)
 	    end
 	    text = text..'- *last hour msgs*: `'..last_h..'`\n'
 	    text = text..'- *average msgs/minute*: `'..(last_h/60)..'`\n'
-	    text = text..'- *average msgs/second*: `'..(last_h/60*60)..'`\n'
+	    text = text..'- *average msgs/second*: `'..(last_h/(60*60))..'`\n'
 	    
 	    local usernames = db:hkeys('bot:usernames')
 	    text = text..'- *usernames cache*: `'..#usernames..'`\n'

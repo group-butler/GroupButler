@@ -34,7 +34,7 @@ local function get_welcome(msg)
 		api.sendDocumentId(msg.chat.id, file_id)
 		return false
 	elseif type == 'custom' then
-		return content:misc.replaceholders(msg)
+		return content:replaceholders(msg)
 	else
 		return _("Hi %s, and welcome to *%s*!"):format(msg.added.first_name:escape_hard(), msg.chat.title:escape_hard())
 	end
