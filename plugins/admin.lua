@@ -40,6 +40,7 @@ local triggers2 = {
 	'^%$(cache) (.*)$',
 	'^%$(cacheinit) (.*)$',
 	'^%$(arestore) (.*)?',
+	'^%$(active) (%d)$'
 }
 
 local logtxt = ''
@@ -64,7 +65,6 @@ local function bot_leave(chat_id)
 	if not res then
 		return 'Check the id, it could be wrong'
 	else
-		db:hincrby('bot:general', 'groups', -1)
 		db:srem('bot:groupsid', chat_id)
 		db:sadd('bot:groupsid:removed', chat_id)
 		return 'Chat leaved!'
@@ -194,7 +194,9 @@ local action = function(msg, blocks)
 	    for i=1, #names do
 	        text = text..'- *'..names[i]..'*: `'..num[i]..'`\n'
 	    end
-	    text = text..'- *last minute msgs*: `'..last_m..'`\n'
+	    text = text..'- *last hour msgs*: `'..last_h..'`\n'
+	    text = text..'- *average msgs/minute*: `'..(last_h/60)..'`\n'
+	    text = text..'- *average msgs/second*: `'..(last_h/60*60)..'`\n'
 	    
 	    local usernames = db:hkeys('bot:usernames')
 	    text = text..'- *usernames cache*: `'..#usernames..'`\n'
@@ -373,7 +375,6 @@ local action = function(msg, blocks)
 		api.sendReply(msg, 'Not found')
 	end
 	if blocks[1] == 'update' then
-		db:del('bot:chats:latsmsg')
 		db:hdel('bot:general', 'ban')
 		db:hdel('bot:general', 'groups')
 		db:hdel('bot:general', 'kick')
@@ -517,6 +518,19 @@ local action = function(msg, blocks)
 		local text = rude_restore(chat_id)
 		api.sendMessage(msg.chat.id, text)
 	end
+	if blocks[1] == 'active' then
+		local days = tonumber(blocks[2])
+		local now = os.time()
+		local seconds_per_day = 60*60*24
+		local groups = db:hgetall('bot:chats:latsmsg')
+		local n = 0
+		for chat_id, timestamp in pairs(groups) do
+			if tonumber(timestamp) > (now - (seconds_per_day * days)) then
+				n = n + 1
+			end
+		end
+		api.sendMessage(msg.chat.id, 'Active groups in the last '..days..' days: '..n)
+	end	
 end
 
 return {

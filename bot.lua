@@ -32,8 +32,8 @@ function bot_init(on_reload) -- The function run when the bot is started or relo
 	locale = dofile('languages.lua')
 	api = require('methods')
 	
-	current_m = 0
-	last_m = 0
+	current_h = 0
+	last_h = 0
 	
 	bot = api.getMe().result -- Get bot info
 
@@ -51,7 +51,6 @@ function bot_init(on_reload) -- The function run when the bot is started or relo
 
 	print('\n'..clr.blue..'BOT RUNNING:'..clr.reset, clr.red..'[@'..bot.username .. '] [' .. bot.first_name ..'] ['..bot.id..']'..clr.reset..'\n')
 	if not on_reload then
-		db:hincrby('bot:general', 'starts', 1)
 		api.sendAdmin('*Bot started!*\n_'..os.date('On %A, %d %B %Y\nAt %X')..'_\n'..#plugins..' plugins loaded', true)
 	end
 	
@@ -117,7 +116,6 @@ local function collect_stats(msg)
 	if msg.chat.type ~= 'private' and msg.from then
 		db:hset('chat:'..msg.chat.id..':userlast', msg.from.id, os.time()) --last message for each user
 		db:hset('bot:chats:latsmsg', msg.chat.id, os.time()) --last message in the group
-		db:hset('chat:'..msg.chat.id..':userlast', msg.from.id, os.time())
 	end
 	
 	--user stats
@@ -330,7 +328,7 @@ while is_started do -- Start a loop while the bot should be running.
 		clocktime_last_update = os.clock()
 		for i,msg in ipairs(res.result) do -- Go through every new message.
 			last_update = msg.update_id
-			current_m = current_m + 1
+			current_h = current_h + 1
 			if msg.message  or msg.callback_query --[[or msg.edited_message]]then
 				--[[if msg.edited_message then
 					msg.message = msg.edited_message
@@ -358,8 +356,8 @@ while is_started do -- Start a loop while the bot should be running.
 	end
 	if last_cron ~= os.date('%H') then -- Run cron jobs every hour.
 		last_cron = os.date('%H')
-		last_m = current_m
-		current_m = 0
+		last_h = current_h
+		current_h = 0
 		for i,v in ipairs(plugins) do
 			if v.cron then -- Call each plugin's cron function, if it has one.
 				local res, err = pcall(function() v.cron() end)

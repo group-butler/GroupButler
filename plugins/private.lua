@@ -30,7 +30,6 @@ local action = function(msg, blocks)
     
 	if blocks[1] == 'ping' then
 		local res = api.sendMessage(msg.from.id, 'Pong!', true)
-		vardump(res)
 		if res then
 			api.editMessageText(msg.chat.id, res.result.message_id, 'Response time: '..(os.clock() - clocktime_last_update))
 		end
