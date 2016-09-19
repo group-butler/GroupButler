@@ -34,7 +34,7 @@ local function get_welcome(msg)
 		api.sendDocumentId(msg.chat.id, file_id)
 		return false
 	elseif type == 'custom' then
-		return gsub_custom_welcome(msg, content)
+		return content:misc.replaceholders(msg)
 	else
 		return _("Hi %s, and welcome to *%s*!"):format(msg.added.first_name:escape_hard(), msg.chat.title:escape_hard())
 	end
@@ -85,12 +85,7 @@ local action = function(msg, blocks)
 	
 	--if the bot is removed from the chat
 	if blocks[1] == 'botremoved' then
-		
-		--remove the group settings
 		misc.remGroup(msg.chat.id)
-		
-		--save stats
-        db:hincrby('bot:general', 'groups', -1)
 	end
 	
 	if blocks[1] == 'removed' then

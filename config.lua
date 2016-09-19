@@ -1,6 +1,6 @@
 return {
 	bot_api_key = '',
-	version = '4.1.5',
+	version = '4.1.6',
 	cmd = '^[/!#]',
 	db = 2, --default redis db: 0
 	superadmins = {23646077, 278941742},
@@ -12,14 +12,14 @@ return {
 		},
 		multipurpose_mode = true,
 		notify_bug = true,
-		log_api_errors = false,
+		log_api_errors = true,
 		stream_commands = true,
 	},
 	channel = '@groupbutler_beta', --channel username with the '@'
 	source_code = 'https://github.com/RememberTheAir/GroupButler',
 	help_groups = {
 		['Internatonal (English)'] = 'https://telegram.me/joinchat/EKBQLj7Zf6lE2K_Pk0Epcg', --group link, not username!
-		['Italian'] = 'https://telegram.me/joinchat/ITgroupbutler',
+		['Italian'] = 'https://telegram.me/joinchat/ITAgroupbutler',
 		['Persian'] = 'https://telegram.me/joinchat/CTDUTkCOsEvtZl09w32-Qg',
 		['Russian'] = 'https://telegram.me/rubutler',
 		['Spanish'] = false
@@ -38,11 +38,13 @@ return {
 		'warn.lua',
 		'setlang.lua',
 		'floodmanager.lua',
+		'welcome.lua',
+		'pin.lua',
 		'mediasettings.lua',
 		'private.lua',
 		'admin.lua',
 		--'restore.lua',
-		'test.lua',
+		--'test.lua',
 		--'logchannel.lua',
 		'extra.lua', --must be the last
 	},
@@ -150,7 +152,7 @@ return {
 		[106] = 'USER_NOT_PARTICIPANT', --NORMAL: trying to kick an user that is not in the group
 		[107] = 'CHAT_ADMIN_REQUIRED', --NORMAL: bot is not an admin or everyone is an admin
 		[108] = 'there is no administrators in the private chat', --something asked in a private chat with the api methods 2.1
-
+		[109] = 'Wrong URL host', --hyperlink not valid
 		[110] = 'PEER_ID_INVALID', --user never started the bot
 		[111] = 'message is not modified', --the edit message method hasn't modified the message
 		[112] = 'Can\'t parse message text: Can\'t find end of the entity starting at byte offset %d+', --the markdown is wrong and breaks the delivery
@@ -180,6 +182,8 @@ return {
 		[136] = 'USER_DEACTIVATED', --deleted account, probably
 		[137] = 'Can\'t parse inline keyboard button: Text buttons are unallowed in the inline keyboard',
 		[138] = 'Message was not forwarded',
+		[139] = 'Can\'t parse inline keyboard button: Field \\\"text\\\" must be of type String', --"text" field in a button object is not a string
+		[140] = 'Channel invalid', --/shrug
 		[403] = 'Bot was blocked by the user', --user blocked the bot
 		[429] = 'Too many requests: retry later', --the bot is hitting api limits
 		[430] = 'Too big total timeout', --too many callback_data requests

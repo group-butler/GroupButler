@@ -207,7 +207,6 @@ function api.leaveChat(chat_id)
 	local res, code = sendRequest(url)
 	
 	if res then
-		db:hincrby('bot:general', 'groups', -1)
 		db:srem(string.format('chat:%d:members', chat_id), bot.id)
 	end
 	
@@ -545,7 +544,7 @@ function api.sendAdmin(text, markdown)
 end
 
 function api.sendLog(text, markdown)
-	return api.sendMessage(config.log_chat or config.admin.owner, text, markdown)
+	return api.sendMessage(config.log_chat or config.log_admin, text, markdown)
 end
 
 return api

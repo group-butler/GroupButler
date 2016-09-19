@@ -330,6 +330,11 @@ function string:replaceholders(msg) -- Returns the string after the first space.
 	else
 		self = self:gsub('$username', '@-')
 	end
+	if msg.from.last_name then
+		self = self:gsub('$surname', '@'..msg.from.last_name:escape())
+	else
+		self = self:gsub('$surname', '-')
+	end
 	self = self:gsub('$id', msg.from.id)
 	self = self:gsub('$title', msg.chat.title:escape())
 	self = self:gsub('$rules', misc.deeplink_constructor(msg.chat.id, 'rules'))
