@@ -105,8 +105,8 @@ You may also start the bot with `lua bot.lua`, but then it will not restart auto
     * `log_api_errors`: if `true`, the bot will send in the `log_chat` (`config.lua`) all the relevant errors returned by an api request toward Telegram
     * `stream_commands`: if `true`, when an update triggers a plugin, the match will be printed on the console
   * There are some other useful fields that can be filled in `config.lua`
-    * `log_chat`: if `log_api_errors` is set on `true`, this must be the chat id where the bot will log the errors. If `nil` or empty, they will be sent directly to the bot owner
-    * `log_admin`: this must be the id of the admin that will receive the errors that happen during the execution of the bot
+    * `log.chat`: if `log_api_errors` is set on `true`, this must be the chat id where the bot will log the errors. If `nil` or empty, they will be sent directly to the bot owner
+    * `log.admin`: this must be the id of the admin that will receive the errors that happen during the execution of the bot
     * `channel`: a channel where you can post something through the bot. Must be an username, `@` included. To post something, the bot must be admin of the channel. Use `$post [text]` to post a message
     * `db`: the selected Redis database (if you are running Redis with the default config, the available databases are 16). The database will be selected on each start/reload. Default: 2
   * Other things that may be useful

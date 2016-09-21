@@ -14,12 +14,10 @@ local triggers2 = {
 	'^%$(leave)$',
 	'^%###(forward)',
 	'^%$(adminmode) (%a%a%a?)$',
-	'^%$(usernames)$',
 	'^%$(api errors)$',
 	'^%$(rediscli) (.*)$',
 	'^%$(sendfile) (.*)$',
 	'^%$(download)$',
-	'^%$(migrate) (%d+)%s(%d+)',
 	'^%$(resid) (%d+)$',
 	'^%$(update)$',
 	'^%$(subadmin) (yes)$',
@@ -194,9 +192,14 @@ local action = function(msg, blocks)
 	    for i=1, #names do
 	        text = text..'- *'..names[i]..'*: `'..num[i]..'`\n'
 	    end
-	    text = text..'- *last hour msgs*: `'..last_h..'`\n'
-	    text = text..'- *average msgs/minute*: `'..(last_h/60)..'`\n'
-	    text = text..'- *average msgs/second*: `'..(last_h/(60*60))..'`\n'
+	    text = text..'- *uptime*: `from '..(os.date("%c", start_timestamp))..' (GMT+2)`\n'
+	    text = text..'- *last hour msgs*: `'..last.h..'`\n'
+	    text = text..'   • *average msgs/minute*: `'..(last.h/60)..'`\n'
+	    text = text..'   • *average msgs/second*: `'..(last.h/(60*60))..'`\n'
+	    text = text..'- *last day msgs*: `'..last.h..'`\n'
+	    text = text..'   • *average msgs/hour*: `'..(last.h/24)..'`\n'
+	    text = text..'   • *average msgs/minute*: `'..(last.h/(24*60))..'`\n'
+	    text = text..'   • *average msgs/second*: `'..(last.h/(24*60*60))..'`\n'
 	    
 	    local usernames = db:hkeys('bot:usernames')
 	    text = text..'- *usernames cache*: `'..#usernames..'`\n'
@@ -295,14 +298,6 @@ local action = function(msg, blocks)
 			api.sendMessage(msg.from.id, 'Admin mode: *'..status..'*', true)
 		end
 	end
-	if blocks[1] == 'usernames' then
-		local usernames = db:hkeys('bot:usernames')
-		local file = io.open("./logs/usernames.txt", "w")
-		file:write(vtext(usernames):gsub('"', ''))
-        file:close()
-        api.sendDocument(msg.from.id, './logs/usernames.txt')
-        api.sendMessage(msg.chat.id, 'Instruction processed. Total number of usernames: '..#usernames)
-    end
     if blocks[1] == 'api errors' then
     	local errors = db:hkeys('bot:errors')
     	local times = db:hvals('bot:errors')
@@ -357,11 +352,6 @@ local action = function(msg, blocks)
 			end
 			api.sendMessage(msg.chat.id, text)
 		end
-	end
-	if blocks[1] == 'migrate' then
-		local old = '-'..blocks[2]
-		local new = '-'..blocks[3]
-		misc.migrate_chat_info(old, new, true)
 	end
 	if blocks[1] == 'resid' then
 		local user_id = blocks[2]
@@ -530,7 +520,26 @@ local action = function(msg, blocks)
 			end
 		end
 		api.sendMessage(msg.chat.id, 'Active groups in the last '..days..' days: '..n)
-	end	
+	end
+	if blocks[1] == 'bigupdate' then
+		--do not use this command. It is made to update the db of @groupbutler_bot
+		--not finished yet
+		db:hdel('bot:general', 'ban')
+		db:hdel('bot:general', 'groups')
+		db:hdel('bot:general', 'kick')
+		db:hdel('bot:general', 'query')
+		db:hdel('bot:general', 'users')
+		local groups = db:smembers('bot:groupsid')
+		for chat_id in pairs(groups) do
+			db:del('chat:'..chat_id..':banned')
+			db:del('chat:'..chat_id..':settings')
+			local about = db:hget('chat:'..chat_id..':about')
+			if about then
+				db:hset('chat:'..chat_id..':extra', '#about', about)
+				db:hdel('chat:'..chat_id..':about')
+			end
+		end
+	end
 end
 
 return {

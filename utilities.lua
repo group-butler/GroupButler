@@ -324,6 +324,12 @@ function misc.migrate_chat_info(old, new, on_request)
 end
 
 function string:replaceholders(msg) -- Returns the string after the first space.
+	if msg.added then
+		msg.from = msg.added
+	end
+	
+	msg.from.first_name = msg.from.first_name:gsub('%%', '')
+	
 	self = self:gsub('$name', msg.from.first_name:escape())
 	if msg.from.username then
 		self = self:gsub('$username', '@'..msg.from.username:escape())

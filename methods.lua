@@ -540,11 +540,11 @@ function api.sendVoice(chat_id, voice, reply_to_message_id)
 end
 
 function api.sendAdmin(text, markdown)
-	return api.sendMessage(config.log_admin, text, markdown)
+	return api.sendMessage(config.log.admin, text, markdown)
 end
 
 function api.sendLog(text, markdown)
-	return api.sendMessage(config.log_chat or config.log_admin, text, markdown)
+	return api.sendMessage(config.log.chat or config.log.admin, text, markdown)
 end
 
 return api

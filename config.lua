@@ -1,11 +1,14 @@
 return {
 	bot_api_key = '',
-	version = '4.1.6',
+	version = '4.1.7',
 	cmd = '^[/!#]',
 	db = 2, --default redis db: 0
 	superadmins = {23646077, 278941742},
-	log_chat = -1001057801239,
-	log_admin = 23646077,
+	log = {
+		chat = -1001057801239,
+		admin = 23646077,
+		stats = nil
+	},
 	bot_settings = {
 		cache_time = {
 			adminlist = 18000, --5 hours (18000s)

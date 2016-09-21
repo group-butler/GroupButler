@@ -8,7 +8,6 @@ local function send_in_group(chat_id)
 end
 
 local action = function(msg, blocks)
-    vardump(msg)
     if msg.chat.type == 'private' then
     	if blocks[1] == 'start' then
     		msg.chat.id = tonumber(blocks[2])

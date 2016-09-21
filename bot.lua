@@ -32,8 +32,8 @@ function bot_init(on_reload) -- The function run when the bot is started or relo
 	locale = dofile('languages.lua')
 	api = require('methods')
 	
-	current_h = 0
-	last_h = 0
+	current = {h = 0, d = 0}
+	last = {h = 0, d = 0}
 	
 	bot = api.getMe().result -- Get bot info
 
@@ -52,6 +52,7 @@ function bot_init(on_reload) -- The function run when the bot is started or relo
 	print('\n'..clr.blue..'BOT RUNNING:'..clr.reset, clr.red..'[@'..bot.username .. '] [' .. bot.first_name ..'] ['..bot.id..']'..clr.reset..'\n')
 	if not on_reload then
 		api.sendAdmin('*Bot started!*\n_'..os.date('On %A, %d %B %Y\nAt %X')..'_\n'..#plugins..' plugins loaded', true)
+		start_timestamp = os.time()
 	end
 	
 	-- Generate a random seed and "pop" the first random number. :)
@@ -328,7 +329,8 @@ while is_started do -- Start a loop while the bot should be running.
 		clocktime_last_update = os.clock()
 		for i,msg in ipairs(res.result) do -- Go through every new message.
 			last_update = msg.update_id
-			current_h = current_h + 1
+			current.h = current.h + 1
+			current.d = current.d + 1
 			if msg.message  or msg.callback_query --[[or msg.edited_message]]then
 				--[[if msg.edited_message then
 					msg.message = msg.edited_message
@@ -356,8 +358,8 @@ while is_started do -- Start a loop while the bot should be running.
 	end
 	if last_cron ~= os.date('%H') then -- Run cron jobs every hour.
 		last_cron = os.date('%H')
-		last_h = current_h
-		current_h = 0
+		last.h = current.h
+		current.h = 0
 		for i,v in ipairs(plugins) do
 			if v.cron then -- Call each plugin's cron function, if it has one.
 				local res, err = pcall(function() v.cron() end)
@@ -366,6 +368,10 @@ while is_started do -- Start a loop while the bot should be running.
 					return
 				end
 			end
+		end
+		if last_cron ~= os.date('%d') then
+			last.d = current.d
+			current.d = 0
 		end
 	end
 end
