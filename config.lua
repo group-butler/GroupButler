@@ -23,7 +23,7 @@ return {
 	help_groups = {
 		['Internatonal (English)'] = 'https://telegram.me/joinchat/EKBQLj7Zf6lE2K_Pk0Epcg', --group link, not username!
 		['Italian'] = 'https://telegram.me/joinchat/ITAgroupbutler',
-		['Persian'] = 'https://telegram.me/joinchat/CTDUTkCOsEvtZl09w32-Qg',
+		['Persian'] = 'https://telegram.me/joinchat/CTDUTkCOsEt4DZT-SUQdBQ',
 		['Russian'] = 'https://telegram.me/rubutler',
 		['Spanish'] = false
 	},
