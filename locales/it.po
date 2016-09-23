@@ -1008,7 +1008,7 @@ msgid ""
 "*Here's the link*: %s"
 msgstr ""
 "Il link è stato impostato.\n"
-"*Ecco il link*: [%s](%s)"
+"*Ecco il link*: %s"
 
 #: plugins/logchannel.lua:10
 msgid "_Too many requests. Retry later_"

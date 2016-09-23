@@ -935,7 +935,7 @@ msgid ""
 "*Here's the link*: %s"
 msgstr ""
 "Länken har sats.\n"
-"*Här är länken*: [%s](%s)"
+"*Här är länken*: %s"
 
 #: plugins/logchannel.lua:10
 msgid "_Too many requests. Retry later_"

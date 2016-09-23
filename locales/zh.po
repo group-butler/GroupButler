@@ -913,7 +913,7 @@ msgid ""
 "*Here's the link*: %s"
 msgstr ""
 "已儲存連結。\n"
-"這就是連結︰[%s](%s)"
+"這就是連結︰%s"
 
 #: plugins/logchannel.lua:10
 msgid "_Too many requests. Retry later_"

@@ -936,7 +936,7 @@ msgstr "تم تحديث الرابط، وهو الآن: [%s](%s)"
 msgid ""
 "The link has been setted.\n"
 "*Here's the link*: %s"
-msgstr "تم تحديد الرابط، إنه الآن: [%s](%s)"
+msgstr "تم تحديد الرابط، إنه الآن: %s"
 
 #: plugins/logchannel.lua:10
 msgid "_Too many requests. Retry later_"

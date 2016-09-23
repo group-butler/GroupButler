@@ -919,7 +919,7 @@ msgid ""
 "*Here's the link*: %s"
 msgstr ""
 "لینک گروه ذخیره شد.\n"
-"*لینک ذخیره شده*: [%s](%s)"
+"*لینک ذخیره شده*: %s"
 
 #: plugins/logchannel.lua:10
 msgid "_Too many requests. Retry later_"

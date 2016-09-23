@@ -976,7 +976,7 @@ msgid ""
 "*Here's the new link*: %s"
 msgstr ""
 "O link foi atualizado.\n"
-"*Aqui está o novo link*: [%s](%s)"
+"*Aqui está o novo link*: %s"
 
 #: plugins/links.lua:55
 #, fuzzy, lua-format

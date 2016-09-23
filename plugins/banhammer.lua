@@ -31,6 +31,7 @@ local function get_hours_from_string(input)
 		local days = input:match('(%d)%s?d')
 		if not days then days = 0 end
 		local hours = input:match('(%d%d?)%s?h')
+		if not hours then hours = 0 end
 		if not days and not hours then
 			return input:match('(%d+)')
 		else
