@@ -1,15 +1,3 @@
-local function do_keybaord_credits()
-	local keyboard = {}
-    keyboard.inline_keyboard = {
-    	{
-    		{text = _("Channel"), url = 'https://telegram.me/'..config.channel:gsub('@', '')},
-    		{text = _("GitHub"), url = 'https://github.com/RememberTheAir/GroupButler'},
-    		{text = _("Rate me!"), url = 'https://telegram.me/storebot?start='..bot.username},
-		}
-	}
-	return keyboard
-end
-
 local function do_keyboard_cache(chat_id)
 	local keyboard = {inline_keyboard = {{{text = _("🔄️ Refresh cache"), callback_data = 'cc:rel:'..chat_id}}}}
 	return keyboard
