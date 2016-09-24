@@ -219,7 +219,7 @@ msgstr "تنظیمات رسانه"
 
 #: plugins/dashboard.lua:98
 msgid "Navigate this message to see *all the info* about this group!"
-msgstr ""
+msgstr "روی کلیدها بزنید تا تمام اطلاعات گروه را ببینید"
 
 #: plugins/dashboard.lua:101
 #, fuzzy
@@ -262,7 +262,7 @@ msgstr ""
 #: plugins/extra.lua:32
 #, lua-format
 msgid "This media has been saved as response to %s"
-msgstr ""
+msgstr "این رسانه برای پاسخ %s ذخیره شد."
 
 #: plugins/extra.lua:40 plugins/private.lua:42 plugins/rules.lua:74
 #: plugins/users.lua:204 plugins/users.lua:298 plugins/users.lua:319
@@ -357,18 +357,18 @@ msgstr ""
 msgid ""
 "`%s` is not a valid value!\n"
 "The value should be *higher* than `3` and *lower* then `26`"
-msgstr ""
+msgstr "عدد انتخابی باید بیشتر از 3 و کمتر از 26 باشد"
 
 #: plugins/floodmanager.lua:98
 #, lua-format
 msgid "The max number of messages is already %d"
-msgstr ""
+msgstr "تعداد حداکثر پیام مجاز قبلا %d بوده است."
 
 #: plugins/floodmanager.lua:101
 #, lua-format
 msgid ""
 "The *max number* of messages (in *5 seconds*) changed _from_  %d _to_  %d"
-msgstr ""
+msgstr "تعداد حداکثر پیام ها (در 5 ثانیه) از %d به %d تغییر کرد."
 
 #: plugins/floodmanager.lua:118
 #, fuzzy
@@ -412,7 +412,21 @@ msgid ""
 "I work better if you add me to the group administrators (otherwise I won't "
 "be able to kick or ban)!\n"
 msgstr ""
-
+"سلام %s 👋, از دیدنت خوشحالم\n"
+"من Group Butler اولین ربات مدیریت گروه API هستم.\n"
+"\n"
+"من میتوانید کارهای خارق العاده زیادی بکنم، اینجا لیست کوتاهی را میبینید:\n"
+"• من میتوانم kick یا ban کنم حتی در گروه های معمولی\n"
+"• شما میتوانید از من برای ذخیره قوانین و توضییحات استفاده کنید\n"
+"• من یک سیستم ضد اسپم دارم\n"
+"• من میتوانم پیام خوشامد بگم با متن انتخابی شما و یا اگر شما بخواهید با"
+"گیف یا استیکر\n"
+"• من میتوانم به کاربران  اخطار دهم، و میتوانم آنها را در گروه برای گرفتن حداکثر تعداد اخطار مسدود یا اخراج کنم\n"
+"• و همچنین میتوانم برای ارسال رسانه های ممنوع به آنها اخطار دهم یا اخراج و مسدود کنم\n"
+" و کار های خیلی بیشتر...، در زیر شما میتوانید all comands را ببینید."
+"لیست!\n"
+"\n"
+" من وقتی که داخل گروه مدیر باشم علمکرده بهتری دارم و اگر مدیر نباشم نمیتوانم اخراج یا مسدود کنم\n"
 #: plugins/help.lua:19
 #, fuzzy
 msgid ""
@@ -438,7 +452,7 @@ msgstr ""
 "/id` : گرفتن آیدی گروه یا گرفتن آیدی کاربر اگر ریپلای کنید\n"
 "/echo [text]` : نشانه دار کردن متن در پیام خصوصی\n"
 "/info` : نمایش برخی اطلاعات مربوط به ربات\n"
-"/groups` : get the list of the discussion groups\n"
+"/groups` : گرفتن لیست گروهای پشتیبانی\n"
 "/help` : نمایش این پیام"
 
 #: plugins/help.lua:32
@@ -750,28 +764,28 @@ msgstr ""
 
 #: plugins/help.lua:163
 msgid "Banhammer"
-msgstr ""
+msgstr "مدیریت کاربران"
 
 #: plugins/help.lua:164
 msgid "Group info"
-msgstr ""
+msgstr "اطلاعات گروه"
 
 #: plugins/help.lua:165
 msgid "Flood manager"
-msgstr ""
+msgstr "مدیریت ضد اسپم"
 
 #: plugins/help.lua:167
 msgid "Welcome settings"
-msgstr ""
+msgstr "پیام خوش آمد"
 
 #: plugins/help.lua:168
 msgid "General settings"
-msgstr ""
+msgstr "تنظیمات اصلی"
 
 #: plugins/help.lua:170
 #, fuzzy
 msgid "Warns"
-msgstr "`اخطارها`: "
+msgstr "اخطارها"
 
 #: plugins/help.lua:171
 msgid "Characters strictness"
@@ -779,19 +793,19 @@ msgstr ""
 
 #: plugins/help.lua:172 plugins/mediasettings.lua:20
 msgid "Links"
-msgstr ""
+msgstr "لینک ها"
 
 #: plugins/help.lua:173
 msgid "Languages"
-msgstr ""
+msgstr "زبان ها"
 
 #: plugins/help.lua:199
 msgid "🔰 User commands"
-msgstr ""
+msgstr "🔰 دستورهای کاربر"
 
 #: plugins/help.lua:201
 msgid "🔰 Admin commands"
-msgstr ""
+msgstr "🔰 دستورهای مدیر"
 
 #: plugins/help.lua:203
 msgid "Info"
@@ -799,19 +813,19 @@ msgstr ""
 
 #: plugins/help.lua:212
 msgid "👥 Add me to a group"
-msgstr ""
+msgstr "👥 وارد کردن ربات به گروه"
 
 #: plugins/help.lua:213
 msgid "📢 Bot channel"
-msgstr ""
+msgstr "📢 کانال ربات"
 
 #: plugins/help.lua:216
 msgid "📕 All the commands"
-msgstr ""
+msgstr "📕 تمام دستورات"
 
 #: plugins/help.lua:226 utilities.lua:639
 msgid "Start me"
-msgstr ""
+msgstr "منو استارت کن"
 
 #: plugins/help.lua:249
 #, fuzzy
