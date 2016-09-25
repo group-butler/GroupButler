@@ -155,6 +155,37 @@ function save_data(filename, data) -- Saves a table to a JSON file.
 
 end
 
+
+function user_msg_gbanned(msg)
+local var = false
+  for v,users in pairs(gbans.gbans) do
+    if msg.from.id == users then
+      var = true
+      if msg.from.username then
+      	print("User globally banned ("..msg.from.id..")", msg.from.first_name.."(@"..msg.from.username..")")
+      else
+      	print("User globally banned ("..msg.from.id..")", msg.from.first_name)
+      end
+    end
+  end
+  return var
+end
+
+function user_added_gbanned(msg)
+local var = false
+  for v,users in pairs(gbans.gbans) do
+     if msg.added.id == users then
+     var = true
+     if msg.added.username then
+      	print("User globally banned ("..msg.added.id..")", msg.added.first_name.."(@"..msg.added.username..")")
+      else
+      	print("User globally banned ("..msg.added.id..")", msg.added.first_name)
+      end
+     end
+  end
+  return var
+end
+
 function vardump(value)
   print(serpent.block(value, {comment=false}))
 end
