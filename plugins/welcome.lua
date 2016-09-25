@@ -100,6 +100,6 @@ return {
     triggers = {
         config.cmd..'(welcome) (.*)$',
 		config.cmd..'(welcome)$',
-		'^###added'
+		'^###(added)'
 	}
 }
