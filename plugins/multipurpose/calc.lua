@@ -11,8 +11,8 @@ local action = function(msg, blocks)
  		if blocks[2] then
  			local expression = expr(blocks[2])
  			api.sendReply(msg, 'Result: *'..expression..'*', true)
-    else
-      api.sendReply(msg, 'calc what?', true)
+    		else
+      			api.sendReply(msg, 'calc what?', true)
  		end
  	end
 end
