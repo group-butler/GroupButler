@@ -35,6 +35,14 @@ local function get_time_remaining(seconds)
 	return final
 end
 
+local function expr(a)
+		local result = "expr "..a
+		local final_result = result:gsub('+', ' + '):gsub('*', ' \\* '):gsub('/', ' / '):gsub('-', ' - ')
+		local action = io.popen(final_result)
+		local read = action:read("*a")
+		return read
+end
+
 local function get_user_id(msg, blocks)
 	if msg.reply then
 		print('reply')
@@ -164,6 +172,14 @@ local action = function(msg, blocks)
  		end
  		api.sendReply(msg, '`'..id..'`', true)
  	end
+	
+ 	if blocks[1] == 'calc' then
+ 		if blocks[2] then
+			local expression = expr(blocks[2])
+			api.sendReply(msg, 'Result: *'..expression..'*', true)
+		end
+ 	end
+	
 	if blocks[1] == 'user' then
 		if msg.chat.type == 'private' or not roles.is_admin_cached(msg) then return end
 		
@@ -272,7 +288,7 @@ return {
 		config.cmd..'(status)$',
 		config.cmd..'(cache)$',
 		config.cmd..'(msglink)$',
-		
+		config.cmd..'(calc) (.+)$',
 		config.cmd..'(user)$',
 		config.cmd..'(user) (.*)',
 		
