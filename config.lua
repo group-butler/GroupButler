@@ -1,6 +1,6 @@
 return {
 	bot_api_key = '',
-	version = '4.1.7',
+	version = '4.1.8',
 	cmd = '^[/!#]',
 	db = 2, --default redis db: 0
 	superadmins = {23646077, 278941742},
@@ -13,10 +13,11 @@ return {
 		cache_time = {
 			adminlist = 18000, --5 hours (18000s)
 		},
-		multipurpose_mode = true,
+		multipurpose_mode = false,
 		notify_bug = true,
 		log_api_errors = true,
 		stream_commands = true,
+		admin_mode = false
 	},
 	channel = '@groupbutler_beta', --channel username with the '@'
 	source_code = 'https://github.com/RememberTheAir/GroupButler',
@@ -53,7 +54,8 @@ return {
 	},
 	multipurpose_plugins = {
 		'commit.lua',
-		'eightball.lua'
+		'eightball.lua',
+		'patterns.lua'
 	},
 	available_languages = {
 		['en'] = 'English 🇬🇧',

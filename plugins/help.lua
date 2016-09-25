@@ -5,8 +5,8 @@ Hello *%s* 👋🏼, nice to meet you!
 I'm Group Butler, the first administration bot using the official Bot API.
 
 *I can do a lot of cool stuffs*, here's a short list:
-• I can *kick or ban* users (even in normal groups) by reply / username
-• You can use me to set the group rules and a description
+• I can *kick or ban* users
+• You can use me to set the group rules
 • I have a flexible *anti-flood* system
 • I can *welcome new users* with a customizable message, or if you want with a gif or a sticker
 • I can *warn* users, and ban them when they reach the maximum number of warnings
@@ -17,10 +17,9 @@ I work better if you add me to the group administrators (otherwise I won't be ab
 ]])
 	elseif key == 'all' then
 		return _([[
-*Commands for all*:
+*Commands for everyone*:
 `/dashboard` : see all the group info from private
 `/rules` : show the group rules (via pm)
-`/about` : show the group description (via pm)
 `/adminlist` : show the moderators of the group (via pm)
 `/kickme` : get kicked by the bot
 `/echo [text]` : the bot will send the text back (with markdown, available only in private for non-admin users)
@@ -30,40 +29,43 @@ I work better if you add me to the group administrators (otherwise I won't be ab
 ]])
 	elseif key == 'mods_info' then
 		return _([[
-*Moderators: info about the group*
+*Admins: info about the group*
 
 `/setrules [group rules]` = set the new regulation for the group (the old will be overwritten).
 `/setrules -` = delete the current rules.
-`/addrules [text]` = add some text at the end of the existing rules.
-`/setabout [group description]` = set a new description for the group (the old will be overwritten).
-`/setabout -` = delete the current description.
-`/addabout [text]` = add some text at the end of the existing description."
 
 *Note*: the markdown is supported. If the text sent breaks the markdown, the bot will notify that something is wrong.
 For a correct use of the markdown, check [this post](https://telegram.me/GroupButler_ch/46) in the channel
+
+`/setlink [link|-]`: set the group link, so it can be re-called by other admins, or unset it.
+If you are going to use it in a public supergroup, you do not need to write the group link. Just write `/setlink`
+`/link`: get the group link, if already set.
+`/msglink`: get the link to a message. Works only in public supergroups
+
+*Note*: the bot can recognize valid group links. If a link is not valid, you won't receive a reply.
 ]])
 	elseif key == 'mods_banhammer' then
 		return _([[
-*Moderators: banhammer powers*
+*Admins: banhammer powers*
 
-`/kick [by reply|username]` = kick a user from the group (he can be added again).
-`/ban [by reply|username]` = ban a user from the group (also from normal groups).
-`/tempban [minutes]` = ban an user for a specific amount of minutes (minutes must be < 10.080, one week). For now, only by reply.
-`/unban [by reply|username]` = unban the user from the group.
-`/user [by reply|username|text mention|id]` = shows how many times the user has been banned *in all the groups*, and the warns received.
+`/kick [by reply|username|id|text mention]` = kick a user from the group (he can be added again).
+`/ban [by reply|username|id|text mention]` = ban a user from the group (also from normal groups).
+`/tempban [hours|nd nh]` = ban an user for a specific amount of minutes (max: one week). For now, only by reply. Short form: `/tempban 1d 7h`
+`/unban [by reply|username|id|text mention]` = unban the user from the group.
+`/user [by reply|username|id|text mention]` = shows how many times the user has been banned *in all the groups*, and the warns received.
 `/status [username|id]` = show the current status of the user `(member|kicked/left the chat|banned|admin/creator|never seen)`
 ]])
 	elseif key == 'mods_flood' then
 		return _([[
-*Moderators: flood settings*
+*Admins: flood settings*
 
-`/antiflood` = manage the flood settings in private, with an inline keyboard. You can change the sensitivity, the action (kick/ban), and even set some exceptions.
+`/config` command, then `antiflood` button: manage the flood settings in private, with an inline keyboard. You can change the sensitivity, the action (kick/ban), and even set some exceptions.
 `/antiflood [number]` = set how many messages a user can write in 5 seconds.
 _Note_ : the number must be higher than 3 and lower than 26.
 ]])
 	elseif key == 'mods_media' then
 		return _([[
-*Moderators: media settings*
+*Admins: media settings*
 
 `/config` command, then `media` button = receive via private message an inline keyboard to change all the media settings.
 `/warnmax media [number]` = set the max number of warnings before be kicked/banned for have sent a forbidden media.
@@ -73,21 +75,27 @@ _Note_ : the number must be higher than 3 and lower than 26.
 ]])
 	elseif key == 'mods_welcome' then
 		return _([[
-*Moderators: welcome settings*
+*Admins: welcome settings*
 
 `/menu` = receive in private the menu keyboard. You will find an option to enable/disable welcome and goodbye messages.
 
 *Custom welcome message*:
 `/welcome Welcome $name, enjoy the group!`
 Write after `/welcome` your welcome message. You can use some placeholders to include the name/username/id of the new member of the group
-Placeholders: _$username_ (will be replaced with the username); _$name_ (will be replaced with the name); _$id_ (will be replaced with the id); _$title_ (will be replaced with the group title).
+Placeholders:
+`$username`: _will be replaced with the username_
+`$name`: _will be replaced with the name_
+`$id`: _will be replaced with the id_
+`$title`: _will be replaced with the group title_
+`$surname`: _will be replaced by the user's last name_
+`$rules`: _will be replaced by a link to the rules of the group. Please read_ [here](https://telegram.me/GroupButler_beta/26) _how to use it, or you will get an error for sure_
 
 *GIF/sticker as welcome message*
-You can use a particular gif/sticker as welcome message. To set it, reply to a gif/sticker with `/welcome`
+You can use a particular gif/sticker as welcome message. To set it, reply to the gif/sticker you want to set as welcome message with `/welcome`
 ]])
 	elseif key == 'mods_extra' then
 		return _([[
-*Moderators: extra commands*
+*Admins: extra commands*
 
 `/extra [#trigger] [reply]` = set a reply to be sent when someone writes the trigger.
 _Example_ : with "`/extra #hello Good morning!`", the bot will reply "Good morning!" each time someone writes #hello.
@@ -96,13 +104,15 @@ You can reply to a media (_photo, file, vocal, video, gif, audio_) with `/extra 
 `/extra del [#trigger]` = delete the trigger and its message.
 
 *Note:* the markdown is supported. If the text sent breaks the markdown, the bot will notify that something is wrong.
-For a correct use of the markdown, check [this post](https://telegram.me/GroupButler_ch/46) in the channel
+For a correct use of the markdown, check [this post](https://telegram.me/GroupButler_ch/46) in the channel.
+Now supports placeholders. Check the "welcome" tab for the list of the available placeholders
 ]])
 	elseif key == 'mods_warns' then
 		return _([[
-*Moderators: warns*
+*Admins: warns*
 
 `/warn [by reply]` = warn a user. Once the max number is reached, he will be kicked/banned.
+`/nowarns [by reply]` = reset the warns received by an user (both normal and media warns).
 `/warnmax [number]` = set the max number of the warns before the kick/ban.
 `/warnmax media [number]` = set the max number of the warns before kick/ban when an unallowed media is sent.
 
@@ -112,7 +122,7 @@ How to change the max. number of warnings allowed for media: `/config` command, 
 ]])
 	elseif key == 'mods_chars' then
 		return _([[
-*Moderators: special characters*
+*Admins: special characters*
 
 `/config` command, then `menu` button = you will receive in private the menu keyboard.
 Here you will find two particular options: _Arab and RTL_.
@@ -121,27 +131,29 @@ Here you will find two particular options: _Arab and RTL_.
 *Rtl*: it stands for 'Righ To Left' character, and it's the responsible of the weird service messages that are written in the opposite sense.
 When Rtl is not allowed (🚫), everyone that writes this character (or that has it in his name) will be kicked.
 ]])
-	elseif key == 'mods_links' then
+	elseif key == 'mods_pin' then
 		return _([[
-*Moderators: links*
+*Admins: pin*
 
-`/setlink [link|-]` : set the group link, so it can be re-called by other admins, or unset it.
-`/link` = get the group link, if already setted by the owner.
+`/pin [text]`: the bot will send you back the text you used as argument, with markdown. You can pin the messahe and use `/editpin [new text]` to edit it
+`/editpin [new text]`: edit the previously generated message. Useful if you often need to make small/big changes to the pinned message but you don't like to send a wall of text that can't be deleted because you have to pin it
+`/pin`: the bot will find the latest message generate by `/pin [text]`, if it still exists
 
-*Note*: the bot can recognize valid group links. If a link is not valid, you won't receive a reply.
+*Note*: `/pin` and `/editpin` support markdown and `$rules` placeholder
 ]])
 	elseif key == 'mods_langs' then
 		return _([[
-*Moderators: group language*"
+*Admins: group language*"
 `/lang` = choose the group language (can be changed in private too).
 
 *Note*: translators are volunteers, so I can't ensure the correctness of all the translations. And I can't force them to translate the new strings after each update (not translated strings are in english).
 
 Anyway, translations are open to everyone. If you want to translate the bot, see an [information](https://github.com/RememberTheAir/GroupButler#translators) on GitHub.
+You can use `/strings` command to get the `.po` file of your language, and translate it
 ]])
 	elseif key == 'mods_settings' then
 		return _([[
-*Moderators: group settings*
+*Admins: group settings*
 
 `/config` = manage the group settings in private with a comfortable inline keyboard.
 The inline keyboard has three sub-menus:
@@ -169,12 +181,11 @@ local function make_keyboard(mod, mod_current_position)
 	        [_("Extra commands")] = 'extra',
 	        [_("Warns")] = 'warns',
 	        [_("Characters strictness")] = 'char',
-	        [_("Links")] = 'links',
+	        [_("Links")] = 'pin',
 	        [_("Languages")] = 'lang'
         }
         local line = {}
         for k,v in pairs(list) do
-            --if mod_current_position ~= v:gsub('!', '') then --(to remove the current tab button)
             if next(line) then
                 local button = {text = '📍'..k, callback_data = v}
                 --change emoji if it's the current position button
@@ -188,7 +199,6 @@ local function make_keyboard(mod, mod_current_position)
                 if mod_current_position == v:gsub('!', '') then button.text = '💡 '..k end
                 table.insert(line, button)
             end
-            --end --(to remove the current tab button)
         end
         if next(line) then --if the numer of buttons is odd, then add the last button alone
             table.insert(keyboard.inline_keyboard, line)
@@ -275,8 +285,8 @@ local action = function(msg, blocks)
         	text = get_helped_string('mods_warns')
         elseif query == 'char' then
         	text = get_helped_string('mods_chars')
-        elseif query == 'links' then
-        	text = get_helped_string('mods_links')
+        elseif query == 'pin' then
+        	text = get_helped_string('mods_pin')
         elseif query == 'lang' then
         	text = get_helped_string('mods_langs')
         elseif query == 'settings' then
@@ -287,27 +297,27 @@ local action = function(msg, blocks)
         if not res and code and code == 111 then
             api.answerCallbackQuery(msg.cb_id, _("❗️ Already on this tab"))
 		elseif query == 'info' then
-			api.answerCallbackQuery(msg.cb_id, _("💡 Moderators: info about the group"))
+			api.answerCallbackQuery(msg.cb_id, _("💡 Admins:info about the group"))
 		elseif query == 'banhammer' then
-			api.answerCallbackQuery(msg.cb_id, _("💡 Moderators: banhammer powers"))
+			api.answerCallbackQuery(msg.cb_id, _("💡 Admins: banhammer powers"))
 		elseif query == 'flood' then
-			api.answerCallbackQuery(msg.cb_id, _("💡 Moderators: flood settings"))
+			api.answerCallbackQuery(msg.cb_id, _("💡 Admins: flood settings"))
 		elseif query == 'media' then
-			api.answerCallbackQuery(msg.cb_id, _("💡 Moderators: media settings"))
+			api.answerCallbackQuery(msg.cb_id, _("💡 Admins: media settings"))
 		elseif query == 'links' then
-			api.answerCallbackQuery(msg.cb_id, _("💡 Moderators: links"))
+			api.answerCallbackQuery(msg.cb_id, _("💡 Admins: links"))
 		elseif query == 'lang' then
-			api.answerCallbackQuery(msg.cb_id, _("💡 Moderators: group language"))
+			api.answerCallbackQuery(msg.cb_id, _("💡 Admins: group language"))
 		elseif query == 'welcome' then
-			api.answerCallbackQuery(msg.cb_id, _("💡 Moderators: welcome settings"))
+			api.answerCallbackQuery(msg.cb_id, _("💡 Admins: welcome settings"))
 		elseif query == 'extra' then
-			api.answerCallbackQuery(msg.cb_id, _("💡 Moderators: extra commands"))
+			api.answerCallbackQuery(msg.cb_id, _("💡 Admins: extra commands"))
 		elseif query == 'warns' then
-			api.answerCallbackQuery(msg.cb_id, _("💡 Moderators: warns"))
+			api.answerCallbackQuery(msg.cb_id, _("💡 Admins: warns"))
 		elseif query == 'char' then
-			api.answerCallbackQuery(msg.cb_id, _("💡 Moderators: special characters"))
+			api.answerCallbackQuery(msg.cb_id, _("💡 Admins: special characters"))
 		elseif query == 'settings' then
-			api.answerCallbackQuery(msg.cb_id, _("💡 Moderators: group settings"))
+			api.answerCallbackQuery(msg.cb_id, _("💡 Admins: group settings"))
         end
     end
 end
@@ -324,7 +334,7 @@ return {
 	    '^###cb:(banhammer)$',
 	    '^###cb:(flood)$',
 	    '^###cb:(media)$',
-	    '^###cb:(links)$',
+	    '^###cb:(pin)$',
 	    '^###cb:(lang)$',
 	    '^###cb:(welcome)$',
 	    '^###cb:(extra)$',

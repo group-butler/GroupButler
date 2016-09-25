@@ -13,7 +13,6 @@ local triggers2 = {
 	'^%$(leave) (-%d+)$',
 	'^%$(leave)$',
 	'^%###(forward)',
-	'^%$(adminmode) (%a%a%a?)$',
 	'^%$(api errors)$',
 	'^%$(rediscli) (.*)$',
 	'^%$(sendfile) (.*)$',
@@ -284,20 +283,6 @@ local action = function(msg, blocks)
 		end
 		return msg.text:gsub('###forward:', '')
 	end
-	if blocks[1] == 'adminmode' then
-		if blocks[2]:match('^(on)$') and blocks[2]:match('^(off)$') then
-			api.sendMessage(msg.from.id, 'Available status: on/off')
-			return
-		end
-		local status = blocks[2]
-		local current = db:hget('bot:general', 'adminmode')
-		if current == status then
-			api.sendMessage(msg.from.id, 'Admin mode *already '..status..'*', true)
-		else
-			db:hset('bot:general', 'adminmode', status)
-			api.sendMessage(msg.from.id, 'Admin mode: *'..status..'*', true)
-		end
-	end
     if blocks[1] == 'api errors' then
     	local errors = db:hkeys('bot:errors')
     	local times = db:hvals('bot:errors')
@@ -365,6 +350,7 @@ local action = function(msg, blocks)
 		api.sendReply(msg, 'Not found')
 	end
 	if blocks[1] == 'update' then
+		db:hdel('bot:general', 'adminmode')
 		db:hdel('bot:general', 'ban')
 		db:hdel('bot:general', 'groups')
 		db:hdel('bot:general', 'kick')
@@ -520,25 +506,6 @@ local action = function(msg, blocks)
 			end
 		end
 		api.sendMessage(msg.chat.id, 'Active groups in the last '..days..' days: '..n)
-	end
-	if blocks[1] == 'bigupdate' then
-		--do not use this command. It is made to update the db of @groupbutler_bot
-		--not finished yet
-		db:hdel('bot:general', 'ban')
-		db:hdel('bot:general', 'groups')
-		db:hdel('bot:general', 'kick')
-		db:hdel('bot:general', 'query')
-		db:hdel('bot:general', 'users')
-		local groups = db:smembers('bot:groupsid')
-		for chat_id in pairs(groups) do
-			db:del('chat:'..chat_id..':banned')
-			db:del('chat:'..chat_id..':settings')
-			local about = db:hget('chat:'..chat_id..':about')
-			if about then
-				db:hset('chat:'..chat_id..':extra', '#about', about)
-				db:hdel('chat:'..chat_id..':about')
-			end
-		end
 	end
 end
 

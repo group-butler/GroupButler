@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GroupButler 4.0\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
-"POT-Creation-Date: 2016-09-12 00:52+0200\n"
+"POT-Creation-Date: 2016-09-25 16:52+0200\n"
 "PO-Revision-Date: 2016-08-29 18:11+0300\n"
 "Last-Translator: Nicholas Guriev <guriev-ns@ya.ru>\n"
 "Language-Team: Swedish\n"
@@ -17,71 +17,71 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: bot.lua:165
+#: bot.lua:186
 msgid "Sorry, a *bug* occurred"
 msgstr ""
 
-#: methods.lua:113
+#: methods.lua:114
 #, fuzzy
 msgid "I'm not an admin, I can't kick people"
 msgstr "Jag är inte admin, så jag kan inte kicka någon"
 
-#: methods.lua:115
+#: methods.lua:116
 #, fuzzy
 msgid "I can't kick or ban an admin"
 msgstr "Jag kan inte kicka eller banna en admin"
 
-#: methods.lua:117
+#: methods.lua:118
 #, fuzzy
 msgid "There is no need to unban in a normal group"
 msgstr "Unban behövs bara i supergrupper"
 
-#: methods.lua:119
+#: methods.lua:120
 #, fuzzy
 msgid "This user is not a chat member"
 msgstr "Den användaren är inte med här i gruppen"
 
-#: plugins/banhammer.lua:61
+#: plugins/banhammer.lua:74
 #, fuzzy
 msgid "Reply to someone"
 msgstr "Skicka som svar till någon"
 
-#: plugins/banhammer.lua:68
+#: plugins/banhammer.lua:83
 msgid "For this, you can directly use /ban"
 msgstr ""
 
-#: plugins/banhammer.lua:70
-msgid "The time limit is one week (10 080 minutes)"
+#: plugins/banhammer.lua:85
+msgid "The time limit is one week (168 hours)"
 msgstr ""
 
-#: plugins/banhammer.lua:81 plugins/banhammer.lua:104
-#: plugins/banhammer.lua:117 plugins/warn.lua:116
+#: plugins/banhammer.lua:96 plugins/banhammer.lua:119
+#: plugins/banhammer.lua:132 plugins/warn.lua:101
 msgid ""
 "I can't kick this user.\n"
 "Probably I'm not an Amdin, or the user is an Admin iself"
 msgstr ""
 
-#: plugins/banhammer.lua:92
+#: plugins/banhammer.lua:107
 #, lua-format
 msgid "Ban time updated for %s. Ban expiration: %s"
 msgstr ""
 
-#: plugins/banhammer.lua:94
+#: plugins/banhammer.lua:109
 #, lua-format
 msgid "User %s banned. Ban expiration: %s"
 msgstr ""
 
-#: plugins/banhammer.lua:110
+#: plugins/banhammer.lua:125
 #, fuzzy, lua-format
 msgid "%s kicked %s!"
 msgstr "%s kicked %s! (men kan komma tillbaka)"
 
-#: plugins/banhammer.lua:131
+#: plugins/banhammer.lua:146
 #, fuzzy, lua-format
 msgid "%s banned %s!"
 msgstr "%s är inte bannad längre by %s!"
 
-#: plugins/banhammer.lua:136
+#: plugins/banhammer.lua:151
 #, fuzzy, lua-format
 msgid "User unbanned by %s!"
 msgstr "%s är inte bannad längre by %s!"
@@ -107,12 +107,12 @@ msgstr ""
 msgid "_I've sent you the keyboard in private_"
 msgstr "_Jag har skickat dig meddelandet privat_"
 
-#: plugins/dashboard.lua:6 utilities.lua:545
+#: plugins/dashboard.lua:6 utilities.lua:566
 #, fuzzy
 msgid "*Welcome type*: `default message`\n"
 msgstr "*Välkomsttyp*: `custom message`\n"
 
-#: plugins/dashboard.lua:8 utilities.lua:541
+#: plugins/dashboard.lua:8 utilities.lua:562
 #, fuzzy
 msgid "*Welcome type*: `GIF / sticker`\n"
 msgstr "*Välkomsttyp*: `gif/sticker`\n"
@@ -188,7 +188,7 @@ msgstr "Anti-flood settings"
 msgid "Admins"
 msgstr ""
 
-#: plugins/dashboard.lua:63 plugins/menu.lua:115 utilities.lua:503
+#: plugins/dashboard.lua:63 plugins/menu.lua:115 utilities.lua:524
 #, fuzzy
 msgid "Rules"
 msgstr ""
@@ -204,12 +204,12 @@ msgstr ""
 "\n"
 "*Beskrivning*:\n"
 
-#: plugins/dashboard.lua:67 plugins/menu.lua:111 utilities.lua:499
+#: plugins/dashboard.lua:67 plugins/menu.lua:111 utilities.lua:519
 #, fuzzy
 msgid "Welcome message"
 msgstr "Välkomstmeddelande"
 
-#: plugins/dashboard.lua:68 plugins/help.lua:169
+#: plugins/dashboard.lua:68 plugins/help.lua:181
 #, fuzzy
 msgid "Extra commands"
 msgstr "Inga anpassade kommandon!"
@@ -219,7 +219,7 @@ msgstr "Inga anpassade kommandon!"
 msgid "Flood settings"
 msgstr "Anti-flood settings"
 
-#: plugins/dashboard.lua:72 plugins/help.lua:166
+#: plugins/dashboard.lua:72 plugins/help.lua:178
 #, fuzzy
 msgid "Media settings"
 msgstr "Anti-flood settings"
@@ -267,14 +267,13 @@ msgstr ""
 msgid "This media has been saved as response to %s"
 msgstr ""
 
-#: plugins/extra.lua:40 plugins/private.lua:42 plugins/rules.lua:74
-#: plugins/users.lua:204 plugins/users.lua:298 plugins/users.lua:319
+#: plugins/extra.lua:40 plugins/pin.lua:14 plugins/pin.lua:35
+#: plugins/private.lua:41 plugins/rules.lua:49 plugins/welcome.lua:64
 msgid "This text is too long, I can't send it"
 msgstr ""
 
-#: plugins/extra.lua:42 plugins/private.lua:44 plugins/rules.lua:47
-#: plugins/rules.lua:76 plugins/users.lua:206 plugins/users.lua:300
-#: plugins/users.lua:323
+#: plugins/extra.lua:42 plugins/pin.lua:16 plugins/pin.lua:41
+#: plugins/private.lua:43 plugins/rules.lua:51 plugins/welcome.lua:66
 #, fuzzy
 msgid ""
 "This text breaks the markdown.\n"
@@ -295,7 +294,7 @@ msgstr "Inga anpassade kommandon!"
 msgid "No commands set"
 msgstr "Inga anpassade kommandon!"
 
-#: plugins/extra.lua:65 utilities.lua:487
+#: plugins/extra.lua:65 utilities.lua:507
 #, fuzzy
 msgid "List of *custom commands*:\n"
 msgstr ""
@@ -404,8 +403,8 @@ msgid ""
 "I'm Group Butler, the first administration bot using the official Bot API.\n"
 "\n"
 "*I can do a lot of cool stuffs*, here's a short list:\n"
-"• I can *kick or ban* users (even in normal groups) by reply / username\n"
-"• You can use me to set the group rules and a description\n"
+"• I can *kick or ban* users\n"
+"• You can use me to set the group rules\n"
 "• I have a flexible *anti-flood* system\n"
 "• I can *welcome new users* with a customizable message, or if you want with "
 "a gif or a sticker\n"
@@ -423,10 +422,9 @@ msgstr ""
 #, fuzzy
 msgid ""
 "\n"
-"*Commands for all*:\n"
+"*Commands for everyone*:\n"
 "`/dashboard` : see all the group info from private\n"
 "`/rules` : show the group rules (via pm)\n"
-"`/about` : show the group description (via pm)\n"
 "`/adminlist` : show the moderators of the group (via pm)\n"
 "`/kickme` : get kicked by the bot\n"
 "`/echo [text]` : the bot will send the text back (with markdown, available "
@@ -450,103 +448,70 @@ msgstr ""
 "Om du gillar den här botten, lämna gärna den röst du tycker botten förtjänar "
 "[här](https://telegram.me/storebot?start=groupbutler_bot)"
 
-#: plugins/help.lua:32
-#, fuzzy
+#: plugins/help.lua:31
 msgid ""
 "\n"
-"*Moderators: info about the group*\n"
+"*Admins: info about the group*\n"
 "\n"
 "`/setrules [group rules]` = set the new regulation for the group (the old "
 "will be overwritten).\n"
 "`/setrules -` = delete the current rules.\n"
-"`/addrules [text]` = add some text at the end of the existing rules.\n"
-"`/setabout [group description]` = set a new description for the group (the "
-"old will be overwritten).\n"
-"`/setabout -` = delete the current description.\n"
-"`/addabout [text]` = add some text at the end of the existing description."
-"\"\n"
 "\n"
 "*Note*: the markdown is supported. If the text sent breaks the markdown, the "
 "bot will notify that something is wrong.\n"
 "For a correct use of the markdown, check [this post](https://telegram.me/"
 "GroupButler_ch/46) in the channel\n"
+"\n"
+"`/setlink [link|-]`: set the group link, so it can be re-called by other "
+"admins, or unset it.\n"
+"If you are going to use it in a public supergroup, you do not need to write "
+"the group link. Just write `/setlink`\n"
+"`/link`: get the group link, if already set.\n"
+"`/msglink`: get the link to a message. Works only in public supergroups\n"
+"\n"
+"*Note*: the bot can recognize valid group links. If a link is not valid, you "
+"won't receive a reply.\n"
 msgstr ""
-"*Moderatorer: gruppinformation*\n"
-"\n"
-"`/setrules [gruppregler]` = sätter nya regler för gruppen (och skriver över "
-"tidigare regler).\n"
-"`/setrules -` = delete the current rules.\n"
-"`/addrules [text]` = Lägger till text i slutet av nuvarande regler.\n"
-"`/setabout [gruppbeskrivning]` = sätter en ny beskrivning av gruppen (och "
-"skriver över föregående).\n"
-"`/setabout -` = delete the current description.\n"
-"`/addabout [text]` = Lägger till text i slutet av nuvarande beskrivning.\n"
-"\n"
-"*Obs!* Man kan använda markdown-formatering. Om det inte är korrekt "
-"markdown, så får du ett meddelande om det.\n"
-"Hur man skriver korrekt markdown kan de se [här](https://telegram.me/"
-"GroupButler_ch/46) i kanalen"
 
-#: plugins/help.lua:46
+#: plugins/help.lua:48
 #, fuzzy
 msgid ""
 "\n"
-"*Moderators: banhammer powers*\n"
+"*Admins: banhammer powers*\n"
 "\n"
-"`/kick [by reply|username]` = kick a user from the group (he can be added "
-"again).\n"
-"`/ban [by reply|username]` = ban a user from the group (also from normal "
-"groups).\n"
-"`/tempban [minutes]` = ban an user for a specific amount of minutes (minutes "
-"must be < 10.080, one week). For now, only by reply.\n"
-"`/unban [by reply|username]` = unban the user from the group.\n"
-"`/user [by reply|username|text mention|id]` = shows how many times the user "
+"`/kick [by reply|username|id|text mention]` = kick a user from the group (he "
+"can be added again).\n"
+"`/ban [by reply|username|id|text mention]` = ban a user from the group (also "
+"from normal groups).\n"
+"`/tempban [hours|nd nh]` = ban an user for a specific amount of minutes "
+"(max: one week). For now, only by reply. Short form: `/tempban 1d 7h`\n"
+"`/unban [by reply|username|id|text mention]` = unban the user from the "
+"group.\n"
+"`/user [by reply|username|id|text mention]` = shows how many times the user "
 "has been banned *in all the groups*, and the warns received.\n"
 "`/status [username|id]` = show the current status of the user `(member|"
 "kicked/left the chat|banned|admin/creator|never seen)`\n"
 msgstr ""
-"*Moderatorer: kicka/banna*\n"
-"\n"
-"`/kick [meddelandesvar|användarnamn]` = kicka ut en användare (hen kan "
-"läggas till igen).\n"
-"`/ban [meddelandesvar|användarnamn]` = banna en användare (även från vanliga "
-"grupper).\n"
-"`/unban [meddelandesvar|användarnamn]` = avbanna en användare.\n"
-"`/tempban [minutes]` = ban an user for a specific amount of minutes (minutes "
-"must be < 10.080, one week). For now, only by reply.\n"
-"`/unban [by reply|username]` = unban the user from the group.\n"
-"`/user [by reply|username|text mention|id]` = shows how many times the user "
-"has been banned *in all the groups*, and the warns received.\n"
-"`/status [username|id]` = show the current status of the user `(member|"
-"kicked/left the chat|banned|admin/creator|never seen)`.\n"
 
-#: plugins/help.lua:57
+#: plugins/help.lua:59
 #, fuzzy
 msgid ""
 "\n"
-"*Moderators: flood settings*\n"
+"*Admins: flood settings*\n"
 "\n"
-"`/antiflood` = manage the flood settings in private, with an inline "
-"keyboard. You can change the sensitivity, the action (kick/ban), and even "
-"set some exceptions.\n"
+"`/config` command, then `antiflood` button: manage the flood settings in "
+"private, with an inline keyboard. You can change the sensitivity, the action "
+"(kick/ban), and even set some exceptions.\n"
 "`/antiflood [number]` = set how many messages a user can write in 5 "
 "seconds.\n"
 "_Note_ : the number must be higher than 3 and lower than 26.\n"
 msgstr ""
-"*Moderatorer: flood-inställningar*\n"
-"\n"
-"`/antiflood` = manage the flood settings in private, with an inline "
-"keyboard. You can change the sensitivity, the action (kick/ban), and even "
-"set some exceptions.\n"
-"`/antiflood [number]` = sätter hur många meddelande man får skicka under 5 "
-"sekunder.\n"
-"_Obs!_ Antalet måste vara mellan 4 och 25.\n"
 
-#: plugins/help.lua:65
+#: plugins/help.lua:67
 #, fuzzy
 msgid ""
 "\n"
-"*Moderators: media settings*\n"
+"*Admins: media settings*\n"
 "\n"
 "`/config` command, then `media` button = receive via private message an "
 "inline keyboard to change all the media settings.\n"
@@ -571,11 +536,11 @@ msgstr ""
 "*Mediatyper*: _image, audio, video, sticker, gif, voice, contact, file, "
 "link, telegram.me links_"
 
-#: plugins/help.lua:75
+#: plugins/help.lua:77
 #, fuzzy
 msgid ""
 "\n"
-"*Moderators: welcome settings*\n"
+"*Admins: welcome settings*\n"
 "\n"
 "`/menu` = receive in private the menu keyboard. You will find an option to "
 "enable/disable welcome and goodbye messages.\n"
@@ -584,36 +549,26 @@ msgid ""
 "`/welcome Welcome $name, enjoy the group!`\n"
 "Write after `/welcome` your welcome message. You can use some placeholders "
 "to include the name/username/id of the new member of the group\n"
-"Placeholders: _$username_ (will be replaced with the username); _$name_ "
-"(will be replaced with the name); _$id_ (will be replaced with the id); _"
-"$title_ (will be replaced with the group title).\n"
+"Placeholders:\n"
+"`$username`: _will be replaced with the username_\n"
+"`$name`: _will be replaced with the name_\n"
+"`$id`: _will be replaced with the id_\n"
+"`$title`: _will be replaced with the group title_\n"
+"`$surname`: _will be replaced by the user's last name_\n"
+"`$rules`: _will be replaced by a link to the rules of the group. Please "
+"read_ [here](https://telegram.me/GroupButler_beta/26) _how to use it, or you "
+"will get an error for sure_\n"
 "\n"
 "*GIF/sticker as welcome message*\n"
 "You can use a particular gif/sticker as welcome message. To set it, reply to "
-"a gif/sticker with `/welcome`\n"
+"the gif/sticker you want to set as welcome message with `/welcome`\n"
 msgstr ""
-"*Moderatorer: välkomstinställningar*\n"
-"\n"
-"`/menu` = receive in private the menu keyboard. You will find an option to "
-"enable/disable the welcome message.\n"
-"*Eget välkomstmeddelande:*\n"
-"`/welcome Välkommen $name, ha det så roligt i gruppen!`\n"
-"Skriv ditt välkomstmeddelande efter \"/welcome\". Du kan använda You can use "
-"some \"placeholders\" för användarens namn/användarnamn/id\n"
-"Placeholders: _$username_ (ersätts av användarnamnet); _$name_ (ersätts av "
-"namnet); _$id_ (ersätts av id); _$title_ (infogar gruppens namn).\n"
-"\n"
-"*GIF/sticker som välkomstmeddelande*\n"
-"Du kan använda en gif/sticker som välkomstmeddelande genom att besvara en "
-"gif/sticker med '/welcome'\n"
-"\n"
-"*Sammansatta välkomstmeddelanden*\n"
 
-#: plugins/help.lua:89
+#: plugins/help.lua:97
 #, fuzzy
 msgid ""
 "\n"
-"*Moderators: extra commands*\n"
+"*Admins: extra commands*\n"
 "\n"
 "`/extra [#trigger] [reply]` = set a reply to be sent when someone writes the "
 "trigger.\n"
@@ -628,7 +583,9 @@ msgid ""
 "*Note:* the markdown is supported. If the text sent breaks the markdown, the "
 "bot will notify that something is wrong.\n"
 "For a correct use of the markdown, check [this post](https://telegram.me/"
-"GroupButler_ch/46) in the channel\n"
+"GroupButler_ch/46) in the channel.\n"
+"Now supports placeholders. Check the \"welcome\" tab for the list of the "
+"available placeholders\n"
 msgstr ""
 "*Moderatorer: extrakommandon*\n"
 "\n"
@@ -647,13 +604,15 @@ msgstr ""
 "Hur man skriver korrekt markdown kan de se [här](https://telegram.me/"
 "GroupButler_ch/46) i kanalen"
 
-#: plugins/help.lua:102
+#: plugins/help.lua:111
 msgid ""
 "\n"
-"*Moderators: warns*\n"
+"*Admins: warns*\n"
 "\n"
 "`/warn [by reply]` = warn a user. Once the max number is reached, he will be "
 "kicked/banned.\n"
+"`/nowarns [by reply]` = reset the warns received by an user (both normal and "
+"media warns).\n"
 "`/warnmax [number]` = set the max number of the warns before the kick/ban.\n"
 "`/warnmax media [number]` = set the max number of the warns before kick/ban "
 "when an unallowed media is sent.\n"
@@ -666,11 +625,11 @@ msgid ""
 "command, then `media` button.\n"
 msgstr ""
 
-#: plugins/help.lua:114
+#: plugins/help.lua:124
 #, fuzzy
 msgid ""
 "\n"
-"*Moderators: special characters*\n"
+"*Admins: special characters*\n"
 "\n"
 "`/config` command, then `menu` button = you will receive in private the menu "
 "keyboard.\n"
@@ -696,32 +655,29 @@ msgstr ""
 "When Rtl is not allowed (🚫), everyone that writes this character (or that "
 "has it in his name) will be kicked."
 
-#: plugins/help.lua:125
-#, fuzzy
+#: plugins/help.lua:135
 msgid ""
 "\n"
-"*Moderators: links*\n"
+"*Admins: pin*\n"
 "\n"
-"`/setlink [link|-]` : set the group link, so it can be re-called by other "
-"admins, or unset it.\n"
-"`/link` = get the group link, if already setted by the owner.\n"
+"`/pin [text]`: the bot will send you back the text you used as argument, "
+"with markdown. You can pin the messahe and use `/editpin [new text]` to edit "
+"it\n"
+"`/editpin [new text]`: edit the previously generated message. Useful if you "
+"often need to make small/big changes to the pinned message but you don't "
+"like to send a wall of text that can't be deleted because you have to pin "
+"it\n"
+"`/pin`: the bot will find the latest message generate by `/pin [text]`, if "
+"it still exists\n"
 "\n"
-"*Note*: the bot can recognize valid group links. If a link is not valid, you "
-"won't receive a reply.\n"
+"*Note*: `/pin` and `/editpin` support markdown and `$rules` placeholder\n"
 msgstr ""
-"*Moderatorer: länkar*\n"
-"\n"
-"`/setlink [link|-]` : set the group link, so it can be re-called by other "
-"admins, or unset it.\n"
-"`/link` = Visar gruppens länk om den har sats av gruppägaren\n"
-"*Obs!* Botten kan känna igen formatet på länkar. Om länken är felaktig så "
-"får du inget svar."
 
-#: plugins/help.lua:134
+#: plugins/help.lua:145
 #, fuzzy
 msgid ""
 "\n"
-"*Moderators: group language*\"\n"
+"*Admins: group language*\"\n"
 "`/lang` = choose the group language (can be changed in private too).\n"
 "\n"
 "*Note*: translators are volunteers, so I can't ensure the correctness of all "
@@ -731,25 +687,14 @@ msgid ""
 "Anyway, translations are open to everyone. If you want to translate the bot, "
 "see an [information](https://github.com/RememberTheAir/"
 "GroupButler#translators) on GitHub.\n"
+"You can use `/strings` command to get the `.po` file of your language, and "
+"translate it\n"
 msgstr ""
-"*Moderatorer: gruppspråk*\n"
-"\n"
-"`/lang` = choose the group language (can be changed in private too).\n"
-"*Obs!* översättarna jobbar ideellt och frivilligt, så jag kan inte garantera "
-"att all översättning är korrekt. Och jag kan inte tvinga dem att översätta "
-"allt nytt vid uppdateringar (texter som inte är översatta visas på "
-"engelska).\n"
-"Vem som helst får översätta i alla fall. Använd kommandot `/strings` för att "
-"få en _.lua_-fil med alla texter på engelska.\n"
-"Använd `/strings [språkkod]` för att få en fil för ett specifikt språk "
-"(exempel: _/strings es_ ).\n"
-"I filen finns alla instruktioner: följ dem, så blir ditt språk tillgängligt "
-"så snart som möjligt ;)"
 
-#: plugins/help.lua:143
+#: plugins/help.lua:155
 msgid ""
 "\n"
-"*Moderators: group settings*\n"
+"*Admins: group settings*\n"
 "\n"
 "`/config` = manage the group settings in private with a comfortable inline "
 "keyboard.\n"
@@ -762,140 +707,132 @@ msgid ""
 "times that an user will be warned before being kicked/banned\n"
 msgstr ""
 
-#: plugins/help.lua:163
+#: plugins/help.lua:175
 msgid "Banhammer"
 msgstr ""
 
-#: plugins/help.lua:164
+#: plugins/help.lua:176
 msgid "Group info"
 msgstr ""
 
-#: plugins/help.lua:165
+#: plugins/help.lua:177
 msgid "Flood manager"
 msgstr ""
 
-#: plugins/help.lua:167
+#: plugins/help.lua:179
 #, fuzzy
 msgid "Welcome settings"
 msgstr "Anti-flood settings"
 
-#: plugins/help.lua:168
+#: plugins/help.lua:180
 #, fuzzy
 msgid "General settings"
 msgstr "Anti-flood settings"
 
-#: plugins/help.lua:170
+#: plugins/help.lua:182
 msgid "Warns"
 msgstr ""
 
-#: plugins/help.lua:171
+#: plugins/help.lua:183
 msgid "Characters strictness"
 msgstr ""
 
-#: plugins/help.lua:172 plugins/mediasettings.lua:20
+#: plugins/help.lua:184 plugins/mediasettings.lua:20
 msgid "Links"
 msgstr ""
 
-#: plugins/help.lua:173
+#: plugins/help.lua:185
 msgid "Languages"
 msgstr ""
 
-#: plugins/help.lua:199
+#: plugins/help.lua:209
 msgid "🔰 User commands"
 msgstr ""
 
-#: plugins/help.lua:201
+#: plugins/help.lua:211
 msgid "🔰 Admin commands"
 msgstr ""
 
-#: plugins/help.lua:203
+#: plugins/help.lua:213
 msgid "Info"
 msgstr ""
 
-#: plugins/help.lua:212
+#: plugins/help.lua:222
 msgid "👥 Add me to a group"
 msgstr ""
 
-#: plugins/help.lua:213
+#: plugins/help.lua:223
 msgid "📢 Bot channel"
 msgstr ""
 
-#: plugins/help.lua:216
+#: plugins/help.lua:226
 msgid "📕 All the commands"
 msgstr ""
 
-#: plugins/help.lua:226 utilities.lua:639
+#: plugins/help.lua:236 utilities.lua:660
 msgid "Start me"
 msgstr ""
 
-#: plugins/help.lua:249
-#, fuzzy
-msgid "_I've sent you the help message in private_"
-msgstr "_Jag har skickat dig hjälpen privat_"
-
-#: plugins/help.lua:252 utilities.lua:640
-#, fuzzy
-msgid "_Please message me first so I can message you_"
-msgstr ""
-"_Skicka mig ett meddelande först, så kan jag därefter skicka meddelanden "
-"till dig_"
-
-#: plugins/help.lua:261
+#: plugins/help.lua:263
 #, fuzzy
 msgid "Some useful *links*:"
 msgstr "*Några användbara länkar:*"
 
-#: plugins/help.lua:269
+#: plugins/help.lua:271
 #, fuzzy
 msgid "Tap on a button to see the *related commands*"
 msgstr "Tryck på en knapp för att se *motsvarande kommando*"
 
-#: plugins/help.lua:296
+#: plugins/help.lua:298
 msgid "❗️ Already on this tab"
 msgstr ""
 
-#: plugins/help.lua:298
-msgid "💡 Moderators: info about the group"
-msgstr ""
-
 #: plugins/help.lua:300
-msgid "💡 Moderators: banhammer powers"
+msgid "💡 Admins:info about the group"
 msgstr ""
 
 #: plugins/help.lua:302
-msgid "💡 Moderators: flood settings"
+msgid "💡 Admins: banhammer powers"
 msgstr ""
 
 #: plugins/help.lua:304
-msgid "💡 Moderators: media settings"
-msgstr ""
+#, fuzzy
+msgid "💡 Admins: flood settings"
+msgstr "Anti-flood settings"
 
 #: plugins/help.lua:306
-msgid "💡 Moderators: links"
-msgstr ""
+#, fuzzy
+msgid "💡 Admins: media settings"
+msgstr "Anti-flood settings"
 
 #: plugins/help.lua:308
-msgid "💡 Moderators: group language"
+msgid "💡 Admins: links"
 msgstr ""
 
 #: plugins/help.lua:310
-msgid "💡 Moderators: welcome settings"
+msgid "💡 Admins: group language"
 msgstr ""
 
 #: plugins/help.lua:312
-msgid "💡 Moderators: extra commands"
-msgstr ""
+#, fuzzy
+msgid "💡 Admins: welcome settings"
+msgstr "Anti-flood settings"
 
 #: plugins/help.lua:314
-msgid "💡 Moderators: warns"
-msgstr ""
+#, fuzzy
+msgid "💡 Admins: extra commands"
+msgstr "Inga anpassade kommandon!"
 
 #: plugins/help.lua:316
-msgid "💡 Moderators: special characters"
+msgid "💡 Admins: warns"
 msgstr ""
 
 #: plugins/help.lua:318
-msgid "💡 Moderators: group settings"
+msgid "💡 Admins: special characters"
+msgstr ""
+
+#: plugins/help.lua:320
+msgid "💡 Admins: group settings"
 msgstr ""
 
 #: plugins/links.lua:15
@@ -903,23 +840,23 @@ msgstr ""
 msgid "*No link* for this group. Ask the owner to generate one"
 msgstr "*Ingen länk* för den här gruppen. Be gruppägaren generera en"
 
-#: plugins/links.lua:30
+#: plugins/links.lua:29
 msgid ""
 "This is not a *public supergroup*, so you need to write the link near /"
 "setlink"
 msgstr ""
 
-#: plugins/links.lua:36
+#: plugins/links.lua:35
 #, fuzzy
 msgid "This link is *not valid!*"
 msgstr "Länken är *inte giltig!*"
 
-#: plugins/links.lua:47
+#: plugins/links.lua:46
 #, fuzzy
 msgid "Link *unsetted*"
 msgstr "Länk *borttagen*"
 
-#: plugins/links.lua:53
+#: plugins/links.lua:52
 #, fuzzy, lua-format
 msgid ""
 "The link has been updated.\n"
@@ -928,10 +865,10 @@ msgstr ""
 "Länken uppdaterad.\n"
 "*Här är nya länken*: [%s](%s)"
 
-#: plugins/links.lua:55
+#: plugins/links.lua:54
 #, fuzzy, lua-format
 msgid ""
-"The link has been setted.\n"
+"The link has been set.\n"
 "*Here's the link*: %s"
 msgstr ""
 "Länken har sats.\n"
@@ -1068,29 +1005,29 @@ msgstr ""
 msgid "RTL character allowed"
 msgstr ""
 
-#: plugins/menu.lua:112 utilities.lua:500
+#: plugins/menu.lua:112 utilities.lua:520
 msgid "Extra"
 msgstr ""
 
-#: plugins/menu.lua:113 utilities.lua:501
+#: plugins/menu.lua:113 utilities.lua:521
 #, fuzzy
 msgid "Anti-flood"
 msgstr "Аnti-flood is now on"
 
-#: plugins/menu.lua:114 utilities.lua:502
+#: plugins/menu.lua:114 utilities.lua:523
 msgid "Silent mode"
 msgstr ""
 
-#: plugins/menu.lua:116 utilities.lua:504
+#: plugins/menu.lua:116 utilities.lua:525
 #, fuzzy
 msgid "Arab"
 msgstr "Arabiska"
 
-#: plugins/menu.lua:117 utilities.lua:505
+#: plugins/menu.lua:117 utilities.lua:526
 msgid "RTL"
 msgstr ""
 
-#: plugins/menu.lua:118
+#: plugins/menu.lua:118 utilities.lua:522
 msgid "Ban bots"
 msgstr ""
 
@@ -1122,7 +1059,7 @@ msgid ""
 "\n"
 "*Silent mode*:\n"
 "If enabled, the bot won't send a confirmation message in the group when "
-"soemone use /config, /dashboard or /help commands.\n"
+"soemone use /config or /dashboard.\n"
 "It will just send the message in private.\n"
 msgstr ""
 "Manage the settings of the group.\n"
@@ -1156,6 +1093,10 @@ msgstr " *bannad* för flood!"
 #, fuzzy, lua-format
 msgid "%s *kicked* for flood!"
 msgstr " *kickad* för flood!"
+
+#: plugins/onmessage.lua:72
+msgid "‼️ Please don't abuse the keyboard, requests will be ignored"
+msgstr ""
 
 #: plugins/onmessage.lua:101
 #, fuzzy, lua-format
@@ -1198,6 +1139,34 @@ msgstr " *kickad* för arabiskt meddelande!"
 msgid "%s *banned*: arab message detected!"
 msgstr " *kickad* för arabiskt meddelande!"
 
+#: plugins/pin.lua:7
+msgid "Last message generated by `/pin` ^"
+msgstr ""
+
+#: plugins/pin.lua:22
+msgid ""
+"You can now pin this message and use `/editpin [new text]` to edit it, "
+"without send the new message to pin again"
+msgstr ""
+
+#: plugins/pin.lua:30
+msgid "You don't have any pinned message sent with `/pin [text to pin]`"
+msgstr ""
+
+#: plugins/pin.lua:37
+msgid ""
+"The preview pinned message I sent *does no longer exist*. I can't edit it"
+msgstr ""
+
+#: plugins/pin.lua:39
+#, fuzzy
+msgid "The text is not modified"
+msgstr "Användaren är inte bannad"
+
+#: plugins/pin.lua:47
+msgid "Message edited. Check it here"
+msgstr ""
+
 #: plugins/private.lua:5 plugins/users.lua:5
 msgid "Channel"
 msgstr ""
@@ -1214,74 +1183,46 @@ msgstr ""
 msgid "👥 Groups"
 msgstr ""
 
-#: plugins/private.lua:53
+#: plugins/private.lua:52
 #, lua-format
 msgid ""
 "🕔 Bot version: `%s`\n"
 "🔗 *Some useful links*:"
 msgstr ""
 
-#: plugins/private.lua:71 plugins/private.lua:73
+#: plugins/private.lua:70 plugins/private.lua:72
 msgid "Select a group:"
 msgstr ""
 
-#: plugins/private.lua:81
+#: plugins/private.lua:80
 msgid "*Choose your language:*"
 msgstr ""
 
-#: plugins/private.lua:87
+#: plugins/private.lua:86
 msgid "Instructions"
 msgstr ""
 
-#: plugins/private.lua:88
+#: plugins/private.lua:87
 #, lua-format
 msgid "Sending `%s.po` file..."
 msgstr ""
 
-#: plugins/rules.lua:28 plugins/rules.lua:39
-#, fuzzy
-msgid "Please write something next this poor `/addabout`"
-msgstr "Du måste skriva något till höger om \"/addabout\""
-
-#: plugins/rules.lua:34
-#, fuzzy
-msgid ""
-"*No rules* for this group.\n"
-"Use `/setrules [rules]` to set them"
-msgstr ""
-"*Inga gruppregler*.\n"
-"Använd /setrules [regler] för att sätta en ny konstitution."
-
-#: plugins/rules.lua:44
-#, fuzzy
-msgid ""
-"*Rules added:*\n"
-"\n"
-msgstr ""
-"*Regel tillagd:*\n"
-"\"%s\""
-
-#: plugins/rules.lua:60
+#: plugins/rules.lua:35
 #, fuzzy
 msgid "Please write something next this poor `/setrules`"
 msgstr "Du måste skriva något till höger om \"/setrules\""
 
-#: plugins/rules.lua:66
+#: plugins/rules.lua:41
 #, fuzzy
 msgid "Rules has been wiped."
 msgstr "Regler borttagna."
 
-#: plugins/rules.lua:83
+#: plugins/rules.lua:58
 msgid "New rules *saved successfully*!"
 msgstr ""
 
-#: plugins/service.lua:39
-#, fuzzy, lua-format
-msgid "Hi %s, and welcome to *%s*!"
-msgstr "Hej %s, och välkommen till *%s*!"
-
-#: plugins/setlang.lua:15 plugins/users.lua:248 plugins/users.lua:264
-#: plugins/users.lua:336 plugins/warn.lua:19
+#: plugins/setlang.lua:15 plugins/users.lua:199 plugins/users.lua:215
+#: plugins/users.lua:246 plugins/warn.lua:19
 #, fuzzy
 msgid "You are not an admin"
 msgstr "You are *not* a moderator"
@@ -1394,33 +1335,11 @@ msgstr ""
 msgid "%s is a chat member"
 msgstr "Den användaren är inte med här i gruppen"
 
-#: plugins/users.lua:175
-#, fuzzy
-msgid "Welcome and...?"
-msgstr "Välkommen och...?"
-
-#: plugins/users.lua:192
-#, fuzzy, lua-format
-msgid "New media setted as welcome message: `%s`"
-msgstr "Ny media satt som välkomstmeddelande: "
-
-#: plugins/users.lua:194
-#, fuzzy
-msgid "Reply to a `sticker` or a `gif` to set them as *welcome message*"
-msgstr ""
-"Besvara en `sticker` eller en `gif-bild` för att sätta den som "
-"*välkomstmeddelande*"
-
-#: plugins/users.lua:212
-#, fuzzy
-msgid "*Custom welcome message saved!*"
-msgstr "Välkomstmeddelande"
-
-#: plugins/users.lua:220
+#: plugins/users.lua:171
 msgid "Reply to an user or mention him (works by id too)"
 msgstr ""
 
-#: plugins/users.lua:234
+#: plugins/users.lua:185
 #, fuzzy
 msgid ""
 "I've never seen this user before.\n"
@@ -1430,38 +1349,19 @@ msgstr ""
 "Om du vill lära mig vem det är så kan du vidarebefordra ett meddelande från "
 "användaren till mig."
 
-#: plugins/users.lua:258
+#: plugins/users.lua:209
 #, lua-format
 msgid ""
 "_Banned!_\n"
 "(Admin: %s)"
 msgstr ""
 
-#: plugins/users.lua:271
+#: plugins/users.lua:222
 #, fuzzy, lua-format
 msgid ""
 "The number of warns received by this user has been *reset*\n"
 "(Admin: %s)"
 msgstr "Antalet varningar har *nollställts* för denna användare"
-
-#: plugins/users.lua:306
-msgid ""
-"You can now pin this message and use `/editpin [new text]` to edit it, "
-"without send the new message to pin again"
-msgstr ""
-
-#: plugins/users.lua:314
-msgid "You don't have any pinned message sent with /pin [text to pin]"
-msgstr ""
-
-#: plugins/users.lua:321
-msgid ""
-"The preview pinned message I sent *does no longer exist*. I can't edit it"
-msgstr ""
-
-#: plugins/users.lua:329
-msgid "Message edited. Check it here"
-msgstr ""
 
 #: plugins/warn.lua:5
 msgid "Reset warns"
@@ -1495,86 +1395,87 @@ msgid ""
 msgstr ""
 
 #: plugins/warn.lua:51
-#, fuzzy, lua-format
+#, lua-format
 msgid ""
-"The number of warns received by this user has been *reset*\n"
-"`(Admin: %s)`"
-msgstr "Antalet varningar har *nollställts* för denna användare"
+"Warns *reset*\n"
+"(Admin: %s)"
+msgstr ""
 
-#: plugins/warn.lua:62
+#: plugins/warn.lua:61
 #, fuzzy
 msgid "The number of warnings received by this user is already _zero_"
 msgstr "Antalet varningar har *nollställts* för denna användare"
 
-#: plugins/warn.lua:67
-#, fuzzy, lua-format
-msgid ""
-"*Warn removed!*\n"
-"_Number of warnings_ *%d*\n"
-"_Max allowed_ *%d*"
+#: plugins/warn.lua:66
+#, lua-format
+msgid "*Warn removed!* (%d/%d)"
 msgstr ""
-"*Användare* %s *har varnats.*\n"
-"_Antal varningar_   *%s*\n"
-"_Max tillåtet_   *%s*"
 
-#: plugins/warn.lua:72
+#: plugins/warn.lua:69
 #, lua-format
 msgid ""
 "\n"
-"`(Admin: %s)`"
+"(Admin: %s)"
 msgstr ""
 
-#: plugins/warn.lua:79
-#, fuzzy
-msgid "Reply to a message to warn the user"
-msgstr "Besvara en användares meddelande för att varna den användaren"
-
-#: plugins/warn.lua:84
-#, fuzzy
-msgid "A moderator can't be warned"
-msgstr "Moderatorer kan inte varnas"
-
-#: plugins/warn.lua:105
+#: plugins/warn.lua:92
 #, fuzzy, lua-format
-msgid "User %s *banned*: reached the max number of warnings (%d / %d)"
+msgid "%s *banned*: reached the max number of warnings (%d/%d)"
 msgstr "Användare %s *bannad*: nådde max antal varningar"
 
-#: plugins/warn.lua:110
+#: plugins/warn.lua:95
 #, fuzzy, lua-format
-msgid "User %s *kicked*: reached the max number of warnings (%d / %d)"
+msgid "%s *kicked*: reached the max number of warnings (%d/%d)"
 msgstr "Användare %s *kickad*: nådde max antal varningar"
 
-#: plugins/warn.lua:123
-msgid "Too many warnings"
+#: plugins/warn.lua:114
+#, lua-format
+msgid "%s *has been warned* (%d/%d)"
 msgstr ""
 
-#: plugins/warn.lua:134
+#: plugins/welcome.lua:24
 #, fuzzy, lua-format
-msgid ""
-"%s *has been warned*.\n"
-"_Number of warnings_ *%d*\n"
-"_Max allowed_ *%d*"
-msgstr ""
-"*Användare* %s *har varnats.*\n"
-"_Antal varningar_   *%s*\n"
-"_Max tillåtet_   *%s*"
+msgid "Hi %s, and welcome to *%s*!"
+msgstr "Hej %s, och välkommen till *%s*!"
 
-#: utilities.lua:418
+#: plugins/welcome.lua:36
+#, fuzzy
+msgid "Welcome and...?"
+msgstr "Välkommen och...?"
+
+#: plugins/welcome.lua:52
+#, fuzzy, lua-format
+msgid "New media setted as welcome message: `%s`"
+msgstr "Ny media satt som välkomstmeddelande: "
+
+#: plugins/welcome.lua:54
+#, fuzzy
+msgid "Reply to a `sticker` or a `gif` to set them as *welcome message*"
+msgstr ""
+"Besvara en `sticker` eller en `gif-bild` för att sätta den som "
+"*välkomstmeddelande*"
+
+#: plugins/welcome.lua:72
+#, fuzzy
+msgid "*Custom welcome message saved!*"
+msgstr "Välkomstmeddelande"
+
+#: utilities.lua:438
 #, fuzzy
 msgid "*No description* for this group."
 msgstr "*Ingen gruppbeskrivning*."
 
-#: utilities.lua:428
+#: utilities.lua:448
 #, fuzzy
 msgid "-*empty*-"
 msgstr "*Total anarki*!"
 
-#: utilities.lua:482
+#: utilities.lua:502
 #, fuzzy
 msgid "No commands set!"
 msgstr "Inga anpassade kommandon!"
 
-#: utilities.lua:494
+#: utilities.lua:514
 #, fuzzy
 msgid ""
 "Current settings for *the group*:\n"
@@ -1584,109 +1485,230 @@ msgstr ""
 "\n"
 "*Språk*: `%s`\n"
 
-#: utilities.lua:495
+#: utilities.lua:515
 #, fuzzy, lua-format
 msgid "*Language*: `%s`\n"
 msgstr "*Nytt språk:* %s"
 
-#: utilities.lua:543
+#: utilities.lua:564
 #, fuzzy
 msgid "*Welcome type*: `custom message`\n"
 msgstr "*Välkomsttyp*: `custom message`\n"
 
-#: utilities.lua:551
+#: utilities.lua:572
 #, lua-format
 msgid "Warns (`standard`): *%s*\n"
 msgstr ""
 
-#: utilities.lua:552
+#: utilities.lua:573
 #, lua-format
 msgid ""
 "Warns (`media`): *%s*\n"
 "\n"
 msgstr ""
 
-#: utilities.lua:553
+#: utilities.lua:574
 msgid "✅ = _enabled / allowed_\n"
 msgstr ""
 
-#: utilities.lua:554
+#: utilities.lua:575
 msgid "🚫 = _disabled / not allowed_\n"
 msgstr ""
 
-#: utilities.lua:555
+#: utilities.lua:576
 msgid "👥 = _sent in group (always for admins)_\n"
 msgstr ""
 
-#: utilities.lua:556
+#: utilities.lua:577
 msgid "👤 = _sent in private_"
 msgstr ""
 
-#: utilities.lua:562
+#: utilities.lua:583
 #, fuzzy
 msgid "Welcome message won't be displayed from now"
 msgstr "Välkomstmeddelande komma inte visas mer"
 
-#: utilities.lua:563
+#: utilities.lua:584
 #, fuzzy
 msgid "#extra commands are now available only for moderator"
 msgstr "Kommandot #extra är nu tillgängligt bara för moderatorer"
 
-#: utilities.lua:564
+#: utilities.lua:585
 #, fuzzy
 msgid "Anti-flood is now off"
 msgstr "Antiflood is now off"
 
-#: utilities.lua:565
+#: utilities.lua:586
 msgid "`/rules` will reply in private (for users)"
 msgstr ""
 
-#: utilities.lua:566
+#: utilities.lua:587
 msgid "Bots won't be kicked if added by an user"
 msgstr ""
 
-#: utilities.lua:569
+#: utilities.lua:590
 #, fuzzy
 msgid "Welcome message will be displayed"
 msgstr "Välkomstmeddelande kommer nu visas när någon kommer in i gruppen"
 
-#: utilities.lua:570
+#: utilities.lua:591
 #, fuzzy
 msgid "#extra commands are now available for all"
 msgstr "Kommandot #extra är nu tillgängligt för alla"
 
-#: utilities.lua:571
+#: utilities.lua:592
 #, fuzzy
 msgid "Anti-flood is now on"
 msgstr "Аnti-flood is now on"
 
-#: utilities.lua:572
+#: utilities.lua:593
 msgid "`/rules` will reply in the group (with everyone)"
 msgstr ""
 
-#: utilities.lua:573
+#: utilities.lua:594
 msgid "Bots will be kicked if added by an user"
 msgstr ""
 
-#: utilities.lua:592
+#: utilities.lua:613
 #, fuzzy
 msgid "Now flooders will be banned"
 msgstr "Nu blir man bannad om man postar för mycket"
 
-#: utilities.lua:595
+#: utilities.lua:616
 #, fuzzy
 msgid "Now flooders will be kicked"
 msgstr "Nu blir man kickad om man postar för mycket"
 
-#: utilities.lua:604 utilities.lua:611
+#: utilities.lua:625 utilities.lua:632
 #, lua-format
 msgid "%d is not a valid value!\n"
 msgstr ""
 
-#: utilities.lua:635
+#: utilities.lua:656
 #, fuzzy, lua-format
 msgid "New status = %s"
 msgstr "Ny status för [%s] = %s"
+
+#: utilities.lua:661
+#, fuzzy
+msgid "_Please message me first so I can message you_"
+msgstr ""
+"_Skicka mig ett meddelande först, så kan jag därefter skicka meddelanden "
+"till dig_"
+
+#, fuzzy
+#~ msgid ""
+#~ "\n"
+#~ "*Moderators: info about the group*\n"
+#~ "\n"
+#~ "`/setrules [group rules]` = set the new regulation for the group (the old "
+#~ "will be overwritten).\n"
+#~ "`/setrules -` = delete the current rules.\n"
+#~ "`/addrules [text]` = add some text at the end of the existing rules.\n"
+#~ "`/setabout [group description]` = set a new description for the group "
+#~ "(the old will be overwritten).\n"
+#~ "`/setabout -` = delete the current description.\n"
+#~ "`/addabout [text]` = add some text at the end of the existing description."
+#~ "\"\n"
+#~ "\n"
+#~ "*Note*: the markdown is supported. If the text sent breaks the markdown, "
+#~ "the bot will notify that something is wrong.\n"
+#~ "For a correct use of the markdown, check [this post](https://telegram.me/"
+#~ "GroupButler_ch/46) in the channel\n"
+#~ msgstr ""
+#~ "*Moderatorer: gruppinformation*\n"
+#~ "\n"
+#~ "`/setrules [gruppregler]` = sätter nya regler för gruppen (och skriver "
+#~ "över tidigare regler).\n"
+#~ "`/setrules -` = delete the current rules.\n"
+#~ "`/addrules [text]` = Lägger till text i slutet av nuvarande regler.\n"
+#~ "`/setabout [gruppbeskrivning]` = sätter en ny beskrivning av gruppen (och "
+#~ "skriver över föregående).\n"
+#~ "`/setabout -` = delete the current description.\n"
+#~ "`/addabout [text]` = Lägger till text i slutet av nuvarande beskrivning.\n"
+#~ "\n"
+#~ "*Obs!* Man kan använda markdown-formatering. Om det inte är korrekt "
+#~ "markdown, så får du ett meddelande om det.\n"
+#~ "Hur man skriver korrekt markdown kan de se [här](https://telegram.me/"
+#~ "GroupButler_ch/46) i kanalen"
+
+#, fuzzy
+#~ msgid ""
+#~ "\n"
+#~ "*Moderators: links*\n"
+#~ "\n"
+#~ "`/setlink [link|-]` : set the group link, so it can be re-called by other "
+#~ "admins, or unset it.\n"
+#~ "`/link` = get the group link, if already setted by the owner.\n"
+#~ "\n"
+#~ "*Note*: the bot can recognize valid group links. If a link is not valid, "
+#~ "you won't receive a reply.\n"
+#~ msgstr ""
+#~ "*Moderatorer: länkar*\n"
+#~ "\n"
+#~ "`/setlink [link|-]` : set the group link, so it can be re-called by other "
+#~ "admins, or unset it.\n"
+#~ "`/link` = Visar gruppens länk om den har sats av gruppägaren\n"
+#~ "*Obs!* Botten kan känna igen formatet på länkar. Om länken är felaktig så "
+#~ "får du inget svar."
+
+#, fuzzy
+#~ msgid "_I've sent you the help message in private_"
+#~ msgstr "_Jag har skickat dig hjälpen privat_"
+
+#, fuzzy
+#~ msgid "Please write something next this poor `/addabout`"
+#~ msgstr "Du måste skriva något till höger om \"/addabout\""
+
+#, fuzzy
+#~ msgid ""
+#~ "*No rules* for this group.\n"
+#~ "Use `/setrules [rules]` to set them"
+#~ msgstr ""
+#~ "*Inga gruppregler*.\n"
+#~ "Använd /setrules [regler] för att sätta en ny konstitution."
+
+#, fuzzy
+#~ msgid ""
+#~ "*Rules added:*\n"
+#~ "\n"
+#~ msgstr ""
+#~ "*Regel tillagd:*\n"
+#~ "\"%s\""
+
+#, fuzzy
+#~ msgid ""
+#~ "The number of warns received by this user has been *reset*\n"
+#~ "`(Admin: %s)`"
+#~ msgstr "Antalet varningar har *nollställts* för denna användare"
+
+#, fuzzy
+#~ msgid ""
+#~ "*Warn removed!*\n"
+#~ "_Number of warnings_ *%d*\n"
+#~ "_Max allowed_ *%d*"
+#~ msgstr ""
+#~ "*Användare* %s *har varnats.*\n"
+#~ "_Antal varningar_   *%s*\n"
+#~ "_Max tillåtet_   *%s*"
+
+#, fuzzy
+#~ msgid "Reply to a message to warn the user"
+#~ msgstr "Besvara en användares meddelande för att varna den användaren"
+
+#, fuzzy
+#~ msgid "A moderator can't be warned"
+#~ msgstr "Moderatorer kan inte varnas"
+
+#, fuzzy
+#~ msgid ""
+#~ "%s *has been warned*.\n"
+#~ "_Number of warnings_ *%d*\n"
+#~ "_Max allowed_ *%d*"
+#~ msgstr ""
+#~ "*Användare* %s *har varnats.*\n"
+#~ "_Antal varningar_   *%s*\n"
+#~ "_Max tillåtet_   *%s*"
 
 #, fuzzy
 #~ msgid ""
@@ -1711,10 +1733,6 @@ msgstr "Ny status för [%s] = %s"
 #, fuzzy
 #~ msgid "The bio has been cleaned."
 #~ msgstr "Beskrivning borttagen."
-
-#, fuzzy
-#~ msgid "The user is not banned"
-#~ msgstr "Användaren är inte bannad"
 
 #, fuzzy
 #~ msgid "Total anarchy!"

@@ -21,7 +21,6 @@ local action = function(msg, blocks)
 	end
 	
 	if blocks[1] == 'setlink' then
-		
 		local link
 		if msg.chat.username then
 			link = 'https://telegram.me/'..msg.chat.username
@@ -42,17 +41,17 @@ local action = function(msg, blocks)
 		local key = 'link'
 		
 		--set to nul the link, or update/set it
-		if blocks[2] == '-' then
+		if blocks[2] and blocks[2] == '-' then
 			db:hdel(hash, key)
 			text = _("Link *unsetted*")
 		else
 			local succ = db:hset(hash, key, link)
 			local title = msg.chat.title:escape_hard()
-			local substitution = string.format('[%s](%s)', title, link)
+			local substitution = '['..title..']('..link..')'
 			if succ == false then
 				text = _("The link has been updated.\n*Here's the new link*: %s"):format(substitution)
 			else
-				text = _("The link has been setted.\n*Here's the link*: %s"):format(substitution)
+				text = _("The link has been set.\n*Here's the link*: %s"):format(substitution)
 			end
 		end
 		api.sendReply(msg, text, true)

@@ -1,3 +1,30 @@
+local function is_locked(chat_id)
+  	local hash = 'chat:'..chat_id..':settings'
+  	local current = db:hget(hash, 'Welcome')
+  	if current == 'off' then
+  		return true
+  	else
+  		return false
+  	end
+end
+
+local function get_welcome(msg)
+	if is_locked(msg.chat.id) then
+		return false
+	end
+	local type = (db:hget('chat:'..msg.chat.id..':welcome', 'type')) or config.chat_settings['welcome']['type']
+	local content = (db:hget('chat:'..msg.chat.id..':welcome', 'content')) or config.chat_settings['welcome']['content']
+	if type == 'media' then
+		local file_id = content
+		api.sendDocumentId(msg.chat.id, file_id)
+		return false
+	elseif type == 'custom' then
+		return content:replaceholders(msg)
+	else
+		return _("Hi %s, and welcome to *%s*!"):format(msg.added.first_name:escape_hard(), msg.chat.title:escape_hard())
+	end
+end
+
 local function action(msg, blocks)
     if blocks[1] == 'welcome' then
         
@@ -46,6 +73,26 @@ local function action(msg, blocks)
             end
         end
     end
+    if blocks[1] == 'added' then
+		if not msg.service then return end
+		
+		if msg.added.username then
+			local username = msg.added.username:lower()
+			if username:find('bot', -3) then
+				local antibot_status = db:hget('chat:'..msg.chat.id..':settings', 'Antibot')
+				if antibot_status and antibot_status == 'on' and msg.from and not roles.is_admin_cached(msg) then
+					api.banUser(msg.chat.id, msg.added.id)
+				end
+				return
+			end
+		end
+		
+		local text = get_welcome(msg)
+		if text then
+			api.sendMessage(msg.chat.id, text, true)
+		end
+		--if not text: welcome is locked or is a gif/sticker
+	end
 end
 
 return {
@@ -53,5 +100,6 @@ return {
     triggers = {
         config.cmd..'(welcome) (.*)$',
 		config.cmd..'(welcome)$',
+		'^###added'
 	}
 }
