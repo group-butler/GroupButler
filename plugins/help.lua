@@ -181,7 +181,7 @@ local function make_keyboard(mod, mod_current_position)
 	        [_("Extra commands")] = 'extra',
 	        [_("Warns")] = 'warns',
 	        [_("Characters strictness")] = 'char',
-	        [_("Links")] = 'pin',
+	        [_("Pin")] = 'pin',
 	        [_("Languages")] = 'lang'
         }
         local line = {}
