@@ -57,11 +57,10 @@ local function doKeyboard_dashboard(chat_id)
     keyboard.inline_keyboard = {
 	    {
             {text = _("Settings"), callback_data = 'dashboard:settings:'..chat_id},
-            {text = _("Admins"), callback_data = 'dashboard:adminlist:'..chat_id}
 		},
 	    {
 		    {text = _("Rules"), callback_data = 'dashboard:rules:'..chat_id},
-		    {text = _("Description"), callback_data = 'dashboard:about:'..chat_id}
+			  {text = _("Admins"), callback_data = 'dashboard:adminlist:'..chat_id}
         },
 	   	{
 	   	    {text = _("Welcome message"), callback_data = 'dashboard:welcome:'..chat_id},
@@ -114,9 +113,6 @@ local action = function(msg, blocks)
         end
         if request == 'rules' then
             text = misc.getRules(chat_id)
-        end
-        if request == 'about' then
-            text = misc.getAbout(chat_id)
         end
         if request == 'adminlist' then
             local creator, admins = misc.getAdminlist(chat_id)
