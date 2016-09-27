@@ -198,37 +198,32 @@ msgstr ""
 msgid "Settings"
 msgstr "Impostazioni"
 
-#: plugins/dashboard.lua:60
+#: plugins/dashboard.lua:63
 #, fuzzy
 msgid "Admins"
 msgstr "Admin"
 
-#: plugins/dashboard.lua:63 plugins/menu.lua:115 utilities.lua:524
+#: plugins/dashboard.lua:62 plugins/menu.lua:115 utilities.lua:524
 #, fuzzy
 msgid "Rules"
 msgstr "Regole"
 
-#: plugins/dashboard.lua:64
-#, fuzzy
-msgid "Description"
-msgstr "Descrizione"
-
-#: plugins/dashboard.lua:67 plugins/menu.lua:111 utilities.lua:519
+#: plugins/dashboard.lua:66 plugins/menu.lua:111 utilities.lua:519
 #, fuzzy
 msgid "Welcome message"
 msgstr "Messaggio di benvenuto"
 
-#: plugins/dashboard.lua:68 plugins/help.lua:181
+#: plugins/dashboard.lua:67 plugins/help.lua:181
 #, fuzzy
 msgid "Extra commands"
 msgstr "Comandi extra"
 
-#: plugins/dashboard.lua:71
+#: plugins/dashboard.lua:70
 #, fuzzy
 msgid "Flood settings"
 msgstr "Impostazioni Anti-flood"
 
-#: plugins/dashboard.lua:72 plugins/help.lua:178
+#: plugins/dashboard.lua:71 plugins/help.lua:178
 #, fuzzy
 msgid "Media settings"
 msgstr "Impostazioni dei media"
