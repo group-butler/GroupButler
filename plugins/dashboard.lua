@@ -1,17 +1,3 @@
-local function getWelcomeMessage(chat_id)
-    hash = 'chat:'..chat_id..':welcome'
-    local type = db:hget(hash, 'type')
-    local message = ''
-    if type == 'no' then
-    	message = message .. _("*Welcome type*: `default message`\n")
-	elseif type == 'media' then
-		message = message .. _("*Welcome type*: `GIF / sticker`\n")
-	elseif type == 'custom' then
-		message = db:hget(hash, 'content')
-	end
-    return message
-end
-
 local function getFloodSettings_text(chat_id)
     local status = db:hget('chat:'..chat_id..':settings', 'Flood') or 'yes' --check (default: disabled)
     if status == 'no' then
@@ -61,12 +47,8 @@ local function doKeyboard_dashboard(chat_id)
 		},
 	    {
 		    {text = _("Rules"), callback_data = 'dashboard:rules:'..chat_id},
-		    {text = _("Description"), callback_data = 'dashboard:about:'..chat_id}
+		    {text = _("Extra commands"), callback_data = 'dashboard:extra:'..chat_id}
         },
-	   	{
-	   	    {text = _("Welcome message"), callback_data = 'dashboard:welcome:'..chat_id},
-	   	    {text = _("Extra commands"), callback_data = 'dashboard:extra:'..chat_id}
-	    },
 	    {
 	   	    {text = _("Flood settings"), callback_data = 'dashboard:flood:'..chat_id},
 	   	    {text = _("Media settings"), callback_data = 'dashboard:media:'..chat_id}
@@ -74,15 +56,6 @@ local function doKeyboard_dashboard(chat_id)
     }
     
     return keyboard
-end
-
-local function get_group_name(text)
-    local name = text:match('.*%((.+)%)$')
-    if not name then
-        return ''
-    end
-    name = '\n('..name..')'
-    return name:escape()
 end
 
 local action = function(msg, blocks)
@@ -115,9 +88,6 @@ local action = function(msg, blocks)
         if request == 'rules' then
             text = misc.getRules(chat_id)
         end
-        if request == 'about' then
-            text = misc.getAbout(chat_id)
-        end
         if request == 'adminlist' then
             local creator, admins = misc.getAdminlist(chat_id)
             if not creator then
@@ -129,9 +99,6 @@ local action = function(msg, blocks)
         end
         if request == 'extra' then
             text = misc.getExtraList(chat_id)
-        end
-        if request == 'welcome' then
-            text = getWelcomeMessage(chat_id)
         end
         if request == 'flood' then
             text = getFloodSettings_text(chat_id)

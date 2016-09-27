@@ -352,7 +352,7 @@ function misc.to_supergroup(msg)
 	local new = msg.migrate_to_chat_id
 	local done = misc.migrate_chat_info(old, new, false)
 	if done then
-		misc.remGroup(old, true)
+		misc.remGroup(old, true, 'to supergroup')
 		api.sendMessage(new, '(_service notification: migration of the group executed_)', true)
 	end
 end
@@ -429,16 +429,6 @@ function misc.is_silentmode_on(chat_id)
 	else
 		return false
 	end
-end
-
-function misc.getAbout(chat_id)
-	local hash = 'chat:'..chat_id..':info'
-	local about = db:hget(hash, 'about')
-    if not about then
-		return _("*No description* for this group.")
-    else
-       	return about
-    end
 end
 
 function misc.getRules(chat_id)
@@ -678,7 +668,7 @@ function misc.initGroup(chat_id)
 	db:srem('bot:groupsid:removed', chat_id)
 end
 
-function misc.remGroup(chat_id, full)
+function misc.remGroup(chat_id, full, call)
 	--remove group id
 	db:srem('bot:groupsid', chat_id)
 	--add to the removed groups list
@@ -698,6 +688,15 @@ function misc.remGroup(chat_id, full)
 		end
 		db:del('lang:'..chat_id)
 	end
+	
+	local msg_text = '#removed '..chat_id
+	if full then
+		msg_text = msg_text..'\nfull: true'
+	else
+		msg_text = msg_text..'\nfull: false'
+	end
+	if call then msg_text = msg_text..'\ncall: '..call end
+	api.sendAdmin(msg_text)
 end
 
 function misc.getnames_complete(msg, blocks)

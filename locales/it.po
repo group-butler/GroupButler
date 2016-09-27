@@ -20,7 +20,7 @@ msgstr ""
 
 #: bot.lua:186
 msgid "Sorry, a *bug* occurred"
-msgstr "Ci dispiace, un * bug * si è verificato"
+msgstr "Ci dispiace, si è verificato un *bug*"
 
 #: methods.lua:114
 #, fuzzy
@@ -69,27 +69,27 @@ msgstr ""
 "Admin"
 
 #: plugins/banhammer.lua:107
-#, fuzzy, lua-format
+#, lua-format
 msgid "Ban time updated for %s. Ban expiration: %s"
 msgstr "Scadenza aggiornata per %s. Scadenza ban: %s"
 
 #: plugins/banhammer.lua:109
-#, fuzzy, lua-format
+#, lua-format
 msgid "User %s banned. Ban expiration: %s"
 msgstr "L'utente %s è stato bannato. Scadenza del ban: %s"
 
 #: plugins/banhammer.lua:125
-#, fuzzy, lua-format
+#, lua-format
 msgid "%s kicked %s!"
 msgstr "%s ha kickato %s! (ma può ancora rientrare)"
 
 #: plugins/banhammer.lua:146
-#, fuzzy, lua-format
+#, lua-format
 msgid "%s banned %s!"
 msgstr "%s ha bannato %s!"
 
 #: plugins/banhammer.lua:151
-#, fuzzy, lua-format
+#, lua-format
 msgid "User unbanned by %s!"
 msgstr "L'utente è stato unbannato da %s!"
 
@@ -255,7 +255,7 @@ msgstr ""
 "*Solo un Admin puà vedere la lista degli amministratori*"
 
 #: plugins/dashboard.lua:127 plugins/users.lua:123
-#, fuzzy, lua-format
+#, lua-format
 msgid ""
 "*Creator*:\n"
 "%s\n"
@@ -302,7 +302,7 @@ msgstr ""
 "Più info [qui](https://telegram.me/GroupButler_ch/46)"
 
 #: plugins/extra.lua:50
-#, fuzzy, lua-format
+#, lua-format
 msgid "%s command saved!"
 msgstr "%s salvato!"
 
@@ -316,15 +316,14 @@ msgstr "Nessun comando impostato!"
 msgid "List of *custom commands*:\n"
 msgstr ""
 "Lista dei *comandi personalizzati*:\n"
-"%s"
 
 #: plugins/extra.lua:74
-#, fuzzy, lua-format
+#, lua-format
 msgid "%s command has been deleted"
 msgstr "Il comando personalizzato %s è stato eliminato"
 
 #: plugins/extra.lua:77
-#, fuzzy, lua-format
+#, lua-format
 msgid "%s command does not exist"
 msgstr "Il comando %s non esiste"
 
@@ -372,7 +371,7 @@ msgstr ""
 "citati (file, audio...)"
 
 #: plugins/floodmanager.lua:92
-#, fuzzy, lua-format
+#, lua-format
 msgid ""
 "`%s` is not a valid value!\n"
 "The value should be *higher* than `3` and *lower* then `26`"
@@ -381,13 +380,13 @@ msgstr ""
 "il valore deve essere *maggiore* di `3` e *minore* di `26`"
 
 #: plugins/floodmanager.lua:98
-#, fuzzy, lua-format
+#, lua-format
 msgid "The max number of messages is already %d"
 msgstr ""
 "il massimo numero di messaggi che può essere inviato in 5 secondi è già %s"
 
 #: plugins/floodmanager.lua:101
-#, fuzzy, lua-format
+#, lua-format
 msgid ""
 "The *max number* of messages (in *5 seconds*) changed _from_  %d _to_  %d"
 msgstr ""
@@ -402,20 +401,20 @@ msgstr "Sensibilità del flood. Tappa su + oppure -"
 #: plugins/floodmanager.lua:120 plugins/menu.lua:191
 #, fuzzy
 msgid "⚠️ Tap on an icon!"
-msgstr "Tocca le icone sulla destra!"
+msgstr "⚠️ Tocca le icone sulla destra!"
 
 #: plugins/floodmanager.lua:132
-#, fuzzy, lua-format
+#, lua-format
 msgid "❎ [%s] will be ignored by the anti-flood"
-msgstr "[%s] saranno ignorati dall'anti-flood"
+msgstr "❎ [%s] saranno ignorati dall'anti-flood"
 
 #: plugins/floodmanager.lua:135
-#, fuzzy, lua-format
+#, lua-format
 msgid "🚫 [%s] won't be ignored by the anti-flood"
-msgstr "[%s] verranno considerati dall'anti-flood"
+msgstr "🚫 [%s] verranno considerati dall'anti-flood"
 
 #: plugins/help.lua:3
-#, fuzzy, lua-format
+#, lua-format
 msgid ""
 "\n"
 "Hello *%s* 👋🏼, nice to meet you!\n"
@@ -533,7 +532,6 @@ msgstr ""
 "non riceverai una risposta.\n"
 
 #: plugins/help.lua:48
-#, fuzzy
 msgid ""
 "\n"
 "*Admins: banhammer powers*\n"
@@ -567,7 +565,6 @@ msgstr ""
 "kickato/ha lasciato il gruppo|bannato|admin/creatore|mai visto)`."
 
 #: plugins/help.lua:59
-#, fuzzy
 msgid ""
 "\n"
 "*Admins: flood settings*\n"
@@ -590,7 +587,6 @@ msgstr ""
 "_Nota_ : il numero deve essere compreso tra 4 e 25.\n"
 
 #: plugins/help.lua:67
-#, fuzzy
 msgid ""
 "\n"
 "*Admins: media settings*\n"
@@ -618,7 +614,6 @@ msgstr ""
 "contact, file, link, telegram.me link_"
 
 #: plugins/help.lua:77
-#, fuzzy
 msgid ""
 "\n"
 "*Admins: welcome settings*\n"
@@ -646,7 +641,7 @@ msgid ""
 msgstr ""
 "*Moderatori: messaggio di benvenuto*\n"
 "\n"
-"`/menu` = ricevi in privato la tastiera del menu. Lì troverai un'opzione per "
+"`/config`, poi tasto `menu` = ricevi in privato la tastiera del menu. Lì troverai un'opzione per "
 "abilitare/disabilitare il messaggio di benvenuto.\n"
 "\n"
 "*Messaggio di benvenuto personalizzato:*\n"
@@ -668,7 +663,6 @@ msgstr ""
 "impostare la gif/sticker, invialo e rispondigli con '/welcome'\n"
 
 #: plugins/help.lua:97
-#, fuzzy
 msgid ""
 "\n"
 "*Admins: extra commands*\n"
@@ -710,7 +704,6 @@ msgstr ""
 "segnaposto disponibili\n"
 
 #: plugins/help.lua:111
-#, fuzzy
 msgid ""
 "\n"
 "*Admins: warns*\n"
@@ -746,7 +739,6 @@ msgstr ""
 "voce `media`."
 
 #: plugins/help.lua:124
-#, fuzzy
 msgid ""
 "\n"
 "*Admins: special characters*\n"
@@ -808,7 +800,6 @@ msgstr ""
 "*Note*: `/pin` e `/editpin` supportano il markdown ed il segnaposto `$rules`\n"
 
 #: plugins/help.lua:145
-#, fuzzy
 msgid ""
 "\n"
 "*Admins: group language*\"\n"
@@ -839,7 +830,6 @@ msgstr ""
 "tradurlo\n"
 
 #: plugins/help.lua:155
-#, fuzzy
 msgid ""
 "\n"
 "*Admins: group settings*\n"
@@ -879,12 +869,11 @@ msgid "Flood manager"
 msgstr "Antiflood"
 
 #: plugins/help.lua:179
-#, fuzzy
 msgid "Welcome settings"
 msgstr "Messaggio di benvenuto"
 
 #: plugins/help.lua:180
-#, fuzzy
+
 msgid "General settings"
 msgstr "Impostazioni generali"
 
@@ -906,7 +895,7 @@ msgid "Languages"
 msgstr "Lingue"
 
 #: plugins/help.lua:209
-#, fuzzy
+
 msgid "🔰 User commands"
 msgstr "🔰 Comandi per utenti"
 
@@ -920,33 +909,31 @@ msgstr ""
 
 #: plugins/help.lua:222
 msgid "👥 Add me to a group"
-msgstr ""
+msgstr "👥 Aggiungimi ad un gruppo"
 
 #: plugins/help.lua:223
 msgid "📢 Bot channel"
-msgstr ""
+msgstr "📢 Canale del bot"
 
 #: plugins/help.lua:226
 msgid "📕 All the commands"
-msgstr ""
+msgstr "📕 Tutti i comandi"
 
 #: plugins/help.lua:236 utilities.lua:660
 msgid "Start me"
-msgstr ""
+msgstr "Avviami"
 
 #: plugins/help.lua:263
-#, fuzzy
 msgid "Some useful *links*:"
 msgstr "*Alcuni link utili:*"
 
 #: plugins/help.lua:271
-#, fuzzy
 msgid "Tap on a button to see the *related commands*"
 msgstr "Scegli una voce per visualizzarne i *comandi associati*"
 
 #: plugins/help.lua:298
 msgid "❗️ Already on this tab"
-msgstr ""
+msgstr "❗️ Già su questa scheda"
 
 #: plugins/help.lua:300
 msgid "💡 Admins:info about the group"
@@ -957,14 +944,12 @@ msgid "💡 Admins: banhammer powers"
 msgstr ""
 
 #: plugins/help.lua:304
-#, fuzzy
 msgid "💡 Admins: flood settings"
-msgstr "Impostazioni dei media"
+msgstr ""
 
 #: plugins/help.lua:306
-#, fuzzy
 msgid "💡 Admins: media settings"
-msgstr "Impostazioni dei media"
+msgstr ""
 
 #: plugins/help.lua:308
 msgid "💡 Admins: links"
@@ -975,12 +960,11 @@ msgid "💡 Admins: group language"
 msgstr ""
 
 #: plugins/help.lua:312
-#, fuzzy
 msgid "💡 Admins: welcome settings"
-msgstr "Impostazioni Anti-flood"
+msgstr ""
 
 #: plugins/help.lua:314
-#, fuzzy
+
 msgid "💡 Admins: extra commands"
 msgstr "Comandi extra"
 
@@ -993,18 +977,15 @@ msgid "💡 Admins: special characters"
 msgstr ""
 
 #: plugins/help.lua:320
-#, fuzzy
 msgid "💡 Admins: group settings"
-msgstr "Impostazioni dei media"
+msgstr ""
 
 #: plugins/links.lua:15
-#, fuzzy
 msgid "*No link* for this group. Ask the owner to generate one"
 msgstr ""
 "*Nessun link* per questo gruppo. Chiedi al proprietario di settarne uno"
 
 #: plugins/links.lua:29
-#, fuzzy
 msgid ""
 "This is not a *public supergroup*, so you need to write the link near /"
 "setlink"
@@ -1013,26 +994,24 @@ msgstr ""
 "affianco a /setlink"
 
 #: plugins/links.lua:35
-#, fuzzy
 msgid "This link is *not valid!*"
 msgstr "Questo link *non è valido!*"
 
 #: plugins/links.lua:46
-#, fuzzy
 msgid "Link *unsetted*"
 msgstr "Link *rimosso*"
 
 #: plugins/links.lua:52
-#, fuzzy, lua-format
+#, lua-format
 msgid ""
 "The link has been updated.\n"
 "*Here's the new link*: %s"
 msgstr ""
 "Il link è stato aggiornato.\n"
-"*Ecco il nuovo link*: [%s](%s)"
+"*Ecco il nuovo link*: %s"
 
 #: plugins/links.lua:54
-#, fuzzy, lua-format
+#, lua-format
 msgid ""
 "The link has been set.\n"
 "*Here's the link*: %s"
@@ -1111,12 +1090,10 @@ msgstr ""
 "Questo numero non è correlato in alcun modo al comando `/warn`."
 
 #: plugins/mediasettings.lua:71
-#, fuzzy
 msgid "⚠️ Tap on the right column"
 msgstr "⚠️ Tappa sulla colonna di destra"
 
 #: plugins/mediasettings.lua:79
-#, fuzzy
 msgid "⚙ The new value is too low ( < 1)"
 msgstr "Il nuovo valore è troppo basso (<1)"
 
@@ -1126,62 +1103,50 @@ msgid "⚙ The new value is too high ( > 12)"
 msgstr "Il nuovo valore è troppo alto (>12)"
 
 #: plugins/mediasettings.lua:98
-#, fuzzy
 msgid "🔨 New status is kick"
 msgstr "Nuovo stato = %s"
 
 #: plugins/mediasettings.lua:101
-#, fuzzy
 msgid "🔨 New status is ban"
 msgstr "Nuovo stato = %s"
 
 #: plugins/menu.lua:6
-#, fuzzy
 msgid "The new value is too high ( > 12)"
 msgstr "Il nuovo valore è troppo alto (>12)"
 
 #: plugins/menu.lua:13
-#, fuzzy
 msgid "The new value is too low ( < 1)"
 msgstr "Il nuovo valore è troppo basso (<1)"
 
 #: plugins/menu.lua:22
-#, fuzzy
 msgid "New action on max number of warns received: *ban*"
 msgstr "Nuova azione: *%s*"
 
 #: plugins/menu.lua:25
-#, fuzzy
 msgid "New action on max number of warns received: *kick*"
 msgstr "Nuova azione: *%s*"
 
 #: plugins/menu.lua:32
-#, fuzzy
 msgid "Senders of arab messages will be kicked"
 msgstr "Messaggi in arabo = kick"
 
 #: plugins/menu.lua:33
-#, fuzzy
 msgid "Senders of arab messages will be banned"
 msgstr "Messaggi in arabo = ban"
 
 #: plugins/menu.lua:34
-#, fuzzy
 msgid "Arab language allowed"
 msgstr "Messaggi in arabo permessi"
 
 #: plugins/menu.lua:35
-#, fuzzy
 msgid "The use of the RTL character will lead to a kick"
 msgstr "Uso del carattere RTL = kick"
 
 #: plugins/menu.lua:36
-#, fuzzy
 msgid "The use of the RTL character will lead to a ban"
 msgstr "Uso del carattere RTL = ban"
 
 #: plugins/menu.lua:37
-#, fuzzy
 msgid "RTL character allowed"
 msgstr "Carattere RTL consentito"
 
@@ -1190,17 +1155,14 @@ msgid "Extra"
 msgstr ""
 
 #: plugins/menu.lua:113 utilities.lua:521
-#, fuzzy
 msgid "Anti-flood"
 msgstr "L'anti-flood è ora on"
 
 #: plugins/menu.lua:114 utilities.lua:523
-#, fuzzy
 msgid "Silent mode"
 msgstr "Modalità silenziosa"
 
 #: plugins/menu.lua:116 utilities.lua:525
-#, fuzzy
 msgid "Arab"
 msgstr "Arabo"
 
@@ -1262,74 +1224,78 @@ msgstr ""
 "loro stato corrente\n"
 
 #: plugins/menu.lua:193
-#, fuzzy
 msgid "⚠️ Use the row below to change the warns settings!"
-msgstr "Usa la riga sottostante per modificare le impostazioni dei warns!"
+msgstr "⚠️ Usa la riga sottostante per modificare le impostazioni dei warns!"
 
 #: plugins/onmessage.lua:61
-#, fuzzy, lua-format
+#, lua-format
 msgid "%s *banned* for flood!"
-msgstr " *bannato* per flood"
+msgstr "%s *bannato* per flood"
 
 #: plugins/onmessage.lua:63
-#, fuzzy, lua-format
+#, lua-format
 msgid "%s *kicked* for flood!"
-msgstr " *kickato* per flood"
+msgstr "%s *kickato* per flood"
 
 #: plugins/onmessage.lua:72
 msgid "‼️ Please don't abuse the keyboard, requests will be ignored"
-msgstr ""
+msgstr "‼️ Per favore non spammare sulla tastiera, le richieste verranno ignorate"
 
 #: plugins/onmessage.lua:101
-#, fuzzy, lua-format
+#, lua-format
 msgid ""
 "%s *banned*: media sent not allowed!\n"
 "❗️ `%d` / `%d`"
-msgstr " *bannato*: media inviato non consentito"
+msgstr "%s *bannato*: media inviato non consentito\n"
+"❗️ `%d` / `%d`"
 
 #: plugins/onmessage.lua:103
-#, fuzzy, lua-format
+#, lua-format
 msgid ""
 "%s *kicked*: media sent not allowed!\n"
 "❗️ `%d` / `%d`"
-msgstr " *kickato*: media inviato non consentito"
+msgstr " *kickato*: media inviato non consentito\n"
+"❗️ `%d` / `%d`"
 
 #: plugins/onmessage.lua:108
-#, fuzzy, lua-format
+#, lua-format
 msgid ""
 "%s, this type of media is *not allowed* in this chat.\n"
 "(%d / %d)"
-msgstr "Questo tipo di media *non Ã¨ consentito* in questo gruppo."
+msgstr "Questo tipo di media *non è consentito* in questo gruppo.\n"
+"(%d / %d)"
 
 #: plugins/onmessage.lua:130
-#, fuzzy, lua-format
+#, lua-format
 msgid "%s *kicked*: RTL character in names / messages not allowed!"
-msgstr " *kickato*: carattere rtl nel nome/nei messaggi non consentito"
+msgstr "%s *kickato*: carattere rtl nel nome/nei messaggi non consentito"
 
 #: plugins/onmessage.lua:132
-#, fuzzy, lua-format
+#, lua-format
 msgid "%s *banned*: RTL character in names / messages not allowed!"
-msgstr " *bannato*: carattere rtl nel nome/nei messaggi non consentito"
+msgstr "%s *bannato*: carattere rtl nel nome/nei messaggi non consentito"
 
 #: plugins/onmessage.lua:152
-#, fuzzy, lua-format
+#, lua-format
 msgid "%s *kicked*: arab message detected!"
-msgstr " *kickato*: caratteri arabi non consentiti"
+msgstr "%s *kickato*: caratteri arabi non consentiti"
 
 #: plugins/onmessage.lua:154
-#, fuzzy, lua-format
+#, lua-format
 msgid "%s *banned*: arab message detected!"
-msgstr " *bannato*: caratteri arabi non consentiti"
+msgstr "%s *bannato*: caratteri arabi non consentiti"
 
 #: plugins/pin.lua:7
 msgid "Last message generated by `/pin` ^"
-msgstr ""
+msgstr "Ultimo messaggio generato con `/pin` ^"
 
 #: plugins/pin.lua:22
 msgid ""
 "You can now pin this message and use `/editpin [new text]` to edit it, "
 "without send the new message to pin again"
 msgstr ""
+"Ora puoi fissare questo messaggio ed usare `/editpin [nuovo testo]` per modificarlo, "
+"senza inviare il nuovo messaggio da fissare di nuovo"
 
 #: plugins/pin.lua:30
 msgid "You don't have any pinned message sent with `/pin [text to pin]`"
@@ -1354,7 +1320,7 @@ msgstr "Messaggio modificato. Controllalo qui"
 
 #: plugins/private.lua:5 plugins/users.lua:5
 msgid "Channel"
-msgstr ""
+msgstr "Canale"
 
 #: plugins/private.lua:6 plugins/users.lua:6
 msgid "GitHub"
@@ -1362,11 +1328,11 @@ msgstr ""
 
 #: plugins/private.lua:7 plugins/users.lua:7
 msgid "Rate me!"
-msgstr ""
+msgstr "Votami!"
 
 #: plugins/private.lua:10
 msgid "👥 Groups"
-msgstr ""
+msgstr "👥 Gruppi"
 
 #: plugins/private.lua:52
 #, lua-format
@@ -1377,44 +1343,39 @@ msgstr ""
 
 #: plugins/private.lua:70 plugins/private.lua:72
 msgid "Select a group:"
-msgstr ""
+msgstr "Seleziona un gruppo:"
 
 #: plugins/private.lua:80
 msgid "*Choose your language:*"
-msgstr ""
+msgstr "*Scegli la tua lingua:*"
 
 #: plugins/private.lua:86
 msgid "Instructions"
-msgstr ""
+msgstr "Istruzioni"
 
 #: plugins/private.lua:87
 #, lua-format
 msgid "Sending `%s.po` file..."
-msgstr ""
+msgstr "Inviando il file `%s.po`..."
 
 #: plugins/rules.lua:35
-#, fuzzy
 msgid "Please write something next this poor `/setrules`"
-msgstr "Per favore, scrivi qualcosa accanto a \"/setrules\""
+msgstr "Per favore, scrivi qualcosa accanto a `/setrules`"
 
 #: plugins/rules.lua:41
-#, fuzzy
 msgid "Rules has been wiped."
 msgstr "Le regole sono state eliminate."
 
 #: plugins/rules.lua:58
-#, fuzzy
 msgid "New rules *saved successfully*!"
 msgstr "Le nuove regole *sono state salvate correttamente*!"
 
 #: plugins/setlang.lua:15 plugins/users.lua:199 plugins/users.lua:215
 #: plugins/users.lua:246 plugins/warn.lua:19
-#, fuzzy
 msgid "You are not an admin"
-msgstr "*Non sei* un moderatore!"
+msgstr "*Non sei* un admin!"
 
 #: plugins/setlang.lua:25
-#, fuzzy
 msgid "*List of available languages*:"
 msgstr "*Elenco delle lingue disponibili:*"
 
@@ -1425,12 +1386,11 @@ msgstr "Italiano impostato"
 
 #: plugins/users.lua:14
 msgid "🔄️ Refresh cache"
-msgstr ""
+msgstr "🔄️ Aggiorna cache"
 
 #: plugins/users.lua:77
-#, fuzzy
 msgid "Nothing to display\n"
-msgstr "`Nulla da segnalare`"
+msgstr "`Nulla da segnalare`\n"
 
 #: plugins/users.lua:80
 #, lua-format
@@ -1440,37 +1400,37 @@ msgstr ""
 #: plugins/users.lua:81
 #, lua-format
 msgid "Banned: *%d*"
-msgstr ""
+msgstr "Bannato: *%d*"
 
 #: plugins/users.lua:82
 #, lua-format
 msgid "Temporary banned: *%d*"
-msgstr ""
+msgstr "Bannato temporaneamente: *%d*"
 
 #: plugins/users.lua:83
-#, fuzzy, lua-format
+#, lua-format
 msgid "Removed for flood: *%d*"
-msgstr "Rimosso per flood: "
+msgstr "Rimosso per flood: *%d*"
 
 #: plugins/users.lua:84
-#, fuzzy, lua-format
+#, lua-format
 msgid "Removed for forbidden media: *%d*"
-msgstr "Rimosso per media vietati: "
+msgstr "Rimosso per media vietati: *%d*"
 
 #: plugins/users.lua:85
-#, fuzzy, lua-format
+#, lua-format
 msgid "Removed for warns: *%d*"
-msgstr "Rimosso per warns: "
+msgstr "Rimosso per warns: *%d*"
 
 #: plugins/users.lua:86
-#, fuzzy, lua-format
+#, lua-format
 msgid "Removed for arab chars: *%d*"
-msgstr "Rimosso per caratteri arabi: "
+msgstr "Rimosso per caratteri arabi: *%d*"
 
 #: plugins/users.lua:87
-#, fuzzy, lua-format
+#, lua-format
 msgid "Removed for RTL char: *%d*"
-msgstr "Rimosso per carattere RTL: "
+msgstr "Rimosso per carattere RTL: *%d*"
 
 #: plugins/users.lua:94
 #, fuzzy
@@ -1497,62 +1457,62 @@ msgid "This user has nothing to do with this chat"
 msgstr "Questo utente non ha nulla a che fare con questo gruppo"
 
 #: plugins/users.lua:146
-#, fuzzy, lua-format
+#, lua-format
 msgid "%s is banned from this group"
 msgstr "%s è bannato da questo gruppo"
 
 #: plugins/users.lua:147
-#, fuzzy, lua-format
+#, lua-format
 msgid "%s left the group or has been kicked and unbanned"
 msgstr "%s ha lasciato il gruppo, o è stato kickato e unbannato"
 
 #: plugins/users.lua:148
-#, fuzzy, lua-format
+#, lua-format
 msgid "%s is an admin"
 msgstr "%s è un Admin"
 
 #: plugins/users.lua:149
-#, fuzzy, lua-format
+#, lua-format
 msgid "%s is the group creator"
 msgstr "%s è il creatore del gruppo"
 
 #: plugins/users.lua:150
-#, fuzzy, lua-format
+#, lua-format
 msgid "%s has nothing to do with this chat"
 msgstr "Questo utente non ha nulla a che fare con questo gruppo"
 
 #: plugins/users.lua:151
-#, fuzzy, lua-format
+#, lua-format
 msgid "%s is a chat member"
 msgstr "%s è un membro del gruppo"
 
 #: plugins/users.lua:171
-#, fuzzy
 msgid "Reply to an user or mention him (works by id too)"
 msgstr "Rispondi ad un utente o menzionalo (funziona anche by id)"
 
 #: plugins/users.lua:185
-#, fuzzy
 msgid ""
 "I've never seen this user before.\n"
 "If you want to teach me who is he, forward me a message from him"
 msgstr ""
 "Non ho mai visto questo utente prima.\n"
-"Se vuoi insegnarmi dirmi chi è, inoltrami un suo messaggio"
+"Se vuoi aggiungerlo al database, inoltrami un suo messaggio"
 
 #: plugins/users.lua:209
-#, fuzzy, lua-format
+#, lua-format
 msgid ""
 "_Banned!_\n"
 "(Admin: %s)"
-msgstr "_Bannato!_"
+msgstr "_Bannato!_\n"
+"(Admin: %s)"
 
 #: plugins/users.lua:222
-#, fuzzy, lua-format
+#, lua-format
 msgid ""
 "The number of warns received by this user has been *reset*\n"
 "(Admin: %s)"
-msgstr "Il numero di ammonizioni ricevute da questo utente è stato *azzerato*"
+msgstr "Il numero di ammonizioni ricevute da questo utente è stato *azzerato*\n"
+"(Admin: %s)"
 
 #: plugins/warn.lua:5
 #, fuzzy
@@ -1568,31 +1528,29 @@ msgstr "Azzera i warns"
 #, fuzzy
 msgid "Max number of warnings changed (media).\n"
 msgstr ""
-"Numero massimo di waning aggiornato%s.\n"
-"*Vecchio* valore: %s\n"
-"*Nuovo* valore: %s"
+"Numero massimo di waning per i media aggiornato.\n"
 
 #: plugins/warn.lua:36
 #, fuzzy
 msgid "Max number of warnings changed.\n"
 msgstr ""
-"Numero massimo di waning aggiornato%s.\n"
-"*Vecchio* valore: %s\n"
-"*Nuovo* valore: %s"
+"Numero massimo di waning aggiornato.\n"
 
 #: plugins/warn.lua:40
 #, lua-format
 msgid ""
 "*Old* value was %d\n"
 "*New* max is %d"
-msgstr ""
+msgstr "Da %d a %d"
 
 #: plugins/warn.lua:51
-#, fuzzy, lua-format
+#, lua-format
 msgid ""
 "Warns *reset*\n"
 "(Admin: %s)"
-msgstr "_Bannato!_"
+msgstr ""
+"Warn *resettati*\n"
+"(Admin: %s)"
 
 #: plugins/warn.lua:61
 #, fuzzy
@@ -1602,89 +1560,81 @@ msgstr "Il numero di warning ricevuti da questo utente è già _zero_"
 #: plugins/warn.lua:66
 #, lua-format
 msgid "*Warn removed!* (%d/%d)"
-msgstr ""
+msgstr "*Warn rimosso!* (%d/%d)"
 
 #: plugins/warn.lua:69
-#, fuzzy, lua-format
+#, lua-format
 msgid ""
 "\n"
 "(Admin: %s)"
-msgstr "Admin"
+msgstr ""
+"\n"
+"(Admin: %s)"
 
 #: plugins/warn.lua:92
-#, fuzzy, lua-format
+#, lua-format
 msgid "%s *banned*: reached the max number of warnings (%d/%d)"
-msgstr "Utente %s *bannato*: raggiunto il numero massimo di warns"
+msgstr "Utente %s *bannato*: raggiunto il numero massimo di warns (%d/%d)"
 
 #: plugins/warn.lua:95
-#, fuzzy, lua-format
+#, lua-format
 msgid "%s *kicked*: reached the max number of warnings (%d/%d)"
-msgstr "Utente %s *kickato*: raggiunto il numero massimo di warns"
+msgstr "Utente %s *kickato*: raggiunto il numero massimo di warns (%d/%d)"
 
 #: plugins/warn.lua:114
 #, lua-format
 msgid "%s *has been warned* (%d/%d)"
-msgstr ""
+msgstr "%s *è stato ammonito* (%d/%d)"
 
 #: plugins/welcome.lua:24
-#, fuzzy, lua-format
+#, lua-format
 msgid "Hi %s, and welcome to *%s*!"
 msgstr "Ciao %s, e benvenuto/a in *%s*!"
 
 #: plugins/welcome.lua:36
-#, fuzzy
 msgid "Welcome and...?"
 msgstr "Welcome e...?"
 
 #: plugins/welcome.lua:52
-#, fuzzy, lua-format
+#, lua-format
 msgid "New media setted as welcome message: `%s`"
-msgstr "Media impostato come messaggio di benvenuto: "
+msgstr "Media impostato come messaggio di benvenuto: `%s`"
 
 #: plugins/welcome.lua:54
-#, fuzzy
 msgid "Reply to a `sticker` or a `gif` to set them as *welcome message*"
 msgstr ""
 "Rispondi ad uno `sticker` a ad una `gif` per usarli come *messaggio di "
 "benvenuto*"
 
 #: plugins/welcome.lua:72
-#, fuzzy
 msgid "*Custom welcome message saved!*"
 msgstr "*Messaggio di benvenuto personalizzato salvato!*"
 
 #: utilities.lua:438
-#, fuzzy
 msgid "*No description* for this group."
 msgstr "*Nessuna descrizione* per questo gruppo."
 
 #: utilities.lua:448
-#, fuzzy
 msgid "-*empty*-"
-msgstr "*Anarchia totale*!"
+msgstr "-*vuoto*-!"
 
 #: utilities.lua:502
-#, fuzzy
 msgid "No commands set!"
 msgstr "Nessun comando impostato!"
 
 #: utilities.lua:514
-#, fuzzy
 msgid ""
 "Current settings for *the group*:\n"
 "\n"
 msgstr ""
-"Impostazioni correnti per *il gruppo*:\n"
-"\n"
-"*Lingua*: `%s`\n"
+"Impostazioni correnti per *il gruppo*:\n\n"
 
 #: utilities.lua:515
-#, fuzzy, lua-format
+#, lua-format
 msgid "*Language*: `%s`\n"
-msgstr "*Nuovo linguaggio impostato:* %s"
+msgstr "*Nuova lingua impostata:* `%s`"
 
 #: utilities.lua:564
-#, fuzzy
 msgid "*Welcome type*: `custom message`\n"
 msgstr "*Tipo di benvenuto*: `messaggio personalizzato`\n"
 
@@ -1702,19 +1652,19 @@ msgstr ""
 
 #: utilities.lua:574
 msgid "✅ = _enabled / allowed_\n"
-msgstr ""
+msgstr "✅ = _abilitato / permesso_\n"
 
 #: utilities.lua:575
 msgid "🚫 = _disabled / not allowed_\n"
-msgstr ""
+msgstr "🚫 = _disabilitato / non permesso_\n"
 
 #: utilities.lua:576
 msgid "👥 = _sent in group (always for admins)_\n"
-msgstr ""
+msgstr "👥 = _inviato nel gruppo (sempre, per gli admin)_\n"
 
 #: utilities.lua:577
 msgid "👤 = _sent in private_"
-msgstr ""
+msgstr "👤 = _inviato in privato_"
 
 #: utilities.lua:583
 #, fuzzy
@@ -1722,70 +1672,60 @@ msgid "Welcome message won't be displayed from now"
 msgstr "Il messaggio di benvenuto non verrà mostrato da ora"
 
 #: utilities.lua:584
-#, fuzzy
 msgid "#extra commands are now available only for moderator"
 msgstr "I comandi #extra sono ora utilizzabili solo dai moderatori"
 
 #: utilities.lua:585
-#, fuzzy
 msgid "Anti-flood is now off"
 msgstr "L'anti-flood è ora off"
 
 #: utilities.lua:586
-#, fuzzy
 msgid "`/rules` will reply in private (for users)"
 msgstr "/rules risponderà in privato (con utenti normali)"
 
 #: utilities.lua:587
 msgid "Bots won't be kicked if added by an user"
-msgstr ""
+msgstr "I bot non verranno kickati se aggiunti da un utente"
 
 #: utilities.lua:590
-#, fuzzy
 msgid "Welcome message will be displayed"
-msgstr "il messaggio di benvenuto da ora verrà mostrato"
+msgstr "Il messaggio di benvenuto da ora verrà mostrato"
 
 #: utilities.lua:591
-#, fuzzy
 msgid "#extra commands are now available for all"
 msgstr "I comandi #extra sono già disponibili per tutti"
 
 #: utilities.lua:592
-#, fuzzy
 msgid "Anti-flood is now on"
 msgstr "L'anti-flood è ora on"
 
 #: utilities.lua:593
-#, fuzzy
 msgid "`/rules` will reply in the group (with everyone)"
 msgstr "/rules risponderà nel gruppo (con tutti)"
 
 #: utilities.lua:594
 msgid "Bots will be kicked if added by an user"
-msgstr ""
+msgstr "I bot verranno kickati se aggiunti da un utente"
 
 #: utilities.lua:613
-#, fuzzy
 msgid "Now flooders will be banned"
 msgstr "I flooders verranno bannati"
 
 #: utilities.lua:616
-#, fuzzy
 msgid "Now flooders will be kicked"
 msgstr "I flooders verranno kickati"
 
 #: utilities.lua:625 utilities.lua:632
 #, lua-format
 msgid "%d is not a valid value!\n"
-msgstr ""
+msgstr "%d non è un valore valido!\n"
 
 #: utilities.lua:656
-#, fuzzy, lua-format
+#, lua-format
 msgid "New status = %s"
 msgstr "Nuovo stato = %s"
 
 #: utilities.lua:661
-#, fuzzy
 msgid "_Please message me first so I can message you_"
 msgstr "_Per favore, avviami cosicchè io possa risponderti_"
 

@@ -49,7 +49,7 @@ local action = function(msg, blocks)
 	end
 	if blocks[1] == 'info' then
 		local keyboard = do_keybaord_credits()
-		local text = _("🕔 Bot version: `%s`\n🔗 *Some useful links*:"):format(config.version)
+		local text = _("*Some useful links*:")
 		if msg.cb then
 			api.editMessageText(msg.chat.id, msg.message_id, text, keyboard, true)
 		else

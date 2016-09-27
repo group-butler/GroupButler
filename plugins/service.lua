@@ -23,7 +23,7 @@ local function action(msg, blocks)
 		misc.initGroup(msg.chat.id)
 	end
 	if blocks[1] == 'botremoved' then
-		misc.remGroup(msg.chat.id)
+		misc.remGroup(msg.chat.id, nil, 'bot removed')
 	end
 	if blocks[1] == 'removed' then
 		if msg.remover and msg.removed then

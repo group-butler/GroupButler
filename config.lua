@@ -1,6 +1,5 @@
 return {
 	bot_api_key = '',
-	version = '4.1.8',
 	cmd = '^[/!#]',
 	db = 2, --default redis db: 0
 	superadmins = {23646077, 278941742},
@@ -19,14 +18,14 @@ return {
 		stream_commands = true,
 		admin_mode = false
 	},
-	channel = '@groupbutler_beta', --channel username with the '@'
+	channel = '@groupbutler_ch', --channel username with the '@'
 	source_code = 'https://github.com/RememberTheAir/GroupButler',
 	help_groups = {
 		['Internatonal (English)'] = 'https://telegram.me/joinchat/EKBQLj7Zf6lE2K_Pk0Epcg', --group link, not username!
 		['Italian'] = 'https://telegram.me/joinchat/ITAgroupbutler',
 		['Persian'] = 'https://telegram.me/joinchat/CTDUTkCOsEt4DZT-SUQdBQ',
 		['Russian'] = 'https://telegram.me/rubutler',
-		['Spanish'] = false
+		['Spanish'] = 'https://telegram.me/SPAhroupbutler'
 	},
 	plugins = {
 		'onmessage.lua', --THIS MUST BE THE FIRST: IF AN USER IS SPAMMING/IS BLOCKED, THE BOT WON'T GO THROUGH PLUGINS
@@ -47,7 +46,6 @@ return {
 		'mediasettings.lua',
 		'private.lua',
 		'admin.lua',
-		--'restore.lua',
 		--'test.lua',
 		--'logchannel.lua',
 		'extra.lua', --must be the last
@@ -71,7 +69,7 @@ return {
 		['fa'] = 'فارسی 🇮🇷'
 		-- more to come
 	},
-	allow_fuzzy_translations = true,
+	allow_fuzzy_translations = false,
 	media_list = {
 		'image',
 		'audio',
@@ -139,8 +137,7 @@ return {
 		},
 	},
 	private_settings = {
-		rules_on_join = 'on',
-		motivation_on_kick = 'on',
+		rules_on_join = 'off',
 		reports = 'off'
 	},
 	chat_custom_texts = {'extra', 'info', 'links', 'warns', 'mediawarn'},
