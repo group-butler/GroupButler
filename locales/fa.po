@@ -186,35 +186,30 @@ msgstr ""
 msgid "Settings"
 msgstr "تنظیمات"
 
-#: plugins/dashboard.lua:60
+#: plugins/dashboard.lua:63
 msgid "Admins"
 msgstr "مدیران"
 
-#: plugins/dashboard.lua:63 plugins/menu.lua:115 utilities.lua:524
+#: plugins/dashboard.lua:62 plugins/menu.lua:115 utilities.lua:524
 #, fuzzy
 msgid "Rules"
 msgstr "قوانین"
 
-#: plugins/dashboard.lua:64
-#, fuzzy
-msgid "Description"
-msgstr "توضییحات"
-
-#: plugins/dashboard.lua:67 plugins/menu.lua:111 utilities.lua:519
+#: plugins/dashboard.lua:66 plugins/menu.lua:111 utilities.lua:519
 #, fuzzy
 msgid "Welcome message"
 msgstr "پیام خوش آمد"
 
-#: plugins/dashboard.lua:68 plugins/help.lua:181
+#: plugins/dashboard.lua:67 plugins/help.lua:181
 #, fuzzy
 msgid "Extra commands"
 msgstr "دستورهای اضافه"
 
-#: plugins/dashboard.lua:71
+#: plugins/dashboard.lua:70
 msgid "Flood settings"
 msgstr "تنظیمات ضد اسپم"
 
-#: plugins/dashboard.lua:72 plugins/help.lua:178
+#: plugins/dashboard.lua:71 plugins/help.lua:178
 msgid "Media settings"
 msgstr "تنظیمات رسانه"
 
