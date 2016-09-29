@@ -50,7 +50,7 @@ If you are going to use it in a public supergroup, you do not need to write the 
 
 `/kick [by reply|username|id|text mention]` = kick a user from the group (he can be added again).
 `/ban [by reply|username|id|text mention]` = ban a user from the group (also from normal groups).
-`/tempban [hours|nd nh]` = ban an user for a specific amount of minutes (max: one week). For now, only by reply. Short form: `/tempban 1d 7h`
+`/tempban [hours|nd nh]` = ban an user for a specific amount of hours (max: one week). For now, only by reply. Short form: `/tempban 1d 7h`
 `/unban [by reply|username|id|text mention]` = unban the user from the group.
 `/user [by reply|username|id|text mention]` = shows how many times the user has been banned *in all the groups*, and the warns received.
 `/status [username|id]` = show the current status of the user `(member|kicked/left the chat|banned|admin/creator|never seen)`
@@ -135,13 +135,14 @@ When Rtl is not allowed (🚫), everyone that writes this character (or that has
 		return _([[
 *Admins: pin*
 
-`/pin [text]`: the bot will send you back the text you used as argument, with markdown. You can pin the messahe and use `/editpin [new text]` to edit it
+`/pin [text]`: the bot will send you back the text you used as argument, with markdown. You can pin the message and use `/editpin [new text]` to edit it
 `/editpin [new text]`: edit the previously generated message. Useful if you often need to make small/big changes to the pinned message but you don't like to send a wall of text that can't be deleted because you have to pin it
 `/pin`: the bot will find the latest message generate by `/pin [text]`, if it still exists
 
 *Note*: `/pin` and `/editpin` support markdown and `$rules` placeholder
 ]])
 	elseif key == 'mods_langs' then
+		-- TRANSLATORS: leave your contact information for reports mistakes in translation
 		return _([[
 *Admins: group language*"
 `/lang` = choose the group language (can be changed in private too).
@@ -163,7 +164,7 @@ The inline keyboard has three sub-menus:
 *Media*: choose which media to forbid in your group, and set the number of times that an user will be warned before being kicked/banned
 ]])
 	else
-		assert('bad key')
+		error('bad key')
 	end
 end
 
@@ -180,8 +181,8 @@ local function make_keyboard(mod, mod_current_position)
 	        [_("General settings")] = 'settings',
 	        [_("Extra commands")] = 'extra',
 	        [_("Warns")] = 'warns',
-	        [_("Characters strictness")] = 'char',
-	        [_("Links")] = 'pin',
+	        [_("Characters")] = 'char',
+	        [_("Pin")] = 'pin',
 	        [_("Languages")] = 'lang'
         }
         local line = {}
@@ -297,15 +298,15 @@ local action = function(msg, blocks)
         if not res and code and code == 111 then
             api.answerCallbackQuery(msg.cb_id, _("❗️ Already on this tab"))
 		elseif query == 'info' then
-			api.answerCallbackQuery(msg.cb_id, _("💡 Admins:info about the group"))
+			api.answerCallbackQuery(msg.cb_id, _("💡 Admins: info about the group"))
 		elseif query == 'banhammer' then
 			api.answerCallbackQuery(msg.cb_id, _("💡 Admins: banhammer powers"))
 		elseif query == 'flood' then
 			api.answerCallbackQuery(msg.cb_id, _("💡 Admins: flood settings"))
 		elseif query == 'media' then
 			api.answerCallbackQuery(msg.cb_id, _("💡 Admins: media settings"))
-		elseif query == 'links' then
-			api.answerCallbackQuery(msg.cb_id, _("💡 Admins: links"))
+		elseif query == 'pin' then
+			api.answerCallbackQuery(msg.cb_id, _("💡 Admins: pin message"))
 		elseif query == 'lang' then
 			api.answerCallbackQuery(msg.cb_id, _("💡 Admins: group language"))
 		elseif query == 'welcome' then

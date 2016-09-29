@@ -173,7 +173,7 @@ Manage the settings of the group.
 • 👤: the bot will reply *in private* with normal users and in the group with admins
 
 *Silent mode*:
-If enabled, the bot won't send a confirmation message in the group when soemone use /config or /dashboard.
+If enabled, the bot won't send a confirmation message in the group when someone use /config or /dashboard.
 It will just send the message in private.
 ]])
 
