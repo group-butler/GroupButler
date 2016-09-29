@@ -4,8 +4,7 @@ local function cron()
 		for unban_time,info in pairs(all) do
 			if os.time() > tonumber(unban_time) then
 				local chat_id, user_id = info:match('(-%d+):(%d+)')
-				api.unbanUser(chat_id, user_id, true)
-				api.unbanUser(chat_id, user_id, false)
+				api.unbanUser(chat_id, user_id)
 				db:hdel('tempbanned', unban_time)
 				db:srem('chat:'..chat_id..':tempbanned', user_id) --hash needed to check if an user is already tempbanned or not
 			end

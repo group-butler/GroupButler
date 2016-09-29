@@ -29,10 +29,10 @@ local action = function(msg, blocks)
     if msg.chat.type ~= 'private' then return end
     
 	if blocks[1] == 'ping' then
-		local res = api.sendMessage(msg.from.id, _("Pong!"), true)
-		if res then
-			api.editMessageText(msg.chat.id, res.result.message_id, _("Response time: %ds"):format(os.clock() - clocktime_last_update))
-		end
+		local res = api.sendMessage(msg.from.id, 'Pong!', true)
+		--[[if res then
+			api.editMessageText(msg.chat.id, res.result.message_id, 'Response time: '..(os.clock() - clocktime_last_update))
+		end]]
 	end
 	if blocks[1] == 'echo' then
 		local res, code = api.sendMessage(msg.chat.id, blocks[2], true)
@@ -47,9 +47,9 @@ local action = function(msg, blocks)
 			end
 		end
 	end
-	if blocks[1] == 'info' then
+	if blocks[1] == 'about' then
 		local keyboard = do_keybaord_credits()
-		local text = _("*Some useful links*:")
+		local text = 'This bot is based on [otouto](https://github.com/topkecleon/otouto) (AKA @mokubot, channel: @otouto), a multipurpose Lua bot.\nGroup Butler wouldn\'t exist without it.\n\nThe owner of this bot is @bac0nnn, do not pm him: use /groups command instead.\n\n*Some useful links*:'
 		if msg.cb then
 			api.editMessageText(msg.chat.id, msg.message_id, text, keyboard, true)
 		else
@@ -96,10 +96,11 @@ return {
 		config.cmd..'(strings)$',
 		config.cmd..'(strings) (%a%a)$',
 		config.cmd..'(echo) (.*)$',
-		config.cmd..'(info)$',
+		config.cmd..'(about)$',
 		config.cmd..'(groups)$',
+		'^/start (groups)$',
 		
-		'^###cb:fromhelp:(info)$',
+		'^###cb:fromhelp:(about)$',
 		'^###cb:private:(groups)$',
 		'^###cb:(sendpo):(.*)$',
 	}

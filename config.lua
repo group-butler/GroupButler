@@ -12,7 +12,7 @@ return {
 		cache_time = {
 			adminlist = 18000, --5 hours (18000s)
 		},
-		multipurpose_mode = false,
+		multipurpose_mode = true,
 		notify_bug = true,
 		log_api_errors = true,
 		stream_commands = true,
@@ -25,7 +25,7 @@ return {
 		['Italian'] = 'https://telegram.me/joinchat/ITAgroupbutler',
 		['Persian'] = 'https://telegram.me/joinchat/CTDUTkCOsEt4DZT-SUQdBQ',
 		['Russian'] = 'https://telegram.me/rubutler',
-		['Spanish'] = 'https://telegram.me/SPAhroupbutler'
+		['Spanish'] = 'https://telegram.me/ESgroupbutler'
 	},
 	plugins = {
 		'onmessage.lua', --THIS MUST BE THE FIRST: IF AN USER IS SPAMMING/IS BLOCKED, THE BOT WON'T GO THROUGH PLUGINS
@@ -48,6 +48,8 @@ return {
 		'admin.lua',
 		--'test.lua',
 		--'logchannel.lua',
+		'report.lua',
+		'private_settings.lua',
 		'extra.lua', --must be the last
 	},
 	multipurpose_plugins = {
@@ -56,17 +58,17 @@ return {
 		'patterns.lua'
 	},
 	available_languages = {
-		['en'] = 'English 🇬🇧',
-		['it'] = 'Italiano 🇮🇹',
-		['es'] = 'Español 🇪🇸',
-		['pt_BR'] = 'Português 🇧🇷',
-		['ru'] = 'Русский 🇷🇺',
-		['de'] = 'Deutschland 🇩🇪',
-		['sv'] = 'Svensk 🇸🇪',
-		['ar'] = 'العربية 🇸🇩',
-		['fr'] = 'Français 🇫🇷',
-		['zh'] = '中文 🇨🇳',
-		['fa'] = 'فارسی 🇮🇷'
+		['en'] = 'English ðŸ‡¬ðŸ‡§',
+		['it'] = 'Italiano ðŸ‡®ðŸ‡¹',
+		['es'] = 'EspaÃ±ol ðŸ‡ªðŸ‡¸',
+		['pt_BR'] = 'PortuguÃªs ðŸ‡§ðŸ‡·',
+		['ru'] = 'Ð ÑƒÑÑÐºÐ¸Ð¹ ðŸ‡·ðŸ‡º',
+		['de'] = 'Deutschland ðŸ‡©ðŸ‡ª',
+		['sv'] = 'Svensk ðŸ‡¸ðŸ‡ª',
+		['ar'] = 'Ø§Ù„Ø¹Ø±Ø¨ÙŠØ© ðŸ‡¸ðŸ‡©',
+		['fr'] = 'FranÃ§ais ðŸ‡«ðŸ‡·',
+		['zh'] = 'ä¸­æ–‡ ðŸ‡¨ðŸ‡³',
+		['fa'] = 'ÙØ§Ø±Ø³ÛŒ ðŸ‡®ðŸ‡·'
 		-- more to come
 	},
 	allow_fuzzy_translations = false,
@@ -88,7 +90,8 @@ return {
 			['Flood'] = 'off',
 			['Silent'] = 'off',
 			['Rules'] = 'off',
-			['Antibot'] = 'off'
+			['Antibot'] = 'off',
+			['Reports'] = 'off'
 		},
 		['flood'] = {
 			['MaxFlood'] = 5,

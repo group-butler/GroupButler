@@ -158,9 +158,16 @@ on_msg_receive = function(msg) -- The fn run whenever a message is received.
 		
 		collect_stats(msg)
 		
-		local continue
+		local continue, onm_success
 		for i, plugin in pairs(plugins) do
-			if plugin.onmessage then continue = plugin.onmessage(msg) end
+			if plugin.onmessage then
+				onm_success, continue = pcall(plugin.onmessage, msg)
+				--vardump(onm_success)
+				--vardump(continue)
+				if not onm_success then
+					api.sendAdmin('An #error occurred (preprocess).\n'..tostring(continue)..'\n'..locale.language..'\n'..msg.text)
+				end
+			end
 			if not continue then return end
 		end
 		
@@ -318,8 +325,6 @@ local function handle_inline_keyboards_cb(msg)
 	msg.target_id = msg.data:match('(-?%d+)$')
 	return on_msg_receive(msg)
 end
-
----------WHEN THE BOT IS STARTED FROM THE TERMINAL, THIS IS THE FIRST FUNCTION HE FOUNDS
 
 bot_init() -- Actually start the script. Run the bot_init function.
 

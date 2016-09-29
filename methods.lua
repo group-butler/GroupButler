@@ -1,4 +1,3 @@
-
 local BASE_URL = 'https://api.telegram.org/bot' .. config.bot_api_key
 
 local api = {}
@@ -305,7 +304,7 @@ end
 
 function api.editMarkup(chat_id, message_id, reply_markup)
 	
-	local url = BASE_URL .. '/editMessageReplyMarkup?chat_id=' .. chat_id .. '&message_id='..message_id..'&reply_markup='..JSON.encode(keyboard)
+	local url = BASE_URL .. '/editMessageReplyMarkup?chat_id=' .. chat_id .. '&message_id='..message_id..'&reply_markup='..JSON.encode(reply_markup)
 	
 	return sendRequest(url)
 
