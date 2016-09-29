@@ -69,9 +69,9 @@ local function onmessage(msg)
         	        else
         	            message = _("%s *kicked* for flood!"):format(name)
         	        end
-        	        if msgs == (max_msgs + 1) or msgs == max_msgs + 5 then --send the message only if it's the message after the first message flood. Repeat after 5
-        	            api.sendMessage(msg.chat.id, message, true)
-        	        end
+        	        --if msgs == (max_msgs + 1) or msgs == max_msgs + 5 then --send the message only if it's the message after the first message flood. Repeat after 5
+        	            --api.sendMessage(msg.chat.id, message, true)
+        	        --end
         	    end
         	end
             
