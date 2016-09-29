@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GroupButler 4.0\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
-"POT-Creation-Date: 2016-09-25 16:52+0200\n"
-"PO-Revision-Date: 2016-09-24 22:26+0300\n"
+"POT-Creation-Date: 2016-09-29 07:16+0300\n"
+"PO-Revision-Date: 2016-09-29 07:19+0300\n"
 "Last-Translator: Николай Гурьев <guriev-ns@ya.ru, https://telegram.me/"
 "mymedia>\n"
 "Language-Team: Russian\n"
@@ -55,8 +55,8 @@ msgstr "Для этого непосредственно используй /ban
 msgid "The time limit is one week (168 hours)"
 msgstr "Время ограничено одной неделей (168 часов)"
 
-#: plugins/banhammer.lua:96 plugins/banhammer.lua:119
-#: plugins/banhammer.lua:132 plugins/warn.lua:101
+#: plugins/banhammer.lua:96 plugins/banhammer.lua:119 plugins/banhammer.lua:132
+#: plugins/warn.lua:101
 msgid ""
 "I can't kick this user.\n"
 "Probably I'm not an Amdin, or the user is an Admin iself"
@@ -109,70 +109,62 @@ msgstr "_Используй эту клавиатуру для изменени�
 msgid "_I've sent you the keyboard in private_"
 msgstr "_Я отправил тебе клавиатуру с настройками личным сообщением_"
 
-#: plugins/dashboard.lua:6 utilities.lua:566
-msgid "*Welcome type*: `default message`\n"
-msgstr "*Приветствие*: `стандартное`\n"
-
-#: plugins/dashboard.lua:8 utilities.lua:562
-msgid "*Welcome type*: `GIF / sticker`\n"
-msgstr "*Приветствие*: `GIF / стикер`\n"
-
-#: plugins/dashboard.lua:18 plugins/floodmanager.lua:5
+#: plugins/dashboard.lua:4 plugins/floodmanager.lua:5
 msgid "✅ | ON"
 msgstr "✅ | ВКЛ"
 
-#: plugins/dashboard.lua:20 plugins/floodmanager.lua:7
+#: plugins/dashboard.lua:6 plugins/floodmanager.lua:7
 msgid "❌ | OFF"
 msgstr "❌ | ВЫКЛ"
 
-#: plugins/dashboard.lua:25 plugins/floodmanager.lua:13
+#: plugins/dashboard.lua:11 plugins/floodmanager.lua:13
 msgid "⚡️ kick"
 msgstr "⚡️ кик"
 
-#: plugins/dashboard.lua:27 plugins/floodmanager.lua:15
+#: plugins/dashboard.lua:13 plugins/floodmanager.lua:15
 msgid "⛔ ️ban"
 msgstr "⛔ ️бан"
 
-#: plugins/dashboard.lua:31 plugins/floodmanager.lua:33
+#: plugins/dashboard.lua:17 plugins/floodmanager.lua:33
 msgid "Texts"
 msgstr "Текст"
 
-#: plugins/dashboard.lua:32 plugins/floodmanager.lua:34
+#: plugins/dashboard.lua:18 plugins/floodmanager.lua:34
 #: plugins/mediasettings.lua:22
 msgid "Stickers"
 msgstr "Стикеры"
 
-#: plugins/dashboard.lua:33 plugins/floodmanager.lua:35
+#: plugins/dashboard.lua:19 plugins/floodmanager.lua:35
 #: plugins/mediasettings.lua:14
 msgid "Images"
 msgstr "Изображения"
 
-#: plugins/dashboard.lua:34 plugins/floodmanager.lua:36
+#: plugins/dashboard.lua:20 plugins/floodmanager.lua:36
 #: plugins/mediasettings.lua:15
 msgid "GIFs"
 msgstr "GIF"
 
-#: plugins/dashboard.lua:35 plugins/floodmanager.lua:37
+#: plugins/dashboard.lua:21 plugins/floodmanager.lua:37
 #: plugins/mediasettings.lua:16
 msgid "Videos"
 msgstr "Видео"
 
-#: plugins/dashboard.lua:49
+#: plugins/dashboard.lua:35
 #, lua-format
 msgid "- *Status*: `%s`\n"
 msgstr "- *Состояние*: `%s`\n"
 
-#: plugins/dashboard.lua:50
+#: plugins/dashboard.lua:36
 #, lua-format
 msgid "- *Action* when an user floods: `%s`\n"
 msgstr "- Что *делать* с флудерами: `%s`\n"
 
-#: plugins/dashboard.lua:51
+#: plugins/dashboard.lua:37
 #, lua-format
 msgid "- Number of messages *every 5 seconds* allowed: `%d`\n"
 msgstr "- Количество сообщений, разрешённых *за 5 секунд*: `%d`\n"
 
-#: plugins/dashboard.lua:52
+#: plugins/dashboard.lua:38
 #, lua-format
 msgid ""
 "- *Ignored media*:\n"
@@ -181,54 +173,48 @@ msgstr ""
 "- *Игнорируемые медиа*:\n"
 "%s"
 
-#: plugins/dashboard.lua:59
+#: plugins/dashboard.lua:45
 msgid "Settings"
 msgstr "Настройки"
 
-#: plugins/dashboard.lua:60
+#: plugins/dashboard.lua:46
 msgid "Admins"
 msgstr "Администрация"
 
-#: plugins/dashboard.lua:63 plugins/menu.lua:115 utilities.lua:524
+#: plugins/dashboard.lua:49 plugins/menu.lua:115 utilities.lua:514
 msgid "Rules"
 msgstr "Правила"
 
-#: plugins/dashboard.lua:64
-msgid "Description"
-msgstr "Описание"
-
-#: plugins/dashboard.lua:67 plugins/menu.lua:111 utilities.lua:519
-msgid "Welcome message"
-msgstr "Приветствие"
-
-#: plugins/dashboard.lua:68 plugins/help.lua:181
+#: plugins/dashboard.lua:50 plugins/help.lua:182
 msgid "Extra commands"
 msgstr "Доп. команды"
 
-#: plugins/dashboard.lua:71
+#: plugins/dashboard.lua:53
 msgid "Flood settings"
 msgstr "Настройки антифлуда"
 
-#: plugins/dashboard.lua:72 plugins/help.lua:178
+#: plugins/dashboard.lua:54 plugins/help.lua:179
 msgid "Media settings"
 msgstr "Настройки медиа"
 
-#: plugins/dashboard.lua:98
+#: plugins/dashboard.lua:71
 msgid "Navigate this message to see *all the info* about this group!"
 msgstr ""
 "Перемещайся по этому сообщению, чтобы увидеть *всю информацию* о группе"
 
-#: plugins/dashboard.lua:101
+#: plugins/dashboard.lua:74
 msgid "_I've sent you the group dashboard in private_"
 msgstr "_Я отправил тебе панель личным сообщением_"
 
-#: plugins/dashboard.lua:125
+#: plugins/dashboard.lua:95
 msgid ""
 "I'm not a group Admin.\n"
 "*Only an Admin can see the administrators list*"
 msgstr ""
+"Я не администратор группы.\n"
+"*Только админы могут видеть список администраторов*"
 
-#: plugins/dashboard.lua:127 plugins/users.lua:123
+#: plugins/dashboard.lua:97 plugins/users.lua:123
 #, lua-format
 msgid ""
 "*Creator*:\n"
@@ -242,7 +228,7 @@ msgstr ""
 "*Администраторы*:\n"
 "%s"
 
-#: plugins/dashboard.lua:140
+#: plugins/dashboard.lua:107
 msgid ""
 "*Current settings for media*:\n"
 "\n"
@@ -280,7 +266,7 @@ msgstr "Команда %s сохранена!"
 msgid "No commands set"
 msgstr "Нет команд"
 
-#: plugins/extra.lua:65 utilities.lua:507
+#: plugins/extra.lua:65 utilities.lua:497
 msgid "List of *custom commands*:\n"
 msgstr "Список *установленных команд*:\n"
 
@@ -343,7 +329,7 @@ msgid ""
 "`%s` is not a valid value!\n"
 "The value should be *higher* than `3` and *lower* then `26`"
 msgstr ""
-"`%s` неправильное значение!\n"
+"`%s` — неправильное значение!\n"
 "Число должно быть *больше* `3` и *меньше* `26`"
 
 #: plugins/floodmanager.lua:98
@@ -373,10 +359,10 @@ msgstr "❎ Антифлуд будет игнорировать [%s]"
 #: plugins/floodmanager.lua:135
 #, lua-format
 msgid "🚫 [%s] won't be ignored by the anti-flood"
-msgstr "Антифлуд не будет игнорировать [%s]"
+msgstr "🚫 Антифлуд не будет игнорировать [%s]"
 
 #: plugins/help.lua:3
-#, fuzzy, lua-format
+#, lua-format
 msgid ""
 "\n"
 "Hello *%s* 👋🏼, nice to meet you!\n"
@@ -399,27 +385,25 @@ msgid ""
 msgstr ""
 "\n"
 "Привет, *%s* 👋🏼, рад видеть тебя!\n"
-"Я дворецкий групп (Group Butler) — первый бот для администрирования, "
-"использующий официальный API для ботов.\n"
+"Я Group Butler — первый бот для администрирования, использующий официальный "
+"API для ботов.\n"
 "\n"
 "*Я могу делать множество крутых вещей*, вот лишь короткий список:\n"
-"• Я могу *кикать или банить* пользователей по "
-"ответу / логину\n"
-"• Ты можешь использовать меня, чтобы установить правила и описание группы\n"
+"• Я могу *кикать или банить* пользователей\n"
+"• Ты можешь использовать меня, чтобы установить правила группы\n"
 "• У меня есть гибкая система *антифлуда*\n"
 "• Я могу *приветствовать новых пользователей* настраиваемым сообщением или, "
-"если ты хочешь, GIF или стикером\n"
+"если хочешь, GIF или стикером\n"
 "• Я могу *предупреждать* пользователей и банить их, когда они превышают "
 "максимальное количество предупреждений\n"
 "• Я также могу предупреждать, кикать или банить пользователей, когда они "
-"отправляют запрещённые медиа\n"
+"отправляют определённые медиа\n"
 "… и многое другое, что о чём можно узнать, нажав кнопку \"Все команды\"\n"
 "\n"
 "Я буду работать лучше, если ты сделаешь меня администратором группы (иначе я "
 "не смогу кикать и банить)\n"
 
 #: plugins/help.lua:19
-#, fuzzy
 msgid ""
 "\n"
 "*Commands for everyone*:\n"
@@ -433,17 +417,17 @@ msgid ""
 "`/groups` : show the list of the discussion groups\n"
 "`/help` : show this message\n"
 msgstr ""
+"\n"
 "*Команды для всех*:\n"
-"`/rules` : показать правила группы (via pm)\n"
-"`/about` : показать описание группы (via pm)\n"
-"`/adminlist` : показать модераторов этой группы (via pm)\n"
+"`/dashboard` : посмотреть всю информацию о группе в ЛС\n"
+"`/rules` : показать правила группы (в ЛС)\n"
+"`/adminlist` : показать модераторов этой группы (в ЛС)\n"
 "`/kickme` : попросить бота кинуть тебя\n"
-"`/id` : show the chat id, or the id of an user if by reply\n"
-"`/echo [text]` : the bot will send the text back (with markdown, available "
-"only in private for non-admin users)\n"
-"`/info` : показать информацию о боте\n"
+"`/echo [text]` :  бот отправит текст обратно (с markdown, только в ЛС для "
+"неадминов)\n"
+"`/info` : показать некоторую информацию о боте\n"
 "`/groups` : показать список групп обсуждения бота\n"
-"`/help` : показать это сообщение"
+"`/help` : показать это сообщение\n"
 
 #: plugins/help.lua:31
 msgid ""
@@ -469,6 +453,28 @@ msgid ""
 "*Note*: the bot can recognize valid group links. If a link is not valid, you "
 "won't receive a reply.\n"
 msgstr ""
+"\n"
+"*Администраторам: информация о группе*\n"
+"\n"
+"`/setrules [правила группы]` = установить новые правила в группе (старые "
+"будут перезаписаны).\n"
+"`/setrules -` = удалить текущие правила.\n"
+"\n"
+"*Примечание*: поддерживается markdown. Если текст содержит ошибку в "
+"форматировании, бот уведомит об этом.\n"
+"Для правильного применения markdown прочти [этот пост](https://telegram.me/"
+"GroupButler_ch/46) в канале (по-английски).\n"
+"\n"
+"`/setlink [ссылка | -]`: указать ссылку на группу, которую смогут получить "
+"другие админы, или удалить её.\n"
+"Если у тебя публичная супергруппа, не обязательно писать ссылку. Просто пиши "
+"`/setlink`\n"
+"`/link`: получить ссылку на группу, если была указана.\n"
+"`/msglink`: получить ссылку на сообщение. Работает только в публичных "
+"супергруппах\n"
+"\n"
+"*Примечание*: бот распознаёт только правильную ссылку. Если ссылку не "
+"корректна, он не ответит.\n"
 
 #: plugins/help.lua:48
 msgid ""
@@ -479,8 +485,8 @@ msgid ""
 "can be added again).\n"
 "`/ban [by reply|username|id|text mention]` = ban a user from the group (also "
 "from normal groups).\n"
-"`/tempban [hours|nd nh]` = ban an user for a specific amount of minutes "
-"(max: one week). For now, only by reply. Short form: `/tempban 1d 7h`\n"
+"`/tempban [hours|nd nh]` = ban an user for a specific amount of hours (max: "
+"one week). For now, only by reply. Short form: `/tempban 1d 7h`\n"
 "`/unban [by reply|username|id|text mention]` = unban the user from the "
 "group.\n"
 "`/user [by reply|username|id|text mention]` = shows how many times the user "
@@ -488,6 +494,23 @@ msgid ""
 "`/status [username|id]` = show the current status of the user `(member|"
 "kicked/left the chat|banned|admin/creator|never seen)`\n"
 msgstr ""
+"\n"
+"*Администраторам: банхаммер*\n"
+"\n"
+"`/kick [ответ | логин | ID | упоминание]` = кикнуть пользователя из группы "
+"(он может вступить заново).\n"
+"`/ban [ответ | логин | ID | упоминание]` = забанить пользователя в группе "
+"(также в обычных группах).\n"
+"`/tempban [часы | Nd Nh]` = забанить пользователя на указанное количество "
+"минут (максимум одна неделя). Пока только ответом. Короткая форма: `/tempban "
+"1d 7h`\n"
+"`/unban [ответ | логин | ID | упоминание]` = разбанить пользователя в "
+"группе.\n"
+"`/user [ответ | логин | ID | упоминание]` = показать сколько банов и "
+"предупреждений пользователь получил *во всех группах*.\n"
+"`/status [логин | ID]` = показать текущий статус пользователя `(участник | "
+"кикнут / покинул чат | забанен | админ / создатель | никогда не был виден)`\n"
+"\n"
 
 #: plugins/help.lua:59
 msgid ""
@@ -501,6 +524,15 @@ msgid ""
 "seconds.\n"
 "_Note_ : the number must be higher than 3 and lower than 26.\n"
 msgstr ""
+"\n"
+"*Администраторам: настройки флуда*\n"
+"\n"
+"Команда `/config`, затем кнопка `Антифлуд`: управление настройками антифлуда "
+"в ЛС с помощью встроенной клавиатуры. Ты можешь менять чувствительность, "
+"действие (кик / бан) и исключения.\n"
+"`/antiflood [число]` = установить сколько сообщений может писать "
+"пользователь в течение 5 секунд.\n"
+"_Примечание_: количество  должно быть больше 3 и меньше 26.\n"
 
 #: plugins/help.lua:67
 msgid ""
@@ -517,14 +549,26 @@ msgid ""
 "*List of supported media*: _image, audio, video, sticker, gif, voice, "
 "contact, file, link, telegram.me links_\n"
 msgstr ""
+"\n"
+"*Администраторам: настройки медиа*\n"
+"\n"
+"Команда `/config`, затем кнопка `Медиа` = получить  в ЛС сообщение со "
+"встроенной клавиатурой для изменения настроек группы.\n"
+"`/warnmax media [число]` = задать максимальное количество предупреждений "
+"прежде чем кикать / банить за отправку запрещённых медиа.\n"
+"`/nowarns (ответ)` = сбросить количество у пользователей (оба вида: обычные "
+"и медиа предупреждения).\n"
+"\n"
+"*Список поддерживающихся медиа*: _изображение, аудио, видео, GIF, стикер, "
+"контакт, файл, ссылка, ссылка в Телеграм, голосовое сообщение_\n"
 
 #: plugins/help.lua:77
 msgid ""
 "\n"
 "*Admins: welcome settings*\n"
 "\n"
-"`/menu` = receive in private the menu keyboard. You will find an option to "
-"enable/disable welcome and goodbye messages.\n"
+"`/config`, then `menu` tab = receive in private the menu keyboard. You will "
+"find an option to enable/disable welcome and goodbye messages.\n"
 "\n"
 "*Custom welcome message*:\n"
 "`/welcome Welcome $name, enjoy the group!`\n"
@@ -544,6 +588,30 @@ msgid ""
 "You can use a particular gif/sticker as welcome message. To set it, reply to "
 "the gif/sticker you want to set as welcome message with `/welcome`\n"
 msgstr ""
+"\n"
+"*Администраторам: настройки приветствия*\n"
+"\n"
+"`/config`, затем вкладка `Меню` = получить в ЛС клавиатуру с меню. Ты "
+"найдёшь там опцию включения / выключения приветственного и прощального "
+"сообщений.\n"
+"\n"
+"*Пользовательское приветственное сообщение*:\n"
+"`/welcome Привет, $name, рады видеть тебя!`\n"
+"Напиши после `/welcome` своё приветствие. Можно использовать подстановки для "
+"имени / логина / ID новичка в группе\n"
+"Подстановки:\n"
+"`$username`: _будет заменена на логин_\n"
+"`$name`: _будет заменена на имя_\n"
+"`$id`: _будет заменена на ID_\n"
+"`$title`: _будет заменена на название группы_\n"
+"`$surname`: _будет заменена на фамилию_\n"
+"`$rules`: _будет заменена на ссылку на правила группы. Пожалуйста, прочти_ "
+"[здесь](https://telegram.me/GroupButler_beta/26) _(по-английски) как "
+"использовать её, иначе, возможно, ты получишь ошибку_\n"
+"\n"
+"*GIF / стикер в качестве приветствия*\n"
+"Можно использовать определённый стикер или GIF как приветствие. Чтобы "
+"установить, ответь на желаемый GIF / стикер командой `/welcome`\n"
 
 #: plugins/help.lua:97
 msgid ""
@@ -567,6 +635,24 @@ msgid ""
 "Now supports placeholders. Check the \"welcome\" tab for the list of the "
 "available placeholders\n"
 msgstr ""
+"\n"
+"*Администраторам: дополнительные команды*\n"
+"\n"
+"`/extra [#trigger] [ответ]` = назначить ответ на триггер.\n"
+"_Пример_: после команды \"`/extra #hello Доброе утро!`\" бот будет отвечать "
+"\"Доброе утро!\" каждому, кто напишет #hello.\n"
+"Ты можешь ответить на медиа (_фото, файл, видео, аудио, GIF, голосовое "
+"сообщение_) командой `/extra #yourtrigger` чтобы сохранить дополнительную "
+"команду и получать эту медиа каждый раз, как ты используешь #trigger.\n"
+"`/extra list` = получить список твоих пользовательских команд.\n"
+"`/extra del [#trigger]` = удалить триггер и его сообщение\n"
+"\n"
+"*Примечание*: поддерживается markdown. Если текст содержит ошибку в "
+"форматировании, бот уведомит об этом.\n"
+"Для правильного применения markdown прочти [этот пост](https://telegram.me/"
+"GroupButler_ch/46) в канале (по-английски).\n"
+"Также поддерживаются заполнители. Смотри вкладку \"Приветствие\", чтобы "
+"увидеть список доступных заполнителей\n"
 
 #: plugins/help.lua:111
 msgid ""
@@ -588,6 +674,24 @@ msgid ""
 "How to change the max. number of warnings allowed for media: `/config` "
 "command, then `media` button.\n"
 msgstr ""
+"\n"
+"*Администраторам: предупреждения*\n"
+"\n"
+"`/warn [ответ]` = предупредить пользователя. Кто достиг максимума "
+"предупреждений, будет кикнут / забанен.\n"
+"`/nowarns [ответ]` = сбросить предупреждения, полученные пользователем (оба "
+"вида: обычные и медиа предупреждения).\n"
+"`/warnmax [число]` = установить максимальное количество предупреждений перед "
+"киком / баном.\n"
+"`/warnmax media [число]` = установить максимальное количество предупреждений "
+"прежде чем кикнуть / забанить за запрещённые медиа.\n"
+"\n"
+"Как посмотреть, сколько предупреждений получил пользователь (или сбросить "
+"их): используй команду `/user`.\n"
+"Как изменить максимальное количество предупреждений: команда `/config`, "
+"затем кнопка `Меню`.\n"
+"Как изменить максимальное количество предупреждений за медиа: команда `/"
+"config`, затем кнопка `Медиа`.\n"
 
 #: plugins/help.lua:124
 msgid ""
@@ -605,6 +709,18 @@ msgid ""
 "When Rtl is not allowed (🚫), everyone that writes this character (or that "
 "has it in his name) will be kicked.\n"
 msgstr ""
+"\n"
+"*Администраторам: специальные символы*\n"
+"\n"
+"Команда `/config`, затем кнопка `Меню` = ты получишь в ЛС меню клавиатуры.\n"
+"Тут ты найдёшь две похожие опции: _Арабский и RTL_.\n"
+"\n"
+"*Арабский*: когда арабский язык запрещён (🚫), все, кто будет писать арабские "
+"буквы, будут кикнуты из группы.\n"
+"*RTL*: означает \"Right To Left\" (\"справа налево\"), и делает служебные "
+"сообщения странными, которые записываются в обратном порядке.\n"
+"Когда RTL запрещён (🚫), все, кто напишет этот символ (и у кого он стоит в "
+"имени), будут кикнуты.\n"
 
 #: plugins/help.lua:135
 msgid ""
@@ -612,7 +728,7 @@ msgid ""
 "*Admins: pin*\n"
 "\n"
 "`/pin [text]`: the bot will send you back the text you used as argument, "
-"with markdown. You can pin the messahe and use `/editpin [new text]` to edit "
+"with markdown. You can pin the message and use `/editpin [new text]` to edit "
 "it\n"
 "`/editpin [new text]`: edit the previously generated message. Useful if you "
 "often need to make small/big changes to the pinned message but you don't "
@@ -623,8 +739,26 @@ msgid ""
 "\n"
 "*Note*: `/pin` and `/editpin` support markdown and `$rules` placeholder\n"
 msgstr ""
+"\n"
+"*Администраторам: закреплённое сообщение*\n"
+"\n"
+"`/pin [текст]`: бот отправит текст (markdown), который был в качестве "
+"аргумента. Ты можешь закрепить это сообщение и использовать `/editpin [новый "
+"текст]` для редактирования.\n"
+"\n"
+"`/editpin [новый текст]`: редактировать предыдущее сгенерированное "
+"сообщение. Полезно, если ты часто вынужден вносить маленькие / большие "
+"изменения в закреплённом сообщении, но не любишь отправлять простыню текста "
+"в чат, которую нельзя будет удалить, поскольку это будет закреплённым "
+"сообщением.\n"
+"`/pin`: бот найдёт последнее сообщение, сгенерированное с помощью `/pin "
+"[текст]`, если оно существует.\n"
+"\n"
+"*Примечание*: `/pin` и `/editpin` поддерживают markdown и заполнитель `"
+"$rules`\n"
 
-#: plugins/help.lua:145
+#. TRANSLATORS: leave your contact information for reports mistakes in translation
+#: plugins/help.lua:146
 msgid ""
 "\n"
 "*Admins: group language*\"\n"
@@ -640,8 +774,24 @@ msgid ""
 "You can use `/strings` command to get the `.po` file of your language, and "
 "translate it\n"
 msgstr ""
+"\n"
+"*Администраторам: язык группы*\n"
+"`/lang` = выбрать язык в группе (также можно изменить в ЛС)\n"
+"\n"
+"*Примечание*: перевод выполнен добровольцами, поэтому я не могу отвечать за "
+"его корректность и не могу заставить их перевести новые строки после каждого "
+"обновления (непереведённые строки будут на английском языке).\n"
+"\n"
+"В любом случае, перевод открыт для всех. Если вы желаете перевести бота, "
+"смотрите [информацию](https://github.com/RememberTheAir/"
+"GroupButler#translators) на GitHub.\n"
+"Можно использовать команду `/strings` чтобы получить файл `.po` с вашим "
+"языком и перевести его.\n"
+"\n"
+"Перевод на русский язык выполнен Гурьевым Николаем. Обо всех ошибках в "
+"переводах просьба сообщать в [нашу группу](https://telegram.me/RuButler).\n"
 
-#: plugins/help.lua:155
+#: plugins/help.lua:156
 msgid ""
 "\n"
 "*Admins: group settings*\n"
@@ -656,138 +806,139 @@ msgid ""
 "*Media*: choose which media to forbid in your group, and set the number of "
 "times that an user will be warned before being kicked/banned\n"
 msgstr ""
+"\n"
+"*Администраторам: настройки группы*\n"
+"\n"
+"`/config` = управляй настройками группы в ЛС с помощью удобной встроенной "
+"клавиатуры.\n"
+"Эта клавиатура имеет три подменю:\n"
+"\n"
+"*Меню*: для управления основными настройками группы\n"
+"*Антифлуд*:  включить / выключить антифлуд, задать чувствительность и "
+"выбрать медиа для игнорирования, если желаешь\n"
+"*Медиа*: выбор, какие медиа запретить в твоей группе, и настройка количества "
+"предупреждений, прежде чем кикнуть / забанить пользователя\n"
 
-#: plugins/help.lua:175
+#: plugins/help.lua:176
 msgid "Banhammer"
 msgstr "Банхаммер"
 
-#: plugins/help.lua:176
+#: plugins/help.lua:177
 msgid "Group info"
 msgstr "Инфо о группе"
 
-#: plugins/help.lua:177
+#: plugins/help.lua:178
 msgid "Flood manager"
 msgstr "Менеджер флуда"
 
-#: plugins/help.lua:179
+#: plugins/help.lua:180
 msgid "Welcome settings"
 msgstr "Приветствие"
 
-#: plugins/help.lua:180
+#: plugins/help.lua:181
 msgid "General settings"
 msgstr "Основные"
 
-#: plugins/help.lua:182
+#: plugins/help.lua:183
 msgid "Warns"
 msgstr "Предупреждения"
 
-#: plugins/help.lua:183
-msgid "Characters strictness"
+#: plugins/help.lua:184
+msgid "Characters"
 msgstr "Cимволы"
 
-#: plugins/help.lua:184 plugins/mediasettings.lua:20
-msgid "Links"
-msgstr "Ссылки"
-
 #: plugins/help.lua:185
+msgid "Pin"
+msgstr ""
+
+#: plugins/help.lua:186
 msgid "Languages"
 msgstr "Языки"
 
-#: plugins/help.lua:209
+#: plugins/help.lua:210
 msgid "🔰 User commands"
 msgstr "🔰 Пользователям"
 
-#: plugins/help.lua:211
+#: plugins/help.lua:212
 msgid "🔰 Admin commands"
 msgstr "🔰 Администраторам"
 
-#: plugins/help.lua:213
+#: plugins/help.lua:214
 msgid "Info"
 msgstr "Информация"
 
 # эмодзи убран, поскольку иначе текст обрезается на экране телефона
-#: plugins/help.lua:222
+#: plugins/help.lua:223
 msgid "👥 Add me to a group"
 msgstr "Добавь меня в группу"
 
-#: plugins/help.lua:223
+#: plugins/help.lua:224
 msgid "📢 Bot channel"
 msgstr "📢 Канал бота"
 
-#: plugins/help.lua:226
+#: plugins/help.lua:227
 msgid "📕 All the commands"
 msgstr "📕 Все команды"
 
-#: plugins/help.lua:236 utilities.lua:660
+#: plugins/help.lua:237 utilities.lua:650
 msgid "Start me"
 msgstr "Запусти меня"
 
-#: plugins/help.lua:263
+#: plugins/help.lua:264
 msgid "Some useful *links*:"
 msgstr "Некоторые полезные *ссылки*:"
 
-#: plugins/help.lua:271
+#: plugins/help.lua:272
 msgid "Tap on a button to see the *related commands*"
 msgstr "Нажми на кнопку, чтобы увидеть *подходящие команды*"
 
-#: plugins/help.lua:298
+#: plugins/help.lua:299
 msgid "❗️ Already on this tab"
 msgstr "❗️ Уже на этой вкладке"
 
-#: plugins/help.lua:300
-#, fuzzy
-msgid "💡 Admins:info about the group"
-msgstr "💡 Модераторам: информация о группе"
+#: plugins/help.lua:301
+msgid "💡 Admins: info about the group"
+msgstr "💡 Администраторам: информация о группе"
 
-#: plugins/help.lua:302
-#, fuzzy
+#: plugins/help.lua:303
 msgid "💡 Admins: banhammer powers"
-msgstr "💡 Модераторам: банхаммер"
+msgstr "💡 Администраторам: банхаммер"
 
-#: plugins/help.lua:304
-#, fuzzy
+#: plugins/help.lua:305
 msgid "💡 Admins: flood settings"
-msgstr "💡 Модераторам: настройки флуда"
+msgstr "💡 Администраторам: настройки флуда"
 
-#: plugins/help.lua:306
-#, fuzzy
+#: plugins/help.lua:307
 msgid "💡 Admins: media settings"
-msgstr "💡 Модераторам: настройки медиа"
+msgstr "💡 Администраторам: настройки медиа"
 
-#: plugins/help.lua:308
-#, fuzzy
-msgid "💡 Admins: links"
-msgstr "💡 Модераторам: ссылки"
+#: plugins/help.lua:309
+msgid "💡 Admins: pin message"
+msgstr "💡 Администраторам: закреплённое сообщение"
 
-#: plugins/help.lua:310
-#, fuzzy
+#: plugins/help.lua:311
 msgid "💡 Admins: group language"
-msgstr "💡 Модераторам: язык группы"
+msgstr "💡 Администраторам: язык группы"
 
-#: plugins/help.lua:312
-#, fuzzy
+#: plugins/help.lua:313
 msgid "💡 Admins: welcome settings"
-msgstr "💡 Модераторам: настройки приветствия"
+msgstr "💡 Администраторам: настройки приветствия"
 
-#: plugins/help.lua:314
-#, fuzzy
+#: plugins/help.lua:315
 msgid "💡 Admins: extra commands"
-msgstr "💡 Модераторам: дополнительные команды"
+msgstr "💡 Администраторам: дополнительные команды"
 
-#: plugins/help.lua:316
-#, fuzzy
+#: plugins/help.lua:317
 msgid "💡 Admins: warns"
-msgstr "💡 Модераторам: предупреждения"
+msgstr "💡 Администраторам: предупреждения"
 
-#: plugins/help.lua:318
-#, fuzzy
+#: plugins/help.lua:319
 msgid "💡 Admins: special characters"
-msgstr "💡 Модераторам: специальные символы"
+msgstr "💡 Администраторам: специальные символы"
 
-#: plugins/help.lua:320
-#, fuzzy
+#: plugins/help.lua:321
 msgid "💡 Admins: group settings"
-msgstr "💡 Модераторам: настройки группы"
+msgstr "💡 Администраторам: настройки группы"
 
 #: plugins/links.lua:15
 msgid "*No link* for this group. Ask the owner to generate one"
@@ -818,33 +969,13 @@ msgstr ""
 "*Вот новая ссылка*: %s"
 
 #: plugins/links.lua:54
-#, fuzzy, lua-format
+#, lua-format
 msgid ""
 "The link has been set.\n"
 "*Here's the link*: %s"
 msgstr ""
 "Ссылка установлена.\n"
 "*Вот новая ссылка*: %s"
-
-#: plugins/logchannel.lua:10
-msgid "_Too many requests. Retry later_"
-msgstr ""
-
-#: plugins/logchannel.lua:12
-msgid "_I need to be admin in the channel_"
-msgstr ""
-
-#: plugins/logchannel.lua:17
-msgid "*Log channel added!*"
-msgstr ""
-
-#: plugins/logchannel.lua:19
-msgid "Only the channel creator can pair the chat with a channel"
-msgstr ""
-
-#: plugins/logchannel.lua:23
-msgid "I'm sorry, only private channels are supported for now"
-msgstr ""
 
 #: plugins/mediasettings.lua:17
 msgid "Documents"
@@ -857,6 +988,10 @@ msgstr "Ссылки telegram.me"
 #: plugins/mediasettings.lua:19
 msgid "Vocal messages"
 msgstr "Голосовые сообщения"
+
+#: plugins/mediasettings.lua:20
+msgid "Links"
+msgstr "Ссылки"
 
 #: plugins/mediasettings.lua:21
 msgid "Music"
@@ -952,27 +1087,31 @@ msgstr "За использование RTL символа будет бан"
 msgid "RTL character allowed"
 msgstr "RTL символ разрешён"
 
-#: plugins/menu.lua:112 utilities.lua:520
+#: plugins/menu.lua:111 utilities.lua:509
+msgid "Welcome message"
+msgstr "Приветствие"
+
+#: plugins/menu.lua:112 utilities.lua:510
 msgid "Extra"
 msgstr "Доп. команды"
 
-#: plugins/menu.lua:113 utilities.lua:521
+#: plugins/menu.lua:113 utilities.lua:511
 msgid "Anti-flood"
 msgstr "Антифлуд"
 
-#: plugins/menu.lua:114 utilities.lua:523
+#: plugins/menu.lua:114 utilities.lua:513
 msgid "Silent mode"
 msgstr "Тихий режим"
 
-#: plugins/menu.lua:116 utilities.lua:525
+#: plugins/menu.lua:116 utilities.lua:515
 msgid "Arab"
 msgstr "Арабский"
 
-#: plugins/menu.lua:117 utilities.lua:526
+#: plugins/menu.lua:117 utilities.lua:516
 msgid "RTL"
 msgstr "RTL"
 
-#: plugins/menu.lua:118 utilities.lua:522
+#: plugins/menu.lua:118 utilities.lua:512
 msgid "Ban bots"
 msgstr "Банить ботов"
 
@@ -1003,9 +1142,22 @@ msgid ""
 "\n"
 "*Silent mode*:\n"
 "If enabled, the bot won't send a confirmation message in the group when "
-"soemone use /config or /dashboard.\n"
+"someone use /config or /dashboard.\n"
 "It will just send the message in private.\n"
 msgstr ""
+"\n"
+"Управление настройками группы.\n"
+"📘 _Краткое описание_:\n"
+"\n"
+"*Дополнительные команды*:\n"
+"• 👥: бот будет отвечать *в группе* каждому\n"
+"• 👤: бот будет отвечать *в ЛС* для обычных пользователей и в группу для "
+"админов\n"
+"\n"
+"*Тихий режим*:\n"
+"Если включен, бот не будет отправлять подтверждающее сообщение в группу, "
+"когда кто-то использует /config или /dashboard.\n"
+"Он будет просто отправлять сообщение в ЛС.\n"
 
 # перефразировано ради сокращения текста, чтобы поместися на экране
 #: plugins/menu.lua:193
@@ -1033,7 +1185,7 @@ msgid ""
 "%s *banned*: media sent not allowed!\n"
 "❗️ `%d` / `%d`"
 msgstr ""
-"%s *забанен*: отправленный тип медиа не разрешен\n"
+"%s *забанен*: этот тип медиа не разрешен\n"
 "❗️ `%d` / `%d`"
 
 #: plugins/onmessage.lua:103
@@ -1105,7 +1257,7 @@ msgstr "Текст не изменён"
 
 #: plugins/pin.lua:47
 msgid "Message edited. Check it here"
-msgstr "Сообщение от редактировано. Нажми сюда"
+msgstr "Сообщение отредактировано. Нажми сюда"
 
 #: plugins/private.lua:5 plugins/users.lua:5
 msgid "Channel"
@@ -1123,14 +1275,18 @@ msgstr "Оцени меня!"
 msgid "👥 Groups"
 msgstr "👥 Группы"
 
-#: plugins/private.lua:52
+#: plugins/private.lua:32
+msgid "Pong!"
+msgstr "Понг!"
+
+#: plugins/private.lua:34
 #, lua-format
-msgid ""
-"🕔 Bot version: `%s`\n"
-"🔗 *Some useful links*:"
-msgstr ""
-"🕔 Версия бота: `%s`\n"
-"🔗 *Некоторые полезные ссылки*:"
+msgid "Response time: %ds"
+msgstr "Время ответа: %ds"
+
+#: plugins/private.lua:52
+msgid "*Some useful links*:"
+msgstr "*Некоторые полезные ссылки*:"
 
 #: plugins/private.lua:70 plugins/private.lua:72
 msgid "Select a group:"
@@ -1196,7 +1352,7 @@ msgstr "Забанен: *%d*"
 #: plugins/users.lua:82
 #, lua-format
 msgid "Temporary banned: *%d*"
-msgstr "Временных бан: *%d*"
+msgstr "Временных банов: *%d*"
 
 #: plugins/users.lua:83
 #, lua-format
@@ -1208,6 +1364,7 @@ msgstr "Удалений за флуд: *%d*"
 msgid "Removed for forbidden media: *%d*"
 msgstr "Удалений за меда: *%d*"
 
+# чёт слишком длинно получается…
 #: plugins/users.lua:85
 #, fuzzy, lua-format
 msgid "Removed for warns: *%d*"
@@ -1229,7 +1386,7 @@ msgstr "Ничего нету для отображения"
 
 #: plugins/users.lua:106
 msgid "Remove warns"
-msgstr "Убарть предупреждения"
+msgstr "Убрать предупреждения"
 
 #: plugins/users.lua:107
 msgid "🔨 Ban"
@@ -1334,7 +1491,7 @@ msgid ""
 "Warns *reset*\n"
 "(Admin: %s)"
 msgstr ""
-"_Предупреждения *сброшены*_\n"
+"Предупреждения *сброшены*\n"
 "(Админ: %s)"
 
 #: plugins/warn.lua:61
@@ -1399,18 +1556,14 @@ msgid "*Custom welcome message saved!*"
 msgstr "*Пользовательское приветствие установлено!*"
 
 #: utilities.lua:438
-msgid "*No description* for this group."
-msgstr "Описание этой группы *отсутствует*."
-
-#: utilities.lua:448
 msgid "-*empty*-"
 msgstr "-*пусто*-"
 
-#: utilities.lua:502
+#: utilities.lua:492
 msgid "No commands set!"
 msgstr " Нет команд!"
 
-#: utilities.lua:514
+#: utilities.lua:504
 msgid ""
 "Current settings for *the group*:\n"
 "\n"
@@ -1418,21 +1571,29 @@ msgstr ""
 "Текущие настройки *группы*:\n"
 "\n"
 
-#: utilities.lua:515
+#: utilities.lua:505
 #, lua-format
 msgid "*Language*: `%s`\n"
 msgstr "*Язык:* %s\n"
 
-#: utilities.lua:564
+#: utilities.lua:552
+msgid "*Welcome type*: `GIF / sticker`\n"
+msgstr "*Приветствие*: `GIF / стикер`\n"
+
+#: utilities.lua:554
 msgid "*Welcome type*: `custom message`\n"
 msgstr "*Приветствие*: `пользовательское`\n"
 
-#: utilities.lua:572
+#: utilities.lua:556
+msgid "*Welcome type*: `default message`\n"
+msgstr "*Приветствие*: `стандартное`\n"
+
+#: utilities.lua:562
 #, lua-format
 msgid "Warns (`standard`): *%s*\n"
 msgstr "Предупреждений (`стандартных`): *%s*\n"
 
-#: utilities.lua:573
+#: utilities.lua:563
 #, lua-format
 msgid ""
 "Warns (`media`): *%s*\n"
@@ -1441,83 +1602,96 @@ msgstr ""
 "Предупреждений (`медиа`): *%s*\n"
 "\n"
 
-#: utilities.lua:574
+#: utilities.lua:564
 msgid "✅ = _enabled / allowed_\n"
 msgstr "✅ = _включено / разрешено_\n"
 
-#: utilities.lua:575
+#: utilities.lua:565
 msgid "🚫 = _disabled / not allowed_\n"
 msgstr "🚫 = _выключено / запрещено_\n"
 
-#: utilities.lua:576
+#: utilities.lua:566
 msgid "👥 = _sent in group (always for admins)_\n"
 msgstr "👥 = _отправляется в группу (всегда для админов)_\n"
 
-#: utilities.lua:577
+#: utilities.lua:567
 msgid "👤 = _sent in private_"
 msgstr "👤 = _отправляется в ЛС_"
 
-#: utilities.lua:583
+#: utilities.lua:573
 msgid "Welcome message won't be displayed from now"
 msgstr "Приветствие больше не будет отправляться"
 
-#: utilities.lua:584
+#: utilities.lua:574
 msgid "#extra commands are now available only for moderator"
 msgstr "Теперь доп. команды доступны только модераторам"
 
-#: utilities.lua:585
+#: utilities.lua:575
 msgid "Anti-flood is now off"
 msgstr "Антифлуд фильтр выключен"
 
-#: utilities.lua:586
+#: utilities.lua:576
 msgid "`/rules` will reply in private (for users)"
 msgstr "Правила будут отправляться в ЛС (пользователям)"
 
-#: utilities.lua:587
+#: utilities.lua:577
 msgid "Bots won't be kicked if added by an user"
 msgstr "Пользователям разрешено добавлять ботов"
 
-#: utilities.lua:590
+#: utilities.lua:580
 msgid "Welcome message will be displayed"
 msgstr "Приветствие будет отправляться"
 
-#: utilities.lua:591
+#: utilities.lua:581
 msgid "#extra commands are now available for all"
 msgstr "Теперь доп. команды доступны всем"
 
-#: utilities.lua:592
+#: utilities.lua:582
 msgid "Anti-flood is now on"
 msgstr "Антифлуд фильтр включён"
 
-#: utilities.lua:593
+#: utilities.lua:583
 msgid "`/rules` will reply in the group (with everyone)"
 msgstr "Правила будут отправляться в группу (для всех)"
 
-#: utilities.lua:594
+#: utilities.lua:584
 msgid "Bots will be kicked if added by an user"
 msgstr "Пользователям запрещено добавлять ботов"
 
-#: utilities.lua:613
+#: utilities.lua:603
 msgid "Now flooders will be banned"
 msgstr "Теперь флудеры будут забанены"
 
-#: utilities.lua:616
+#: utilities.lua:606
 msgid "Now flooders will be kicked"
 msgstr "Теперь флудеры будут кикнуты"
 
-#: utilities.lua:625 utilities.lua:632
+#: utilities.lua:615 utilities.lua:622
 #, lua-format
 msgid "%d is not a valid value!\n"
 msgstr "%d — недопустимое значение\n"
 
-#: utilities.lua:656
+#: utilities.lua:646
 #, lua-format
 msgid "New status = %s"
 msgstr "Новый статус = %s"
 
-#: utilities.lua:661
+#: utilities.lua:651
 msgid "_Please message me first so I can message you_"
 msgstr "_Сначала напиши мне, потом я смогу писать тебе_"
+
+#~ msgid "Description"
+#~ msgstr "Описание"
+
+#~ msgid ""
+#~ "🕔 Bot version: `%s`\n"
+#~ "🔗 *Some useful links*:"
+#~ msgstr ""
+#~ "🕔 Версия бота: `%s`\n"
+#~ "🔗 *Некоторые полезные ссылки*:"
+
+#~ msgid "*No description* for this group."
+#~ msgstr "Описание этой группы *отсутствует*."
 
 #~ msgid ""
 #~ "*Bot *@%s* started!*\n"
@@ -1607,16 +1781,6 @@ msgstr "_Сначала напиши мне, потом я смогу писат
 
 #~ msgid "%s has been *banned* for flooding for %d minutes"
 #~ msgstr "%s  *забанен* за флуд на %d минут"
-
-#~ msgid "Pong!"
-#~ msgstr "Понг!"
-
-#~ msgid ""
-#~ "Pong!\n"
-#~ "Response time: %ds"
-#~ msgstr ""
-#~ "Понг!\n"
-#~ "Время ответа: %ds"
 
 #~ msgid "Goodbye, %s!"
 #~ msgstr "До свидания, %s!"
