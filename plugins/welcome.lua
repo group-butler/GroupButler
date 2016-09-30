@@ -82,6 +82,7 @@ local function action(msg, blocks)
 				local antibot_status = db:hget('chat:'..msg.chat.id..':settings', 'Antibot')
 				if antibot_status and antibot_status == 'on' and msg.from and not roles.is_admin_cached(msg) then
 					api.banUser(msg.chat.id, msg.added.id)
+					api.sendReply(msg, '`'..'Bot removed!'..'`', true)
 				end
 				return
 			end
