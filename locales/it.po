@@ -1156,7 +1156,7 @@ msgstr ""
 
 #: plugins/menu.lua:113 utilities.lua:521
 msgid "Anti-flood"
-msgstr "L'anti-flood è ora on"
+msgstr "Anti-flood"
 
 #: plugins/menu.lua:114 utilities.lua:523
 msgid "Silent mode"

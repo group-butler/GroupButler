@@ -36,7 +36,11 @@ local function action(msg, blocks)
     
     local n_sent = report(msg)
     if n_sent then
-        api.sendReply(msg, _('_Reported to %d admin(s)_'):format(n_sent), true)
+        local text = _('_Reported to %d admin(s)_'):format(n_sent)
+        local res = api.sendMessage(msg.from.id, text, true)
+        if not res then
+            api.sendReply(msg, text, true)
+        end
     end
 end
 

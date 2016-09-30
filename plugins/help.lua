@@ -23,7 +23,7 @@ I work better if you add me to the group administrators (otherwise I won't be ab
 `/adminlist` : show the moderators of the group (via pm)
 `/kickme` : get kicked by the bot
 `/echo [text]` : the bot will send the text back (with markdown, available only in private for non-admin users)
-`/info` : show some useful informations about the bot
+`/about` : show some useful informations about the bot
 `/groups` : show the list of the discussion groups
 `/help` : show this message
 ]])
@@ -211,7 +211,7 @@ local function make_keyboard(mod, mod_current_position)
 	else
 	    bottom_bar = {{text = _("🔰 Admin commands"), callback_data = 'mod'}}
 	end
-	table.insert(bottom_bar, {text = _("Info"), callback_data = 'fromhelp:info'}) --insert the "Info" button
+	table.insert(bottom_bar, {text = _("Info"), callback_data = 'fromhelp:about'}) --insert the "Info" button
 	table.insert(keyboard.inline_keyboard, bottom_bar)
 	return keyboard
 end

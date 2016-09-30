@@ -32,9 +32,6 @@ function bot_init(on_reload) -- The function run when the bot is started or relo
 	locale = dofile('languages.lua')
 	api = require('methods')
 	
-	current = {h = 0, d = 0}
-	last = {h = 0, d = 0}
-	
 	bot = api.getMe().result -- Get bot info
 
 	plugins = {} -- Load plugins.
@@ -50,10 +47,6 @@ function bot_init(on_reload) -- The function run when the bot is started or relo
 	end
 
 	print('\n'..clr.blue..'BOT RUNNING:'..clr.reset, clr.red..'[@'..bot.username .. '] [' .. bot.first_name ..'] ['..bot.id..']'..clr.reset..'\n')
-	if not on_reload then
-		api.sendAdmin('*Bot started!*\n_'..os.date('On %A, %d %B %Y\nAt %X')..'_\n'..#plugins..' plugins loaded', true)
-		start_timestamp = os.time()
-	end
 	
 	-- Generate a random seed and "pop" the first random number. :)
 	math.randomseed(os.time())
@@ -63,8 +56,14 @@ function bot_init(on_reload) -- The function run when the bot is started or relo
 	last_cron = last_cron or os.time() -- the time of the last cron job,
 	is_started = true -- whether the bot should be running or not.
 	
-	if on_reload then return #plugins end
-
+	if on_reload then
+		return #plugins
+	else
+		api.sendAdmin('*Bot started!*\n_'..os.date('On %A, %d %B %Y\nAt %X')..'_\n'..#plugins..' plugins loaded', true)
+		start_timestamp = os.time()
+		current = {h = 0, d = 0}
+		last = {h = 0, d = 0}
+	end
 end
 
 local function get_from(msg)

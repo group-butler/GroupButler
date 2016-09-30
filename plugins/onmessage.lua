@@ -18,7 +18,7 @@ local function is_ignored(chat_id, msg_type)
     end
 end
 
-local function is_flooding(msg)
+local function is_flooding_funct(msg)
     local spamhash = 'spam:'..msg.chat.id..':'..msg.from.id
     
     local msgs = tonumber(db:get(spamhash)) or 1
@@ -30,7 +30,7 @@ local function is_flooding(msg)
     db:setex(spamhash, max_time, msgs+1)
     
     if msgs > max_msgs then
-        return true
+        return true, msgs, max_msgs
     else
         return false
     end
@@ -49,7 +49,8 @@ local function onmessage(msg)
     local msg_type = 'text'
     if msg.media then msg_type = msg.media_type end
     if not is_ignored(msg.chat.id, msg_type) then
-        if is_flooding(msg) then
+        local is_flooding, msgs_sent, msgs_max = is_flooding_funct(msg)
+        if is_flooding then
             local status = (db:hget('chat:'..msg.chat.id..':settings', 'Flood')) or config.chat_settings['settings']['Flood']
             if status == 'on' and not msg.cb and not roles.is_admin_cached(msg) then --if the status is on, and the user is not an admin, and the message is not a callback, then:
                 local action = db:hget('chat:'..msg.chat.id..':flood', 'ActionFlood')
@@ -69,9 +70,9 @@ local function onmessage(msg)
         	        else
         	            message = _("%s *kicked* for flood!"):format(name)
         	        end
-        	        --if msgs == (max_msgs + 1) or msgs == max_msgs + 5 then --send the message only if it's the message after the first message flood. Repeat after 5
-        	            --api.sendMessage(msg.chat.id, message, true)
-        	        --end
+        	        if msgs_sent == (msgs_max + 1) or msgs_sent == msgs_max + 5 then --send the message only if it's the message after the first message flood. Repeat after 5
+        	            api.sendMessage(msg.chat.id, message, true)
+        	        end
         	    end
         	end
             

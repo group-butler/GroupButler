@@ -68,6 +68,11 @@ local function bot_leave(chat_id)
 	end
 end
 
+function round(num, decimals)
+  local mult = 10^(decimals or 0)
+  return math.floor(num * mult + 0.5) / mult
+end
+
 local function load_lua(code)
 	local output = loadstring(code)()
 	if not output then
@@ -193,12 +198,12 @@ local action = function(msg, blocks)
 	    end
 	    text = text..'- *uptime*: `from '..(os.date("%c", start_timestamp))..' (GMT+2)`\n'
 	    text = text..'- *last hour msgs*: `'..last.h..'`\n'
-	    text = text..'   • *average msgs/minute*: `'..(last.h/60)..'`\n'
-	    text = text..'   • *average msgs/second*: `'..(last.h/(60*60))..'`\n'
+	    text = text..'   • *average msgs/minute*: `'..round((last.h/60), 3)..'`\n'
+	    text = text..'   • *average msgs/second*: `'..round((last.h/(60*60)), 3)..'`\n'
 	    text = text..'- *last day msgs*: `'..last.h..'`\n'
-	    text = text..'   • *average msgs/hour*: `'..(last.h/24)..'`\n'
-	    text = text..'   • *average msgs/minute*: `'..(last.h/(24*60))..'`\n'
-	    text = text..'   • *average msgs/second*: `'..(last.h/(24*60*60))..'`\n'
+	    text = text..'   • *average msgs/hour*: `'..round((last.d/24), 3)..'`\n'
+	    text = text..'   • *average msgs/minute*: `'..round((last.d/(24*60)), 3)..'`\n'
+	    text = text..'   • *average msgs/second*: `'..round((last.d/(24*60*60)), 3)..'`\n'
 	    
 	    local usernames = db:hkeys('bot:usernames')
 	    text = text..'- *usernames cache*: `'..#usernames..'`\n'
@@ -356,9 +361,11 @@ local action = function(msg, blocks)
 		db:hdel('bot:general', 'kick')
 		db:hdel('bot:general', 'query')
 		db:hdel('bot:general', 'users')
+		db:hdel('bot:general', 'starts')
 		local groups = db:smembers('bot:groupsid')
 		for chat_id in pairs(groups) do
 			db:del('chat:'..chat_id..':banned')
+			db:hdel('chat:'..chat_id..':settings', 'Antibot')
 			local about = db:hget('chat:'..chat_id..':info', 'about')
 			if about then
 				db:hset('chat:'..chat_id..':extra', '#about', about)

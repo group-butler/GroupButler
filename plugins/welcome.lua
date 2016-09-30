@@ -79,19 +79,22 @@ local function action(msg, blocks)
 		if msg.added.username then
 			local username = msg.added.username:lower()
 			if username:find('bot', -3) then
-				local antibot_status = db:hget('chat:'..msg.chat.id..':settings', 'Antibot')
-				if antibot_status and antibot_status == 'on' and msg.from and not roles.is_admin_cached(msg) then
-					api.banUser(msg.chat.id, msg.added.id)
-				end
 				return
 			end
 		end
 		
 		local text = get_welcome(msg)
-		if text then
+		if text then --if not text: welcome is locked or is a gif/sticker
 			api.sendMessage(msg.chat.id, text, true)
 		end
-		--if not text: welcome is locked or is a gif/sticker
+		
+		local send_rules_private = db:hget('user:'..msg.added.id..':settings', 'rules_on_join')
+		if send_rules_private and send_rules_private == 'on' then
+		    local rules = db:hget('chat:'..msg.chat.id..':info', 'rules')
+		    if rules then
+		        api.sendMessage(msg.added.id, rules, true)
+		    end
+	    end
 	end
 end
 

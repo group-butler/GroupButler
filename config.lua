@@ -90,7 +90,6 @@ return {
 			['Flood'] = 'off',
 			['Silent'] = 'off',
 			['Rules'] = 'off',
-			['Antibot'] = 'off',
 			['Reports'] = 'off'
 		},
 		['flood'] = {

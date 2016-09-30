@@ -363,6 +363,32 @@ function div()
 	print('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX')
 end
 
+function misc.log_error(method, code, extras)
+	if not method or not code then return end
+	
+	local ignored_errors = {403, 429, 110, 111, 116, 131}
+	
+	for ignored_code in pairs(ignored_errors) do
+		if code == ignored_code then return end
+	end
+	
+	local text = 'Type: #badrequest\nCode: #n'..code
+	
+	if extras then
+		if next(extras) then
+			for i, extra in pairs(extras) do
+				text = text..'\n#more'..i..': '..extra
+			end
+		else
+			text = text..'\n#more: empty'
+		end
+	else
+		text = text..'\n#more: nil'
+	end
+	
+	api.sendLog(text)
+end
+
 function misc.getname(msg)
     local name = msg.from.first_name
 	if msg.from.username then name = name..' (@'..msg.from.username..')' end
