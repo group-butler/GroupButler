@@ -35,6 +35,7 @@ return {
     action = action,
     triggers = {
         config.cmd..'config$',
+        config.cmd..'settings$',
         '^###cb:config:back:'
     }
 }

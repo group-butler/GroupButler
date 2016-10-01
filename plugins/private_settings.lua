@@ -44,7 +44,7 @@ local function action(msg, blocks)
     end
     if msg.cb then
         if blocks[1] == 'alert' then
-            api.answerCallbackQuery(msg.cb_id, 'Tap on the icons', true)
+            api.answerCallbackQuery(msg.cb_id, _("Tap on the icons"), true)
         else
             change_private_setting(msg.from.id, blocks[1])
             local keyboard = doKeyboard_privsett(msg.from.id)
@@ -57,7 +57,8 @@ end
 return {
     action = action,
     triggers = {
-        '^/(mysettings)$',
+        config.cmd..'(mysettings)$',
+        config.cmd..'(settings)$',
         '^###cb:myset:(.*)$'
     }
 }

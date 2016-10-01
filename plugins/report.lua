@@ -47,6 +47,7 @@ end
 return {
     action = action,
     triggers = {
-        '^@admin'
+        '^@admin',
+        config.cmd..'(report)$',
     }
 }
