@@ -33,8 +33,8 @@ local function getFloodSettings_text(chat_id)
         list_exc = list_exc..'• `'..translation..'`: '..exc_status..'\n'
     end
     return _("- *Status*: `%s`\n"):format(status)
-			.. _("- *Action* when an user floods: `%s`\n"):format(action)
-			.. _("- Number of messages *every 5 seconds* allowed: `%d`\n"):format(num)
+			.. _("- *Action* to perform when an user floods: `%s`\n"):format(action)
+			.. _("- Number of messages allowed *every 5 seconds*: `%d`\n"):format(num)
 			.. _("- *Ignored media*:\n%s"):format(list_exc)
 end
 
@@ -71,7 +71,7 @@ local action = function(msg, blocks)
         local res = api.sendKeyboard(msg.from.id, _("Navigate this message to see *all the info* about this group!"), keyboard, true)
         if not misc.is_silentmode_on(msg.chat.id) then --send the responde in the group only if the silent mode is off
             if res then
-                api.sendMessage(msg.chat.id, _("_I've sent you the group dashboard in private_"), true)
+                api.sendMessage(msg.chat.id, _("_I've sent you the group dashboard via private message_"), true)
             else
                 misc.sendStartMe(msg, msg.ln)
             end
@@ -92,7 +92,7 @@ local action = function(msg, blocks)
             local creator, admins = misc.getAdminlist(chat_id)
             if not creator then
                 -- creator is false, admins is the error code
-                text = _("I'm not a group Admin.\n*Only an Admin can see the administrators list*")
+                text = _("I'm not an admin in this group.\n*Only an admin can see a list of admins.*")
             else
                 text = _("*Creator*:\n%s\n\n*Admins*:\n%s"):format(creator, admins)
             end
@@ -104,7 +104,7 @@ local action = function(msg, blocks)
             text = getFloodSettings_text(chat_id)
         end
         if request == 'media' then
-            text = _("*Current settings for media*:\n\n")
+            text = _("*Current media settings*:\n\n")
             for media, default_status in pairs(config.chat_settings['media']) do
                 local status = (db:hget('chat:'..chat_id..':media', media)) or default_status
                 if status == 'ok' then

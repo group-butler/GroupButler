@@ -250,9 +250,9 @@ local action = function(msg, blocks)
 		local response = db:sadd('bot:blocked', id)
 		local text
 		if response == 1 then
-			text = id..' have been blocked'
+			text = id..' has been blocked'
 		else
-			text = id..' was already blocked'
+			text = id..' is already blocked'
 		end
 		api.sendReply(msg, text)
 	end
@@ -261,9 +261,9 @@ local action = function(msg, blocks)
 		local response = db:srem('bot:blocked', id)
 		local text
 		if response == 1 then
-			text = id..' have been unblocked'
+			text = id..' has been unblocked'
 		else
-			text = id..' was already unblocked'
+			text = id..' is already unblocked'
 		end
 		api.sendReply(msg, text)
 	end

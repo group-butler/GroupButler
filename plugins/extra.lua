@@ -29,7 +29,7 @@ local action = function(msg, blocks)
 	    			to_save = '###file_id###:'..file_id
 	    		end
 	    		db:hset('chat:'..msg.chat.id..':extra', blocks[2], to_save)
-	    		api.sendReply(msg, _("This media has been saved as response to %s"):format(blocks[2]))
+	    		api.sendReply(msg, _("This media has been saved as a response to %s"):format(blocks[2]))
 	    	end
 		else
 	    	local hash = 'chat:'..msg.chat.id..':extra'
@@ -37,7 +37,7 @@ local action = function(msg, blocks)
 	    	local res, code = api.sendReply(msg, blocks[3]:replaceholders(msg), true)
 	    	if not res then
 	    		if code == 118 then
-					api.sendMessage(msg.chat.id, _("This text is too long, I can't send it"))
+					api.sendMessage(msg.chat.id, _("That message is too long, I can't send it"))
 				else
 					local text = _("This text breaks the markdown.\n"
 							.. "More info about a proper use of markdown [here]"
@@ -47,7 +47,7 @@ local action = function(msg, blocks)
     		else
 	    		db:hset(hash, blocks[2], blocks[3])
 	    		local msg_id = res.result.message_id
-				api.editMessageText(msg.chat.id, msg_id, _("%s command saved!"):format(blocks[2]), false)
+				api.editMessageText(msg.chat.id, msg_id, _("Command '%s' saved!"):format(blocks[2]), false)
     		end
     	end
 	elseif blocks[1] == 'extra list' then
@@ -71,10 +71,10 @@ local action = function(msg, blocks)
 	    local hash = 'chat:'..msg.chat.id..':extra'
 	    local success = db:hdel(hash, blocks[2])
 	    if success == 1 then
-	    	local out = _("%s command has been deleted"):format(blocks[2])
+	    	local out = _("The command '%s' has been deleted!"):format(blocks[2])
 	        api.sendReply(msg, out)
 	    else
-	        local out = _("%s command does not exist"):format(blocks[2])
+	        local out = _("The command '%s' does not exist!"):format(blocks[2])
 	        api.sendReply(msg, out)
 	    end
     else
