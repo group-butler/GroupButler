@@ -27,7 +27,7 @@ end
 
 function string:escape()
 	if not self then return false end
-	self = self:gsub('*', '\\*'):gsub('_', '\\_'):gsub('`', '\\`'):gsub('%]', '\\]'):gsub('%[', '\\[')
+	self = self:gsub('%*', '\\*'):gsub('_', '\\_'):gsub('`', '\\`'):gsub('%[', '\\['):gsub('%]', '\\]')
 	return self
 end
 
@@ -368,8 +368,8 @@ function misc.log_error(method, code, extras)
 	
 	local ignored_errors = {403, 429, 110, 111, 116, 131}
 	
-	for ignored_code in pairs(ignored_errors) do
-		if code == ignored_code then return end
+	for _, ignored_code in pairs(ignored_errors) do
+		if tonumber(code) == tonumber(ignored_code) then return end
 	end
 	
 	local text = 'Type: #badrequest\nCode: #n'..code

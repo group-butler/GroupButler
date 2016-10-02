@@ -18,7 +18,7 @@ local function sendRequest(url)
 		if code == 400 then code = api.getCode(tab.description) end --error code 400 is general: try to specify
 		db:hincrby('bot:errors', code, 1)
 		
-		return false, code
+		return false, code, tab.description
 	end
 	
 	if not tab.ok then
@@ -165,10 +165,10 @@ function api.getChatAdministrators(chat_id)
 	
 	local url = BASE_URL .. '/getChatAdministrators?chat_id=' .. chat_id
 	
-	local res, code = sendRequest(url)
+	local res, code, desc = sendRequest(url)
 	
 	if not res and code then --if the request failed and a code is returned (not 403 and 429)
-		misc.log_error('getChatAdministrators', code)
+		misc.log_error('getChatAdministrators', code, nil, desc)
 	end
 	
 	return res, code
@@ -187,10 +187,10 @@ function api.getChatMember(chat_id, user_id)
 	
 	local url = BASE_URL .. '/getChatMember?chat_id=' .. chat_id .. '&user_id=' .. user_id
 	
-	local res, code = sendRequest(url)
+	local res, code, desc = sendRequest(url)
 	
 	if not res and code then --if the request failed and a code is returned (not 403 and 429)
-		misc.log_error('getChatMember', code)
+		misc.log_error('getChatMember', code, nil, desc)
 	end
 	
 	return res, code
@@ -229,10 +229,10 @@ function api.sendKeyboard(chat_id, text, keyboard, markdown)
 	
 	url = url..'&reply_markup='..JSON.encode(keyboard)
 	
-	local res, code = sendRequest(url)
+	local res, code, desc = sendRequest(url)
 	
 	if not res and code then --if the request failed and a code is returned (not 403 and 429)
-		misc.log_error('sendKeyboard', code, {text})
+		misc.log_error('sendKeyboard', code, {text}, desc)
 	end
 	
 	return res, code --return false, and the code
@@ -258,10 +258,10 @@ function api.sendMessage(chat_id, text, use_markdown, reply_to_message_id, send_
 		url = url..'&disable_notification=true'--messages are silent by default
 	end
 	
-	local res, code = sendRequest(url)
+	local res, code, desc = sendRequest(url)
 	
 	if not res and code then --if the request failed and a code is returned (not 403 and 429)
-		misc.log_error('sendMessage', code, {text})
+		misc.log_error('sendMessage', code, {text}, desc)
 	end
 	
 	return res, code --return false, and the code
@@ -288,10 +288,10 @@ function api.editMessageText(chat_id, message_id, text, keyboard, markdown)
 		url = url..'&reply_markup='..JSON.encode(keyboard)
 	end
 	
-	local res, code = sendRequest(url)
+	local res, code, desc = sendRequest(url)
 	
 	if not res and code then --if the request failed and a code is returned (not 403 and 429)
-		misc.log_error('editMessageText', code, {text})
+		misc.log_error('editMessageText', code, {text}, desc)
 	end
 	
 	return res, code
@@ -342,10 +342,10 @@ function api.forwardMessage(chat_id, from_chat_id, message_id)
 
 	local url = BASE_URL .. '/forwardMessage?chat_id=' .. chat_id .. '&from_chat_id=' .. from_chat_id .. '&message_id=' .. message_id
 
-	local res, code = sendRequest(url)
+	local res, code, desc = sendRequest(url)
 	
 	if not res and code then --if the request failed and a code is returned (not 403 and 429)
-		misc.log_error('forwardMessage', code)
+		misc.log_error('forwardMessage', code, nil, desc)
 	end
 	
 	return res, code

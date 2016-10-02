@@ -1,5 +1,5 @@
 return {
-	bot_api_key = '',
+	bot_api_key = "",
 	cmd = '^[/!#]',
 	db = 2, --default redis db: 0
 	superadmins = {23646077, 278941742},
@@ -46,7 +46,7 @@ return {
 		'mediasettings.lua',
 		'private.lua',
 		'admin.lua',
-		--'test.lua',
+		'test.lua',
 		--'logchannel.lua',
 		'report.lua',
 		'private_settings.lua',

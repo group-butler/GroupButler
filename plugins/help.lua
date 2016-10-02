@@ -297,28 +297,8 @@ local action = function(msg, blocks)
         local res, code = api.editMessageText(msg.chat.id, msg.message_id, text, keyboard, true)
         if not res and code and code == 111 then
             api.answerCallbackQuery(msg.cb_id, _("❗️ Already on this tab"))
-		elseif query == 'info' then
-			api.answerCallbackQuery(msg.cb_id, _("💡 Admins: info about the group"))
-		elseif query == 'banhammer' then
-			api.answerCallbackQuery(msg.cb_id, _("💡 Admins: banhammer powers"))
-		elseif query == 'flood' then
-			api.answerCallbackQuery(msg.cb_id, _("💡 Admins: flood settings"))
-		elseif query == 'media' then
-			api.answerCallbackQuery(msg.cb_id, _("💡 Admins: media settings"))
-		elseif query == 'pin' then
-			api.answerCallbackQuery(msg.cb_id, _("💡 Admins: pin message"))
-		elseif query == 'lang' then
-			api.answerCallbackQuery(msg.cb_id, _("💡 Admins: group language"))
-		elseif query == 'welcome' then
-			api.answerCallbackQuery(msg.cb_id, _("💡 Admins: welcome settings"))
-		elseif query == 'extra' then
-			api.answerCallbackQuery(msg.cb_id, _("💡 Admins: extra commands"))
-		elseif query == 'warns' then
-			api.answerCallbackQuery(msg.cb_id, _("💡 Admins: warns"))
-		elseif query == 'char' then
-			api.answerCallbackQuery(msg.cb_id, _("💡 Admins: special characters"))
-		elseif query == 'settings' then
-			api.answerCallbackQuery(msg.cb_id, _("💡 Admins: group settings"))
+		else
+			api.answerCallbackQuery(msg.cb_id, "✅")
         end
     end
 end

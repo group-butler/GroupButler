@@ -153,12 +153,12 @@ local action = function(msg, blocks)
 	
 	blocks = {}
 	
-	for k,v in pairs(triggers2) do
-		blocks = match_pattern(v, msg.text)
+	for _, trigger in pairs(triggers2) do
+		blocks = match_pattern(trigger, msg.text)
 		if blocks then break end
 	end
 	
-	if not blocks or not next(blocks) then return true end --continue to match plugins
+	if not blocks or not next(blocks) then return true end --leave this plugin and continue to match the others
 	
 	if blocks[1] == 'admin' then
 		local text = ''
@@ -196,6 +196,8 @@ local action = function(msg, blocks)
 	    for i=1, #names do
 	        text = text..'- *'..names[i]..'*: `'..num[i]..'`\n'
 	    end
+	    local kb = collectgarbage("count")
+	    text = text..'- *kilobytes used*: `'..kb..'`\n'
 	    text = text..'- *uptime*: `from '..(os.date("%c", start_timestamp))..' (GMT+2)`\n'
 	    text = text..'- *last hour msgs*: `'..last.h..'`\n'
 	    text = text..'   • *average msgs/minute*: `'..round((last.h/60), 3)..'`\n'
