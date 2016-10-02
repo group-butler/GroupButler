@@ -157,7 +157,8 @@ on_msg_receive = function(msg) -- The fn run whenever a message is received.
 		
 		collect_stats(msg)
 		
-		local continue, onm_success
+		local continue = true
+		local onm_success
 		for i, plugin in pairs(plugins) do
 			if plugin.onmessage then
 				onm_success, continue = pcall(plugin.onmessage, msg)
@@ -335,7 +336,7 @@ while is_started do -- Start a loop while the bot should be running.
 			last_update = msg.update_id
 			current.h = current.h + 1
 			current.d = current.d + 1
-			if msg.message  or msg.callback_query --[[or msg.edited_message]]then
+			if msg.message or msg.callback_query --[[or msg.edited_message]]then
 				--[[if msg.edited_message then
 					msg.message = msg.edited_message
 					msg.edited_message = nil
