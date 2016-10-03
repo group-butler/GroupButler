@@ -2,27 +2,27 @@
 
 ##Short introduction
 
-This bot has been created to help people in the administration of a group, with a lot of useful tools.
+This bot has been created to help people administrate their groups, and includes many useful tools.
 
-This bot born as an [Otouto](https://github.com/topkecleon/otouto) [v3.1](https://github.com/topkecleon/otouto/tree/26c1299374af130bbf8457af904cb4ea450caa51) ([@mokubot](https://telegram.me/mokubot)), but has been turned in an administration bot.
+This bot was born as an [otouto](otou.to) [v3.1](https://github.com/topkecleon/otouto/tree/26c1299374af130bbf8457af904cb4ea450caa51) ([@mokubot](https://telegram.me/mokubot)), but it has been turned into an administration bot.
 
-Follow the [channel](https://telegram.me/groupbutler_ch), [beta channel](https://telegram.me/GroupButler_beta) if you want to be updated about new changes. The official stable bot is [@GroupButler_bot](https://telegram.me/GroupButler_Bot). The official beta bot is [@GBReborn_bot](https://telegram.me/GBReborn_bot)
+Follow the [channel](https://telegram.me/groupbutler_ch), or the [beta channel](https://telegram.me/GroupButler_beta) if you want to be informed about new changes. The official (stable) bot is [@GroupButler_bot](https://telegram.me/GroupButler_Bot). The official beta bot is [@GBReborn_bot](https://telegram.me/GBReborn_bot).
 
 * * *
 
 ##Setup
 List of required packages:
-- _libreadline-dev_
-- _redis-server_
-- _lua5.2_
-- _liblua5.2dev_
-- _libssl-dev_
-- _git_
-- _make_
-- _unzip_
-- _curl_
+- `libreadline-dev`
+- `redis-server`
+- `lua5.2`
+- `liblua5.2dev`
+- `libssl-dev`
+- `git`
+- `make`
+- `unzip`
+- `curl`
 
-You will need some Lua modules that can be installed via the Lua package manager LuaRocks
+You will need some other Lua modules too, which can be (and should be) installed through the Lua package manager LuaRocks.
 
 **Installation**
 ```bash
@@ -46,28 +46,28 @@ $ sudo luarocks install serpent
 $ sudo luarocks install dkjson
 $ cd ..
 
-# Clone the repository and give the permissions to start the launch script
+# Clone the repository and give the launch script permissions to be executed
 
 $ git clone https://github.com/RememberTheAir/GroupButler.git
 $ cd GroupButler
 $ sudo chmod 777 launch.sh
 ```
 
-Other things to check before run the bot:
+Other things to check before running the bot:
 
-**First of all, take a look to your bot settings:**
+**First of all, take a look at your bot settings:**
 
-> • Make sure that privacy is disabled (more info in the [official Bots FAQ page](https://core.telegram.org/bots/faq#what-messages-will-my-bot-get)). Write `/setprivacy` to [BotFather](http://telegram.me/BotFather) to check the current setting.
+> • Make sure privacy is disabled (more info can be found by heading to the [official Bots FAQ page](https://core.telegram.org/bots/faq#what-messages-will-my-bot-get)). Send `/setprivacy` to [@BotFather](http://telegram.me/BotFather) to check the current status of this setting.
 
-**Before you do anything, open config.lua in a text editor and make the following changes:**
+**Before you do anything else, open config.lua (in a text editor) and make the following changes:**
 
-> • Set `bot_api_key` to the authentication token you received from the [BotFather](http://telegram.me/BotFather).
+> • Set `bot_api_key` to the authentication token that you received from [@BotFather](http://telegram.me/BotFather).
 >
-> • Add your Telegram ID the `superadmins` table. Other superadmins can be added. IDs must be a number, and not a string.
+> • Insert your numerical Telegram ID into the `superadmins` table. Other superadmins can be added too. It is important that you insert the numerical ID and NOT a string.
 >
 > • Set your `log.chat` (the ID of the chat where the bot will send all the bad requests received from Telegram) and your `log.admin` (the ID of the user that will receive execution errors).
 
-Before start the bot, you have to start the Redis process.
+Before you start the bot, you have to start the Redis process.
 ```bash
 # Start Redis
 
@@ -78,23 +78,23 @@ $ sudo service redis-server start
 
 ##MUST READ!!!
 
-Before stop the bot, if you don't want to loose your redis datas, you have to perform a save.
+Before you stop the bot, if you don't want to loose your redis data, you have to perform a save.
 
-There are three ways to do this: use `$stop` command to stop the bot (datas will be saved automatically), use `$save` command to save datas (and then stop the bot), or open a terminal and run `redis-cli bgsave` or `redis-cli save` (and then stop the bot).
+There are three ways of doing this: use `$stop` command to stop the bot (datas will be saved automatically), use `$save` command to save datas (and then stop the bot), or open a terminal and run `redis-cli bgsave` or `redis-cli save` (and then stop the bot).
 
 Please remember to do one of this easy things in order to avoid to loose important informations.
 
 You may want to perform a save each minute, for this you need to change the boolean value of the `cron` function in `plugins/admin.lua` from `false` to `cron` (or the name of the cron function).
 
-In this way, a cron job will run every minute and will perform a redis background save.
+This way, a cron job will run every minute and will perform a redis background save.
 
 * * *
 
 ##Start the process
 
-To start the bot, run `./launch.sh`. To stop the bot, press Ctrl+c twice.
+To start the bot, run `./launch.sh`. To stop the bot, press Ctrl+C twice.
 
-You may also start the bot with `lua bot.lua`, but then it will not restart automatically.
+You may also start the bot with `lua bot.lua`, however it will not restart automatically.
 
 * * *
 ##Something that you should known before run the bot
@@ -121,19 +121,16 @@ You may also start the bot with `lua bot.lua`, but then it will not restart auto
 * * *
 ##Some notes about the database
 
-*Everything* is stored on Redis, and the faster way to edit your database is the [Redis command line interface](http://redis.io/topics/rediscli).
+*Everything* is stored on Redis, and the fastest way to edit your database is via the [Redis CLI](http://redis.io/topics/rediscli).
 
-You can find a backup of your Redis database under `/etc/redis/dump.rdb`. The name of this file and the frequency of the saves depend on your redis configuration file.
+You can find a backup of your Redis database in `/etc/redis/dump.rdb`. The name of this file and the frequency of saves are dependent on your redis configuration file.
 
 * * *
 
 ## Translators
-If you want to help translate the bot, follow below instructions. Group Butler
-partially uses some tools from [gettext](https://www.gnu.org/software/gettext/).
-However we don't use binary format `*.mo` for the sake of simplicity. The bot
-manually parses the files `*.po` in directory `locales`.
+If you want to help translate the bot, follow the instructions below. Parts of Group Butler use tools from [gettext](https://www.gnu.org/software/gettext/). However we don't use binary format `*.mo` for the sake of simplicity. The bot manually parses the `*.po` files in the `locales` directory.
 
-If you want to improve exsist translation, run this command in the root
+If you want to improve an existing translation, run this command in the root
 directoy with the bot: `./launch.sh update-locale <name>` where &lt;name&gt;
 is two letters of your chosen locale. Further edit the file
 `locales/<name>.po`, make sure that the translation is done correctly and send
