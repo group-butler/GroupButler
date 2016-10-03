@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: GroupButler 4.0\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-09-25 16:51+0200\n"
-"PO-Revision-Date: 2016-08-29 17:54+0300\n"
-"Last-Translator: Nicholas Guriev <guriev-ns@ya.ru>\n"
+"PO-Revision-Date: 2016-10-03 23:39+0100\n"
+"Last-Translator: Nicholas Guriev <guriev-ns@ya.ru>, Ben <@botmaster>\n"
 "Language-Team: German\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -19,7 +19,7 @@ msgstr ""
 
 #: bot.lua:186
 msgid "Sorry, a *bug* occurred"
-msgstr ""
+msgstr "Entschuldige, ein *Error* ist aufgetreten! "
 
 #: methods.lua:114
 #, fuzzy
@@ -54,7 +54,7 @@ msgstr ""
 
 #: plugins/banhammer.lua:85
 msgid "The time limit is one week (168 hours)"
-msgstr ""
+msgstr "Das Zeitlimit ist eine Woche (168 Stunden)"
 
 #: plugins/banhammer.lua:96 plugins/banhammer.lua:119
 #: plugins/banhammer.lua:132 plugins/warn.lua:101
@@ -70,12 +70,12 @@ msgstr ""
 #: plugins/banhammer.lua:107
 #, lua-format
 msgid "Ban time updated for %s. Ban expiration: %s"
-msgstr ""
+msgstr "Bannzeit aktualisiert für %s. Der Ban laeuft aus: %s"
 
 #: plugins/banhammer.lua:109
 #, lua-format
 msgid "User %s banned. Ban expiration: %s"
-msgstr ""
+msgstr "Benutzer %s gesperrt. Der Ban laeuft aus: %s"
 
 #: plugins/banhammer.lua:125
 #, fuzzy, lua-format
@@ -96,19 +96,19 @@ msgstr "Nutzer (user) entsperrt (unbanned) by %s!"
 
 #: plugins/configure.lua:4
 msgid "🛠 Menu"
-msgstr ""
+msgstr "Menu"
 
 #: plugins/configure.lua:5
 msgid "⚡️ Antiflood"
-msgstr ""
+msgstr "⚡️ Antispam"
 
 #: plugins/configure.lua:6
 msgid "🌈 Media"
-msgstr ""
+msgstr "🌈 Medien"
 
 #: plugins/configure.lua:20 plugins/configure.lua:23
 msgid "_Navigate the keyboard to change the settings_"
-msgstr ""
+msgstr "_Navigieren Sie durch die Optionen um die Einstellungen zu ändern._"
 
 #: plugins/configure.lua:26
 #, fuzzy
@@ -129,43 +129,43 @@ msgstr "*Willkommensnachrichtenzusammensetzung*: `GIF/Sticker`\n"
 
 #: plugins/dashboard.lua:18 plugins/floodmanager.lua:5
 msgid "✅ | ON"
-msgstr ""
+msgstr "✅ | AN"
 
 #: plugins/dashboard.lua:20 plugins/floodmanager.lua:7
 msgid "❌ | OFF"
-msgstr ""
+msgstr "❌ | AUS"
 
 #: plugins/dashboard.lua:25 plugins/floodmanager.lua:13
 msgid "⚡️ kick"
-msgstr ""
+msgstr "⚡️ kick"
 
 #: plugins/dashboard.lua:27 plugins/floodmanager.lua:15
 msgid "⛔ ️ban"
-msgstr ""
+msgstr "⛔ ️Sperren"
 
 #: plugins/dashboard.lua:31 plugins/floodmanager.lua:33
 msgid "Texts"
-msgstr ""
+msgstr "Texte"
 
 #: plugins/dashboard.lua:32 plugins/floodmanager.lua:34
 #: plugins/mediasettings.lua:22
 msgid "Stickers"
-msgstr ""
+msgstr "Stickers"
 
 #: plugins/dashboard.lua:33 plugins/floodmanager.lua:35
 #: plugins/mediasettings.lua:14
 msgid "Images"
-msgstr ""
+msgstr "Bilder"
 
 #: plugins/dashboard.lua:34 plugins/floodmanager.lua:36
 #: plugins/mediasettings.lua:15
 msgid "GIFs"
-msgstr ""
+msgstr "Animierte Bilder (GIFs)"
 
 #: plugins/dashboard.lua:35 plugins/floodmanager.lua:37
 #: plugins/mediasettings.lua:16
 msgid "Videos"
-msgstr ""
+msgstr "Videos"
 
 #: plugins/dashboard.lua:49
 #, lua-format
@@ -175,12 +175,12 @@ msgstr ""
 #: plugins/dashboard.lua:50
 #, lua-format
 msgid "- *Action* when an user floods: `%s`\n"
-msgstr ""
+msgstr "*Aktion* wenn ein User spammt: `%s`\n"
 
 #: plugins/dashboard.lua:51
 #, lua-format
 msgid "- Number of messages *every 5 seconds* allowed: `%d`\n"
-msgstr ""
+msgstr "- Anzahl von Nachrichten die erlaubt sind *alle 5 Sekunden*: `%d`\n"
 
 #: plugins/dashboard.lua:52
 #, lua-format
