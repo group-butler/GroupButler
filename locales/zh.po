@@ -56,7 +56,7 @@ msgstr ""
 #: plugins/banhammer.lua:132 plugins/warn.lua:101
 msgid ""
 "I can't kick this user.\n"
-"Probably I'm not an Amdin, or the user is an Admin iself"
+"Probably I'm not an Admin, or the user is an Admin iself"
 msgstr ""
 
 #: plugins/banhammer.lua:107

@@ -61,7 +61,7 @@ msgstr "O tempo limite é de uma semana (10.080 minutos)"
 #, fuzzy
 msgid ""
 "I can't kick this user.\n"
-"Probably I'm not an Amdin, or the user is an Admin iself"
+"Probably I'm not an Admin, or the user is an Admin iself"
 msgstr ""
 "Eu não posso kickar este usuário.\n"
 "Provavelmente eu não sou um administrador, ou o usuário é um administrador"
