@@ -73,20 +73,22 @@ local action = function(msg, blocks)
             if res then
                 api.sendMessage(msg.chat.id, _("_I've sent you the group dashboard via private message_"), true)
             else
-                misc.sendStartMe(msg, msg.ln)
+                misc.sendStartMe(msg)
             end
         end
 	    return
     end
     if msg.cb then
         local request = blocks[2]
-        local text
+        local text, notification
         keyboard = doKeyboard_dashboard(chat_id)
         if request == 'settings' then
             text = misc.getSettings(chat_id)
+            notification = _("ℹ️ Group ► Settings")
         end
         if request == 'rules' then
             text = misc.getRules(chat_id)
+            notification = _("ℹ️ Group ► Rules")
         end
         if request == 'adminlist' then
             local creator, admins = misc.getAdminlist(chat_id)
@@ -96,12 +98,15 @@ local action = function(msg, blocks)
             else
                 text = _("*Creator*:\n%s\n\n*Admins*:\n%s"):format(creator, admins)
             end
+            notification = _("ℹ️ Group ► Admin list")
         end
         if request == 'extra' then
             text = misc.getExtraList(chat_id)
+            notification = _("ℹ️ Group ► Extra")
         end
         if request == 'flood' then
             text = getFloodSettings_text(chat_id)
+            notification = _("ℹ️ Group ► Flood")
         end
         if request == 'media' then
             text = _("*Current media settings*:\n\n")
@@ -114,9 +119,10 @@ local action = function(msg, blocks)
                 end
                 text = text..'`'..media..'` ≡ '..status..'\n'
             end
+            notification = _("ℹ️ Group ► Media")
         end
         api.editMessageText(msg.chat.id, msg.message_id, text, keyboard, true)
-        api.answerCallbackQuery(msg.cb_id, 'ℹ️ Group ► '..request)
+        api.answerCallbackQuery(msg.cb_id, notification)
         return
     end
 end

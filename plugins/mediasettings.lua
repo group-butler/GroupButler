@@ -21,6 +21,7 @@ local function doKeyboard_media(chat_id)
 			audio = _("Music"),
 			sticker = _("Stickers"),
 			contact = _("Contacts"),
+			game = _("Games"),
 		}
         local media_text = media_texts[media] or media
         local line = {

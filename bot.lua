@@ -273,6 +273,9 @@ local function media_to_msg(msg)
 	elseif msg.contact then
 		msg.text = '###contact'
 		msg.media_type = 'contact'
+	elseif msg.game then
+		msg.text = '###game:' .. msg.game.title .. '\n' .. msg.game.description
+		msg.media_type = 'game'
 	else
 		msg.media = false
 	end
@@ -347,7 +350,9 @@ while is_started do -- Start a loop while the bot should be running.
 					misc.to_supergroup(msg.message)
 				elseif msg.message.new_chat_member or msg.message.left_chat_member or msg.message.group_chat_created then
 					service_to_message(msg.message)
-				elseif msg.message.photo or msg.message.video or msg.message.document or msg.message.voice or msg.message.audio or msg.message.sticker or msg.message.entities then
+				elseif msg.message.photo or msg.message.video or msg.message.document
+					or msg.message.voice or msg.message.audio or msg.message.sticker
+					or msg.message.entities or msg.message.game then
 					media_to_msg(msg.message)
 				elseif msg.message.forward_from then
 					forward_to_msg(msg.message)
