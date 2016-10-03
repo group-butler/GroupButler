@@ -79,10 +79,10 @@ local function get_ban_info(user_id, chat_id)
 		local ban_index = {
 			kick = _("Kicked: *%d*"),
 			ban = _("Banned: *%d*"),
-			tempban = _("Temporary banned: *%d*"),
-			flood = _("Removed for flood: *%d*"),
+			tempban = _("Temporarily banned: *%d*"),
+			flood = _("Removed for flooding chat: *%d*"),
 			media = _("Removed for forbidden media: *%d*"),
-			warn = _("Removed for warns: *%d*"),
+			warn = _("Removed for max warnings: *%d*"),
 			arab = _("Removed for arab chars: *%d*"),
 			rtl = _("Removed for RTL char: *%d*"),
 		}
@@ -96,14 +96,14 @@ local function get_ban_info(user_id, chat_id)
 	end
 	local warns = (db:hget('chat:'..chat_id..':warns', user_id)) or 0
 	local media_warns = (db:hget('chat:'..chat_id..':mediawarn', user_id)) or 0
-	text = text..'\n`Warns`: '..warns..'\n`Media warns`: '..media_warns
+	text = text..'\n`Warnings`: '..warns..'\n`Media warnings`: '..media_warns
 	return text
 end
 
 local function do_keyboard_userinfo(user_id)
 	local keyboard = {
 		inline_keyboard = {
-			{{text = _("Remove warns"), callback_data = 'userbutton:remwarns:'..user_id}},
+			{{text = _("Remove warnings"), callback_data = 'userbutton:remwarns:'..user_id}},
 			{{text = _("🔨 Ban"), callback_data = 'userbutton:banuser:'..user_id}},
 		}
 	}
@@ -137,7 +137,7 @@ local action = function(msg, blocks)
 		 	else
 		 		local res = api.getChatMember(msg.chat.id, user_id)
 		 		if not res then
-					api.sendReply(msg, _("This user has nothing to do with this chat"))
+					api.sendReply(msg, _("That user has nothing to do with this chat"))
 		 			return
 		 		end
 		 		local status = res.result.status
@@ -168,7 +168,7 @@ local action = function(msg, blocks)
 		if msg.chat.type == 'private' or not roles.is_admin_cached(msg) then return end
 		
 		if not msg.reply and (not blocks[2] or (not blocks[2]:match('@[%w_]+$') and not blocks[2]:match('%d+$') and not msg.mention_id)) then
-			api.sendReply(msg, _("Reply to an user or mention him (works by id too)"))
+			api.sendReply(msg, _("Reply to an user or mention them by username or numerical ID"))
 			return
 		end
 		
@@ -183,7 +183,7 @@ local action = function(msg, blocks)
 		
 		if not user_id then
 			api.sendReply(msg, _("I've never seen this user before.\n"
-				.. "If you want to teach me who is he, forward me a message from him"), true)
+				.. "If you want to teach me who they are, forward a message from them to me"), true)
 		 	return
 		end
 		-----------------------------------------------------------------------------
@@ -219,7 +219,7 @@ local action = function(msg, blocks)
 		db:hdel('chat:'..msg.chat.id..':mediawarn', msg.target_id)
         
         local name = misc.getname_link(msg.from.first_name, msg.from.username) or msg.from.first_name:escape()
-		local text = _("The number of warns received by this user has been *reset*\n(Admin: %s)")
+		local text = _("The number of warnings received by this user has been *reset*\n(Admin: %s)")
 		api.editMessageText(msg.chat.id, msg.message_id, text:format(name), false, true)
     end
     if blocks[1] == 'cache' then
@@ -248,7 +248,7 @@ local action = function(msg, blocks)
 		end
 		local missing_sec = tonumber(db:ttl('cache:chat:'..msg.target_id..':admins') or 0)
 		if (config.bot_settings.cache_time.adminlist - missing_sec) < 3600 then
-			api.answerCallbackQuery(msg.cb_id, 'The adminlist has just been updated. This button will be available in an hour after the last update', true)
+			api.answerCallbackQuery(msg.cb_id, 'The adminlist has just been updated. This button will be available for an hour after the last update', true)
 		else
     		local res = misc.cache_adminlist(msg.target_id)
     		if res then
