@@ -3,14 +3,7 @@ HTTPS = require('ssl.https')
 URL = require('socket.url')
 JSON = require('dkjson')
 redis = require('redis')
-clr = require('term.colors')
-lanes = require("lanes").configure{
-	protect_allocator = true,
-	verbose_errors = true,
-	shutdown_timeout = 2,
-	demote_full_userdata = true
-}
-
+clr = require 'term.colors'
 db = Redis.connect('127.0.0.1', 6379)
 serpent = require('serpent')
 
@@ -25,20 +18,20 @@ local function check_config()
 end
 
 function bot_init(on_reload) -- The function run when the bot is started or reloaded.
-
+	
 	config = dofile('config.lua') -- Load configuration file.
 	local error = check_config()
 	if error then
 		print(clr.red..error)
 		return
 	end
-
+	
 	db:select(config.db or 0) --select the redis db
-
+	
 	misc, roles = dofile('utilities.lua') -- Load miscellaneous and cross-plugin functions.
 	locale = dofile('languages.lua')
 	api = require('methods')
-
+	
 	bot = api.getMe().result -- Get bot info
 
 	plugins = {} -- Load plugins.
@@ -54,7 +47,7 @@ function bot_init(on_reload) -- The function run when the bot is started or relo
 	end
 
 	print('\n'..clr.blue..'BOT RUNNING:'..clr.reset, clr.red..'[@'..bot.username .. '] [' .. bot.first_name ..'] ['..bot.id..']'..clr.reset..'\n')
-
+	
 	-- Generate a random seed and "pop" the first random number. :)
 	math.randomseed(os.time())
 	math.random()
@@ -62,7 +55,7 @@ function bot_init(on_reload) -- The function run when the bot is started or relo
 	last_update = last_update or 0 -- Set loop variables: Update offset,
 	last_cron = last_cron or os.time() -- the time of the last cron job,
 	is_started = true -- whether the bot should be running or not.
-
+	
 	if on_reload then
 		return #plugins
 	else
@@ -114,17 +107,17 @@ local function extract_usernames(msg)
 end
 
 local function collect_stats(msg)
-
+	
 	--count the number of messages
 	db:hincrby('bot:general', 'messages', 1)
 
 	extract_usernames(msg)
-
+	
 	if msg.chat.type ~= 'private' and msg.from then
 		db:hset('chat:'..msg.chat.id..':userlast', msg.from.id, os.time()) --last message for each user
 		db:hset('bot:chats:latsmsg', msg.chat.id, os.time()) --last message in the group
 	end
-
+	
 	--user stats
 	if msg.from then
 		db:hincrby('user:'..msg.from.id, 'msgs', 1)
@@ -132,62 +125,14 @@ local function collect_stats(msg)
 end
 
 local function match_pattern(pattern, text)
-	if text then
-		text = text:gsub('@'..bot.username, '')
-		local matches = {}
-		matches = { string.match(text, pattern) }
-		if next(matches) then
-			return matches
+  	if text then
+  		text = text:gsub('@'..bot.username, '')
+    	local matches = {}
+    	matches = { string.match(text, pattern) }
+    	if next(matches) then
+    		return matches
 		end
-	end
-end
-
-local function run_plugin(blocks, msg, _, plugin, plugins, config, bot, misc, roles, locale, api)
-	local HTTP = require('socket.http')
-	local HTTPS = require('ssl.https')
-	local URL = require('socket.url')
-	local JSON = require('dkjson')
-	local clr = require('term.colors')
-	local serpent = require('serpent')
-	local redis = require('redis')
-	db = Redis.connect('127.0.0.1', 6379)
-	db:select(config.db or 0)
-
-	_G['HTTP'] = HTTP
-	_G['HTTPS'] = HTTPS
-	_G['URL'] = URL
-	_G['JSON'] = JSON
-	_G['clr'] = clr
-	_G['serpent'] = serpent
-	_G['db'] = db
-	_G['blocks'] = blocks
-	_G['msg'] = msg
-	_G['_'] = _
-	_G['plugin'] = plugin
-	_G['plugins'] = plugins
-	_G['config'] = config
-	_G['bot'] = bot
-	_G['misc'] = misc
-	_G['roles'] = roles
-	_G['locale'] = locale
-	_G['api'] = api
-
-	local success, result = xpcall(plugin.action, debug.traceback, msg, blocks) --execute the main function of the plugin triggered
-
-	if not success then --if a bug happens
-		print(result)
-		if config.bot_settings.notify_bug then
-			api.sendReply(msg, _("Sorry, a *bug* occurred"), true)
-		end
-		api.sendAdmin('An #error occurred.\n'..result..'\n'..locale.language..'\n'..msg.text)
-		return
-	end
-
-	if type(result) == 'string' then --if the action returns a string, make that string the new msg.text
-		msg.text = result
-	elseif result ~= true then --if the action returns true, then don't stop the loop of the plugin's actions
-		return
-	end
+  	end
 end
 
 on_msg_receive = function(msg) -- The fn run whenever a message is received.
@@ -195,23 +140,23 @@ on_msg_receive = function(msg) -- The fn run whenever a message is received.
 	if not msg then
 		return
 	end
-
+	
 	if msg.chat.type ~= 'group' then --do not process messages from normal groups
-
+		
 		if msg.date < os.time() - 7 then return end -- Do not process old messages.
 		if not msg.text then msg.text = msg.caption or '' end
-
+		
 		--[[if msg.text:match('^/start .+') then
 			msg.text = '/' .. msg.text:input()
 		end]]
-
+		
 		locale.language = db:get('lang:'..msg.chat.id) or 'en' --group language
 		if not config.available_languages[locale.language] then
 			locale.language = 'en'
 		end
-
+		
 		collect_stats(msg)
-
+		
 		local continue = true
 		local onm_success
 		for i, plugin in pairs(plugins) do
@@ -225,23 +170,37 @@ on_msg_receive = function(msg) -- The fn run whenever a message is received.
 			end
 			if not continue then return end
 		end
-
+		
 		for i,plugin in pairs(plugins) do
 			if plugin.triggers then
 				for k,w in pairs(plugin.triggers) do
 					local blocks = match_pattern(w, msg.text)
 					if blocks then
-
+						
 						if msg.chat.type ~= 'private' and not db:exists('chat:'..msg.chat.id..':settings') and not msg.service then --init agroup if the bot wasn't aware to be in
 							misc.initGroup(msg.chat.id)
 						end
-
+						
 						if config.bot_settings.stream_commands then --print some info in the terminal
 							print(clr.reset..clr.blue..'['..os.date('%X')..']'..clr.red..' '..w..clr.reset..' '..get_from(msg)..' -> ['..msg.chat.id..']')
 						end
-
-						lanes.gen("*", run_plugin)(blocks, msg, _, plugin, plugins, config, bot, misc, roles, locale, api)
-
+						
+						local success, result = xpcall(plugin.action, debug.traceback, msg, blocks) --execute the main function of the plugin triggered
+						
+						if not success then --if a bug happens
+							print(result)
+							if config.bot_settings.notify_bug then
+								api.sendReply(msg, _("Sorry, a *bug* occurred"), true)
+							end
+    	      				api.sendAdmin('An #error occurred.\n'..result..'\n'..locale.language..'\n'..msg.text)
+							return
+						end
+						
+						if type(result) == 'string' then --if the action returns a string, make that string the new msg.text
+							msg.text = result
+						elseif result ~= true then --if the action returns true, then don't stop the loop of the plugin's actions
+							return
+						end
 					end
 				end
 			end
@@ -252,7 +211,7 @@ end
 local function service_to_message(msg)
 	msg.service = true
 	if msg.new_chat_member then
-		if tonumber(msg.new_chat_member.id) == tonumber(bot.id) then
+    	if tonumber(msg.new_chat_member.id) == tonumber(bot.id) then
 			msg.text = '###botadded'
 		else
 			msg.text = '###added'
@@ -260,7 +219,7 @@ local function service_to_message(msg)
 		msg.adder = misc.clone_table(msg.from)
 		msg.added = misc.clone_table(msg.new_chat_member)
 	elseif msg.left_chat_member then
-		if tonumber(msg.left_chat_member.id) == tonumber(bot.id) then
+    	if tonumber(msg.left_chat_member.id) == tonumber(bot.id) then
 			msg.text = '###botremoved'
 		else
 			msg.text = '###removed'
@@ -268,11 +227,11 @@ local function service_to_message(msg)
 		msg.remover = misc.clone_table(msg.from)
 		msg.removed = misc.clone_table(msg.left_chat_member)
 	elseif msg.group_chat_created then
-		msg.chat_created = true
-		msg.adder = misc.clone_table(msg.from)
-		msg.text = '###botadded'
+    	msg.chat_created = true
+    	msg.adder = misc.clone_table(msg.from)
+    	msg.text = '###botadded'
 	end
-	return on_msg_receive(msg)
+    return on_msg_receive(msg)
 end
 
 local function forward_to_msg(msg)
@@ -281,7 +240,7 @@ local function forward_to_msg(msg)
 	else
 		msg.text = '###forward'
 	end
-	return on_msg_receive(msg)
+    return on_msg_receive(msg)
 end
 
 local function media_to_msg(msg)
@@ -320,7 +279,7 @@ local function media_to_msg(msg)
 	else
 		msg.media = false
 	end
-
+	
 	--cehck entities for links/text mentions
 	if msg.entities then
 		for i,entity in pairs(msg.entities) do
@@ -340,7 +299,7 @@ local function media_to_msg(msg)
 			end
 		end
 	end
-
+	
 	if msg.reply_to_message then
 		msg.reply = msg.reply_to_message
 	end
@@ -415,7 +374,7 @@ while is_started do -- Start a loop while the bot should be running.
 			if v.cron then -- Call each plugin's cron function, if it has one.
 				local res, err = pcall(function() v.cron() end)
 				if not res then
-					api.sendLog('An #error occurred.\n'..err)
+          			api.sendLog('An #error occurred.\n'..err)
 					return
 				end
 			end
