@@ -58,7 +58,7 @@ msgstr "زمان محدودیت یک هفته میباشد (10 080)"
 #, fuzzy
 msgid ""
 "I can't kick this user.\n"
-"Probably I'm not an Amdin, or the user is an Admin iself"
+"Probably I'm not an Admin, or the user is an Admin iself"
 msgstr ""
 "من نمیتوانم این کاربر را اخراج کنم.\n"
 "ممکنه ادمین نباشم یا این کاربر ادمین است"

@@ -1594,7 +1594,7 @@ msgstr "Utente %s *kickato*: raggiunto il numero massimo di warns (%d/%d)"
 #: plugins/warn.lua:101
 msgid ""
 "I can't kick this user.\n"
-"Probably I'm not an Amdin, or the user is an Admin iself"
+"Probably I'm not an Admin, or the user is an Admin iself"
 msgstr ""
 "Non posso kickare questo utente.\n"
 "Probabilmente non sono un Admin, o l'utente che hai cercato di kickare è un "

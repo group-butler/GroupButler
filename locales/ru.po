@@ -59,7 +59,7 @@ msgstr "Время ограничено одной неделей (168 часо�
 #: plugins/warn.lua:101
 msgid ""
 "I can't kick this user.\n"
-"Probably I'm not an Amdin, or the user is an Admin iself"
+"Probably I'm not an Admin, or the user is an Admin iself"
 msgstr ""
 "Я не могу кикнуть этого пользователя.\n"
 "Возможно, я не админ или пользователь сам админ"

@@ -61,7 +61,7 @@ msgstr ""
 #, fuzzy
 msgid ""
 "I can't kick this user.\n"
-"Probably I'm not an Amdin, or the user is an Admin iself"
+"Probably I'm not an Admin, or the user is an Admin iself"
 msgstr ""
 "Ich kann diesen Nutzer (user) nicht entfernen (kick).\n"
 "Wahrscheinlich bin ich entweder kein Administrator oder der Nutzer ist "

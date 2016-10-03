@@ -60,7 +60,7 @@ msgstr "أقصى مدى ممكن هو أسبوع واحد، أي 10.080 دقيق
 #, fuzzy
 msgid ""
 "I can't kick this user.\n"
-"Probably I'm not an Amdin, or the user is an Admin iself"
+"Probably I'm not an Admin, or the user is an Admin iself"
 msgstr ""
 "لا أستطيع أن أزيل هذا المستخدم.\n"
 "ببما أنا لست مشرفا، أم المستخدم هو مشرف نفسه."
