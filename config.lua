@@ -127,7 +127,8 @@ return {
 			['contact'] = 'ok',
 			['file'] = 'ok',
 			['link'] = 'ok',
-			['TGlink'] = 'ok'
+			['TGlink'] = 'ok',
+			['game'] = 'ok',
 		},
 		['tolog'] = {
 			['ban'] = 'yes',

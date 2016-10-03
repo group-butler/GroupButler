@@ -25,7 +25,7 @@ local function action(msg, blocks)
             if res then
                 api.sendMessage(msg.chat.id, _("_I've sent you the keyboard via private message_"), true)
             else
-                misc.sendStartMe(msg, msg.ln)
+                misc.sendStartMe(msg)
             end
         end
     end
