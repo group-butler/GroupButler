@@ -49,9 +49,9 @@ local function action(msg, blocks)
                 end
                 db:hset(hash, 'type', 'media')
                 db:hset(hash, 'content', file_id)
-                api.sendReply(msg, _("New media setted as welcome message: `%s`"):format(replied_to), true)
+                api.sendReply(msg, _("A form of media has been set as the welcome message: `%s`"):format(replied_to), true)
             else
-                api.sendReply(msg, _("Reply to a `sticker` or a `gif` to set them as *welcome message*"), true)
+                api.sendReply(msg, _("Reply to a `sticker` or a `gif` to set them as the *welcome message*"), true)
             end
         else
             db:hset(hash, 'type', 'custom')
@@ -61,10 +61,10 @@ local function action(msg, blocks)
                 db:hset(hash, 'type', 'no') --if wrong markdown, remove 'custom' again
                 db:hset(hash, 'content', 'no')
                 if code == 118 then
-				    api.sendMessage(msg.chat.id, _("This text is too long, I can't send it"))
+				    api.sendMessage(msg.chat.id, _("This message is too long, I can't send it"))
 			    else
 					api.sendMessage(msg.chat.id, _("This text breaks the markdown.\n"
-						.. "More info about a proper use of markdown "
+						.. "More info about proper markdown usage can be found "
 						.. "[here](https://telegram.me/GroupButler_ch/46)."), true)
 			    end
             else
