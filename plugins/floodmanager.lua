@@ -91,7 +91,12 @@ local function changeFloodSettings(chat_id, screm)
 end
 
 local function action(msg, blocks)
-    if not msg.cb and msg.chat.type == 'private' then return end
+	if not msg.cb then return end
+	local chat_id = msg.target_id or msg.chat.id
+	if not roles.is_admin_cached(chat_id, msg.from.id) then
+		api.answerCallbackQuery(msg.cb_id, _("You're no longer admin"))
+		return
+	end
 
 	local header = _([[
 You can manage the group flood settings from here.
@@ -112,7 +117,6 @@ You can set some exceptions for the antiflood:
 • *Note*: in "_texts_" are included all the other types of media (file, audio...)
 ]])
 
-    local chat_id = msg.target_id or msg.chat.id
     local text
     
     if blocks[1] == 'config' then

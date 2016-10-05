@@ -67,12 +67,20 @@ function roles.is_admin(msg)
 	end
 end
 
-function roles.is_admin_cached(msg)
-	local hash = 'cache:chat:'..msg.chat.id..':admins'
-	if not db:exists(hash) then
-		misc.cache_adminlist(msg.chat.id, res)
+-- Returns the admin status of the user. The first argument can be the message,
+-- then the function checks the rights of the sender in the incoming chat.
+function roles.is_admin_cached(chat_id, user_id)
+	if type(chat_id) == 'table' then
+		local msg = chat_id
+		chat_id = msg.chat.id
+		user_id = msg.from.id
 	end
-	return db:sismember(hash, msg.from.id)
+
+	local hash = 'cache:chat:'..chat_id..':admins'
+	if not db:exists(hash) then
+		misc.cache_adminlist(chat_id, res)
+	end
+	return db:sismember(hash, user_id)
 end
 
 function roles.is_admin2(chat_id, user_id)
