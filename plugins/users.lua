@@ -202,7 +202,7 @@ local action = function(msg, blocks)
 		
 		local user_id = msg.target_id
 		
-		local res, text = api.banUser(msg.chat.id, user_id, msg.normal_group)
+		local res, text = api.banUser(msg.chat.id, user_id)
 		if res then
 			misc.saveBan(user_id, 'ban')
 			local name = misc.getname_link(msg.from.first_name, msg.from.username) or msg.from.first_name:escape()

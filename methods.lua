@@ -37,7 +37,10 @@ local function sendRequest(url)
 	if code ~= 200 then
 		print(clr.red..code, tab.description..clr.reset)
 		
-		if code == 400 then code = api.getCode(tab.description) end --error code 400 is general: try to specify
+		if code == 400 then
+			 --error code 400 is general: try to specify
+			 code = getCode(tab.description)
+		end
 		db:hincrby('bot:errors', code, 1)
 		
 		return false, code, tab.description
@@ -71,15 +74,6 @@ function api.getUpdates(offset)
 
 end
 
-function api.getCode(error)
-	for k,v in pairs(config.api_errors) do
-		if error:match(v) then
-			return k
-		end
-	end
-	return 7 --if unknown
-end
-
 function api.unbanChatMember(chat_id, user_id)
 	
 	local url = BASE_URL .. '/unbanChatMember?chat_id=' .. chat_id .. '&user_id=' .. user_id
@@ -107,7 +101,7 @@ local function code2text(code)
 		return _("I can't kick or ban an admin")
 	elseif code == 103 then
 		return _("There is no need to unban in a normal group")
-	elseif code == 106 then
+	elseif code == 106 or code == 134 then
 		return _("This user is not a chat member")
 	elseif code == 7 then
 		return false

@@ -209,13 +209,22 @@ end
 function misc.resolve_user(username)
 	assert(username:byte(1) == string.byte('@'))
 
-	local stored_id = db:hget('bot:usernames', username:lower())
+	local stored_id = tonumber(db:hget('bot:usernames', username:lower()))
 	if not stored_id then return false end
 	local user_obj = api.getChat(stored_id)
 	if not user_obj then return stored_id end
 
-	-- User could change his username. Update it
-	db:hset('bot:usernames', username:lower(), user_obj.result.id)
+	-- User could change his username
+	if username ~= '@' .. user_obj.result.username then
+		if user_obj.result.username then
+			-- Update it if it exists
+			db:hset('bot:usernames', user_obj.result.username:lower(), user_obj.result.id)
+		end
+		-- And return false because this user not the same that asked
+		return false
+	end
+
+	assert(stored_id == user_obj.result.id)
 	return user_obj.result.id
 end
 
