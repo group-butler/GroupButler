@@ -58,7 +58,7 @@ local function do_keyboard_flood(chat_id)
     return keyboard
 end
 
-function changeFloodSettings(chat_id, screm)
+local function changeFloodSettings(chat_id, screm)
     local hash = 'chat:'..chat_id..':flood'
     if type(screm) == 'string' then
         if screm == 'kick' then

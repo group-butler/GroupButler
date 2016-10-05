@@ -1,5 +1,4 @@
-HTTP = require('socket.http')
-HTTPS = require('ssl.https')
+curl = require('cURL')
 URL = require('socket.url')
 JSON = require('dkjson')
 redis = require('redis')
@@ -86,20 +85,20 @@ local function extract_usernames(msg)
 	if msg.forward_from and msg.forward_from.username then
 		db:hset('bot:usernames', '@'..msg.forward_from.username:lower(), msg.forward_from.id)
 	end
-	if msg.added then
-		if msg.added.username then
-			db:hset('bot:usernames', '@'..msg.added.username:lower(), msg.added.id)
+	if msg.new_chat_member then
+		if msg.new_chat_member.username then
+			db:hset('bot:usernames', '@'..msg.new_chat_member.username:lower(), msg.new_chat_member.id)
 		end
-		db:sadd(string.format('chat:%d:members', msg.chat.id), msg.added.id)
+		db:sadd(string.format('chat:%d:members', msg.chat.id), msg.new_chat_member.id)
 	end
-	if msg.removed then
-		if msg.removed.username then
-			db:hset('bot:usernames', '@'..msg.removed.username:lower(), msg.removed.id)
+	if msg.left_chat_member then
+		if msg.left_chat_member.username then
+			db:hset('bot:usernames', '@'..msg.left_chat_member.username:lower(), msg.left_chat_member.id)
 		end
-		db:srem(string.format('chat:%d:members', msg.chat.id), msg.removed.id)
+		db:srem(string.format('chat:%d:members', msg.chat.id), msg.left_chat_member.id)
 	end
-	if msg.reply then
-		extract_usernames(msg.reply)
+	if msg.reply_to_message then
+		extract_usernames(msg.reply_to_message)
 	end
 	if msg.pinned_message then
 		extract_usernames(msg.pinned_message)

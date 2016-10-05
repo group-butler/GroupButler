@@ -2,15 +2,37 @@ local BASE_URL = 'https://api.telegram.org/bot' .. config.bot_api_key
 
 local api = {}
 
-local function sendRequest(url)
-	--print(url)
-	local dat, code = HTTPS.request(url)
-	
-	if not dat then
-		return false, code 
+local curl_context = curl.easy{verbose = config.bot_settings.debug_connections}
+
+local function getCode(err)
+	for k,v in pairs(config.api_errors) do
+		if err:match(v) then
+			return k
+		end
 	end
+	return 7 --if unknown
+end
+
+local function performRequest(url)
+	local data = {}
 	
+	-- if multithreading is made, this request must be in critical section
+	local c = curl_context:setopt_url(url)
+		:setopt_writefunction(table.insert, data)
+		:perform()
+
+	return table.concat(data), c:getinfo_response_code()
+end
+
+local function sendRequest(url)
+	local dat, code = performRequest(url)
 	local tab = JSON.decode(dat)
+
+	if not tab then
+		print(clr.red..'Error while parsing JSON'..clr.reset, code)
+		print(clr.yellow..'Data:'..clr.reset, dat)
+		error('Incorrect response')
+	end
 
 	if code ~= 200 then
 		print(clr.red..code, tab.description..clr.reset)
@@ -62,45 +84,19 @@ function api.unbanChatMember(chat_id, user_id)
 	
 	local url = BASE_URL .. '/unbanChatMember?chat_id=' .. chat_id .. '&user_id=' .. user_id
 
-	--return sendRequest(url)
-	
-	local dat, res = HTTPS.request(url)
-	
-	local tab = JSON.decode(dat)
-	
-	if res ~= 200 then
-		return false, res
-	end
-
-	if not tab.ok then
-		return false, tab.description
-	end
-
-	return tab
-	
+	return sendRequest(url)
 end
 
 function api.kickChatMember(chat_id, user_id)
 	
 	local url = BASE_URL .. '/kickChatMember?chat_id=' .. chat_id .. '&user_id=' .. user_id
 	
-	local dat, res = HTTPS.request(url)
-
-	local tab = JSON.decode(dat)
-	
-	if res ~= 200 then
-		--if error, return false and the custom error code
-		print(tab.description)
-		return false, api.getCode(tab.description)
+	local success, code, description = sendRequest(url)
+	if success then
+		db:srem(string.format('chat:%d:members', chat_id), user_id)
 	end
 
-	if not tab.ok then
-		return false, tab.description
-	end
-	
-	db:srem(string.format('chat:%d:members', chat_id), user_id)
-	return tab
-
+	return success, code, description
 end
 
 local function code2text(code)
@@ -227,7 +223,7 @@ function api.sendKeyboard(chat_id, text, keyboard, markdown)
 	
 	url = url..'&disable_web_page_preview=true'
 	
-	url = url..'&reply_markup='..JSON.encode(keyboard)
+	url = url..'&reply_markup='..URL.escape(JSON.encode(keyboard))
 	
 	local res, code, desc = sendRequest(url)
 	
@@ -285,7 +281,7 @@ function api.editMessageText(chat_id, message_id, text, keyboard, markdown)
 	url = url .. '&disable_web_page_preview=true'
 	
 	if keyboard then
-		url = url..'&reply_markup='..JSON.encode(keyboard)
+		url = url..'&reply_markup='..URL.escape(JSON.encode(keyboard))
 	end
 	
 	local res, code, desc = sendRequest(url)
@@ -300,7 +296,9 @@ end
 
 function api.editMarkup(chat_id, message_id, reply_markup)
 	
-	local url = BASE_URL .. '/editMessageReplyMarkup?chat_id=' .. chat_id .. '&message_id='..message_id..'&reply_markup='..JSON.encode(reply_markup)
+	local url = BASE_URL .. '/editMessageReplyMarkup?chat_id=' .. chat_id ..
+		'&message_id='..message_id..
+		'&reply_markup='..URL.escape(JSON.encode(reply_markup))
 	
 	return sendRequest(url)
 

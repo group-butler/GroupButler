@@ -16,7 +16,8 @@ return {
 		notify_bug = true,
 		log_api_errors = true,
 		stream_commands = true,
-		admin_mode = false
+		admin_mode = false,
+		debug_connections = true,
 	},
 	channel = '@groupbutler_ch', --channel username with the '@'
 	source_code = 'https://github.com/RememberTheAir/GroupButler',
@@ -72,17 +73,6 @@ return {
 		-- more to come
 	},
 	allow_fuzzy_translations = false,
-	media_list = {
-		'image',
-		'audio',
-		'video',
-		'sticker',
-		'gif',
-		'voice',
-		'contact',
-		'file',
-		'link'
-	},
 	chat_settings = {
 		['settings'] = {
 			['Welcome'] = 'on',
