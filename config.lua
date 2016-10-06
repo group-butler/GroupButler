@@ -12,12 +12,12 @@ return {
 		cache_time = {
 			adminlist = 18000, --5 hours (18000s)
 		},
-		multipurpose_mode = true,
+		multipurpose_mode = false,
 		notify_bug = true,
 		log_api_errors = true,
 		stream_commands = true,
 		admin_mode = false,
-		debug_connections = true,
+		debug_connections = false,
 	},
 	channel = '@groupbutler_ch', --channel username with the '@'
 	source_code = 'https://github.com/RememberTheAir/GroupButler',

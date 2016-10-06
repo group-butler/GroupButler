@@ -21,6 +21,7 @@ List of required packages:
 - `make`
 - `unzip`
 - `curl`
+- `libcurl4-gnutls-dev`
 
 You will need some other Lua modules too, which can be (and should be) installed through the Lua package manager LuaRocks.
 
@@ -30,7 +31,7 @@ You will need some other Lua modules too, which can be (and should be) installed
 
 $ sudo apt-get update
 $ sudo apt-get upgrade
-$ sudo apt-get install libreadline-dev libssl-dev lua5.2 liblua5.2-dev git make unzip redis-server curl
+$ sudo apt-get install libreadline-dev libssl-dev lua5.2 liblua5.2-dev git make unzip redis-server curl libcurl4-gnutls-dev
 
 # We are going now to install LuaRocks and the required Lua modules
 
@@ -45,6 +46,7 @@ $ sudo luarocks install lua-term
 $ sudo luarocks install serpent
 $ sudo luarocks install dkjson
 $ sudo luarocks install lanes
+$ sudo luarocks install Lua-cURL
 $ cd ..
 
 # Clone the repository and give the launch script permissions to be executed
