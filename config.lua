@@ -1,20 +1,20 @@
 return {
-	bot_api_key = "",
+	bot_api_key = "", --Please add your bot api key here!
 	cmd = '^[/!#]',
 	db = 2, --default redis db: 0
 	superadmins = {23646077, 278941742},
 	log = {
-		chat = -1001057801239,
-		admin = 23646077,
+		chat = -1001057801239, --Your log chat, where your bot must be added!
+		admin = 23646077, --The admin.
 		stats = nil
 	},
 	bot_settings = {
 		cache_time = {
-			adminlist = 18000, --5 hours (18000s)
+			adminlist = 18000, --5 hours (18000s) Admin Cache time, in seconds.
 		},
-		multipurpose_mode = false,
-		notify_bug = true,
-		log_api_errors = true,
+		multipurpose_mode = false, --If this is enabled, the bot will activate the plugins from plugins/multipurpose
+		notify_bug = true, --Notify if a bug occurs!
+		log_api_errors = true, --Log errors, which happening whilst interacting with the bot api.
 		stream_commands = true,
 		admin_mode = false,
 		debug_connections = false,
@@ -22,7 +22,7 @@ return {
 	channel = '@groupbutler_ch', --channel username with the '@'
 	source_code = 'https://github.com/RememberTheAir/GroupButler',
 	help_groups = {
-		['Internatonal (English)'] = 'https://telegram.me/joinchat/EKBQLj7Zf6lE2K_Pk0Epcg', --group link, not username!
+		['Internatonal (English)'] = 'https://telegram.me/joinchat/EKBQLj7Zf6lE2K_Pk0Epcg', --group link, not (at)username!
 		['Italian'] = 'https://telegram.me/joinchat/ITAgroupbutler',
 		['Persian'] = 'https://telegram.me/joinchat/CTDUTkCOsEt4DZT-SUQdBQ',
 		['Russian'] = 'https://telegram.me/rubutler',
@@ -51,7 +51,7 @@ return {
 		--'logchannel.lua',
 		'report.lua',
 		'private_settings.lua',
-		'extra.lua', --must be the last
+		'extra.lua', --must be the last plugin in the list.
 	},
 	multipurpose_plugins = {
 		'commit.lua',
@@ -70,11 +70,11 @@ return {
 		['fr'] = 'Français 🇫🇷',
 		['zh'] = '中文 🇨🇳',
 		['fa'] = 'فارسی 🇮🇷'
-		-- more to come
+		-- more languages will come
 	},
 	allow_fuzzy_translations = false,
-	chat_settings = {
-		['settings'] = {
+	chat_settings = { --default chat_settings for groups.
+		['settings'] = { 
 			['Welcome'] = 'on',
 			['Extra'] = 'on',
 			['Flood'] = 'off',

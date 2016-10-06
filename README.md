@@ -79,11 +79,11 @@ $ sudo service redis-server start
 
 * * *
 
-##MUST READ!!!
+##Before you do anything, you MUST read THIS.!!!
 
 Before you stop the bot, if you don't want to loose your redis data, you have to perform a save.
 
-There are three ways of doing this: use `$stop` command to stop the bot (datas will be saved automatically), use `$save` command to save datas (and then stop the bot), or open a terminal and run `redis-cli bgsave` or `redis-cli save` (and then stop the bot).
+There are three ways of doing this: use `$stop` command to stop the bot (database will be saved automatically), use `$save` command to save database (and then stop the bot), or open a terminal and run `redis-cli bgsave` or `redis-cli save` (and then stop the bot).
 
 Please remember to do one of this easy things in order to avoid to loose important informations.
 
@@ -95,7 +95,7 @@ This way, a cron job will run every minute and will perform a redis background s
 
 ##Start the process
 
-To start the bot, run `./launch.sh`. To stop the bot, press Ctrl+C twice.
+To start the bot, run `./launch.sh`. To stop the bot, press Control (CTRL)+C twice.
 
 You may also start the bot with `lua bot.lua`, however it will not restart automatically.
 
@@ -110,16 +110,16 @@ You may also start the bot with `lua bot.lua`, however it will not restart autom
     * `log_api_errors`: if `true`, the bot will send in the `log_chat` (`config.lua`) all the relevant errors returned by an api request toward Telegram
     * `stream_commands`: if `true`, when an update triggers a plugin, the match will be printed on the console
   * There are some other useful fields that can be filled in `config.lua`
-    * `channel`: a channel where you can post something through the bot. Must be an username, `@` included. To post something, the bot must be admin of the channel. Use `$post [text]` to post a message
+    * `channel`: a channel where you can post something through the bot. Must be an username, `@` included. To post something, the bot must be administrator of the channel. Use `$post [text]` to post a message
     * `db`: the selected Redis database (if you are running Redis with the default config, the available databases are 16). The database will be selected on each start/reload. Default: 2
   * Other things that may be useful
-    * Admin commands start for `$`. They are not documented, look at the triggers of `plugins/admin.lua` plugin for the whole list
+    * Administrators commands start for `$`. They are not documented, look at the triggers of `plugins/admin.lua` plugin for the whole list
     * If the `action` function of a plugin returns `true`, the bot will continue to try to match the message text with the missing triggers of the `plugins` table
     * You can send yourself a backup of the zipped bot folder with the `$backup` command
-    * The Telegram Bot API has some undocumented "weird behaviours" that you may notice while using this bot
+    * The Telegram Bot API has some undocumented "weird behaviors" that you may notice while using this bot
        * In supergroups, the `kickChatMember` method returns always a positive response if the `user_id` has been part of the group at least once, it doesn't matter if the user is not in the group when you use this method
        * In supergroups, the `unbanChatMember` method returns always a positive response if the `user_id` has been part of the group at least once, it doesn't matter if the user is not in the group or is not in the group blacklist
-       * Users kicked by the bot can join again a group from where they've been kicked out only if not banned and only via invite link. An admin can't add them back
+       * Users kicked by the bot can join again a group from where they've been kicked out only if not banned and only via invite link. A administrator can't add them back
 
 * * *
 ##Some notes about the database
@@ -153,12 +153,12 @@ After add your new locale in the file `config.lua`.
 
 ###Notes about this repository
 
-Note that this bot is not opensource because I want everyone to be able to clone it and run its own copy. It's opensource because everyone can take a look on how the bot works, see which data are stored, and decide if the bot is worth to be a group admin. There are some installation intructions just because why not.
+Note that this bot is not open source because I want everyone to be able to clone it and run its own copy. It's open source because everyone can take a look on how the bot works, see which data are stored, and decide if the bot is worth to be a group administrator. There are some installation instructions just because why not.
 
 * * *
 
-Please don't contact me via Telegram asking for help in the installation or about errors in your clone (I like to spamreport people). Contact me only if you find a bug or have a suggestion. I don't give any support in the installation or development of your own instance of the bot.
-Basicly because I'm a stupid noob that only knows the basics of Lua scripting, and I don't like to spend my free time in front of a monitor. I try to keep the time I waste on this project to a minimum.
+Please don't contact me via Telegram asking for help in the installation or about errors in your clone (I like to spam-report people). Contact me only if you find a bug or have a suggestion. I don't give any support in the installation or development of your own instance of the bot.
+Basically because I'm a stupid noob that only knows the basics of Lua scripting, and I don't like to spend my free time in front of a monitor. I try to keep the time I waste on this project to a minimum.
 
 If you are going to open a pull request, keep in mind that I don't know how to use GitHub well. I may overwrite commits and stuffs like that, this already happened. It's not because I'm bad, it's just because I'm an idiot.
 
