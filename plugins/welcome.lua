@@ -21,7 +21,7 @@ local function get_welcome(msg)
 	elseif type == 'custom' then
 		return content:replaceholders(msg)
 	else
-		return _("Hi %s, and welcome to *%s*!"):format(msg.added.first_name:escape_hard(), msg.chat.title:escape_hard())
+		return _("Hi %s, and welcome to *%s*!\nFor see rules, [top here](http://telegram.me/"..bot.username.."?start="..msg.chat.id..":rules)"):format(msg.added.first_name:escape_hard(), msg.chat.title:escape_hard())
 	end
 end
 
