@@ -81,6 +81,22 @@ local action = function(msg, blocks)
     if msg.cb then
         local request = blocks[2]
         local text, notification
+
+		local res = api.getChat(chat_id)
+		if not res then
+			api.answerCallbackQuery(msg.cb_id, _("🚫 This group was deleted"))
+			return
+		end
+		-- Private chats have no an username
+		local private = not res.result.username
+
+		local res = api.getChatMember(chat_id, msg.from.id)
+		if not res or (res.result.status == 'left' or res.result.status == 'kicked') and private then
+			api.editMessageText(msg.from.id, msg.message_id, _("🚷 You aren't member chat. " ..
+				"You can't watch settings of the private group."))
+			return
+		end
+
         keyboard = doKeyboard_dashboard(chat_id)
         if request == 'settings' then
             text = misc.getSettings(chat_id)
@@ -94,7 +110,7 @@ local action = function(msg, blocks)
             local creator, admins = misc.getAdminlist(chat_id)
             if not creator then
                 -- creator is false, admins is the error code
-                text = _("I'm not an admin in this group.\n*Only an admin can see a list of admins.*")
+                text = _("I got kicked out of this group 😓")
             else
                 text = _("*Creator*:\n%s\n\n*Admins*:\n%s"):format(creator, admins)
             end
@@ -121,7 +137,7 @@ local action = function(msg, blocks)
             end
             notification = _("ℹ️ Group ► Media")
         end
-        api.editMessageText(msg.chat.id, msg.message_id, text, keyboard, true)
+        api.editMessageText(msg.from.id, msg.message_id, text, keyboard, true)
         api.answerCallbackQuery(msg.cb_id, notification)
         return
     end

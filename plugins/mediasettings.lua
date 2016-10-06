@@ -55,15 +55,20 @@ local function doKeyboard_media(chat_id)
     return keyboard
 end
 
-local action = function(msg, blocks)
+local function action(msg, blocks)
+	if not msg.cb then return end
+	local chat_id = msg.target_id or msg.chat.id
+	if not roles.is_admin_cached(chat_id, msg.from.id) then
+		api.answerCallbackQuery(msg.cb_id, _("You're no longer admin"))
+		return
+	end
+
 	local media_first = _([[
 Tap on a voice in the right colon to *change the setting*
 You can use the last line to change how many warnings should the bot give before kick / ban someone for a forbidden media
 The number is not related the the normal `/warn` command
 ]])
 
-	local chat_id = msg.target_id
-	
 	if  blocks[1] == 'config' then
 		local keyboard = doKeyboard_media(chat_id)
 	    api.editMessageText(msg.chat.id, msg.message_id, media_first, keyboard, true)
@@ -115,11 +120,11 @@ end
 return {
 	action = action,
 	triggers = {
-		'^###cb:(media):(%a+):(-%d+)',
-		'^###cb:(mediatype):(-%d+)',
-		'^###cb:(mediawarn):(%a+):(-%d+)',
+		'^###cb:(media):(%a+):(-?%d+)',
+		'^###cb:(mediatype):(-?%d+)',
+		'^###cb:(mediawarn):(%a+):(-?%d+)',
 		'^###cb:(mediallert)',
 		
-		'^###cb:(config):media:(-%d+)$'
+		'^###cb:(config):media:(-?%d+)$'
 	}
 }

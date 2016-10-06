@@ -11,6 +11,21 @@ local action = function(msg, blocks)
     if msg.chat.type == 'private' then
     	if blocks[1] == 'start' then
     		msg.chat.id = tonumber(blocks[2])
+
+			local res = api.getChat(msg.chat.id)
+			if not res then
+				api.sendMessage(msg.from.id, _("🚫 Unknown or already non-existent group"))
+				return
+			end
+			-- Private chats have no an username
+			local private = not res.result.username
+
+			local res = api.getChatMember(msg.chat.id, msg.from.id)
+			if not res or (res.result.status == 'left' or res.result.status == 'kicked') and private then
+				api.sendMessage(msg.from.id, _("🚷 You aren't member chat. " ..
+					"You can't watch rules of the private group."))
+				return
+			end
     	else
     		return
     	end
@@ -67,6 +82,6 @@ return {
 		config.cmd..'(setrules)$',
 		config.cmd..'(setrules) (.*)',
 		config.cmd..'(rules)$',
-		'^/(start) (-%d+):rules$'
+		'^/(start) (-?%d+):rules$'
 	}
 }
