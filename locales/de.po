@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: GroupButler 4.0\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-09-25 16:51+0200\n"
-"PO-Revision-Date: 2016-10-03 23:39+0100\n"
-"Last-Translator: Nicholas Guriev <guriev-ns@ya.ru>, Ben <@botmaster>\n"
+"PO-Revision-Date: 2016-10-07 21:23+0100\n"
+"Last-Translator: Ben <@botmaster>\n"
 "Language-Team: German\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -387,21 +387,21 @@ msgstr ""
 
 #: plugins/floodmanager.lua:118
 msgid "⚖ Current sensitivity. Tap on the + or the -"
-msgstr ""
+msgstr "⚖ Derzeitige Sensivität. Klicke auf das + oder das -."
 
 #: plugins/floodmanager.lua:120 plugins/menu.lua:191
 msgid "⚠️ Tap on an icon!"
-msgstr ""
+msgstr "⚠️ Klick auf ein Icon!"
 
 #: plugins/floodmanager.lua:132
 #, lua-format
 msgid "❎ [%s] will be ignored by the anti-flood"
-msgstr ""
+msgstr "❎ [%s] wird vom Anti-Spam ignoriert werden"
 
 #: plugins/floodmanager.lua:135
 #, lua-format
 msgid "🚫 [%s] won't be ignored by the anti-flood"
-msgstr ""
+msgstr "🚫 [%s] wird vom Anti-Spam nicht ignoriert werden"
 
 #: plugins/help.lua:3
 #, lua-format
@@ -663,15 +663,15 @@ msgstr ""
 
 #: plugins/help.lua:175
 msgid "Banhammer"
-msgstr ""
+msgstr "Banhammer"
 
 #: plugins/help.lua:176
 msgid "Group info"
-msgstr ""
+msgstr "Gruppeninformationen"
 
 #: plugins/help.lua:177
 msgid "Flood manager"
-msgstr ""
+msgstr "Spam Einstellungen"
 
 #: plugins/help.lua:179
 #, fuzzy
@@ -685,47 +685,47 @@ msgstr "Anti-flood settings"
 
 #: plugins/help.lua:182
 msgid "Warns"
-msgstr ""
+msgstr "Verwarnungen"
 
 #: plugins/help.lua:183
 msgid "Characters strictness"
-msgstr ""
+msgstr "Buchstaben Striktheit"
 
 #: plugins/help.lua:184 plugins/mediasettings.lua:20
 msgid "Links"
-msgstr ""
+msgstr "Links"
 
 #: plugins/help.lua:185
 msgid "Languages"
-msgstr ""
+msgstr "Sprachen"
 
 #: plugins/help.lua:209
 msgid "🔰 User commands"
-msgstr ""
+msgstr "🔰 Benutzerbefehle"
 
 #: plugins/help.lua:211
 msgid "🔰 Admin commands"
-msgstr ""
+msgstr "🔰 Administratorenbefehle"
 
 #: plugins/help.lua:213
 msgid "Info"
-msgstr ""
+msgstr "Informationen"
 
 #: plugins/help.lua:222
 msgid "👥 Add me to a group"
-msgstr ""
+msgstr "👥 füge mich zu einer Gruppe hinzu."
 
 #: plugins/help.lua:223
 msgid "📢 Bot channel"
-msgstr ""
+msgstr "📢 Bot Kanal"
 
 #: plugins/help.lua:226
 msgid "📕 All the commands"
-msgstr ""
+msgstr "📕 All die Befehle"
 
 #: plugins/help.lua:236 utilities.lua:660
 msgid "Start me"
-msgstr ""
+msgstr "Starte mich"
 
 #: plugins/help.lua:263
 #, fuzzy

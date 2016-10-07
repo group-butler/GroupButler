@@ -1,3 +1,4 @@
+--Simple test plugin. If it triggers /test it will run your function. Please add it, before trying :)
 local triggers = {
 	'^/test'
 }
