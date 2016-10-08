@@ -60,6 +60,22 @@ end
 
 local action = function(msg, blocks)
     
+	       if msg.chat.type == 'private' then
+    	if blocks[1] == 'start' then
+     msg.chat.id = tonumber(blocks[2])
+    local chat_id = msg.target_id or msg.chat.id
+    local hash = 'chat:'..msg.chat.id..':info'
+    if blocks[1] == 'dashboard' or blocks[1] == 'start' then
+         keyboard = doKeyboard_dashboard(chat_id)
+    	if msg.chat.type == 'private' or (not roles.is_admin_cached(msg) and not send_in_group(msg.chat.id)) then
+   	api.sendKeyboard(msg.from.id, _("Navigate this message to see *all the info* about this group!"), keyboard, true)
+    	else
+        	api.sendKeyboard(msg.from.id, _("Navigate this message to see *all the info* about this group!"), keyboard, true)
+        end
+     end 
+  end
+end
+	
     --get the interested chat id
     local chat_id = msg.target_id or msg.chat.id
     
@@ -71,7 +87,7 @@ local action = function(msg, blocks)
         local res = api.sendKeyboard(msg.from.id, _("Navigate this message to see *all the info* about this group!"), keyboard, true)
         if not misc.is_silentmode_on(msg.chat.id) then --send the responde in the group only if the silent mode is off
             if res then
-                api.sendMessage(msg.chat.id, _("_I've sent you the group dashboard via private message_"), true)
+                api.sendKeyboard(msg.chat.id, _("_I've sent you the group dashboard via private message_"), true)
             else
                 misc.sendStartMe(msg)
             end
@@ -148,5 +164,6 @@ return {
 	triggers = {
 		config.cmd..'(dashboard)$',
 		'^###cb:(dashboard):(%a+):(-%d+)',
+		'^/(start) (-?%d+):dashboard$'
 	}
 }
