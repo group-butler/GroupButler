@@ -2,23 +2,48 @@ local BASE_URL = 'https://api.telegram.org/bot' .. config.bot_api_key
 
 local api = {}
 
-local function sendRequest(url)
-	--print(url)
-	local dat, code = HTTPS.request(url)
-	
-	if not dat then
-		return false, code 
+local curl_context = curl.easy{verbose = config.bot_settings.debug_connections}
+
+local function getCode(err)
+	for k,v in pairs(config.api_errors) do
+		if err:match(v) then
+			return k
+		end
 	end
+	return 7 --if unknown
+end
+
+local function performRequest(url)
+	local data = {}
 	
+	-- if multithreading is made, this request must be in critical section
+	local c = curl_context:setopt_url(url)
+		:setopt_writefunction(table.insert, data)
+		:perform()
+
+	return table.concat(data), c:getinfo_response_code()
+end
+
+local function sendRequest(url)
+	local dat, code = performRequest(url)
 	local tab = JSON.decode(dat)
+
+	if not tab then
+		print(clr.red..'Error while parsing JSON'..clr.reset, code)
+		print(clr.yellow..'Data:'..clr.reset, dat)
+		error('Incorrect response')
+	end
 
 	if code ~= 200 then
 		print(clr.red..code, tab.description..clr.reset)
 		
-		if code == 400 then code = api.getCode(tab.description) end --error code 400 is general: try to specify
+		if code == 400 then
+			 --error code 400 is general: try to specify
+			 code = getCode(tab.description)
+		end
 		db:hincrby('bot:errors', code, 1)
 		
-		return false, code
+		return false, code, tab.description
 	end
 	
 	if not tab.ok then
@@ -49,58 +74,23 @@ function api.getUpdates(offset)
 
 end
 
-function api.getCode(error)
-	for k,v in pairs(config.api_errors) do
-		if error:match(v) then
-			return k
-		end
-	end
-	return 7 --if unknown
-end
-
 function api.unbanChatMember(chat_id, user_id)
 	
 	local url = BASE_URL .. '/unbanChatMember?chat_id=' .. chat_id .. '&user_id=' .. user_id
 
-	--return sendRequest(url)
-	
-	local dat, res = HTTPS.request(url)
-	
-	local tab = JSON.decode(dat)
-	
-	if res ~= 200 then
-		return false, res
-	end
-
-	if not tab.ok then
-		return false, tab.description
-	end
-
-	return tab
-	
+	return sendRequest(url)
 end
 
 function api.kickChatMember(chat_id, user_id)
 	
 	local url = BASE_URL .. '/kickChatMember?chat_id=' .. chat_id .. '&user_id=' .. user_id
 	
-	local dat, res = HTTPS.request(url)
-
-	local tab = JSON.decode(dat)
-	
-	if res ~= 200 then
-		--if error, return false and the custom error code
-		print(tab.description)
-		return false, api.getCode(tab.description)
+	local success, code, description = sendRequest(url)
+	if success then
+		db:srem(string.format('chat:%d:members', chat_id), user_id)
 	end
 
-	if not tab.ok then
-		return false, tab.description
-	end
-	
-	db:srem(string.format('chat:%d:members', chat_id), user_id)
-	return tab
-
+	return success, code, description
 end
 
 local function code2text(code)
@@ -111,7 +101,7 @@ local function code2text(code)
 		return _("I can't kick or ban an admin")
 	elseif code == 103 then
 		return _("There is no need to unban in a normal group")
-	elseif code == 106 then
+	elseif code == 106 or code == 134 then
 		return _("This user is not a chat member")
 	elseif code == 7 then
 		return false
@@ -165,10 +155,10 @@ function api.getChatAdministrators(chat_id)
 	
 	local url = BASE_URL .. '/getChatAdministrators?chat_id=' .. chat_id
 	
-	local res, code = sendRequest(url)
+	local res, code, desc = sendRequest(url)
 	
 	if not res and code then --if the request failed and a code is returned (not 403 and 429)
-		misc.log_error('getChatAdministrators', code)
+		misc.log_error('getChatAdministrators', code, nil, desc)
 	end
 	
 	return res, code
@@ -187,10 +177,10 @@ function api.getChatMember(chat_id, user_id)
 	
 	local url = BASE_URL .. '/getChatMember?chat_id=' .. chat_id .. '&user_id=' .. user_id
 	
-	local res, code = sendRequest(url)
+	local res, code, desc = sendRequest(url)
 	
 	if not res and code then --if the request failed and a code is returned (not 403 and 429)
-		misc.log_error('getChatMember', code)
+		misc.log_error('getChatMember', code, nil, desc)
 	end
 	
 	return res, code
@@ -227,12 +217,12 @@ function api.sendKeyboard(chat_id, text, keyboard, markdown)
 	
 	url = url..'&disable_web_page_preview=true'
 	
-	url = url..'&reply_markup='..JSON.encode(keyboard)
+	url = url..'&reply_markup='..URL.escape(JSON.encode(keyboard))
 	
-	local res, code = sendRequest(url)
+	local res, code, desc = sendRequest(url)
 	
 	if not res and code then --if the request failed and a code is returned (not 403 and 429)
-		misc.log_error('sendKeyboard', code, {text})
+		misc.log_error('sendKeyboard', code, {text}, desc)
 	end
 	
 	return res, code --return false, and the code
@@ -258,10 +248,10 @@ function api.sendMessage(chat_id, text, use_markdown, reply_to_message_id, send_
 		url = url..'&disable_notification=true'--messages are silent by default
 	end
 	
-	local res, code = sendRequest(url)
+	local res, code, desc = sendRequest(url)
 	
 	if not res and code then --if the request failed and a code is returned (not 403 and 429)
-		misc.log_error('sendMessage', code, {text})
+		misc.log_error('sendMessage', code, {text}, desc)
 	end
 	
 	return res, code --return false, and the code
@@ -285,13 +275,13 @@ function api.editMessageText(chat_id, message_id, text, keyboard, markdown)
 	url = url .. '&disable_web_page_preview=true'
 	
 	if keyboard then
-		url = url..'&reply_markup='..JSON.encode(keyboard)
+		url = url..'&reply_markup='..URL.escape(JSON.encode(keyboard))
 	end
 	
-	local res, code = sendRequest(url)
+	local res, code, desc = sendRequest(url)
 	
 	if not res and code then --if the request failed and a code is returned (not 403 and 429)
-		misc.log_error('editMessageText', code, {text})
+		misc.log_error('editMessageText', code, {text}, desc)
 	end
 	
 	return res, code
@@ -300,7 +290,9 @@ end
 
 function api.editMarkup(chat_id, message_id, reply_markup)
 	
-	local url = BASE_URL .. '/editMessageReplyMarkup?chat_id=' .. chat_id .. '&message_id='..message_id..'&reply_markup='..JSON.encode(reply_markup)
+	local url = BASE_URL .. '/editMessageReplyMarkup?chat_id=' .. chat_id ..
+		'&message_id='..message_id..
+		'&reply_markup='..URL.escape(JSON.encode(reply_markup))
 	
 	return sendRequest(url)
 
@@ -342,10 +334,10 @@ function api.forwardMessage(chat_id, from_chat_id, message_id)
 
 	local url = BASE_URL .. '/forwardMessage?chat_id=' .. chat_id .. '&from_chat_id=' .. from_chat_id .. '&message_id=' .. message_id
 
-	local res, code = sendRequest(url)
+	local res, code, desc = sendRequest(url)
 	
 	if not res and code then --if the request failed and a code is returned (not 403 and 429)
-		misc.log_error('forwardMessage', code)
+		misc.log_error('forwardMessage', code, nil, desc)
 	end
 	
 	return res, code

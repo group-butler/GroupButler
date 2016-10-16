@@ -1,3 +1,4 @@
+--simple calculator
 local function expr(a)
  		local result = "expr "..a
  		local final_result = result:gsub('+', ' + '):gsub('*', ' \\* '):gsub('/', ' / '):gsub('-', ' - ')
@@ -5,7 +6,7 @@ local function expr(a)
  		local read = action:read("*a")
  		return read
  end
- 
+
 local action = function(msg, blocks)
  	if blocks[1] == 'calc' then
  		if blocks[2] then

@@ -1,5 +1,4 @@
-HTTP = require('socket.http')
-HTTPS = require('ssl.https')
+curl = require('cURL')
 URL = require('socket.url')
 JSON = require('dkjson')
 redis = require('redis')
@@ -86,20 +85,20 @@ local function extract_usernames(msg)
 	if msg.forward_from and msg.forward_from.username then
 		db:hset('bot:usernames', '@'..msg.forward_from.username:lower(), msg.forward_from.id)
 	end
-	if msg.added then
-		if msg.added.username then
-			db:hset('bot:usernames', '@'..msg.added.username:lower(), msg.added.id)
+	if msg.new_chat_member then
+		if msg.new_chat_member.username then
+			db:hset('bot:usernames', '@'..msg.new_chat_member.username:lower(), msg.new_chat_member.id)
 		end
-		db:sadd(string.format('chat:%d:members', msg.chat.id), msg.added.id)
+		db:sadd(string.format('chat:%d:members', msg.chat.id), msg.new_chat_member.id)
 	end
-	if msg.removed then
-		if msg.removed.username then
-			db:hset('bot:usernames', '@'..msg.removed.username:lower(), msg.removed.id)
+	if msg.left_chat_member then
+		if msg.left_chat_member.username then
+			db:hset('bot:usernames', '@'..msg.left_chat_member.username:lower(), msg.left_chat_member.id)
 		end
-		db:srem(string.format('chat:%d:members', msg.chat.id), msg.removed.id)
+		db:srem(string.format('chat:%d:members', msg.chat.id), msg.left_chat_member.id)
 	end
-	if msg.reply then
-		extract_usernames(msg.reply)
+	if msg.reply_to_message then
+		extract_usernames(msg.reply_to_message)
 	end
 	if msg.pinned_message then
 		extract_usernames(msg.pinned_message)
@@ -157,7 +156,8 @@ on_msg_receive = function(msg) -- The fn run whenever a message is received.
 		
 		collect_stats(msg)
 		
-		local continue, onm_success
+		local continue = true
+		local onm_success
 		for i, plugin in pairs(plugins) do
 			if plugin.onmessage then
 				onm_success, continue = pcall(plugin.onmessage, msg)
@@ -272,6 +272,9 @@ local function media_to_msg(msg)
 	elseif msg.contact then
 		msg.text = '###contact'
 		msg.media_type = 'contact'
+	elseif msg.game then
+		msg.text = '###game:' .. msg.game.title .. '\n' .. msg.game.description
+		msg.media_type = 'game'
 	else
 		msg.media = false
 	end
@@ -335,7 +338,7 @@ while is_started do -- Start a loop while the bot should be running.
 			last_update = msg.update_id
 			current.h = current.h + 1
 			current.d = current.d + 1
-			if msg.message  or msg.callback_query --[[or msg.edited_message]]then
+			if msg.message or msg.callback_query --[[or msg.edited_message]]then
 				--[[if msg.edited_message then
 					msg.message = msg.edited_message
 					msg.edited_message = nil
@@ -346,7 +349,9 @@ while is_started do -- Start a loop while the bot should be running.
 					misc.to_supergroup(msg.message)
 				elseif msg.message.new_chat_member or msg.message.left_chat_member or msg.message.group_chat_created then
 					service_to_message(msg.message)
-				elseif msg.message.photo or msg.message.video or msg.message.document or msg.message.voice or msg.message.audio or msg.message.sticker or msg.message.entities then
+				elseif msg.message.photo or msg.message.video or msg.message.document
+					or msg.message.voice or msg.message.audio or msg.message.sticker
+					or msg.message.entities or msg.message.game then
 					media_to_msg(msg.message)
 				elseif msg.message.forward_from then
 					forward_to_msg(msg.message)

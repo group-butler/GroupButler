@@ -1,3 +1,4 @@
+--Simple "Did you mean"
 local function action(msg, blocks)
     if msg.chat.type ~= 'private' and roles.is_admin_cached(msg) then
         if not msg.reply then return end

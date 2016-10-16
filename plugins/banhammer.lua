@@ -103,9 +103,9 @@ local action = function(msg, blocks)
 					local is_already_tempbanned = db:sismember('chat:'..chat_id..':tempbanned', user_id) --hash needed to check if an user is already tempbanned or not
 					local text
 					if is_already_tempbanned then
-						text = _("Ban time was updated for %s. Ban expiration: %s"):format(kicked, time_reply)
+						text = _("Ban time was updated for %s. Ban expiration: %s\n*Admin:* %s"):format(kicked, time_reply, admin)
 					else
-						text = _("User %s was banned. Ban expiration: %s"):format(kicked, time_reply)
+						text = _("User %s was banned. Ban expiration: %s\n*Admin:* %s"):format(kicked, time_reply, admin)
 						db:sadd('chat:'..chat_id..':tempbanned', user_id) --hash needed to check if an user is already tempbanned or not
 					end
 					api.sendMessage(chat_id, text, true)

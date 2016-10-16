@@ -163,7 +163,14 @@ local function doKeyboard_menu(chat_id)
     return keyboard
 end
 
-local action = function(msg, blocks)
+local function action(msg, blocks)
+	if not msg.cb then return end
+	local chat_id = msg.target_id or msg.chat.id
+	if not roles.is_admin_cached(chat_id, msg.from.id) then
+		api.answerCallbackQuery(msg.cb_id, _("You're no longer admin"))
+		return
+	end
+
 	local menu_first = _([[
 Manage the settings of the group.
 📘 _Short legenda_:
@@ -222,6 +229,6 @@ return {
     	
     	'^###cb:(menu):(.*):',
     	
-    	'^###cb:(config):menu:(-%d+)$'
+    	'^###cb:(config):menu:(-?%d+)$'
 	}
 }
