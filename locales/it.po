@@ -1697,7 +1697,7 @@ msgstr ""
 #: utilities.lua:549
 #, lua-format
 msgid "*Language*: %s\n"
-msgstr "*Nuova lingua impostata:* `%s`"
+msgstr "*Lingua impostata:* `%s`\n"
 
 #: utilities.lua:561
 msgid "Reports"

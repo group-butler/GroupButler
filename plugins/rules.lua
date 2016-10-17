@@ -70,7 +70,7 @@ local action = function(msg, blocks)
 		else
 			db:hset(hash, 'rules', input)
 			local id = res.result.message_id
-			api.editMessageText(msg.chat.id, id, _("New rules *saved successfully*!"), false, true)
+			api.editMessageText(msg.chat.id, id, _("New rules *saved successfully*!"), true)
 		end
 	end
 

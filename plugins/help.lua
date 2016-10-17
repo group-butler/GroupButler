@@ -246,14 +246,14 @@ local action = function(msg, blocks)
         if msg.chat.type == 'private' then
             local message = get_helped_string('private'):format(msg.from.first_name:escape())
             local keyboard = do_keyboard_private()
-            api.sendKeyboard(msg.from.id, message, keyboard, true)
+            api.sendMessage(msg.from.id, message, true, keyboard)
         end
         return
     end
     if blocks[1] == 'help' then
     	if msg.chat.type == 'private' then
 			local keyboard = make_keyboard()
-			api.sendKeyboard(msg.from.id, get_helped_string('all'), keyboard, true)
+			api.sendMessage(msg.from.id, get_helped_string('all'), true, keyboard)
         end
     end
     if msg.cb then
@@ -261,7 +261,7 @@ local action = function(msg, blocks)
         local text
         if query == 'info_button' then
             local keyboard = do_keybaord_credits()
-		    api.editMessageText(msg.chat.id, msg.message_id, _("Some useful *links*:"), keyboard, true)
+		    api.editMessageText(msg.chat.id, msg.message_id, _("Some useful *links*:"), true, keyboard)
 		    return
 		end
         local with_mods_lines = true
@@ -294,7 +294,7 @@ local action = function(msg, blocks)
         	text = get_helped_string('mods_settings')
         end
         local keyboard = make_keyboard(with_mods_lines, query)
-        local res, code = api.editMessageText(msg.chat.id, msg.message_id, text, keyboard, true)
+        local res, code = api.editMessageText(msg.chat.id, msg.message_id, text, true, keyboard)
         if not res and code and code == 111 then
             api.answerCallbackQuery(msg.cb_id, _("❗️ Already on this tab"))
 		else

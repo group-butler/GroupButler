@@ -71,7 +71,7 @@ The number is not related the the normal `/warn` command
 
 	if  blocks[1] == 'config' then
 		local keyboard = doKeyboard_media(chat_id)
-	    api.editMessageText(msg.chat.id, msg.message_id, media_first, keyboard, true)
+	    api.editMessageText(msg.chat.id, msg.message_id, media_first, true, keyboard)
 	else
 		if blocks[1] == 'mediallert' then
 			api.answerCallbackQuery(msg.cb_id, _("⚠️ Tap on the right column"))
@@ -112,7 +112,7 @@ The number is not related the the normal `/warn` command
 	    	cb_text = '⚡️ '..misc.changeMediaStatus(chat_id, media, 'next')
         end
         keyboard = doKeyboard_media(chat_id)
-		api.editMessageText(msg.chat.id, msg.message_id, media_first, keyboard, true)
+		api.editMessageText(msg.chat.id, msg.message_id, media_first, true, keyboard)
         api.answerCallbackQuery(msg.cb_id, cb_text)
     end
 end

@@ -22,13 +22,13 @@ local action = function(msg, blocks)
 	if blocks[1] == 'lang' and not blocks[2] then
 		keyboard = doKeyboard_lang()
 		
-		api.sendKeyboard(msg.chat.id, _("*List of available languages*:"), keyboard, true)
+		api.sendMessage(msg.chat.id, _("*List of available languages*:"), true, keyboard)
 	end
 	if blocks[1] == 'langselected' and msg.cb then
 		locale.language = blocks[2]
 	    db:set('lang:'..msg.chat.id, locale.language)
 		-- TRANSLATORS: replace word 'English' with name of your language
-        api.editMessageText(msg.chat.id, msg.message_id, _("English language is *set*"), nil, true)
+        api.editMessageText(msg.chat.id, msg.message_id, _("English language is *set*"), true)
 	end
 end
 

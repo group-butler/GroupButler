@@ -49,7 +49,7 @@ local function action(msg, blocks)
 		db:hdel('chat:'..msg.chat.id..':mediawarn', user_id)
 
 		local text = _("Warns *reset*\n(Admin: %s)"):format(misc.getname_final(msg.from))
-		api.editMessageText(msg.chat.id, msg.message_id, text, false, true)
+		api.editMessageText(msg.chat.id, msg.message_id, text, true)
 		return
 	end
 
@@ -67,7 +67,7 @@ local function action(msg, blocks)
 		end
 
 		text = text .. _("\n(Admin: %s)"):format(misc.getname_final(msg.from))
-		api.editMessageText(msg.chat.id, msg.message_id, text, false, true)
+		api.editMessageText(msg.chat.id, msg.message_id, text, true)
 		return
 	end
 
@@ -113,7 +113,7 @@ local function action(msg, blocks)
 			local diff = nmax - num
 			text = _("%s *has been warned* (%d/%d)"):format(name, num, nmax)
 			local keyboard = doKeyboard_warn(msg.reply.from.id)
-			api.sendKeyboard(msg.chat.id, text, keyboard, true)
+			api.sendMessage(msg.chat.id, text, true, keyboard)
 		end
     end
 end

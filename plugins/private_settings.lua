@@ -39,7 +39,7 @@ local function action(msg, blocks)
     if not msg.cb then
         if msg.chat.type == 'private' then
             local keyboard = doKeyboard_privsett(msg.from.id)
-            api.sendKeyboard(msg.from.id, _('Change your private settings'), keyboard, true)
+            api.sendMessage(msg.from.id, _('Change your private settings'), true, keyboard)
         end
     end
     if msg.cb then

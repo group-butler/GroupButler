@@ -164,7 +164,7 @@ You can set some exceptions for the antiflood:
     end
     
     local keyboard = do_keyboard_flood(chat_id)
-    api.editMessageText(msg.chat.id, msg.message_id, header, keyboard, true)
+    api.editMessageText(msg.chat.id, msg.message_id, header, true, keyboard)
     api.answerCallbackQuery(msg.cb_id, text)
 end
 

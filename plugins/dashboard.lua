@@ -68,7 +68,7 @@ local action = function(msg, blocks)
     if not(msg.chat.type == 'private') and not msg.cb then
         keyboard = doKeyboard_dashboard(chat_id)
         --everyone can use this
-        local res = api.sendKeyboard(msg.from.id, _("Navigate this message to see *all the info* about this group!"), keyboard, true)
+        local res = api.sendMessage(msg.from.id, _("Navigate this message to see *all the info* about this group!"), true, keyboard)
         if not misc.is_silentmode_on(msg.chat.id) then --send the responde in the group only if the silent mode is off
             if res then
                 api.sendMessage(msg.chat.id, _("_I've sent you the group dashboard via private message_"), true)
@@ -137,7 +137,7 @@ local action = function(msg, blocks)
             end
             notification = _("ℹ️ Group ► Media")
         end
-        api.editMessageText(msg.from.id, msg.message_id, text, keyboard, true)
+        api.editMessageText(msg.from.id, msg.message_id, text, true, keyboard)
         api.answerCallbackQuery(msg.cb_id, notification)
         return
     end

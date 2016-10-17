@@ -69,7 +69,7 @@ local function action(msg, blocks)
 			    end
             else
                 local id = res.result.message_id
-                api.editMessageText(msg.chat.id, id, _("*Custom welcome message saved!*"), false, true)
+                api.editMessageText(msg.chat.id, id, _("*Custom welcome message saved!*"), true)
             end
         end
     end

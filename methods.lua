@@ -205,36 +205,10 @@ function api.leaveChat(chat_id)
 	
 end
 
-function api.sendKeyboard(chat_id, text, keyboard, markdown)
-	
-	local url = BASE_URL .. '/sendMessage?chat_id=' .. chat_id
-	
-	if markdown then
-		url = url .. '&parse_mode=Markdown'
-	end
-	
-	url = url..'&text='..URL.escape(text)
-	
-	url = url..'&disable_web_page_preview=true'
-	
-	url = url..'&reply_markup='..URL.escape(JSON.encode(keyboard))
-	
-	local res, code, desc = sendRequest(url)
-	
-	if not res and code then --if the request failed and a code is returned (not 403 and 429)
-		misc.log_error('sendKeyboard', code, {text}, desc)
-	end
-	
-	return res, code --return false, and the code
-
-end
-
-function api.sendMessage(chat_id, text, use_markdown, reply_to_message_id, send_sound)
+function api.sendMessage(chat_id, text, use_markdown, reply_markup, reply_to_message_id)
 	--print(text)
 	
 	local url = BASE_URL .. '/sendMessage?chat_id=' .. chat_id .. '&text=' .. URL.escape(text)
-
-	url = url .. '&disable_web_page_preview=true'
 
 	if reply_to_message_id then
 		url = url .. '&reply_to_message_id=' .. reply_to_message_id
@@ -244,9 +218,11 @@ function api.sendMessage(chat_id, text, use_markdown, reply_to_message_id, send_
 		url = url .. '&parse_mode=Markdown'
 	end
 	
-	if not send_sound then
-		url = url..'&disable_notification=true'--messages are silent by default
+	if reply_markup then
+		url = url..'&reply_markup='..URL.escape(JSON.encode(reply_markup))
 	end
+	
+	url = url..'&disable_notification=true&disable_web_page_preview=true'
 	
 	local res, code, desc = sendRequest(url)
 	
@@ -258,13 +234,13 @@ function api.sendMessage(chat_id, text, use_markdown, reply_to_message_id, send_
 
 end
 
-function api.sendReply(msg, text, markd, send_sound)
+function api.sendReply(msg, text, markd, reply_markup)
 
-	return api.sendMessage(msg.chat.id, text, markd, msg.message_id, send_sound)
+	return api.sendMessage(msg.chat.id, text, markd, reply_markup, msg.message_id)
 
 end
 
-function api.editMessageText(chat_id, message_id, text, keyboard, markdown)
+function api.editMessageText(chat_id, message_id, text, markdown, keyboard)
 	
 	local url = BASE_URL .. '/editMessageText?chat_id=' .. chat_id .. '&message_id='..message_id..'&text=' .. URL.escape(text)
 	

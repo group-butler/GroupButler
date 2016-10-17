@@ -51,9 +51,9 @@ local action = function(msg, blocks)
 		local keyboard = do_keybaord_credits()
 		local text = 'This bot is based on [otouto](https://github.com/topkecleon/otouto) (AKA @mokubot, channel: @otouto), a multipurpose Lua bot.\nGroup Butler wouldn\'t exist without it.\n\nThe owner of this bot is @bac0nnn, do not pm him: use /groups command instead.\n\n*Some useful links*:'
 		if msg.cb then
-			api.editMessageText(msg.chat.id, msg.message_id, text, keyboard, true)
+			api.editMessageText(msg.chat.id, msg.message_id, text, true, keyboard)
 		else
-			api.sendKeyboard(msg.chat.id, text, keyboard, true)
+			api.sendMessage(msg.chat.id, text, true, keyboard)
 		end
 	end
 	if blocks[1] == 'groups' then
@@ -67,9 +67,9 @@ local action = function(msg, blocks)
 			end
 			if next(keyboard.inline_keyboard) then
 				if msg.cb then
-					api.editMessageText(msg.chat.id, msg.message_id, _("Select a group:"), keyboard, true)
+					api.editMessageText(msg.chat.id, msg.message_id, _("Select a group:"), true, keyboard)
 				else
-					api.sendKeyboard(msg.chat.id, _("Select a group:"), keyboard, true)
+					api.sendMessage(msg.chat.id, _("Select a group:"), true, keyboard)
 				end
 			end
 		end
@@ -77,14 +77,14 @@ local action = function(msg, blocks)
 	if blocks[1] == 'strings' then
 		keyboard = doKeyboard_strings()
 		
-		api.sendKeyboard(msg.chat.id, _("*Choose your language:*"), keyboard, true)
+		api.sendMessage(msg.chat.id, _("*Choose your language:*"), true, keyboard)
 	end
 	if blocks[1] == 'sendpo' then
 		local lang = blocks[2]
 		local instr_url = 'telegram.me/groupbutler_ch'
 		local path = 'locales/'..lang..'.po'
 		local button = {inline_keyboard = {{{text = _("Instructions"), url = instr_url}}}}
-		api.editMessageText(msg.chat.id, msg.message_id, _("Sending `%s.po` file..."):format(lang), button, true)
+		api.editMessageText(msg.chat.id, msg.message_id, _("Sending `%s.po` file..."):format(lang), true, button)
 		api.sendDocument(msg.chat.id, path)
 	end
 end

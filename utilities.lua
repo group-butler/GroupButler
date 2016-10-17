@@ -487,11 +487,7 @@ end
 function misc.getAdminlist(chat_id)
 	local list, code = api.getChatAdministrators(chat_id)
 	if not list then
-		if code == 107 then
-			return false, code
-		else
-			return false, false
-		end
+		return false, code
 	end
 	local creator = ''
 	local adminlist = ''
@@ -661,7 +657,7 @@ end
 
 function misc.sendStartMe(msg)
     local keyboard = {inline_keyboard = {{{text = _("Start me"), url = 'https://telegram.me/'..bot.username}}}}
-	api.sendKeyboard(msg.chat.id, _("_Please message me first so I can message you_"), keyboard, true)
+	api.sendMessage(msg.chat.id, _("_Please message me first so I can message you_"), true, keyboard)
 end
 
 function misc.initGroup(chat_id)

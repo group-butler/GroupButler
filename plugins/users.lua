@@ -215,7 +215,7 @@ local action = function(msg, blocks)
 		
 		local text = get_userinfo(user_id, msg.chat.id)
 		
-		api.sendKeyboard(msg.chat.id, text, keyboard, true)
+		api.sendMessage(msg.chat.id, text, true, keyboard)
 	end
 	if blocks[1] == 'banuser' then
 		if not roles.is_admin_cached(msg) then
@@ -231,7 +231,7 @@ local action = function(msg, blocks)
 			local name = misc.getname_link(msg.from.first_name, msg.from.username) or msg.from.first_name:escape()
 			text = _("_Banned!_\n(Admin: %s)"):format(name)
 		end
-		api.editMessageText(msg.chat.id, msg.message_id, text, false, true)
+		api.editMessageText(msg.chat.id, msg.message_id, text, true)
 	end
 	if blocks[1] == 'remwarns' then
 		if not roles.is_admin_cached(msg) then
@@ -243,7 +243,7 @@ local action = function(msg, blocks)
         
         local name = misc.getname_link(msg.from.first_name, msg.from.username) or msg.from.first_name:escape()
 		local text = _("The number of warnings received by this user has been *reset*\n(Admin: %s)")
-		api.editMessageText(msg.chat.id, msg.message_id, text:format(name), false, true)
+		api.editMessageText(msg.chat.id, msg.message_id, text:format(name), true)
     end
     if blocks[1] == 'cache' then
     	if msg.chat.type == 'private' or not roles.is_admin_cached(msg) then return end
@@ -253,7 +253,7 @@ local action = function(msg, blocks)
 		local text = _("📌 Status: `CACHED`\n⌛ ️Remaining: `%s`\n👥 Admins cached: `%d`")
 			:format(get_time_remaining(tonumber(seconds)), cached_admins)
     	local keyboard = do_keyboard_cache(msg.chat.id)
-    	api.sendKeyboard(msg.chat.id, text, keyboard, true)
+    	api.sendMessage(msg.chat.id, text, true, keyboard)
     end
     if blocks[1] == 'msglink' then
     	if msg.chat.type == 'private' or not msg.reply or not msg.chat.username then return end
@@ -280,7 +280,7 @@ local action = function(msg, blocks)
 			local text = _("📌 Status: `CACHED`\n⌛ ️Remaining: `%s`\n👥 Admins cached: `%d`")
 				:format(time, #cached_admins)
     		api.answerCallbackQuery(msg.cb_id, _("✅ Updated. Next update in %s"):format(time))
-    		api.editMessageText(msg.chat.id, msg.message_id, text, do_keyboard_cache(msg.target_id), true)
+    		api.editMessageText(msg.chat.id, msg.message_id, text, true, do_keyboard_cache(msg.target_id))
     		api.sendLog('#recache\nChat: '..msg.target_id..'\nFrom: '..msg.from.id)
     	end
     end

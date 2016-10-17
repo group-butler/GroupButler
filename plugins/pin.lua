@@ -29,7 +29,7 @@ local function action(msg, blocks)
 			if not pin_id then
 				api.sendReply(msg, _("You don't have any pinned message sent with `/pin [text to pin]`"), true)
 			else
-				local res, code = api.editMessageText(msg.chat.id, pin_id, blocks[2]:gsub('$rules', misc.deeplink_constructor(msg.chat.id, 'rules')), nil, true)
+				local res, code = api.editMessageText(msg.chat.id, pin_id, blocks[2]:gsub('$rules', misc.deeplink_constructor(msg.chat.id, 'rules')), true)
 				if not res then
 					if code == 118 then
 				    	api.sendMessage(msg.chat.id, _("This text is too long, I can't send it"))

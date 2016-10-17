@@ -47,7 +47,7 @@ local action = function(msg, blocks)
     		else
 	    		db:hset(hash, blocks[2], blocks[3])
 	    		local msg_id = res.result.message_id
-				api.editMessageText(msg.chat.id, msg_id, _("Command '%s' saved!"):format(blocks[2]), false)
+				api.editMessageText(msg.chat.id, msg_id, _("Command '%s' saved!"):format(blocks[2]))
     		end
     	end
 	elseif blocks[1] == 'extra list' then

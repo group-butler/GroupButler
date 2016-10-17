@@ -191,7 +191,7 @@ It will just send the message in private.
     
     if blocks[1] == 'config' then
         keyboard = doKeyboard_menu(chat_id)
-        api.editMessageText(msg.chat.id, msg.message_id, menu_first, keyboard, true)
+        api.editMessageText(msg.chat.id, msg.message_id, menu_first, true, keyboard)
     else
 	    if blocks[2] == 'alert' then
 	        if blocks[3] == 'settings' then
@@ -216,7 +216,7 @@ It will just send the message in private.
             text = misc.changeSettingStatus(chat_id, blocks[2])
         end
         keyboard = doKeyboard_menu(chat_id)
-        api.editMessageText(msg.chat.id, msg.message_id, menu_first, keyboard, true)
+        api.editMessageText(msg.chat.id, msg.message_id, menu_first, true, keyboard)
         if text then api.answerCallbackQuery(msg.cb_id, '⚙ '..text) end --workaround to avoid to send an error to users who are using an old inline keyboard
     end
 end
