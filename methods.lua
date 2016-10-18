@@ -47,6 +47,7 @@ local function sendRequest(url)
 	end
 	
 	if not tab.ok then
+		api.sendAdmin('Not tab.ok')
 		return false, tab.description
 	end
 	

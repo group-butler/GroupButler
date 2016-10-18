@@ -105,6 +105,31 @@ function roles.is_owner(msg)
 	end
 end
 
+function roles.is_owner_cached(chat_id, user_id)
+	if type(chat_id) == 'table' then
+		local msg = chat_id
+		chat_id = msg.chat.id
+		user_id = msg.from.id
+	end
+	
+	local hash = 'cache:chat:'..chat_id..':owner'
+	local owner_id, res = nil, true
+	repeat
+		owner_id = db:get(hash)
+		if not owner_id then
+			res = misc.cache_adminlist(chat_id)
+		end
+	until owner_id or not res
+
+	if owner_id then
+		if tonumber(owner_id) == tonumber(user_id) then
+			return true
+		end
+	end
+	
+	return false
+end	
+
 function roles.is_owner2(chat_id, user_id)
 	local status = api.getChatMember(chat_id, user_id).result.status
 	if status == 'creator' then
@@ -121,6 +146,9 @@ function misc.cache_adminlist(chat_id)
 	end
 	local hash = 'cache:chat:'..chat_id..':admins'
 	for _, admin in pairs(res.result) do
+		if admin.status == 'creator' then
+			db:set('cache:chat:'..chat_id..':owner', admin.user.id)
+		end
 		db:sadd(hash, admin.user.id)
 	end
 	db:expire(hash, config.bot_settings.cache_time.adminlist)
@@ -163,8 +191,10 @@ function save_data(filename, data) -- Saves a table to a JSON file.
 
 end
 
-function vardump(value)
-  print(serpent.block(value, {comment=false}))
+function vardump(...)
+	for _, value in pairs{...} do
+		print(serpent.block(value, {comment=false}))
+	end
 end
 
 function vtext(value)
@@ -380,7 +410,7 @@ function div()
 	print('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX')
 end
 
-function misc.log_error(method, code, extras)
+function misc.log_error(method, code, extras, description)
 	if not method or not code then return end
 	
 	local ignored_errors = {403, 429, 110, 111, 116, 131}
@@ -688,6 +718,7 @@ function misc.remGroup(chat_id, full, call)
 	end
 	
 	db:del('cache:chat:'..chat_id..':admins') --delete the cache
+	db:del('cache:chat:'..chat_id..':owner')
 	db:hdel('bot:logchats', chat_id) --delete the associated log chat
 	db:del('chat:'..chat_id..':pin') --delete the msg id of the (maybe) pinned message
 	
@@ -698,14 +729,14 @@ function misc.remGroup(chat_id, full, call)
 		db:del('lang:'..chat_id)
 	end
 	
-	local msg_text = '#removed '..chat_id
+	--[[local msg_text = '#removed '..chat_id
 	if full then
 		msg_text = msg_text..'\nfull: true'
 	else
 		msg_text = msg_text..'\nfull: false'
 	end
 	if call then msg_text = msg_text..'\ncall: '..call end
-	api.sendAdmin(msg_text)
+	api.sendAdmin(msg_text)]]
 end
 
 function misc.getnames_complete(msg, blocks)

@@ -161,8 +161,6 @@ on_msg_receive = function(msg) -- The fn run whenever a message is received.
 		for i, plugin in pairs(plugins) do
 			if plugin.onmessage then
 				onm_success, continue = pcall(plugin.onmessage, msg)
-				--vardump(onm_success)
-				--vardump(continue)
 				if not onm_success then
 					api.sendAdmin('An #error occurred (preprocess).\n'..tostring(continue)..'\n'..locale.language..'\n'..msg.text)
 				end
@@ -371,9 +369,9 @@ while is_started do -- Start a loop while the bot should be running.
 		current.h = 0
 		for i,v in ipairs(plugins) do
 			if v.cron then -- Call each plugin's cron function, if it has one.
-				local res, err = pcall(function() v.cron() end)
+				local res, err = pcall(v.cron)
 				if not res then
-          			api.sendLog('An #error occurred.\n'..err)
+          			api.sendLog('An #error occurred (cron).\n'..err)
 					return
 				end
 			end

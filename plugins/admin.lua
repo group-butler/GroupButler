@@ -520,6 +520,6 @@ end
 
 return {
 	action = action,
-	cron = cron,
+	cron = nil,
 	triggers = {'^%$', '^###(forward)'}
 }

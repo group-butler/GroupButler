@@ -18,6 +18,7 @@ return {
 		stream_commands = true,
 		admin_mode = false,
 		debug_connections = false,
+		realm_max_members = 60
 	},
 	channel = '@groupbutler_ch', --channel username with the '@'
 	source_code = 'https://github.com/RememberTheAir/GroupButler',
@@ -30,6 +31,7 @@ return {
 	},
 	plugins = {
 		'onmessage.lua', --THIS MUST BE THE FIRST: IF AN USER IS SPAMMING/IS BLOCKED, THE BOT WON'T GO THROUGH PLUGINS
+		--'realms.lua',
 		'configure.lua',
 		'menu.lua',
 		'dashboard.lua',
