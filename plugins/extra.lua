@@ -107,7 +107,7 @@ local action = function(msg, blocks)
         			api.sendDocumentId(msg.chat.id, file_id, msg_to_reply)
         		end
         	else
-        		api.sendMessage(msg.chat.id, text:replaceholders(msg.reply or msg), true, msg_to_reply) --if the mod replies to an user, the bot will reply to the user too
+        		api.sendMessage(msg.chat.id, text:replaceholders(msg.reply or msg), true, nil, msg_to_reply) --if the mod replies to an user, the bot will reply to the user too
         	end
         end
     end

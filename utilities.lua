@@ -419,7 +419,11 @@ function misc.log_error(method, code, extras, description)
 		if tonumber(code) == tonumber(ignored_code) then return end
 	end
 	
-	local text = 'Type: #badrequest\nCode: #n'..code
+	local text = 'Type: #badrequest\nMethod: #'..method..'\nCode: #n'..code
+	
+	if description then
+		text = text..'\nDesc: '..description
+	end
 	
 	if extras then
 		if next(extras) then
