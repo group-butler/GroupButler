@@ -58,7 +58,7 @@ end
 local function action(msg, blocks)
 	if not msg.cb then return end
 	local chat_id = msg.target_id or msg.chat.id
-	if not roles.is_admin_cached(chat_id, msg.from.id) then
+	if msg.target_id and not roles.is_admin_cached(msg.target_id, msg.from.id) then
 		api.answerCallbackQuery(msg.cb_id, _("You're no longer admin"))
 		return
 	end
