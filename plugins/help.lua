@@ -250,10 +250,12 @@ function plugin.onTextMessage(msg, blocks)
         end
     end
     if blocks[1] == 'help' then
-    	if msg.chat.type == 'private' then
-			local keyboard = make_keyboard()
-			api.sendMessage(msg.from.id, get_helped_string('all'), true, keyboard)
-        end
+        local keyboard = make_keyboard()
+        local text = get_helped_string('all')
+    	local res = api.sendMessage(msg.from.id, text, true, keyboard)
+    	if not res and msg.chat.type ~= 'private' and db:hget('chat:'..msg.chat.id..':settings', 'Silent') ~= 'on' then
+    	    api.sendMessage(msg.chat.id, _('[Start me](%s) _to get the list of commands_'):format(misc.deeplink_constructor('', 'help')), true)
+    	end
     end
 end
 
@@ -304,7 +306,8 @@ end
 plugin.triggers = {
 	onTextMessage = {
 		config.cmd..'(start)$',
-	    config.cmd..'(help)$'
+		config.cmd..'(help)$',
+		'^/start :(help)$'
 	},
 	onCallbackQuery = {
 		'^###cb:help:(.*)$'

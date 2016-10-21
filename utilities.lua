@@ -384,13 +384,49 @@ function string:replaceholders(msg) -- Returns the string after the first space.
 		self = self:gsub('$username', '@-')
 	end
 	if msg.from.last_name then
-		self = self:gsub('$surname', '@'..msg.from.last_name:escape())
+		self = self:gsub('$surname', msg.from.last_name:escape())
 	else
 		self = self:gsub('$surname', '-')
 	end
 	self = self:gsub('$id', msg.from.id)
 	self = self:gsub('$title', msg.chat.title:escape())
 	self = self:gsub('$rules', misc.deeplink_constructor(msg.chat.id, 'rules'))
+	return self
+end
+
+function string:replaceholders_dyn(msg, ...)
+	if msg.new_chat_member then
+		msg.from = msg.new_chat_member
+	end
+	msg.from.first_name = msg.from.first_name:gsub('%%', '')
+	
+	local replace_map = {
+		['$name'] = msg.from.first_name:escape(),
+		['$username'] = function()
+			if msg.from.username then
+				return '@'..msg.from.username:escape()
+			else
+				return '@-'
+			end
+		end,
+		['$surname'] = function()
+			if msg.from.last_name then
+				return msg.from.last_name:escape()
+			else
+				return '-'
+			end
+		end,
+		['$id'] = msg.from.id,
+		['$title'] = msg.chat.title:escape(),
+		['$rules'] = misc.deeplink_constructor(msg.chat.id, 'rules')
+	}
+	
+	for _, placeholder in pairs{...} do
+		if replace_map[placeholder] then
+			self = self:gsub(placeholder, replace_map[placeholder])
+		end
+	end
+	
 	return self
 end
 

@@ -15,7 +15,7 @@ function plugin.onTextMessage(msg, blocks)
 		local pin_id = db:get('chat:'..msg.chat.id..':pin')
 		local was_deleted
 		if pin_id then --try to edit the old message
-			local res, code = api.editMessageText(msg.chat.id, pin_id, blocks[2]:gsub('$rules', misc.deeplink_constructor(msg.chat.id, 'rules')), true)
+			local res, code = api.editMessageText(msg.chat.id, pin_id, blocks[2]:replaceholders_dyn(msg, '$rules', '$title'), true)
 			if not res then
 				if code == 118 then
 			    	api.sendMessage(msg.chat.id, _("This text is too long, I can't send it"))
@@ -36,7 +36,7 @@ function plugin.onTextMessage(msg, blocks)
 	    	end
 		end
 		if not pin_id then
-			local res, code = api.sendMessage(msg.chat.id, blocks[2]:gsub('$rules', misc.deeplink_constructor(msg.chat.id, 'rules')), true)
+			local res, code = api.sendMessage(msg.chat.id, blocks[2]:replaceholders_dyn(msg, '$rules', '$title'), true)
 			if not res then
 				if code == 118 then
 					api.sendReply(msg, _("This text is too long, I can't send it"))

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GroupButler 4.0\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
-"POT-Creation-Date: 2016-10-21 02:53+0200\n"
+"POT-Creation-Date: 2016-10-21 21:46+0200\n"
 "PO-Revision-Date: 2016-09-12 22:00+0200\n"
 "Last-Translator: Nicholas Guriev <guriev-ns@ya.ru>\n"
 "Language-Team: Italian\n"
@@ -65,7 +65,8 @@ msgstr ""
 msgid ""
 "Ban time was updated for %s. Ban expiration: %s\n"
 "*Admin:* %s"
-msgstr "Scadenza aggiornata per %s. Scadenza ban: %s\n"
+msgstr ""
+"Scadenza aggiornata per %s. Scadenza ban: %s\n"
 "*Admin:* %s"
 
 #: plugins/banhammer.lua:110
@@ -216,7 +217,7 @@ msgstr "Impostazioni"
 msgid "Admins"
 msgstr "Admin"
 
-#: plugins/dashboard.lua:66 plugins/menu.lua:117 utilities.lua:588
+#: plugins/dashboard.lua:66 plugins/menu.lua:117 utilities.lua:624
 msgid "Rules"
 msgstr "Regole"
 
@@ -332,7 +333,7 @@ msgstr "%s salvato!"
 msgid "No commands set"
 msgstr "Nessun comando impostato!"
 
-#: plugins/extra.lua:67 utilities.lua:570
+#: plugins/extra.lua:67 utilities.lua:606
 msgid "List of *custom commands*:\n"
 msgstr "Lista dei *comandi personalizzati*:\n"
 
@@ -807,16 +808,14 @@ msgstr ""
 "\n"
 "`/pin [testo]`: il bot ti reinvierà il testo inserito come argomento, col "
 "markdown. Potrai poi fissare il messaggio restituito, ed riusare `/pin "
-"[nuovo testo]` per modificarlo. "
-"Utile se necessiti di apportare piccoli/grandi cambiamenti al "
-"messaggio fissato, ma non vuoi inviare nuovamente un messaggio che andrà "
-"fissato e che quindi non potrai eliminare. In questo modo, il bot "
-"modificherà il messaggio per te\n"
+"[nuovo testo]` per modificarlo. Utile se necessiti di apportare piccoli/"
+"grandi cambiamenti al messaggio fissato, ma non vuoi inviare nuovamente un "
+"messaggio che andrà fissato e che quindi non potrai eliminare. In questo "
+"modo, il bot modificherà il messaggio per te\n"
 "`/pin`: il bot indicherà l'utimo messaggio generato da `/pin`, se ancora "
 "esistente\n"
 "\n"
-"*Note*: `/pin` supporta il markdown ed il segnaposto `"
-"$rules`\n"
+"*Note*: `/pin` supporta il markdown ed il segnaposto `$rules`\n"
 
 #. TRANSLATORS: leave your contact information for reports mistakes in translation
 #: plugins/help.lua:147
@@ -937,15 +936,20 @@ msgstr "📢 Canale del bot"
 msgid "📕 All the commands"
 msgstr "📕 Tutti i comandi"
 
-#: plugins/help.lua:238 utilities.lua:697
+#: plugins/help.lua:238 utilities.lua:733
 msgid "Start me"
 msgstr "Avviami"
 
-#: plugins/help.lua:270
+#: plugins/help.lua:257
+#, lua-format
+msgid "[Start me](%s) _to get the list of commands_"
+msgstr "[Avviami](%s) _per la lista dei comandi_"
+
+#: plugins/help.lua:272
 msgid "Tap on a button to see the *related commands*"
 msgstr "Scegli una voce per visualizzarne i *comandi associati*"
 
-#: plugins/help.lua:297
+#: plugins/help.lua:299
 msgid "❗️ Already on this tab"
 msgstr "❗️ Già su questa scheda"
 
@@ -1071,31 +1075,31 @@ msgstr "Uso del carattere RTL = ban"
 msgid "RTL character allowed"
 msgstr "Carattere RTL consentito"
 
-#: plugins/menu.lua:113 utilities.lua:583
+#: plugins/menu.lua:113 utilities.lua:619
 msgid "Welcome message"
 msgstr "Messaggio di benvenuto"
 
-#: plugins/menu.lua:114 utilities.lua:584
+#: plugins/menu.lua:114 utilities.lua:620
 msgid "Extra"
 msgstr ""
 
-#: plugins/menu.lua:115 utilities.lua:585
+#: plugins/menu.lua:115 utilities.lua:621
 msgid "Anti-flood"
 msgstr "Anti-flood"
 
-#: plugins/menu.lua:116 utilities.lua:587
+#: plugins/menu.lua:116 utilities.lua:623
 msgid "Silent mode"
 msgstr "Modalità silenziosa"
 
-#: plugins/menu.lua:118 utilities.lua:589
+#: plugins/menu.lua:118 utilities.lua:625
 msgid "Arab"
 msgstr "Arabo"
 
-#: plugins/menu.lua:119 utilities.lua:590
+#: plugins/menu.lua:119 utilities.lua:626
 msgid "RTL"
 msgstr ""
 
-#: plugins/menu.lua:120 utilities.lua:586
+#: plugins/menu.lua:120 utilities.lua:622
 msgid "Ban bots"
 msgstr "Banna i bot"
 
@@ -1245,8 +1249,8 @@ msgid ""
 "This message can now be pinned. Use `/pin [new text]` to edit it without "
 "having to send it again"
 msgstr ""
-"Ora puoi fissare questo messaggio. Usa `/pin [nuovo testo]` per "
-"modificarlo, senza inviare un messaggio da fissare di nuovo"
+"Ora puoi fissare questo messaggio. Usa `/pin [nuovo testo]` per modificarlo, "
+"senza inviare un messaggio da fissare di nuovo"
 
 #: plugins/private.lua:7 plugins/users.lua:7
 msgid "Channel"
@@ -1782,15 +1786,15 @@ msgstr "*Messaggio di benvenuto personalizzato salvato!*"
 msgid "Read the rules"
 msgstr ""
 
-#: utilities.lua:515
+#: utilities.lua:551
 msgid "-*empty*-"
 msgstr "-*vuoto*-!"
 
-#: utilities.lua:565
+#: utilities.lua:601
 msgid "No commands set!"
 msgstr "Nessun comando impostato!"
 
-#: utilities.lua:578
+#: utilities.lua:614
 msgid ""
 "Current settings for *the group*:\n"
 "\n"
@@ -1798,117 +1802,117 @@ msgstr ""
 "Impostazioni correnti per *il gruppo*:\n"
 "\n"
 
-#: utilities.lua:579
+#: utilities.lua:615
 #, lua-format
 msgid "*Language*: %s\n"
 msgstr "*Lingua impostata:* `%s`\n"
 
-#: utilities.lua:591
+#: utilities.lua:627
 msgid "Reports"
 msgstr "Segnalazioni"
 
-#: utilities.lua:627
+#: utilities.lua:663
 msgid "*Welcome type*: `GIF / sticker`\n"
 msgstr "*Tipo di benvenuto*: `gif/sticker`\n"
 
-#: utilities.lua:629
+#: utilities.lua:665
 msgid "*Welcome type*: `custom message`\n"
 msgstr "*Tipo di benvenuto*: `messaggio personalizzato`\n"
 
-#: utilities.lua:631
+#: utilities.lua:667
 msgid "*Welcome type*: `default message`\n"
 msgstr "*Tipo di benvenuto*: `predefinito`\n"
 
-#: utilities.lua:637
+#: utilities.lua:673
 #, lua-format
 msgid "Warns (`standard`): *%s*\n"
 msgstr ""
 
-#: utilities.lua:638
+#: utilities.lua:674
 #, lua-format
 msgid ""
 "Warns (`media`): *%s*\n"
 "\n"
 msgstr ""
 
-#: utilities.lua:639
+#: utilities.lua:675
 msgid "✅ = _enabled / allowed_\n"
 msgstr "✅ = _abilitato / permesso_\n"
 
-#: utilities.lua:640
+#: utilities.lua:676
 msgid "🚫 = _disabled / not allowed_\n"
 msgstr "🚫 = _disabilitato / non permesso_\n"
 
-#: utilities.lua:641
+#: utilities.lua:677
 msgid "👥 = _sent in group (always for admins)_\n"
 msgstr "👥 = _inviato nel gruppo (sempre, per gli admin)_\n"
 
-#: utilities.lua:642
+#: utilities.lua:678
 msgid "👤 = _sent in private_"
 msgstr "👤 = _inviato in privato_"
 
-#: utilities.lua:648
+#: utilities.lua:684
 msgid "@admin command disabled"
 msgstr "Comando @admin disabilitato"
 
-#: utilities.lua:649
+#: utilities.lua:685
 msgid "Welcome message won't be displayed from now"
 msgstr "Il messaggio di benvenuto non verrà mostrato da ora"
 
-#: utilities.lua:650
+#: utilities.lua:686
 msgid "#extra commands are now available only for moderator"
 msgstr "I comandi #extra sono ora utilizzabili solo dai moderatori"
 
-#: utilities.lua:651
+#: utilities.lua:687
 msgid "Anti-flood is now off"
 msgstr "L'anti-flood è ora off"
 
-#: utilities.lua:652
+#: utilities.lua:688
 msgid "/rules will reply in private (for users)"
 msgstr "/rules risponderà in privato (con utenti normali)"
 
-#: utilities.lua:653
+#: utilities.lua:689
 msgid "Bots won't be kicked if added by an user"
 msgstr "I bot non verranno kickati se aggiunti da un utente"
 
-#: utilities.lua:654
+#: utilities.lua:690
 msgid "Welcome message without a button for the rules"
 msgstr "Il benvenuto non avrà il pulsante per le regole"
 
-#: utilities.lua:657
+#: utilities.lua:693
 msgid "@admin command enabled"
 msgstr ""
 
-#: utilities.lua:658
+#: utilities.lua:694
 msgid "Welcome message will be displayed"
 msgstr "Il messaggio di benvenuto da ora verrà mostrato"
 
-#: utilities.lua:659
+#: utilities.lua:695
 msgid "#extra commands are now available for all"
 msgstr "I comandi #extra sono già disponibili per tutti"
 
-#: utilities.lua:660
+#: utilities.lua:696
 msgid "Anti-flood is now on"
 msgstr "L'anti-flood è ora on"
 
-#: utilities.lua:661
+#: utilities.lua:697
 msgid "/rules will reply in the group (with everyone)"
 msgstr "`/rules` risponderà nel gruppo (con tutti)"
 
-#: utilities.lua:662
+#: utilities.lua:698
 msgid "Bots will be kicked if added by an user"
 msgstr "I bot verranno kickati se aggiunti da un utente"
 
-#: utilities.lua:663
+#: utilities.lua:699
 msgid "The welcome message will have a button for the rules"
 msgstr "Il benvenuto avrà un messaggio per le regole"
 
-#: utilities.lua:693
+#: utilities.lua:729
 #, lua-format
 msgid "New status = %s"
 msgstr "Nuovo stato = %s"
 
-#: utilities.lua:698
+#: utilities.lua:734
 msgid "_Please message me first so I can message you_"
 msgstr "_Per favore, avviami cosicchè io possa risponderti_"
 
