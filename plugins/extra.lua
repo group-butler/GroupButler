@@ -1,3 +1,5 @@
+local plugin = {}
+
 local function is_locked(chat_id)
   	local hash = 'chat:'..chat_id..':settings'
   	local current = db:hget(hash, 'Extra')
@@ -8,7 +10,7 @@ local function is_locked(chat_id)
   	end
 end
 
-local action = function(msg, blocks)
+function plugin.onTextMessage(msg, blocks)
 	
 	if msg.chat.type == 'private' then return end
 	
@@ -113,9 +115,8 @@ local action = function(msg, blocks)
     end
 end
 
-return {
-	action = action,
-	triggers = {
+plugin.triggers = {
+	onTextMessage = {
 		config.cmd..'(extra)$',
 		config.cmd..'(extra) (#[%w_]*)%s(.*)$',
 		config.cmd..'(extra) (#[%w_]*)',
@@ -124,3 +125,5 @@ return {
 		'^(#[%w_]*)$'
 	}
 }
+
+return plugin

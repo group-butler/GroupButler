@@ -1,3 +1,5 @@
+local plugin = {}
+
 local function is_locked(chat_id)
   	local hash = 'chat:'..chat_id..':settings'
   	local current = db:hget(hash, 'Welcome')
@@ -21,11 +23,11 @@ local function get_welcome(msg)
 	elseif type == 'custom' then
 		return content:replaceholders(msg)
 	else
-		return _("Hi %s, and welcome to *%s*!"):format(msg.added.first_name:escape_hard(), msg.chat.title:escape_hard())
+		return _("Hi %s, and welcome to *%s*!"):format(msg.new_chat_member.first_name:escape_hard(), msg.chat.title:escape_hard())
 	end
 end
 
-local function action(msg, blocks)
+function plugin.onTextMessage(msg, blocks)
     if blocks[1] == 'welcome' then
         
         if msg.chat.type == 'private' or not roles.is_admin_cached(msg) then return end
@@ -73,11 +75,11 @@ local function action(msg, blocks)
             end
         end
     end
-    if blocks[1] == 'added' then
+    if blocks[1] == 'new_chat_member' then
 		if not msg.service then return end
 		
-		if msg.added.username then
-			local username = msg.added.username:lower()
+		if msg.new_chat_member.username then
+			local username = msg.new_chat_member.username:lower()
 			if username:find('bot', -3) then
 				return
 			end
@@ -85,24 +87,30 @@ local function action(msg, blocks)
 		
 		local text = get_welcome(msg)
 		if text then --if not text: welcome is locked or is a gif/sticker
-			api.sendMessage(msg.chat.id, text, true)
+			local keyboard
+			local attach_button = (db:hget('chat:'..msg.chat.id..':settings', 'Welbut')) or config.chat_settings['settings']['Welbut']
+			if attach_button == 'on' then
+				keyboard = {inline_keyboard={{{text = _('Read the rules'), callback_data = 'rulesbutton:'..msg.chat.id}}}}
+			end
+			api.sendMessage(msg.chat.id, text, true, keyboard)
 		end
 		
-		local send_rules_private = db:hget('user:'..msg.added.id..':settings', 'rules_on_join')
+		local send_rules_private = db:hget('user:'..msg.new_chat_member.id..':settings', 'rules_on_join')
 		if send_rules_private and send_rules_private == 'on' then
 		    local rules = db:hget('chat:'..msg.chat.id..':info', 'rules')
 		    if rules then
-		        api.sendMessage(msg.added.id, rules, true)
+		        api.sendMessage(msg.new_chat_member.id, rules, true)
 		    end
 	    end
 	end
 end
 
-return {
-    action = action,
-    triggers = {
-        config.cmd..'(welcome) (.*)$',
+plugin.triggers = {
+	onTextMessage = {
+		config.cmd..'(welcome) (.*)$',
 		config.cmd..'(welcome)$',
-		'^###(added)'
+		'^###(new_chat_member)$'
 	}
 }
+
+return plugin

@@ -1,3 +1,5 @@
+local plugin = {}
+
 local function max_reached(chat_id, user_id)
     local max = tonumber(db:hget('chat:'..chat_id..':warnsettings', 'mediamax')) or 2
     local n = tonumber(db:hincrby('chat:'..chat_id..':mediawarn', user_id, 1))
@@ -44,7 +46,9 @@ local function is_blocked(id)
 	end
 end
 
-local function onmessage(msg)
+function plugin.onEveryMessage(msg)
+    
+    if not msg.inline then
     
     local msg_type = 'text'
     if msg.media then msg_type = msg.media_type end
@@ -167,6 +171,8 @@ local function onmessage(msg)
         end
     end
     
+    end --if not msg.inline then
+    
     if is_blocked(msg.from.id) then --ignore blocked users
         return false --if an user is blocked, don't go through plugins
     end
@@ -174,6 +180,4 @@ local function onmessage(msg)
     return true
 end
 
-return {
-    onmessage = onmessage
-}
+return plugin

@@ -1,3 +1,5 @@
+local plugin = {}
+
 local function report(msg)
     local text = _('• *Message reported by*: %s (`%d`)\n• *Group*: %s'):format(misc.getname_final(msg.from), msg.from.id, msg.chat.title:escape())
     if msg.reply.sticker then
@@ -28,7 +30,7 @@ local function report(msg)
     return n
 end
 
-local function action(msg, blocks)
+function plugin.onTextMessage(msg, blocks)
     if msg.chat.type == 'private' or roles.is_admin_cached(msg) or not msg.reply then return end
     if roles.is_admin_cached(msg.reply) then return end
     local status = (db:hget('chat:'..msg.chat.id..':settings', 'Reports')) or config.chat_settings['settings']['Reports']
@@ -37,17 +39,15 @@ local function action(msg, blocks)
     local n_sent = report(msg)
     if n_sent then
         local text = _('_Reported to %d admin(s)_'):format(n_sent)
-        local res = api.sendMessage(msg.from.id, text, true)
-        if not res then
-            api.sendReply(msg, text, true)
-        end
+        api.sendReply(msg, text, true)
     end
 end
 
-return {
-    action = action,
-    triggers = {
+plugin.triggers = {
+    onTextMessage = {
         '^@admin',
-        config.cmd..'(report)$',
+        config.cmd..'(report)$'
     }
 }
+
+return plugin

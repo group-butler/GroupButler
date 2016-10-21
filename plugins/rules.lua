@@ -1,3 +1,5 @@
+local plugin = {}
+
 local function send_in_group(chat_id)
 	local res = db:hget('chat:'..chat_id..':settings', 'Rules')
 	if res == 'on' then
@@ -7,7 +9,7 @@ local function send_in_group(chat_id)
 	end
 end
 
-local action = function(msg, blocks)
+function plugin.onTextMessage(msg, blocks)
     if msg.chat.type == 'private' then
     	if blocks[1] == 'start' then
     		msg.chat.id = tonumber(blocks[2])
@@ -53,7 +55,7 @@ local action = function(msg, blocks)
     	--check if a mod want to clean the rules
 		if input == '-' then
 			db:hdel(hash, 'rules')
-			api.sendReply(msg, _("Rules has been wiped."))
+			api.sendReply(msg, _("Rules has been deleted."))
 			return
 		end
 		
@@ -73,15 +75,28 @@ local action = function(msg, blocks)
 			api.editMessageText(msg.chat.id, id, _("New rules *saved successfully*!"), true)
 		end
 	end
-
 end
 
-return {
-	action = action,
-	triggers = {
+function plugin.onCallbackQuery(msg, nlocks)
+	local rules = db:hget('chat:'..msg.chat.id..':info', 'rules')
+	if not rules then
+		api.answerCallbackQuery(msg.cb_id, _('❌ Rules not set'))
+	else
+		local res = api.sendMessage(msg.from.id, rules, true)
+		if not res then
+			api.answerCallbackQuery(msg.cb_id, _('❗️ You have to start me first, so I can send you the rules'), true)
+		end
+	end
+end
+
+plugin.triggers = {
+	onTextMessage = {
 		config.cmd..'(setrules)$',
 		config.cmd..'(setrules) (.*)',
 		config.cmd..'(rules)$',
 		'^/(start) (-?%d+):rules$'
-	}
+	},
+	onCallbackQuery = {'^###cb:rulesbutton:(-%d+)$'}
 }
+
+return plugin

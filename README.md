@@ -166,15 +166,19 @@ If you are going to open a pull request, keep in mind that I don't know how to u
 
 ##Credits
 
-Topkecleon, for the original [otouto](https://github.com/topkecleon/otouto)
+[Topkecleon](https://github.com/topkecleon), for the original [otouto](https://github.com/topkecleon/otouto)
 
-Iman Daneshi and Tiago Danin, for [Jack-telegram-bot](https://github.com/Imandaneshi/jack-telegram-bot)
+[Iman Daneshi](https://github.com/imandaneshi) and [Tiago Danin](https://github.com/TiagoDanin), for [Jack-telegram-bot](https://github.com/Imandaneshi/jack-telegram-bot)
 
-Yago Pérez for his [telegram-bot](https://github.com/yagop/telegram-bot)
+[Cosmonawt](https://github.com/cosmonawt), for his [Lua library](https://github.com/cosmonawt/lua-telegram-bot) for the Bot API
+
+[Yago Pérez](https://github.com/yagop) for his [telegram-bot](https://github.com/yagop/telegram-bot)
 
 The [Werewolf](https://github.com/parabola949/Werewolf) guys, for aiding the spread of the bot
 
 Lucas Montuano, for helping me a lot in the debugging of the bot
+
+All the Admins of our discussion groups about Group Butler
 
 All the people who reported bugs and suggested new stuffs
 

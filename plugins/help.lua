@@ -1,3 +1,5 @@
+local plugin = {}
+
 local function get_helped_string(key)
 	if key == 'private' then
 		return _([[
@@ -135,11 +137,10 @@ When Rtl is not allowed (🚫), everyone that writes this character (or that has
 		return _([[
 *Admins: pin*
 
-`/pin [text]`: the bot will send you back the text you used as argument, with markdown. You can pin the message and use `/editpin [new text]` to edit it
-`/editpin [new text]`: edit the previously generated message. Useful if you often need to make small/big changes to the pinned message but you don't like to send a wall of text that can't be deleted because you have to pin it
-`/pin`: the bot will find the latest message generate by `/pin [text]`, if it still exists
+`/pin [text]`: the bot will send you back the text you used as argument, with markdown. You can pin the message and use `/pin [text]` again to edit it
+`/pin`: the bot will find the latest message generate by `/pin`, if it still exists
 
-*Note*: `/pin` and `/editpin` support markdown and `$rules` placeholder
+*Note*: `/pin` supports markdown and `$rules` placeholder only
 ]])
 	elseif key == 'mods_langs' then
 		-- TRANSLATORS: leave your contact information for reports mistakes in translation
@@ -188,14 +189,14 @@ local function make_keyboard(mod, mod_current_position)
         local line = {}
         for k,v in pairs(list) do
             if next(line) then
-                local button = {text = '📍'..k, callback_data = v}
+                local button = {text = '📍'..k, callback_data = 'help:'..v}
                 --change emoji if it's the current position button
                 if mod_current_position == v then button.text = '💡 '..k end
                 table.insert(line, button)
                 table.insert(keyboard.inline_keyboard, line)
                 line = {}
             else
-                local button = {text = '📍'..k, callback_data = v}
+                local button = {text = '📍'..k, callback_data = 'help:'..v}
                 --change emoji if it's the current position button
                 if mod_current_position == v:gsub('!', '') then button.text = '💡 '..k end
                 table.insert(line, button)
@@ -207,9 +208,9 @@ local function make_keyboard(mod, mod_current_position)
     end
     local bottom_bar
     if mod then
-		bottom_bar = {{text = _("🔰 User commands"), callback_data = 'user'}}
+		bottom_bar = {{text = _("🔰 User commands"), callback_data = 'help:user'}}
 	else
-	    bottom_bar = {{text = _("🔰 Admin commands"), callback_data = 'mod'}}
+	    bottom_bar = {{text = _("🔰 Admin commands"), callback_data = 'help:mod'}}
 	end
 	table.insert(bottom_bar, {text = _("Info"), callback_data = 'fromhelp:about'}) --insert the "Info" button
 	table.insert(keyboard.inline_keyboard, bottom_bar)
@@ -224,7 +225,7 @@ local function do_keyboard_private()
     		{text = _("📢 Bot channel"), url = 'https://telegram.me/'..config.channel:gsub('@', '')},
 	    },
 	    {
-	        {text = _("📕 All the commands"), callback_data = 'user'}
+	        {text = _("📕 All the commands"), callback_data = 'help:user'}
         }
     }
     return keyboard
@@ -240,15 +241,13 @@ local function do_keyboard_startme()
     return keyboard
 end
 
-local action = function(msg, blocks)
-    -- save stats
-    if blocks[1] == 'start' then
+function plugin.onTextMessage(msg, blocks)
+	if blocks[1] == 'start' then
         if msg.chat.type == 'private' then
             local message = get_helped_string('private'):format(msg.from.first_name:escape())
             local keyboard = do_keyboard_private()
             api.sendMessage(msg.from.id, message, true, keyboard)
         end
-        return
     end
     if blocks[1] == 'help' then
     	if msg.chat.type == 'private' then
@@ -256,14 +255,13 @@ local action = function(msg, blocks)
 			api.sendMessage(msg.from.id, get_helped_string('all'), true, keyboard)
         end
     end
+end
+
+function plugin.onCallbackQuery(msg, blocks)
     if msg.cb then
         local query = blocks[1]
         local text
-        if query == 'info_button' then
-            local keyboard = do_keybaord_credits()
-		    api.editMessageText(msg.chat.id, msg.message_id, _("Some useful *links*:"), true, keyboard)
-		    return
-		end
+        
         local with_mods_lines = true
         if query == 'user' then
             text = get_helped_string('all')
@@ -303,24 +301,14 @@ local action = function(msg, blocks)
     end
 end
 
-return {
-	action = action,
-	admin_not_needed = true,
-	triggers = {
-	    config.cmd..'(start)$',
-	    config.cmd..'(help)$',
-	    '^###cb:(user)$',
-	    '^###cb:(mod)$',
-	    '^###cb:(info)$',
-	    '^###cb:(banhammer)$',
-	    '^###cb:(flood)$',
-	    '^###cb:(media)$',
-	    '^###cb:(pin)$',
-	    '^###cb:(lang)$',
-	    '^###cb:(welcome)$',
-	    '^###cb:(extra)$',
-	    '^###cb:(warns)$',
-	    '^###cb:(char)$',
-	    '^###cb:(settings)$',
-    }
+plugin.triggers = {
+	onTextMessage = {
+		config.cmd..'(start)$',
+	    config.cmd..'(help)$'
+	},
+	onCallbackQuery = {
+		'^###cb:help:(.*)$'
+	}
 }
+
+return plugin

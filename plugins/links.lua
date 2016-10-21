@@ -1,4 +1,6 @@
-local action = function(msg, blocks)
+local plugin = {}
+
+function plugin.onTextMessage(msg, blocks)
     if msg.chat.type == 'private' then return end
 	if not roles.is_admin_cached(msg) then return end
 	
@@ -58,12 +60,13 @@ local action = function(msg, blocks)
 	end
 end
 
-return {
-	action = action,
-	triggers = {
+plugin.triggers = {
+	onTextMessage = {
 		config.cmd..'(link)$',
 		config.cmd..'(setlink)$',
 		config.cmd..'(setlink) https://telegram%.me/joinchat/(.*)',
 		config.cmd..'(setlink) (-)'
 	}
 }
+
+return plugin

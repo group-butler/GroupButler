@@ -1,3 +1,5 @@
+local plugin = {}
+
 local function doKeyboard_warn(user_id)
 	local keyboard = {}
     keyboard.inline_keyboard = {
@@ -9,19 +11,10 @@ local function doKeyboard_warn(user_id)
     return keyboard
 end
 
-local function action(msg, blocks)
-
-    --warns/mediawarn
-
-    if msg.chat.type == 'private' then return end
-    if not roles.is_admin(msg) then
-    	if msg.cb then --show a pop up if a normal user tap on an inline button
-    		api.answerCallbackQuery(msg.cb_id, _("You are not an admin"))
-    	end
-    	return
-    end
-
-    if blocks[1] == 'warnmax' then
+function plugin.onTextMessage(msg, blocks)
+	if msg.chat.type == 'private' or (msg.chat.type ~= 'private' and not roles.is_admin_cached(msg)) then return end
+	
+	if blocks[1] == 'warnmax' then
     	local new, default, text, key
     	local hash = 'chat:'..msg.chat.id..':warnsettings'
     	if blocks[2] == 'media' then
@@ -42,39 +35,8 @@ local function action(msg, blocks)
         return
     end
 
-    if blocks[1] == 'resetwarns' and msg.cb then
-    	local user_id = blocks[2]
-    	print(msg.chat.id, user_id)
-    	db:hdel('chat:'..msg.chat.id..':warns', user_id)
-		db:hdel('chat:'..msg.chat.id..':mediawarn', user_id)
-
-		local text = _("Warns *reset*\n(Admin: %s)"):format(misc.getname_final(msg.from))
-		api.editMessageText(msg.chat.id, msg.message_id, text, true)
-		return
-	end
-
-	if blocks[1] == 'removewarn' and msg.cb then
-    	local user_id = blocks[2]
-		local num = db:hincrby('chat:'..msg.chat.id..':warns', user_id, -1) --add one warn
-		local text, nmax, diff
-		if tonumber(num) < 0 then
-			text = _("The number of warnings received by this user is already _zero_")
-			db:hincrby('chat:'..msg.chat.id..':warns', user_id, 1) --restore the previouvs number
-		else
-			nmax = (db:hget('chat:'..msg.chat.id..':warnsettings', 'max')) or 3 --get the max num of warnings
-			diff = nmax - num
-			text = _("*Warn removed!* (%d/%d)"):format(tonumber(num), tonumber(nmax))
-		end
-
-		text = text .. _("\n(Admin: %s)"):format(misc.getname_final(msg.from))
-		api.editMessageText(msg.chat.id, msg.message_id, text, true)
-		return
-	end
-
     --do not reply when...
-    if not msg.reply or roles.is_admin_cached(msg.reply) or msg.reply.from.id == bot.id then
-	    return
-	end
+    if not msg.reply or roles.is_admin_cached(msg.reply) or msg.reply.from.id == bot.id then return end
 
     if blocks[1] == 'warn' then
 
@@ -118,14 +80,48 @@ local function action(msg, blocks)
     end
 end
 
-return {
-	action = action,
-	triggers = {
+function plugin.onCallbackQuery(msg, blocks)
+	if not roles.is_admin_cached(msg) then
+		api.answerCallbackQuery(msg.cb_id, _("You are not an admin")) return
+	end
+	
+	if blocks[1] == 'resetwarns' then
+    	local user_id = blocks[2]
+    	db:hdel('chat:'..msg.chat.id..':warns', user_id)
+		db:hdel('chat:'..msg.chat.id..':mediawarn', user_id)
+
+		local text = _("Warns *reset*\n(Admin: %s)"):format(misc.getname_final(msg.from))
+		api.editMessageText(msg.chat.id, msg.message_id, text, true)
+	end
+	if blocks[1] == 'removewarn' then
+    	local user_id = blocks[2]
+		local num = db:hincrby('chat:'..msg.chat.id..':warns', user_id, -1) --add one warn
+		local text, nmax, diff
+		if tonumber(num) < 0 then
+			text = _("The number of warnings received by this user is already _zero_")
+			db:hincrby('chat:'..msg.chat.id..':warns', user_id, 1) --restore the previouvs number
+		else
+			nmax = (db:hget('chat:'..msg.chat.id..':warnsettings', 'max')) or 3 --get the max num of warnings
+			diff = nmax - num
+			text = _("*Warn removed!* (%d/%d)"):format(tonumber(num), tonumber(nmax))
+		end
+
+		text = text .. _("\n(Admin: %s)"):format(misc.getname_final(msg.from))
+		api.editMessageText(msg.chat.id, msg.message_id, text, true)
+	end
+end
+
+plugin.triggers = {
+	onTextMessage = {
 		config.cmd..'(warnmax) (%d%d?)$',
 		config.cmd..'(warnmax) (media) (%d%d?)$',
 		config.cmd..'(warn)$',
-		config.cmd..'(warn) (.*)$',
+		config.cmd..'(warn) (.*)$'
+	},
+	onCallbackQuery = {
 		'^###cb:(resetwarns):(%d+)$',
-		'^###cb:(removewarn):(%d+)$',
+		'^###cb:(removewarn):(%d+)$'
 	}
 }
+
+return plugin

@@ -329,7 +329,33 @@ function api.getFile(file_id)
 	
 end
 
-----------------------------By Id-----------------------------------------
+------------------------Inline methods-----------------------------------------
+
+function api.answerInlineQuery(inline_query_id, results, cache_time, is_personal, switch_pm_text, switch_pm_parameter)
+	
+	local url = BASE_URL .. '/answerInlineQuery?inline_query_id='..inline_query_id..'&results='..JSON.encode(results)
+	
+	if cache_time then
+		url = url..'&cache_time='..cache_time
+	end
+	
+	if is_personal then
+		url = url..'&is_personal=True'
+	end
+	
+	if switch_pm_text then
+		url = url..'&switch_pm_text='..switch_pm_text
+	end
+	
+	if switch_pm_parameter then
+		url = url..'&switch_pm_parameter='..switch_pm_parameter
+	end
+	
+	return sendRequest(url)
+
+end
+
+----------------------------By Id----------------------------------------------
 
 function api.sendMediaId(chat_id, file_id, media, reply_to_message_id)
 	local url = BASE_URL

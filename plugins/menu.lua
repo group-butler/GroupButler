@@ -1,3 +1,5 @@
+local plugin = {}
+
 local function changeWarnSettings(chat_id, action)
     local current = tonumber(db:hget('chat:'..chat_id..':warnsettings', 'max')) or 3
     local new_val
@@ -76,7 +78,7 @@ end
 
 local function adminsettings_table(settings, chat_id)
     local return_table = {}
-    local icon_off, icon_on = '🚫', '✅'
+    local icon_off, icon_on = '☑️', '✅'
     for field, default in pairs(settings) do
         if field ~= 'Extra' and field ~= 'Rules' then
             local status = (db:hget('chat:'..chat_id..':settings', field)) or default
@@ -115,12 +117,13 @@ local function insert_settings_section(keyboard, settings_section, chat_id)
 		Rules = _("Rules"),
 		Arab = _("Arab"),
 		Rtl = _("RTL"),
-		Antibot = _("Ban bots")
+		Antibot = _("Ban bots"),
+		Welbut = _("Welcome + rules button")
 	}
 
     for key, icon in pairs(settings_section) do
         local current = {
-            {text = strings[key] or key, callback_data = 'menu:alert:settings'},
+            {text = strings[key] or key, callback_data = 'menu:alert:settings:'..chat_id},
             {text = icon, callback_data = 'menu:'..key..':'..chat_id}
         }
         table.insert(keyboard.inline_keyboard, current)
@@ -154,7 +157,7 @@ local function doKeyboard_menu(chat_id)
 		{text = action, callback_data = 'menu:ActionWarn:'..chat_id},
 		{text = '➕', callback_data = 'menu:RaiseWarn:'..chat_id},
     }
-    table.insert(keyboard.inline_keyboard, {{text = _("Warns 👇🏼"), callback_data = 'menu:alert:warns:'}})
+    table.insert(keyboard.inline_keyboard, {{text = _("Warns 👇🏼"), callback_data = 'menu:alert:warns:'..chat_id}})
     table.insert(keyboard.inline_keyboard, warn)
     
     --back button
@@ -163,15 +166,16 @@ local function doKeyboard_menu(chat_id)
     return keyboard
 end
 
-local function action(msg, blocks)
-	if not msg.cb then return end
-	local chat_id = msg.target_id or msg.chat.id
+function plugin.onCallbackQuery(msg, blocks)
+    local chat_id = msg.target_id
 	if not roles.is_admin_cached(chat_id, msg.from.id) then
 		api.answerCallbackQuery(msg.cb_id, _("You're no longer admin"))
-		return
-	end
-
-	local menu_first = _([[
+	else
+	    if not chat_id then
+	        api.sendAdmin('Not msg.target_id -> menu') return
+	    end
+	    
+	    local menu_first = _([[
 Manage the settings of the group.
 📘 _Short legenda_:
 
@@ -183,52 +187,51 @@ Manage the settings of the group.
 If enabled, the bot won't send a confirmation message in the group when someone use /config or /dashboard.
 It will just send the message in private.
 ]])
-
-    --get the interested chat id
-    local chat_id = msg.target_id
     
-    local keyboard, text
-    
-    if blocks[1] == 'config' then
-        keyboard = doKeyboard_menu(chat_id)
-        api.editMessageText(msg.chat.id, msg.message_id, menu_first, true, keyboard)
-    else
-	    if blocks[2] == 'alert' then
-	        if blocks[3] == 'settings' then
-                text = _("⚠️ Tap on an icon!")
-            elseif blocks[3] == 'warns' then
-                text = _("⚠️ Use the row below to change the warns settings!")
-            end
-            api.answerCallbackQuery(msg.cb_id, text)
-            return
-        end
-        if blocks[2] == 'DimWarn' or blocks[2] == 'RaiseWarn' or blocks[2] == 'ActionWarn' then
-            if blocks[2] == 'DimWarn' then
-                text = changeWarnSettings(chat_id, -1)
-            elseif blocks[2] == 'RaiseWarn' then
-                text = changeWarnSettings(chat_id, 1)
-            elseif blocks[2] == 'ActionWarn' then
-                text = changeWarnSettings(chat_id, 'status')
-            end
-        elseif blocks[2] == 'Rtl' or blocks[2] == 'Arab' then
-            text = changeCharSettings(chat_id, blocks[2])
+        local keyboard, text
+        
+        if blocks[1] == 'config' then
+            keyboard = doKeyboard_menu(chat_id)
+            api.editMessageText(msg.chat.id, msg.message_id, menu_first, true, keyboard)
         else
-            text = misc.changeSettingStatus(chat_id, blocks[2])
+	        if blocks[2] == 'alert' then
+	            if blocks[3] == 'settings' then
+                    text = _("⚠️ Tap on an icon!")
+                elseif blocks[3] == 'warns' then
+                    text = _("⚠️ Use the row below to change the warns settings!")
+                end
+                api.answerCallbackQuery(msg.cb_id, text)
+                return
+            end
+            if blocks[2] == 'DimWarn' or blocks[2] == 'RaiseWarn' or blocks[2] == 'ActionWarn' then
+                if blocks[2] == 'DimWarn' then
+                    text = changeWarnSettings(chat_id, -1)
+                elseif blocks[2] == 'RaiseWarn' then
+                    text = changeWarnSettings(chat_id, 1)
+                elseif blocks[2] == 'ActionWarn' then
+                    text = changeWarnSettings(chat_id, 'status')
+                end
+            elseif blocks[2] == 'Rtl' or blocks[2] == 'Arab' then
+                text = changeCharSettings(chat_id, blocks[2])
+            else
+                text = misc.changeSettingStatus(chat_id, blocks[2])
+            end
+            keyboard = doKeyboard_menu(chat_id)
+            api.editMessageText(msg.chat.id, msg.message_id, menu_first, true, keyboard)
+            if text then api.answerCallbackQuery(msg.cb_id, '⚙ '..text) end --workaround to avoid to send an error to users who are using an old inline keyboard
         end
-        keyboard = doKeyboard_menu(chat_id)
-        api.editMessageText(msg.chat.id, msg.message_id, menu_first, true, keyboard)
-        if text then api.answerCallbackQuery(msg.cb_id, '⚙ '..text) end --workaround to avoid to send an error to users who are using an old inline keyboard
     end
 end
 
-return {
-	action = action,
-	triggers = {
-	    '^###cb:(menu):(alert):(settings)',
+plugin.triggers = {
+    onCallbackQuery = {
+        '^###cb:(menu):(alert):(settings)',
     	'^###cb:(menu):(alert):(warns)',
     	
     	'^###cb:(menu):(.*):',
     	
     	'^###cb:(config):menu:(-?%d+)$'
-	}
+    }
 }
+
+return plugin

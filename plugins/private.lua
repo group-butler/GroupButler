@@ -1,3 +1,5 @@
+local plugin = {}
+
 local function do_keybaord_credits()
 	local keyboard = {}
     keyboard.inline_keyboard = {
@@ -24,10 +26,9 @@ local function doKeyboard_strings()
 	return keyboard
 end
 
-local action = function(msg, blocks)
-    
-    if msg.chat.type ~= 'private' then return end
-    
+function plugin.onTextMessage(msg, blocks)
+	if msg.chat.type ~= 'private' then return end
+	
 	if blocks[1] == 'ping' then
 		local res = api.sendMessage(msg.from.id, 'Pong!', true)
 		--[[if res then
@@ -47,18 +48,18 @@ local action = function(msg, blocks)
 			end
 		end
 	end
+	if blocks[1] == 'strings' then
+		local keyboard = doKeyboard_strings()
+		api.sendMessage(msg.chat.id, _("*Choose your language:*"), true, keyboard)
+	end
 	if blocks[1] == 'about' then
 		local keyboard = do_keybaord_credits()
 		local text = 'This bot is based on [otouto](https://github.com/topkecleon/otouto) (AKA @mokubot, channel: @otouto), a multipurpose Lua bot.\nGroup Butler wouldn\'t exist without it.\n\nThe owner of this bot is @bac0nnn, do not pm him: use /groups command instead.\n\n*Some useful links*:'
-		if msg.cb then
-			api.editMessageText(msg.chat.id, msg.message_id, text, true, keyboard)
-		else
-			api.sendMessage(msg.chat.id, text, true, keyboard)
-		end
+		api.sendMessage(msg.chat.id, text, true, keyboard)
 	end
 	if blocks[1] == 'groups' then
 		if config.help_groups and next(config.help_groups) then
-			keyboard = {inline_keyboard = {}}
+			local keyboard = {inline_keyboard = {}}
 			for group, link in pairs(config.help_groups) do
 				if link then
 					local line = {{text = group, url = link}}
@@ -66,18 +67,31 @@ local action = function(msg, blocks)
 				end
 			end
 			if next(keyboard.inline_keyboard) then
-				if msg.cb then
-					api.editMessageText(msg.chat.id, msg.message_id, _("Select a group:"), true, keyboard)
-				else
-					api.sendMessage(msg.chat.id, _("Select a group:"), true, keyboard)
-				end
+				api.sendMessage(msg.chat.id, _("Select a group:"), true, keyboard)
 			end
 		end
 	end
-	if blocks[1] == 'strings' then
-		keyboard = doKeyboard_strings()
-		
-		api.sendMessage(msg.chat.id, _("*Choose your language:*"), true, keyboard)
+end
+
+function plugin.onCallbackQuery(msg, blocks)
+	if blocks[1] == 'about' then
+		local keyboard = do_keybaord_credits()
+		local text = 'This bot is based on [otouto](https://github.com/topkecleon/otouto) (AKA @mokubot, channel: @otouto), a multipurpose Lua bot.\nGroup Butler wouldn\'t exist without it.\n\nThe owner of this bot is @bac0nnn, do not pm him: use /groups command instead.\n\n*Some useful links*:'
+		api.editMessageText(msg.chat.id, msg.message_id, text, true, keyboard)
+	end
+	if blocks[1] == 'groups' then
+		if config.help_groups and next(config.help_groups) then
+			local keyboard = {inline_keyboard = {}}
+			for group, link in pairs(config.help_groups) do
+				if link then
+					local line = {{text = group, url = link}}
+					table.insert(keyboard.inline_keyboard, line)
+				end
+			end
+			if next(keyboard.inline_keyboard) then
+				api.editMessageText(msg.chat.id, msg.message_id, _("Select a group:"), true, keyboard)
+			end
+		end
 	end
 	if blocks[1] == 'sendpo' then
 		local lang = blocks[2]
@@ -89,19 +103,21 @@ local action = function(msg, blocks)
 	end
 end
 
-return {
-	action = action,
-	triggers = {
+plugin.triggers = {
+	onTextMessage = {
 		config.cmd..'(ping)$',
 		config.cmd..'(strings)$',
 		config.cmd..'(strings) (%a%a)$',
 		config.cmd..'(echo) (.*)$',
 		config.cmd..'(about)$',
 		config.cmd..'(groups)$',
-		'^/start (groups)$',
-		
+		'^/start (groups)$'
+	},
+	onCallbackQuery = {
 		'^###cb:fromhelp:(about)$',
 		'^###cb:private:(groups)$',
-		'^###cb:(sendpo):(.*)$',
+		'^###cb:(sendpo):(.*)$'
 	}
 }
+
+return plugin

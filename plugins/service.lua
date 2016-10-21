@@ -1,11 +1,13 @@
-local function action(msg, blocks)
+local plugin = {}
+
+function plugin.onTextMessage(msg, blocks)
 	
 	if not msg.service then return end
 	
-	if blocks[1] == 'botadded' then
+	if blocks[1] == 'new_chat_member:bot' then
 		
-		if misc.is_blocked_global(msg.adder.id) then
-			api.sendMessage(msg.chat.id, '_You (user ID: '..msg.adder.id..') are in the blocked list_', true)
+		if misc.is_blocked_global(msg.from.id) then
+			api.sendMessage(msg.chat.id, '_You (user ID: '..msg.from.id..') are in the blocked list_', true)
 			api.leaveChat(msg.chat.id)
 			return
 		end
@@ -14,7 +16,7 @@ local function action(msg, blocks)
 			api.leaveChat(msg.chat.id)
 			return
 		end
-		if config.bot_settings.admin_mode and not roles.is_superadmin(msg.adder.id) then
+		if config.bot_settings.admin_mode and not roles.is_superadmin(msg.from.id) then
 			api.sendMessage(msg.chat.id, '_Admin mode is on: only the bot admin can add me to a new group_', true)
 			api.leaveChat(msg.chat.id)
 			return
@@ -22,25 +24,26 @@ local function action(msg, blocks)
 		
 		misc.initGroup(msg.chat.id)
 	end
-	if blocks[1] == 'botremoved' then
+	if blocks[1] == 'left_chat_member:bot' then
 		misc.remGroup(msg.chat.id, nil, 'bot removed')
 	end
-	if blocks[1] == 'removed' then
-		if msg.remover and msg.removed then
-			if msg.remover.id ~= msg.removed.id and msg.remover.id ~= bot.id then
+	if blocks[1] == 'left_chat_member' then
+		if msg.from and msg.left_chat_member then
+			if msg.from.id ~= msg.left_chat_member.id and msg.from.id ~= bot.id then
 				if msg.chat.type == 'supergroup' then
-					misc.saveBan(msg.removed.id, 'ban')
+					misc.saveBan(msg.left_chat_member.id, 'ban')
 				end
 			end
 		end
 	end
 end
 
-return {
-	action = action,
-	triggers = {
-		'^###(botadded)',
-		'^###(botremoved)',
-		'^###(removed)'
+plugin.triggers = {
+	onTextMessage = {
+		'^###(new_chat_member:bot)',
+		'^###(left_chat_member:bot)',
+		'^###(left_chat_member)$'
 	}
 }
+
+return plugin

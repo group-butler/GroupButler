@@ -371,8 +371,8 @@ function misc.migrate_chat_info(old, new, on_request)
 end
 
 function string:replaceholders(msg) -- Returns the string after the first space.
-	if msg.added then
-		msg.from = msg.added
+	if msg.new_chat_member then
+		msg.from = msg.new_chat_member
 	end
 	
 	msg.from.first_name = msg.from.first_name:gsub('%%', '')
@@ -645,18 +645,22 @@ end
 
 function misc.changeSettingStatus(chat_id, field)
 	local turned_off = {
-		 welcome = _("Welcome message won't be displayed from now"),
-		 extra = _("#extra commands are now available only for moderator"),
-		 flood = _("Anti-flood is now off"),
-		 rules = _("`/rules` will reply in private (for users)"),
-		 antibot = _("Bots won't be kicked if added by an user")
+		reports = _("@admin command disabled"),
+		welcome = _("Welcome message won't be displayed from now"),
+		extra = _("#extra commands are now available only for moderator"),
+		flood = _("Anti-flood is now off"),
+		rules = _("/rules will reply in private (for users)"),
+		antibot = _("Bots won't be kicked if added by an user"),
+		welbut = _("Welcome message without a button for the rules")
 	}
 	local turned_on = {
-		 welcome = _("Welcome message will be displayed"),
-		 extra = _("#extra commands are now available for all"),
-		 flood = _("Anti-flood is now on"),
-		 rules = _("`/rules` will reply in the group (with everyone)"),
-		 antibot = _("Bots will be kicked if added by an user")
+		reports = _("@admin command enabled"),
+		welcome = _("Welcome message will be displayed"),
+		extra = _("#extra commands are now available for all"),
+		flood = _("Anti-flood is now on"),
+		rules = _("/rules will reply in the group (with everyone)"),
+		antibot = _("Bots will be kicked if added by an user"),
+		welbut = _("The welcome message will have a button for the rules")
 	}
 
 	local hash = 'chat:'..chat_id..':settings'
@@ -831,8 +835,8 @@ function misc.logEvent(event, msg, blocks, extra)
 		end
 	end
 	if event == 'join' then
-		local member = misc.getname_link(msg.added.first_name, msg.added.username) or '`'..msg.added.first_name:escape()..'`'
-		text = '#NEW_MEMBER\n'..member.. '  #'..msg.added.id
+		local member = misc.getname_link(msg.new_chat_member.first_name, msg.new_chat_member.username) or '`'..msg.new_chat_member.first_name:escape()..'`'
+		text = '#NEW_MEMBER\n'..member.. '  #'..msg.new_chat_member.id
 	end
 	if event == 'warn' then
 		local admin, warned = misc.getnames_complete(msg, blocks)

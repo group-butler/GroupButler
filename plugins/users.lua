@@ -1,3 +1,5 @@
+local plugin = {}
+
 local function do_keybaord_credits()
 	local keyboard = {}
     keyboard.inline_keyboard = {
@@ -11,7 +13,7 @@ local function do_keybaord_credits()
 end
 
 local function do_keyboard_cache(chat_id)
-	local keyboard = {inline_keyboard = {{{text = _("🔄️ Refresh cache"), callback_data = 'cc:rel:'..chat_id}}}}
+	local keyboard = {inline_keyboard = {{{text = _("🔄️ Refresh cache"), callback_data = 'recache:'..chat_id}}}}
 	return keyboard
 end
 
@@ -115,9 +117,44 @@ local function get_userinfo(user_id, chat_id)
 	return _("*Ban info* (globals):\n") .. get_ban_info(user_id, chat_id)
 end
 
-local action = function(msg, blocks)
-    if blocks[1] == 'adminlist' then
-    	if msg.chat.type == 'private' then return end
+function plugin.onTextMessage(msg, blocks)
+	if blocks[1] == 'id' then
+		-- Send ID of specified user or chat
+		local what, text
+		if msg.reply and msg.reply.from.id == msg.from.id or
+				not msg.reply and msg.chat.type == 'private' then
+			what = msg.from.id
+			text = _("That's your ID. Copy it")
+		elseif msg.reply and msg.reply.from.id == bot.id then
+			what = bot.id
+			text = _("That's my ID. Copy it")
+		elseif not msg.reply then
+			what = msg.chat.id
+			text = _("That's the ID of this group. Copy it")
+		else
+			what = msg.reply.from.id
+			text = _("That's his (her) ID. Copy it")
+		end
+
+		local where
+		if msg.chat.type ~= 'private' and (roles.is_admin_cached(msg.chat.id, msg.from.id) or
+										   not misc.is_silentmode_on(msg.chat.id)) then
+			where = msg.chat.id
+		else
+			where = msg.from.id
+		end
+
+		if msg.reply and where == msg.chat.id then
+			api.sendReply(msg.reply, text)
+		else
+			api.sendMessage(where, text)
+		end
+		api.sendMessage(where, string.format('`%d`', what), true)
+ 	end
+	
+	if msg.chat.type == 'private' then return end
+	
+	if blocks[1] == 'adminlist' then
     	local out
         local creator, adminlist = misc.getAdminlist(msg.chat.id)
 		out = _("*Creator*:\n%s\n\n*Admins*:\n%s"):format(creator, adminlist)
@@ -127,8 +164,7 @@ local action = function(msg, blocks)
             api.sendReply(msg, out, true)
         end
     end
-    if blocks[1] == 'status' then
-    	if msg.chat.type == 'private' then return end
+	if blocks[1] == 'status' then
     	if roles.is_admin_cached(msg) then
     		if not blocks[2] and not msg.reply then return end
     		local user_id, error_tr_id = misc.get_user_id(msg, blocks)
@@ -154,41 +190,8 @@ local action = function(msg, blocks)
 		 	end
 	 	end
  	end
- 	if blocks[1] == 'id' then
-		-- Send ID of specified user or chat
-		local what, text
-		if msg.reply and msg.reply.from.id == msg.from.id or
-				not msg.reply and msg.chat.type == 'private' then
-			what = msg.from.id
-			text = _("That's your ID. Copy it")
-		elseif msg.reply and msg.reply.from.id == bot.id then
-			what = bot.id
-			text = _("That's my ID. Copy it")
-		elseif not msg.reply then
-			what = msg.chat.id
-			text = _("That's ID of this group. Copy it")
-		else
-			what = msg.reply.from.id
-			text = _("That's his (her) ID. Copy it")
-		end
-
-		local where
-		if msg.chat.type ~= 'private' and (roles.is_admin_cached(msg.chat.id, msg.from.id) or
-										   not misc.is_silentmode_on(msg.chat.id)) then
-			where = msg.chat.id
-		else
-			where = msg.from.id
-		end
-
-		if msg.reply and where == msg.chat.id then
-			api.sendReply(msg.reply, text)
-		else
-			api.sendMessage(where, text)
-		end
-		api.sendMessage(where, string.format('`%d`', what), true)
- 	end
 	if blocks[1] == 'user' then
-		if msg.chat.type == 'private' or not roles.is_admin_cached(msg) then return end
+		if not roles.is_admin_cached(msg) then return end
 		
 		if not msg.reply and (not blocks[2] or (not blocks[2]:match('@[%w_]+$') and not blocks[2]:match('%d+$') and not msg.mention_id)) then
 			api.sendReply(msg, _("Reply to an user or mention them by username or numerical ID"))
@@ -217,12 +220,35 @@ local action = function(msg, blocks)
 		
 		api.sendMessage(msg.chat.id, text, true, keyboard)
 	end
+	if blocks[1] == 'cache' then
+    	if not roles.is_admin_cached(msg) then return end
+    	local hash = 'cache:chat:'..msg.chat.id..':admins'
+		local seconds = db:ttl(hash)
+		local cached_admins = db:scard(hash)
+		local text = _("📌 Status: `CACHED`\n⌛ ️Remaining: `%s`\n👥 Admins cached: `%d`")
+			:format(get_time_remaining(tonumber(seconds)), cached_admins)
+    	local keyboard = do_keyboard_cache(msg.chat.id)
+    	api.sendMessage(msg.chat.id, text, true, keyboard)
+    end
+	if blocks[1] == 'msglink' then
+    	if not msg.reply or not msg.chat.username then return end
+
+		local text = string.format('[%s](https://telegram.me/%s/%d)',
+			_("Message N° %d"):format(msg.reply.message_id), msg.chat.username, msg.reply.message_id)
+		if roles.is_admin_cached(msg.chat.id, msg.from.id) or not misc.is_silentmode_on(msg.chat.id) then
+			api.sendReply(msg.reply, text, true)
+		else
+			api.sendMessage(msg.from.id, text, true)
+    	end
+	end
+end
+
+function plugin.onCallbackQuery(msg, blocks)
+	if not roles.is_admin_cached(msg) then
+		api.answerCallbackQuery(msg.cb_id, _("You are not an admin")) return
+	end
+	
 	if blocks[1] == 'banuser' then
-		if not roles.is_admin_cached(msg) then
-			api.answerCallbackQuery(msg.cb_id, _("You are not an admin"))
-    		return
-		end
-		
 		local user_id = msg.target_id
 		
 		local res, text = api.banUser(msg.chat.id, user_id)
@@ -234,10 +260,6 @@ local action = function(msg, blocks)
 		api.editMessageText(msg.chat.id, msg.message_id, text, true)
 	end
 	if blocks[1] == 'remwarns' then
-		if not roles.is_admin_cached(msg) then
-			api.answerCallbackQuery(msg.cb_id, _("You are not an admin"))
-    		return
-		end
 		db:hdel('chat:'..msg.chat.id..':warns', msg.target_id)
 		db:hdel('chat:'..msg.chat.id..':mediawarn', msg.target_id)
         
@@ -245,32 +267,7 @@ local action = function(msg, blocks)
 		local text = _("The number of warnings received by this user has been *reset*\n(Admin: %s)")
 		api.editMessageText(msg.chat.id, msg.message_id, text:format(name), true)
     end
-    if blocks[1] == 'cache' then
-    	if msg.chat.type == 'private' or not roles.is_admin_cached(msg) then return end
-    	local hash = 'cache:chat:'..msg.chat.id..':admins'
-		local seconds = db:ttl(hash)
-		local cached_admins = db:scard(hash)
-		local text = _("📌 Status: `CACHED`\n⌛ ️Remaining: `%s`\n👥 Admins cached: `%d`")
-			:format(get_time_remaining(tonumber(seconds)), cached_admins)
-    	local keyboard = do_keyboard_cache(msg.chat.id)
-    	api.sendMessage(msg.chat.id, text, true, keyboard)
-    end
-    if blocks[1] == 'msglink' then
-    	if msg.chat.type == 'private' or not msg.reply or not msg.chat.username then return end
-
-		local text = string.format('[%s](https://telegram.me/%s/%d)',
-			_("Message No.%d"):format(msg.reply.message_id), msg.chat.username, msg.reply.message_id)
-		if roles.is_admin_cached(msg.chat.id, msg.from.id) or not misc.is_silentmode_on(msg.chat.id) then
-			api.sendReply(msg.reply, text, true)
-		else
-			api.sendMessage(msg.from.id, text, true)
-    	end
-	end
-    if blocks[1] == 'cc:rel' and msg.cb then
-    	if not roles.is_admin_cached(msg) then
-			api.answerCallbackQuery(msg.cb_id, _("You are not an admin"))
-			return
-		end
+    if blocks[1] == 'recache' then
 		local missing_sec = tonumber(db:ttl('cache:chat:'..msg.target_id..':admins') or 0)
 		if config.bot_settings.cache_time.adminlist - missing_sec < 3600 then
 			api.answerCallbackQuery(msg.cb_id, _("The adminlist has just been updated. This button will be available for an hour after the last update."), true)
@@ -281,26 +278,27 @@ local action = function(msg, blocks)
 				:format(time, #cached_admins)
     		api.answerCallbackQuery(msg.cb_id, _("✅ Updated. Next update in %s"):format(time))
     		api.editMessageText(msg.chat.id, msg.message_id, text, true, do_keyboard_cache(msg.target_id))
-    		api.sendLog('#recache\nChat: '..msg.target_id..'\nFrom: '..msg.from.id)
+    		--api.sendLog('#recache\nChat: '..msg.target_id..'\nFrom: '..msg.from.id)
     	end
     end
 end
 
-return {
-	action = action,
-	triggers = {
+plugin.triggers = {
+	onTextMessage = {
 		config.cmd..'(id)$',
 		config.cmd..'(adminlist)$',
 		config.cmd..'(status) (.+)$',
 		config.cmd..'(status)$',
 		config.cmd..'(cache)$',
 		config.cmd..'(msglink)$',
-		
 		config.cmd..'(user)$',
-		config.cmd..'(user) (.*)',
-		
+		config.cmd..'(user) (.*)'
+	},
+	onCallbackQuery = {
 		'^###cb:userbutton:(banuser):(%d+)$',
 		'^###cb:userbutton:(remwarns):(%d+)$',
-		'^###cb:(cc:rel):'
+		'^###cb:(recache):'
 	}
 }
+
+return plugin

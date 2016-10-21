@@ -1,3 +1,5 @@
+local plugin = {}
+
 local function do_keyboard_flood(chat_id)
     --no: enabled, yes: disabled
     local status = db:hget('chat:'..chat_id..':settings', 'Flood') or config.chat_settings['settings']['Flood'] --check (default: disabled)
@@ -32,7 +34,7 @@ local function do_keyboard_flood(chat_id)
     local exceptions = {
         text = _("Texts"),
         sticker = _("Stickers"),
-        image = _("Images"),
+        photo = _("Images"),
         gif = _("GIFs"),
         video = _("Videos"),
     }
@@ -90,15 +92,16 @@ local function changeFloodSettings(chat_id, screm)
     end
 end
 
-local function action(msg, blocks)
-	if not msg.cb then return end
-	local chat_id = msg.target_id or msg.chat.id
+function plugin.onCallbackQuery(msg, blocks)
+    local chat_id = msg.target_id
+    if not chat_id then
+        api.sendAdmin('missing chat_id -> antiflood') return
+    end
+    
 	if not roles.is_admin_cached(chat_id, msg.from.id) then
 		api.answerCallbackQuery(msg.cb_id, _("You're no longer admin"))
-		return
-	end
-
-	local header = _([[
+	else
+	    local header = _([[
 You can manage the group flood settings from here.
 
 *1st row*
@@ -116,61 +119,61 @@ You can set some exceptions for the antiflood:
 • ❌: the media won\'t be ignored by the anti-flood
 • *Note*: in "_texts_" are included all the other types of media (file, audio...)
 ]])
-
-    local text
     
-    if blocks[1] == 'config' then
-        text = _("Antiflood settings")
-    end
-
-    if blocks[1] == 'alert' then
-        if blocks[2] == 'num' then
-            text = _("⚖ Current sensitivity. Tap on the + or the -")
-        elseif blocks[2] == 'voice' then
-            text = _("⚠️ Tap on an icon!")
+        local text
+        
+        if blocks[1] == 'config' then
+            text = _("Antiflood settings")
         end
+    
+        if blocks[1] == 'alert' then
+            if blocks[2] == 'num' then
+                text = _("⚖ Current sensitivity. Tap on the + or the -")
+            elseif blocks[2] == 'voice' then
+                text = _("⚠️ Tap on an icon!")
+            end
+            api.answerCallbackQuery(msg.cb_id, text)
+            return
+        end
+        
+        if blocks[1] == 'exc' then
+            local media = blocks[2]
+            local hash = 'chat:'..chat_id..':floodexceptions'
+            local status = (db:hget(hash, media)) or 'no'
+            if status == 'no' then
+                db:hset(hash, media, 'yes')
+                text = _("❎ [%s] will be ignored by the anti-flood"):format(media)
+            else
+                db:hset(hash, media, 'no')
+                text = _("🚫 [%s] won't be ignored by the anti-flood"):format(media)
+            end
+        end
+        
+        local action
+        if blocks[1] == 'action' or blocks[1] == 'dim' or blocks[1] == 'raise' then
+            if blocks[1] == 'action' then
+                action = db:hget('chat:'..chat_id..':flood', 'ActionFlood') or 'kick'
+            elseif blocks[1] == 'dim' then
+                action = -1
+            elseif blocks[1] == 'raise' then
+                action = 1
+            end
+            text = changeFloodSettings(chat_id, action)
+        end
+        
+        if blocks[1] == 'status' then
+            local status = db:hget('chat:'..chat_id..':settings', 'Flood') or config.chat_settings['settings']['Flood']
+            text = misc.changeSettingStatus(chat_id, 'Flood'):escape_hard()
+        end
+        
+        local keyboard = do_keyboard_flood(chat_id)
+        api.editMessageText(msg.chat.id, msg.message_id, header, true, keyboard)
         api.answerCallbackQuery(msg.cb_id, text)
-        return
     end
-    
-    if blocks[1] == 'exc' then
-        local media = blocks[2]
-        local hash = 'chat:'..chat_id..':floodexceptions'
-        local status = (db:hget(hash, media)) or 'no'
-        if status == 'no' then
-            db:hset(hash, media, 'yes')
-            text = _("❎ [%s] will be ignored by the anti-flood"):format(media)
-        else
-            db:hset(hash, media, 'no')
-            text = _("🚫 [%s] won't be ignored by the anti-flood"):format(media)
-        end
-    end
-    
-    local action
-    if blocks[1] == 'action' or blocks[1] == 'dim' or blocks[1] == 'raise' then
-        if blocks[1] == 'action' then
-            action = db:hget('chat:'..chat_id..':flood', 'ActionFlood') or 'kick'
-        elseif blocks[1] == 'dim' then
-            action = -1
-        elseif blocks[1] == 'raise' then
-            action = 1
-        end
-        text = changeFloodSettings(chat_id, action)
-    end
-    
-    if blocks[1] == 'status' then
-        local status = db:hget('chat:'..chat_id..':settings', 'Flood') or config.chat_settings['settings']['Flood']
-        text = misc.changeSettingStatus(chat_id, 'Flood'):escape_hard()
-    end
-    
-    local keyboard = do_keyboard_flood(chat_id)
-    api.editMessageText(msg.chat.id, msg.message_id, header, true, keyboard)
-    api.answerCallbackQuery(msg.cb_id, text)
 end
 
-return {
-    action = action,
-    triggers = {
+plugin.triggers = {
+    onCallbackQuery = {
         '^###cb:flood:(alert):(num)$',
         '^###cb:flood:(alert):(voice)$',
         '^###cb:flood:(status):(-?%d+)$',
@@ -182,3 +185,5 @@ return {
         '^###cb:(config):antiflood:'
     }
 }
+
+return plugin

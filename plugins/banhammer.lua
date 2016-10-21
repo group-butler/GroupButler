@@ -1,4 +1,6 @@
-local function cron()
+local plugin = {}
+
+function plugin.cron()
 	local all = db:hgetall('tempbanned')
 	if next(all) then
 		for unban_time,info in pairs(all) do
@@ -53,7 +55,7 @@ local function get_time_reply(hours)
 	return time_string, time_table
 end
 
-local action = function(msg, blocks)
+function plugin.onTextMessage(msg, blocks)
 	if msg.chat.type ~= 'private' then
 		if roles.is_admin_cached(msg) then
 		    
@@ -158,10 +160,8 @@ local action = function(msg, blocks)
 	end
 end
 
-return {
-	action = action,
-	cron = cron,
-	triggers = {
+plugin.triggers = {
+	onTextMessage = {
 		config.cmd..'(kickme)%s?',
 		config.cmd..'(kick) (.+)',
 		config.cmd..'(kick)$',
@@ -172,3 +172,5 @@ return {
 		config.cmd..'(unban)$',
 	}
 }
+
+return plugin

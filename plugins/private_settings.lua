@@ -1,3 +1,5 @@
+local plugin = {}
+
 local function change_private_setting(user_id, key)
     local hash = 'user:'..user_id..':settings'
     local val = 'off'
@@ -28,37 +30,34 @@ local function doKeyboard_privsett(user_id)
     }
     for key, status in pairs(user_settings) do
         local icon
-        if status == 'on' then icon = '✅' else icon = '❌' end
+        if status == 'on' then icon = '✅' else icon = '☑️'end
         table.insert(keyboard.inline_keyboard, {{text = button_names[key], callback_data = 'myset:alert'}, {text = icon, callback_data = 'myset:'..key}})
     end
     
     return keyboard
 end
 
-local function action(msg, blocks)
-    if not msg.cb then
-        if msg.chat.type == 'private' then
-            local keyboard = doKeyboard_privsett(msg.from.id)
-            api.sendMessage(msg.from.id, _('Change your private settings'), true, keyboard)
-        end
-    end
-    if msg.cb then
-        if blocks[1] == 'alert' then
-            api.answerCallbackQuery(msg.cb_id, _("Tap on the icons"), true)
-        else
-            change_private_setting(msg.from.id, blocks[1])
-            local keyboard = doKeyboard_privsett(msg.from.id)
-            api.editMarkup(msg.from.id, msg.message_id, keyboard)
-            api.answerCallbackQuery(msg.cb_id, _('⚙ Setting changed'))
-        end
+function plugin.onTextMessage(msg, blocks)
+    if msg.chat.type == 'private' then
+        local keyboard = doKeyboard_privsett(msg.from.id)
+        api.sendMessage(msg.from.id, _('Change your private settings'), true, keyboard)
     end
 end
 
-return {
-    action = action,
-    triggers = {
-        config.cmd..'(mysettings)$',
-        config.cmd..'(settings)$',
-        '^###cb:myset:(.*)$'
-    }
+function plugin.onCallbackQuery(msg, blocks)
+    if blocks[1] == 'alert' then
+        api.answerCallbackQuery(msg.cb_id, _("Tap on the icons"), true)
+    else
+        change_private_setting(msg.from.id, blocks[1])
+        local keyboard = doKeyboard_privsett(msg.from.id)
+        api.editMarkup(msg.from.id, msg.message_id, keyboard)
+        api.answerCallbackQuery(msg.cb_id, _('⚙ Setting changed'))
+    end
+end
+
+plugin.triggers = {
+    onTextMessage = {config.cmd..'(mysettings)$'},
+    onCallbackQuery = {'^###cb:myset:(.*)$'}
 }
+
+return plugin

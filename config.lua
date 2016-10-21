@@ -49,17 +49,13 @@ return {
 		'mediasettings.lua',
 		'private.lua',
 		'admin.lua',
-		'test.lua',
+		--'test.lua',
 		--'logchannel.lua',
 		'report.lua',
 		'private_settings.lua',
 		'extra.lua', --must be the last plugin in the list.
 	},
-	multipurpose_plugins = {
-		'commit.lua',
-		'eightball.lua',
-		'patterns.lua'
-	},
+	multipurpose_plugins = {},
 	available_languages = {
 		['en'] = 'English 🇬🇧',
 		['it'] = 'Italiano 🇮🇹',
@@ -71,7 +67,8 @@ return {
 		['ar'] = 'العربية 🇸🇩',
 		['fr'] = 'Français 🇫🇷',
 		['zh'] = '中文 🇨🇳',
-		['fa'] = 'فارسی 🇮🇷'
+		['fa'] = 'فارسی 🇮🇷',
+		['id'] = 'Bahasa Indonesia 🇮🇩'
 		-- more languages will come
 	},
 	allow_fuzzy_translations = false,
@@ -82,7 +79,8 @@ return {
 			['Flood'] = 'off',
 			['Silent'] = 'off',
 			['Rules'] = 'off',
-			['Reports'] = 'off'
+			['Reports'] = 'off',
+			['Welbut'] = 'off'
 		},
 		['flood'] = {
 			['MaxFlood'] = 5,
@@ -94,7 +92,7 @@ return {
 		},
 		['floodexceptions'] = {
 			['text'] = 'no',
-			['image'] = 'no',
+			['photo'] = 'no', -- image
 			['video'] = 'no',
 			['sticker'] = 'no',
 			['gif'] = 'no'
@@ -110,17 +108,18 @@ return {
 			['content'] = 'no'
 		},
 		['media'] = {
-			['image'] = 'ok', --'notok'
+			['photo'] = 'ok', --'notok' | image
 			['audio'] = 'ok',
 			['video'] = 'ok',
 			['sticker'] = 'ok',
 			['gif'] = 'ok',
 			['voice'] = 'ok',
 			['contact'] = 'ok',
-			['file'] = 'ok',
+			['document'] = 'ok', -- file
 			['link'] = 'ok',
 			['TGlink'] = 'ok',
 			['game'] = 'ok',
+			['location'] = 'ok'
 		},
 		['tolog'] = {
 			['ban'] = 'yes',
