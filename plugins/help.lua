@@ -51,7 +51,7 @@ If you are going to use it in a public supergroup, you do not need to write the 
 *Admins: banhammer powers*
 
 `/kick [by reply|username|id|text mention]` = kick a user from the group (he can be added again).
-`/ban [by reply|username|id|text mention]` = ban a user from the group (also from normal groups).
+`/ban [by reply|username|id|text mention]` = ban a user from the group.
 `/tempban [hours|nd nh]` = ban an user for a specific amount of hours (max: one week). For now, only by reply. Short form: `/tempban 1d 7h`
 `/unban [by reply|username|id|text mention]` = unban the user from the group.
 `/user [by reply|username|id|text mention]` = shows how many times the user has been banned *in all the groups*, and the warns received.
