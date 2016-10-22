@@ -25,7 +25,7 @@ local function do_keyboard_flood(chat_id)
             },
             {
                 {text = '➖', callback_data = 'flood:dim:'..chat_id},
-                {text = num, callback_data = 'flood:alert:num'},
+                {text = num, callback_data = 'flood:alert:num:'..chat_id},
                 {text = '➕', callback_data = 'flood:raise:'..chat_id},
             }
         }
@@ -48,7 +48,7 @@ local function do_keyboard_flood(chat_id)
             exc_status = '❌'
         end
         local line = {
-            {text = translation, callback_data = 'flood:alert:voice'},
+            {text = translation, callback_data = 'flood:alert:voice:'..chat_id},
             {text = exc_status, callback_data = 'flood:exc:'..media..':'..chat_id},
         }
         table.insert(keyboard.inline_keyboard, line)

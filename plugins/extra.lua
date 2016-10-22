@@ -87,7 +87,7 @@ function plugin.onTextMessage(msg, blocks)
         local special_method = text:match('^###file_id!(.*)###') --photo, voices, video need their method to be sent by file_id
         if is_locked(msg.chat.id) and not roles.is_admin_cached(msg) then --send it in private
         	if not file_id then
-            	api.sendMessage(msg.from.id, text, true)
+            	api.sendMessage(msg.from.id, text:replaceholders(msg.reply or msg), true)
             else
             	if special_method then
             		api.sendMediaId(msg.from.id, file_id, special_method) --photo, voices, video need their method to be sent by file_id

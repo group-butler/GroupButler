@@ -28,7 +28,7 @@ local function doKeyboard_media(chat_id)
 		}
         local media_text = media_texts[media] or media
         local line = {
-            {text = media_text, callback_data = 'mediallert'},
+            {text = media_text, callback_data = 'mediallert:'..chat_id},
             {text = status, callback_data = 'media:'..media..':'..chat_id}
         }
         table.insert(keyboard.inline_keyboard, line)

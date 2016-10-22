@@ -90,7 +90,7 @@ function plugin.onTextMessage(msg, blocks)
 			local keyboard
 			local attach_button = (db:hget('chat:'..msg.chat.id..':settings', 'Welbut')) or config.chat_settings['settings']['Welbut']
 			if attach_button == 'on' then
-				keyboard = {inline_keyboard={{{text = _('Read the rules'), callback_data = 'rulesbutton:'..msg.chat.id}}}}
+				keyboard = {inline_keyboard={{{text = _('Read the rules'), url = misc.deeplink_constructor(msg.chat.id, 'rules')}}}}
 			end
 			api.sendMessage(msg.chat.id, text, true, keyboard)
 		end

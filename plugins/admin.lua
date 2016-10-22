@@ -413,7 +413,7 @@ function plugin.onTextMessage(msg, blocks)
 			chat_id = blocks[2]
 		end
 		local members = db:smembers('cache:chat:'..chat_id..':admins')
-		api.sendMessage(msg.chat.id, chat_id..' '..tostring(#members)..'\n'..vtext(members))
+		api.sendMessage(msg.chat.id, chat_id..' ➤ '..tostring(#members)..'\n'..vtext(members))
 	end
 	if blocks[1] == 'cacheinit' then
 		local chat_id, text
