@@ -148,16 +148,16 @@ local function doKeyboard_menu(chat_id)
     local max = (db:hget('chat:'..chat_id..':warnsettings', 'max')) or config.chat_settings['warnsettings']['max']
     local action = (db:hget('chat:'..chat_id..':warnsettings', 'type')) or config.chat_settings['warnsettings']['type']
 	if action == 'kick' then
-		action = _("📍 %d 🔨️ kick"):format(tonumber(max))
+		action = _("👞 kick")
 	else
-		action = _("📍 %d 🔨️ ban"):format(tonumber(max))
+		action = _("🔨️ ban")
 	end
     local warn = {
 		{text = '➖', callback_data = 'menu:DimWarn:'..chat_id},
+		{text = '#'..max, callback_data = 'menu:alert:warns:'..chat_id},
 		{text = action, callback_data = 'menu:ActionWarn:'..chat_id},
 		{text = '➕', callback_data = 'menu:RaiseWarn:'..chat_id},
     }
-    table.insert(keyboard.inline_keyboard, {{text = _("Warns 👇🏼"), callback_data = 'menu:alert:warns:'..chat_id}})
     table.insert(keyboard.inline_keyboard, warn)
     
     --back button
@@ -198,7 +198,7 @@ It will just send the message in private.
 	            if blocks[3] == 'settings' then
                     text = _("⚠️ Tap on an icon!")
                 elseif blocks[3] == 'warns' then
-                    text = _("⚠️ Use the row below to change the warns settings!")
+                    text = _("⚠️ Use + and - to change the max number of warnings")
                 end
                 api.answerCallbackQuery(msg.cb_id, text)
                 return

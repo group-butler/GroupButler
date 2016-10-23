@@ -22,7 +22,7 @@ local function report(msg)
         if receive_reports and receive_reports == 'on' then
             local res_fwd = api.forwardMessage(admin.user.id, msg.chat.id, msg.reply.message_id)
             if res_fwd then
-                api.sendMessage(admin.user.id, text, true, nil, res_fwd.result.message_id)
+                api.sendMessage(admin.user.id, text, true, nil, nil, res_fwd.result.message_id)
                 n = n + 1
             end
         end

@@ -221,22 +221,12 @@ local function do_keyboard_private()
     local keyboard = {}
     keyboard.inline_keyboard = {
     	{
-    		{text = _("👥 Add me to a group"), url = 'https://telegram.me/'..bot.username..'?startgroup=new'},
-    		{text = _("📢 Bot channel"), url = 'https://telegram.me/'..config.channel:gsub('@', '')},
+    	    {text = _("📢 Bot channel"), url = 'https://telegram.me/'..config.channel:gsub('@', '')},
+    		{text = _("🌍 Select you language"), callback_data = 'selectlang'},
 	    },
 	    {
 	        {text = _("📕 All the commands"), callback_data = 'help:user'}
         }
-    }
-    return keyboard
-end
-
-local function do_keyboard_startme()
-    local keyboard = {}
-    keyboard.inline_keyboard = {
-    	{
-    		{text = _("Start me"), url = 'https://telegram.me/'..bot.username}
-	    }
     }
     return keyboard
 end

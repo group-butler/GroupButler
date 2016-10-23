@@ -87,7 +87,7 @@ return {
 			['ActionFlood'] = 'kick'
 		},
 		['char'] = {
-			['Arab'] = 'allowed',
+			['Arab'] = 'allowed', --'kick'/'ban'
 			['Rtl'] = 'allowed'
 		},
 		['floodexceptions'] = {
@@ -180,6 +180,8 @@ return {
 		[138] = 'Message was not forwarded',
 		[139] = 'Can\'t parse inline keyboard button: Field \\\"text\\\" must be of type String', --"text" field in a button object is not a string
 		[140] = 'Channel invalid', --/shrug
+		[141] = 'Wrong message entity: Unsupproted URL protocol', --username in an inline link [word](@username) (only?)
+		[142] = 'Wrong message entity: URL host is empty', --inline link without link [word]()
 		[403] = 'Bot was blocked by the user', --user blocked the bot
 		[429] = 'Too many requests: retry later', --the bot is hitting api limits
 		[430] = 'Too big total timeout', --too many callback_data requests

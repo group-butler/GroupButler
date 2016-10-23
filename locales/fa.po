@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GroupButler 4.0\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
-"POT-Creation-Date: 2016-10-21 02:53+0200\n"
+"POT-Creation-Date: 2016-10-23 18:11+0200\n"
 "PO-Revision-Date: 2016-10-22 11:36+0330\n"
 "Last-Translator: Nicholas Guriev <guriev-ns@ya.ru>\n"
 "Language-Team: Persian\n"
@@ -49,7 +49,8 @@ msgstr "برای اینکار شما میتوانید از ban/ استفاده �
 msgid "The time limit is one week (168 hours)"
 msgstr "زمان محدودیت یک هفته میباشد (10 080)"
 
-#: plugins/banhammer.lua:97 plugins/banhammer.lua:120 plugins/banhammer.lua:133
+#: plugins/banhammer.lua:97 plugins/banhammer.lua:120
+#: plugins/banhammer.lua:133
 msgid ""
 "I can't kick this user.\n"
 "Either I'm not an admin, or the targeted user is!"
@@ -110,18 +111,18 @@ msgstr "_تنظیمات را با استفاده از کیبورد تغییر د
 msgid "_I've sent you the keyboard via private message_"
 msgstr "_در پیام خصوصی شما ارسال شد_"
 
-#: plugins/dashboard.lua:4 plugins/dashboard.lua:36 plugins/floodmanager.lua:37
-#: plugins/mediasettings.lua:16
+#: plugins/dashboard.lua:4 plugins/dashboard.lua:36
+#: plugins/floodmanager.lua:37 plugins/mediasettings.lua:16
 msgid "Images"
 msgstr "عکس"
 
-#: plugins/dashboard.lua:5 plugins/dashboard.lua:37 plugins/floodmanager.lua:38
-#: plugins/mediasettings.lua:17
+#: plugins/dashboard.lua:5 plugins/dashboard.lua:37
+#: plugins/floodmanager.lua:38 plugins/mediasettings.lua:17
 msgid "GIFs"
 msgstr "گیف"
 
-#: plugins/dashboard.lua:6 plugins/dashboard.lua:38 plugins/floodmanager.lua:39
-#: plugins/mediasettings.lua:18
+#: plugins/dashboard.lua:6 plugins/dashboard.lua:38
+#: plugins/floodmanager.lua:39 plugins/mediasettings.lua:18
 msgid "Videos"
 msgstr "فیلم"
 
@@ -145,8 +146,8 @@ msgstr "لینک"
 msgid "Music"
 msgstr "موسیقی"
 
-#: plugins/dashboard.lua:12 plugins/dashboard.lua:35 plugins/floodmanager.lua:36
-#: plugins/mediasettings.lua:24
+#: plugins/dashboard.lua:12 plugins/dashboard.lua:35
+#: plugins/floodmanager.lua:36 plugins/mediasettings.lua:24
 msgid "Stickers"
 msgstr "استیکر"
 
@@ -214,7 +215,7 @@ msgstr "تنظیمات"
 msgid "Admins"
 msgstr "مدیران"
 
-#: plugins/dashboard.lua:66 plugins/menu.lua:117 utilities.lua:588
+#: plugins/dashboard.lua:66 plugins/menu.lua:117 utilities.lua:625
 msgid "Rules"
 msgstr "قوانین"
 
@@ -328,7 +329,7 @@ msgstr "%s ذخیره شد"
 msgid "No commands set"
 msgstr "هیچ دستوری ذخیره نشده!"
 
-#: plugins/extra.lua:67 utilities.lua:570
+#: plugins/extra.lua:67 utilities.lua:607
 msgid "List of *custom commands*:\n"
 msgstr ""
 "لیست دستورهای ذخیره شده:\n"
@@ -374,7 +375,8 @@ msgid ""
 "*2nd row*\n"
 "• you can use *+/-* to change the current sensitivity of the antiflood "
 "system\n"
-"• the number it's the max number of messages that can be sent in _5 seconds_\n"
+"• the number it's the max number of messages that can be sent in _5 "
+"seconds_\n"
 "• max value: _25_, min value: _4_\n"
 "\n"
 "*3rd row* and below\n"
@@ -444,8 +446,8 @@ msgid ""
 "…and more, below you can find the \"all commands\" button to get the whole "
 "list!\n"
 "\n"
-"I work better if you add me to the group administrators (otherwise I won't be "
-"able to kick or ban)!\n"
+"I work better if you add me to the group administrators (otherwise I won't "
+"be able to kick or ban)!\n"
 msgstr ""
 "\n"
 "سلام %s 👋, از دیدنت خوشحالم!\n"
@@ -455,8 +457,8 @@ msgstr ""
 "• من میتوانم کاربران را از گروه اخراج یا در گروه مسدود کنم\n"
 "• شما میتوانید از من برای ذخیره قوانین و توضییحات استفاده کنید\n"
 "• من یک سیستم ضد اسپم دارم\n"
-"• من میتوانم پیام خوشامد بگم با متن انتخابی شما و یا اگر شما بخواهید باگیف یا "
-"استیکر\n"
+"• من میتوانم پیام خوشامد بگم با متن انتخابی شما و یا اگر شما بخواهید باگیف "
+"یا استیکر\n"
 "• من میتوانم به کاربران  اخطار دهم، و میتوانم آنها را در گروه برای گرفتن "
 "حداکثر تعداد اخطار مسدود یا اخراج کنم\n"
 "• و همچنین میتوانم برای ارسال رسانه های ممنوع به آنها اخطار دهم یا اخراج و "
@@ -537,22 +539,22 @@ msgstr ""
 "ربات پاسخی نخواهد داد.\n"
 
 #: plugins/help.lua:50
+#, fuzzy
 msgid ""
 "\n"
 "*Admins: banhammer powers*\n"
 "\n"
 "`/kick [by reply|username|id|text mention]` = kick a user from the group (he "
 "can be added again).\n"
-"`/ban [by reply|username|id|text mention]` = ban a user from the group (also "
-"from normal groups).\n"
+"`/ban [by reply|username|id|text mention]` = ban a user from the group.\n"
 "`/tempban [hours|nd nh]` = ban an user for a specific amount of hours (max: "
 "one week). For now, only by reply. Short form: `/tempban 1d 7h`\n"
 "`/unban [by reply|username|id|text mention]` = unban the user from the "
 "group.\n"
 "`/user [by reply|username|id|text mention]` = shows how many times the user "
 "has been banned *in all the groups*, and the warns received.\n"
-"`/status [username|id]` = show the current status of the user `(member|kicked/"
-"left the chat|banned|admin/creator|never seen)`\n"
+"`/status [username|id]` = show the current status of the user `(member|"
+"kicked/left the chat|banned|admin/creator|never seen)`\n"
 msgstr ""
 "\n"
 "مدیران: مدیریت کاربران\n"
@@ -560,8 +562,8 @@ msgstr ""
 "`/kick [by reply|username|id|text mention]` = اخراج کردن کاربران از گروه "
 "(مجددا میتواند وارد شود.\n"
 "`/ban [by reply|username|id|text mention]` = مسدود کردن کاربران در گروه.\n"
-"`/tempban [hours|nd nh]` = مسدود کردن کاربران برای مدت خاصی (حداکثر یک هفته). "
-"مثل `/tempban 1d 7h`\n"
+"`/tempban [hours|nd nh]` = مسدود کردن کاربران برای مدت خاصی (حداکثر یک "
+"هفته). مثل `/tempban 1d 7h`\n"
 "`/unban [by reply|username|id|text mention]` = خارج کردن از لیست مسدودین.\n"
 "`/user [by reply|username|id|text mention]` = نمایش وضعیت جهانی کاربر در چه "
 "تعداد گروه هایی مسدود شده یا اخطار گرفته.\n"
@@ -576,15 +578,16 @@ msgid ""
 "`/config` command, then `antiflood` button: manage the flood settings in "
 "private, with an inline keyboard. You can change the sensitivity, the action "
 "(kick/ban), and even set some exceptions.\n"
-"`/antiflood [number]` = set how many messages a user can write in 5 seconds.\n"
+"`/antiflood [number]` = set how many messages a user can write in 5 "
+"seconds.\n"
 "_Note_ : the number must be higher than 3 and lower than 26.\n"
 msgstr ""
 "\n"
 "مدیران: تنظیمات ضد اسپم\n"
 "\n"
 "`/config` = بعد دکمه ضد اسپم یا  `antiflood`: مدیریت تنظیمات ضداسپم درخصوصی، "
-"با کیبورد شیشه ای. شما میتوانید حساسیت ضداسپم را تغییر دهید، عکس العمل (اخراج/"
-"مسدود)، و حتی ایجاد لیست استثنا.\n"
+"با کیبورد شیشه ای. شما میتوانید حساسیت ضداسپم را تغییر دهید، عکس العمل "
+"(اخراج/مسدود)، و حتی ایجاد لیست استثنا.\n"
 "`/antiflood [تعداد]` = تنظیم کنید کاربران اجازه  ارسال چه تعداد پیام در 5 "
 "ثانیه داشته باشند.\n"
 "_تذکر_: عدد مورد نظر باید بیشتر از 3 و کمتر از 26 باشد.\n"
@@ -629,17 +632,17 @@ msgid ""
 "\n"
 "*Custom welcome message*:\n"
 "`/welcome Welcome $name, enjoy the group!`\n"
-"Write after `/welcome` your welcome message. You can use some placeholders to "
-"include the name/username/id of the new member of the group\n"
+"Write after `/welcome` your welcome message. You can use some placeholders "
+"to include the name/username/id of the new member of the group\n"
 "Placeholders:\n"
 "`$username`: _will be replaced with the username_\n"
 "`$name`: _will be replaced with the name_\n"
 "`$id`: _will be replaced with the id_\n"
 "`$title`: _will be replaced with the group title_\n"
 "`$surname`: _will be replaced by the user's last name_\n"
-"`$rules`: _will be replaced by a link to the rules of the group. Please read_ "
-"[here](https://telegram.me/GroupButler_beta/26) _how to use it, or you will "
-"get an error for sure_\n"
+"`$rules`: _will be replaced by a link to the rules of the group. Please "
+"read_ [here](https://telegram.me/GroupButler_beta/26) _how to use it, or you "
+"will get an error for sure_\n"
 "\n"
 "*GIF/sticker as welcome message*\n"
 "You can use a particular gif/sticker as welcome message. To set it, reply to "
@@ -677,8 +680,8 @@ msgid ""
 "\n"
 "`/extra [#trigger] [reply]` = set a reply to be sent when someone writes the "
 "trigger.\n"
-"_Example_ : with \"`/extra #hello Good morning!`\", the bot will reply \"Good "
-"morning!\" each time someone writes #hello.\n"
+"_Example_ : with \"`/extra #hello Good morning!`\", the bot will reply "
+"\"Good morning!\" each time someone writes #hello.\n"
 "You can reply to a media (_photo, file, vocal, video, gif, audio_) with `/"
 "extra #yourtrigger` to save the #extra and receive that media each time you "
 "use # command\n"
@@ -700,7 +703,7 @@ msgstr ""
 "_برای مثال_ : با `/extra #hello Good morning!`، ربات پاسخ خواهد داد \"Good "
 "morning!\" اگر کاربری دستور #hello را ارسال کند.\n"
 "شما میتوانید روی یکی از رسانه ها پاسخ یا Reply کنید (_عکس، فایل، پیام صوتی، "
-"ویدیو، گیف،موسیقی_) با `/extra #dastor برای ذخیره رسانه مورد نظر شما، تا "
+"ویدیو، گیف،موسیقی_) با `/extra #dastor` برای ذخیره رسانه مورد نظر شما، تا "
 "هرموقع که خواستید با دستور #dastor  دریافت کنید\n"
 "`/extra list` = نمایش دستورهای ذخیره شده.\n"
 "`/extra del [#dastor]` = حذف Dastor مورد نظر.\n"
@@ -725,8 +728,8 @@ msgid ""
 "`/warnmax media [number]` = set the max number of the warns before kick/ban "
 "when an unallowed media is sent.\n"
 "\n"
-"How to see how many warns a user has received (or to reset them): use `/user` "
-"command.\n"
+"How to see how many warns a user has received (or to reset them): use `/"
+"user` command.\n"
 "How to change the max. number of warnings allowed: `/config` command, then "
 "`menu` button.\n"
 "How to change the max. number of warnings allowed for media: `/config` "
@@ -735,8 +738,8 @@ msgstr ""
 "\n"
 "مدیران: تنظیمات اخطارها\n"
 "\n"
-"`/warn [by reply]` = اخطار دادن به کاربر، اگر تعداد اخطار ها به حدنهایی برسد، "
-"کاربر اخراج/مسدود خواهد شد.\n"
+"`/warn [by reply]` = اخطار دادن به کاربر، اگر تعداد اخطار ها به حدنهایی "
+"برسد، کاربر اخراج/مسدود خواهد شد.\n"
 "`/nowarns [by reply]` = صفر کردن تعداد اخطار های گرفته شده توسط کاربر (هردو "
 "اخطار معمولی و رسانه)\n"
 "`/warnmax [number]` = تعیین تعداد اخطارهای مجاز گروه که بعد از رسیدن به "
@@ -764,8 +767,8 @@ msgid ""
 "character will be kicked from the group.\n"
 "*Rtl*: it stands for 'Righ To Left' character, and it's the responsible of "
 "the weird service messages that are written in the opposite sense.\n"
-"When Rtl is not allowed (🚫), everyone that writes this character (or that has "
-"it in his name) will be kicked.\n"
+"When Rtl is not allowed (🚫), everyone that writes this character (or that "
+"has it in his name) will be kicked.\n"
 msgstr ""
 "\n"
 "*مدیریت: کاراکترهای خاص*\n"
@@ -778,16 +781,17 @@ msgstr ""
 "character will be kicked from the group.\n"
 "*Rtl*: it stands for 'Righ To Left' character, and it's the responsible of "
 "the weird service messages that are written in the opposite sense.\n"
-"When Rtl is not allowed (🚫), everyone that writes this character (or that has "
-"it in his name) will be kicked.\n"
+"When Rtl is not allowed (🚫), everyone that writes this character (or that "
+"has it in his name) will be kicked.\n"
 
 #: plugins/help.lua:137
 msgid ""
 "\n"
 "*Admins: pin*\n"
 "\n"
-"`/pin [text]`: the bot will send you back the text you used as argument, with "
-"markdown. You can pin the message and use `/pin [text]` again to edit it\n"
+"`/pin [text]`: the bot will send you back the text you used as argument, "
+"with markdown. You can pin the message and use `/pin [text]` again to edit "
+"it\n"
 "`/pin`: the bot will find the latest message generate by `/pin`, if it still "
 "exists\n"
 "\n"
@@ -796,12 +800,12 @@ msgstr ""
 "\n"
 "مدیران: سنجاق کردن\n"
 "\n"
-"`/pin متن`: ربات متن شما را ارسال خواهد کرد که شامل پشتیبانی از نشانه گذاری و "
-"شما میتوانید این پیام سنجاق شده را با استفادها از `/editpin متن جدید` ویرایش "
-"کنید.\n"
+"`/pin متن`: ربات متن شما را ارسال خواهد کرد که شامل پشتیبانی از نشانه گذاری "
+"و شما میتوانید این پیام سنجاق شده را با استفادها از `/editpin متن جدید` "
+"ویرایش کنید.\n"
 "`/editpin متن جدید`: پیام ارسال شده قبلی را ویرایش میکند. زمانی که شما "
-"میخواید قسمتی از پیام سنجاق شده را ویرایش کنید این دستور میتواند خیلی کاربردی "
-"باشد\n"
+"میخواید قسمتی از پیام سنجاق شده را ویرایش کنید این دستور میتواند خیلی "
+"کاربردی باشد\n"
 "`/pin` ربات متن قبلی ذخیره شده را ارسال میکند برای ذخیره از مدل  `/pin متن`  "
 "استفاده کنید.\n"
 "\n"
@@ -832,9 +836,9 @@ msgstr ""
 "تذکر: مترجمان داوطلب هستند، بنابراین من نمیتوانم از صحت درست ترجمه ها مطمئن "
 "باشم. و من نمیتوانم آنها رو مجبور به ترجمه هر آپدیت کنم.\n"
 "\n"
-"به هرحال ترجمه برای همه باز است. اگر شما میخواهید در ترجمه ربات کمک کنید لطفا "
-"[اطلاعات](https://github.com/RememberTheAir/GroupButler#translators) مربوطه "
-"را در گیت هاب ببینید.\n"
+"به هرحال ترجمه برای همه باز است. اگر شما میخواهید در ترجمه ربات کمک کنید "
+"لطفا [اطلاعات](https://github.com/RememberTheAir/GroupButler#translators) "
+"مربوطه را در گیت هاب ببینید.\n"
 "شما میتوانید با استفاده از دستور  `/strings`  فایل `.po`  زبان خود را دریافت "
 "کنید و آن را ترجمه کنید\n"
 
@@ -914,26 +918,27 @@ msgid "Info"
 msgstr "اطلاعات"
 
 #: plugins/help.lua:224
-msgid "👥 Add me to a group"
-msgstr "👥 وارد کردن من به گروه"
-
-#: plugins/help.lua:225
 msgid "📢 Bot channel"
 msgstr "📢 کانال ربات"
+
+#: plugins/help.lua:225
+msgid "🌍 Select you language"
+msgstr ""
 
 #: plugins/help.lua:228
 msgid "📕 All the commands"
 msgstr "📕 تمام دستورها"
 
-#: plugins/help.lua:238 utilities.lua:697
-msgid "Start me"
-msgstr " راه اندازی ربات"
+#: plugins/help.lua:247
+#, lua-format
+msgid "[Start me](%s) _to get the list of commands_"
+msgstr ""
 
-#: plugins/help.lua:270
+#: plugins/help.lua:262
 msgid "Tap on a button to see the *related commands*"
 msgstr "روی صفحه کلید بزنید تا دستور ها را ببینید"
 
-#: plugins/help.lua:297
+#: plugins/help.lua:289
 msgid "❗️ Already on this tab"
 msgstr "❗️ قبلا در این قسمت بوده اید"
 
@@ -944,7 +949,8 @@ msgstr ""
 
 #: plugins/links.lua:31
 msgid ""
-"This is not a *public supergroup*, so you need to write the link near /setlink"
+"This is not a *public supergroup*, so you need to write the link near /"
+"setlink"
 msgstr "این یک گروه عمومی نیست لطفا بعد از دستور لینک خود را بنویسید"
 
 #: plugins/links.lua:37
@@ -1057,31 +1063,31 @@ msgstr "استفاده از کاراکتر RTL باعث مسدود شدن می �
 msgid "RTL character allowed"
 msgstr "کاراکتر RTL مجاز شد"
 
-#: plugins/menu.lua:113 utilities.lua:583
+#: plugins/menu.lua:113 utilities.lua:620
 msgid "Welcome message"
 msgstr "خوش آمدگویی"
 
-#: plugins/menu.lua:114 utilities.lua:584
+#: plugins/menu.lua:114 utilities.lua:621
 msgid "Extra"
 msgstr "دستورهای اضافه"
 
-#: plugins/menu.lua:115 utilities.lua:585
+#: plugins/menu.lua:115 utilities.lua:622
 msgid "Anti-flood"
 msgstr "ضد اسپم"
 
-#: plugins/menu.lua:116 utilities.lua:587
+#: plugins/menu.lua:116 utilities.lua:624
 msgid "Silent mode"
 msgstr "حالت سکوت"
 
-#: plugins/menu.lua:118 utilities.lua:589
+#: plugins/menu.lua:118 utilities.lua:626
 msgid "Arab"
 msgstr "ضد تایپ فارسی/عربی"
 
-#: plugins/menu.lua:119 utilities.lua:590
+#: plugins/menu.lua:119 utilities.lua:627
 msgid "RTL"
 msgstr "RTL"
 
-#: plugins/menu.lua:120 utilities.lua:586
+#: plugins/menu.lua:120 utilities.lua:623
 msgid "Ban bots"
 msgstr "مسدود کردن سایر ربات ها"
 
@@ -1090,18 +1096,13 @@ msgid "Welcome + rules button"
 msgstr "خوش آمدگویی+قوانین"
 
 #: plugins/menu.lua:151
-#, lua-format
-msgid "📍 %d 🔨️ kick"
-msgstr "📍 %d 🔨️ اخراج"
+msgid "👞 kick"
+msgstr ""
 
 #: plugins/menu.lua:153
-#, lua-format
-msgid "📍 %d 🔨️ ban"
+#, fuzzy
+msgid "🔨️ ban"
 msgstr "📍 %d 🔨️ مسدود در گروه"
-
-#: plugins/menu.lua:160
-msgid "Warns 👇🏼"
-msgstr "👇🏼 اخطارها"
 
 #: plugins/menu.lua:178
 msgid ""
@@ -1136,7 +1137,8 @@ msgstr ""
 "*Other settings*: for the other settings, icon are self explanatory\n"
 
 #: plugins/menu.lua:201
-msgid "⚠️ Use the row below to change the warns settings!"
+#, fuzzy
+msgid "⚠️ Use + and - to change the max number of warnings"
 msgstr "⚠️ روی نمابرهای زیر بزنید تا اخطارها تغییر کنند!"
 
 #: plugins/onmessage.lua:73
@@ -1219,8 +1221,8 @@ msgstr "پیام ویرایش شد. اینجا بررسی کنید"
 
 #: plugins/pin.lua:52
 msgid ""
-"The old message generated with `/pin` does not exist anymore, so I can't edit "
-"it. This is the new message that can be now pinned"
+"The old message generated with `/pin` does not exist anymore, so I can't "
+"edit it. This is the new message that can be now pinned"
 msgstr ""
 "پیام قبلی گرفته شده توسط `/pin`  دیگر وجود ندارد، بنابراین من نمیتوانم ان را "
 "ویرایش کنم. این پیام میتواند به عنوان یک پیام جدید برای سنجاق یا pin شدن "
@@ -1314,8 +1316,8 @@ msgstr "_من متاسفم، گروه عمومی نمیتواند به عنوا�
 
 #: plugins/realms.lua:256
 msgid ""
-"_I'm sorry, I can't get the numberof the members of this group now. Try again "
-"later_"
+"_I'm sorry, I can't get the numberof the members of this group now. Try "
+"again later_"
 msgstr ""
 "_من متاسفم، من نمیتوانم تعداد عضو های این گروه را بگیرم. لطفا بعدا تلاش کنید_"
 
@@ -1328,8 +1330,8 @@ msgstr ""
 #: plugins/realms.lua:263
 #, lua-format
 msgid ""
-"This group can now be used as realm. To add a sub-group, the group owner must "
-"write in the chat:\n"
+"This group can now be used as realm. To add a sub-group, the group owner "
+"must write in the chat:\n"
 "\"/setrealm #id%s\""
 msgstr ""
 "این گروه الان میتواند به عنوان قلمرو مورد استفاده قرار گیرد. برای ذخیره کردن "
@@ -1468,11 +1470,15 @@ msgid "_Reported to %d admin(s)_"
 msgstr "_به %d مدیر گزارش شد_"
 
 #: plugins/rules.lua:19
-msgid "🚫 Unknown or already non-existent group"
+#, fuzzy
+msgid "🚫 Unknown or non-existent group"
 msgstr "🚫 نامشخص یا گروه وجود ندارد"
 
 #: plugins/rules.lua:27
-msgid "🚷 You aren't member chat. You can't watch rules of the private group."
+#, fuzzy
+msgid ""
+"🚷 You are not a member of this chat. You can't read the rules of a private "
+"group."
 msgstr "🚷 شما عضو این گروه نیستید نمی توانید تنظیمات خصوصی این گروه را ببینید."
 
 #: plugins/rules.lua:52
@@ -1497,7 +1503,7 @@ msgstr ""
 "❗️ شما اول باید من را راه اندازی کنید، بعد من میتوانم به شما قوانین را ارسال "
 "کنم"
 
-#: plugins/setlang.lua:17
+#: plugins/setlang.lua:17 plugins/setlang.lua:27
 msgid "*List of available languages*:"
 msgstr "*لیست زبان های موجود:*"
 
@@ -1506,9 +1512,16 @@ msgid "You are not an admin"
 msgstr "شما مدیر نیستید"
 
 #. TRANSLATORS: replace 'English' with the name of your language
-#: plugins/setlang.lua:28
+#: plugins/setlang.lua:36
 msgid "English language is *set*"
 msgstr "زبان فارسی انتخاب شد"
+
+#: plugins/setlang.lua:36
+msgid ""
+".\n"
+"Please note that translators are volunteers, and some strings of the "
+"translation you selected _could not have been translated yet_"
+msgstr ""
 
 #: plugins/users.lua:16
 msgid "🔄️ Refresh cache"
@@ -1785,8 +1798,8 @@ msgstr "این پیام خیلی طولانیست و من قادر به ارسا
 #: plugins/welcome.lua:68
 msgid ""
 "This text breaks the markdown.\n"
-"More info about proper markdown usage can be found [here](https://telegram.me/"
-"GroupButler_ch/46)."
+"More info about proper markdown usage can be found [here](https://telegram."
+"me/GroupButler_ch/46)."
 msgstr ""
 "این مدل نشانه گذاری قابل قبول نیست.\n"
 " اطلاعات بیشتر برای درست استفاده کردن از قابلیت نشانه گذاری را در [این صفحه]"
@@ -1800,15 +1813,15 @@ msgstr "پیام خوشامد گویی شما ذخیره شد"
 msgid "Read the rules"
 msgstr "قوانین را بخوانید"
 
-#: utilities.lua:515
+#: utilities.lua:552
 msgid "-*empty*-"
 msgstr "قوانینی ذخیره نشده_خالی است_"
 
-#: utilities.lua:565
+#: utilities.lua:602
 msgid "No commands set!"
 msgstr "هیچ دستوری ذخیره نشده!"
 
-#: utilities.lua:578
+#: utilities.lua:615
 msgid ""
 "Current settings for *the group*:\n"
 "\n"
@@ -1816,33 +1829,33 @@ msgstr ""
 "وضعیت فعلی گروه:\n"
 "\n"
 
-#: utilities.lua:579
+#: utilities.lua:616
 #, lua-format
 msgid "*Language*: %s\n"
 msgstr "زبان: %s\n"
 
-#: utilities.lua:591
+#: utilities.lua:628
 msgid "Reports"
 msgstr "گزارش"
 
-#: utilities.lua:627
+#: utilities.lua:664
 msgid "*Welcome type*: `GIF / sticker`\n"
 msgstr "نوع پیام خوش آمدگویی: استیکر/گیف\n"
 
-#: utilities.lua:629
+#: utilities.lua:666
 msgid "*Welcome type*: `custom message`\n"
 msgstr "نوع پیام خوش آمدگویی: انتخابی کاربر\n"
 
-#: utilities.lua:631
+#: utilities.lua:668
 msgid "*Welcome type*: `default message`\n"
 msgstr "نوع پیام خوش آمدگویی: پیش فرض\n"
 
-#: utilities.lua:637
+#: utilities.lua:674
 #, lua-format
 msgid "Warns (`standard`): *%s*\n"
 msgstr "اخطار ها (معمولی): *%s*\n"
 
-#: utilities.lua:638
+#: utilities.lua:675
 #, lua-format
 msgid ""
 "Warns (`media`): *%s*\n"
@@ -1851,86 +1864,104 @@ msgstr ""
 "اخطارها (رسانه): *%s*\n"
 ".\n"
 
-#: utilities.lua:639
+#: utilities.lua:676
 msgid "✅ = _enabled / allowed_\n"
 msgstr "✅ = _آزاد / فعال_\n"
 
-#: utilities.lua:640
+#: utilities.lua:677
 msgid "🚫 = _disabled / not allowed_\n"
 msgstr "🚫 = _ممنوع / غیرفعال_\n"
 
-#: utilities.lua:641
+#: utilities.lua:678
 msgid "👥 = _sent in group (always for admins)_\n"
 msgstr "👥 = _در گروه (اما همیشه برای مدیران فعال است)_\n"
 
-#: utilities.lua:642
+#: utilities.lua:679
 msgid "👤 = _sent in private_"
 msgstr "👤 = _درخصوصی کاربران_"
 
-#: utilities.lua:648
+#: utilities.lua:685
 msgid "@admin command disabled"
 msgstr "دستور @admin غیر فعال شد"
 
-#: utilities.lua:649
+#: utilities.lua:686
 msgid "Welcome message won't be displayed from now"
 msgstr "پیام خوش آمدگویی نمایش داده نخواهد شد"
 
-#: utilities.lua:650
+#: utilities.lua:687
 msgid "#extra commands are now available only for moderator"
 msgstr "دستور #extra فقط برای مدیران فعال شد"
 
-#: utilities.lua:651
+#: utilities.lua:688
 msgid "Anti-flood is now off"
 msgstr "ضد اسپم خاموش شد"
 
-#: utilities.lua:652
+#: utilities.lua:689
 msgid "/rules will reply in private (for users)"
 msgstr "/rules در خصوصی کاربران ارسال خواهد شد"
 
-#: utilities.lua:653
+#: utilities.lua:690
 msgid "Bots won't be kicked if added by an user"
 msgstr "ربات ها اخراج نخواهند شد"
 
-#: utilities.lua:654
+#: utilities.lua:691
 msgid "Welcome message without a button for the rules"
 msgstr "پیام خوش آمد گویی بدون دکمه قوانین"
 
-#: utilities.lua:657
+#: utilities.lua:694
 msgid "@admin command enabled"
 msgstr "دستور @admin فعال شد"
 
-#: utilities.lua:658
+#: utilities.lua:695
 msgid "Welcome message will be displayed"
 msgstr "پیام خوش آمدگویی نمایش داده می شود"
 
-#: utilities.lua:659
+#: utilities.lua:696
 msgid "#extra commands are now available for all"
 msgstr "دستور #extra برای همه فعال شد"
 
-#: utilities.lua:660
+#: utilities.lua:697
 msgid "Anti-flood is now on"
 msgstr "ضد اسپم روشن شد"
 
-#: utilities.lua:661
+#: utilities.lua:698
 msgid "/rules will reply in the group (with everyone)"
 msgstr "/rules در گروه فعال شد (برای همه)"
 
-#: utilities.lua:662
+#: utilities.lua:699
 msgid "Bots will be kicked if added by an user"
 msgstr "ربات ها اخراج خواهند شد "
 
-#: utilities.lua:663
+#: utilities.lua:700
 msgid "The welcome message will have a button for the rules"
 msgstr "پیام خوش آمدگویی دکمه قوانین خواهد داشت"
 
-#: utilities.lua:693
+#: utilities.lua:730
 #, lua-format
 msgid "New status = %s"
 msgstr "وضعیت جدید = %s"
 
-#: utilities.lua:698
+#: utilities.lua:734
+msgid "Start me"
+msgstr " راه اندازی ربات"
+
+#: utilities.lua:735
 msgid "_Please message me first so I can message you_"
 msgstr "_لطفا اول به من پیام دهید تا بتوانم به شما پیام بفرستم_"
+
+#~ msgid "👥 Add me to a group"
+#~ msgstr "👥 وارد کردن من به گروه"
+
+#~ msgid "📍 %d 🔨️ kick"
+#~ msgstr "📍 %d 🔨️ اخراج"
+
+#~ msgid "Warns 👇🏼"
+#~ msgstr "👇🏼 اخطارها"
+
+#~ msgid ""
+#~ "🚷 You aren't member chat. You can't watch rules of the private group."
+#~ msgstr ""
+#~ "🚷 شما عضو این گروه نیستید نمی توانید تنظیمات خصوصی این گروه را ببینید."
 
 #, fuzzy
 #~ msgid "Some useful *links*:"
@@ -1973,8 +2004,8 @@ msgstr "_لطفا اول به من پیام دهید تا بتوانم به شم
 #~ "will be overwritten).\n"
 #~ "`/setrules -` = delete the current rules.\n"
 #~ "`/addrules [text]` = add some text at the end of the existing rules.\n"
-#~ "`/setabout [group description]` = set a new description for the group (the "
-#~ "old will be overwritten).\n"
+#~ "`/setabout [group description]` = set a new description for the group "
+#~ "(the old will be overwritten).\n"
 #~ "`/setabout -` = delete the current description.\n"
 #~ "`/addabout [text]` = add some text at the end of the existing description."
 #~ "\"\n"
@@ -1990,8 +2021,8 @@ msgstr "_لطفا اول به من پیام دهید تا بتوانم به شم
 #~ "قبلی را حذف خواهد کرد)\n"
 #~ "`/setrules -` = delete the current rules.\n"
 #~ "`/addrules [text]` = اضافه کردن متنی به پایان قوانین گروه\n"
-#~ "`/setabout [group description]` = تعریف توضییحات جدید برای گروه (این دستور "
-#~ "توضییحات قبلی را حذف خواهد کرد)\n"
+#~ "`/setabout [group description]` = تعریف توضییحات جدید برای گروه (این "
+#~ "دستور توضییحات قبلی را حذف خواهد کرد)\n"
 #~ "`/setabout -` = delete the current description.\n"
 #~ "`/addabout [text]` = اضافه کردن متنی به پایان توضییحات گروه\n"
 #~ "\n"

@@ -16,7 +16,7 @@ function plugin.onTextMessage(msg, blocks)
 
 			local res = api.getChat(msg.chat.id)
 			if not res then
-				api.sendMessage(msg.from.id, _("🚫 Unknown or already non-existent group"))
+				api.sendMessage(msg.from.id, _("🚫 Unknown or non-existent group"))
 				return
 			end
 			-- Private chats have no an username
@@ -24,8 +24,8 @@ function plugin.onTextMessage(msg, blocks)
 
 			local res = api.getChatMember(msg.chat.id, msg.from.id)
 			if not res or (res.result.status == 'left' or res.result.status == 'kicked') and private then
-				api.sendMessage(msg.from.id, _("🚷 You aren't member chat. " ..
-					"You can't watch rules of the private group."))
+				api.sendMessage(msg.from.id, _("🚷 You are not a member of this chat. " ..
+					"You can't read the rules of a private group."))
 				return
 			end
     	else

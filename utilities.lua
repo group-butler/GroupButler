@@ -152,7 +152,8 @@ function misc.cache_adminlist(chat_id)
 		db:sadd(hash, admin.user.id)
 	end
 	db:expire(hash, config.bot_settings.cache_time.adminlist)
-	return true
+	
+	return true, #res.result or 0
 end
 
 function misc.is_blocked_global(id)
@@ -493,7 +494,7 @@ end
 function misc.getname_link(name, username)
 	if not name or not username then return false end
 	username = username:gsub('@', '')
-	return '['..name..'](https://telegram.me/'..username..')'
+	return '['..name:gsub('%[', '('):gsub('%]', ')')..'](https://telegram.me/'..username..')'
 end
 
 function misc.bash(str)

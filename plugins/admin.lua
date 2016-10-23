@@ -63,8 +63,8 @@ local function round(num, decimals)
   return math.floor(num * mult + 0.5) / mult
 end
 
-local function load_lua(code)
-	local output = loadstring(code)()
+local function load_lua(code, msg)
+	local output = loadstring('local msg = '..vtext(msg)..'\n'..code)()
 	if not output then
 		output = '`Done! (no output)`'
 	else
@@ -166,11 +166,10 @@ function plugin.onTextMessage(msg, blocks)
 	if blocks[1] == 'lua' then
 		if not blocks[2] then
 			api.sendReply(msg, 'Enter a string')
-			return
+		else
+			local output = load_lua(blocks[2], msg)
+			api.sendMessage(msg.chat.id, output, true)
 		end
-		--execute
-		local output = load_lua(blocks[2])
-		api.sendMessage(msg.chat.id, output, true)
 	end
 	if blocks[1] == 'run' then
 		--read the output
@@ -424,7 +423,7 @@ function plugin.onTextMessage(msg, blocks)
 		end
 		local res, code = misc.cache_adminlist(chat_id)
 		if res then
-			text = 'Cached'
+			text = 'Cached ➤ '..code..' admins stored'
 		else
 			text = 'Failed: '..tostring(code)
 		end
