@@ -26,7 +26,7 @@ msgstr "我不是群組管理員，不能踢出用戶。"
 
 #: methods.lua:102
 msgid "I can't kick or ban an admin"
-msgstr "我不能踢出或封鎖管理員。"
+msgstr "我不能踢除或封鎖管理員。"
 
 #: methods.lua:104
 msgid "There is no need to unban in a normal group"
@@ -46,7 +46,7 @@ msgstr "這個的話你可以直接用 /ban"
 
 #: plugins/banhammer.lua:86
 msgid "The time limit is one week (168 hours)"
-msgstr "時間限制是一個禮拜(168小時)"
+msgstr "時間限制是一個星期(168小時)"
 
 #: plugins/banhammer.lua:97 plugins/banhammer.lua:120
 #: plugins/banhammer.lua:133
@@ -54,8 +54,8 @@ msgid ""
 "I can't kick this user.\n"
 "Either I'm not an admin, or the targeted user is!"
 msgstr ""
-"我沒辦法踢出該使用者。\n"
-"大概是因為我不是管理員，或該使用者為管理員。"
+"我沒辦法踢除該使用者。\n"
+"大概是因為我不是管理員，或該使用者是管理員。"
 
 #: plugins/banhammer.lua:108
 #, lua-format
@@ -63,7 +63,7 @@ msgid ""
 "Ban time was updated for %s. Ban expiration: %s\n"
 "*Admin:* %s"
 msgstr ""
-"封鎖的時間已改為 %s。 時效: %s\n"
+"封鎖的時間已更改為 %s。 時效: %s\n"
 "*管理員:* %s"
 
 #: plugins/banhammer.lua:110
@@ -76,7 +76,7 @@ msgstr "使用者 %s 已被封鎖。時效: %s*管理員:* %s"
 #: plugins/banhammer.lua:126
 #, lua-format
 msgid "%s kicked %s!"
-msgstr "%s 踢了 %s!"
+msgstr "%s 踢除了 %s!"
 
 #: plugins/banhammer.lua:147
 #, lua-format
@@ -102,7 +102,7 @@ msgstr "🌈 媒體"
 
 #: plugins/configure.lua:20 plugins/configure.lua:35
 msgid "_Change the settings by navigating the keyboard_"
-msgstr "_變更設定透過私聊鍵盤_"
+msgstr "_透過私聊鍵盤變更設定_"
 
 #: plugins/configure.lua:23
 msgid "_I've sent you the keyboard via private message_"
@@ -158,7 +158,7 @@ msgstr "遊戲"
 
 #: plugins/dashboard.lua:15 plugins/mediasettings.lua:27
 msgid "Locations"
-msgstr ""
+msgstr "地點"
 
 #: plugins/dashboard.lua:21 plugins/floodmanager.lua:7
 msgid "✅ | ON"
@@ -239,7 +239,7 @@ msgstr "_我已經私下向你傳送了說明訊息。_"
 #: plugins/dashboard.lua:99
 #, fuzzy
 msgid "🚫 This group does not exist"
-msgstr "🚫 這個群組已被刪除。"
+msgstr "🚫 這個群組不存在。"
 
 #: plugins/dashboard.lua:106
 #, fuzzy
@@ -1822,7 +1822,7 @@ msgstr "👤 = _發送透過私聊_"
 #: utilities.lua:685
 #, fuzzy
 msgid "@admin command disabled"
-msgstr "🔰 管理員指令"
+msgstr "@admin 指令已停用"
 
 #: utilities.lua:686
 msgid "Welcome message won't be displayed from now"
@@ -1852,7 +1852,7 @@ msgstr "歡迎訊息將會顯示"
 
 #: utilities.lua:694
 msgid "@admin command enabled"
-msgstr ""
+msgstr "@admin 指令已啟用"
 
 #: utilities.lua:695
 msgid "Welcome message will be displayed"
