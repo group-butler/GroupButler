@@ -392,6 +392,7 @@ function string:replaceholders(msg) -- Returns the string after the first space.
 	self = self:gsub('$id', msg.from.id)
 	self = self:gsub('$title', msg.chat.title:escape())
 	self = self:gsub('$rules', misc.deeplink_constructor(msg.chat.id, 'rules'))
+	self = self:gsub('$dashboard', misc.deeplink_constructor(msg.chat.id, 'dashboard'))
 	return self
 end
 
