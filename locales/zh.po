@@ -2,6 +2,7 @@
 # Copyright (C) 2016 THE GroupButler'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the GroupButler package.
 # Allen0099 <s96016641@gmail.com>, 2016.
+# Jackie Lam <jackielam1997@gmail.com>, 2016.
 #
 msgid ""
 msgstr ""
@@ -9,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-10-23 18:12+0200\n"
 "PO-Revision-Date: 2016-10-08 19:37-0700\n"
-"Last-Translator: Allen0099 <s96016641@gmail.com>\n"
+"Last-Translator: Jackie Lam <jackielam1997@gmail.com>\n"
 "Language-Team: Chinese\n"
 "Language: zh\n"
 "MIME-Version: 1.0\n"
@@ -26,7 +27,7 @@ msgstr "我不是群組管理員，不能踢出用戶。"
 
 #: methods.lua:102
 msgid "I can't kick or ban an admin"
-msgstr "我不能踢出或封鎖管理員。"
+msgstr "我不能踢除或封鎖管理員。"
 
 #: methods.lua:104
 msgid "There is no need to unban in a normal group"
@@ -46,7 +47,7 @@ msgstr "這個的話你可以直接用 /ban"
 
 #: plugins/banhammer.lua:86
 msgid "The time limit is one week (168 hours)"
-msgstr "時間限制是一個禮拜(168小時)"
+msgstr "時間限制是一個星期(168小時)"
 
 #: plugins/banhammer.lua:97 plugins/banhammer.lua:120
 #: plugins/banhammer.lua:133
@@ -54,8 +55,8 @@ msgid ""
 "I can't kick this user.\n"
 "Either I'm not an admin, or the targeted user is!"
 msgstr ""
-"我沒辦法踢出該使用者。\n"
-"大概是因為我不是管理員，或該使用者為管理員。"
+"我沒辦法踢除該使用者。\n"
+"大概是因為我不是管理員，或該使用者是管理員。"
 
 #: plugins/banhammer.lua:108
 #, lua-format
@@ -63,7 +64,7 @@ msgid ""
 "Ban time was updated for %s. Ban expiration: %s\n"
 "*Admin:* %s"
 msgstr ""
-"封鎖的時間已改為 %s。 時效: %s\n"
+"封鎖的時間已更改為 %s。 時效: %s\n"
 "*管理員:* %s"
 
 #: plugins/banhammer.lua:110
@@ -76,7 +77,7 @@ msgstr "使用者 %s 已被封鎖。時效: %s*管理員:* %s"
 #: plugins/banhammer.lua:126
 #, lua-format
 msgid "%s kicked %s!"
-msgstr "%s 踢了 %s!"
+msgstr "%s 踢除了 %s!"
 
 #: plugins/banhammer.lua:147
 #, lua-format
@@ -102,7 +103,7 @@ msgstr "🌈 媒體"
 
 #: plugins/configure.lua:20 plugins/configure.lua:35
 msgid "_Change the settings by navigating the keyboard_"
-msgstr "_變更設定透過私聊鍵盤_"
+msgstr "_透過私聊鍵盤變更設定_"
 
 #: plugins/configure.lua:23
 msgid "_I've sent you the keyboard via private message_"
@@ -158,7 +159,7 @@ msgstr "遊戲"
 
 #: plugins/dashboard.lua:15 plugins/mediasettings.lua:27
 msgid "Locations"
-msgstr ""
+msgstr "地點"
 
 #: plugins/dashboard.lua:21 plugins/floodmanager.lua:7
 msgid "✅ | ON"
@@ -239,7 +240,7 @@ msgstr "_我已經私下向你傳送了說明訊息。_"
 #: plugins/dashboard.lua:99
 #, fuzzy
 msgid "🚫 This group does not exist"
-msgstr "🚫 這個群組已被刪除。"
+msgstr "🚫 這個群組不存在。"
 
 #: plugins/dashboard.lua:106
 #, fuzzy
@@ -881,7 +882,7 @@ msgstr "語言"
 
 #: plugins/help.lua:211
 msgid "🔰 User commands"
-msgstr "🔰 自訂指令"
+msgstr "🔰 使用者指令"
 
 #: plugins/help.lua:213
 msgid "🔰 Admin commands"
@@ -897,7 +898,7 @@ msgstr "📢 機器人頻道"
 
 #: plugins/help.lua:225
 msgid "🌍 Select you language"
-msgstr ""
+msgstr "🌍 選擇你的語言"
 
 #: plugins/help.lua:228
 msgid "📕 All the commands"
@@ -906,7 +907,7 @@ msgstr "📕 所有指令"
 #: plugins/help.lua:247
 #, lua-format
 msgid "[Start me](%s) _to get the list of commands_"
-msgstr ""
+msgstr "[Start me](%s) _來取得指令列表_"
 
 #: plugins/help.lua:262
 msgid "Tap on a button to see the *related commands*"
@@ -981,11 +982,11 @@ msgstr "⚠️ 請點擊最右列。"
 
 #: plugins/mediasettings.lua:89
 msgid "⚙ The new value is too low ( < 1)"
-msgstr "⚙ 新數值太低( < 1)。"
+msgstr "⚙ 新數值太低 ( < 1)"
 
 #: plugins/mediasettings.lua:96
 msgid "⚙ The new value is too high ( > 12)"
-msgstr "⚙ 新數值太高( > 12)。"
+msgstr "⚙ 新數值太高 ( > 12)"
 
 #: plugins/mediasettings.lua:108
 msgid "🔨 New status is kick"
@@ -997,11 +998,11 @@ msgstr "🔨 新狀態已設定為封鎖。"
 
 #: plugins/menu.lua:8
 msgid "The new value is too high ( > 12)"
-msgstr "新的數值太高（>12）。"
+msgstr "新的數值太高 ( > 12)"
 
 #: plugins/menu.lua:15
 msgid "The new value is too low ( < 1)"
-msgstr "新的數值太低（<1）。"
+msgstr "新的數值太低 ( < 1)"
 
 #: plugins/menu.lua:24
 msgid "New action on max number of warns received: *ban*"
@@ -1070,12 +1071,12 @@ msgstr "歡迎訊息設定"
 
 #: plugins/menu.lua:151
 msgid "👞 kick"
-msgstr ""
+msgstr "👞 踢除"
 
 #: plugins/menu.lua:153
 #, fuzzy
 msgid "🔨️ ban"
-msgstr "📍 %d 🔨️ 封鎖"
+msgstr "🔨️ 封鎖"
 
 #: plugins/menu.lua:178
 msgid ""
@@ -1234,7 +1235,7 @@ msgstr "使用教學"
 #: plugins/private.lua:101
 #, lua-format
 msgid "Sending `%s.po` file..."
-msgstr "發送`%s.po`檔案中..."
+msgstr "發送 `%s.po` 檔案中..."
 
 #: plugins/private_settings.lua:28
 msgid "Rules on join"
@@ -1318,7 +1319,7 @@ msgstr ""
 
 #: plugins/realms.lua:335 plugins/realms.lua:402
 msgid "_Expired_"
-msgstr ""
+msgstr "_已過期_"
 
 #: plugins/realms.lua:341
 msgid "Applied"
@@ -1358,6 +1359,10 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"*訊息已傳送*\n"
+"_內容：_\n"
+"\n"
+"%s"
 
 #: plugins/realms.lua:409
 #, lua-format
@@ -1463,7 +1468,7 @@ msgid ""
 ".\n"
 "Please note that translators are volunteers, and some strings of the "
 "translation you selected _could not have been translated yet_"
-msgstr ""
+msgstr "請留意，翻譯者都是自願者，有部份字串_可能還未翻譯_"
 
 #: plugins/users.lua:16
 msgid "🔄️ Refresh cache"
@@ -1750,7 +1755,7 @@ msgstr "*客製化歡迎訊息已儲存！*"
 
 #: plugins/welcome.lua:93
 msgid "Read the rules"
-msgstr ""
+msgstr "請閱讀規則"
 
 #: utilities.lua:552
 msgid "-*empty*-"
@@ -1822,7 +1827,7 @@ msgstr "👤 = _發送透過私聊_"
 #: utilities.lua:685
 #, fuzzy
 msgid "@admin command disabled"
-msgstr "🔰 管理員指令"
+msgstr "@admin 指令已停用"
 
 #: utilities.lua:686
 msgid "Welcome message won't be displayed from now"
@@ -1852,7 +1857,7 @@ msgstr "歡迎訊息將會顯示"
 
 #: utilities.lua:694
 msgid "@admin command enabled"
-msgstr ""
+msgstr "@admin 指令已啟用"
 
 #: utilities.lua:695
 msgid "Welcome message will be displayed"
@@ -1877,7 +1882,7 @@ msgstr "成員加入的機器人將會被踢出"
 
 #: utilities.lua:700
 msgid "The welcome message will have a button for the rules"
-msgstr ""
+msgstr "歡迎訊息將會有一個規則按鈕"
 
 #: utilities.lua:730
 #, lua-format
