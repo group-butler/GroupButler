@@ -198,8 +198,12 @@ function vardump(...)
 	end
 end
 
-function vtext(value)
-  return serpent.block(value, {comment=false})
+function vtext(...)
+	local lines = {}
+	for _, value in pairs{...} do
+		table.insert(lines, serpent.block(value, {comment=false}))
+	end
+	return table.concat(lines, '\n')
 end
 
 function misc.deeplink_constructor(chat_id, what)
@@ -374,6 +378,8 @@ end
 function string:replaceholders(msg) -- Returns the string after the first space.
 	if msg.new_chat_member then
 		msg.from = msg.new_chat_member
+	elseif msg.left_chat_member then
+		msg.from = msg.left_chat_member
 	end
 	
 	msg.from.first_name = msg.from.first_name:gsub('%%', '')
@@ -382,12 +388,12 @@ function string:replaceholders(msg) -- Returns the string after the first space.
 	if msg.from.username then
 		self = self:gsub('$username', '@'..msg.from.username:escape())
 	else
-		self = self:gsub('$username', '@-')
+		self = self:gsub('$username', '-')
 	end
 	if msg.from.last_name then
 		self = self:gsub('$surname', msg.from.last_name:escape())
 	else
-		self = self:gsub('$surname', '-')
+		self = self:gsub('$surname', '')
 	end
 	self = self:gsub('$id', msg.from.id)
 	self = self:gsub('$title', msg.chat.title:escape())
@@ -407,14 +413,14 @@ function string:replaceholders_dyn(msg, ...)
 			if msg.from.username then
 				return '@'..msg.from.username:escape()
 			else
-				return '@-'
+				return '-'
 			end
 		end,
 		['$surname'] = function()
 			if msg.from.last_name then
 				return msg.from.last_name:escape()
 			else
-				return '-'
+				return ''
 			end
 		end,
 		['$id'] = msg.from.id,
@@ -618,6 +624,7 @@ function misc.getSettings(chat_id)
     --build the message
 	local strings = {
 		Welcome = _("Welcome message"),
+		Goodbye = _("Goodbye message"),
 		Extra = _("Extra"),
 		Flood = _("Anti-flood"),
 		Antibot = _("Ban bots"),
@@ -626,6 +633,7 @@ function misc.getSettings(chat_id)
 		Arab = _("Arab"),
 		Rtl = _("RTL"),
 		Reports = _("Reports"),
+		Welbut = _("Welcome button"),
 	}
     for key, default in pairs(config.chat_settings['settings']) do
         
@@ -684,6 +692,7 @@ function misc.changeSettingStatus(chat_id, field)
 	local turned_off = {
 		reports = _("@admin command disabled"),
 		welcome = _("Welcome message won't be displayed from now"),
+		goodbye = _("Goodbye message won't be displayed from now"),
 		extra = _("#extra commands are now available only for moderator"),
 		flood = _("Anti-flood is now off"),
 		rules = _("/rules will reply in private (for users)"),
@@ -693,6 +702,7 @@ function misc.changeSettingStatus(chat_id, field)
 	local turned_on = {
 		reports = _("@admin command enabled"),
 		welcome = _("Welcome message will be displayed"),
+		goodbye = _("Goodbye message will be displayed"),
 		extra = _("#extra commands are now available for all"),
 		flood = _("Anti-flood is now on"),
 		rules = _("/rules will reply in the group (with everyone)"),

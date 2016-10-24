@@ -94,6 +94,11 @@ Placeholders:
 
 *GIF/sticker as welcome message*
 You can use a particular gif/sticker as welcome message. To set it, reply to the gif/sticker you want to set as welcome message with `/welcome`
+
+*Goodbye message*
+Also you can set the custom goodbye message:
+`/goodbye` _message_
+Same placeholders and media are available
 ]])
 	elseif key == 'mods_extra' then
 		return _([[

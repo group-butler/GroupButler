@@ -110,7 +110,8 @@ end
 
 local function insert_settings_section(keyboard, settings_section, chat_id)
 	local strings = {
-		Welcome = _("Welcome message"),
+		Welcome = _("Welcome"),
+		Goodbye = _("Goodbye"),
 		Extra = _("Extra"),
 		Flood = _("Anti-flood"),
 		Silent = _("Silent mode"),
