@@ -79,7 +79,7 @@ _Note_ : the number must be higher than 3 and lower than 26.
 		return _([[
 *Admins: welcome settings*
 
-`/config`, then `menu` tab = receive in private the menu keyboard. You will find an option to enable/disable welcome and goodbye messages.
+`/config`, then `menu` tab = receive in private the menu keyboard. You will find an option to enable/disable welcome messages.
 
 *Custom welcome message*:
 `/welcome Welcome $name, enjoy the group!`
