@@ -57,14 +57,14 @@ function plugin.onTextMessage(msg, blocks)
 	    
 	    local hash = 'chat:'..msg.chat.id..':extra'
 	    local commands = db:hkeys(hash)
-	    local text = ''
-	    if commands[1] == nil then
+	    if not next(commands) then
 	        api.sendReply(msg, _("No commands set"))
 	    else
-	        for k,v in pairs(commands) do
-	            text = text..v..'\n'
+			local lines = {}
+	        for k, v in pairs(commands) do
+				table.insert(lines, (v:gsub('_', '\\_')))
 	        end
-	        local out = _("List of *custom commands*:\n") .. text
+	        local out = _("List of *custom commands*:\n") .. table.concat(lines, '\n')
 	        api.sendReply(msg, out, true)
 	    end
     elseif blocks[1] == 'extra del' then

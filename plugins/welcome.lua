@@ -39,7 +39,7 @@ local function get_goodbye(msg)
 		return false
 	elseif type == 'custom' then
 		if not content then
-			local name = msg.left_chat_member.first_name
+			local name = msg.left_chat_member.first_name:escape()
 			if msg.left_chat_member.username then
 				name = name:escape() .. ' (@' .. msg.left_chat_member.username:escape() .. ')'
 			end

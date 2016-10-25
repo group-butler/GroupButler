@@ -25,31 +25,14 @@ function string:input() -- Returns the string after the first space.
 	return self:sub(self:find(' ')+1)
 end
 
--- Escape markdown for Telegram. I don't know how escape asterisks (*) inside
--- bold font, underlines (_) inside italic font, accents (`) inside fixed-width
--- code and closing square brackets (]) inside link text. A backslash (\)
--- should be escaped, if only it precedes a special character. Also this
--- function makes non-clickable usernames, hashtags, commands and links, if
--- only_markup flag isn't setted.
+-- Escape markdown for Telegram. This function makes non-clickable usernames,
+-- hashtags, commands, links and emails, if only_markup flag isn't setted.
 function string:escape(only_markup)
 	if not only_markup then
 		-- insert word joiner
-		self = self:gsub('[@#/]', {
-			['@'] = '@⁠',  -- avoid usernames and emails
-			['#'] = '#⁠',  -- avoid hashtags
-			['/'] = '/⁠',  -- avoid bot commands
-		}):gsub('%.(%w)', '⁠.%1')  -- avoid links
+		self = self:gsub('([@#/.])(%w)', '%1⁠%2')
 	end
-	return self:gsub('\\?[*_`[]', {
-		['*'] = '\\*',
-		['_'] = '\\_',
-		['`'] = '\\`',
-		['['] = '\\[',
-		['\\*'] = '\\\\*',
-		['\\_'] = '\\\\_',
-		['\\`'] = '\\\\`',
-		['\\['] = '\\\\[',
-	})
+	return self:gsub('[*_`[]', '\\%0')
 end
 
 -- Remove specified formating or all markdown. This function useful for put
