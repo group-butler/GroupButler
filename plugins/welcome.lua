@@ -23,29 +23,29 @@ local function get_welcome(msg)
 	elseif type == 'custom' then
 		return content:replaceholders(msg)
 	else
-		return _("Hi %s, and welcome to *%s*!"):format(msg.new_chat_member.first_name:escape_hard(), msg.chat.title:escape_hard())
+		return _("Hi %s, and welcome to *%s*!"):format(msg.new_chat_member.first_name:escape(), msg.chat.title:escape_hard('bold'))
 	end
 end
 
 local function get_goodbye(msg)
 	if is_locked(msg.chat.id, 'Goodbye') then
-		 return false
+		return false
 	end
 	local type = db:hget('chat:'..msg.chat.id..':goodbye', 'type') or 'custom'
 	local content = db:hget('chat:'..msg.chat.id..':goodbye', 'content')
 	if type == 'media' then
-		 local file_id = content
-		 api.sendDocumentId(msg.chat.id, file_id)
-		 return false
+		local file_id = content
+		api.sendDocumentId(msg.chat.id, file_id)
+		return false
 	elseif type == 'custom' then
-		 if not content then
-				 local name = msg.left_chat_member.first_name
-				 if msg.left_chat_member.username then
-						 name = name..' (@'..msg.left_chat_member.username..')'
-				 end
-				 return _("Goodbye, %s!"):format(name:escape_hard())
-		 end
-		 return content:replaceholders(msg)
+		if not content then
+			local name = msg.left_chat_member.first_name
+			if msg.left_chat_member.username then
+				name = name:escape() .. ' (@' .. msg.left_chat_member.username:escape() .. ')'
+			end
+			return _("Goodbye, %s!"):format(name)
+		end
+		return content:replaceholders(msg)
 	end
 end
 

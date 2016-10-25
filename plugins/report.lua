@@ -1,6 +1,6 @@
 local plugin = {}
 
-local function report(msg)
+local function report(msg, description)
     local text = _('• *Message reported by*: %s (`%d`)\n• *Group*: %s'):format(misc.getname_final(msg.from), msg.from.id, msg.chat.title:escape())
     if msg.reply.sticker then
         text = text.._('\n• *Sticker sent by*: %s (`%d`)'):format(misc.getname_final(msg.reply.from), msg.reply.from.id)
@@ -8,9 +8,8 @@ local function report(msg)
     if msg.chat.username then
         text = text.._('\n• [Go to the message](%s)'):format('telegram.me/'..msg.chat.username..'/'..msg.message_id)
     end
-    local description = msg.text:match('^@admin (.*)')
     if description then
-        text = text.._('\n• *Description*: %s'):format(description:escape())
+        text = text.._('\n• *Description*: %s'):format(description:escape(true))
     end
     
     local res = api.getChatAdministrators(msg.chat.id)
@@ -36,7 +35,7 @@ function plugin.onTextMessage(msg, blocks)
     local status = (db:hget('chat:'..msg.chat.id..':settings', 'Reports')) or config.chat_settings['settings']['Reports']
     if not status or status == 'off' then return end
     
-    local n_sent = report(msg)
+    local n_sent = report(msg, blocks[1])
     if n_sent then
         local text = _('_Reported to %d admin(s)_'):format(n_sent)
         api.sendReply(msg, text, true)
@@ -45,8 +44,10 @@ end
 
 plugin.triggers = {
     onTextMessage = {
-        '^@admin',
-        config.cmd..'(report)$'
+        '^@admin$',
+        '^@admin (.*)',
+        config.cmd..'report$',
+        config.cmd..'report (.*)',
     }
 }
 

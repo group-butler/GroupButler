@@ -79,26 +79,27 @@ _Note_ : the number must be higher than 3 and lower than 26.
 		return _([[
 *Admins: welcome settings*
 
-`/config`, then `menu` tab = receive in private the menu keyboard. You will find an option to enable/disable welcome and goodbye messages.
+The bot can salute new members and say goodbye to left. You will find an option for enable / disable these features in the group menu. To get it in PM, send `/config` command to the group and tap on "Menu" button.
 
 *Custom welcome message*:
-`/welcome Welcome $name, enjoy the group!`
-Write after `/welcome` your welcome message. You can use some placeholders to include the name/username/id of the new member of the group
-Placeholders:
-`$username`: _will be replaced with the username_
+Example: `/welcome Welcome $name, enjoy the group!`
+Write after `/welcome` your welcome message. You can use some placeholders to include the name / username / id of the new member of the group. At the moment placeholders inside markdown markup isn't supported.
+
+*Placeholders*:
 `$name`: _will be replaced with the name_
+`$surname`: _will be replaced by the user's last name_
+`$username`: _will be replaced with the username_
 `$id`: _will be replaced with the id_
 `$title`: _will be replaced with the group title_
-`$surname`: _will be replaced by the user's last name_
 `$rules`: _will be replaced by a link to the rules of the group. Please read_ [here](https://telegram.me/GroupButler_beta/26) _how to use it, or you will get an error for sure_
 
-*GIF/sticker as welcome message*
-You can use a particular gif/sticker as welcome message. To set it, reply to the gif/sticker you want to set as welcome message with `/welcome`
+*GIF / sticker as welcome message*
+You can use a particular gif/sticker as welcome message. To set it, reply to the gif / sticker which you want to set as welcome message with `/welcome`.
 
 *Goodbye message*
 Also you can set the custom goodbye message:
 `/goodbye` _message_
-Same placeholders and media are available
+Same placeholders and media are available.
 ]])
 	elseif key == 'mods_extra' then
 		return _([[
