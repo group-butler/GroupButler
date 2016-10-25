@@ -1,20 +1,5 @@
 local plugin = {}
 
-local media_texts = {
-	photo = _("Images"),
-	gif = _("GIFs"),
-	video = _("Videos"),
-	document = _("Documents"),
-	TGlink = _("telegram.me links"),
-	voice = _("Vocal messages"),
-	link = _("Links"),
-	audio = _("Music"),
-	sticker = _("Stickers"),
-	contact = _("Contacts"),
-	game = _("Games"),
-	location = _("Locations")
-}
-
 local function getFloodSettings_text(chat_id)
     local status = db:hget('chat:'..chat_id..':settings', 'Flood') or 'yes' --check (default: disabled)
     if status == 'no' then
@@ -32,6 +17,7 @@ local function getFloodSettings_text(chat_id)
     local num = (db:hget(hash, 'MaxFlood')) or 5
     local exceptions = {
         text = _("Texts"),
+		forward = _("Forward"),
         sticker = _("Stickers"),
         image = _("Images"),
         gif = _("GIFs"),
@@ -135,6 +121,20 @@ function plugin.onCallbackQuery(msg, blocks)
         notification = _("ℹ️ Group ► Flood")
     end
     if request == 'media' then
+		local media_texts = {
+			photo = _("Images"),
+			gif = _("GIFs"),
+			video = _("Videos"),
+			document = _("Documents"),
+			TGlink = _("telegram.me links"),
+			voice = _("Vocal messages"),
+			link = _("Links"),
+			audio = _("Music"),
+			sticker = _("Stickers"),
+			contact = _("Contacts"),
+			game = _("Games"),
+			location = _("Locations"),
+		}
         text = _("*Current media settings*:\n\n")
         for media, default_status in pairs(config.chat_settings['media']) do
             local status = (db:hget('chat:'..chat_id..':media', media)) or default_status

@@ -33,6 +33,7 @@ local function do_keyboard_flood(chat_id)
     
     local exceptions = {
         text = _("Texts"),
+		forward = _("Forward"),
         sticker = _("Stickers"),
         photo = _("Images"),
         gif = _("GIFs"),

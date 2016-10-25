@@ -51,8 +51,8 @@ function plugin.onEveryMessage(msg)
     if not msg.inline then
     
     local msg_type = 'text'
-    if msg.media then msg_type = msg.media_type end
-    if not is_ignored(msg.chat.id, msg_type) then
+	if msg.forward_from or msg.forward_from_chat then msg_type = 'forward' end
+	if not is_ignored(msg.chat.id, msg_type) or msg.media and not is_ignored(msg.chat.id, msg.media_type) then
         local is_flooding, msgs_sent, msgs_max = is_flooding_funct(msg)
         if is_flooding then
             local status = (db:hget('chat:'..msg.chat.id..':settings', 'Flood')) or config.chat_settings['settings']['Flood']
@@ -144,6 +144,7 @@ function plugin.onEveryMessage(msg)
 					message = _("%s *banned*: RTL character in names / messages not allowed!"):format(name)
     	        end
     	        api.sendMessage(msg.chat.id, message, true)
+				return false -- not execute command already kicked out and not welcome him
     	    end
         end
     end
@@ -166,6 +167,7 @@ function plugin.onEveryMessage(msg)
 						message = _("%s *banned*: arab message detected!"):format(name)
     	            end
     	            api.sendMessage(msg.chat.id, message, true)
+					return false
     	        end
             end
         end
