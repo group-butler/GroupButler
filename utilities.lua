@@ -47,7 +47,7 @@ function string:escape_hard(ft)
 	elseif ft == 'link' then
 		return self:gsub(']', '')
 	else
-		return self:gsub('\\?[*_`[]', '')
+		return self:gsub('[*_`[%]]', '')
 	end
 end
 
@@ -411,7 +411,7 @@ function string:replaceholders(msg, ...)
 
 	local substitutions = next{...} and {} or replace_map
 	for _, placeholder in pairs{...} do
-		substitutions = replace_map[placeholder]
+		substitutions[placeholder] = replace_map[placeholder]
 	end
 
 	return self:gsub('$(%w+)', substitutions)
