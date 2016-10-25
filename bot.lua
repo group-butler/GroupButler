@@ -10,7 +10,7 @@ function bot_init(on_reload) -- The function run when the bot is started or relo
 	
 	config = dofile('config.lua') -- Load configuration file.
 	assert(not (config.bot_api_key == "" or not config.bot_api_key), clr.red..'Insert the bot token in config.lua -> bot_api_key'..clr.reset)
-	assert(#config.superadmins > 1, clr.red..'Insert your Telegram ID in config.lua -> superadmins'..clr.reset)
+	assert(#config.superadmins > 0, clr.red..'Insert your Telegram ID in config.lua -> superadmins'..clr.reset)
 	assert(config.log.admin, clr.red..'Insert your Telegram ID in config.lua -> log.admin'..clr.reset)
 	
 	db:select(config.db or 0) --select the redis db
