@@ -27,22 +27,12 @@ function plugin.onTextMessage(msg, blocks)
 	if blocks[1] == 'left_chat_member:bot' then
 		misc.remGroup(msg.chat.id, nil, 'bot removed')
 	end
-	if blocks[1] == 'left_chat_member' then
-		if msg.from and msg.left_chat_member then
-			if msg.from.id ~= msg.left_chat_member.id and msg.from.id ~= bot.id then
-				if msg.chat.type == 'supergroup' then
-					misc.saveBan(msg.left_chat_member.id, 'ban')
-				end
-			end
-		end
-	end
 end
 
 plugin.triggers = {
 	onTextMessage = {
 		'^###(new_chat_member:bot)',
 		'^###(left_chat_member:bot)',
-		'^###(left_chat_member)$'
 	}
 }
 

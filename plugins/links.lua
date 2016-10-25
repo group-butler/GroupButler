@@ -16,7 +16,7 @@ function plugin.onTextMessage(msg, blocks)
 		if not link then
 			text = _("*No link* for this group. Ask the owner to generate one")
 		else
-			local title = msg.chat.title:escape_hard()
+			local title = msg.chat.title:escape_hard('link')
 			text = string.format('[%s](%s)', title, link)
 		end
 		api.sendReply(msg, text, true)
@@ -48,7 +48,7 @@ function plugin.onTextMessage(msg, blocks)
 			text = _("Link *unsetted*")
 		else
 			local succ = db:hset(hash, key, link)
-			local title = msg.chat.title:escape_hard()
+			local title = msg.chat.title:escape_hard('link')
 			local substitution = '['..title..']('..link..')'
 			if succ == false then
 				text = _("The link has been updated.\n*Here's the new link*: %s"):format(substitution)

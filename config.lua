@@ -75,6 +75,7 @@ return {
 	chat_settings = { --default chat_settings for groups.
 		['settings'] = {
 			['Welcome'] = 'on',
+			['Goodbye'] = 'on',
 			['Extra'] = 'on',
 			['Flood'] = 'off',
 			['Silent'] = 'off',
@@ -106,6 +107,9 @@ return {
 		['welcome'] = {
 			['type'] = 'no',
 			['content'] = 'no'
+		},
+		['goodbye'] = {
+			['type'] = 'custom',
 		},
 		['media'] = {
 			['photo'] = 'ok', --'notok' | image

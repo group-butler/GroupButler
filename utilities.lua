@@ -25,15 +25,30 @@ function string:input() -- Returns the string after the first space.
 	return self:sub(self:find(' ')+1)
 end
 
-function string:escape()
-	if not self then return false end
-	self = self:gsub('%*', '\\*'):gsub('_', '\\_'):gsub('`', '\\`'):gsub('%[', '\\['):gsub('%]', '\\]')
-	return self
+-- Escape markdown for Telegram. This function makes non-clickable usernames,
+-- hashtags, commands, links and emails, if only_markup flag isn't setted.
+function string:escape(only_markup)
+	if not only_markup then
+		-- insert word joiner
+		self = self:gsub('([@#/.])(%w)', '%1⁠%2')
+	end
+	return self:gsub('[*_`[]', '\\%0')
 end
 
-function string:escape_hard() -- Remove the markdown.
-	self = self:gsub('*', ''):gsub('_', ''):gsub('`', ''):gsub('%[', ''):gsub('%]', '')
-	return self
+-- Remove specified formating or all markdown. This function useful for put
+-- names into message. It seems not possible send arbitrary text via markdown.
+function string:escape_hard(ft)
+	if ft == 'bold' then
+		return self:gsub('%*', '')
+	elseif ft == 'italic' then
+		return self:gsub('_', '')
+	elseif ft == 'fixed' then
+		return self:gsub('`', '')
+	elseif ft == 'link' then
+		return self:gsub(']', '')
+	else
+		return self:gsub('[*_`[%]]', '')
+	end
 end
 
 function roles.is_superadmin(user_id) --if real owner is true, the function will return true only if msg.from.id == config.admin.owner
@@ -198,12 +213,16 @@ function vardump(...)
 	end
 end
 
-function vtext(value)
-  return serpent.block(value, {comment=false})
+function vtext(...)
+	local lines = {}
+	for _, value in pairs{...} do
+		table.insert(lines, serpent.block(value, {comment=false}))
+	end
+	return table.concat(lines, '\n')
 end
 
 function misc.deeplink_constructor(chat_id, what)
-	return 'telegram.me/'..bot.username..'?start='..chat_id..':'..what
+	return 'https://telegram.me/'..bot.username..'?start='..chat_id..':'..what
 end
 
 function misc.clone_table(t) --doing "table1 = table2" in lua = create a pointer to table2
@@ -371,64 +390,31 @@ function misc.migrate_chat_info(old, new, on_request)
 	end
 end
 
-function string:replaceholders(msg) -- Returns the string after the first space.
+-- Perform substitution of placeholders in the text according given the
+-- message. If placeholders to replacing are specified, this function processes
+-- only them, otherwise it processes all available placeholders.
+function string:replaceholders(msg, ...)
 	if msg.new_chat_member then
 		msg.from = msg.new_chat_member
+	elseif msg.left_chat_member then
+		msg.from = msg.left_chat_member
 	end
-	
-	msg.from.first_name = msg.from.first_name:gsub('%%', '')
-	
-	self = self:gsub('$name', msg.from.first_name:escape())
-	if msg.from.username then
-		self = self:gsub('$username', '@'..msg.from.username:escape())
-	else
-		self = self:gsub('$username', '@-')
-	end
-	if msg.from.last_name then
-		self = self:gsub('$surname', msg.from.last_name:escape())
-	else
-		self = self:gsub('$surname', '-')
-	end
-	self = self:gsub('$id', msg.from.id)
-	self = self:gsub('$title', msg.chat.title:escape())
-	self = self:gsub('$rules', misc.deeplink_constructor(msg.chat.id, 'rules'))
-	return self
-end
 
-function string:replaceholders_dyn(msg, ...)
-	if msg.new_chat_member then
-		msg.from = msg.new_chat_member
-	end
-	msg.from.first_name = msg.from.first_name:gsub('%%', '')
-	
 	local replace_map = {
-		['$name'] = msg.from.first_name:escape(),
-		['$username'] = function()
-			if msg.from.username then
-				return '@'..msg.from.username:escape()
-			else
-				return '@-'
-			end
-		end,
-		['$surname'] = function()
-			if msg.from.last_name then
-				return msg.from.last_name:escape()
-			else
-				return '-'
-			end
-		end,
-		['$id'] = msg.from.id,
-		['$title'] = msg.chat.title:escape(),
-		['$rules'] = misc.deeplink_constructor(msg.chat.id, 'rules')
+		name = msg.from.first_name:escape(),
+		surname = msg.from.last_name and msg.from.last_name:escape() or '',
+		username = msg.from.username and '@'..msg.from.username:escape() or '-',
+		id = msg.from.id,
+		title = msg.chat.title:escape(),
+		rules = misc.deeplink_constructor(msg.chat.id, 'rules')
 	}
-	
+
+	local substitutions = next{...} and {} or replace_map
 	for _, placeholder in pairs{...} do
-		if replace_map[placeholder] then
-			self = self:gsub(placeholder, replace_map[placeholder])
-		end
+		substitutions[placeholder] = replace_map[placeholder]
 	end
-	
-	return self
+
+	return self:gsub('$(%w+)', substitutions)
 end
 
 function misc.to_supergroup(msg)
@@ -477,24 +463,16 @@ function misc.log_error(method, code, extras, description)
 	api.sendLog(text)
 end
 
-function misc.getname(msg)
-    local name = msg.from.first_name
-	if msg.from.username then name = name..' (@'..msg.from.username..')' end
-    return name
-end
-
+-- Return user mention for output a text
 function misc.getname_final(user)
-	return misc.getname_link(user.first_name, user.username) or '`'..user.first_name:escape()..'`'
+	return misc.getname_link(user.first_name, user.username) or user.first_name:escape()
 end
 
-function misc.getname_id(msg)
-    return msg.from.first_name..' ('..msg.from.id..')'
-end
-
+-- Return link to user profile or false, if he doesn't have login
 function misc.getname_link(name, username)
 	if not name or not username then return false end
 	username = username:gsub('@', '')
-	return '['..name:gsub('%[', '('):gsub('%]', ')')..'](https://telegram.me/'..username..')'
+	return '['..name:escape_hard('link')..'](https://telegram.me/'..username..')'
 end
 
 function misc.bash(str)
@@ -568,10 +546,7 @@ function misc.getAdminlist(chat_id)
 		if admin.status == 'administrator' then
 			name = admin.user.first_name
 			if admin.user.username then
-				if name:find('%]') or name:find('%[') then
-					name = name:gsub('%]', ')'):gsub('%[', '(')
-				end
-				name = '['..name..'](https://telegram.me/'..admin.user.username..')'
+				name = '['..name:escape_hard('link')..'](https://telegram.me/'..admin.user.username..')'
 			else
 				name = name:escape()
 			end
@@ -580,10 +555,7 @@ function misc.getAdminlist(chat_id)
 		elseif admin.status == 'creator' then
 			creator = admin.user.first_name
 			if admin.user.username then
-				if creator:find('%]') or creator:find('%[') then
-					creator = creator:gsub('%]', ')'):gsub('%[', '(')
-				end
-				creator = '['..creator..'](https://telegram.me/'..admin.user.username..')'
+				creator = '['..creator:escape_hard('link')..'](https://telegram.me/'..admin.user.username..')'
 			else
 				creator = creator:escape()
 			end
@@ -618,6 +590,7 @@ function misc.getSettings(chat_id)
     --build the message
 	local strings = {
 		Welcome = _("Welcome message"),
+		Goodbye = _("Goodbye message"),
 		Extra = _("Extra"),
 		Flood = _("Anti-flood"),
 		Antibot = _("Ban bots"),
@@ -626,6 +599,7 @@ function misc.getSettings(chat_id)
 		Arab = _("Arab"),
 		Rtl = _("RTL"),
 		Reports = _("Reports"),
+		Welbut = _("Welcome button"),
 	}
     for key, default in pairs(config.chat_settings['settings']) do
         
@@ -684,6 +658,7 @@ function misc.changeSettingStatus(chat_id, field)
 	local turned_off = {
 		reports = _("@admin command disabled"),
 		welcome = _("Welcome message won't be displayed from now"),
+		goodbye = _("Goodbye message won't be displayed from now"),
 		extra = _("#extra commands are now available only for moderator"),
 		flood = _("Anti-flood is now off"),
 		rules = _("/rules will reply in private (for users)"),
@@ -693,6 +668,7 @@ function misc.changeSettingStatus(chat_id, field)
 	local turned_on = {
 		reports = _("@admin command enabled"),
 		welcome = _("Welcome message will be displayed"),
+		goodbye = _("Goodbye message will be displayed"),
 		extra = _("#extra commands are now available for all"),
 		flood = _("Anti-flood is now on"),
 		rules = _("/rules will reply in the group (with everyone)"),
@@ -790,14 +766,14 @@ function misc.getnames_complete(msg, blocks)
 	if msg.from.username then
 		admin = misc.getname_link(msg.from.first_name, msg.from.username)
 	else
-		admin = '`'..msg.from.first_name:escape()..'`'
+		admin = '`'..msg.from.first_name:escape_hard('fixed')..'`'
 	end
 	
 	if msg.reply then
 		if msg.reply.from.username then
 			kicked = misc.getname_link(msg.reply.from.first_name, msg.reply.from.username)
 		else
-			kicked = '`'..msg.reply.from.first_name:escape()..'`'
+			kicked = '`'..msg.reply.from.first_name:escape_hard('fixed')..'`'
 		end
 	elseif msg.text:match(config.cmd..'%w%w%w%w?%w?%s(@[%w_]+)%s?') then
 		local username = msg.text:match('%s(@[%w_]+)')
@@ -805,7 +781,7 @@ function misc.getnames_complete(msg, blocks)
 	elseif msg.mention_id then
 		for _, entity in pairs(msg.entities) do
 			if entity.user then
-				kicked = '`'..entity.user.first_name:escape()..'`'
+				kicked = '`'..entity.user.first_name:escape_hard('fixed')..'`'
 			end
 		end
 	elseif msg.text:match(config.cmd..'%w%w%w%w?%w?%s(%d+)') then
@@ -857,7 +833,7 @@ function misc.logEvent(event, msg, blocks, extra)
 		if admin and banned and admin_id and banned_id then
 			text = '#BAN\n*Admin*: '..admin..'  #'..admin_id..'\n*User*: '..banned..'  #'..banned_id
 			if extra.motivation then
-				text = text..'\n\n> _'..extra.motivation:escape()..'_'
+				text = text..'\n\n> _'..extra.motivation:escape_hard('italic')..'_'
 			end
 		end
 	end
@@ -867,12 +843,12 @@ function misc.logEvent(event, msg, blocks, extra)
 		if admin and kicked and admin_id and kicked_id then
 			text = '#KICK\n*Admin*: '..admin..'  #'..admin_id..'\n*User*: '..banned..'  #'..banned_id
 			if extra.motivation then
-				text = text..'\n\n> _'..extra.motivation:escape()..'_'
+				text = text..'\n\n> _'..extra.motivation:escape_hard('italic')..'_'
 			end
 		end
 	end
 	if event == 'join' then
-		local member = misc.getname_link(msg.new_chat_member.first_name, msg.new_chat_member.username) or '`'..msg.new_chat_member.first_name:escape()..'`'
+		local member = misc.getname_link(msg.new_chat_member.first_name, msg.new_chat_member.username) or '`'..msg.new_chat_member.first_name:escape_hard('fixed')..'`'
 		text = '#NEW_MEMBER\n'..member.. '  #'..msg.new_chat_member.id
 	end
 	if event == 'warn' then
@@ -881,19 +857,19 @@ function misc.logEvent(event, msg, blocks, extra)
 		if admin and warned and admin_id and warned_id then
 			text = '#WARN ('..extra.warns..'/'..extra.warnmax..') ('..type..')\n*Admin*: '..admin..'  #'..admin_id..']\n*User*: '..banned..'  #'..banned_id..']'
 			if extra.motivation then
-				text = text..'\n\n> _'..extra.motivation:escape()..'_'
+				text = text..'\n\n> _'..extra.motivation:escape_hard('italic')..'_'
 			end
 		end
 	end
 	if event == 'mediawarn' then
-		local name = misc.getname_link(msg.from.first_name, msg.from.username) or '`'..msg.from.first_name:escape()..'`'
+		local name = misc.getname_link(msg.from.first_name, msg.from.username) or '`'..msg.from.first_name:escape_hard('fixed')..'`'
 		text = '#MEDIAWARN ('..extra.warns..'/'..extra.warnmax..') '..extra.media..'\n'..name..'  #'..msg.from.id
 		if extra.hammered then
 			text = text..'\n*'..extra.hammered..'*'
 		end
 	end
 	if event == 'flood' then
-		local name = misc.getname_link(msg.from.first_name, msg.from.username) or '`'..msg.from.first_name:escape()..'`'
+		local name = misc.getname_link(msg.from.first_name, msg.from.username) or '`'..msg.from.first_name:escape_hard('fixed')..'`'
 		text = '#FLOOD\n'..name..'  #'..msg.from.id
 		if extra.hammered then
 			text = text..'\n*'..extra.hammered..'*'

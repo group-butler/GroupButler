@@ -33,6 +33,7 @@ local function do_keyboard_flood(chat_id)
     
     local exceptions = {
         text = _("Texts"),
+		forward = _("Forward"),
         sticker = _("Stickers"),
         photo = _("Images"),
         gif = _("GIFs"),
@@ -163,7 +164,7 @@ You can set some exceptions for the antiflood:
         
         if blocks[1] == 'status' then
             local status = db:hget('chat:'..chat_id..':settings', 'Flood') or config.chat_settings['settings']['Flood']
-            text = misc.changeSettingStatus(chat_id, 'Flood'):escape_hard()
+            text = misc.changeSettingStatus(chat_id, 'Flood')
         end
         
         local keyboard = do_keyboard_flood(chat_id)
