@@ -4,27 +4,6 @@
 local misc = {}
 local roles = {}
 
-function misc.get_word(s, i) -- get the indexed word in a string
-
-	s = s or ''
-	i = i or 1
-
-	local t = {}
-	for w in s:gmatch('%g+') do
-		table.insert(t, w)
-	end
-
-	return t[i] or false
-
-end
-
-function string:input() -- Returns the string after the first space.
-	if not self:find(' ') then
-		return false
-	end
-	return self:sub(self:find(' ')+1)
-end
-
 -- Escape markdown for Telegram. This function makes non-clickable usernames,
 -- hashtags, commands, links and emails, if only_markup flag isn't setted.
 function string:escape(only_markup)
@@ -184,29 +163,6 @@ function string:trim() -- Trims whitespace from a string.
 	return s
 end
 
-function load_data(filename) -- Loads a JSON file as a table.
-
-	local f = io.open(filename)
-	if not f then
-		return {}
-	end
-	local s = f:read('*all')
-	f:close()
-	local data = JSON.decode(s)
-
-	return data
-
-end
-
-function save_data(filename, data) -- Saves a table to a JSON file.
-
-	local s = JSON.encode(data)
-	local f = io.open(filename, 'w')
-	f:write(s)
-	f:close()
-
-end
-
 function vardump(...)
 	for _, value in pairs{...} do
 		print(serpent.block(value, {comment=false}))
@@ -225,7 +181,7 @@ function misc.deeplink_constructor(chat_id, what)
 	return 'https://telegram.me/'..bot.username..'?start='..chat_id..':'..what
 end
 
-function misc.clone_table(t) --doing "table1 = table2" in lua = create a pointer to table2
+function table.clone(t) --doing "table1 = table2" in lua = creates a pointer to table2
   local new_t = {}
   local i, v = next(t, nil)
   while i do
@@ -235,7 +191,7 @@ function misc.clone_table(t) --doing "table1 = table2" in lua = create a pointer
   return new_t
 end
 
-function misc.remove_duplicates(t)
+function table.remove_duplicates(t)
 	if type(t) ~= 'table' then
 		return false, 'Table expected, got '..type(t)
 	else
@@ -286,6 +242,20 @@ function misc.resolve_user(username)
 	return user_obj.result.id
 end
 
+function misc.get_sm_error_string(code)
+	local descriptions = {
+		[109] = _("Inline link formatted incorrectly. Check the text between brackets -> \\[]()"),
+		[141] = _("Inline link formatted incorrectly. Check the text between brackets -> \\[]()"),
+		[142] = _("Inline link formatted incorrectly. Check the text between brackets -> \\[]()"),
+		[112] = _("This text breaks the markdown.\n"
+					.. "More info about a proper use of markdown "
+					.. "[here](https://telegram.me/GroupButler_ch/46)."),
+		[118] = _('This message is too long. Max lenght allowed by Telegram: 4000 characters')
+	}
+	
+	return descriptions[code] or _("Unknown markdown error")
+end
+
 function misc.write_file(path, text, mode)
 	if not mode then
 		mode = "w"
@@ -301,12 +271,6 @@ function misc.write_file(path, text, mode)
 	file:write(text)
 	file:close()
 	return true
-end
-
-function misc.save_br(code, text)
-	text = os.date('[%A, %d %B %Y at %X]')..', code: ['..code..']\n'..text
-	local path = "./msgs_errors.txt"
-	local res = misc.write_file(path, text, "a")
 end
 
 function misc.get_media_type(msg)
@@ -334,19 +298,7 @@ end
 
 function misc.get_media_id(msg)
 	if msg.photo then
-		if msg.photo[3] then
-			return msg.photo[3].file_id, 'photo'
-		else
-			if msg.photo[2] then
-				return msg.photo[2].file_id, 'photo'
-			else
-				if msg.photo[1] then
-					return msg.photo[1].file_id, 'photo'
-				else
-					return msg.photo.file_id, 'photo'
-				end
-			end
-		end
+		return msg.photo[#msg.photo].file_id, 'photo'
 	elseif msg.document then
 		return msg.document.file_id
 	elseif msg.video then
@@ -425,12 +377,6 @@ function misc.to_supergroup(msg)
 		misc.remGroup(old, true, 'to supergroup')
 		api.sendMessage(new, '(_service notification: migration of the group executed_)', true)
 	end
-end
-
-function div()
-	print('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX')
-	print('XXXXXXXXXXXXXXXXXX BREAK XXXXXXXXXXXXXXXXXXX')
-	print('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX')
 end
 
 function misc.log_error(method, code, extras, description)

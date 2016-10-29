@@ -84,13 +84,7 @@ function plugin.onTextMessage(msg, blocks)
             if not res then
                 db:hset(hash, 'type', 'no') --if wrong markdown, remove 'custom' again
                 db:hset(hash, 'content', 'no')
-                if code == 118 then
-				    api.sendMessage(msg.chat.id, _("This message is too long, I can't send it"))
-			    else
-					api.sendMessage(msg.chat.id, _("This text breaks the markdown.\n"
-						.. "More info about proper markdown usage can be found "
-						.. "[here](https://telegram.me/GroupButler_ch/46)."), true)
-			    end
+                api.sendMessage(msg.chat.id, misc.get_sm_error_string(code), true)
             else
                 local id = res.result.message_id
                 api.editMessageText(msg.chat.id, id, _("*Custom welcome message saved!*"), true)
@@ -130,17 +124,11 @@ function plugin.onTextMessage(msg, blocks)
 		input = input:gsub('^%s*(.-)%s*$', '%1') -- trim spaces
 		db:hset(hash, 'type', 'custom')
 		db:hset(hash, 'content', input)
-		local res, code = api.sendReply(msg, _("*Custom goodbye message* setted!\n\n%s"):format(input), true)
+		local res, code = api.sendReply(msg, input, true)
 		if not res then
 			db:hset(hash, 'type', 'composed') --if wrong markdown, remove 'custom' again
 			db:hset(hash, 'content', 'no')
-			if code == 118 then
-				api.sendMessage(msg.chat.id, _("This text is too long, I can't send it"))
-			else
-				api.sendMessage(msg.chat.id, _("This text breaks the markdown.\n"
-						.. "More info about a proper use of markdown "
-						.. "[here](https://telegram.me/GroupButler_ch/46)."), true)
-			end
+			api.sendMessage(msg.chat.id, misc.get_sm_error_string(code), true)
 		else
 			local id = res.result.message_id
 			api.editMessageText(msg.chat.id, id, _("*Custom goodbye message saved!*"), true)

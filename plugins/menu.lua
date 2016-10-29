@@ -1,5 +1,39 @@
 local plugin = {}
 
+local function get_button_description(key)
+    if key == 'Reports' then
+        return _("When enabled, users will be able to report messages with the @admin command")
+    elseif key == 'Goodbye' then
+        return _("Enable or disable the goodbye message. Can't be sent in large groups")
+    elseif key == 'Welcome' then
+        return _("Enable or disable the welcome message")
+    elseif key == 'Silent' then
+        return _("When enabled, the bot doesn't answer in the group to /dashboard, /config and /help commands (it will just answer in private)")
+    elseif key == 'Flood' then
+        return _("Enable and disable the anti-flood system (more info in the /help message)")
+    elseif key == 'Welbut' then
+        return _("If the welcome message is enabled, it will include an inline button that will send to the user the rules in private")
+    elseif key == 'Rules' then
+        return _([[When someone uses /rules
+👥: the bot will answer in the group (always, with admins)
+👤: the bot will answer in private]])
+    elseif key == 'Extra' then
+        return _([[When someone uses an #extra
+👥: the bot will answer in the group (always, with admins)
+👤: the bot will answer in private]])
+    elseif key == 'Arab' then
+        return _("Select what the bot should do when someone sends a message with arab characters")
+    elseif key == 'Rtl' then
+        return _("Select what the bot should do when someone sends a message with the RTL character, or has it in his name")
+    elseif key == 'warnsnum' then
+        return _("Change how many times an user has to be warned before being kicked/banned")
+    elseif key == 'warnsact' then
+        return _("Change the action to perform when an user reaches the max. number of warnings")
+    else
+        return _("Description not available")
+    end
+end 
+
 local function changeWarnSettings(chat_id, action)
     local current = tonumber(db:hget('chat:'..chat_id..':warnsettings', 'max')) or 3
     local new_val
@@ -21,10 +55,10 @@ local function changeWarnSettings(chat_id, action)
         local status = (db:hget('chat:'..chat_id..':warnsettings', 'type')) or 'kick'
         if status == 'kick' then
             db:hset('chat:'..chat_id..':warnsettings', 'type', 'ban')
-            return _("New action on max number of warns received: *ban*")
+            return _("New action on max number of warns received: ban")
         elseif status == 'ban' then
             db:hset('chat:'..chat_id..':warnsettings', 'type', 'kick')
-            return _("New action on max number of warns received: *kick*")
+            return _("New action on max number of warns received: kick")
         end
     end
 end
@@ -124,7 +158,7 @@ local function insert_settings_section(keyboard, settings_section, chat_id)
 
     for key, icon in pairs(settings_section) do
         local current = {
-            {text = strings[key] or key, callback_data = 'menu:alert:settings:'..chat_id},
+            {text = strings[key] or key, callback_data = 'menu:alert:settings:'..key..':'..chat_id},
             {text = icon, callback_data = 'menu:'..key..':'..chat_id}
         }
         table.insert(keyboard.inline_keyboard, current)
@@ -154,12 +188,19 @@ local function doKeyboard_menu(chat_id)
 		action = _("🔨️ ban")
 	end
     local warn = {
-		{text = '➖', callback_data = 'menu:DimWarn:'..chat_id},
-		{text = '#'..max, callback_data = 'menu:alert:warns:'..chat_id},
-		{text = action, callback_data = 'menu:ActionWarn:'..chat_id},
-		{text = '➕', callback_data = 'menu:RaiseWarn:'..chat_id},
+        {
+            {text = _('Warns: ')..max, callback_data = 'menu:alert:settings:warnsnum:'..chat_id},
+		    {text = '➖', callback_data = 'menu:DimWarn:'..chat_id},
+		    {text = '➕', callback_data = 'menu:RaiseWarn:'..chat_id},
+        },
+        {
+            {text = _('Action:'), callback_data = 'menu:alert:settings:warnsact:'..chat_id},
+            {text = action, callback_data = 'menu:ActionWarn:'..chat_id}
+        }
     }
-    table.insert(keyboard.inline_keyboard, warn)
+    for i, button in pairs(warn) do
+        table.insert(keyboard.inline_keyboard, button)
+    end
     
     --back button
     table.insert(keyboard.inline_keyboard, {{text = '🔙', callback_data = 'config:back:'..chat_id}})
@@ -176,18 +217,7 @@ function plugin.onCallbackQuery(msg, blocks)
 	        api.sendAdmin('Not msg.target_id -> menu') return
 	    end
 	    
-	    local menu_first = _([[
-Manage the settings of the group.
-📘 _Short legenda_:
-
-*Extra*:
-• 👥: the bot will reply *in the group*, with everyone
-• 👤: the bot will reply *in private* with normal users and in the group with admins
-
-*Silent mode*:
-If enabled, the bot won't send a confirmation message in the group when someone use /config or /dashboard.
-It will just send the message in private.
-]])
+	    local menu_first = _("Manage the settings of the group")
     
         local keyboard, text
         
@@ -196,12 +226,8 @@ It will just send the message in private.
             api.editMessageText(msg.chat.id, msg.message_id, menu_first, true, keyboard)
         else
 	        if blocks[2] == 'alert' then
-	            if blocks[3] == 'settings' then
-                    text = _("⚠️ Tap on an icon!")
-                elseif blocks[3] == 'warns' then
-                    text = _("⚠️ Use + and - to change the max number of warnings")
-                end
-                api.answerCallbackQuery(msg.cb_id, text)
+                text = get_button_description(blocks[3])
+                api.answerCallbackQuery(msg.cb_id, text, true)
                 return
             end
             if blocks[2] == 'DimWarn' or blocks[2] == 'RaiseWarn' or blocks[2] == 'ActionWarn' then
@@ -226,8 +252,7 @@ end
 
 plugin.triggers = {
     onCallbackQuery = {
-        '^###cb:(menu):(alert):(settings)',
-    	'^###cb:(menu):(alert):(warns)',
+        '^###cb:(menu):(alert):settings:([%w_]+):',
     	
     	'^###cb:(menu):(.*):',
     	

@@ -6,7 +6,6 @@ local triggers2 = {
 	'^%$(backup)$',
 	'^%$(save)$',
 	'^%$(stats)$',
-	'^%$(lua)$',
 	'^%$(lua) (.*)$',
 	'^%$(run) (.*)$',
 	'^%$(admin)$',
@@ -36,8 +35,9 @@ local triggers2 = {
 	'^%$(remgroup) (-%d+)$',
 	'^%$(remgroup) (true) (-%d+)$',
 	'^%$(cache) (.*)$',
-	'^%$(cacheinit) (.*)$',
-	'^%$(active) (%d)$',
+	'^%$(initcache) (.*)$',
+	'^%$(active) (%d%d?)$',
+	'^%$(active)$',
 	'^%$(getid)$'
 }
 
@@ -164,12 +164,8 @@ function plugin.onTextMessage(msg, blocks)
 		api.sendMessage(msg.chat.id, text, true)
 	end
 	if blocks[1] == 'lua' then
-		if not blocks[2] then
-			api.sendReply(msg, 'Enter a string')
-		else
-			local output = load_lua(blocks[2], msg)
-			api.sendMessage(msg.chat.id, output, true)
-		end
+		local output = load_lua(blocks[2], msg)
+		api.sendMessage(msg.chat.id, output, true)
 	end
 	if blocks[1] == 'run' then
 		--read the output
@@ -414,7 +410,7 @@ function plugin.onTextMessage(msg, blocks)
 		local members = db:smembers('cache:chat:'..chat_id..':admins')
 		api.sendMessage(msg.chat.id, chat_id..' ➤ '..tostring(#members)..'\n'..vtext(members))
 	end
-	if blocks[1] == 'cacheinit' then
+	if blocks[1] == 'initcache' then
 		local chat_id, text
 		if blocks[2] == '$chat' then
 			chat_id = msg.chat.id
@@ -430,7 +426,7 @@ function plugin.onTextMessage(msg, blocks)
 		api.sendMessage(msg.chat.id, text)
 	end
 	if blocks[1] == 'active' then
-		local days = tonumber(blocks[2])
+		local days = tonumber(blocks[2]) or 7
 		local now = os.time()
 		local seconds_per_day = 60*60*24
 		local groups = db:hgetall('bot:chats:latsmsg')

@@ -62,29 +62,11 @@ function plugin.onTextMessage(msg, blocks)
 		--set the new rules	
 		local res, code = api.sendReply(msg, input, true)
 		if not res then
-			if code == 118 then
-				api.sendMessage(msg.chat.id, _("This text is too long, I can't send it"))
-			else
-				api.sendMessage(msg.chat.id, _("This text breaks the markdown.\n"
-					.. "More info about a proper use of markdown "
-					.. "[here](https://telegram.me/GroupButler_ch/46)."), true)
-			end
+			api.sendMessage(msg.chat.id, misc.get_sm_error_string(code), true)
 		else
 			db:hset(hash, 'rules', input)
 			local id = res.result.message_id
 			api.editMessageText(msg.chat.id, id, _("New rules *saved successfully*!"), true)
-		end
-	end
-end
-
-function plugin.onCallbackQuery(msg, nlocks)
-	local rules = db:hget('chat:'..msg.chat.id..':info', 'rules')
-	if not rules then
-		api.answerCallbackQuery(msg.cb_id, _('❌ Rules not set'))
-	else
-		local res = api.sendMessage(msg.from.id, rules, true)
-		if not res then
-			api.answerCallbackQuery(msg.cb_id, _('❗️ You have to start me first, so I can send you the rules'), true)
 		end
 	end
 end
@@ -95,8 +77,7 @@ plugin.triggers = {
 		config.cmd..'(setrules) (.*)',
 		config.cmd..'(rules)$',
 		'^/(start) (-?%d+):rules$'
-	},
-	onCallbackQuery = {'^###cb:rulesbutton:(-%d+)$'}
+	}
 }
 
 return plugin

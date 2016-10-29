@@ -94,9 +94,6 @@ end
 
 local function collect_stats(msg)
 	
-	--count the number of messages
-	db:hincrby('bot:general', 'messages', 1)
-
 	extract_usernames(msg)
 	
 	if msg.chat.type ~= 'private' and msg.chat.type ~= 'inline' and msg.from then
@@ -176,7 +173,7 @@ local function on_msg_receive(msg, callback) -- The fn run whenever a message is
 					if not success then --if a bug happens
 							print(result)
 							if config.bot_settings.notify_bug then
-								api.sendReply(msg, _("Sorry, a *bug* occurred"), true)
+								api.sendReply(msg, _("🐛 Sorry, a *bug* occurred"), true)
 							end
     	      				api.sendAdmin('An #error occurred.\n'..result..'\n'..locale.language..'\n'..msg.text)
 							return
@@ -196,11 +193,23 @@ end
 
 local function parseMessageFunction(update)
 	
+	db:hincrby('bot:general', 'messages', 1)
+	
 	local msg, function_key
 	
-	if update.message then
-		msg = update.message
+	if update.message or update.edited_message then
+		
 		function_key = 'onTextMessage'
+		
+		if update.edited_message then
+			update.edited_message.edited = true
+			update.edited_message.original_date = update.edited_message.date
+			update.edited_message.date = update.edited_message.edit_date
+			function_key = 'onEditedMessage'
+		end
+		
+		msg = update.message or update.edited_message
+		
 		if msg.text then
 		elseif msg.photo then
 			msg.media = true
@@ -281,7 +290,7 @@ local function parseMessageFunction(update)
 					msg.mention_id = entity.user.id
 				end
 				if entity.type == 'url' or entity.type == 'text_link' then
-					if msg.text:match('[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm]%.[Mm][Ee]') then
+					if msg.text:lower():match('telegram%.me') then
 						msg.media_type = 'TGlink'
 					else
 						msg.media_type = 'link'
@@ -296,10 +305,7 @@ local function parseMessageFunction(update)
 				msg.reply.text = msg.reply.caption
 			end
 		end
-	--[[elseif update.edited_message then
-		msg = update.edited_message
-		function_key = 'onEditedMessage'
-	elseif update.inline_query then
+	--[[elseif update.inline_query then
 		msg = update.inline_query
 		msg.inline = true
 		msg.chat = {id = msg.from.id, type = 'inline', title = 'inline'}

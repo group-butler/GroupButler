@@ -38,13 +38,7 @@ function plugin.onTextMessage(msg, blocks)
 		if not pin_id then
 			local res, code = api.sendMessage(msg.chat.id, blocks[2]:replaceholders(msg, 'rules', 'title'), true)
 			if not res then
-				if code == 118 then
-					api.sendReply(msg, _("This text is too long, I can't send it"))
-				else
-					api.sendReply(msg, _("This text breaks the markdown.\n"
-						.. "More info about a proper use of markdown "
-						.. "[here](https://telegram.me/GroupButler_ch/46)."), true)
-		    	end
+				api.sendMessage(msg.chat.id, misc.get_sm_error_string(code), true)
     		else --if the message has been sent, then set its ID as new pinned message 
     			db:set('chat:'..msg.chat.id..':pin', res.result.message_id)
     			local text

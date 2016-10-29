@@ -52,7 +52,7 @@ function plugin.onEveryMessage(msg)
     
     local msg_type = 'text'
 	if msg.forward_from or msg.forward_from_chat then msg_type = 'forward' end
-	if not is_ignored(msg.chat.id, msg_type) or msg.media and not is_ignored(msg.chat.id, msg.media_type) then
+	if not is_ignored(msg.chat.id, msg_type) or msg.media and not is_ignored(msg.chat.id, msg.media_type) and not msg.edited then
         local is_flooding, msgs_sent, msgs_max = is_flooding_funct(msg)
         if is_flooding then
             local status = (db:hget('chat:'..msg.chat.id..':settings', 'Flood')) or config.chat_settings['settings']['Flood']
@@ -175,7 +175,7 @@ function plugin.onEveryMessage(msg)
     
     end --if not msg.inline then
     
-    if is_blocked(msg.from.id) then --ignore blocked users
+    if is_blocked(msg.from.id) or msg.edited then --ignore blocked users and edited messages
         return false --if an user is blocked, don't go through plugins
     end
     

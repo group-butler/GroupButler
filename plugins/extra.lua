@@ -38,14 +38,7 @@ function plugin.onTextMessage(msg, blocks)
 	    	
 	    	local res, code = api.sendReply(msg, blocks[3]:replaceholders(msg), true)
 	    	if not res then
-	    		if code == 118 then
-					api.sendMessage(msg.chat.id, _("That message is too long, I can't send it"))
-				else
-					local text = _("This text breaks the markdown.\n"
-							.. "More info about a proper use of markdown [here]"
-							.. "(https://telegram.me/GroupButler_ch/46).")
-					api.sendMessage(msg.chat.id, text, true)
-				end
+	    		api.sendMessage(msg.chat.id, misc.get_sm_error_string(code), true)
     		else
 	    		db:hset(hash, blocks[2], blocks[3])
 	    		local msg_id = res.result.message_id
