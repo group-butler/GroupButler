@@ -125,7 +125,26 @@ local function on_msg_receive(msg, callback) -- The fn run whenever a message is
 	if not msg then
 		return
 	end
-	
+
+	if msg.chat.type == 'group' and (msg.group_chat_created or msg.new_chat_member and msg.new_chat_member.id == bot.id) then
+		-- set language
+		locale.language = db:get(string.format('lang:%d', msg.from.id)) or 'en'
+		if not config.available_languages[locale.language] then
+			locale.language = 'en'
+		end
+		-- send disclamer
+		api.sendMessage(msg.chat.id, _([[
+Hello everyone!
+My name is %s, and I'm the bot for help administrators in their job.
+Unfortunately I can't work in normal groups, please ask a creator to convert this group to supergroup.
+]]):format(bot.first_name))
+		-- log this event
+		if config.bot_settings.stream_commands then
+			print(string.format('%s[%s]%s Bot was added to normal group %s%s [%d] -> [%d]',
+				  clr.blue, os.date('%X'), clr.yellow, clr.reset, msg.from.first_name, msg.from.id, msg.chat.id))
+		end
+	end
+
 	if msg.chat.type ~= 'group' then --do not process messages from normal groups
 		
 		if msg.date < os.time() - 7 then return end -- Do not process old messages.

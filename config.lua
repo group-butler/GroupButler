@@ -94,6 +94,7 @@ return {
 		['floodexceptions'] = {
 			['text'] = 'no',
 			['photo'] = 'no', -- image
+			['forward'] = 'no',
 			['video'] = 'no',
 			['sticker'] = 'no',
 			['gif'] = 'no',
