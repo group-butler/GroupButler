@@ -38,7 +38,8 @@ local triggers2 = {
 	'^%$(initcache) (.*)$',
 	'^%$(active) (%d%d?)$',
 	'^%$(active)$',
-	'^%$(getid)$'
+	'^%$(getid)$',
+	'^%$(updatelocale) (.*)$'
 }
 
 function plugin.cron()
@@ -442,6 +443,11 @@ function plugin.onTextMessage(msg, blocks)
 		if msg.forward_from then
 			api.sendMessage(msg.chat.id, '`'..msg.forward_from.id..'`', true)
 		end
+	end
+	if blocks[1] == 'updatelocale' then
+		local lang = blocks[2]
+		misc.bash('./launch.sh update-locale '..lang)
+		api.sendMessage(msg.chat.id, 'Updating `'..lang..'`... (check by yourself)', true)
 	end
 end
 
