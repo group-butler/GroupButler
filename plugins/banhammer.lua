@@ -149,7 +149,7 @@ function plugin.onTextMessage(msg, blocks)
     		end
    			if blocks[1] == 'unban' then
    				api.unbanUser(chat_id, user_id)
-   				local text = _("User unbanned by %s!"):format(admin)
+   				local text = _("User %s unbanned by %s!"):format(kicked, admin)
    				api.sendReply(msg, text, true)
    			end
 		else
