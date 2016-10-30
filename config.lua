@@ -8,6 +8,7 @@ return {
 		admin = 23646077, --The admin.
 		stats = nil
 	},
+	human_readable_version = '4.2.0',
 	bot_settings = {
 		cache_time = {
 			adminlist = 18000, --5 hours (18000s) Admin Cache time, in seconds.
@@ -94,10 +95,10 @@ return {
 		['floodexceptions'] = {
 			['text'] = 'no',
 			['photo'] = 'no', -- image
+			['forward'] = 'no',
 			['video'] = 'no',
 			['sticker'] = 'no',
 			['gif'] = 'no',
-			['forward'] = 'no'
 		},
 		['warnsettings'] = {
 			['type'] = 'ban',

@@ -30,7 +30,7 @@ function plugin.onTextMessage(msg, blocks)
 	if msg.chat.type ~= 'private' then return end
 	
 	if blocks[1] == 'ping' then
-		local res = api.sendMessage(msg.from.id, 'Pong!', true)
+		local res = api.sendMessage(msg.from.id, _("Pong!"), true)
 		--[[if res then
 			api.editMessageText(msg.chat.id, res.result.message_id, 'Response time: '..(os.clock() - clocktime_last_update))
 		end]]
@@ -47,7 +47,7 @@ function plugin.onTextMessage(msg, blocks)
 	end
 	if blocks[1] == 'about' then
 		local keyboard = do_keybaord_credits()
-		local text = 'This bot is based on [otouto](https://github.com/topkecleon/otouto) (AKA @mokubot, channel: @otouto), a multipurpose Lua bot.\nGroup Butler wouldn\'t exist without it.\n\nThe owner of this bot is @bac0nnn, do not pm him: use /groups command instead.\n\n*Some useful links*:'
+		local text = _("This bot is based on [otouto](https://github.com/topkecleon/otouto) (AKA @mokubot, channel: @otouto), a multipurpose Lua bot.\nGroup Butler wouldn't exist without it.\n\nThe owner of this bot is @bac0nnn, do not pm him: use /groups command instead.\n\nBot version: `%s`\n*Some useful links:*"):format(config.human_readable_version .. ' rev.' .. bot.revision)
 		api.sendMessage(msg.chat.id, text, true, keyboard)
 	end
 	if blocks[1] == 'groups' then
@@ -69,7 +69,7 @@ end
 function plugin.onCallbackQuery(msg, blocks)
 	if blocks[1] == 'about' then
 		local keyboard = do_keybaord_credits()
-		local text = 'This bot is based on [otouto](https://github.com/topkecleon/otouto) (AKA @mokubot, channel: @otouto), a multipurpose Lua bot.\nGroup Butler wouldn\'t exist without it.\n\nThe owner of this bot is @bac0nnn, do not pm him: use /groups command instead.\n\n*Some useful links*:'
+		local text = _("This bot is based on [otouto](https://github.com/topkecleon/otouto) (AKA @mokubot, channel: @otouto), a multipurpose Lua bot.\nGroup Butler wouldn't exist without it.\n\nThe owner of this bot is @bac0nnn, do not pm him: use /groups command instead.\n\nBot version: `%s`\n*Some useful links:*"):format(config.human_readable_version .. ' rev.' .. bot.revision)
 		api.editMessageText(msg.chat.id, msg.message_id, text, true, keyboard)
 	end
 	if blocks[1] == 'groups' then

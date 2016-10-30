@@ -5,8 +5,8 @@ make_template() {
 		xgettext --from-code=utf-8 \
 			--add-comments=TRANSLATORS \
 			--package-name=GroupButler \
-			--package-version=4.0 \
-			--msgid-bugs-address=https://telegram.me/baconnn \
+			--package-version=4.2 \
+			--msgid-bugs-address=https://telegram.me/bac0nnn \
 			--force-po \
 			--files-from=/dev/stdin \
 			--output=/dev/stdout
