@@ -252,7 +252,7 @@ local function do_keyboard_private()
     		{text = _("🌍 Select you language"), callback_data = 'selectlang'},
 	    },
 	    {
-	        {text = _("📕 All the commands"), callback_data = 'help:user'}
+	        {text = _("📕 All the commands"), callback_data = 'help:back'}
         }
     }
     return keyboard
