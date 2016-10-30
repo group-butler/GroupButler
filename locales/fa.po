@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: GroupButler 4.0\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-10-29 21:22+0200\n"
-"PO-Revision-Date: 2016-10-24 10:17+0330\n"
+"PO-Revision-Date: 2016-10-30 19:39+0330\n"
 "Last-Translator: Nicholas Guriev <guriev-ns@ya.ru>\n"
 "Language-Team: Persian\n"
 "Language: fa\n"
@@ -18,9 +18,8 @@ msgstr ""
 "X-Generator: Poedit 1.8.9\n"
 
 #: bot.lua:176
-#, fuzzy
 msgid "🐛 Sorry, a *bug* occurred"
-msgstr "متاسفانه یک خطا رخ داده است"
+msgstr "🐛 متاسفانه یک خطا رخ داده است"
 
 #: bot_normal.lua:198
 msgid "Sorry, a *bug* occurred"
@@ -54,8 +53,7 @@ msgstr "برای اینکار شما میتوانید از ban/ استفاده �
 msgid "The time limit is one week (168 hours)"
 msgstr "زمان محدودیت یک هفته میباشد (10 080)"
 
-#: plugins/banhammer.lua:97 plugins/banhammer.lua:120
-#: plugins/banhammer.lua:133
+#: plugins/banhammer.lua:97 plugins/banhammer.lua:120 plugins/banhammer.lua:133
 msgid ""
 "I can't kick this user.\n"
 "Either I'm not an admin, or the targeted user is!"
@@ -138,7 +136,7 @@ msgstr "متن"
 
 #: plugins/dashboard.lua:20
 msgid "Forward"
-msgstr ""
+msgstr "فوروارد"
 
 #: plugins/dashboard.lua:21 plugins/dashboard.lua:133
 #: plugins/floodmanager.lua:49 plugins/mediasettings.lua:24
@@ -340,9 +338,8 @@ msgid "The command '%s' does not exist!"
 msgstr "%s وجود ندارد"
 
 #: plugins/floodmanager.lua:5
-#, fuzzy
 msgid "⚖ Current sensitivity. Tap on the + or the - to change it"
-msgstr "حساسیت فعلی. روی  یا - بزنید ⚖"
+msgstr "⚖ حساسیت فعلی. برای تغییرات روی + و - بزنید"
 
 #: plugins/floodmanager.lua:7
 msgid ""
@@ -351,33 +348,33 @@ msgid ""
 "✅: ignored\n"
 "❌: not ignored"
 msgstr ""
+"انتخاب کنید کدام رسانه میخواهید در سیستم ضد اسپم نادیده گرفته شود (ربات تعداد "
+"آنها را شمارش نخواهد کرد).\n"
+"✅:نادیده گرفتن\n"
+"❌:درسیستم محاسبه خواهد شد"
 
 #: plugins/floodmanager.lua:11 plugins/menu.lua:33
 #: plugins/private_settings.lua:9
 msgid "Description not available"
-msgstr ""
+msgstr "توضییحات دردسترس نیست"
 
 #: plugins/floodmanager.lua:27
-#, fuzzy
 msgid "👞️ kick"
 msgstr "👞 اخراج"
 
 #: plugins/floodmanager.lua:29
-#, fuzzy
 msgid "🔨 ️ban"
 msgstr "⛔ ️ مسدود"
 
 #: plugins/floodmanager.lua:48
 msgid "Forwards"
-msgstr ""
+msgstr "فوروارد"
 
 #: plugins/floodmanager.lua:81
-#, fuzzy
 msgid "Flooders will be banned"
 msgstr "اسپم دهنده ها در گروه مسدود خواهند شد"
 
 #: plugins/floodmanager.lua:84
-#, fuzzy
 msgid "Flooders will be kicked"
 msgstr "اسپم دهنده از گروه اخراج خواهند شد"
 
@@ -387,13 +384,12 @@ msgid "%d is not a valid value!\n"
 msgstr "%d معتبر نیست! \n"
 
 #: plugins/floodmanager.lua:115
-#, fuzzy
 msgid "You're no longer an admin"
-msgstr "شما از مدیران نیستید!"
+msgstr "شما دیگه مدیر نیستید"
 
 #: plugins/floodmanager.lua:117
 msgid "You can manage the antiflood settings from here"
-msgstr ""
+msgstr "شما میتوانید تنظیمات ضد اسپم را از اینجا مدیریت کنید"
 
 #: plugins/floodmanager.lua:122
 msgid "Antiflood settings"
@@ -410,7 +406,7 @@ msgid "🚫 [%s] won't be ignored by the anti-flood"
 msgstr "[%s] 🚫توسط ضد اسپم محاسبه خواهد شد"
 
 #: plugins/help.lua:5
-#, fuzzy, lua-format
+#, lua-format
 msgid ""
 "\n"
 "Hello %s 👋🏼, nice to meet you!\n"
@@ -428,8 +424,8 @@ msgid ""
 "…and more, below you can find the \"all commands\" button to get the whole "
 "list!\n"
 "\n"
-"I work better if you add me to the group administrators (otherwise I won't "
-"be able to kick or ban)!\n"
+"I work better if you add me to the group administrators (otherwise I won't be "
+"able to kick or ban)!\n"
 msgstr ""
 "\n"
 "سلام %s 👋, از دیدنت خوشحالم!\n"
@@ -439,8 +435,8 @@ msgstr ""
 "• من میتوانم کاربران را از گروه اخراج یا در گروه مسدود کنم\n"
 "• شما میتوانید از من برای ذخیره قوانین و توضییحات استفاده کنید\n"
 "• من یک سیستم ضد اسپم دارم\n"
-"• من میتوانم پیام خوشامد بگم با متن انتخابی شما و یا اگر شما بخواهید باگیف "
-"یا استیکر\n"
+"• من میتوانم پیام خوشامد بگم با متن انتخابی شما و یا اگر شما بخواهید باگیف یا "
+"استیکر\n"
 "• من میتوانم به کاربران  اخطار دهم، و میتوانم آنها را در گروه برای گرفتن "
 "حداکثر تعداد اخطار مسدود یا اخراج کنم\n"
 "• و همچنین میتوانم برای ارسال رسانه های ممنوع به آنها اخطار دهم یا اخراج و "
@@ -464,15 +460,26 @@ msgid ""
 "Remember: you have to use commands  *in the group*, unless they are "
 "specifically designed for private chats (see \"private\" tab)."
 msgstr ""
+"\n"
+"این ربات فقط در سوپرگروه بخوبی کار میکند.\n"
+"برای اخراج/مسدود کردن [ربات حتما باید درگروه مدیر ](https://telegram.me/"
+"GroupButler_ch/104) باشد \n"
+"فقط سازنده گروه میتواند ربات را مدیر کند :)\n"
+"\n"
+"شما میتوانید از `/` ، `!` یا `#` اول دستورها استفاده کنید.\n"
+"\n"
+"دقت کنید: شما باید دستورات را داخل گروه ارسال کنید، مگر اینکه دستورها برای "
+"خصوصی طراحی شده باشند (قسمت خصوصی را ببینید)."
 
 #: plugins/help.lua:31
 msgid ""
 "\n"
 "In this menu you will find all the available commands"
 msgstr ""
+"\n"
+"توی این فهرست شما میتوانید تمام دستورها را مشاهده کنید"
 
 #: plugins/help.lua:34
-#, fuzzy
 msgid ""
 "\n"
 "*Commands that work in private*:\n"
@@ -488,17 +495,16 @@ msgid ""
 "• `/help` : show this message\n"
 msgstr ""
 "\n"
-"*دستورهای عمومی*:\n"
-"`/dashboard` : نمایش اطلاعات گروه در پیام خصوصی\n"
-"`/rules` : نمایش قوانین گروه\n"
-"`/about` : نمایش توضییحات گروه\n"
-"`/adminlist` : نمایش مدیران گروه\n"
-"`/kickme` : خارج شدن توسط ربات\n"
-"`/id` : گرفتن آیدی گروه یا گرفتن آیدی کاربر اگر ریپلای کنید\n"
-"`/echo [text]` : نشانه دار کردن متن در پیام خصوصی\n"
-"`/info` : نمایش برخی اطلاعات مربوط به ربات\n"
-"`/groups` : نمایش لیست گروه های پشتیبانی\n"
-"`/help` : نمایش این پیام\n"
+"دستورهایی که فقط در خصوصی (پی وی) ربات کار میکنند:\n"
+"\n"
+"• `/mysettings`: نمایش تنظیمات شخصی،شامل نمایش قوانین هنگام ورود به گروه ها، "
+"یا گرفتن گزارش کاربرانی که از دستور @admin استفاده کرده اند \n"
+"• `/echo [text]`: ربات متن مورد نظر شما را با مدل نشانه کزارسی نمایش میدهد\n"
+"• `/about` : نمایش اطعلات مهم درباره ربات\n"
+"• `/groups` : نمایش گروه های پشتیبانی ربات\n"
+"• `/id`: نمایش شناسه کاربری شما\n"
+"• `/start` : نمایش پیام اولیه ربات\n"
+"• `/help` : نمایش این پیام\n"
 
 #: plugins/help.lua:46
 msgid ""
@@ -512,9 +518,9 @@ msgid ""
 "*Note*: `/dashboard` and `/adminlist` replies always in private. If the bot "
 "is unable to reach an user, he will ask in the group to that user to be "
 "started, but just if _silent mode_ is off.\n"
-"With `/rules`, the bot always answer in the group for admins, but with "
-"normal users the message is sent in the group or in private according to the "
-"group settings.\n"
+"With `/rules`, the bot always answer in the group for admins, but with normal "
+"users the message is sent in the group or in private according to the group "
+"settings.\n"
 "\n"
 "• `@admin` (by reply): report a message to the admins of the group (the bot "
 "will forward it in prvate). This ability could be turned off from the group "
@@ -523,9 +529,27 @@ msgid ""
 "mysettings` command\n"
 "• `/kickme` : get kicked by the bot\n"
 msgstr ""
+"\n"
+"دستورهایی که تمام کاربران میتوانند در گروه استفاده کنید:\n"
+"\n"
+"• `/dashboard` : نمایش اطلاعات مربوط به گروه\n"
+"• `/rules` :  نمایش قوانین گروه\n"
+"• `/adminlist` : نمایش لیست مدیران گروه\n"
+"• `/help` : نمایش این پیام\n"
+"تذکر:  `/dashboard` و  `/adminlist` همیشه جواب را برای شما در خصوصی ارسال "
+"میکنند. اگر ربات دسترسی به خصوصی کاربر نداشته باشد، در گروه درخواست راه "
+"اندازی میکند، اما فقط درهنگامی که _حالت سکوت_ خاموش باشد\n"
+"اما  `/rules` ، همیشه برای مدیران در گروه پاسخ خواهد داد، اما برای کاربران "
+"معمولی درگروه یا خصوصی شخص بر طبق تنظیمات گروه ارسال میکند\n"
+"\n"
+"• `@admin` (by reply): ربات پزارش پیامی از گروه به مدیران (ربات پیام مورد نظر "
+"را به خصوصی مدیران فوروارد میکند). این قابلیت میتواند در تنظیمات گروه غیرفعال "
+"شود. توضیحات گزارش میتواند اضافه شود.\n"
+"مدیران برای گرفتن گزارش کاربران باید با دستور `/mysettings`  در خصوصی ربات "
+"این قابلیت را فعال کنند\n"
+"• `/kickme` :  خارج شدن از گروه توسط ربات\n"
 
 #: plugins/help.lua:61
-#, fuzzy
 msgid ""
 "\n"
 "*Admins: info about the group*\n"
@@ -552,24 +576,25 @@ msgstr ""
 "\n"
 "مدیریت: اطلاعات مربوط به گروه\n"
 "\n"
-"`/setrules قوانین` = افزودن قوانین جدید (قوانین قبلی گروه حذف خواهد شد)\n"
-"`/setrules -` = قوانین گروه را حذف خواهد کرد.\n"
+"• `/setrules قوانین` = افزودن قوانین جدید (قوانین قبلی گروه حذف خواهد شد)\n"
+"• `/setrules -` = قوانین گروه را حذف خواهد کرد.\n"
 "\n"
 "تذکر: مدل های نشانه گذاری در این پیام پشتیبانی خواهد شد. اگر مدل نشانه گذاری "
 "شما اشتباه باشد ربات حتما اخطار خواهد داد که اشتباه شده.\n"
 "برای استفاده درست از مدل های نشانه گذاری به [این صفحه](https://telegram.me/"
 "GroupButler_ch/46) مراجعه کنید.\n"
 "\n"
-"`/setlink [link | -]`: ذخیره لینک گروه برای ربات که توسط مدیران قابل دریافت "
+"• `/setlink [link | -]`: ذخیره لینک گروه برای ربات که توسط مدیران قابل دریافت "
 "هست و یا حذف لینک ذخیره شده\n"
-"`/link`: گرفتن لینک گروه توسط مدیران، درصورتی که قبلا ذخیره شده باشد\n"
-"`/msglink`: گرفتن لینک مستقیم پیام فقط در گروه های عمومی قابل استفاده ست\n"
+"اگر شما از این ربات در گروه عمومی استفاده میکنید نیازی نیست لینک گروه را "
+"بنویسید، کافیه فقط دستور `/setlink` را ارسال کنید\n"
+"• `/link`: گرفتن لینک گروه توسط مدیران، درصورتی که قبلا ذخیره شده باشد\n"
+"• `/msglink`: گرفتن لینک مستقیم پیام فقط در گروه های عمومی قابل استفاده ست\n"
 "\n"
 "تذکر: ربات میتواند لینک درست و کامل را ذخیره کند درصورتی که لینک اشتباه باشد "
 "ربات پاسخی نخواهد داد.\n"
 
 #: plugins/help.lua:78
-#, fuzzy
 msgid ""
 "\n"
 "*Banhammer powers*\n"
@@ -580,8 +605,8 @@ msgid ""
 "\n"
 "• `/kick [by reply|username|id|text mention]`: kick a user from the group.\n"
 "• `/ban [by reply|username|id|text mention]`: ban a user from the group.\n"
-"• `/tempban [hours|nd nh]` = ban an user for a specific amount of hours "
-"(max: one week). For now, only by reply. Short form: `/tempban 1d 7h`\n"
+"• `/tempban [hours|nd nh]` = ban an user for a specific amount of hours (max: "
+"one week). For now, only by reply. Short form: `/tempban 1d 7h`\n"
 "• `/unban [by reply|username|id|text mention]`: unban the user from the "
 "group.\n"
 "• `/user [by reply|username|id|text mention]`: shows how many times the user "
@@ -602,17 +627,31 @@ msgid ""
 msgstr ""
 "\n"
 "مدیران: مدیریت کاربران\n"
+"دستورهایی که به مدیران در اخراج و مسدود کردن و گرفتن برخی اطلاعات کاربران در "
+"گروه کمک میکند.\n"
+"کاربران اخراج شده میتوانند دوباره به گروه برگردند، اما کاربران مسدود شده "
+"نمیتوانند. کاربران مسدود شده در لیست سیاه گروه افزوده میشوند\n"
 "\n"
-"`/kick [by reply|username|id|text mention]` = اخراج کردن کاربران از گروه "
+"• `/kick [by reply|username|id|text mention]` = اخراج کردن کاربران از گروه "
 "(مجددا میتواند وارد شود).\n"
-"`/ban [by reply|username|id|text mention]` = مسدود کردن کاربران در گروه.\n"
-"`/tempban [hours|nd nh]` = مسدود کردن کاربران برای مدت خاصی (حداکثر یک "
+"• `/ban [by reply|username|id|text mention]` = مسدود کردن کاربران در گروه.\n"
+"• `/tempban [hours|nd nh]` = مسدود کردن کاربران برای مدت خاصی (حداکثر یک "
 "هفته). مثل `/tempban 1d 7h`\n"
-"`/unban [by reply|username|id|text mention]` = خارج کردن از لیست مسدودین.\n"
-"`/user [by reply|username|id|text mention]` = نمایش وضعیت جهانی کاربر در چه "
+"• `/unban [by reply|username|id|text mention]` = خارج کردن از لیست مسدودین.\n"
+"• `/user [by reply|username|id|text mention]` = نمایش وضعیت جهانی کاربر در چه "
 "تعداد گروه هایی مسدود شده یا اخطار گرفته.\n"
-"`/status [username|id]` = نمایش وضعیت فعلی کاربر (کاربر ساده/اخراج شده/خارج "
+"• `/status [username|id]` = نمایش وضعیت فعلی کاربر (کاربر ساده/اخراج شده/خارج "
 "شده/مسدود شده/مدیر/سازنده/دیده نشده)\n"
+"ربات نمیتواند وضعیت کاربرانی که هرگز ربات را start نکرده اند بگیرد (درحقیقت "
+"هیچ وضعیتی دیده نشده است) \n"
+"\n"
+"ضداسپم\n"
+"سیستم ضداسپم کسانی که پیام های متوالی در گروه میذارند را خودکار حذف میکند\n"
+"اگر روشن باشد، اسپم دهنده ها اخراج/مسدود خواهند شد\n"
+"\n"
+"• `/config` و سپس دکمه ضد اسپم یا  `antiflood`: مدیریت ضد اسپم با کیبورد در "
+"خصوصی ربات.  شما میتوانید حساسیت، عملکرد ربات (اخراج/مسدود)و همینطور لیست "
+"استثنا ایجاد کنید.\n"
 
 #: plugins/help.lua:98
 msgid ""
@@ -624,17 +663,31 @@ msgid ""
 "\n"
 "• `/config` command, then `menu` button: here you can find a voice, \"Report"
 "\". If turned on, users will be able to use `@admin` command.\n"
-"Only admins who accepted to receive reports (with `/mysettings` command) "
-"will be notified\n"
-"• `/mysettings` (in private): from here, you can choose if receive reports "
-"or not\n"
+"Only admins who accepted to receive reports (with `/mysettings` command) will "
+"be notified\n"
+"• `/mysettings` (in private): from here, you can choose if receive reports or "
+"not\n"
 "\n"
 "*Note*: admins can't use the `@admin` command, and users can't report admins "
 "with it."
 msgstr ""
+"\n"
+"تنظیمات گزارش\n"
+"`@admin` یک دستور بسیار کارامد است که به کاربران اجازه ارسال گزارش در گروه "
+"میدهد.\n"
+"پیام گزارش شده به خصوصی مدیران فوروارد میشود.\n"
+"\n"
+"• `/config`  سپس دکمه فهرست یا  `menu`: اینجا شما میتوانید Report یا گزارش را "
+"ببینید. اگر روشن باشد، کاربران قادرند از دستور `@admin` استفاده کنند.\n"
+"فقط مدیرانی که قابلیت دریافت گزارش را درخصوصی (با دستور `/mysettings`) فعال "
+"کرده باشند میتوانند گزارش را دریافت کنند\n"
+"• `/mysettings` (درخصوصی): دراینجا شما میتوانید انتخاب کنید که گزارش را "
+"دریافت کنید یا خیر\n"
+"\n"
+"تذکر: مدیران نمیتوانند از دستور `@admin` استفاده کنند، و همچنین کاربران "
+"نمیتواند یک مدیر را گزارش کنند."
 
 #: plugins/help.lua:109
-#, fuzzy
 msgid ""
 "\n"
 "*Welcome/goodbye settings*\n"
@@ -657,26 +710,29 @@ msgid ""
 "`$id`: _will be replaced with the id_\n"
 "`$title`: _will be replaced with the group title_\n"
 "`$surname`: _will be replaced by the user's last name_\n"
-"`$rules`: _will be replaced by a link to the rules of the group. Please "
-"read_ [here](https://telegram.me/GroupButler_beta/26) _how to use it, or you "
-"will get an error for sure_\n"
+"`$rules`: _will be replaced by a link to the rules of the group. Please read_ "
+"[here](https://telegram.me/GroupButler_beta/26) _how to use it, or you will "
+"get an error for sure_\n"
 "\n"
 "*GIF/sticker as welcome message*\n"
 "You can use a particular gif/sticker as welcome message. To set it, reply to "
-"the gif/sticker you want to set as welcome message with `/welcome`. Same "
-"goes for `/goodbye`\n"
+"the gif/sticker you want to set as welcome message with `/welcome`. Same goes "
+"for `/goodbye`\n"
 msgstr ""
 "\n"
-"مدیران: تنظیمات خوش آمدگویی\n"
+"مدیران: تنظیمات خوش آمدگویی/خداحافظی \n"
 "\n"
-"`/config` = بعد دکمه فهرست تنظیمات یا menu = شما میتوانید پیام خوش آمد را "
-"فعال/غیرفعال کنید.\n"
+"• `/config` = بعد دکمه فهرست تنظیمات یا menu = شما میتوانید پیام خوش آمد/"
+"خداحافظی را فعال/غیرفعال کنید.\n"
+"تذکر: پیام خداحافظی توی گروه های تعداد بالا کار نمیکند. این محدودیت تلگرام "
+"است\n"
 "\n"
 "شخصی سازی پیام خوش آمد گویی:\n"
-"`/welcome سلام $name به گروه ما خوش آمدید!`\n"
+"• `/welcome سلام $name به گروه ما خوش آمدید!`\n"
 "بعد از دستور /welcome متن خوش آمدگویی خود رابنویسید. شما میتوانید از کد های "
 "جایگذاری برای نمایش اطلاعات شخص وارد شده مثل نام/نام کاربری/شناسه کاربری در "
-"گروه استفاده کنید.\n"
+"گروه استفاده کنید.برای پیام خداحافظی نیز به همین شکل اما با دستور  `/goodbye` "
+"میتوانید ذخیره کنید \n"
 "کدهای جایگذاری:\n"
 "`$username`: _با نام کاربری شخص جایگذاری خواهد شد_\n"
 "`$name`: _با نام کوچک شخص جایگذای خواهد شد_\n"
@@ -688,20 +744,19 @@ msgstr ""
 "کنید، درغیر اینصورت شما error دریافت خواهید کرد_\n"
 "\n"
 "ارسال استیکر و گیف بعنوان پیام خوش آمدگویی\n"
-"بتدا استکیر و یا گیف مورد نظر را ارسال نمایید سپس به دستور` /welcome` استیکر "
-"و گیف مورد نظر را ریپلای کنید\n"
+"بتدا استکیر و یا گیف مورد نظر را ارسال نمایید سپس به دستور` /welcome` و "
+"همینطور  `/goodbye` استیکر و گیف مورد نظر را ریپلای کنید\n"
 
 #: plugins/help.lua:132
-#, fuzzy
 msgid ""
 "\n"
 "*Extra commands*\n"
 "#extra commands are a smart way to save your own custom commands.\n"
 "\n"
-"• `/extra [#trigger] [reply]`: set a reply to be sent when someone writes "
-"the trigger.\n"
-"_Example_ : with \"`/extra #hello Good morning!`\", the bot will reply "
-"\"Good morning!\" each time someone writes #hello.\n"
+"• `/extra [#trigger] [reply]`: set a reply to be sent when someone writes the "
+"trigger.\n"
+"_Example_ : with \"`/extra #hello Good morning!`\", the bot will reply \"Good "
+"morning!\" each time someone writes #hello.\n"
 "You can reply to a media (_photo, file, vocal, video, gif, audio_) with `/"
 "extra #yourtrigger` to save the #extra and receive that media each time you "
 "use # command\n"
@@ -717,8 +772,9 @@ msgid ""
 msgstr ""
 "\n"
 "مدیران: دستورهای اضافه\n"
+"دستور #extra یک راه هوشمند برای ساخت دستورهای شخصی شماست.\n"
 "\n"
-"`/extra [#dastor] [reply]` = تنظیم کنید وقتی کاربر dastor مورد نظر شما را "
+"•  `/extra [#dastor] [reply]` = تنظیم کنید وقتی کاربر dastor مورد نظر شما را "
 "ارسال میکند چه پاسخی دریافت کند.\n"
 "_برای مثال_ : با `/extra #hello Good morning!`، ربات پاسخ خواهد داد \"Good "
 "morning!\" اگر کاربری دستور #hello را ارسال کند.\n"
@@ -726,33 +782,32 @@ msgstr ""
 "ویدیو، گیف،موسیقی_) با `/extra #dastor` برای ذخیره رسانه مورد نظر شما، تا "
 "هرموقع که خواستید با دستور #dastor  دریافت کنید توجه: #dastor نمیتواند فارسی "
 "باشد\n"
-"`/extra list` = نمایش دستورهای ذخیره شده.\n"
-"`/extra del [#dastor]` = حذف Dastor مورد نظر.\n"
+"•  `/extra list` = نمایش دستورهای ذخیره شده.\n"
+"•  `/extra del [#dastor]` = حذف Dastor مورد نظر.\n"
 "\n"
 "تذکر: مدل های نشانه گذاری پشتیبانی میشود. اگر مدل نشانه گذاری اشتباه باشد "
 "ربات پاسخ خواهد داد یک اشتباهی وجود دارد.\n"
 "برای استفاده درست از مدل نشانه گذاری [این صفحه](https://telegram.me/"
 "GroupButler_ch/46) را مطالعه کنید.\n"
-"و از کدهای جایگذاری پشتیبانی میشود. در تنظیمات `خوش آمدگویی` لیست کدهای "
-"جایگذاری موجود است.\n"
+"و کدهای جایگذاری در این قسمت نیز پشتیبانی میشود. در تنظیمات `خوش آمدگویی` "
+"لیست کدهای جایگذاری موجود است.\n"
 
 #: plugins/help.lua:147
-#, fuzzy
 msgid ""
 "\n"
 "*Warns*\n"
 "Warn are made to keep the count of the admonitions received by an user. Once "
 "an user has been warned for the defined number of times, he is kicked/banned "
 "by the bot.\n"
-"There are two different type of warns: _normal warns_, given by an admin "
-"with the `/warn` command, and _automatic_ (or _media_) warns, given by the "
-"bot when someone send a media that is not allowed in the chat.\n"
-"Admins can set allowed and forbidden media types from the `/config` "
-"keyboard, \"media\" button\n"
+"There are two different type of warns: _normal warns_, given by an admin with "
+"the `/warn` command, and _automatic_ (or _media_) warns, given by the bot "
+"when someone send a media that is not allowed in the chat.\n"
+"Admins can set allowed and forbidden media types from the `/config` keyboard, "
+"\"media\" button\n"
 "\n"
 "• `/warn [by reply]`: warn a user\n"
-"• `/nowarns [by reply]`: reset the warns received by an user (both normal "
-"and media warns).\n"
+"• `/nowarns [by reply]`: reset the warns received by an user (both normal and "
+"media warns).\n"
 "• `/warnmax [number]`: set the max number of the warns before the kick/ban.\n"
 "• `/warnmax media [number]`: set the max number of the warns before kick/ban "
 "when an unallowed media is sent.\n"
@@ -766,14 +821,22 @@ msgid ""
 msgstr ""
 "\n"
 "مدیران: تنظیمات اخطارها\n"
+"این امکان برای شمارش اخطارهایی که مدیران به کاربرها میدهند ساخته شده است، و "
+"هنگامی که کاربری تعداد اخطارهای آنها به حداکثر تعداد میرسد، آنها توسط ربات "
+"اخراج/مسدود خواهند شد.\n"
+"دوحالت اخطار وجود دارد: اخطار معمولی که توسط مدیران با دستور `/warn` به "
+"کاربران داده میشود، و اخطارهای اتوماتیک (اخطارهای رسانه)، که توسط ربات زمانی "
+"که کاربری رسانه غیرمجازی در گروه رسال میکند.\n"
+"مدیران میتوانند رسانه های مجاز و غیرمجاز را با دستور  `/config` و دکمه رسانه "
+"یا media تعیین کنند.\n"
 "\n"
-"`/warn [by reply]` = اخطار دادن به کاربر، اگر تعداد اخطار ها به حدنهایی "
+"• `/warn [by reply]` = اخطار دادن به کاربر، اگر تعداد اخطار ها به حدنهایی "
 "برسد، کاربر اخراج/مسدود خواهد شد.\n"
-"`/nowarns [by reply]` = صفر کردن تعداد اخطار های گرفته شده توسط کاربر (هردو "
+"• `/nowarns [by reply]` = صفر کردن تعداد اخطار های گرفته شده توسط کاربر (هردو "
 "اخطار معمولی و رسانه)\n"
-"`/warnmax [number]` = تعیین تعداد اخطارهای مجاز گروه که بعد از رسیدن به "
+"• `/warnmax [number]` = تعیین تعداد اخطارهای مجاز گروه که بعد از رسیدن به "
 "حدنهایی کاربر اخراج/مسدود میشود.\n"
-"`/warnmax media [number]` = تنظیم تعداد اخطارهای مجاز مخصوص رسانه که بعد از "
+"• `/warnmax media [number]` = تنظیم تعداد اخطارهای مجاز مخصوص رسانه که بعد از "
 "رسیدن به حدنهایی کاربر اخراج/مسدود میشود.\n"
 "\n"
 "چگونه اخطارهای یک کاربر را ببینیم (یا آنها را صفر کنید): از دستور `/user` "
@@ -784,7 +847,6 @@ msgstr ""
 "config` و بعد دکمه رسانه یا media.\n"
 
 #: plugins/help.lua:163
-#, fuzzy
 msgid ""
 "\n"
 "*Pinning messages*\n"
@@ -800,27 +862,30 @@ msgid ""
 "• `/pin`: the bot will find the latest message generate by `/pin`, if it "
 "still exists\n"
 "\n"
-"*Note*: `/pin` supports markdown, but only `$rules` and `$chat` "
-"placeholders\n"
+"*Note*: `/pin` supports markdown, but only `$rules` and `$chat` placeholders\n"
 msgstr ""
 "\n"
 "مدیران: سنجاق کردن\n"
+"48 ساعت محدودیت زمانی برای ویرایش پیام شما\n"
+"این پیام برای کمک به شما برای ویرایش پیام سنجاق شده بدون ارسال دوباره آن "
+"ساخته شده است.\n"
+"بنابراین با دستور  `/pin` شما میتوانید یک پیام برای سنجاق کردن بسازید، و آنرا "
+"هرموقع که خواستید ویرایش کنید.\n"
 "\n"
-"`/pin متن`: ربات متن شما را ارسال خواهد کرد که شامل پشتیبانی از نشانه گذاری "
+"• `/pin متن`: ربات متن شما را ارسال خواهد کرد که شامل پشتیبانی از نشانه گذاری "
 "و شما میتوانید این پیام سنجاق شده را با استفادها از `/editpin متن جدید` "
 "ویرایش کنید.\n"
-"`/editpin متن جدید`: پیام ارسال شده قبلی را ویرایش میکند. زمانی که شما "
-"میخواید قسمتی از پیام سنجاق شده را ویرایش کنید این دستور میتواند خیلی "
-"کاربردی باشد\n"
-"`/pin` ربات متن قبلی ذخیره شده را ارسال میکند برای ذخیره از مدل  `/pin متن`  "
-"استفاده کنید.\n"
+"• `/editpin متن جدید`: پیام ارسال شده قبلی را ویرایش میکند. زمانی که شما "
+"میخواید قسمتی از پیام سنجاق شده را ویرایش کنید این دستور میتواند خیلی کاربردی "
+"باشد\n"
+"• `/pin` ربات متن قبلی ذخیره شده را ارسال میکند برای ذخیره از مدل  `/pin "
+"متن`  استفاده کنید.\n"
 "\n"
-"تذکر: `/pin` و `/editpin` از مدل های نشانه گذاری و کد $rules برای نمایش "
-"قوانین پشتیبانی میکند.\n"
+"تذکر: `/pin` و `/editpin` از مدل های نشانه گذاری و کد `$rules` و`$chat` برای "
+"نمایش قوانین پشتیبانی میکند.\n"
 
 #. TRANSLATORS: leave your contact information for reports mistakes in translation
 #: plugins/help.lua:176
-#, fuzzy
 msgid ""
 "\n"
 "*Group language*\"\n"
@@ -838,32 +903,44 @@ msgid ""
 "\n"
 "*Special characters*\n"
 "\n"
-"• `/config` command, then `menu` button: you will receive in private the "
-"menu keyboard.\n"
+"• `/config` command, then `menu` button: you will receive in private the menu "
+"keyboard.\n"
 "Here you will find two particular options: _Arab and RTL_.\n"
 "\n"
 "*Arab*: when Arab it's not allowed (🚫), everyone who will write an arab "
 "character will be kicked from the group.\n"
 "*Rtl*: it stands for 'Righ To Left' character, and it's the responsible of "
 "the weird service messages that are written in the opposite sense.\n"
-"When Rtl is not allowed (🚫), everyone that writes this character (or that "
-"has it in his name) will be kicked.\n"
+"When Rtl is not allowed (🚫), everyone that writes this character (or that has "
+"it in his name) will be kicked.\n"
 msgstr ""
 "\n"
 "مدیران: زبان گروه\n"
-"`/lang` = زبان گروه را انتخاب کنید (برای خصوصی نیز باید تنظیم شود).\n"
+"•  `/lang` = زبان گروه را انتخاب کنید (برای خصوصی نیز باید تنظیم شود).\n"
 "\n"
 "تذکر: مترجمان داوطلب هستند، بنابراین من نمیتوانم از صحت درست ترجمه ها مطمئن "
 "باشم. و من نمیتوانم آنها رو مجبور به ترجمه هر آپدیت کنم.\n"
 "\n"
-"به هرحال ترجمه برای همه باز است. اگر شما میخواهید در ترجمه ربات کمک کنید "
-"لطفا [اطلاعات](https://github.com/RememberTheAir/GroupButler#translators) "
-"مربوطه را در گیت هاب ببینید.\n"
+"به هرحال ترجمه برای همه باز است. اگر شما میخواهید در ترجمه ربات کمک کنید لطفا "
+"[اطلاعات](https://github.com/RememberTheAir/GroupButler#translators) مربوطه "
+"را در گیت هاب ببینید.\n"
 "شما میتوانید با استفاده از دستور  `/strings`  فایل `.po`  زبان خود را دریافت "
 "کنید و آن را ترجمه کنید\n"
+"کاراکترهای خاص\n"
+"\n"
+"• `/config` و بعد دکمه فهرست یا `menu`: شما فهرست تنظیمات را درخصوصی دریافت "
+"خواهید کرد.\n"
+"اینجا شما میتوانید دو امکان : تایپ فارسی/عربی و RTL را پیدا کنید.\n"
+"\n"
+"تایپ فارسی/عربی: وقتی که ممنوع باشد (🚫)، هرشخصی که از حروف فارسی یا عربی "
+"استفاده کنند اخراج خواهد شد.\n"
+"Rtl: از راست به چپ نوشتن، این امکان به اشحاصی که پشترو مینویسند عکس العمل "
+"نشان خواهد داد.\n"
+"وقتی که RTL در گروه ممنوع باشد (🚫) هرشخصی که از حروف پشترو استفاده کند (یا "
+"حتی در نام کاربریش داشته باشد) اخراج خواهد شد.\n"
+"\n"
 
 #: plugins/help.lua:195
-#, fuzzy
 msgid ""
 "\n"
 "*General group settings*\n"
@@ -881,7 +958,8 @@ msgstr ""
 "\n"
 "مدیران: تنظیمات گروه\n"
 "\n"
-"`/config` = مدیریت تنظیمات گروه درخصوصی با استفاده از یک کیبورد راحت.\n"
+"`/config` یا  `/settings`: مدیریت تنظیمات گروه درخصوصی با استفاده از یک "
+"کیبورد راحت.\n"
 "کیبورد دارای زیر menu می باشد.\n"
 "\n"
 "فهرست تنظیمات یا Menu: مدیریت بیشتر تنظیمات گروه\n"
@@ -899,9 +977,8 @@ msgid "Group info"
 msgstr "اطلاعات گروه"
 
 #: plugins/help.lua:219
-#, fuzzy
 msgid "Report system"
-msgstr "گزارش"
+msgstr "سیستم گرازش"
 
 #: plugins/help.lua:220
 msgid "Pin"
@@ -912,9 +989,8 @@ msgid "Languages"
 msgstr "زبان"
 
 #: plugins/help.lua:224
-#, fuzzy
 msgid "Group configuration"
-msgstr "اطلاعات گروه"
+msgstr "پیکربندی گروه"
 
 #: plugins/help.lua:228
 msgid "Warns"
@@ -938,25 +1014,23 @@ msgstr "📕 تمام دستورها"
 
 #: plugins/help.lua:264
 msgid "Basics"
-msgstr ""
+msgstr "پایه"
 
 #: plugins/help.lua:265
-#, fuzzy
 msgid "Admin commands"
-msgstr "🔰 دستورهای مدیران"
+msgstr "دستور مخصوص مدیران"
 
 #: plugins/help.lua:266
-#, fuzzy
 msgid "Normal users commands"
-msgstr "🔰 دستورهای کاربران"
+msgstr "دستور کاربران معمولی"
 
 #: plugins/help.lua:267
 msgid "Commands in private"
-msgstr ""
+msgstr "دستورهای خصوصی (پی وی) ربات"
 
 #: plugins/help.lua:282
 msgid "Back"
-msgstr ""
+msgstr "برگشت"
 
 #: plugins/help.lua:301
 #, lua-format
@@ -965,28 +1039,27 @@ msgstr "[راه اندازی کنید](%s) _تا بتوانید تمام دست�
 
 #: plugins/help.lua:313
 msgid "Main menu"
-msgstr ""
+msgstr "فهرست اصلی"
 
 #: plugins/help.lua:316
 msgid "Basic usage"
-msgstr ""
+msgstr "نکات پایه"
 
 #: plugins/help.lua:319
 msgid "Commands for users (group)"
-msgstr ""
+msgstr "دستورهای کاربران معمولی (گروه)"
 
 #: plugins/help.lua:322
 msgid "Available commands in private"
-msgstr ""
+msgstr "دستورهای موجود برای خصوصی (پی وی) ربات"
 
 #: plugins/help.lua:326
 msgid "Available commands for admins"
-msgstr ""
+msgstr "دستورهای موجود برای مدیران"
 
 #: plugins/help.lua:331
-#, fuzzy
 msgid "❗️ Already there"
-msgstr "❗️ قبلا در این قسمت بوده اید"
+msgstr "❗️ شما در همین صفحه هستید"
 
 #: plugins/links.lua:17
 msgid "*No link* for this group. Ask the owner to generate one"
@@ -995,8 +1068,7 @@ msgstr ""
 
 #: plugins/links.lua:31
 msgid ""
-"This is not a *public supergroup*, so you need to write the link near /"
-"setlink"
+"This is not a *public supergroup*, so you need to write the link near /setlink"
 msgstr "این یک گروه عمومی نیست لطفا بعد از دستور لینک خود را بنویسید"
 
 #: plugins/links.lua:37
@@ -1076,33 +1148,37 @@ msgstr "🔨 وضعیت جدید مسدود در گروه"
 #: plugins/menu.lua:5
 msgid ""
 "When enabled, users will be able to report messages with the @admin command"
-msgstr ""
+msgstr "وقتی فعال باشد، کاربران میتوانند با دستور @admin گزارش ارسال کنند"
 
 #: plugins/menu.lua:7
 msgid "Enable or disable the goodbye message. Can't be sent in large groups"
 msgstr ""
+"فعال یا غیرفعال کردن پیام خداحافظی. اما درگروه های تعداد بالا قابل ارسال نیست"
 
 #: plugins/menu.lua:9
-#, fuzzy
 msgid "Enable or disable the welcome message"
-msgstr "رسانه مورد نظر بعنوان پیام خوشامد ذخیره شد: `%s`"
+msgstr "فعال یا غیرفعال کردن پیام خوش آمدگویی"
 
 #: plugins/menu.lua:11
 msgid ""
-"When enabled, the bot doesn't answer in the group to /dashboard, /config "
-"and /help commands (it will just answer in private)"
+"When enabled, the bot doesn't answer in the group to /dashboard, /config and /"
+"help commands (it will just answer in private)"
 msgstr ""
+"وقتی فعال باشد ربات نمیتواند /dashboard, /config و/help را پاسخ دهند (فقط در "
+"خصوصی میتواند ارسال کند)"
 
 #: plugins/menu.lua:13
 msgid ""
 "Enable and disable the anti-flood system (more info in the /help message)"
-msgstr ""
+msgstr "فعال و غیرفعال کردن سیستم ضد اسپم (اطلاعات بیشتر در  /help )"
 
 #: plugins/menu.lua:15
 msgid ""
-"If the welcome message is enabled, it will include an inline button that "
-"will send to the user the rules in private"
+"If the welcome message is enabled, it will include an inline button that will "
+"send to the user the rules in private"
 msgstr ""
+"اگر پیام خوشامد فعال باشد، همراه با یک دکمه شیشه ای برای نمایش قوانین خواهد "
+"بود"
 
 #: plugins/menu.lua:17
 msgid ""
@@ -1110,6 +1186,9 @@ msgid ""
 "👥: the bot will answer in the group (always, with admins)\n"
 "👤: the bot will answer in private"
 msgstr ""
+"اگر شخصی از /rules استفاده کند\n"
+"👥: ربات در گروه پاسخ خواهد داد (برای مدیران همیشه درگروه)\n"
+"👤: ربات به خصوصی کاربر ارسال خواهد کرد"
 
 #: plugins/menu.lua:21
 msgid ""
@@ -1117,29 +1196,31 @@ msgid ""
 "👥: the bot will answer in the group (always, with admins)\n"
 "👤: the bot will answer in private"
 msgstr ""
+"اگر شخصی از #extra استفاده کند\n"
+"👥: ربات در گروه پاسخ خواهد داد (برای مدیران همیشه درگروه)\n"
+"👤: ربات به خصوصی کاربر ارسال خواهد کرد"
 
 #: plugins/menu.lua:25
 msgid ""
 "Select what the bot should do when someone sends a message with arab "
 "characters"
-msgstr ""
+msgstr "انتخاب کنید ربات وقتی با تایپ فارسی/عربی روبرو شد چکار کند"
 
 #: plugins/menu.lua:27
 msgid ""
 "Select what the bot should do when someone sends a message with the RTL "
 "character, or has it in his name"
-msgstr ""
+msgstr "انتخاب کنید ربات وقتی با RTL روبرو شد چکار کند، و یا در نام کاربری شخص"
 
 #: plugins/menu.lua:29
 msgid ""
 "Change how many times an user has to be warned before being kicked/banned"
-msgstr ""
+msgstr "انتخاب کنید کاربران قبل از اخراج/مسدود چند اخطار بتوانند دریافت کنند"
 
 #: plugins/menu.lua:31
-#, fuzzy
 msgid ""
 "Change the action to perform when an user reaches the max. number of warnings"
-msgstr "⚠️ از + و - برای تغییر تعداد اخطار ها استفاده کنید"
+msgstr "عکس العمل ربات بعد از رسیدن کاربر به حداکثر اخطارها را انتخاب کنید"
 
 #: plugins/menu.lua:42
 msgid "The new value is too high ( > 12)"
@@ -1150,14 +1231,12 @@ msgid "The new value is too low ( < 1)"
 msgstr "خیلی کوچک است ( < 1)"
 
 #: plugins/menu.lua:58
-#, fuzzy
 msgid "New action on max number of warns received: ban"
-msgstr "عکس العمل جدید برای رسیدن به حداکثر اخطار ها: مسدود در گروه"
+msgstr "عکس العمل جدید برای رسیدن به حداکثر اخطارها: مسدود در گروه"
 
 #: plugins/menu.lua:61
-#, fuzzy
 msgid "New action on max number of warns received: kick"
-msgstr "عکس العمل جدید برای رسیدن به حداکثر اخطار ها: اخراج"
+msgstr "عکس العمل جدید برای رسیدن به حداکثر اخطارها: اخراج"
 
 #: plugins/menu.lua:68
 msgid "Senders of arab messages will be kicked"
@@ -1184,13 +1263,12 @@ msgid "RTL character allowed"
 msgstr "کاراکتر RTL مجاز شد"
 
 #: plugins/menu.lua:147
-#, fuzzy
 msgid "Welcome"
 msgstr "خوش آمدگویی"
 
 #: plugins/menu.lua:148
 msgid "Goodbye"
-msgstr ""
+msgstr "پیام خداحافظی"
 
 #: plugins/menu.lua:149 utilities.lua:540
 msgid "Extra"
@@ -1229,21 +1307,16 @@ msgid "🔨️ ban"
 msgstr " 🔨️ مسدود"
 
 #: plugins/menu.lua:192
-#, fuzzy
 msgid "Warns: "
-msgstr "اخطارها"
+msgstr "اخطارها:"
 
 #: plugins/menu.lua:197
-#, fuzzy
 msgid "Action:"
-msgstr "موقعیت جغرافیایی"
+msgstr "عملکرد:"
 
 #: plugins/menu.lua:220
-#, fuzzy
 msgid "Manage the settings of the group"
-msgstr ""
-"وضعیت فعلی گروه:\n"
-"\n"
+msgstr "تنظیمات گروه را مدیریت کنید"
 
 #: plugins/onmessage.lua:73
 #, lua-format
@@ -1334,8 +1407,8 @@ msgstr "پیام ویرایش شد. اینجا بررسی کنید"
 
 #: plugins/pin.lua:46
 msgid ""
-"The old message generated with `/pin` does not exist anymore, so I can't "
-"edit it. This is the new message that can be now pinned"
+"The old message generated with `/pin` does not exist anymore, so I can't edit "
+"it. This is the new message that can be now pinned"
 msgstr ""
 "پیام قبلی گرفته شده توسط `/pin`  دیگر وجود ندارد، بنابراین من نمیتوانم ان را "
 "ویرایش کنم. این پیام میتواند به عنوان یک پیام جدید برای سنجاق یا pin شدن "
@@ -1384,15 +1457,19 @@ msgstr "فایل `%s.po` در حال ارسال.."
 
 #: plugins/private_settings.lua:5
 msgid ""
-"When you join a group moderated by this bot, you will receive the group "
-"rules in private"
+"When you join a group moderated by this bot, you will receive the group rules "
+"in private"
 msgstr ""
+"وقتی شما عضو گروه تحت مدیریت این ربات شوید، قوانین گروه درخصوصی شما ارسال "
+"خواهد شد"
 
 #: plugins/private_settings.lua:7
 msgid ""
 "If enabled, you will receive all the messages reported with the @admin "
 "command in the groups you are moderating"
 msgstr ""
+"اگر فعال کنید، شما پیام های گزارش با دستور @admin توسط کاربران در گروه هایی "
+"که مدیر هستید  را دریافت خواهید کرد"
 
 #: plugins/private_settings.lua:38
 msgid "Rules on join"
@@ -1407,9 +1484,8 @@ msgid "Change your private settings"
 msgstr "تنظیمات شخصی خود را تغییر دهید"
 
 #: plugins/private_settings.lua:64
-#, fuzzy
 msgid "⚙ Setting applied"
-msgstr "⚙ تنظیمات تغییر کرد"
+msgstr "⚙ تنظیمات اعمال شد"
 
 #: plugins/realms.lua:220
 msgid "_This group is already a realm_"
@@ -1438,8 +1514,8 @@ msgstr "_من متاسفم، گروه عمومی نمیتواند به عنوا�
 
 #: plugins/realms.lua:256
 msgid ""
-"_I'm sorry, I can't get the numberof the members of this group now. Try "
-"again later_"
+"_I'm sorry, I can't get the numberof the members of this group now. Try again "
+"later_"
 msgstr ""
 "_من متاسفم، من نمیتوانم تعداد عضو های این گروه را بگیرم. لطفا بعدا تلاش کنید_"
 
@@ -1452,8 +1528,8 @@ msgstr ""
 #: plugins/realms.lua:263
 #, lua-format
 msgid ""
-"This group can now be used as realm. To add a sub-group, the group owner "
-"must write in the chat:\n"
+"This group can now be used as realm. To add a sub-group, the group owner must "
+"write in the chat:\n"
 "\"/setrealm #id%s\""
 msgstr ""
 "این گروه الان میتواند به عنوان قلمرو مورد استفاده قرار گیرد. برای ذخیره کردن "
@@ -1893,7 +1969,7 @@ msgstr "سلام %s, به %s خوش آمدید!"
 #: plugins/welcome.lua:46
 #, lua-format
 msgid "Goodbye, %s!"
-msgstr ""
+msgstr "خداحافظ، %s!"
 
 #: plugins/welcome.lua:60
 msgid "Welcome and...?"
@@ -1914,25 +1990,23 @@ msgid "*Custom welcome message saved!*"
 msgstr "پیام خوشامد گویی شما ذخیره شد"
 
 #: plugins/welcome.lua:102
-#, fuzzy
 msgid "No goodbye message"
-msgstr "خوش آمدگویی"
+msgstr "بدون پیام خداحافظی"
 
 #: plugins/welcome.lua:117
-#, fuzzy, lua-format
+#, lua-format
 msgid "New media setted as goodbye message: `%s`"
-msgstr "رسانه مورد نظر بعنوان پیام خوشامد ذخیره شد: `%s`"
+msgstr "رسانه مورد نظر بعنوان پیام خداحافظی ذخیره شد: `%s`"
 
 #: plugins/welcome.lua:119
-#, fuzzy
 msgid "Reply to a `sticker` or a `gif` to set them as *goodbye message*"
 msgstr ""
-"روی استیکر یا گیف مورد نظر پاسخ یا Reply کنید تا بعنوان خوش آمدگویی ذخیره شود"
+"روی استیکر یا گیف مورد نظر پاسخ یا Reply کنید تا بعنوان پیام خداحافظی ذخیره "
+"شود"
 
 #: plugins/welcome.lua:134
-#, fuzzy
 msgid "*Custom goodbye message saved!*"
-msgstr "پیام خوشامد گویی شما ذخیره شد"
+msgstr "پیام خداحافظی با موفقیت ذخیره شد!"
 
 #: plugins/welcome.lua:152
 msgid "Read the rules"
@@ -1941,16 +2015,17 @@ msgstr "قوانین را بخوانید"
 #: utilities.lua:247 utilities.lua:248 utilities.lua:249
 msgid ""
 "Inline link formatted incorrectly. Check the text between brackets -> \\[]()"
-msgstr ""
+msgstr "فرمت لینک اشتباه است. لطفا متن داخل کروشه را بررسی کنید -> []()"
 
 #: utilities.lua:253
 msgid ""
 "This message is too long. Max lenght allowed by Telegram: 4000 characters"
 msgstr ""
+"این پیام خیلی طولانیست. حداکثر تعداد کاراکترهای مجاز تلگرام: 4000 کاراکتر"
 
 #: utilities.lua:256
 msgid "Unknown markdown error"
-msgstr ""
+msgstr "اررور نشانه گزاری نامشخص"
 
 #: utilities.lua:476
 msgid "-*empty*-"
@@ -1978,18 +2053,16 @@ msgid "Welcome message"
 msgstr "خوش آمدگویی"
 
 #: utilities.lua:539
-#, fuzzy
 msgid "Goodbye message"
-msgstr "خوش آمدگویی"
+msgstr "پبام خداحافظی"
 
 #: utilities.lua:547
 msgid "Reports"
 msgstr "گزارش"
 
 #: utilities.lua:548
-#, fuzzy
 msgid "Welcome button"
-msgstr "خوش آمدگویی+قوانین"
+msgstr "دکمه خوشامدگویی"
 
 #: utilities.lua:584
 msgid "*Welcome type*: `GIF / sticker`\n"
@@ -2042,9 +2115,8 @@ msgid "Welcome message won't be displayed from now"
 msgstr "پیام خوش آمدگویی نمایش داده نخواهد شد"
 
 #: utilities.lua:607
-#, fuzzy
 msgid "Goodbye message won't be displayed from now"
-msgstr "پیام خوش آمدگویی نمایش داده نخواهد شد"
+msgstr "پیام خداحافظی نمایش داده نخواهد شد"
 
 #: utilities.lua:608
 msgid "#extra commands are now available only for moderator"
@@ -2075,9 +2147,8 @@ msgid "Welcome message will be displayed"
 msgstr "پیام خوش آمدگویی نمایش داده می شود"
 
 #: utilities.lua:617
-#, fuzzy
 msgid "Goodbye message will be displayed"
-msgstr "پیام خوش آمدگویی نمایش داده می شود"
+msgstr "پیام خداحافظی نمایش داده می شود"
 
 #: utilities.lua:618
 msgid "#extra commands are now available for all"
@@ -2188,8 +2259,8 @@ msgstr "_لطفا اول به من پیام دهید تا بتوانم به شم
 #~ "inline keyboard to change all the media settings.\n"
 #~ "`/warnmax media [number]` = set the max number of warnings before be "
 #~ "kicked/banned for have sent a forbidden media.\n"
-#~ "`/nowarns (by reply)` = reset the number of warnings for the users "
-#~ "(*NOTE: both regular warnings and media warnings*).\n"
+#~ "`/nowarns (by reply)` = reset the number of warnings for the users (*NOTE: "
+#~ "both regular warnings and media warnings*).\n"
 #~ "\n"
 #~ "*List of supported media*: _image, audio, video, sticker, gif, voice, "
 #~ "contact, file, link, telegram.me links_\n"
@@ -2197,9 +2268,9 @@ msgstr "_لطفا اول به من پیام دهید تا بتوانم به شم
 #~ "\n"
 #~ "*مدیریت: تنظیمات رسانه*\n"
 #~ "\n"
-#~ "`/config` command, then `media` button = تنظیمات مدیا در پیام خصوصی، "
-#~ "ابتدا این دستور را در گروه خود ارسال نمایید تا تنظیمات به پیام خصوصی شما "
-#~ "ارسال شود.\n"
+#~ "`/config` command, then `media` button = تنظیمات مدیا در پیام خصوصی، ابتدا "
+#~ "این دستور را در گروه خود ارسال نمایید تا تنظیمات به پیام خصوصی شما ارسال "
+#~ "شود.\n"
 #~ "`/warnmax media [number]` = تنظیم کنید تعداد اخطار های رسانه هی مجاز قبل "
 #~ "از اخراج/مسدود شدن کاربر\n"
 #~ "`/nowarns (by reply)` = حذف کل اخطارهای کاربر (تذکر: هردو اخطارها صفر "
@@ -2219,8 +2290,8 @@ msgstr "_لطفا اول به من پیام دهید تا بتوانم به شم
 #~ "\n"
 #~ "*Arab*: when Arab it's not allowed (🚫), everyone who will write an arab "
 #~ "character will be kicked from the group.\n"
-#~ "*Rtl*: it stands for 'Righ To Left' character, and it's the responsible "
-#~ "of the weird service messages that are written in the opposite sense.\n"
+#~ "*Rtl*: it stands for 'Righ To Left' character, and it's the responsible of "
+#~ "the weird service messages that are written in the opposite sense.\n"
 #~ "When Rtl is not allowed (🚫), everyone that writes this character (or that "
 #~ "has it in his name) will be kicked.\n"
 #~ msgstr ""
@@ -2233,8 +2304,8 @@ msgstr "_لطفا اول به من پیام دهید تا بتوانم به شم
 #~ "\n"
 #~ "*Arab*: when Arab it's not allowed (🚫), everyone who will write an arab "
 #~ "character will be kicked from the group.\n"
-#~ "*Rtl*: it stands for 'Righ To Left' character, and it's the responsible "
-#~ "of the weird service messages that are written in the opposite sense.\n"
+#~ "*Rtl*: it stands for 'Righ To Left' character, and it's the responsible of "
+#~ "the weird service messages that are written in the opposite sense.\n"
 #~ "When Rtl is not allowed (🚫), everyone that writes this character (or that "
 #~ "has it in his name) will be kicked.\n"
 
@@ -2300,8 +2371,8 @@ msgstr "_لطفا اول به من پیام دهید تا بتوانم به شم
 
 #~ msgid ""
 #~ "This text breaks the markdown.\n"
-#~ "More info about proper markdown usage can be found [here](https://"
-#~ "telegram.me/GroupButler_ch/46)."
+#~ "More info about proper markdown usage can be found [here](https://telegram."
+#~ "me/GroupButler_ch/46)."
 #~ msgstr ""
 #~ "این مدل نشانه گذاری قابل قبول نیست.\n"
 #~ " اطلاعات بیشتر برای درست استفاده کردن از قابلیت نشانه گذاری را در [این "
@@ -2316,8 +2387,7 @@ msgstr "_لطفا اول به من پیام دهید تا بتوانم به شم
 #~ msgid "Warns 👇🏼"
 #~ msgstr "👇🏼 اخطارها"
 
-#~ msgid ""
-#~ "🚷 You aren't member chat. You can't watch rules of the private group."
+#~ msgid "🚷 You aren't member chat. You can't watch rules of the private group."
 #~ msgstr ""
 #~ "🚷 شما عضو این گروه نیستید نمی توانید تنظیمات خصوصی این گروه را ببینید."
 
@@ -2362,8 +2432,8 @@ msgstr "_لطفا اول به من پیام دهید تا بتوانم به شم
 #~ "will be overwritten).\n"
 #~ "`/setrules -` = delete the current rules.\n"
 #~ "`/addrules [text]` = add some text at the end of the existing rules.\n"
-#~ "`/setabout [group description]` = set a new description for the group "
-#~ "(the old will be overwritten).\n"
+#~ "`/setabout [group description]` = set a new description for the group (the "
+#~ "old will be overwritten).\n"
 #~ "`/setabout -` = delete the current description.\n"
 #~ "`/addabout [text]` = add some text at the end of the existing description."
 #~ "\"\n"
@@ -2379,8 +2449,8 @@ msgstr "_لطفا اول به من پیام دهید تا بتوانم به شم
 #~ "قبلی را حذف خواهد کرد)\n"
 #~ "`/setrules -` = delete the current rules.\n"
 #~ "`/addrules [text]` = اضافه کردن متنی به پایان قوانین گروه\n"
-#~ "`/setabout [group description]` = تعریف توضییحات جدید برای گروه (این "
-#~ "دستور توضییحات قبلی را حذف خواهد کرد)\n"
+#~ "`/setabout [group description]` = تعریف توضییحات جدید برای گروه (این دستور "
+#~ "توضییحات قبلی را حذف خواهد کرد)\n"
 #~ "`/setabout -` = delete the current description.\n"
 #~ "`/addabout [text]` = اضافه کردن متنی به پایان توضییحات گروه\n"
 #~ "\n"
