@@ -287,7 +287,7 @@ end
 
 function plugin.onTextMessage(msg, blocks)
 	if blocks[1] == 'start' then
-        if msg.chat.type == 'start' then
+        if msg.chat.type == 'private' then
             local message = get_helped_string('private'):format(msg.from.first_name:escape())
             local keyboard = do_keyboard_private()
             api.sendMessage(msg.from.id, message, true, keyboard)
