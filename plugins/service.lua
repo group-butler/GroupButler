@@ -48,10 +48,12 @@ function plugin.onTextMessage(msg, blocks)
 					.. "If he doesn't know how, there is a good [guide](https://telegram.me/GroupButler_ch/104).\n")
 			end
 		end
+		--[[
 		text = text .. _("I can do a lot of cool things. To discover about them, "
 				-- TODO: old link, update it
 			.. "watch this [video-tutorial](https://youtu.be/uqNumbcUyzs).")
-		api.sendMessage(msg.chat.id, text, true, nil, nil, true)
+		]]
+		api.sendMessage(msg.chat.id, text, true)
 	end
 	if blocks[1] == 'left_chat_member:bot' then
 		misc.remGroup(msg.chat.id, nil, 'bot removed')

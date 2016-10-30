@@ -99,7 +99,6 @@ return {
 			['video'] = 'no',
 			['sticker'] = 'no',
 			['gif'] = 'no',
-			['forward'] = 'no'
 		},
 		['warnsettings'] = {
 			['type'] = 'ban',
