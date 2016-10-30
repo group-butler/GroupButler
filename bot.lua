@@ -20,6 +20,7 @@ function bot_init(on_reload) -- The function run when the bot is started or relo
 	api = require('methods')
 	
 	bot = api.getMe().result -- Get bot info
+	bot.revision = io.popen('git rev-parse --short HEAD'):read()
 
 	plugins = {} -- Load plugins.
 	for i,v in ipairs(config.plugins) do
@@ -135,12 +136,12 @@ local function on_msg_receive(msg, callback) -- The fn run whenever a message is
 		-- send disclamer
 		api.sendMessage(msg.chat.id, _([[
 Hello everyone!
-My name is %s, and I'm the bot for help administrators in their job.
+My name is %s, and I'm the bot for help administrators in their hard work.
 Unfortunately I can't work in normal groups, please ask a creator to convert this group to supergroup.
 ]]):format(bot.first_name))
 		-- log this event
 		if config.bot_settings.stream_commands then
-			print(string.format('%s[%s]%s Bot was added to normal group %s%s [%d] -> [%d]',
+			print(string.format('%s[%s]%s Bot was added in normal group %s%s [%d] -> [%d]',
 				  clr.blue, os.date('%X'), clr.yellow, clr.reset, msg.from.first_name, msg.from.id, msg.chat.id))
 		end
 	end

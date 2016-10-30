@@ -33,7 +33,7 @@ function plugin.onTextMessage(msg, blocks)
 		if blocks[1] == 'new_chat_member:bot' then
 			text = _("Hello everyone!\n"
 				.. "My name is %s, and I'm the bot for help administrators in their hard work.\n")
-				:format(bot.first_name)
+				:format(bot.first_name:escape())
 		else
 			text = _("Yay! This group has been upgraded. You are great! Now I can work!\n")
 		end
@@ -50,7 +50,7 @@ function plugin.onTextMessage(msg, blocks)
 		end
 		text = text .. _("I can do a lot of cool things. To discover about them, "
 				-- TODO: old link, update it
-			.. "watch this [video-tutorial](https://youtu.be/uqNumbcUyzs)")
+			.. "watch this [video-tutorial](https://youtu.be/uqNumbcUyzs).")
 		api.sendMessage(msg.chat.id, text, true, nil, nil, true)
 	end
 	if blocks[1] == 'left_chat_member:bot' then
