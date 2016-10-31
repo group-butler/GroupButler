@@ -515,14 +515,14 @@ end
 function misc.getExtraList(chat_id)
 	local hash = 'chat:'..chat_id..':extra'
 	local commands = db:hkeys(hash)
-	local text = ''
-	if commands[1] == nil then
-		return _("No commands set!")
+	if not next(commands) then
+		return _("No commands set")
 	else
-	    for k,v in pairs(commands) do
-	    	text = text..v..'\n'
-	    end
-	    return _("List of *custom commands*:\n") .. text
+		local lines = {}
+		for k, v in pairs(commands) do
+			table.insert(lines, (v:gsub('_', '\\_')))
+		end
+		return _("List of *custom commands*:\n") .. table.concat(lines, '\n')
 	end
 end
 
