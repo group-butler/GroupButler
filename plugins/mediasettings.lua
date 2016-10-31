@@ -65,7 +65,7 @@ function plugin.onCallbackQuery(msg, blocks)
 	end
 	
 	if not roles.is_admin_cached(chat_id, msg.from.id) then
-		api.answerCallbackQuery(msg.cb_id, _("You're no longer admin"))
+		api.answerCallbackQuery(msg.cb_id, _("You're no longer an admin"))
 	else
 		local media_first = _([[
 Tap on a voice in the right colon to *change the setting*

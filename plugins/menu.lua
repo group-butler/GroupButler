@@ -2,6 +2,7 @@ local plugin = {}
 
 local function get_button_description(key)
     if key == 'Reports' then
+		-- TRANSLATORS: these strings should be shorter than 200 characters
         return _("When enabled, users will be able to report messages with the @admin command")
     elseif key == 'Goodbye' then
         return _("Enable or disable the goodbye message. Can't be sent in large groups")
@@ -211,7 +212,7 @@ end
 function plugin.onCallbackQuery(msg, blocks)
     local chat_id = msg.target_id
 	if not roles.is_admin_cached(chat_id, msg.from.id) then
-		api.answerCallbackQuery(msg.cb_id, _("You're no longer admin"))
+		api.answerCallbackQuery(msg.cb_id, _("You're no longer an admin"))
 	else
 	    if not chat_id then
 	        api.sendAdmin('Not msg.target_id -> menu') return
@@ -219,7 +220,7 @@ function plugin.onCallbackQuery(msg, blocks)
 	    
 	    local menu_first = _("Manage the settings of the group")
     
-        local keyboard, text
+        local keyboard, text, alert
         
         if blocks[1] == 'config' then
             keyboard = doKeyboard_menu(chat_id)
@@ -241,11 +242,14 @@ function plugin.onCallbackQuery(msg, blocks)
             elseif blocks[2] == 'Rtl' or blocks[2] == 'Arab' then
                 text = changeCharSettings(chat_id, blocks[2])
             else
-                text = misc.changeSettingStatus(chat_id, blocks[2])
+                text, alert = misc.changeSettingStatus(chat_id, blocks[2])
             end
             keyboard = doKeyboard_menu(chat_id)
             api.editMessageText(msg.chat.id, msg.message_id, menu_first, true, keyboard)
-            if text then api.answerCallbackQuery(msg.cb_id, '⚙ '..text) end --workaround to avoid to send an error to users who are using an old inline keyboard
+			if text then
+				--workaround to avoid to send an error to users who are using an old inline keyboard
+				api.answerCallbackQuery(msg.cb_id, '⚙ '..text, alert)
+			end
         end
     end
 end

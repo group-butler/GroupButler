@@ -1,23 +1,7 @@
 local plugin = {}
 
 local function get_helped_string(key)
-	if key == 'start' then
-		return _([[
-Hello %s 👋🏼, nice to meet you!
-I'm Group Butler, the first administration bot using the official Bot API.
-
-*I can do a lot of cool stuffs*, here's a short list:
-• I can *kick or ban* users
-• You can use me to set the group rules
-• I have a flexible *anti-flood* system
-• I can *welcome new users* with a customizable message, or if you want with a gif or a sticker
-• I can *warn* users, and ban them when they reach the maximum number of warnings
-• I can also warn, kick or ban users when they post a specific media
-…and more, below you can find the "all commands" button to get the whole list!
-
-I work better if you add me to the group administrators (otherwise I won't be able to kick or ban)!
-]])
-	elseif key == 'basics' then
+	if key == 'basics' then
 		return _([[
 This bot works only in supergroups.
 
@@ -28,8 +12,7 @@ You can use `/, ! or #` to trigger a command.
 
 Remember: you have to use commands  *in the group*, unless they are specifically designed for private chats (see "private" tab).]])
 	elseif key == 'main_menu' then
-		return _([[
-In this menu you will find all the available commands]])
+		return _("In this menu you will find all the available commands")
 	elseif key == 'private' then
 		return _([[
 *Commands that work in private*:
@@ -124,6 +107,7 @@ Placeholders:
 `$title`: _will be replaced with the group title_
 `$surname`: _will be replaced by the user's last name_
 `$rules`: _will be replaced by a link to the rules of the group. Please read_ [here](https://telegram.me/GroupButler_beta/26) _how to use it, or you will get an error for sure_
+*Note*: `$name`, `$surname`, and `$title` may not work properly within markdown markup.
 
 *GIF/sticker as welcome message*
 You can use a particular gif/sticker as welcome message. To set it, reply to the gif/sticker you want to set as welcome message with `/welcome`. Same goes for `/goodbye`

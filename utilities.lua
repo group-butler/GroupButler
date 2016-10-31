@@ -629,6 +629,13 @@ function misc.changeSettingStatus(chat_id, field)
 		return turned_off[field:lower()]
 	else
 		db:hset(hash, field, 'on')
+		if field:lower() == 'goodbye' then
+			local r = api.getChatMembersCount(chat_id)
+			if r and r.result > 50 then
+				return _("This setting is enabled, but the goodbye message won't be displayed in large groups, "
+					.. "because I can't see service messages about left members"), true
+			end
+		end
 		return turned_on[field:lower()]
 	end
 end
