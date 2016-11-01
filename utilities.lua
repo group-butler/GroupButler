@@ -520,7 +520,7 @@ function misc.getExtraList(chat_id)
 	else
 		local lines = {}
 		for k, v in pairs(commands) do
-			table.insert(lines, (v:gsub('_', '\\_')))
+			table.insert(lines, (v:escape(true)))
 		end
 		return _("List of *custom commands*:\n") .. table.concat(lines, '\n')
 	end
@@ -730,7 +730,7 @@ function misc.getnames_complete(msg, blocks)
 		end
 	elseif msg.text:match(config.cmd..'%w%w%w%w?%w?%s(@[%w_]+)%s?') then
 		local username = msg.text:match('%s(@[%w_]+)')
-		kicked = username:escape()
+		kicked = username:escape(true)
 	elseif msg.mention_id then
 		for _, entity in pairs(msg.entities) do
 			if entity.user then

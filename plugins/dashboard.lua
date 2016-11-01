@@ -2,9 +2,9 @@ local plugin = {}
 
 local function getFloodSettings_text(chat_id)
     local status = db:hget('chat:'..chat_id..':settings', 'Flood') or 'yes' --check (default: disabled)
-    if status == 'no' then
+    if status == 'no' or status == 'on' then
         status = _("✅ | ON")
-    elseif status == 'yes' then
+    elseif status == 'yes' or status == 'off' then
         status = _("❌ | OFF")
     end
     local hash = 'chat:'..chat_id..':flood'

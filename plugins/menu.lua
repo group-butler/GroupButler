@@ -154,6 +154,7 @@ local function insert_settings_section(keyboard, settings_section, chat_id)
 		Arab = _("Arab"),
 		Rtl = _("RTL"),
 		Antibot = _("Ban bots"),
+		Reports = _("Reports"),
 		Welbut = _("Welcome + rules button")
 	}
 
