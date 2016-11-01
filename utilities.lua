@@ -515,14 +515,14 @@ end
 function misc.getExtraList(chat_id)
 	local hash = 'chat:'..chat_id..':extra'
 	local commands = db:hkeys(hash)
-	local text = ''
-	if commands[1] == nil then
-		return _("No commands set!")
+	if not next(commands) then
+		return _("No commands set")
 	else
-	    for k,v in pairs(commands) do
-	    	text = text..v..'\n'
-	    end
-	    return _("List of *custom commands*:\n") .. text
+		local lines = {}
+		for k, v in pairs(commands) do
+			table.insert(lines, (v:escape(true)))
+		end
+		return _("List of *custom commands*:\n") .. table.concat(lines, '\n')
 	end
 end
 
@@ -629,6 +629,13 @@ function misc.changeSettingStatus(chat_id, field)
 		return turned_off[field:lower()]
 	else
 		db:hset(hash, field, 'on')
+		if field:lower() == 'goodbye' then
+			local r = api.getChatMembersCount(chat_id)
+			if r and r.result > 50 then
+				return _("This setting is enabled, but the goodbye message won't be displayed in large groups, "
+					.. "because I can't see service messages about left members"), true
+			end
+		end
 		return turned_on[field:lower()]
 	end
 end
@@ -723,7 +730,7 @@ function misc.getnames_complete(msg, blocks)
 		end
 	elseif msg.text:match(config.cmd..'%w%w%w%w?%w?%s(@[%w_]+)%s?') then
 		local username = msg.text:match('%s(@[%w_]+)')
-		kicked = username:escape()
+		kicked = username:escape(true)
 	elseif msg.mention_id then
 		for _, entity in pairs(msg.entities) do
 			if entity.user then

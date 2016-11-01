@@ -28,8 +28,7 @@ You can use `/, ! or #` to trigger a command.
 
 Remember: you have to use commands  *in the group*, unless they are specifically designed for private chats (see "private" tab).]])
 	elseif key == 'main_menu' then
-		return _([[
-In this menu you will find all the available commands]])
+		return _("In this menu you will find all the available commands")
 	elseif key == 'private' then
 		return _([[
 *Commands that work in private*:
@@ -124,6 +123,7 @@ Placeholders:
 `$title`: _will be replaced with the group title_
 `$surname`: _will be replaced by the user's last name_
 `$rules`: _will be replaced by a link to the rules of the group. Please read_ [here](https://telegram.me/GroupButler_beta/26) _how to use it, or you will get an error for sure_
+*Note*: `$name`, `$surname`, and `$title` may not work properly within markdown markup.
 
 *GIF/sticker as welcome message*
 You can use a particular gif/sticker as welcome message. To set it, reply to the gif/sticker you want to set as welcome message with `/welcome`. Same goes for `/goodbye`
@@ -288,7 +288,7 @@ end
 function plugin.onTextMessage(msg, blocks)
 	if blocks[1] == 'start' then
         if msg.chat.type == 'private' then
-            local message = get_helped_string('private'):format(msg.from.first_name:escape())
+            local message = get_helped_string('start'):format(msg.from.first_name:escape())
             local keyboard = do_keyboard_private()
             api.sendMessage(msg.from.id, message, true, keyboard)
         end

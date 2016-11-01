@@ -46,20 +46,12 @@ function plugin.onTextMessage(msg, blocks)
     		end
     	end
 	elseif blocks[1] == 'extra list' then
-	    if not roles.is_admin_cached(msg) then return end
-	    
-	    local hash = 'chat:'..msg.chat.id..':extra'
-	    local commands = db:hkeys(hash)
-	    if not next(commands) then
-	        api.sendReply(msg, _("No commands set"))
-	    else
-			local lines = {}
-	        for k, v in pairs(commands) do
-				table.insert(lines, (v:gsub('_', '\\_')))
-	        end
-	        local out = _("List of *custom commands*:\n") .. table.concat(lines, '\n')
-	        api.sendReply(msg, out, true)
-	    end
+		local text = misc.getExtraList(msg.chat.id)
+	    if not roles.is_admin_cached(msg) and misc.is_silentmode_on(msg.chat.id) then
+			api.sendMessage(msg.from.id, text, true)
+		else
+			api.sendReply(msg, text, true)
+		end
     elseif blocks[1] == 'extra del' then
         if not roles.is_admin_cached(msg) then return end
 	    
