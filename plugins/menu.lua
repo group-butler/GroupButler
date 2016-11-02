@@ -221,7 +221,7 @@ function plugin.onCallbackQuery(msg, blocks)
 	    
 	    local menu_first = _("Manage the settings of the group")
     
-        local keyboard, text, alert
+        local keyboard, text, show_alert
         
         if blocks[1] == 'config' then
             keyboard = doKeyboard_menu(chat_id)
@@ -243,13 +243,13 @@ function plugin.onCallbackQuery(msg, blocks)
             elseif blocks[2] == 'Rtl' or blocks[2] == 'Arab' then
                 text = changeCharSettings(chat_id, blocks[2])
             else
-                text, alert = misc.changeSettingStatus(chat_id, blocks[2])
+                text, show_alert = misc.changeSettingStatus(chat_id, blocks[2])
             end
             keyboard = doKeyboard_menu(chat_id)
             api.editMessageText(msg.chat.id, msg.message_id, menu_first, true, keyboard)
 			if text then
 				--workaround to avoid to send an error to users who are using an old inline keyboard
-				api.answerCallbackQuery(msg.cb_id, '⚙ '..text, alert)
+				api.answerCallbackQuery(msg.cb_id, '⚙ '..text, show_lert)
 			end
         end
     end

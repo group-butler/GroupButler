@@ -6,7 +6,8 @@ This bot has been created to help people administrate their groups, and includes
 
 This bot was born as an [otouto](otou.to) [v3.1](https://github.com/topkecleon/otouto/tree/26c1299374af130bbf8457af904cb4ea450caa51) ([@mokubot](https://telegram.me/mokubot)), but it has been turned into an administration bot.
 
-Follow the [channel](https://telegram.me/groupbutler_ch), or the [beta channel](https://telegram.me/GroupButler_beta) if you want to be informed about new changes. The official (stable) bot is [@GroupButler_bot](https://telegram.me/GroupButler_Bot). The official beta bot is [@GBReborn_bot](https://telegram.me/GBReborn_bot).
+[@GroupButler_bot](https://telegram.me/GroupButler_Bot) is the official Group Butler on Telegram, and [@GroupButler_ch](https://telegram.me/groupbutler_ch) is its channel.
+There's a beta version too, that follows the updates of this repository: [@GBReborn_bot](https://telegram.me/GBReborn_bot), updates channel at [@GroupButler_beta](https://telegram.me/GroupButler_beta).
 
 * * *
 
@@ -79,20 +80,6 @@ $ sudo service redis-server start
 
 * * *
 
-##Before you do anything, you MUST read THIS.!!!
-
-Before you stop the bot, if you don't want to loose your redis data, you have to perform a save.
-
-There are three ways of doing this: use `$stop` command to stop the bot (database will be saved automatically), use `$save` command to save database (and then stop the bot), or open a terminal and run `redis-cli bgsave` or `redis-cli save` (and then stop the bot).
-
-Please remember to do one of this easy things in order to avoid to loose important informations.
-
-You may want to perform a save each minute, for this you need to change the boolean value of the `cron` function in `plugins/admin.lua` from `false` to `cron` (or the name of the cron function).
-
-This way, a cron job will run every minute and will perform a redis background save.
-
-* * *
-
 ##Start the process
 
 To start the bot, run `./launch.sh`. To stop the bot, press Control <kbd>CTRL</kbd>+<kbd>C</kbd> twice.
@@ -104,13 +91,11 @@ You may also start the bot with `lua bot.lua`, however it will not restart autom
 
   * You can change some settings of the bot. All the settings are placed in `config.lua`, in the `bot_settings` table
     * `cache_time.adminlist`: the permanence in seconds of the adminlist in the cache. The bot caches the adminlist to avoid to hit Telegram limits
-    * `testing_mode`: set it to `false` if you want the bot to ignore testing plugins. A plugin is a test plugin when the `test` key in the returned table is not a `nil` value or a `false` boolean value
     * `multipurpose_mode`: set it to `true` if you want to load the plugins placed in `plugins/multipurpose` folder. At the moment, this directory is empty
     * `notify_bug`: if `true`, the bot will send a message that notifies that a bug has occured to the current user, when a plugin is executed and an error happens
     * `log_api_errors`: if `true`, the bot will send in the `log_chat` (`config.lua`) all the relevant errors returned by an api request toward Telegram
     * `stream_commands`: if `true`, when an update triggers a plugin, the match will be printed on the console
   * There are some other useful fields that can be filled in `config.lua`
-    * `channel`: a channel where you can post something through the bot. Must be an username, `@` included. To post something, the bot must be administrator of the channel. Use `$post [text]` to post a message
     * `db`: the selected Redis database (if you are running Redis with the default config, the available databases are 16). The database will be selected on each start/reload. Default: 2
   * Other things that may be useful
     * Administrators commands start for `$`. They are not documented, look at the triggers of `plugins/admin.lua` plugin for the whole list
@@ -119,7 +104,6 @@ You may also start the bot with `lua bot.lua`, however it will not restart autom
     * The Telegram Bot API has some undocumented "weird behaviors" that you may notice while using this bot
        * In supergroups, the `kickChatMember` method returns always a positive response if the `user_id` has been part of the group at least once, it doesn't matter if the user is not in the group when you use this method
        * In supergroups, the `unbanChatMember` method returns always a positive response if the `user_id` has been part of the group at least once, it doesn't matter if the user is not in the group or is not in the group blacklist
-       * Users kicked by the bot can join again a group from where they've been kicked out only if not banned and only via invite link. A administrator can't add them back
 
 * * *
 ##Some notes about the database
@@ -154,11 +138,6 @@ After add your new locale in the file `config.lua`.
 ###Notes about this repository
 
 Note that this bot is not open source because I want everyone to be able to clone it and run its own copy. It's open source because everyone can take a look on how the bot works, see which data are stored, and decide if the bot is worth to be a group administrator. There are some installation instructions just because why not.
-
-* * *
-
-Please don't contact me via Telegram asking for help in the installation or about errors in your clone (I like to spam-report people). Contact me only if you find a bug or have a suggestion. I don't give any support in the installation or development of your own instance of the bot.
-Basically because I'm a stupid noob that only knows the basics of Lua scripting, and I don't like to spend my free time in front of a monitor. I try to keep the time I waste on this project to a minimum.
 
 If you are going to open a pull request, keep in mind that I don't know how to use GitHub well. I may overwrite commits and stuffs like that, this already happened. It's not because I'm bad, it's just because I'm an idiot.
 

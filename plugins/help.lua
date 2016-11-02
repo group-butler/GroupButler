@@ -203,7 +203,7 @@ The inline keyboard has three sub-menus:
 *Media*: choose which media to forbid in your group, and set the number of times that an user will be warned before being kicked/banned
 ]])
 	else
-		error('bad key')
+		return nil
 	end
 end
 
@@ -325,13 +325,18 @@ function plugin.onCallbackQuery(msg, blocks)
     	text = get_helped_string(blocks[2])
     	answerCallbackQuery_text = _('Available commands for admins')
     end
-    local keyboard = do_keyboard(keyboard_type)
-    local res, code = api.editMessageText(msg.chat.id, msg.message_id, text, true, keyboard)
-    if not res and code and code == 111 then
-        api.answerCallbackQuery(msg.cb_id, _("❗️ Already there"))
-	else
-		api.answerCallbackQuery(msg.cb_id, answerCallbackQuery_text)
-    end
+    
+    if not text then
+    	api.answerCallbackQuery(msg.cb_id, _("Deprecated message, send /help again"), true)
+    else
+    	local keyboard = do_keyboard(keyboard_type)
+    	local res, code = api.editMessageText(msg.chat.id, msg.message_id, text, true, keyboard)
+    	if not res and code and code == 111 then
+    	    api.answerCallbackQuery(msg.cb_id, _("❗️ Already there"))
+		else
+			api.answerCallbackQuery(msg.cb_id, answerCallbackQuery_text)
+		end
+	end
 end
 
 plugin.triggers = {

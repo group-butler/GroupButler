@@ -19,8 +19,6 @@ local triggers2 = {
 	'^%$(download)$',
 	'^%$(resid) (%d+)$',
 	'^%$(update)$',
-	'^%$(subadmin) (yes)$',
-	'^%$(subadmin) (no)$',
 	'^%$(tban) (get)$',
 	'^%$(tban) (flush)$',
 	'^%$(selectdb) (.*)$',
@@ -307,20 +305,6 @@ function plugin.onTextMessage(msg, blocks)
 			end
 		end
 		api.sendReply(msg, 'Done. Replaced '..n..' key(s)')
-	end
-	if blocks[1] == 'subadmin' then
-		--the status will be resetted at the next stop
-		if not msg.reply then
-			api.sendAdmin('Reply to someone')
-			return
-		end
-		local user_id = msg.reply.from.id
-		if blocks[2] == 'yes' then
-			config.admin.admins[user_id] = true
-		else
-			config.admin.admins[user_id] = false
-		end
-		api.sendAdmin('Changed')
 	end
 	if blocks[1] == 'tban' then
 		if blocks[2] == 'flush' then
