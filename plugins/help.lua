@@ -202,8 +202,6 @@ The inline keyboard has three sub-menus:
 *Antiflood*: turn on or off the antiflood, set its sensitivity and choose some media to ignore, if you want
 *Media*: choose which media to forbid in your group, and set the number of times that an user will be warned before being kicked/banned
 ]])
-	else
-		return nil
 	end
 end
 
@@ -249,7 +247,7 @@ local function do_keyboard_private()
     keyboard.inline_keyboard = {
     	{
     	    {text = _("📢 Bot channel"), url = 'https://telegram.me/'..config.channel:gsub('@', '')},
-    		{text = _("🌍 Select you language"), callback_data = 'selectlang'},
+    		{text = _("🌍 Select your language"), callback_data = 'selectlang'},
 	    },
 	    {
 	        {text = _("📕 All the commands"), callback_data = 'help:back'}

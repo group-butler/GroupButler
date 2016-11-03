@@ -17,7 +17,7 @@ local function getFloodSettings_text(chat_id)
     local num = (db:hget(hash, 'MaxFlood')) or 5
     local exceptions = {
         text = _("Texts"),
-		forward = _("Forward"),
+		forward = _("Forwards"),
         sticker = _("Stickers"),
         image = _("Images"),
         gif = _("GIFs"),
