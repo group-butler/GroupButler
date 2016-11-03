@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GroupButler 4.0\n"
 "Report-Msgid-Bugs-To: https://telegram.me/bac0nnn\n"
-"POT-Creation-Date: 2016-11-03 08:26+0300\n"
-"PO-Revision-Date: 2016-11-03 10:13+0300\n"
+"POT-Creation-Date: 2016-11-03 11:49+0300\n"
+"PO-Revision-Date: 2016-11-03 11:51+0300\n"
 "Last-Translator: Николай Гурьев <guriev-ns@ya.ru, https://telegram.me/"
 "mymedia>\n"
 "Language-Team: Russian\n"
@@ -111,7 +111,7 @@ msgstr "%s забанил пользователя %s!"
 #: plugins/banhammer.lua:146
 #, lua-format
 msgid "User %s unbanned by %s!"
-msgstr "%s был разбанен админом %s!"
+msgstr "%s разбанен админом %s!"
 
 #: plugins/configure.lua:6
 msgid "🛠 Menu"
@@ -153,8 +153,8 @@ msgstr "⛔ ️бан"
 msgid "Texts"
 msgstr "Текст"
 
-#: plugins/dashboard.lua:20
-msgid "Forward"
+#: plugins/dashboard.lua:20 plugins/floodmanager.lua:48
+msgid "Forwards"
 msgstr "Пересылка"
 
 #: plugins/dashboard.lua:21 plugins/dashboard.lua:133
@@ -213,7 +213,7 @@ msgstr "Администрация"
 msgid "Rules"
 msgstr "Правила"
 
-#: plugins/dashboard.lua:53 plugins/help.lua:227
+#: plugins/dashboard.lua:53 plugins/help.lua:225
 msgid "Extra commands"
 msgstr "Доп. команды"
 
@@ -374,10 +374,6 @@ msgstr "👞️ кик"
 #: plugins/floodmanager.lua:29
 msgid "🔨 ️ban"
 msgstr "🔨 ️бан"
-
-#: plugins/floodmanager.lua:48
-msgid "Forwards"
-msgstr "Пересылка"
 
 #: plugins/floodmanager.lua:81
 msgid "Flooders will be banned"
@@ -981,100 +977,100 @@ msgstr ""
 "*Медиа*: выбор, какие медиа запретить в твоей группе, и настройка количества "
 "предупреждений, прежде чем кикнуть / забанить пользователя\n"
 
-#: plugins/help.lua:215
+#: plugins/help.lua:213
 msgid "Banhammer"
 msgstr "Банхаммер"
 
-#: plugins/help.lua:216
+#: plugins/help.lua:214
 msgid "Group info"
 msgstr "Инфо о группе"
 
-#: plugins/help.lua:219
+#: plugins/help.lua:217
 msgid "Report system"
 msgstr "Система жалоб"
 
-#: plugins/help.lua:220
+#: plugins/help.lua:218
 msgid "Pin"
 msgstr "Прикрепления"
 
-#: plugins/help.lua:223
+#: plugins/help.lua:221
 msgid "Languages"
 msgstr "Языки"
 
-#: plugins/help.lua:224
+#: plugins/help.lua:222
 msgid "Group configuration"
 msgstr "Настройки группы"
 
-#: plugins/help.lua:228
+#: plugins/help.lua:226
 msgid "Warns"
 msgstr "Предупреждения"
 
-#: plugins/help.lua:231
+#: plugins/help.lua:229
 msgid "Welcome settings"
 msgstr "Приветствие"
 
-#: plugins/help.lua:251
+#: plugins/help.lua:249
 msgid "📢 Bot channel"
 msgstr "📢 Канал бота"
 
-#: plugins/help.lua:252
-msgid "🌍 Select you language"
+#: plugins/help.lua:250
+msgid "🌍 Select your language"
 msgstr "🌍 Выбери свой язык"
 
-#: plugins/help.lua:255
+#: plugins/help.lua:253
 msgid "📕 All the commands"
 msgstr "📕 Все команды"
 
-#: plugins/help.lua:264
+#: plugins/help.lua:262
 msgid "Basics"
 msgstr "Базовая часть"
 
-#: plugins/help.lua:265
+#: plugins/help.lua:263
 msgid "Admin commands"
 msgstr "Админские команды"
 
-#: plugins/help.lua:266
+#: plugins/help.lua:264
 msgid "Normal users commands"
 msgstr "Пользовательские команды"
 
-#: plugins/help.lua:267
+#: plugins/help.lua:265
 msgid "Commands in private"
 msgstr "Команды в личке"
 
-#: plugins/help.lua:282
+#: plugins/help.lua:280
 msgid "Back"
 msgstr "Назад"
 
-#: plugins/help.lua:301
+#: plugins/help.lua:299
 #, lua-format
 msgid "[Start me](%s) _to get the list of commands_"
 msgstr "[Запусти меня](%s), _чтобы получить список команд_"
 
-#: plugins/help.lua:313
+#: plugins/help.lua:311
 msgid "Main menu"
 msgstr "Главное меню"
 
-#: plugins/help.lua:316
+#: plugins/help.lua:314
 msgid "Basic usage"
 msgstr "Основное использование"
 
-#: plugins/help.lua:319
+#: plugins/help.lua:317
 msgid "Commands for users (group)"
 msgstr "Команды для пользователей (группа)"
 
-#: plugins/help.lua:322
+#: plugins/help.lua:320
 msgid "Available commands in private"
 msgstr "Доступные команды в ЛС"
 
-#: plugins/help.lua:326
+#: plugins/help.lua:324
 msgid "Available commands for admins"
 msgstr "Доступные команды для админов"
 
-#: plugins/help.lua:330
+#: plugins/help.lua:328
 msgid "Deprecated message, send /help again"
 msgstr "Устаревшее сообщение, отправь /help снова"
 
-#: plugins/help.lua:335
+#: plugins/help.lua:333
 msgid "❗️ Already there"
 msgstr "❗️ Уже здесь"
 
@@ -2174,6 +2170,9 @@ msgstr ""
 "Хмм… кажется, я не администратор. Я могу быть более полезным, если буду "
 "админом. Попроси создателя сделать меня админом. Если он не знает как, вот "
 "хороший [гид](https://telegram.me/GroupButler_ch/104).\n"
+
+#~ msgid "Forward"
+#~ msgstr "Пересылка"
 
 #~ msgid "You're no longer admin"
 #~ msgstr "Ты больше не админ"
