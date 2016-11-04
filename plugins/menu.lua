@@ -249,7 +249,7 @@ function plugin.onCallbackQuery(msg, blocks)
             api.editMessageText(msg.chat.id, msg.message_id, menu_first, true, keyboard)
 			if text then
 				--workaround to avoid to send an error to users who are using an old inline keyboard
-				api.answerCallbackQuery(msg.cb_id, '⚙ '..text, show_lert)
+				api.answerCallbackQuery(msg.cb_id, '⚙ '..text, show_alert)
 			end
         end
     end
