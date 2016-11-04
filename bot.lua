@@ -3,7 +3,7 @@ URL = require('socket.url')
 JSON = require('dkjson')
 redis = require('redis')
 clr = require 'term.colors'
-db = Redis.connect('127.0.0.1', 6379)
+db = redis.connect('127.0.0.1', 6379)
 serpent = require('serpent')
 
 function bot_init(on_reload) -- The function run when the bot is started or reloaded.
@@ -18,6 +18,7 @@ function bot_init(on_reload) -- The function run when the bot is started or relo
 	misc, roles = dofile('utilities.lua') -- Load miscellaneous and cross-plugin functions.
 	locale = dofile('languages.lua')
 	api = require('methods')
+	now_ms = require('socket').gettime
 	
 	bot = api.getMe().result -- Get bot info
 	bot.revision = io.popen('git rev-parse --short HEAD'):read()
@@ -302,13 +303,21 @@ local function parseMessageFunction(update)
 			print('Unknown update type') return
 		end
 		
+		if msg.caption then
+			local caption_lower = msg.caption:lower()
+			if caption_lower:match('telegram%.me') or caption_lower:match('telegram%.dog') then
+				msg.media_type = 'TGlink'
+			end
+		end
 		if msg.entities then
 			for i, entity in pairs(msg.entities) do
 				if entity.type == 'text_mention' then
 					msg.mention_id = entity.user.id
 				end
 				if entity.type == 'url' or entity.type == 'text_link' then
-					if msg.text:lower():match('telegram%.me') then
+					local text_lower = msg.text or msg.caption
+					text_lower = text_lower:lower()
+					if text_lower:match('telegram%.me') or text_lower:match('telegram%.dog') then
 						msg.media_type = 'TGlink'
 					else
 						msg.media_type = 'link'

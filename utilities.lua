@@ -30,7 +30,7 @@ function string:escape_hard(ft)
 	end
 end
 
-function roles.is_superadmin(user_id) --if real owner is true, the function will return true only if msg.from.id == config.admin.owner
+function roles.is_superadmin(user_id)
 	for i=1, #config.superadmins do
 		if tonumber(user_id) == config.superadmins[i] then
 			return true
@@ -191,31 +191,11 @@ function table.clone(t) --doing "table1 = table2" in lua = creates a pointer to 
   return new_t
 end
 
-function table.remove_duplicates(t)
-	if type(t) ~= 'table' then
-		return false, 'Table expected, got '..type(t)
-	else
-		local kv_table = {}
-		for i, element in pairs(t) do
-			if not kv_table[element] then
-				kv_table[element] = true
-			end
-		end
-		
-		local k_table = {}
-		for key, boolean in pairs(kv_table) do
-			k_table[#k_table + 1] = key
-		end
-		
-		return k_table
-	end
-end
-
 function misc.get_date(timestamp)
 	if not timestamp then
 		timestamp = os.time()
 	end
-	return os.date('%d/%m/%y')
+	return os.date(timestamp, '%d/%m/%y')
 end
 
 -- Resolves username. Returns ID of user if it was early stored in date base.
@@ -275,7 +255,7 @@ end
 
 function misc.get_media_type(msg)
 	if msg.photo then
-		return 'image'
+		return 'photo'
 	elseif msg.video then
 		return 'video'
 	elseif msg.audio then
@@ -286,14 +266,21 @@ function misc.get_media_type(msg)
 		if msg.document.mime_type == 'video/mp4' then
 			return 'gif'
 		else
-			return 'file'
+			return 'document'
 		end
 	elseif msg.sticker then
 		return 'sticker'
 	elseif msg.contact then
 		return 'contact'
+	elseif msg.location then
+		return 'location'
+	elseif msg.game then
+		return 'game'
+	elseif msg.venue then
+		return 'venue'
+	else
+		return false
 	end
-	return false
 end
 
 function misc.get_media_id(msg)
@@ -416,7 +403,7 @@ end
 
 -- Return link to user profile or false, if he doesn't have login
 function misc.getname_link(name, username)
-	if not name or not username then return false end
+	if not name or not username then return nil end
 	username = username:gsub('@', '')
 	return '['..name:escape_hard('link')..'](https://telegram.me/'..username..')'
 end
@@ -831,15 +818,6 @@ function misc.logEvent(event, msg, blocks, extra)
 	
 	if text then
 		api.sendMessage(log_id, text, true)
-	end
-end
-
-function misc.getUserStatus(chat_id, user_id)
-	local res = api.getChatMember(chat_id, user_id)
-	if res then
-		return res.result.status
-	else
-		return false
 	end
 end
 
