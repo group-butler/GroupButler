@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GroupButler 4.0\n"
 "Report-Msgid-Bugs-To: https://telegram.me/bac0nnn\n"
-"POT-Creation-Date: 2016-11-05 02:09+0100\n"
+"POT-Creation-Date: 2016-11-05 14:06+0100\n"
 "PO-Revision-Date: 2016-09-12 22:00+0200\n"
 "Last-Translator: Nicholas Guriev <guriev-ns@ya.ru>\n"
 "Language-Team: Italian\n"
@@ -65,8 +65,7 @@ msgstr "%s %s per *spam*! (%d/%d)"
 #: plugins/antispam.lua:41
 #, lua-format
 msgid "%s, this kind of spam is not allowed in this chat (*%d/%d*)"
-msgstr ""
-"%s, questo tipo di spam *non è consentito* in questo gruppo (%d / %d)"
+msgstr "%s, questo tipo di spam *non è consentito* in questo gruppo (%d / %d)"
 
 #: plugins/antispam.lua:58
 msgid "allowed"
@@ -76,37 +75,47 @@ msgstr "consentito"
 msgid "not allowed"
 msgstr "non consentito"
 
-#: plugins/antispam.lua:71
+#: plugins/antispam.lua:75
 msgid "You can't go lower"
 msgstr "Limite minimo raggiunto"
 
-#: plugins/antispam.lua:73
+#: plugins/antispam.lua:77
 msgid "You can't go higher"
 msgstr "Limite massimo raggiunto"
 
-#: plugins/antispam.lua:81
+#: plugins/antispam.lua:85
 #, lua-format
 msgid "New value: %d"
 msgstr "Nuovo valore :%d"
 
-#: plugins/antispam.lua:100
+#: plugins/antispam.lua:104
 msgid "Allow/forbid telegram.me links"
 msgstr "Consenti/proibisci l'invio di link telegram.me"
 
-#: plugins/antispam.lua:102
+#: plugins/antispam.lua:106
 msgid "Allow/forbid forwarded messages from channels"
 msgstr "Consenti/proibisci l'inoltro di messaggi da canali"
 
-#: plugins/antispam.lua:104
+#: plugins/antispam.lua:108
 msgid "Set how many times the bot should warn the user before kick/ban him"
-msgstr "Imposta quanti warn un utente potrà ricevere prima di essere kickato/bannato"
+msgstr ""
+"Imposta quanti warn un utente potrà ricevere prima di essere kickato/bannato"
 
-#: plugins/antispam.lua:156 plugins/floodmanager.lua:115
+#: plugins/antispam.lua:117 plugins/dashboard.lua:129
+#: plugins/mediasettings.lua:20
+msgid "telegram.me links"
+msgstr "Link telegram.me"
+
+#: plugins/antispam.lua:118
+msgid "Channels messages"
+msgstr "Messaggi da canali"
+
+#: plugins/antispam.lua:160 plugins/floodmanager.lua:115
 #: plugins/mediasettings.lua:68 plugins/menu.lua:216
 msgid "You're no longer an admin"
 msgstr "*Non sei* un admin!"
 
-#: plugins/antispam.lua:158
+#: plugins/antispam.lua:162
 msgid ""
 "*Anti-spam settings*\n"
 "Choose which kind of spam you want to forbid"
@@ -352,10 +361,6 @@ msgstr ""
 #: plugins/dashboard.lua:128 plugins/mediasettings.lua:19
 msgid "Documents"
 msgstr "File"
-
-#: plugins/dashboard.lua:129 plugins/mediasettings.lua:20
-msgid "telegram.me links"
-msgstr "Link telegram.me"
 
 #: plugins/dashboard.lua:130 plugins/mediasettings.lua:21
 msgid "Vocal messages"
@@ -909,8 +914,9 @@ msgstr ""
 "raggiunto il numero di warn stabilito, verrà kickato/bannato dal bot\n"
 "Esistono due tipi differenti di warn:\n"
 "- _warn normali_, assegnati da un admin col comando `/warn`\n"
-"- _warn automatici_ (leggi: _warn per spam/media_), assegnati dal bot in automatico quando un utente invia un media non "
-"consentito nel gruppo, o spamma dei link telegram.me o messaggi provenienti da canali\n"
+"- _warn automatici_ (leggi: _warn per spam/media_), assegnati dal bot in "
+"automatico quando un utente invia un media non consentito nel gruppo, o "
+"spamma dei link telegram.me o messaggi provenienti da canali\n"
 "\n"
 "• `/warn [by reply]`: warna un utente\n"
 "• `/nowarns [by reply]`: resetta il numero di warn ricevuti da un utente "
@@ -1045,7 +1051,8 @@ msgstr ""
 "*Media*: scegli per quali media ammonire gli utenti, e configura le "
 "ammonizioni necessarie per essere kickati/bannati dal gruppo a seguito "
 "dell'invio di media non consentiti\n"
-"*Antiflood*: scegli se proibire lo spam di link o di messaggi inoltrati da canali"
+"*Antiflood*: scegli se proibire lo spam di link o di messaggi inoltrati da "
+"canali"
 
 #: plugins/help.lua:216
 msgid "Banhammer"
@@ -2292,8 +2299,10 @@ msgstr "Il benvenuto avrà un messaggio per le regole"
 msgid ""
 "This setting is enabled, but the goodbye message won't be displayed in large "
 "groups, because I can't see service messages about left members"
-msgstr "L'impostazione è abilitata, ma il messaggio di addio non verrà mostrato in gruppi con molti membri. "
-"Purtroppo in questi gruppi non posso sapere quando la gente abbandona"
+msgstr ""
+"L'impostazione è abilitata, ma il messaggio di addio non verrà mostrato in "
+"gruppi con molti membri. Purtroppo in questi gruppi non posso sapere quando "
+"la gente abbandona"
 
 #: utilities.lua:646
 #, lua-format

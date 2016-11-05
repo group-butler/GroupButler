@@ -66,6 +66,10 @@ local function changeWarnsNumber(chat_id, action)
     local key = 'warns'
     local current = (db:hget(hash, key)) or config.chat_settings['antispam'][key]
     current = tonumber(current)
+    if current < 1 then
+        current = 1
+        db:hset(hash, key, 1)
+    end
     
     if current == 1 and action == 'dim' then
         return _("You can't go lower")
@@ -110,8 +114,8 @@ end
 local function doKeyboard_antispam(chat_id)
     local keyboard = {inline_keyboard = {}}
     local humanizations = {
-        ['links'] = 'telegram.me links',
-        ['forwards'] = 'Channels messages'
+        ['links'] = _('telegram.me links'),
+        ['forwards'] = _('Channels messages')
     }
     for field, value in pairs(config.chat_settings['antispam']) do
         if field == 'links' or field == 'forwards' then
