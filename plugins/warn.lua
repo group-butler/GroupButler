@@ -37,7 +37,14 @@ function plugin.onTextMessage(msg, blocks)
 
     --do not reply when...
     if not msg.reply or roles.is_admin_cached(msg.reply) or msg.reply.from.id == bot.id then return end
-
+	
+	if blocks[1] == 'nowarn' then
+		db:hdel('chat:'..msg.chat.id..':warns', msg.reply.from.id)
+		db:hdel('chat:'..msg.chat.id..':mediawarn', msg.reply.from.id)
+		db:hdel('chat:'..msg.chat.id..':spamwarns', msg.reply.from.id)
+		api.sendReply(msg, _('Done! %s has been forgiven'):format(misc.getname_final(msg.reply.from)), true)
+	end	
+		
     if blocks[1] == 'warn' then
 
 	    local name = misc.getname_final(msg.reply.from)
@@ -89,6 +96,7 @@ function plugin.onCallbackQuery(msg, blocks)
     	local user_id = blocks[2]
     	db:hdel('chat:'..msg.chat.id..':warns', user_id)
 		db:hdel('chat:'..msg.chat.id..':mediawarn', user_id)
+		db:hdel('chat:'..msg.chat.id..':spamwarns', user_id)
 
 		local text = _("Warns *reset*\n(Admin: %s)"):format(misc.getname_final(msg.from))
 		api.editMessageText(msg.chat.id, msg.message_id, text, true)
@@ -116,6 +124,7 @@ plugin.triggers = {
 		config.cmd..'(warnmax) (%d%d?)$',
 		config.cmd..'(warnmax) (media) (%d%d?)$',
 		config.cmd..'(warn)$',
+		config.cmd..'(nowarn)s?$',
 		config.cmd..'(warn) (.*)$'
 	},
 	onCallbackQuery = {

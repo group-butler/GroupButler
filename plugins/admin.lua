@@ -291,7 +291,9 @@ function plugin.onTextMessage(msg, blocks)
 		local n = 0
 		for chat_id in pairs(groups) do
 			local hash = 'chat:'..chat_id..':media'
-			local image = db:hget(hash, 'image')
+			db:hdel(hash, 'TGlink')
+			
+			--[[local image = db:hget(hash, 'image')
 			db:hdel(hash, 'image')
 			local file = db:hget(hash, 'file')
 			db:hdel(hash, 'file')
@@ -302,7 +304,7 @@ function plugin.onTextMessage(msg, blocks)
 			if file and type(file) == 'string' then
 				db:hset(hash, 'document', file)
 				n = n + 1
-			end
+			end]]
 		end
 		api.sendReply(msg, 'Done. Replaced '..n..' key(s)')
 	end

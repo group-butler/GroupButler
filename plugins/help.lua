@@ -147,17 +147,19 @@ Now supports placeholders. Check the "welcome" tab for the list of the available
 		return _([[
 *Warns*
 Warn are made to keep the count of the admonitions received by an user. Once an user has been warned for the defined number of times, he is kicked/banned by the bot.
-There are two different type of warns: _normal warns_, given by an admin with the `/warn` command, and _automatic_ (or _media_) warns, given by the bot when someone send a media that is not allowed in the chat.
-Admins can set allowed and forbidden media types from the `/config` keyboard, "media" button
+There are two different type of warns:
+- _normal warns_, given by an admin with the `/warn` command
+- _automatic warns_ (read: media warns and spam warns), given by the bot when someone sends a media that is not allowed in the chat, or spams other channels or telegram.me links.
 
 • `/warn [by reply]`: warn a user
-• `/nowarns [by reply]`: reset the warns received by an user (both normal and media warns).
+• `/nowarns [by reply]`: reset the warns received by an user (both normal and automatic warns).
 • `/warnmax [number]`: set the max number of the warns before the kick/ban.
 • `/warnmax media [number]`: set the max number of the warns before kick/ban when an unallowed media is sent.
 
 How to see how many warns a user has received (or to reset them): `/user` command.
 How to change the max. number of warnings allowed: `/config` command, then `menu` button.
 How to change the max. number of warnings allowed for medias: `/config` command, then `media` button.
+How to change the max. number of warnings allowed for spam: `/config` command, then `antispam` button.
 ]])
 	elseif key == 'pin' then------------------------------------------------------
 		return _([[
@@ -169,7 +171,7 @@ So with `/pin` you can generate a message to pin, and edit it how many times you
 • `/pin [text]`: the bot will send you back the text you used as argument, with markdown. You can pin the message and use `/pin [text]` again to edit it
 • `/pin`: the bot will find the latest message generate by `/pin`, if it still exists
 
-*Note*: `/pin` supports markdown, but only `$rules` and `$chat` placeholders
+*Note*: `/pin` supports markdown, but only `$rules` and `$title` placeholders
 ]])
 	elseif key == 'lang' then----------------------------------------------
 		-- TRANSLATORS: leave your contact information for reports mistakes in translation
@@ -201,6 +203,7 @@ The inline keyboard has three sub-menus:
 *Menu*: manage the most important group settings
 *Antiflood*: turn on or off the antiflood, set its sensitivity and choose some media to ignore, if you want
 *Media*: choose which media to forbid in your group, and set the number of times that an user will be warned before being kicked/banned
+*Antispam*: choose which kind of spam you want to forbid (example: telegram.me links, forwarded messages from channels)
 ]])
 	end
 end

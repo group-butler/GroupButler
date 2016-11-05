@@ -1,6 +1,6 @@
-#Group Butler
+# Group Butler
 
-##Short introduction
+## Short introduction
 
 This bot has been created to help people administrate their groups, and includes many useful tools.
 
@@ -11,7 +11,7 @@ There's a beta version too, that follows the updates of this repository: [@GBReb
 
 * * *
 
-##Setup
+## Setup
 List of required packages:
 - `libreadline-dev`
 - `redis-server`
@@ -80,14 +80,14 @@ $ sudo service redis-server start
 
 * * *
 
-##Start the process
+## Start the process
 
 To start the bot, run `./launch.sh`. To stop the bot, press Control <kbd>CTRL</kbd>+<kbd>C</kbd> twice.
 
 You may also start the bot with `lua bot.lua`, however it will not restart automatically.
 
 * * *
-##Something that you should known before run the bot
+## Something that you should known before run the bot
 
   * You can change some settings of the bot. All the settings are placed in `config.lua`, in the `bot_settings` table
     * `cache_time.adminlist`: the permanence in seconds of the adminlist in the cache. The bot caches the adminlist to avoid to hit Telegram limits
@@ -106,7 +106,7 @@ You may also start the bot with `lua bot.lua`, however it will not restart autom
        * In supergroups, the `unbanChatMember` method returns always a positive response if the `user_id` has been part of the group at least once, it doesn't matter if the user is not in the group or is not in the group blacklist
 
 * * *
-##Some notes about the database
+## Some notes about the database
 
 *Everything* is stored on Redis, and the fastest way to edit your database is via the [Redis CLI](http://redis.io/topics/rediscli).
 
@@ -135,7 +135,7 @@ After add your new locale in the file `config.lua`.
 
 * * *
 
-###Notes about this repository
+### Notes about this repository
 
 Note that this bot is not open source because I want everyone to be able to clone it and run its own copy. It's open source because everyone can take a look on how the bot works, see which data are stored, and decide if the bot is worth to be a group administrator. There are some installation instructions just because why not.
 
@@ -143,7 +143,7 @@ If you are going to open a pull request, keep in mind that I don't know how to u
 
 * * *
 
-##Credits
+## Credits
 
 [Topkecleon](https://github.com/topkecleon), for the original [otouto](https://github.com/topkecleon/otouto)
 

@@ -32,6 +32,7 @@ return {
 	},
 	plugins = {
 		'onmessage.lua', --THIS MUST BE THE FIRST: IF AN USER IS SPAMMING/IS BLOCKED, THE BOT WON'T GO THROUGH PLUGINS
+		'antispam.lua', --SAME OF onmessage.lua
 		--'realms.lua',
 		'configure.lua',
 		'menu.lua',
@@ -84,6 +85,12 @@ return {
 			['Reports'] = 'off',
 			['Welbut'] = 'off'
 		},
+		['antispam'] = {
+			['links'] = 'alwd',
+			['forwards'] = 'alwd',
+			['warns'] = 2,
+			['action'] = 'ban'
+		},
 		['flood'] = {
 			['MaxFlood'] = 5,
 			['ActionFlood'] = 'kick'
@@ -123,7 +130,6 @@ return {
 			['contact'] = 'ok',
 			['document'] = 'ok', -- file
 			['link'] = 'ok',
-			['TGlink'] = 'ok',
 			['game'] = 'ok',
 			['location'] = 'ok'
 		},
@@ -140,7 +146,7 @@ return {
 		rules_on_join = 'off',
 		reports = 'off'
 	},
-	chat_custom_texts = {'extra', 'info', 'links', 'warns', 'mediawarn'},
+	chat_custom_texts = {'extra', 'info', 'links', 'warns', 'mediawarn', 'spamwarns'},
 	bot_keys = {
 		d3 = {'bot:general', 'bot:usernames', 'bot:chat:latsmsg'},
 		d2 = {'bot:groupsid', 'bot:groupsid:removed', 'tempbanned', 'bot:blocked', 'remolden_chats'} --remolden_chats: chat removed with $remold command

@@ -303,10 +303,15 @@ local function parseMessageFunction(update)
 			print('Unknown update type') return
 		end
 		
+		if msg.forward_from_chat then
+			if msg.forward_from_chat.type == 'channel' then
+				msg.spam = 'forwards'
+			end
+		end
 		if msg.caption then
 			local caption_lower = msg.caption:lower()
 			if caption_lower:match('telegram%.me') or caption_lower:match('telegram%.dog') then
-				msg.media_type = 'TGlink'
+				msg.spam = 'links'
 			end
 		end
 		if msg.entities then
@@ -318,11 +323,11 @@ local function parseMessageFunction(update)
 					local text_lower = msg.text or msg.caption
 					text_lower = text_lower:lower()
 					if text_lower:match('telegram%.me') or text_lower:match('telegram%.dog') then
-						msg.media_type = 'TGlink'
+						msg.spam = 'links'
 					else
 						msg.media_type = 'link'
+						msg.media = true
 					end
-					msg.media = true
 				end
 			end
 		end
