@@ -156,7 +156,7 @@ end
 
 plugin.triggers = {
 	onTextMessage = {
-		config.cmd..'(kickme)%s?',
+		config.cmd..'(kickme)',
 		config.cmd..'(kick) (.+)',
 		config.cmd..'(kick)$',
 		config.cmd..'(ban) (.+)',
