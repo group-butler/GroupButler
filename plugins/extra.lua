@@ -103,7 +103,7 @@ end
 plugin.triggers = {
 	onTextMessage = {
 		config.cmd..'(extra)$',
-		config.cmd..'(extra) (#[%w_]*)%s(.*)$',
+		config.cmd..'(extra) (#[%w_]*) (.*)$',
 		config.cmd..'(extra) (#[%w_]*)',
 		config.cmd..'(extra del) (#[%w_]*)$',
 		config.cmd..'(extra list)$',

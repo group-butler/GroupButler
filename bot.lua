@@ -27,9 +27,13 @@ function bot_init(on_reload) -- The function run when the bot is started or relo
 	for i,v in ipairs(config.plugins) do
 		local p = dofile('plugins/'..v)
 		if p.triggers then
-			for funct, triggers in pairs(p.triggers) do
+			for funct, trgs in pairs(p.triggers) do
+				for i = 1, #trgs do
+					-- interpret any whitespace character in commands just as space
+					trgs[i] = trgs[i]:gsub(' ', '%%s+')
+				end
 				if not p[funct] then
-					p.triggers[funct] = nil
+					p.trgs[funct] = nil
 					print(clr.red..funct..' triggers ignored in '..v..': '..funct..' function not defined'..clr.reset)
 				end
 			end
@@ -111,7 +115,7 @@ end
 
 local function match_triggers(triggers, text)
   	if text and triggers then
-		text = text:gsub('@'..bot.username, '')
+		text = text:gsub('^(/[%w_]+)@'..bot.username, '%1')
 		for i, trigger in pairs(triggers) do
 			local matches = {}
 	    	matches = { string.match(text, trigger) }
