@@ -160,7 +160,10 @@ function plugin.onCallbackQuery(msg, blocks)
 	    	api.answerCallbackQuery(msg.cb_id, _("You're no longer an admin"))
 	    else
 	        local antispam_first = _([[*Anti-spam settings*
-Choose which kind of spam you want to forbid]])
+Choose which kind of spam you want to forbid
+• ✅ = *Allowed*
+• ❌ = *Not allowed*
+]])
         
             local keyboard, text
             
