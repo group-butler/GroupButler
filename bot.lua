@@ -302,6 +302,9 @@ local function parseMessageFunction(update)
 		elseif msg.migrate_from_chat_id then
 			msg.service = true
 			msg.text = '###migrate_from_chat_id'
+		elseif msg.new_chat_title then
+			msg.service = true
+			msg.text = '###new_chat_title'
 		else
 			--callback = 'onUnknownType'
 			print('Unknown update type') return

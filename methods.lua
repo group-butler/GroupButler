@@ -35,12 +35,13 @@ local function sendRequest(url)
 	end
 
 	if code ~= 200 then
-		print(clr.red..code, tab.description..clr.reset)
 		
 		if code == 400 then
 			 --error code 400 is general: try to specify
 			 code = getCode(tab.description)
 		end
+		
+		print(clr.red..code, tab.description..clr.reset)
 		db:hincrby('bot:errors', code, 1)
 		
 		return false, code, tab.description
@@ -118,7 +119,7 @@ function api.banUser(chat_id, user_id)
 		return res --return res and not the text
 	else ---else, the user haven't been kicked
 		local text = code2text(code)
-		return res, text --return the motivation too
+		return res, code, text --return the motivation too
 	end
 end
 
@@ -134,7 +135,7 @@ function api.kickUser(chat_id, user_id)
 		return res
 	else
 		local motivation = code2text(code)
-		return res, motivation
+		return res, code, motivation
 	end
 end
 
