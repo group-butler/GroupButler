@@ -195,7 +195,7 @@ function misc.get_date(timestamp)
 	if not timestamp then
 		timestamp = os.time()
 	end
-	return os.date(timestamp, '%d/%m/%y')
+	return os.date('%d/%m/%y', timestamp)
 end
 
 -- Resolves username. Returns ID of user if it was early stored in date base.
@@ -682,6 +682,24 @@ function misc.remGroup(chat_id, full, call)
 	db:del('cache:chat:'..chat_id..':owner')
 	db:hdel('bot:logchats', chat_id) --delete the associated log chat
 	db:del('chat:'..chat_id..':pin') --delete the msg id of the (maybe) pinned message
+	
+	--realm
+	if db:exists('realm:'..chat_id..':subgroups') then
+		local subgroups = db:hgetall('realm:'..chat_id..':subgroups')
+		if next(subgroups) then
+			for subgroup_id, subgroup_name in pairs(subgroups) do
+				db:del('chat:'..subgroup_id..':realm')
+			end
+		end
+		db:del('realm:'..chat_id..':subgroups')
+	end
+	
+	--subgroup
+	if db:exists('chat:'..chat_id..':realm') then
+		local realm_id = db:get('chat:'..chat_id..':realm') --get the realm id
+		db:hdel('realm:'..realm_id..':subgroups', chat_id) --remove the group from the realm subgroups
+		db:del('chat:'..chat_id..':realm') --remove the key with the group realm
+	end
 	
 	if full then
 		for i, set in pairs(config.chat_custom_texts) do
