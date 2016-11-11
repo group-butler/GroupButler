@@ -399,7 +399,7 @@ function plugin.onTextMessage(msg, blocks)
 							api.sendReply(msg, _('_You can\'t use as realm a group with more than %d members_'):format(config.bot_settings.realm_max_members), true)
 						else
 							db:sadd('bot:realms', msg.chat.id)
-							api.sendReply(msg, _('This group can now be used as realm. To add a sub-group, the group owner must write in the chat:\n"/setrealm %s". He can copy-paste there the following text:'):format(msg.chat.id))
+							api.sendReply(msg, _('This group can now be used as realm: the members of this group can now manage multiple groups from here. To add a sub-group, the group owner must write in the chat:\n"/setrealm %s". He can copy-paste in the group the following text:'):format(msg.chat.id))
 							api.sendMessage(msg.chat.id, '`/setrealm '..msg.chat.id..'`', true)
 						end
 					end
@@ -459,7 +459,13 @@ function plugin.onTextMessage(msg, blocks)
 			api.sendReply(msg, text)
 		end
 	end
-	
+	if blocks[1] == 'add' then
+		if is_realm(msg.chat.id) then
+			local text = _('To add a group to the administrated group of this chat, the *owner of the group* have to copy-paste the following message in the group you want to add:')
+			api.sendReply(msg, text, true)
+			api.sendMessage(msg.chat.id, ('`/setrealm %d`'):format(msg.chat.id), true)
+		end
+	end
 	if not is_realm(msg.chat.id) then return true end
 	local subgroups = db:hgetall('realm:'..msg.chat.id..':subgroups')
 	if not next(subgroups) then
@@ -602,6 +608,7 @@ plugin.triggers = {
 		config.cmd..'(unpair)$',
 		config.cmd..'(realm)$',
 		config.cmd..'(config)$',
+		config.cmd..'(add)$',
 		'^###(new_chat_title)$'
 	},
 	onCallbackQuery = {
