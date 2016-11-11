@@ -1,6 +1,6 @@
 local plugin = {}
 
-local function do_keyboard_credits()
+local function do_keybaord_credits()
 	local keyboard = {}
     keyboard.inline_keyboard = {
     	{
@@ -23,7 +23,7 @@ local function get_time_remaining(seconds)
 	seconds = seconds - (hours*60*60)
 	local min = math.floor(seconds/60)
 	seconds = seconds - (min*60)
-
+	
 	if hours and hours > 0 then
 		final = final..hours..'h '
 	end
@@ -33,7 +33,7 @@ local function get_time_remaining(seconds)
 	if seconds and seconds > 0 then
 		final = final..seconds..'s'
 	end
-
+	
 	return final
 end
 
@@ -110,7 +110,7 @@ local function do_keyboard_userinfo(user_id)
 			{{text = _("🔨 Ban"), callback_data = 'userbutton:banuser:'..user_id}},
 		}
 	}
-
+	
 	return keyboard
 end
 
@@ -152,9 +152,9 @@ function plugin.onTextMessage(msg, blocks)
 		end
 		api.sendMessage(where, string.format('`%d`', what), true)
  	end
-
+	
 	if msg.chat.type == 'private' then return end
-
+	
 	if blocks[1] == 'adminlist' then
     	local out
         local creator, adminlist = misc.getAdminlist(msg.chat.id)
@@ -193,32 +193,32 @@ function plugin.onTextMessage(msg, blocks)
  	end
 	if blocks[1] == 'user' then
 		if not roles.is_admin_cached(msg) then return end
-
+		
 		if not msg.reply and (not blocks[2] or (not blocks[2]:match('@[%w_]+$') and not blocks[2]:match('%d+$') and not msg.mention_id)) then
 			api.sendReply(msg, _("Reply to an user or mention them by username or numerical ID"))
 			return
 		end
-
+		
 		------------------ get user_id --------------------------
 		local user_id = get_user_id(msg, blocks)
-
+		
 		if roles.is_superadmin(msg.from.id) and msg.reply and not msg.cb then
 			if msg.reply.forward_from then
 				user_id = msg.reply.forward_from.id
 			end
 		end
-
+		
 		if not user_id then
 			api.sendReply(msg, _("I've never seen this user before.\n"
 				.. "If you want to teach me who they are, forward a message from them to me"), true)
 		 	return
 		end
 		-----------------------------------------------------------------------------
-
+		
 		local keyboard = do_keyboard_userinfo(user_id)
-
+		
 		local text = get_userinfo(user_id, msg.chat.id)
-
+		
 		api.sendMessage(msg.chat.id, text, true, keyboard)
 	end
 	if blocks[1] == 'cache' then
@@ -248,10 +248,10 @@ function plugin.onCallbackQuery(msg, blocks)
 	if not roles.is_admin_cached(msg) then
 		api.answerCallbackQuery(msg.cb_id, _("You are not an admin")) return
 	end
-
+	
 	if blocks[1] == 'banuser' then
 		local user_id = msg.target_id
-
+		
 		local res, text = api.banUser(msg.chat.id, user_id)
 		if res then
 			misc.saveBan(user_id, 'ban')
@@ -263,7 +263,7 @@ function plugin.onCallbackQuery(msg, blocks)
 	if blocks[1] == 'remwarns' then
 		db:hdel('chat:'..msg.chat.id..':warns', msg.target_id)
 		db:hdel('chat:'..msg.chat.id..':mediawarn', msg.target_id)
-
+        
         local name = misc.getname_link(msg.from.first_name, msg.from.username) or msg.from.first_name:escape()
 		local text = _("The number of warnings received by this user has been *reset*\n(Admin: %s)")
 		api.editMessageText(msg.chat.id, msg.message_id, text:format(name), true)
