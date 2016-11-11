@@ -693,6 +693,7 @@ function misc.remGroup(chat_id, full, call)
 		end
 		db:del('realm:'..chat_id..':subgroups')
 	end
+	db:srem('bot:realms', chat_id)
 	
 	--subgroup
 	if db:exists('chat:'..chat_id..':realm') then

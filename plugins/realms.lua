@@ -1,6 +1,8 @@
 local plugin = {}
 
-function is_realm(chat_id)
+----these functions should be globals
+
+local function is_realm(chat_id)
 	if db:sismember('bot:realms', chat_id) then
 		return true
 	else
@@ -8,7 +10,7 @@ function is_realm(chat_id)
 	end
 end
 
-function is_paired(chat_id)
+local function is_paired(chat_id)
 	--realm_id: the chat has a realm associated and the chat_id appears in the subgroups of the realm
 	--FALSE, 1: the chat_id is a realm
 	--FALSE, 2: the chat doesn't have an associated realm
@@ -31,7 +33,7 @@ function is_paired(chat_id)
 	end
 end
 
-function is_subgroup(chat_id)
+local function is_subgroup(chat_id)
 	if db:sismember('bot:realms') then
 		return false
 	else
@@ -44,11 +46,11 @@ function is_subgroup(chat_id)
 	end
 end
 
-function get_realm_id(chat_id)
+local function get_realm_id(chat_id)
 	return db:get('chat:'..chat_id..':realm')
 end
 
-function get_realm_info(realm_id)
+local function get_realm_info(realm_id)
 	local text = ''
 	if not db:sismember('bot:realms') then
 		text = text ..'- Not indexed in "bot:realms"'
@@ -70,7 +72,7 @@ function get_realm_info(realm_id)
 	return text
 end
 
-function get_subgroup_info(chat_id)
+local function get_subgroup_info(chat_id)
 	local realm_id = db:get('chat:'..chat_id..':realm')
 	if not realm_id then
 		return 'No realm paired'
@@ -86,14 +88,14 @@ function get_subgroup_info(chat_id)
 	end
 end
 
-function remRealm(realm_id)
+local function remRealm(realm_id)
 	local subgroups = db:hgetall('realm:'..realm_id..':subgroups')
 	if subgroups then
 		if next(subgroups) then
 			local count = {total = 0, subgroup_keys_deleted = 0}
 			for subgroup_id, subgroup_name in pairs(subgroups) do
 				count.total = count.total + 1
-				local subgroup_realm_id = db.get('chat:'..subgroup_id..':realm')
+				local subgroup_realm_id = db:get('chat:'..subgroup_id..':realm')
 				if subgroup_realm_id then
 					if tonumber(subgroup_realm_id) == tonumber(realm_id) then
 						count.subgroup_keys_deleted = count.subgroup_keys_deleted + 1
@@ -110,7 +112,7 @@ function remRealm(realm_id)
 	if count then return count end
 end
 
-function unpair_group(realm_id, subgroup_id)
+local function unpair_group(realm_id, subgroup_id)
 	local subgroup = {
 		title = db:hget('realm:'..realm_id..':subgroups', subgroup_id),
 		realm = db:get('chat:'..subgroup_id..':realm')
@@ -298,6 +300,18 @@ function plugin.onCallbackQuery(msg, blocks)
 			end
 		end
 	end
+	if blocks[1] == 'delrealm' then
+		if blocks[2] == 'yes' then
+			local count = remRealm(msg.chat.id)
+			local text = _('As you wish. This group is no longer a realm.')
+			if count and count.total then
+				text = text .._('\n_%d associations with subgroups have been deleted_'):format(count.total)
+			end
+			api.editMessageText(msg.chat.id, msg.message_id, text, true)
+		elseif blocks[2] == 'no' then
+			api.editMessageText(msg.chat.id, msg.message_id, _('_Action aborted_'), true)
+		end
+	end
 end
 
 function plugin.onTextMessage(msg, blocks)
@@ -357,7 +371,7 @@ function plugin.onTextMessage(msg, blocks)
 							api.sendReply(msg, _('_You can\'t use as realm a group with more than %d members_'):format(config.bot_settings.realm_max_members), true)
 						else
 							db:sadd('bot:realms', msg.chat.id)
-							api.sendReply(msg, _('This group can now be used as realm. To add a sub-group, the group owner must write in the chat:\n"/setrealm %s. He can copy-paste there the following text:"'):format(msg.chat.id))
+							api.sendReply(msg, _('This group can now be used as realm. To add a sub-group, the group owner must write in the chat:\n"/setrealm %s". He can copy-paste there the following text:'):format(msg.chat.id))
 							api.sendMessage(msg.chat.id, '`/setrealm '..msg.chat.id..'`', true)
 						end
 					end
@@ -366,13 +380,38 @@ function plugin.onTextMessage(msg, blocks)
 		end
 		return
 	end
+	if blocks[1] == 'delrealm' then
+		if is_realm(msg.chat.id) then
+			if not roles.is_owner_cached(msg) then
+				api.sendReply(msg, _('_This command can be used only by the group owner_'), true)
+			else
+				local text = _('_This group is no longer going to be used as a realm, and you will lose all the associations with your subgroups._\n*Do you want to continue?*')
+				local reply_markup = {inline_keyboard={{{text = 'YES', callback_data = 'realm:delrealm:yes'}, {text = 'NO', callback_data = 'realm:delrealm:no'}}}}
+				api.sendReply(msg, text, true, reply_markup)
+			end
+		end
+	end
 	if blocks[1] == 'new_chat_title' and msg.service then
 		local realm_id = get_realm_id(msg.chat.id)
 		if realm_id then
 			db:hset('realm:'..realm_id..':subgroups', msg.chat.id, msg.chat.title)
 		end
 		return
-	end		
+	end
+	if blocks[1] == 'myrealm' then
+		if roles.is_admin_cached(msg) then
+			local text
+			local realm_id = db:get('chat:'..msg.chat.id..':realm')
+			if not realm_id then
+				text = _('This group is not paired with any realm')
+			else
+				local in_the_general_list = (tostring(db:sismember('bot:realms', realm_id))) or 'false'
+				local saved_as = (db:hget('realm:'..realm_id..':subgroups', msg.chat.id)) or '-'
+				text = _('Paired with: %s\nSaved as: %s\nRealm in the global list: %s'):format(tostring(realm_id), saved_as, in_the_general_list)
+			end
+			api.sendReply(msg, text)
+		end
+	end
 	
 	if not is_realm(msg.chat.id) then return true end
 	local subgroups = db:hgetall('realm:'..msg.chat.id..':subgroups')
@@ -477,27 +516,29 @@ Failed to ban from:
 			api.editMessageText(msg.chat.id, res.result.message_id, 'Choose the group where I have to send the message *within one hour from now*', true, keyboard)
 		end
 	end
-	
 end
 
 plugin.triggers = {
 	onTextMessage = {
-		'^/(setrealm)$',
-		'^/(setrealm) (-%d+)$',
-		'^/(subgroups)$',
-		'^/(remove)$',
-		'^/(adminlist)$',
-		'^/(ban)$',
-		'^/(kick)$',
-		'^/(ban) (.*)$',
-		'^/(kick) (.*)$',
-		'^/(setrules) (.*)$',
-		'^/(send) (.*)$',
+		config.cmd..'(setrealm)$',
+		config.cmd..'(setrealm) (-%d+)$',
+		config.cmd..'(subgroups)$',
+		config.cmd..'(remove)$',
+		config.cmd..'(adminlist)$',
+		config.cmd..'(ban)$',
+		config.cmd..'(kick)$',
+		config.cmd..'(ban) (.*)$',
+		config.cmd..'(kick) (.*)$',
+		config.cmd..'(setrules) (.*)$',
+		config.cmd..'(send) (.*)$',
+		config.cmd..'(delrealm)$',
+		config.cmd..'(myrealm)$',
 		'^###(new_chat_title)$'
 	},
 	onCallbackQuery = {
 		'^###cb:realm:(%w+):(-%d+)$',
 		'^###cb:realm:(%w+):(all)$',
+		'^###cb:realm:(%w+):(%a+)$',
 	}
 }
 
