@@ -234,10 +234,16 @@ local function doKeyboard_subgroups(subgroups, callback_identifier, insert_all_b
 		local line = {{text = name, callback_data = 'realm:'..callback_identifier..':'..subgroup_id}}
 		table.insert(keyboard.inline_keyboard, line)
 	end
+	
+	table.insert(keyboard.inline_keyboard, {{text = _('Cancel'), callback_data = 'realm:cancel'}})
+	
 	return keyboard
 end
 
 function plugin.onCallbackQuery(msg, blocks)
+	if blocks[1] == 'cancel' then
+		api.editMessageText(msg.chat.id, msg.message_id, _('_Action aborted_'), true)
+	end
 	if blocks[1] == 'setrules' then
 		local rules = db:get('temp:realm:'..msg.chat.id..':setrules')
 		if not rules then
@@ -245,6 +251,7 @@ function plugin.onCallbackQuery(msg, blocks)
 		else
 			if blocks[2]:match('^-%d+$') then
 				db:hset('chat:'..blocks[2]..':info', 'rules', rules)
+				local subgroups = db:hgetall('realm:'..msg.chat.id..':subgroups')
 				local keyboard = doKeyboard_subgroups(subgroups, 'setrules', true)
 				api.editMessageText(msg.chat.id, msg.message_id, msg.original_text..'\nApplied to: '..db:hget('realm:'..msg.chat.id..':subgroups', blocks[2]), false, keyboard)
 				api.answerCallbackQuery(msg.cb_id, _('Applied'))
@@ -335,18 +342,21 @@ function plugin.onTextMessage(msg, blocks)
 						
 						db:set('chat:'..subgroup..':realm', realm)
 						db:hset('realm:'..realm..':subgroups', subgroup, msg.chat.title)
+						local text_to_send_realm = _('New subgroup added: %d\nBy: %s'):format(msg.chat.id, msg.chat.title)
 						if old_realm and old_realm ~= realm then
 							db:hdel('realm:'..old_realm..':subgroups', msg.chat.id)
-							text = _('The realm of this group changed: `%s`')
+							text = _('The realm of this group changed: `%s`'):format(realm)
+							api.sendMessage(realm, text_to_send_realm)
 						else
 							if realm == old_realm then
-								text = _('Already a sub-group of: `%s`')
+								text = _('Already a sub-group of: `%s`'):format(realm)
 							else
-								text = _('Group added to the sub-groups of: `%s`')
+								text = _('Group added to the sub-groups of: `%s`'):format(realm)
+								api.sendMessage(realm, text_to_send_realm)
 							end
 						end
 					end
-					api.sendReply(msg, text:format(blocks[2]), true)
+					api.sendReply(msg, text, true)
 				end
 			end
 		end
@@ -391,6 +401,24 @@ function plugin.onTextMessage(msg, blocks)
 			end
 		end
 	end
+	if blocks[1] == 'unpair' then
+		if roles.is_owner_cached(msg) then
+			local text
+			if is_realm(msg.chat.id) then
+				text = _('_This group is a realm, you can use this command only in one subgroup_')
+			else
+				local realm_id = db:get('chat:'..msg.chat.id..':realm')
+				if realm_id then
+					db:del('chat:'..msg.chat.id..':realm')
+					db:hdel('realm:'..realm_id..':subgroups', msg.chat.id)
+					text = _("Done. This group does no longer belong to `%s`"):format(tostring(realm_id))
+				else
+					text = _("_You are not associated with a realm_")
+				end
+			end
+			api.sendReply(msg, text, true)
+		end
+	end
 	if blocks[1] == 'new_chat_title' and msg.service then
 		local realm_id = get_realm_id(msg.chat.id)
 		if realm_id then
@@ -427,8 +455,7 @@ function plugin.onTextMessage(msg, blocks)
 			body = body..n..' - '..name..'\n'
 		end
 		local text = _('Your subgroups:\n\n')..body
-		local keyboard = {inline_keyboard={{{text = 'Refresh names', callback_data = 'realm:refreshnames:'..msg.chat.id}}}}
-		api.sendMessage(msg.chat.id, text, false, keyboard)
+		api.sendMessage(msg.chat.id, text)
 	end
 	if blocks[1] == 'remove' then
 		local keyboard = doKeyboard_subgroups(subgroups, 'remsubgroup')
@@ -506,14 +533,18 @@ Failed to ban from:
 		api.sendMessage(msg.chat.id, 'Choose a group to see the list of the admins', false, keyboard)
 	end
 	if blocks[1] == 'send' then
-		local res, code = api.sendReply(msg, blocks[2], true)
-		if not res then
-			local text = misc.get_sm_error_string(code)
-			api.sendReply(msg, text, true)
+		if not blocks[2] then
+			api.sendReply(msg, _('Write something next to `/send`, for example _"/send this is a text message"_'), true)
 		else
-			local keyboard = doKeyboard_subgroups(subgroups, 'send', true)
-			db:setex('temp:realm:'..msg.chat.id..':send', 3600, blocks[2])
-			api.editMessageText(msg.chat.id, res.result.message_id, 'Choose the group where I have to send the message *within one hour from now*', true, keyboard)
+			local res, code = api.sendReply(msg, blocks[2], true)
+			if not res then
+				local text = misc.get_sm_error_string(code)
+				api.sendReply(msg, text, true)
+			else
+				local keyboard = doKeyboard_subgroups(subgroups, 'send', true)
+				db:setex('temp:realm:'..msg.chat.id..':send', 3600, blocks[2])
+				api.editMessageText(msg.chat.id, res.result.message_id, 'Choose the group where I have to send the message *within one hour from now*', true, keyboard)
+			end
 		end
 	end
 end
@@ -530,12 +561,14 @@ plugin.triggers = {
 		config.cmd..'(ban) (.*)$',
 		config.cmd..'(kick) (.*)$',
 		config.cmd..'(setrules) (.*)$',
+		config.cmd..'(send)$',
 		config.cmd..'(send) (.*)$',
 		config.cmd..'(delrealm)$',
 		config.cmd..'(myrealm)$',
 		'^###(new_chat_title)$'
 	},
 	onCallbackQuery = {
+		'^###cb:realm:(cancel)$',
 		'^###cb:realm:(%w+):(-%d+)$',
 		'^###cb:realm:(%w+):(all)$',
 		'^###cb:realm:(%w+):(%a+)$',
