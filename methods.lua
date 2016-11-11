@@ -1,43 +1,61 @@
-
 local BASE_URL = 'https://api.telegram.org/bot' .. config.bot_api_key
 
-if not config.bot_api_key then
-	error('You did not set your bot token in config.lua!')
+local api = {}
+
+local curl_context = curl.easy{verbose = config.bot_settings.debug_connections}
+
+local function getCode(err)
+	for k,v in pairs(config.api_errors) do
+		if err:match(v) then
+			return k
+		end
+	end
+	return 7 --if unknown
 end
 
-local function sendRequest(url, user_id)
+local function performRequest(url)
+	local data = {}
+	
+	-- if multithreading is made, this request must be in critical section
+	local c = curl_context:setopt_url(url)
+		:setopt_writefunction(table.insert, data)
+		:perform()
 
-	local dat, code = HTTPS.request(url)
-	
-	if not dat then 
-		return false, code 
-	end
-	
+	return table.concat(data), c:getinfo_response_code()
+end
+
+local function sendRequest(url)
+	local dat, code = performRequest(url)
 	local tab = JSON.decode(dat)
 
-	if code ~= 200 then
-		if tab and tab.description then print(code, tab.description) end
-		--403: bot blocked, 429: spam limit ...send a message to the admin, return the code
-		if code == 400 then code = api.getCode(tab.description) end --error code 400 is general: try to specify
-		db:hincrby('bot:errors', code, 1)
-		if code ~= 403 and code ~= 429 and code ~= 110 and code ~= 111 then
-			local out = vtext(dat)..'\n'..code..'\n(text in the log)'
-			api.sendLog(out)
-			return false, code
-		end
-		return false, false --if the message is not sent because the bot is blocked, then don't return the code
-	end
-	
-	--actually, this rarely happens
-	if not tab.ok then
-		return false, tab.description
+	if not tab then
+		print(clr.red..'Error while parsing JSON'..clr.reset, code)
+		print(clr.yellow..'Data:'..clr.reset, dat)
+		error('Incorrect response')
 	end
 
+	if code ~= 200 then
+		print(clr.red..code, tab.description..clr.reset)
+		
+		if code == 400 then
+			 --error code 400 is general: try to specify
+			 code = getCode(tab.description)
+		end
+		db:hincrby('bot:errors', code, 1)
+		
+		return false, code, tab.description
+	end
+	
+	if not tab.ok then
+		api.sendAdmin('Not tab.ok')
+		return false, tab.description
+	end
+	
 	return tab
 
 end
 
-local function getMe()
+function api.getMe()
 
 	local url = BASE_URL .. '/getMe'
 
@@ -45,7 +63,7 @@ local function getMe()
 
 end
 
-local function getUpdates(offset)
+function api.getUpdates(offset)
 
 	local url = BASE_URL .. '/getUpdates?timeout=20'
 
@@ -57,234 +75,141 @@ local function getUpdates(offset)
 
 end
 
-local function getCode(error)
-	--error = error:gsub('%[Error : %d%d%d : Bad Request: ', ''):gsub('%]', '')
-	--error = error:gsub('%[Error : 400 : ', ''):gsub('%]', '')
-	for k,v in pairs(config.api_errors) do
-		if error:match(v) then
-			return k
-		end
-	end
-	return 107 --if unknown
-end
-
-local function unbanChatMember(chat_id, user_id)
+function api.unbanChatMember(chat_id, user_id)
 	
 	local url = BASE_URL .. '/unbanChatMember?chat_id=' .. chat_id .. '&user_id=' .. user_id
 
-	--return sendRequest(url)
-	
-	local dat, res = HTTPS.request(url)
-	
-	local tab = JSON.decode(dat)
-	
-	if res ~= 200 then
-		return false, res
-	end
-
-	if not tab.ok then
-		return false, tab.description
-	end
-
-	return tab
-	
+	return sendRequest(url)
 end
 
-local function kickChatMember(chat_id, user_id)
-
+function api.kickChatMember(chat_id, user_id)
+	
 	local url = BASE_URL .. '/kickChatMember?chat_id=' .. chat_id .. '&user_id=' .. user_id
-
-	--return sendRequest(url)
 	
-	local dat, res = HTTPS.request(url)
-
-	local tab = JSON.decode(dat)
-
-	if res ~= 200 then
-		--if error, return false and the custom error code
-		print(tab.description)
-		return false, api.getCode(tab.description)
+	local success, code, description = sendRequest(url)
+	if success then
+		db:srem(string.format('chat:%d:members', chat_id), user_id)
 	end
 
-	if not tab.ok then
-		return false, tab.description
-	end
-
-	return tab
-
+	return success, code, description
 end
 
-local function code2text(code, ln, chat_id)
+local function code2text(code)
 	--the default error description can't be sent as output, so a translation is needed
-	if code == 101 then
-		return lang[ln].kick_errors[code]
-	elseif code == 102 then
-		return lang[ln].kick_errors[code]
+	if code == 101 or code == 105 or code == 107 then
+		return _("I'm not an admin, I can't kick people")
+	elseif code == 102 or code == 104 then
+		return _("I can't kick or ban an admin")
 	elseif code == 103 then
-		return lang[ln].kick_errors[code]
-	elseif code == 104 then
-		return lang[ln].kick_errors[code]
-	elseif code == 105 then
-		return lang[ln].kick_errors[code]
-	elseif code == 106 then
-		return lang[ln].kick_errors[code]
-	elseif code == 107 then
+		return _("There is no need to unban in a normal group")
+	elseif code == 106 or code == 134 then
+		return _("This user is not a chat member")
+	elseif code == 7 then
 		return false
 	end
+	return false
 end
 
-local function unbanUser(msg, on_request, no_msg, username)
-	local name, user_id, text
-	local chat_id = msg.chat.id
-	local ln = msg.lang
-	if not username then
-		if on_request then
-		    user_id = msg.reply.from.id
-		    name = getname(msg.reply)
-		else
-		    user_id = msg.from.id
-		    name = getname(msg)
-		end
+function api.banUser(chat_id, user_id)
+	
+	local res, code = api.kickChatMember(chat_id, user_id) --try to kick. "code" is already specific
+	
+	if res then --if the user has been kicked, then...
+		return res --return res and not the text
+	else ---else, the user haven't been kicked
+		local text = code2text(code)
+		return res, text --return the motivation too
+	end
+end
+
+function api.kickUser(chat_id, user_id)
+	
+	local res, code = api.kickChatMember(chat_id, user_id) --try to kick
+	
+	if res then --if the user has been kicked, then...
+		--unban
+		api.unbanChatMember(chat_id, user_id)
+		api.unbanChatMember(chat_id, user_id)
+		api.unbanChatMember(chat_id, user_id)
+		return res
 	else
-		user_id = res_user(username)
-		if not user_id then
-			api.sendReply(msg, lang[ln].bonus.no_user)
-			return
-		end
-		name = username
+		local motivation = code2text(code)
+		return res, motivation
 	end
-	name = name:mEscape()
+end
+
+function api.unbanUser(chat_id, user_id)
 	
-	if is_mod2(chat_id, user_id) then return end
-	
-	if msg.chat.type == 'group' then
-	    local hash = 'chat:'..chat_id..':banned'
-	    local removed = db:srem(hash, user_id)
-	    if removed == 0 then
-		    text = lang[ln].banhammer.not_banned
-		    api.sendReply(msg, text, true)
-		    return false
-	    end
-	end
-	res, code = api.unbanChatMember(chat_id, user_id)
-	--che succede se unbanno un non bannato?
-	text = make_text(lang[ln].banhammer.unbanned, name)
-	api.sendReply(msg, text, true)
+	local res, code = api.unbanChatMember(chat_id, user_id)
 	return true
 end
 
-local function banUser(msg, on_request, no_msg, username)--no_msg: kick without message if kick is failed
-	local name, user_id, text
-	local chat_id = msg.chat.id
-	local ln = msg.lang
-	if not username then
-		if on_request then
-		    user_id = msg.reply.from.id
-		    name = getname(msg.reply)
-		else
-		    user_id = msg.from.id
-		    name = getname(msg)
-		end
-	else
-		user_id = res_user(username)
-		if not user_id then
-			api.sendReply(msg, lang[ln].bonus.no_user)
-			return
-		end
-		name = username
-	end	
-	name = name:mEscape()
+function api.getChat(chat_id)
 	
-	if is_mod2(chat_id, user_id) then return end
+	local url = BASE_URL .. '/getChat?chat_id=' .. chat_id
 	
-	res, code = api.kickChatMember(chat_id, user_id) --try to kick
+	return sendRequest(url)
 	
-	if res then --if the user has been kicked, then...
-	    db:hincrby('bot:general', 'ban', 1) --genreal: save how many kicks
-		text = make_text(lang[ln].banhammer.banned, name)
-		if msg.chat.type == 'group' then
-		    local hash = 'chat:'..chat_id..':banned'
-	        db:sadd(hash, user_id)
-	    end
-		--the kick went right: always display who have been kicked (and why, if included in the name)
-		no_msg = false --if the bot kicked successfully, then send a message with the motivation
-	else
-		text = api.code2text(code, ln, chat_id)
-	end
-	
-	--check if send a message after the kick. If a kick went successful, no_msg is always false: users need to know who and why
-	if no_msg or code == 107 then --if no_msg (don't reply with the error) or the error is unknown then...
-		return res
-	else
-		local sent, code_msg = api.sendMessage(chat_id, text, true)
-		return res
-	end
 end
 
-local function banUserId(chat_id, user_id, name, on_request, no_msg)
-	local msg = {}
-	msg.chat = {}
-	msg.from = {}
-	msg.chat.id = chat_id
-	msg.from.id = user_id
-	msg.from.first_name = name
-	return api.banUser(msg, on_request, no_msg)
+function api.getChatAdministrators(chat_id)
+	
+	local url = BASE_URL .. '/getChatAdministrators?chat_id=' .. chat_id
+	
+	local res, code, desc = sendRequest(url)
+	
+	if not res and code then --if the request failed and a code is returned (not 403 and 429)
+		misc.log_error('getChatAdministrators', code, nil, desc)
+	end
+	
+	return res, code
+	
 end
 
-local function kickUser(msg, on_request, no_msg, username)-- no_msg: don't send the error message if kick is failed. If no_msg is false, it will return the motivation of the fail
-	local name, user_id, text
-	local chat_id = msg.chat.id
-	local ln = msg.lang
-	if not username then
-		if on_request then
-		    user_id = msg.reply.from.id
-		    name = getname(msg.reply)
-		else
-		    user_id = msg.from.id
-		    name = getname(msg)
-		end
-	else
-		user_id = res_user(username)
-		if not user_id then
-			api.sendReply(msg, lang[ln].bonus.no_user)
-			return
-		end
-		name = username
-	end
-	name = name:mEscape()
+function api.getChatMembersCount(chat_id)
 	
-	if is_mod2(chat_id, user_id) then return end
+	local url = BASE_URL .. '/getChatMembersCount?chat_id=' .. chat_id
 	
-	res, code = api.kickChatMember(chat_id, user_id) --try to kick
+	return sendRequest(url)
 	
-	if res then --if the user has been kicked, then...
-	    db:hincrby('bot:general', 'kick', 1) --genreal: save how many kicks
-		--unban
-		if msg.chat.type == 'supergroup' then
-		    api.unbanChatMember(chat_id, user_id)
-		end
-		text = make_text(lang[ln].banhammer.kicked, name)
-		--the kick went right: always display who have been kicked (and why, if included in the name)
-		no_msg = false --if the bot kicked successfully, then send a message with the motivation
-	else
-		text = api.code2text(code, ln, chat_id)
-	end
-	
-	--check if send a message after the kick. If a kick went successful, no_msg is always false: users need to know who and why
-	if no_msg or code == 107 then --if no_msg (don't reply with the error) or the error is unknown then...
-		return res
-	else
-		local sent, code_msg = api.sendMessage(chat_id, text, true)
-		return res
-	end
 end
 
-local function sendMessage(chat_id, text, use_markdown, disable_web_page_preview, reply_to_message_id, send_sound)
+function api.getChatMember(chat_id, user_id)
+	
+	local url = BASE_URL .. '/getChatMember?chat_id=' .. chat_id .. '&user_id=' .. user_id
+	
+	local res, code, desc = sendRequest(url)
+	
+	if not res and code then --if the request failed and a code is returned (not 403 and 429)
+		misc.log_error('getChatMember', code, nil, desc)
+	end
+	
+	return res, code
+	
+end
+
+function api.leaveChat(chat_id)
+	
+	local url = BASE_URL .. '/leaveChat?chat_id=' .. chat_id
+	
+	local res, code = sendRequest(url)
+	
+	if res then
+		db:srem(string.format('chat:%d:members', chat_id), bot.id)
+	end
+	
+	if not res and code then --if the request failed and a code is returned (not 403 and 429)
+		misc.log_error('leaveChat', code)
+	end
+	
+	return res, code
+	
+end
+
+function api.sendMessage(chat_id, text, use_markdown, reply_markup, reply_to_message_id)
 	--print(text)
 	
 	local url = BASE_URL .. '/sendMessage?chat_id=' .. chat_id .. '&text=' .. URL.escape(text)
-
-	url = url .. '&disable_web_page_preview=true'
 
 	if reply_to_message_id then
 		url = url .. '&reply_to_message_id=' .. reply_to_message_id
@@ -294,28 +219,29 @@ local function sendMessage(chat_id, text, use_markdown, disable_web_page_preview
 		url = url .. '&parse_mode=Markdown'
 	end
 	
-	if not send_sound then
-		url = url..'&disable_notification=true'--messages are silent by default
+	if reply_markup then
+		url = url..'&reply_markup='..URL.escape(JSON.encode(reply_markup))
 	end
 	
-	local res, code = sendRequest(url)
+	url = url..'&disable_notification=true&disable_web_page_preview=true'
+	
+	local res, code, desc = sendRequest(url)
 	
 	if not res and code then --if the request failed and a code is returned (not 403 and 429)
-		print('Delivery failed')
-		save_log('send_msg', text)
+		misc.log_error('sendMessage', code, {text}, desc)
 	end
 	
 	return res, code --return false, and the code
 
 end
 
-local function sendReply(msg, text, markd, send_sound)
+function api.sendReply(msg, text, markd, reply_markup)
 
-	return sendMessage(msg.chat.id, text, markd, true, msg.message_id, send_sound)
+	return api.sendMessage(msg.chat.id, text, markd, reply_markup, msg.message_id)
 
 end
 
-local function editMessageText(chat_id, message_id, text, keyboard, markdown)
+function api.editMessageText(chat_id, message_id, text, markdown, keyboard)
 	
 	local url = BASE_URL .. '/editMessageText?chat_id=' .. chat_id .. '&message_id='..message_id..'&text=' .. URL.escape(text)
 	
@@ -326,14 +252,30 @@ local function editMessageText(chat_id, message_id, text, keyboard, markdown)
 	url = url .. '&disable_web_page_preview=true'
 	
 	if keyboard then
-		url = url..'&reply_markup='..JSON.encode(keyboard)
+		url = url..'&reply_markup='..URL.escape(JSON.encode(keyboard))
 	end
+	
+	local res, code, desc = sendRequest(url)
+	
+	if not res and code then --if the request failed and a code is returned (not 403 and 429)
+		misc.log_error('editMessageText', code, {text}, desc)
+	end
+	
+	return res, code
+
+end
+
+function api.editMarkup(chat_id, message_id, reply_markup)
+	
+	local url = BASE_URL .. '/editMessageReplyMarkup?chat_id=' .. chat_id ..
+		'&message_id='..message_id..
+		'&reply_markup='..URL.escape(JSON.encode(reply_markup))
 	
 	return sendRequest(url)
 
 end
 
-local function answerCallbackQuery(callback_query_id, text, show_alert)
+function api.answerCallbackQuery(callback_query_id, text, show_alert)
 	
 	local url = BASE_URL .. '/answerCallbackQuery?callback_query_id=' .. callback_query_id .. '&text=' .. URL.escape(text)
 	
@@ -345,23 +287,7 @@ local function answerCallbackQuery(callback_query_id, text, show_alert)
 	
 end
 
-local function sendKeyboard(chat_id, text, keyboard, markdown)
-	
-	local url = BASE_URL .. '/sendMessage?chat_id=' .. chat_id
-	
-	if markdown then
-		url = url .. '&parse_mode=Markdown'
-	end
-	
-	url = url..'&text='..URL.escape(text)
-	
-	url = url..'&reply_markup='..JSON.encode(keyboard)
-	
-	return sendRequest(url)
-
-end
-
-local function sendChatAction(chat_id, action)
+function api.sendChatAction(chat_id, action)
  -- Support actions are typing, upload_photo, record_video, upload_video, record_audio, upload_audio, upload_document, find_location
 
 	local url = BASE_URL .. '/sendChatAction?chat_id=' .. chat_id .. '&action=' .. action
@@ -369,7 +295,7 @@ local function sendChatAction(chat_id, action)
 
 end
 
-local function sendLocation(chat_id, latitude, longitude, reply_to_message_id)
+function api.sendLocation(chat_id, latitude, longitude, reply_to_message_id)
 
 	local url = BASE_URL .. '/sendLocation?chat_id=' .. chat_id .. '&latitude=' .. latitude .. '&longitude=' .. longitude
 
@@ -381,13 +307,102 @@ local function sendLocation(chat_id, latitude, longitude, reply_to_message_id)
 
 end
 
-local function forwardMessage(chat_id, from_chat_id, message_id)
+function api.forwardMessage(chat_id, from_chat_id, message_id)
 
 	local url = BASE_URL .. '/forwardMessage?chat_id=' .. chat_id .. '&from_chat_id=' .. from_chat_id .. '&message_id=' .. message_id
+
+	local res, code, desc = sendRequest(url)
+	
+	if not res and code then --if the request failed and a code is returned (not 403 and 429)
+		misc.log_error('forwardMessage', code, nil, desc)
+	end
+	
+	return res, code
+	
+end
+
+function api.getFile(file_id)
+	
+	local url = BASE_URL .. '/getFile?file_id='..file_id
+	
+	return sendRequest(url)
+	
+end
+
+------------------------Inline methods-----------------------------------------
+
+function api.answerInlineQuery(inline_query_id, results, cache_time, is_personal, switch_pm_text, switch_pm_parameter)
+	
+	local url = BASE_URL .. '/answerInlineQuery?inline_query_id='..inline_query_id..'&results='..JSON.encode(results)
+	
+	if cache_time then
+		url = url..'&cache_time='..cache_time
+	end
+	
+	if is_personal then
+		url = url..'&is_personal=True'
+	end
+	
+	if switch_pm_text then
+		url = url..'&switch_pm_text='..switch_pm_text
+	end
+	
+	if switch_pm_parameter then
+		url = url..'&switch_pm_parameter='..switch_pm_parameter
+	end
+	
+	return sendRequest(url)
+
+end
+
+----------------------------By Id----------------------------------------------
+
+function api.sendMediaId(chat_id, file_id, media, reply_to_message_id)
+	local url = BASE_URL
+	if media == 'voice' then
+		url = url..'/sendVoice?chat_id='..chat_id..'&voice='
+	elseif media == 'video' then
+		url = url..'/sendVideo?chat_id='..chat_id..'&video='
+	elseif media == 'photo' then
+		url = url..'/sendPhoto?chat_id='..chat_id..'&photo='
+	else
+		return false, 'Media passed is not voice/video/photo'
+	end
+	
+	url = url..file_id
+	
+	if reply_to_message_id then
+		url = url..'&reply_to_message_id='..reply_to_message_id
+	end
+	
+	return sendRequest(url)
+end
+
+function api.sendPhotoId(chat_id, file_id, reply_to_message_id)
+	
+	local url = BASE_URL .. '/sendPhoto?chat_id=' .. chat_id .. '&photo=' .. file_id
+	
+	if reply_to_message_id then
+		url = url..'&reply_to_message_id='..reply_to_message_id
+	end
 
 	return sendRequest(url)
 	
 end
+
+function api.sendDocumentId(chat_id, file_id, reply_to_message_id)
+	
+	local url = BASE_URL .. '/sendDocument?chat_id=' .. chat_id .. '&document=' .. file_id
+	
+	if reply_to_message_id then
+		url = url..'&reply_to_message_id='..reply_to_message_id
+	end
+
+	return sendRequest(url)
+	
+end
+
+----------------------------To curl--------------------------------------------
 
 local function curlRequest(curl_command)
  -- Use at your own risk. Will not check for success.
@@ -396,7 +411,7 @@ local function curlRequest(curl_command)
 
 end
 
-local function sendPhoto(chat_id, photo, caption, reply_to_message_id)
+function api.sendPhoto(chat_id, photo, caption, reply_to_message_id)
 
 	local url = BASE_URL .. '/sendPhoto'
 
@@ -414,7 +429,7 @@ local function sendPhoto(chat_id, photo, caption, reply_to_message_id)
 
 end
 
-local function sendDocument(chat_id, document, reply_to_message_id)
+function api.sendDocument(chat_id, document, reply_to_message_id)
 
 	local url = BASE_URL .. '/sendDocument'
 
@@ -423,12 +438,12 @@ local function sendDocument(chat_id, document, reply_to_message_id)
 	if reply_to_message_id then
 		curl_command = curl_command .. ' -F "reply_to_message_id=' .. reply_to_message_id .. '"'
 	end
-
+	
 	return curlRequest(curl_command)
 
 end
 
-local function sendSticker(chat_id, sticker, reply_to_message_id)
+function api.sendSticker(chat_id, sticker, reply_to_message_id)
 
 	local url = BASE_URL .. '/sendSticker'
 
@@ -442,7 +457,19 @@ local function sendSticker(chat_id, sticker, reply_to_message_id)
 
 end
 
-local function sendAudio(chat_id, audio, reply_to_message_id, duration, performer, title)
+function api.sendStickerId(chat_id, file_id, reply_to_message_id)
+	
+	local url = BASE_URL .. '/sendSticker?chat_id=' .. chat_id .. '&sticker=' .. file_id
+	
+	if reply_to_message_id then
+		url = url..'&reply_to_message_id='..reply_to_message_id
+	end
+
+	return sendRequest(url)
+	
+end
+
+function api.sendAudio(chat_id, audio, reply_to_message_id, duration, performer, title)
 
 	local url = BASE_URL .. '/sendAudio'
 
@@ -468,7 +495,7 @@ local function sendAudio(chat_id, audio, reply_to_message_id, duration, performe
 
 end
 
-local function sendVideo(chat_id, video, reply_to_message_id, duration, performer, title)
+function api.sendVideo(chat_id, video, reply_to_message_id, duration, performer, title)
 
 	local url = BASE_URL .. '/sendVideo'
 
@@ -490,7 +517,7 @@ local function sendVideo(chat_id, video, reply_to_message_id, duration, performe
 
 end
 
-local function sendVoice(chat_id, voice, reply_to_message_id)
+function api.sendVoice(chat_id, voice, reply_to_message_id)
 
 	local url = BASE_URL .. '/sendVoice'
 
@@ -508,41 +535,12 @@ local function sendVoice(chat_id, voice, reply_to_message_id)
 
 end
 
-local function sendAdmin(text, markdown)
-	return api.sendMessage(config.admin, text, markdown)
+function api.sendAdmin(text, markdown)
+	return api.sendMessage(config.log.admin, text, markdown)
 end
 
-local function sendLog(text, markdown)
-	return api.sendMessage(config.log_chat or config.admin, text, markdown)
+function api.sendLog(text, markdown)
+	return api.sendMessage(config.log.chat or config.log.admin, text, markdown)
 end
 
-return {
-	sendMessage = sendMessage,
-	sendRequest = sendRequest,
-	getMe = getMe,
-	getUpdates = getUpdates,
-	sendVoice = sendVoice,
-	sendVideo = sendVideo,
-	sendAudio = sendAudio,
-	sendSticker = sendSticker,
-	sendDocument = sendDocument,
-	sendPhoto = sendPhoto,
-	curlRequest = curlRequest,
-	forwardMessage = forwardMessage,
-	sendLocation = sendLocation,
-	sendChatAction = sendChatAction,
-	unbanChatMember = unbanChatMember,
-	kickChatMember = kickChatMember,
-	banUser = banUser,
-	kickUser = kickUser,
-	sendReply = sendReply,
-	code2text = code2text,
-	sendKeyboard = sendKeyboard,
-	editMessageText = editMessageText,
-	answerCallbackQuery = answerCallbackQuery,
-	unbanUser = unbanUser,
-	getCode = getCode,
-	sendAdmin = sendAdmin,
-	sendLog = sendLog,
-	banUserId= banUserId
-}	
+return api

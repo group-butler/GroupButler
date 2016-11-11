@@ -1,49 +1,53 @@
-HTTP = require('socket.http')
-HTTPS = require('ssl.https')
+curl = require('cURL')
 URL = require('socket.url')
 JSON = require('dkjson')
 redis = require('redis')
-colors = require('ansicolors')
-db = Redis.connect('127.0.0.1', 6379)
+clr = require 'term.colors'
+db = redis.connect('127.0.0.1', 6379)
 serpent = require('serpent')
 
-bot_init = function(on_reload) -- The function run when the bot is started or reloaded.
+function bot_init(on_reload) -- The function run when the bot is started or reloaded.
 	
-	print(colors('%{blue bright}Loading config.lua...'))
 	config = dofile('config.lua') -- Load configuration file.
-	if config.bot_api_key == '' then
-		print(colors('%{red bright}API KEY MISSING!'))
-		return
-	end
-	print(colors('%{blue bright}Loading utilities.lua...'))
-	cross = dofile('utilities.lua') -- Load miscellaneous and cross-plugin functions.
-	print(colors('%{blue bright}Loading languages...'))
-	lang = dofile(config.languages) -- All the languages available
-	print(colors('%{blue bright}Loading API functions table...'))
+	assert(not (config.bot_api_key == "" or not config.bot_api_key), clr.red..'Insert the bot token in config.lua -> bot_api_key'..clr.reset)
+	assert(#config.superadmins > 0, clr.red..'Insert your Telegram ID in config.lua -> superadmins'..clr.reset)
+	assert(config.log.admin, clr.red..'Insert your Telegram ID in config.lua -> log.admin'..clr.reset)
+	
+	db:select(config.db or 0) --select the redis db
+	
+	misc, roles = dofile('utilities.lua') -- Load miscellaneous and cross-plugin functions.
+	locale = dofile('languages.lua')
 	api = require('methods')
+	now_ms = require('socket').gettime
 	
-	tot = 0
-	
-	bot = nil
-	while not bot do -- Get bot info and retry if unable to connect.
-		bot = api.getMe()
-	end
-	bot = bot.result
+	bot = api.getMe().result -- Get bot info
+	bot.revision = io.popen('git rev-parse --short HEAD'):read()
 
 	plugins = {} -- Load plugins.
 	for i,v in ipairs(config.plugins) do
 		local p = dofile('plugins/'..v)
-		print(colors('%{red bright}Loading plugin...%{reset}'), v)
+		if p.triggers then
+			for funct, trgs in pairs(p.triggers) do
+				for i = 1, #trgs do
+					-- interpret any whitespace character in commands just as space
+					trgs[i] = trgs[i]:gsub(' ', '%%s+')
+				end
+				if not p[funct] then
+					p.trgs[funct] = nil
+					print(clr.red..funct..' triggers ignored in '..v..': '..funct..' function not defined'..clr.reset)
+				end
+			end
+		end
 		table.insert(plugins, p)
 	end
-	print(colors('%{blue}Plugins loaded:'), #plugins)
-
-	print(colors('%{blue bright}BOT RUNNING: @'..bot.username .. ', AKA ' .. bot.first_name ..' ('..bot.id..')'))
-	if not on_reload then
-		save_log('starts')
-		db:hincrby('bot:general', 'starts', 1)
-		api.sendMessage(config.admin, '*Bot started!*\n_'..os.date('On %A, %d %B %Y\nAt %X')..'_\n'..#plugins..' plugins loaded', true)
+	if config.bot_settings.multipurpose_mode then
+		for i,v in ipairs(config.multipurpose_plugins) do
+			local p = dofile('plugins/multipurpose/'..v)
+			table.insert(plugins, p)
+		end
 	end
+
+	print('\n'..clr.blue..'BOT RUNNING:'..clr.reset, clr.red..'[@'..bot.username .. '] [' .. bot.first_name ..'] ['..bot.id..']'..clr.reset..'\n')
 	
 	-- Generate a random seed and "pop" the first random number. :)
 	math.randomseed(os.time())
@@ -52,299 +56,359 @@ bot_init = function(on_reload) -- The function run when the bot is started or re
 	last_update = last_update or 0 -- Set loop variables: Update offset,
 	last_cron = last_cron or os.time() -- the time of the last cron job,
 	is_started = true -- whether the bot should be running or not.
-
-end
-
-local function get_from(msg)
-	local user = msg.from.first_name
-	if msg.from.last_name then
-		user = user..' '..msg.from.last_name
-	end
-	if msg.from.username then
-		user = user..' [@'..msg.from.username..']'
-	end
-	user = user..' ('..msg.from.id..')'
-	return user
-end
-
-local function get_what(msg)
-	if msg.sticker then
-		return 'sticker'
-	elseif msg.photo then
-		return 'photo'
-	elseif msg.document then
-		return 'document'
-	elseif msg.audio then
-		return 'audio'
-	elseif msg.video then
-		return 'video'
-	elseif msg.voice then
-		return 'voice'
-	elseif msg.contact then
-		return 'contact'
-	elseif msg.location then
-		return 'location'
-	elseif msg.text then
-		return 'text'
+	
+	if on_reload then
+		return #plugins
 	else
-		return 'service message'
+		api.sendAdmin('*Bot started!*\n_'..os.date('On %A, %d %B %Y\nAt %X')..'_\n'..#plugins..' plugins loaded', true)
+		start_timestamp = os.time()
+		current = {h = 0}
+		last = {h = 0}
+	end
+end
+
+-- for resolve username
+local function extract_usernames(msg)
+	if msg.from then
+		if msg.from.username then
+			db:hset('bot:usernames', '@'..msg.from.username:lower(), msg.from.id)
+		end
+		db:sadd(string.format('chat:%d:members', msg.chat.id), msg.from.id)
+	end
+	if msg.forward_from and msg.forward_from.username then
+		db:hset('bot:usernames', '@'..msg.forward_from.username:lower(), msg.forward_from.id)
+	end
+	if msg.new_chat_member then
+		if msg.new_chat_member.username then
+			db:hset('bot:usernames', '@'..msg.new_chat_member.username:lower(), msg.new_chat_member.id)
+		end
+		db:sadd(string.format('chat:%d:members', msg.chat.id), msg.new_chat_member.id)
+	end
+	if msg.left_chat_member then
+		if msg.left_chat_member.username then
+			db:hset('bot:usernames', '@'..msg.left_chat_member.username:lower(), msg.left_chat_member.id)
+		end
+		db:srem(string.format('chat:%d:members', msg.chat.id), msg.left_chat_member.id)
+	end
+	if msg.reply_to_message then
+		extract_usernames(msg.reply_to_message)
+	end
+	if msg.pinned_message then
+		extract_usernames(msg.pinned_message)
 	end
 end
 
 local function collect_stats(msg)
-	--count the number of messages
-	db:hincrby('bot:general', 'messages', 1)
-	--for resolve username (may be stored by groups of id in the future)
-	if not(msg.chat.type == 'private') then db:sadd('bot:groupsid', msg.chat.id) end --to be removed
-	if msg.from and msg.from.username then
-		db:hset('bot:usernames', '@'..msg.from.username:lower(), msg.from.id)
-		db:hset('bot:usernames:'..msg.chat.id, '@'..msg.from.username:lower(), msg.from.id)
+	
+	extract_usernames(msg)
+	
+	if msg.chat.type ~= 'private' and msg.chat.type ~= 'inline' and msg.from then
+		db:hset('chat:'..msg.chat.id..':userlast', msg.from.id, os.time()) --last message for each user
+		db:hset('bot:chats:latsmsg', msg.chat.id, os.time()) --last message in the group
 	end
-	if msg.forward_from and msg.forward_from.username then
-		db:hset('bot:usernames', '@'..msg.forward_from.username:lower(), msg.forward_from.id)
-		db:hset('bot:usernames:'..msg.chat.id, '@'..msg.forward_from.username:lower(), msg.forward_from.id)
-	end
-	if not(msg.chat.type == 'private') then
-		if msg.from.id then
-			db:hincrby('chat:'..msg.chat.id..':userstats', msg.from.id, 1) --3D: number of messages for each user
-		end
-		db:incrby('chat:'..msg.chat.id..':totalmsgs', 1) --total number of messages of the group
+	
+	--user stats
+	if msg.from then
+		db:hincrby('user:'..msg.from.id, 'msgs', 1)
 	end
 end
 
-on_msg_receive = function(msg) -- The fn run whenever a message is received.
-	--vardump(msg)
+local function match_triggers(triggers, text)
+  	if text and triggers then
+		text = text:gsub('^(/[%w_]+)@'..bot.username, '%1')
+		for i, trigger in pairs(triggers) do
+			local matches = {}
+	    	matches = { string.match(text, trigger) }
+			if next(matches) then
+	    		return matches, trigger
+			end
+		end
+	end
+end
+
+local function on_msg_receive(msg, callback) -- The fn run whenever a message is received.
+	--vardump('PARSED', msg)
 	if not msg then
-		api.sendMessage(config.admin, 'Shit, a loop without msg!')
 		return
 	end
-	
-	if msg.date < os.time() - 5 then return end -- Do not process old messages.
-	if not msg.text then msg.text = msg.caption or '' end
-	
-	--for commands link
-	if msg.text:match('^/start .+') then
-		msg.text = '/' .. msg.text:input()
-	end
-	
-	--Group language
-	msg.lang = db:get('lang:'..msg.chat.id)
-	if not msg.lang then
-		msg.lang = 'en'
-	end
-	
-	collect_stats(msg) --resolve_username support, chat stats
-	
-	for i,v in pairs(plugins) do
-		--vardump(v)
-		local stop_loop
-		if v.on_each_msg then
-			msg, stop_loop = v.on_each_msg(msg, msg.lang)
+
+	if msg.chat.type ~= 'group' then --do not process messages from normal groups
+		
+		if msg.date < os.time() - 7 then return end -- Do not process old messages.
+		if not msg.text then msg.text = msg.caption or '' end
+		
+		locale.language = db:get('lang:'..msg.chat.id) or 'en' --group language
+		if not config.available_languages[locale.language] then
+			locale.language = 'en'
 		end
-		if stop_loop then --check if on_each_msg said to stop the triggers loop
-			break
+		
+		collect_stats(msg)
+		
+		local continue = true
+		local onm_success
+		for i, plugin in pairs(plugins) do
+			if plugin.onEveryMessage then
+				onm_success, continue = pcall(plugin.onEveryMessage, msg)
+				if not onm_success then
+					api.sendAdmin('An #error occurred (preprocess).\n'..tostring(continue)..'\n'..locale.language..'\n'..msg.text)
+				end
+			end
+			if not continue then return end
+		end
+		
+		for i,plugin in pairs(plugins) do
+			if plugin.triggers then
+				local blocks, trigger = match_triggers(plugin.triggers[callback], msg.text)
+				if blocks then
+					
+					if msg.chat.type ~= 'private' and msg.chat.type ~= 'inline'and not db:exists('chat:'..msg.chat.id..':settings') and not msg.service then --init agroup if the bot wasn't aware to be in
+							misc.initGroup(msg.chat.id)
+						end
+					
+					if config.bot_settings.stream_commands then --print some info in the terminal
+						print(clr.reset..clr.blue..'['..os.date('%X')..']'..clr.red..' '..trigger..clr.reset..' '..msg.from.first_name..' ['..msg.from.id..'] -> ['..msg.chat.id..']')
+					end
+					
+					--if not check_callback(msg, callback) then goto searchaction end
+					local success, result = xpcall(plugin[callback], debug.traceback, msg, blocks) --execute the main function of the plugin triggered
+					
+					if not success then --if a bug happens
+							print(result)
+							if config.bot_settings.notify_bug then
+								api.sendReply(msg, _("🐛 Sorry, a *bug* occurred"), true)
+							end
+    	      				api.sendAdmin('An #error occurred.\n'..result..'\n'..locale.language..'\n'..msg.text)
+							return
+						end
+					
+					if type(result) == 'string' then --if the action returns a string, make that string the new msg.text
+						msg.text = result
+					elseif not result then --if the action returns true, then don't stop the loop of the plugin's actions
+						return
+					end
+				end
+				
+			end
+		end
+	else
+		if msg.group_chat_created or (msg.new_chat_member and msg.new_chat_member.id == bot.id) then
+			-- set the language
+			--[[locale.language = db:get(string.format('lang:%d', msg.from.id)) or 'en'
+			if not config.available_languages[locale.language] then
+				locale.language = 'en'
+			end]]
+			
+			-- send disclamer
+			api.sendMessage(msg.chat.id, _([[
+Hello everyone!
+My name is %s, and I'm a bot made to help administrators in their hard work.
+Unfortunately I can't work in normal groups, please ask the creator to convert this group to a supergroup.
+]]):format(bot.first_name))
+			
+			-- log this event
+			if config.bot_settings.stream_commands then
+				print(string.format('%s[%s]%s Bot was added to a normal group %s%s [%d] -> [%d]',
+					  clr.blue, os.date('%X'), clr.yellow, clr.reset, msg.from.first_name, msg.from.id, msg.chat.id))
+			end
+		end
+	end
+end
+
+local function parseMessageFunction(update)
+	
+	db:hincrby('bot:general', 'messages', 1)
+	
+	local msg, function_key
+	
+	if update.message or update.edited_message then
+		
+		function_key = 'onTextMessage'
+		
+		if update.edited_message then
+			update.edited_message.edited = true
+			update.edited_message.original_date = update.edited_message.date
+			update.edited_message.date = update.edited_message.edit_date
+			function_key = 'onEditedMessage'
+		end
+		
+		msg = update.message or update.edited_message
+		
+		if msg.text then
+		elseif msg.photo then
+			msg.media = true
+			msg.media_type = 'photo'
+		elseif msg.audio then
+			msg.media = true
+			msg.media_type = 'audio'
+		elseif msg.document then
+			msg.media = true
+			msg.media_type = 'document'
+			if msg.document.mime_type == 'video/mp4' then
+				msg.media_type = 'gif'
+			end
+		elseif msg.sticker then
+			msg.media = true
+			msg.media_type = 'sticker'
+		elseif msg.video then
+			msg.media = true
+			msg.media_type = 'video'
+		elseif msg.voice then
+			msg.media = true
+			msg.media_type = 'voice'
+		elseif msg.contact then
+			msg.media = true
+			msg.media_type = 'contact'
+		elseif msg.venue then
+			msg.media = true
+			msg.media_type = 'venue'
+		elseif msg.location then
+			msg.media = true
+			msg.media_type = 'location'
+		elseif msg.game then
+			msg.media = true
+			msg.media_type = 'game'
+		elseif msg.left_chat_member then
+			msg.service = true
+			if msg.left_chat_member.id == bot.id then
+				msg.text = '###left_chat_member:bot'
+			else
+				msg.text = '###left_chat_member'
+			end
+		elseif msg.new_chat_member then
+			msg.service = true
+			if msg.new_chat_member.id == bot.id then
+				msg.text = '###new_chat_member:bot'
+			else
+				msg.text = '###new_chat_member'
+			end
+		elseif msg.new_chat_photo then
+			msg.service = true
+			msg.text = '###new_chat_photo'
+		elseif msg.delete_chat_photo then
+			msg.service = true
+			msg.text = '###delete_chat_photo'
+		elseif msg.group_chat_created then
+    		msg.service = true
+    		msg.text = '###group_chat_created'
+		elseif msg.supergroup_chat_created then
+			msg.service = true
+			msg.text = '###supergroup_chat_created'
+		elseif msg.channel_chat_created then
+			msg.service = true
+			msg.text = '###channel_chat_created'
+		elseif msg.migrate_to_chat_id then
+			msg.service = true
+			msg.text = '###migrate_to_chat_id'
+		elseif msg.migrate_from_chat_id then
+			msg.service = true
+			msg.text = '###migrate_from_chat_id'
 		else
-			if v.triggers then
-				for k,w in pairs(v.triggers) do
-					local blocks = match_pattern(w, msg.text)
-					if blocks then
-						print(colors('Msg info:\t %{red bright}'..get_from(msg)..'%{reset} ['..msg.chat.type..'] ('..os.date('at %X')..')'))  --('..os.date('on %A, %d %B %Y at %X')..')'))
-						if blocks[1] ~= '' then
-      						print('Match found:', colors('%{blue bright}'..w))
-      						db:hincrby('bot:general', 'query', 1)
-      						if msg.from then db:incrby('user:'..msg.from.id..':query', 1) end
-      					end
-				
-						msg.text_lower = msg.text:lower()
-				
-						local success, result = pcall(function()
-							return v.action(msg, blocks, msg.lang)
-						end)
-						if not success then
-							api.sendReply(msg, '*This is a bug!*\nPlease report the problem with `/c <bug>` :)', true)
-							print(msg.text, result)
-							save_log('errors', result, msg.from.id or false, msg.chat.id or false, msg.text or false)
-          					api.sendLog('An error occurred.\nCheck the log')
-							return
-						end
-						-- If the action returns a table, make that table msg.
-						if type(result) == 'table' then
-							msg = result
-						elseif type(result) == 'string' then
-							msg.text = result
-						-- If the action returns true, don't stop.
-						elseif result ~= true then
-							return
-						end
+			--callback = 'onUnknownType'
+			print('Unknown update type') return
+		end
+		
+		if msg.forward_from_chat then
+			if msg.forward_from_chat.type == 'channel' then
+				msg.spam = 'forwards'
+			end
+		end
+		if msg.caption then
+			local caption_lower = msg.caption:lower()
+			if caption_lower:match('telegram%.me') or caption_lower:match('telegram%.dog') then
+				msg.spam = 'links'
+			end
+		end
+		if msg.entities then
+			for i, entity in pairs(msg.entities) do
+				if entity.type == 'text_mention' then
+					msg.mention_id = entity.user.id
+				end
+				if entity.type == 'url' or entity.type == 'text_link' then
+					local text_lower = msg.text or msg.caption
+					text_lower = text_lower:lower()
+					if text_lower:match('telegram%.me') or text_lower:match('telegram%.dog') then
+						msg.spam = 'links'
+					else
+						msg.media_type = 'link'
+						msg.media = true
 					end
 				end
 			end
 		end
-	end
-end
-
-
-
-local function service_to_message(msg)
-	local service
-	local event
-	if msg.new_chat_member then
-		if tonumber(msg.new_chat_member.id) == tonumber(bot.id) then
-			event = '###botadded'
-		else
-			event = '###added'
+		if msg.reply_to_message then
+			msg.reply = msg.reply_to_message
+			if msg.reply.caption then
+				msg.reply.text = msg.reply.caption
+			end
 		end
-		service = {
-			chat = msg.chat,
-    		date = msg.date,
-    		adder = msg.from,
-    		from = msg.from,
-    		message_id = message_id,
-    		added = msg.new_chat_member,
-    		text = event,
-    		service = true
-    	}
-	elseif msg.left_chat_member then
-		if tonumber(msg.left_chat_member.id) == tonumber(bot.id) then
-			event = '###botremoved'
-		else
-			event = '###removed'
+	--[[elseif update.inline_query then
+		msg = update.inline_query
+		msg.inline = true
+		msg.chat = {id = msg.from.id, type = 'inline', title = 'inline'}
+		msg.date = os.time()
+		msg.text = '###inline:'..msg.query
+		function_key = 'onInlineQuery'
+	elseif update.chosen_inline_result then
+		msg = update.chosen_inline_result
+		msg.text = '###chosenresult:'..msg.query
+		msg.chat = {type = 'inline', id = msg.from.id, title = msg.from.first_name}
+		msg.message_id = msg.inline_message_id
+		msg.date = os.time()
+		function_key = 'onChosenInlineQuery']]
+	elseif update.callback_query then
+		msg = update.callback_query
+		msg.cb = true
+		msg.text = '###cb:'..msg.data
+		if msg.message then
+			msg.original_text = msg.message.text
+			msg.original_date = msg.message.date
+			msg.message_id = msg.message.message_id
+			msg.chat = msg.message.chat
+		else --when the inline keyboard is sent via the inline mode
+			msg.chat = {type = 'inline', id = msg.from.id, title = msg.from.first_name}
+			msg.message_id = msg.inline_message_id
 		end
-		service = {
-			chat = msg.chat,
-    		date = msg.date,
-    		remover = msg.from,
-    		from = msg.from,
-    		message_id = message_id,
-    		removed = msg.left_chat_member,
-    		text = event,
-    		service = true
-    	}
-	elseif msg.group_chat_created then
-		service = {
-			chat = msg.chat,
-    		date = msg.date,
-    		adder = msg.from,
-    		from = msg.from,
-    		message_id = message_id,
-    		text = '###botadded',
-    		service = true,
-    		chat_created = true
-    	}
-	end
-    return on_msg_receive(service)
-end
-
-local function forward_to_msg(msg)
-	if msg.text then
-		msg.text = '###forward:'..msg.text
+		msg.date = os.time()
+		msg.cb_id = msg.id
+		msg.message = nil
+		msg.target_id = msg.data:match('(-?%d+)$') --callback datas often (always) ship IDs. Create a shortcut
+		function_key = 'onCallbackQuery'
 	else
-		msg.text = '###forward'
+		--function_key = 'onUnknownType'
+		print('Unknown update type') return
 	end
-    return on_msg_receive(msg)
+	
+	return on_msg_receive(msg, function_key)
 end
-
-local function inline_to_msg(inline)
-	local msg = {
-		id = inline.id,
-    	chat = {
-      		id = inline.id,
-      		type = 'inline',
-      		title = inline.from.first_name
-    	},
-    	from = inline.from,
-		message_id = math.random(1,800),
-    	text = '###inline:'..inline.query,
-    	query = inline.query,
-    	date = os.time() + 100
-    }
-    --vardump(msg)
-    db:hincrby('bot:general', 'inline', 1)
-    return on_msg_receive(msg)
-end
-
-local function media_to_msg(msg)
-	if msg.photo then
-		msg.text = '###image'
-	elseif msg.video then
-		msg.text = '###video'
-	elseif msg.audio then
-		msg.text = '###audio'
-	elseif msg.voice then
-		msg.text = '###voice'
-	elseif msg.document then
-		msg.text = '###file'
-		if msg.document.mime_type == 'video/mp4' then
-			msg.text = '###gif'
-		end
-	elseif msg.sticker then
-		msg.text = '###sticker'
-	elseif msg.contact then
-		msg.text = '###contact'
-	end
-	if msg.reply_to_message then
-		msg.reply = msg.reply_to_message
-	end
-	msg.media = true
-	return on_msg_receive(msg)
-end
-
-local function rethink_reply(msg)
-	msg.reply = msg.reply_to_message
-	if msg.reply.caption then
-		msg.reply.text = msg.reply.caption
-	end
-	return on_msg_receive(msg)
-end
-
-local function handle_inline_keyboards_cb(msg)
-	msg.text = '###cb:'..msg.data
-	msg.old_text = msg.message.text
-	msg.old_date = msg.message.date
-	msg.date = os.time()
-	msg.cb = true
-	msg.cb_id = msg.id
-	msg.message_id = msg.message.message_id
-	msg.chat = msg.message.chat
-	msg.message = nil
-	return on_msg_receive(msg)
-end
-
----------WHEN THE BOT IS STARTED FROM THE TERMINAL, THIS IS THE FIRST FUNCTION HE FOUNDS
 
 bot_init() -- Actually start the script. Run the bot_init function.
 
 while is_started do -- Start a loop while the bot should be running.
-	print(colors('%{green}------------------------------------------------------------------------'))
-	print(colors('%{blue bright}Polling...'))
-	local res = api.getUpdates(last_update+1) -- Get the latest updates!
+	local res = api.getUpdates(last_update+1) -- Get the latest updates
 	if res then
-		--vardump(res)
-		for i,msg in ipairs(res.result) do -- Go through every new message.
+		clocktime_last_update = os.clock()
+		for i, msg in ipairs(res.result) do -- Go through every new message.
 			last_update = msg.update_id
-			tot = tot + 1
-			print(os.date('%X'), 'Update:', last_update, 'Tot:', tot)
-			if msg.message  or msg.callback_query then
-				if msg.callback_query then
-					handle_inline_keyboards_cb(msg.callback_query)
-				elseif msg.message.migrate_to_chat_id then
-					to_supergroup(msg.message)
-				elseif msg.message.new_chat_member or msg.message.left_chat_member or msg.message.group_chat_created then
-					service_to_message(msg.message)
-				elseif msg.message.photo or msg.message.video or msg.message.document or msg.message.voice or msg.message.audio or msg.message.sticker then
-					media_to_msg(msg.message)
-				elseif msg.message.forward_from then
-					forward_to_msg(msg.message)
-				elseif msg.message.reply_to_message then
-					rethink_reply(msg.message)
-				else
-					on_msg_receive(msg.message)
-				end
-			end
+			current.h = current.h + 1
+			parseMessageFunction(msg)
 		end
 	else
 		print('Connection error')
 	end
+	if last_cron ~= os.date('%H') then -- Run cron jobs every hour.
+		last_cron = os.date('%H')
+		last.h = current.h
+		current.h = 0
+		for i,v in ipairs(plugins) do
+			if v.cron then -- Call each plugin's cron function, if it has one.
+				local res, err = pcall(v.cron)
+				if not res then
+          			api.sendLog('An #error occurred (cron).\n'..err)
+					return
+				end
+			end
+		end
+	end
 end
 
-print('Halted.')
+print('Halted.\n')

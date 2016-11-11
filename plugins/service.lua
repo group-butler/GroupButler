@@ -1,168 +1,71 @@
-local function gsub_custom_welcome(msg, custom)
-	local name = msg.added.first_name:mEscape()
-	local id = msg.added.id
-	local username
-	local title = msg.chat.title:mEscape()
-	if msg.added.username then
-		username = '@'..msg.added.username:mEscape()
-	else
-		username = '(no username)'
-	end
-	custom = custom:gsub('$name', name):gsub('$username', username):gsub('$id', id):gsub('$title', title)
-	return custom
-end
+local plugin = {}
 
-local function get_welcome(msg, ln)
-	if is_locked(msg, 'Welcome') then
-		return false
-	end
-	local custom = db:hget('chat:'..msg.chat.id..':welcome', 'custom')
-	if custom then
-		return gsub_custom_welcome(msg, custom)
-	end
-	local wlc_sett = db:hget('chat:'..msg.chat.id..':welcome', 'wel')
-	if not(wlc_sett == 'no') then
-		local abt = cross.getAbout(msg.chat.id, ln)
-		local rls = cross.getRules(msg.chat.id, ln)
-		local mods = cross.getModlist(msg.chat.id, ln):mEscape()
-		local mods = lang[ln].service.welcome_modlist..mods
-		local text = make_text(lang[ln].service.welcome, msg.added.first_name:mEscape_hard(), msg.chat.title:mEscape_hard())
-		if wlc_sett == 'a' then
-			text = text..'\n\n'..abt
-		elseif wlc_sett == 'r' then
-			text = text..'\n\n'..rls
-		elseif wlc_sett == 'm' then
-			text = text..mods
-		elseif wlc_sett == 'ra' then
-			text = text..'\n\n'..abt..'\n\n'..rls
-    	elseif wlc_sett == 'am' then
-			text = text..'\n\n'..abt..mods
-    	elseif wlc_sett == 'rm' then
-			text = text..'\n\n'..rls..mods
-		elseif wlc_sett == 'ram' then
-			text = text..'\n\n'..abt..'\n\n'..rls..mods
-		end
-		print(text)
-		return text
-	else
-		return make_text(lang[ln].service.welcome, msg.added.first_name:mEscape_hard(), msg.chat.title:mEscape_hard())
-	end
-end
-
-local action = function(msg, blocks, ln)
+function plugin.onTextMessage(msg, blocks)
 	
-	--avoid trolls
 	if not msg.service then return end
 	
-	--if the bot join the chat
-	if blocks[1] == 'botadded' then
-		
-		print('Bot added to '..msg.chat.title..' ['..msg.chat.id..']')
-		
-		if db:hget('bot:general', 'adminmode') == 'on' and not is_admin(msg) then
-			api.sendMessage(msg.chat.id, 'Admin mode is on: only the admin can add me to a new group')
-			api.kickChatMember(msg.chat.id, bot.id)
-			return
-		end
-		
-		local uname = ''
-		
-		--check if the owner has a username, and save it. If not, use the name
-		local jsoname = msg.from.first_name
-		if msg.from.username then
-			jsoname = '@'..tostring(msg.from.username)
-		end
-		
-		save_log('added', msg.chat.title, msg.chat.id, jsoname, msg.adder.id)		
-		
-		--add owner as moderator
-		local hash = 'chat:'..msg.chat.id..':mod'
-        local user = tostring(msg.from.id)
-        db:hset(hash, user, jsoname)
-        
-        --add owner as owner
-        hash = 'chat:'..msg.chat.id..':owner'
-        db:hset(hash, user, jsoname)
-		
-		--default settings
-		hash = 'chat:'..msg.chat.id..':settings'
-		--disabled for users:yes / disabled for users:no
-		db:hset(hash, 'Rules', 'no')
-		db:hset(hash, 'About', 'no')
-		db:hset(hash, 'Modlist', 'no')
-		db:hset(hash, 'Report', 'yes')
-		db:hset(hash, 'Welcome', 'no')
-		db:hset(hash, 'Extra', 'no')
-		db:hset(hash, 'Rtl', 'no')
-		db:hset(hash, 'Arab', 'no')
-		db:hset(hash, 'Flood', 'no')--flood
-		--flood
-		hash = 'chat:'..msg.chat.id..':flood'
-		db:hset(hash, 'MaxFlood', 5)
-		db:hset(hash, 'ActionFlood', 'kick')
-		--warn
-		db:set('chat:'..msg.chat.id..':max', 5)
-		db:set('chat:'..msg.chat.id..':warntype', 'ban')
-		--set media values
-		local list = {'image', 'audio', 'video', 'sticker', 'gif', 'voice', 'contact', 'file'}
-		hash = 'chat:'..msg.chat.id..':media'
-		for i=1,#list do
-			db:hset(hash, list[i], 'allowed')
-		end
-		--set the default welcome type
-		hash = 'chat:'..msg.chat.id..':welcome'
-		db:hset(hash, 'wel', 'no')
-		--save group id
-		db:sadd('bot:groupsid', msg.chat.id)
-		--save stats
-		hash = 'bot:general'
-        local num = db:hincrby(hash, 'groups', 1)
-        print('Stats saved', 'Groups: '..num)
-        local out = make_text(lang[ln].service.new_group, msg.from.first_name)
-		api.sendMessage(msg.chat.id, out, true)
-	end
-	
-	--if someone join the chat
-	if blocks[1] == 'added' then
-		
-		if msg.chat.type == 'group' and is_banned(msg.chat.id, msg.added.id) then
-			api.kickChatMember(msg.chat.id, msg.added.id)
-			return
-		end
-		
-		db:hdel('warn:'..msg.chat.id, msg.added.id)
-		db:del('chat:'..msg.chat.id..':'..msg.added.id..':mediawarn')
-		
-		local text = get_welcome(msg, ln)
-		if text then
-			api.sendMessage(msg.chat.id, text, true)
-		end
-		--if not text: welcome is locked
-	end
-	
-	--if the bot is removed from the chat
-	if blocks[1] == 'botremoved' then
-		
-		print('Bot left '..msg.chat.title..' ['..msg.chat.id..']')
-		
-		--clean the modlist and the owner. If the bot is added again, the owner will be who added the bot and the modlist will be empty (except for the new owner)
-		clean_owner_modlist(msg.chat.id)
-		
-		--remove group id
-		db:srem('bot:groupsid', msg.chat.id)
-		
-		--save stats
-        local num = db:hincrby('bot:general', 'groups', -1)
-        print('Stats saved', 'Groups: '..num)
-	end
+	if blocks[1] == 'new_chat_member:bot' or blocks[1] == 'migrate_from_chat_id' then
+		-- set the language
+		--[[locale.language = db:get(string.format('lang:%d', msg.from.id)) or 'en'
+		if not config.available_languages[locale.language] then
+			locale.language = 'en'
+		end]]
 
+		if misc.is_blocked_global(msg.from.id) then
+			api.sendMessage(msg.chat.id, _("_You (user ID: %d) are in the blocked list_"):format(msg.from.id), true)
+			api.leaveChat(msg.chat.id)
+			return
+		end
+		if config.bot_settings.admin_mode and not roles.is_superadmin(msg.from.id) then
+			api.sendMessage(msg.chat.id, _("_Admin mode is on: only the bot admin can add me to a new group_"), true)
+			api.leaveChat(msg.chat.id)
+			return
+		end
+
+		-- save language
+		--[[if locale.language then
+			db:set(string.format('lang:%d', msg.chat.id), locale.language)
+		end]]
+		misc.initGroup(msg.chat.id)
+
+		-- send manuals
+		local text
+		if blocks[1] == 'new_chat_member:bot' then
+			text = _("Hello everyone!\n"
+				.. "My name is %s, and I'm a bot made to help administrators in their hard work.\n")
+				:format(bot.first_name:escape())
+		else
+			text = _("Yay! This group has been upgraded. You are great! Now I can work properly :)\n")
+		end
+		--[[if not roles.is_admin_cached(msg.chat.id, bot.id) then
+			if roles.is_owner_cached(msg.chat.id, msg.from.id) then
+				text = text .. _("Hmm… apparently I'm not an administrator. "
+					.. "I can be more useful if you make me an admin. "
+					.. "See [here](https://telegram.me/GroupButler_ch/104) how to do it.\n")
+			else
+				text = text .. _("Hmm… apparently I'm not an administrator. "
+					.. "I can be more useful if I'm an admin. Ask a creator to make me an admin. "
+					.. "If he doesn't know how, there is a good [guide](https://telegram.me/GroupButler_ch/104).\n")
+			end
+		end]]
+		--[[
+		text = text .. _("I can do a lot of cool things. To discover about them, "
+				-- TODO: old link, update it
+			.. "watch this [video-tutorial](https://youtu.be/uqNumbcUyzs).")
+		]]
+		api.sendMessage(msg.chat.id, text, true)
+	end
+	if blocks[1] == 'left_chat_member:bot' then
+		misc.remGroup(msg.chat.id)
+	end
 end
 
-return {
-	action = action,
-	triggers = {
-		'^###(botadded)',
-		'^###(added)',
-		'^###(botremoved)'
+plugin.triggers = {
+	onTextMessage = {
+		'^###(new_chat_member:bot)',
+		'^###(migrate_from_chat_id)',
+		'^###(left_chat_member:bot)',
 	}
 }
+
+return plugin

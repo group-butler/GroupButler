@@ -1,65 +1,54 @@
-local action = function(msg, blocks, ln)
-    
-    -- ignore if the chat is a group or a supergroup
-    if msg.chat.type ~= 'private' then
-        return nil
+local plugin = {}
+
+local function report(msg, description)
+    local text = _('• *Message reported by*: %s (`%d`)\n• *Group*: %s'):format(misc.getname_final(msg.from), msg.from.id, msg.chat.title:escape())
+    if msg.reply.sticker then
+        text = text.._('\n• *Sticker sent by*: %s (`%d`)'):format(misc.getname_final(msg.reply.from), msg.reply.from.id)
+    end
+    if msg.chat.username then
+        text = text.._('\n• [Go to the message](%s)'):format('telegram.me/'..msg.chat.username..'/'..msg.message_id)
+    end
+    if description then
+        text = text.._('\n• *Description*: %s'):format(description:escape(true))
     end
     
-    if blocks[1] == 'c' then
-        local receiver = config.admin
-        local input = blocks[2]
-        
-        --allert if not feedback
-        if not input then
-        	local out = make_text(lang[ln].report.no_input)
-            api.sendMessage(msg.from.id, out)
-            return nil
+    local res = api.getChatAdministrators(msg.chat.id)
+    if not res then return false end
+    
+    local n = 0
+    for i, admin in pairs(res.result) do
+        local receive_reports = db:hget('user:'..admin.user.id..':settings', 'reports')
+        if receive_reports and receive_reports == 'on' then
+            local res_fwd = api.forwardMessage(admin.user.id, msg.chat.id, msg.reply.message_id)
+            if res_fwd then
+                api.sendMessage(admin.user.id, text, true, nil, nil, res_fwd.result.message_id)
+                n = n + 1
+            end
         end
-	    
-	    api.forwardMessage (receiver, msg.from.id, msg.message_id)
-	    local out = make_text(lang[ln].report.sent, input)
-	    api.sendMessage(msg.from.id, out)
-	    mystat('/c')
-	end
-	
-	if blocks[1] == 'reply' then
-	    --ignore if not admin
-	    if msg.from.id ~= config.admin then
-	        return nil
-	    end
-	    
-	    --ignore if no reply
-	    if not msg.reply_to_message then
-	    	local out = make_text(lang[ln].report.reply)
-            api.sendReply(msg, out, false)
-			return nil
-		end
-		
-		local input = blocks[2]
-		
-		--ignore if not imput
-		if not input then
-			local out = make_text(lang[ln].report.reply_no_input)
-            api.sendMessage(msg.from.id, out)
-            return nil
-        end
-		
-		msg = msg.reply_to_message
-		local receiver = msg.forward_from.id
-		local out = make_text(lang[ln].report.feedback_reply, input)
-		
-		api.sendMessage(receiver, out, true)
-		api.sendMessage(config.admin, make_text(lang[ln].report.reply_sent, input), true)
-		mystat('/reply')
-	end
+    end 
+    return n
 end
 
-return {
-	action = action,
-	triggers = {
-		'^/(c)$', --warn if not input
-		'^/(c) (.*)',
-		'^/(reply)$', --warn if not input
-		'^/(reply) (.*)'
-	}
+function plugin.onTextMessage(msg, blocks)
+    if msg.chat.type == 'private' or roles.is_admin_cached(msg) or not msg.reply then return end
+    if roles.is_admin_cached(msg.reply) then return end
+    local status = (db:hget('chat:'..msg.chat.id..':settings', 'Reports')) or config.chat_settings['settings']['Reports']
+    if not status or status == 'off' then return end
+    
+    local n_sent = report(msg, blocks[1])
+    if n_sent then
+        local text = _('_Reported to %d admin(s)_'):format(n_sent)
+        api.sendReply(msg, text, true)
+    end
+end
+
+plugin.triggers = {
+    onTextMessage = {
+        '^@admin$',
+        '^@admin (.*)',
+        config.cmd..'report$',
+        config.cmd..'report (.*)',
+    }
 }
+
+return plugin

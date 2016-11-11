@@ -1,134 +1,72 @@
-local action = function(msg, blocks, ln)
+local plugin = {}
+
+function plugin.onTextMessage(msg, blocks)
+    if msg.chat.type == 'private' then return end
+	if not roles.is_admin_cached(msg) then return end
 	
-	--return nil if wrote in private
-    if msg.chat.type == 'private' then
-        local out = make_text(lang[ln].pv)
-        api.sendMessage(msg.from.id, out)
-    	return nil
-    end
-	
-	--initialize the hash
-	local hash = 'chat:'..msg.chat.id..'links'
+	local hash = 'chat:'..msg.chat.id..':links'
 	local text
 	
 	if blocks[1] == 'link' then
-		--ignore if not mod
-		if not is_mod(msg) then
-			return
-		end
 		
 		local key = 'link'
 		local link = db:hget(hash, key)
 		
 		--check if link is nil or nul
-		if link == 'no' or link == nil then
-			text = make_text(lang[ln].links.no_link)
+		if not link then
+			text = _("*No link* for this group. Ask the owner to generate one")
 		else
-			local title = msg.chat.title:mEscape_hard()
-			text = make_text(lang[ln].links.link, title, link)
+			local title = msg.chat.title:escape_hard('link')
+			text = string.format('[%s](%s)', title, link)
 		end
 		api.sendReply(msg, text, true)
-		mystat('/link')
 	end
 	
 	if blocks[1] == 'setlink' then
-		--ignore if not owner
-		if not is_owner(msg) then
-			return
+		local link
+		if msg.chat.username then
+			link = 'https://telegram.me/'..msg.chat.username
+		else
+			if not blocks[2] then
+				local text = _("This is not a *public supergroup*, so you need to write the link near /setlink")
+				api.sendReply(msg, text, true)
+				return
+			end
+			--warn if the link has not the right lenght
+			if string.len(blocks[2]) ~= 22 and blocks[2] ~= '-' then
+				api.sendReply(msg, _("This link is *not valid!*"), true)
+				return
+			end
+			link = 'https://telegram.me/joinchat/'..blocks[2]
 		end
 		
-		--warn if the link has not the right lenght
-		if string.len(blocks[2]) ~= 22 and blocks[2] ~= 'no' then
-			local out = make_text(lang[ln].links.link_invalid)
-			api.sendReply(msg, out, true)
-			return
-		end
-		
-		local link = 'https://telegram.me/joinchat/'..blocks[2]
 		local key = 'link'
 		
 		--set to nul the link, or update/set it
-		if blocks[2] == 'no' then
-			db:hset(hash, key, 'no')
-			text = make_text(lang[ln].links.link_unsetted)
+		if blocks[2] and blocks[2] == '-' then
+			db:hdel(hash, key)
+			text = _("Link *unsetted*")
 		else
 			local succ = db:hset(hash, key, link)
-			local title = msg.chat.title:mEscape_hard()
+			local title = msg.chat.title:escape_hard('link')
+			local substitution = '['..title..']('..link..')'
 			if succ == false then
-				text = make_text(lang[ln].links.link_updated, title, link)
+				text = _("The link has been updated.\n*Here's the new link*: %s"):format(substitution)
 			else
-				text = make_text(lang[ln].links.link_setted, title, link)
+				text = _("The link has been set.\n*Here's the link*: %s"):format(substitution)
 			end
 		end
 		api.sendReply(msg, text, true)
-		mystat('/setlink')
-	end
-	
-	if blocks[1] == 'setpoll' then
-		--ignore if not owner
-		if not is_mod(msg) then
-			return
-		end
-		
-		--warn if the link has not the right lenght
-		if blocks[2] ~= 'no' and string.len(blocks[3]) ~= 36 then
-			local out = make_text(lang[ln].links.link_invalid)
-			sendReply(msg, out, true)
-			return
-		end
-		
-		local key = 'poll'
-		
-		--set to nul the poll, or update/set it
-		if blocks[2] == 'no' then
-			db:hset(hash, key, 'no')
-			text = make_text(lang[ln].links.poll_unsetted)
-		else
-			local link = 'telegram.me/PollBot?start='..blocks[3]
-			local succ = db:hset(hash, key, link)
-			local description = blocks[2]
-			
-			--save description of the poll in redis
-			db:hset(hash, 'polldesc', description)
-			if succ == false then
-				text = make_text(lang[ln].links.poll_updated, description, link)
-			else
-				text = make_text(lang[ln].links.poll_setted, description, link)
-			end
-		end
-		api.sendReply(msg, text, true)
-		mystat('/setpoll')
-	end
-
-	if blocks[1] == 'poll' then
-		--ignore if not mod
-		if not is_mod(msg) then
-			return
-		end
-		
-		local key = 'poll'
-		local link = db:hget(hash, key)
-		local description = db:hget(hash, 'polldesc')
-		
-		--check if link is nil or nul
-		if link == 'no' or link == nil then
-			text = make_text(lang[ln].links.no_poll)
-		else
-			text = make_text(lang[ln].links.poll, description, link)
-		end
-		api.sendReply(msg, text, true)
-		mystat('/poll')
 	end
 end
 
-return {
-	action = action,
-	triggers = {
-		'^/(link)$',
-		'^/(setlink) https://telegram%.me/joinchat/(.*)',
-		'^/(setlink) (no)',
-		'^/(poll)$',
-		'^/(setpoll) (.*) telegram%.me/PollBot%?start=(.*)',
-		'^/(setpoll) (no)$'
+plugin.triggers = {
+	onTextMessage = {
+		config.cmd..'(link)$',
+		config.cmd..'(setlink)$',
+		config.cmd..'(setlink) https://telegram%.me/joinchat/(.*)',
+		config.cmd..'(setlink) (-)'
 	}
 }
+
+return plugin
