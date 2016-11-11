@@ -223,7 +223,20 @@ local function subgroups_iterator(realm_id, callback_function, others)
 		return true, i
 	end
 end
-	
+
+local function doKeyboard_config(chat_id)
+    local keyboard = {
+        inline_keyboard = {
+            {{text = _("🛠 Menu"), callback_data = 'config:menu:'..chat_id}},
+            {{text = _("⚡️ Antiflood"), callback_data = 'config:antiflood:'..chat_id}},
+            {{text = _("🌈 Media"), callback_data = 'config:media:'..chat_id}},
+            {{text = _("🚫 Antispam"), callback_data = 'config:antispam:'..chat_id}}
+        }
+    }
+    
+    return keyboard
+end
+
 local function doKeyboard_subgroups(subgroups, callback_identifier, insert_all_button)
 	local keyboard = {inline_keyboard={}}
 	if insert_all_button then
@@ -319,6 +332,11 @@ function plugin.onCallbackQuery(msg, blocks)
 			api.editMessageText(msg.chat.id, msg.message_id, _('_Action aborted_'), true)
 		end
 	end
+	if blocks[1] == 'config' then
+		local subgroup_id = blocks[2]
+		local reply_markup = doKeyboard_config(subgroup_id)
+		api.editMessageText(msg.chat.id, msg.message_id, _('Manage your group settings from this keyboard'), nil, reply_markup)
+	end
 end
 
 function plugin.onTextMessage(msg, blocks)
@@ -342,7 +360,7 @@ function plugin.onTextMessage(msg, blocks)
 						
 						db:set('chat:'..subgroup..':realm', realm)
 						db:hset('realm:'..realm..':subgroups', subgroup, msg.chat.title)
-						local text_to_send_realm = _('New subgroup added: %d\nBy: %s'):format(msg.chat.id, msg.chat.title)
+						local text_to_send_realm = _('New subgroup added: %s [%d]\nBy: %s [%s][#%d]'):format(msg.chat.title, msg.chat.id, msg.from.first_name, msg.from.username or 'X', msg.from.id)
 						if old_realm and old_realm ~= realm then
 							db:hdel('realm:'..old_realm..':subgroups', msg.chat.id)
 							text = _('The realm of this group changed: `%s`'):format(realm)
@@ -412,8 +430,9 @@ function plugin.onTextMessage(msg, blocks)
 					db:del('chat:'..msg.chat.id..':realm')
 					db:hdel('realm:'..realm_id..':subgroups', msg.chat.id)
 					text = _("Done. This group does no longer belong to `%s`"):format(tostring(realm_id))
+					api.sendMessage(realm_id, _("A group has been removed from your subgroups\nTitle: %s\nID: %d"):format(msg.chat.title, msg.chat.id))
 				else
-					text = _("_You are not associated with a realm_")
+					text = _("_You are not associated with any realm_")
 				end
 			end
 			api.sendReply(msg, text, true)
@@ -447,6 +466,10 @@ function plugin.onTextMessage(msg, blocks)
 		api.sendReply(msg, _('_I\'m sorry, this realm doesn\'t have subgroups paired with it_'), true) return
 	end
 	
+	if blocks[1] == 'config' then
+		local reply_markup = doKeyboard_subgroups(subgroups, 'config')
+		api.sendMessage(msg.chat.id, _('Select a group to manage its settings'), nil, reply_markup)
+	end
 	if blocks[1] == 'subgroups' then
 		local body = ''
 		local n = 0
@@ -461,7 +484,18 @@ function plugin.onTextMessage(msg, blocks)
 		local keyboard = doKeyboard_subgroups(subgroups, 'remsubgroup')
 		api.sendMessage(msg.chat.id, _('Choose the subgroup you want to un-pair:'), false, keyboard)
 	end
-	
+	if blocks[1] == 'realm' then
+		local n, total_members = 0, 0
+		for subgroup_id, v in pairs(subgroups) do
+			n = n + 1
+			local n_members = api.getChatMembersCount(subgroup_id)
+			if n_members then
+				total_members = total_members + n_members.result
+			end
+		end
+		local text = _('Title: %s\nID: %d\nSubgroups n°: %d\nTotal members: %d'):format(msg.chat.title, msg.chat.id, n, total_members)
+		api.sendReply(msg, text)
+	end
 	if blocks[1] == 'setrules' then
 		local res, code = api.sendReply(msg, blocks[2], true)
 		if not res then
@@ -565,6 +599,9 @@ plugin.triggers = {
 		config.cmd..'(send) (.*)$',
 		config.cmd..'(delrealm)$',
 		config.cmd..'(myrealm)$',
+		config.cmd..'(unpair)$',
+		config.cmd..'(realm)$',
+		config.cmd..'(config)$',
 		'^###(new_chat_title)$'
 	},
 	onCallbackQuery = {
