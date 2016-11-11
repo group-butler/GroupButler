@@ -1,6 +1,6 @@
 local plugin = {}
 
-local function do_keybaord_credits()
+local function do_keyboard_credits()
 	local keyboard = {}
     keyboard.inline_keyboard = {
     	{
@@ -28,7 +28,7 @@ end
 
 function plugin.onTextMessage(msg, blocks)
 	if msg.chat.type ~= 'private' then return end
-	
+
 	if blocks[1] == 'ping' then
 		local res = api.sendMessage(msg.from.id, _("Pong!"), true)
 		--[[if res then
@@ -46,7 +46,7 @@ function plugin.onTextMessage(msg, blocks)
 		api.sendMessage(msg.chat.id, _("*Choose your language:*"), true, keyboard)
 	end
 	if blocks[1] == 'about' then
-		local keyboard = do_keybaord_credits()
+		local keyboard = do_keyboard_credits()
 		local text = _("This bot is based on [otouto](https://github.com/topkecleon/otouto) (AKA @mokubot, channel: @otouto), a multipurpose Lua bot.\nGroup Butler wouldn't exist without it.\n\nThe owner of this bot is @bac0nnn, do not pm him: use /groups command instead.\n\nBot version: `%s`\n*Some useful links:*"):format(config.human_readable_version .. ' rev.' .. bot.revision)
 		api.sendMessage(msg.chat.id, text, true, keyboard)
 	end
@@ -68,7 +68,7 @@ end
 
 function plugin.onCallbackQuery(msg, blocks)
 	if blocks[1] == 'about' then
-		local keyboard = do_keybaord_credits()
+		local keyboard = do_keyboard_credits()
 		local text = _("This bot is based on [otouto](https://github.com/topkecleon/otouto) (AKA @mokubot, channel: @otouto), a multipurpose Lua bot.\nGroup Butler wouldn't exist without it.\n\nThe owner of this bot is @bac0nnn, do not pm him: use /groups command instead.\n\nBot version: `%s`\n*Some useful links:*"):format(config.human_readable_version .. ' rev.' .. bot.revision)
 		api.editMessageText(msg.chat.id, msg.message_id, text, true, keyboard)
 	end
