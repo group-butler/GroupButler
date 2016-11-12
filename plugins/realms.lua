@@ -310,7 +310,7 @@ function plugin.onCallbackQuery(msg, blocks)
 					api.answerCallbackQuery(msg.cb_id, _('I can\'t send the text\nMotivation: %s'):format(motivation), true)
 				end
 			elseif blocks[2] == 'all' then
-				local has_subgroups, i = subgroups_iterator(msg.chat.id, sendmessage_subgroup, {text = text})
+				local has_subgroups, i = subgroups_iterator(msg.chat.id, sendmessage_subgroup, {text = text_to_send})
 				api.editMessageText(msg.chat.id, msg.message_id, _('Message sent in %d groups'):format(i))
 			end
 		end
@@ -538,7 +538,7 @@ function plugin.onTextMessage(msg, blocks)
 			n = n + 1
 			body = body..n..' - <code>'..name:escape_html()..'</code>\n'
 		end
-		local text = _('<b>Your subgroups:</b>:\n\n')..body
+		local text = _('<b>Your subgroups</b>:\n\n')..body
 		api.sendMessage(msg.chat.id, text, 'html')
 	end
 	if blocks[1] == 'remove' then
