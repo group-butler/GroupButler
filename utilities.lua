@@ -14,6 +14,12 @@ function string:escape(only_markup)
 	return self:gsub('[*_`[]', '\\%0')
 end
 
+function string:escape_html()
+	self = self:gsub('&', '&amp')
+	self = self:gsub('<', '&lt'):gsub('>', '&gt')
+	return self
+end
+
 -- Remove specified formating or all markdown. This function useful for put
 -- names into message. It seems not possible send arbitrary text via markdown.
 function string:escape_hard(ft)

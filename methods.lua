@@ -207,7 +207,7 @@ function api.leaveChat(chat_id)
 	
 end
 
-function api.sendMessage(chat_id, text, use_markdown, reply_markup, reply_to_message_id)
+function api.sendMessage(chat_id, text, parse_mode, reply_markup, reply_to_message_id)
 	--print(text)
 	
 	local url = BASE_URL .. '/sendMessage?chat_id=' .. chat_id .. '&text=' .. URL.escape(text)
@@ -216,8 +216,12 @@ function api.sendMessage(chat_id, text, use_markdown, reply_markup, reply_to_mes
 		url = url .. '&reply_to_message_id=' .. reply_to_message_id
 	end
 	
-	if use_markdown then
-		url = url .. '&parse_mode=Markdown'
+	if parse_mode then
+		if type(parse_mode) == 'string' and parse_mode:lower() == 'html' then
+			url = url .. '&parse_mode=HTML'
+		else
+			url = url .. '&parse_mode=Markdown'
+		end
 	end
 	
 	if reply_markup then
@@ -242,12 +246,16 @@ function api.sendReply(msg, text, markd, reply_markup)
 
 end
 
-function api.editMessageText(chat_id, message_id, text, markdown, keyboard)
+function api.editMessageText(chat_id, message_id, text, parse_mode, keyboard)
 	
 	local url = BASE_URL .. '/editMessageText?chat_id=' .. chat_id .. '&message_id='..message_id..'&text=' .. URL.escape(text)
 	
-	if markdown then
-		url = url .. '&parse_mode=Markdown'
+	if parse_mode then
+		if type(parse_mode) == 'string' and parse_mode:lower() == 'html' then
+			url = url .. '&parse_mode=HTML'
+		else
+			url = url .. '&parse_mode=Markdown'
+		end
 	end
 	
 	url = url .. '&disable_web_page_preview=true'
