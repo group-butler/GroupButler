@@ -17,6 +17,31 @@ I'm Group Butler, the first administration bot using the official Bot API.
 
 I work better if you add me to the group administrators (otherwise I won't be able to kick or ban)!
 ]])
+	elseif key == 'realm' then
+		return _([[*Realm commands*
+_Realm = administration group, from where you can manage more sub-groups without sending there commands_
+
+`/setrealm` (*only for the group owner*): use the group as a realm. A realm can't have more than 60 members and must be a *private* supergroup.
+Follow the instructions the bot will give you to associate a group (subgroup) to a realm.
+`/subgroups`: get the list of the subgroups administrated by a realm. Can't be more than 6 for now.
+`/remove`: choose a subgroup to remove from the realm subgroups.
+`/send [message]`: broadcast a message to one or more subgroups.
+`/setrules [rules]`: apply the rules to one (or more) of your groups.
+`/pin [message]`: edit the last message generated with `/pin` in one or more groups.
+`/adminlist`: get the adminlist of one of your subgroups.
+`/realm`: get some info about your realm.
+`/add`: get the message to copy-paste in a group to add it to the subgroups of the realm.
+`/ban [by username|by id|by forwarded message]`: ban the user from all of your subgroups.
+*By forwarded message*: forward a message from the user in the realm and reply to it with `/ban`.
+`/config`: manage the settings of one of your subgroups.
+`/delrealm` (*only for the owner*): the group will no longer be used as a realm.
+
+*Commands to use in a subgroup*
+`/unpair` (*only for the owner*): remove the association between the group and its realm.
+
+*Important*: realms are meant to be groups where their members administrate one or more associated groups. So in a realm you won't be able to use regular commands, such as `/warn`, `/welcome` and so on.
+The only commands that will work are those that are described above.
+Also, every member of the realm can take actions in groups where he is not admin. So take care about who to invite in a realm :)]])
 	elseif key == 'basics' then
 		return _([[
 This bot works only in supergroups.
@@ -265,7 +290,8 @@ local function dk_main()
 		{{text = _('Basics'), callback_data = 'help:basics'}},
 		{{text = _('Admin commands'), callback_data = 'help:admins:banhammer'}},
 		{{text = _('Normal users commands'), callback_data = 'help:users'}},
-		{{text = _('Commands in private'), callback_data = 'help:private'}}
+		{{text = _('Commands in private'), callback_data = 'help:private'}},
+		{{text = _('Realm commands'), callback_data = 'help:realm'}},
 	}
 	
 	return keyboard
@@ -321,6 +347,9 @@ function plugin.onCallbackQuery(msg, blocks)
     elseif query == 'private' then
     	text = get_helped_string('private')
     	answerCallbackQuery_text = _('Available commands in private')
+    elseif query == 'realm' then
+    	text = get_helped_string('realm')
+    	answerCallbackQuery_text = _('Available commands in a realm')
     else --query == 'admins'
     	keyboard_type = 'admins'
     	text = get_helped_string(blocks[2])

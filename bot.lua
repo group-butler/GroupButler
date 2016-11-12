@@ -175,7 +175,7 @@ local function on_msg_receive(msg, callback) -- The fn run whenever a message is
 					if not success then --if a bug happens
 							print(result)
 							if config.bot_settings.notify_bug then
-								api.sendReply(msg, _("🐛 Sorry, a *bug* occurred"), true)
+								api.sendReply(msg, _("🐞 Sorry, a *bug* occurred"), true)
 							end
     	      				api.sendAdmin('An #error occurred.\n'..result..'\n'..locale.language..'\n'..msg.text)
 							return
@@ -302,6 +302,12 @@ local function parseMessageFunction(update)
 		elseif msg.migrate_from_chat_id then
 			msg.service = true
 			msg.text = '###migrate_from_chat_id'
+		elseif msg.new_chat_title then
+			msg.service = true
+			msg.text = '###new_chat_title'
+		elseif msg.pinned_message then
+			msg.service = true
+			msg.text = '###pinned_message'
 		else
 			--callback = 'onUnknownType'
 			print('Unknown update type') return

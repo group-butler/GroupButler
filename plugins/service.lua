@@ -56,6 +56,14 @@ function plugin.onTextMessage(msg, blocks)
 		api.sendMessage(msg.chat.id, text, true)
 	end
 	if blocks[1] == 'left_chat_member:bot' then
+		
+		local realm_id = db:get('chat:'..msg.chat.id..':realm')
+		if realm_id then
+			if db:hget('realm:'..realm_id..':subgroups') then
+				api.sendMessage(realm_id, _("I've been removed from %s [%s], one of your subgroups"):format(msg.chat.title, msg.chat.id))
+			end
+		end
+		
 		misc.remGroup(msg.chat.id)
 	end
 end

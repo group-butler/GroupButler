@@ -14,6 +14,12 @@ function string:escape(only_markup)
 	return self:gsub('[*_`[]', '\\%0')
 end
 
+function string:escape_html()
+	self = self:gsub('&', '&amp')
+	self = self:gsub('<', '&lt'):gsub('>', '&gt')
+	return self
+end
+
 -- Remove specified formating or all markdown. This function useful for put
 -- names into message. It seems not possible send arbitrary text via markdown.
 function string:escape_hard(ft)
@@ -195,7 +201,7 @@ function misc.get_date(timestamp)
 	if not timestamp then
 		timestamp = os.time()
 	end
-	return os.date(timestamp, '%d/%m/%y')
+	return os.date('%d/%m/%y', timestamp)
 end
 
 -- Resolves username. Returns ID of user if it was early stored in date base.
@@ -668,36 +674,55 @@ function misc.initGroup(chat_id)
 	db:srem('bot:groupsid:removed', chat_id)
 end
 
-function misc.remGroup(chat_id, full, call)
-	--remove group id
-	db:srem('bot:groupsid', chat_id)
-	--add to the removed groups list
-	db:sadd('bot:groupsid:removed', chat_id)
+local function remRealm(chat_id)
+	if db:exists('realm:'..chat_id..':subgroups') then
+		local subgroups = db:hgetall('realm:'..chat_id..':subgroups')
+		if next(subgroups) then
+			for subgroup_id, _ in pairs(subgroups) do
+				db:del('chat:'..subgroup_id..':realm')
+			end
+		end
+		db:del('realm:'..chat_id..':subgroups')
+		return true
+	end
+	db:srem('bot:realms', chat_id)
+end
+
+function misc.remGroup(chat_id, full, converted_to_realm)
+	if not converted_to_realm then
+		--remove group id
+		db:srem('bot:groupsid', chat_id)
+		--add to the removed groups list
+		db:sadd('bot:groupsid:removed', chat_id)
+		--remove the owner cached
+		db:del('cache:chat:'..chat_id..':owner')
+		--remove the realm data: the group is not being converted to realm -> remove all the info
+		remRealm(chat_id)
+	end
 	
 	for set,field in pairs(config.chat_settings) do
 		db:del('chat:'..chat_id..':'..set)
 	end
 	
 	db:del('cache:chat:'..chat_id..':admins') --delete the cache
-	db:del('cache:chat:'..chat_id..':owner')
 	db:hdel('bot:logchats', chat_id) --delete the associated log chat
 	db:del('chat:'..chat_id..':pin') --delete the msg id of the (maybe) pinned message
+	db:del('chat:'..chat_id..':userlast')
+	db:hdel('bot:chats:latsmsg', chat_id)
 	
-	if full then
+	--subgroup
+	if db:exists('chat:'..chat_id..':realm') then
+		local realm_id = db:get('chat:'..chat_id..':realm') --get the realm id
+		db:hdel('realm:'..realm_id..':subgroups', chat_id) --remove the group from the realm subgroups
+		db:del('chat:'..chat_id..':realm') --remove the key with the group realm
+	end
+	
+	if full or converted_to_realm then
 		for i, set in pairs(config.chat_custom_texts) do
 			db:del('chat:'..chat_id..':'..set)
 		end
 		db:del('lang:'..chat_id)
 	end
-	
-	--[[local msg_text = '#removed '..chat_id
-	if full then
-		msg_text = msg_text..'\nfull: true'
-	else
-		msg_text = msg_text..'\nfull: false'
-	end
-	if call then msg_text = msg_text..'\ncall: '..call end
-	api.sendAdmin(msg_text)]]
 end
 
 function misc.getnames_complete(msg, blocks)

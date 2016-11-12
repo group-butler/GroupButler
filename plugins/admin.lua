@@ -37,7 +37,8 @@ local triggers2 = {
 	'^%$(active) (%d%d?)$',
 	'^%$(active)$',
 	'^%$(getid)$',
-	'^%$(updatelocale) (.*)$'
+	'^%$(updatelocale) (.*)$',
+	'^%$(realm) (.+)$'
 }
 
 function plugin.cron()
@@ -135,8 +136,6 @@ function plugin.onTextMessage(msg, blocks)
 	    for i=1, #names do
 	        text = text..'- *'..names[i]..'*: `'..num[i]..'`\n'
 	    end
-	    local kb = collectgarbage("count")
-	    text = text..'- *kilobytes used*: `'..kb..'`\n'
 	    text = text..'- *uptime*: `from '..(os.date("%c", start_timestamp))..' (GMT+2)`\n'
 	    text = text..'- *last hour msgs*: `'..last.h..'`\n'
 	    text = text..'   • *average msgs/minute*: `'..round((last.h/60), 3)..'`\n'
@@ -434,6 +433,27 @@ function plugin.onTextMessage(msg, blocks)
 		local lang = blocks[2]
 		misc.bash('./launch.sh update-locale '..lang)
 		api.sendMessage(msg.chat.id, 'Updating `'..lang..'`... (check by yourself)', true)
+	end
+	if blocks[1] == 'realm' then
+		local chat_id
+		if blocks[2] == '$chat' then
+			chat_id = msg.chat.id
+		else
+			chat_id = blocks[2]
+		end
+		local text = 'Group: '..chat_id..'\nIs in the general list: '..tostring(db:sismember('bot:realms', chat_id))..'\n'
+		local subgroups = db:hgetall('realm:'..chat_id..':subgroups')
+		if not next(subgroups) then
+			text = text..'Doesn\'t have subgroups paired'
+		else
+			text = text..'Subgroups:\n'
+			for subgroup_id, subgroup_name in pairs(subgroups) do
+				text = text..subgroup_id
+				local subgroup_paired_realm = (db:get('chat:'..subgroup_id..':realm')) or 'none'
+				text = text..' X '..subgroup_paired_realm..'\n'
+			end
+		end
+		api.sendMessage(msg.chat.id, text)
 	end
 end
 

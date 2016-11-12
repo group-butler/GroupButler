@@ -1,6 +1,6 @@
 local plugin = {}
 
-local function report(msg, description)
+local function report(msg, description, realm_id)
     local text = _('• *Message reported by*: %s (`%d`)\n• *Group*: %s'):format(misc.getname_final(msg.from), msg.from.id, msg.chat.title:escape())
     if msg.reply.sticker then
         text = text.._('\n• *Sticker sent by*: %s (`%d`)'):format(misc.getname_final(msg.reply.from), msg.reply.from.id)
@@ -12,20 +12,30 @@ local function report(msg, description)
         text = text.._('\n• *Description*: %s'):format(description:escape(true))
     end
     
-    local res = api.getChatAdministrators(msg.chat.id)
-    if not res then return false end
-    
     local n = 0
-    for i, admin in pairs(res.result) do
-        local receive_reports = db:hget('user:'..admin.user.id..':settings', 'reports')
-        if receive_reports and receive_reports == 'on' then
-            local res_fwd = api.forwardMessage(admin.user.id, msg.chat.id, msg.reply.message_id)
-            if res_fwd then
-                api.sendMessage(admin.user.id, text, true, nil, nil, res_fwd.result.message_id)
-                n = n + 1
+    
+    if realm_id then
+        local res_fwd = api.forwardMessage(realm_id, msg.chat.id, msg.reply.message_id)
+        if res_fwd then
+            api.sendMessage(realm_id, text, true, nil, res_fwd.result.message_id)
+        end
+        n = -1
+    else
+        local res = api.getChatAdministrators(msg.chat.id)
+        if not res then return false end
+        
+        for i, admin in pairs(res.result) do
+            local receive_reports = db:hget('user:'..admin.user.id..':settings', 'reports')
+            if receive_reports and receive_reports == 'on' then
+                local res_fwd = api.forwardMessage(admin.user.id, msg.chat.id, msg.reply.message_id)
+                if res_fwd then
+                    api.sendMessage(admin.user.id, text, true, nil, res_fwd.result.message_id)
+                    n = n + 1
+                end
             end
         end
-    end 
+    end
+    
     return n
 end
 
@@ -35,11 +45,18 @@ function plugin.onTextMessage(msg, blocks)
     local status = (db:hget('chat:'..msg.chat.id..':settings', 'Reports')) or config.chat_settings['settings']['Reports']
     if not status or status == 'off' then return end
     
-    local n_sent = report(msg, blocks[1])
-    if n_sent then
-        local text = _('_Reported to %d admin(s)_'):format(n_sent)
-        api.sendReply(msg, text, true)
+    local realm_id = db:get('chat:'..msg.chat.id..':realm')
+    local n_sent = report(msg, blocks[1], realm_id) or 0
+    
+    local text
+    
+    if n_sent < 0 then
+        text = _('_Reported in the admins group_')
+    else
+        text = _('_Reported to %d admin(s)_'):format(n_sent)
     end
+    
+    api.sendReply(msg, text, true)
 end
 
 plugin.triggers = {
