@@ -277,7 +277,8 @@ function plugin.onCallbackQuery(msg, blocks)
 				db:hset('chat:'..blocks[2]..':info', 'rules', rules)
 				local subgroups = db:hgetall('realm:'..msg.chat.id..':subgroups')
 				local keyboard = doKeyboard_subgroups(subgroups, 'setrules', true)
-				api.editMessageText(msg.chat.id, msg.message_id, msg.original_text..'\nApplied to: '..db:hget('realm:'..msg.chat.id..':subgroups', blocks[2]), false, keyboard)
+				local text = _("%s\n<b>Applied to</b>: %s"):format(msg.original_text, db:hget('realm:'..msg.chat.id..':subgroups', blocks[2]):escape_html() or 'error')
+				api.editMessageText(msg.chat.id, msg.message_id, text, 'html', keyboard)
 				api.answerCallbackQuery(msg.cb_id, _('Applied'))
 			elseif blocks[2] == 'all' then
 				local has_subgroups = subgroups_iterator(msg.chat.id, setrules_subgroup, {rules = rules})
@@ -311,7 +312,7 @@ function plugin.onCallbackQuery(msg, blocks)
 				end
 			elseif blocks[2] == 'all' then
 				local has_subgroups, i = subgroups_iterator(msg.chat.id, sendmessage_subgroup, {text = text_to_send})
-				api.editMessageText(msg.chat.id, msg.message_id, _('Message sent in %d groups'):format(i))
+				api.editMessageText(msg.chat.id, msg.message_id, _('Message sent in *%d* groups'):format(i), true)
 			end
 		end
 	end
@@ -369,8 +370,8 @@ function plugin.onCallbackQuery(msg, blocks)
 					else
 						local subgroups = db:hgetall('realm:'..msg.chat.id..':subgroups')
 						local keyboard = doKeyboard_subgroups(subgroups, 'pin', true)
-						local text = _("%s\nApplied to: %s"):format(msg.original_text, db:hget('realm:'..msg.chat.id..':subgroups', blocks[2]) or 'error')
-						api.editMessageText(msg.chat.id, msg.message_id, text, false, keyboard)
+						local text = _("%s\n<b>Applied to</b>: %s"):format(msg.original_text, db:hget('realm:'..msg.chat.id..':subgroups', blocks[2]) or 'error')
+						api.editMessageText(msg.chat.id, msg.message_id, text, 'html', keyboard)
 						api.answerCallbackQuery(msg.cb_id, _('Applied'))
 					end
 				end
@@ -498,9 +499,9 @@ function plugin.onTextMessage(msg, blocks)
 			else
 				local in_the_general_list = (tostring(db:sismember('bot:realms', realm_id))) or 'false'
 				local saved_as = (db:hget('realm:'..realm_id..':subgroups', msg.chat.id)) or '-'
-				text = _('Paired with: %s\nSaved as: %s\nRealm in the global list: %s'):format(tostring(realm_id), saved_as, in_the_general_list)
+				text = _('<b>Paired with</b>: %s\n<b>Saved as</b>: %s\n<b>Realm in the global list</b>: %s'):format(tostring(realm_id), saved_as:escape_html(), in_the_general_list)
 			end
-			api.sendReply(msg, text)
+			api.sendReply(msg, text, 'html')
 		end
 	end
 	if blocks[1] == 'add' then
@@ -524,7 +525,7 @@ function plugin.onTextMessage(msg, blocks)
 		else
 			local keyboard = doKeyboard_subgroups(subgroups, 'pin', true)
 			db:setex('temp:realm:'..msg.chat.id..':pin', 1800, blocks[2])
-			api.editMessageText(msg.chat.id, res.result.message_id, 'Choose the group where apply the rules (choose *within 30 minutes from now*)', true, keyboard)
+			api.editMessageText(msg.chat.id, res.result.message_id, 'Choose the group where apply the rules (choose <b>within 30 minutes from now</b>)', 'html', keyboard)
 		end
 	end
 	if blocks[1] == 'config' then
@@ -554,8 +555,8 @@ function plugin.onTextMessage(msg, blocks)
 				total_members = total_members + n_members.result
 			end
 		end
-		local text = _('Title: %s\nID: %d\nSubgroups n°: %d\nTotal members: %d'):format(msg.chat.title, msg.chat.id, n, total_members)
-		api.sendReply(msg, text)
+		local text = _('<b>Title</b>: %s\n<b>ID</b>: %d\n<b>Subgroups n°</b>: %d\n<b>Total members</b>: %d'):format(msg.chat.title:escape_html(), msg.chat.id, n, total_members)
+		api.sendReply(msg, text, 'html')
 	end
 	if blocks[1] == 'setrules' then
 		local res, code = api.sendReply(msg, blocks[2], true)
@@ -565,10 +566,10 @@ function plugin.onTextMessage(msg, blocks)
 		else
 			local keyboard = doKeyboard_subgroups(subgroups, 'setrules', true)
 			db:setex('temp:realm:'..msg.chat.id..':setrules', 1800, blocks[2])
-			api.editMessageText(msg.chat.id, res.result.message_id, 'Choose the group where apply the rules (choose *within 30 minutes from now*)', true, keyboard)
+			api.editMessageText(msg.chat.id, res.result.message_id, 'Choose the group where apply the rules (choose <b>within 30 minutes from now</b>)', 'html', keyboard)
 		end
 	end
-	if blocks[1] == 'ban' or blocks[1] == 'kick' then
+	if blocks[1] == 'ban' then
 		local user_id
 		if blocks[2] then
 			user_id = realm_get_userid(blocks[2])
@@ -582,14 +583,8 @@ function plugin.onTextMessage(msg, blocks)
 		
 		local failed = {limits = 0, not_admin = 0, is_admin = 0, others = 0, names = ''}
 		local success = 0
-		local hammer_function
-		if blocks[1] == 'ban' then
-			hammer_function = api.banUser
-		else
-			hammer_function = api.kickUser
-		end
 		for subgroup_id, subgroup_name in pairs(subgroups) do
-			local res, code = hammer_function(subgroup_id, user_id)
+			local res, code = api.banUser(subgroup_id, user_id)
 			if not res then
 				print(code)
 				if code == 429 then
@@ -609,14 +604,14 @@ function plugin.onTextMessage(msg, blocks)
 		
 		local text = _([[Executed.
 
-Success: %d
-The bot is not admin: %d
-The user is admin: %d
-Failed because of limits: %d
-Failed because of other reasons: %d
-Failed to ban from:
+<b>Success</b>: <code>%d</code>
+<b>The bot is not admin</b>: <code>%d</code>
+<b>The user is admin</b>: <code>%d</code>
+<b>Failed because of limits</b>: <code>%d</code>
+<b>Failed because of other reasons</b>: <code>%d</code>
+<b>Failed to ban from</b>:
 %s]])
-		api.sendReply(msg, text:format(success, failed.not_admin, failed.is_admin, failed.limits, failed.others, failed.names))
+		api.sendReply(msg, text:format(success, failed.not_admin, failed.is_admin, failed.limits, failed.others, failed.names:escape_html()), 'html')
 	end
 	if blocks[1] == 'adminlist' then
 		local keyboard = doKeyboard_subgroups(subgroups, 'adminlist')
@@ -643,9 +638,7 @@ plugin.triggers = {
 		config.cmd..'(remove)$',
 		config.cmd..'(adminlist)$',
 		config.cmd..'(ban)$',
-		config.cmd..'(kick)$',
 		config.cmd..'(ban) (.*)$',
-		config.cmd..'(kick) (.*)$',
 		config.cmd..'(setrules) (.*)$',
 		config.cmd..'(send) (.*)$',
 		config.cmd..'(delrealm)$',
