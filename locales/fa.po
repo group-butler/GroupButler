@@ -7,21 +7,21 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GroupButler 4.0\n"
 "Report-Msgid-Bugs-To: https://telegram.me/bac0nnn\n"
-"POT-Creation-Date: 2016-11-05 14:22+0300\n"
-"PO-Revision-Date: 2016-11-05 15:53+0330\n"
+"POT-Creation-Date: 2016-11-12 16:27+0100\n"
+"PO-Revision-Date: 2016-11-12 20:49+0330\n"
 "Last-Translator: Nicholas Guriev <guriev-ns@ya.ru>\n"
 "Language-Team: Persian\n"
 "Language: fa\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.9\n"
+"X-Generator: Poedit 1.8.11\n"
 
-#: bot.lua:174
+#: bot.lua:178
 msgid "🐛 Sorry, a *bug* occurred"
 msgstr "🐛 متاسفانه یک خطا رخ داده است"
 
-#: bot.lua:198
+#: bot.lua:202
 #, lua-format
 msgid ""
 "\n"
@@ -36,19 +36,19 @@ msgstr ""
 "متاسفانه من در گروه های معمولی کار نمیکنم، لطفا از مدیر گروه بخواهید تا گروه "
 "را تبدیل به یک ابر گروه یا سوپر گروه کند.\n"
 
-#: methods.lua:100
+#: methods.lua:101
 msgid "I'm not an admin, I can't kick people"
 msgstr "من مدیر نیستم نمی توانم کسی را اخراج کنم"
 
-#: methods.lua:102
+#: methods.lua:103
 msgid "I can't kick or ban an admin"
 msgstr "نمیتوانم مدیر را اخراج کنم!"
 
-#: methods.lua:104
+#: methods.lua:105
 msgid "There is no need to unban in a normal group"
 msgstr "نیازی به رفع مسدودیت در گروه معمولی نیست"
 
-#: methods.lua:106
+#: methods.lua:107
 msgid "This user is not a chat member"
 msgstr "یک کاربر ساده است"
 
@@ -78,44 +78,57 @@ msgstr "آزاد شد"
 msgid "not allowed"
 msgstr "ممنوع شد"
 
-#: plugins/antispam.lua:71
+#: plugins/antispam.lua:75
 msgid "You can't go lower"
 msgstr "پایینتر نمی شود"
 
-#: plugins/antispam.lua:73
+#: plugins/antispam.lua:77
 msgid "You can't go higher"
 msgstr "بالاتر نمیشود"
 
-#: plugins/antispam.lua:81
+#: plugins/antispam.lua:85
 #, lua-format
 msgid "New value: %d"
 msgstr "وضعیت جدید: %d"
 
-#: plugins/antispam.lua:100
+#: plugins/antispam.lua:104
 msgid "Allow/forbid telegram.me links"
 msgstr "آزاد/ممنوع کردن لینک تلگرام"
 
-#: plugins/antispam.lua:102
+#: plugins/antispam.lua:106
 msgid "Allow/forbid forwarded messages from channels"
 msgstr "آزاد/ممنوع کردن  پیام فوروارد شده از کانال"
 
-#: plugins/antispam.lua:104
+#: plugins/antispam.lua:108
 msgid "Set how many times the bot should warn the user before kick/ban him"
 msgstr ""
 "انتخاب کنید کاربران قبل از اخراج/مسدود شدن چند اخطار بتوانند دریافت کنند"
 
-#: plugins/antispam.lua:156 plugins/floodmanager.lua:115
+#: plugins/antispam.lua:117 plugins/dashboard.lua:129
+#: plugins/mediasettings.lua:20
+msgid "telegram.me links"
+msgstr "لینک تلگرام"
+
+#: plugins/antispam.lua:118
+msgid "Channels messages"
+msgstr "فوروارد از کانال"
+
+#: plugins/antispam.lua:160 plugins/floodmanager.lua:115
 #: plugins/mediasettings.lua:68 plugins/menu.lua:216
 msgid "You're no longer an admin"
 msgstr "شما دیگه مدیر نیستید"
 
-#: plugins/antispam.lua:158
+#: plugins/antispam.lua:162
 msgid ""
 "*Anti-spam settings*\n"
-"Choose which kind of spam you want to forbid"
+"Choose which kind of spam you want to forbid\n"
+"• ✅ = *Allowed*\n"
+"• ❌ = *Not allowed*\n"
 msgstr ""
-"تنظیمات ضد اسپم\n"
-"انتخاب کنید کدام اسپم میخواهید در گروه ممنوع باشد"
+"تنظیمات ضداسپم\n"
+"کدامیک از اسپم ها را میخواهید ممنوع کنید\n"
+"• ✅ = آزاد\n"
+"• ❌ = ممنوع\n"
 
 #: plugins/banhammer.lua:75
 msgid "Reply to someone"
@@ -170,19 +183,19 @@ msgstr "%s مسدود کرد %s"
 msgid "User %s unbanned by %s!"
 msgstr "کاربر %s توسط %s از لیست مسدودها خارج شد!"
 
-#: plugins/configure.lua:6
+#: plugins/configure.lua:6 plugins/realms.lua:230
 msgid "🛠 Menu"
 msgstr "🛠 فهرست تنظیمات"
 
-#: plugins/configure.lua:7
+#: plugins/configure.lua:7 plugins/realms.lua:231
 msgid "⚡️ Antiflood"
 msgstr "⚡️ ضد تکرار"
 
-#: plugins/configure.lua:8
+#: plugins/configure.lua:8 plugins/realms.lua:232
 msgid "🌈 Media"
 msgstr "🌈 رسانه"
 
-#: plugins/configure.lua:9
+#: plugins/configure.lua:9 plugins/realms.lua:233
 msgid "🚫 Antispam"
 msgstr "🚫 ضد اسپم"
 
@@ -206,13 +219,13 @@ msgstr "✅ | روشن"
 msgid "❌ | OFF"
 msgstr "❌ | خاموش"
 
-#: plugins/dashboard.lua:13
-msgid "⚡️ kick"
-msgstr "⚡️ اخراج"
+#: plugins/dashboard.lua:13 plugins/menu.lua:188
+msgid "👞 kick"
+msgstr "👞 اخراج"
 
 #: plugins/dashboard.lua:15
-msgid "⛔ ️ban"
-msgstr "⛔ ️ مسدود"
+msgid "🔨️ ️ban"
+msgstr "🔨 مسدود"
 
 #: plugins/dashboard.lua:19 plugins/floodmanager.lua:47
 msgid "Texts"
@@ -278,7 +291,7 @@ msgstr "مدیران"
 msgid "Rules"
 msgstr "قوانین"
 
-#: plugins/dashboard.lua:53 plugins/help.lua:228
+#: plugins/dashboard.lua:53 plugins/help.lua:252
 msgid "Extra commands"
 msgstr "دستورهای اضافه"
 
@@ -350,10 +363,6 @@ msgstr "ℹ️ گروه ◄ ضدتکرار"
 #: plugins/dashboard.lua:128 plugins/mediasettings.lua:19
 msgid "Documents"
 msgstr "فایل"
-
-#: plugins/dashboard.lua:129 plugins/mediasettings.lua:20
-msgid "telegram.me links"
-msgstr "لینک تلگرام"
 
 #: plugins/dashboard.lua:130 plugins/mediasettings.lua:21
 msgid "Vocal messages"
@@ -514,6 +523,76 @@ msgstr ""
 
 #: plugins/help.lua:21
 msgid ""
+"*Realm commands*\n"
+"_Realm = administration group, from where you can manage more sub-groups "
+"without sending there commands_\n"
+"\n"
+"`/setrealm` (*only for the group owner*): use the group as a realm. A realm "
+"can't have more than 60 members and must be a *private* supergroup.\n"
+"Follow the instructions the bot will give you to associate a group (subgroup) "
+"to a realm.\n"
+"`/subgroups`: get the list of the subgroups administrated by a realm. Can't "
+"be more than 6 for now.\n"
+"`/remove`: choose a subgroup to remove from the realm subgroups.\n"
+"`/send [message]`: broadcast a message to one or more subgroups.\n"
+"`/setrules [rules]`: apply the rules to one (or more) of your groups.\n"
+"`/adminlist`: get the adminlist of one of your subgroups.\n"
+"`/realm`: get some info about your realm.\n"
+"`/add`: get the message to copy-paste in a group to add it to the subgroups "
+"of the realm.\n"
+"`/ban [by username|by id|by forwarded message]`: ban the user from all of "
+"your subgroups.\n"
+"*By forwarded message*: forward a message from the user in the realm and "
+"reply to it with `/ban`.\n"
+"`/config`: manage the settings of one of your subgroups.\n"
+"`/delrealm` (*only for the owner*): the group will no longer be used as a "
+"realm.\n"
+"\n"
+"*Commands to use in a subgroup*\n"
+"`/unpair` (*only for the owner*): remove the association between the group "
+"and its realm.\n"
+"\n"
+"*Important*: realms are meant to be groups where their members administrate "
+"one or more associated groups. So in a realm you won't be able to use regular "
+"commands, such as `/warn`, `/welcome` and so on.\n"
+"The only commands that will work are those that are described above.\n"
+"Also, every member of the realm can take actions in groups where he is not "
+"admin. So take care about who to invite in a realm :)"
+msgstr ""
+"دستورهای قلمرو\n"
+"قلمرو = گروه مخصوص مدیران، در قلمرو مدیران میتوانند تمام زیر گروه ها را بدون "
+"ارسال دستور در گروه اصلی مدیریت کنند\n"
+"\n"
+"`/setrealm`  فقط برای سازنده گروه: برای ذخیره کردن گروه به عنوان قلمرو. قلمرو "
+"نمیتواند بیشتر از 60 عضو داشته باشد، و قلمرو باید یک گروه خصوصی باشد.\n"
+"\n"
+"دستورهای زیر را دنبال کنید ربات شمارا در مدیریت زیرگروه ها همراهی خواهد کرد.\n"
+"`/subgroups`: گرفتن لیست زیرگروه هایی که توسط قلمرو مدیریت می شود. بیشتر از 6 "
+"زیرگروه فعلا نمی شود.\n"
+"`/remove`: حذف یکی از زیر گروه ها.\n"
+"`/send [message]`: برای انتشار یک پیام به تمام زیرگروه ها.\n"
+"`/setrules [rules]`: ذخیره قوانین برای یکی یا همه زیرگروه ها.\n"
+"`/adminlist`: گرفتن لیست مدیران یکی از زیرگروه ها.\n"
+"`/realm`: گرفتن اطلاعات قلمرو.\n"
+"`/add`: افزودن یک زیرگروه به قلمرو.\n"
+"`/ban [by username|by id|by forwarded message]`: مسدود کردن کاربر.\n"
+"توسط پیام فوروارد شد: پیام کاربر مورد نظر را در قلمرو فوروارد کنید و روی پیام "
+"ریپلای کنید.\n"
+"`/config`: مدیریت تنظیمات یکی از زیرگروه ها\n"
+"`/delrealm` فقط سازنده گروه: حذف از قلمرو\n"
+"\n"
+"دستورهای مورد استفاده در زیر گروه ها\n"
+"`/unpair` فقط سازنده گروه: حذف اتصال بین قلمرو و گروه\n"
+"\n"
+"نکته مهم: قلمرو یک گروه مدیریتی است که اعضای آن میتواند یک یا چند گروه را "
+"مدیریت کنند. بنابراین شما در قلمرو فقط دستور های توضییح داده شده را میتوانید "
+"استفاده کنید.\n"
+"تمام این دستور ها در بالا توضییح داده شده اند.\n"
+"همچنین هر عضوی که در قلمرو باشد میتواند گروه را مدیریت کند حتی اگر مدیر گروه "
+"نباشد. بنابراین در انتخاب اعضای قلمرو دقت کنید :)"
+
+#: plugins/help.lua:45
+msgid ""
 "\n"
 "This bot works only in supergroups.\n"
 "\n"
@@ -537,11 +616,11 @@ msgstr ""
 "دقت کنید: شما باید دستورات را داخل گروه ارسال کنید، مگر اینکه دستورها برای "
 "خصوصی طراحی شده باشند (قسمت خصوصی را ببینید)."
 
-#: plugins/help.lua:31
+#: plugins/help.lua:55
 msgid "In this menu you will find all the available commands"
 msgstr "توی این فهرست شما میتوانید تمام دستورها را مشاهده کنید"
 
-#: plugins/help.lua:33
+#: plugins/help.lua:57
 msgid ""
 "\n"
 "*Commands that work in private*:\n"
@@ -568,7 +647,7 @@ msgstr ""
 "• `/start` : نمایش پیام اولیه ربات\n"
 "• `/help` : نمایش این پیام\n"
 
-#: plugins/help.lua:45
+#: plugins/help.lua:69
 msgid ""
 "\n"
 "*Commands available for every user in a group*:\n"
@@ -611,7 +690,7 @@ msgstr ""
 "این قابلیت را فعال کنند\n"
 "• `/kickme` :  خارج شدن از گروه توسط ربات\n"
 
-#: plugins/help.lua:60
+#: plugins/help.lua:84
 msgid ""
 "\n"
 "*Admins: info about the group*\n"
@@ -656,7 +735,7 @@ msgstr ""
 "تذکر: ربات میتواند لینک درست و کامل را ذخیره کند درصورتی که لینک اشتباه باشد "
 "ربات پاسخی نخواهد داد.\n"
 
-#: plugins/help.lua:77
+#: plugins/help.lua:101
 msgid ""
 "\n"
 "*Banhammer powers*\n"
@@ -715,7 +794,7 @@ msgstr ""
 "خصوصی ربات.  شما میتوانید حساسیت، عملکرد ربات (اخراج/مسدود)و همینطور لیست "
 "استثنا ایجاد کنید.\n"
 
-#: plugins/help.lua:97
+#: plugins/help.lua:121
 msgid ""
 "\n"
 "*Reports settings*\n"
@@ -749,7 +828,7 @@ msgstr ""
 "تذکر: مدیران نمیتوانند از دستور `@admin` استفاده کنند، و همچنین کاربران "
 "نمیتواند یک مدیر را گزارش کنند."
 
-#: plugins/help.lua:108
+#: plugins/help.lua:132
 msgid ""
 "\n"
 "*Welcome/goodbye settings*\n"
@@ -812,7 +891,7 @@ msgstr ""
 "بتدا استکیر و یا گیف مورد نظر را ارسال نمایید سپس به دستور` /welcome` و "
 "همینطور  `/goodbye` استیکر و گیف مورد نظر را ریپلای کنید\n"
 
-#: plugins/help.lua:132
+#: plugins/help.lua:156
 msgid ""
 "\n"
 "*Extra commands*\n"
@@ -857,7 +936,7 @@ msgstr ""
 "و کدهای جایگذاری در این قسمت نیز پشتیبانی میشود. در تنظیمات `خوش آمدگویی` "
 "لیست کدهای جایگذاری موجود است.\n"
 
-#: plugins/help.lua:147
+#: plugins/help.lua:171
 msgid ""
 "\n"
 "*Warns*\n"
@@ -914,7 +993,7 @@ msgstr ""
 "چگونه تعداد اخطار های حداکثر مجاز گروه را برای رسانه تعیین کنیم: دستور `/"
 "config` و بعد دکمه رسانه یا media.\n"
 
-#: plugins/help.lua:165
+#: plugins/help.lua:189
 msgid ""
 "\n"
 "*Pinning messages*\n"
@@ -954,7 +1033,7 @@ msgstr ""
 "نمایش قوانین پشتیبانی میکند.\n"
 
 #. TRANSLATORS: leave your contact information for reports mistakes in translation
-#: plugins/help.lua:178
+#: plugins/help.lua:202
 msgid ""
 "\n"
 "*Group language*\"\n"
@@ -1009,7 +1088,7 @@ msgstr ""
 "حتی در نام کاربریش داشته باشد) اخراج خواهد شد.\n"
 "\n"
 
-#: plugins/help.lua:197
+#: plugins/help.lua:221
 msgid ""
 "\n"
 "*General group settings*\n"
@@ -1042,100 +1121,108 @@ msgstr ""
 "باشد (مثا: لینک تلگرام یا پیام های فوروارد شده از کانال)\n"
 "\n"
 
-#: plugins/help.lua:216
+#: plugins/help.lua:240
 msgid "Banhammer"
 msgstr "مدیریت کاربران"
 
-#: plugins/help.lua:217
+#: plugins/help.lua:241
 msgid "Group info"
 msgstr "اطلاعات گروه"
 
-#: plugins/help.lua:220
+#: plugins/help.lua:244
 msgid "Report system"
 msgstr "سیستم گرازش"
 
-#: plugins/help.lua:221
+#: plugins/help.lua:245
 msgid "Pin"
 msgstr "پیام سنجاق شده"
 
-#: plugins/help.lua:224
+#: plugins/help.lua:248
 msgid "Languages"
 msgstr "زبان"
 
-#: plugins/help.lua:225
+#: plugins/help.lua:249
 msgid "Group configuration"
 msgstr "پیکربندی گروه"
 
-#: plugins/help.lua:229
+#: plugins/help.lua:253
 msgid "Warns"
 msgstr "اخطارها"
 
-#: plugins/help.lua:232
+#: plugins/help.lua:256
 msgid "Welcome settings"
 msgstr "خوش آمدگویی"
 
-#: plugins/help.lua:252
+#: plugins/help.lua:276
 msgid "📢 Bot channel"
 msgstr "📢 کانال ربات"
 
-#: plugins/help.lua:253
+#: plugins/help.lua:277
 msgid "🌍 Select your language"
 msgstr "🌍 زبان خود را انتخاب کنید"
 
-#: plugins/help.lua:256
+#: plugins/help.lua:280
 msgid "📕 All the commands"
 msgstr "📕 تمام دستورها"
 
-#: plugins/help.lua:265
+#: plugins/help.lua:289
 msgid "Basics"
 msgstr "پایه"
 
-#: plugins/help.lua:266
+#: plugins/help.lua:290
 msgid "Admin commands"
 msgstr "دستور مخصوص مدیران"
 
-#: plugins/help.lua:267
+#: plugins/help.lua:291
 msgid "Normal users commands"
 msgstr "دستور کاربران معمولی"
 
-#: plugins/help.lua:268
+#: plugins/help.lua:292
 msgid "Commands in private"
 msgstr "دستورهای خصوصی (پی وی) ربات"
 
-#: plugins/help.lua:283
+#: plugins/help.lua:293
+msgid "Realm commands"
+msgstr "دستورهای قلمرو"
+
+#: plugins/help.lua:308
 msgid "Back"
 msgstr "برگشت"
 
-#: plugins/help.lua:302
+#: plugins/help.lua:327
 #, lua-format
 msgid "[Start me](%s) _to get the list of commands_"
 msgstr "[راه اندازی کنید](%s) _تا بتوانید تمام دستور های ربات را بگیرید_"
 
-#: plugins/help.lua:314
+#: plugins/help.lua:339
 msgid "Main menu"
 msgstr "فهرست اصلی"
 
-#: plugins/help.lua:317
+#: plugins/help.lua:342
 msgid "Basic usage"
 msgstr "نکات پایه"
 
-#: plugins/help.lua:320
+#: plugins/help.lua:345
 msgid "Commands for users (group)"
 msgstr "دستورهای کاربران معمولی (گروه)"
 
-#: plugins/help.lua:323
+#: plugins/help.lua:348
 msgid "Available commands in private"
 msgstr "دستورهای موجود برای خصوصی (پی وی) ربات"
 
-#: plugins/help.lua:327
+#: plugins/help.lua:351
+msgid "Available commands in a realm"
+msgstr "دستورهای موجود برای قلمرو"
+
+#: plugins/help.lua:355
 msgid "Available commands for admins"
 msgstr "دستورهای موجود برای مدیران"
 
-#: plugins/help.lua:331
+#: plugins/help.lua:359
 msgid "Deprecated message, send /help again"
 msgstr "پیام منسوخ شده، لطفا help را دوباره ارسال کنید"
 
-#: plugins/help.lua:336
+#: plugins/help.lua:364
 msgid "❗️ Already there"
 msgstr "❗️ شما در همین صفحه هستید"
 
@@ -1377,10 +1464,6 @@ msgstr "گزارش"
 msgid "Welcome + rules button"
 msgstr "خوش آمدگویی+قوانین"
 
-#: plugins/menu.lua:188
-msgid "👞 kick"
-msgstr "👞 اخراج"
-
 #: plugins/menu.lua:190
 msgid "🔨️ ban"
 msgstr " 🔨️ مسدود"
@@ -1462,7 +1545,7 @@ msgstr "%s مسدود: تایپ عربی و فارسی"
 msgid "Last message generated by `/pin` ^"
 msgstr "آخرین پیام گرفته شده توسط  `/pin` ^"
 
-#: plugins/pin.lua:21
+#: plugins/pin.lua:21 plugins/realms.lua:510
 msgid "This text is too long, I can't send it"
 msgstr "این پیام خیلی طولانیست و من قادر به ارسال این پیام نیستم"
 
@@ -1470,7 +1553,7 @@ msgstr "این پیام خیلی طولانیست و من قادر به ارسا
 msgid "The text is not modified"
 msgstr "پیام اصلاح نشده "
 
-#: plugins/pin.lua:29 utilities.lua:230
+#: plugins/pin.lua:29 plugins/realms.lua:512 utilities.lua:230
 msgid ""
 "This text breaks the markdown.\n"
 "More info about a proper use of markdown [here](https://telegram.me/"
@@ -1593,6 +1676,294 @@ msgstr "تنظیمات شخصی خود را تغییر دهید"
 msgid "⚙ Setting applied"
 msgstr "⚙ تنظیمات اعمال شد"
 
+#: plugins/realms.lua:251
+msgid "Cancel"
+msgstr "لغو"
+
+#: plugins/realms.lua:258 plugins/realms.lua:332
+msgid "_Action aborted_"
+msgstr "عملکرد متوقف شد"
+
+#: plugins/realms.lua:263 plugins/realms.lua:292
+msgid "_Expired_"
+msgstr "_منقضی شد_"
+
+#: plugins/realms.lua:270
+msgid "Applied"
+msgstr "فعال شد"
+
+#: plugins/realms.lua:273
+msgid "Rules applied to every group"
+msgstr "قوانین برای همه فعال شد"
+
+#: plugins/realms.lua:282
+msgid ""
+"Too many requests. Please wait some minutes and try again. Note that if you "
+"flood this command, I'll leave the group and block you"
+msgstr ""
+"تعداد درخواست زیاد. لطفا چند دقیقه بعد درخواست کنید. تذکر اگر شما با این "
+"دستور اسپم کنید، من این گروه را ترک خواهم کرد و شما را مسدود میکنم"
+
+#: plugins/realms.lua:284
+msgid "An unexpected error with the api occurred. Please try again later"
+msgstr "یک Error غیر منتظره Api رخ داده است. لطفا بعدا تلاش کنید"
+
+#: plugins/realms.lua:297
+msgid "*Message sent*"
+msgstr "پیام ارسال شد"
+
+#: plugins/realms.lua:299
+#, lua-format
+msgid ""
+"I can't send the text\n"
+"Motivation: %s"
+msgstr ""
+"من نمیتوانم پیام ارسال کنم\n"
+"دلیل: %s"
+
+#: plugins/realms.lua:303
+#, lua-format
+msgid "Message sent in %d groups"
+msgstr "پیام در %d  گروه ارسال شد"
+
+#: plugins/realms.lua:309
+msgid "_Only the realm owner can remove a group_"
+msgstr "_فقط سازنده قلمرو میتواند گروه را حذف کند_"
+
+#: plugins/realms.lua:319
+#, lua-format
+msgid "%s removed from your subgroups"
+msgstr "%s  از لیست زیرگروه های شما خارج شد"
+
+#: plugins/realms.lua:326
+msgid "As you wish. This group is no longer a realm."
+msgstr "این گروه دیگر قلمرو نیست"
+
+#: plugins/realms.lua:328
+#, lua-format
+msgid ""
+"\n"
+"_%d associations with subgroups have been deleted_"
+msgstr ""
+"\n"
+"%d انجمن زیرگروه ها حذف شد"
+
+#: plugins/realms.lua:338
+msgid "Manage your group settings from this keyboard"
+msgstr "تنظیمات گروه خود را با استفاده از کیبورد مدیریت کنید"
+
+#: plugins/realms.lua:346
+msgid "_This group is a realm, you can set a realm for a realm_"
+msgstr ""
+"_این گروه یک قلمرو می باشد، شما نمیتوانید یک قلمرو را برای قلمرو دیگری "
+"استفاده کنید_"
+
+#: plugins/realms.lua:350
+msgid "_The id you sent doesn't belong to a realm_"
+msgstr "_این شناسه یا ID که ارسال کردید به قلمرو تعلق ندارد_"
+
+#: plugins/realms.lua:356
+#, lua-format
+msgid "This realm [%s] already reached the max [%d] number of subgroups"
+msgstr "این قلمرو [%s] قبلا به حداکثر [%d] تعداد زیرگروه ها رسیده است"
+
+#: plugins/realms.lua:363
+#, lua-format
+msgid ""
+"New subgroup added: %s [%d]\n"
+"By: %s [%s][#%d]"
+msgstr ""
+"زیرگروه جدید اضافه شد: %s [%d]\n"
+"توسط: %s [%s][#%d]"
+
+#: plugins/realms.lua:366
+#, lua-format
+msgid "The realm of this group changed: `%s`"
+msgstr "قلمرو این گروه تغییر کرد:  `%s`"
+
+#: plugins/realms.lua:370
+#, lua-format
+msgid "Already a sub-group of: `%s`"
+msgstr "قبلا زیرگروه: `%s`"
+
+#: plugins/realms.lua:372
+#, lua-format
+msgid "Group added to the sub-groups of: `%s`"
+msgstr "گروه در زیر گروه های: `%s`"
+
+#: plugins/realms.lua:385
+#, lua-format
+msgid ""
+"This group is already a realm.\n"
+"*Realm id*: `%s`"
+msgstr ""
+"این گروه قبلا بعنوان قلمرو انتخاب شده است.\n"
+"شناسه قلمرو: `%s`"
+
+#: plugins/realms.lua:388
+msgid "_Only the owner can decide to use this group as a realm_"
+msgstr "_فقط سازنده میتواند تصمیم بگیرد از گروه به عنوان قلمرو استفاده کند._"
+
+#: plugins/realms.lua:391
+msgid "_I'm sorry, a public group can't be used as realms_"
+msgstr "_من متاسفم، گروه عمومی نمیتواند به عنوان قلمرو انتخاب شود._"
+
+#: plugins/realms.lua:395
+msgid ""
+"_I'm sorry, I can't get the number of the members of this group now. Try "
+"again later_"
+msgstr ""
+"_من متاسفم، من نمیتوانم تعداد عضو های این گروه را الان بگیرم. لطفا بعدا تلاش "
+"کنید_"
+
+#: plugins/realms.lua:399
+#, lua-format
+msgid "_You can't use as realm a group with more than %d members_"
+msgstr ""
+"_شما نمیتوانید از گروهی که بیش از %d عضو دارد بعنوان قلمرو استفاده کنید_"
+
+#: plugins/realms.lua:403
+#, lua-format
+msgid ""
+"This group can now be used as realm: the members of this group can now manage "
+"multiple groups from here. To add a sub-group, the group owner must write in "
+"the chat:\n"
+"\"/setrealm %s\". He can copy-paste in the group the following text:"
+msgstr ""
+"این گروه الان میتواند به عنوان قلمرو مورد استفاده قرار گیرد: اعضای گروه "
+"میتوانند تمام گروه ها را از اینجا مدیریت کنند، برای ذخیره کردن زیر گروه، "
+"سازنده باید در گروه بنویسد:\n"
+"\"/setrealm %s\" سازنده میتواند این دستور را ذخیره و در گروه مورد نظر "
+"جایگذاری کند:"
+
+#: plugins/realms.lua:415
+msgid "_This command can be used only by the group owner_"
+msgstr "این دستور فقط برای سازنده گروه قابل استفاده است"
+
+#: plugins/realms.lua:417
+msgid ""
+"_This group is no longer going to be used as a realm, and you will lose all "
+"the associations with your subgroups._\n"
+"*Do you want to continue?*"
+msgstr ""
+"این گروه دیگر بعنوان قلمرو استفاده نمی شود، و شما اتصال به تمام زیر گروه ها "
+"را از دست می دهید\n"
+"آیا میخواهید ادامه دهید؟"
+
+#: plugins/realms.lua:427
+msgid "_This group is a realm, you can use this command only in one subgroup_"
+msgstr ""
+"این یک قلمرو است، شما میتوانید این دستور را فقط در زیرگروه ها استفاده کنید"
+
+#: plugins/realms.lua:433
+#, lua-format
+msgid "Done. This group does no longer belong to `%s`"
+msgstr "انجام شد. این گروه دیگر متعلق به `%s` نیست"
+
+#: plugins/realms.lua:434
+#, lua-format
+msgid ""
+"A group has been removed from your subgroups\n"
+"Title: %s\n"
+"ID: %d"
+msgstr ""
+"گروه از لیست زیرگروه های شما حذف شد\n"
+"عنوان: %s\n"
+"شناسه: %d"
+
+#: plugins/realms.lua:436
+msgid "_You are not associated with any realm_"
+msgstr "شما در هیچ قلمرویی نیستید"
+
+#: plugins/realms.lua:454
+msgid "This group is not paired with any realm"
+msgstr "این گروه به هیچ قلمرویی متصل نشده است"
+
+#: plugins/realms.lua:458
+#, lua-format
+msgid ""
+"Paired with: %s\n"
+"Saved as: %s\n"
+"Realm in the global list: %s"
+msgstr ""
+"متصل شد: %s\n"
+"ذخیره شده بعنوان: %s\n"
+"قلمرو در لیست جهانی: %s"
+
+#: plugins/realms.lua:465
+msgid ""
+"To add a group to the administrated group of this chat, the *owner of the "
+"group* have to copy-paste the following message in the group you want to add:"
+msgstr ""
+"برای اضافه کردن گروهی به گروه مدیران، سازنده گروه باید متن زیر را در گروهی که "
+"میخواهید اضافه شود کپی کنید:"
+
+#: plugins/realms.lua:473
+msgid "_I'm sorry, this realm doesn't have subgroups paired with it_"
+msgstr "_من متاسفم این قلمرو با هیچ  زیر گروهی پیوند داده نشده است_"
+
+#: plugins/realms.lua:478
+msgid "Select a group to manage its settings"
+msgstr "گروه مورد نظر را انتخاب کنید"
+
+#: plugins/realms.lua:487
+msgid ""
+"Your subgroups:\n"
+"\n"
+msgstr ""
+"زیر گروه های شما:\n"
+"\n"
+
+#: plugins/realms.lua:492
+msgid "Choose the subgroup you want to un-pair:"
+msgstr "لطفا زیر گروهی که میخواهید لغو کنید را انتخاب کنید:"
+
+#: plugins/realms.lua:503
+#, lua-format
+msgid ""
+"Title: %s\n"
+"ID: %d\n"
+"Subgroups n°: %d\n"
+"Total members: %d"
+msgstr ""
+"عنوان: %s\n"
+"آیدی: %d\n"
+"زیرگروه ها n°: %d\n"
+"کل اعضا: %d"
+
+#: plugins/realms.lua:528
+msgid "_Answer to a forwarded message_"
+msgstr "پاسخ به پیام های فوروارد شده"
+
+#: plugins/realms.lua:561
+#, lua-format
+msgid ""
+"Executed.\r\n"
+"\r\n"
+"Success: %d\r\n"
+"The bot is not admin: %d\r\n"
+"The user is admin: %d\r\n"
+"Failed because of limits: %d\r\n"
+"Failed because of other reasons: %d\r\n"
+"Failed to ban from:\r\n"
+"%s"
+msgstr ""
+"پردازش شد/r\n"
+"/r\n"
+"موفق: %d/r\n"
+"ناموفق به دلیل محدودیت ها: %d/r\n"
+"ناموفق به دلایل دیگر: %d/r\n"
+"مسدود کردن ناموفق:/r\n"
+"%s"
+
+#: plugins/realms.lua:578
+msgid ""
+"Write something next to `/send`, for example _\"/send this is a text message"
+"\"_"
+msgstr ""
+"بعد از `/send` متن خود را بنویسید، برای مثال _\"/send this is a text message"
+"\"_"
+
 #: plugins/report.lua:4
 #, lua-format
 msgid ""
@@ -1629,7 +2000,11 @@ msgstr ""
 "\n"
 "• *توضییحات*: %s"
 
-#: plugins/report.lua:40
+#: plugins/report.lua:54
+msgid "_Reported in the admins group_"
+msgstr "_به گروه مدیران گزارش شد_"
+
+#: plugins/report.lua:56
 #, lua-format
 msgid "_Reported to %d admin(s)_"
 msgstr "_به %d مدیر گزارش شد_"
@@ -1681,6 +2056,11 @@ msgid ""
 "Yay! This group has been upgraded. You are great! Now I can work properly :)\n"
 msgstr ""
 "عالی! این گروه ارتقا پیدا کرد. بسیار عالی! الان میتوان بسیار عالی کار کنم :)\n"
+
+#: plugins/service.lua:63
+#, lua-format
+msgid "I've been removed from %s [%s], one of your subgroups"
+msgstr "من از یکی از زیرگروه های   %s [%s] حذف خواهم شد"
 
 #: plugins/setlang.lua:17 plugins/setlang.lua:27
 msgid "*List of available languages*:"
@@ -2191,6 +2571,12 @@ msgstr " راه اندازی ربات"
 msgid "_Please message me first so I can message you_"
 msgstr "_لطفا اول به من پیام دهید تا بتوانم به شما پیام بفرستم_"
 
+#~ msgid "⚡️ kick"
+#~ msgstr "⚡️ اخراج"
+
+#~ msgid "⛔ ️ban"
+#~ msgstr "⛔ ️ مسدود"
+
 #~ msgid "Sorry, a *bug* occurred"
 #~ msgstr "متاسفانه یک خطا رخ داده است"
 
@@ -2199,118 +2585,6 @@ msgstr "_لطفا اول به من پیام دهید تا بتوانم به شم
 
 #~ msgid "You're no longer admin"
 #~ msgstr "شما از مدیران نیستید!"
-
-#~ msgid "_This group is already a realm_"
-#~ msgstr "_این گروه قبلا به عنوان قلمرو انتخاب شده است_"
-
-#~ msgid "_The id you sent doesn't belong to a realm_"
-#~ msgstr "_این شناسه یا ID که ارسال کردید به قلمرو تعلق ندارد_"
-
-#~ msgid ""
-#~ "This group is already a realm.\n"
-#~ "*Realm id*: #id%s"
-#~ msgstr ""
-#~ "این گروه قبلا بعنوان قلمرو انتخاب شده است.\n"
-#~ "شناسه قلمرو: #id%s"
-
-#~ msgid "_Only the owner can decide to use a group as realm_"
-#~ msgstr "_فقط سازنده میتواند تصمیم بگیرد از گروه به عنوان قلمرو استفاده کند_"
-
-#~ msgid "_I'm sorry, a public group can't be a realm_"
-#~ msgstr "_من متاسفم، گروه عمومی نمیتواند به عنوان قلمرو انتخاب شود_"
-
-#~ msgid ""
-#~ "_I'm sorry, I can't get the numberof the members of this group now. Try "
-#~ "again later_"
-#~ msgstr ""
-#~ "_من متاسفم، من نمیتوانم تعداد عضو های این گروه را بگیرم. لطفا بعدا تلاش "
-#~ "کنید_"
-
-#~ msgid "_You can't use as realm a group with more than %d members_"
-#~ msgstr ""
-#~ "_شما نمیتوانید از گروهی که بیش از %d عضو دارد بعنوان قلمرو استفاده کنید_"
-
-#~ msgid ""
-#~ "This group can now be used as realm. To add a sub-group, the group owner "
-#~ "must write in the chat:\n"
-#~ "\"/setrealm #id%s\""
-#~ msgstr ""
-#~ "این گروه الان میتواند به عنوان قلمرو مورد استفاده قرار گیرد. برای ذخیره "
-#~ "کردن زیر گروه، سازنده باید در گروه بنویسد:\n"
-#~ "\"/setrealm #id%s\""
-
-#~ msgid "_I'm sorry, this realm doesn't have subgroups paired with it_"
-#~ msgstr "_من متاسفم این قلمرو با هیچ  زیر گروهی پیوند داده نشده است_"
-
-#~ msgid ""
-#~ "Your subgroups:\n"
-#~ "\n"
-#~ msgstr ""
-#~ "زیر گروه های شما:\n"
-#~ "\n"
-
-#~ msgid "Choose the subgroup you want to un-pair:"
-#~ msgstr "لطفا زیر گروهی که میخواهید لغو کنید را انتخاب کنید:"
-
-#~ msgid "_Only the realm owner can remove a group_"
-#~ msgstr "_فقط سازنده قلمرو میتواند گروه را حذف کند_"
-
-#~ msgid "_Expired_"
-#~ msgstr "_منقضی شد_"
-
-#~ msgid "Applied"
-#~ msgstr "فعال شد"
-
-#~ msgid "Rules applied to every group"
-#~ msgstr "قوانین برای همه فعال شد"
-
-#~ msgid ""
-#~ "Processed.\n"
-#~ "\n"
-#~ "Success: %d\n"
-#~ "Failed because of limits: %d\n"
-#~ "Failed because of other reasons: %d\n"
-#~ "Failed to ban from:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "پردازش شد.\n"
-#~ "\n"
-#~ "موفق: %d\n"
-#~ "ناموفق به دلیل محدودیت ها: %d\n"
-#~ "ناموفق به دلایل دیگر: %d\n"
-#~ "مسدود کردن ناموفق:\n"
-#~ "%s"
-
-#~ msgid ""
-#~ "Too many requests. Please wait some minutes and try again. Note that if "
-#~ "you flood this command, I'll leave the group and block you"
-#~ msgstr ""
-#~ "تعداد درخواست زیاد. لطفا چند دقیقه بعد درخواست کنید. تذکر اگر شما با این "
-#~ "دستور اسپم کنید، من این گروه را ترک خواهم کرد و شما را مسدود میکنم"
-
-#~ msgid "An unexpected error with the api occurred. Please try again later"
-#~ msgstr "یک Error غیر منتظره Api رخ داده است. لطفا بعدا تلاش کنید"
-
-#~ msgid ""
-#~ "*Message sent*\n"
-#~ "_Text:_\n"
-#~ "\n"
-#~ "%s"
-#~ msgstr ""
-#~ "پیام ارسال شد\n"
-#~ "_متن:_\n"
-#~ "\n"
-#~ "%s"
-
-#~ msgid ""
-#~ "I can't send the text\n"
-#~ "Motivation: %s"
-#~ msgstr ""
-#~ "من نمیتوانم پیام ارسال کنم\n"
-#~ "دلیل: %s"
-
-#~ msgid "Message sent in %d groups"
-#~ msgstr "پیام در %d  گروه ارسال شد"
 
 #~ msgid "No commands set!"
 #~ msgstr "هیچ دستوری ذخیره نشده!"
