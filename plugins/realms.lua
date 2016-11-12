@@ -391,35 +391,35 @@ function plugin.onTextMessage(msg, blocks)
 			else
 				local text
 				if not is_realm(blocks[2]) then
-					text = _('_The id you sent doesn\'t belong to a realm_')
+					text = _('<i>The id you sent doesn\'t belong to a realm</i>')
 				else
 					local realm = blocks[2]
 					local subgroup = msg.chat.id
 					local subgroups_number = get_subgroups_number(realm)
 					if subgroups_number >= config.bot_settings.realm_max_subgroups then
-						text = _('This realm [%s] already reached the max [%d] number of subgroups'):format(realm, subgroups_number)
+						text = _('This realm [<code>%s</code>] already reached the max [<code>%d</code>] number of subgroups'):format(realm, subgroups_number)
 					else
 						print(realm, subgroup)
 						local old_realm = db:get('chat:'..subgroup..':realm')
 						
 						db:set('chat:'..subgroup..':realm', realm)
 						db:hset('realm:'..realm..':subgroups', subgroup, msg.chat.title)
-						local text_to_send_realm = _('New subgroup added: %s [%d]\nBy: %s [%s][#%d]'):format(msg.chat.title, msg.chat.id, msg.from.first_name, msg.from.username or 'X', msg.from.id)
+						local text_to_send_realm = _('<b>New subgroup added</b>: %s [<code>%d</code>]\n<b>By</b>: %s [@%s][#id%d]'):format(msg.chat.title:escape_html(), msg.chat.id, msg.from.first_name:escape_html(), msg.from.username or '-', msg.from.id)
 						if old_realm and old_realm ~= realm then
 							db:hdel('realm:'..old_realm..':subgroups', msg.chat.id)
-							text = _('The realm of this group changed: `%s`'):format(realm)
-							api.sendMessage(realm, text_to_send_realm)
+							text = _('The realm of this group changed: <code>%s</code>`'):format(realm)
+							api.sendMessage(realm, text_to_send_realm, 'html')
 						else
 							if realm == old_realm then
-								text = _('Already a sub-group of: `%s`'):format(realm)
+								text = _('<i>Already a sub-group of:</i> <code>%s</code>'):format(realm)
 							else
-								text = _('Group added to the sub-groups of: `%s`'):format(realm)
-								api.sendMessage(realm, text_to_send_realm)
+								text = _('<b>Group added to the sub-groups of</b>: <code>%s</code>'):format(realm)
+								api.sendMessage(realm, text_to_send_realm, 'html')
 							end
 						end
 					end
-					api.sendReply(msg, text, true)
 				end
+				api.sendReply(msg, text, 'html')
 			end
 		end
 		return
@@ -468,19 +468,23 @@ function plugin.onTextMessage(msg, blocks)
 		if roles.is_owner_cached(msg) then
 			local text
 			if is_realm(msg.chat.id) then
-				text = _('_This group is a realm, you can use this command only in one subgroup_')
+				text = _('<i>This group is a realm, you can use this command only in one subgroup</i>')
 			else
 				local realm_id = db:get('chat:'..msg.chat.id..':realm')
 				if realm_id then
 					db:del('chat:'..msg.chat.id..':realm')
 					db:hdel('realm:'..realm_id..':subgroups', msg.chat.id)
-					text = _("Done. This group does no longer belong to `%s`"):format(tostring(realm_id))
-					api.sendMessage(realm_id, _("A group has been removed from your subgroups\nTitle: %s\nID: %d"):format(msg.chat.title, msg.chat.id))
+					text = _("Done. This group does no longer belong to <code>%s</code>"):format(tostring(realm_id))
+					local text_realm = _([[<i>A group has been removed from your subgroups</i>
+<b>Title</b>: %s
+<b>ID</b>: <code>%d</code>
+<b>By</b>: %s [@%s] [#id%d] ]]):format(msg.chat.title:escape_html(), msg.chat.id, msg.from.first_name:escape_html(), msg.from.username or '-', msg.from.id)
+					api.sendMessage(realm_id, text_realm, 'html')
 				else
-					text = _("_You are not associated with any realm_")
+					text = _("<i>You are not associated with any realm</i>")
 				end
 			end
-			api.sendReply(msg, text, true)
+			api.sendReply(msg, text, 'html')
 		end
 	end
 	if blocks[1] == 'new_chat_title' and msg.service then
