@@ -539,7 +539,6 @@ function plugin.onTextMessage(msg, blocks)
 			body = body..n..' - <code>'..name:escape_html()..'</code>\n'
 		end
 		local text = _('<b>Your subgroups:</b>:\n\n')..body
-		print(text)
 		api.sendMessage(msg.chat.id, text, 'html')
 	end
 	if blocks[1] == 'remove' then

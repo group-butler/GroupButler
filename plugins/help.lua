@@ -27,6 +27,7 @@ Follow the instructions the bot will give you to associate a group (subgroup) to
 `/remove`: choose a subgroup to remove from the realm subgroups.
 `/send [message]`: broadcast a message to one or more subgroups.
 `/setrules [rules]`: apply the rules to one (or more) of your groups.
+`/pin [message]`: edit the last message generated with `/pin` in one or more groups.
 `/adminlist`: get the adminlist of one of your subgroups.
 `/realm`: get some info about your realm.
 `/add`: get the message to copy-paste in a group to add it to the subgroups of the realm.
