@@ -398,6 +398,7 @@ function plugin.onTextMessage(msg, blocks)
 						if n_members > config.bot_settings.realm_max_members then
 							api.sendReply(msg, _('_You can\'t use as realm a group with more than %d members_'):format(config.bot_settings.realm_max_members), true)
 						else
+							misc.remGroup(msg.chat.id, true, true) --remove all the info that a realm doesn't need
 							db:sadd('bot:realms', msg.chat.id)
 							api.sendReply(msg, _('This group can now be used as realm: the members of this group can now manage multiple groups from here. To add a sub-group, the group owner must write in the chat:\n"/setrealm %s". He can copy-paste in the group the following text:'):format(msg.chat.id))
 							api.sendMessage(msg.chat.id, '`/setrealm '..msg.chat.id..'`', true)
