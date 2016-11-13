@@ -27,6 +27,18 @@ List of required packages:
 You will need some other Lua modules too, which can be (and should be) installed through the Lua package manager LuaRocks.
 
 **Installation**
+
+you can easily install Group Butler by running the following commands:
+
+```bash
+$ sudo su -
+$ wget --no-check-certificate https://raw.githubusercontent.com/RememberTheAir/GroupButler/master/install.sh
+$ bash install.sh
+```
+
+or
+
+
 ```bash
 # Tested on Ubuntu 14.04, Ubuntu 15.04, Debian 7, Linux Mint 17.2
 
