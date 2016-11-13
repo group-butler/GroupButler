@@ -31,7 +31,9 @@ You will need some other Lua modules too, which can be (and should be) installed
 you can easily install Group Butler by running the following commands:
 
 ```bash
-$ sudo su -
+# Tested on Ubuntu 16.04
+
+$ sudo su
 $ wget --no-check-certificate https://raw.githubusercontent.com/RememberTheAir/GroupButler/master/install.sh
 $ bash install.sh
 ```
