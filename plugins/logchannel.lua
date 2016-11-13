@@ -1,5 +1,107 @@
 local plugin = {}
 
+local function get_alert_text(key)
+	if key == 'join' then
+		return _("Log every time an user join the group")
+	elseif key == 'ban' then
+		return _("Bans will be logged. I can't log manual bans")
+	elseif key == 'kick' then
+		return _("Kicks will be logged. I can't log manual kicks")
+	elseif key == 'warn' then
+		return _("Manual warns will be logged")
+	elseif key == 'mediawarn' then
+		return _("Forbidden media will be logged in the channel")
+	elseif key == 'spamwarn' then
+		return _("Spam links/forwards from channels will be logged in the channel, only if forbidden")
+	elseif key == 'flood' then
+		return _("Log when an user is flooding (new log message every 5 flood messages)")
+	elseif key == 'new_chat_photo' then
+		return _("Log when an admin changes the group icon")
+	elseif key == 'delete_chat_photo' then
+		return _("Log when an admin deletes the group icon")
+	elseif key == 'new_chat_title' then
+		return _("Log when an admin change the group title")
+	elseif key == 'pinned_message' then
+		return _("Log pinned messages")
+	else
+		return _("Description not available")
+	end
+end
+
+local function toggle_event(chat_id, event)
+	local hash = ('chat:%s:tolog'):format(chat_id)
+	local current_status = db:hget(hash, event) or config.chat_settings['tolog'][event]
+	
+	if current_status == 'yes' then
+		db:hset(hash, event, 'no')
+	else
+		db:hset(hash, event, 'yes')
+	end
+end	
+
+local function doKeyboard_logchannel(chat_id)
+	local event_pretty = {
+		['ban'] = _('Ban'),
+		['kick'] = _('Kick'),
+		['warn'] = _('Warns'),
+		['join'] = _('New members'),
+		['mediawarn'] = _('Media warns'),
+		['spamwarn'] = _('Spam warns'),
+		['flood'] = _('Flood'),
+		['new_chat_photo'] = _('New group icon'),
+		['delete_chat_photo'] = _('Group icon removed'),
+		['new_chat_title'] = _('New group title'),
+		['pinned_message'] = _('Pinned messages')
+	}
+	
+	local keyboard = {inline_keyboard={}}
+	local icon
+	
+	for event, default_status in pairs(config.chat_settings['tolog']) do
+		local current_status = db:hget('chat:'..chat_id..':tolog', event) or default_status
+		icon = '✅'
+		if current_status == 'no' then icon = '☑️' end
+		table.insert(keyboard.inline_keyboard, {{text = event_pretty[event] or event, callback_data = 'logchannel:alert:'..event}, {text = icon, callback_data = 'logchannel:toggle:'..event..':'..chat_id}})
+	end
+	
+	--back button
+    table.insert(keyboard.inline_keyboard, {{text = '🔙', callback_data = 'config:back:'..chat_id}})
+    
+    return keyboard
+end	
+
+function plugin.onCallbackQuery(msg, blocks)
+	if blocks[1] == 'alert' then
+	    local text = get_alert_text(blocks[2])
+	    api.answerCallbackQuery(msg.cb_id, text, true)
+	else
+	    
+	    local chat_id = msg.target_id
+	    if not roles.is_admin_cached(chat_id, msg.from.id) then
+	    	api.answerCallbackQuery(msg.cb_id, _("You're no longer an admin"))
+	    else
+            local text
+            
+            if blocks[1] == 'toggle' then
+                toggle_event(chat_id, blocks[2])
+                text = '👌🏼'
+            end
+            
+            local reply_markup = doKeyboard_logchannel(chat_id)
+            if blocks[1] == 'config' then
+            	local logchannel_first = _([[*Select the events the will be logged in the channel*
+✅ = will be logged
+☑️ = won't be logged]])
+            	api.editMessageText(msg.chat.id, msg.message_id, logchannel_first, true, reply_markup)
+            else
+            	api.editMarkup(msg.chat.id, msg.message_id, reply_markup)
+            end
+            
+            if text then api.answerCallbackQuery(msg.cb_id, text) end
+        end
+    end
+end
+
 function plugin.onTextMessage(msg, blocks)
     if msg.chat.type ~= 'private' then
 	    if blocks[1] == 'setlog' then
@@ -73,7 +175,12 @@ plugin.triggers = {
 		'^/(setlog)$',
 		'^/(unsetlog)$',
 		'^/(logchannel)$'
-	}
+	},
+	onCallbackQuery = {
+        '^###cb:logchannel:(toggle):([%w_]+):(-?%d+)$',
+        '^###cb:logchannel:(alert):([%w_]+)$',
+        '^###cb:(config):logchannel:(-?%d+)$'
+    }
 }
 
 return plugin

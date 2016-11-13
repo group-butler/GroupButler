@@ -53,7 +53,7 @@ return {
 		'private.lua',
 		'admin.lua',
 		--'test.lua',
-		--'logchannel.lua',
+		'logchannel.lua',
 		'report.lua',
 		'private_settings.lua',
 		'extra.lua', --must be the last plugin in the list.
@@ -135,12 +135,17 @@ return {
 			['location'] = 'ok'
 		},
 		['tolog'] = {
-			['ban'] = 'yes',
-			['kick'] = 'yes',
-			['warn'] = 'yes',
-			['join'] = 'yes',
-			['mediawarn'] = 'yes',
-			['flood'] = 'yes',
+			['ban'] = 'no',
+			['kick'] = 'no',
+			['warn'] = 'no',
+			['join'] = 'no',
+			['mediawarn'] = 'no',
+			['spamwarn'] = 'no',
+			['flood'] = 'no',
+			['new_chat_photo'] = 'no',
+			['delete_chat_photo'] = 'no',
+			['new_chat_title'] = 'no',
+			['pinned_message'] = 'no'
 		},
 	},
 	private_settings = {

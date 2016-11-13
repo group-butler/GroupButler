@@ -230,6 +230,22 @@ The inline keyboard has three sub-menus:
 *Media*: choose which media to forbid in your group, and set the number of times that an user will be warned before being kicked/banned
 *Antispam*: choose which kind of spam you want to forbid (example: telegram.me links, forwarded messages from channels)
 ]])
+	elseif key == 'logchannel' then
+		return _([[*Log channel iformations*
+			
+A log channel is a _(private)_ channel where the bot will record all the important events that will happen in your group.
+If you want to use this feature, you need to pair your group with a channel with the commands described below.
+All the events, by default, are *not logged*. Admins can choose which events to log from the `/config` menu -> `log channel` button.
+
+To pair a channel with a group, the *channel creator* must [add the bot to the channel administrators](telegram.me/gb_tutorials/4) (otherwise it won't be able to post), and send in the channel this command:
+`/setlog`
+Then, an admin of the group must forward in the group the message ("`/setlog`") sent in the channel. *Done*!
+
+A channel can be used as log by different groups.
+To change your log channel, simply repeat this process with another channel.
+	
+`/unsetlog`: remove your current log channel
+`/logchannel`: get some informations about your log channel, if paired]])
 	end
 end
 
@@ -291,7 +307,8 @@ local function dk_main()
 		{{text = _('Admin commands'), callback_data = 'help:admins:banhammer'}},
 		{{text = _('Normal users commands'), callback_data = 'help:users'}},
 		{{text = _('Commands in private'), callback_data = 'help:private'}},
-		{{text = _('Realm commands'), callback_data = 'help:realm'}},
+		{{text = _('Realms'), callback_data = 'help:realm'}},
+		{{text = _('Log channel'), callback_data = 'help:logchannel'}},
 	}
 	
 	return keyboard
@@ -350,6 +367,9 @@ function plugin.onCallbackQuery(msg, blocks)
     elseif query == 'realm' then
     	text = get_helped_string('realm')
     	answerCallbackQuery_text = _('Available commands in a realm')
+    elseif query == 'logchannel' then
+    	text = get_helped_string('logchannel')
+    	answerCallbackQuery_text = _('Log channel informations')
     else --query == 'admins'
     	keyboard_type = 'admins'
     	text = get_helped_string(blocks[2])
