@@ -33,7 +33,7 @@ you can easily install Group Butler by running the following commands:
 ```bash
 # Tested on Ubuntu 16.04
 
-$ wget --no-check-certificate https://raw.githubusercontent.com/RememberTheAir/GroupButler/master/install.sh
+$ wget https://raw.githubusercontent.com/RememberTheAir/GroupButler/master/install.sh
 $ bash install.sh
 ```
 
