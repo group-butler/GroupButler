@@ -12,6 +12,7 @@ local function doKeyboard_warn(user_id)
 end
 
 function plugin.onTextMessage(msg, blocks)
+	print('ok')
 	if msg.chat.type == 'private' or (msg.chat.type ~= 'private' and not roles.is_admin_cached(msg)) then return end
 	
 	if blocks[1] == 'warnmax' then
@@ -42,26 +43,28 @@ function plugin.onTextMessage(msg, blocks)
 		db:hdel('chat:'..msg.chat.id..':warns', msg.reply.from.id)
 		db:hdel('chat:'..msg.chat.id..':mediawarn', msg.reply.from.id)
 		db:hdel('chat:'..msg.chat.id..':spamwarns', msg.reply.from.id)
-		api.sendReply(msg, _('Done! %s has been forgiven'):format(misc.getname_final(msg.reply.from)), true)
+		api.sendReply(msg, _('Done! %s has been forgiven'):format(misc.getname_final(msg.reply.from)), 'html')
 	end	
 		
-    if blocks[1] == 'warn' then
+    if blocks[1] == 'warn'  or blocks[1] == 'sw' then
 
 	    local name = misc.getname_final(msg.reply.from)
 		local hash = 'chat:'..msg.chat.id..':warns'
 		local num = db:hincrby(hash, msg.reply.from.id, 1) --add one warn
 		local nmax = (db:hget('chat:'..msg.chat.id..':warnsettings', 'max')) or 3 --get the max num of warnings
-		local text, res, motivation
+		local text, res, motivation, hammer_log
 		num, nmax = tonumber(num), tonumber(nmax)
 
 		if num >= nmax then
 			local type = (db:hget('chat:'..msg.chat.id..':warnsettings', 'type')) or 'kick'
 			--try to kick/ban
 			if type == 'ban' then
-				text = _("%s *banned*: reached the max number of warnings (%d/%d)"):format(name, num , nmax)
+				text = _("%s <b>banned</b>: reached the max number of warnings (<code>%d/%d</code>)"):format(name, num , nmax)
+				hammer_log = _('banned')
 				res, motivation = api.banUser(msg.chat.id, msg.reply.from.id)
 	    	else --kick
-				text = _("%s *kicked*: reached the max number of warnings (%d/%d)"):format(name, num , nmax)
+				text = _("%s <b>kicked</b>: reached the max number of warnings (<code>%d/%d</code>)"):format(name, num , nmax)
+				hammer_log = _('kicked')
 		    	res, motivation = api.kickUser(msg.chat.id, msg.reply.from.id)
 		    end
 		    --if kick/ban fails, send the motivation
@@ -77,12 +80,31 @@ function plugin.onTextMessage(msg, blocks)
 		    	db:hdel('chat:'..msg.chat.id..':mediawarn', msg.reply.from.id)
 		    end
 			--if the user reached the max num of warns, kick and send message
-		    api.sendReply(msg, text, true)
+		    api.sendReply(msg, text, 'html')
+		    misc.logEvent('warn', msg, {
+		    	motivation = blocks[2],
+		    	admin = misc.getname_final(msg.from),
+		    	user = misc.getname_final(msg.reply.from),
+		    	user_id = msg.reply.from.id,
+		    	hammered = hammer_log,
+		    	warns = num,
+		    	warnmax = nmax
+		    })
 		else
 			local diff = nmax - num
-			text = _("%s *has been warned* (%d/%d)"):format(name, num, nmax)
+			text = _("%s <b>has been warned</b> (<code>%d/%d</code>)"):format(name, num, nmax)
 			local keyboard = doKeyboard_warn(msg.reply.from.id)
-			api.sendMessage(msg.chat.id, text, true, keyboard)
+			if blocks[1] ~= 'sw' then api.sendMessage(msg.chat.id, text, 'html', keyboard) end
+			misc.logEvent('warn', msg, {
+				motivation = blocks[2],
+				warns = num,
+				warnmax = nmax,
+				admin = misc.getname_final(msg.from),
+		    	user = misc.getname_final(msg.reply.from),
+		    	user_id = msg.reply.from.id,
+		    	warns = num,
+		    	warnmax = nmax
+		    })
 		end
     end
 end
@@ -98,24 +120,24 @@ function plugin.onCallbackQuery(msg, blocks)
 		db:hdel('chat:'..msg.chat.id..':mediawarn', user_id)
 		db:hdel('chat:'..msg.chat.id..':spamwarns', user_id)
 
-		local text = _("Warns *reset*\n(Admin: %s)"):format(misc.getname_final(msg.from))
-		api.editMessageText(msg.chat.id, msg.message_id, text, true)
+		local text = _("Warns <b>reset</b> by %s"):format(misc.getname_final(msg.from))
+		api.editMessageText(msg.chat.id, msg.message_id, text, 'html')
 	end
 	if blocks[1] == 'removewarn' then
     	local user_id = blocks[2]
 		local num = db:hincrby('chat:'..msg.chat.id..':warns', user_id, -1) --add one warn
 		local text, nmax, diff
 		if tonumber(num) < 0 then
-			text = _("The number of warnings received by this user is already _zero_")
+			text = _("The number of warnings received by this user is already <i>zero</i>")
 			db:hincrby('chat:'..msg.chat.id..':warns', user_id, 1) --restore the previouvs number
 		else
 			nmax = (db:hget('chat:'..msg.chat.id..':warnsettings', 'max')) or 3 --get the max num of warnings
 			diff = nmax - num
-			text = _("*Warn removed!* (%d/%d)"):format(tonumber(num), tonumber(nmax))
+			text = _("<b>Warn removed!</b> (%d/%d)"):format(tonumber(num), tonumber(nmax))
 		end
 
 		text = text .. _("\n(Admin: %s)"):format(misc.getname_final(msg.from))
-		api.editMessageText(msg.chat.id, msg.message_id, text, true)
+		api.editMessageText(msg.chat.id, msg.message_id, text, 'html')
 	end
 end
 
@@ -125,7 +147,9 @@ plugin.triggers = {
 		config.cmd..'(warnmax) (media) (%d%d?)$',
 		config.cmd..'(warn)$',
 		config.cmd..'(nowarn)s?$',
-		config.cmd..'(warn) (.*)$'
+		config.cmd..'(warn) (.*)$',
+		'[!/](sw)%s',
+		'[!/](sw)$'
 	},
 	onCallbackQuery = {
 		'^###cb:(resetwarns):(%d+)$',

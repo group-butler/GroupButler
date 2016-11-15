@@ -144,6 +144,10 @@ function plugin.onTextMessage(msg, blocks)
 			end
 		end
 		
+		local extra
+		if msg.from.id ~= msg.new_chat_member.id then extra = msg.from end
+		misc.logEvent(blocks[1], msg, extra)
+		
 		local text = get_welcome(msg)
 		if text then --if not text: welcome is locked or is a gif/sticker
 			local keyboard

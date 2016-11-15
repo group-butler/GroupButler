@@ -195,6 +195,15 @@ local function setrules_subgroup(subgroup_id, subgroup_name, others)
 	db:hset('chat:'..subgroup_id..':info', 'rules', others.rules)
 end
 
+local function setlog_subgroup(subgroup_id, subgroup_name, others)
+	local channel_id = others.channel_id
+	local old_log =  db:hget('bot:chatlogs', subgroup_id)
+	if old_log ~= channel_id then
+		db:hset('bot:chatlogs', subgroup_id, channel_id)
+		return 1
+	end
+end
+
 local function pin_subgroup(subgroup_id, subgroup_name, others)
 	local to_pin = others.text_to_pin
 	local pin_id = db:get('chat:'..subgroup_id..':pin')
@@ -381,6 +390,32 @@ function plugin.onCallbackQuery(msg, blocks)
 			end
 		end
 	end
+	if blocks[1] == 'setlog' then
+		local channel_id = blocks[2]
+		if blocks[3]:match('^-%d+$') then
+			local callback_answer_text
+			local subgroup_id = blocks[3]
+			local old_log =  db:hget('bot:chatlogs', subgroup_id)
+			print(channel_id, old_log)
+			if old_log == channel_id then
+	    		api.answerCallbackQuery(msg.cb_id, _('This group is already using this channel'), true)
+	    	else
+	    		db:hset('bot:chatlogs', subgroup_id, channel_id)
+	    		api.answerCallbackQuery(msg.cb_id, _('Log channel added!'), true)
+	    		if old_log then
+	    			api.sendMessage(old_log, _("<i>%s</i> changed its log channel.\n<i>From a realm, by %s</i>"):format(msg.chat.title:escape_html(), misc.getname_final(msg.from)), 'html')
+	    		end
+	    		api.sendMessage(channel_id, _("Logs of <i>%s</i> will be posted here.\n<i>From a realm, by %s</i>"):format(msg.chat.title:escape_html(), misc.getname_final(msg.from)), 'html')
+	    		local text = _("%s\n<b>Applied to</b>: %s"):format(msg.original_text, db:hget('realm:'..msg.chat.id..':subgroups', subgroup_id):escape_html() or _("<i>undefined</i>"))
+	    		local subgroups = db:hgetall(('realm:%d:subgroups'):format(msg.chat.id))
+				local reply_markup = doKeyboard_subgroups(subgroups, ('setlog:%s'):format(channel_id), true)
+				api.editMessageText(msg.chat.id, msg.message_id, text, 'html', reply_markup)
+			end
+		elseif blocks[3] == 'all' then
+			local has_subgroups, n = subgroups_iterator(msg.chat.id, setlog_subgroup, {channel_id = channel_id})
+			api.editMessageText(msg.chat.id, msg.message_id, _('The channel will be used by %d more subgroups.\n<i>If this number is lower than expected, it means that all the other subgroups were already using that channel as log</i>'):format(n or 0), 'html')
+		end
+	end
 end
 
 function plugin.onTextMessage(msg, blocks)
@@ -399,7 +434,6 @@ function plugin.onTextMessage(msg, blocks)
 					if subgroups_number >= config.bot_settings.realm_max_subgroups then
 						text = _('This realm [<code>%s</code>] already reached the max [<code>%d</code>] number of subgroups'):format(realm, subgroups_number)
 					else
-						print(realm, subgroup)
 						local old_realm = db:get('chat:'..subgroup..':realm')
 						
 						db:set('chat:'..subgroup..':realm', realm)
@@ -515,7 +549,8 @@ function plugin.onTextMessage(msg, blocks)
 			api.sendMessage(msg.chat.id, ('`/setrealm %d`'):format(msg.chat.id), true)
 		end
 	end
-	if not is_realm(msg.chat.id) then return true end
+	
+	if not is_realm(msg.chat.id) then print(-3) return true end
 	local subgroups = db:hgetall('realm:'..msg.chat.id..':subgroups')
 	if not next(subgroups) then
 		api.sendReply(msg, _('_I\'m sorry, this realm doesn\'t have subgroups paired with it_'), true) return
@@ -530,6 +565,29 @@ function plugin.onTextMessage(msg, blocks)
 			local keyboard = doKeyboard_subgroups(subgroups, 'pin', true)
 			db:setex('temp:realm:'..msg.chat.id..':pin', 1800, blocks[2])
 			api.editMessageText(msg.chat.id, res.result.message_id, 'Choose the group where apply the rules (choose <b>within 30 minutes from now</b>)', 'html', keyboard)
+		end
+	end
+	if blocks[1] == 'setlog' then
+		if msg.forward_from_chat.type == 'channel' then
+			if not msg.forward_from_chat.username then
+				local res, code = api.getChatMember(msg.forward_from_chat.id, msg.from.id)
+				if not res then
+					if code == 429 then
+						api.sendReply(msg, _('_Too many requests. Retry later_'), true)
+					else
+						api.sendReply(msg, _('_I need to be admin in the channel_'), true)
+					end
+				else
+					if res.result.status == 'creator' then
+						local reply_markup = doKeyboard_subgroups(subgroups, ('setlog:%d'):format(msg.forward_from_chat.id), true)
+						api.sendMessage(msg.chat.id, _('Select one or more groups that will use that channel as log channel'), true, reply_markup)
+					else
+						api.sendReply(msg, _('_Only the channel creator can pair a chat with a channel_'), true)
+					end
+				end
+			else
+				api.sendReply(msg, _('_I\'m sorry, only private channels are supported for now_'), true)
+			end
 		end
 	end
 	if blocks[1] == 'config' then
@@ -570,7 +628,7 @@ function plugin.onTextMessage(msg, blocks)
 		else
 			local keyboard = doKeyboard_subgroups(subgroups, 'setrules', true)
 			db:setex('temp:realm:'..msg.chat.id..':setrules', 1800, blocks[2])
-			api.editMessageText(msg.chat.id, res.result.message_id, 'Choose the group where apply the rules (choose <b>within 30 minutes from now</b>)', 'html', keyboard)
+			api.editMessageText(msg.chat.id, res.result.message_id, _('Choose the group where apply the rules (choose <b>within 30 minutes from now</b>)'), 'html', keyboard)
 		end
 	end
 	if blocks[1] == 'ban' then
@@ -632,6 +690,17 @@ function plugin.onTextMessage(msg, blocks)
 			api.editMessageText(msg.chat.id, res.result.message_id, 'Choose the group where I have to send the message *within 30 minutes from now*', true, keyboard)
 		end
 	end
+	if blocks[1] == 'log' then
+		local text = {_('<i>Log channels used by your subgroups</i>:\n\n')}
+		local log_id
+		for subgroup_id, subgroup_name in pairs(subgroups) do
+			log_id = db:hget('bot:chatlogs', subgroup_id) or '/'
+			text[#text+1] = ("<b>%s</b>: <code>%s</code>"):format(subgroup_name, log_id)
+			text[#text+1] = '\n'
+		end
+		text = table.concat(text)
+		api.sendReply(msg, text, 'html')
+	end
 end
 
 plugin.triggers = {
@@ -651,11 +720,15 @@ plugin.triggers = {
 		config.cmd..'(realm)$',
 		config.cmd..'(config)$',
 		config.cmd..'(add)$',
+		config.cmd..'(log)s?$',
 		config.cmd..'(pin) (.*)$',
+		'^/(setlog)$',
 		'^###(new_chat_title)$'
 	},
 	onCallbackQuery = {
 		'^###cb:realm:(cancel)$',
+		'^###cb:realm:(%w+):(-%d+):(-%d+)$',
+		'^###cb:realm:(%w+):(-%d+):(all)$',
 		'^###cb:realm:(%w+):(-%d+)$',
 		'^###cb:realm:(%w+):(all)$',
 		'^###cb:realm:(%w+):(%a+)$',

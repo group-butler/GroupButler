@@ -15,8 +15,9 @@ function string:escape(only_markup)
 end
 
 function string:escape_html()
-	self = self:gsub('&', '&amp')
-	self = self:gsub('<', '&lt'):gsub('>', '&gt')
+	self = self:gsub('&', '&amp;')
+	self = self:gsub('"', '&quot;')
+	self = self:gsub('<', '&lt;'):gsub('>', '&gt;')
 	return self
 end
 
@@ -212,8 +213,12 @@ function misc.resolve_user(username)
 	local stored_id = tonumber(db:hget('bot:usernames', username:lower()))
 	if not stored_id then return false end
 	local user_obj = api.getChat(stored_id)
-	if not user_obj then return stored_id end
-
+	if not user_obj then
+		return stored_id
+	else
+		if not user_obj.result.username then return stored_id end
+	end
+	
 	-- User could change his username
 	if username ~= '@' .. user_obj.result.username then
 		if user_obj.result.username then
@@ -404,14 +409,14 @@ end
 
 -- Return user mention for output a text
 function misc.getname_final(user)
-	return misc.getname_link(user.first_name, user.username) or user.first_name:escape()
+	return misc.getname_link(user.first_name, user.username) or '<code>'..user.first_name:escape_html()..'</code>'
 end
 
 -- Return link to user profile or false, if he doesn't have login
 function misc.getname_link(name, username)
 	if not name or not username then return nil end
 	username = username:gsub('@', '')
-	return '['..name:escape_hard('link')..'](https://telegram.me/'..username..')'
+	return ('<a href="%s">%s</a>'):format('https://telegram.me/'..username, name:escape_html())
 end
 
 function misc.bash(str)
@@ -709,6 +714,7 @@ function misc.remGroup(chat_id, full, converted_to_realm)
 	db:del('chat:'..chat_id..':pin') --delete the msg id of the (maybe) pinned message
 	db:del('chat:'..chat_id..':userlast')
 	db:hdel('bot:chats:latsmsg', chat_id)
+	db:hdel('bot:chatlogs', msg.chat.id) --log channel
 	
 	--subgroup
 	if db:exists('chat:'..chat_id..':realm') then
@@ -728,30 +734,22 @@ end
 function misc.getnames_complete(msg, blocks)
 	local admin, kicked
 	
-	if msg.from.username then
-		admin = misc.getname_link(msg.from.first_name, msg.from.username)
-	else
-		admin = '`'..msg.from.first_name:escape_hard('fixed')..'`'
-	end
+	admin = misc.getname_link(msg.from.first_name, msg.from.username) or ("<code>%s</code>"):format(msg.from.first_name:escape_html())
 	
 	if msg.reply then
-		if msg.reply.from.username then
-			kicked = misc.getname_link(msg.reply.from.first_name, msg.reply.from.username)
-		else
-			kicked = '`'..msg.reply.from.first_name:escape_hard('fixed')..'`'
-		end
+		kicked = misc.getname_link(msg.reply.from.first_name, msg.reply.from.username) or ("<code>%s</code>"):format(msg.reply.from.first_name:escape_html())
 	elseif msg.text:match(config.cmd..'%w%w%w%w?%w?%s(@[%w_]+)%s?') then
 		local username = msg.text:match('%s(@[%w_]+)')
-		kicked = username:escape(true)
+		kicked = username
 	elseif msg.mention_id then
 		for _, entity in pairs(msg.entities) do
 			if entity.user then
-				kicked = '`'..entity.user.first_name:escape_hard('fixed')..'`'
+				kicked = '<code>'..entity.user.first_name:escape_html()..'</code>'
 			end
 		end
 	elseif msg.text:match(config.cmd..'%w%w%w%w?%w?%s(%d+)') then
 		local id = msg.text:match(config.cmd..'%w%w%w%w?%w?%s(%d+)')
-		kicked = '`'..id..'`'
+		kicked = '<code>'..id..'</code>'
 	end
 	
 	return admin, kicked
@@ -785,64 +783,70 @@ function misc.get_user_id(msg, blocks)
 	end
 end
 
-function misc.logEvent(event, msg, blocks, extra)
+function misc.logEvent(event, msg, extra)
 	local log_id = db:hget('bot:chatlogs', msg.chat.id)
+	--vardump(extra)
 	
 	if not log_id then return end
-	--if not is_loggable(msg.chat.id, event) then return end
+	local is_loggable = db:hget('chat:'..msg.chat.id..':tolog', event)
+	print(is_loggable)
+	if not is_loggable or is_loggable == 'no' then return end
 	
-	local text
-	if event == 'ban' then
-		local admin, banned = misc.getnames_complete(msg, blocks)
-		local admin_id, banned_id = msg.from.id, misc.get_user_id(msg, blocks)
-		if admin and banned and admin_id and banned_id then
-			text = '#BAN\n*Admin*: '..admin..'  #'..admin_id..'\n*User*: '..banned..'  #'..banned_id
-			if extra.motivation then
-				text = text..'\n\n> _'..extra.motivation:escape_hard('italic')..'_'
-			end
-		end
-	end
-	if event == 'kick' then
-		local admin, kicked = misc.getnames_complete(msg, blocks)
-		local admin_id, kicked_id = msg.from.id, misc.get_user_id(msg, blocks)
-		if admin and kicked and admin_id and kicked_id then
-			text = '#KICK\n*Admin*: '..admin..'  #'..admin_id..'\n*User*: '..banned..'  #'..banned_id
-			if extra.motivation then
-				text = text..'\n\n> _'..extra.motivation:escape_hard('italic')..'_'
-			end
-		end
-	end
-	if event == 'join' then
-		local member = misc.getname_link(msg.new_chat_member.first_name, msg.new_chat_member.username) or '`'..msg.new_chat_member.first_name:escape_hard('fixed')..'`'
-		text = '#NEW_MEMBER\n'..member.. '  #'..msg.new_chat_member.id
-	end
-	if event == 'warn' then
-		local admin, warned = misc.getnames_complete(msg, blocks)
-		local admin_id, warned_id = msg.from.id, misc.get_user_id(msg, blocks)
-		if admin and warned and admin_id and warned_id then
-			text = '#WARN ('..extra.warns..'/'..extra.warnmax..') ('..type..')\n*Admin*: '..admin..'  #'..admin_id..']\n*User*: '..banned..'  #'..banned_id..']'
-			if extra.motivation then
-				text = text..'\n\n> _'..extra.motivation:escape_hard('italic')..'_'
-			end
-		end
-	end
+	local text, reply_markup
+	
+	local chat_info = _("<b>Chat</b>: %s [#chat%d]"):format(msg.chat.title:escape_html(), msg.chat.id * -1)
+	
+	local member = ("%s [@%s] [#id%d]"):format(msg.from.first_name:escape_html(), msg.from.username or '-', msg.from.id)
 	if event == 'mediawarn' then
-		local name = misc.getname_link(msg.from.first_name, msg.from.username) or '`'..msg.from.first_name:escape_hard('fixed')..'`'
-		text = '#MEDIAWARN ('..extra.warns..'/'..extra.warnmax..') '..extra.media..'\n'..name..'  #'..msg.from.id
-		if extra.hammered then
-			text = text..'\n*'..extra.hammered..'*'
+		text = ('#MEDIAWARN (<code>%d/%d</code>), %s\n%s\n<b>User</b>: %s'):format(extra.warns, extra.warnmax, extra.media, chat_info, member)
+		if extra.hammered then text = text..('\n<i>%s</i>'):format(extra.hammered) end
+	elseif event == 'spamwarn' then
+		text = ('#SPAMWARN (<code>%d/%d</code>), <i>%s</i>\n%s\n<b>User</b>: %s'):format(extra.warns, extra.warnmax, extra.spam_type, chat_info, member)
+		if extra.hammered then text = text..('\n<i>%s</i>'):format(extra.hammered) end
+	elseif event == 'flood' then
+		text = ('#FLOOD\n%s\n<b>User</b>: %s'):format(chat_info, member)
+		if extra.hammered then text = text..('\n<i>%s</i>'):format(extra.hammered) end
+	elseif event == 'new_chat_photo' then
+		text = _('#NEWPHOTO\n%s\n<b>By</b>: %s'):format(chat_info, member)
+		reply_markup = {inline_keyboard={{{text = _("Get the new photo"), url = ("telegram.me/%s?start=photo:%s"):format(bot.username, msg.new_chat_photo[#msg.new_chat_photo].file_id)}}}}
+	elseif event == 'delete_chat_photo' then
+		text = _('#PHOTOREMOVED\n%s\n<b>By</b>: %s'):format(chat_info, member)
+	elseif event == 'new_chat_title' then
+		text = _('#NEWTITLE\n%s\n<b>By</b>: %s'):format(chat_info, member)
+	elseif event == 'pinned_message' then
+		text = _('#PINNEDMSG\n%s\n<b>By</b>: %s'):format(chat_info, member)
+		if msg.chat.username then
+			reply_markup = {inline_keyboard={{{text = _("Go to the pinned message"), url = ("telegram.me/%s/%d"):format(msg.chat.username, msg.pinned_message.message_id)}}}}
 		end
-	end
-	if event == 'flood' then
-		local name = misc.getname_link(msg.from.first_name, msg.from.username) or '`'..msg.from.first_name:escape_hard('fixed')..'`'
-		text = '#FLOOD\n'..name..'  #'..msg.from.id
-		if extra.hammered then
-			text = text..'\n*'..extra.hammered..'*'
+	elseif event == 'new_chat_member' then
+		local member = ("%s [@%s] [#id%d]"):format(msg.new_chat_member.first_name:escape_html(), msg.new_chat_member.username or '-', msg.new_chat_member.id)
+		text = _('#NEW_MEMBER\n%s\n<b>User</b>: %s'):format(chat_info, member)
+		if extra then --extra == msg.from
+			text = text.._("\n<b>Added by</b>: %s [#id%d]"):format(misc.getname_final(extra), extra.id)
+		end
+	else
+		-- events that requires user + admin
+		if event == 'warn' then
+			text = _('#%s\n<b>Admin</b>: %s [#id%d]\n<b>User</b>: %s [#id%d]\n<b>Count</b>: <code>%d/%d</code>'):format(event:upper(), extra.admin, msg.from.id, extra.user, extra.user_id, extra.warns, extra.warnmax)
+			if extra.hammered then
+				text = text.._('\n<b>Action</b>: <i>%s</i>'):format(extra.hammered)
+			end
+		elseif event == 'tempban' then
+			text = _('#%s\n<b>Admin</b>: %s [#id%s]\n<b>User</b>: %s [#id%s]\n<b>Duration</b>: %d days, %d hours'):format(event:upper(), extra.admin, msg.from.id, extra.user, tostring(extra.user_id), extra.d, extra.h)
+		else
+			text = _('#%s\n<b>Admin</b>: %s [#id%s]\n<b>User</b>: %s [#id%s]'):format(event:upper(), extra.admin, msg.from.id, extra.user, tostring(extra.user_id))
+		end
+		if event == 'ban' or event == 'tempban' then
+			--logcb:unban:user_id:chat_id for ban, logcb:untempban:user_id:chat_id for tempban
+			reply_markup = {inline_keyboard={{{text = _("Unban"), callback_data = ("logcb:un%s:%d:%d"):format(event, extra.user_id, msg.chat.id)}}}}
+		end
+		if extra.motivation then
+			text = text.._('\n\n> <i>%s</i>'):format(extra.motivation:escape_html())
 		end
 	end
 	
 	if text then
-		api.sendMessage(log_id, text, true)
+		api.sendMessage(log_id, text, 'html', reply_markup)
 	end
 end
 

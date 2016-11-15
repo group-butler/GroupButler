@@ -1,7 +1,7 @@
 local plugin = {}
 
 local function get_alert_text(key)
-	if key == 'join' then
+	if key == 'new_chat_member' then
 		return _("Log every time an user join the group")
 	elseif key == 'ban' then
 		return _("Bans will be logged. I can't log manual bans")
@@ -43,8 +43,9 @@ local function doKeyboard_logchannel(chat_id)
 	local event_pretty = {
 		['ban'] = _('Ban'),
 		['kick'] = _('Kick'),
+		['tempban'] = _('Tempban'),
 		['warn'] = _('Warns'),
-		['join'] = _('New members'),
+		['new_chat_member'] = _('New members'),
 		['mediawarn'] = _('Media warns'),
 		['spamwarn'] = _('Spam warns'),
 		['flood'] = _('Flood'),
@@ -71,35 +72,48 @@ local function doKeyboard_logchannel(chat_id)
 end	
 
 function plugin.onCallbackQuery(msg, blocks)
-	if blocks[1] == 'alert' then
-	    local text = get_alert_text(blocks[2])
-	    api.answerCallbackQuery(msg.cb_id, text, true)
+	if blocks[1] == 'logcb' then
+		local chat_id = msg.target_id
+		print(chat_id)
+		if not roles.is_admin_cached(chat_id, msg.from.id) then
+			api.answerCallbackQuery(msg.cb_id, _("You are not admin of this group"), true)
+		else
+			if blocks[2] == 'unban' or blocks[2] == 'untempban' then
+				local user_id = blocks[3]
+				api.unbanUser(chat_id, user_id)
+				api.answerCallbackQuery(msg.cb_id, _("User unbanned!"), true)
+			end
+		end
 	else
-	    
-	    local chat_id = msg.target_id
-	    if not roles.is_admin_cached(chat_id, msg.from.id) then
-	    	api.answerCallbackQuery(msg.cb_id, _("You're no longer an admin"))
-	    else
-            local text
-            
-            if blocks[1] == 'toggle' then
-                toggle_event(chat_id, blocks[2])
-                text = '👌🏼'
-            end
-            
-            local reply_markup = doKeyboard_logchannel(chat_id)
-            if blocks[1] == 'config' then
-            	local logchannel_first = _([[*Select the events the will be logged in the channel*
+		if blocks[1] == 'alert' then
+		    local text = get_alert_text(blocks[2])
+		    api.answerCallbackQuery(msg.cb_id, text, true)
+		else
+		    local chat_id = msg.target_id
+		    if not roles.is_admin_cached(chat_id, msg.from.id) then
+		    	api.answerCallbackQuery(msg.cb_id, _("You're no longer an admin"))
+		    else
+    	        local text
+    	        
+    	        if blocks[1] == 'toggle' then
+    	            toggle_event(chat_id, blocks[2])
+    	            text = '👌🏼'
+    	        end
+    	        
+    	        local reply_markup = doKeyboard_logchannel(chat_id)
+    	        if blocks[1] == 'config' then
+    	        	local logchannel_first = _([[*Select the events the will be logged in the channel*
 ✅ = will be logged
 ☑️ = won't be logged]])
-            	api.editMessageText(msg.chat.id, msg.message_id, logchannel_first, true, reply_markup)
-            else
-            	api.editMarkup(msg.chat.id, msg.message_id, reply_markup)
-            end
-            
-            if text then api.answerCallbackQuery(msg.cb_id, text) end
-        end
-    end
+    	        	api.editMessageText(msg.chat.id, msg.message_id, logchannel_first, true, reply_markup)
+    	        else
+    	        	api.editMarkup(msg.chat.id, msg.message_id, reply_markup)
+    	        end
+    	        
+    	        if text then api.answerCallbackQuery(msg.cb_id, text) end
+    	    end
+    	end
+	end
 end
 
 function plugin.onTextMessage(msg, blocks)
@@ -124,6 +138,7 @@ function plugin.onTextMessage(msg, blocks)
 	    						else
 	    							db:hset('bot:chatlogs', msg.chat.id,  msg.forward_from_chat.id)
 	    							text = _('*Log channel added!*')
+	    							api.sendMessage(old_log, _("<i>%s</i> changed its log channel"):format(msg.chat.title:escape_html()), 'html')
 	    							api.sendMessage(msg.forward_from_chat.id, _("Logs of <i>%s</i> will be posted here"):format(msg.chat.title:escape_html()), 'html')
 	    						end
 	    						api.sendReply(msg, text, true)
@@ -167,16 +182,27 @@ function plugin.onTextMessage(msg, blocks)
     			end
     		end
     	end
-    end
+	else
+		if blocks[1] == 'photo' then
+			api.sendPhotoId(msg.chat.id, blocks[2])
+		end
+	end
 end
 
 plugin.triggers = {
 	onTextMessage = {
 		'^/(setlog)$',
 		'^/(unsetlog)$',
-		'^/(logchannel)$'
+		'^/(logchannel)$',
+		
+		--deeplinking from log buttons
+		'^/start (photo):(.*)$'
 	},
 	onCallbackQuery = {
+		 --callbacks from the log channel
+		'^###cb:(logcb):(%w-):(%d+):(-%d+)$',
+		
+		--callbacks from the configuration keyboard
         '^###cb:logchannel:(toggle):([%w_]+):(-?%d+)$',
         '^###cb:logchannel:(alert):([%w_]+)$',
         '^###cb:(config):logchannel:(-?%d+)$'

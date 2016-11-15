@@ -47,15 +47,12 @@ function plugin.onTextMessage(msg, blocks)
 					.. "I can be more useful if I'm an admin. Ask a creator to make me an admin. "
 					.. "If he doesn't know how, there is a good [guide](https://telegram.me/GroupButler_ch/104).\n")
 			end
-		end]]
-		--[[
+		end
 		text = text .. _("I can do a lot of cool things. To discover about them, "
 				-- TODO: old link, update it
-			.. "watch this [video-tutorial](https://youtu.be/uqNumbcUyzs).")
-		]]
+			.. "watch this [video-tutorial](https://youtu.be/uqNumbcUyzs).") ]]
 		api.sendMessage(msg.chat.id, text, true)
-	end
-	if blocks[1] == 'left_chat_member:bot' then
+	elseif blocks[1] == 'left_chat_member:bot' then
 				
 		local realm_id = db:get('chat:'..msg.chat.id..':realm')
 		if realm_id then
@@ -65,6 +62,8 @@ function plugin.onTextMessage(msg, blocks)
 		end
 		
 		misc.remGroup(msg.chat.id)
+	else
+		misc.logEvent(blocks[1], msg)
 	end
 end
 
@@ -73,6 +72,10 @@ plugin.triggers = {
 		'^###(new_chat_member:bot)',
 		'^###(migrate_from_chat_id)',
 		'^###(left_chat_member:bot)',
+		'^###(pinned_message)$',
+		'^###(new_chat_title)$',
+		'^###(new_chat_photo)$',
+		'^###(delete_chat_photo)$'
 	}
 }
 
