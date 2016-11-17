@@ -49,10 +49,6 @@ function bot_init(on_reload) -- The function run when the bot is started or relo
 
 	print('\n'..clr.blue..'BOT RUNNING:'..clr.reset, clr.red..'[@'..bot.username .. '] [' .. bot.first_name ..'] ['..bot.id..']'..clr.reset..'\n')
 	
-	-- Generate a random seed and "pop" the first random number. :)
-	math.randomseed(os.time())
-	math.random()
-
 	last_update = last_update or 0 -- Set loop variables: Update offset,
 	last_cron = last_cron or os.time() -- the time of the last cron job,
 	is_started = true -- whether the bot should be running or not.

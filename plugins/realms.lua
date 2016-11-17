@@ -568,26 +568,30 @@ function plugin.onTextMessage(msg, blocks)
 		end
 	end
 	if blocks[1] == 'setlog' then
-		if msg.forward_from_chat.type == 'channel' then
-			if not msg.forward_from_chat.username then
-				local res, code = api.getChatMember(msg.forward_from_chat.id, msg.from.id)
-				if not res then
-					if code == 429 then
-						api.sendReply(msg, _('_Too many requests. Retry later_'), true)
+		if msg.forward_from_chat then
+			if msg.forward_from_chat.type == 'channel' then
+				if not msg.forward_from_chat.username then
+					local res, code = api.getChatMember(msg.forward_from_chat.id, msg.from.id)
+					if not res then
+						if code == 429 then
+							api.sendReply(msg, _('_Too many requests. Retry later_'), true)
+						else
+							api.sendReply(msg, _('_I need to be admin in the channel_'), true)
+						end
 					else
-						api.sendReply(msg, _('_I need to be admin in the channel_'), true)
+						if res.result.status == 'creator' then
+							local reply_markup = doKeyboard_subgroups(subgroups, ('setlog:%d'):format(msg.forward_from_chat.id), true)
+							api.sendMessage(msg.chat.id, _('Select one or more groups that will use that channel as log channel'), true, reply_markup)
+						else
+							api.sendReply(msg, _('_Only the channel creator can pair a chat with a channel_'), true)
+						end
 					end
 				else
-					if res.result.status == 'creator' then
-						local reply_markup = doKeyboard_subgroups(subgroups, ('setlog:%d'):format(msg.forward_from_chat.id), true)
-						api.sendMessage(msg.chat.id, _('Select one or more groups that will use that channel as log channel'), true, reply_markup)
-					else
-						api.sendReply(msg, _('_Only the channel creator can pair a chat with a channel_'), true)
-					end
+					api.sendReply(msg, _('_I\'m sorry, only private channels are supported for now_'), true)
 				end
-			else
-				api.sendReply(msg, _('_I\'m sorry, only private channels are supported for now_'), true)
 			end
+		else
+			api.sendReply(msg, _('You*must *forward* the message from the channel you want to use'), true)
 		end
 	end
 	if blocks[1] == 'config' then

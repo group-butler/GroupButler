@@ -714,7 +714,7 @@ function misc.remGroup(chat_id, full, converted_to_realm)
 	db:del('chat:'..chat_id..':pin') --delete the msg id of the (maybe) pinned message
 	db:del('chat:'..chat_id..':userlast')
 	db:hdel('bot:chats:latsmsg', chat_id)
-	db:hdel('bot:chatlogs', msg.chat.id) --log channel
+	db:hdel('bot:chatlogs', chat_id) --log channel
 	
 	--subgroup
 	if db:exists('chat:'..chat_id..':realm') then

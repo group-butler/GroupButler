@@ -138,7 +138,9 @@ function plugin.onTextMessage(msg, blocks)
 	    						else
 	    							db:hset('bot:chatlogs', msg.chat.id,  msg.forward_from_chat.id)
 	    							text = _('*Log channel added!*')
-	    							api.sendMessage(old_log, _("<i>%s</i> changed its log channel"):format(msg.chat.title:escape_html()), 'html')
+	    							if old_log then
+	    								api.sendMessage(old_log, _("<i>%s</i> changed its log channel"):format(msg.chat.title:escape_html()), 'html')
+	    							end
 	    							api.sendMessage(msg.forward_from_chat.id, _("Logs of <i>%s</i> will be posted here"):format(msg.chat.title:escape_html()), 'html')
 	    						end
 	    						api.sendReply(msg, text, true)
