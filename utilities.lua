@@ -789,7 +789,6 @@ function misc.logEvent(event, msg, extra)
 	
 	if not log_id then return end
 	local is_loggable = db:hget('chat:'..msg.chat.id..':tolog', event)
-	print(is_loggable)
 	if not is_loggable or is_loggable == 'no' then return end
 	
 	local text, reply_markup

@@ -182,9 +182,11 @@ function plugin.onEveryMessage(msg)
     
     end --if not msg.inline then [if statement closed]
     
-    if is_blocked(msg.from.id) or msg.edited then --ignore blocked users and edited messages
+    if is_blocked(msg.from.id) then --ignore blocked users
         return false --if an user is blocked, don't go through plugins
     end
+    
+    --don't return false for edited messages: the antispam need to process them
     
     return true
 end

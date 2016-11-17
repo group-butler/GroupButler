@@ -16,7 +16,7 @@ function plugin.onEveryMessage(msg)
         if status and status == 'notalwd' then
             if not roles.is_admin_cached(msg) then
                 
-                local hammer_text
+                local hammer_text, hammer_text_to_use
                 local name = misc.getname_final(msg.from)
                 local warns_received, max_allowed = getAntispamWarns(msg.chat.id, msg.from.id)
                 
@@ -33,6 +33,7 @@ function plugin.onEveryMessage(msg)
                     end
                     local res = hammer_funct(msg.chat.id, msg.from.id)
                     if res then
+                        hammer_text_to_use = hammer_text
                         db:hdel('chat:'..msg.chat.id..':spamwarns', msg.from.id) --remove media warns
                         api.sendMessage(msg.chat.id, _('%s %s for <b>spam</b>! (%d/%d)'):format(name, hammer_text, warns_received, max_allowed), 'html')
                     end
@@ -40,11 +41,12 @@ function plugin.onEveryMessage(msg)
                     api.sendReply(msg, _('%s, this kind of spam is not allowed in this chat (<b>%d/%d</b>)'):format(name, warns_received, max_allowed), 'html')
                 end
                 local name_pretty = { links = _("telegram.me link"), forwards = _("message from a channel")}
-                misc.logEvent('spamwarn', msg, {hammered = hammered_text, warns = warns_received, warnmax = max_allowed, spam_type = name_pretty[msg.spam]})
+                misc.logEvent('spamwarn', msg, {hammered = hammer_text_to_use, warns = warns_received, warnmax = max_allowed, spam_type = name_pretty[msg.spam]})
             end
         end
     end
     
+    if msg.edited then return false end
     return true
 end
 
