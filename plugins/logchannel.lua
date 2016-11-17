@@ -119,41 +119,45 @@ end
 function plugin.onTextMessage(msg, blocks)
     if msg.chat.type ~= 'private' then
 	    if blocks[1] == 'setlog' then
-	    	if msg.forward_from_chat.type == 'channel' then
-	    		if roles.is_admin_cached(msg) then
-	    			if not msg.forward_from_chat.username then
-	    				local res, code = api.getChatMember(msg.forward_from_chat.id, msg.from.id)
-	    				if not res then
-	    					if code == 429 then
-	    						api.sendReply(msg, _('_Too many requests. Retry later_'), true)
-	    					else
-	    						api.sendReply(msg, _('_I need to be admin in the channel_'), true)
+	    	if msg.forward_from_chat then
+	    		if msg.forward_from_chat.type == 'channel' then
+	    			if roles.is_admin_cached(msg) then
+	    				if not msg.forward_from_chat.username then
+	    					local res, code = api.getChatMember(msg.forward_from_chat.id, msg.from.id)
+	    					if not res then
+	    						if code == 429 then
+	    							api.sendReply(msg, _('_Too many requests. Retry later_'), true)
+	    						else
+	    							api.sendReply(msg, _('_I need to be admin in the channel_'), true)
+	    						end
+	    				    else
+	    						if res.result.status == 'creator' then
+	    							local text
+	    							local old_log = db:hget('bot:chatlogs', msg.chat.id)
+	    							if old_log == tostring(msg.forward_from_chat.id) then
+	    								text = _('_Already using this channel_')
+	    							else
+	    								db:hset('bot:chatlogs', msg.chat.id,  msg.forward_from_chat.id)
+	    								text = _('*Log channel added!*')
+	    								if old_log then
+	    									api.sendMessage(old_log, _("<i>%s</i> changed its log channel"):format(msg.chat.title:escape_html()), 'html')
+	    								end
+	    								api.sendMessage(msg.forward_from_chat.id, _("Logs of <i>%s</i> will be posted here"):format(msg.chat.title:escape_html()), 'html')
+	    							end
+	    							api.sendReply(msg, text, true)
+	    						else
+	    							api.sendReply(msg, _('_Only the channel creator can pair the chat with a channel_'), true)
+	    						end
 	    					end
 	    			    else
-	    					if res.result.status == 'creator' then
-	    						local text
-	    						local old_log = db:hget('bot:chatlogs', msg.chat.id)
-	    						if old_log == tostring(msg.forward_from_chat.id) then
-	    							text = _('_Already using this channel_')
-	    						else
-	    							db:hset('bot:chatlogs', msg.chat.id,  msg.forward_from_chat.id)
-	    							text = _('*Log channel added!*')
-	    							if old_log then
-	    								api.sendMessage(old_log, _("<i>%s</i> changed its log channel"):format(msg.chat.title:escape_html()), 'html')
-	    							end
-	    							api.sendMessage(msg.forward_from_chat.id, _("Logs of <i>%s</i> will be posted here"):format(msg.chat.title:escape_html()), 'html')
-	    						end
-	    						api.sendReply(msg, text, true)
-	    					else
-	    						api.sendReply(msg, _('_Only the channel creator can pair the chat with a channel_'), true)
-	    					end
+	    					api.sendReply(msg, _('_I\'m sorry, only private channels are supported for now_'), true)
 	    				end
-	    		    else
-	    				api.sendReply(msg, _('_I\'m sorry, only private channels are supported for now_'), true)
 	    			end
 	    		end
-	    	end
-        end
+			else
+				api.sendReply(msg, _("You have to *forward* the message from the channel"), true)
+			end
+    	end
     	if blocks[1] == 'unsetlog' then
     		if roles.is_admin_cached(msg) then
     			local log_channel = db:hget('bot:chatlogs', msg.chat.id)
