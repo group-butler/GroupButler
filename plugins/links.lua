@@ -1,17 +1,17 @@
 local plugin = {}
 
 function plugin.onTextMessage(msg, blocks)
-    if msg.chat.type == 'private' then return end
+	if msg.chat.type == 'private' then return end
 	if not roles.is_admin_cached(msg) then return end
-	
+
 	local hash = 'chat:'..msg.chat.id..':links'
 	local text
-	
+
 	if blocks[1] == 'link' then
-		
+
 		local key = 'link'
 		local link = db:hget(hash, key)
-		
+
 		--check if link is nil or nul
 		if not link then
 			text = _("*No link* for this group. Ask the owner to generate one")
@@ -21,7 +21,7 @@ function plugin.onTextMessage(msg, blocks)
 		end
 		api.sendReply(msg, text, true)
 	end
-	
+
 	if blocks[1] == 'setlink' then
 		local link
 		if msg.chat.username then
@@ -39,9 +39,9 @@ function plugin.onTextMessage(msg, blocks)
 			end
 			link = 'https://telegram.me/joinchat/'..blocks[2]
 		end
-		
+
 		local key = 'link'
-		
+
 		--set to nul the link, or update/set it
 		if blocks[2] and blocks[2] == '-' then
 			db:hdel(hash, key)

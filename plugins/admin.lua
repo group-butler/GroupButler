@@ -78,28 +78,28 @@ end
 
 local function match_pattern(pattern, text)
   if text then
-  	text = text:gsub('@'..bot.username, '')
-    local matches = {}
-    matches = { string.match(text, pattern) }
-    if next(matches) then
-    	return matches
-    end
+	text = text:gsub('@'..bot.username, '')
+	local matches = {}
+	matches = { string.match(text, pattern) }
+	if next(matches) then
+		return matches
+	end
   end
 end
 
 function plugin.onTextMessage(msg, blocks)
-	
+
 	if not roles.is_superadmin(msg.from.id) then return end
-	
+
 	blocks = {}
-	
+
 	for _, trigger in pairs(triggers2) do
 		blocks = match_pattern(trigger, msg.text)
 		if blocks then break end
 	end
-	
+
 	if not blocks or not next(blocks) then return true end --leave this plugin and continue to match the others
-	
+
 	if blocks[1] == 'admin' then
 		local text = ''
 		for k,v in pairs(triggers2) do
@@ -120,45 +120,45 @@ function plugin.onTextMessage(msg, blocks)
 	if blocks[1] == 'backup' then
 		db:bgsave()
 		local cmd = io.popen('sudo tar -cpf '..bot.first_name:gsub(' ', '_')..'.tar *')
-    	cmd:read('*all')
-    	cmd:close()
-    	api.sendDocument(msg.from.id, './'..bot.first_name:gsub(' ', '_')..'.tar')
-    end
+		cmd:read('*all')
+		cmd:close()
+		api.sendDocument(msg.from.id, './'..bot.first_name:gsub(' ', '_')..'.tar')
+	end
 	if blocks[1] == 'save' then
 		db:bgsave()
 		api.sendMessage(msg.chat.id, 'Redis updated', true)
 	end
-    if blocks[1] == 'stats' then
-    	local text = '#stats `['..misc.get_date()..']`:\n'
-        local hash = 'bot:general'
-	    local names = db:hkeys(hash)
-	    local num = db:hvals(hash)
-	    for i=1, #names do
-	        text = text..'- *'..names[i]..'*: `'..num[i]..'`\n'
-	    end
-	    text = text..'- *uptime*: `from '..(os.date("%c", start_timestamp))..' (GMT+2)`\n'
-	    text = text..'- *last hour msgs*: `'..last.h..'`\n'
-	    text = text..'   • *average msgs/minute*: `'..round((last.h/60), 3)..'`\n'
-	    text = text..'   • *average msgs/second*: `'..round((last.h/(60*60)), 3)..'`\n'
-	    
-	    local usernames = db:hkeys('bot:usernames')
-	    text = text..'- *usernames cache*: `'..#usernames..'`\n'
-	    
-	    --db info
-	    text = text.. '\n*DB stats*\n'
+	if blocks[1] == 'stats' then
+		local text = '#stats `['..misc.get_date()..']`:\n'
+		local hash = 'bot:general'
+		local names = db:hkeys(hash)
+		local num = db:hvals(hash)
+		for i=1, #names do
+			text = text..'- *'..names[i]..'*: `'..num[i]..'`\n'
+		end
+		text = text..'- *uptime*: `from '..(os.date("%c", start_timestamp))..' (GMT+2)`\n'
+		text = text..'- *last hour msgs*: `'..last.h..'`\n'
+		text = text..'	 • *average msgs/minute*: `'..round((last.h/60), 3)..'`\n'
+		text = text..'	 • *average msgs/second*: `'..round((last.h/(60*60)), 3)..'`\n'
+
+		local usernames = db:hkeys('bot:usernames')
+		text = text..'- *usernames cache*: `'..#usernames..'`\n'
+
+		--db info
+		text = text.. '\n*DB stats*\n'
 		local dbinfo = db:info()
-	    text = text..'- *uptime days*: `'..dbinfo.server.uptime_in_days..'('..dbinfo.server.uptime_in_seconds..' seconds)`\n'
-	    text = text..'- *keyspace*:\n'
-	    for dbase,info in pairs(dbinfo.keyspace) do
-	    	for real,num in pairs(info) do
-	    		local keys = real:match('keys=(%d+),.*')
-	    		if keys then
-	    			text = text..'  '..dbase..': `'..keys..'`\n'
-	    		end
-	    	end
-    	end
-    	text = text..'- *ops/sec*: `'..dbinfo.stats.instantaneous_ops_per_sec..'`\n'
-	    
+		text = text..'- *uptime days*: `'..dbinfo.server.uptime_in_days..'('..dbinfo.server.uptime_in_seconds..' seconds)`\n'
+		text = text..'- *keyspace*:\n'
+		for dbase,info in pairs(dbinfo.keyspace) do
+			for real,num in pairs(info) do
+				local keys = real:match('keys=(%d+),.*')
+				if keys then
+					text = text..'	'..dbase..': `'..keys..'`\n'
+				end
+			end
+		end
+		text = text..'- *ops/sec*: `'..dbinfo.stats.instantaneous_ops_per_sec..'`\n'
+
 		api.sendMessage(msg.chat.id, text, true)
 	end
 	if blocks[1] == 'lua' then
@@ -219,24 +219,24 @@ function plugin.onTextMessage(msg, blocks)
 		end
 		return msg.text:gsub('###forward:', '')
 	end
-    if blocks[1] == 'api errors' then
-    	local errors = db:hkeys('bot:errors')
-    	local times = db:hvals('bot:errors')
-    	local text = 'Api errors:\n'
-    	for i=1,#errors do
-    		text = text..errors[i]..': '..times[i]..'\n'
-    	end
-    	api.sendMessage(msg.from.id, text)
-    end
-    if blocks[1] == 'rediscli' then
-    	local redis_f = blocks[2]:gsub(' ', '(\'', 1)
-    	redis_f = redis_f:gsub(' ', '\',\'')
-    	redis_f = 'return db:'..redis_f..'\')'
-    	redis_f = redis_f:gsub('$chat', msg.chat.id)
-    	redis_f = redis_f:gsub('$from', msg.from.id)
-    	local output = load_lua(redis_f)
-    	api.sendReply(msg, output, true)
-    end
+	if blocks[1] == 'api errors' then
+		local errors = db:hkeys('bot:errors')
+		local times = db:hvals('bot:errors')
+		local text = 'Api errors:\n'
+		for i=1,#errors do
+			text = text..errors[i]..': '..times[i]..'\n'
+		end
+		api.sendMessage(msg.from.id, text)
+	end
+	if blocks[1] == 'rediscli' then
+		local redis_f = blocks[2]:gsub(' ', '(\'', 1)
+		redis_f = redis_f:gsub(' ', '\',\'')
+		redis_f = 'return db:'..redis_f..'\')'
+		redis_f = redis_f:gsub('$chat', msg.chat.id)
+		redis_f = redis_f:gsub('$from', msg.from.id)
+		local output = load_lua(redis_f)
+		api.sendReply(msg, output, true)
+	end
 	if blocks[1] == 'sendfile' then
 		local path = './'..blocks[2]
 		api.sendDocument(msg.from.id, path)
@@ -291,7 +291,7 @@ function plugin.onTextMessage(msg, blocks)
 		for chat_id in pairs(groups) do
 			local hash = 'chat:'..chat_id..':media'
 			db:hdel(hash, 'TGlink')
-			
+
 			--[[local image = db:hget(hash, 'image')
 			db:hdel(hash, 'image')
 			local file = db:hget(hash, 'file')
@@ -460,5 +460,5 @@ end
 plugin.triggers = {
 	onTextMessage = {'^%$'}
 }
-		
+
 return plugin

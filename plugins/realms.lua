@@ -15,7 +15,7 @@ local function is_paired(chat_id)
 	--FALSE, 1: the chat_id is a realm
 	--FALSE, 2: the chat doesn't have an associated realm
 	--FALSE, 3: the chat has an associated realm but the chat_id doesn't appear between the realm subgroups
-	
+
 	if db:sismember('bot:realms', chat_id) then
 		return false, 1
 	else
@@ -57,7 +57,7 @@ local function get_realm_info(realm_id)
 	else
 		text = text ..'- Indexed in "bot:realms"'
 	end
-	
+
 	local subgroups = db:hgetall('realm:'..msg.chat.id..':subgroups')
 	if not next(subgroups) then
 		text = text..'\n\n[No subgroups]'
@@ -65,10 +65,10 @@ local function get_realm_info(realm_id)
 		text = text..'\n\nSubgroups:\n'
 		for subgroup_id, subgroup_name in pairs(subgroups) do
 			local subgroup_realm = (db:get('chat:'..subgroup_id..':realm')) or 'none'
-			text = text..'   ['..subgroup_id..']>['..subgroup_realm..']\n'
+			text = text..'	 ['..subgroup_id..']>['..subgroup_realm..']\n'
 		end
 	end
-	
+
 	return text
 end
 
@@ -105,10 +105,10 @@ local function remRealm(realm_id)
 			end
 		end
 	end
-	
+
 	db:del('realm:'..realm_id..':subgroups')
 	db:srem('bot:realms', realm_id)
-	
+
 	if count then return count end
 end
 
@@ -117,10 +117,10 @@ local function unpair_group(realm_id, subgroup_id)
 		title = db:hget('realm:'..realm_id..':subgroups', subgroup_id),
 		realm = db:get('chat:'..subgroup_id..':realm')
 	}
-	
+
 	db:del('chat:'..subgroup_id..':realm')
 	db:hdel('realm:'..realm_id..':subgroups', subgroup_id)
-	
+
 	return subgroup
 end
 
@@ -152,14 +152,14 @@ REALMS:
 SUBGROUP:
 	chat:chat_id:realm
 		REALM_ID
-	
+
 ]]
 
 local function get_subgroups_number(realm_id, subgroups)
 	if not subgroups then
 		subgroups = db:hgetall('realm:'..realm_id..':subgroups')
 	end
-	
+
 	if not next(subgroups) then
 		return 0
 	else
@@ -236,16 +236,16 @@ local function subgroups_iterator(realm_id, callback_function, others)
 end
 
 local function doKeyboard_config(chat_id)
-    local keyboard = {
-        inline_keyboard = {
-            {{text = _("🛠 Menu"), callback_data = 'config:menu:'..chat_id}},
-            {{text = _("⚡️ Antiflood"), callback_data = 'config:antiflood:'..chat_id}},
-            {{text = _("🌈 Media"), callback_data = 'config:media:'..chat_id}},
-            {{text = _("🚫 Antispam"), callback_data = 'config:antispam:'..chat_id}}
-        }
-    }
-    
-    return keyboard
+	local keyboard = {
+		inline_keyboard = {
+			{{text = _("🛠 Menu"), callback_data = 'config:menu:'..chat_id}},
+			{{text = _("⚡️ Antiflood"), callback_data = 'config:antiflood:'..chat_id}},
+			{{text = _("🌈 Media"), callback_data = 'config:media:'..chat_id}},
+			{{text = _("🚫 Antispam"), callback_data = 'config:antispam:'..chat_id}}
+		}
+	}
+
+	return keyboard
 end
 
 local function doKeyboard_subgroups(subgroups, callback_identifier, insert_all_button)
@@ -253,14 +253,14 @@ local function doKeyboard_subgroups(subgroups, callback_identifier, insert_all_b
 	if insert_all_button then
 		table.insert(keyboard.inline_keyboard, {{text = 'ALL', callback_data = 'realm:'..callback_identifier..':all'}})
 	end
-	
+
 	for subgroup_id, name in pairs(subgroups) do
 		local line = {{text = name, callback_data = 'realm:'..callback_identifier..':'..subgroup_id}}
 		table.insert(keyboard.inline_keyboard, line)
 	end
-	
+
 	table.insert(keyboard.inline_keyboard, {{text = _('Cancel'), callback_data = 'realm:cancel'}})
-	
+
 	return keyboard
 end
 
@@ -401,7 +401,7 @@ function plugin.onTextMessage(msg, blocks)
 					else
 						print(realm, subgroup)
 						local old_realm = db:get('chat:'..subgroup..':realm')
-						
+
 						db:set('chat:'..subgroup..':realm', realm)
 						db:hset('realm:'..realm..':subgroups', subgroup, msg.chat.title)
 						local text_to_send_realm = _('<b>New subgroup added</b>: %s [<code>%d</code>]\n<b>By</b>: %s [@%s][#id%d]'):format(msg.chat.title:escape_html(), msg.chat.id, msg.from.first_name:escape_html(), msg.from.username or '-', msg.from.id)
@@ -520,7 +520,7 @@ function plugin.onTextMessage(msg, blocks)
 	if not next(subgroups) then
 		api.sendReply(msg, _('_I\'m sorry, this realm doesn\'t have subgroups paired with it_'), true) return
 	end
-	
+
 	if blocks[1] == 'pin' then
 		local res, code = api.sendReply(msg, blocks[2], true)
 		if not res then
@@ -584,7 +584,7 @@ function plugin.onTextMessage(msg, blocks)
 				user_id = msg.reply.forward_from.id
 			end
 		end
-		
+
 		local failed = {limits = 0, not_admin = 0, is_admin = 0, others = 0, names = ''}
 		local success = 0
 		for subgroup_id, subgroup_name in pairs(subgroups) do
@@ -605,7 +605,7 @@ function plugin.onTextMessage(msg, blocks)
 				success = success + 1
 			end
 		end
-		
+
 		local text = _([[Executed.
 
 <b>Success</b>: <code>%d</code>
