@@ -1,9 +1,9 @@
 local plugin = {}
 
 function plugin.onTextMessage(msg, blocks)
-	
+
 	if not msg.service then return end
-	
+
 	if blocks[1] == 'new_chat_member:bot' or blocks[1] == 'migrate_from_chat_id' then
 		-- set the language
 		--[[locale.language = db:get(string.format('lang:%d', msg.from.id)) or 'en'
@@ -56,14 +56,14 @@ function plugin.onTextMessage(msg, blocks)
 		api.sendMessage(msg.chat.id, text, true)
 	end
 	if blocks[1] == 'left_chat_member:bot' then
-				
+
 		local realm_id = db:get('chat:'..msg.chat.id..':realm')
 		if realm_id then
 			if db:hget('realm:'..realm_id..':subgroups') then
 				api.sendMessage(realm_id, _("I've been removed from %s [<code>%d</code>], one of your subgroups"):format(msg.chat.title:escape_html(), msg.chat.id), 'html')
 			end
 		end
-		
+
 		misc.remGroup(msg.chat.id)
 	end
 end

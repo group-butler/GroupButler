@@ -2,11 +2,11 @@ local plugin = {}
 
 local function do_keyboard_credits()
 	local keyboard = {}
-    keyboard.inline_keyboard = {
-    	{
-    		{text = _("Channel"), url = 'https://telegram.me/'..config.channel:gsub('@', '')},
-    		{text = _("GitHub"), url = 'https://github.com/RememberTheAir/GroupButler'},
-    		{text = _("Rate me!"), url = 'https://telegram.me/storebot?start='..bot.username},
+	keyboard.inline_keyboard = {
+		{
+			{text = _("Channel"), url = 'https://telegram.me/'..config.channel:gsub('@', '')},
+			{text = _("GitHub"), url = 'https://github.com/RememberTheAir/GroupButler'},
+			{text = _("Rate me!"), url = 'https://telegram.me/storebot?start='..bot.username},
 		}
 	}
 	return keyboard
@@ -151,33 +151,33 @@ function plugin.onTextMessage(msg, blocks)
 			api.sendMessage(where, text)
 		end
 		api.sendMessage(where, string.format('`%d`', what), true)
- 	end
+	end
 
 	if msg.chat.type == 'private' then return end
 
 	if blocks[1] == 'adminlist' then
-    	local out
-        local creator, adminlist = misc.getAdminlist(msg.chat.id)
+		local out
+		local creator, adminlist = misc.getAdminlist(msg.chat.id)
 		out = _("*Creator*:\n%s\n\n*Admins*:\n%s"):format(creator, adminlist)
-        if not roles.is_admin_cached(msg) then
-        	api.sendMessage(msg.from.id, out, true)
-        else
-            api.sendReply(msg, out, true)
-        end
-    end
+		if not roles.is_admin_cached(msg) then
+			api.sendMessage(msg.from.id, out, true)
+		else
+			api.sendReply(msg, out, true)
+		end
+	end
 	if blocks[1] == 'status' then
-    	if roles.is_admin_cached(msg) then
-    		if not blocks[2] and not msg.reply then return end
-    		local user_id, error_tr_id = misc.get_user_id(msg, blocks)
-    		if not user_id then
+		if roles.is_admin_cached(msg) then
+			if not blocks[2] and not msg.reply then return end
+			local user_id, error_tr_id = misc.get_user_id(msg, blocks)
+			if not user_id then
 				api.sendReply(msg, _(error_tr_id), true)
-		 	else
-		 		local res = api.getChatMember(msg.chat.id, user_id)
-		 		if not res then
+			else
+				local res = api.getChatMember(msg.chat.id, user_id)
+				if not res then
 					api.sendReply(msg, _("That user has nothing to do with this chat"))
-		 			return
-		 		end
-		 		local status = res.result.status
+					return
+				end
+				local status = res.result.status
 				local name = misc.getname_final(res.result.user)
 				local texts = {
 					kicked = _("%s is banned from this group"),
@@ -188,9 +188,9 @@ function plugin.onTextMessage(msg, blocks)
 					member = _("%s is a chat member")
 				}
 				api.sendReply(msg, texts[status]:format(name), true)
-		 	end
-	 	end
- 	end
+			end
+		end
+	end
 	if blocks[1] == 'user' then
 		if not roles.is_admin_cached(msg) then return end
 
@@ -211,7 +211,7 @@ function plugin.onTextMessage(msg, blocks)
 		if not user_id then
 			api.sendReply(msg, _("I've never seen this user before.\n"
 				.. "If you want to teach me who they are, forward a message from them to me"), true)
-		 	return
+			return
 		end
 		-----------------------------------------------------------------------------
 
@@ -222,17 +222,17 @@ function plugin.onTextMessage(msg, blocks)
 		api.sendMessage(msg.chat.id, text, true, keyboard)
 	end
 	if blocks[1] == 'cache' then
-    	if not roles.is_admin_cached(msg) then return end
-    	local hash = 'cache:chat:'..msg.chat.id..':admins'
+		if not roles.is_admin_cached(msg) then return end
+		local hash = 'cache:chat:'..msg.chat.id..':admins'
 		local seconds = db:ttl(hash)
 		local cached_admins = db:scard(hash)
 		local text = _("📌 Status: `CACHED`\n⌛ ️Remaining: `%s`\n👥 Admins cached: `%d`")
 			:format(get_time_remaining(tonumber(seconds)), cached_admins)
-    	local keyboard = do_keyboard_cache(msg.chat.id)
-    	api.sendMessage(msg.chat.id, text, true, keyboard)
-    end
+		local keyboard = do_keyboard_cache(msg.chat.id)
+		api.sendMessage(msg.chat.id, text, true, keyboard)
+	end
 	if blocks[1] == 'msglink' then
-    	if not msg.reply or not msg.chat.username then return end
+		if not msg.reply or not msg.chat.username then return end
 
 		local text = string.format('[%s](https://telegram.me/%s/%d)',
 			_("Message N° %d"):format(msg.reply.message_id), msg.chat.username, msg.reply.message_id)
@@ -240,7 +240,7 @@ function plugin.onTextMessage(msg, blocks)
 			api.sendReply(msg.reply, text, true)
 		else
 			api.sendMessage(msg.from.id, text, true)
-    	end
+		end
 	end
 end
 
@@ -264,24 +264,24 @@ function plugin.onCallbackQuery(msg, blocks)
 		db:hdel('chat:'..msg.chat.id..':warns', msg.target_id)
 		db:hdel('chat:'..msg.chat.id..':mediawarn', msg.target_id)
 
-        local name = misc.getname_link(msg.from.first_name, msg.from.username) or msg.from.first_name:escape()
+		local name = misc.getname_link(msg.from.first_name, msg.from.username) or msg.from.first_name:escape()
 		local text = _("The number of warnings received by this user has been *reset*\n(Admin: %s)")
 		api.editMessageText(msg.chat.id, msg.message_id, text:format(name), true)
-    end
-    if blocks[1] == 'recache' then
+	end
+	if blocks[1] == 'recache' then
 		local missing_sec = tonumber(db:ttl('cache:chat:'..msg.target_id..':admins') or 0)
 		if config.bot_settings.cache_time.adminlist - missing_sec < 180 then
 			api.answerCallbackQuery(msg.cb_id, _("The adminlist has just been updated. You must wait 3 minutes from the last refresh"), true)
 		elseif misc.cache_adminlist(msg.target_id) then
-    		local cached_admins = db:smembers('cache:chat:'..msg.target_id..':admins')
-    		local time = get_time_remaining(config.bot_settings.cache_time.adminlist)
+			local cached_admins = db:smembers('cache:chat:'..msg.target_id..':admins')
+			local time = get_time_remaining(config.bot_settings.cache_time.adminlist)
 			local text = _("📌 Status: `CACHED`\n⌛ ️Remaining: `%s`\n👥 Admins cached: `%d`")
 				:format(time, #cached_admins)
-    		api.answerCallbackQuery(msg.cb_id, _("✅ Updated. Next update in %s"):format(time))
-    		api.editMessageText(msg.chat.id, msg.message_id, text, true, do_keyboard_cache(msg.target_id))
-    		--api.sendLog('#recache\nChat: '..msg.target_id..'\nFrom: '..msg.from.id)
-    	end
-    end
+			api.answerCallbackQuery(msg.cb_id, _("✅ Updated. Next update in %s"):format(time))
+			api.editMessageText(msg.chat.id, msg.message_id, text, true, do_keyboard_cache(msg.target_id))
+			--api.sendLog('#recache\nChat: '..msg.target_id..'\nFrom: '..msg.from.id)
+		end
+	end
 end
 
 plugin.triggers = {
