@@ -826,14 +826,14 @@ function misc.logEvent(event, msg, extra)
 	else
 		-- events that requires user + admin
 		if event == 'warn' then
-			text = _('#%s\n<b>Admin</b>: %s [#id%d]\n<b>User</b>: %s [#id%d]\n<b>Count</b>: <code>%d/%d</code>'):format(event:upper(), extra.admin, msg.from.id, extra.user, extra.user_id, extra.warns, extra.warnmax)
+			text = _('#%s\n<b>Admin</b>: %s [#id%d]\n%s\n<b>User</b>: %s [#id%d]\n<b>Count</b>: <code>%d/%d</code>'):format(event:upper(), extra.admin, msg.from.id, chat_info, extra.user, extra.user_id, extra.warns, extra.warnmax)
 			if extra.hammered then
 				text = text.._('\n<b>Action</b>: <i>%s</i>'):format(extra.hammered)
 			end
 		elseif event == 'tempban' then
-			text = _('#%s\n<b>Admin</b>: %s [#id%s]\n<b>User</b>: %s [#id%s]\n<b>Duration</b>: %d days, %d hours'):format(event:upper(), extra.admin, msg.from.id, extra.user, tostring(extra.user_id), extra.d, extra.h)
+			text = _('#%s\n<b>Admin</b>: %s [#id%s]\n%s\n<b>User</b>: %s [#id%s]\n<b>Duration</b>: %d days, %d hours'):format(event:upper(), extra.admin, msg.from.id, chat_info, extra.user, tostring(extra.user_id), extra.d, extra.h)
 		else
-			text = _('#%s\n<b>Admin</b>: %s [#id%s]\n<b>User</b>: %s [#id%s]'):format(event:upper(), extra.admin, msg.from.id, extra.user, tostring(extra.user_id))
+			text = _('#%s\n<b>Admin</b>: %s [#id%s]\n%s\n<b>User</b>: %s [#id%s]'):format(event:upper(), extra.admin, msg.from.id, chat_info, extra.user, tostring(extra.user_id))
 		end
 		if event == 'ban' or event == 'tempban' then
 			--logcb:unban:user_id:chat_id for ban, logcb:untempban:user_id:chat_id for tempban

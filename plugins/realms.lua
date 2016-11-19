@@ -591,7 +591,7 @@ function plugin.onTextMessage(msg, blocks)
 				end
 			end
 		else
-			api.sendReply(msg, _('You*must *forward* the message from the channel you want to use'), true)
+			api.sendReply(msg, _('You must *forward* the message from the channel you want to use'), true)
 		end
 	end
 	if blocks[1] == 'config' then
