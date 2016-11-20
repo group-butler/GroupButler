@@ -1,15 +1,15 @@
 local plugin = {}
 
 local function report(msg, description, realm_id)
-    local text = _('• *Message reported by*: %s (`%d`)\n• *Group*: %s'):format(misc.getname_final(msg.from), msg.from.id, msg.chat.title:escape())
+    local text = _('• <b>Message reported by</b>: %s (<code>%d</code>)\n• <b>Group</b>: %s'):format(misc.getname_final(msg.from), msg.from.id, msg.chat.title:escape_html())
     if msg.reply.sticker then
-        text = text.._('\n• *Sticker sent by*: %s (`%d`)'):format(misc.getname_final(msg.reply.from), msg.reply.from.id)
+        text = text.._('\n• <b>Sticker sent by</b>: %s [<code>%d</code>]'):format(misc.getname_final(msg.reply.from), msg.reply.from.id)
     end
     if msg.chat.username then
-        text = text.._('\n• [Go to the message](%s)'):format('telegram.me/'..msg.chat.username..'/'..msg.message_id)
+        text = text.._('\n• <a href="%s">Go to the message</a>'):format('telegram.me/'..msg.chat.username..'/'..msg.message_id)
     end
     if description then
-        text = text.._('\n• *Description*: %s'):format(description:escape(true))
+        text = text.._('\n• <b>Description</b>: <i>%s</i>'):format(description:escape_html())
     end
     
     local n = 0
@@ -17,7 +17,7 @@ local function report(msg, description, realm_id)
     if realm_id then
         local res_fwd = api.forwardMessage(realm_id, msg.chat.id, msg.reply.message_id)
         if res_fwd then
-            api.sendMessage(realm_id, text, true, nil, res_fwd.result.message_id)
+            api.sendMessage(realm_id, text, 'html', nil, res_fwd.result.message_id)
         end
         n = -1
     else
@@ -29,7 +29,7 @@ local function report(msg, description, realm_id)
             if receive_reports and receive_reports == 'on' then
                 local res_fwd = api.forwardMessage(admin.user.id, msg.chat.id, msg.reply.message_id)
                 if res_fwd then
-                    api.sendMessage(admin.user.id, text, true, nil, res_fwd.result.message_id)
+                    api.sendMessage(admin.user.id, text, 'html', nil, res_fwd.result.message_id)
                     n = n + 1
                 end
             end

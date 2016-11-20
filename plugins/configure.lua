@@ -6,7 +6,8 @@ local function do_keyboard_config(chat_id)
             {{text = _("🛠 Menu"), callback_data = 'config:menu:'..chat_id}},
             {{text = _("⚡️ Antiflood"), callback_data = 'config:antiflood:'..chat_id}},
             {{text = _("🌈 Media"), callback_data = 'config:media:'..chat_id}},
-            {{text = _("🚫 Antispam"), callback_data = 'config:antispam:'..chat_id}}
+            {{text = _("🚫 Antispam"), callback_data = 'config:antispam:'..chat_id}},
+            {{text = _("📥 Log channel"), callback_data = 'config:logchannel:'..chat_id}},
         }
     }
     

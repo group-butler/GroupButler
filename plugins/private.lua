@@ -15,17 +15,6 @@ local function do_keyboard_credits()
 	return keyboard
 end
 
-local function doKeyboard_strings()
-	local keyboard = {
-		inline_keyboard = {}
-	}
-	for lang, flag in pairs(config.available_languages) do
-		local line = {{text = flag, callback_data = 'sendpo:'..lang}}
-		table.insert(keyboard.inline_keyboard, line)
-	end
-	return keyboard
-end
-
 function plugin.onTextMessage(msg, blocks)
 	if msg.chat.type ~= 'private' then return end
 
@@ -40,10 +29,6 @@ function plugin.onTextMessage(msg, blocks)
 		if not res then
 			api.sendMessage(msg.chat.id, misc.get_sm_error_string(code), true)
 		end
-	end
-	if blocks[1] == 'strings' then
-		local keyboard = doKeyboard_strings()
-		api.sendMessage(msg.chat.id, _("*Choose your language:*"), true, keyboard)
 	end
 	if blocks[1] == 'about' then
 		local keyboard = do_keyboard_credits()
@@ -86,21 +71,11 @@ function plugin.onCallbackQuery(msg, blocks)
 			end
 		end
 	end
-	if blocks[1] == 'sendpo' then
-		local lang = blocks[2]
-		local instr_url = 'telegram.me/groupbutler_ch'
-		local path = 'locales/'..lang..'.po'
-		local button = {inline_keyboard = {{{text = _("Instructions"), url = instr_url}}}}
-		api.editMessageText(msg.chat.id, msg.message_id, _("Sending `%s.po` file..."):format(lang), true, button)
-		api.sendDocument(msg.chat.id, path)
-	end
 end
 
 plugin.triggers = {
 	onTextMessage = {
 		config.cmd..'(ping)$',
-		config.cmd..'(strings)$',
-		config.cmd..'(strings) (%a%a)$',
 		config.cmd..'(echo) (.*)$',
 		config.cmd..'(about)$',
 		config.cmd..'(groups)$',
@@ -109,7 +84,6 @@ plugin.triggers = {
 	onCallbackQuery = {
 		'^###cb:fromhelp:(about)$',
 		'^###cb:private:(groups)$',
-		'^###cb:(sendpo):(.*)$'
 	}
 }
 

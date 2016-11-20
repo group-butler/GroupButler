@@ -14,7 +14,7 @@ return {
 			adminlist = 18000, --5 hours (18000s) Admin Cache time, in seconds.
 		},
 		multipurpose_mode = false, --If this is enabled, the bot will activate the plugins from plugins/multipurpose
-		notify_bug = true, --Notify if a bug occurs!
+		notify_bug = false, --Notify if a bug occurs!
 		log_api_errors = true, --Log errors, which happening whilst interacting with the bot api.
 		stream_commands = true,
 		admin_mode = false,
@@ -32,7 +32,7 @@ return {
 		['Spanish'] = 'https://telegram.me/ESgroupbutler'
 	},--
 	plugins = {
-		'onmessage.lua', --THIS MUST BE THE FIRST: IF AN USER IS SPAMMING/IS BLOCKED, THE BOT WON'T GO THROUGH PLUGINS
+		'onmessage.lua', --THIS MUST BE THE FIRST: IF AN USER IS FLOODING/IS BLOCKED, THE BOT WON'T GO THROUGH PLUGINS
 		'antispam.lua', --SAME OF onmessage.lua
 		'realms.lua',
 		'configure.lua',
@@ -53,7 +53,7 @@ return {
 		'private.lua',
 		'admin.lua',
 		--'test.lua',
-		--'logchannel.lua',
+		'logchannel.lua',
 		'report.lua',
 		'private_settings.lua',
 		'extra.lua', --must be the last plugin in the list.
@@ -66,9 +66,9 @@ return {
 		['pt_BR'] = 'Português 🇧🇷',
 		['ru'] = 'Русский 🇷🇺',
 		['de'] = 'Deutsch 🇩🇪',
-		['sv'] = 'Svensk 🇸🇪',
+		--['sv'] = 'Svensk 🇸🇪',
 		['ar'] = 'العربية 🇸🇩',
-		['fr'] = 'Français 🇫🇷',
+		--['fr'] = 'Français 🇫🇷',
 		['zh'] = '中文 🇨🇳',
 		['fa'] = 'فارسی 🇮🇷',
 		['id'] = 'Bahasa Indonesia 🇮🇩'
@@ -135,12 +135,18 @@ return {
 			['location'] = 'ok'
 		},
 		['tolog'] = {
-			['ban'] = 'yes',
-			['kick'] = 'yes',
-			['warn'] = 'yes',
-			['join'] = 'yes',
-			['mediawarn'] = 'yes',
-			['flood'] = 'yes',
+			['ban'] = 'no',
+			['kick'] = 'no',
+			['tempban'] = 'no',
+			['warn'] = 'no',
+			['mediawarn'] = 'no',
+			['spamwarn'] = 'no',
+			['flood'] = 'no',
+			['new_chat_member'] = 'no',
+			['new_chat_photo'] = 'no',
+			['delete_chat_photo'] = 'no',
+			['new_chat_title'] = 'no',
+			['pinned_message'] = 'no'
 		},
 	},
 	private_settings = {
@@ -195,8 +201,12 @@ return {
 		[140] = 'Channel invalid', --/shrug
 		[141] = 'Wrong message entity: Unsupproted URL protocol', --username in an inline link [word](@username) (only?)
 		[142] = 'Wrong message entity: URL host is empty', --inline link without link [word]()
-		[403] = 'Bot was blocked by the user', --user blocked the bot
-		[429] = 'Too many requests: retry later', --the bot is hitting api limits
-		[430] = 'Too big total timeout', --too many callback_data requests
+		[143] = 'there is no photo in the request',
+		[144] = 'Can\'t parse message text: Unsupported start tag "%w+" at byte offset %d+',
+		[145] = 'Can\'t parse message text: Expected end tag at byte offset %d+',
+		[146] = 'BUTTON_URL_INVALID' --invalid url (inline buttons)
+		--[403] = 'Bot was blocked by the user', --user blocked the bot
+		--[429] = 'Too many requests: retry later', --the bot is hitting api limits
+		--[430] = 'Too big total timeout', --too many callback_data requests
 	}
 }

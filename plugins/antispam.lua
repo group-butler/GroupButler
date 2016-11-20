@@ -11,20 +11,19 @@ end
 
 function plugin.onEveryMessage(msg)
     if not msg.inline and msg.spam and msg.chat.id < 0 and not msg.cb then
-        print('processing...', msg.spam)
+        
         local status = db:hget('chat:'..msg.chat.id..':antispam', msg.spam)
-        print(status)
         if status and status == 'notalwd' then
             if not roles.is_admin_cached(msg) then
-                print('not admin')
+                
+                local hammer_text, hammer_text_to_use
                 local name = misc.getname_final(msg.from)
                 local warns_received, max_allowed = getAntispamWarns(msg.chat.id, msg.from.id)
-                print(warns_received, max_allowed)
+                
                 if warns_received >= max_allowed then
                     local action = (db:hget('chat:'..msg.chat.id..':antispam', 'action')) or config.chat_settings['antispam']['action']
-                    print(action)
                     
-                    local hammer_funct, hammer_text
+                    local hammer_funct
                     if action == 'ban' then
                         hammer_funct = api.banUser
                         hammer_text = _('banned')
@@ -34,16 +33,20 @@ function plugin.onEveryMessage(msg)
                     end
                     local res = hammer_funct(msg.chat.id, msg.from.id)
                     if res then
+                        hammer_text_to_use = hammer_text
                         db:hdel('chat:'..msg.chat.id..':spamwarns', msg.from.id) --remove media warns
-                        api.sendMessage(msg.chat.id, _('%s %s for *spam*! (%d/%d)'):format(name, hammer_text, warns_received, max_allowed), true)
+                        api.sendMessage(msg.chat.id, _('%s %s for <b>spam</b>! (%d/%d)'):format(name, hammer_text, warns_received, max_allowed), 'html')
                     end
                 else
-                    api.sendReply(msg, _('%s, this kind of spam is not allowed in this chat (*%d/%d*)'):format(name, warns_received, max_allowed), true)
+                    api.sendReply(msg, _('%s, this kind of spam is not allowed in this chat (<b>%d/%d</b>)'):format(name, warns_received, max_allowed), 'html')
                 end
+                local name_pretty = { links = _("telegram.me link"), forwards = _("message from a channel")}
+                misc.logEvent('spamwarn', msg, {hammered = hammer_text_to_use, warns = warns_received, warnmax = max_allowed, spam_type = name_pretty[msg.spam]})
             end
         end
     end
     
+    if msg.edited then return false end
     return true
 end
 
@@ -107,7 +110,7 @@ local function  get_alert_text(key)
     elseif key == 'warns' then
         return _("Set how many times the bot should warn the user before kick/ban him")
     else
-        return 'description'
+        return _("Description not available")
     end
 end
 

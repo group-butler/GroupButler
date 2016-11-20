@@ -34,6 +34,7 @@ Follow the instructions the bot will give you to associate a group (subgroup) to
 `/ban [by username|by id|by forwarded message]`: ban the user from all of your subgroups.
 *By forwarded message*: forward a message from the user in the realm and reply to it with `/ban`.
 `/config`: manage the settings of one of your subgroups.
+`/setlog` (forwarded from a channel): set the log channel for one or more of your subgroups. More info in the dedicated tab.
 `/delrealm` (*only for the owner*): the group will no longer be used as a realm.
 
 *Commands to use in a subgroup*
@@ -81,7 +82,7 @@ With `/rules`, the bot always answer in the group for admins, but with normal us
 Admins need to give their consense to receive reports from users, with `/mysettings` command
 • `/kickme` : get kicked by the bot
 ]])
-	elseif key == 'info' then-----------------------------------------
+	elseif key == 'info' then
 		return _([[
 *Admins: info about the group*
 
@@ -98,7 +99,7 @@ If you are going to use it in a public supergroup, you do not need to append the
 
 *Note*: the bot can recognize valid group links. If a link is not valid, you won't receive a reply.
 ]])
-	elseif key == 'banhammer' then-----------------------------------------
+	elseif key == 'banhammer' then
 		return _([[
 *Banhammer powers*
 A set of commands that let admins kick and ban people from a group, and get some information about an user.
@@ -118,7 +119,7 @@ If on, the antiflood system will kick/ban flooders.
 
 • `/config` command, then `antiflood` button: manage the flood settings in private, with an inline keyboard. You can change the sensitivity, the action (kick/ban) to perform, and even set some exceptions.
 ]])
-	elseif key == 'report' then--------------------------------------
+	elseif key == 'report' then
 		return _([[
 *Reports settings*
 `@admin` is an useful command to let users report some messages to the group admins.
@@ -129,7 +130,7 @@ Only admins who accepted to receive reports (with `/mysettings` command) will be
 • `/mysettings` (in private): from here, you can choose if receive reports or not
 
 *Note*: admins can't use the `@admin` command, and users can't report admins with it.]])
-	elseif key == 'welcome' then-------------------------------------
+	elseif key == 'welcome' then
 		return _([[
 *Welcome/goodbye settings*
 
@@ -153,7 +154,7 @@ Placeholders:
 *GIF/sticker as welcome message*
 You can use a particular gif/sticker as welcome message. To set it, reply to the gif/sticker you want to set as welcome message with `/welcome`. Same goes for `/goodbye`
 ]])
-	elseif key == 'extra' then-------------------------------------------------
+	elseif key == 'extra' then
 		return _([[
 *Extra commands*
 #extra commands are a smart way to save your own custom commands.
@@ -168,7 +169,7 @@ You can reply to a media (_photo, file, vocal, video, gif, audio_) with `/extra 
 For a correct use of the markdown, check [this post](https://telegram.me/GroupButler_ch/46) in the channel.
 Now supports placeholders. Check the "welcome" tab for the list of the available placeholders
 ]])
-	elseif key == 'warns' then-----------------------------------------
+	elseif key == 'warns' then
 		return _([[
 *Warns*
 Warn are made to keep the count of the admonitions received by an user. Once an user has been warned for the defined number of times, he is kicked/banned by the bot.
@@ -177,6 +178,7 @@ There are two different type of warns:
 - _automatic warns_ (read: media warns and spam warns), given by the bot when someone sends a media that is not allowed in the chat, or spams other channels or telegram.me links.
 
 • `/warn [by reply]`: warn a user
+• `/sw`: you can place a `/sw` (_"silent warn"_) everywhere you want in your message. The bot will silently count the warn, but won't answer in the group unless the user reached the max. number of warnings.
 • `/nowarns [by reply]`: reset the warns received by an user (both normal and automatic warns).
 • `/warnmax [number]`: set the max number of the warns before the kick/ban.
 • `/warnmax media [number]`: set the max number of the warns before kick/ban when an unallowed media is sent.
@@ -186,7 +188,7 @@ How to change the max. number of warnings allowed: `/config` command, then `menu
 How to change the max. number of warnings allowed for medias: `/config` command, then `media` button.
 How to change the max. number of warnings allowed for spam: `/config` command, then `antispam` button.
 ]])
-	elseif key == 'pin' then------------------------------------------------------
+	elseif key == 'pin' then
 		return _([[
 *Pinning messages*
 The "48 hours limit" to edit your own messages doesn't apply to bots.
@@ -198,7 +200,7 @@ So with `/pin` you can generate a message to pin, and edit it how many times you
 
 *Note*: `/pin` supports markdown, but only `$rules` and `$title` placeholders
 ]])
-	elseif key == 'lang' then----------------------------------------------
+	elseif key == 'lang' then
 		-- TRANSLATORS: leave your contact information for reports mistakes in translation
 		return _([[
 *Group language*"
@@ -230,6 +232,22 @@ The inline keyboard has three sub-menus:
 *Media*: choose which media to forbid in your group, and set the number of times that an user will be warned before being kicked/banned
 *Antispam*: choose which kind of spam you want to forbid (example: telegram.me links, forwarded messages from channels)
 ]])
+	elseif key == 'logchannel' then
+		return _([[*Log channel iformations*
+			
+A log channel is a _(private)_ channel where the bot will record all the important events that will happen in your group.
+If you want to use this feature, you need to pair your group with a channel with the commands described below.
+All the events, by default, are *not logged*. Admins can choose which events to log from the `/config` menu -> `log channel` button.
+
+To pair a channel with a group, the *channel creator* must [add the bot to the channel administrators](telegram.me/gb_tutorials/4) (otherwise it won't be able to post), and send in the channel this command:
+`/setlog`
+Then, an admin of the group must forward in the group the message ("`/setlog`") sent in the channel. *Done*!
+
+A channel can be used as log by different groups.
+To change your log channel, simply repeat this process with another channel.
+	
+`/unsetlog`: remove your current log channel
+`/logchannel`: get some informations about your log channel, if paired]])
 	end
 end
 
@@ -291,7 +309,8 @@ local function dk_main()
 		{{text = _('Admin commands'), callback_data = 'help:admins:banhammer'}},
 		{{text = _('Normal users commands'), callback_data = 'help:users'}},
 		{{text = _('Commands in private'), callback_data = 'help:private'}},
-		{{text = _('Realm commands'), callback_data = 'help:realm'}},
+		{{text = _('Realms'), callback_data = 'help:realm'}},
+		{{text = _('Log channel'), callback_data = 'help:logchannel'}},
 	}
 	
 	return keyboard
@@ -350,6 +369,9 @@ function plugin.onCallbackQuery(msg, blocks)
     elseif query == 'realm' then
     	text = get_helped_string('realm')
     	answerCallbackQuery_text = _('Available commands in a realm')
+    elseif query == 'logchannel' then
+    	text = get_helped_string('logchannel')
+    	answerCallbackQuery_text = _('Log channel informations')
     else --query == 'admins'
     	keyboard_type = 'admins'
     	text = get_helped_string(blocks[2])
