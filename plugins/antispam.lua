@@ -132,6 +132,12 @@ local function doKeyboard_antispam(chat_id)
     
     local warns = (db:hget('chat:'..chat_id..':antispam', 'warns')) or config.chat_settings['antispam']['warns']
     local action = (db:hget('chat:'..chat_id..':antispam', 'action')) or config.chat_settings['antispam']['action']
+	
+	if action == 'kick' then
+		action = _("Kick")
+	else
+		action = _("Ban")
+	end
     
     local line = {
         {text = 'Warns: '..warns, callback_data = 'antispam:alert:warns'},
