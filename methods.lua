@@ -1,3 +1,5 @@
+local api_errors = require 'api_bad_requests'
+
 local BASE_URL = 'https://api.telegram.org/bot' .. config.bot_api_key
 
 local api = {}
@@ -5,7 +7,7 @@ local api = {}
 local curl_context = curl.easy{verbose = config.bot_settings.debug_connections}
 
 local function getCode(err)
-	for k,v in pairs(config.api_errors) do
+	for k,v in pairs(api_errors) do
 		if err:match(v) then
 			return k
 		end
@@ -438,7 +440,7 @@ function api.sendPhoto(chat_id, photo, caption, reply_to_message_id)
 
 end
 
-function api.sendDocument(chat_id, document, reply_to_message_id)
+function api.sendDocument(chat_id, document, reply_to_message_id, caption)
 
 	local url = BASE_URL .. '/sendDocument'
 
@@ -446,6 +448,10 @@ function api.sendDocument(chat_id, document, reply_to_message_id)
 
 	if reply_to_message_id then
 		curl_command = curl_command .. ' -F "reply_to_message_id=' .. reply_to_message_id .. '"'
+	end
+	
+	if caption then
+		curl_command = curl_command .. ' -F "caption=' .. caption .. '"'
 	end
 	
 	return curlRequest(curl_command)
