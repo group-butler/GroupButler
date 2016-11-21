@@ -52,7 +52,7 @@ return {
 		'mediasettings.lua',
 		'private.lua',
 		'admin.lua',
-		--'backup.lua',
+		'backup.lua',
 		--'test.lua',
 		'logchannel.lua',
 		'report.lua',
