@@ -50,7 +50,7 @@ end
 function plugin.onTextMessage(msg, blocks)
     if roles.is_admin_cached(msg) then
         local key = 'chat:'..msg.chat.id..':lastsnap'
-        --local last_user = db:get(key)
+        local last_user = db:get(key)
         if last_user then
             local ttl = db:ttl(key)
             local time_remaining = get_time_remaining(ttl)
@@ -61,7 +61,7 @@ function plugin.onTextMessage(msg, blocks)
             db:setex(key, 259200, name) --3 days
             local file_path = gen_backup(msg.chat.id)
             api.sendReply(msg, '*Sent in private*', true)
-            api.sendDocument(msg.from.id, file_path, nil, 'You are safe from Riccardo\'s stupid ideas now')
+            api.sendDocument(msg.from.id, file_path, nil, 'You are safe from Riccardo\'s stupid ideas now\n#snap')
         end
     end
 end

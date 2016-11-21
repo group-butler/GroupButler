@@ -32,6 +32,7 @@ local triggers2 = {
 	'^%$(active) (%d%d?)$',
 	'^%$(active)$',
 	'^%$(getid)$',
+	'^%$(redisbackup)$',
 	'^%$(realm) (.+)$'
 }
 
@@ -397,6 +398,11 @@ function plugin.onTextMessage(msg, blocks)
 			end
 		end
 		api.sendMessage(msg.chat.id, text)
+	end
+	if blocks[1] == 'redisbackup' then
+		local res = misc.bash('./redisbackup.sh')
+		if not res then res = '-' end
+		api.sendMessage(msg.chat.id, res)
 	end
 end
 

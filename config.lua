@@ -26,7 +26,7 @@ return {
 	source_code = 'https://github.com/RememberTheAir/GroupButler',
 	help_groups = {
 		['Internatonal (English)'] = 'https://telegram.me/joinchat/EKBQLj7Zf6lE2K_Pk0Epcg', --group link, not (at)username! If you have your own support group, modify here!
-		['Italian'] = 'https://telegram.me/joinchat/ITAgroupbutler',
+		['Italian'] = 'https://telegram.me/ITAgroupbutler',
 		['Persian'] = 'https://telegram.me/joinchat/CTDUTkCOsEt4DZT-SUQdBQ',
 		['Russian'] = 'https://telegram.me/rubutler',
 		['Spanish'] = 'https://telegram.me/ESgroupbutler'

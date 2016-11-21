@@ -80,6 +80,7 @@ function plugin.onCallbackQuery(msg, blocks)
     local chat_id = msg.target_id
     local request = blocks[2]
     local text, notification
+    local parse_mode = true
 	local res = api.getChat(chat_id)
 	if not res then
 		api.answerCallbackQuery(msg.cb_id, _("🚫 This group does not exist"))
@@ -103,12 +104,13 @@ function plugin.onCallbackQuery(msg, blocks)
         notification = _("ℹ️ Group ► Rules")
     end
     if request == 'adminlist' then
+        parse_mode = 'html'
         local creator, admins = misc.getAdminlist(chat_id)
         if not creator then
             -- creator is false, admins is the error code
             text = _("I got kicked out of this group 😓")
         else
-            text = _("*Creator*:\n%s\n\n*Admins*:\n%s"):format(creator, admins)
+            text = _("<b>Creator</b>:\n%s\n\n<b>Admins</b>:\n%s"):format(creator, admins)
         end
         notification = _("ℹ️ Group ► Admin list")
     end
@@ -148,7 +150,7 @@ function plugin.onCallbackQuery(msg, blocks)
         end
         notification = _("ℹ️ Group ► Media")
     end
-    api.editMessageText(msg.from.id, msg.message_id, text, true, keyboard)
+    api.editMessageText(msg.from.id, msg.message_id, text, parse_mode, keyboard)
     api.answerCallbackQuery(msg.cb_id, notification)
 end
 

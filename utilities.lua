@@ -188,7 +188,7 @@ function misc.deeplink_constructor(chat_id, what)
 	return 'https://telegram.me/'..bot.username..'?start='..chat_id..':'..what
 end
 
-function table.clone(t) --doing "table1 = table2" in lua = creates a pointer to table2
+function table.clone(t)
   local new_t = {}
   local i, v = next(t, nil)
   while i do
@@ -464,18 +464,18 @@ function misc.getAdminlist(chat_id)
 		if admin.status == 'administrator' then
 			name = admin.user.first_name
 			if admin.user.username then
-				name = '['..name:escape_hard('link')..'](https://telegram.me/'..admin.user.username..')'
+				name = ('<a href="telegram.me/%s">%s</a>'):format(admin.user.username, name:escape_html())
 			else
-				name = name:escape()
+				name = name:escape_html()
 			end
-			adminlist = adminlist..'*'..count..'* - '..name..'\n'
+			adminlist = adminlist..'<b>'..count..'</b> - '..name..'\n'
 			count = count + 1
 		elseif admin.status == 'creator' then
 			creator = admin.user.first_name
 			if admin.user.username then
-				creator = '['..creator:escape_hard('link')..'](https://telegram.me/'..admin.user.username..')'
+				creator = ('<a href="telegram.me/%s">%s</a>'):format(admin.user.username, creator:escape_html())
 			else
-				creator = creator:escape()
+				creator = creator:escape_html()
 			end
 		end
 	end

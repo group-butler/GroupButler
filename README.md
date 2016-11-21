@@ -28,7 +28,7 @@ You will need some other Lua modules too, which can be (and should be) installed
 
 **Installation**
 
-you can easily install Group Butler by running the following commands:
+You can easily install Group Butler by running the following commands:
 
 ```bash
 # Tested on Ubuntu 16.04
@@ -53,13 +53,11 @@ $ wget http://luarocks.org/releases/luarocks-2.2.2.tar.gz
 $ tar zxpf luarocks-2.2.2.tar.gz
 $ cd luarocks-2.2.2
 $ ./configure; sudo make bootstrap
-$ sudo luarocks install luasocket
 $ sudo luarocks install luasec
 $ sudo luarocks install redis-lua
 $ sudo luarocks install lua-term
 $ sudo luarocks install serpent
 $ sudo luarocks install dkjson
-$ sudo luarocks install lanes
 $ sudo luarocks install Lua-cURL
 $ cd ..
 

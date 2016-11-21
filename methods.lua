@@ -286,12 +286,17 @@ function api.editMarkup(chat_id, message_id, reply_markup)
 
 end
 
-function api.answerCallbackQuery(callback_query_id, text, show_alert)
+function api.answerCallbackQuery(callback_query_id, text, show_alert, cache_time)
 	
 	local url = BASE_URL .. '/answerCallbackQuery?callback_query_id=' .. callback_query_id .. '&text=' .. URL.escape(text)
 	
 	if show_alert then
 		url = url..'&show_alert=true'
+	end
+	
+	if cache_time then
+		local seconds = tonumber(cache_time) * 3600
+		url = url..'&cache_time='..seconds
 	end
 	
 	return sendRequest(url)

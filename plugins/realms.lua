@@ -296,16 +296,26 @@ function plugin.onCallbackQuery(msg, blocks)
 		end
 	end
 	if blocks[1] == 'adminlist' then
+		local text
 		local subgroup_id = blocks[2]
-		local text, code = misc.getAdminlist(subgroup_id)
-		if not text then
-			if code == 429 then
+		local creator, adminlist = misc.getAdminlist(subgroup_id)
+		if not creator then
+			if adminlist == 429 then
 				text = _('Too many requests. Please wait some minutes and try again. Note that if you flood this command, I\'ll leave the group and block you')
 			else
 				text = _('An unexpected error with the api occurred. Please try again later')
 			end
+		else
+			text = _("<b>Creator</b>:\n%s\n\n<b>Admins</b>:\n%s"):format(creator, adminlist)
 		end
-		api.editMessageText(msg.chat.id, msg.message_id, text, true)
+		api.editMessageText(msg.chat.id, msg.message_id, text, 'html')
+	end
+	if blocks[1] == 'groupid' then
+		local subgroup_name = db:hget('realm:'..msg.chat.id..':subgroups', blocks[2])
+		if subgroup_name then
+			api.editMessageText(msg.chat.id, msg.message_id, _('ID of %s:'):format(subgroup_name))
+		end
+		api.sendMessage(msg.chat.id, ('`%s`'):format(blocks[2]), true)
 	end
 	if blocks[1] == 'send' then
 		local text_to_send = db:get('temp:realm:'..msg.chat.id..':send')
@@ -550,7 +560,7 @@ function plugin.onTextMessage(msg, blocks)
 		end
 	end
 	
-	if not is_realm(msg.chat.id) then print(-3) return true end
+	if not is_realm(msg.chat.id) then return true end
 	local subgroups = db:hgetall('realm:'..msg.chat.id..':subgroups')
 	if not next(subgroups) then
 		api.sendReply(msg, _('_I\'m sorry, this realm doesn\'t have subgroups paired with it_'), true) return
@@ -683,6 +693,10 @@ function plugin.onTextMessage(msg, blocks)
 		local keyboard = doKeyboard_subgroups(subgroups, 'adminlist')
 		api.sendMessage(msg.chat.id, 'Choose a group to see the list of the admins', false, keyboard)
 	end
+	if blocks[1] == 'id' then
+		local reply_markup = doKeyboard_subgroups(subgroups, 'groupid')
+		api.sendMessage(msg.chat.id, 'Choose a subgroup to get its Telegram ID', false, reply_markup)
+	end
 	if blocks[1] == 'send' then
 		local res, code = api.sendReply(msg, blocks[2], true)
 		if not res then
@@ -724,6 +738,7 @@ plugin.triggers = {
 		config.cmd..'(realm)$',
 		config.cmd..'(config)$',
 		config.cmd..'(add)$',
+		config.cmd..'(id)$',
 		config.cmd..'(log)s?$',
 		config.cmd..'(pin) (.*)$',
 		'^/(setlog)$',

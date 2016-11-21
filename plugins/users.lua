@@ -156,13 +156,12 @@ function plugin.onTextMessage(msg, blocks)
 	if msg.chat.type == 'private' then return end
 
 	if blocks[1] == 'adminlist' then
-    	local out
         local creator, adminlist = misc.getAdminlist(msg.chat.id)
-		out = _("*Creator*:\n%s\n\n*Admins*:\n%s"):format(creator, adminlist)
+		local out = _("<b>Creator</b>:\n%s\n\n<b>Admins</b>:\n%s"):format(creator, adminlist)
         if not roles.is_admin_cached(msg) then
-        	api.sendMessage(msg.from.id, out, true)
+        	api.sendMessage(msg.from.id, out, 'html')
         else
-            api.sendReply(msg, out, true)
+            api.sendReply(msg, out, 'html')
         end
     end
 	if blocks[1] == 'status' then
@@ -263,10 +262,11 @@ function plugin.onCallbackQuery(msg, blocks)
 	if blocks[1] == 'remwarns' then
 		db:hdel('chat:'..msg.chat.id..':warns', msg.target_id)
 		db:hdel('chat:'..msg.chat.id..':mediawarn', msg.target_id)
+		db:hdel('chat:'..msg.chat.id..':spamwarns', msg.target_id)
 
-        local name = misc.getname_link(msg.from.first_name, msg.from.username) or msg.from.first_name:escape()
-		local text = _("The number of warnings received by this user has been *reset*\n(Admin: %s)")
-		api.editMessageText(msg.chat.id, msg.message_id, text:format(name), true)
+        local name = misc.getname_final(msg.from)
+		local text = _("The number of warnings received by this user has been <b>reset</b>, by %s"):format(name)
+		api.editMessageText(msg.chat.id, msg.message_id, text:format(name), 'html')
     end
     if blocks[1] == 'recache' then
 		local missing_sec = tonumber(db:ttl('cache:chat:'..msg.target_id..':admins') or 0)
