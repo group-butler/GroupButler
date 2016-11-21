@@ -187,7 +187,7 @@ function plugin.onTextMessage(msg, blocks)
 					unknown = _("%s has nothing to do with this chat"),
 					member = _("%s is a chat member")
 				}
-				api.sendReply(msg, texts[status]:format(name), true)
+				api.sendReply(msg, texts[status]:format(name), 'html')
 		 	end
 	 	end
  	end
