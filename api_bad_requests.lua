@@ -45,7 +45,7 @@ return {
 	[144] = 'Can\'t parse message text: Unsupported start tag "%w+" at byte offset %d+',
 	[145] = 'Can\'t parse message text: Expected end tag at byte offset %d+',
 	[146] = 'BUTTON_URL_INVALID', --invalid url (inline buttons)
-	[147] ) 'Message must be non-empty', --example: ```   ```
+	[147] = 'Message must be non-empty' --example: ```   ```
 	--[403] = 'Bot was blocked by the user', --user blocked the bot
 	--[429] = 'Too many requests: retry later', --the bot is hitting api limits
 	--[430] = 'Too big total timeout', --too many callback_data requests
