@@ -91,7 +91,7 @@ function plugin.onEveryMessage(msg)
         end
     end
     
-    if msg.media and not(msg.chat.type == 'private') and not msg.cb then
+    if msg.media and msg.chat.type ~= 'private' and not msg.cb and not msg.edited then
         local media = msg.media_type
         local hash = 'chat:'..msg.chat.id..':media'
         local media_status = (db:hget(hash, media)) or 'ok'
