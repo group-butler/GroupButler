@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GroupButler 4.0\n"
 "Report-Msgid-Bugs-To: https://telegram.me/bac0nnn\n"
-"POT-Creation-Date: 2016-11-23 02:01+0100\n"
+"POT-Creation-Date: 2016-11-23 03:12+0100\n"
 "PO-Revision-Date: 2016-09-12 22:00+0200\n"
 "Last-Translator: Nicholas Guriev <guriev-ns@ya.ru>\n"
 "Language-Team: Italian\n"
@@ -205,6 +205,10 @@ msgstr ""
 #: plugins/configure.lua:9 plugins/realms.lua:253
 msgid "🚫 Antispam"
 msgstr ""
+
+#: plugins/configure.lua:10
+msgid "📥 Log channel"
+msgstr "📥 Canale log"
 
 #: plugins/configure.lua:22
 msgid "_Manage your group_"
@@ -1268,6 +1272,14 @@ msgstr "Comandi per gli utenti"
 #: plugins/help.lua:312
 msgid "Commands in private"
 msgstr "Comandi in chat privata"
+
+#: plugins/help.lua:313
+msgid "Realms"
+msgstr "Realm"
+
+#: plugins/help.lua:314
+msgid "Log channel"
+msgstr "Canale log"
 
 #: plugins/help.lua:329
 msgid "Back"
@@ -2615,7 +2627,8 @@ msgstr "Ban dal comando /user"
 msgid ""
 "<i>Banned!</i>\n"
 "Banned by: %s"
-msgstr "<i>Bannato!</i>\n"
+msgstr ""
+"<i>Bannato!</i>\n"
 "Bannato da: %s"
 
 #: plugins/users.lua:269
@@ -2957,14 +2970,150 @@ msgstr "Avviami"
 msgid "_Please message me first so I can message you_"
 msgstr "_Per favore, avviami cosicchè io possa risponderti_"
 
-#~ msgid "📥 Log channel"
-#~ msgstr "📥 Canale log"
+#: utilities.lua:770
+#, lua-format
+msgid "<b>Chat</b>: %s [#chat%d]"
+msgstr ""
 
-#~ msgid "Realms"
-#~ msgstr "Realm"
+#: utilities.lua:793
+#, lua-format
+msgid ""
+"#NEWPHOTO\n"
+"%s\n"
+"<b>By</b>: %s"
+msgstr ""
+"#NUOVAFOTO\n"
+"%s\n"
+"<b>Da</b>: %s"
 
-#~ msgid "Log channel"
-#~ msgstr "Canale log"
+#: utilities.lua:794
+msgid "Get the new photo"
+msgstr "Vedi la nuova foto"
+
+#: utilities.lua:796
+#, lua-format
+msgid ""
+"#PHOTOREMOVED\n"
+"%s\n"
+"<b>By</b>: %s"
+msgstr ""
+"#FOTORIMOSSA\n"
+"%s\n"
+"<b>Da</b>: %s"
+
+#: utilities.lua:798
+#, lua-format
+msgid ""
+"#NEWTITLE\n"
+"%s\n"
+"<b>By</b>: %s"
+msgstr ""
+"#NUOVOTITOLO\n"
+"%s\n"
+"<b>Da</b>: %s"
+
+#: utilities.lua:800
+#, lua-format
+msgid ""
+"#PINNEDMSG\n"
+"%s\n"
+"<b>By</b>: %s"
+msgstr ""
+"#FISSATO\n"
+"%s\n"
+"<b>Da</b>: %s"
+
+#: utilities.lua:802
+msgid "Go to the pinned message"
+msgstr "Vai al messaggio fissato"
+
+#: utilities.lua:806
+#, lua-format
+msgid ""
+"#NEW_MEMBER\n"
+"%s\n"
+"<b>User</b>: %s"
+msgstr ""
+"#NUOVOMEMBRO\n"
+"%s\n"
+"<b>Utente</b>: %s"
+
+#: utilities.lua:808
+#, lua-format
+msgid ""
+"\n"
+"<b>Added by</b>: %s [#id%d]"
+msgstr ""
+"\n"
+"<b>Aggiunto day</b>: %s [#id%d]"
+
+#: utilities.lua:820
+#, lua-format
+msgid ""
+"#%s\n"
+"<b>Admin</b>: %s [#id%d]\n"
+"%s\n"
+"<b>User</b>: %s [#id%d]\n"
+"<b>Count</b>: <code>%d/%d</code>"
+msgstr ""
+"#%s\n"
+"<b>Admin</b>: %s [#id%d]\n"
+"%s\n"
+"<b>Utente</b>: %s [#id%d]\n"
+"<b>Conteggio</b>: <code>%d/%d</code>"
+
+#: utilities.lua:822
+#, lua-format
+msgid ""
+"\n"
+"<b>Action</b>: <i>%s</i>"
+msgstr ""
+"\n"
+"<b>Azione</b>: <i>%s</i>"
+
+#: utilities.lua:829
+msgid "WARNS_RESET"
+msgstr ""
+
+#: utilities.lua:830 utilities.lua:846
+#, lua-format
+msgid ""
+"#%s\n"
+"<b>Admin</b>: %s [#id%s]\n"
+"%s\n"
+"<b>User</b>: %s [#id%s]"
+msgstr ""
+"#%s\n"
+"<b>Admin</b>: %s [#id%s]\n"
+"%s\n"
+"<b>Utente</b>: %s [#id%s]"
+
+#: utilities.lua:839
+#, lua-format
+msgid ""
+"#%s\n"
+"<b>Admin</b>: %s [#id%s]\n"
+"%s\n"
+"<b>User</b>: %s [#id%s]\n"
+"<b>Duration</b>: %d days, %d hours"
+msgstr ""
+"#%s\n"
+"<b>Admin</b>: %s [#id%s]\n"
+"%s\n"
+"<b>Utente</b>: %s [#id%s]\n"
+"<b>Durata</b>: %d giorni, %d ore"
+
+#: utilities.lua:850
+msgid "Unban"
+msgstr "Unbanna"
+
+#: utilities.lua:853
+#, lua-format
+msgid ""
+"\n"
+"\n"
+"<i>%s</i>"
+msgstr ""
 
 #~ msgid "Kicked"
 #~ msgstr "Ha kickato"
@@ -2978,108 +3127,3 @@ msgstr "_Per favore, avviami cosicchè io possa risponderti_"
 #~ msgstr ""
 #~ "_Bannato!_\n"
 #~ "(Admin: %s)"
-
-#~ msgid ""
-#~ "#NEWPHOTO\n"
-#~ "%s\n"
-#~ "<b>By</b>: %s"
-#~ msgstr ""
-#~ "#NUOVAFOTO\n"
-#~ "%s\n"
-#~ "<b>Da</b>: %s"
-
-#~ msgid "Get the new photo"
-#~ msgstr "Vedi la nuova foto"
-
-#~ msgid ""
-#~ "#PHOTOREMOVED\n"
-#~ "%s\n"
-#~ "<b>By</b>: %s"
-#~ msgstr ""
-#~ "#FOTORIMOSSA\n"
-#~ "%s\n"
-#~ "<b>Da</b>: %s"
-
-#~ msgid ""
-#~ "#NEWTITLE\n"
-#~ "%s\n"
-#~ "<b>By</b>: %s"
-#~ msgstr ""
-#~ "#NUOVOTITOLO\n"
-#~ "%s\n"
-#~ "<b>Da</b>: %s"
-
-#~ msgid ""
-#~ "#PINNEDMSG\n"
-#~ "%s\n"
-#~ "<b>By</b>: %s"
-#~ msgstr ""
-#~ "#FISSATO\n"
-#~ "%s\n"
-#~ "<b>Da</b>: %s"
-
-#~ msgid "Go to the pinned message"
-#~ msgstr "Vai al messaggio fissato"
-
-#~ msgid ""
-#~ "#NEW_MEMBER\n"
-#~ "%s\n"
-#~ "<b>User</b>: %s"
-#~ msgstr ""
-#~ "#NUOVOMEMBRO\n"
-#~ "%s\n"
-#~ "<b>Utente</b>: %s"
-
-#~ msgid ""
-#~ "\n"
-#~ "<b>Added by</b>: %s [#id%d]"
-#~ msgstr ""
-#~ "\n"
-#~ "<b>Aggiunto day</b>: %s [#id%d]"
-
-#~ msgid ""
-#~ "#%s\n"
-#~ "<b>Admin</b>: %s [#id%d]\n"
-#~ "%s\n"
-#~ "<b>User</b>: %s [#id%d]\n"
-#~ "<b>Count</b>: <code>%d/%d</code>"
-#~ msgstr ""
-#~ "#%s\n"
-#~ "<b>Admin</b>: %s [#id%d]\n"
-#~ "%s\n"
-#~ "<b>Utente</b>: %s [#id%d]\n"
-#~ "<b>Conteggio</b>: <code>%d/%d</code>"
-
-#~ msgid ""
-#~ "\n"
-#~ "<b>Action</b>: <i>%s</i>"
-#~ msgstr ""
-#~ "\n"
-#~ "<b>Azione</b>: <i>%s</i>"
-
-#~ msgid ""
-#~ "#%s\n"
-#~ "<b>Admin</b>: %s [#id%s]\n"
-#~ "%s\n"
-#~ "<b>User</b>: %s [#id%s]\n"
-#~ "<b>Duration</b>: %d days, %d hours"
-#~ msgstr ""
-#~ "#%s\n"
-#~ "<b>Admin</b>: %s [#id%s]\n"
-#~ "%s\n"
-#~ "<b>Utente</b>: %s [#id%s]\n"
-#~ "<b>Durata</b>: %d giorni, %d ore"
-
-#~ msgid ""
-#~ "#%s\n"
-#~ "<b>Admin</b>: %s [#id%s]\n"
-#~ "%s\n"
-#~ "<b>User</b>: %s [#id%s]"
-#~ msgstr ""
-#~ "#%s\n"
-#~ "<b>Admin</b>: %s [#id%s]\n"
-#~ "%s\n"
-#~ "<b>Utente</b>: %s [#id%s]"
-
-#~ msgid "Unban"
-#~ msgstr "Unbanna"

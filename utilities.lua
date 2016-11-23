@@ -758,8 +758,7 @@ function misc.get_user_id(msg, blocks)
 end
 
 function misc.logEvent(event, msg, extra)
-	return nil
-	--[[local log_id = db:hget('bot:chatlogs', msg.chat.id)
+	local log_id = db:hget('bot:chatlogs', msg.chat.id)
 	--vardump(extra)
 	
 	if not log_id then return end
@@ -857,7 +856,7 @@ function misc.logEvent(event, msg, extra)
 	
 	if text then
 		api.sendMessage(log_id, text, 'html', reply_markup)
-	end]]
+	end
 end
 
 function misc.saveBan(user_id, motivation)
