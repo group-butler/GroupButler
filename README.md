@@ -4,10 +4,13 @@
 
 This bot has been created to help people administrate their groups, and includes many useful tools.
 
-This bot was born as an [otouto](otou.to) [v3.1](https://github.com/topkecleon/otouto/tree/26c1299374af130bbf8457af904cb4ea450caa51) ([@mokubot](https://telegram.me/mokubot)), but it has been turned into an administration bot.
+Group Butler was born as an [otouto](otou.to) [v3.1](https://github.com/topkecleon/otouto/tree/26c1299374af130bbf8457af904cb4ea450caa51) ([@mokubot](https://telegram.me/mokubot)), but it has been turned into an administration bot.
 
-[@GroupButler_bot](https://telegram.me/GroupButler_Bot) is the official Group Butler on Telegram, and [@GroupButler_ch](https://telegram.me/groupbutler_ch) is its channel.
-There's a beta version too, that follows the updates of this repository: [@GBReborn_bot](https://telegram.me/GBReborn_bot), updates channel at [@GroupButler_beta](https://telegram.me/GroupButler_beta).
+#### Group Butler on Telegram:
+
+- [@GroupButler_bot](https://telegram.me/GroupButler_Bot) is based on the `master` branch of this repository. It's the main bot, and [@GroupButler_ch](https://telegram.me/groupbutler_ch) is its channel.
+
+- [@GBReborn_bot](https://telegram.me/GBReborn_bot) is based on the `beta` branch. It has its own channel, [@GroupButler_beta](https://telegram.me/GroupButler_beta).
 
 * * *
 
@@ -41,7 +44,7 @@ or
 
 
 ```bash
-# Tested on Ubuntu 14.04, Ubuntu 15.04, Debian 7, Linux Mint 17.2
+# Tested on Ubuntu 14.04, 15.04 and 16.04, Debian 7, Linux Mint 17.2
 
 $ sudo apt-get update
 $ sudo apt-get upgrade
@@ -89,9 +92,7 @@ Before you start the bot, you have to start the Redis process.
 $ sudo service redis-server start
 ```
 
-* * *
-
-## Start the process
+## Starting the process
 
 To start the bot, run `./launch.sh`. To stop the bot, press Control <kbd>CTRL</kbd>+<kbd>C</kbd> twice.
 
@@ -110,13 +111,13 @@ You may also start the bot with `lua bot.lua`, however it will not restart autom
     * `db`: the selected Redis database (if you are running Redis with the default config, the available databases are 16). The database will be selected on each start/reload. Default: 2
   * Other things that may be useful
     * Administrators commands start for `$`. They are not documented, look at the triggers of `plugins/admin.lua` plugin for the whole list
-    * If the `action` function of a plugin returns `true`, the bot will continue to try to match the message text with the missing triggers of the `plugins` table
+    * If the main function of a plugin returns `true`, the bot will continue to try to match the message text with the missing triggers of the `plugins` table
     * You can send yourself a backup of the zipped bot folder with the `$backup` command
     * The Telegram Bot API has some undocumented "weird behaviors" that you may notice while using this bot
        * In supergroups, the `kickChatMember` method returns always a positive response if the `user_id` has been part of the group at least once, it doesn't matter if the user is not in the group when you use this method
        * In supergroups, the `unbanChatMember` method returns always a positive response if the `user_id` has been part of the group at least once, it doesn't matter if the user is not in the group or is not in the group blacklist
 
-* * *
+
 ## Some notes about the database
 
 *Everything* is stored on Redis, and the fastest way to edit your database is via the [Redis CLI](http://redis.io/topics/rediscli).
@@ -146,11 +147,11 @@ After add your new locale in the file `config.lua`.
 
 * * *
 
-### Notes about this repository
+## Pull requests
 
-Note that this bot is not open source because I want everyone to be able to clone it and run its own copy. It's open source because everyone can take a look on how the bot works, see which data are stored, and decide if the bot is worth to be a group administrator. There are some installation instructions just because why not.
+If you are going to open a pull request, please use the [`beta` branch]() as destination branch.
 
-If you are going to open a pull request, keep in mind that I don't know how to use GitHub well. I may overwrite commits and stuffs like that, this already happened. It's not because I'm bad, it's just because I'm an idiot.
+Pull requests in the `master` branch won't be considered, unless they are intended to solve a critical problem.
 
 * * *
 
