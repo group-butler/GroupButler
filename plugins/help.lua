@@ -215,7 +215,7 @@ So with `/pin` you can generate a message to pin, and edit it how many times you
 *Note*: translators are volunteers, so I can't ensure the correctness of all the translations. And I can't force them to translate the new strings after each update (not translated strings are in english).
 
 Anyway, translations are open to everyone. If you want to translate the bot, see an [information](https://github.com/RememberTheAir/GroupButler#translators) on GitHub.
-You can use `/strings` command to get the `.po` file of your language, and translate it
+Ask in the English /group for the `.po` file of your language.
 
 *Special characters*
 

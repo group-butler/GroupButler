@@ -40,7 +40,7 @@ function plugin.onTextMessage(msg, blocks)
 		local text = _("This bot is based on [otouto](https://github.com/topkecleon/otouto) (AKA @mokubot, channel: @otouto), a multipurpose Lua bot.\nGroup Butler wouldn't exist without it.\n\nThe owner of this bot is @bac0nnn, do not pm him: use /groups command instead.\n\nBot version: `%s`\n*Some useful links:*"):format(config.human_readable_version .. ' rev.' .. bot.revision)
 		api.sendMessage(msg.chat.id, text, true, keyboard)
 	end
-	if blocks[1] == 'groups' then
+	if blocks[1] == 'group' then
 		if config.help_groups and next(config.help_groups) then
 			local keyboard = {inline_keyboard = {}}
 			for group, link in pairs(config.help_groups) do
@@ -83,8 +83,8 @@ plugin.triggers = {
 		config.cmd..'(ping)$',
 		config.cmd..'(echo) (.*)$',
 		config.cmd..'(about)$',
-		config.cmd..'(groups)$',
-		'^/start (groups)$'
+		config.cmd..'(group)s?$',
+		'^/start (group)s$'
 	},
 	onCallbackQuery = {
 		'^###cb:fromhelp:(about)$',
