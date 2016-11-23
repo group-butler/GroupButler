@@ -1,3 +1,8 @@
+local curl = require 'cURL'
+local URL = require 'socket.url'
+local JSON = require 'dkjson'
+local config = require 'config'
+local clr = require 'term.colors'
 local api_errors = require 'api_bad_requests'
 
 local BASE_URL = 'https://api.telegram.org/bot' .. config.bot_api_key

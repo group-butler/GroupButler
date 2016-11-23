@@ -25,39 +25,40 @@ return {
 	channel = '@groupbutler_beta', --channel username with the '@'
 	source_code = 'https://github.com/RememberTheAir/GroupButler/tree/beta',
 	help_groups = {
-		['Internatonal (English)'] = 'https://telegram.me/joinchat/EKBQLj7Zf6lE2K_Pk0Epcg', --group link, not (at)username! If you have your own support group, modify here!
+		['International (English)'] = 'https://telegram.me/joinchat/EKBQLj7Zf6lE2K_Pk0Epcg', --group link, not (at)username! If you have your own support group, modify here!
 		['Italian'] = 'https://telegram.me/ITAgroupbutler',
 		['Persian'] = 'https://telegram.me/joinchat/CTDUTkCOsEt4DZT-SUQdBQ',
 		['Russian'] = 'https://telegram.me/rubutler',
-		['Spanish'] = 'https://telegram.me/ESgroupbutler'
+		['Spanish'] = 'https://telegram.me/ESgroupbutler',
+		['PT/BR'] = 'https://telegram.me/PTBRgroupbutler'
 	},--
 	plugins = {
-		'onmessage.lua', --THIS MUST BE THE FIRST: IF AN USER IS FLOODING/IS BLOCKED, THE BOT WON'T GO THROUGH PLUGINS
-		'antispam.lua', --SAME OF onmessage.lua
-		'realms.lua', --must stay here
-		'configure.lua',
-		'menu.lua',
-		'dashboard.lua',
-		'banhammer.lua',
-		'users.lua',
-		'help.lua',
-		'rules.lua',
-		'service.lua',
-		'links.lua',
-		'warn.lua',
-		'setlang.lua',
-		'floodmanager.lua',
-		'welcome.lua',
-		'pin.lua',
-		'mediasettings.lua',
-		'private.lua',
-		'admin.lua',
-		'backup.lua',
-		--'test.lua',
-		'logchannel.lua',
-		'report.lua',
-		'private_settings.lua',
-		'extra.lua', --must be the last plugin in the list.
+		'onmessage', --THIS MUST BE THE FIRST: IF AN USER IS FLOODING/IS BLOCKED, THE BOT WON'T GO THROUGH PLUGINS
+		'antispam', --SAME OF onmessage.lua
+		'realms', --must stay here
+		'configure',
+		'menu',
+		'dashboard',
+		'banhammer',
+		'users',
+		'help',
+		'rules',
+		'service',
+		'links',
+		'warn',
+		'setlang',
+		'floodmanager',
+		'welcome',
+		'pin',
+		'mediasettings',
+		'private',
+		'admin',
+		'backup',
+		--'test',
+		'logchannel',
+		'report',
+		'private_settings',
+		'extra', --must be the last plugin in the list.
 	},
 	multipurpose_plugins = {},
 	available_languages = {

@@ -1,3 +1,9 @@
+local config = require 'config'
+local misc = require 'utilities'.misc
+local roles = require 'utilities'.roles
+local api = require 'methods'
+local JSON = require 'dkjson'
+
 local plugin = {}
 
 local function save_data(filename, data)

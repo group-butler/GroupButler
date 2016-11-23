@@ -1,10 +1,8 @@
-curl = require('cURL')
-URL = require('socket.url')
-JSON = require('dkjson')
-redis = require('redis')
-clr = require 'term.colors'
+local api = require 'methods'
+local redis = require 'redis'
+local clr = require 'term.colors'
+local misc, roles, config, plugins, is_started, last_update, last_cron
 db = redis.connect('127.0.0.1', 6379)
-serpent = require('serpent')
 
 function bot_init(on_reload) -- The function run when the bot is started or reloaded.
 	
@@ -15,17 +13,18 @@ function bot_init(on_reload) -- The function run when the bot is started or relo
 	
 	db:select(config.db or 0) --select the redis db
 	
-	misc, roles = dofile('utilities.lua') -- Load miscellaneous and cross-plugin functions.
+	local utilities = dofile('utilities.lua') -- Load miscellaneous and cross-plugin functions.
+	misc, roles, utilities = utilities.misc, utilities.roles, nil
 	locale = dofile('languages.lua')
-	api = require('methods')
 	now_ms = require('socket').gettime
 	
 	bot = api.getMe().result -- Get bot info
-	bot.revision = io.popen('git rev-parse --short HEAD'):read()
+	bot.revision = misc.bash('git rev-parse --short HEAD')
 
 	plugins = {} -- Load plugins.
 	for i,v in ipairs(config.plugins) do
-		local p = dofile('plugins/'..v)
+		local p = require('plugins.'..v)
+		package.loaded['plugins.'..v] = nil
 		if p.triggers then
 			for funct, trgs in pairs(p.triggers) do
 				for i = 1, #trgs do
@@ -63,7 +62,6 @@ function bot_init(on_reload) -- The function run when the bot is started or relo
 	end
 end
 
--- for resolve username
 local function extract_usernames(msg)
 	if msg.from then
 		if msg.from.username then

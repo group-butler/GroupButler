@@ -1,3 +1,8 @@
+local config = require 'config'
+local misc = require 'utilities'.misc
+local roles = require 'utilities'.roles
+local api = require 'methods'
+
 local plugin = {}
 
 local function do_keyboard_credits()
@@ -5,7 +10,7 @@ local function do_keyboard_credits()
     keyboard.inline_keyboard = {
     	{
     		{text = _("Channel"), url = 'https://telegram.me/'..config.channel:gsub('@', '')},
-    		{text = _("GitHub"), url = 'https://github.com/RememberTheAir/GroupButler'},
+    		{text = _("GitHub"), url = config.source_code},
     		{text = _("Rate me!"), url = 'https://telegram.me/storebot?start='..bot.username},
 		},
 		{

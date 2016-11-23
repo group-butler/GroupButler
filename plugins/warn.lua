@@ -1,3 +1,8 @@
+local config = require 'config'
+local misc = require 'utilities'.misc
+local roles = require 'utilities'.roles
+local api = require 'methods'
+
 local plugin = {}
 
 local function doKeyboard_warn(user_id)
