@@ -254,10 +254,11 @@ function plugin.onCallbackQuery(msg, blocks)
 		local res, text = api.banUser(msg.chat.id, user_id)
 		if res then
 			misc.saveBan(user_id, 'ban')
-			local name = misc.getname_link(msg.from.first_name, msg.from.username) or msg.from.first_name:escape()
-			text = _("_Banned!_\n(Admin: %s)"):format(name)
+			local name = misc.getname_final(msg.from)
+			misc.logEvent('ban', msg, {admin = name, user = ('<code>%s</code>'):format(user_id), user_id = user_id, motivation = _("Ban from the /user command")})
+			text = _("<i>Banned!</i>\nBanned by: %s"):format(name)
 		end
-		api.editMessageText(msg.chat.id, msg.message_id, text, true)
+		api.editMessageText(msg.chat.id, msg.message_id, text, 'html')
 	end
 	if blocks[1] == 'remwarns' then
 		db:hdel('chat:'..msg.chat.id..':warns', msg.target_id)
@@ -267,6 +268,7 @@ function plugin.onCallbackQuery(msg, blocks)
         local name = misc.getname_final(msg.from)
 		local text = _("The number of warnings received by this user has been <b>reset</b>, by %s"):format(name)
 		api.editMessageText(msg.chat.id, msg.message_id, text:format(name), 'html')
+		misc.logEvent('nowarn', msg, {admin = name, user = ('<code>%s</code>'):format(msg.target_id), user_id = msg.target_id})
     end
     if blocks[1] == 'recache' then
 		local missing_sec = tonumber(db:ttl('cache:chat:'..msg.target_id..':admins') or 0)

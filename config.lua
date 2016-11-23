@@ -34,7 +34,7 @@ return {
 	plugins = {
 		'onmessage.lua', --THIS MUST BE THE FIRST: IF AN USER IS FLOODING/IS BLOCKED, THE BOT WON'T GO THROUGH PLUGINS
 		'antispam.lua', --SAME OF onmessage.lua
-		'realms.lua',
+		--'realms.lua', --must stay here
 		'configure.lua',
 		'menu.lua',
 		'dashboard.lua',
@@ -54,7 +54,7 @@ return {
 		'admin.lua',
 		'backup.lua',
 		--'test.lua',
-		'logchannel.lua',
+		--'logchannel.lua',
 		'report.lua',
 		'private_settings.lua',
 		'extra.lua', --must be the last plugin in the list.
@@ -140,6 +140,7 @@ return {
 			['kick'] = 'no',
 			['tempban'] = 'no',
 			['warn'] = 'no',
+			['nowarn'] = 'no',
 			['mediawarn'] = 'no',
 			['spamwarn'] = 'no',
 			['flood'] = 'no',

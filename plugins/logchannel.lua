@@ -45,6 +45,7 @@ local function doKeyboard_logchannel(chat_id)
 		['kick'] = _('Kick'),
 		['tempban'] = _('Tempban'),
 		['warn'] = _('Warns'),
+		['nowarn'] = _('Warns resets'),
 		['new_chat_member'] = _('New members'),
 		['mediawarn'] = _('Media warns'),
 		['spamwarn'] = _('Spam warns'),

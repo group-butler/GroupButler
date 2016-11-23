@@ -690,7 +690,7 @@ function misc.remGroup(chat_id, full, converted_to_realm)
 	db:hdel('bot:chats:latsmsg', chat_id)
 	db:hdel('bot:chatlogs', chat_id) --log channel
 	
-	--subgroup
+	--if chat_id has a realm
 	if db:exists('chat:'..chat_id..':realm') then
 		local realm_id = db:get('chat:'..chat_id..':realm') --get the realm id
 		db:hdel('realm:'..realm_id..':subgroups', chat_id) --remove the group from the realm subgroups
@@ -758,7 +758,8 @@ function misc.get_user_id(msg, blocks)
 end
 
 function misc.logEvent(event, msg, extra)
-	local log_id = db:hget('bot:chatlogs', msg.chat.id)
+	return nil
+	--[[local log_id = db:hget('bot:chatlogs', msg.chat.id)
 	--vardump(extra)
 	
 	if not log_id then return end
@@ -771,14 +772,24 @@ function misc.logEvent(event, msg, extra)
 	
 	local member = ("%s [@%s] [#id%d]"):format(msg.from.first_name:escape_html(), msg.from.username or '-', msg.from.id)
 	if event == 'mediawarn' then
+		--MEDIA WARN
+		--warns n°: warns
+		--warns max: warnmax
+		--media type: media
 		text = ('#MEDIAWARN (<code>%d/%d</code>), %s\n%s\n<b>User</b>: %s'):format(extra.warns, extra.warnmax, extra.media, chat_info, member)
-		if extra.hammered then text = text..('\n<i>%s</i>'):format(extra.hammered) end
+		if extra.hammered then text = text..('\n#%s'):format(extra.hammered:upper()) end
 	elseif event == 'spamwarn' then
+		--SPAM WARN
+		--warns n°: warns
+		--warns max: warnmax
+		--media type: spam_type
 		text = ('#SPAMWARN (<code>%d/%d</code>), <i>%s</i>\n%s\n<b>User</b>: %s'):format(extra.warns, extra.warnmax, extra.spam_type, chat_info, member)
-		if extra.hammered then text = text..('\n<i>%s</i>'):format(extra.hammered) end
+		if extra.hammered then text = text..('\n#%s'):format(extra.hammered:upper()) end
 	elseif event == 'flood' then
+		--FLOOD
+		--hammered?: hammered
 		text = ('#FLOOD\n%s\n<b>User</b>: %s'):format(chat_info, member)
-		if extra.hammered then text = text..('\n<i>%s</i>'):format(extra.hammered) end
+		if extra.hammered then text = text..('\n#%s'):format(extra.hammered:upper()) end
 	elseif event == 'new_chat_photo' then
 		text = _('#NEWPHOTO\n%s\n<b>By</b>: %s'):format(chat_info, member)
 		reply_markup = {inline_keyboard={{{text = _("Get the new photo"), url = ("telegram.me/%s?start=photo:%s"):format(bot.username, msg.new_chat_photo[#msg.new_chat_photo].file_id)}}}}
@@ -800,13 +811,39 @@ function misc.logEvent(event, msg, extra)
 	else
 		-- events that requires user + admin
 		if event == 'warn' then
+			--WARN
+			--admin name formatted: admin
+			--user name formatted: user
+			--user id: user_id
+			--warns n°: warns
+			--warns max: warnmax
+			--motivation: motivation
 			text = _('#%s\n<b>Admin</b>: %s [#id%d]\n%s\n<b>User</b>: %s [#id%d]\n<b>Count</b>: <code>%d/%d</code>'):format(event:upper(), extra.admin, msg.from.id, chat_info, extra.user, extra.user_id, extra.warns, extra.warnmax)
 			if extra.hammered then
 				text = text.._('\n<b>Action</b>: <i>%s</i>'):format(extra.hammered)
 			end
+		elseif event == 'nowarn' then
+			--WARNS REMOVED
+			--admin name formatted: admin
+			--user name formatted: user
+			--user id: user_id
+			local event_nowarn = _("WARNS_RESET")
+			text = _('#%s\n<b>Admin</b>: %s [#id%s]\n%s\n<b>User</b>: %s [#id%s]'):format(event_nowarn, extra.admin, msg.from.id, chat_info, extra.user, tostring(extra.user_id))
 		elseif event == 'tempban' then
+			--TEMPBAN
+			--admin name formatted: admin
+			--user name formatted: user
+			--user id: user_id
+			--days: d
+			--hours: h
+			--motivation: motivation
 			text = _('#%s\n<b>Admin</b>: %s [#id%s]\n%s\n<b>User</b>: %s [#id%s]\n<b>Duration</b>: %d days, %d hours'):format(event:upper(), extra.admin, msg.from.id, chat_info, extra.user, tostring(extra.user_id), extra.d, extra.h)
-		else
+		else --ban or kick
+			--BAN OR KICK
+			--admin name formatted: admin
+			--user name formatted: user
+			--user id: user_id
+			--motivation: motivation
 			text = _('#%s\n<b>Admin</b>: %s [#id%s]\n%s\n<b>User</b>: %s [#id%s]'):format(event:upper(), extra.admin, msg.from.id, chat_info, extra.user, tostring(extra.user_id))
 		end
 		if event == 'ban' or event == 'tempban' then
@@ -814,13 +851,13 @@ function misc.logEvent(event, msg, extra)
 			reply_markup = {inline_keyboard={{{text = _("Unban"), callback_data = ("logcb:un%s:%d:%d"):format(event, extra.user_id, msg.chat.id)}}}}
 		end
 		if extra.motivation then
-			text = text.._('\n\n> <i>%s</i>'):format(extra.motivation:escape_html())
+			text = text.._('\n\n<i>%s</i>'):format(extra.motivation:escape_html())
 		end
 	end
 	
 	if text then
 		api.sendMessage(log_id, text, 'html', reply_markup)
-	end
+	end]]
 end
 
 function misc.saveBan(user_id, motivation)

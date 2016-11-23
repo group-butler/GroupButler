@@ -177,8 +177,8 @@ local function realm_get_userid(text)
 		local username = text:match('(@[%w_]+)')
 		local id = misc.resolve_user(username)
 		if not id then
-			return false, "I've never seen this user before.\n"
-				.. "If you want to teach me who is he, forward me a message from him"
+			return false, _("I've never seen this user before.\n"
+				.. "If you want to teach me who is he, forward me a message from him")
 		else
 			return id
 		end
@@ -186,8 +186,8 @@ local function realm_get_userid(text)
 		local id = text:match('(%d+)')
 		return id
 	else
-		return false, "I've never seen this user before.\n"
-				.. "If you want to teach me who is he, forward me a message from him"
+		return false, _("I've never seen this user before.\n"
+				.. "If you want to teach me who is he, forward me a message from him")
 	end
 end	
 
@@ -648,37 +648,42 @@ function plugin.onTextMessage(msg, blocks)
 	if blocks[1] == 'ban' then
 		local user_id
 		if blocks[2] then
-			user_id = realm_get_userid(blocks[2])
+			user_id, error_message = realm_get_userid(blocks[2])
 		else
-			if not msg.reply.forward_from then
-				api.sendReply(msg, _('_Answer to a forwarded message_'), true) return
-			else
-				user_id = msg.reply.forward_from.id
-			end
-		end
-		
-		local failed = {limits = 0, not_admin = 0, is_admin = 0, others = 0, names = ''}
-		local success = 0
-		for subgroup_id, subgroup_name in pairs(subgroups) do
-			local res, code = api.banUser(subgroup_id, user_id)
-			if not res then
-				print(code)
-				if code == 429 then
-					failed.limits = failed.limits + 1
-				elseif code == 101 then
-					failed.not_admin = failed.not_admin + 1 --the bot can't kick because it's not admin
-				elseif code == 102 then
-					failed.is_admin = failed.is_admin + 1 --trying to kick an admin
+			if msg.reply then
+				if not msg.reply.forward_from then
+					api.sendReply(msg, _('_Answer to a forwarded message_'), true) return
 				else
-					failed.others = failed.others + 1
+					user_id = msg.reply.forward_from.id
 				end
-				failed.names = failed.names..'- '..subgroup_name..'\n'
-			else
-				success = success + 1
 			end
 		end
 		
-		local text = _([[Executed.
+		if not user_id and error_message then
+			api.sendMessage(msg.chat.id, error_message)
+		else
+			local failed = {limits = 0, not_admin = 0, is_admin = 0, others = 0, names = ''}
+			local success = 0
+			for subgroup_id, subgroup_name in pairs(subgroups) do
+				local res, code = api.banUser(subgroup_id, user_id)
+				if not res then
+					print(code)
+					if code == 429 then
+						failed.limits = failed.limits + 1
+					elseif code == 101 then
+						failed.not_admin = failed.not_admin + 1 --the bot can't kick because it's not admin
+					elseif code == 102 then
+						failed.is_admin = failed.is_admin + 1 --trying to kick an admin
+					else
+						failed.others = failed.others + 1
+					end
+					failed.names = failed.names..'- '..subgroup_name..'\n'
+				else
+					success = success + 1
+				end
+			end
+			
+			local text = _([[Executed.
 
 <b>Success</b>: <code>%d</code>
 <b>The bot is not admin</b>: <code>%d</code>
@@ -687,7 +692,8 @@ function plugin.onTextMessage(msg, blocks)
 <b>Failed because of other reasons</b>: <code>%d</code>
 <b>Failed to ban from</b>:
 %s]])
-		api.sendReply(msg, text:format(success, failed.not_admin, failed.is_admin, failed.limits, failed.others, failed.names:escape_html()), 'html')
+			api.sendReply(msg, text:format(success, failed.not_admin, failed.is_admin, failed.limits, failed.others, failed.names:escape_html()), 'html')
+		end
 	end
 	if blocks[1] == 'adminlist' then
 		local keyboard = doKeyboard_subgroups(subgroups, 'adminlist')

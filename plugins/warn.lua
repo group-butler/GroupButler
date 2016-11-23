@@ -43,7 +43,10 @@ function plugin.onTextMessage(msg, blocks)
 		db:hdel('chat:'..msg.chat.id..':warns', msg.reply.from.id)
 		db:hdel('chat:'..msg.chat.id..':mediawarn', msg.reply.from.id)
 		db:hdel('chat:'..msg.chat.id..':spamwarns', msg.reply.from.id)
-		api.sendReply(msg, _('Done! %s has been forgiven'):format(misc.getname_final(msg.reply.from)), 'html')
+		local admin = misc.getname_final(msg.from)
+		local user = misc.getname_final(msg.reply.from)
+		api.sendReply(msg, _('Done! %s has been forgiven'):format(user), 'html')
+		misc.logEvent('nowarn', msg, {admin = admin, user = user, user_id = msg.reply.from.id})
 	end	
 		
     if blocks[1] == 'warn'  or blocks[1] == 'sw' then
@@ -119,9 +122,11 @@ function plugin.onCallbackQuery(msg, blocks)
     	db:hdel('chat:'..msg.chat.id..':warns', user_id)
 		db:hdel('chat:'..msg.chat.id..':mediawarn', user_id)
 		db:hdel('chat:'..msg.chat.id..':spamwarns', user_id)
-
-		local text = _("Warns <b>reset</b> by %s"):format(misc.getname_final(msg.from))
+		
+		local admin = misc.getname_final(msg.from)
+		local text = _("Warns <b>reset</b> by %s"):format(admin)
 		api.editMessageText(msg.chat.id, msg.message_id, text, 'html')
+		misc.logEvent('nowarn', msg, {admin = admin, user = ('<code>%s</code>'):format(user_id), user_id = user_id})
 	end
 	if blocks[1] == 'removewarn' then
     	local user_id = blocks[2]

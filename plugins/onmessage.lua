@@ -69,12 +69,11 @@ function plugin.onEveryMessage(msg)
         	    end
         	    --if kicked/banned, send a message
         	    if res then
-        	        local log_hammered = _('Kicked')
+        	        local log_hammered = action
         	        if msgs_sent == (msgs_max + 1) or msgs_sent == msgs_max + 5 then --send the message only if it's the message after the first message flood. Repeat after 5
         	            misc.saveBan(msg.from.id, 'flood') --save ban
         	            if action == 'ban' then
         	                message = _("%s <b>banned</b> for flood!"):format(name)
-        	                log_hammered = _('Banned')
         	            else
         	                message = _("%s <b>kicked</b> for flood!"):format(name)
         	            end
@@ -98,10 +97,11 @@ function plugin.onEveryMessage(msg)
         local out
         if not(media_status == 'ok') then
             if not roles.is_admin_cached(msg) then --ignore admins
+                local status
                 local name = misc.getname_final(msg.from)
                 local max_reached_var, n, max = max_reached(msg.chat.id, msg.from.id)
     	        if max_reached_var then --max num reached. Kick/ban the user
-    	            local status = (db:hget('chat:'..msg.chat.id..':warnsettings', 'mediatype')) or config.chat_settings['warnsettings']['mediatype']
+    	            status = (db:hget('chat:'..msg.chat.id..':warnsettings', 'mediatype')) or config.chat_settings['warnsettings']['mediatype']
     	            --try to kick/ban
     	            if status == 'kick' then
                         res = api.kickUser(msg.chat.id, msg.from.id)
@@ -112,10 +112,8 @@ function plugin.onEveryMessage(msg)
     	                misc.saveBan(msg.from.id, 'media') --save ban
     	                db:hdel('chat:'..msg.chat.id..':mediawarn', msg.from.id) --remove media warns
     	                local message
-    	                local log_hammer = _('Kicked')
     	                if status == 'ban' then
 			    			message = _("%s <b>banned</b>: media sent not allowed!\n❗️ <code>%d/%d</code>"):format(name, n, max)
-			    			log_hammer = _('Banned')
     	                else
 			    			message = _("%s <b>kicked</b>: media sent not allowed!\n❗️ <code>%d/%d</code>"):format(name, n, max)
     	                end
@@ -125,7 +123,7 @@ function plugin.onEveryMessage(msg)
 			    	local message = _("%s, this type of media is <b>not allowed</b> in this chat.\n(<code>%d/%d</code>)"):format(name, n, max)
 	                api.sendReply(msg, message, 'html')
 	            end
-	            misc.logEvent('mediawarn', msg, {warns = n, warnmax = max, media = _(media)})
+	            misc.logEvent('mediawarn', msg, {warns = n, warnmax = max, media = _(media), hammered = status})
     	    end
     	end
     end
