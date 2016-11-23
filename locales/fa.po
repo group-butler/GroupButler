@@ -5,10 +5,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: GroupButler 4.0\n"
+"Project-Id-Version: GroupButler 4.2.0\n"
 "Report-Msgid-Bugs-To: https://telegram.me/bac0nnn\n"
 "POT-Creation-Date: 2016-11-12 16:27+0100\n"
-"PO-Revision-Date: 2016-11-12 20:49+0330\n"
+"PO-Revision-Date: Wednesday - 2016 23 November\n"
 "Last-Translator: Nicholas Guriev <guriev-ns@ya.ru>\n"
 "Language-Team: Persian\n"
 "Language: fa\n"
@@ -18,8 +18,8 @@ msgstr ""
 "X-Generator: Poedit 1.8.11\n"
 
 #: bot.lua:178
-msgid "🐛 Sorry, a *bug* occurred"
-msgstr "🐛 متاسفانه یک خطا رخ داده است"
+msgid "🐞 Sorry, a *bug* occurred"
+msgstr "🐞 متاسفانه یک خطا رخ داده است"
 
 #: bot.lua:202
 #, lua-format
@@ -138,8 +138,8 @@ msgstr "پیام یک کاربر را *Reply* (پاسخ) کنید"
 msgid "For this, you can directly use /ban"
 msgstr "برای اینکار شما میتوانید از ban/ استفاده کنید."
 
-#: plugins/banhammer.lua:86
-msgid "The time limit is one week (168 hours)"
+#: plugins/banhammer.lua:104
+msgid "_The time limit is one week (168 hours)_"
 msgstr "زمان محدودیت یک هفته میباشد (10 080)"
 
 #: plugins/banhammer.lua:97 plugins/banhammer.lua:120 plugins/banhammer.lua:133
@@ -150,38 +150,30 @@ msgstr ""
 "من نمیتوانم این کاربر را اخراج کنم.\n"
 "ممکنه ادمین نباشم یا این کاربر ادمین است!"
 
-#: plugins/banhammer.lua:108
-#, lua-format
-msgid ""
-"Ban time was updated for %s. Ban expiration: %s\n"
-"*Admin:* %s"
-msgstr ""
-"زمان محرومیت برای %s بروزرسانی شد. پایان محرومیت: %s\n"
-"مدیر: %s"
-
-#: plugins/banhammer.lua:110
-#, lua-format
-msgid ""
-"User %s was banned. Ban expiration: %s\n"
-"*Admin:* %s"
-msgstr ""
-"کاربر %s از ورود به گروه محروم شد. مدت محرومیت: %s\n"
-"مدیر: %s"
-
 #: plugins/banhammer.lua:126
 #, lua-format
-msgid "%s kicked %s!"
-msgstr "%s اخراج %s!"
+msgid "Ban time updated for %s. Ban expiration: %s\n<b>Admin</b>: %s"
+msgstr "زمان محدودیت برای ورود به گروه برای کاربر %s بروزرسانی شد.\nزمان بروزرسانی شده: %s\n<b>توسط مدیر</b>: %s"
 
-#: plugins/banhammer.lua:141
+#: plugins/banhammer.lua:128
 #, lua-format
-msgid "%s banned %s!"
-msgstr "%s مسدود کرد %s"
+msgid "User %s banned by %s.\n<i>Ban expiration:</i> %s"
+msgstr "کاربر %s توسط مدیر %s بن شد.\n<i>زمان محدودیت برای ورود مجدد به گروه:</i> %s"
 
 #: plugins/banhammer.lua:146
 #, lua-format
-msgid "User %s unbanned by %s!"
-msgstr "کاربر %s توسط %s از لیست مسدودها خارج شد!"
+msgid "%s kicked %s!"
+msgstr "مدیر %s کاربر %s را اخراج کرد"
+
+#: plugins/banhammer.lua:161
+#, lua-format
+msgid "%s banned %s!"
+msgstr "مدیر %s کاربر %s را مسدود کرد"
+
+#: plugins/banhammer.lua:166
+#, lua-format
+msgid "%s unbanned by %s!"
+msgstr "مدیر %s توسط %s از لیست مسدودها خارج شد!"
 
 #: plugins/configure.lua:6 plugins/realms.lua:230
 msgid "🛠 Menu"
@@ -313,12 +305,12 @@ msgstr "_داشبورد گروه برای شما ارسال شد_"
 
 #: plugins/dashboard.lua:85
 msgid "🚫 This group does not exist"
-msgstr "🚫 این گروه وجود ندارد"
+msgstr "🚫 این گروه حذف شده است"
 
 #: plugins/dashboard.lua:92
 msgid ""
-"🚷 You are not a member of the chat. You can't see the settings of a private "
-"group."
+msgid "🚷 You are not a member of the chat. "
+"You can't see the settings of a private group."
 msgstr "🚷 شما عضو این گروه نیستید نمی توانید تنظیمات خصوصی این گروه را ببینید."
 
 #: plugins/dashboard.lua:99
@@ -333,20 +325,10 @@ msgstr "ℹ️ گروه ◄ قوانین"
 msgid "I got kicked out of this group 😓"
 msgstr "من از این گروه خارج شده ام 😓"
 
-#: plugins/dashboard.lua:111 plugins/users.lua:161
+#: plugins/dashboard.lua:113 plugins/users.lua:160
 #, lua-format
-msgid ""
-"*Creator*:\n"
-"%s\n"
-"\n"
-"*Admins*:\n"
-"%s"
-msgstr ""
-"*سازنده گروه*:\n"
-"%s\n"
-"\n"
-"*مدیران*:\n"
-"%s"
+msgid "<b>Creator</b>:\n%s\n\n<b>Admins</b>:\n%s"
+msgstr "<b>سازنده گروه</b>:\n%s\n\n<b>مدیران گروه</b>:\n%s"
 
 #: plugins/dashboard.lua:113
 msgid "ℹ️ Group ► Admin list"
