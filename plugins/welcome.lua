@@ -19,11 +19,15 @@ local function get_welcome(msg)
 	if is_locked(msg.chat.id, 'Welcome') then
 		return false
 	end
-	local type = (db:hget('chat:'..msg.chat.id..':welcome', 'type')) or config.chat_settings['welcome']['type']
-	local content = (db:hget('chat:'..msg.chat.id..':welcome', 'content')) or config.chat_settings['welcome']['content']
+	
+	local hash = 'chat:'..msg.chat.id..':welcome'
+	local type = (db:hget(hash, 'type')) or config.chat_settings['welcome']['type']
+	local content = (db:hget(hash, 'content')) or config.chat_settings['welcome']['content']
 	if type == 'media' then
 		local file_id = content
-		api.sendDocumentId(msg.chat.id, file_id)
+		local caption = db:hget(hash, 'caption')
+		
+		api.sendDocumentId(msg.chat.id, file_id, nil, caption)
 		return false
 	elseif type == 'custom' then
 		return content:replaceholders(msg)
@@ -36,11 +40,14 @@ local function get_goodbye(msg)
 	if is_locked(msg.chat.id, 'Goodbye') then
 		return false
 	end
-	local type = db:hget('chat:'..msg.chat.id..':goodbye', 'type') or 'custom'
-	local content = db:hget('chat:'..msg.chat.id..':goodbye', 'content')
+	local hash = 'chat:'..msg.chat.id..':goodbye'
+	
+	local type = db:hget(hash, 'type') or 'custom'
+	local content = db:hget(hash, 'content')
 	if type == 'media' then
 		local file_id = content
-		api.sendDocumentId(msg.chat.id, file_id)
+		local caption = db:hget(hash, 'caption')
+		api.sendDocumentId(msg.chat.id, file_id, nil, caption)
 		return false
 	elseif type == 'custom' then
 		if not content then
@@ -78,6 +85,11 @@ function plugin.onTextMessage(msg, blocks)
                 end
                 db:hset(hash, 'type', 'media')
                 db:hset(hash, 'content', file_id)
+                if msg.reply.caption then
+                	db:hset(hash, 'caption', msg.reply.caption)
+                else
+                	db:hdel(hash, 'caption') --remove the caption key if the new media doesn't have a caption
+                end
                 api.sendReply(msg, _("A form of media has been set as the welcome message: `%s`"):format(replied_to), true)
             else
                 api.sendReply(msg, _("Reply to a `sticker` or a `gif` to set them as the *welcome message*"), true)
@@ -119,6 +131,12 @@ function plugin.onTextMessage(msg, blocks)
 				end
 				db:hset(hash, 'type', 'media')
 				db:hset(hash, 'content', file_id)
+				if msg.reply.caption then
+                	db:hset(hash, 'caption', msg.reply.caption)
+                else
+                	db:hdel(hash, 'caption') --remove the caption key if the new media doesn't have a caption
+                end
+				
 				api.sendReply(msg, _("New media setted as goodbye message: `%s`"):format(replied_to), true)
 			else
 				api.sendReply(msg, _("Reply to a `sticker` or a `gif` to set them as *goodbye message*"), true)

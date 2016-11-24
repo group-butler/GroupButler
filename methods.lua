@@ -411,12 +411,16 @@ function api.sendPhotoId(chat_id, file_id, reply_to_message_id)
 	
 end
 
-function api.sendDocumentId(chat_id, file_id, reply_to_message_id)
+function api.sendDocumentId(chat_id, file_id, reply_to_message_id, caption)
 	
 	local url = BASE_URL .. '/sendDocument?chat_id=' .. chat_id .. '&document=' .. file_id
 	
 	if reply_to_message_id then
 		url = url..'&reply_to_message_id='..reply_to_message_id
+	end
+	
+	if caption then
+		url = url..'&caption='..caption
 	end
 
 	return sendRequest(url)

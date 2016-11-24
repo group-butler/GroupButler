@@ -149,7 +149,7 @@ After add your new locale in the file `config.lua`.
 
 ## Pull requests
 
-If you are going to open a pull request, please use the [`beta` branch]() as destination branch.
+If you are going to open a pull request, please use the [`beta` branch](https://github.com/RememberTheAir/GroupButler/tree/beta) as destination branch.
 
 Pull requests in the `master` branch won't be considered, unless they are intended to solve a critical problem.
 

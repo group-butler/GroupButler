@@ -64,12 +64,12 @@ local function round(num, decimals)
 end
 
 local function load_lua(code, msg)
-	local output = loadstring('local msg = '..vtext(msg)..'\n'..code)()
+	local output = loadstring('local msg = '..misc.vtext(msg)..'\n'..code)()
 	if not output then
 		output = '`Done! (no output)`'
 	else
 		if type(output) == 'table' then
-			output = vtext(output)
+			output = misc.vtext(output)
 		end
 		output = '```\n' .. output .. '\n```'
 	end
@@ -280,7 +280,7 @@ function plugin.onTextMessage(msg, blocks)
 			api.sendReply(msg, 'Flushed!')
 		end
 		if blocks[2] == 'get' then
-			api.sendMessage(msg.chat.id, vtext(db:hgetall('tempbanned')))
+			api.sendMessage(msg.chat.id, misc.vtext(db:hgetall('tempbanned')))
 		end
 	end
 	if blocks[1] == 'selectdb' then
@@ -306,7 +306,7 @@ function plugin.onTextMessage(msg, blocks)
 		end
 		local text = '<code>'..chat_id..'\n'
 		for set, info in pairs(config.chat_settings) do
-			text = text..vtext(db:hgetall('chat:'..chat_id..':'..set))
+			text = text..misc.vtext(db:hgetall('chat:'..chat_id..':'..set))
 		end
 		
 		local log_channel = db:hget('bot:chatlogs', chat_id)
@@ -348,7 +348,7 @@ function plugin.onTextMessage(msg, blocks)
 			chat_id = blocks[2]
 		end
 		local members = db:smembers('cache:chat:'..chat_id..':admins')
-		api.sendMessage(msg.chat.id, chat_id..' ➤ '..tostring(#members)..'\n'..vtext(members))
+		api.sendMessage(msg.chat.id, chat_id..' ➤ '..tostring(#members)..'\n'..misc.vtext(members))
 	end
 	if blocks[1] == 'initcache' then
 		local chat_id, text
