@@ -250,23 +250,6 @@ function utilities.misc.get_sm_error_string(code)
 	return descriptions[code] or _("Unknown markdown error")
 end
 
-function utilities.misc.write_file(path, text, mode)
-	if not mode then
-		mode = "w"
-	end
-	file = io.open(path, mode)
-	if not file then
-		utilities.misc.create_folder('logs')
-		file = io.open(path, mode)
-		if not file then
-			return false
-		end
-	end
-	file:write(text)
-	file:close()
-	return true
-end
-
 function utilities.misc.get_media_type(msg)
 	if msg.photo then
 		return 'photo'
@@ -378,36 +361,6 @@ function utilities.misc.to_supergroup(msg)
 		utilities.misc.remGroup(old, true, 'to supergroup')
 		api.sendMessage(new, '(_service notification: migration of the group executed_)', true)
 	end
-end
-
-function utilities.misc.log_error(method, code, extras, description)
-	if not method or not code then return end
-	
-	local ignored_errors = {403, 429, 110, 111, 116, 131}
-	
-	for _, ignored_code in pairs(ignored_errors) do
-		if tonumber(code) == tonumber(ignored_code) then return end
-	end
-	
-	local text = 'Type: #badrequest\nMethod: #'..method..'\nCode: #n'..code
-	
-	if description then
-		text = text..'\nDesc: '..description
-	end
-	
-	if extras then
-		if next(extras) then
-			for i, extra in pairs(extras) do
-				text = text..'\n#more'..i..': '..extra
-			end
-		else
-			text = text..'\n#more: empty'
-		end
-	else
-		text = text..'\n#more: nil'
-	end
-	
-	api.sendLog(text)
 end
 
 -- Return user mention for output a text

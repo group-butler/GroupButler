@@ -63,6 +63,36 @@ local function sendRequest(url)
 
 end
 
+local function log_error(method, code, extras, description)
+	if not method or not code then return end
+	
+	local ignored_errors = {403, 429, 110, 111, 116, 131}
+	
+	for _, ignored_code in pairs(ignored_errors) do
+		if tonumber(code) == tonumber(ignored_code) then return end
+	end
+	
+	local text = 'Type: #badrequest\nMethod: #'..method..'\nCode: #n'..code
+	
+	if description then
+		text = text..'\nDesc: '..description
+	end
+	
+	if extras then
+		if next(extras) then
+			for i, extra in pairs(extras) do
+				text = text..'\n#more'..i..': '..extra
+			end
+		else
+			text = text..'\n#more: empty'
+		end
+	else
+		text = text..'\n#more: nil'
+	end
+	
+	api.sendLog(text)
+end
+
 function api.getMe()
 
 	local url = BASE_URL .. '/getMe'
@@ -167,7 +197,7 @@ function api.getChatAdministrators(chat_id)
 	local res, code, desc = sendRequest(url)
 	
 	if not res and code then --if the request failed and a code is returned (not 403 and 429)
-		misc.log_error('getChatAdministrators', code, nil, desc)
+		log_error('getChatAdministrators', code, nil, desc)
 	end
 	
 	return res, code
@@ -189,7 +219,7 @@ function api.getChatMember(chat_id, user_id)
 	local res, code, desc = sendRequest(url)
 	
 	if not res and code then --if the request failed and a code is returned (not 403 and 429)
-		misc.log_error('getChatMember', code, nil, desc)
+		log_error('getChatMember', code, nil, desc)
 	end
 	
 	return res, code
@@ -207,7 +237,7 @@ function api.leaveChat(chat_id)
 	end
 	
 	if not res and code then --if the request failed and a code is returned (not 403 and 429)
-		misc.log_error('leaveChat', code)
+		log_error('leaveChat', code)
 	end
 	
 	return res, code
@@ -240,7 +270,7 @@ function api.sendMessage(chat_id, text, parse_mode, reply_markup, reply_to_messa
 	local res, code, desc = sendRequest(url)
 	
 	if not res and code then --if the request failed and a code is returned (not 403 and 429)
-		misc.log_error('sendMessage', code, {text}, desc)
+		log_error('sendMessage', code, {text}, desc)
 	end
 	
 	return res, code --return false, and the code
@@ -274,7 +304,7 @@ function api.editMessageText(chat_id, message_id, text, parse_mode, keyboard)
 	local res, code, desc = sendRequest(url)
 	
 	if not res and code then --if the request failed and a code is returned (not 403 and 429)
-		misc.log_error('editMessageText', code, {text}, desc)
+		log_error('editMessageText', code, {text}, desc)
 	end
 	
 	return res, code
@@ -335,7 +365,7 @@ function api.forwardMessage(chat_id, from_chat_id, message_id)
 	local res, code, desc = sendRequest(url)
 	
 	if not res and code then --if the request failed and a code is returned (not 403 and 429)
-		misc.log_error('forwardMessage', code, nil, desc)
+		log_error('forwardMessage', code, nil, desc)
 	end
 	
 	return res, code
