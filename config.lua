@@ -30,7 +30,8 @@ return {
 		['Persian'] = 'https://telegram.me/joinchat/CTDUTkCOsEt4DZT-SUQdBQ',
 		['Russian'] = 'https://telegram.me/rubutler',
 		['Spanish'] = 'https://telegram.me/ESgroupbutler',
-		['PT/BR'] = 'https://telegram.me/PTBRgroupbutler'
+		['PT/BR'] = 'https://telegram.me/PTBRgroupbutler',
+		['Indonesian'] = 'https://telegram.me/joinchat/DVmd_UFF_JcXRvGe03CeDg'
 	},--
 	plugins = {
 		'onmessage', --THIS MUST BE THE FIRST: IF AN USER IS FLOODING/IS BLOCKED, THE BOT WON'T GO THROUGH PLUGINS
