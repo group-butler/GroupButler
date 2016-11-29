@@ -315,7 +315,7 @@ local function dk_main()
 		{{text = _('Admin commands'), callback_data = 'help:admins:banhammer'}},
 		{{text = _('Normal users commands'), callback_data = 'help:users'}},
 		{{text = _('Commands in private'), callback_data = 'help:private'}},
-		{{text = _('Realms'), callback_data = 'help:realm'}},
+		--{{text = _('Realms'), callback_data = 'help:realm'}},
 		{{text = _('Log channel'), callback_data = 'help:logchannel'}},
 	}
 	
