@@ -47,7 +47,7 @@ return {
 		'private',
 		'admin',
 		'backup',
-		'test',
+		--'test',
 		'logchannel',
 		'report',
 		'private_settings',

@@ -2636,7 +2636,7 @@ msgstr ""
 msgid ""
 "The number of warnings received by this user has been <b>reset</b>, by %s"
 msgstr ""
-"Il numero di ammonizioni ricevute da questo utente è stato *azzerato*, da %s)"
+"Il numero di ammonizioni ricevute da questo utente è stato <b>azzerato</b>, da %s)"
 
 #: plugins/users.lua:281
 msgid ""
