@@ -1,6 +1,5 @@
 local config = require 'config'
 local misc = require 'utilities'.misc
-local roles = require 'utilities'.roles
 local api = require 'methods'
 
 local plugin = {}
@@ -41,17 +40,8 @@ function plugin.onTextMessage(msg, blocks)
 		api.sendMessage(msg.chat.id, text, true, keyboard)
 	end
 	if blocks[1] == 'group' then
-		if config.help_groups and next(config.help_groups) then
-			local keyboard = {inline_keyboard = {}}
-			for group, link in pairs(config.help_groups) do
-				if link then
-					local line = {{text = group, url = link}}
-					table.insert(keyboard.inline_keyboard, line)
-				end
-			end
-			if next(keyboard.inline_keyboard) then
-				api.sendMessage(msg.chat.id, _("Select a group:"), true, keyboard)
-			end
+		if config.help_groups_link and config.help_groups_link ~= '' then
+			api.sendMessage(msg.chat.id, _("You can find the list of our support groups in [this channel](%s)"):format(config.help_groups_link), true, keyboard)
 		end
 	end
 end
@@ -63,17 +53,8 @@ function plugin.onCallbackQuery(msg, blocks)
 		api.editMessageText(msg.chat.id, msg.message_id, text, true, keyboard)
 	end
 	if blocks[1] == 'groups' then
-		if config.help_groups and next(config.help_groups) then
-			local keyboard = {inline_keyboard = {}}
-			for group, link in pairs(config.help_groups) do
-				if link then
-					local line = {{text = group, url = link}}
-					table.insert(keyboard.inline_keyboard, line)
-				end
-			end
-			if next(keyboard.inline_keyboard) then
-				api.editMessageText(msg.chat.id, msg.message_id, _("Select a group:"), true, keyboard)
-			end
+		if config.help_groups_link and config.help_groups_link ~= '' then
+			api.editMessageText(msg.chat.id, msg.message_id, _("You can find the list of our support groups in [this channel](%s)"):format(config.help_groups_link), true, keyboard)
 		end
 	end
 end

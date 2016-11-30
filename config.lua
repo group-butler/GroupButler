@@ -24,15 +24,7 @@ return {
 	},
 	channel = '@groupbutler_beta', --channel username with the '@'
 	source_code = 'https://github.com/RememberTheAir/GroupButler/tree/beta',
-	help_groups = {
-		['International (English)'] = 'https://telegram.me/joinchat/EKBQLj7Zf6lE2K_Pk0Epcg', --group link, not (at)username! If you have your own support group, modify here!
-		['Italian'] = 'https://telegram.me/ITAgroupbutler',
-		['Persian'] = 'https://telegram.me/joinchat/CTDUTkCOsEt4DZT-SUQdBQ',
-		['Russian'] = 'https://telegram.me/rubutler',
-		['Spanish'] = 'https://telegram.me/ESgroupbutler',
-		['PT/BR'] = 'https://telegram.me/PTBRgroupbutler',
-		['Indonesian'] = 'https://telegram.me/joinchat/DVmd_UFF_JcXRvGe03CeDg'
-	},--
+	help_groups_link = 'telegram.me/GBgroups',
 	plugins = {
 		'onmessage', --THIS MUST BE THE FIRST: IF AN USER IS FLOODING/IS BLOCKED, THE BOT WON'T GO THROUGH PLUGINS
 		'antispam', --SAME OF onmessage.lua
@@ -55,7 +47,7 @@ return {
 		'private',
 		'admin',
 		'backup',
-		--'test',
+		'test',
 		'logchannel',
 		'report',
 		'private_settings',
