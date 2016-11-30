@@ -14,6 +14,7 @@ local triggers2 = {
 	'^%$(lua) (.*)$',
 	'^%$(run) (.*)$',
 	'^%$(admin)$',
+	'^%$(block)$',
 	'^%$(block) (%d+)$',
 	'^%$(unblock) (%d+)$',
 	'^%$(leave) (-%d+)$',
@@ -177,7 +178,12 @@ function plugin.onTextMessage(msg, blocks)
 		api.sendMessage(msg.chat.id, output, true, msg.message_id, true)
 	end
 	if blocks[1] == 'block' then
-		local id = blocks[2]
+		local id
+		if blocks[2] then
+			id = blocks[2]
+		else
+			id = msg.reply.forward_from.id
+		end
 		local response = db:sadd('bot:blocked', id)
 		local text
 		if response == 1 then

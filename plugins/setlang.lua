@@ -1,5 +1,4 @@
 local config = require 'config'
-local misc = require 'utilities'.misc
 local roles = require 'utilities'.roles
 local api = require 'methods'
 
