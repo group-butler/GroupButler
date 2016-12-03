@@ -26,9 +26,9 @@ local triggers2 = {
 	'^%$(update)$',
 	'^%$(tban) (get)$',
 	'^%$(tban) (flush)$',
-	'^%$(selectdb) (.*)$',
 	'^%$(remban) (@[%w_]+)$',
 	'^%$(rawinfo) (.*)$',
+	'^%$(rawinfo2) (.*)$',
 	'^%$(cleandeadgroups)$',
 	'^%$(initgroup) (-%d+)$',
 	'^%$(remgroup) (-%d+)$',
@@ -289,11 +289,6 @@ function plugin.onTextMessage(msg, blocks)
 			api.sendMessage(msg.chat.id, misc.vtext(db:hgetall('tempbanned')))
 		end
 	end
-	if blocks[1] == 'selectdb' then
-		local db_number = tonumber(blocks[2])
-		db:select(db_number)
-		api.sendReply(msg, 'Current database: *'..db_number..'*\n(Main: *0*)', true)
-	end
 	if blocks[1] == 'remban' then
 		local user_id = misc.resolve_user(blocks[2])
 		local text
@@ -323,6 +318,21 @@ function plugin.onTextMessage(msg, blocks)
 		text = text..'</code>'
 		
 		api.sendMessage(msg.chat.id, text, 'html')
+	end
+	if blocks[1] == 'rawinfo2' then
+		local chat_id
+		if blocks[2] == '$chat' then
+			chat_id = msg.chat.id
+		else
+			chat_id = blocks[2]
+		end
+		local text = chat_id..'\n'
+		local section
+		for i=1, #config.chat_custom_texts do
+			section = misc.vtext(db:hgetall(('chat:%s:%s'):format(tostring(chat_id), config.chat_custom_texts[i]))) or '{}'
+			text = text..section
+		end
+		api.sendMessage(msg.chat.id, text)
 	end
 	if blocks[1] == 'cleandeadgroups' then
 		--not tested

@@ -66,7 +66,7 @@ function plugin.onTextMessage(msg, blocks)
 			end
 		end
 		
-		misc.remGroup(msg.chat.id)
+		misc.remGroup(msg.chat.id, true)
 	else
 		misc.logEvent(blocks[1], msg)
 	end

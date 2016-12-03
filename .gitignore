@@ -1,2 +1,8 @@
+*.sh
+*.json
+*.tar
+plugins/test.lua
+bot_token.txt
 
-.#languages.lua
+!install.sh
+!launch.sh

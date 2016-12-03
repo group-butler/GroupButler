@@ -246,6 +246,12 @@ function plugin.onTextMessage(msg, blocks)
 			api.sendMessage(msg.from.id, text, true)
     	end
 	end
+	if blocks[1] == 'leave' then
+		if roles.is_admin_cached(msg) then
+			misc.remGroup(msg.chat.id)
+			api.leaveChat(msg.chat.id)
+		end
+	end
 end
 
 function plugin.onCallbackQuery(msg, blocks)
@@ -300,7 +306,8 @@ plugin.triggers = {
 		config.cmd..'(cache)$',
 		config.cmd..'(msglink)$',
 		config.cmd..'(user)$',
-		config.cmd..'(user) (.*)'
+		config.cmd..'(user) (.*)',
+		config.cmd..'(leave)$'
 	},
 	onCallbackQuery = {
 		'^###cb:userbutton:(banuser):(%d+)$',

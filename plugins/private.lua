@@ -41,7 +41,7 @@ function plugin.onTextMessage(msg, blocks)
 	end
 	if blocks[1] == 'group' then
 		if config.help_groups_link and config.help_groups_link ~= '' then
-			api.sendMessage(msg.chat.id, _("You can find the list of our support groups in [this channel](%s)"):format(config.help_groups_link), true, keyboard)
+			api.sendMessage(msg.chat.id, _("You can find the list of our support groups in [this channel](%s)"):format(config.help_groups_link), true)
 		end
 	end
 end
