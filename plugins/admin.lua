@@ -16,6 +16,7 @@ local triggers2 = {
 	'^%$(admin)$',
 	'^%$(block)$',
 	'^%$(block) (%d+)$',
+	'^%$(blocked)$',
 	'^%$(unblock) (%d+)$',
 	'^%$(leave) (-%d+)$',
 	'^%$(leave)$',
@@ -203,6 +204,9 @@ function plugin.onTextMessage(msg, blocks)
 			text = id..' is already unblocked'
 		end
 		api.sendReply(msg, text)
+	end
+	if blocks[1] == 'blocked' then
+		api.sendMessage(msg.chat.id, misc.vtext(db:smembers('bot:blocked')))
 	end
 	if blocks[1] == 'leave' then
 		local text

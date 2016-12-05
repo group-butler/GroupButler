@@ -1,7 +1,7 @@
 local api = require 'methods'
 local redis = require 'redis'
 local clr = require 'term.colors'
-local misc, roles, config, plugins, is_started, last_update, last_cron
+local misc, roles, config, plugins, last_update, last_cron
 db = redis.connect('127.0.0.1', 6379)
 
 function bot_init(on_reload) -- The function run when the bot is started or reloaded.
@@ -48,9 +48,8 @@ function bot_init(on_reload) -- The function run when the bot is started or relo
 
 	print('\n'..clr.blue..'BOT RUNNING:'..clr.reset, clr.red..'[@'..bot.username .. '] [' .. bot.first_name ..'] ['..bot.id..']'..clr.reset..'\n')
 	
-	last_update = last_update or 0 -- Set loop variables: Update offset,
-	last_cron = last_cron or os.time() -- the time of the last cron job,
-	is_started = true -- whether the bot should be running or not.
+	last_update = last_update or 0 -- Set loop variables: Update offset
+	last_cron = last_cron or os.time() -- the time of the last cron job
 	
 	if on_reload then
 		return #plugins
@@ -395,7 +394,8 @@ end
 
 bot_init() -- Actually start the script. Run the bot_init function.
 
-while is_started do -- Start a loop while the bot should be running.
+api.firstUpdate()
+while true do -- Start a loop while the bot should be running.
 	local res = api.getUpdates(last_update+1) -- Get the latest updates
 	if res then
 		clocktime_last_update = os.clock()

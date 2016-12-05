@@ -1,6 +1,7 @@
 return {
 	bot_api_key = "", --Please add your bot api key here!
 	cmd = '^[/!#]',
+	allowed_updates = {"message", "edited_message", "callback_query"},
 	db = 2, --default redis db: 0
 	superadmins = {23646077, 278941742},
 	log = {
@@ -65,7 +66,8 @@ return {
 		--['fr'] = 'Français 🇫🇷',
 		['zh'] = '中文 🇨🇳',
 		['fa'] = 'فارسی 🇮🇷',
-		['id'] = 'Bahasa Indonesia 🇮🇩'
+		['id'] = 'Bahasa Indonesia 🇮🇩',
+		['nl'] = 'Dutch 🇱🇺'
 		-- more languages will come
 	},
 	allow_fuzzy_translations = false,

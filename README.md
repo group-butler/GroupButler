@@ -42,7 +42,6 @@ $ bash install.sh
 
 or
 
-
 ```bash
 # Tested on Ubuntu 14.04, 15.04 and 16.04, Debian 7, Linux Mint 17.2
 
@@ -57,6 +56,7 @@ $ tar zxpf luarocks-2.2.2.tar.gz
 $ cd luarocks-2.2.2
 $ ./configure; sudo make bootstrap
 $ sudo luarocks install luasec
+$ sudo luarocks install luasocket
 $ sudo luarocks install redis-lua
 $ sudo luarocks install lua-term
 $ sudo luarocks install serpent
@@ -65,6 +65,7 @@ $ sudo luarocks install Lua-cURL
 $ cd ..
 
 # Clone the repository and give the launch script permissions to be executed
+# If you want to clone the beta branch, use git clone with the [-b beta] option
 
 $ git clone https://github.com/RememberTheAir/GroupButler.git
 $ cd GroupButler

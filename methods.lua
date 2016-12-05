@@ -38,6 +38,7 @@ local function sendRequest(url)
 	if not tab then
 		print(clr.red..'Error while parsing JSON'..clr.reset, code)
 		print(clr.yellow..'Data:'..clr.reset, dat)
+		api.sendAdmin(dat..'\n'..code)
 		error('Incorrect response')
 	end
 
@@ -108,9 +109,15 @@ function api.getUpdates(offset)
 	if offset then
 		url = url .. '&offset=' .. offset
 	end
-
+	
 	return sendRequest(url)
 
+end
+
+function api.firstUpdate()
+	local url = BASE_URL .. '/getUpdates?timeout=3600&limit=1&allowed_updates='..JSON.encode(config.allowed_updates)
+	
+	return sendRequest(url)
 end
 
 function api.unbanChatMember(chat_id, user_id)

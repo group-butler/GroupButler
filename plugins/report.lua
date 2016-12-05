@@ -38,7 +38,7 @@ end
 
 function plugin.onTextMessage(msg, blocks)
     if msg.chat.type == 'private' or roles.is_admin_cached(msg) or not msg.reply then return end
-    --if roles.is_admin_cached(msg.reply) then return end
+    if roles.is_admin_cached(msg.reply) then return end
     local status = (db:hget('chat:'..msg.chat.id..':settings', 'Reports')) or config.chat_settings['settings']['Reports']
     if not status or status == 'off' then return end
     
