@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GroupButler 4.0\n"
 "Report-Msgid-Bugs-To: https://telegram.me/bac0nnn\n"
-"POT-Creation-Date: 2016-12-05 21:53+0100\n"
+"POT-Creation-Date: 2016-12-08 07:41+0100\n"
 "PO-Revision-Date: 2016-09-12 22:00+0200\n"
 "Last-Translator: Nicholas Guriev <guriev-ns@ya.ru>\n"
 "Language-Team: Italian\n"
@@ -18,11 +18,11 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.8.9\n"
 
-#: bot.lua:172
+#: bot.lua:171
 msgid "🐞 Sorry, a *bug* occurred"
 msgstr "🐛 Ci dispiace, si è verificato un *bug*"
 
-#: bot.lua:196
+#: bot.lua:195
 #, lua-format
 msgid ""
 "\n"
@@ -33,19 +33,19 @@ msgid ""
 "convert this group to a supergroup.\n"
 msgstr ""
 
-#: methods.lua:139
+#: methods.lua:145
 msgid "I'm not an admin, I can't kick people"
 msgstr "Non sono admin, quindi non posso kickare"
 
-#: methods.lua:141
+#: methods.lua:147
 msgid "I can't kick or ban an admin"
 msgstr "Non posso kickare o bannare un admin"
 
-#: methods.lua:143
+#: methods.lua:149
 msgid "There is no need to unban in a normal group"
 msgstr "Non c'è bisogno di unbannare in un gruppo normale"
 
-#: methods.lua:145
+#: methods.lua:151
 msgid "This user is not a chat member"
 msgstr "Questo utente non fa parte del gruppo"
 
@@ -119,7 +119,7 @@ msgstr "Messaggi da canali"
 
 #: plugins/antispam.lua:166 plugins/floodmanager.lua:120
 #: plugins/logchannel.lua:101 plugins/mediasettings.lua:73
-#: plugins/menu.lua:221
+#: plugins/menu.lua:222
 msgid "You're no longer an admin"
 msgstr "*Non sei* un admin!"
 
@@ -231,7 +231,7 @@ msgstr ""
 msgid "❌ | OFF"
 msgstr ""
 
-#: plugins/dashboard.lua:18 plugins/menu.lua:193
+#: plugins/dashboard.lua:18 plugins/menu.lua:194
 msgid "👞 kick"
 msgstr ""
 
@@ -299,7 +299,7 @@ msgstr "Impostazioni"
 msgid "Admins"
 msgstr "Admin"
 
-#: plugins/dashboard.lua:57 plugins/menu.lua:158 utilities.lua:487
+#: plugins/dashboard.lua:57 plugins/menu.lua:159 utilities.lua:487
 msgid "Rules"
 msgstr "Regole"
 
@@ -1714,59 +1714,59 @@ msgstr "Uso del carattere RTL = ban"
 msgid "RTL character allowed"
 msgstr "Carattere RTL consentito"
 
-#: plugins/menu.lua:153
+#: plugins/menu.lua:154
 msgid "Welcome"
 msgstr "Messaggio di benvenuto"
 
-#: plugins/menu.lua:154
+#: plugins/menu.lua:155
 msgid "Goodbye"
 msgstr "Messaggio di addio"
 
-#: plugins/menu.lua:155 utilities.lua:483
+#: plugins/menu.lua:156 utilities.lua:483
 msgid "Extra"
 msgstr ""
 
-#: plugins/menu.lua:156 utilities.lua:484
+#: plugins/menu.lua:157 utilities.lua:484
 msgid "Anti-flood"
 msgstr "Anti-flood"
 
-#: plugins/menu.lua:157 utilities.lua:486
+#: plugins/menu.lua:158 utilities.lua:486
 msgid "Silent mode"
 msgstr "Modalità silenziosa"
 
-#: plugins/menu.lua:159 utilities.lua:488
+#: plugins/menu.lua:160 utilities.lua:488
 msgid "Arab"
 msgstr "Arabo"
 
-#: plugins/menu.lua:160 utilities.lua:489
+#: plugins/menu.lua:161 utilities.lua:489
 msgid "RTL"
 msgstr ""
 
-#: plugins/menu.lua:161 utilities.lua:485
+#: plugins/menu.lua:162 utilities.lua:485
 msgid "Ban bots"
 msgstr "Banna i bot"
 
-#: plugins/menu.lua:162 utilities.lua:490
+#: plugins/menu.lua:163 utilities.lua:490
 msgid "Reports"
 msgstr "Segnalazioni"
 
-#: plugins/menu.lua:163
+#: plugins/menu.lua:164
 msgid "Welcome + rules button"
 msgstr "Benvenuto + pulsante regole"
 
-#: plugins/menu.lua:195
+#: plugins/menu.lua:196
 msgid "🔨️ ban"
 msgstr ""
 
-#: plugins/menu.lua:199
+#: plugins/menu.lua:200
 msgid "Warns: "
 msgstr "Warn: "
 
-#: plugins/menu.lua:204
+#: plugins/menu.lua:205
 msgid "Action:"
 msgstr "Azione:"
 
-#: plugins/menu.lua:227
+#: plugins/menu.lua:228
 msgid "Manage the settings of the group"
 msgstr "Gestisci le impostazioni del gruppo"
 
@@ -2973,14 +2973,14 @@ msgstr "_Per favore, avviami cosicchè io possa risponderti_"
 msgid "<b>Chat</b>: %s [#chat%d]"
 msgstr ""
 
-#: utilities.lua:764
+#: utilities.lua:764 utilities.lua:767 utilities.lua:769 utilities.lua:771
 #, lua-format
 msgid ""
-"#NEWPHOTO\n"
+"%s\n"
 "• %s\n"
 "• <b>By</b>: %s"
 msgstr ""
-"#NUOVAFOTO\n"
+"%s\n"
 "• %s\n"
 "• <b>Da</b>: %s"
 
@@ -2988,56 +2988,27 @@ msgstr ""
 msgid "Get the new photo"
 msgstr "Vedi la nuova foto"
 
-#: utilities.lua:767
-#, lua-format
-msgid ""
-"#PHOTOREMOVED\n"
-"• %s\n"
-"• <b>By</b>: %s"
-msgstr ""
-"#FOTORIMOSSA\n"
-"• %s\n"
-"• <b>Da</b>: %s"
-
-#: utilities.lua:769
-#, lua-format
-msgid ""
-"#NEWTITLE\n"
-"• %s\n"
-"• <b>By</b>: %s"
-msgstr ""
-"#NUOVOTITOLO\n"
-"• %s\n"
-"• <b>Da</b>: %s"
-
-#: utilities.lua:771
-#, lua-format
-msgid ""
-"#PINNEDMSG\n"
-"• %s\n"
-"• <b>By</b>: %s"
-msgstr ""
-"#FISSATO\n"
-"• %s\n"
-"• <b>Da</b>: %s"
-
 #: utilities.lua:774
 #, lua-format
 msgid ""
-"#REPORT\n"
+"%s\n"
 "• %s\n"
 "• <b>By</b>: %s\n"
 "• <i>Reported to %d admin(s)</i>"
 msgstr ""
+"%s\n"
+"• %s\n"
+"• <b>By</b>: %s\n"
+"• <i>Segnalato a %d admin</i>"
 
 #: utilities.lua:777
 #, lua-format
 msgid ""
-"#NEW_MEMBER\n"
+"%s\n"
 "• %s\n"
 "• <b>User</b>: %s"
 msgstr ""
-"#NUOVOMEMBRO\n"
+"%s\n"
 "• %s\n"
 "• <b>Utente</b>: %s"
 
@@ -3113,6 +3084,33 @@ msgstr "Unbanna"
 #: utilities.lua:828
 msgid "Go to the message"
 msgstr "Vai al messaggio"
+
+#~ msgid ""
+#~ "#PHOTOREMOVED\n"
+#~ "• %s\n"
+#~ "• <b>By</b>: %s"
+#~ msgstr ""
+#~ "#FOTORIMOSSA\n"
+#~ "• %s\n"
+#~ "• <b>Da</b>: %s"
+
+#~ msgid ""
+#~ "#NEWTITLE\n"
+#~ "• %s\n"
+#~ "• <b>By</b>: %s"
+#~ msgstr ""
+#~ "#NUOVOTITOLO\n"
+#~ "• %s\n"
+#~ "• <b>Da</b>: %s"
+
+#~ msgid ""
+#~ "#PINNEDMSG\n"
+#~ "• %s\n"
+#~ "• <b>By</b>: %s"
+#~ msgstr ""
+#~ "#FISSATO\n"
+#~ "• %s\n"
+#~ "• <b>Da</b>: %s"
 
 #~ msgid "Realms"
 #~ msgstr "Realm"

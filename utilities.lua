@@ -761,20 +761,20 @@ function utilities.misc.logEvent(event, msg, extra)
 		text = ('#FLOOD\n• %s\n• <b>User</b>: %s'):format(chat_info, member)
 		if extra.hammered then text = text..('\n#%s'):format(extra.hammered:upper()) end
 	elseif event == 'new_chat_photo' then
-		text = _('#NEWPHOTO\n• %s\n• <b>By</b>: %s'):format(chat_info, member)
+		text = _('%s\n• %s\n• <b>By</b>: %s'):format('#NEWPHOTO', chat_info, member)
 		reply_markup = {inline_keyboard={{{text = _("Get the new photo"), url = ("telegram.me/%s?start=photo:%s"):format(bot.username, msg.new_chat_photo[#msg.new_chat_photo].file_id)}}}}
 	elseif event == 'delete_chat_photo' then
-		text = _('#PHOTOREMOVED\n• %s\n• <b>By</b>: %s'):format(chat_info, member)
+		text = _('%s\n• %s\n• <b>By</b>: %s'):format('#PHOTOREMOVED', chat_info, member)
 	elseif event == 'new_chat_title' then
-		text = _('#NEWTITLE\n• %s\n• <b>By</b>: %s'):format(chat_info, member)
+		text = _('%s\n• %s\n• <b>By</b>: %s'):format('#NEWTITLE', chat_info, member)
 	elseif event == 'pinned_message' then
-		text = _('#PINNEDMSG\n• %s\n• <b>By</b>: %s'):format(chat_info, member)
+		text = _('%s\n• %s\n• <b>By</b>: %s'):format('#PINNEDMSG', chat_info, member)
 		msg.message_id = msg.pinned_message.message_id --because of the "go to the message" link. The normal msg.message_id brings to the service message
 	elseif event == 'report' then
-		text = _('#REPORT\n• %s\n• <b>By</b>: %s\n• <i>Reported to %d admin(s)</i>'):format(chat_info, member, extra.n_admins)
+		text = _('%s\n• %s\n• <b>By</b>: %s\n• <i>Reported to %d admin(s)</i>'):format('#REPORT', chat_info, member, extra.n_admins)
 	elseif event == 'new_chat_member' then
 		local member = ("%s [@%s] [#id%d]"):format(msg.new_chat_member.first_name:escape_html(), msg.new_chat_member.username or '-', msg.new_chat_member.id)
-		text = _('#NEW_MEMBER\n• %s\n• <b>User</b>: %s'):format(chat_info, member)
+		text = _('%s\n• %s\n• <b>User</b>: %s'):format('#NEW_MEMBER', chat_info, member)
 		if extra then --extra == msg.from
 			text = text.._("\n• <b>Added by</b>: %s [#id%d]"):format(utilities.misc.getname_final(extra), extra.id)
 		end

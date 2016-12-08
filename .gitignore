@@ -4,6 +4,7 @@
 plugins/test.lua
 plugins/ign_*
 plugins/multipurpose/
+locales/
 bot_token.txt
 redis-backups/
 

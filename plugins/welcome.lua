@@ -160,16 +160,16 @@ function plugin.onTextMessage(msg, blocks)
     if blocks[1] == 'new_chat_member' then
 		if not msg.service then return end
 		
-		if msg.new_chat_member.username then
+		local extra
+		if msg.from.id ~= msg.new_chat_member.id then extra = msg.from end
+		misc.logEvent(blocks[1], msg, extra)
+		
+		if msg.new_chat_member.username and not msg.new_chat_member.last_name then
 			local username = msg.new_chat_member.username:lower()
 			if username:find('bot', -3) then
 				return
 			end
 		end
-		
-		local extra
-		if msg.from.id ~= msg.new_chat_member.id then extra = msg.from end
-		misc.logEvent(blocks[1], msg, extra)
 		
 		local text = get_welcome(msg)
 		if text then --if not text: welcome is locked or is a gif/sticker

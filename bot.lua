@@ -337,7 +337,9 @@ local function parseMessageFunction(update)
 				if entity.type == 'url' or entity.type == 'text_link' then
 					local text_lower = msg.text or msg.caption
 					text_lower = text_lower:lower()
-					if text_lower:match('telegram%.me') or text_lower:match('telegram%.dog') then
+					if text_lower:match('telegram%.me') or
+						text_lower:match('telegram%.dog') or
+						text_lower:match('t%.me') then
 						msg.spam = 'links'
 					else
 						msg.media_type = 'link'
