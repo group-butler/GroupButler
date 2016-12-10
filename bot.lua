@@ -39,12 +39,6 @@ function bot_init(on_reload) -- The function run when the bot is started or relo
 		end
 		table.insert(plugins, p)
 	end
-	if config.bot_settings.multipurpose_mode then
-		for i,v in ipairs(config.multipurpose_plugins) do
-			local p = dofile('plugins/multipurpose/'..v)
-			table.insert(plugins, p)
-		end
-	end
 
 	print('\n'..clr.blue..'BOT RUNNING:'..clr.reset, clr.red..'[@'..bot.username .. '] [' .. bot.first_name ..'] ['..bot.id..']'..clr.reset..'\n')
 	

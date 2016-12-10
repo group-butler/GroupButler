@@ -251,7 +251,7 @@ function api.leaveChat(chat_id)
 	
 end
 
-function api.sendMessage(chat_id, text, parse_mode, reply_markup, reply_to_message_id)
+function api.sendMessage(chat_id, text, parse_mode, reply_markup, reply_to_message_id, link_preview)
 	--print(text)
 	
 	local url = BASE_URL .. '/sendMessage?chat_id=' .. chat_id .. '&text=' .. URL.escape(text)
@@ -272,7 +272,11 @@ function api.sendMessage(chat_id, text, parse_mode, reply_markup, reply_to_messa
 		url = url..'&reply_markup='..URL.escape(JSON.encode(reply_markup))
 	end
 	
-	url = url..'&disable_notification=true&disable_web_page_preview=true'
+	if not link_preview then
+		url = url .. '&disable_web_page_preview=true'
+	end
+	
+	url = url..'&disable_notification=true'
 	
 	local res, code, desc = sendRequest(url)
 	

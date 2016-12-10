@@ -2,6 +2,7 @@
 *.json
 *.tar
 plugins/test.lua
+plugins/realms.lua
 plugins/ign_*
 plugins/multipurpose/
 locales/

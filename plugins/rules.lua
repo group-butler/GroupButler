@@ -40,11 +40,13 @@ function plugin.onTextMessage(msg, blocks)
     
     local hash = 'chat:'..msg.chat.id..':info'
     if blocks[1] == 'rules' or blocks[1] == 'start' then
+    	local link_preview = db:hget(('chat:%d:settings'):format(msg.chat.id), 'Preview')
+    	if link_preview and link_preview == 'off' then link_preview = nil end
         local out = misc.getRules(msg.chat.id)
     	if msg.chat.type == 'private' or (not roles.is_admin_cached(msg) and not send_in_group(msg.chat.id)) then
-    		api.sendMessage(msg.from.id, out, true)
+    		api.sendMessage(msg.from.id, out, true, nil, nil, link_preview)
     	else
-        	api.sendReply(msg, out, true)
+        	api.sendReply(msg, out, true, nil, nil, link_preview)
         end
     end
 	

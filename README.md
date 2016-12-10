@@ -104,7 +104,6 @@ You may also start the bot with `lua bot.lua`, however it will not restart autom
 
   * You can change some settings of the bot. All the settings are placed in `config.lua`, in the `bot_settings` table
     * `cache_time.adminlist`: the permanence in seconds of the adminlist in the cache. The bot caches the adminlist to avoid to hit Telegram limits
-    * `multipurpose_mode`: set it to `true` if you want to load the plugins placed in `plugins/multipurpose` folder. At the moment, this directory is empty
     * `notify_bug`: if `true`, the bot will send a message that notifies that a bug has occured to the current user, when a plugin is executed and an error happens
     * `log_api_errors`: if `true`, the bot will send in the `log_chat` (`config.lua`) all the relevant errors returned by an api request toward Telegram
     * `stream_commands`: if `true`, when an update triggers a plugin, the match will be printed on the console
@@ -170,7 +169,7 @@ The [Werewolf](https://github.com/parabola949/Werewolf) guys, for aiding the spr
 
 Lucas Montuano, for helping me a lot in the debugging of the bot
 
-All the Admins of our discussion groups about Group Butler
+All the Admins of our [discussion groups](telegram.me/gbgroups) about Group Butler
 
 All the people who reported bugs and suggested new stuffs
 
