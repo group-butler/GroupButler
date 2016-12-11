@@ -1,10 +1,11 @@
 return {
 	bot_api_key = "", --Please add your bot api key here!
 	cmd = '^[/!#]',
+	allowed_updates = {"message", "edited_message", "callback_query"},
 	db = 2, --default redis db: 0
 	superadmins = {23646077, 278941742},
 	log = {
-		chat = -1001057801239, --Your log chat, where your bot must be added!
+		chat = -1001089188566, --Your log chat, where your bot must be added!
 		admin = 23646077, --The admin.
 		stats = nil
 	},
@@ -13,7 +14,6 @@ return {
 		cache_time = {
 			adminlist = 18000, --5 hours (18000s) Admin Cache time, in seconds.
 		},
-		multipurpose_mode = false, --If this is enabled, the bot will activate the plugins from plugins/multipurpose
 		notify_bug = false, --Notify if a bug occurs!
 		log_api_errors = true, --Log errors, which happening whilst interacting with the bot api.
 		stream_commands = true,
@@ -22,42 +22,35 @@ return {
 		realm_max_members = 60,
 		realm_max_subgroups = 6
 	},
-	channel = '@groupbutler_ch', --channel username with the '@'
-	source_code = 'https://github.com/RememberTheAir/GroupButler',
-	help_groups = {
-		['Internatonal (English)'] = 'https://telegram.me/joinchat/EKBQLj7Zf6lE2K_Pk0Epcg', --group link, not (at)username! If you have your own support group, modify here!
-		['Italian'] = 'https://telegram.me/ITAgroupbutler',
-		['Persian'] = 'https://telegram.me/joinchat/CTDUTkCOsEt4DZT-SUQdBQ',
-		['Russian'] = 'https://telegram.me/rubutler',
-		['Spanish'] = 'https://telegram.me/ESgroupbutler'
-	},--
+	channel = '@groupbutler_beta', --channel username with the '@'
+	source_code = 'https://github.com/RememberTheAir/GroupButler/tree/beta',
+	help_groups_link = 'telegram.me/GBgroups',
 	plugins = {
-		'onmessage.lua', --THIS MUST BE THE FIRST: IF AN USER IS FLOODING/IS BLOCKED, THE BOT WON'T GO THROUGH PLUGINS
-		'antispam.lua', --SAME OF onmessage.lua
-		--'realms.lua', --must stay here
-		'configure.lua',
-		'menu.lua',
-		'dashboard.lua',
-		'banhammer.lua',
-		'users.lua',
-		'help.lua',
-		'rules.lua',
-		'service.lua',
-		'links.lua',
-		'warn.lua',
-		'setlang.lua',
-		'floodmanager.lua',
-		'welcome.lua',
-		'pin.lua',
-		'mediasettings.lua',
-		'private.lua',
-		'admin.lua',
-		'backup.lua',
-		--'test.lua',
-		--'logchannel.lua',
-		'report.lua',
-		'private_settings.lua',
-		'extra.lua', --must be the last plugin in the list.
+		'onmessage', --THIS MUST BE THE FIRST: IF AN USER IS FLOODING/IS BLOCKED, THE BOT WON'T GO THROUGH PLUGINS
+		'antispam', --SAME OF onmessage.lua
+		--'realms', --must stay here
+		'configure',
+		'menu',
+		'dashboard',
+		'banhammer',
+		'users',
+		'help',
+		'rules',
+		'service',
+		'links',
+		'warn',
+		'setlang',
+		'floodmanager',
+		'welcome',
+		'pin',
+		'mediasettings',
+		'private',
+		'admin',
+		'backup',
+		'logchannel',
+		'report',
+		'private_settings',
+		'extra', --must be the last plugin in the list.
 	},
 	multipurpose_plugins = {},
 	available_languages = {
@@ -72,7 +65,8 @@ return {
 		--['fr'] = 'Français 🇫🇷',
 		['zh'] = '中文 🇨🇳',
 		['fa'] = 'فارسی 🇮🇷',
-		['id'] = 'Bahasa Indonesia 🇮🇩'
+		['id'] = 'Bahasa Indonesia 🇮🇩',
+		['nl'] = 'Dutch 🇱🇺'
 		-- more languages will come
 	},
 	allow_fuzzy_translations = false,
@@ -83,6 +77,7 @@ return {
 			['Extra'] = 'on',
 			['Flood'] = 'off',
 			['Silent'] = 'off',
+			['Preview'] = 'off',
 			['Rules'] = 'off',
 			['Reports'] = 'off',
 			['Welbut'] = 'off'
@@ -139,6 +134,7 @@ return {
 			['ban'] = 'no',
 			['kick'] = 'no',
 			['tempban'] = 'no',
+			['report'] = 'no',
 			['warn'] = 'no',
 			['nowarn'] = 'no',
 			['mediawarn'] = 'no',

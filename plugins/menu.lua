@@ -1,3 +1,8 @@
+local config = require 'config'
+local misc = require 'utilities'.misc
+local roles = require 'utilities'.roles
+local api = require 'methods'
+
 local plugin = {}
 
 local function get_button_description(key)
@@ -14,6 +19,8 @@ local function get_button_description(key)
         return _("Enable and disable the anti-flood system (more info in the /help message)")
     elseif key == 'Welbut' then
         return _("If the welcome message is enabled, it will include an inline button that will send to the user the rules in private")
+    elseif key == 'Preview' then
+        return _("Show or hide the preview for links. Affects the rules and every custom command set with /extra")
     elseif key == 'Rules' then
         return _([[When someone uses /rules
 👥: the bot will answer in the group (always, with admins)
@@ -130,13 +137,14 @@ end
 
 local function charsettings_table(settings, chat_id)
     local return_table = {}
-    local icon_allow, icon_not_allow = '✅', '🔐'
     for field, default in pairs(settings) do
         local status = (db:hget('chat:'..chat_id..':char', field)) or default
-        if status == 'kick' or status == 'ban' then
-            return_table[field] = icon_not_allow..' '..status
+        if status == 'kick' then
+            return_table[field] = '👞 '..status
+        elseif status == 'ban' then
+            return_table[field] = '🔨 '..status
         elseif status == 'allowed' then
-            return_table[field] = icon_allow
+            return_table[field] = '✅'
         end
     end
     
@@ -151,6 +159,7 @@ local function insert_settings_section(keyboard, settings_section, chat_id)
 		Flood = _("Anti-flood"),
 		Silent = _("Silent mode"),
 		Rules = _("Rules"),
+		Preview = _("Link preview"),
 		Arab = _("Arab"),
 		Rtl = _("RTL"),
 		Antibot = _("Ban bots"),

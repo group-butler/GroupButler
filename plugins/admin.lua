@@ -1,3 +1,8 @@
+local config = require 'config'
+local misc = require 'utilities'.misc
+local roles = require 'utilities'.roles
+local api = require 'methods'
+
 local plugin = {}
 
 local triggers2 = {
@@ -9,7 +14,9 @@ local triggers2 = {
 	'^%$(lua) (.*)$',
 	'^%$(run) (.*)$',
 	'^%$(admin)$',
+	'^%$(block)$',
 	'^%$(block) (%d+)$',
+	'^%$(blocked)$',
 	'^%$(unblock) (%d+)$',
 	'^%$(leave) (-%d+)$',
 	'^%$(leave)$',
@@ -20,9 +27,9 @@ local triggers2 = {
 	'^%$(update)$',
 	'^%$(tban) (get)$',
 	'^%$(tban) (flush)$',
-	'^%$(selectdb) (.*)$',
 	'^%$(remban) (@[%w_]+)$',
 	'^%$(rawinfo) (.*)$',
+	'^%$(rawinfo2) (.*)$',
 	'^%$(cleandeadgroups)$',
 	'^%$(initgroup) (-%d+)$',
 	'^%$(remgroup) (-%d+)$',
@@ -59,12 +66,12 @@ local function round(num, decimals)
 end
 
 local function load_lua(code, msg)
-	local output = loadstring('local msg = '..vtext(msg)..'\n'..code)()
+	local output = loadstring('local msg = '..misc.vtext(msg)..'\n'..code)()
 	if not output then
 		output = '`Done! (no output)`'
 	else
 		if type(output) == 'table' then
-			output = vtext(output)
+			output = misc.vtext(output)
 		end
 		output = '```\n' .. output .. '\n```'
 	end
@@ -172,7 +179,12 @@ function plugin.onTextMessage(msg, blocks)
 		api.sendMessage(msg.chat.id, output, true, msg.message_id, true)
 	end
 	if blocks[1] == 'block' then
-		local id = blocks[2]
+		local id
+		if blocks[2] then
+			id = blocks[2]
+		else
+			id = msg.reply.forward_from.id
+		end
 		local response = db:sadd('bot:blocked', id)
 		local text
 		if response == 1 then
@@ -192,6 +204,9 @@ function plugin.onTextMessage(msg, blocks)
 			text = id..' is already unblocked'
 		end
 		api.sendReply(msg, text)
+	end
+	if blocks[1] == 'blocked' then
+		api.sendMessage(msg.chat.id, misc.vtext(db:smembers('bot:blocked')))
 	end
 	if blocks[1] == 'leave' then
 		local text
@@ -275,13 +290,8 @@ function plugin.onTextMessage(msg, blocks)
 			api.sendReply(msg, 'Flushed!')
 		end
 		if blocks[2] == 'get' then
-			api.sendMessage(msg.chat.id, vtext(db:hgetall('tempbanned')))
+			api.sendMessage(msg.chat.id, misc.vtext(db:hgetall('tempbanned')))
 		end
-	end
-	if blocks[1] == 'selectdb' then
-		local db_number = tonumber(blocks[2])
-		db:select(db_number)
-		api.sendReply(msg, 'Current database: *'..db_number..'*\n(Main: *0*)', true)
 	end
 	if blocks[1] == 'remban' then
 		local user_id = misc.resolve_user(blocks[2])
@@ -301,7 +311,7 @@ function plugin.onTextMessage(msg, blocks)
 		end
 		local text = '<code>'..chat_id..'\n'
 		for set, info in pairs(config.chat_settings) do
-			text = text..vtext(db:hgetall('chat:'..chat_id..':'..set))
+			text = text..misc.vtext(db:hgetall('chat:'..chat_id..':'..set))
 		end
 		
 		local log_channel = db:hget('bot:chatlogs', chat_id)
@@ -312,6 +322,21 @@ function plugin.onTextMessage(msg, blocks)
 		text = text..'</code>'
 		
 		api.sendMessage(msg.chat.id, text, 'html')
+	end
+	if blocks[1] == 'rawinfo2' then
+		local chat_id
+		if blocks[2] == '$chat' then
+			chat_id = msg.chat.id
+		else
+			chat_id = blocks[2]
+		end
+		local text = chat_id..'\n'
+		local section
+		for i=1, #config.chat_custom_texts do
+			section = misc.vtext(db:hgetall(('chat:%s:%s'):format(tostring(chat_id), config.chat_custom_texts[i]))) or '{}'
+			text = text..section
+		end
+		api.sendMessage(msg.chat.id, text)
 	end
 	if blocks[1] == 'cleandeadgroups' then
 		--not tested
@@ -343,7 +368,7 @@ function plugin.onTextMessage(msg, blocks)
 			chat_id = blocks[2]
 		end
 		local members = db:smembers('cache:chat:'..chat_id..':admins')
-		api.sendMessage(msg.chat.id, chat_id..' ➤ '..tostring(#members)..'\n'..vtext(members))
+		api.sendMessage(msg.chat.id, chat_id..' ➤ '..tostring(#members)..'\n'..misc.vtext(members))
 	end
 	if blocks[1] == 'initcache' then
 		local chat_id, text

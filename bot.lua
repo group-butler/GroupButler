@@ -1,10 +1,8 @@
-curl = require('cURL')
-URL = require('socket.url')
-JSON = require('dkjson')
-redis = require('redis')
-clr = require 'term.colors'
+local api = require 'methods'
+local redis = require 'redis'
+local clr = require 'term.colors'
+local misc, roles, config, plugins, last_update, last_cron
 db = redis.connect('127.0.0.1', 6379)
-serpent = require('serpent')
 
 function bot_init(on_reload) -- The function run when the bot is started or reloaded.
 	
@@ -15,17 +13,18 @@ function bot_init(on_reload) -- The function run when the bot is started or relo
 	
 	db:select(config.db or 0) --select the redis db
 	
-	misc, roles = dofile('utilities.lua') -- Load miscellaneous and cross-plugin functions.
+	local utilities = dofile('utilities.lua') -- Load miscellaneous and cross-plugin functions.
+	misc, roles, utilities = utilities.misc, utilities.roles, nil
 	locale = dofile('languages.lua')
-	api = require('methods')
 	now_ms = require('socket').gettime
 	
 	bot = api.getMe().result -- Get bot info
-	bot.revision = io.popen('git rev-parse --short HEAD'):read()
+	bot.revision = misc.bash('git rev-parse --short HEAD')
 
 	plugins = {} -- Load plugins.
 	for i,v in ipairs(config.plugins) do
-		local p = dofile('plugins/'..v)
+		local p = require('plugins.'..v)
+		package.loaded['plugins.'..v] = nil
 		if p.triggers then
 			for funct, trgs in pairs(p.triggers) do
 				for i = 1, #trgs do
@@ -40,18 +39,11 @@ function bot_init(on_reload) -- The function run when the bot is started or relo
 		end
 		table.insert(plugins, p)
 	end
-	if config.bot_settings.multipurpose_mode then
-		for i,v in ipairs(config.multipurpose_plugins) do
-			local p = dofile('plugins/multipurpose/'..v)
-			table.insert(plugins, p)
-		end
-	end
 
 	print('\n'..clr.blue..'BOT RUNNING:'..clr.reset, clr.red..'[@'..bot.username .. '] [' .. bot.first_name ..'] ['..bot.id..']'..clr.reset..'\n')
 	
-	last_update = last_update or 0 -- Set loop variables: Update offset,
-	last_cron = last_cron or os.time() -- the time of the last cron job,
-	is_started = true -- whether the bot should be running or not.
+	last_update = last_update or 0 -- Set loop variables: Update offset
+	last_cron = last_cron or os.time() -- the time of the last cron job
 	
 	if on_reload then
 		return #plugins
@@ -63,7 +55,6 @@ function bot_init(on_reload) -- The function run when the bot is started or relo
 	end
 end
 
--- for resolve username
 local function extract_usernames(msg)
 	if msg.from then
 		if msg.from.username then
@@ -340,7 +331,9 @@ local function parseMessageFunction(update)
 				if entity.type == 'url' or entity.type == 'text_link' then
 					local text_lower = msg.text or msg.caption
 					text_lower = text_lower:lower()
-					if text_lower:match('telegram%.me') or text_lower:match('telegram%.dog') then
+					if text_lower:match('telegram%.me') or
+						text_lower:match('telegram%.dog') or
+						text_lower:match('t%.me') then
 						msg.spam = 'links'
 					else
 						msg.media_type = 'link'
@@ -397,7 +390,8 @@ end
 
 bot_init() -- Actually start the script. Run the bot_init function.
 
-while is_started do -- Start a loop while the bot should be running.
+api.firstUpdate()
+while true do -- Start a loop while the bot should be running.
 	local res = api.getUpdates(last_update+1) -- Get the latest updates
 	if res then
 		clocktime_last_update = os.clock()

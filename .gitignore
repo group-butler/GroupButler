@@ -1,2 +1,13 @@
+*.sh
+*.json
+*.tar
+plugins/test.lua
+plugins/realms.lua
+plugins/ign_*
+plugins/multipurpose/
+locales/
+bot_token.txt
+redis-backups/
 
-.#languages.lua
+!install.sh
+!launch.sh

@@ -1,10 +1,15 @@
+local config = require 'config'
+local misc = require 'utilities'.misc
+local roles = require 'utilities'.roles
+local api = require 'methods'
+
 local plugin = {}
 
 local function get_motivation(msg)
 	if msg.reply then
 		return msg.text:match(("%sban (.+)"):format(config.cmd))
 			or msg.text:match(("%skick (.+)"):format(config.cmd))
-			or msg.text:match(("%skick .+\n(.+)"):format(config.cmd))
+			or msg.text:match(("%stempban .+\n(.+)"):format(config.cmd))
 	else
 		if msg.text:find(config.cmd.."ban @%w[%w_]+ ") or msg.text:find(config.cmd.."kick @%w[%w_]+ ") then
 			return msg.text:match(config.cmd.."ban @%w[%w_]+ (.+)") or msg.text:match(config.cmd.."kick @%w[%w_]+ (.+)")

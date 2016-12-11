@@ -1,3 +1,7 @@
+local config = require 'config'
+local roles = require 'utilities'.roles
+local api = require 'methods'
+
 local plugin = {}
 
 local function doKeyboard_lang()

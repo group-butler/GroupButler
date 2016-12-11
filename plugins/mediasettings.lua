@@ -1,3 +1,8 @@
+local config = require 'config'
+local misc = require 'utilities'.misc
+local roles = require 'utilities'.roles
+local api = require 'methods'
+
 local plugin = {}
 
 local function doKeyboard_media(chat_id)
@@ -115,7 +120,7 @@ The number is not related the the normal `/warn` command
 				local media = blocks[2]
 		    	cb_text = '⚡️ '..misc.changeMediaStatus(chat_id, media, 'next')
     	    end
-    	    keyboard = doKeyboard_media(chat_id)
+    	    local keyboard = doKeyboard_media(chat_id)
 			api.editMessageText(msg.chat.id, msg.message_id, media_first, true, keyboard)
     	    api.answerCallbackQuery(msg.cb_id, cb_text)
     	end

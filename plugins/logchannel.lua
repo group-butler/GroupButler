@@ -1,3 +1,8 @@
+local config = require 'config'
+local misc = require 'utilities'.misc
+local roles = require 'utilities'.roles
+local api = require 'methods'
+
 local plugin = {}
 
 local function get_alert_text(key)
@@ -44,6 +49,7 @@ local function doKeyboard_logchannel(chat_id)
 		['ban'] = _('Ban'),
 		['kick'] = _('Kick'),
 		['tempban'] = _('Tempban'),
+		['report'] = _('Report'),
 		['warn'] = _('Warns'),
 		['nowarn'] = _('Warns resets'),
 		['new_chat_member'] = _('New members'),

@@ -1,3 +1,7 @@
+local config = require 'config'
+local misc = require 'utilities'.misc
+local api = require 'methods'
+
 local plugin = {}
 
 local function do_keyboard_credits()
@@ -5,7 +9,7 @@ local function do_keyboard_credits()
     keyboard.inline_keyboard = {
     	{
     		{text = _("Channel"), url = 'https://telegram.me/'..config.channel:gsub('@', '')},
-    		{text = _("GitHub"), url = 'https://github.com/RememberTheAir/GroupButler'},
+    		{text = _("GitHub"), url = config.source_code},
     		{text = _("Rate me!"), url = 'https://telegram.me/storebot?start='..bot.username},
 		},
 		{
@@ -35,18 +39,9 @@ function plugin.onTextMessage(msg, blocks)
 		local text = _("This bot is based on [otouto](https://github.com/topkecleon/otouto) (AKA @mokubot, channel: @otouto), a multipurpose Lua bot.\nGroup Butler wouldn't exist without it.\n\nThe owner of this bot is @bac0nnn, do not pm him: use /groups command instead.\n\nBot version: `%s`\n*Some useful links:*"):format(config.human_readable_version .. ' rev.' .. bot.revision)
 		api.sendMessage(msg.chat.id, text, true, keyboard)
 	end
-	if blocks[1] == 'groups' then
-		if config.help_groups and next(config.help_groups) then
-			local keyboard = {inline_keyboard = {}}
-			for group, link in pairs(config.help_groups) do
-				if link then
-					local line = {{text = group, url = link}}
-					table.insert(keyboard.inline_keyboard, line)
-				end
-			end
-			if next(keyboard.inline_keyboard) then
-				api.sendMessage(msg.chat.id, _("Select a group:"), true, keyboard)
-			end
+	if blocks[1] == 'group' then
+		if config.help_groups_link and config.help_groups_link ~= '' then
+			api.sendMessage(msg.chat.id, _("You can find the list of our support groups in [this channel](%s)"):format(config.help_groups_link), true)
 		end
 	end
 end
@@ -58,17 +53,8 @@ function plugin.onCallbackQuery(msg, blocks)
 		api.editMessageText(msg.chat.id, msg.message_id, text, true, keyboard)
 	end
 	if blocks[1] == 'groups' then
-		if config.help_groups and next(config.help_groups) then
-			local keyboard = {inline_keyboard = {}}
-			for group, link in pairs(config.help_groups) do
-				if link then
-					local line = {{text = group, url = link}}
-					table.insert(keyboard.inline_keyboard, line)
-				end
-			end
-			if next(keyboard.inline_keyboard) then
-				api.editMessageText(msg.chat.id, msg.message_id, _("Select a group:"), true, keyboard)
-			end
+		if config.help_groups_link and config.help_groups_link ~= '' then
+			api.editMessageText(msg.chat.id, msg.message_id, _("You can find the list of our support groups in [this channel](%s)"):format(config.help_groups_link), true, keyboard)
 		end
 	end
 end
@@ -78,8 +64,8 @@ plugin.triggers = {
 		config.cmd..'(ping)$',
 		config.cmd..'(echo) (.*)$',
 		config.cmd..'(about)$',
-		config.cmd..'(groups)$',
-		'^/start (groups)$'
+		config.cmd..'(group)s?$',
+		'^/start (group)s$'
 	},
 	onCallbackQuery = {
 		'^###cb:fromhelp:(about)$',

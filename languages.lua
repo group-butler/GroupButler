@@ -1,3 +1,5 @@
+local config = require 'config'
+
 local strings = {} -- internal array with translated strings
 
 -- Evaluates the Lua's expression
