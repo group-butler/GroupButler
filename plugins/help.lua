@@ -248,6 +248,7 @@ All the events, by default, are *not logged*. Admins can choose which events to 
 To pair a channel with a group, the *channel creator* must [add the bot to the channel administrators](telegram.me/gb_tutorials/4) (otherwise it won't be able to post), and send in the channel this command:
 `/setlog`
 Then, an admin of the group must forward in the group the message ("`/setlog`") sent in the channel. *Done*!
+(you can find a video-tutorial [here](https://telegram.me/GB_tutorials/8))
 
 A channel can be used as log by different groups.
 To change your log channel, simply repeat this process with another channel.
