@@ -252,13 +252,14 @@ function utilities.misc.resolve_user(username)
 end
 
 function utilities.misc.get_sm_error_string(code)
+	local hyperlinks_text = _('More info [here](https://telegram.me/GB_tutorials/12)')
 	local descriptions = {
-		[109] = _("Inline link formatted incorrectly. Check the text between brackets -> \\[]()"),
-		[141] = _("Inline link formatted incorrectly. Check the text between brackets -> \\[]()"),
-		[142] = _("Inline link formatted incorrectly. Check the text between brackets -> \\[]()"),
+		[109] = _("Inline link formatted incorrectly. Check the text between brackets -> \\[]()\n%s"):format(hyperlinks_text),
+		[141] = _("Inline link formatted incorrectly. Check the text between brackets -> \\[]()\n%s"):format(hyperlinks_text),
+		[142] = _("Inline link formatted incorrectly. Check the text between brackets -> \\[]()\n%s"):format(hyperlinks_text),
 		[112] = _("This text breaks the markdown.\n"
 					.. "More info about a proper use of markdown "
-					.. "[here](https://telegram.me/GroupButler_ch/46)."),
+					.. "[here](https://telegram.me/GB_tutorials/10) and [here](https://telegram.me/GB_tutorials/12)."),
 		[118] = _('This message is too long. Max lenght allowed by Telegram: 4000 characters')
 	}
 	

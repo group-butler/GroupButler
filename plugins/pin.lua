@@ -33,7 +33,7 @@ function plugin.onTextMessage(msg, blocks)
 				else
 					api.sendMessage(msg.chat.id, _("This text breaks the markdown.\n"
 						.. "More info about a proper use of markdown "
-						.. "[here](https://telegram.me/GroupButler_ch/46)."), true)
+						.. "[here](https://telegram.me/GB_tutorials/10) and [here](https://telegram.me/GB_tutorials/12)."), true)
 		    	end
 		    else
 		    	db:set('chat:'..msg.chat.id..':pin', res.result.message_id)

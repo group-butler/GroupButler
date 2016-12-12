@@ -70,7 +70,7 @@ return {
 		-- more languages will come
 	},
 	allow_fuzzy_translations = false,
-	chat_settings = { --default chat_settings for groups.
+	chat_settings = {
 		['settings'] = {
 			['Welcome'] = 'off',
 			['Goodbye'] = 'off',
