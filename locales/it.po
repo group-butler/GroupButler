@@ -2404,7 +2404,7 @@ msgstr "Leggi le regole"
 
 #: utilities.lua:255
 msgid "More info [here](https://telegram.me/GB_tutorials/12)"
-msgstr ""
+msgstr "Tutorial [qui](https://telegram.me/GB_tutorials/12)"
 
 #: utilities.lua:257 utilities.lua:258 utilities.lua:259
 #, lua-format
