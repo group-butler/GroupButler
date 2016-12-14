@@ -349,27 +349,48 @@ function utilities.misc.migrate_chat_info(old, new, on_request)
 	end
 end
 
--- Perform substitution of placeholders in the text according given the
--- message. If placeholders to replacing are specified, this function processes
--- only them, otherwise it processes all available placeholders.
+-- Perform substitution of placeholders in the text according given the message.
+-- The second argument can be the flag to avoid the escape, if it's set, the
+-- markdown escape isn't performed. In any case the following arguments are
+-- considered as the sequence of strings - names of placeholders. If
+-- placeholders to replacing are specified, this function processes only them,
+-- otherwise it processes all available placeholders.
 function string:replaceholders(msg, ...)
 	if msg.new_chat_member then
 		msg.from = msg.new_chat_member
 	elseif msg.left_chat_member then
 		msg.from = msg.left_chat_member
 	end
+	
+	local tail_arguments = {...}
+	-- check that the second argument is a boolean and true
+	local non_escapable = tail_arguments[1] == true
 
-	local replace_map = {
-		name = msg.from.first_name:escape(),
-		surname = msg.from.last_name and msg.from.last_name:escape() or '',
-		username = msg.from.username and '@'..msg.from.username:escape() or '-',
-		id = msg.from.id,
-		title = msg.chat.title:escape(),
-		rules = utilities.misc.deeplink_constructor(msg.chat.id, 'rules')
-	}
+	local replace_map
+	if non_escapable then
+		replace_map = {
+			name = msg.from.first_name,
+			surname = msg.from.last_name and msg.from.last_name or '',
+			username = msg.from.username and '@'..msg.from.username or '-',
+			id = msg.from.id,
+			title = msg.chat.title,
+			rules = utilities.misc.deeplink_constructor(msg.chat.id, 'rules'),
+		}
+		-- remove flag about escaping
+		table.remove(tail_arguments, 1)
+	else
+		replace_map = {
+			name = msg.from.first_name:escape(),
+			surname = msg.from.last_name and msg.from.last_name:escape() or '',
+			username = msg.from.username and '@'..msg.from.username:escape() or '-',
+			id = msg.from.id,
+			title = msg.chat.title:escape(),
+			rules = utilities.misc.deeplink_constructor(msg.chat.id, 'rules'),
+		}
+	end
 
-	local substitutions = next{...} and {} or replace_map
-	for _, placeholder in pairs{...} do
+	local substitutions = next(tail_arguments) and {} or replace_map
+	for _, placeholder in pairs(tail_arguments) do
 		substitutions[placeholder] = replace_map[placeholder]
 	end
 
@@ -497,6 +518,7 @@ function utilities.misc.getSettings(chat_id)
 		Rtl = _("RTL"),
 		Reports = _("Reports"),
 		Welbut = _("Welcome button"),
+		Preview = _("Link preview"),
 	}
     for key, default in pairs(config.chat_settings['settings']) do
         

@@ -25,7 +25,7 @@ local function get_welcome(msg)
 	local content = (db:hget(hash, 'content')) or config.chat_settings['welcome']['content']
 	if type == 'media' then
 		local file_id = content
-		local caption = db:hget(hash, 'caption')
+		local caption = db:hget(hash, 'caption'):replaceholders(msg, true)
 		
 		api.sendDocumentId(msg.chat.id, file_id, nil, caption)
 		return false
@@ -46,7 +46,7 @@ local function get_goodbye(msg)
 	local content = db:hget(hash, 'content')
 	if type == 'media' then
 		local file_id = content
-		local caption = db:hget(hash, 'caption')
+		local caption = db:hget(hash, 'caption'):replaceholders(msg, true)
 		api.sendDocumentId(msg.chat.id, file_id, nil, caption)
 		return false
 	elseif type == 'custom' then
@@ -90,6 +90,8 @@ function plugin.onTextMessage(msg, blocks)
                 else
                 	db:hdel(hash, 'caption') --remove the caption key if the new media doesn't have a caption
                 end
+				-- turn on the welcome message in the group settings
+				db:hset(('chat:%d:settings'):format(msg.chat.id), 'Welcome', 'on')
                 api.sendReply(msg, _("A form of media has been set as the welcome message: `%s`"):format(replied_to), true)
             else
                 api.sendReply(msg, _("Reply to a `sticker` or a `gif` to set them as the *welcome message*"), true)
@@ -103,6 +105,8 @@ function plugin.onTextMessage(msg, blocks)
                 db:hset(hash, 'content', 'no')
                 api.sendMessage(msg.chat.id, misc.get_sm_error_string(code), true)
             else
+				-- turn on the welcome message in the group settings
+				db:hset(('chat:%d:settings'):format(msg.chat.id), 'Welcome', 'on')
                 local id = res.result.message_id
                 api.editMessageText(msg.chat.id, id, _("*Custom welcome message saved!*"), true)
             end
@@ -136,6 +140,8 @@ function plugin.onTextMessage(msg, blocks)
                 else
                 	db:hdel(hash, 'caption') --remove the caption key if the new media doesn't have a caption
                 end
+				-- turn on the goodbye message in the group settings
+				db:hset(('chat:%d:settings'):format(msg.chat.id), 'Goodbye', 'on')
 				
 				api.sendReply(msg, _("New media setted as goodbye message: `%s`"):format(replied_to), true)
 			else
@@ -153,6 +159,8 @@ function plugin.onTextMessage(msg, blocks)
 			db:hset(hash, 'content', 'no')
 			api.sendMessage(msg.chat.id, misc.get_sm_error_string(code), true)
 		else
+			-- turn on the goodbye message in the group settings
+			db:hset(('chat:%d:settings'):format(msg.chat.id), 'Goodbye', 'on')
 			local id = res.result.message_id
 			api.editMessageText(msg.chat.id, id, _("*Custom goodbye message saved!*"), true)
 		end
@@ -178,7 +186,8 @@ function plugin.onTextMessage(msg, blocks)
 			if attach_button == 'on' then
 				keyboard = {inline_keyboard={{{text = _('Read the rules'), url = misc.deeplink_constructor(msg.chat.id, 'rules')}}}}
 			end
-			api.sendMessage(msg.chat.id, text, true, keyboard)
+			local link_preview = db:hget(('chat:%d:settings'):format(msg.chat.id), 'Preview') == 'on'
+			api.sendMessage(msg.chat.id, text, true, keyboard, nil, link_preview)
 		end
 		
 		local send_rules_private = db:hget('user:'..msg.new_chat_member.id..':settings', 'rules_on_join')
@@ -195,7 +204,8 @@ function plugin.onTextMessage(msg, blocks)
 		if msg.left_chat_member.username and msg.left_chat_member.username:lower():find('bot', -3) then return end
 		local text = get_goodbye(msg)
 		if text then
-			api.sendMessage(msg.chat.id, text, true)
+			local link_preview = db:hget(('chat:%d:settings'):format(msg.chat.id), 'Preview') == 'on'
+			api.sendMessage(msg.chat.id, text, true, nil, nil, link_preview)
 		end
 	end
 end
