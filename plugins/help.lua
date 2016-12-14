@@ -160,6 +160,23 @@ Placeholders:
 *GIF/sticker as welcome message*
 You can use a particular gif/sticker as welcome message. To set it, reply to the gif/sticker you want to set as welcome message with `/welcome`. Same goes for `/goodbye`
 ]])
+	elseif key == 'whitelist' then
+		return _([[*Whitelist settings*
+
+As you may know, the bot can warn/kick/ban who sends a telegram.me link (antispam settings) or any other link (media settings).
+The whitelist is a list of links that will be ignored by the bot.
+If an user sends a whitelisted link, he won't be warned or kicked.
+
+`/whitelist [link(s)]` or `/wl [link(s)]`: add one or more links to the whitelist.
+`/unwhitelist [link(s)]` or `/unwl [link(s)]`: remove one or more links from the whitelist.
+`/whitelist` or `/wl`: get the whitelist.
+`/whitelistl -` or `/wl -`: empty the whitelist.
+
+When the group link is saved with `/setlink`, it gets automatically added to the whitelist.
+
+*Why links are saved without* _https://_ *and* _www_*?*
+The bot auto-removes _https://, http:// and www_ from every link to reduce the possibility of having the same link saved twice.
+]])
 	elseif key == 'extra' then
 		return _([[
 *Extra commands*
@@ -271,7 +288,7 @@ local function dk_admins()
 	    	[_("Pin")] = 'pin'
 	    },
 	    {
-	    	[_("Languages")] = 'lang', --+ char
+	    	[_("Languages")] = 'lang',
 	    	[_("Group configuration")] = 'config'
 	    },
 	    {
@@ -280,6 +297,7 @@ local function dk_admins()
 	    },
 	    {
 	    	[_("Welcome settings")] = 'welcome',
+	    	[_("Links whitelist")] = 'whitelist',
 	    }
 	    
     }

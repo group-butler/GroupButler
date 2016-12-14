@@ -328,12 +328,19 @@ function utilities.misc.migrate_chat_info(old, new, on_request)
 		end
 	end
 	
-	for _, hash_name in pairs(config.chat_custom_texts) do
+	for _, hash_name in pairs(config.chat_hashes) do
 		local old_t = db:hgetall('chat:'..old..':'..hash_name)
 		if next(old_t) then
 			for key, val in pairs(old_t) do
 				db:hset('chat:'..new..':'..hash_name, key, val)
 			end
+		end
+	end
+	
+	for i=1, #config.chat_sets do
+		local old_t = db:smembers('chat:'..old..':'..config.chat_sets[i])
+		if next(old_t) then
+			db:sadd('chat:'..new..':'..config.chat_sets[i], table.unpack(old_t))
 		end
 	end
 	
@@ -670,9 +677,13 @@ function utilities.misc.remGroup(chat_id, full, converted_to_realm)
 	end
 	
 	if full or converted_to_realm then
-		for i, set in pairs(config.chat_custom_texts) do
-			db:del('chat:'..chat_id..':'..set)
+		for i=1, #config.chat_hashes do
+			db:del('chat:'..chat_id..':'..config.chat_hashes[i])
 		end
+		for i=1, #config.chat_sets do
+			db:del('chat:'..chat_id..':'..config.chat_sets[i])
+		end
+		
 		db:del('lang:'..chat_id)
 	end
 end

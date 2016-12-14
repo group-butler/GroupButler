@@ -51,6 +51,19 @@ local function is_blocked(id)
 	end
 end
 
+local function is_whitelisted(chat_id, text)
+    local set = ('chat:%d:whitelist'):format(chat_id)
+    local links = db:smembers(set)
+    if links and next(links) then
+        for i=1, #links do
+            if text:match(links[i]) then
+                --print('Whitelist:', links[i])
+                return true
+            end
+        end
+    end
+end
+
 function plugin.onEveryMessage(msg)
     
     if not msg.inline then
@@ -100,35 +113,42 @@ function plugin.onEveryMessage(msg)
         local hash = 'chat:'..msg.chat.id..':media'
         local media_status = (db:hget(hash, media)) or 'ok'
         local out
-        if not(media_status == 'ok') then
+        if media_status ~= 'ok' then
             if not roles.is_admin_cached(msg) then --ignore admins
-                local status
-                local name = misc.getname_final(msg.from)
-                local max_reached_var, n, max = max_reached(msg.chat.id, msg.from.id)
-    	        if max_reached_var then --max num reached. Kick/ban the user
-    	            status = (db:hget('chat:'..msg.chat.id..':warnsettings', 'mediatype')) or config.chat_settings['warnsettings']['mediatype']
-    	            --try to kick/ban
-    	            if status == 'kick' then
-                        res = api.kickUser(msg.chat.id, msg.from.id)
-                    elseif status == 'ban' then
-                        res = api.banUser(msg.chat.id, msg.from.id)
-    	            end
-    	            if res then --kick worked
-    	                misc.saveBan(msg.from.id, 'media') --save ban
-    	                db:hdel('chat:'..msg.chat.id..':mediawarn', msg.from.id) --remove media warns
-    	                local message
-    	                if status == 'ban' then
-			    			message = _("%s <b>banned</b>: media sent not allowed!\n❗️ <code>%d/%d</code>"):format(name, n, max)
-    	                else
-			    			message = _("%s <b>kicked</b>: media sent not allowed!\n❗️ <code>%d/%d</code>"):format(name, n, max)
+                local whitelisted
+                if media == 'link' then
+                    whitelisted = is_whitelisted(msg.chat.id, msg.text)
+                end
+                
+                if not whitelisted then
+                    local status
+                    local name = misc.getname_final(msg.from)
+                    local max_reached_var, n, max = max_reached(msg.chat.id, msg.from.id)
+    	            if max_reached_var then --max num reached. Kick/ban the user
+    	                status = (db:hget('chat:'..msg.chat.id..':warnsettings', 'mediatype')) or config.chat_settings['warnsettings']['mediatype']
+    	                --try to kick/ban
+    	                if status == 'kick' then
+                            res = api.kickUser(msg.chat.id, msg.from.id)
+                        elseif status == 'ban' then
+                            res = api.banUser(msg.chat.id, msg.from.id)
     	                end
-    	                api.sendMessage(msg.chat.id, message, 'html')
-    	            end
-	            else --max num not reached -> warn
-			    	local message = _("%s, this type of media is <b>not allowed</b> in this chat.\n(<code>%d/%d</code>)"):format(name, n, max)
-	                api.sendReply(msg, message, 'html')
-	            end
-	            misc.logEvent('mediawarn', msg, {warns = n, warnmax = max, media = _(media), hammered = status})
+    	                if res then --kick worked
+    	                    misc.saveBan(msg.from.id, 'media') --save ban
+    	                    db:hdel('chat:'..msg.chat.id..':mediawarn', msg.from.id) --remove media warns
+    	                    local message
+    	                    if status == 'ban' then
+			        			message = _("%s <b>banned</b>: media sent not allowed!\n❗️ <code>%d/%d</code>"):format(name, n, max)
+    	                    else
+			        			message = _("%s <b>kicked</b>: media sent not allowed!\n❗️ <code>%d/%d</code>"):format(name, n, max)
+    	                    end
+    	                    api.sendMessage(msg.chat.id, message, 'html')
+    	                end
+	                else --max num not reached -> warn
+			        	local message = _("%s, this type of media is <b>not allowed</b> in this chat.\n(<code>%d/%d</code>)"):format(name, n, max)
+	                    api.sendReply(msg, message, 'html')
+	                end
+	                misc.logEvent('mediawarn', msg, {warns = n, warnmax = max, media = _(media), hammered = status})
+                end
     	    end
     	end
     end

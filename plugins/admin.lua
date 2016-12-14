@@ -332,8 +332,8 @@ function plugin.onTextMessage(msg, blocks)
 		end
 		local text = chat_id..'\n'
 		local section
-		for i=1, #config.chat_custom_texts do
-			section = misc.vtext(db:hgetall(('chat:%s:%s'):format(tostring(chat_id), config.chat_custom_texts[i]))) or '{}'
+		for i=1, #config.chat_hashes do
+			section = misc.vtext(db:hgetall(('chat:%s:%s'):format(tostring(chat_id), config.chat_hashes[i]))) or '{}'
 			text = text..section
 		end
 		api.sendMessage(msg.chat.id, text)

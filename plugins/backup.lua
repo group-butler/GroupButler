@@ -16,18 +16,31 @@ end
 local function gen_backup(chat_id)
     chat_id = tostring(chat_id)
     local file_path = '/tmp/snap'..chat_id..'.json'
-    local t = {[chat_id] = {}}
+    local t = {
+        [chat_id] = {
+            hashes = {},
+            sets = {}
+        }
+    }
     local hash
-    for i=1, #config.chat_custom_texts do
-        hash = ('chat:%s:%s'):format(chat_id, config.chat_custom_texts[i])
+    for i=1, #config.chat_hashes do
+        hash = ('chat:%s:%s'):format(chat_id, config.chat_hashes[i])
         local content = db:hgetall(hash)
         if next(content) then
-            t[chat_id][config.chat_custom_texts[i]] = {}
+            t[chat_id].hashes[config.chat_hashes[i]] = {}
             for key, val in pairs(content) do
-                t[chat_id][config.chat_custom_texts[i]][key] = val
+                t[chat_id].hashes[config.chat_hashes[i]][key] = val
             end
         end
     end
+    for i=1, #config.chat_sets do
+        set = ('chat:%s:%s'):format(chat_id, config.chat_sets[i])
+        local content = db:smembers(set)
+        if next(content) then
+            t[chat_id].sets[config.chat_sets[i]] = content
+        end
+    end
+    
     save_data(file_path, t)
     
     return file_path

@@ -32,6 +32,7 @@ return {
 		'configure',
 		'menu',
 		'dashboard',
+		--'backup',
 		'banhammer',
 		'users',
 		'help',
@@ -151,7 +152,8 @@ return {
 		rules_on_join = 'off',
 		reports = 'off'
 	},
-	chat_custom_texts = {'extra', 'info', 'links', 'warns', 'mediawarn', 'spamwarns'},
+	chat_hashes = {'extra', 'info', 'links', 'warns', 'mediawarn', 'spamwarns'},
+	chat_sets = {'whitelist'},
 	bot_keys = {
 		d3 = {'bot:general', 'bot:usernames', 'bot:chat:latsmsg'},
 		d2 = {'bot:groupsid', 'bot:groupsid:removed', 'tempbanned', 'bot:blocked', 'remolden_chats'} --remolden_chats: chat removed with $remold command
