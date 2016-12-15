@@ -148,7 +148,7 @@ local function doKeyboard_antispam(chat_id)
             local status = (db:hget('chat:'..chat_id..':antispam', field)) or config.chat_settings['antispam'][field]
             if status == 'notalwd' then icon = '❌' end
             local line = {
-                {text = _(humanizations[field] or field), callback_data = 'antispam:alert:'..field},
+                {text = _(humanizations[field] or field), callback_data = 'antispam:alert:'..field..':'..locale.language},
                 {text = icon, callback_data = 'antispam:toggle:'..field..':'..chat_id}
             }
             table.insert(keyboard.inline_keyboard, line)
@@ -159,7 +159,7 @@ local function doKeyboard_antispam(chat_id)
     local action = (db:hget('chat:'..chat_id..':antispam', 'action')) or config.chat_settings['antispam']['action']
     
     local line = {
-        {text = 'Warns: '..warns, callback_data = 'antispam:alert:warns'},
+        {text = 'Warns: '..warns, callback_data = 'antispam:alert:warns:'..locale.language},
         {text = '➖', callback_data = 'antispam:toggle:dim:'..chat_id},
         {text = '➕', callback_data = 'antispam:toggle:raise:'..chat_id},
         {text = _(action), callback_data = 'antispam:toggle:action:'..chat_id}
@@ -192,8 +192,11 @@ end
 function plugin.onCallbackQuery(msg, blocks)
     
 	if blocks[1] == 'alert' then
+		if config.available_languages[blocks[3]] then
+			locale.language = blocks[3]
+		end
 	    local text = get_alert_text(blocks[2])
-	    api.answerCallbackQuery(msg.cb_id, text, true)
+	    api.answerCallbackQuery(msg.cb_id, text, true, config.bot_settings.cache_time.alert_help)
 	else
 	    
 	    local chat_id = msg.target_id
@@ -300,7 +303,7 @@ end
 plugin.triggers = {
     onCallbackQuery = {
         '^###cb:antispam:(toggle):(%w+):(-?%d+)$',
-        '^###cb:antispam:(alert):(%w+)$',
+        '^###cb:antispam:(alert):(%w+):([%w_]+)$',
         '^###cb:(config):antispam:(-?%d+)$'
     },
     onTextMessage = {

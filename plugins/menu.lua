@@ -169,7 +169,7 @@ local function insert_settings_section(keyboard, settings_section, chat_id)
 
     for key, icon in pairs(settings_section) do
         local current = {
-            {text = strings[key] or key, callback_data = 'menu:alert:settings:'..key..':'..chat_id},
+            {text = strings[key] or key, callback_data = 'menu:alert:settings:'..key..':'..locale.language},
             {text = icon, callback_data = 'menu:'..key..':'..chat_id}
         }
         table.insert(keyboard.inline_keyboard, current)
@@ -200,12 +200,12 @@ local function doKeyboard_menu(chat_id)
 	end
     local warn = {
         {
-            {text = _('Warns: ')..max, callback_data = 'menu:alert:settings:warnsnum:'..chat_id},
+            {text = _('Warns: ')..max, callback_data = 'menu:alert:settings:warnsnum:'..locale.language},
 		    {text = '➖', callback_data = 'menu:DimWarn:'..chat_id},
 		    {text = '➕', callback_data = 'menu:RaiseWarn:'..chat_id},
         },
         {
-            {text = _('Action:'), callback_data = 'menu:alert:settings:warnsact:'..chat_id},
+            {text = _('Action:'), callback_data = 'menu:alert:settings:warnsact:'..locale.language},
             {text = action, callback_data = 'menu:ActionWarn:'..chat_id}
         }
     }
@@ -221,14 +221,10 @@ end
 
 function plugin.onCallbackQuery(msg, blocks)
     local chat_id = msg.target_id
-	if not roles.is_admin_cached(chat_id, msg.from.id) then
+	if chat_id and not roles.is_admin_cached(chat_id, msg.from.id) then
 		api.answerCallbackQuery(msg.cb_id, _("You're no longer an admin"))
 	else
-	    if not chat_id then
-	        api.sendAdmin('Not msg.target_id -> menu') return
-	    end
-	    
-	    local menu_first = _("Manage the settings of the group")
+	    local menu_first = _("Manage the settings of the group. Click on the left column to get a small hint")
     
         local keyboard, text, show_alert
         
@@ -237,8 +233,11 @@ function plugin.onCallbackQuery(msg, blocks)
             api.editMessageText(msg.chat.id, msg.message_id, menu_first, true, keyboard)
         else
 	        if blocks[2] == 'alert' then
+				if config.available_languages[blocks[4]] then
+					locale.language = blocks[4]
+				end
                 text = get_button_description(blocks[3])
-                api.answerCallbackQuery(msg.cb_id, text, true)
+                api.answerCallbackQuery(msg.cb_id, text, true, config.bot_settings.cache_time.alert_help)
                 return
             end
             if blocks[2] == 'DimWarn' or blocks[2] == 'RaiseWarn' or blocks[2] == 'ActionWarn' then
@@ -266,7 +265,7 @@ end
 
 plugin.triggers = {
     onCallbackQuery = {
-        '^###cb:(menu):(alert):settings:([%w_]+):',
+        '^###cb:(menu):(alert):settings:([%w_]+):([%w_]+)$',
     	
     	'^###cb:(menu):(.*):',
     	

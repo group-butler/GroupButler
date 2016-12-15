@@ -69,7 +69,7 @@ local function doKeyboard_logchannel(chat_id)
 		local current_status = db:hget('chat:'..chat_id..':tolog', event) or default_status
 		icon = '✅'
 		if current_status == 'no' then icon = '☑️' end
-		table.insert(keyboard.inline_keyboard, {{text = event_pretty[event] or event, callback_data = 'logchannel:alert:'..event}, {text = icon, callback_data = 'logchannel:toggle:'..event..':'..chat_id}})
+		table.insert(keyboard.inline_keyboard, {{text = event_pretty[event] or event, callback_data = 'logchannel:alert:'..event..':'..locale.language}, {text = icon, callback_data = 'logchannel:toggle:'..event..':'..chat_id}})
 	end
 	
 	--back button
@@ -93,8 +93,11 @@ function plugin.onCallbackQuery(msg, blocks)
 		end
 	else
 		if blocks[1] == 'alert' then
+			if config.available_languages[blocks[3]] then
+				locale.language = blocks[3]
+			end
 		    local text = get_alert_text(blocks[2])
-		    api.answerCallbackQuery(msg.cb_id, text, true)
+		    api.answerCallbackQuery(msg.cb_id, text, true, config.bot_settings.cache_time.alert_help)
 		else
 		    local chat_id = msg.target_id
 		    if not roles.is_admin_cached(chat_id, msg.from.id) then
@@ -217,7 +220,7 @@ plugin.triggers = {
 		
 		--callbacks from the configuration keyboard
         '^###cb:logchannel:(toggle):([%w_]+):(-?%d+)$',
-        '^###cb:logchannel:(alert):([%w_]+)$',
+        '^###cb:logchannel:(alert):([%w_]+):([%w_]+)$',
         '^###cb:(config):logchannel:(-?%d+)$'
     }
 }

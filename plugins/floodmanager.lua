@@ -42,7 +42,7 @@ local function do_keyboard_flood(chat_id)
             },
             {
                 {text = '➖', callback_data = 'flood:dim:'..chat_id},
-                {text = num, callback_data = 'flood:alert:num:'..chat_id},
+                {text = num, callback_data = 'flood:alert:num:'..locale.language},
                 {text = '➕', callback_data = 'flood:raise:'..chat_id},
             }
         }
@@ -66,7 +66,7 @@ local function do_keyboard_flood(chat_id)
             exc_status = '❌'
         end
         local line = {
-            {text = translation, callback_data = 'flood:alert:voice:'..chat_id},
+            {text = translation, callback_data = 'flood:alert:voice:'..locale.language},
             {text = exc_status, callback_data = 'flood:exc:'..media..':'..chat_id},
         }
         table.insert(keyboard.inline_keyboard, line)
@@ -112,11 +112,7 @@ end
 
 function plugin.onCallbackQuery(msg, blocks)
     local chat_id = msg.target_id
-    if not chat_id then
-        api.sendAdmin('missing chat_id -> antiflood') return
-    end
-    
-	if not roles.is_admin_cached(chat_id, msg.from.id) then
+	if chat_id and not roles.is_admin_cached(chat_id, msg.from.id) then
 		api.answerCallbackQuery(msg.cb_id, _("You're no longer an admin"))
 	else
 	    local header = _("You can manage the antiflood settings from here")
@@ -128,8 +124,12 @@ function plugin.onCallbackQuery(msg, blocks)
         end
     
         if blocks[1] == 'alert' then
+			if config.available_languages[blocks[3]] then
+				locale.language = blocks[3]
+			end
             text = get_button_description(blocks[2])
-            api.answerCallbackQuery(msg.cb_id, text, true) return
+            api.answerCallbackQuery(msg.cb_id, text, true, config.bot_settings.cache_time.alert_help)
+			return
         end
         
         if blocks[1] == 'exc' then
@@ -170,8 +170,7 @@ end
 
 plugin.triggers = {
     onCallbackQuery = {
-        '^###cb:flood:(alert):(num)',
-        '^###cb:flood:(alert):(voice)',
+        '^###cb:flood:(alert):([%w_]+):([%w_]+)$',
         '^###cb:flood:(status):(-?%d+)$',
         '^###cb:flood:(action):(-?%d+)$',
         '^###cb:flood:(dim):(-?%d+)$',
