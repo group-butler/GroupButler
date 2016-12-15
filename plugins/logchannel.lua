@@ -48,6 +48,7 @@ local function doKeyboard_logchannel(chat_id)
 	local event_pretty = {
 		['ban'] = _('Ban'),
 		['kick'] = _('Kick'),
+		['unban'] = _('Unban'),
 		['tempban'] = _('Tempban'),
 		['report'] = _('Report'),
 		['warn'] = _('Warns'),

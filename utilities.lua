@@ -831,8 +831,7 @@ function utilities.misc.logEvent(event, msg, extra)
 			--admin name formatted: admin
 			--user name formatted: user
 			--user id: user_id
-			local event_nowarn = _("WARNS_RESET")
-			text = _('#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n• <b>User</b>: %s [#id%s]'):format(event_nowarn, extra.admin, msg.from.id, chat_info, extra.user, tostring(extra.user_id))
+			text = _('#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n• <b>User</b>: %s [#id%s]'):format('WARNS_RESET', extra.admin, msg.from.id, chat_info, extra.user, tostring(extra.user_id))
 		elseif event == 'tempban' then
 			--TEMPBAN
 			--admin name formatted: admin
@@ -842,8 +841,8 @@ function utilities.misc.logEvent(event, msg, extra)
 			--hours: h
 			--motivation: motivation
 			text = _('#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n• <b>User</b>: %s [#id%s]\n• <b>Duration</b>: %d days, %d hours'):format(event:upper(), extra.admin, msg.from.id, chat_info, extra.user, tostring(extra.user_id), extra.d, extra.h)
-		else --ban or kick
-			--BAN OR KICK
+		else --ban or kick or unban
+			--BAN OR KICK OR UNBAN
 			--admin name formatted: admin
 			--user name formatted: user
 			--user id: user_id

@@ -168,20 +168,16 @@ function plugin.onTextMessage(msg, blocks)
     		end
    			if blocks[1] == 'unban' then
    				api.unbanUser(chat_id, user_id)
+   				misc.logEvent('unban', msg, {motivation = get_motivation(msg), admin = admin, user = kicked, user_id = user_id})
    				local text = _("%s unbanned by %s!"):format(kicked, admin)
    				api.sendReply(msg, text, 'html')
    			end
-		else
-			if blocks[1] == 'kickme' then
-				api.kickUser(msg.chat.id, msg.from.id)
-			end
 		end
 	end
 end
 
 plugin.triggers = {
 	onTextMessage = {
-		config.cmd..'(kickme)',
 		config.cmd..'(kick) (.+)',
 		config.cmd..'(kick)$',
 		config.cmd..'(ban) (.+)',

@@ -86,7 +86,6 @@ With `/rules`, the bot always answer in the group for admins, but with normal us
 
 • `@admin` (by reply): report a message to the admins of the group (the bot will forward it in prvate). This ability could be turned off from the group settings. A description of the report can be added.
 Admins need to give their consense to receive reports from users, with `/mysettings` command
-• `/kickme` : get kicked by the bot
 ]])
 	elseif key == 'info' then
 		return _([[
