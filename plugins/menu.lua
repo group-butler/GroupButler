@@ -20,7 +20,7 @@ local function get_button_description(key)
     elseif key == 'Welbut' then
         return _("If the welcome message is enabled, it will include an inline button that will send to the user the rules in private")
     elseif key == 'Preview' then
-        return _("Show or hide the preview for links. Affects the rules and every custom command set with /extra")
+        return _("Show or hide the preview for links. Affects the rules, welcome and goodbye messages and every custom command set with /extra")
     elseif key == 'Rules' then
         return _([[When someone uses /rules
 👥: the bot will answer in the group (always, with admins)
