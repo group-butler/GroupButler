@@ -97,7 +97,7 @@ function plugin.onTextMessage(msg, blocks)
         else
             db:hset(hash, 'type', 'custom')
             db:hset(hash, 'content', input)
-            local res, code = api.sendReply(msg, input:gsub('$rules', misc.deeplink_constructor(msg.chat.id, 'rules')), true)
+            local res, code = api.sendReply(msg, input:gsub('$rules', misc.deeplink_constructor(msg.chat.id, 'rules')), true) or api.sendReply(msg, input:gsub('$dashboard', misc.deeplink_constructor(msg.chat.id, 'dashboard')), true)
             if not res then
                 db:hset(hash, 'type', 'no') --if wrong markdown, remove 'custom' again
                 db:hset(hash, 'content', 'no')
