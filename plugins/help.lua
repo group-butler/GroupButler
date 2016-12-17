@@ -364,11 +364,15 @@ function plugin.onTextMessage(msg, blocks)
         end
     end
     if blocks[1] == 'help' then
-        local keyboard = do_keyboard('main')
-        local text = get_helped_string('main_menu')
-    	local res = api.sendMessage(msg.from.id, text, true, keyboard)
-    	if not res and msg.chat.type ~= 'private' and db:hget('chat:'..msg.chat.id..':settings', 'Silent') ~= 'on' then
-    	    api.sendMessage(msg.chat.id, _('[Start me](%s) _to get the list of commands_'):format(misc.deeplink_constructor('', 'help')), true)
+    	local text = get_helped_string(blocks[2] or 'main_menu')
+    	if blocks[2] then
+    		api.sendMessage(msg.from.id, text, true)
+    	else
+        	local keyboard = do_keyboard('main')
+    		local res = api.sendMessage(msg.from.id, text, true, keyboard)
+    		if not res and msg.chat.type ~= 'private' and db:hget('chat:'..msg.chat.id..':settings', 'Silent') ~= 'on' then
+    		    api.sendMessage(msg.chat.id, _('[Start me](%s) _to get the list of commands_'):format(misc.deeplink_constructor('', 'help')), true)
+    		end
     	end
     end
 end
@@ -419,7 +423,8 @@ plugin.triggers = {
 	onTextMessage = {
 		config.cmd..'(start)$',
 		config.cmd..'(help)$',
-		'^/start :(help)$'
+		'^/start :(help)$',
+		'^/start (help):([%w_]+)$',
 	},
 	onCallbackQuery = {
 		'^###cb:help:(admins):(%a+)$',

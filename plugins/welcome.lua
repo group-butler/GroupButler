@@ -25,7 +25,8 @@ local function get_welcome(msg)
 	local content = (db:hget(hash, 'content')) or config.chat_settings['welcome']['content']
 	if type == 'media' then
 		local file_id = content
-		local caption = db:hget(hash, 'caption'):replaceholders(msg, true)
+		local caption = db:hget(hash, 'caption')
+		if caption then caption = caption:replaceholders(msg, true) end
 		
 		api.sendDocumentId(msg.chat.id, file_id, nil, caption)
 		return false
@@ -46,7 +47,9 @@ local function get_goodbye(msg)
 	local content = db:hget(hash, 'content')
 	if type == 'media' then
 		local file_id = content
-		local caption = db:hget(hash, 'caption'):replaceholders(msg, true)
+		local caption = db:hget(hash, 'caption')
+		if caption then caption = caption:replaceholders(msg, true) end
+		
 		api.sendDocumentId(msg.chat.id, file_id, nil, caption)
 		return false
 	elseif type == 'custom' then
@@ -186,7 +189,7 @@ function plugin.onTextMessage(msg, blocks)
 			if attach_button == 'on' then
 				keyboard = {inline_keyboard={{{text = _('Read the rules'), url = misc.deeplink_constructor(msg.chat.id, 'rules')}}}}
 			end
-			local link_preview = db:hget(('chat:%d:settings'):format(msg.chat.id), 'Preview') == 'on'
+			local link_preview = text:find('telegra%.ph/') ~= nil
 			api.sendMessage(msg.chat.id, text, true, keyboard, nil, link_preview)
 		end
 		
@@ -204,7 +207,7 @@ function plugin.onTextMessage(msg, blocks)
 		if msg.left_chat_member.username and msg.left_chat_member.username:lower():find('bot', -3) then return end
 		local text = get_goodbye(msg)
 		if text then
-			local link_preview = db:hget(('chat:%d:settings'):format(msg.chat.id), 'Preview') == 'on'
+			local link_preview = text:find('telegra%.ph/') ~= nil
 			api.sendMessage(msg.chat.id, text, true, nil, nil, link_preview)
 		end
 	end

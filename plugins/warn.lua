@@ -17,7 +17,6 @@ local function doKeyboard_warn(user_id)
 end
 
 function plugin.onTextMessage(msg, blocks)
-	print('ok')
 	if msg.chat.type == 'private' or (msg.chat.type ~= 'private' and not roles.is_admin_cached(msg)) then return end
 	
 	if blocks[1] == 'warnmax' then
@@ -40,7 +39,13 @@ function plugin.onTextMessage(msg, blocks)
         api.sendReply(msg, text, true)
         return
     end
-
+	
+	if blocks[1] == 'cleanwarn' then
+		local reply_markup = {inline_keyboard = {{{text = _('Yes'), callback_data = 'cleanwarns:yes'}, {text = _('No'), callback_data = 'cleanwarns:no'}}}}
+		api.sendMessage(msg.chat.id, _('Do you want to continue and reset *all* the warnings received by *all* the users of the group?'), true, reply_markup)
+		return
+	end
+	
     --do not reply when...
     if not msg.reply or roles.is_admin_cached(msg.reply) or msg.reply.from.id == bot.id then return end
 	
@@ -149,6 +154,16 @@ function plugin.onCallbackQuery(msg, blocks)
 		text = text .. _("\n(Admin: %s)"):format(misc.getname_final(msg.from))
 		api.editMessageText(msg.chat.id, msg.message_id, text, 'html')
 	end
+	if blocks[1] == 'cleanwarns' then
+		if blocks[2] == 'yes' then
+			db:del('chat:'..msg.chat.id..':warns')
+			db:del('chat:'..msg.chat.id..':mediawarn')
+			db:del('chat:'..msg.chat.id..':spamwarns')
+			api.editMessageText(msg.chat.id, msg.message_id, _('Done. All the warnings of this group have been erased by %s'):format(misc.getname_final(msg.from)), 'html')
+		else
+			api.editMessageText(msg.chat.id, msg.message_id, _('_Action aborted_'), true)
+		end
+	end
 end
 
 plugin.triggers = {
@@ -158,12 +173,14 @@ plugin.triggers = {
 		config.cmd..'(warn)$',
 		config.cmd..'(nowarn)s?$',
 		config.cmd..'(warn) (.*)$',
-		'[!/](sw)%s',
-		'[!/](sw)$'
+		config.cmd..'(cleanwarn)s?$',
+		config.cmd..'(sw)%s',
+		config.cmd..'(sw)$'
 	},
 	onCallbackQuery = {
 		'^###cb:(resetwarns):(%d+)$',
-		'^###cb:(removewarn):(%d+)$'
+		'^###cb:(removewarn):(%d+)$',
+		'^###cb:(cleanwarns):(%a%a%a?)$'
 	}
 }
 

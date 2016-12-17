@@ -484,6 +484,10 @@ function utilities.misc.getAdminlist(chat_id)
 	return creator, adminlist
 end
 
+local function sort_funct(a, b)
+	print(a, b)
+return a:gsub('#', '') < b:gsub('#', '') end
+
 function utilities.misc.getExtraList(chat_id)
 	local hash = 'chat:'..chat_id..':extra'
 	local commands = db:hkeys(hash)
@@ -491,7 +495,7 @@ function utilities.misc.getExtraList(chat_id)
 		return _("No commands set")
 	else
 		local lines = {}
-		for k, v in pairs(commands) do
+		for i, k in ipairs(commands) do
 			table.insert(lines, (v:escape(true)))
 		end
 		return _("List of *custom commands*:\n") .. table.concat(lines, '\n')
@@ -517,8 +521,7 @@ function utilities.misc.getSettings(chat_id)
 		Arab = _("Arab"),
 		Rtl = _("RTL"),
 		Reports = _("Reports"),
-		Welbut = _("Welcome button"),
-		Preview = _("Link preview"),
+		Welbut = _("Welcome button")
 	}
     for key, default in pairs(config.chat_settings['settings']) do
         
@@ -862,7 +865,10 @@ function utilities.misc.logEvent(event, msg, extra)
 	end
 	
 	if text then
-		api.sendMessage(log_id, text, 'html', reply_markup)
+		local res, code = api.sendMessage(log_id, text, 'html', reply_markup)
+		if not res and code == 117 then
+			db:hdel('bot:chatlogs', msg.chat.id)
+		end
 	end
 end
 

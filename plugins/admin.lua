@@ -266,8 +266,8 @@ function plugin.onTextMessage(msg, blocks)
 		local groups = db:smembers('bot:groupsid')
 		local n = 0
 		for chat_id in pairs(groups) do
-			local hash = 'chat:'..chat_id..':media'
-			db:hdel(hash, 'TGlink')
+			local hash = 'chat:'..chat_id..':settings'
+			db:hdel(hash, 'Preview')
 			
 			--[[local image = db:hget(hash, 'image')
 			db:hdel(hash, 'image')
@@ -282,7 +282,7 @@ function plugin.onTextMessage(msg, blocks)
 				n = n + 1
 			end]]
 		end
-		api.sendReply(msg, 'Done. Replaced '..n..' key(s)')
+		api.sendReply(msg, 'Done')
 	end
 	if blocks[1] == 'tban' then
 		if blocks[2] == 'flush' then

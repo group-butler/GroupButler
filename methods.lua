@@ -461,7 +461,7 @@ function api.sendDocumentId(chat_id, file_id, reply_to_message_id, caption)
 	end
 	
 	if caption then
-		url = url..'&caption='..caption
+		url = url..'&caption='..URL.escape(caption)
 	end
 
 	return sendRequest(url)
@@ -506,7 +506,7 @@ function api.sendDocument(chat_id, document, reply_to_message_id, caption)
 	end
 	
 	if caption then
-		curl_command = curl_command .. ' -F "caption=' .. caption .. '"'
+		curl_command = curl_command .. ' -F "caption=' .. URL.escape(caption) .. '"'
 	end
 	
 	return curlRequest(curl_command)

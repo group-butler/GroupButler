@@ -52,7 +52,7 @@ function plugin.onTextMessage(msg, blocks)
     	end
 	elseif blocks[1] == 'extra list' then
 		local text = misc.getExtraList(msg.chat.id)
-	    if not roles.is_admin_cached(msg) and misc.is_silentmode_on(msg.chat.id) then
+	    if not roles.is_admin_cached(msg) and not is_locked(msg.chat.id) then
 			api.sendMessage(msg.from.id, text, true)
 		else
 			api.sendReply(msg, text, true)
@@ -75,8 +75,7 @@ function plugin.onTextMessage(msg, blocks)
         if not text then return true end --continue to match plugins
         local file_id = text:match('^###.+###:(.*)')
         local special_method = text:match('^###file_id!(.*)###') --photo, voices, video need their method to be sent by file_id
-    	local link_preview = db:hget(('chat:%d:settings'):format(msg.chat.id), 'Preview')
-    	if link_preview and link_preview == 'off' then link_preview = nil end
+    	local link_preview = text:find('telegra%.ph/') ~= nil
         if is_locked(msg.chat.id) and not roles.is_admin_cached(msg) then --send it in private
         	if not file_id then
             	api.sendMessage(msg.from.id, text:replaceholders(msg.reply or msg), true, nil, nil, link_preview)

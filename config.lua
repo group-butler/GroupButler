@@ -78,7 +78,6 @@ return {
 			['Extra'] = 'on',
 			['Flood'] = 'off',
 			['Silent'] = 'off',
-			['Preview'] = 'off',
 			['Rules'] = 'off',
 			['Reports'] = 'off',
 			['Welbut'] = 'off'
