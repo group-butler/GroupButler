@@ -1,6 +1,5 @@
 local config = require 'config'
-local misc = require 'utilities'.misc
-local roles = require 'utilities'.roles
+local u = require 'utilities'
 local api = require 'methods'
 
 local plugin = {}
@@ -16,12 +15,12 @@ function plugin.onTextMessage(msg, blocks)
 			locale.language = 'en'
 		end]]
 
-		if misc.is_blocked_global(msg.from.id) then
+		if u.is_blocked_global(msg.from.id) then
 			api.sendMessage(msg.chat.id, _("_You (user ID: %d) are in the blocked list_"):format(msg.from.id), true)
 			api.leaveChat(msg.chat.id)
 			return
 		end
-		if config.bot_settings.admin_mode and not roles.is_superadmin(msg.from.id) then
+		if config.bot_settings.admin_mode and not u.is_superadmin(msg.from.id) then
 			api.sendMessage(msg.chat.id, _("_Admin mode is on: only the bot admin can add me to a new group_"), true)
 			api.leaveChat(msg.chat.id)
 			return
@@ -31,7 +30,7 @@ function plugin.onTextMessage(msg, blocks)
 		--[[if locale.language then
 			db:set(string.format('lang:%d', msg.chat.id), locale.language)
 		end]]
-		misc.initGroup(msg.chat.id)
+		u.initGroup(msg.chat.id)
 
 		-- send manuals
 		local text
@@ -42,8 +41,8 @@ function plugin.onTextMessage(msg, blocks)
 		else
 			text = _("Yay! This group has been upgraded. You are great! Now I can work properly :)\n")
 		end
-		--[[if not roles.is_admin_cached(msg.chat.id, bot.id) then
-			if roles.is_owner_cached(msg.chat.id, msg.from.id) then
+		--[[if not u.is_admin(msg.chat.id, bot.id) then
+			if u.is_owner(msg.chat.id, msg.from.id) then
 				text = text .. _("Hmm… apparently I'm not an administrator. "
 					.. "I can be more useful if you make me an admin. "
 					.. "See [here](https://telegram.me/GroupButler_ch/104) how to do it.\n")
@@ -66,9 +65,9 @@ function plugin.onTextMessage(msg, blocks)
 			end
 		end
 		
-		misc.remGroup(msg.chat.id, true)
+		u.remGroup(msg.chat.id, true)
 	else
-		misc.logEvent(blocks[1], msg)
+		u.logEvent(blocks[1], msg)
 	end
 end
 

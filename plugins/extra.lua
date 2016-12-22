@@ -1,6 +1,5 @@
 local config = require 'config'
-local misc = require 'utilities'.misc
-local roles = require 'utilities'.roles
+local u = require 'utilities'
 local api = require 'methods'
 
 local plugin = {}
@@ -20,12 +19,12 @@ function plugin.onTextMessage(msg, blocks)
 	if msg.chat.type == 'private' then return end
 	
 	if blocks[1] == 'extra' then
-		if not roles.is_admin_cached(msg) then return end
+		if not u.is_allowed('texts', msg.chat.id, msg.from) then return end
 		if not blocks[2] then return end
 		if not blocks[3] and not msg.reply then return end
 		
 	    if msg.reply and not blocks[3] then
-	    	local file_id, media_with_special_method = misc.get_media_id(msg.reply)
+	    	local file_id, media_with_special_method = u.get_media_id(msg.reply)
 	    	if not file_id then
 	    		return
 	    	else
@@ -40,25 +39,27 @@ function plugin.onTextMessage(msg, blocks)
 	    	end
 		else
 	    	local hash = 'chat:'..msg.chat.id..':extra'
+	    	local new_extra = blocks[3]
+	    	local reply_markup, test_text = u.reply_markup_from_text(new_extra)
 	    	
-	    	local res, code = api.sendReply(msg, blocks[3]:replaceholders(msg), true)
+	    	local res, code = api.sendReply(msg, test_text:replaceholders(msg), true, reply_markup)
 	    	if not res then
-	    		api.sendMessage(msg.chat.id, misc.get_sm_error_string(code), true)
+	    		api.sendMessage(msg.chat.id, u.get_sm_error_string(code), true)
     		else
-	    		db:hset(hash, blocks[2], blocks[3])
+	    		db:hset(hash, blocks[2], new_extra)
 	    		local msg_id = res.result.message_id
 				api.editMessageText(msg.chat.id, msg_id, _("Command '%s' saved!"):format(blocks[2]))
     		end
     	end
 	elseif blocks[1] == 'extra list' then
-		local text = misc.getExtraList(msg.chat.id)
-	    if not roles.is_admin_cached(msg) and not is_locked(msg.chat.id) then
+		local text = u.getExtraList(msg.chat.id)
+	    if not msg.from.mod and not is_locked(msg.chat.id) then
 			api.sendMessage(msg.from.id, text, true)
 		else
 			api.sendReply(msg, text, true)
 		end
     elseif blocks[1] == 'extra del' then
-        if not roles.is_admin_cached(msg) then return end
+        if not u.is_allowed('texts', msg.chat.id, msg.from) then return end
 	    
 	    local hash = 'chat:'..msg.chat.id..':extra'
 	    local success = db:hdel(hash, blocks[2])
@@ -76,9 +77,10 @@ function plugin.onTextMessage(msg, blocks)
         local file_id = text:match('^###.+###:(.*)')
         local special_method = text:match('^###file_id!(.*)###') --photo, voices, video need their method to be sent by file_id
     	local link_preview = text:find('telegra%.ph/') ~= nil
-        if is_locked(msg.chat.id) and not roles.is_admin_cached(msg) then --send it in private
+        if is_locked(msg.chat.id) and not msg.from.mod then --send it in private
         	if not file_id then
-            	api.sendMessage(msg.from.id, text:replaceholders(msg.reply or msg), true, nil, nil, link_preview)
+        		local reply_markup, clean_text = u.reply_markup_from_text(text)
+            	api.sendMessage(msg.from.id, clean_text:replaceholders(msg.reply or msg), true, reply_markup, nil, link_preview)
             else
             	if special_method then
             		api.sendMediaId(msg.from.id, file_id, special_method) --photo, voices, video need their method to be sent by file_id

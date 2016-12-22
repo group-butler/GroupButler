@@ -1,13 +1,12 @@
 local config = require 'config'
-local misc = require 'utilities'.misc
-local roles = require 'utilities'.roles
+local u = require 'utilities'
 local api = require 'methods'
 
 local plugin = {}
 
 function plugin.onTextMessage(msg, blocks)
     if msg.chat.type == 'private' then return end
-	if not roles.is_admin_cached(msg) then return end
+	if not u.is_allowed('texts', msg.chat.id, msg.from) then return end
 	
 	local hash = 'chat:'..msg.chat.id..':links'
 	local text

@@ -1,6 +1,5 @@
 local config = require 'config'
-local misc = require 'utilities'.misc
-local roles = require 'utilities'.roles
+local u = require 'utilities'
 local api = require 'methods'
 
 local plugin = {}
@@ -65,7 +64,7 @@ end
 
 function plugin.onCallbackQuery(msg, blocks)
 	local chat_id = msg.target_id
-	if chat_id and not roles.is_admin_cached(chat_id, msg.from.id) then
+	if chat_id and not u.is_allowed('config', chat_id, msg.from) then
 		api.answerCallbackQuery(msg.cb_id, _("You're no longer an admin"))
 	else
 		local media_first = _([[
@@ -117,7 +116,7 @@ The number is not related the the normal `/warn` command
 			end
 			if blocks[1] == 'media' then
 				local media = blocks[2]
-		    	cb_text = '⚡️ '..misc.changeMediaStatus(chat_id, media, 'next')
+		    	cb_text = '⚡️ '..u.changeMediaStatus(chat_id, media, 'next')
     	    end
     	    local keyboard = doKeyboard_media(chat_id)
 			api.editMessageText(msg.chat.id, msg.message_id, media_first, true, keyboard)

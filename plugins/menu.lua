@@ -1,6 +1,5 @@
 local config = require 'config'
-local misc = require 'utilities'.misc
-local roles = require 'utilities'.roles
+local u = require 'utilities'
 local api = require 'methods'
 
 local plugin = {}
@@ -218,7 +217,7 @@ end
 
 function plugin.onCallbackQuery(msg, blocks)
     local chat_id = msg.target_id
-	if chat_id and not roles.is_admin_cached(chat_id, msg.from.id) then
+	if chat_id and not u.is_allowed('config', chat_id, msg.from) then
 		api.answerCallbackQuery(msg.cb_id, _("You're no longer an admin"))
 	else
 	    local menu_first = _("Manage the settings of the group. Click on the left column to get a small hint")
@@ -248,7 +247,7 @@ function plugin.onCallbackQuery(msg, blocks)
             elseif blocks[2] == 'Rtl' or blocks[2] == 'Arab' then
                 text = changeCharSettings(chat_id, blocks[2])
             else
-                text, show_alert = misc.changeSettingStatus(chat_id, blocks[2])
+                text, show_alert = u.changeSettingStatus(chat_id, blocks[2])
             end
             keyboard = doKeyboard_menu(chat_id)
             api.editMessageText(msg.chat.id, msg.message_id, menu_first, true, keyboard)

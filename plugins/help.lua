@@ -1,6 +1,5 @@
 local config = require 'config'
-local misc = require 'utilities'.misc
-local roles = require 'utilities'.roles
+local u = require 'utilities'
 local api = require 'methods'
 
 local plugin = {}
@@ -77,10 +76,11 @@ Remember: you have to use commands  *in the group*, unless they are specifically
 		return _([[
 *Commands available for every user in a group*:
 
-• `/dashboard` : see all the informations about the group
-• `/rules` : show the group rules
-• `/adminlist` : show the moderators of the group
-• `/help` : receive the help message
+• `/dashboard`: see all the informations about the group
+• `/rules`: show the group rules
+• `/adminlist`: show the moderators of the group
+• `/help`: receive the help message
+• `!kickme`: the bot will kick you
 *Note*: `/dashboard` and `/adminlist` replies always in private. If the bot is unable to reach an user, he will ask in the group to that user to be started, but just if _silent mode_ is off.
 With `/rules`, the bot always answer in the group for admins, but with normal users the message is sent in the group or in private according to the group settings.
 
@@ -253,7 +253,28 @@ The inline keyboard has three sub-menus:
 *Antiflood*: turn on or off the antiflood, set its sensitivity and choose some media to ignore, if you want
 *Media*: choose which media to forbid in your group, and set the number of times that an user will be warned before being kicked/banned
 *Antispam*: choose which kind of spam you want to forbid (example: telegram.me links, forwarded messages from channels)
+*Log channel*: choose which updates should be logged
+
+*Bonus commands*:
+`/leave`: the bot will leave the group without deleting its data. Use this command only if you are going to add the bot to the group again
+`/snap`: generate a backup file that can be restored with `/import` (send the file in the group and reply to it). `/snap` can be used once every three days
 ]])
+	elseif key == 'mods' then
+		return _([[*Moderators*
+
+Moderators are normal users that can use some of the commands that are usually available only to the group administrators.
+
+By default, moderators only have the banhammer (they can use _/ban, /kick, /unban, /tempban, /warn, /nowarn, /user_).
+But their powers can be expanded or restricted by the administrators: there is a button in the /config menu, called _"Moderators"_, where the permissions of the moderators can be configured.
+
+By default, every admin can promote a new moderator, or demote an user who is already a mod.
+If you are the group owner, in the _"Moderators"_ section of the configuration menu you will be able to find a switch called _"Admins can manage mods"_.
+When disabled, the group administrators *can't promote or demote new moderators*, and also they won't be allowed to access the _"Moderators"_ section of the configuration menu (so they *won't be able to change the moderators permissions*).
+
+*Commands*
+`/promote [by reply|by username|by text mention|by ID]`: promote an user to moderator. If used on a moderator, it will update his name in the moderators list.
+`/promote [by reply|by username|by text mention|by ID]`: demote an moderator.
+`/modlist`: show the list of the moderators]])
 	elseif key == 'logchannel' then
 		return _([[*Log channel iformations*
 			
@@ -335,6 +356,7 @@ local function dk_main()
 		{{text = _('Commands in private'), callback_data = 'help:private'}},
 		--{{text = _('Realms'), callback_data = 'help:realm'}},
 		{{text = _('Log channel'), callback_data = 'help:logchannel'}},
+		{{text = _('Moderators'), callback_data = 'help:mods'}},
 	}
 	
 	return keyboard
@@ -371,7 +393,7 @@ function plugin.onTextMessage(msg, blocks)
         	local keyboard = do_keyboard('main')
     		local res = api.sendMessage(msg.from.id, text, true, keyboard)
     		if not res and msg.chat.type ~= 'private' and db:hget('chat:'..msg.chat.id..':settings', 'Silent') ~= 'on' then
-    		    api.sendMessage(msg.chat.id, _('[Start me](%s) _to get the list of commands_'):format(misc.deeplink_constructor('', 'help')), true)
+    		    api.sendMessage(msg.chat.id, _('[Start me](%s) _to get the list of commands_'):format(u.deeplink_constructor('', 'help')), true)
     		end
     	end
     end
@@ -400,6 +422,9 @@ function plugin.onCallbackQuery(msg, blocks)
     elseif query == 'logchannel' then
     	text = get_helped_string('logchannel')
     	answerCallbackQuery_text = _('Log channel informations')
+    elseif query == 'mods' then
+    	text = get_helped_string('mods')
+    	answerCallbackQuery_text = _('Informations about the moderators')
     else --query == 'admins'
     	keyboard_type = 'admins'
     	text = get_helped_string(blocks[2])

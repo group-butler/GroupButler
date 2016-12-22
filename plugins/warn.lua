@@ -1,6 +1,5 @@
 local config = require 'config'
-local misc = require 'utilities'.misc
-local roles = require 'utilities'.roles
+local u = require 'utilities'
 local api = require 'methods'
 
 local plugin = {}
@@ -17,7 +16,7 @@ local function doKeyboard_warn(user_id)
 end
 
 function plugin.onTextMessage(msg, blocks)
-	if msg.chat.type == 'private' or (msg.chat.type ~= 'private' and not roles.is_admin_cached(msg)) then return end
+	if msg.chat.type == 'private' or (msg.chat.type ~= 'private' and not u.is_allowed('hammer', msg.chat.id, msg.from)) then return end
 	
 	if blocks[1] == 'warnmax' then
     	local new, default, text, key
@@ -47,21 +46,21 @@ function plugin.onTextMessage(msg, blocks)
 	end
 	
     --do not reply when...
-    if not msg.reply or roles.is_admin_cached(msg.reply) or msg.reply.from.id == bot.id then return end
+    if not msg.reply or u.is_mod(msg.reply) or msg.reply.from.id == bot.id then return end
 	
 	if blocks[1] == 'nowarn' then
 		db:hdel('chat:'..msg.chat.id..':warns', msg.reply.from.id)
 		db:hdel('chat:'..msg.chat.id..':mediawarn', msg.reply.from.id)
 		db:hdel('chat:'..msg.chat.id..':spamwarns', msg.reply.from.id)
-		local admin = misc.getname_final(msg.from)
-		local user = misc.getname_final(msg.reply.from)
+		local admin = u.getname_final(msg.from)
+		local user = u.getname_final(msg.reply.from)
 		api.sendReply(msg, _('Done! %s has been forgiven'):format(user), 'html')
-		misc.logEvent('nowarn', msg, {admin = admin, user = user, user_id = msg.reply.from.id})
+		u.logEvent('nowarn', msg, {admin = admin, user = user, user_id = msg.reply.from.id})
 	end	
 		
     if blocks[1] == 'warn'  or blocks[1] == 'sw' then
 
-	    local name = misc.getname_final(msg.reply.from)
+	    local name = u.getname_final(msg.reply.from)
 		local hash = 'chat:'..msg.chat.id..':warns'
 		local num = db:hincrby(hash, msg.reply.from.id, 1) --add one warn
 		local nmax = (db:hget('chat:'..msg.chat.id..':warnsettings', 'max')) or 3 --get the max num of warnings
@@ -88,16 +87,16 @@ function plugin.onTextMessage(msg, blocks)
 		    	end
 		    	text = motivation
 		    else
-		    	misc.saveBan(msg.reply.from.id, 'warn') --add ban
+		    	u.saveBan(msg.reply.from.id, 'warn') --add ban
 		    	db:hdel('chat:'..msg.chat.id..':warns', msg.reply.from.id) --if kick/ban works, remove the warns
 		    	db:hdel('chat:'..msg.chat.id..':mediawarn', msg.reply.from.id)
 		    end
 			--if the user reached the max num of warns, kick and send message
 		    api.sendReply(msg, text, 'html')
-		    misc.logEvent('warn', msg, {
+		    u.logEvent('warn', msg, {
 		    	motivation = blocks[2],
-		    	admin = misc.getname_final(msg.from),
-		    	user = misc.getname_final(msg.reply.from),
+		    	admin = u.getname_final(msg.from),
+		    	user = u.getname_final(msg.reply.from),
 		    	user_id = msg.reply.from.id,
 		    	hammered = hammer_log,
 		    	warns = num,
@@ -108,12 +107,12 @@ function plugin.onTextMessage(msg, blocks)
 			text = _("%s <b>has been warned</b> (<code>%d/%d</code>)"):format(name, num, nmax)
 			local keyboard = doKeyboard_warn(msg.reply.from.id)
 			if blocks[1] ~= 'sw' then api.sendMessage(msg.chat.id, text, 'html', keyboard) end
-			misc.logEvent('warn', msg, {
+			u.logEvent('warn', msg, {
 				motivation = blocks[2],
 				warns = num,
 				warnmax = nmax,
-				admin = misc.getname_final(msg.from),
-		    	user = misc.getname_final(msg.reply.from),
+				admin = u.getname_final(msg.from),
+		    	user = u.getname_final(msg.reply.from),
 		    	user_id = msg.reply.from.id,
 		    	warns = num,
 		    	warnmax = nmax
@@ -123,8 +122,8 @@ function plugin.onTextMessage(msg, blocks)
 end
 
 function plugin.onCallbackQuery(msg, blocks)
-	if not roles.is_admin_cached(msg) then
-		api.answerCallbackQuery(msg.cb_id, _("You are not an admin")) return
+	if not u.is_allowed('hammer', msg.chat.id, msg.from) then
+		api.answerCallbackQuery(msg.cb_id, _("You are not allowed to use this button")) return
 	end
 	
 	if blocks[1] == 'resetwarns' then
@@ -133,10 +132,10 @@ function plugin.onCallbackQuery(msg, blocks)
 		db:hdel('chat:'..msg.chat.id..':mediawarn', user_id)
 		db:hdel('chat:'..msg.chat.id..':spamwarns', user_id)
 		
-		local admin = misc.getname_final(msg.from)
+		local admin = u.getname_final(msg.from)
 		local text = _("Warns <b>reset</b> by %s"):format(admin)
 		api.editMessageText(msg.chat.id, msg.message_id, text, 'html')
-		misc.logEvent('nowarn', msg, {admin = admin, user = ('<code>%s</code>'):format(user_id), user_id = user_id})
+		u.logEvent('nowarn', msg, {admin = admin, user = ('<code>%s</code>'):format(user_id), user_id = user_id})
 	end
 	if blocks[1] == 'removewarn' then
     	local user_id = blocks[2]
@@ -151,7 +150,7 @@ function plugin.onCallbackQuery(msg, blocks)
 			text = _("<b>Warn removed!</b> (%d/%d)"):format(tonumber(num), tonumber(nmax))
 		end
 
-		text = text .. _("\n(Admin: %s)"):format(misc.getname_final(msg.from))
+		text = text .. _("\n(Admin: %s)"):format(u.getname_final(msg.from))
 		api.editMessageText(msg.chat.id, msg.message_id, text, 'html')
 	end
 	if blocks[1] == 'cleanwarns' then
@@ -159,7 +158,7 @@ function plugin.onCallbackQuery(msg, blocks)
 			db:del('chat:'..msg.chat.id..':warns')
 			db:del('chat:'..msg.chat.id..':mediawarn')
 			db:del('chat:'..msg.chat.id..':spamwarns')
-			api.editMessageText(msg.chat.id, msg.message_id, _('Done. All the warnings of this group have been erased by %s'):format(misc.getname_final(msg.from)), 'html')
+			api.editMessageText(msg.chat.id, msg.message_id, _('Done. All the warnings of this group have been erased by %s'):format(u.getname_final(msg.from)), 'html')
 		else
 			api.editMessageText(msg.chat.id, msg.message_id, _('_Action aborted_'), true)
 		end

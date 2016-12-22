@@ -39,7 +39,7 @@ local function sendRequest(url)
 		print(clr.red..'Error while parsing JSON'..clr.reset, code)
 		print(clr.yellow..'Data:'..clr.reset, dat)
 		api.sendAdmin(dat..'\n'..code)
-		error('Incorrect response')
+		--error('Incorrect response')
 	end
 
 	if code ~= 200 then
@@ -506,7 +506,7 @@ function api.sendDocument(chat_id, document, reply_to_message_id, caption)
 	end
 	
 	if caption then
-		curl_command = curl_command .. ' -F "caption=' .. URL.escape(caption) .. '"'
+		curl_command = curl_command .. ' -F "caption=' .. caption .. '"'
 	end
 	
 	return curlRequest(curl_command)

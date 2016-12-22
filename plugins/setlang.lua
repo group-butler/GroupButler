@@ -1,5 +1,5 @@
 local config = require 'config'
-local roles = require 'utilities'.roles
+local u = require 'utilities'
 local api = require 'methods'
 
 local plugin = {}
@@ -16,14 +16,14 @@ local function doKeyboard_lang()
 end
 
 function plugin.onTextMessage(msg, blocks)
-	if not (msg.chat.type ~= 'private' and not roles.is_admin_cached(msg)) then
+	if msg.chat.type == 'private' or (msg.chat.id < 0 and msg.from.admin) then
 		local keyboard = doKeyboard_lang()
 		api.sendMessage(msg.chat.id, _("*List of available languages*:"), true, keyboard)
 	end
 end
 
 function plugin.onCallbackQuery(msg, blocks)
-	if msg.chat.type ~= 'private' and not roles.is_admin_cached(msg) then
+	if msg.chat.type ~= 'private' and not msg.from.admin then
 		api.answerCallbackQuery(msg.cb_id, _("You are not an admin"))
 	else
 		if blocks[1] == 'selectlang' then

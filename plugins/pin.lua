@@ -1,6 +1,5 @@
 local config = require 'config'
-local misc = require 'utilities'.misc
-local roles = require 'utilities'.roles
+local u = require 'utilities'
 local api = require 'methods'
 
 local plugin = {}
@@ -8,7 +7,7 @@ local plugin = {}
 function plugin.onTextMessage(msg, blocks)
 	if msg.chat.type == 'private' then return end
 	
-	if roles.is_admin_cached(msg) then
+	if u.is_allowed('texts', msg.chat.id, msg.from) then
 		if not blocks[2] then
 			local pin_id = db:get('chat:'..msg.chat.id..':pin')
 			if pin_id then
@@ -20,20 +19,15 @@ function plugin.onTextMessage(msg, blocks)
 		local pin_id = db:get('chat:'..msg.chat.id..':pin')
 		local was_deleted
 		if pin_id then --try to edit the old message
-			local res, code = api.editMessageText(msg.chat.id, pin_id, blocks[2]:replaceholders(msg, 'rules', 'title'), true)
+			local reply_markup, new_text = u.reply_markup_from_text(blocks[2])
+			local res, code = api.editMessageText(msg.chat.id, pin_id, new_text:replaceholders(msg, 'rules', 'title'), true, reply_markup)
 			if not res then
-				if code == 118 then
-			    	api.sendMessage(msg.chat.id, _("This text is too long, I can't send it"))
-			    elseif code == 111 then
-			    	api.sendMessage(msg.chat.id, _("The text is not modified"), true)
-			    elseif code == 116 then
-			    	--the old message doesn't exists. Send a new one in the chat --> set pin_id to false, so the code will enetr the next if
+				if code == 116 then
+			    	--the old message doesn't exist. Send a new one in the chat --> set pin_id to false, so the code will entr the next if
 			    	was_deleted = true
 			    	pin_id = nil
 				else
-					api.sendMessage(msg.chat.id, _("This text breaks the markdown.\n"
-						.. "More info about a proper use of markdown "
-						.. "[here](https://telegram.me/GB_tutorials/10) and [here](https://telegram.me/GB_tutorials/12)."), true)
+					api.sendMessage(msg.chat.id, u.get_sm_error_string(code), true)
 		    	end
 		    else
 		    	db:set('chat:'..msg.chat.id..':pin', res.result.message_id)
@@ -41,9 +35,10 @@ function plugin.onTextMessage(msg, blocks)
 	    	end
 		end
 		if not pin_id then
-			local res, code = api.sendMessage(msg.chat.id, blocks[2]:replaceholders(msg, 'rules', 'title'), true)
+			local reply_markup, new_text = u.reply_markup_from_text(blocks[2])
+			local res, code = api.sendMessage(msg.chat.id, new_text:replaceholders(msg, 'rules', 'title'), true, reply_markup)
 			if not res then
-				api.sendMessage(msg.chat.id, misc.get_sm_error_string(code), true)
+				api.sendMessage(msg.chat.id, u.get_sm_error_string(code), true)
     		else --if the message has been sent, then set its ID as new pinned message 
     			db:set('chat:'..msg.chat.id..':pin', res.result.message_id)
     			local text

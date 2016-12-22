@@ -32,7 +32,7 @@ return {
 		'configure',
 		'menu',
 		'dashboard',
-		--'backup',
+		'backup',
 		'banhammer',
 		'users',
 		'help',
@@ -40,6 +40,7 @@ return {
 		'service',
 		'links',
 		'warn',
+		'moderators',
 		'setlang',
 		'floodmanager',
 		'welcome',
@@ -141,19 +142,27 @@ return {
 			['mediawarn'] = 'no',
 			['spamwarn'] = 'no',
 			['flood'] = 'no',
+			['promote'] = 'no',
+			['demote'] = 'no',
 			['new_chat_member'] = 'no',
 			['new_chat_photo'] = 'no',
 			['delete_chat_photo'] = 'no',
 			['new_chat_title'] = 'no',
 			['pinned_message'] = 'no'
 		},
+		['modsettings'] = {
+			['promdem'] = 'yes', --'yes': admins can promote or demote moderators; 'no': only the owner can
+			['hammer'] = 'yes',
+			['config'] = 'no',
+			['texts'] = 'no'
+		}
 	},
 	private_settings = {
 		rules_on_join = 'off',
 		reports = 'off'
 	},
 	chat_hashes = {'extra', 'info', 'links', 'warns', 'mediawarn', 'spamwarns'},
-	chat_sets = {'whitelist'},
+	chat_sets = {'whitelist', 'mods'},
 	bot_keys = {
 		d3 = {'bot:general', 'bot:usernames', 'bot:chat:latsmsg'},
 		d2 = {'bot:groupsid', 'bot:groupsid:removed', 'tempbanned', 'bot:blocked', 'remolden_chats'} --remolden_chats: chat removed with $remold command

@@ -1,6 +1,5 @@
 local config = require 'config'
-local misc = require 'utilities'.misc
-local roles = require 'utilities'.roles
+local u = require 'utilities'
 local api = require 'methods'
 
 local plugin = {}
@@ -10,8 +9,7 @@ local function is_whitelisted(chat_id, text)
     local links = db:smembers(set)
     if links and next(links) then
         for i=1, #links do
-            if text:match(links[i]) then
-                --print('Whitelist:', links[i])
+            if text:find(links[i]:gsub('%-', '%%-')) then
                 return true
             end
         end
@@ -32,7 +30,7 @@ function plugin.onEveryMessage(msg)
         
         local status = db:hget('chat:'..msg.chat.id..':antispam', msg.spam)
         if status and status == 'notalwd' then
-            if not roles.is_admin_cached(msg) then
+            if not msg.from.mod then
                 local whitelisted
                 if msg.spam == 'links' then
                     whitelisted = is_whitelisted(msg.chat.id, msg.text)
@@ -40,7 +38,7 @@ function plugin.onEveryMessage(msg)
                 
                 if not whitelisted then
                     local hammer_text = nil
-                    local name = misc.getname_final(msg.from)
+                    local name = u.getname_final(msg.from)
                     local warns_received, max_allowed = getAntispamWarns(msg.chat.id, msg.from.id)
                     
                     if warns_received >= max_allowed then
@@ -61,8 +59,8 @@ function plugin.onEveryMessage(msg)
                     else
                         api.sendReply(msg, _('%s, this kind of spam is not allowed in this chat (<b>%d/%d</b>)'):format(name, warns_received, max_allowed), 'html')
                     end
-                    local name_pretty = { links = _("telegram.me link"), forwards = _("message from a channel")}
-                    misc.logEvent('spamwarn', msg, {hammered = hammer_text, warns = warns_received, warnmax = max_allowed, spam_type = name_pretty[msg.spam]})
+                    local name_pretty = {links = _("telegram.me link"), forwards = _("message from a channel")}
+                    u.logEvent('spamwarn', msg, {hammered = hammer_text, warns = warns_received, warnmax = max_allowed, spam_type = name_pretty[msg.spam]})
                 end
             end
         end
@@ -124,7 +122,7 @@ local function changeAction(chat_id)
     return '✅'
 end
 
-local function  get_alert_text(key)
+local function get_alert_text(key)
     if key == 'links' then
         return _("Allow/forbid telegram.me links")
     elseif key == 'forwards' then
@@ -200,7 +198,7 @@ function plugin.onCallbackQuery(msg, blocks)
 	else
 	    
 	    local chat_id = msg.target_id
-	    if not roles.is_admin_cached(chat_id, msg.from.id) then
+	    if not u.is_allowed('config', chat_id, msg.from) then
 	    	api.answerCallbackQuery(msg.cb_id, _("You're no longer an admin"))
 	    else
 	        local antispam_first = _([[*Anti-spam settings*
@@ -231,7 +229,7 @@ Choose which kind of spam you want to forbid
 end
 
 function plugin.onTextMessage(msg, blocks)
-    if roles.is_admin_cached(msg) then
+    if u.is_allowed('texts', msg.chat.id, msg.from) then
         if (blocks[1] == 'wl' or blocks[1] == 'whitelist') and blocks[2] then
             if blocks[2] == '-' then
                 local set = ('chat:%d:whitelist'):format(msg.chat.id)

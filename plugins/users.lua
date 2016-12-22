@@ -1,6 +1,5 @@
 local config = require 'config'
-local misc = require 'utilities'.misc
-local roles = require 'utilities'.roles
+local u = require 'utilities'
 local api = require 'methods'
 
 local plugin = {}
@@ -48,7 +47,7 @@ local function get_user_id(msg, blocks)
 		return msg.reply.from.id
 	elseif blocks[2] then
 		if blocks[2]:match('@[%w_]+$') then --by username
-			local user_id = misc.resolve_user(blocks[2])
+			local user_id = u.resolve_user(blocks[2])
 			if not user_id then
 				print('username (not found)')
 				return false
@@ -143,8 +142,8 @@ function plugin.onTextMessage(msg, blocks)
 		end
 
 		local where
-		if msg.chat.type ~= 'private' and (roles.is_admin_cached(msg.chat.id, msg.from.id) or
-										   not misc.is_silentmode_on(msg.chat.id)) then
+		if msg.chat.type ~= 'private' and (u.is_mod(msg.chat.id, msg.from.id) or
+										   not u.is_silentmode_on(msg.chat.id)) then
 			where = msg.chat.id
 		else
 			where = msg.from.id
@@ -161,18 +160,18 @@ function plugin.onTextMessage(msg, blocks)
 	if msg.chat.type == 'private' then return end
 
 	if blocks[1] == 'adminlist' then
-        local creator, adminlist = misc.getAdminlist(msg.chat.id)
+        local creator, adminlist = u.getAdminlist(msg.chat.id)
 		local out = _("<b>Creator</b>:\n%s\n\n<b>Admins</b>:\n%s"):format(creator, adminlist)
-        if not roles.is_admin_cached(msg) then
+        if not msg.from.mod then
         	api.sendMessage(msg.from.id, out, 'html')
         else
             api.sendReply(msg, out, 'html')
         end
     end
 	if blocks[1] == 'status' then
-    	if roles.is_admin_cached(msg) then
+    	if u.is_allowed('hammer', msg.chat.id, msg.from) then
     		if not blocks[2] and not msg.reply then return end
-    		local user_id, error_tr_id = misc.get_user_id(msg, blocks)
+    		local user_id, error_tr_id = u.get_user_id(msg, blocks)
     		if not user_id then
 				api.sendReply(msg, _(error_tr_id), true)
 		 	else
@@ -182,7 +181,7 @@ function plugin.onTextMessage(msg, blocks)
 		 			return
 		 		end
 		 		local status = res.result.status
-				local name = misc.getname_final(res.result.user)
+				local name = u.getname_final(res.result.user)
 				local texts = {
 					kicked = _("%s is banned from this group"),
 					left = _("%s left the group or has been kicked and unbanned"),
@@ -196,7 +195,7 @@ function plugin.onTextMessage(msg, blocks)
 	 	end
  	end
 	if blocks[1] == 'user' then
-		if not roles.is_admin_cached(msg) then return end
+		if not u.is_allowed('hammer', msg.chat.id, msg.from) then return end
 
 		if not msg.reply and (not blocks[2] or (not blocks[2]:match('@[%w_]+$') and not blocks[2]:match('%d+$') and not msg.mention_id)) then
 			api.sendReply(msg, _("Reply to an user or mention them by username or numerical ID"))
@@ -206,7 +205,7 @@ function plugin.onTextMessage(msg, blocks)
 		------------------ get user_id --------------------------
 		local user_id = get_user_id(msg, blocks)
 
-		if roles.is_superadmin(msg.from.id) and msg.reply and not msg.cb then
+		if u.is_superadmin(msg.from.id) and msg.reply and not msg.cb then
 			if msg.reply.forward_from then
 				user_id = msg.reply.forward_from.id
 			end
@@ -226,7 +225,7 @@ function plugin.onTextMessage(msg, blocks)
 		api.sendMessage(msg.chat.id, text, true, keyboard)
 	end
 	if blocks[1] == 'cache' then
-    	if not roles.is_admin_cached(msg) then return end
+    	if not msg.from.admin then return end
     	local hash = 'cache:chat:'..msg.chat.id..':admins'
 		local seconds = db:ttl(hash)
 		local cached_admins = db:scard(hash)
@@ -240,23 +239,23 @@ function plugin.onTextMessage(msg, blocks)
 
 		local text = string.format('[%s](https://telegram.me/%s/%d)',
 			_("Message N° %d"):format(msg.reply.message_id), msg.chat.username, msg.reply.message_id)
-		if roles.is_admin_cached(msg.chat.id, msg.from.id) or not misc.is_silentmode_on(msg.chat.id) then
+		if msg.from.mod or not u.is_silentmode_on(msg.chat.id) then
 			api.sendReply(msg.reply, text, true)
 		else
 			api.sendMessage(msg.from.id, text, true)
     	end
 	end
 	if blocks[1] == 'leave' then
-		if roles.is_admin_cached(msg) then
-			misc.remGroup(msg.chat.id)
+		if msg.from.admin then
+			u.remGroup(msg.chat.id)
 			api.leaveChat(msg.chat.id)
 		end
 	end
 end
 
 function plugin.onCallbackQuery(msg, blocks)
-	if not roles.is_admin_cached(msg) then
-		api.answerCallbackQuery(msg.cb_id, _("You are not an admin")) return
+	if not u.is_allowed('hammer', msg.chat.id, msg.from) then
+		api.answerCallbackQuery(msg.cb_id, _("You are not allowed to use this button")) return
 	end
 
 	if blocks[1] == 'banuser' then
@@ -264,9 +263,9 @@ function plugin.onCallbackQuery(msg, blocks)
 
 		local res, text = api.banUser(msg.chat.id, user_id)
 		if res then
-			misc.saveBan(user_id, 'ban')
-			local name = misc.getname_final(msg.from)
-			misc.logEvent('ban', msg, {admin = name, user = ('<code>%s</code>'):format(user_id), user_id = user_id, motivation = _("Ban from the /user command")})
+			u.saveBan(user_id, 'ban')
+			local name = u.getname_final(msg.from)
+			u.logEvent('ban', msg, {admin = name, user = ('<code>%s</code>'):format(user_id), user_id = user_id, motivation = _("Ban from the /user command")})
 			text = _("<i>Banned!</i>\nBanned by: %s"):format(name)
 		end
 		api.editMessageText(msg.chat.id, msg.message_id, text, 'html')
@@ -276,16 +275,16 @@ function plugin.onCallbackQuery(msg, blocks)
 		db:hdel('chat:'..msg.chat.id..':mediawarn', msg.target_id)
 		db:hdel('chat:'..msg.chat.id..':spamwarns', msg.target_id)
 
-        local name = misc.getname_final(msg.from)
+        local name = u.getname_final(msg.from)
 		local text = _("The number of warnings received by this user has been <b>reset</b>, by %s"):format(name)
 		api.editMessageText(msg.chat.id, msg.message_id, text:format(name), 'html')
-		misc.logEvent('nowarn', msg, {admin = name, user = ('<code>%s</code>'):format(msg.target_id), user_id = msg.target_id})
+		u.logEvent('nowarn', msg, {admin = name, user = ('<code>%s</code>'):format(msg.target_id), user_id = msg.target_id})
     end
-    if blocks[1] == 'recache' then
+    if blocks[1] == 'recache' and msg.from.admin then
 		local missing_sec = tonumber(db:ttl('cache:chat:'..msg.target_id..':admins') or 0)
-		if config.bot_settings.cache_time.adminlist - missing_sec < 180 then
-			api.answerCallbackQuery(msg.cb_id, _("The adminlist has just been updated. You must wait 3 minutes from the last refresh"), true)
-		elseif misc.cache_adminlist(msg.target_id) then
+		if config.bot_settings.cache_time.adminlist - missing_sec < 600 then
+			api.answerCallbackQuery(msg.cb_id, _("The adminlist has just been updated. You must wait 10 minutes from the last refresh"), true)
+		elseif u.cache_adminlist(msg.target_id) then
     		local cached_admins = db:smembers('cache:chat:'..msg.target_id..':admins')
     		local time = get_time_remaining(config.bot_settings.cache_time.adminlist)
 			local text = _("📌 Status: `CACHED`\n⌛ ️Remaining: `%s`\n👥 Admins cached: `%d`")

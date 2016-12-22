@@ -1,6 +1,5 @@
 local config = require 'config'
-local misc = require 'utilities'.misc
-local roles = require 'utilities'.roles
+local u = require 'utilities'
 local api = require 'methods'
 
 local plugin = {}
@@ -66,12 +65,12 @@ local function round(num, decimals)
 end
 
 local function load_lua(code, msg)
-	local output = loadstring('local msg = '..misc.vtext(msg)..'\n'..code)()
+	local output = loadstring('local msg = '..u.vtext(msg)..'\n'..code)()
 	if not output then
 		output = '`Done! (no output)`'
 	else
 		if type(output) == 'table' then
-			output = misc.vtext(output)
+			output = u.vtext(output)
 		end
 		output = '```\n' .. output .. '\n```'
 	end
@@ -91,7 +90,7 @@ end
 
 function plugin.onTextMessage(msg, blocks)
 	
-	if not roles.is_superadmin(msg.from.id) then return end
+	if not u.is_superadmin(msg.from.id) then return end
 	
 	blocks = {}
 	
@@ -131,7 +130,7 @@ function plugin.onTextMessage(msg, blocks)
 		api.sendMessage(msg.chat.id, 'Redis updated', true)
 	end
     if blocks[1] == 'stats' then
-    	local text = '#stats `['..misc.get_date()..']`:\n'
+    	local text = '#stats `['..u.get_date()..']`:\n'
         local hash = 'bot:general'
 	    local names = db:hkeys(hash)
 	    local num = db:hvals(hash)
@@ -206,7 +205,7 @@ function plugin.onTextMessage(msg, blocks)
 		api.sendReply(msg, text)
 	end
 	if blocks[1] == 'blocked' then
-		api.sendMessage(msg.chat.id, misc.vtext(db:smembers('bot:blocked')))
+		api.sendMessage(msg.chat.id, u.vtext(db:smembers('bot:blocked')))
 	end
 	if blocks[1] == 'leave' then
 		local text
@@ -290,11 +289,11 @@ function plugin.onTextMessage(msg, blocks)
 			api.sendReply(msg, 'Flushed!')
 		end
 		if blocks[2] == 'get' then
-			api.sendMessage(msg.chat.id, misc.vtext(db:hgetall('tempbanned')))
+			api.sendMessage(msg.chat.id, u.vtext(db:hgetall('tempbanned')))
 		end
 	end
 	if blocks[1] == 'remban' then
-		local user_id = misc.resolve_user(blocks[2])
+		local user_id = u.resolve_user(blocks[2])
 		local text
 		if user_id then
 			db:del('ban:'..user_id)
@@ -311,7 +310,7 @@ function plugin.onTextMessage(msg, blocks)
 		end
 		local text = '<code>'..chat_id..'\n'
 		for set, info in pairs(config.chat_settings) do
-			text = text..misc.vtext(db:hgetall('chat:'..chat_id..':'..set))
+			text = text..u.vtext(db:hgetall('chat:'..chat_id..':'..set))
 		end
 		
 		local log_channel = db:hget('bot:chatlogs', chat_id)
@@ -333,7 +332,7 @@ function plugin.onTextMessage(msg, blocks)
 		local text = chat_id..'\n'
 		local section
 		for i=1, #config.chat_hashes do
-			section = misc.vtext(db:hgetall(('chat:%s:%s'):format(tostring(chat_id), config.chat_hashes[i]))) or '{}'
+			section = u.vtext(db:hgetall(('chat:%s:%s'):format(tostring(chat_id), config.chat_hashes[i]))) or '{}'
 			text = text..section
 		end
 		api.sendMessage(msg.chat.id, text)
@@ -342,12 +341,12 @@ function plugin.onTextMessage(msg, blocks)
 		--not tested
 		local dead_groups = db:smembers('bot:groupsid:removed')
 		for _, chat_id in pairs(dead_groups) do
-			misc.remGroup(chat_id, true)
+			u.remGroup(chat_id, true)
 		end
 		api.sendReply(msg, 'Done. Groups passed: '..#dead_groups)
 	end
 	if blocks[1] == 'initgroup' then
-		misc.initGroup(blocks[2])
+		u.initGroup(blocks[2])
 		api.sendMessage(msg.chat.id, 'Done')
 	end
 	if blocks[1] == 'remgroup' then
@@ -357,7 +356,7 @@ function plugin.onTextMessage(msg, blocks)
 			full = true
 			chat_id = blocks[3]
 		end
-		misc.remGroup(chat_id, full)
+		u.remGroup(chat_id, full)
 		api.sendMessage(msg.chat.id, 'Removed (heavy: '..tostring(full)..')')
 	end
 	if blocks[1] == 'cache' then
@@ -368,7 +367,7 @@ function plugin.onTextMessage(msg, blocks)
 			chat_id = blocks[2]
 		end
 		local members = db:smembers('cache:chat:'..chat_id..':admins')
-		api.sendMessage(msg.chat.id, chat_id..' ➤ '..tostring(#members)..'\n'..misc.vtext(members))
+		api.sendMessage(msg.chat.id, chat_id..' ➤ '..tostring(#members)..'\n'..u.vtext(members))
 	end
 	if blocks[1] == 'initcache' then
 		local chat_id, text
@@ -377,7 +376,7 @@ function plugin.onTextMessage(msg, blocks)
 		else
 			chat_id = blocks[2]
 		end
-		local res, code = misc.cache_adminlist(chat_id)
+		local res, code = u.cache_adminlist(chat_id)
 		if res then
 			text = 'Cached ➤ '..code..' admins stored'
 		else
@@ -425,7 +424,7 @@ function plugin.onTextMessage(msg, blocks)
 		api.sendMessage(msg.chat.id, text)
 	end
 	if blocks[1] == 'redisbackup' then
-		local res = misc.bash('./redisbackup.sh')
+		local res = u.bash('./redisbackup.sh')
 		if not res then res = '-' end
 		api.sendMessage(msg.chat.id, res)
 	end

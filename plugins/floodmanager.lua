@@ -1,6 +1,5 @@
 local config = require 'config'
-local misc = require 'utilities'.misc
-local roles = require 'utilities'.roles
+local u = require 'utilities'
 local api = require 'methods'
 
 local plugin = {}
@@ -112,7 +111,7 @@ end
 
 function plugin.onCallbackQuery(msg, blocks)
     local chat_id = msg.target_id
-	if chat_id and not roles.is_admin_cached(chat_id, msg.from.id) then
+	if chat_id and not u.is_allowed('config', chat_id, msg.from) then
 		api.answerCallbackQuery(msg.cb_id, _("You're no longer an admin"))
 	else
 	    local header = _("You can manage the antiflood settings from here")
@@ -159,7 +158,7 @@ function plugin.onCallbackQuery(msg, blocks)
         
         if blocks[1] == 'status' then
             local status = db:hget('chat:'..chat_id..':settings', 'Flood') or config.chat_settings['settings']['Flood']
-            text = misc.changeSettingStatus(chat_id, 'Flood')
+            text = u.changeSettingStatus(chat_id, 'Flood')
         end
         
         local keyboard = do_keyboard_flood(chat_id)
