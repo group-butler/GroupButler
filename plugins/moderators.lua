@@ -60,6 +60,10 @@ local function promdem_user(msg, blocks, action)
             return nil, _("Reply to someone, or mention him")
         end
         
+        if u.is_admin(msg.chat.id, user.id) then
+            return nil, _("I'm sorry, you can't promote this user because he's already an admin")
+        end
+        
         return true, user, mod[action](msg.chat.id, user)
     end
 end     
@@ -78,40 +82,36 @@ end
 function plugin.onTextMessage(msg, blocks)
     if msg.chat.id < 0 then
         if can_promdemote(msg.chat.id, msg.from, msg.from.admin) then
-            if u.is_admin(msg.reply) then
-                api.sendReply(msg, _("_I'm sorry, you can't promote this user because he's already an admin_"), true)
-            else
-                if blocks[1] == 'promote' then
-                    local res, extra, new_mod = promdem_user(msg, blocks, 'promote') --if success, 'extra' is an user object
-                    if not res then
-                        api.sendReply(msg, extra)
+            if blocks[1] == 'promote' then
+                local res, extra, new_mod = promdem_user(msg, blocks, 'promote') --if success, 'extra' is an user object
+                if not res then
+                    api.sendReply(msg, extra)
+                else
+                    local text
+                    local name = u.getname_final(extra)
+                    if new_mod then
+                        u.logEvent('promote', msg, {admin = u.getname_final(msg.from), user = name, user_id = extra.id})
+                        text = _("%s now is a moderator"):format(name)
                     else
-                        local text
-                        local name = u.getname_final(extra)
-                        if new_mod then
-                            u.logEvent('promote', msg, {admin = u.getname_final(msg.from), user = name, user_id = extra.id})
-                            text = _("%s now is a moderator"):format(name)
-                        else
-                            text = _("%s is already a moderator. I have updated his name."):format(name)
-                        end
-                        api.sendReply(msg, text, 'html')
+                        text = _("%s is already a moderator. I have updated his name."):format(name)
                     end
+                    api.sendReply(msg, text, 'html')
                 end
-                if blocks[1] == 'demote' then
-                    local res, extra, was_mod = promdem_user(msg, blocks, 'demote')
-                    if not res then
-                        api.sendReply(msg, extra)
+            end
+            if blocks[1] == 'demote' then
+                local res, extra, was_mod = promdem_user(msg, blocks, 'demote')
+                if not res then
+                    api.sendReply(msg, extra)
+                else
+                    local text
+                    if was_mod then
+                        local name = u.getname_final(extra)
+                        u.logEvent('demote', msg, {admin = u.getname_final(msg.from), user = name, user_id = extra.id})
+                        text = _("%s is no longer a moderator"):format(name)
                     else
-                        local text
-                        if was_mod then
-                            local name = u.getname_final(extra)
-                            u.logEvent('demote', msg, {admin = u.getname_final(msg.from), user = name, user_id = extra.id})
-                            text = _("%s is no longer a moderator"):format(name)
-                        else
-                            text = _("<i>This user was not a moderator</i>")
-                        end
-                        api.sendReply(msg, text, 'html')
+                        text = _("<i>This user was not a moderator</i>")
                     end
+                    api.sendReply(msg, text, 'html')
                 end
             end
         end

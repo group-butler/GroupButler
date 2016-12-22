@@ -46,7 +46,11 @@ function plugin.onTextMessage(msg, blocks)
 	end
 	
     --do not reply when...
-    if not msg.reply or u.is_mod(msg.reply) or msg.reply.from.id == bot.id then return end
+    if not msg.reply
+    	or u.is_mod(msg.chat.id, msg.reply.from.id)
+    	or msg.reply.from.id == bot.id then
+    	return
+    end
 	
 	if blocks[1] == 'nowarn' then
 		db:hdel('chat:'..msg.chat.id..':warns', msg.reply.from.id)
@@ -73,11 +77,11 @@ function plugin.onTextMessage(msg, blocks)
 			if type == 'ban' then
 				text = _("%s <b>banned</b>: reached the max number of warnings (<code>%d/%d</code>)"):format(name, num , nmax)
 				hammer_log = _('banned')
-				res, motivation = api.banUser(msg.chat.id, msg.reply.from.id)
+				res, code, motivation = api.banUser(msg.chat.id, msg.reply.from.id)
 	    	else --kick
 				text = _("%s <b>kicked</b>: reached the max number of warnings (<code>%d/%d</code>)"):format(name, num , nmax)
 				hammer_log = _('kicked')
-		    	res, motivation = api.kickUser(msg.chat.id, msg.reply.from.id)
+		    	res, code, motivation = api.kickUser(msg.chat.id, msg.reply.from.id)
 		    end
 		    --if kick/ban fails, send the motivation
 		    if not res then

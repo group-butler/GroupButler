@@ -344,12 +344,19 @@ function utilities.get_sm_error_string(code)
 	return descriptions[code] or _("Text not valid: unknown formatting error")
 end
 
+function string:escape_magic()
+	self = self:gsub('%-', '%%-')
+	self = self:gsub('%?', '%%?')
+	
+	return self
+end
+
 function utilities.reply_markup_from_text(text)
 	local clean_text = text
 	local n = 0
 	local reply_markup = {inline_keyboard={}}
     for label, url in text:gmatch("{{(.-)}{(.-)}}") do
-		clean_text = clean_text:gsub('{{'..label..'}{'..url..'}}', '')
+		clean_text = clean_text:gsub('{{'..label:escape_magic()..'}{'..url:escape_magic()..'}}', '')
 		if label and url and n < 3 then
 			local line = {{text = label, url = url}}
 			table.insert(reply_markup.inline_keyboard, line)
