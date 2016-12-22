@@ -78,9 +78,9 @@ end
 function plugin.onTextMessage(msg, blocks)
     if msg.chat.id < 0 then
         if can_promdemote(msg.chat.id, msg.from, msg.from.admin) then
-            --if u.is_admin(msg.reply) then
-                --api.sendReply(msg, _("_I'm sorry, you can't promote this user because he's already an admin_"), true)
-            --else
+            if u.is_admin(msg.reply) then
+                api.sendReply(msg, _("_I'm sorry, you can't promote this user because he's already an admin_"), true)
+            else
                 if blocks[1] == 'promote' then
                     local res, extra, new_mod = promdem_user(msg, blocks, 'promote') --if success, 'extra' is an user object
                     if not res then
@@ -113,7 +113,7 @@ function plugin.onTextMessage(msg, blocks)
                         api.sendReply(msg, text, 'html')
                     end
                 end
-            --end
+            end
         end
         
         if blocks[1] == 'modlist' then
