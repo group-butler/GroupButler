@@ -101,7 +101,7 @@ function plugin.onEveryMessage(msg)
         	end
             
             if msg.cb then
-                api.answerCallbackQuery(msg.cb_id, _("‼️ Please don't abuse the keyboard, requests will be ignored"))
+                --api.answerCallbackQuery(msg.cb_id, _("‼️ Please don't abuse the keyboard, requests will be ignored")) --avoid to hit the limits with answerCallbackQuery
             end
             return false --if an user is spamming, don't go through plugins
         end

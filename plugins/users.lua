@@ -259,7 +259,7 @@ function plugin.onCallbackQuery(msg, blocks)
 	end
 
 	if blocks[1] == 'banuser' then
-		local user_id = msg.target_id
+		local user_id = blocks[2]
 
 		local res, text = api.banUser(msg.chat.id, user_id)
 		if res then
@@ -271,9 +271,9 @@ function plugin.onCallbackQuery(msg, blocks)
 		api.editMessageText(msg.chat.id, msg.message_id, text, 'html')
 	end
 	if blocks[1] == 'remwarns' then
-		db:hdel('chat:'..msg.chat.id..':warns', msg.target_id)
-		db:hdel('chat:'..msg.chat.id..':mediawarn', msg.target_id)
-		db:hdel('chat:'..msg.chat.id..':spamwarns', msg.target_id)
+		db:hdel('chat:'..msg.chat.id..':warns', blocks[2])
+		db:hdel('chat:'..msg.chat.id..':mediawarn', blocks[2])
+		db:hdel('chat:'..msg.chat.id..':spamwarns', blocks[2])
 
         local name = u.getname_final(msg.from)
 		local text = _("The number of warnings received by this user has been <b>reset</b>, by %s"):format(name)
@@ -284,7 +284,9 @@ function plugin.onCallbackQuery(msg, blocks)
 		local missing_sec = tonumber(db:ttl('cache:chat:'..msg.target_id..':admins') or 0)
 		if config.bot_settings.cache_time.adminlist - missing_sec < 600 then
 			api.answerCallbackQuery(msg.cb_id, _("The adminlist has just been updated. You must wait 10 minutes from the last refresh"), true)
-		elseif u.cache_adminlist(msg.target_id) then
+		else
+			db:del('cache:chat:'..msg.target_id..':admins')
+			u.cache_adminlist(msg.target_id)
     		local cached_admins = db:smembers('cache:chat:'..msg.target_id..':admins')
     		local time = get_time_remaining(config.bot_settings.cache_time.adminlist)
 			local text = _("📌 Status: `CACHED`\n⌛ ️Remaining: `%s`\n👥 Admins cached: `%d`")

@@ -41,6 +41,7 @@ function plugin.onTextMessage(msg, blocks)
 	    	local hash = 'chat:'..msg.chat.id..':extra'
 	    	local new_extra = blocks[3]
 	    	local reply_markup, test_text = u.reply_markup_from_text(new_extra)
+	    	test_text = test_text:gsub('\n', '')
 	    	
 	    	local res, code = api.sendReply(msg, test_text:replaceholders(msg), true, reply_markup)
 	    	if not res then

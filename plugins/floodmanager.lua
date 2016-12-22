@@ -21,7 +21,7 @@ local function do_keyboard_flood(chat_id)
     local status = db:hget('chat:'..chat_id..':settings', 'Flood') or config.chat_settings['settings']['Flood'] --check (default: disabled)
     if status == 'on' then
         status = _("✅ | ON")
-    elseif status == 'off' then
+    else
         status = _("❌ | OFF")
     end
     
@@ -157,7 +157,6 @@ function plugin.onCallbackQuery(msg, blocks)
         end
         
         if blocks[1] == 'status' then
-            local status = db:hget('chat:'..chat_id..':settings', 'Flood') or config.chat_settings['settings']['Flood']
             text = u.changeSettingStatus(chat_id, 'Flood')
         end
         

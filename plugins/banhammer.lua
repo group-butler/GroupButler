@@ -88,7 +88,7 @@ function plugin.onTextMessage(msg, blocks)
 		 	
 		 	local res
 		 	local chat_id = msg.chat.id
-		 	if u.is_mod(chat_id, user_id) and not u.is_admin(msg.reply) then
+		 	if u.is_mod(chat_id, user_id) and not u.is_admin(msg.chat.id, user_id) then
 		 		api.sendReply(msg, _("_This user is a moderator. Please /demote him first_"), true) return
 		 	end
 		 	local admin, kicked = u.getnames_complete(msg, blocks)
