@@ -695,7 +695,7 @@ function utilities.changeSettingStatus(chat_id, field)
 		extra = _("#extra commands are now available only for moderator"),
 		flood = _("Anti-flood is now off"),
 		rules = _("/rules will reply in private (for users)"),
-		silent = _("Silent is now off"),
+		silent = _("Silent mode is now off"),
 		preview = _("Links preview disabled"),
 		welbut = _("Welcome message without a button for the rules")
 	}
@@ -706,7 +706,7 @@ function utilities.changeSettingStatus(chat_id, field)
 		extra = _("#extra commands are now available for all"),
 		flood = _("Anti-flood is now on"),
 		rules = _("/rules will reply in the group (with everyone)"),
-		silent = _("Silent is now on"),
+		silent = _("Silent mode is now on"),
 		preview = _("Links preview enabled")
 		welbut = _("The welcome message will have a button for the rules")
 	}
