@@ -15,6 +15,12 @@ local function doKeyboard_warn(user_id)
     return keyboard
 end
 
+local function forget_user_warns(chat_id, user_id)
+	db:hdel('chat:'..chat_id..':warns', user_id)
+	db:hdel('chat:'..chat_id..':mediawarn', user_id)
+	db:hdel('chat:'..chat_id..':spamwarns', user_id)
+end
+
 function plugin.onTextMessage(msg, blocks)
 	if msg.chat.type == 'private' or (msg.chat.type ~= 'private' and not u.is_allowed('hammer', msg.chat.id, msg.from)) then return end
 	
@@ -53,9 +59,7 @@ function plugin.onTextMessage(msg, blocks)
     end
 	
 	if blocks[1] == 'nowarn' then
-		db:hdel('chat:'..msg.chat.id..':warns', msg.reply.from.id)
-		db:hdel('chat:'..msg.chat.id..':mediawarn', msg.reply.from.id)
-		db:hdel('chat:'..msg.chat.id..':spamwarns', msg.reply.from.id)
+		forget_user_warns(msg.chat.id, msg.reply.from.id)
 		local admin = u.getname_final(msg.from)
 		local user = u.getname_final(msg.reply.from)
 		api.sendReply(msg, _('Done! %s has been forgiven'):format(user), 'html')
@@ -75,11 +79,11 @@ function plugin.onTextMessage(msg, blocks)
 			local type = (db:hget('chat:'..msg.chat.id..':warnsettings', 'type')) or 'kick'
 			--try to kick/ban
 			if type == 'ban' then
-				text = _("%s <b>banned</b>: reached the max number of warnings (<code>%d/%d</code>)"):format(name, num , nmax)
+				text = _("%s <b>banned</b>: reached the max number of warnings (<code>%d/%d</code>)"):format(name, num, nmax)
 				hammer_log = _('banned')
 				res, code, motivation = api.banUser(msg.chat.id, msg.reply.from.id)
 	    	else --kick
-				text = _("%s <b>kicked</b>: reached the max number of warnings (<code>%d/%d</code>)"):format(name, num , nmax)
+				text = _("%s <b>kicked</b>: reached the max number of warnings (<code>%d/%d</code>)"):format(name, num, nmax)
 				hammer_log = _('kicked')
 		    	res, code, motivation = api.kickUser(msg.chat.id, msg.reply.from.id)
 		    end
@@ -88,12 +92,12 @@ function plugin.onTextMessage(msg, blocks)
 		    	if not motivation then
 		    		motivation = _("I can't kick this user.\n"
 						.. "Probably I'm not an Admin, or the user is an Admin iself")
-		    	end
+    			end
+	    		if num > nmax then db:hset(hash, msg.reply.from.id, nmax) end --avoid to have a number of warnings bigger than the max
 		    	text = motivation
 		    else
 		    	u.saveBan(msg.reply.from.id, 'warn') --add ban
-		    	db:hdel('chat:'..msg.chat.id..':warns', msg.reply.from.id) --if kick/ban works, remove the warns
-		    	db:hdel('chat:'..msg.chat.id..':mediawarn', msg.reply.from.id)
+		    	forget_user_warns(msg.chat.id, msg.reply.from.id)
 		    end
 			--if the user reached the max num of warns, kick and send message
 		    api.sendReply(msg, text, 'html')
@@ -132,9 +136,7 @@ function plugin.onCallbackQuery(msg, blocks)
 	
 	if blocks[1] == 'resetwarns' then
     	local user_id = blocks[2]
-    	db:hdel('chat:'..msg.chat.id..':warns', user_id)
-		db:hdel('chat:'..msg.chat.id..':mediawarn', user_id)
-		db:hdel('chat:'..msg.chat.id..':spamwarns', user_id)
+    	forget_user_warns(msg.chat.id, user_id)
 		
 		local admin = u.getname_final(msg.from)
 		local text = _("Warns <b>reset</b> by %s"):format(admin)

@@ -4,11 +4,6 @@ local api = require 'methods'
 
 local plugin = {}
 
-local function get_list_name(chat_id, user_id)
-    local user = db:hgetall(('chat:%d:mod:%d'):format(chat_id, tonumber(user_id)))
-    return u.getname_final(user) or 'x'
-end
-
 local mod = { 
     promote = function(chat_id, user)
         assert(user.id, "mod.promote: user.id missing")
@@ -117,20 +112,10 @@ function plugin.onTextMessage(msg, blocks)
         end
         
         if blocks[1] == 'modlist' then
-            local mods = db:smembers('chat:'..msg.chat.id..':mods')
-            local text
-            if not next(mods) then
-                api.sendReply(msg, _("_Empty moderators list_"), true)
+            local is_empty, text = u.getModlist(msg.chat.id)
+            if is_ampty then
+                api.sendReply(msg, text, 'html')
             else
-                local list_name
-                local modlist = {}
-                text = _("<b>Moderators</b>:\n\n- ")
-                for i=1, #mods do
-                    list_name = get_list_name(msg.chat.id, mods[i]) --mods[i] -> string
-                    table.insert(modlist, list_name)
-                end
-                
-                text = text..table.concat(modlist, '\n- ')
                 if msg.from.mod then
                     api.sendReply(msg, text, 'html')
                 else

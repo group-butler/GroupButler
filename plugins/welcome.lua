@@ -105,7 +105,7 @@ function plugin.onTextMessage(msg, blocks)
             
             local reply_markup, new_text = u.reply_markup_from_text(input)
             
-            local res, code = api.sendReply(msg, new_text:gsub('$rules', u.deeplink_constructor(msg.chat.id, 'rules')), true)
+            local res, code = api.sendReply(msg, new_text:gsub('$rules', u.deeplink_constructor(msg.chat.id, 'rules')), true, reply_markup)
             if not res then
                 db:hset(hash, 'type', 'no') --if wrong markdown, remove 'custom' again
                 db:hset(hash, 'content', 'no')

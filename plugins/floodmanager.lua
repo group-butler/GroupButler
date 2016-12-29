@@ -41,7 +41,7 @@ local function do_keyboard_flood(chat_id)
             },
             {
                 {text = '➖', callback_data = 'flood:dim:'..chat_id},
-                {text = num, callback_data = 'flood:alert:num:'..locale.language},
+                {text = tostring(num), callback_data = 'flood:alert:num:'..locale.language},
                 {text = '➕', callback_data = 'flood:raise:'..chat_id},
             }
         }

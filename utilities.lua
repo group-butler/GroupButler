@@ -194,14 +194,15 @@ function utilities.cache_adminlist(chat_id)
 	if not res then
 		return false, code
 	end
-	local hash = 'cache:chat:'..chat_id..':admins'
+	local set = 'cache:chat:'..chat_id..':admins'
 	for _, admin in pairs(res.result) do
 		if admin.status == 'creator' then
 			db:set('cache:chat:'..chat_id..':owner', admin.user.id)
 		end
-		db:sadd(hash, admin.user.id)
+		db:sadd(set, admin.user.id)
+		utilities.demote(chat_id, admin.user.id)
 	end
-	db:expire(hash, config.bot_settings.cache_time.adminlist)
+	db:expire(set, config.bot_settings.cache_time.adminlist)
 	
 	return true, #res.result or 0
 end
@@ -572,6 +573,7 @@ function utilities.getAdminlist(chat_id)
 	local count = 1
 	for i,admin in pairs(list.result) do
 		local name
+		local s = ' ├ '
 		if admin.status == 'administrator' then
 			name = admin.user.first_name
 			if admin.user.username then
@@ -579,7 +581,8 @@ function utilities.getAdminlist(chat_id)
 			else
 				name = name:escape_html()
 			end
-			adminlist = adminlist..'<b>'..count..'</b> - '..name..'\n'
+			if count + 1 == #list.result then s = ' └ ' end
+			adminlist = adminlist..s..name..'\n'
 			count = count + 1
 		elseif admin.status == 'creator' then
 			creator = admin.user.first_name
@@ -592,7 +595,35 @@ function utilities.getAdminlist(chat_id)
 	end
 	if adminlist == '' then adminlist = '-' end
 	if creator == '' then creator = '-' end
-	return creator, adminlist
+	
+	return _("<b>👤 Creator</b>\n└ %s\n\n<b>👥 Admins</b> (%d)\n%s"):format(creator, #list.result - 1, adminlist)
+end
+
+local function get_list_name(chat_id, user_id)
+    local user = db:hgetall(('chat:%d:mod:%d'):format(chat_id, tonumber(user_id)))
+    return utilities.getname_final(user) or 'x'
+end
+
+function utilities.getModlist(chat_id)
+	local mods = db:smembers('chat:'..chat_id..':mods')
+    local text
+    if not next(mods) then
+        return false, _("<i>Empty moderators list</i>")
+    else
+        local list_name
+        local modlist = {}
+        local s = ' ├ '
+        text = _("<b>👥 Moderators</b>\n")
+        for i=1, #mods do
+            list_name = get_list_name(chat_id, mods[i]) --mods[i] -> string
+            if i == #mods then s = ' └ ' end
+            table.insert(modlist, s..list_name)
+        end
+        
+        text = text..table.concat(modlist, '\n')
+        
+        return true, text
+	end
 end
 
 local function sort_funct(a, b)
@@ -707,7 +738,7 @@ function utilities.changeSettingStatus(chat_id, field)
 		flood = _("Anti-flood is now on"),
 		rules = _("/rules will reply in the group (with everyone)"),
 		silent = _("Silent mode is now on"),
-		preview = _("Links preview enabled")
+		preview = _("Links preview enabled"),
 		welbut = _("The welcome message will have a button for the rules")
 	}
 

@@ -68,7 +68,7 @@ function plugin.onTextMessage(msg, blocks)
     if msg.chat.type == 'private'
         or msg.from.admin
         or not msg.reply
-        or u.is_mod(msg.reply) then
+        or u.is_mod(msg.chat.id, msg.reply.from.id) then
         return
     end
     

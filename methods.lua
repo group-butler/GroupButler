@@ -67,7 +67,7 @@ end
 local function log_error(method, code, extras, description)
 	if not method or not code then return end
 	
-	local ignored_errors = {403, 429, 110, 111, 116, 131}
+	local ignored_errors = {403, 429, 110, 111, 116, 131, 150}
 	
 	for _, ignored_code in pairs(ignored_errors) do
 		if tonumber(code) == tonumber(ignored_code) then return end

@@ -80,7 +80,7 @@ function plugin.onTextMessage(msg, blocks)
     if msg.from.admin then
         if blocks[1] == 'snap' then
             local key = 'chat:'..msg.chat.id..':lastsnap'
-            --local last_user = db:get(key)
+            local last_user = db:get(key)
             if last_user then
                 local ttl = db:ttl(key)
                 local time_remaining = get_time_remaining(ttl)

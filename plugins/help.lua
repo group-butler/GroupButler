@@ -277,7 +277,7 @@ When disabled, the group administrators *can't promote or demote new moderators*
 `/demote [by reply|by username|by text mention|by ID]`: demote an moderator.
 `/modlist`: show the list of the moderators]])
 	elseif key == 'logchannel' then
-		return _([[*Log channel iformations*
+		return _([[*Log channel informations*
 			
 A log channel is a _(private)_ channel where the bot will record all the important events that will happen in your group.
 If you want to use this feature, you need to pair your group with a channel with the commands described below.

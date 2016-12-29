@@ -160,12 +160,23 @@ function plugin.onTextMessage(msg, blocks)
 	if msg.chat.type == 'private' then return end
 
 	if blocks[1] == 'adminlist' then
-        local creator, adminlist = u.getAdminlist(msg.chat.id)
-		local out = _("<b>Creator</b>:\n%s\n\n<b>Admins</b>:\n%s"):format(creator, adminlist)
+        local adminlist = u.getAdminlist(msg.chat.id)
         if not msg.from.mod then
-        	api.sendMessage(msg.from.id, out, 'html')
+        	api.sendMessage(msg.from.id, adminlist, 'html')
         else
-            api.sendReply(msg, out, 'html')
+            api.sendReply(msg, adminlist, 'html')
+        end
+    end
+	if blocks[1] == 'staff' then
+        local adminlist = u.getAdminlist(msg.chat.id)
+        if adminlist then
+        	local is_empty, modlist = u.getModlist(msg.chat.id)
+        	local text = adminlist..'\n'..modlist
+        	if not msg.from.mod then
+        		api.sendMessage(msg.from.id, text, 'html')
+        	else
+        	    api.sendReply(msg, text, 'html')
+        	end
         end
     end
 	if blocks[1] == 'status' then
@@ -282,8 +293,10 @@ function plugin.onCallbackQuery(msg, blocks)
     end
     if blocks[1] == 'recache' and msg.from.admin then
 		local missing_sec = tonumber(db:ttl('cache:chat:'..msg.target_id..':admins') or 0)
-		if config.bot_settings.cache_time.adminlist - missing_sec < 600 then
-			api.answerCallbackQuery(msg.cb_id, _("The adminlist has just been updated. You must wait 10 minutes from the last refresh"), true)
+		local wait = 600
+		if config.bot_settings.cache_time.adminlist - missing_sec < wait then
+			local seconds_to_wait = wait - (config.bot_settings.cache_time.adminlist - missing_sec)
+			api.answerCallbackQuery(msg.cb_id, _("The adminlist has just been updated. You must wait 10 minutes from the last refresh (wait %d seconds)"):format(seconds_to_wait), true)
 		else
 			db:del('cache:chat:'..msg.target_id..':admins')
 			u.cache_adminlist(msg.target_id)
@@ -308,7 +321,8 @@ plugin.triggers = {
 		config.cmd..'(msglink)$',
 		config.cmd..'(user)$',
 		config.cmd..'(user) (.*)',
-		config.cmd..'(leave)$'
+		config.cmd..'(leave)$',
+		config.cmd..'(staff)$'
 	},
 	onCallbackQuery = {
 		'^###cb:userbutton:(banuser):(%d+)$',
