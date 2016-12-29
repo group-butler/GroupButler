@@ -247,13 +247,14 @@ When Rtl is not allowed (🚫), everyone that writes this character (or that has
 *General group settings*
 
 `/config` or  `/settings`: manage the group settings in private from an inline keyboard.
-The inline keyboard has three sub-menus:
+The inline keyboard has six sub-menus:
 
 *Menu*: manage the most important group settings
 *Antiflood*: turn on or off the antiflood, set its sensitivity and choose some media to ignore, if you want
 *Media*: choose which media to forbid in your group, and set the number of times that an user will be warned before being kicked/banned
 *Antispam*: choose which kind of spam you want to forbid (example: telegram.me links, forwarded messages from channels)
 *Log channel*: choose which updates should be logged
+*Moderators*: promote or demote moderators
 
 *Bonus commands*:
 `/leave`: the bot will leave the group without deleting its data. Use this command only if you are going to add the bot to the group again
