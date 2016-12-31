@@ -110,7 +110,7 @@ function plugin.onCallbackQuery(msg, blocks)
     if request == 'adminlist' then
         parse_mode = 'html'
         local result, code = u.getAdminlist(chat_id)
-        if not creator then
+        if not result then
             -- creator is false, admins is the error code
             text = _("I got kicked out of this group 😓")
         else
