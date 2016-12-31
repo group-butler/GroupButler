@@ -113,7 +113,7 @@ function plugin.onTextMessage(msg, blocks)
         
         if blocks[1] == 'modlist' then
             local is_empty, text = u.getModlist(msg.chat.id)
-            if is_ampty then
+            if is_empty then
                 api.sendReply(msg, text, 'html')
             else
                 if msg.from.mod then
