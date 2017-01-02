@@ -262,6 +262,20 @@ function plugin.onTextMessage(msg, blocks)
 			api.leaveChat(msg.chat.id)
 		end
 	end
+	if blocks[1] == 'view' then
+		if msg.from.admin and config.log.views then
+			local res, code = api.sendMessage(config.log.views, _("_Look at the view counter of this message to see how many users are online_"), true)
+			if not res then
+				if code == 429 then
+					api.sendReply(msg, _("_I'm sorry, this command has been used too many times lately by my users. Retry later_"), true)
+				else
+					api.sendReply(msg, _("_I'm sorry, an unknown error occured while executing this command._\n`[error code: %d]`"), true)
+				end
+			else
+				api.forwardMessage(msg.chat.id, res.result.chat.id, res.result.message_id)
+			end
+		end
+	end
 end
 
 function plugin.onCallbackQuery(msg, blocks)
@@ -322,7 +336,8 @@ plugin.triggers = {
 		config.cmd..'(user)$',
 		config.cmd..'(user) (.*)',
 		config.cmd..'(leave)$',
-		config.cmd..'(staff)$'
+		config.cmd..'(staff)$',
+		config.cmd..'(view)s?$',
 	},
 	onCallbackQuery = {
 		'^###cb:userbutton:(banuser):(%d+)$',

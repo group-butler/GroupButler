@@ -87,7 +87,7 @@ function plugin.onEveryMessage(msg)
         	    --if kicked/banned, send a message
         	    if res then
         	        local log_hammered = action
-        	        if msgs_sent == (msgs_max + 1) or msgs_sent == msgs_max + 5 then --send the message only if it's the message after the first message flood. Repeat after 5
+        	        if msgs_sent == (msgs_max + 1) then --send the message only if it's the message after the first message flood. Repeat after 5
         	            u.saveBan(msg.from.id, 'flood') --save ban
         	            if action == 'ban' then
         	                message = _("%s <b>banned</b> for flood!"):format(name)
@@ -95,8 +95,8 @@ function plugin.onEveryMessage(msg)
         	                message = _("%s <b>kicked</b> for flood!"):format(name)
         	            end
         	            api.sendMessage(msg.chat.id, message, 'html')
+        	            u.logEvent('flood', msg, {hammered = log_hammered})
         	        end
-        	        u.logEvent('flood', msg, {hammered = log_hammered})
         	    end
         	end
             

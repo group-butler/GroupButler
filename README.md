@@ -85,6 +85,8 @@ Other things to check before running the bot:
 > • Insert your numerical Telegram ID into the `superadmins` table. Other superadmins can be added too. It is important that you insert the numerical ID and NOT a string.
 >
 > • Set your `log.chat` (the ID of the chat where the bot will send all the bad requests received from Telegram) and your `log.admin` (the ID of the user that will receive execution errors).
+>
+> • Set a `log.views`: must be the ID of a channel from where the bot will forward the messages with the views counter when the `/views` command is used. A private channel without members is suggested.
 
 Before you start the bot, you have to start the Redis process.
 ```bash
