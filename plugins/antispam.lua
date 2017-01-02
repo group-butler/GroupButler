@@ -155,12 +155,18 @@ local function doKeyboard_antispam(chat_id)
     
     local warns = (db:hget('chat:'..chat_id..':antispam', 'warns')) or config.chat_settings['antispam']['warns']
     local action = (db:hget('chat:'..chat_id..':antispam', 'action')) or config.chat_settings['antispam']['action']
+	
+	if action == 'kick' then
+		action = _("Kick 👞")
+	else
+		action = _("Ban 🔨")
+	end
     
     local line = {
         {text = 'Warns: '..warns, callback_data = 'antispam:alert:warns:'..locale.language},
         {text = '➖', callback_data = 'antispam:toggle:dim:'..chat_id},
         {text = '➕', callback_data = 'antispam:toggle:raise:'..chat_id},
-        {text = _(action), callback_data = 'antispam:toggle:action:'..chat_id}
+        {text = action, callback_data = 'antispam:toggle:action:'..chat_id}
     }
     
     table.insert(keyboard.inline_keyboard, line)
