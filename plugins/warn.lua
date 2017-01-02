@@ -112,7 +112,12 @@ function plugin.onTextMessage(msg, blocks)
 		    })
 		else
 			local diff = nmax - num
-			text = _("%s <b>has been warned</b> (<code>%d/%d</code>)"):format(name, num, nmax)
+			local reason = blocks[2]
+			if not reason then
+				text = _("%s <b>has been warned</b> (<code>%d/%d</code>)"):format(name, num, nmax)
+			else
+				text = _("%s <b>has been warned</b>\nReason: %s \n(<code>%d/%d</code>)"):format(name, reason, num, nmax)
+			end
 			local keyboard = doKeyboard_warn(msg.reply.from.id)
 			if blocks[1] ~= 'sw' then api.sendMessage(msg.chat.id, text, 'html', keyboard) end
 			u.logEvent('warn', msg, {
