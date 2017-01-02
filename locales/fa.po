@@ -176,17 +176,17 @@ msgstr ""
 #: plugins/banhammer.lua:151
 #, lua-format
 msgid "%s kicked %s!"
-msgstr "%s اخراج %s!"
+msgstr "ادمین %s کاربر %s را اخراج کرد."
 
 #: plugins/banhammer.lua:166
 #, lua-format
 msgid "%s banned %s!"
-msgstr "%s مسدود کرد %s"
+msgstr "ادمین %s کاربر %s را مسدود کرد."
 
 #: plugins/banhammer.lua:171
 #, lua-format
 msgid "%s unbanned by %s!"
-msgstr "کاربر %s توسط %s از لیست مسدودین خارج شد!"
+msgstr "ادمین %s کاربر %s را از لیست مسدود ها خارج کرد."
 
 #: plugins/configure.lua:11
 msgid "🛠 Menu"
