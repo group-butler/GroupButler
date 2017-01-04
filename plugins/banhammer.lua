@@ -171,7 +171,7 @@ function plugin.onTextMessage(msg, blocks)
    			if blocks[1] == 'unban' then
    				api.unbanUser(chat_id, user_id)
    				u.logEvent('unban', msg, {motivation = get_motivation(msg), admin = admin, user = kicked, user_id = user_id})
-   				local text = _("%s unbanned by %s!"):format(admin, kicked)
+   				local text = _("%s unbanned by %s!"):format(kicked, admin)
    				api.sendReply(msg, text, 'html')
    			end
 		else

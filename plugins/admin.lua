@@ -109,7 +109,6 @@ function plugin.onTextMessage(msg, blocks)
 		api.sendMessage(msg.from.id, text)
 	end
 	if blocks[1] == 'init' then
-		db:bgsave()
 		local n_plugins = bot_init(true) or 0
 		api.sendReply(msg, '*Bot reloaded!*\n_'..n_plugins..' plugins enabled_', true)
 	end

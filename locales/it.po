@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GroupButler 4.0\n"
 "Report-Msgid-Bugs-To: https://telegram.me/bac0nnn\n"
-"POT-Creation-Date: 2016-12-29 18:42+0100\n"
-"PO-Revision-Date: 2016-12-29 18:49+0100\n"
+"POT-Creation-Date: 2017-01-04 00:26+0100\n"
+"PO-Revision-Date: 2017-01-04 00:58+0100\n"
 "Last-Translator: Nicholas Guriev <guriev-ns@ya.ru>\n"
 "Language-Team: Italian\n"
 "Language: it\n"
@@ -297,7 +297,7 @@ msgstr "%s ha bannato %s!"
 #: plugins/banhammer.lua:174
 #, lua-format
 msgid "%s unbanned by %s!"
-msgstr "%s è stato unbannato da %s!"
+msgstr "%s sbannato da %s!"
 
 #: plugins/configure.lua:10
 msgid "🛠 Menu"
@@ -1361,6 +1361,34 @@ msgid ""
 "moderator.\n"
 "`/modlist`: show the list of the moderators"
 msgstr ""
+"*Moderatori*\n"
+"\n"
+"I moderatori sono utenti normali ai quali viene concesso l'uso di alcuni "
+"comandi che di solito sono a disposizione solamente degli amministratori.\n"
+"\n"
+"Di default, i moderatori possiedono solo il banhammer (possono usare _/ban, /"
+"kick, /unban, /tempban, /warn, /nowarn, /user_).\n"
+"Ma i loro poteri possono essere ampliati o ristretti dagli amministratori, "
+"tramite l'apposita sezione _\"Moderatori\"_ nel menu del comando /config, "
+"dove i permessi dei moderatori possono essere modificati.\n"
+"\n"
+"Normalmente, ogni admin può promuovere nuovi amministratori, o rimuovere "
+"amministratori già in carica.\n"
+"Tuttavia, se sei il proprietario del gruppo, nella sezione _\"Moderatori\"_ "
+"del menu di configurazione potrai trovare un tasto chiamato _\"Admin "
+"gestiscono i mod\"_.\n"
+"Quando disabilitato, gli amministratori del gruppo *non potranno promuovere "
+"o rimuovere nuovi moderatori*, ed inoltre non potranno più accedere alla "
+"sezione _\"Moderatori\"_ del menu di configurazione (e quindi *non potranno "
+"agire sui permessi dei moderatori*).\n"
+"\n"
+"*Commandi*\n"
+"`/promote [by reply|by username|by menzione testuale|by ID]`: l'utente verrà "
+"promosso a moderatore. Se l'utente era già un moderatore, il suo nome nella "
+"lista dei moderatori verrà aggiornato.\n"
+"`/demote [by reply|by username|by menzione testuale|by ID]`: rimuovi un "
+"moderatore.\n"
+"`/modlist`: mostra la lista dei moderatori"
 
 #: plugins/help.lua:280
 msgid ""
@@ -2021,7 +2049,7 @@ msgstr ""
 
 #: plugins/moderators.lua:59
 msgid "I'm sorry, you can't promote this user because he's already an admin"
-msgstr ""
+msgstr "Non puoi promuovere questo utente perchè è già un admin"
 
 #: plugins/moderators.lua:89
 #, lua-format
@@ -2097,6 +2125,25 @@ msgid ""
 "Moderators will be never able to use: /cache, /leave, /snap, /import, /"
 "setlang, /setlog and /unsetlog\n"
 msgstr ""
+"*Impostazioni moderatori*\n"
+"Imposta cosa un moderatore (detto anche mod) potrà fare.\n"
+"Quando uno o più dei permessi seguenti vengono concessi ai moderatori, "
+"questi saranno in grado di usare i comandi associati.\n"
+"\n"
+"• ✅ = *concesso*\n"
+"• ❌ = *non concesso*\n"
+"\n"
+"• permessi per il *banhammer* - i mod potranno usare: /ban, /kick, /unban, /"
+"tempban, /user, /status, /warn, /nowarn.\n"
+"• permessi per le *info del gruppo* - i mod potranno usare: /setrules, /"
+"welcome, /extra, /link, /setlink. inoltre, verranno visti come admun quando /"
+"rules, /adminlist, /modlist, /id o un comando #extra vengono usati.\n"
+"• permessi per la *configurazione del gruppo* - i mod potranno usare il "
+"comando /config, e quindi cambiare le impostazioni del gruppo. Ovviamente, "
+"non potranno accedere alla sezione \"Moderatori\" del menu.\n"
+"\n"
+"I moderatori, a prescindere dai permessi concessi, non potranno usare: /"
+"cache, /leave, /snap, /import, /setlang, /setlog e /unsetlog\n"
 
 #: plugins/onmessage.lua:93
 #, lua-format
@@ -2213,6 +2260,15 @@ msgid ""
 "Bot version: `%s`\n"
 "*Some useful links:*"
 msgstr ""
+"Questo bot è basato su [otouto](https://github.com/topkecleon/otouto) (AKA "
+"@mokubot, canale: @otouto), un bot scritto in Lua dalle varie funzionalità.\n"
+"Group Butler non esisterebbe senza di lui.\n"
+"\n"
+"Il proprietario di questo bot è @bac0nnn, per favore non scrivergli in "
+"privato: usa invece il comando /groups.\n"
+"\n"
+"Versione bot: `%s`\n"
+"*Alcuni link utili:*"
 
 #: plugins/private.lua:44 plugins/private.lua:57
 #, lua-format
@@ -2500,7 +2556,7 @@ msgstr ""
 "Non ho mai visto questo utente prima.\n"
 "Se vuoi aggiungerlo al database, inoltrami un suo messaggio"
 
-#: plugins/users.lua:243 plugins/users.lua:303
+#: plugins/users.lua:243 plugins/users.lua:319
 #, lua-format
 msgid ""
 "📌 Status: `CACHED`\n"
@@ -2516,15 +2572,40 @@ msgstr ""
 msgid "Message N° %d"
 msgstr "Messagio N° %d"
 
-#: plugins/users.lua:269 plugins/warn.lua:134
+#: plugins/users.lua:267
+msgid ""
+"_Look at the views counter of this message to see how many users are online_"
+msgstr ""
+"_Il contatore delle visualizzazioni di questo messaggio mostra quanti utenti "
+"sono attualmente online_"
+
+#: plugins/users.lua:270
+msgid ""
+"_I'm sorry, this command has been used too many times lately by my users. "
+"Retry later_"
+msgstr ""
+"_Mi dispiace, questo comando è stato usato troppo frequentemente dai miei "
+"utenti negli utlimi minuti. Riprova più tardi_"
+
+#: plugins/users.lua:272
+#, lua-format
+msgid ""
+"_I'm sorry, an unknown error occured while executing this command._\n"
+"`[error code: %d]`"
+msgstr ""
+"_Mi dispiace, un errore sconosciuto si è verificato durante l'esecuzione di "
+"questo comando_\n"
+"`[codice errore: %d]`"
+
+#: plugins/users.lua:283 plugins/warn.lua:134
 msgid "You are not allowed to use this button"
 msgstr "Non ti è permesso usare questo tasto"
 
-#: plugins/users.lua:279
+#: plugins/users.lua:293
 msgid "Ban from the /user command"
 msgstr "Ban dal comando /user"
 
-#: plugins/users.lua:280
+#: plugins/users.lua:294
 #, lua-format
 msgid ""
 "<i>Banned!</i>\n"
@@ -2533,7 +2614,7 @@ msgstr ""
 "<i>Bannato!</i>\n"
 "Bannato da: %s"
 
-#: plugins/users.lua:290
+#: plugins/users.lua:304
 #, lua-format
 msgid ""
 "The number of warnings received by this user has been <b>reset</b>, by %s"
@@ -2541,15 +2622,16 @@ msgstr ""
 "Il numero di ammonizioni ricevute da questo utente è stato <b>azzerato</b>, "
 "da %s)"
 
-#: plugins/users.lua:297
+#: plugins/users.lua:313
+#, lua-format
 msgid ""
 "The adminlist has just been updated. You must wait 10 minutes from the last "
-"refresh"
+"refresh (wait %d seconds)"
 msgstr ""
 "Lista degli admin appena aggiornata. Il tasto torna disponibile 10 minuti "
-"dopo l'ultimo aggiornamento"
+"dopo l'ultimo aggiornamento (aspetta altri %d secondi)"
 
-#: plugins/users.lua:305
+#: plugins/users.lua:321
 #, lua-format
 msgid "✅ Updated. Next update in %s"
 msgstr "✅ Aggiornata. Prossimo aggiornamento tra %s"

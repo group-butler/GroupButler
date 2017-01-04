@@ -264,7 +264,7 @@ function plugin.onTextMessage(msg, blocks)
 	end
 	if blocks[1] == 'view' then
 		if msg.from.admin and config.log.views then
-			local res, code = api.sendMessage(config.log.views, _("_Look at the view counter of this message to see how many users are online_"), true)
+			local res, code = api.sendMessage(config.log.views, _("_Look at the views counter of this message to see how many users are online_"), true)
 			if not res then
 				if code == 429 then
 					api.sendReply(msg, _("_I'm sorry, this command has been used too many times lately by my users. Retry later_"), true)
