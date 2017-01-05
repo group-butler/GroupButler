@@ -636,11 +636,11 @@ function utilities.getExtraList(chat_id)
 	if not next(commands) then
 		return _("No commands set")
 	else
-		local lines = {}
-		for i, k in ipairs(commands) do
-			table.insert(lines, (k:escape(true)))
+		local text = _("List of *custom commands*:\n")
+		for i=1, #commands do
+			text = text..i..'- '..commands[i]..'\n'
 		end
-		return _("List of *custom commands*:\n") .. table.concat(lines, '\n')
+		return text
 	end
 end
 
