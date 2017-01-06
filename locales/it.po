@@ -3109,7 +3109,7 @@ msgid ""
 "• <b>Added by</b>: %s [#id%d]"
 msgstr ""
 "\n"
-"• <b>Aggiunto day</b>: %s [#id%d]"
+"• <b>Aggiunto da</b>: %s [#id%d]"
 
 #: utilities.lua:990
 #, lua-format

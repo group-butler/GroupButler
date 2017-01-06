@@ -47,7 +47,7 @@ function plugin.onTextMessage(msg, blocks)
     	if msg.chat.type == 'private' or (not msg.from.mod and not send_in_group(msg.chat.id)) then
     		api.sendMessage(msg.from.id, rules, true, reply_markup, nil, link_preview)
     	else
-        	api.sendReply(msg, rules, true, reply_markup, nil, link_preview)
+        	api.sendReply(msg, rules, true, reply_markup, link_preview)
         end
     end
 	

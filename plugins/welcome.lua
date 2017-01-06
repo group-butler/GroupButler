@@ -178,11 +178,14 @@ function plugin.onTextMessage(msg, blocks)
 		if msg.from.id ~= msg.new_chat_member.id then extra = msg.from end
 		u.logEvent(blocks[1], msg, extra)
 		
-		if msg.new_chat_member.username and not msg.new_chat_member.last_name then
-			local username = msg.new_chat_member.username:lower()
-			if username:find('bot', -3) then
-				return
-			end
+		if msg.new_chat_member.username
+			and not msg.new_chat_member.last_name
+			and msg.from.id ~= msg.new_chat_member.id then
+				
+				local username = msg.new_chat_member.username:lower()
+				if username:find('bot', -3) then
+					return
+				end
 		end
 		
 		local text, reply_markup = get_welcome(msg)

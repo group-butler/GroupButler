@@ -246,7 +246,7 @@ function plugin.onTextMessage(msg, blocks)
     	api.sendReply(msg, output, true)
     end
 	if blocks[1] == 'sendfile' then
-		local path = './'..blocks[2]
+		local path = blocks[2]
 		api.sendDocument(msg.from.id, path)
 	end
 	if blocks[1] == 'resid' then

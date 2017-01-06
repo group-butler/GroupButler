@@ -288,9 +288,9 @@ function api.sendMessage(chat_id, text, parse_mode, reply_markup, reply_to_messa
 
 end
 
-function api.sendReply(msg, text, markd, reply_markup)
+function api.sendReply(msg, text, markd, reply_markup, link_preview)
 
-	return api.sendMessage(msg.chat.id, text, markd, reply_markup, msg.message_id)
+	return api.sendMessage(msg.chat.id, text, markd, reply_markup, msg.message_id, link_preview)
 
 end
 
