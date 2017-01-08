@@ -34,7 +34,6 @@ local function promdem_user(msg, blocks, action)
             end
             user = msg.reply.from
         elseif msg.mention_id then
-            local user = {}
             for _, entity in pairs(msg.entities) do
 			    if entity.user and entity.user.id == msg.mention_id then
 				    user = entity.user

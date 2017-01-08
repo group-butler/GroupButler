@@ -4,6 +4,14 @@ local api = require 'methods'
 
 local plugin = {}
 
+local function antibot_on(chat_id)
+	local hash = 'chat:'..chat_id..':settings'
+	local status = db:hget(hash, 'Antibot')
+	if status and status == 'on' then
+		return true
+	end
+end
+
 local function is_locked(chat_id, thing)
   	local hash = 'chat:'..chat_id..':settings'
   	local current = db:hget(hash, thing)
@@ -184,6 +192,10 @@ function plugin.onTextMessage(msg, blocks)
 				
 				local username = msg.new_chat_member.username:lower()
 				if username:find('bot', -3) then
+					if antibot_on(msg.chat.id) and not msg.from.mod then
+						api.sendMessage(msg.chat.id, _("_@%s banned: antibot is on_"):format(msg.new_chat_member.username), true)
+						api.banUser(msg.chat.id, msg.new_chat_member.id)
+					end
 					return
 				end
 		end

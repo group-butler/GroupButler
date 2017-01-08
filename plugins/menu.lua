@@ -28,6 +28,8 @@ local function get_button_description(key)
 👤: the bot will answer in private]])
     elseif key == 'Arab' then
         return _("Select what the bot should do when someone sends a message with arab characters")
+    elseif key == 'Antibot' then
+        return _("Bots will be banned when added by normal users")
     elseif key == 'Rtl' then
         return _("Select what the bot should do when someone sends a message with the RTL character, or has it in his name")
     elseif key == 'warnsnum' then

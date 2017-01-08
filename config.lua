@@ -79,11 +79,12 @@ return {
 			['Welcome'] = 'off',
 			['Goodbye'] = 'off',
 			['Extra'] = 'on',
-			['Flood'] = 'off',
+			--['Flood'] = 'off',
 			['Silent'] = 'off',
 			['Rules'] = 'off',
 			['Reports'] = 'off',
-			['Welbut'] = 'off'
+			['Welbut'] = 'off',
+			['Antibot'] = 'off'
 		},
 		['antispam'] = {
 			['links'] = 'alwd',
