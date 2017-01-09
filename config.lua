@@ -50,7 +50,6 @@ return {
 		'mediasettings',
 		'private',
 		'admin',
-		'backup',
 		'logchannel',
 		'report',
 		'private_settings',
