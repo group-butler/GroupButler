@@ -31,28 +31,29 @@ return {
 		'onmessage', --THIS MUST BE THE FIRST: IF AN USER IS FLOODING/IS BLOCKED, THE BOT WON'T GO THROUGH PLUGINS
 		'antispam', --SAME OF onmessage.lua
 		--'realms', --must stay here
-		'configure',
-		'menu',
-		'dashboard',
 		'backup',
 		'banhammer',
-		'users',
+		'block',
+		'configure',
+		'dashboard',
+		'floodmanager',
 		'help',
+		'links',
+		'logchannel',
+		'mediasettings',
+		'menu',
+		'moderators',
+		'pin',
+		'private',
+		'private_settings',
+		'report',
 		'rules',
 		'service',
-		'links',
-		'warn',
-		'moderators',
 		'setlang',
-		'floodmanager',
+		'users',
+		'warn',
 		'welcome',
-		'pin',
-		'mediasettings',
-		'private',
 		'admin',
-		'logchannel',
-		'report',
-		'private_settings',
 		'extra', --must be the last plugin in the list.
 	},
 	multipurpose_plugins = {},
@@ -150,7 +151,8 @@ return {
 			['new_chat_photo'] = 'no',
 			['delete_chat_photo'] = 'no',
 			['new_chat_title'] = 'no',
-			['pinned_message'] = 'no'
+			['pinned_message'] = 'no',
+			['blockban'] = 'no'
 		},
 		['modsettings'] = {
 			['promdem'] = 'yes', --'yes': admins can promote or demote moderators; 'no': only the owner can
@@ -163,7 +165,7 @@ return {
 		rules_on_join = 'off',
 		reports = 'off'
 	},
-	chat_hashes = {'extra', 'info', 'links', 'warns', 'mediawarn', 'spamwarns'},
+	chat_hashes = {'extra', 'info', 'links', 'warns', 'mediawarn', 'spamwarns', 'blocked'},
 	chat_sets = {'whitelist', 'mods'},
 	bot_keys = {
 		d3 = {'bot:general', 'bot:usernames', 'bot:chat:latsmsg'},

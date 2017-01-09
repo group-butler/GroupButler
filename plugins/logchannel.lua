@@ -27,6 +27,16 @@ local function get_alert_text(key)
 		return _("Log when an admin change the group title")
 	elseif key == 'pinned_message' then
 		return _("Log pinned messages")
+	elseif key == 'blockban' then
+		return _("Log when an user who has been blocked is banned from the group (when he join)")
+	elseif key == 'promote' then
+		return _("Log when a new user is promoted to moderator")
+	elseif key == 'demote' then
+		return _("Log when an user looses the role of moderator")
+	elseif key == 'nowarn' then
+		return _("Log when an admin removes the warning received by an user")
+	elseif key == 'report' then
+		return _("Log when an user reports a message with the @admin command")
 	else
 		return _("Description not available")
 	end
@@ -61,7 +71,8 @@ local function doKeyboard_logchannel(chat_id)
 		['new_chat_photo'] = _('New group icon'),
 		['delete_chat_photo'] = _('Group icon removed'),
 		['new_chat_title'] = _('New group title'),
-		['pinned_message'] = _('Pinned messages')
+		['pinned_message'] = _('Pinned messages'),
+		['blockban'] = _("Users blocked")
 	}
 	
 	local keyboard = {inline_keyboard={}}
@@ -115,7 +126,9 @@ function plugin.onCallbackQuery(msg, blocks)
     	        if blocks[1] == 'config' then
     	        	local logchannel_first = _([[*Select the events the will be logged in the channel*
 ✅ = will be logged
-☑️ = won't be logged]])
+☑️ = won't be logged
+
+Tap on a voice to get further informations]])
     	        	api.editMessageText(msg.chat.id, msg.message_id, logchannel_first, true, reply_markup)
     	        else
     	        	api.editMarkup(msg.chat.id, msg.message_id, reply_markup)

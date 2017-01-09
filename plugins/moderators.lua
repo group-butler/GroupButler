@@ -207,11 +207,11 @@ When one or more of the permissions below are given to the moderators, they will
 • ✅ = *enabled*
 • ❌ = *not enabled*
 
-• *Banhammer* permissions - mods will be allowed to use: /ban, /kick, /unban, /tempban, /user, /status, /warn, /nowarn.
-• *Group info* permissions - mods will be allowed to use: /setrules, /welcome, /extra, /link, /setlink. Also, they will be seen as admins when /rules, /adminlist, /modlist, /id or an #extra command are used.
+• *Banhammer* permissions - mods will be allowed to use: /ban, /kick, /unban, /tempban, /user, /status, /warn, /nowarn, /block, /unblock.
+• *Group info* permissions - mods will be allowed to use: /setrules, /welcome, /extra, /link, /setlink, /blockedlist. Also, they will be seen as admins when /rules, /adminlist, /modlist, /id or an #extra command are used.
 • *Group configuration* permissions - mods will be able to use the /config command, and change the group settings. Obviously, they won't be able to see the "Moderators" section.
 
-Moderators will be never able to use: /cache, /leave, /snap, /import, /setlang, /setlog and /unsetlog
+Moderators will be never able to use: /cache, /leave, /snap, /import, /setlog and /unsetlog
 ]])
         
             local reply_markup, text, is_owner

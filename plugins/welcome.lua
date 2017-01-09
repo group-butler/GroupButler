@@ -12,6 +12,16 @@ local function antibot_on(chat_id)
 	end
 end
 
+local function unblockUser(chat_id, user_id)
+	local hash = 'chat:'..chat_id..':blocked'
+	db:hdel(hash, user_id)
+end
+
+local function is_blocked(chat_id, user_id)
+	local hash = 'chat:'..chat_id..':blocked'
+	return db:hexists(hash, user_id)
+end
+
 local function is_locked(chat_id, thing)
   	local hash = 'chat:'..chat_id..':settings'
   	local current = db:hget(hash, thing)
@@ -185,6 +195,17 @@ function plugin.onTextMessage(msg, blocks)
 		local extra
 		if msg.from.id ~= msg.new_chat_member.id then extra = msg.from end
 		u.logEvent(blocks[1], msg, extra)
+		
+		if is_blocked(msg.chat.id, msg.new_chat_member.id) and not msg.from.mod then
+			local res = api.banUser(msg.chat.id, msg.new_chat_member.id)
+			if res then
+				unblockUser(msg.chat.id, msg.new_chat_member.id)
+				local name = u.getname_final(msg.new_chat_member)
+				api.sendMessage(msg.chat.id, _("%s banned: the user was blocked"):format(name), 'html')
+				u.logEvent('blockban', msg, {name = name, id = msg.new_chat_member.id})
+			end
+			return
+		end
 		
 		if msg.new_chat_member.username
 			and not msg.new_chat_member.last_name

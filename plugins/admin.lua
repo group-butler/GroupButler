@@ -6,7 +6,6 @@ local plugin = {}
 
 local triggers2 = {
 	'^%$(init)$',
-	'^%$(stop)$',
 	'^%$(backup)$',
 	'^%$(save)$',
 	'^%$(stats)$',
@@ -111,11 +110,6 @@ function plugin.onTextMessage(msg, blocks)
 	if blocks[1] == 'init' then
 		local n_plugins = bot_init(true) or 0
 		api.sendReply(msg, '*Bot reloaded!*\n_'..n_plugins..' plugins enabled_', true)
-	end
-	if blocks[1] == 'stop' then
-		db:bgsave()
-		is_started = false
-		api.sendReply(msg, '*Stopping bot*', true)
 	end
 	if blocks[1] == 'backup' then
 		db:bgsave()

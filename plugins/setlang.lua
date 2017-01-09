@@ -16,7 +16,7 @@ local function doKeyboard_lang()
 end
 
 function plugin.onTextMessage(msg, blocks)
-	if msg.chat.type == 'private' or (msg.chat.id < 0 and msg.from.admin) then
+	if msg.chat.type == 'private' or (msg.chat.id < 0 and u.is_allowed('config', msg.chat.id, msg.from)) then
 		local keyboard = doKeyboard_lang()
 		api.sendMessage(msg.chat.id, _("*List of available languages*:"), true, keyboard)
 	end

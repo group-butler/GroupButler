@@ -68,6 +68,7 @@ plugin.triggers = {
 		config.cmd..'(link)$',
 		config.cmd..'(setlink)$',
 		config.cmd..'(setlink) https://telegram%.me/joinchat/(.*)',
+		config.cmd..'(setlink) https://t%.me/joinchat/(.*)',
 		config.cmd..'(setlink) (-)'
 	}
 }

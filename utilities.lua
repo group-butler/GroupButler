@@ -313,7 +313,7 @@ function utilities.resolve_user(username)
 	end
 	
 	-- User could change his username
-	if username ~= '@' .. user_obj.result.username then
+	if username ~= '@' .. user_obj.result.username:lower() then
 		if user_obj.result.username then
 			-- Update it if it exists
 			db:hset('bot:usernames', user_obj.result.username:lower(), user_obj.result.id)
@@ -971,6 +971,8 @@ function utilities.logEvent(event, msg, extra)
 		msg.message_id = msg.pinned_message.message_id --because of the "go to the message" link. The normal msg.message_id brings to the service message
 	elseif event == 'report' then
 		text = _('%s\n• %s\n• <b>By</b>: %s\n• <i>Reported to %d admin(s)</i>'):format('#REPORT', chat_info, member, extra.n_admins)
+	elseif event == 'blockban' then
+		text = _('#BLOCKBAN\n• %s\n• <b>User</b>: %s [#id%d]'):format(chat_info, extra.name, extra.id)
 	elseif event == 'new_chat_member' then
 		local member = ("%s [@%s] [#id%d]"):format(msg.new_chat_member.first_name:escape_html(), msg.new_chat_member.username or '-', msg.new_chat_member.id)
 		text = _('%s\n• %s\n• <b>User</b>: %s'):format('#NEW_MEMBER', chat_info, member)

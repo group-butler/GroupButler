@@ -114,6 +114,10 @@ Kicked people can join back, banned people can't. Banned users are added to the 
 • `/ban [by reply|username|id|text mention]`: ban a user from the group.
 • `/tempban [hours|nd nh]` = ban an user for a specific amount of hours (max: one week). For now, only by reply. Short form: `/tempban 1d 7h`
 • `/unban [by reply|username|id|text mention]`: unban the user from the group.
+• `/block`: this command can be used in reply to a forwarded message (from the user you want to block), or in alterantive you can provide a list of usernames. You should block only users who are outside the group.
+Blocked users are *automatically* banned once they join the group.
+• `/unblock`: works in the same way of `/block`, but allows to remove one or more users from the list of blocked users.
+• `/blockedlist`: get the list of blocked users.
 • `/user [by reply|username|id|text mention]`: shows how many times the user has been banned *in all the groups*, and the warns received.
 • `/status [username|id]`: show the current status of the user `(member|kicked/left the chat|banned|admin/creator|never seen)`.
 A bot can't retrieve the status of an user if that user never started it before (in this case, the _never seen_ status is returned)
@@ -223,7 +227,7 @@ So with `/pin` you can generate a message to pin, and edit it how many times you
 *Note*: `/pin` supports markdown, but only `$rules` and `$title` placeholders
 ]])
 	elseif key == 'lang' then
-		-- TRANSLATORS: leave your contact information for reports mistakes in translation
+		-- TRANSLATORS: leave your contact information to reports mistakes in translation
 		return _([[
 *Group language*"
 • `/lang`: choose the group language (can be changed in private too).
@@ -265,7 +269,7 @@ The inline keyboard has six sub-menus:
 
 Moderators are normal users that can use some of the commands that are usually available only to the group administrators.
 
-By default, moderators only have the banhammer (they can use _/ban, /kick, /unban, /tempban, /warn, /nowarn, /user_).
+By default, moderators only have the banhammer (they can use _/ban, /kick, /unban, /tempban, /warn, /nowarn, /block, /unblock, /user_).
 But their powers can be expanded or restricted by the administrators: there is a button in the /config menu, called _"Moderators"_, where the permissions of the moderators can be configured.
 
 By default, every admin can promote a new moderator, or demote an user who is already a mod.
