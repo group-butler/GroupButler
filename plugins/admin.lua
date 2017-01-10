@@ -328,7 +328,18 @@ function plugin.onTextMessage(msg, blocks)
 			section = u.vtext(db:hgetall(('chat:%s:%s'):format(tostring(chat_id), config.chat_hashes[i]))) or '{}'
 			text = text..section
 		end
-		api.sendMessage(msg.chat.id, text)
+		for i=1, #config.chat_sets do
+			section = u.vtext(db:smembers(('chat:%s:%s'):format(tostring(chat_id), config.chat_sets[i]))) or '{}'
+			text = text..section
+		end
+		local res, code = api.sendMessage(msg.chat.id, text)
+		if not res and code == 118 then
+			local file_path = '/tmp/'..chat_id..'.txt'
+			local file = io.open(file_path, "w")
+			file:write(text)
+			file:close()
+			api.sendDocument(msg.chat.id, file_path)
+		end
 	end
 	if blocks[1] == 'cleandeadgroups' then
 		--not tested

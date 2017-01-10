@@ -26,9 +26,17 @@ function plugin.cron()
 		for unban_time, info in pairs(all) do
 			if os.time() > tonumber(unban_time) then
 				local chat_id, user_id = info:match('(-%d+):(%d+)')
+				local user_object = api.getChat(user_id)
+				local chat_object = api.getChat(chat_id)
 				api.unbanUser(chat_id, user_id)
 				db:hdel('tempbanned', unban_time)
 				db:srem('chat:'..chat_id..':tempbanned', user_id) --hash needed to check if an user is already tempbanned or not
+				if user_object then
+					api.sendMessage(chat_id, _("Ban expired for %s [<code>%d</code>]"):format(u.getname_final(user_object.result), user_object.result.id), 'html')
+				end
+				if chat_object then
+					api.sendMessage(user_id, _("<i>Your ban from %s has expired</i>"):format(chat_object.result.title:escape_html()), 'html')
+				end
 			end
 		end
 	end

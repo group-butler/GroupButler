@@ -574,7 +574,7 @@ function utilities.getAdminlist(chat_id)
 	for i,admin in pairs(list.result) do
 		local name
 		local s = ' ├ '
-		if admin.status == 'administrator' then
+		if admin.status == 'administrator' or admin.status == 'moderator' then
 			name = admin.user.first_name
 			if admin.user.username then
 				name = ('<a href="telegram.me/%s">%s</a>'):format(admin.user.username, name:escape_html())
@@ -998,7 +998,8 @@ function utilities.logEvent(event, msg, extra)
 			--admin name formatted: admin
 			--user name formatted: user
 			--user id: user_id
-			text = _('#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n• <b>User</b>: %s [#id%s]'):format('WARNS_RESET', extra.admin, msg.from.id, chat_info, extra.user, tostring(extra.user_id))
+			text = _('#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n• <b>User</b>: %s [#id%s]\n• <b>Warns removed</b>: <i>normal: %d, for media: %d, spamwarns: %d</i>')
+				:format('WARNS_RESET', extra.admin, msg.from.id, chat_info, extra.user, tostring(extra.user_id), extra.rem.normal, extra.rem.media, extra.rem.spam)
 		elseif event == 'promote' or event == 'demote' then
 			--PROMOTE OR DEMOTE
 			--admin name formatted: admin

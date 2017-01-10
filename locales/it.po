@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GroupButler 4.0\n"
 "Report-Msgid-Bugs-To: https://telegram.me/bac0nnn\n"
-"POT-Creation-Date: 2017-01-09 20:06+0100\n"
-"PO-Revision-Date: 2017-01-09 19:21+0100\n"
+"POT-Creation-Date: 2017-01-10 23:20+0100\n"
+"PO-Revision-Date: 2017-01-10 23:24+0100\n"
 "Last-Translator: Nicholas Guriev <guriev-ns@ya.ru>\n"
 "Language-Team: Italian\n"
 "Language: it\n"
@@ -118,8 +118,8 @@ msgid "Channels messages"
 msgstr "Messaggi da canali"
 
 #: plugins/antispam.lua:202 plugins/floodmanager.lua:115
-#: plugins/logchannel.lua:116 plugins/mediasettings.lua:68
-#: plugins/menu.lua:223 plugins/moderators.lua:201
+#: plugins/logchannel.lua:116 plugins/mediasettings.lua:68 plugins/menu.lua:223
+#: plugins/moderators.lua:201
 msgid "You're no longer an admin"
 msgstr "*Non sei* un admin!"
 
@@ -238,26 +238,36 @@ msgstr ""
 "Input non valido. Per favore, rispondi ad un documento (usa /snap per "
 "ottenerlo)"
 
-#: plugins/banhammer.lua:92
+#: plugins/banhammer.lua:35
+#, lua-format
+msgid "Ban expired for %s [<code>%d</code>]"
+msgstr "Il ban di %s [<code>%d</code>] è scaduto"
+
+#: plugins/banhammer.lua:38
+#, lua-format
+msgid "<i>Your ban from %s has expired</i>"
+msgstr "<i>E' scaduto il tuo ban da %s</i>"
+
+#: plugins/banhammer.lua:100
 msgid "_This user is a moderator. Please /demote him first_"
 msgstr ""
 "_Questo utente è un moderatore. Per favore, degradalo con /demote prima di "
 "rimuoverlo_"
 
-#: plugins/banhammer.lua:100
+#: plugins/banhammer.lua:108
 msgid "_Reply to someone_"
 msgstr "_Rispondi a qualcuno_"
 
-#: plugins/banhammer.lua:109
+#: plugins/banhammer.lua:117
 msgid "For this, you can directly use /ban"
 msgstr "Puoi usare direttamente /ban per questo"
 
-#: plugins/banhammer.lua:111
+#: plugins/banhammer.lua:119
 msgid "_The time limit is one week (168 hours)_"
 msgstr "_Il limite è una settimana (168 ore)_"
 
-#: plugins/banhammer.lua:122 plugins/banhammer.lua:146
-#: plugins/banhammer.lua:160
+#: plugins/banhammer.lua:130 plugins/banhammer.lua:154
+#: plugins/banhammer.lua:168
 msgid ""
 "I can't kick this user.\n"
 "Either I'm not an admin, or the targeted user is!"
@@ -266,7 +276,7 @@ msgstr ""
 "Probabilmente non sono un Admin, o l'utente che hai cercato di kickare è un "
 "Admin"
 
-#: plugins/banhammer.lua:133
+#: plugins/banhammer.lua:141
 #, lua-format
 msgid ""
 "Ban time updated for %s. Ban expiration: %s\n"
@@ -275,7 +285,7 @@ msgstr ""
 "Scadenza aggiornata per %s. Scadenza ban: %s\n"
 "<b>Admin:</b> %s"
 
-#: plugins/banhammer.lua:135
+#: plugins/banhammer.lua:143
 #, lua-format
 msgid ""
 "User %s banned by %s.\n"
@@ -284,17 +294,17 @@ msgstr ""
 "%s bannato da %s\n"
 "<i>Scadenza del ban:</i> %s"
 
-#: plugins/banhammer.lua:153
+#: plugins/banhammer.lua:161
 #, lua-format
 msgid "%s kicked %s!"
 msgstr "%s ha kickato %s! (ma può ancora rientrare)"
 
-#: plugins/banhammer.lua:168
+#: plugins/banhammer.lua:176
 #, lua-format
 msgid "%s banned %s!"
 msgstr "%s ha bannato %s!"
 
-#: plugins/banhammer.lua:174
+#: plugins/banhammer.lua:182
 #, lua-format
 msgid "%s unbanned by %s!"
 msgstr "%s sbannato da %s!"
@@ -309,7 +319,7 @@ msgstr ""
 
 #: plugins/block.lua:68
 msgid "<i>You can't block an admin or a mod</i>"
-msgstr ""
+msgstr "<i>Non puoi bloccare un admin od un moderatore</i>"
 
 #: plugins/block.lua:73
 msgid "<i>This user is already in the blocked list</i>"
@@ -414,7 +424,7 @@ msgstr ""
 msgid "<i>An unknown error occurred</i>. Code: %d"
 msgstr "<i>Si è verificato un errore</i>. Codice: %d"
 
-#: plugins/block.lua:155 plugins/users.lua:283 plugins/warn.lua:134
+#: plugins/block.lua:155 plugins/users.lua:283 plugins/warn.lua:139
 msgid "You are not allowed to use this button"
 msgstr "Non ti è permesso usare questo tasto"
 
@@ -1818,7 +1828,7 @@ msgstr "Ban"
 msgid "Kick"
 msgstr "Kick"
 
-#: plugins/logchannel.lua:60 utilities.lua:1027
+#: plugins/logchannel.lua:60 utilities.lua:1028
 msgid "Unban"
 msgstr "Unbanna"
 
@@ -2812,30 +2822,30 @@ msgstr "Azzera i warns"
 msgid "Remove warn"
 msgstr "Azzera i warns"
 
-#: plugins/warn.lua:34
+#: plugins/warn.lua:38
 msgid "Max number of warnings changed (media).\n"
 msgstr "Numero massimo di waning per i media aggiornato.\n"
 
-#: plugins/warn.lua:39
+#: plugins/warn.lua:43
 msgid "Max number of warnings changed.\n"
 msgstr "Numero massimo di waning aggiornato.\n"
 
-#: plugins/warn.lua:43
+#: plugins/warn.lua:47
 #, lua-format
 msgid ""
 "*Old* value was %d\n"
 "*New* max is %d"
 msgstr "Da %d a %d"
 
-#: plugins/warn.lua:49
+#: plugins/warn.lua:53
 msgid "Yes"
 msgstr "Si"
 
-#: plugins/warn.lua:49
+#: plugins/warn.lua:53
 msgid "No"
 msgstr "No"
 
-#: plugins/warn.lua:50
+#: plugins/warn.lua:54
 msgid ""
 "Do you want to continue and reset *all* the warnings received by *all* the "
 "users of the group?"
@@ -2843,34 +2853,39 @@ msgstr ""
 "Vuoi davvero resettare *tutti* i warn ricevuti da *tutti* gli utenti di "
 "questo gruppo?"
 
-#: plugins/warn.lua:65
+#: plugins/warn.lua:69
 #, lua-format
-msgid "Done! %s has been forgiven"
-msgstr "Fatto! %s è stato perdonato"
+msgid ""
+"Done! %s has been forgiven.\n"
+"<b>Warns removed</b>: <i>normal warns x%d, for media x%d, spamwarns x%d</i>"
+msgstr ""
+"Fatto! %s è stato perdonato.\n"
+"<b>Warns rimossi</b>: <i>normali x%d, per media non permessi x%d, per spam x"
+"%d</i>"
 
-#: plugins/warn.lua:82
+#: plugins/warn.lua:87
 #, lua-format
 msgid ""
 "%s <b>banned</b>: reached the max number of warnings (<code>%d/%d</code>)"
 msgstr ""
 "%s <b>bannato</b>: raggiunto il numero massimo di warn (<code>%d/%d</code>)"
 
-#: plugins/warn.lua:83
+#: plugins/warn.lua:88
 msgid "banned"
 msgstr "ha bannato"
 
-#: plugins/warn.lua:86
+#: plugins/warn.lua:91
 #, lua-format
 msgid ""
 "%s <b>kicked</b>: reached the max number of warnings (<code>%d/%d</code>)"
 msgstr ""
 "%s <b>kickato</b>: raggiunto il numero massimo di warn (<code>%d/%d</code>)"
 
-#: plugins/warn.lua:87
+#: plugins/warn.lua:92
 msgid "kicked"
 msgstr "ha kickato"
 
-#: plugins/warn.lua:93
+#: plugins/warn.lua:98
 msgid ""
 "I can't kick this user.\n"
 "Probably I'm not an Admin, or the user is an Admin iself"
@@ -2879,26 +2894,26 @@ msgstr ""
 "Probabilmente non sono un Admin, o l'utente che hai cercato di kickare è un "
 "Admin"
 
-#: plugins/warn.lua:115
+#: plugins/warn.lua:120
 #, lua-format
 msgid "%s <b>has been warned</b> (<code>%d/%d</code>)"
 msgstr "%s <b>ha ricevuto un'ammonizione</b> (<code>%d/%d</code>)"
 
-#: plugins/warn.lua:142
+#: plugins/warn.lua:147
 #, lua-format
 msgid "Warns <b>reset</b> by %s"
 msgstr "Warn <b>azzerati</b> da %s"
 
-#: plugins/warn.lua:151
+#: plugins/warn.lua:156
 msgid "The number of warnings received by this user is already <i>zero</i>"
 msgstr "Il numero di warning ricevuti da questo utente è già <i>zero</i>"
 
-#: plugins/warn.lua:156
+#: plugins/warn.lua:161
 #, lua-format
 msgid "<b>Warn removed!</b> (%d/%d)"
 msgstr "<b>Warn rimosso!</b> (%d/%d)"
 
-#: plugins/warn.lua:159
+#: plugins/warn.lua:164
 #, lua-format
 msgid ""
 "\n"
@@ -2907,14 +2922,14 @@ msgstr ""
 "\n"
 "(Admin: %s)"
 
-#: plugins/warn.lua:167
+#: plugins/warn.lua:172
 #, lua-format
 msgid "Done. All the warnings of this group have been erased by %s"
 msgstr ""
 "Fatto. Tutti i /warn ricevuti dagli utenti di questo gruppo sono stati "
 "eliminati da %s"
 
-#: plugins/warn.lua:169
+#: plugins/warn.lua:174
 msgid "_Action aborted_"
 msgstr "_Azione annullata_"
 
@@ -3324,20 +3339,23 @@ msgstr ""
 "\n"
 "<b>Azione</b>: <i>%s</i>"
 
-#: utilities.lua:1001 utilities.lua:1023
+#: utilities.lua:1001
 #, lua-format
 msgid ""
 "#%s\n"
 "• <b>Admin</b>: %s [#id%s]\n"
 "• %s\n"
-"• <b>User</b>: %s [#id%s]"
+"• <b>User</b>: %s [#id%s]\n"
+"• <b>Warns removed</b>: <i>normal: %d, for media: %d, spamwarns: %d</i>"
 msgstr ""
 "#%s\n"
 "• <b>Admin</b>: %s [#id%s]\n"
 "• %s\n"
-"• <b>Utente</b>: %s [#id%s]"
+"• <b>Utente</b>: %s [#id%s]\n"
+"• <b>Warn rimossi</b>: <i>normali: %d, per media non consentiti: %d, per "
+"spam: %d</i>"
 
-#: utilities.lua:1007
+#: utilities.lua:1008
 #, lua-format
 msgid ""
 "#%s\n"
@@ -3350,7 +3368,7 @@ msgstr ""
 "• %s\n"
 "• <b>Moderatore</b>: %s [#id%s]"
 
-#: utilities.lua:1016
+#: utilities.lua:1017
 #, lua-format
 msgid ""
 "#%s\n"
@@ -3365,9 +3383,25 @@ msgstr ""
 "• <b>Utente</b>: %s [#id%s]\n"
 "• <b>Durata</b>: %d giorni, %d ore"
 
-#: utilities.lua:1034
+#: utilities.lua:1024
+#, lua-format
+msgid ""
+"#%s\n"
+"• <b>Admin</b>: %s [#id%s]\n"
+"• %s\n"
+"• <b>User</b>: %s [#id%s]"
+msgstr ""
+"#%s\n"
+"• <b>Admin</b>: %s [#id%s]\n"
+"• %s\n"
+"• <b>Utente</b>: %s [#id%s]"
+
+#: utilities.lua:1035
 msgid "Go to the message"
 msgstr "Vai al messaggio"
+
+#~ msgid "Done! %s has been forgiven"
+#~ msgstr "Fatto! %s è stato perdonato"
 
 #~ msgid "Cancel"
 #~ msgstr "Annulla"
