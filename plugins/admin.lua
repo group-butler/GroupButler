@@ -17,6 +17,7 @@ local triggers2 = {
 	'^%$(blocked)$',
 	'^%$(unblock) (%d+)$',
 	'^%$(leave) (-%d+)$',
+	'^%$(sendpm) (%d+) (.*)$',
 	'^%$(leave)$',
 	'^%$(api errors)$',
 	'^%$(rediscli) (.*)$',
@@ -212,6 +213,16 @@ function plugin.onTextMessage(msg, blocks)
 			text = bot_leave(blocks[2])
 		end
 		api.sendMessage(msg.from.id, text)
+	end
+	if blocks[1] == 'sendpm' then
+		local id = blocks[2]
+		local text = blocks[3]
+		local send = api.sendMessage(id, text, true)
+		if not send then
+			api.sendMessage(msg.chat.id, _("Your message *could not be sent*. Because the robot is *blocking*."), true)
+		else
+			api.sendMessage(msg.chat.id, _("*Done.*"), true)
+		end
 	end
 	if blocks[1] == 'forward' then
 		if msg.chat.type == 'private' then
