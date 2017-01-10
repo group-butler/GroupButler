@@ -37,6 +37,7 @@ local triggers2 = {
 	'^%$(active) (%d%d?)$',
 	'^%$(active)$',
 	'^%$(getid)$',
+	'^%$(getidch)$',
 	'^%$(redisbackup)$',
 	'^%$(realm) (.+)$'
 }
@@ -393,6 +394,13 @@ function plugin.onTextMessage(msg, blocks)
 	if blocks[1] == 'getid' then
 		if msg.reply.forward_from then
 			api.sendMessage(msg.chat.id, '`'..msg.reply.forward_from.id..'`', true)
+		end
+	end
+	if blocks[1] == 'getidch' then
+		if msg.reply.forward_from_chat then
+			if msg.reply.forward_from_chat.type == 'channel' then
+				api.sendMessage(msg.chat.id, '`'..msg.reply.forward_from_chat.id..'`', true)
+			end
 		end
 	end
 	if blocks[1] == 'realm' then
