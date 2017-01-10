@@ -127,6 +127,7 @@ function plugin.onTextMessage(msg, blocks)
         local hash = 'bot:general'
 	    local names = db:hkeys(hash)
 	    local num = db:hvals(hash)
+		local groups = db:smembers('bot:groupsid')
 	    for i=1, #names do
 	        text = text..'- *'..names[i]..'*: `'..num[i]..'`\n'
 	    end
@@ -137,6 +138,7 @@ function plugin.onTextMessage(msg, blocks)
 	    
 	    local usernames = db:hkeys('bot:usernames')
 	    text = text..'- *usernames cache*: `'..#usernames..'`\n'
+		text = text..'- *groups cache*: `'..#groups..'`\n'
 	    
 	    --db info
 	    text = text.. '\n*DB stats*\n'
