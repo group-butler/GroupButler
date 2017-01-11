@@ -88,7 +88,6 @@ function plugin.onEveryMessage(msg)
         	    if res then
         	        local log_hammered = action
         	        if msgs_sent == (msgs_max + 1) then --send the message only if it's the message after the first message flood. Repeat after 5
-        	            u.saveBan(msg.from.id, 'flood') --save ban
         	            if action == 'ban' then
         	                message = _("%s <b>banned</b> for flood!"):format(name)
         	            else
@@ -132,7 +131,6 @@ function plugin.onEveryMessage(msg)
                             res = api.banUser(msg.chat.id, msg.from.id)
     	                end
     	                if res then --kick worked
-    	                    u.saveBan(msg.from.id, 'media') --save ban
     	                    db:hdel('chat:'..msg.chat.id..':mediawarn', msg.from.id) --remove media warns
     	                    local message
     	                    if status == 'ban' then
@@ -167,7 +165,6 @@ function plugin.onEveryMessage(msg)
                 res = api.banUser(msg.chat.id, msg.from.id)
             end
     	    if res then
-    	        u.saveBan(msg.from.id, 'rtl') --save ban
     	        local message = _("%s <b>kicked</b>: RTL character in names / messages not allowed!"):format(name)
     	        if rtl_status == 'ban' then
 					message = _("%s <b>banned</b>: RTL character in names / messages not allowed!"):format(name)
@@ -190,7 +187,6 @@ function plugin.onEveryMessage(msg)
     	            res = api.banUser(msg.chat.id, msg.from.id)
     	        end
     	        if res then
-    	            u.saveBan(msg.from.id, 'arab') --save ban
     	            local message = _("%s <b>kicked</b>: arab/persian message detected!"):format(name)
     	            if arab_status == 'ban' then
 						message = _("%s <b>banned</b>: arab/persian message detected!"):format(name)

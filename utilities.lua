@@ -1043,11 +1043,6 @@ function utilities.logEvent(event, msg, extra)
 	end
 end
 
-function utilities.saveBan(user_id, motivation)
-	local hash = 'ban:'..user_id
-	return db:hincrby(hash, motivation, 1)
-end
-
 function utilities.is_info_message_key(key)
     if key == 'Extra' or key == 'Rules' then
         return true

@@ -43,7 +43,6 @@ end
 
 local function get_user_id(msg, blocks)
 	if msg.reply then
-		print('reply')
 		return msg.reply.from.id
 	elseif blocks[2] then
 		if blocks[2]:match('@[%w_]+$') then --by username
@@ -67,51 +66,10 @@ local function get_user_id(msg, blocks)
 	end
 end
 
-local function get_name_getban(msg, blocks, user_id)
-	if blocks[2] then
-		return blocks[2]..' ('..user_id..')'
-	else
-		return msg.reply.from.first_name..' ('..user_id..')'
-	end
-end
-
-local function get_ban_info(user_id, chat_id)
-	local hash = 'ban:'..user_id
-	local ban_info = db:hgetall(hash)
-	local text
-	if not next(ban_info) then
-		text = _("Nothing to display\n")
-	else
-		local ban_index = {
-			kick = _("Kicked: *%d*"),
-			ban = _("Banned: *%d*"),
-			tempban = _("Temporarily banned: *%d*"),
-			flood = _("Removed for flooding chat: *%d*"),
-			media = _("Removed for forbidden media: *%d*"),
-			warn = _("Removed for max warnings: *%d*"),
-			arab = _("Removed for arab chars: *%d*"),
-			rtl = _("Removed for RTL char: *%d*"),
-		}
-		text = ''
-		for type,n in pairs(ban_info) do
-			text = text..ban_index[type]:format(n)..'\n'
-		end
-		if text == '' then
-			return _("Nothing to display")
-		end
-	end
-	local warns = (db:hget('chat:'..chat_id..':warns', user_id)) or 0
-	local media_warns = (db:hget('chat:'..chat_id..':mediawarn', user_id)) or 0
-	local spam_warns = (db:hget('chat:'..chat_id..':spamwarns', user_id)) or 0
-	text = text..'\n`Warnings`: '..warns..'\n`Media warnings`: '..media_warns..'\n`Spam warnings`: '..spam_warns
-	return text
-end
-
 local function do_keyboard_userinfo(user_id)
 	local keyboard = {
 		inline_keyboard = {
-			{{text = _("Remove warnings"), callback_data = 'userbutton:remwarns:'..user_id}},
-			{{text = _("🔨 Ban"), callback_data = 'userbutton:banuser:'..user_id}},
+			{{text = _("Remove warnings"), callback_data = 'userbutton:remwarns:'..user_id}}
 		}
 	}
 
@@ -119,7 +77,15 @@ local function do_keyboard_userinfo(user_id)
 end
 
 local function get_userinfo(user_id, chat_id)
-	return _("*Ban info* (globals):\n") .. get_ban_info(user_id, chat_id)
+	local text = _([[*User ID*: `%d`
+`Warnings`: *%d*
+`Media warnings`: *%d*
+`Spam warnings`: *%d*
+]])
+	local warns = (db:hget('chat:'..chat_id..':warns', user_id)) or 0
+	local media_warns = (db:hget('chat:'..chat_id..':mediawarn', user_id)) or 0
+	local spam_warns = (db:hget('chat:'..chat_id..':spamwarns', user_id)) or 0
+	return text:format(tonumber(user_id), warns, media_warns, spam_warns)
 end
 
 function plugin.onTextMessage(msg, blocks)
@@ -216,12 +182,6 @@ function plugin.onTextMessage(msg, blocks)
 		------------------ get user_id --------------------------
 		local user_id = get_user_id(msg, blocks)
 
-		if u.is_superadmin(msg.from.id) and msg.reply and not msg.cb then
-			if msg.reply.forward_from then
-				user_id = msg.reply.forward_from.id
-			end
-		end
-
 		if not user_id then
 			api.sendReply(msg, _("I've never seen this user before.\n"
 				.. "If you want to teach me who they are, forward a message from them to me"), true)
@@ -262,20 +222,6 @@ function plugin.onTextMessage(msg, blocks)
 			api.leaveChat(msg.chat.id)
 		end
 	end
-	if blocks[1] == 'view' then
-		if msg.from.admin and config.log.views then
-			local res, code = api.sendMessage(config.log.views, _("_Look at the views counter of this message to see how many users are online_"), true)
-			if not res then
-				if code == 429 then
-					api.sendReply(msg, _("_I'm sorry, this command has been used too many times lately by my users. Retry later_"), true)
-				else
-					api.sendReply(msg, _("_I'm sorry, an unknown error occured while executing this command._\n`[error code: %d]`"), true)
-				end
-			else
-				api.forwardMessage(msg.chat.id, res.result.chat.id, res.result.message_id)
-			end
-		end
-	end
 end
 
 function plugin.onCallbackQuery(msg, blocks)
@@ -283,27 +229,17 @@ function plugin.onCallbackQuery(msg, blocks)
 		api.answerCallbackQuery(msg.cb_id, _("You are not allowed to use this button")) return
 	end
 
-	if blocks[1] == 'banuser' then
-		local user_id = blocks[2]
-
-		local res, text = api.banUser(msg.chat.id, user_id)
-		if res then
-			u.saveBan(user_id, 'ban')
-			local name = u.getname_final(msg.from)
-			u.logEvent('ban', msg, {admin = name, user = ('<code>%s</code>'):format(user_id), user_id = user_id, motivation = _("Ban from the /user command")})
-			text = _("<i>Banned!</i>\nBanned by: %s"):format(name)
-		end
-		api.editMessageText(msg.chat.id, msg.message_id, text, 'html')
-	end
 	if blocks[1] == 'remwarns' then
-		db:hdel('chat:'..msg.chat.id..':warns', blocks[2])
-		db:hdel('chat:'..msg.chat.id..':mediawarn', blocks[2])
-		db:hdel('chat:'..msg.chat.id..':spamwarns', blocks[2])
+		local removed = {
+			normal = db:hdel('chat:'..msg.chat.id..':warns', blocks[2]),
+			media = db:hdel('chat:'..msg.chat.id..':mediawarn', blocks[2]),
+			spam = db:hdel('chat:'..msg.chat.id..':spamwarns', blocks[2])
+		}
 
         local name = u.getname_final(msg.from)
 		local text = _("The number of warnings received by this user has been <b>reset</b>, by %s"):format(name)
 		api.editMessageText(msg.chat.id, msg.message_id, text:format(name), 'html')
-		u.logEvent('nowarn', msg, {admin = name, user = ('<code>%s</code>'):format(msg.target_id), user_id = msg.target_id})
+		u.logEvent('nowarn', msg, {admin = name, user = ('<code>%s</code>'):format(msg.target_id), user_id = msg.target_id, rem = removed})
     end
     if blocks[1] == 'recache' and msg.from.admin then
 		local missing_sec = tonumber(db:ttl('cache:chat:'..msg.target_id..':admins') or 0)
@@ -337,10 +273,8 @@ plugin.triggers = {
 		config.cmd..'(user) (.*)',
 		config.cmd..'(leave)$',
 		config.cmd..'(staff)$',
-		config.cmd..'(view)s?$',
 	},
 	onCallbackQuery = {
-		'^###cb:userbutton:(banuser):(%d+)$',
 		'^###cb:userbutton:(remwarns):(%d+)$',
 		'^###cb:(recache):'
 	}

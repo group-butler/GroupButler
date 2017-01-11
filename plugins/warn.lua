@@ -6,12 +6,8 @@ local plugin = {}
 
 local function doKeyboard_warn(user_id)
 	local keyboard = {}
-    keyboard.inline_keyboard = {
-    	{
-    		{text = _("Reset warns"), callback_data = 'resetwarns:'..user_id},
-    		{text = _("Remove warn"), callback_data = 'removewarn:'..user_id}
-    	}
-    }
+    keyboard.inline_keyboard = {{{text = _("Remove warn"), callback_data = 'removewarn:'..user_id}}}
+    
     return keyboard
 end
 
@@ -101,7 +97,6 @@ function plugin.onTextMessage(msg, blocks)
 	    		if num > nmax then db:hset(hash, msg.reply.from.id, nmax) end --avoid to have a number of warnings bigger than the max
 		    	text = motivation
 		    else
-		    	u.saveBan(msg.reply.from.id, 'warn') --add ban
 		    	forget_user_warns(msg.chat.id, msg.reply.from.id)
 		    end
 			--if the user reached the max num of warns, kick and send message
@@ -139,15 +134,6 @@ function plugin.onCallbackQuery(msg, blocks)
 		api.answerCallbackQuery(msg.cb_id, _("You are not allowed to use this button")) return
 	end
 	
-	if blocks[1] == 'resetwarns' then
-    	local user_id = blocks[2]
-    	forget_user_warns(msg.chat.id, user_id)
-		
-		local admin = u.getname_final(msg.from)
-		local text = _("Warns <b>reset</b> by %s"):format(admin)
-		api.editMessageText(msg.chat.id, msg.message_id, text, 'html')
-		u.logEvent('nowarn', msg, {admin = admin, user = ('<code>%s</code>'):format(user_id), user_id = user_id})
-	end
 	if blocks[1] == 'removewarn' then
     	local user_id = blocks[2]
 		local num = db:hincrby('chat:'..msg.chat.id..':warns', user_id, -1) --add one warn
@@ -184,8 +170,8 @@ plugin.triggers = {
 		config.cmd..'(nowarn)s?$',
 		config.cmd..'(warn) (.*)$',
 		config.cmd..'(cleanwarn)s?$',
-		config.cmd..'(sw)%s',
-		config.cmd..'(sw)$'
+		'[/!#](sw)%s',
+		'[/!#](sw)$'
 	},
 	onCallbackQuery = {
 		'^###cb:(resetwarns):(%d+)$',

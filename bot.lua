@@ -318,7 +318,7 @@ local function parseMessageFunction(update)
 		end
 		if msg.caption then
 			local caption_lower = msg.caption:lower()
-			if caption_lower:match('telegram%.me') or caption_lower:match('telegram%.dog') then
+			if caption_lower:match('telegram%.me') or caption_lower:match('telegram%.dog') or caption_lower:match('t%.me') then
 				msg.spam = 'links'
 			end
 		end

@@ -132,7 +132,6 @@ function plugin.onTextMessage(msg, blocks)
 		    		end
 		    		api.sendReply(msg, motivation, true)
 		    	else
-		    		u.saveBan(user_id, 'tempban') --save the ban
 		    		db:hset('tempbanned', unban_time, val) --set the hash
 					local time_reply, time_table = get_time_reply(temp)
 					local is_already_tempbanned = db:sismember('chat:'..chat_id..':tempbanned', user_id) --hash needed to check if an user is already tempbanned or not
@@ -156,7 +155,6 @@ function plugin.onTextMessage(msg, blocks)
 		    		end
 		    		api.sendReply(msg, motivation, true)
 		    	else
-		    		u.saveBan(user_id, 'kick')
 		    		u.logEvent('kick', msg, {motivation = get_motivation(msg), admin = admin, user = kicked, user_id = user_id})
 		    		api.sendMessage(msg.chat.id, _("%s kicked %s!"):format(admin, kicked), 'html')
 		    	end
@@ -170,8 +168,6 @@ function plugin.onTextMessage(msg, blocks)
 		    		end
 		    		api.sendReply(msg, motivation, true)
 		    	else
-		    		--save the ban
-		    		u.saveBan(user_id, 'ban')
 		    		u.logEvent('ban', msg, {motivation = get_motivation(msg), admin = admin, user = kicked, user_id = user_id})
 		    		api.sendMessage(msg.chat.id, _("%s banned %s!"):format(admin, kicked), 'html')
 		    	end
