@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GroupButler 4.0\n"
 "Report-Msgid-Bugs-To: https://telegram.me/bac0nnn\n"
-"POT-Creation-Date: 2017-01-05 14:19+0300\n"
-"PO-Revision-Date: 2017-01-05 18:23+0330\n"
+"POT-Creation-Date: 2017-01-11 13:50+0300\n"
+"PO-Revision-Date: 2017-01-11 15:25+0330\n"
 "Last-Translator: Nicholas Guriev <guriev-ns@ya.ru>\n"
 "Language-Team: Persian\n"
 "Language: fa\n"
@@ -55,7 +55,7 @@ msgstr "یک کاربر ساده است"
 #: plugins/antispam.lua:57
 #, lua-format
 msgid "%s %s for <b>spam</b>! (%d/%d)"
-msgstr "%s %s برای<b>اسپم</b>! (%d/%d)"
+msgstr "کاربر %s به دلیل اسپم %s شد. (%d/%d)"
 
 #: plugins/antispam.lua:60
 #, lua-format
@@ -117,13 +117,21 @@ msgstr "لینک تلگرام"
 msgid "Channels messages"
 msgstr "فوروارد از کانال"
 
+#: plugins/antispam.lua:160
+msgid "Kick 👞"
+msgstr "اخراج 👞"
+
+#: plugins/antispam.lua:162
+msgid "Ban 🔨"
+msgstr "مسدود 🔨"
+
 #: plugins/antispam.lua:202 plugins/floodmanager.lua:115
 #: plugins/logchannel.lua:105 plugins/mediasettings.lua:68 plugins/menu.lua:221
-#: plugins/moderators.lua:202
+#: plugins/moderators.lua:208
 msgid "You're no longer an admin"
 msgstr "شما دیگه مدیر نیستید"
 
-#: plugins/antispam.lua:204
+#: plugins/antispam.lua:210
 msgid ""
 "*Anti-spam settings*\n"
 "Choose which kind of spam you want to forbid\n"
@@ -135,11 +143,11 @@ msgstr ""
 "• ✅ = آزاد\n"
 "• ❌ = ممنوع\n"
 
-#: plugins/antispam.lua:239
+#: plugins/antispam.lua:245
 msgid "_The whitelist was already empty_"
 msgstr "_لیست سفید خالیست_"
 
-#: plugins/antispam.lua:242
+#: plugins/antispam.lua:248
 #, lua-format
 msgid ""
 "*Whitelist cleaned*\n"
@@ -148,17 +156,17 @@ msgstr ""
 "لیست سفید حذف شد\n"
 "%d لینک حذف شد"
 
-#: plugins/antispam.lua:250 plugins/antispam.lua:259 plugins/antispam.lua:281
-#: plugins/antispam.lua:290
+#: plugins/antispam.lua:256 plugins/antispam.lua:265 plugins/antispam.lua:287
+#: plugins/antispam.lua:296
 msgid "_I can't find any url in this message_"
 msgstr "من نمیتوانم url در این پیام پیدا کنم"
 
-#: plugins/antispam.lua:253
+#: plugins/antispam.lua:259
 #, lua-format
 msgid "%d link(s) will be whitelisted"
 msgstr "%d لینک به لیست سفید اضافه شد"
 
-#: plugins/antispam.lua:255 plugins/antispam.lua:286
+#: plugins/antispam.lua:261 plugins/antispam.lua:292
 #, lua-format
 msgid ""
 "\n"
@@ -167,7 +175,7 @@ msgstr ""
 "\n"
 "%d لینک قبلا در لیست سفید قرار داشته است"
 
-#: plugins/antispam.lua:267
+#: plugins/antispam.lua:273
 msgid ""
 "_The whitelist is empty_.\n"
 "Use `/wl [links]` to add some links to the whitelist"
@@ -175,7 +183,7 @@ msgstr ""
 "لیست سفید خالی است\n"
 "از دستور `لینک wl/` برای افزودن لینک به لیست سفید استفاده کنید"
 
-#: plugins/antispam.lua:269
+#: plugins/antispam.lua:275
 msgid ""
 "Whitelisted links:\n"
 "\n"
@@ -183,7 +191,7 @@ msgstr ""
 "لیست سفید لینک ها:\n"
 "\n"
 
-#: plugins/antispam.lua:284
+#: plugins/antispam.lua:290
 #, lua-format
 msgid "%d link(s) removed from the whitelist"
 msgstr "%d لینک از لیست سفید حذف شد"
@@ -571,12 +579,12 @@ msgstr "تنظیمات ضد تکرار"
 #: plugins/floodmanager.lua:140
 #, lua-format
 msgid "❎ [%s] will be ignored by the anti-flood"
-msgstr "❎ [%s] توسط ضد تکرار نادیده گرفته می شود"
+msgstr "❎ توسط ضد تکرار نادیده گرفته می شود"
 
 #: plugins/floodmanager.lua:143
 #, lua-format
 msgid "🚫 [%s] won't be ignored by the anti-flood"
-msgstr "[%s] 🚫توسط ضد تکرار محاسبه خواهد شد"
+msgstr " 🚫توسط ضد تکرار محاسبه خواهد شد"
 
 #: plugins/help.lua:9
 #, lua-format
@@ -1845,115 +1853,129 @@ msgstr "انتخاب کنید ربات وقتی با تایپ فارسی/عرب�
 
 #: plugins/menu.lua:32
 msgid ""
+"Bots will be banned when added by normal users"
+msgstr "زمانی که ربات توسط کاربرهای معمولی اضافه شود، اخراج می شود."
+
+#: plugins/menu.lua:34
+msgid ""
 "Select what the bot should do when someone sends a message with the RTL "
 "character, or has it in his name"
 msgstr "انتخاب کنید ربات وقتی با RTL روبرو شد چکار کند، و یا در نام کاربری شخص"
 
-#: plugins/menu.lua:34
+#: plugins/menu.lua:36
 msgid "Change how many times an user has to be warned before being kicked/banned"
 msgstr "انتخاب کنید کاربران قبل از اخراج/مسدود چند اخطار بتوانند دریافت کنند"
 
-#: plugins/menu.lua:36
+#: plugins/menu.lua:38
 msgid ""
 "Change the action to perform when an user reaches the max. number of warnings"
 msgstr "عکس العمل ربات بعد از رسیدن کاربر به حداکثر اخطارها را انتخاب کنید"
 
-#: plugins/menu.lua:47
+#: plugins/menu.lua:49
 msgid "The new value is too high ( > 12)"
 msgstr "خیلی بزرگ است ( > 12)"
 
-#: plugins/menu.lua:54
+#: plugins/menu.lua:56
 msgid "The new value is too low ( < 1)"
 msgstr "خیلی کوچک است ( < 1)"
 
-#: plugins/menu.lua:63
+#: plugins/menu.lua:65
 msgid "New action on max number of warns received: ban"
 msgstr "عکس العمل جدید برای رسیدن به حداکثر اخطارها: مسدود در گروه"
 
-#: plugins/menu.lua:66
+#: plugins/menu.lua:68
 msgid "New action on max number of warns received: kick"
 msgstr "عکس العمل جدید برای رسیدن به حداکثر اخطارها: اخراج"
 
-#: plugins/menu.lua:73
+#: plugins/menu.lua:75
 msgid "Senders of arab messages will be kicked"
 msgstr "ارسال کننده های تایپ فارسی/عربی اخراج خواهند شد"
 
-#: plugins/menu.lua:74
+#: plugins/menu.lua:76
 msgid "Senders of arab messages will be banned"
 msgstr "ارسال کننده های تایپ فارسی/عربی در گروه مسدود خواهند شد"
 
-#: plugins/menu.lua:75
+#: plugins/menu.lua:77
 msgid "Arab language allowed"
 msgstr "تایپ فارسی/عربی در گروه مجاز شد"
 
-#: plugins/menu.lua:76
+#: plugins/menu.lua:78
 msgid "The use of the RTL character will lead to a kick"
 msgstr "استفاده از کاراکتر RTL باعث اخراج شدن می شود"
 
-#: plugins/menu.lua:77
+#: plugins/menu.lua:79
 msgid "The use of the RTL character will lead to a ban"
 msgstr "استفاده از کاراکتر RTL باعث مسدود شدن می شود"
 
-#: plugins/menu.lua:78
+#: plugins/menu.lua:80
 msgid "RTL character allowed"
 msgstr "کاراکتر RTL مجاز شد"
 
-#: plugins/menu.lua:153
+#: plugins/menu.lua:155
 msgid "Welcome"
 msgstr "خوش آمدگویی"
 
-#: plugins/menu.lua:154
+#: plugins/menu.lua:156
 msgid "Goodbye"
 msgstr "پیام خداحافظی"
 
-#: plugins/menu.lua:155 utilities.lua:658
+#: plugins/menu.lua:157 utilities.lua:658
 msgid "Extra"
 msgstr "دستورهای اضافه"
 
-#: plugins/menu.lua:156 utilities.lua:659
+#: plugins/menu.lua:158 utilities.lua:659
 msgid "Anti-flood"
 msgstr "ضد تکرار"
 
-#: plugins/menu.lua:157 utilities.lua:661
+#: plugins/menu.lua:159 utilities.lua:661
 msgid "Silent mode"
 msgstr "حالت سکوت"
 
-#: plugins/menu.lua:159 utilities.lua:663
+#: plugins/menu.lua:160 utilities.lua:663
+msgid "Rules"
+msgstr "قوانین"
+
+#: plugins/menu.lua:161 utilities.lua:664
 msgid "Arab"
-msgstr "ضد تایپ فارسی/عربی"
+msgstr "ضد تایپ فارسی"
 
-#: plugins/menu.lua:160 utilities.lua:664
+#: plugins/menu.lua:162 utilities.lua:664
 msgid "RTL"
-msgstr "RTL"
+msgstr "چپ به راست"
 
-#: plugins/menu.lua:161 utilities.lua:660
+#: plugins/menu.lua:163 utilities.lua:660
 msgid "Ban bots"
-msgstr "مسدود کردن سایر ربات ها"
+msgstr "ضد ربات"
 
-#: plugins/menu.lua:162 utilities.lua:665
+#: plugins/menu.lua:164 utilities.lua:665
 msgid "Reports"
 msgstr "گزارش"
 
-#: plugins/menu.lua:163
+#: plugins/menu.lua:165
 msgid "Welcome + rules button"
-msgstr "خوش آمدگویی+قوانین"
+msgstr "خوش آمد و قوانین"
 
 #: plugins/menu.lua:195
+msgid "👞 kick"
+msgstr "👞 اخراج"
+
+#: plugins/menu.lua:197
 msgid "🔨️ ban"
 msgstr " 🔨️ مسدود"
 
-#: plugins/menu.lua:199
+#: plugins/menu.lua:201
 msgid "Warns: "
 msgstr "اخطارها:"
 
-#: plugins/menu.lua:204
+#: plugins/menu.lua:206
 msgid "Action:"
 msgstr "عملکرد:"
 
-#: plugins/menu.lua:223
+#: plugins/menu.lua:225
 msgid ""
 "Manage the settings of the group. Click on the left column to get a small hint"
 msgstr ""
+"تنظیمات گروه خودتون رو مدیریت کنید. روی گزینه های سمت راست بزنید تا راهنمای هرکدام را ببینید."
 
 #: plugins/moderators.lua:28 plugins/moderators.lua:55
 msgid "Reply to someone, or mention him"
@@ -3692,11 +3714,6 @@ msgstr "رفتن به پیام"
 #~ "`/setrules [group rules]` = set the new regulation for the group (the old "
 #~ "will be overwritten).\n"
 #~ "`/setrules -` = delete the current rules.\n"
-#~ "`/addrules [text]` = add some text at the end of the existing rules.\n"
-#~ "`/setabout [group description]` = set a new description for the group (the "
-#~ "old will be overwritten).\n"
-#~ "`/setabout -` = delete the current description.\n"
-#~ "`/addabout [text]` = add some text at the end of the existing description."
 #~ "\"\n"
 #~ "\n"
 #~ "*Note*: the markdown is supported. If the text sent breaks the markdown, "
@@ -3709,11 +3726,6 @@ msgstr "رفتن به پیام"
 #~ "`/setrules [group rules]` = تعریف قانون جدید برای گروه (این دستور قوانین "
 #~ "قبلی را حذف خواهد کرد)\n"
 #~ "`/setrules -` = delete the current rules.\n"
-#~ "`/addrules [text]` = اضافه کردن متنی به پایان قوانین گروه\n"
-#~ "`/setabout [group description]` = تعریف توضییحات جدید برای گروه (این دستور "
-#~ "توضییحات قبلی را حذف خواهد کرد)\n"
-#~ "`/setabout -` = delete the current description.\n"
-#~ "`/addabout [text]` = اضافه کردن متنی به پایان توضییحات گروه\n"
 #~ "\n"
 #~ "*تذکر:* نشانه دار کردن در این قسمت پشتیبانی می شود..\n"
 #~ "\"\n"
@@ -3745,10 +3757,6 @@ msgstr "رفتن به پیام"
 #~ msgstr "_من به شما پیام خصوصی خواهم داد_"
 
 #, fuzzy
-#~ msgid "Please write something next this poor `/addabout`"
-#~ msgstr "لطفا بعد از دستور \"/addabout\" متنی بنویسید"
-
-#, fuzzy
 #~ msgid ""
 #~ "*No rules* for this group.\n"
 #~ "Use `/setrules [rules]` to set them"
@@ -3765,52 +3773,8 @@ msgstr "رفتن به پیام"
 #~ "\"%s\""
 
 #, fuzzy
-#~ msgid ""
-#~ "*No description for this group*.\n"
-#~ "Use `/setabout [bio]` to set-up a new description"
-#~ msgstr ""
-#~ "توضییحاتی برای گروه ذخیره نشده\n"
-#~ " از دستور /setabout برای ذخیره استفاده کنید"
-
-#, fuzzy
-#~ msgid ""
-#~ "*Description added:*\n"
-#~ "\"%s\""
-#~ msgstr ""
-#~ "*توضییحات اضافه شد:*\n"
-#~ "\"%s\""
-
-#, fuzzy
-#~ msgid "Please write something next this poor `/setabout`"
-#~ msgstr "لطفا بعد از دستور \"/setabout\" متنی بنویسید "
-
-#, fuzzy
-#~ msgid "The bio has been cleaned."
-#~ msgstr "توضییحات حذف شد"
-
-#, fuzzy
-#~ msgid "New description *saved successfully*!"
-#~ msgstr "توضییحات جدید با موفقیت ذخیره شد!"
-
-#, fuzzy
 #~ msgid "*Global stats* for "
 #~ msgstr "*وضعیت جهانی* for "
-
-#, fuzzy
-#~ msgid "No description for this group."
-#~ msgstr "هیچ توضییحاتی ذخیره نشده"
-
-#, fuzzy
-#~ msgid "Please write something next this poor \"/addrules\""
-#~ msgstr "لطفا بعد از دستور \"/addrules\" متنی بنویسید"
-
-#, fuzzy
-#~ msgid ""
-#~ "*Banned users*:\n"
-#~ "\n"
-#~ msgstr ""
-#~ "*کاربران مسدود شده*:\n"
-#~ "\n"
 
 #, fuzzy
 #~ msgid ""
@@ -3825,16 +3789,8 @@ msgstr "رفتن به پیام"
 #~ "👤 = _ارسال به خصوصی کاربران_"
 
 #, fuzzy
-#~ msgid "_An error occurred while cleaning the banlist_"
-#~ msgstr "_یک اشکال در هنگام تمیز کردن لیست پیش آمد_"
-
-#, fuzzy
 #~ msgid "_I've sent you the anti-flood menu in private_"
 #~ msgstr "_تنظیمات ضد اسپم به شما ارسال می شود_"
-
-#, fuzzy
-#~ msgid "_The banlist has been cleaned_"
-#~ msgstr "_لیست مسدودین تمیز شد_"
 
 #, fuzzy
 #~ msgid "%s is *already banned*!"
