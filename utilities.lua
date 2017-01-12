@@ -346,6 +346,7 @@ function utilities.get_sm_error_string(code)
 end
 
 function string:escape_magic()
+	self = self:gsub('%%', '%%%%')
 	self = self:gsub('%-', '%%-')
 	self = self:gsub('%?', '%%?')
 	
