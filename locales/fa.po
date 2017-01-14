@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GroupButler 4.0\n"
 "Report-Msgid-Bugs-To: https://telegram.me/bac0nnn\n"
-"POT-Creation-Date: 2017-01-11 13:50+0300\n"
-"PO-Revision-Date: 2017-01-11 15:25+0330\n"
+"POT-Creation-Date: 2017-01-12 22:16+0100\n"
+"PO-Revision-Date: 2017-01-14 11:31+0330\n"
 "Last-Translator: Nicholas Guriev <guriev-ns@ya.ru>\n"
 "Language-Team: Persian\n"
 "Language: fa\n"
@@ -27,8 +27,8 @@ msgid ""
 "\n"
 "Hello everyone!\n"
 "My name is %s, and I'm a bot made to help administrators in their hard work.\n"
-"Unfortunately I can't work in normal groups, please ask the creator to convert "
-"this group to a supergroup.\n"
+"Unfortunately I can't work in normal groups, please ask the creator to "
+"convert this group to a supergroup.\n"
 msgstr ""
 "\n"
 "سلام دوستان!\n"
@@ -101,10 +101,12 @@ msgstr "آزاد/ممنوع کردن  پیام فوروارد شده از کان
 
 #: plugins/antispam.lua:131
 msgid "Set how many times the bot should warn the user before kick/ban him"
-msgstr "انتخاب کنید کاربران قبل از اخراج/مسدود شدن چند اخطار بتوانند دریافت کنند"
+msgstr ""
+"انتخاب کنید کاربران قبل از اخراج/مسدود شدن چند اخطار بتوانند دریافت کنند"
 
-#: plugins/antispam.lua:133 plugins/floodmanager.lua:15 plugins/logchannel.lua:31
-#: plugins/menu.lua:38 plugins/moderators.lua:150 plugins/private_settings.lua:12
+#: plugins/antispam.lua:133 plugins/floodmanager.lua:15
+#: plugins/logchannel.lua:41 plugins/menu.lua:40 plugins/moderators.lua:149
+#: plugins/private_settings.lua:12
 msgid "Description not available"
 msgstr "توضییحات دردسترس نیست"
 
@@ -125,9 +127,9 @@ msgstr "اخراج 👞"
 msgid "Ban 🔨"
 msgstr "مسدود 🔨"
 
-#: plugins/antispam.lua:202 plugins/floodmanager.lua:115
-#: plugins/logchannel.lua:105 plugins/mediasettings.lua:68 plugins/menu.lua:221
-#: plugins/moderators.lua:208
+#: plugins/antispam.lua:208 plugins/floodmanager.lua:115
+#: plugins/logchannel.lua:116 plugins/mediasettings.lua:68 plugins/menu.lua:223
+#: plugins/moderators.lua:201
 msgid "You're no longer an admin"
 msgstr "شما دیگه مدیر نیستید"
 
@@ -241,26 +243,36 @@ msgstr "ورودی نامعتبر. لطفا فایل را پاسخ یا Reply ک
 #: plugins/backup.lua:144
 msgid "Invalid input. Please reply to the backup file (/snap command to get it)"
 msgstr ""
-"ورودی نامعتبر. لطفا فایل پشتیبانی را پاسخ یا Reply کنید (snap/ برای گرفتن فایل "
-"پشتیبانی)"
+"ورودی نامعتبر. لطفا فایل پشتیبانی را پاسخ یا Reply کنید (snap/ برای گرفتن "
+"فایل پشتیبانی)"
 
-#: plugins/banhammer.lua:92
+#: plugins/banhammer.lua:35
+#, lua-format
+msgid "Ban expired for %s [<code>%d</code>]"
+msgstr "مدت زمان محرومیت برای %s [<code>%d</code>] تمام شد"
+
+#: plugins/banhammer.lua:38
+#, lua-format
+msgid "<i>Your ban from %s has expired</i>"
+msgstr "محرومیت شما از %s پایان یافت"
+
+#: plugins/banhammer.lua:100
 msgid "_This user is a moderator. Please /demote him first_"
 msgstr "این کاربر معاون گروه است. لطفا ابتدا با demote/ مقام او را بگیرید"
 
-#: plugins/banhammer.lua:100
+#: plugins/banhammer.lua:108
 msgid "_Reply to someone_"
 msgstr "پیام یک کاربر را *Reply* (پاسخ) کنید"
 
-#: plugins/banhammer.lua:109
+#: plugins/banhammer.lua:117
 msgid "For this, you can directly use /ban"
 msgstr "برای اینکار شما میتوانید از ban/ استفاده کنید."
 
-#: plugins/banhammer.lua:111
+#: plugins/banhammer.lua:119
 msgid "_The time limit is one week (168 hours)_"
 msgstr "زمان محدودیت یک هفته میباشد (168 ساعت)"
 
-#: plugins/banhammer.lua:122 plugins/banhammer.lua:146 plugins/banhammer.lua:160
+#: plugins/banhammer.lua:130 plugins/banhammer.lua:153 plugins/banhammer.lua:166
 msgid ""
 "I can't kick this user.\n"
 "Either I'm not an admin, or the targeted user is!"
@@ -268,7 +280,7 @@ msgstr ""
 "من نمیتوانم این کاربر را اخراج کنم.\n"
 "ممکنه ادمین نباشم یا این کاربر ادمین است!"
 
-#: plugins/banhammer.lua:133
+#: plugins/banhammer.lua:140
 #, lua-format
 msgid ""
 "Ban time updated for %s. Ban expiration: %s\n"
@@ -277,7 +289,7 @@ msgstr ""
 "زمان محرومیت برای %s بروزرسانی شد. پایان محرومیت: %s\n"
 "<b>مدیر</b>: %s"
 
-#: plugins/banhammer.lua:135
+#: plugins/banhammer.lua:142
 #, lua-format
 msgid ""
 "User %s banned by %s.\n"
@@ -286,20 +298,139 @@ msgstr ""
 "کاربر %s از ورود به گروه توسط  %s محروم شد.\n"
 "<i>مدت محرومیت:</i> %s"
 
-#: plugins/banhammer.lua:153
+#: plugins/banhammer.lua:159
 #, lua-format
 msgid "%s kicked %s!"
 msgstr "%s اخراج %s!"
 
-#: plugins/banhammer.lua:168
+#: plugins/banhammer.lua:172
 #, lua-format
 msgid "%s banned %s!"
 msgstr "%s مسدود کرد %s"
 
-#: plugins/banhammer.lua:174
+#: plugins/banhammer.lua:178
 #, lua-format
 msgid "%s unbanned by %s!"
 msgstr "کاربر %s توسط %s از لیست مسدودین خارج شد!"
+
+#: plugins/block.lua:64
+msgid ""
+"<i>Please reply to a forwarded message to block the original sender, or "
+"provide me a list of usernames</i>"
+msgstr ""
+"لطفا روی پیام فوروارد شده ریپلای کنید تا ارسال کننده اصلی را مسدود کنید، یا "
+"لیست نام های کاربری را به من بدهید"
+
+#: plugins/block.lua:68
+msgid "<i>You can't block an admin or a mod</i>"
+msgstr "شما نمیتوانید مدیر یا معاون را مسدود کنید"
+
+#: plugins/block.lua:73
+msgid "<i>This user is already in the blocked list</i>"
+msgstr "این کاربر قبلا در لیست مسدودین بوده است"
+
+#: plugins/block.lua:76
+#, lua-format
+msgid "%s added to the blocked list"
+msgstr "%s توی لیست مسدودین افزوده شده"
+
+#: plugins/block.lua:82
+msgid "<i>This user is not in the blocked list</i>"
+msgstr "این کاربر در لیست مسدودین نیست"
+
+#: plugins/block.lua:85
+#, lua-format
+msgid "%s removed from the blocked list"
+msgstr "%s  از لیست مسدودین حذف شد"
+
+#: plugins/block.lua:94
+#, lua-format
+msgid "<b>New users blocked</b>: %d"
+msgstr "کاربرهای جدید مسدود شده: %d"
+
+#: plugins/block.lua:97
+#, lua-format
+msgid "<b>Users unblocked</b>: %d"
+msgstr "کاربرهای از مسدود خارج شده: %d"
+
+#: plugins/block.lua:100
+#, lua-format
+msgid ""
+"\n"
+"\n"
+"Unknown usernames:\n"
+"%s"
+msgstr ""
+"\n"
+"\n"
+"نام های کربری ناشناس:\n"
+"%s"
+
+#: plugins/block.lua:107
+msgid "Where do you want to receive the list?"
+msgstr "کجا میخواهید لیست مسدودین را دریافت کنید؟"
+
+#: plugins/block.lua:109
+msgid "Here"
+msgstr "اینجا"
+
+#: plugins/block.lua:110
+msgid "Private"
+msgstr "خصوصی"
+
+#: plugins/block.lua:122
+msgid "<i>The list is empty</i>"
+msgstr "لیست خالی است "
+
+#: plugins/block.lua:124
+#, lua-format
+msgid ""
+"<b>List of blocked users (%d)</b>:\n"
+"            \n"
+"- %s\n"
+"\n"
+"<i>When a blocked user joins and gets banned, he's removed from this list</i>"
+msgstr ""
+"لیست کاربران مسدود شده (%d)\n"
+"            \n"
+"- %s\n"
+"\n"
+"وقتی که کاربر مسدود شده ای از در لیست محرومین گروه قرار گیرد (ban)، از این "
+"لیست حذف خواهد شد"
+
+#: plugins/block.lua:133
+msgid "I've sent you the list in private"
+msgstr "لیست را به خصوصی شما ارسال کردم"
+
+#: plugins/block.lua:142
+msgid ""
+"<i>I'm sorry, the list is too long. I can't show you the whole list now. This "
+"problem will be solved soon</i>"
+msgstr ""
+"متاسفام این لیست بسیار طولانی است. من نمیتوانم لیست کامل را الان به شما نشان "
+"دهم. این مشکل بزودی رفع خواهد شد"
+
+#: plugins/block.lua:144
+msgid "<i>Something went wrong with the formattation of the list</i>"
+msgstr "فورمت لیست مشکل دارد "
+
+#: plugins/block.lua:146
+#, lua-format
+msgid ""
+"You need to start me first.\n"
+"Click/tap here: t.me/%s"
+msgstr ""
+"شما باید اول من را start کنید\n"
+"روی این بزنید: t.me/%s"
+
+#: plugins/block.lua:149
+#, lua-format
+msgid "<i>An unknown error occurred</i>. Code: %d"
+msgstr "یک مشکل ناشناس رخ داده است. کد: %d"
+
+#: plugins/block.lua:155 plugins/users.lua:229 plugins/warn.lua:134
+msgid "You are not allowed to use this button"
+msgstr "شما قادر به استفاده از این دکمه نیستید"
 
 #: plugins/configure.lua:10
 msgid "🛠 Menu"
@@ -345,7 +476,7 @@ msgstr "✅ | روشن"
 msgid "❌ | OFF"
 msgstr "❌ | خاموش"
 
-#: plugins/dashboard.lua:17 plugins/menu.lua:193
+#: plugins/dashboard.lua:17 plugins/menu.lua:195
 msgid "👞 kick"
 msgstr "👞 اخراج"
 
@@ -361,23 +492,23 @@ msgstr "متن"
 msgid "Forwards"
 msgstr "فوروارد"
 
-#: plugins/dashboard.lua:25 plugins/dashboard.lua:139 plugins/floodmanager.lua:53
-#: plugins/mediasettings.lua:28
+#: plugins/dashboard.lua:25 plugins/dashboard.lua:139
+#: plugins/floodmanager.lua:53 plugins/mediasettings.lua:28
 msgid "Stickers"
 msgstr "استیکر"
 
-#: plugins/dashboard.lua:26 plugins/dashboard.lua:131 plugins/floodmanager.lua:54
-#: plugins/mediasettings.lua:20
+#: plugins/dashboard.lua:26 plugins/dashboard.lua:131
+#: plugins/floodmanager.lua:54 plugins/mediasettings.lua:20
 msgid "Images"
 msgstr "عکس"
 
-#: plugins/dashboard.lua:27 plugins/dashboard.lua:132 plugins/floodmanager.lua:55
-#: plugins/mediasettings.lua:21
+#: plugins/dashboard.lua:27 plugins/dashboard.lua:132
+#: plugins/floodmanager.lua:55 plugins/mediasettings.lua:21
 msgid "GIFs"
 msgstr "گیف"
 
-#: plugins/dashboard.lua:28 plugins/dashboard.lua:133 plugins/floodmanager.lua:56
-#: plugins/mediasettings.lua:22
+#: plugins/dashboard.lua:28 plugins/dashboard.lua:133
+#: plugins/floodmanager.lua:56 plugins/mediasettings.lua:22
 msgid "Videos"
 msgstr "فیلم"
 
@@ -413,11 +544,11 @@ msgstr "تنظیمات"
 msgid "Admins"
 msgstr "مدیران"
 
-#: plugins/dashboard.lua:56 plugins/menu.lua:158 utilities.lua:662
+#: plugins/dashboard.lua:56 plugins/menu.lua:160 utilities.lua:662
 msgid "Rules"
 msgstr "قوانین"
 
-#: plugins/dashboard.lua:57 plugins/help.lua:316
+#: plugins/dashboard.lua:57 plugins/help.lua:320
 msgid "Extra commands"
 msgstr "دستورهای اضافه"
 
@@ -455,7 +586,7 @@ msgstr "ℹ️ گروه ◄ تنظیمات"
 msgid "ℹ️ Group ► Rules"
 msgstr "ℹ️ گروه ◄ قوانین"
 
-#: plugins/dashboard.lua:115
+#: plugins/dashboard.lua:117
 msgid "I got kicked out of this group 😓"
 msgstr "من از این گروه خارج شده ام 😓"
 
@@ -542,8 +673,8 @@ msgid ""
 "✅: ignored\n"
 "❌: not ignored"
 msgstr ""
-"انتخاب کنید کدام رسانه میخواهید در سیستم ضد تکرار نادیده گرفته شود (ربات تعداد "
-"آنها را شمارش نخواهد کرد).\n"
+"انتخاب کنید کدام رسانه میخواهید در سیستم ضد تکرار نادیده گرفته شود (ربات "
+"تعداد آنها را شمارش نخواهد کرد).\n"
 "✅:نادیده گرفتن\n"
 "❌:درسیستم محاسبه خواهد شد"
 
@@ -579,12 +710,12 @@ msgstr "تنظیمات ضد تکرار"
 #: plugins/floodmanager.lua:140
 #, lua-format
 msgid "❎ [%s] will be ignored by the anti-flood"
-msgstr "❎ توسط ضد تکرار نادیده گرفته می شود"
+msgstr "❎ [%s] توسط ضد تکرار نادیده گرفته می شود"
 
 #: plugins/floodmanager.lua:143
 #, lua-format
 msgid "🚫 [%s] won't be ignored by the anti-flood"
-msgstr " 🚫توسط ضد تکرار محاسبه خواهد شد"
+msgstr " 🚫 [%s] توسط ضد تکرار محاسبه خواهد شد"
 
 #: plugins/help.lua:9
 #, lua-format
@@ -597,8 +728,8 @@ msgid ""
 "• I can *kick or ban* users\n"
 "• You can use me to set the group rules\n"
 "• I have a flexible *anti-flood* system\n"
-"• I can *welcome new users* with a customizable message, or if you want with a "
-"gif or a sticker\n"
+"• I can *welcome new users* with a customizable message, or if you want with "
+"a gif or a sticker\n"
 "• I can *warn* users, and ban them when they reach the maximum number of "
 "warnings\n"
 "• I can also warn, kick or ban users when they post a specific media\n"
@@ -637,8 +768,8 @@ msgid ""
 "can't have more than 60 members and must be a *private* supergroup.\n"
 "Follow the instructions the bot will give you to associate a group (subgroup) "
 "to a realm.\n"
-"`/subgroups`: get the list of the subgroups administrated by a realm. Can't be "
-"more than 6 for now.\n"
+"`/subgroups`: get the list of the subgroups administrated by a realm. Can't "
+"be more than 6 for now.\n"
 "`/remove`: choose a subgroup to remove from the realm subgroups.\n"
 "`/send [message]`: broadcast a message to one or more subgroups.\n"
 "`/setrules [rules]`: apply the rules to one (or more) of your groups.\n"
@@ -647,12 +778,12 @@ msgid ""
 "`/adminlist`: get the adminlist of one of your subgroups.\n"
 "`/id`: get the Telegram ID of one of your subgroups.\n"
 "`/realm`: get some info about your realm.\n"
-"`/add`: get the message to copy-paste in a group to add it to the subgroups of "
-"the realm.\n"
-"`/ban [by username|by id|by forwarded message]`: ban the user from all of your "
-"subgroups.\n"
-"*By forwarded message*: forward a message from the user in the realm and reply "
-"to it with `/ban`.\n"
+"`/add`: get the message to copy-paste in a group to add it to the subgroups "
+"of the realm.\n"
+"`/ban [by username|by id|by forwarded message]`: ban the user from all of "
+"your subgroups.\n"
+"*By forwarded message*: forward a message from the user in the realm and "
+"reply to it with `/ban`.\n"
 "`/config`: manage the settings of one of your subgroups.\n"
 "`/setlog` (forwarded from a channel): set the log channel for one or more of "
 "your subgroups. More info in the dedicated tab.\n"
@@ -660,8 +791,8 @@ msgid ""
 "realm.\n"
 "\n"
 "*Commands to use in a subgroup*\n"
-"`/unpair` (*only for the owner*): remove the association between the group and "
-"its realm.\n"
+"`/unpair` (*only for the owner*): remove the association between the group "
+"and its realm.\n"
 "\n"
 "*Important*: realms are meant to be groups where their members administrate "
 "one or more associated groups. So in a realm you won't be able to use regular "
@@ -768,9 +899,9 @@ msgid ""
 "• `/adminlist`: show the moderators of the group\n"
 "• `/help`: receive the help message\n"
 "• `!kickme`: the bot will kick you\n"
-"*Note*: `/dashboard` and `/adminlist` replies always in private. If the bot is "
-"unable to reach an user, he will ask in the group to that user to be started, "
-"but just if _silent mode_ is off.\n"
+"*Note*: `/dashboard` and `/adminlist` replies always in private. If the bot "
+"is unable to reach an user, he will ask in the group to that user to be "
+"started, but just if _silent mode_ is off.\n"
 "With `/rules`, the bot always answer in the group for admins, but with normal "
 "users the message is sent in the group or in private according to the group "
 "settings.\n"
@@ -789,16 +920,16 @@ msgstr ""
 "• `/adminlist` : نمایش لیست مدیران گروه\n"
 "• `/help` : نمایش این پیام\n"
 "تذکر:  `/dashboard` و  `/adminlist` همیشه جواب را برای شما در خصوصی ارسال "
-"میکنند. اگر ربات دسترسی به خصوصی کاربر نداشته باشد، در گروه درخواست راه اندازی "
-"میکند، اما فقط درهنگامی که _حالت سکوت_ خاموش باشد\n"
+"میکنند. اگر ربات دسترسی به خصوصی کاربر نداشته باشد، در گروه درخواست راه "
+"اندازی میکند، اما فقط درهنگامی که _حالت سکوت_ خاموش باشد\n"
 "اما  `/rules` ، همیشه برای مدیران در گروه پاسخ خواهد داد، اما برای کاربران "
 "معمولی درگروه یا خصوصی شخص بر طبق تنظیمات گروه ارسال میکند\n"
 "\n"
 "• `@admin` (by reply): ربات پزارش پیامی از گروه به مدیران (ربات پیام مورد نظر "
 "را به خصوصی مدیران فوروارد میکند). این قابلیت میتواند در تنظیمات گروه غیرفعال "
 "شود. توضیحات گزارش میتواند اضافه شود.\n"
-"مدیران برای گرفتن گزارش کاربران باید با دستور `/mysettings`  در خصوصی ربات این "
-"قابلیت را فعال کنند\n"
+"مدیران برای گرفتن گزارش کاربران باید با دستور `/mysettings`  در خصوصی ربات "
+"این قابلیت را فعال کنند\n"
 
 #: plugins/help.lua:91
 msgid ""
@@ -860,10 +991,17 @@ msgid ""
 "one week). For now, only by reply. Short form: `/tempban 1d 7h`\n"
 "• `/unban [by reply|username|id|text mention]`: unban the user from the "
 "group.\n"
+"• `/block`: this command can be used in reply to a forwarded message (from "
+"the user you want to block), or in alterantive you can provide a list of "
+"usernames. You should block only users who are outside the group.\n"
+"Blocked users are *automatically* banned once they join the group.\n"
+"• `/unblock`: works in the same way of `/block`, but allows to remove one or "
+"more users from the list of blocked users.\n"
+"• `/blockedlist`: get the list of blocked users.\n"
 "• `/user [by reply|username|id|text mention]`: shows how many times the user "
 "has been banned *in all the groups*, and the warns received.\n"
-"• `/status [username|id]`: show the current status of the user `(member|kicked/"
-"left the chat|banned|admin/creator|never seen)`.\n"
+"• `/status [username|id]`: show the current status of the user `(member|"
+"kicked/left the chat|banned|admin/creator|never seen)`.\n"
 "A bot can't retrieve the status of an user if that user never started it "
 "before (in this case, the _never seen_ status is returned)\n"
 "\n"
@@ -889,6 +1027,15 @@ msgstr ""
 "• `/tempban [hours|nd nh]` = مسدود کردن کاربران برای مدت خاصی (حداکثر یک "
 "هفته). مثل `/tempban 1d 7h`\n"
 "• `/unban [by reply|username|id|text mention]` = خارج کردن از لیست مسدودین.\n"
+" `/block`: این دستور میتواند روی پیام فوروارد شده ای از شخصی (که شما میخواهید "
+"مسدود شود) استفاده شود، یا میتوانید یک لیست از نام های کاربری که نمیخواهید "
+"وارد گروه شوند به ربات بدهید. شما باید حتما نام کاربرانی که خارج از گروه "
+"هستند را بدهید.\n"
+"افراد مسدود شده با این دستور به محض اینکه وارد گروه شوند در گروه محروم یا ban "
+"میشوند.\n"
+"• `/unblock`: مانند دستور block کار میکند، اما این دستور برای حذف کاربرانی که "
+"دیگر نمیخواهید مسدود باشند استفاده می شود.\n"
+"• `/blockedlist`: گرفتن لیست مسدودین\n"
 "• `/user [by reply|username|id|text mention]` = نمایش وضعیت جهانی کاربر در چه "
 "تعداد گروه هایی مسدود شده یا اخطار گرفته.\n"
 "• `/status [username|id]` = نمایش وضعیت فعلی کاربر (کاربر ساده/اخراج شده/خارج "
@@ -904,7 +1051,7 @@ msgstr ""
 "خصوصی ربات.  شما میتوانید حساسیت، عملکرد ربات (اخراج/مسدود)و همینطور لیست "
 "استثنا ایجاد کنید.\n"
 
-#: plugins/help.lua:128
+#: plugins/help.lua:132
 msgid ""
 "\n"
 "*Reports settings*\n"
@@ -932,13 +1079,13 @@ msgstr ""
 "ببینید. اگر روشن باشد، کاربران قادرند از دستور `@admin` استفاده کنند.\n"
 "فقط مدیرانی که قابلیت دریافت گزارش را درخصوصی (با دستور `/mysettings`) فعال "
 "کرده باشند میتوانند گزارش را دریافت کنند\n"
-"• `/mysettings` (درخصوصی): دراینجا شما میتوانید انتخاب کنید که گزارش را دریافت "
-"کنید یا خیر\n"
+"• `/mysettings` (درخصوصی): دراینجا شما میتوانید انتخاب کنید که گزارش را "
+"دریافت کنید یا خیر\n"
 "\n"
 "تذکر: مدیران نمیتوانند از دستور `@admin` استفاده کنند، و همچنین کاربران "
 "نمیتواند یک مدیر را گزارش کنند."
 
-#: plugins/help.lua:139
+#: plugins/help.lua:143
 msgid ""
 "\n"
 "*Welcome/goodbye settings*\n"
@@ -992,16 +1139,16 @@ msgstr ""
 "`$id`:_ جایگذاری با شناسه کاربری_\n"
 "`$title`: _جایگذاری نام گروه در متن_\n"
 "`$surname`: _جایگذاری با نام خانوادگی_\n"
-"`$rules`: _با قوانین گروه جایگذاری خواهد شد. لطفا _ [صفحه](https://telegram.me/"
-"GroupButler_beta/26) _ مطالعه کنید تا بدانید چگونه از این امکان استفاده کنید، "
-"درغیر اینصورت شما error دریافت خواهید کرد_\n"
+"`$rules`: _با قوانین گروه جایگذاری خواهد شد. لطفا _ [صفحه](https://telegram."
+"me/GroupButler_beta/26) _ مطالعه کنید تا بدانید چگونه از این امکان استفاده "
+"کنید، درغیر اینصورت شما error دریافت خواهید کرد_\n"
 "تذکر: `$name` و `$surname` و `$title` ممکنه در نشانه گذاری کار نکنند.\n"
 "\n"
 "ارسال استیکر و گیف بعنوان پیام خوش آمدگویی\n"
 "بتدا استکیر و یا گیف مورد نظر را ارسال نمایید سپس به دستور` /welcome` و "
 "همینطور  `/goodbye` استیکر و گیف مورد نظر را ریپلای کنید\n"
 
-#: plugins/help.lua:163
+#: plugins/help.lua:167
 msgid ""
 "*Whitelist settings*\n"
 "\n"
@@ -1021,8 +1168,8 @@ msgid ""
 "the whitelist.\n"
 "\n"
 "*Why links are saved without* _https://_ *and* _www_*?*\n"
-"The bot auto-removes _https://, http:// and www_ from every link to reduce the "
-"possibility of having the same link saved twice.\n"
+"The bot auto-removes _https://, http:// and www_ from every link to reduce "
+"the possibility of having the same link saved twice.\n"
 msgstr ""
 "تنظیمات لیست سفید\n"
 "\n"
@@ -1040,10 +1187,10 @@ msgstr ""
 "خواهد شد.\n"
 "\n"
 "چرا لینک های ذخیره شده بدون * _https://_ * و  _www_ است *؟*\n"
-"ربات بصورت اتوماتیک https://, http://  و www را از هر لینک حذف میکند تا بتواند "
-"امکان اضافه شدن دوباره یک لینک کاهش پیدا کند.\n"
+"ربات بصورت اتوماتیک https://, http://  و www را از هر لینک حذف میکند تا "
+"بتواند امکان اضافه شدن دوباره یک لینک کاهش پیدا کند.\n"
 
-#: plugins/help.lua:180
+#: plugins/help.lua:184
 msgid ""
 "\n"
 "*Extra commands*\n"
@@ -1081,14 +1228,14 @@ msgstr ""
 "•  `/extra list` = نمایش دستورهای ذخیره شده.\n"
 "•  `/extra del [#dastor]` = حذف Dastor مورد نظر.\n"
 "\n"
-"تذکر: مدل های نشانه گذاری پشتیبانی میشود. اگر مدل نشانه گذاری اشتباه باشد ربات "
-"پاسخ خواهد داد یک اشتباهی وجود دارد.\n"
+"تذکر: مدل های نشانه گذاری پشتیبانی میشود. اگر مدل نشانه گذاری اشتباه باشد "
+"ربات پاسخ خواهد داد یک اشتباهی وجود دارد.\n"
 "برای استفاده درست از مدل نشانه گذاری [این صفحه](https://telegram.me/"
 "GroupButler_ch/46) را مطالعه کنید.\n"
-"و کدهای جایگذاری در این قسمت نیز پشتیبانی میشود. در تنظیمات `خوش آمدگویی` لیست "
-"کدهای جایگذاری موجود است.\n"
+"و کدهای جایگذاری در این قسمت نیز پشتیبانی میشود. در تنظیمات `خوش آمدگویی` "
+"لیست کدهای جایگذاری موجود است.\n"
 
-#: plugins/help.lua:195
+#: plugins/help.lua:199
 msgid ""
 "\n"
 "*Warns*\n"
@@ -1098,13 +1245,13 @@ msgid ""
 "There are two different type of warns:\n"
 "- _normal warns_, given by an admin with the `/warn` command\n"
 "- _automatic warns_ (read: media warns and spam warns), given by the bot when "
-"someone sends a media that is not allowed in the chat, or spams other channels "
-"or telegram.me links.\n"
+"someone sends a media that is not allowed in the chat, or spams other "
+"channels or telegram.me links.\n"
 "\n"
 "• `/warn [by reply]`: warn a user\n"
-"• `/sw`: you can place a `/sw` (_\"silent warn\"_) everywhere you want in your "
-"message. The bot will silently count the warn, but won't answer in the group "
-"unless the user reached the max. number of warnings.\n"
+"• `/sw`: you can place a `/sw` (_\"silent warn\"_) everywhere you want in "
+"your message. The bot will silently count the warn, but won't answer in the "
+"group unless the user reached the max. number of warnings.\n"
 "• `/nowarns [by reply]`: reset the warns received by an user (both normal and "
 "automatic warns).\n"
 "• `/warnmax [number]`: set the max number of the warns before the kick/ban.\n"
@@ -1117,8 +1264,8 @@ msgid ""
 "`menu` button.\n"
 "How to change the max. number of warnings allowed for medias: `/config` "
 "command, then `media` button.\n"
-"How to change the max. number of warnings allowed for spam: `/config` command, "
-"then `antispam` button.\n"
+"How to change the max. number of warnings allowed for spam: `/config` "
+"command, then `antispam` button.\n"
 msgstr ""
 "\n"
 "مدیران: تنظیمات اخطارها\n"
@@ -1127,8 +1274,8 @@ msgstr ""
 "اخراج/مسدود خواهند شد.\n"
 "دوحالت اخطار وجود دارد: اخطار معمولی که توسط مدیران با دستور `/warn` به "
 "کاربران داده میشود، و اخطارهای اتوماتیک (اخطارهای رسانه و ضد اسپم)، که توسط "
-"ربات زمانی که کاربری رسانه غیرمجازی در گروه رسال میکند و یا اسپم هایی مثل لینک "
-"گروه یا پیام های کانال دیگران را فوروارد کند.\n"
+"ربات زمانی که کاربری رسانه غیرمجازی در گروه رسال میکند و یا اسپم هایی مثل "
+"لینک گروه یا پیام های کانال دیگران را فوروارد کند.\n"
 "مدیران میتوانند رسانه های مجاز و غیرمجاز را با دستور  `/config` و دکمه رسانه "
 "یا media تعیین کنند.\n"
 "\n"
@@ -1151,45 +1298,47 @@ msgstr ""
 "چگونه تعداد اخطار های حداکثر مجاز گروه را برای رسانه تعیین کنیم: دستور `/"
 "config` و بعد دکمه رسانه یا media.\n"
 
-#: plugins/help.lua:214
+#: plugins/help.lua:218
 msgid ""
 "\n"
 "*Pinning messages*\n"
 "The \"48 hours limit\" to edit your own messages doesn't apply to bots.\n"
-"This command was born from the necessity of editing the pinned message without "
-"sending it again, maybe just to change few things.\n"
+"This command was born from the necessity of editing the pinned message "
+"without sending it again, maybe just to change few things.\n"
 "So with `/pin` you can generate a message to pin, and edit it how many times "
 "you want.\n"
 "\n"
 "• `/pin [text]`: the bot will send you back the text you used as argument, "
-"with markdown. You can pin the message and use `/pin [text]` again to edit it\n"
-"• `/pin`: the bot will find the latest message generate by `/pin`, if it still "
-"exists\n"
+"with markdown. You can pin the message and use `/pin [text]` again to edit "
+"it\n"
+"• `/pin`: the bot will find the latest message generate by `/pin`, if it "
+"still exists\n"
 "\n"
-"*Note*: `/pin` supports markdown, but only `$rules` and `$title` placeholders\n"
+"*Note*: `/pin` supports markdown, but only `$rules` and `$title` "
+"placeholders\n"
 msgstr ""
 "\n"
 "مدیران: سنجاق کردن\n"
 "48 ساعت محدودیت زمانی برای ویرایش پیام شما\n"
-"این پیام برای کمک به شما برای ویرایش پیام سنجاق شده بدون ارسال دوباره آن ساخته "
-"شده است.\n"
+"این پیام برای کمک به شما برای ویرایش پیام سنجاق شده بدون ارسال دوباره آن "
+"ساخته شده است.\n"
 "بنابراین با دستور  `/pin` شما میتوانید یک پیام برای سنجاق کردن بسازید، و آنرا "
 "هرموقع که خواستید ویرایش کنید.\n"
 "\n"
 "• `/pin متن`: ربات متن شما را ارسال خواهد کرد که شامل پشتیبانی از نشانه گذاری "
-"و شما میتوانید این پیام سنجاق شده را با استفادها از `/editpin متن جدید` ویرایش "
-"کنید.\n"
+"و شما میتوانید این پیام سنجاق شده را با استفادها از `/editpin متن جدید` "
+"ویرایش کنید.\n"
 "• `/editpin متن جدید`: پیام ارسال شده قبلی را ویرایش میکند. زمانی که شما "
 "میخواید قسمتی از پیام سنجاق شده را ویرایش کنید این دستور میتواند خیلی کاربردی "
 "باشد\n"
-"• `/pin` ربات متن قبلی ذخیره شده را ارسال میکند برای ذخیره از مدل  `/pin متن`  "
-"استفاده کنید.\n"
+"• `/pin` ربات متن قبلی ذخیره شده را ارسال میکند برای ذخیره از مدل  `/pin "
+"متن`  استفاده کنید.\n"
 "\n"
 "تذکر: `/pin` و `/editpin` از مدل های نشانه گذاری و کد `$rules` و $title برای "
 "نمایش قوانین پشتیبانی میکند.\n"
 
-#. TRANSLATORS: leave your contact information for reports mistakes in translation
-#: plugins/help.lua:227
+#. TRANSLATORS: leave your contact information to reports mistakes in translation
+#: plugins/help.lua:231
 msgid ""
 "\n"
 "*Group language*\"\n"
@@ -1212,8 +1361,8 @@ msgid ""
 "\n"
 "*Arab*: when Arab it's not allowed (🚫), everyone who will write an arab "
 "character will be kicked from the group.\n"
-"*Rtl*: it stands for 'Righ To Left' character, and it's the responsible of the "
-"weird service messages that are written in the opposite sense.\n"
+"*Rtl*: it stands for 'Righ To Left' character, and it's the responsible of "
+"the weird service messages that are written in the opposite sense.\n"
 "When Rtl is not allowed (🚫), everyone that writes this character (or that has "
 "it in his name) will be kicked.\n"
 msgstr ""
@@ -1226,8 +1375,8 @@ msgstr ""
 "انگلیسی و فارسی).\n"
 "\n"
 "به هرحال ترجمه برای همه باز است. اگر شما میخواهید در ترجمه ربات کمک کنید لطفا "
-"[اطلاعات](https://github.com/RememberTheAir/GroupButler#translators) مربوطه را "
-"در گیت هاب ببینید.\n"
+"[اطلاعات](https://github.com/RememberTheAir/GroupButler#translators) مربوطه "
+"را در گیت هاب ببینید.\n"
 "شما میتوانید با استفاده از دستور  `/strings`  فایل `.po`  زبان خود را دریافت "
 "کنید و آن را ترجمه کنید\n"
 "کاراکترهای خاص\n"
@@ -1238,28 +1387,28 @@ msgstr ""
 "\n"
 "تایپ فارسی/عربی: وقتی که ممنوع باشد (🚫)، هرشخصی که از حروف فارسی یا عربی "
 "استفاده کنند اخراج خواهد شد.\n"
-"Rtl: از راست به چپ نوشتن، این امکان به اشحاصی که پشترو مینویسند عکس العمل نشان "
-"خواهد داد.\n"
-"وقتی که RTL در گروه ممنوع باشد (🚫) هرشخصی که از حروف پشترو استفاده کند (یا حتی "
-"در نام کاربریش داشته باشد) اخراج خواهد شد.\n"
+"Rtl: از راست به چپ نوشتن، این امکان به اشحاصی که پشترو مینویسند عکس العمل "
+"نشان خواهد داد.\n"
+"وقتی که RTL در گروه ممنوع باشد (🚫) هرشخصی که از حروف پشترو استفاده کند (یا "
+"حتی در نام کاربریش داشته باشد) اخراج خواهد شد.\n"
 "\n"
 
-#: plugins/help.lua:246
+#: plugins/help.lua:250
 msgid ""
 "\n"
 "*General group settings*\n"
 "\n"
-"`/config` or  `/settings`: manage the group settings in private from an inline "
-"keyboard.\n"
+"`/config` or  `/settings`: manage the group settings in private from an "
+"inline keyboard.\n"
 "The inline keyboard has six sub-menus:\n"
 "\n"
 "*Menu*: manage the most important group settings\n"
-"*Antiflood*: turn on or off the antiflood, set its sensitivity and choose some "
-"media to ignore, if you want\n"
+"*Antiflood*: turn on or off the antiflood, set its sensitivity and choose "
+"some media to ignore, if you want\n"
 "*Media*: choose which media to forbid in your group, and set the number of "
 "times that an user will be warned before being kicked/banned\n"
-"*Antispam*: choose which kind of spam you want to forbid (example: telegram.me "
-"links, forwarded messages from channels)\n"
+"*Antispam*: choose which kind of spam you want to forbid (example: telegram."
+"me links, forwarded messages from channels)\n"
 "*Log channel*: choose which updates should be logged\n"
 "*Moderators*: promote or demote moderators\n"
 "\n"
@@ -1267,13 +1416,14 @@ msgid ""
 "`/leave`: the bot will leave the group without deleting its data. Use this "
 "command only if you are going to add the bot to the group again\n"
 "`/snap`: generate a backup file that can be restored with `/import` (send the "
-"file in the group and reply to it). `/snap` can be used once every three days\n"
+"file in the group and reply to it). `/snap` can be used once every three "
+"days\n"
 msgstr ""
 "\n"
 "مدیران: تنظیمات گروه\n"
 "\n"
-"`/config` یا  `/settings`: مدیریت تنظیمات گروه درخصوصی با استفاده از یک کیبورد "
-"راحت.\n"
+"`/config` یا  `/settings`: مدیریت تنظیمات گروه درخصوصی با استفاده از یک "
+"کیبورد راحت.\n"
 "کیبورد دارای زیر menu می باشد.\n"
 "\n"
 "فهرست تنظیمات یا Menu: مدیریت بیشتر تنظیمات گروه\n"
@@ -1293,18 +1443,18 @@ msgstr ""
 "فایل پشتیبانی را با دستور `import/` (فایل را در گروه بفرستید روی فایل پاسخ یا "
 "Reply کنید) بازگردانی کنید. `snap/` میتوانید هر 3 روز یکبار استفاده شود\n"
 
-#: plugins/help.lua:264
+#: plugins/help.lua:268
 msgid ""
 "*Moderators*\n"
 "\n"
-"Moderators are normal users that can use some of the commands that are usually "
-"available only to the group administrators.\n"
+"Moderators are normal users that can use some of the commands that are "
+"usually available only to the group administrators.\n"
 "\n"
 "By default, moderators only have the banhammer (they can use _/ban, /kick, /"
-"unban, /tempban, /warn, /nowarn, /user_).\n"
-"But their powers can be expanded or restricted by the administrators: there is "
-"a button in the /config menu, called _\"Moderators\"_, where the permissions "
-"of the moderators can be configured.\n"
+"unban, /tempban, /warn, /nowarn, /block, /unblock, /user_).\n"
+"But their powers can be expanded or restricted by the administrators: there "
+"is a button in the /config menu, called _\"Moderators\"_, where the "
+"permissions of the moderators can be configured.\n"
 "\n"
 "By default, every admin can promote a new moderator, or demote an user who is "
 "already a mod.\n"
@@ -1329,24 +1479,25 @@ msgstr ""
 "مدیران گروه همیشه قابل اجراست\n"
 "\n"
 "بصورت پیش فرض معاونین فقط امکان مدیریت کاربران را دارند ( آنها میتوانند "
-"کاربران را _/ban, /kick, /unban, /tempban, /warn, /nowarn, /user_ کنند).\n"
+"کاربران را _/ban, /kick, /unban, /tempban, /warn, /nowarn, /block, /unblock, /"
+"user_ کنند).\n"
 "اما دسترسی های معاونین را می توانید با دستور `config/` و سپس دکمه معاونین یا "
 "moderators مدیریت کنید.\n"
 "\n"
 "بطور پیش فرض مدیران می توانند شخصی را معاون کنند یا از لیست معاونین خارج کند "
 "اما شما میتوانید در قسمت معاونین امکان  ارتقا توسط مدیران را غیرفعال کنید.\n"
 "وقتیکه غیر فعال شد مدیران گروه نمیتوانید کسی را به درجه معاونت ارتقا دهند یا "
-"خارج کنند و همچنین آنها به بخش معاونین در دستور `config/` دسترسی نخواهند داشت. "
-"(بنابراین آنها نمیتوانند دسترسی های معاونین را تغییر دهند)\n"
+"خارج کنند و همچنین آنها به بخش معاونین در دستور `config/` دسترسی نخواهند "
+"داشت. (بنابراین آنها نمیتوانند دسترسی های معاونین را تغییر دهند)\n"
 "\n"
 "دستورها\n"
 "`promote/` بوسیله آیدی یا ریپلای کردن یا نام کاربری شخص: ارتقا یکی از کاربران "
 "به معاون گروه.\n"
-"`demote/`  بوسیله آیدی یا ریپلای کردن یا نام کاربری شخص: گرفتن مقام معاون گروه "
-"از یک کاربر.\n"
+"`demote/`  بوسیله آیدی یا ریپلای کردن یا نام کاربری شخص: گرفتن مقام معاون "
+"گروه از یک کاربر.\n"
 "`modlist/` : لیست معاونین گروه"
 
-#: plugins/help.lua:280
+#: plugins/help.lua:284
 msgid ""
 "*Log channel informations*\n"
 "\t\t\t\n"
@@ -1357,9 +1508,9 @@ msgid ""
 "All the events, by default, are *not logged*. Admins can choose which events "
 "to log from the `/config` menu -> `log channel` button.\n"
 "\n"
-"To pair a channel with a group, the *channel creator* must [add the bot to the "
-"channel administrators](telegram.me/gb_tutorials/4) (otherwise it won't be "
-"able to post), and send in the channel this command:\n"
+"To pair a channel with a group, the *channel creator* must [add the bot to "
+"the channel administrators](telegram.me/gb_tutorials/4) (otherwise it won't "
+"be able to post), and send in the channel this command:\n"
 "`/setlog`\n"
 "Then, an admin of the group must forward in the group the message (\"`/setlog`"
 "\") sent in the channel. *Done*!\n"
@@ -1395,130 +1546,131 @@ msgstr ""
 "`/unsetlog`: حذف کانال وقایع فعلی\n"
 "`/logchannel`: گرفتن برخی از اطلاعات مربوط به کانال وقایع، اگر متصل باشد"
 
-#: plugins/help.lua:304 plugins/moderators.lua:158
+#: plugins/help.lua:308 plugins/moderators.lua:157
 msgid "Banhammer"
 msgstr "مدیریت کاربران"
 
-#: plugins/help.lua:305 plugins/moderators.lua:160
+#: plugins/help.lua:309 plugins/moderators.lua:159
 msgid "Group info"
 msgstr "اطلاعات گروه"
 
-#: plugins/help.lua:308
+#: plugins/help.lua:312
 msgid "Report system"
 msgstr "سیستم گرازش"
 
-#: plugins/help.lua:309
+#: plugins/help.lua:313
 msgid "Pin"
 msgstr "پیام سنجاق شده"
 
-#: plugins/help.lua:312
+#: plugins/help.lua:316
 msgid "Languages"
 msgstr "زبان"
 
-#: plugins/help.lua:313 plugins/moderators.lua:159
+#: plugins/help.lua:317 plugins/moderators.lua:158
 msgid "Group configuration"
 msgstr "پیکربندی گروه"
 
-#: plugins/help.lua:317 plugins/logchannel.lua:53
+#: plugins/help.lua:321 plugins/logchannel.lua:63
 msgid "Warns"
 msgstr "اخطارها"
 
-#: plugins/help.lua:320
+#: plugins/help.lua:324
 msgid "Welcome settings"
 msgstr "خوش آمدگویی"
 
-#: plugins/help.lua:321
+#: plugins/help.lua:325
 msgid "Links whitelist"
 msgstr "لینک های لیست سفید"
 
-#: plugins/help.lua:341
+#: plugins/help.lua:345
 msgid "📢 Bot channel"
 msgstr "📢 کانال ربات"
 
-#: plugins/help.lua:342
+#: plugins/help.lua:346
 msgid "🌍 Select your language"
 msgstr "🌍 زبان خود را انتخاب کنید"
 
-#: plugins/help.lua:345
+#: plugins/help.lua:349
 msgid "📕 All the commands"
 msgstr "📕 تمام دستورها"
 
-#: plugins/help.lua:354
+#: plugins/help.lua:358
 msgid "Basics"
 msgstr "پایه"
 
-#: plugins/help.lua:355
+#: plugins/help.lua:359
 msgid "Admin commands"
 msgstr "دستور مخصوص مدیران"
 
-#: plugins/help.lua:356
+#: plugins/help.lua:360
 msgid "Normal users commands"
 msgstr "دستور کاربران معمولی"
 
-#: plugins/help.lua:357
+#: plugins/help.lua:361
 msgid "Commands in private"
 msgstr "دستورهای خصوصی (پی وی) ربات"
 
-#: plugins/help.lua:359
+#: plugins/help.lua:363
 msgid "Log channel"
 msgstr "کانال وقایع"
 
-#: plugins/help.lua:360
+#: plugins/help.lua:364
 msgid "Moderators"
 msgstr "معاونین"
 
-#: plugins/help.lua:375
+#: plugins/help.lua:379
 msgid "Back"
 msgstr "برگشت"
 
-#: plugins/help.lua:397
+#: plugins/help.lua:401
 #, lua-format
 msgid "[Start me](%s) _to get the list of commands_"
 msgstr "[راه اندازی کنید](%s) _تا بتوانید تمام دستور های ربات را بگیرید_"
 
-#: plugins/help.lua:410
+#: plugins/help.lua:414
 msgid "Main menu"
 msgstr "فهرست اصلی"
 
-#: plugins/help.lua:413
+#: plugins/help.lua:417
 msgid "Basic usage"
 msgstr "نکات پایه"
 
-#: plugins/help.lua:416
+#: plugins/help.lua:420
 msgid "Commands for users (group)"
 msgstr "دستورهای کاربران معمولی (گروه)"
 
-#: plugins/help.lua:419
+#: plugins/help.lua:423
 msgid "Available commands in private"
 msgstr "دستورهای موجود برای خصوصی (پی وی) ربات"
 
-#: plugins/help.lua:422
+#: plugins/help.lua:426
 msgid "Available commands in a realm"
 msgstr "دستورهای موجود برای قلمرو"
 
-#: plugins/help.lua:425
+#: plugins/help.lua:429
 msgid "Log channel informations"
 msgstr "اطلاعات کانال وقایع"
 
-#: plugins/help.lua:428
+#: plugins/help.lua:432
 msgid "Informations about the moderators"
 msgstr "اطلاعات مربوط به معاونین گروه"
 
-#: plugins/help.lua:432
+#: plugins/help.lua:436
 msgid "Available commands for admins"
 msgstr "دستورهای موجود برای مدیران"
 
-#: plugins/help.lua:436
+#: plugins/help.lua:440
 msgid "Deprecated message, send /help again"
 msgstr "پیام منسوخ شده، لطفا help را دوباره ارسال کنید"
 
-#: plugins/help.lua:441
+#: plugins/help.lua:445
 msgid "❗️ Already there"
 msgstr "❗️ شما در همین صفحه هستید"
 
 #: plugins/links.lua:22
 msgid ""
-"*No link* for this group. Ask the owner to save it with `/setlink [group link]`"
+"*No link* for this group. Ask the owner to save it with `/setlink [group "
+"link]`"
 msgstr ""
 "هیچ لینکی برای این گروه تعریف نشده از سازنده بخواهید یک لینک جدید تعریف کند `/"
 "setlink [group link]`"
@@ -1584,8 +1736,8 @@ msgstr "اسپم لینک/فوروارد در کانال ثبت خواهد شد�
 #: plugins/logchannel.lua:21
 msgid "Log when an user is flooding (new log message every 5 flood messages)"
 msgstr ""
-"وقتی کاربر پیامی را تکرار کند ثبت میشود (ثبت پیام تکراری جدید بعد از هر 5 پیام "
-"تکراری)"
+"وقتی کاربر پیامی را تکرار کند ثبت میشود (ثبت پیام تکراری جدید بعد از هر 5 "
+"پیام تکراری)"
 
 #: plugins/logchannel.lua:23
 msgid "Log when an admin changes the group icon"
@@ -1603,135 +1755,166 @@ msgstr "وقتی مدیران عنوان  گروه را تغییر دهند ثب
 msgid "Log pinned messages"
 msgstr "پیام های سنجاق شده"
 
-#: plugins/logchannel.lua:48
+#: plugins/logchannel.lua:31
+msgid ""
+"Log when an user who has been blocked is banned from the group (when he join)"
+msgstr ""
+"ثبت نام کاربری که در لیست مسدودین گره قرار دارد وارد گروه شود و از ورود به "
+"گروه محروم میشود (هنگام ورود به گروه)"
+
+#: plugins/logchannel.lua:33
+msgid "Log when a new user is promoted to moderator"
+msgstr "وقتی کاربری به درجه معاونت ارتقا یابد ثبت خواهد شد"
+
+#: plugins/logchannel.lua:35
+msgid "Log when an user looses the role of moderator"
+msgstr "وقتی کاربری از لیست معاونین خارج شود ثبت خواهد شد"
+
+#: plugins/logchannel.lua:37
+msgid "Log when an admin removes the warning received by an user"
+msgstr "وقتی مدیران اخطارهای کاربری را حذف کنند ثبت خواهد شد"
+
+#: plugins/logchannel.lua:39
+msgid "Log when an user reports a message with the @admin command"
+msgstr "وقتی کاربران از @admin استفاده کنند ثبت خواهد شد"
+
+#: plugins/logchannel.lua:58
 msgid "Ban"
 msgstr "مسدود"
 
-#: plugins/logchannel.lua:49
+#: plugins/logchannel.lua:59
 msgid "Kick"
 msgstr "اخراج"
 
-#: plugins/logchannel.lua:50 utilities.lua:1025
+#: plugins/logchannel.lua:60 utilities.lua:1028
 msgid "Unban"
 msgstr "رفع محرومیت"
 
-#: plugins/logchannel.lua:51
+#: plugins/logchannel.lua:61
 msgid "Tempban"
 msgstr "اخراج مدت دار"
 
-#: plugins/logchannel.lua:52
+#: plugins/logchannel.lua:62
 msgid "Report"
 msgstr "گزارش"
 
-#: plugins/logchannel.lua:54
+#: plugins/logchannel.lua:64
 msgid "Warns resets"
 msgstr "اخطارهای حذف شده"
 
-#: plugins/logchannel.lua:55
+#: plugins/logchannel.lua:65
 msgid "New members"
 msgstr "اعضای جدید"
 
-#: plugins/logchannel.lua:56
+#: plugins/logchannel.lua:66
 msgid "Media warns"
 msgstr "اخطارهای رسانه"
 
-#: plugins/logchannel.lua:57
+#: plugins/logchannel.lua:67
 msgid "Spam warns"
 msgstr "اخطارهای اسپم"
 
-#: plugins/logchannel.lua:58
+#: plugins/logchannel.lua:68
 msgid "Flood"
 msgstr "تکرار"
 
-#: plugins/logchannel.lua:59
+#: plugins/logchannel.lua:69
 msgid "Promotions"
 msgstr "ترفیع"
 
-#: plugins/logchannel.lua:60
+#: plugins/logchannel.lua:70
 msgid "Demotions"
 msgstr "تنزل"
 
-#: plugins/logchannel.lua:61
+#: plugins/logchannel.lua:71
 msgid "New group icon"
 msgstr "تصویر جدید گروه"
 
-#: plugins/logchannel.lua:62
+#: plugins/logchannel.lua:72
 msgid "Group icon removed"
 msgstr "حذف تصویر گروه"
 
-#: plugins/logchannel.lua:63
+#: plugins/logchannel.lua:73
 msgid "New group title"
 msgstr "عنوان جدید گروه"
 
-#: plugins/logchannel.lua:64
+#: plugins/logchannel.lua:74
 msgid "Pinned messages"
 msgstr "پیام های سنجاق شده"
 
-#: plugins/logchannel.lua:87
+#: plugins/logchannel.lua:75
+msgid "Users blocked"
+msgstr "کربران مسدود شده"
+
+#: plugins/logchannel.lua:98
 msgid "You are not admin of this group"
 msgstr "شما مدیر این گروه نیستید"
 
-#: plugins/logchannel.lua:92
+#: plugins/logchannel.lua:103
 msgid "User unbanned!"
 msgstr "کاربر از محرومیت خارج شد!"
 
-#: plugins/logchannel.lua:116
+#: plugins/logchannel.lua:127
 msgid ""
 "*Select the events the will be logged in the channel*\n"
 "✅ = will be logged\n"
-"☑️ = won't be logged"
+"☑️ = won't be logged\n"
+"\n"
+"Tap on a voice to get further informations"
 msgstr ""
 "لطفا وقایعی را که میخواهید در کانال ثبت شود انتخاب کنید\n"
 "✅ = درکانال ثبت خواهد شد\n"
-"☑️ = در کانال ثبت نخواهد شد"
+"☑️ = در کانال ثبت نخواهد شد\n"
+"\n"
+"روی ستون سمت چپ بزنید تا اطلاعات را دریافت کنید"
 
-#: plugins/logchannel.lua:141
+#: plugins/logchannel.lua:154
 msgid "_Too many requests. Retry later_"
 msgstr "تعداد درخواست زیاد. لطفا بعدا تلاش کنید"
 
-#: plugins/logchannel.lua:143
+#: plugins/logchannel.lua:156
 msgid "_I need to be admin in the channel_"
 msgstr "من نیاز دارم که ادمین کانال باشم"
 
-#: plugins/logchannel.lua:150
+#: plugins/logchannel.lua:163
 msgid "_Already using this channel_"
 msgstr "قبلا این کانال را استفاده کرده اید"
 
-#: plugins/logchannel.lua:153
+#: plugins/logchannel.lua:166
 msgid "*Log channel added!*"
 msgstr "کانال وقایع افزوده شد!"
 
-#: plugins/logchannel.lua:155
+#: plugins/logchannel.lua:168
 #, lua-format
 msgid "<i>%s</i> changed its log channel"
 msgstr "<i>%s</i> کانل وقایع را تغییر داد"
 
-#: plugins/logchannel.lua:157
+#: plugins/logchannel.lua:170
 #, lua-format
 msgid "Logs of <i>%s</i> will be posted here"
 msgstr "وقایع <i>%s</i> اینجا ثبت خواهند شد"
 
-#: plugins/logchannel.lua:161
+#: plugins/logchannel.lua:174
 msgid "_Only the channel creator can pair the chat with a channel_"
 msgstr "فقط سازنده کانال میتواند اینکار را انجام دهد"
 
-#: plugins/logchannel.lua:165
+#: plugins/logchannel.lua:178
 msgid "_I'm sorry, only private channels are supported for now_"
 msgstr "من متاسفم فقط کانال های خصوصی در حال حاضر پشتیبانی میشوند"
 
-#: plugins/logchannel.lua:169
+#: plugins/logchannel.lua:182
 msgid "You have to *forward* the message from the channel"
 msgstr "شما باید پیام را از کانال بطوری که نامش مشخص شود فوروارد کنید"
 
-#: plugins/logchannel.lua:175 plugins/logchannel.lua:184
+#: plugins/logchannel.lua:188 plugins/logchannel.lua:197
 msgid "_This groups is not using a log channel_"
 msgstr "این گروه کانال وقایع ندارد"
 
-#: plugins/logchannel.lua:178
+#: plugins/logchannel.lua:191
 msgid "*Log channel removed*"
 msgstr "کانال وقایع حذف شد"
 
-#: plugins/logchannel.lua:188
+#: plugins/logchannel.lua:201
 msgid ""
 "_This group has a log channel saved, but I'm not a member there, so I can't "
 "post/retrieve its info_"
@@ -1739,7 +1922,7 @@ msgstr ""
 "این گروه یک کانال وقایع دارد اما من در آنجا عضو نیستم بنابراین نمیتواند چیزی "
 "را ثبت کنم"
 
-#: plugins/logchannel.lua:194
+#: plugins/logchannel.lua:207
 #, lua-format
 msgid ""
 "<b>This group has a log channel</b>\n"
@@ -1816,7 +1999,8 @@ msgstr ""
 "خصوصی میتواند ارسال کند)"
 
 #: plugins/menu.lua:18
-msgid "Enable and disable the anti-flood system (more info in the /help message)"
+msgid ""
+"Enable and disable the anti-flood system (more info in the /help message)"
 msgstr "فعال و غیرفعال کردن سیستم ضد تکرار (اطلاعات بیشتر در  /help )"
 
 #: plugins/menu.lua:20
@@ -1824,7 +2008,8 @@ msgid ""
 "If the welcome message is enabled, it will include an inline button that will "
 "send to the user the rules in private"
 msgstr ""
-"اگر پیام خوشامد فعال باشد، همراه با یک دکمه شیشه ای برای نمایش قوانین خواهد بود"
+"اگر پیام خوشامد فعال باشد، همراه با یک دکمه شیشه ای برای نمایش قوانین خواهد "
+"بود"
 
 #: plugins/menu.lua:22
 msgid ""
@@ -1848,12 +2033,12 @@ msgstr ""
 
 #: plugins/menu.lua:30
 msgid ""
-"Select what the bot should do when someone sends a message with arab characters"
+"Select what the bot should do when someone sends a message with arab "
+"characters"
 msgstr "انتخاب کنید ربات وقتی با تایپ فارسی/عربی روبرو شد چکار کند"
 
 #: plugins/menu.lua:32
-msgid ""
-"Bots will be banned when added by normal users"
+msgid "Bots will be banned when added by normal users"
 msgstr "زمانی که ربات توسط کاربرهای معمولی اضافه شود، اخراج می شود."
 
 #: plugins/menu.lua:34
@@ -1863,7 +2048,8 @@ msgid ""
 msgstr "انتخاب کنید ربات وقتی با RTL روبرو شد چکار کند، و یا در نام کاربری شخص"
 
 #: plugins/menu.lua:36
-msgid "Change how many times an user has to be warned before being kicked/banned"
+msgid ""
+"Change how many times an user has to be warned before being kicked/banned"
 msgstr "انتخاب کنید کاربران قبل از اخراج/مسدود چند اخطار بتوانند دریافت کنند"
 
 #: plugins/menu.lua:38
@@ -1931,11 +2117,7 @@ msgstr "ضد تکرار"
 msgid "Silent mode"
 msgstr "حالت سکوت"
 
-#: plugins/menu.lua:160 utilities.lua:663
-msgid "Rules"
-msgstr "قوانین"
-
-#: plugins/menu.lua:161 utilities.lua:664
+#: plugins/menu.lua:161 utilities.lua:663
 msgid "Arab"
 msgstr "ضد تایپ فارسی"
 
@@ -1955,10 +2137,6 @@ msgstr "گزارش"
 msgid "Welcome + rules button"
 msgstr "خوش آمد و قوانین"
 
-#: plugins/menu.lua:195
-msgid "👞 kick"
-msgstr "👞 اخراج"
-
 #: plugins/menu.lua:197
 msgid "🔨️ ban"
 msgstr " 🔨️ مسدود"
@@ -1975,9 +2153,10 @@ msgstr "عملکرد:"
 msgid ""
 "Manage the settings of the group. Click on the left column to get a small hint"
 msgstr ""
-"تنظیمات گروه خودتون رو مدیریت کنید. روی گزینه های سمت راست بزنید تا راهنمای هرکدام را ببینید."
+"تنظیمات گروه خودتون رو مدیریت کنید. روی گزینه های سمت راست بزنید تا راهنمای "
+"هرکدام را ببینید."
 
-#: plugins/moderators.lua:28 plugins/moderators.lua:55
+#: plugins/moderators.lua:28 plugins/moderators.lua:54
 msgid "Reply to someone, or mention him"
 msgstr "پیام یک کاربر را *Reply* (پاسخ) کنید یا آنرا mention کنید"
 
@@ -1985,7 +2164,7 @@ msgstr "پیام یک کاربر را *Reply* (پاسخ) کنید یا آنرا 
 msgid "You can't promote or demote me"
 msgstr "شما نمیتوانید به من را معاون گروه کنید"
 
-#: plugins/moderators.lua:47 utilities.lua:915 utilities.lua:925
+#: plugins/moderators.lua:46 utilities.lua:915 utilities.lua:925
 msgid ""
 "I've never seen this user before.\n"
 "If you want to teach me who is he, forward me a message from him"
@@ -1994,43 +2173,43 @@ msgstr ""
 " اگر میخواهید این کاربر را به من معرفی کنید لطفا یکی از پیام های ارسال شده "
 "توسط ایشان را برای من فوروارد کنید"
 
-#: plugins/moderators.lua:59
+#: plugins/moderators.lua:58
 msgid "I'm sorry, you can't promote this user because he's already an admin"
 msgstr ""
 "من متاسفم شما نمیتوانید این شخص را معاون گروه کنید چون این شخص مدیر گروه است"
 
-#: plugins/moderators.lua:89
+#: plugins/moderators.lua:88
 #, lua-format
 msgid "%s now is a moderator"
 msgstr "%s  معاون شد"
 
-#: plugins/moderators.lua:91
+#: plugins/moderators.lua:90
 #, lua-format
 msgid "%s is already a moderator. I have updated his name."
 msgstr "%s قبلا معاون گروه شد. من نام ایشان را در لیست بروز میکنم"
 
-#: plugins/moderators.lua:105
+#: plugins/moderators.lua:104
 #, lua-format
 msgid "%s is no longer a moderator"
 msgstr "%s دیگر معاون گروه نیست"
 
-#: plugins/moderators.lua:107
+#: plugins/moderators.lua:106
 msgid "<i>This user was not a moderator</i>"
 msgstr "این کاربر معاون گروه نیست"
 
-#: plugins/moderators.lua:142
+#: plugins/moderators.lua:141
 msgid "If enabled, moderators will be able to use their banhammer powers"
 msgstr "اگر فعال شود، معاونین میتوانند کاربران را اخراج یا به آنها اخطار دهند"
 
-#: plugins/moderators.lua:144
+#: plugins/moderators.lua:143
 msgid ""
-"If enabled, moderators will be able to use the /config command (and change the "
-"group settings)"
+"If enabled, moderators will be able to use the /config command (and change "
+"the group settings)"
 msgstr ""
 "اگر فعال شود کاربران میتوانند از دستور config/ برای تنظیمات گروه استفاده کنند "
 "(و تنظیمات را تغییر دهند)"
 
-#: plugins/moderators.lua:146
+#: plugins/moderators.lua:145
 msgid ""
 "If enabled, moderators will be able to change the rules, save a new link, or "
 "set/delete #extra commands"
@@ -2038,19 +2217,19 @@ msgstr ""
 "وقتی فعال باشد، معاونین میتوانند قوانین گروه را تغییر دهند، یا لینک جدید برای "
 "ربات تعریف کنند، یا یک دستور اextra# حذف یا ایجاد نمایند"
 
-#: plugins/moderators.lua:148
+#: plugins/moderators.lua:147
 msgid ""
-"The group administrators will be able to promote or demote new moderators, and "
-"also to see this section of the setting (but not this switch)"
+"The group administrators will be able to promote or demote new moderators, "
+"and also to see this section of the setting (but not this switch)"
 msgstr ""
 "مدیران گروه میتوانند کاربری را معاون گروه یا از معاونت خارج کنند، و همچنین "
 "میتوانند بخش معاونین را در تنظیماتشان ببنید (اما این بخش را هرگز نمیبینند)"
 
-#: plugins/moderators.lua:157
+#: plugins/moderators.lua:156
 msgid "Admins can manage mods"
 msgstr "ارتقا توسط مدیران"
 
-#: plugins/moderators.lua:204
+#: plugins/moderators.lua:203
 msgid ""
 "*Moderators settings*\n"
 "Choose what a moderator can do.\n"
@@ -2060,17 +2239,17 @@ msgid ""
 "• ✅ = *enabled*\n"
 "• ❌ = *not enabled*\n"
 "\n"
-"• *Banhammer* permissions - mods will be allowed to use: /ban, /kick, /unban, /"
-"tempban, /user, /status, /warn, /nowarn.\n"
+"• *Banhammer* permissions - mods will be allowed to use: /ban, /kick, /"
+"unban, /tempban, /user, /status, /warn, /nowarn, /block, /unblock.\n"
 "• *Group info* permissions - mods will be allowed to use: /setrules, /"
-"welcome, /extra, /link, /setlink. Also, they will be seen as admins when /"
-"rules, /adminlist, /modlist, /id or an #extra command are used.\n"
+"welcome, /extra, /link, /setlink, /blockedlist. Also, they will be seen as "
+"admins when /rules, /adminlist, /modlist, /id or an #extra command are used.\n"
 "• *Group configuration* permissions - mods will be able to use the /config "
 "command, and change the group settings. Obviously, they won't be able to see "
 "the \"Moderators\" section.\n"
 "\n"
-"Moderators will be never able to use: /cache, /leave, /snap, /import, /"
-"setlang, /setlog and /unsetlog\n"
+"Moderators will be never able to use: /cache, /leave, /snap, /import, /setlog "
+"and /unsetlog\n"
 msgstr ""
 "تنظیمات معاونین\n"
 "انتخاب کنید معاونین چه کارهایی بتوانند انجام دهند\n"
@@ -2081,26 +2260,27 @@ msgstr ""
 "• ❌ = غیر فعال\n"
 "\n"
 "• مدیریت کاربران- معاونین میتوانند از این دستور ها استفاده کنند : /ban, /"
-"kick, /unban, /tempban, /user, /status, /warn, /nowarn\n"
-"• اطلاعات گروه- معاونین میتوانند از این دستور ها استفاده کنند:  /setrules, /"
-"welcome, /extra, /link, /setlink \n"
+"kick, /unban, /tempban, /user, /status, /warn, /nowarn, /block, /unblock.\n"
+"• اطلاعات گروه- معاونین میتوانند از این دستور ها استفاده کنند: /setrules, /"
+"welcome, /extra, /link, /setlink, /blockedlist . همچنین آنها میتوانند از /"
+"rules، /adminlist، /modlist، /id، و #extra استفاده کنند.\n"
 "• تنظیمات گروه- معاونین میتوانند از دستور config/ استفاده کنند، و می توانند "
 "تنظیمات گروه را تغییر دهند. البته آنها نمیتوانند بخش معاونین را ببینند.\n"
 "\n"
 "معاونین هرگز نمیتوانند از دستور های : /cache, /leave, /snap, /import, /"
 "setlang, /setlog و /unsetlog استفاده کنند\n"
 
-#: plugins/onmessage.lua:93
+#: plugins/onmessage.lua:92
 #, lua-format
 msgid "%s <b>banned</b> for flood!"
 msgstr "%s  بخاطر تکرار پیام مسدود شد!"
 
-#: plugins/onmessage.lua:95
+#: plugins/onmessage.lua:94
 #, lua-format
 msgid "%s <b>kicked</b> for flood!"
 msgstr "%s  بخاطر تکرار پیام اخراج شد!"
 
-#: plugins/onmessage.lua:139
+#: plugins/onmessage.lua:137
 #, lua-format
 msgid ""
 "%s <b>banned</b>: media sent not allowed!\n"
@@ -2109,7 +2289,7 @@ msgstr ""
 "%s  *مسدود*: ارسال مدیا غیرمجاز!！\n"
 "❗️ <code>%d/%d</code>"
 
-#: plugins/onmessage.lua:141
+#: plugins/onmessage.lua:139
 #, lua-format
 msgid ""
 "%s <b>kicked</b>: media sent not allowed!\n"
@@ -2118,7 +2298,7 @@ msgstr ""
 "%s  *اخراج*: ارسال مدیا غیرمجاز\n"
 "❗️ <code>%d/%d</code>"
 
-#: plugins/onmessage.lua:146
+#: plugins/onmessage.lua:144
 #, lua-format
 msgid ""
 "%s, this type of media is <b>not allowed</b> in this chat.\n"
@@ -2127,22 +2307,22 @@ msgstr ""
 "%s ارسال این رسانه در این گروه ممنوع است.\n"
 "(<code>%d/%d</code>)"
 
-#: plugins/onmessage.lua:171
+#: plugins/onmessage.lua:168
 #, lua-format
 msgid "%s <b>kicked</b>: RTL character in names / messages not allowed!"
 msgstr "%s اخراج: ارسال RTL اسم RTL و پیام RTL غیر مجاز است!"
 
-#: plugins/onmessage.lua:173
+#: plugins/onmessage.lua:170
 #, lua-format
 msgid "%s <b>banned</b>: RTL character in names / messages not allowed!"
 msgstr "%s مسدود: ارسال RTL اسم RTL و پیام RTL غیر مجاز است!"
 
-#: plugins/onmessage.lua:194
+#: plugins/onmessage.lua:190
 #, lua-format
 msgid "%s <b>kicked</b>: arab/persian message detected!"
 msgstr "%s اخراج: تایپ عربی و فارسی!"
 
-#: plugins/onmessage.lua:196
+#: plugins/onmessage.lua:192
 #, lua-format
 msgid "%s <b>banned</b>: arab/persian message detected!"
 msgstr "%s مسدود: تایپ عربی و فارسی!"
@@ -2230,11 +2410,11 @@ msgstr ""
 
 #: plugins/private_settings.lua:10
 msgid ""
-"If enabled, you will receive all the messages reported with the @admin command "
-"in the groups you are moderating"
+"If enabled, you will receive all the messages reported with the @admin "
+"command in the groups you are moderating"
 msgstr ""
-"اگر فعال کنید، شما پیام های گزارش با دستور @admin توسط کاربران در گروه هایی که "
-"مدیر هستید  را دریافت خواهید کرد"
+"اگر فعال کنید، شما پیام های گزارش با دستور @admin توسط کاربران در گروه هایی "
+"که مدیر هستید  را دریافت خواهید کرد"
 
 #: plugins/private_settings.lua:41
 msgid "Rules on join"
@@ -2373,121 +2553,78 @@ msgstr ""
 msgid "🔄️ Refresh cache"
 msgstr "🔄️ بروزرسانی"
 
-#: plugins/users.lua:83
-msgid "Nothing to display\n"
-msgstr "`موردی یافت نشد`\n"
-
-#: plugins/users.lua:86
-#, lua-format
-msgid "Kicked: *%d*"
-msgstr "اخراج شد: *%d*"
-
-#: plugins/users.lua:87
-#, lua-format
-msgid "Banned: *%d*"
-msgstr "مسدود شد: *%d*"
-
-#: plugins/users.lua:88
-#, lua-format
-msgid "Temporarily banned: *%d*"
-msgstr "موقتا مسدود شد:  *%d*"
-
-#: plugins/users.lua:89
-#, lua-format
-msgid "Removed for flooding chat: *%d*"
-msgstr "اخراج برای اسپم: %d"
-
-#: plugins/users.lua:90
-#, lua-format
-msgid "Removed for forbidden media: *%d*"
-msgstr "اخراج بخاطر ارسال رسانه غیر مجاز: %d"
-
-#: plugins/users.lua:91
-#, lua-format
-msgid "Removed for max warnings: *%d*"
-msgstr "اخراج برای اخطار: %d"
-
-#: plugins/users.lua:92
-#, lua-format
-msgid "Removed for arab chars: *%d*"
-msgstr "اخراج برای تایپ عربی: %d"
-
-#: plugins/users.lua:93
-#, lua-format
-msgid "Removed for RTL char: *%d*"
-msgstr "اخراج برای rtl: %d"
-
-#: plugins/users.lua:100
-msgid "Nothing to display"
-msgstr "`موردی یافت نشد`"
-
-#: plugins/users.lua:113
+#: plugins/users.lua:72
 msgid "Remove warnings"
 msgstr "حذف اخطارها"
 
-#: plugins/users.lua:114
-msgid "🔨 Ban"
-msgstr "🔨  مسدود کردن"
+#: plugins/users.lua:80
+#, lua-format
+msgid ""
+"*User ID*: `%d`\n"
+"`Warnings`: *%d*\n"
+"`Media warnings`: *%d*\n"
+"`Spam warnings`: *%d*\n"
+msgstr ""
+"*شناسه کاربری*: `%d`\n"
+"`اخطارها`: *%d*\n"
+"`اخطارهای رسانه`: *%d*\n"
+"`اخطارهای اسپم`: *%d*\n"
 
-#: plugins/users.lua:122
-msgid "*Ban info* (globals):\n"
-msgstr "*وضعیت جهانی کاربر*:\n"
-
-#: plugins/users.lua:132
+#: plugins/users.lua:98
 msgid "That's your ID. Copy it"
 msgstr "این شناسه کاربری شماست، ذخیره کنید"
 
-#: plugins/users.lua:135
+#: plugins/users.lua:101
 msgid "That's my ID. Copy it"
 msgstr "این شناسه کاربری من است، ذخیره کنید"
 
-#: plugins/users.lua:138
+#: plugins/users.lua:104
 msgid "That's the ID of this group. Copy it"
 msgstr "این شناسه کاربری گروه است، ذخیره کنید"
 
-#: plugins/users.lua:141
+#: plugins/users.lua:107
 msgid "That's his (her) ID. Copy it"
 msgstr "این شناسه کاربری مورد نظر است، ذخیره کنید"
 
-#: plugins/users.lua:191
+#: plugins/users.lua:157
 msgid "That user has nothing to do with this chat"
 msgstr "این کاربر فعالیتی در گروه نداشته است"
 
-#: plugins/users.lua:197
+#: plugins/users.lua:163
 #, lua-format
 msgid "%s is banned from this group"
 msgstr "کاربر %s در این گروه مسدود شده است"
 
-#: plugins/users.lua:198
+#: plugins/users.lua:164
 #, lua-format
 msgid "%s left the group or has been kicked and unbanned"
 msgstr "کاربر %s از گروه خارج شده یا از گروه اخراج شده است"
 
-#: plugins/users.lua:199
+#: plugins/users.lua:165
 #, lua-format
 msgid "%s is an admin"
 msgstr "مدیر گروه %s"
 
-#: plugins/users.lua:200
+#: plugins/users.lua:166
 #, lua-format
 msgid "%s is the group creator"
 msgstr "%s سازنده گروه"
 
-#: plugins/users.lua:201
+#: plugins/users.lua:167
 #, lua-format
 msgid "%s has nothing to do with this chat"
 msgstr "این %s کاربر فعالیتی در گروه نداشته است"
 
-#: plugins/users.lua:202
+#: plugins/users.lua:168
 #, lua-format
 msgid "%s is a chat member"
 msgstr "%s یک کاربر ساده است"
 
-#: plugins/users.lua:212
+#: plugins/users.lua:178
 msgid "Reply to an user or mention them by username or numerical ID"
 msgstr "یک کاربر را پاسخ یا Reply یا نام کاربری یا شناسه کاربری شخص را بنویسید"
 
-#: plugins/users.lua:226
+#: plugins/users.lua:186
 msgid ""
 "I've never seen this user before.\n"
 "If you want to teach me who they are, forward a message from them to me"
@@ -2496,7 +2633,7 @@ msgstr ""
 " اگر میخواهید این کاربر را به من معرفی کنید لطفا یکی از پیام های ارسال شده "
 "توسط ایشان را برای من ریپلای کنید"
 
-#: plugins/users.lua:243 plugins/users.lua:319
+#: plugins/users.lua:203 plugins/users.lua:255
 #, lua-format
 msgid ""
 "📌 Status: `CACHED`\n"
@@ -2507,54 +2644,18 @@ msgstr ""
 "⌛ ️زمان باقی مانده: `%s`\n"
 "👥 مدیران شناسایی شده: `%d`"
 
-#: plugins/users.lua:252
+#: plugins/users.lua:212
 #, lua-format
 msgid "Message N° %d"
 msgstr "پیام N° %d"
 
-#: plugins/users.lua:267
-msgid ""
-"_Look at the views counter of this message to see how many users are online_"
-msgstr "ببینید چه تعداد از کاربران آنلاین هستند"
-
-#: plugins/users.lua:270
-msgid ""
-"_I'm sorry, this command has been used too many times lately by my users. "
-"Retry later_"
-msgstr "من متاسفم این دستور توسط کاربران اخیرا استفاده شده است. بعدا تلاش کنید"
-
-#: plugins/users.lua:272
+#: plugins/users.lua:240
 #, lua-format
 msgid ""
-"_I'm sorry, an unknown error occured while executing this command._\n"
-"`[error code: %d]`"
-msgstr ""
-"متاسفم یک مشکل نامشخص موقع اجرای این دستور رخ داده است\n"
-"`[کد ارور: %d]`"
-
-#: plugins/users.lua:283 plugins/warn.lua:134
-msgid "You are not allowed to use this button"
-msgstr "شما قادر به استفاده از این دکمه نیستید"
-
-#: plugins/users.lua:293
-msgid "Ban from the /user command"
-msgstr "محروم کردن کاربر به وسیله دستور /user"
-
-#: plugins/users.lua:294
-#, lua-format
-msgid ""
-"<i>Banned!</i>\n"
-"Banned by: %s"
-msgstr ""
-"<i>اخراج شد!</i>\n"
-"اخراج شده توسط: %s"
-
-#: plugins/users.lua:304
-#, lua-format
-msgid "The number of warnings received by this user has been <b>reset</b>, by %s"
+"The number of warnings received by this user has been <b>reset</b>, by %s"
 msgstr "تعداد اخطار های گرفته شده این کاربر توسط %s صفر شد"
 
-#: plugins/users.lua:313
+#: plugins/users.lua:249
 #, lua-format
 msgid ""
 "The adminlist has just been updated. You must wait 10 minutes from the last "
@@ -2563,16 +2664,12 @@ msgstr ""
 "لیست مدیران بروزرسانی شد. شما باید حداقل 10 دقیقه بعد از آخرین بروزرسانی صبر "
 "کنید (%d ثانیه)"
 
-#: plugins/users.lua:321
+#: plugins/users.lua:257
 #, lua-format
 msgid "✅ Updated. Next update in %s"
 msgstr "✅ بروزرسانی شد. بروزرسانی بعدی در %s"
 
-#: plugins/warn.lua:11
-msgid "Reset warns"
-msgstr "حذف تمام اخطارها"
-
-#: plugins/warn.lua:12
+#: plugins/warn.lua:9
 msgid "Remove warn"
 msgstr "حذف 1 اخطار"
 
@@ -2605,32 +2702,40 @@ msgstr "خیر"
 msgid ""
 "Do you want to continue and reset *all* the warnings received by *all* the "
 "users of the group?"
-msgstr "آیا شما میخواهید تمام اخطارهای گرفته شده توسط تمام کاربران را صفر کنید ؟"
+msgstr ""
+"آیا شما میخواهید تمام اخطارهای گرفته شده توسط تمام کاربران را صفر کنید ؟"
 
 #: plugins/warn.lua:65
 #, lua-format
-msgid "Done! %s has been forgiven"
-msgstr "انچام شد!  %s حذف شد"
-
-#: plugins/warn.lua:82
-#, lua-format
-msgid "%s <b>banned</b>: reached the max number of warnings (<code>%d/%d</code>)"
-msgstr "%s در گروه مسدود شد: گرفتن حداکثر تعداد اخطار (<code>%d/%d</code>)"
+msgid ""
+"Done! %s has been forgiven.\n"
+"<b>Warns removed</b>: <i>normal warns x%d, for media x%d, spamwarns x%d</i>"
+msgstr ""
+"انجام شد! %s فراموش شد.\n"
+"اخطارها حذف شد: <i>اخطار های معمولی x%d, اخطارهای رسانه x%d, اخطارهای اسپم x"
+"%d</i>"
 
 #: plugins/warn.lua:83
+#, lua-format
+msgid ""
+"%s <b>banned</b>: reached the max number of warnings (<code>%d/%d</code>)"
+msgstr "%s در گروه مسدود شد: گرفتن حداکثر تعداد اخطار (<code>%d/%d</code>)"
+
+#: plugins/warn.lua:84
 msgid "banned"
 msgstr "مسدود شد"
 
-#: plugins/warn.lua:86
+#: plugins/warn.lua:87
 #, lua-format
-msgid "%s <b>kicked</b>: reached the max number of warnings (<code>%d/%d</code>)"
+msgid ""
+"%s <b>kicked</b>: reached the max number of warnings (<code>%d/%d</code>)"
 msgstr "%s اخراج شد: گرفتن حداکثر تعداد اخطار (<code>%d/%d</code>)"
 
-#: plugins/warn.lua:87
+#: plugins/warn.lua:88
 msgid "kicked"
 msgstr "اخراج شد"
 
-#: plugins/warn.lua:93
+#: plugins/warn.lua:94
 msgid ""
 "I can't kick this user.\n"
 "Probably I'm not an Admin, or the user is an Admin iself"
@@ -2644,20 +2749,15 @@ msgid "%s <b>has been warned</b> (<code>%d/%d</code>)"
 msgstr "%s اخطار گرفت (<code>%d/%d</code>)"
 
 #: plugins/warn.lua:142
-#, lua-format
-msgid "Warns <b>reset</b> by %s"
-msgstr "اخطار ها توسط %s صفر شد"
-
-#: plugins/warn.lua:151
 msgid "The number of warnings received by this user is already <i>zero</i>"
 msgstr "اخطارهای گرفته شده توسط این کاربر قبلا صفر شده است"
 
-#: plugins/warn.lua:156
+#: plugins/warn.lua:147
 #, lua-format
 msgid "<b>Warn removed!</b> (%d/%d)"
 msgstr "اخطار کم شد! (%d/%d)"
 
-#: plugins/warn.lua:159
+#: plugins/warn.lua:150
 #, lua-format
 msgid ""
 "\n"
@@ -2666,62 +2766,73 @@ msgstr ""
 "\n"
 "(مدیر: %s)"
 
-#: plugins/warn.lua:167
+#: plugins/warn.lua:158
 #, lua-format
 msgid "Done. All the warnings of this group have been erased by %s"
 msgstr "انجام شد. تمام اخطارهای گرفته شده در این گروه توسط %s حذف شد"
 
-#: plugins/warn.lua:169
+#: plugins/warn.lua:160
 msgid "_Action aborted_"
 msgstr "عملکرد متوقف شد"
 
-#: plugins/welcome.lua:36
+#: plugins/welcome.lua:54
 #, lua-format
 msgid "Hi %s!"
 msgstr "سلام %s!"
 
-#: plugins/welcome.lua:61
+#: plugins/welcome.lua:79
 #, lua-format
 msgid "Goodbye, %s!"
 msgstr "خداحافظ، %s!"
 
-#: plugins/welcome.lua:75
+#: plugins/welcome.lua:93
 msgid "Welcome and...?"
 msgstr "بعد از دستور متن خوشامد را بنویسید ...؟"
 
-#: plugins/welcome.lua:98
+#: plugins/welcome.lua:116
 #, lua-format
 msgid "A form of media has been set as the welcome message: `%s`"
 msgstr "رسانه مورد نظر بعنوان پیام خوشامد ذخیره شد: `%s`"
 
-#: plugins/welcome.lua:100
+#: plugins/welcome.lua:118
 msgid "Reply to a `sticker` or a `gif` to set them as the *welcome message*"
 msgstr ""
 "روی استیکر یا گیف مورد نظر پاسخ یا Reply کنید تا بعنوان خوش آمدگویی ذخیره شود"
 
-#: plugins/welcome.lua:117
+#: plugins/welcome.lua:135
 msgid "*Custom welcome message saved!*"
 msgstr "پیام خوشامد گویی شما ذخیره شد"
 
-#: plugins/welcome.lua:129
+#: plugins/welcome.lua:147
 msgid "No goodbye message"
 msgstr "بدون پیام خداحافظی"
 
-#: plugins/welcome.lua:152
+#: plugins/welcome.lua:170
 #, lua-format
 msgid "New media setted as goodbye message: `%s`"
 msgstr "رسانه مورد نظر بعنوان پیام خداحافظی ذخیره شد: `%s`"
 
-#: plugins/welcome.lua:154
+#: plugins/welcome.lua:172
 msgid "Reply to a `sticker` or a `gif` to set them as *goodbye message*"
 msgstr ""
-"روی استیکر یا گیف مورد نظر پاسخ یا Reply کنید تا بعنوان پیام خداحافظی ذخیره شود"
+"روی استیکر یا گیف مورد نظر پاسخ یا Reply کنید تا بعنوان پیام خداحافظی ذخیره "
+"شود"
 
-#: plugins/welcome.lua:171
+#: plugins/welcome.lua:189
 msgid "*Custom goodbye message saved!*"
 msgstr "پیام خداحافظی با موفقیت ذخیره شد!"
 
-#: plugins/welcome.lua:193
+#: plugins/welcome.lua:204
+#, lua-format
+msgid "%s banned: the user was blocked"
+msgstr "%s اخراج شد: کاربر در لیست مسدودین بود"
+
+#: plugins/welcome.lua:217
+#, lua-format
+msgid "_@%s banned: antibot is on_"
+msgstr "_@%s  اخراج شد ضد ربات آنلاین است"
+
+#: plugins/welcome.lua:229
 msgid "Read the rules"
 msgstr "قوانین را بخوانید"
 
@@ -2750,7 +2861,8 @@ msgstr ""
 "GB_tutorials/12) مطالعه کنید."
 
 #: utilities.lua:338
-msgid "This message is too long. Max lenght allowed by Telegram: 4000 characters"
+msgid ""
+"This message is too long. Max lenght allowed by Telegram: 4000 characters"
 msgstr ""
 "این پیام خیلی طولانیست. حداکثر تعداد کاراکترهای مجاز تلگرام: 4000 کاراکتر"
 
@@ -2957,8 +3069,8 @@ msgid ""
 "This setting is enabled, but the goodbye message won't be displayed in large "
 "groups, because I can't see service messages about left members"
 msgstr ""
-"این تنظیمات اعمال شد اما پیام خداحافظی در گروه های بزرگ نمایش داده نمیشود، چون "
-"سرویس تلگرام وضعیت خروج کاربر را نمایش نمیدهد"
+"این تنظیمات اعمال شد اما پیام خداحافظی در گروه های بزرگ نمایش داده نمیشود، "
+"چون سرویس تلگرام وضعیت خروج کاربر را نمایش نمیدهد"
 
 #: utilities.lua:779
 #, lua-format
@@ -3010,7 +3122,18 @@ msgstr ""
 "• <b>توسط</b>: %s\n"
 "• <i>گزارش شد به %d مدیر</i>"
 
-#: utilities.lua:976
+#: utilities.lua:975
+#, lua-format
+msgid ""
+"#BLOCKBAN\n"
+"• %s\n"
+"• <b>User</b>: %s [#id%d]"
+msgstr ""
+"#BLOCKBAN\n"
+"• %s\n"
+"• <b>کاربر</b>: %s [#id%d]"
+
+#: utilities.lua:978
 #, lua-format
 msgid ""
 "%s\n"
@@ -3021,7 +3144,7 @@ msgstr ""
 "• %s\n"
 "• <b>کاربر</b>: %s"
 
-#: utilities.lua:978
+#: utilities.lua:980
 #, lua-format
 msgid ""
 "\n"
@@ -3030,7 +3153,7 @@ msgstr ""
 "\n"
 "• <b>افزوده شده تسط</b>: %s [#id%d]"
 
-#: utilities.lua:990
+#: utilities.lua:992
 #, lua-format
 msgid ""
 "#%s\n"
@@ -3045,7 +3168,7 @@ msgstr ""
 "• <b>کاربر</b>: %s [#id%d]\n"
 "• <b>تعداد</b>: <code>%d/%d</code>"
 
-#: utilities.lua:992
+#: utilities.lua:994
 #, lua-format
 msgid ""
 "\n"
@@ -3054,20 +3177,22 @@ msgstr ""
 "\n"
 "<b>عملکرد</b>: <i>%s</i>"
 
-#: utilities.lua:999 utilities.lua:1021
+#: utilities.lua:1001
 #, lua-format
 msgid ""
 "#%s\n"
 "• <b>Admin</b>: %s [#id%s]\n"
 "• %s\n"
-"• <b>User</b>: %s [#id%s]"
+"• <b>User</b>: %s [#id%s]\n"
+"• <b>Warns removed</b>: <i>normal: %d, for media: %d, spamwarns: %d</i>"
 msgstr ""
 "#%s\n"
 "• <b>مدیر</b>: %s [#id%s]\n"
 "• %s\n"
-"• <b>کاربر</b>: %s [#id%s]"
+"• <b>کاربر</b>: %s [#id%s]\n"
+"• <b>اخطارهای حذف شده</b>: <i>معمولی: %d, برای رسانه: %d, برای اسپم: %d</i>"
 
-#: utilities.lua:1005
+#: utilities.lua:1008
 #, lua-format
 msgid ""
 "#%s\n"
@@ -3080,7 +3205,7 @@ msgstr ""
 "• %s\n"
 "• <b>معاون</b>: %s [#id%s]"
 
-#: utilities.lua:1014
+#: utilities.lua:1017
 #, lua-format
 msgid ""
 "#%s\n"
@@ -3095,9 +3220,95 @@ msgstr ""
 "• <b>کربر</b>: %s [#id%s]\n"
 "• <b>مدت</b>: %d روز, %d ساعت"
 
-#: utilities.lua:1032
+#: utilities.lua:1024
+#, lua-format
+msgid ""
+"#%s\n"
+"• <b>Admin</b>: %s [#id%s]\n"
+"• %s\n"
+"• <b>User</b>: %s [#id%s]"
+msgstr ""
+"#%s\n"
+"• <b>مدیر</b>: %s [#id%s]\n"
+"• %s\n"
+"• <b>کاربر</b>: %s [#id%s]"
+
+#: utilities.lua:1035
 msgid "Go to the message"
 msgstr "رفتن به پیام"
+
+#~ msgid "Nothing to display\n"
+#~ msgstr "`موردی یافت نشد`\n"
+
+#~ msgid "Kicked: *%d*"
+#~ msgstr "اخراج شد: *%d*"
+
+#~ msgid "Banned: *%d*"
+#~ msgstr "مسدود شد: *%d*"
+
+#~ msgid "Temporarily banned: *%d*"
+#~ msgstr "موقتا مسدود شد:  *%d*"
+
+#~ msgid "Removed for flooding chat: *%d*"
+#~ msgstr "اخراج برای اسپم: %d"
+
+#~ msgid "Removed for forbidden media: *%d*"
+#~ msgstr "اخراج بخاطر ارسال رسانه غیر مجاز: %d"
+
+#~ msgid "Removed for max warnings: *%d*"
+#~ msgstr "اخراج برای اخطار: %d"
+
+#~ msgid "Removed for arab chars: *%d*"
+#~ msgstr "اخراج برای تایپ عربی: %d"
+
+#~ msgid "Removed for RTL char: *%d*"
+#~ msgstr "اخراج برای rtl: %d"
+
+#~ msgid "Nothing to display"
+#~ msgstr "`موردی یافت نشد`"
+
+#~ msgid "🔨 Ban"
+#~ msgstr "🔨  مسدود کردن"
+
+#~ msgid "*Ban info* (globals):\n"
+#~ msgstr "*وضعیت جهانی کاربر*:\n"
+
+#~ msgid ""
+#~ "_Look at the views counter of this message to see how many users are "
+#~ "online_"
+#~ msgstr "ببینید چه تعداد از کاربران آنلاین هستند"
+
+#~ msgid ""
+#~ "_I'm sorry, this command has been used too many times lately by my users. "
+#~ "Retry later_"
+#~ msgstr ""
+#~ "من متاسفم این دستور توسط کاربران اخیرا استفاده شده است. بعدا تلاش کنید"
+
+#~ msgid ""
+#~ "_I'm sorry, an unknown error occured while executing this command._\n"
+#~ "`[error code: %d]`"
+#~ msgstr ""
+#~ "متاسفم یک مشکل نامشخص موقع اجرای این دستور رخ داده است\n"
+#~ "`[کد ارور: %d]`"
+
+#~ msgid "Ban from the /user command"
+#~ msgstr "محروم کردن کاربر به وسیله دستور /user"
+
+#~ msgid ""
+#~ "<i>Banned!</i>\n"
+#~ "Banned by: %s"
+#~ msgstr ""
+#~ "<i>اخراج شد!</i>\n"
+#~ "اخراج شده توسط: %s"
+
+#~ msgid "Reset warns"
+#~ msgstr "حذف تمام اخطارها"
+
+#~ msgid "Done! %s has been forgiven"
+#~ msgstr "انچام شد!  %s حذف شد"
+
+#~ msgid "Warns <b>reset</b> by %s"
+#~ msgstr "اخطار ها توسط %s صفر شد"
 
 #~ msgid "Cancel"
 #~ msgstr "لغو"
@@ -3120,8 +3331,8 @@ msgstr "رفتن به پیام"
 #~ msgstr "قوانین برای همه فعال شد"
 
 #~ msgid ""
-#~ "Too many requests. Please wait some minutes and try again. Note that if you "
-#~ "flood this command, I'll leave the group and block you"
+#~ "Too many requests. Please wait some minutes and try again. Note that if "
+#~ "you flood this command, I'll leave the group and block you"
 #~ msgstr ""
 #~ "تعداد درخواست زیاد. لطفا چند دقیقه بعد درخواست کنید. تذکر اگر شما با این "
 #~ "دستور اسپم کنید، من این گروه را ترک خواهم کرد و شما را مسدود میکنم"
@@ -3274,12 +3485,12 @@ msgstr "رفتن به پیام"
 #~ msgstr "این دستور فقط برای سازنده گروه قابل استفاده است"
 
 #~ msgid ""
-#~ "_This group is no longer going to be used as a realm, and you will lose all "
-#~ "the associations with your subgroups._\n"
+#~ "_This group is no longer going to be used as a realm, and you will lose "
+#~ "all the associations with your subgroups._\n"
 #~ "*Do you want to continue?*"
 #~ msgstr ""
-#~ "این گروه دیگر بعنوان قلمرو استفاده نمی شود، و شما اتصال به تمام زیر گروه ها "
-#~ "را از دست می دهید\n"
+#~ "این گروه دیگر بعنوان قلمرو استفاده نمی شود، و شما اتصال به تمام زیر گروه "
+#~ "ها را از دست می دهید\n"
 #~ "آیا میخواهید ادامه دهید؟"
 
 #, fuzzy
@@ -3432,11 +3643,11 @@ msgstr "رفتن به پیام"
 #~ msgstr "فایل `%s.po` در حال ارسال.."
 
 #~ msgid ""
-#~ "Write something next to `/send`, for example _\"/send this is a text message"
-#~ "\"_"
+#~ "Write something next to `/send`, for example _\"/send this is a text "
+#~ "message\"_"
 #~ msgstr ""
-#~ "بعد از `/send` متن خود را بنویسید، برای مثال _\"/send this is a text message"
-#~ "\"_"
+#~ "بعد از `/send` متن خود را بنویسید، برای مثال _\"/send this is a text "
+#~ "message\"_"
 
 #~ msgid "_Reported in the admins group_"
 #~ msgstr "_به گروه مدیران گزارش شد_"
@@ -3507,8 +3718,8 @@ msgstr "رفتن به پیام"
 #~ "شما میتوانید رسانه ها و پیام ها را در شمارش ضد اسپم تفکیک کنید:\n"
 #~ "• ✅: رسانه در سیستم ضد اسپم محاسبه نخواهد شد\n"
 #~ "• ❌: رسانه در سیستم ضد اسپم محاسبه خواهد شد\n"
-#~ "• *Note*: در قسمت متن تمام پیام ها غیر از رسانه های انتخابی در اینجا محاسبه "
-#~ "خواهد شد\n"
+#~ "• *Note*: در قسمت متن تمام پیام ها غیر از رسانه های انتخابی در اینجا "
+#~ "محاسبه خواهد شد\n"
 
 #~ msgid "⚠️ Tap on an icon!"
 #~ msgstr "⚠️ روی آیکون ها بزنید!"
@@ -3540,8 +3751,8 @@ msgstr "رفتن به پیام"
 #~ "\n"
 #~ "`/config` command, then `media` button = receive via private message an "
 #~ "inline keyboard to change all the media settings.\n"
-#~ "`/warnmax media [number]` = set the max number of warnings before be kicked/"
-#~ "banned for have sent a forbidden media.\n"
+#~ "`/warnmax media [number]` = set the max number of warnings before be "
+#~ "kicked/banned for have sent a forbidden media.\n"
 #~ "`/nowarns (by reply)` = reset the number of warnings for the users (*NOTE: "
 #~ "both regular warnings and media warnings*).\n"
 #~ "\n"
@@ -3554,8 +3765,8 @@ msgstr "رفتن به پیام"
 #~ "`/config` command, then `media` button = تنظیمات مدیا در پیام خصوصی، ابتدا "
 #~ "این دستور را در گروه خود ارسال نمایید تا تنظیمات به پیام خصوصی شما ارسال "
 #~ "شود.\n"
-#~ "`/warnmax media [number]` = تنظیم کنید تعداد اخطار های رسانه هی مجاز قبل از "
-#~ "اخراج/مسدود شدن کاربر\n"
+#~ "`/warnmax media [number]` = تنظیم کنید تعداد اخطار های رسانه هی مجاز قبل "
+#~ "از اخراج/مسدود شدن کاربر\n"
 #~ "`/nowarns (by reply)` = حذف کل اخطارهای کاربر (تذکر: هردو اخطارها صفر "
 #~ "خواهند شد)\n"
 #~ "\n"
@@ -3629,8 +3840,8 @@ msgstr "رفتن به پیام"
 #~ "برای کاربران عادی غیر فعال شوند\n"
 #~ "وقتی دستور ها برای کاربران عادی غیرفعال شود چه اتفاقی می افتد:\n"
 #~ "• اگر برای کاربران فعال باشد ربات پاسخ را در گروه ارسال خواهد کرد\n"
-#~ "• اگر برای کاربران عادی غیر فعال شود ربات پاسخ دستور را در پیام خصوصی کاربر "
-#~ "ارسال خواهد کرد.\n"
+#~ "• اگر برای کاربران عادی غیر فعال شود ربات پاسخ دستور را در پیام خصوصی "
+#~ "کاربر ارسال خواهد کرد.\n"
 #~ "\n"
 #~ "آیکون های زیر وضعیت نوع نمایش دستور را نشان می دهد:\n"
 #~ "• 👥: ربات در گروه پاسخ خواهد داد\n"
@@ -3646,8 +3857,8 @@ msgstr "رفتن به پیام"
 
 #~ msgid "❗️ You have to start me first, so I can send you the rules"
 #~ msgstr ""
-#~ "❗️ شما اول باید من را راه اندازی کنید، بعد من میتوانم به شما قوانین را ارسال "
-#~ "کنم"
+#~ "❗️ شما اول باید من را راه اندازی کنید، بعد من میتوانم به شما قوانین را "
+#~ "ارسال کنم"
 
 #~ msgid "This message is too long, I can't send it"
 #~ msgstr "این پیام خیلی طولانیست و من قادر به ارسال این پیام نیستم"
@@ -3658,8 +3869,8 @@ msgstr "رفتن به پیام"
 #~ "me/GroupButler_ch/46)."
 #~ msgstr ""
 #~ "این مدل نشانه گذاری قابل قبول نیست.\n"
-#~ " اطلاعات بیشتر برای درست استفاده کردن از قابلیت نشانه گذاری را در [این صفحه]"
-#~ "(https://telegram.me/GroupButler_ch/46) مطالعه کنید."
+#~ " اطلاعات بیشتر برای درست استفاده کردن از قابلیت نشانه گذاری را در [این "
+#~ "صفحه](https://telegram.me/GroupButler_ch/46) مطالعه کنید."
 
 #~ msgid "👥 Add me to a group"
 #~ msgstr "👥 وارد کردن من به گروه"
@@ -3751,10 +3962,6 @@ msgstr "رفتن به پیام"
 #~ "`/link` = گرفتن لینک گروه در صورتی که سازنده گروه قبلا ثبت کرده باشد\n"
 #~ "\n"
 #~ "*تذکر*: اگر لینک ارسال صحیح نباشد ربات به شما پاسخی نمی دهد."
-
-#, fuzzy
-#~ msgid "_I've sent you the help message in private_"
-#~ msgstr "_من به شما پیام خصوصی خواهم داد_"
 
 #, fuzzy
 #~ msgid ""
