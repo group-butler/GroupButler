@@ -33,7 +33,13 @@ local function get_admin_mod_list(admins_list, chat_id)
 end     
 
 local function report(msg, description)
-    local text = _('• <b>Message reported by</b>: %s (<code>%d</code>)\n• <b>Group</b>: %s'):format(u.getname_final(msg.from), msg.from.id, msg.chat.title:escape_html())
+    local text = _('• <b>Message reported by</b>: %s (<code>%d</code>)'):format(u.getname_final(msg.from), msg.from.id)
+    local chat_link = db:hget('chat:'..msg.chat.id..':links', 'link')
+    if chat_link then
+        text = text.._('\n• <b>Group</b>: <a href="%s">%s</a>'):format(chat_link, msg.chat.title:escape_html())
+    else
+        text = text.._('\n• <b>Group</b>: %s'):format(msg.chat.title:escape_html())
+    end
     if msg.reply.sticker then
         text = text.._('\n• <b>Sticker sent by</b>: %s [<code>%d</code>]'):format(u.getname_final(msg.reply.from), msg.reply.from.id)
     end

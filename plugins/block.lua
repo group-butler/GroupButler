@@ -74,15 +74,16 @@ function plugin.onTextMessage(msg, blocks)
                             else
                                 local name = u.getname_final(msg.reply.forward_from)
                                 text = _("%s added to the blocked list"):format(name)
+                                u.logEvent('block', msg, {user = name})
                             end
                         elseif blocks[1] == 'unblock' then
                             local is_not_blocked = unblock.User(msg.chat.id, msg.reply.forward_from.id)
-                            print(is_not_blocked)
                             if not is_not_blocked then
                                 text = _("<i>This user is not in the blocked list</i>")
                             else
                                 local name = u.getname_final(msg.reply.forward_from)
                                 text = _("%s removed from the blocked list"):format(name)
+                                u.logEvent('unblock', msg, {user = name})
                             end
                         end
                     end
@@ -92,9 +93,15 @@ function plugin.onTextMessage(msg, blocks)
                 if blocks[1] == 'block' then
                     local users_blocked = block.Users(msg.chat.id, users)
                     text = _("<b>New users blocked</b>: %d"):format(users_blocked)
+                    if users_blocked > 0 then
+                        u.logEvent('block', msg, {n = users_blocked})
+                    end
                 elseif blocks[1] == 'unblock' then
                     local users_unblocked = unblock.Users(msg.chat.id, users)
                     text = _("<b>Users unblocked</b>: %d"):format(users_unblocked)
+                    if users_unblocked > 0 then
+                        u.logEvent('unblock', msg, {n = users_unblocked})
+                    end
                 end
                 if next(not_found) then --if some usernames are not in the db
                     text = text.._("\n\nUnknown usernames:\n%s"):format(table.concat(not_found, '\n'))

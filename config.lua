@@ -7,7 +7,6 @@ return {
 	log = {
 		chat = -1001089188566, --Your log chat, where your bot must be added!
 		admin = 23646077, --The admin.
-		views = -1001089371094, --must be a private channel
 		stats = nil
 	},
 	human_readable_version = '4.2.0',
@@ -152,7 +151,9 @@ return {
 			['delete_chat_photo'] = 'no',
 			['new_chat_title'] = 'no',
 			['pinned_message'] = 'no',
-			['blockban'] = 'no'
+			['blockban'] = 'no',
+			['block'] = 'no',
+			['unblock'] = 'no'
 		},
 		['modsettings'] = {
 			['promdem'] = 'yes', --'yes': admins can promote or demote moderators; 'no': only the owner can

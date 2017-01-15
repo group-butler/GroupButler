@@ -1007,6 +1007,13 @@ function utilities.logEvent(event, msg, extra)
 			--user name formatted: user
 			--user id: user_id
 			text = _('#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n• <b>Moderator</b>: %s [#id%s]'):format(event:upper(), extra.admin, msg.from.id, chat_info, extra.user, tostring(extra.user_id))
+		elseif event == 'block' or event == 'unblock' then
+			text = _('#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n'):format(event:upper(), utilities.getname_final(msg.from), msg.from.id, chat_info)
+			if extra.n then
+				text = text.._('• <i>Users involved: %d</i>'):format(extra.n)
+			elseif extra.user then
+				text = text.._('• <b>User</b>: %s [#id%d]'):format(extra.user, msg.reply.forward_from.id)
+			end
 		elseif event == 'tempban' then
 			--TEMPBAN
 			--admin name formatted: admin

@@ -72,7 +72,9 @@ local function doKeyboard_logchannel(chat_id)
 		['delete_chat_photo'] = _('Group icon removed'),
 		['new_chat_title'] = _('New group title'),
 		['pinned_message'] = _('Pinned messages'),
-		['blockban'] = _("Users blocked")
+		['blockban'] = _("Users blocked and banned"),
+		['block'] = _("Users blocked"),
+		['unblock'] = _("Users unblocked")
 	}
 	
 	local keyboard = {inline_keyboard={}}
