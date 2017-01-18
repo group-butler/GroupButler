@@ -49,7 +49,7 @@ function plugin.onTextMessage(msg, blocks)
         if u.is_allowed('config', msg.chat.id, msg.from) then
             local chat_id = msg.chat.id
             local keyboard = do_keyboard_config(chat_id, msg.from.id)
-            if not db:get('chat:'..chat_id..':title') then cache_title(chat_id, msg.chat.title) end
+            if not db:get('chat:'..chat_id..':title') then cache_chat_title(chat_id, msg.chat.title) end
             local res = api.sendMessage(msg.from.id, _("<b>%s</b>\n<i>Change the settings of your group</i>"):format(msg.chat.title:escape_html()), 'html', keyboard)
             if not u.is_silentmode_on(msg.chat.id) then --send the responde in the group only if the silent mode is off
                 if res then
