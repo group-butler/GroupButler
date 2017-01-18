@@ -276,8 +276,6 @@ function api.sendMessage(chat_id, text, parse_mode, reply_markup, reply_to_messa
 		url = url .. '&disable_web_page_preview=true'
 	end
 	
-	url = url..'&disable_notification=true'
-	
 	local res, code, desc = sendRequest(url)
 	
 	if not res and code then --if the request failed and a code is returned (not 403 and 429)

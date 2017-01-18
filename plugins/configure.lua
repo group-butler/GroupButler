@@ -4,6 +4,27 @@ local api = require 'methods'
 
 local plugin = {}
 
+local function cache_chat_title(chat_id, title)
+    print('caching title...')
+    local key = 'chat:'..chat_id..':title'
+    db:set(key, title)
+    db:expire(key, config.bot_settings.cache_time.chat_titles)
+    
+    return title
+end
+
+local function get_chat_title(chat_id)
+    local cached_title = db:get('chat:'..chat_id..':title')
+    if not cached_title then
+        local chat_object = api.getChat(chat_id)
+        if chat_object then
+            return cache_chat_title(chat_id, chat_object.result.title)
+        end
+    else
+        return cached_title 
+    end
+end
+
 local function do_keyboard_config(chat_id, user_id, is_admin)
     local keyboard = {
         inline_keyboard = {
@@ -28,7 +49,8 @@ function plugin.onTextMessage(msg, blocks)
         if u.is_allowed('config', msg.chat.id, msg.from) then
             local chat_id = msg.chat.id
             local keyboard = do_keyboard_config(chat_id, msg.from.id)
-            local res = api.sendMessage(msg.from.id, _("_Manage your group_"), true, keyboard)
+            if not db:get('chat:'..chat_id..':title') then cache_title(chat_id, msg.chat.title) end
+            local res = api.sendMessage(msg.from.id, _("<b>%s</b>\n<i>Change the settings of your group</i>"):format(msg.chat.title:escape_html()), 'html', keyboard)
             if not u.is_silentmode_on(msg.chat.id) then --send the responde in the group only if the silent mode is off
                 if res then
                     api.sendMessage(msg.chat.id, _("_I've sent you the keyboard via private message_"), true)
@@ -43,7 +65,12 @@ end
 function plugin.onCallbackQuery(msg, blocks)
     local chat_id = msg.target_id
     local keyboard = do_keyboard_config(chat_id, msg.from.id, msg.from.admin)
-    api.editMessageText(msg.chat.id, msg.message_id, _("_Change the settings by navigating the keyboard_"), true, keyboard)
+    local text = _("<i>Change the settings of your group</i>")
+    local chat_title = get_chat_title(chat_id)
+    if chat_title then
+        text = ("<b>%s</b>\n"):format(chat_title:escape_html())..text
+    end
+    api.editMessageText(msg.chat.id, msg.message_id, text, 'html', keyboard)
 end
 
 plugin.triggers = {
