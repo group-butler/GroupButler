@@ -14,8 +14,11 @@ return {
 		cache_time = {
 			adminlist = 18000, --5 hours (18000s) Admin Cache time, in seconds.
 			alert_help = 72,  -- amount of hours for cache help alerts
-			chat_titles = 18000,
-			report_abuse = 1200
+			chat_titles = 18000
+		},
+		report = {
+			duration = 1200,
+			times_allowed = 2
 		},
 		notify_bug = false, --Notify if a bug occurs!
 		log_api_errors = true, --Log errors, which happening whilst interacting with the bot api.
@@ -168,7 +171,7 @@ return {
 		rules_on_join = 'off',
 		reports = 'off'
 	},
-	chat_hashes = {'extra', 'info', 'links', 'warns', 'mediawarn', 'spamwarns', 'blocked'},
+	chat_hashes = {'extra', 'info', 'links', 'warns', 'mediawarn', 'spamwarns', 'blocked', 'report'},
 	chat_sets = {'whitelist', 'mods'},
 	bot_keys = {
 		d3 = {'bot:general', 'bot:usernames', 'bot:chat:latsmsg'},

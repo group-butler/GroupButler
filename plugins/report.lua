@@ -99,9 +99,9 @@ function plugin.onTextMessage(msg, blocks)
             local times_allowed, duration = tonumber(blocks[2]), tonumber(blocks[3])
             local text
             if times_allowed < 1 or times_allowed > 1000 then
-                text = _("_Unvalid value:_ number of times allowed (`input: %d`)"):format(times_allowed)
+                text = _("_Invalid value:_ number of times allowed (`input: %d`)"):format(times_allowed)
             elseif duration < 1 or duration > 10080 then
-                text = _("_Unvalid value:_ time (`input: %d`)"):format(duration)
+                text = _("_Invalid value:_ time (`input: %d`)"):format(duration)
             else
                 local hash = 'chat:'..msg.chat.id..':report'
                 db:hset(hash, 'times_allowed', times_allowed)
