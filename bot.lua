@@ -329,6 +329,7 @@ local function parseMessageFunction(update)
 				end
 				if entity.type == 'url' or entity.type == 'text_link' then
 					local text_lower = msg.text or msg.caption
+					text_lower = entity.url and text_lower..entity.url or text_lower
 					text_lower = text_lower:lower()
 					if text_lower:match('telegram%.me') or
 						text_lower:match('telegram%.dog') or

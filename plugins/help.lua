@@ -78,10 +78,12 @@ Remember: you have to use commands  *in the group*, unless they are specifically
 
 • `/dashboard`: see all the informations about the group
 • `/rules`: show the group rules
-• `/adminlist`: show the moderators of the group
+• `/adminlist`: show the administrators of the group
+• `/modlist`: show the moderators of the group
+• `/staff`: show the list of the administrators and moderators
 • `/help`: receive the help message
 • `!kickme`: the bot will kick you
-*Note*: `/dashboard` and `/adminlist` replies always in private. If the bot is unable to reach an user, he will ask in the group to that user to be started, but just if _silent mode_ is off.
+*Note*: `/dashboard`, `/adminlist`, `/modlist` and `/staff`replies always in private. If the bot is unable to reach an user, he will ask in the group to that user to be started, but just if _silent mode_ is off.
 With `/rules`, the bot always answer in the group for admins, but with normal users the message is sent in the group or in private according to the group settings.
 
 • `@admin` (by reply): report a message to the admins of the group (the bot will forward it in prvate). This ability could be turned off from the group settings. A description of the report can be added.
@@ -261,6 +263,7 @@ The inline keyboard has six sub-menus:
 *Moderators*: promote or demote moderators
 
 *Bonus commands*:
+`/reportflood [number of messages]/[timeframe]`: set how many times users can use the @admin command within a certain timeframe.
 `/leave`: the bot will leave the group without deleting its data. Use this command only if you are going to add the bot to the group again
 `/snap`: generate a backup file that can be restored with `/import` (send the file in the group and reply to it). `/snap` can be used once every three days
 ]])

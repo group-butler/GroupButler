@@ -35,7 +35,17 @@ function plugin.cron()
 					api.sendMessage(chat_id, _("Ban expired for %s [<code>%d</code>]"):format(u.getname_final(user_object.result), user_object.result.id), 'html')
 				end
 				if chat_object then
-					api.sendMessage(user_id, _("<i>Your ban from %s has expired</i>"):format(chat_object.result.title:escape_html()), 'html')
+					local chat_link
+					if chat_object.result.username then
+						chat_link = ('t.me/%s'):format(chat_object.result.username)
+					else
+						chat_link = db:hget(('chat:%s:links'):format(chat_id), 'link')
+					end
+					local chat_title = chat_object.result.title:escape_html()
+					local chat_string = chat_title
+					if chat_link then chat_string = ('</i><a href="%s">%s</a><i>'):format(chat_link, chat_title) end
+					print(("<i>Your ban from %s has expired</i>"):format(chat_string))
+					api.sendMessage(user_id, _("<i>Your ban from %s has expired</i>"):format(chat_string), 'html')
 				end
 			end
 		end
@@ -89,7 +99,7 @@ function plugin.onTextMessage(msg, blocks)
 		    
 		    local user_id, error_translation_key = u.get_user_id(msg, blocks)
 		    
-		    if not user_id then
+		    if not user_id and blocks[1] ~= 'kickme' then
 		    	api.sendReply(msg, error_translation_key, true) return
 		    end
 		    if msg.reply and msg.reply.from.id == bot.id then return end
@@ -195,7 +205,7 @@ plugin.triggers = {
 		config.cmd..'(tempban) (.+)',
 		config.cmd..'(unban) (.+)',
 		config.cmd..'(unban)$',
-		'[#!](kickme)'
+		'^[#!](kickme)'
 	}
 }
 

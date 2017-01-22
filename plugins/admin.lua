@@ -22,6 +22,7 @@ local triggers2 = {
 	'^%$(rediscli) (.*)$',
 	'^%$(sendfile) (.*)$',
 	'^%$(resid) (%d+)$',
+	'^%$(res) (@%a[%w_]+)',
 	'^%$(update)$',
 	'^%$(tban) (get)$',
 	'^%$(tban) (flush)$',
@@ -253,6 +254,14 @@ function plugin.onTextMessage(msg, blocks)
 			end
 		end
 		api.sendReply(msg, 'Not found')
+	end
+	if blocks[1] == 'res' then
+		local username = blocks[2]
+		local user_id = {
+			normal = u.resolve_user(username),
+			lower = u.resolve_user(username:lower())
+		}
+		api.sendMessage(msg.chat.id, u.vtext(user_id))
 	end
 	if blocks[1] == 'update' then
 		local groups = db:smembers('bot:groupsid')

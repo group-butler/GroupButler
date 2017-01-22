@@ -302,8 +302,9 @@ end
 -- Argument username must begin with symbol @ (commercial 'at')
 function utilities.resolve_user(username)
 	assert(username:byte(1) == string.byte('@'))
-
-	local stored_id = tonumber(db:hget('bot:usernames', username:lower()))
+	username = username:lower()
+	
+	local stored_id = tonumber(db:hget('bot:usernames', username))
 	if not stored_id then return false end
 	local user_obj = api.getChat(stored_id)
 	if not user_obj then

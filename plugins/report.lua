@@ -78,50 +78,71 @@ local function report(msg, description)
 end
 
 local function user_is_abusing(chat_id, user_id)
-    local key = 'report:'..chat_id..':'..user_id
-    local times = tonumber(db:get(key)) or 0
-    if times < 1 then
-        db:setex(key, config.bot_settings.cache_time.report_abuse, 1)
+    local hash = 'chat:'..chat_id..':report'
+    local user_key = hash..':'..user_id
+    local times = tonumber(db:get(user_key)) or 1
+    local times_allowed = tonumber(db:hget(hash, 'times_allowed')) or config.bot_settings.report.times_allowed
+    local duration = tonumber(db:hget(hash, 'duration')) or config.bot_settings.report.duration
+    if times <= times_allowed then
+        db:setex(user_key, duration, times + 1)
         return false
     else
-        local ttl = db:ttl(key)
-        db:setex(key, tonumber(ttl), times + 1)
-        if times + 1 > 2 then
-            return true
-        end
+        local ttl = db:ttl(user_key)
+        db:setex(user_key, tonumber(ttl), times)
+        return true
     end
 end
 
 function plugin.onTextMessage(msg, blocks)
-    if msg.chat.type == 'private'
-        or msg.from.admin
-        or not msg.reply
-        or u.is_mod(msg.chat.id, msg.reply.from.id) then
-        return
-    end
-    
-    local status = (db:hget('chat:'..msg.chat.id..':settings', 'Reports')) or config.chat_settings['settings']['Reports']
-    if not status or status == 'off' then return end
-    
-    local text
-    if user_is_abusing(msg.chat.id, msg.from.id) then
-        local ttl = db:ttl('report:'..msg.chat.id..':'..msg.from.id)
-        local minutes, seconds = seconds2minutes(ttl)
-        text = _([[_Please, do not abuse this command. It can be used twice every 20 minutes_.
-Wait other %d minutes, %d seconds.]]):format(minutes, seconds)
-        api.sendReply(msg, text, true)
-    else
-        local description
-        if blocks[1] and blocks[1] ~= '@admin' and blocks[1] ~= config.cmd..'report' then
+    if msg.chat.id < 0 then
+        if #blocks > 1 and u.is_allowed('config', msg.chat.id, msg.from) then
+            local times_allowed, duration = tonumber(blocks[2]), tonumber(blocks[3])
+            local text
+            if times_allowed < 1 or times_allowed > 1000 then
+                text = _("_Unvalid value:_ number of times allowed (`input: %d`)"):format(times_allowed)
+            elseif duration < 1 or duration > 10080 then
+                text = _("_Unvalid value:_ time (`input: %d`)"):format(duration)
+            else
+                local hash = 'chat:'..msg.chat.id..':report'
+                db:hset(hash, 'times_allowed', times_allowed)
+                db:hset(hash, 'duration', (duration * 60))
+                text = _("*New parameters saved*.\nUsers will be able to use @admin %d times/%d minutes"):format(times_allowed, duration)
+            end
+            api.sendReply(msg, text, true)
+        else
+            if msg.from.admin
+                or not msg.reply
+                or u.is_mod(msg.chat.id, msg.reply.from.id) then
+                return
+            end
+            
+            local status = (db:hget('chat:'..msg.chat.id..':settings', 'Reports')) or config.chat_settings['settings']['Reports']
+            if not status or status == 'off' then return end
+            
+            local text
+            if user_is_abusing(msg.chat.id, msg.from.id) then
+                local hash = 'chat:'..msg.chat.id..':report'
+                local duration = tonumber(db:hget(hash, 'duration')) or config.bot_settings.report.duration
+                local times_allowed = tonumber(db:hget(hash, 'times_allowed')) or config.bot_settings.report.times_allowed
+                local ttl = db:ttl(hash..':'..msg.from.id)
+                local minutes, seconds = seconds2minutes(ttl)
+                text = _([[_Please, do not abuse this command. It can be used %d times every %d minutes_.
+Wait other %d minutes, %d seconds.]]):format(times_allowed, (duration / 60), minutes, seconds)
+                api.sendReply(msg, text, true)
+            else
+                local description
+                if blocks[1] and blocks[1] ~= '@admin' and blocks[1] ~= config.cmd..'report' then
             description = blocks[1]
         end
-        
-        local n_sent = report(msg, description) or 0
-        
-        text = _('_Reported to %d admin(s)_'):format(n_sent)
-        
-        u.logEvent('report', msg, {n_admins = n_sent})
-        api.sendReply(msg, text, true)
+                
+                local n_sent = report(msg, description) or 0
+                
+                text = _('_Reported to %d admin(s)_'):format(n_sent)
+                
+                u.logEvent('report', msg, {n_admins = n_sent})
+                api.sendReply(msg, text, true)
+            end
+        end
     end
 end
 
@@ -131,6 +152,7 @@ plugin.triggers = {
         '^@admin (.+)',
         config.cmd..'report$',
         config.cmd..'report (.+)',
+        config.cmd..'(reportflood) (%d+)[%s/:](%d+)'
     }
 }
 
