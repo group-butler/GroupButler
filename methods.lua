@@ -39,7 +39,7 @@ local function sendRequest(url)
 		print(clr.red..'Error while parsing JSON'..clr.reset, code)
 		print(clr.yellow..'Data:'..clr.reset, dat)
 		api.sendAdmin(dat..'\n'..code)
-		error('Incorrect response')
+		--error('Incorrect response')
 	end
 
 	if code ~= 200 then
@@ -67,7 +67,7 @@ end
 local function log_error(method, code, extras, description)
 	if not method or not code then return end
 	
-	local ignored_errors = {403, 429, 110, 111, 116, 131}
+	local ignored_errors = {403, 429, 110, 111, 116, 131, 150, 118}
 	
 	for _, ignored_code in pairs(ignored_errors) do
 		if tonumber(code) == tonumber(ignored_code) then return end
@@ -276,8 +276,6 @@ function api.sendMessage(chat_id, text, parse_mode, reply_markup, reply_to_messa
 		url = url .. '&disable_web_page_preview=true'
 	end
 	
-	url = url..'&disable_notification=true'
-	
 	local res, code, desc = sendRequest(url)
 	
 	if not res and code then --if the request failed and a code is returned (not 403 and 429)
@@ -288,9 +286,9 @@ function api.sendMessage(chat_id, text, parse_mode, reply_markup, reply_to_messa
 
 end
 
-function api.sendReply(msg, text, markd, reply_markup)
+function api.sendReply(msg, text, markd, reply_markup, link_preview)
 
-	return api.sendMessage(msg.chat.id, text, markd, reply_markup, msg.message_id)
+	return api.sendMessage(msg.chat.id, text, markd, reply_markup, msg.message_id, link_preview)
 
 end
 
@@ -461,7 +459,7 @@ function api.sendDocumentId(chat_id, file_id, reply_to_message_id, caption)
 	end
 	
 	if caption then
-		url = url..'&caption='..caption
+		url = url..'&caption='..URL.escape(caption)
 	end
 
 	return sendRequest(url)

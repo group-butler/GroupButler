@@ -45,8 +45,13 @@ return {
 	[144] = 'Can\'t parse message text: Unsupported start tag "%w+" at byte offset %d+',
 	[145] = 'Can\'t parse message text: Expected end tag at byte offset %d+',
 	[146] = 'BUTTON_URL_INVALID', --invalid url (inline buttons)
-	[147] = 'Message must be non-empty', --example: ```   ```
-	[148] = 'Can\'t parse message text: Unmatched end tag at byte offset'
+	[147] = 'Message must be non%-empty', --example: ```   ```
+	[148] = 'Can\'t parse message text: Unmatched end tag at byte offset',
+	[149] = 'REPLY_MARKUP_INVALID', --returned while trying to send an url button without text and with an invalid url
+	[150] = 'Message text must be encoded in UTF%-8',
+	[151] = 'URL host is empty',
+	[152] = 'Requested data is unaccessible', --the request involves a private channel and the bot is not admin there
+	[153] = 'Unsupported URL protocol'
 	--[403] = 'Bot was blocked by the user', --user blocked the bot
 	--[429] = 'Too many requests: retry later', --the bot is hitting api limits
 	--[430] = 'Too big total timeout', --too many callback_data requests

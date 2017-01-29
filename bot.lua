@@ -1,7 +1,7 @@
 local api = require 'methods'
 local redis = require 'redis'
 local clr = require 'term.colors'
-local misc, roles, config, plugins, last_update, last_cron
+local u, config, plugins, last_update, last_cron
 db = redis.connect('127.0.0.1', 6379)
 
 function bot_init(on_reload) -- The function run when the bot is started or reloaded.
@@ -13,13 +13,12 @@ function bot_init(on_reload) -- The function run when the bot is started or relo
 	
 	db:select(config.db or 0) --select the redis db
 	
-	local utilities = dofile('utilities.lua') -- Load miscellaneous and cross-plugin functions.
-	misc, roles, utilities = utilities.misc, utilities.roles, nil
+	u = dofile('utilities.lua') -- Load miscellaneous and cross-plugin functions.
 	locale = dofile('languages.lua')
 	now_ms = require('socket').gettime
 	
 	bot = api.getMe().result -- Get bot info
-	bot.revision = misc.bash('git rev-parse --short HEAD')
+	bot.revision = u.bash('git rev-parse --short HEAD')
 
 	plugins = {} -- Load plugins.
 	for i,v in ipairs(config.plugins) do
@@ -114,7 +113,7 @@ local function match_triggers(triggers, text)
 end
 
 local function on_msg_receive(msg, callback) -- The fn run whenever a message is received.
-	--vardump('PARSED', msg)
+	--u.dump('PARSED', msg)
 	if not msg then
 		return
 	end
@@ -149,7 +148,7 @@ local function on_msg_receive(msg, callback) -- The fn run whenever a message is
 				if blocks then
 					
 					if msg.chat.type ~= 'private' and msg.chat.type ~= 'inline'and not db:exists('chat:'..msg.chat.id..':settings') and not msg.service then --init agroup if the bot wasn't aware to be in
-							misc.initGroup(msg.chat.id)
+							u.initGroup(msg.chat.id)
 						end
 					
 					if config.bot_settings.stream_commands then --print some info in the terminal
@@ -319,7 +318,7 @@ local function parseMessageFunction(update)
 		end
 		if msg.caption then
 			local caption_lower = msg.caption:lower()
-			if caption_lower:match('telegram%.me') or caption_lower:match('telegram%.dog') then
+			if caption_lower:match('telegram%.me') or caption_lower:match('telegram%.dog') or caption_lower:match('t%.me') then
 				msg.spam = 'links'
 			end
 		end
@@ -330,6 +329,7 @@ local function parseMessageFunction(update)
 				end
 				if entity.type == 'url' or entity.type == 'text_link' then
 					local text_lower = msg.text or msg.caption
+					text_lower = entity.url and text_lower..entity.url or text_lower
 					text_lower = text_lower:lower()
 					if text_lower:match('telegram%.me') or
 						text_lower:match('telegram%.dog') or
@@ -378,13 +378,23 @@ local function parseMessageFunction(update)
 		msg.date = os.time()
 		msg.cb_id = msg.id
 		msg.message = nil
-		msg.target_id = msg.data:match('(-?%d+)$') --callback datas often (always) ship IDs. Create a shortcut
+		msg.target_id = msg.data:match('(-%d+)$') --callback datas often ship IDs
 		function_key = 'onCallbackQuery'
 	else
 		--function_key = 'onUnknownType'
 		print('Unknown update type') return
 	end
 	
+	if (msg.chat.id < 0 or msg.target_id) and msg.from then
+		msg.from.admin = u.is_admin(msg.target_id or msg.chat.id, msg.from.id)
+		if msg.from.admin then
+			msg.from.mod = true
+		else
+			msg.from.mod = u.is_mod(msg.target_id or msg.chat.id, msg.from.id)
+		end
+	end
+	
+	--print('Mod:', msg.from.mod, 'Admin:', msg.from.admin)
 	return on_msg_receive(msg, function_key)
 end
 
@@ -407,6 +417,7 @@ while true do -- Start a loop while the bot should be running.
 		last_cron = os.date('%H')
 		last.h = current.h
 		current.h = 0
+		print(clr.yellow..'Cron...'..clr.reset)
 		for i,v in ipairs(plugins) do
 			if v.cron then -- Call each plugin's cron function, if it has one.
 				local res, err = pcall(v.cron)

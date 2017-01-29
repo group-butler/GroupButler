@@ -1708,7 +1708,7 @@ msgid ""
 "%s, this type of media is <b>not allowed</b> in this chat.\n"
 "(<code>%d/%d</code>)"
 msgstr ""
-"%, diese Art von Medien <b>sind nicht erlaubt</b> in diesem Chat\n"
+"%s, diese Art von Medien <b>sind nicht erlaubt</b> in diesem Chat\n"
 "(<code>%d/%d</code>)"
 
 #: plugins/onmessage.lua:152

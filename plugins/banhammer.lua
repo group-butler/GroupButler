@@ -1,6 +1,5 @@
 local config = require 'config'
-local misc = require 'utilities'.misc
-local roles = require 'utilities'.roles
+local u = require 'utilities'
 local api = require 'methods'
 
 local plugin = {}
@@ -27,9 +26,27 @@ function plugin.cron()
 		for unban_time, info in pairs(all) do
 			if os.time() > tonumber(unban_time) then
 				local chat_id, user_id = info:match('(-%d+):(%d+)')
+				local user_object = api.getChat(user_id)
+				local chat_object = api.getChat(chat_id)
 				api.unbanUser(chat_id, user_id)
 				db:hdel('tempbanned', unban_time)
 				db:srem('chat:'..chat_id..':tempbanned', user_id) --hash needed to check if an user is already tempbanned or not
+				if user_object then
+					api.sendMessage(chat_id, _("Ban expired for %s [<code>%d</code>]"):format(u.getname_final(user_object.result), user_object.result.id), 'html')
+				end
+				if chat_object then
+					local chat_link
+					if chat_object.result.username then
+						chat_link = ('t.me/%s'):format(chat_object.result.username)
+					else
+						chat_link = db:hget(('chat:%s:links'):format(chat_id), 'link')
+					end
+					local chat_title = chat_object.result.title:escape_html()
+					local chat_string = chat_title
+					if chat_link then chat_string = ('</i><a href="%s">%s</a><i>'):format(chat_link, chat_title) end
+					print(("<i>Your ban from %s has expired</i>"):format(chat_string))
+					api.sendMessage(user_id, _("<i>Your ban from %s has expired</i>"):format(chat_string), 'html')
+				end
 			end
 		end
 	end
@@ -78,18 +95,21 @@ end
 
 function plugin.onTextMessage(msg, blocks)
 	if msg.chat.type ~= 'private' then
-		if roles.is_admin_cached(msg) then
+		if u.is_allowed('hammer', msg.chat.id, msg.from) then
 		    
-		    local user_id, error_translation_key = misc.get_user_id(msg, blocks)
+		    local user_id, error_translation_key = u.get_user_id(msg, blocks)
 		    
-		    if not user_id then
-		    	api.sendReply(msg, _(error_translation_key), true) return
+		    if not user_id and blocks[1] ~= 'kickme' then
+		    	api.sendReply(msg, error_translation_key, true) return
 		    end
 		    if msg.reply and msg.reply.from.id == bot.id then return end
 		 	
 		 	local res
 		 	local chat_id = msg.chat.id
-		 	local admin, kicked = misc.getnames_complete(msg, blocks)
+		 	if u.is_mod(chat_id, user_id) and not u.is_admin(msg.chat.id, user_id) then
+		 		api.sendReply(msg, _("_This user is a moderator. Please /demote him first_"), true) return
+		 	end
+		 	local admin, kicked = u.getnames_complete(msg, blocks)
 		 	
 		 	--print(get_motivation(msg))
 		 	
@@ -122,7 +142,6 @@ function plugin.onTextMessage(msg, blocks)
 		    		end
 		    		api.sendReply(msg, motivation, true)
 		    	else
-		    		misc.saveBan(user_id, 'tempban') --save the ban
 		    		db:hset('tempbanned', unban_time, val) --set the hash
 					local time_reply, time_table = get_time_reply(temp)
 					local is_already_tempbanned = db:sismember('chat:'..chat_id..':tempbanned', user_id) --hash needed to check if an user is already tempbanned or not
@@ -133,7 +152,7 @@ function plugin.onTextMessage(msg, blocks)
 						text = _("User %s banned by %s.\n<i>Ban expiration:</i> %s"):format(kicked, admin, time_reply)
 						db:sadd('chat:'..chat_id..':tempbanned', user_id) --hash needed to check if an user is already tempbanned or not
 					end
-					misc.logEvent('tempban', msg, {motivation = get_motivation(msg), admin = admin, user = kicked, user_id = user_id, h = time_table.hours, d = time_table.days})
+					u.logEvent('tempban', msg, {motivation = get_motivation(msg), admin = admin, user = kicked, user_id = user_id, h = time_table.hours, d = time_table.days})
 					api.sendMessage(chat_id, text, 'html')
 				end
 			end
@@ -146,8 +165,7 @@ function plugin.onTextMessage(msg, blocks)
 		    		end
 		    		api.sendReply(msg, motivation, true)
 		    	else
-		    		misc.saveBan(user_id, 'kick')
-		    		misc.logEvent('kick', msg, {motivation = get_motivation(msg), admin = admin, user = kicked, user_id = user_id})
+		    		u.logEvent('kick', msg, {motivation = get_motivation(msg), admin = admin, user = kicked, user_id = user_id})
 		    		api.sendMessage(msg.chat.id, _("%s kicked %s!"):format(admin, kicked), 'html')
 		    	end
 	    	end
@@ -160,14 +178,13 @@ function plugin.onTextMessage(msg, blocks)
 		    		end
 		    		api.sendReply(msg, motivation, true)
 		    	else
-		    		--save the ban
-		    		misc.saveBan(user_id, 'ban')
-		    		misc.logEvent('ban', msg, {motivation = get_motivation(msg), admin = admin, user = kicked, user_id = user_id})
+		    		u.logEvent('ban', msg, {motivation = get_motivation(msg), admin = admin, user = kicked, user_id = user_id})
 		    		api.sendMessage(msg.chat.id, _("%s banned %s!"):format(admin, kicked), 'html')
 		    	end
     		end
    			if blocks[1] == 'unban' then
    				api.unbanUser(chat_id, user_id)
+   				u.logEvent('unban', msg, {motivation = get_motivation(msg), admin = admin, user = kicked, user_id = user_id})
    				local text = _("%s unbanned by %s!"):format(kicked, admin)
    				api.sendReply(msg, text, 'html')
    			end
@@ -181,7 +198,6 @@ end
 
 plugin.triggers = {
 	onTextMessage = {
-		config.cmd..'(kickme)',
 		config.cmd..'(kick) (.+)',
 		config.cmd..'(kick)$',
 		config.cmd..'(ban) (.+)',
@@ -189,6 +205,7 @@ plugin.triggers = {
 		config.cmd..'(tempban) (.+)',
 		config.cmd..'(unban) (.+)',
 		config.cmd..'(unban)$',
+		'^[#!](kickme)$'
 	}
 }
 

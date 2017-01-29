@@ -1,9 +1,26 @@
 local config = require 'config'
-local misc = require 'utilities'.misc
-local roles = require 'utilities'.roles
+local u = require 'utilities'
 local api = require 'methods'
 
 local plugin = {}
+
+local function antibot_on(chat_id)
+	local hash = 'chat:'..chat_id..':settings'
+	local status = db:hget(hash, 'Antibot')
+	if status and status == 'on' then
+		return true
+	end
+end
+
+local function unblockUser(chat_id, user_id)
+	local hash = 'chat:'..chat_id..':blocked'
+	db:hdel(hash, user_id)
+end
+
+local function is_blocked(chat_id, user_id)
+	local hash = 'chat:'..chat_id..':blocked'
+	return db:hexists(hash, user_id)
+end
 
 local function is_locked(chat_id, thing)
   	local hash = 'chat:'..chat_id..':settings'
@@ -26,13 +43,15 @@ local function get_welcome(msg)
 	if type == 'media' then
 		local file_id = content
 		local caption = db:hget(hash, 'caption')
+		if caption then caption = caption:replaceholders(msg, true) end
 		
 		api.sendDocumentId(msg.chat.id, file_id, nil, caption)
 		return false
 	elseif type == 'custom' then
-		return content:replaceholders(msg)
+		local reply_markup, new_text = u.reply_markup_from_text(content)
+		return new_text:replaceholders(msg), reply_markup
 	else
-		return _("Hi %s, and welcome to *%s*!"):format(msg.new_chat_member.first_name:escape(), msg.chat.title:escape_hard('bold'))
+		return _("Hi %s!"):format(msg.new_chat_member.first_name:escape(), msg.chat.title:escape_hard('bold'))
 	end
 end
 
@@ -47,6 +66,8 @@ local function get_goodbye(msg)
 	if type == 'media' then
 		local file_id = content
 		local caption = db:hget(hash, 'caption')
+		if caption then caption = caption:replaceholders(msg, true) end
+		
 		api.sendDocumentId(msg.chat.id, file_id, nil, caption)
 		return false
 	elseif type == 'custom' then
@@ -64,7 +85,7 @@ end
 function plugin.onTextMessage(msg, blocks)
     if blocks[1] == 'welcome' then
         
-        if msg.chat.type == 'private' or not roles.is_admin_cached(msg) then return end
+        if msg.chat.type == 'private' or not u.is_allowed('texts', msg.chat.id, msg.from) then return end
         
         local input = blocks[2]
         
@@ -75,7 +96,7 @@ function plugin.onTextMessage(msg, blocks)
         local hash = 'chat:'..msg.chat.id..':welcome'
         
         if not input and msg.reply then
-            local replied_to = misc.get_media_type(msg.reply)
+            local replied_to = u.get_media_type(msg.reply)
             if replied_to == 'sticker' or replied_to == 'gif' then
                 local file_id
                 if replied_to == 'sticker' then
@@ -90,6 +111,8 @@ function plugin.onTextMessage(msg, blocks)
                 else
                 	db:hdel(hash, 'caption') --remove the caption key if the new media doesn't have a caption
                 end
+				-- turn on the welcome message in the group settings
+				db:hset(('chat:%d:settings'):format(msg.chat.id), 'Welcome', 'on')
                 api.sendReply(msg, _("A form of media has been set as the welcome message: `%s`"):format(replied_to), true)
             else
                 api.sendReply(msg, _("Reply to a `sticker` or a `gif` to set them as the *welcome message*"), true)
@@ -97,19 +120,24 @@ function plugin.onTextMessage(msg, blocks)
         else
             db:hset(hash, 'type', 'custom')
             db:hset(hash, 'content', input)
-            local res, code = api.sendReply(msg, input:gsub('$rules', misc.deeplink_constructor(msg.chat.id, 'rules')), true)
+            
+            local reply_markup, new_text = u.reply_markup_from_text(input)
+            
+            local res, code = api.sendReply(msg, new_text:gsub('$rules', u.deeplink_constructor(msg.chat.id, 'rules')), true, reply_markup)
             if not res then
                 db:hset(hash, 'type', 'no') --if wrong markdown, remove 'custom' again
                 db:hset(hash, 'content', 'no')
-                api.sendMessage(msg.chat.id, misc.get_sm_error_string(code), true)
+                api.sendMessage(msg.chat.id, u.get_sm_error_string(code), true)
             else
+				-- turn on the welcome message in the group settings
+				db:hset(('chat:%d:settings'):format(msg.chat.id), 'Welcome', 'on')
                 local id = res.result.message_id
                 api.editMessageText(msg.chat.id, id, _("*Custom welcome message saved!*"), true)
             end
         end
     end
 	if blocks[1] == 'goodbye' then
-		if msg.chat.type == 'private' or not roles.is_admin_cached(msg) then return end
+		if msg.chat.type == 'private' or not u.is_allowed('texts', msg.chat.id, msg.from) then return end
 
 		local input = blocks[2]
 		local hash = 'chat:'..msg.chat.id..':goodbye'
@@ -121,7 +149,7 @@ function plugin.onTextMessage(msg, blocks)
 		end
 
 		if not input and msg.reply then
-			local replied_to = misc.get_media_type(msg.reply)
+			local replied_to = u.get_media_type(msg.reply)
 			if replied_to == 'sticker' or replied_to == 'gif' then
 				local file_id
 				if replied_to == 'sticker' then
@@ -136,6 +164,8 @@ function plugin.onTextMessage(msg, blocks)
                 else
                 	db:hdel(hash, 'caption') --remove the caption key if the new media doesn't have a caption
                 end
+				-- turn on the goodbye message in the group settings
+				db:hset(('chat:%d:settings'):format(msg.chat.id), 'Goodbye', 'on')
 				
 				api.sendReply(msg, _("New media setted as goodbye message: `%s`"):format(replied_to), true)
 			else
@@ -151,8 +181,10 @@ function plugin.onTextMessage(msg, blocks)
 		if not res then
 			db:hset(hash, 'type', 'composed') --if wrong markdown, remove 'custom' again
 			db:hset(hash, 'content', 'no')
-			api.sendMessage(msg.chat.id, misc.get_sm_error_string(code), true)
+			api.sendMessage(msg.chat.id, u.get_sm_error_string(code), true)
 		else
+			-- turn on the goodbye message in the group settings
+			db:hset(('chat:%d:settings'):format(msg.chat.id), 'Goodbye', 'on')
 			local id = res.result.message_id
 			api.editMessageText(msg.chat.id, id, _("*Custom goodbye message saved!*"), true)
 		end
@@ -162,23 +194,43 @@ function plugin.onTextMessage(msg, blocks)
 		
 		local extra
 		if msg.from.id ~= msg.new_chat_member.id then extra = msg.from end
-		misc.logEvent(blocks[1], msg, extra)
+		u.logEvent(blocks[1], msg, extra)
 		
-		if msg.new_chat_member.username and not msg.new_chat_member.last_name then
-			local username = msg.new_chat_member.username:lower()
-			if username:find('bot', -3) then
-				return
+		if is_blocked(msg.chat.id, msg.new_chat_member.id) and not msg.from.mod then
+			local res = api.banUser(msg.chat.id, msg.new_chat_member.id)
+			if res then
+				unblockUser(msg.chat.id, msg.new_chat_member.id)
+				local name = u.getname_final(msg.new_chat_member)
+				api.sendMessage(msg.chat.id, _("%s banned: the user was blocked"):format(name), 'html')
+				u.logEvent('blockban', msg, {name = name, id = msg.new_chat_member.id})
 			end
+			return
 		end
 		
-		local text = get_welcome(msg)
+		if msg.new_chat_member.username
+			and not msg.new_chat_member.last_name
+			and msg.from.id ~= msg.new_chat_member.id then
+				
+				local username = msg.new_chat_member.username:lower()
+				if username:find('bot', -3) then
+					if antibot_on(msg.chat.id) and not msg.from.mod then
+						api.sendMessage(msg.chat.id, _("@%s _banned: antibot is on_"):format(msg.new_chat_member.username:escape()), true)
+						api.banUser(msg.chat.id, msg.new_chat_member.id)
+					end
+					return
+				end
+		end
+		
+		local text, reply_markup = get_welcome(msg)
 		if text then --if not text: welcome is locked or is a gif/sticker
-			local keyboard
 			local attach_button = (db:hget('chat:'..msg.chat.id..':settings', 'Welbut')) or config.chat_settings['settings']['Welbut']
 			if attach_button == 'on' then
-				keyboard = {inline_keyboard={{{text = _('Read the rules'), url = misc.deeplink_constructor(msg.chat.id, 'rules')}}}}
+				if not reply_markup then reply_markup = {inline_keyboard={}} end
+				local line = {{text = _('Read the rules'), url = u.deeplink_constructor(msg.chat.id, 'rules')}}
+				table.insert(reply_markup.inline_keyboard, line)
 			end
-			api.sendMessage(msg.chat.id, text, true, keyboard)
+			local link_preview = text:find('telegra%.ph/') ~= nil
+			api.sendMessage(msg.chat.id, text, true, reply_markup, nil, link_preview)
 		end
 		
 		local send_rules_private = db:hget('user:'..msg.new_chat_member.id..':settings', 'rules_on_join')
@@ -195,7 +247,8 @@ function plugin.onTextMessage(msg, blocks)
 		if msg.left_chat_member.username and msg.left_chat_member.username:lower():find('bot', -3) then return end
 		local text = get_goodbye(msg)
 		if text then
-			api.sendMessage(msg.chat.id, text, true)
+			local link_preview = text:find('telegra%.ph/') ~= nil
+			api.sendMessage(msg.chat.id, text, true, nil, nil, link_preview)
 		end
 	end
 end

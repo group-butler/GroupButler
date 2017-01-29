@@ -1,6 +1,5 @@
 local config = require 'config'
-local misc = require 'utilities'.misc
-local roles = require 'utilities'.roles
+local u = require 'utilities'
 local api = require 'methods'
 
 local plugin = {}
@@ -40,38 +39,41 @@ function plugin.onTextMessage(msg, blocks)
     
     local hash = 'chat:'..msg.chat.id..':info'
     if blocks[1] == 'rules' or blocks[1] == 'start' then
-    	local link_preview = db:hget(('chat:%d:settings'):format(msg.chat.id), 'Preview')
-    	if link_preview and link_preview == 'off' then link_preview = nil end
-        local out = misc.getRules(msg.chat.id)
-    	if msg.chat.type == 'private' or (not roles.is_admin_cached(msg) and not send_in_group(msg.chat.id)) then
-    		api.sendMessage(msg.from.id, out, true, nil, nil, link_preview)
+        local rules = u.getRules(msg.chat.id)
+        
+        local reply_markup, rules = u.reply_markup_from_text(rules)
+        
+        local link_preview = rules:find('telegra%.ph/') ~= nil
+    	if msg.chat.type == 'private' or (not msg.from.mod and not send_in_group(msg.chat.id)) then
+    		api.sendMessage(msg.from.id, rules, true, reply_markup, nil, link_preview)
     	else
-        	api.sendReply(msg, out, true, nil, nil, link_preview)
+        	api.sendReply(msg, rules, true, reply_markup, link_preview)
         end
     end
 	
-	if not roles.is_admin_cached(msg) then return end
+	if not u.is_allowed('texts', msg.chat.id, msg.from) then return end
 	
 	if blocks[1] == 'setrules' then
-		local input = blocks[2]
+		local rules = blocks[2]
 		--ignore if not input text
-		if not input then
-			api.sendReply(msg, _("Please write something next this poor `/setrules`"), true)
-			return
+		if not rules then
+			api.sendReply(msg, _("Please write something next `/setrules`"), true) return
 		end
     	--check if a mod want to clean the rules
-		if input == '-' then
+		if rules == '-' then
 			db:hdel(hash, 'rules')
 			api.sendReply(msg, _("Rules has been deleted."))
 			return
 		end
 		
+		local reply_markup, test_text = u.reply_markup_from_text(rules)
+		
 		--set the new rules	
-		local res, code = api.sendReply(msg, input, true)
+		local res, code = api.sendReply(msg, test_text, true, reply_markup)
 		if not res then
-			api.sendMessage(msg.chat.id, misc.get_sm_error_string(code), true)
+			api.sendMessage(msg.chat.id, u.get_sm_error_string(code), true)
 		else
-			db:hset(hash, 'rules', input)
+			db:hset(hash, 'rules', rules)
 			local id = res.result.message_id
 			api.editMessageText(msg.chat.id, id, _("New rules *saved successfully*!"), true)
 		end

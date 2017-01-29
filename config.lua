@@ -13,6 +13,12 @@ return {
 	bot_settings = {
 		cache_time = {
 			adminlist = 18000, --5 hours (18000s) Admin Cache time, in seconds.
+			alert_help = 72,  -- amount of hours for cache help alerts
+			chat_titles = 18000
+		},
+		report = {
+			duration = 1200,
+			times_allowed = 2
 		},
 		notify_bug = false, --Notify if a bug occurs!
 		log_api_errors = true, --Log errors, which happening whilst interacting with the bot api.
@@ -29,27 +35,29 @@ return {
 		'onmessage', --THIS MUST BE THE FIRST: IF AN USER IS FLOODING/IS BLOCKED, THE BOT WON'T GO THROUGH PLUGINS
 		'antispam', --SAME OF onmessage.lua
 		--'realms', --must stay here
-		'configure',
-		'menu',
-		'dashboard',
+		'backup',
 		'banhammer',
-		'users',
+		'block',
+		'configure',
+		'dashboard',
+		'floodmanager',
 		'help',
+		'links',
+		'logchannel',
+		'mediasettings',
+		'menu',
+		'moderators',
+		'pin',
+		'private',
+		'private_settings',
+		'report',
 		'rules',
 		'service',
-		'links',
-		'warn',
 		'setlang',
-		'floodmanager',
+		'users',
+		'warn',
 		'welcome',
-		'pin',
-		'mediasettings',
-		'private',
 		'admin',
-		'backup',
-		'logchannel',
-		'report',
-		'private_settings',
 		'extra', --must be the last plugin in the list.
 	},
 	multipurpose_plugins = {},
@@ -75,12 +83,12 @@ return {
 			['Welcome'] = 'off',
 			['Goodbye'] = 'off',
 			['Extra'] = 'on',
-			['Flood'] = 'off',
+			--['Flood'] = 'off',
 			['Silent'] = 'off',
-			['Preview'] = 'off',
 			['Rules'] = 'off',
 			['Reports'] = 'off',
-			['Welbut'] = 'off'
+			['Welbut'] = 'off',
+			['Antibot'] = 'off'
 		},
 		['antispam'] = {
 			['links'] = 'alwd',
@@ -133,6 +141,7 @@ return {
 		['tolog'] = {
 			['ban'] = 'no',
 			['kick'] = 'no',
+			['unban'] = 'no',
 			['tempban'] = 'no',
 			['report'] = 'no',
 			['warn'] = 'no',
@@ -140,18 +149,30 @@ return {
 			['mediawarn'] = 'no',
 			['spamwarn'] = 'no',
 			['flood'] = 'no',
+			['promote'] = 'no',
+			['demote'] = 'no',
 			['new_chat_member'] = 'no',
 			['new_chat_photo'] = 'no',
 			['delete_chat_photo'] = 'no',
 			['new_chat_title'] = 'no',
-			['pinned_message'] = 'no'
+			['pinned_message'] = 'no',
+			['blockban'] = 'no',
+			['block'] = 'no',
+			['unblock'] = 'no'
 		},
+		['modsettings'] = {
+			['promdem'] = 'yes', --'yes': admins can promote or demote moderators; 'no': only the owner can
+			['hammer'] = 'yes',
+			['config'] = 'no',
+			['texts'] = 'no'
+		}
 	},
 	private_settings = {
 		rules_on_join = 'off',
 		reports = 'off'
 	},
-	chat_custom_texts = {'extra', 'info', 'links', 'warns', 'mediawarn', 'spamwarns'},
+	chat_hashes = {'extra', 'info', 'links', 'warns', 'mediawarn', 'spamwarns', 'blocked', 'report'},
+	chat_sets = {'whitelist', 'mods'},
 	bot_keys = {
 		d3 = {'bot:general', 'bot:usernames', 'bot:chat:latsmsg'},
 		d2 = {'bot:groupsid', 'bot:groupsid:removed', 'tempbanned', 'bot:blocked', 'remolden_chats'} --remolden_chats: chat removed with $remold command

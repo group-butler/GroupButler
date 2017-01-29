@@ -1,6 +1,5 @@
 local config = require 'config'
-local misc = require 'utilities'.misc
-local roles = require 'utilities'.roles
+local u = require 'utilities'
 local api = require 'methods'
 
 local plugin = {}
@@ -22,7 +21,7 @@ local function do_keyboard_flood(chat_id)
     local status = db:hget('chat:'..chat_id..':settings', 'Flood') or config.chat_settings['settings']['Flood'] --check (default: disabled)
     if status == 'on' then
         status = _("✅ | ON")
-    elseif status == 'off' then
+    else
         status = _("❌ | OFF")
     end
     
@@ -42,7 +41,7 @@ local function do_keyboard_flood(chat_id)
             },
             {
                 {text = '➖', callback_data = 'flood:dim:'..chat_id},
-                {text = num, callback_data = 'flood:alert:num:'..chat_id},
+                {text = tostring(num), callback_data = 'flood:alert:num:'..locale.language},
                 {text = '➕', callback_data = 'flood:raise:'..chat_id},
             }
         }
@@ -66,7 +65,7 @@ local function do_keyboard_flood(chat_id)
             exc_status = '❌'
         end
         local line = {
-            {text = translation, callback_data = 'flood:alert:voice:'..chat_id},
+            {text = translation, callback_data = 'flood:alert:voice:'..locale.language},
             {text = exc_status, callback_data = 'flood:exc:'..media..':'..chat_id},
         }
         table.insert(keyboard.inline_keyboard, line)
@@ -100,10 +99,10 @@ local function changeFloodSettings(chat_id, screm)
             end
         elseif screm < 0 then
             new = db:hincrby(hash, 'MaxFlood', -1)
-            if new < 4 then
+            if new < 3 then
                 db:hincrby(hash, 'MaxFlood', 1)
                 return _("%d is not a valid value!\n"):format(new)
-                    .. ("The value should be higher than 3 and lower then 26")
+                    .. ("The value should be higher than 2 and lower then 26")
             end
         end
         return string.format('%d → %d', old, new)
@@ -112,11 +111,7 @@ end
 
 function plugin.onCallbackQuery(msg, blocks)
     local chat_id = msg.target_id
-    if not chat_id then
-        api.sendAdmin('missing chat_id -> antiflood') return
-    end
-    
-	if not roles.is_admin_cached(chat_id, msg.from.id) then
+	if chat_id and not u.is_allowed('config', chat_id, msg.from) then
 		api.answerCallbackQuery(msg.cb_id, _("You're no longer an admin"))
 	else
 	    local header = _("You can manage the antiflood settings from here")
@@ -128,8 +123,12 @@ function plugin.onCallbackQuery(msg, blocks)
         end
     
         if blocks[1] == 'alert' then
+			if config.available_languages[blocks[3]] then
+				locale.language = blocks[3]
+			end
             text = get_button_description(blocks[2])
-            api.answerCallbackQuery(msg.cb_id, text, true) return
+            api.answerCallbackQuery(msg.cb_id, text, true, config.bot_settings.cache_time.alert_help)
+			return
         end
         
         if blocks[1] == 'exc' then
@@ -158,8 +157,7 @@ function plugin.onCallbackQuery(msg, blocks)
         end
         
         if blocks[1] == 'status' then
-            local status = db:hget('chat:'..chat_id..':settings', 'Flood') or config.chat_settings['settings']['Flood']
-            text = misc.changeSettingStatus(chat_id, 'Flood')
+            text = u.changeSettingStatus(chat_id, 'Flood')
         end
         
         local keyboard = do_keyboard_flood(chat_id)
@@ -170,8 +168,7 @@ end
 
 plugin.triggers = {
     onCallbackQuery = {
-        '^###cb:flood:(alert):(num)',
-        '^###cb:flood:(alert):(voice)',
+        '^###cb:flood:(alert):([%w_]+):([%w_]+)$',
         '^###cb:flood:(status):(-?%d+)$',
         '^###cb:flood:(action):(-?%d+)$',
         '^###cb:flood:(dim):(-?%d+)$',

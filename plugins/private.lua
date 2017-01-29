@@ -1,5 +1,5 @@
 local config = require 'config'
-local misc = require 'utilities'.misc
+local u = require 'utilities'
 local api = require 'methods'
 
 local plugin = {}
@@ -31,7 +31,7 @@ function plugin.onTextMessage(msg, blocks)
 	if blocks[1] == 'echo' then
 		local res, code = api.sendMessage(msg.chat.id, blocks[2], true)
 		if not res then
-			api.sendMessage(msg.chat.id, misc.get_sm_error_string(code), true)
+			api.sendMessage(msg.chat.id, u.get_sm_error_string(code), true)
 		end
 	end
 	if blocks[1] == 'about' then

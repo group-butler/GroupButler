@@ -1,6 +1,5 @@
 local config = require 'config'
-local misc = require 'utilities'.misc
-local roles = require 'utilities'.roles
+local u = require 'utilities'
 local api = require 'methods'
 
 local plugin = {}
@@ -33,7 +32,7 @@ local function doKeyboard_media(chat_id)
 		}
         local media_text = media_texts[media] or media
         local line = {
-            {text = media_text, callback_data = 'mediallert:'..chat_id},
+            {text = media_text, callback_data = 'mediallert:'..locale.language},
             {text = status, callback_data = 'media:'..media..':'..chat_id}
         }
         table.insert(keyboard.inline_keyboard, line)
@@ -65,11 +64,7 @@ end
 
 function plugin.onCallbackQuery(msg, blocks)
 	local chat_id = msg.target_id
-	if not chat_id then
-		api.sendAdmin('msg.target_id missing -> mediasettings') return
-	end
-	
-	if not roles.is_admin_cached(chat_id, msg.from.id) then
+	if chat_id and not u.is_allowed('config', chat_id, msg.from) then
 		api.answerCallbackQuery(msg.cb_id, _("You're no longer an admin"))
 	else
 		local media_first = _([[
@@ -83,7 +78,10 @@ The number is not related the the normal `/warn` command
 		    api.editMessageText(msg.chat.id, msg.message_id, media_first, true, keyboard)
 		else
 			if blocks[1] == 'mediallert' then
-				api.answerCallbackQuery(msg.cb_id, _("⚠️ Tap on the right column"))
+				if config.available_languages[blocks[2]] then
+					locale.language = blocks[2]
+				end
+				api.answerCallbackQuery(msg.cb_id, _("⚠️ Tap on the right column"), false, config.bot_settings.cache_time.alert_help)
 				return
 			end
 			local cb_text
@@ -118,7 +116,7 @@ The number is not related the the normal `/warn` command
 			end
 			if blocks[1] == 'media' then
 				local media = blocks[2]
-		    	cb_text = '⚡️ '..misc.changeMediaStatus(chat_id, media, 'next')
+		    	cb_text = '⚡️ '..u.changeMediaStatus(chat_id, media, 'next')
     	    end
     	    local keyboard = doKeyboard_media(chat_id)
 			api.editMessageText(msg.chat.id, msg.message_id, media_first, true, keyboard)
@@ -132,7 +130,7 @@ plugin.triggers = {
 		'^###cb:(media):(%a+):(-?%d+)',
 		'^###cb:(mediatype):(-?%d+)',
 		'^###cb:(mediawarn):(%a+):(-?%d+)',
-		'^###cb:(mediallert)',
+		'^###cb:(mediallert):([%w_]+)$',
 		
 		'^###cb:(config):media:(-?%d+)$'
 	}

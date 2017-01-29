@@ -4,13 +4,17 @@
 
 This bot has been created to help people administrate their groups, and includes many useful tools.
 
-Group Butler was born as an [otouto](otou.to) [v3.1](https://github.com/topkecleon/otouto/tree/26c1299374af130bbf8457af904cb4ea450caa51) ([@mokubot](https://telegram.me/mokubot)), but it has been turned into an administration bot.
+Group Butler was born as an [otouto](otou.to) [v3.1](https://github.com/topkecleon/otouto/tree/26c1299374af130bbf8457af904cb4ea450caa51) ([`@mokubot`](https://telegram.me/mokubot)), but it has been turned into an administration bot.
 
 #### Group Butler on Telegram:
 
-- [@GroupButler_bot](https://telegram.me/GroupButler_Bot) is based on the `master` branch of this repository. It's the main bot, and [@GroupButler_ch](https://telegram.me/groupbutler_ch) is its channel.
+- [`@GroupButler_bot`](https://telegram.me/GroupButler_Bot)
+    - **_branch_**: `master`
+    - **_channel_**: [`@GroupButler_ch`](https://telegram.me/groupbutler_ch).
 
-- [@GBReborn_bot](https://telegram.me/GBReborn_bot) is based on the `beta` branch. It has its own channel, [@GroupButler_beta](https://telegram.me/GroupButler_beta).
+- [`@GBReborn_bot`](https://telegram.me/GBReborn_bot)
+    - **_branch_**: `beta`
+    - **_channel_**: [`@GroupButler_beta`](https://telegram.me/GroupButler_beta).
 
 * * *
 
@@ -80,7 +84,7 @@ Other things to check before running the bot:
 
 **Before you do anything else, open config.lua (in a text editor) and make the following changes:**
 
-> • Set `bot_api_key` to the authentication token that you received from [@BotFather](http://telegram.me/BotFather).
+> • Set `bot_api_key` to the authentication token that you received from [`@BotFather`](http://telegram.me/BotFather).
 >
 > • Insert your numerical Telegram ID into the `superadmins` table. Other superadmins can be added too. It is important that you insert the numerical ID and NOT a string.
 >

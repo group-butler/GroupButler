@@ -1,6 +1,5 @@
 local config = require 'config'
-local misc = require 'utilities'.misc
-local roles = require 'utilities'.roles
+local u = require 'utilities'
 local api = require 'methods'
 
 local plugin = {}
@@ -71,11 +70,11 @@ function plugin.onTextMessage(msg, blocks)
         local chat_id = msg.chat.id
         local keyboard = doKeyboard_dashboard(chat_id)
         local res = api.sendMessage(msg.from.id, _("Navigate this message to see *all the info* about this group!"), true, keyboard)
-        if not misc.is_silentmode_on(msg.chat.id) then --send the responde in the group only if the silent mode is off
+        if not u.is_silentmode_on(msg.chat.id) then --send the responde in the group only if the silent mode is off
             if res then
                 api.sendMessage(msg.chat.id, _("_I've sent you the group dashboard via private message_"), true)
             else
-                misc.sendStartMe(msg)
+                u.sendStartMe(msg)
             end
         end
     end
@@ -101,26 +100,26 @@ function plugin.onCallbackQuery(msg, blocks)
 	end
     local keyboard = doKeyboard_dashboard(chat_id)
     if request == 'settings' then
-        text = misc.getSettings(chat_id)
+        text = u.getSettings(chat_id)
         notification = _("ℹ️ Group ► Settings")
     end
     if request == 'rules' then
-        text = misc.getRules(chat_id)
+        text = u.getRules(chat_id)
         notification = _("ℹ️ Group ► Rules")
     end
     if request == 'adminlist' then
         parse_mode = 'html'
-        local creator, admins = misc.getAdminlist(chat_id)
-        if not creator then
-            -- creator is false, admins is the error code
-            text = _("I got kicked out of this group 😓")
+        local adminlist = u.getAdminlist(chat_id)
+        if adminlist then
+        	local is_empty, modlist = u.getModlist(chat_id)
+        	text = adminlist..'\n'..modlist
         else
-            text = _("<b>Creator</b>:\n%s\n\n<b>Admins</b>:\n%s"):format(creator, admins)
+            text = _("I got kicked out of this group 😓")
         end
         notification = _("ℹ️ Group ► Admin list")
     end
     if request == 'extra' then
-        text = misc.getExtraList(chat_id)
+        text = u.getExtraList(chat_id)
         notification = _("ℹ️ Group ► Extra")
     end
     if request == 'flood' then

@@ -1,6 +1,5 @@
 local config = require 'config'
-local misc = require 'utilities'.misc
-local roles = require 'utilities'.roles
+local u = require 'utilities'
 local api = require 'methods'
 
 local plugin = {}
@@ -51,6 +50,19 @@ local function is_blocked(id)
 	end
 end
 
+local function is_whitelisted(chat_id, text)
+    local set = ('chat:%d:whitelist'):format(chat_id)
+    local links = db:smembers(set)
+    if links and next(links) then
+        for i=1, #links do
+            if text:match(links[i]:gsub('%-', '%%-')) then
+                --print('Whitelist:', links[i])
+                return true
+            end
+        end
+    end
+end
+
 function plugin.onEveryMessage(msg)
     
     if not msg.inline then
@@ -62,9 +74,9 @@ function plugin.onEveryMessage(msg)
         local is_flooding, msgs_sent, msgs_max = is_flooding_funct(msg)
         if is_flooding then
             local status = (db:hget('chat:'..msg.chat.id..':settings', 'Flood')) or config.chat_settings['settings']['Flood']
-            if status == 'on' and not msg.cb and not roles.is_admin_cached(msg) then --if the status is on, and the user is not an admin, and the message is not a callback, then:
+            if status == 'on' and not msg.cb and not msg.from.mod then --if the status is on, and the user is not an admin, and the message is not a callback, then:
                 local action = db:hget('chat:'..msg.chat.id..':flood', 'ActionFlood')
-                local name = misc.getname_final(msg.from)
+                local name = u.getname_final(msg.from)
                 local res, message
                 --try to kick or ban
                 if action == 'ban' then
@@ -75,21 +87,20 @@ function plugin.onEveryMessage(msg)
         	    --if kicked/banned, send a message
         	    if res then
         	        local log_hammered = action
-        	        if msgs_sent == (msgs_max + 1) or msgs_sent == msgs_max + 5 then --send the message only if it's the message after the first message flood. Repeat after 5
-        	            misc.saveBan(msg.from.id, 'flood') --save ban
+        	        if msgs_sent == (msgs_max + 1) then --send the message only if it's the message after the first message flood. Repeat after 5
         	            if action == 'ban' then
         	                message = _("%s <b>banned</b> for flood!"):format(name)
         	            else
         	                message = _("%s <b>kicked</b> for flood!"):format(name)
         	            end
         	            api.sendMessage(msg.chat.id, message, 'html')
+        	            u.logEvent('flood', msg, {hammered = log_hammered})
         	        end
-        	        misc.logEvent('flood', msg, {hammered = log_hammered})
         	    end
         	end
             
             if msg.cb then
-                api.answerCallbackQuery(msg.cb_id, _("‼️ Please don't abuse the keyboard, requests will be ignored"))
+                --api.answerCallbackQuery(msg.cb_id, _("‼️ Please don't abuse the keyboard, requests will be ignored")) --avoid to hit the limits with answerCallbackQuery
             end
             return false --if an user is spamming, don't go through plugins
         end
@@ -100,35 +111,41 @@ function plugin.onEveryMessage(msg)
         local hash = 'chat:'..msg.chat.id..':media'
         local media_status = (db:hget(hash, media)) or 'ok'
         local out
-        if not(media_status == 'ok') then
-            if not roles.is_admin_cached(msg) then --ignore admins
-                local status
-                local name = misc.getname_final(msg.from)
-                local max_reached_var, n, max = max_reached(msg.chat.id, msg.from.id)
-    	        if max_reached_var then --max num reached. Kick/ban the user
-    	            status = (db:hget('chat:'..msg.chat.id..':warnsettings', 'mediatype')) or config.chat_settings['warnsettings']['mediatype']
-    	            --try to kick/ban
-    	            if status == 'kick' then
-                        res = api.kickUser(msg.chat.id, msg.from.id)
-                    elseif status == 'ban' then
-                        res = api.banUser(msg.chat.id, msg.from.id)
-    	            end
-    	            if res then --kick worked
-    	                misc.saveBan(msg.from.id, 'media') --save ban
-    	                db:hdel('chat:'..msg.chat.id..':mediawarn', msg.from.id) --remove media warns
-    	                local message
-    	                if status == 'ban' then
-			    			message = _("%s <b>banned</b>: media sent not allowed!\n❗️ <code>%d/%d</code>"):format(name, n, max)
-    	                else
-			    			message = _("%s <b>kicked</b>: media sent not allowed!\n❗️ <code>%d/%d</code>"):format(name, n, max)
+        if media_status ~= 'ok' then
+            if not msg.from.mod then --ignore mods and above
+                local whitelisted
+                if media == 'link' then
+                    whitelisted = is_whitelisted(msg.chat.id, msg.text)
+                end
+                
+                if not whitelisted then
+                    local status
+                    local name = u.getname_final(msg.from)
+                    local max_reached_var, n, max = max_reached(msg.chat.id, msg.from.id)
+    	            if max_reached_var then --max num reached. Kick/ban the user
+    	                status = (db:hget('chat:'..msg.chat.id..':warnsettings', 'mediatype')) or config.chat_settings['warnsettings']['mediatype']
+    	                --try to kick/ban
+    	                if status == 'kick' then
+                            res = api.kickUser(msg.chat.id, msg.from.id)
+                        elseif status == 'ban' then
+                            res = api.banUser(msg.chat.id, msg.from.id)
     	                end
-    	                api.sendMessage(msg.chat.id, message, 'html')
-    	            end
-	            else --max num not reached -> warn
-			    	local message = _("%s, this type of media is <b>not allowed</b> in this chat.\n(<code>%d/%d</code>)"):format(name, n, max)
-	                api.sendReply(msg, message, 'html')
-	            end
-	            misc.logEvent('mediawarn', msg, {warns = n, warnmax = max, media = _(media), hammered = status})
+    	                if res then --kick worked
+    	                    db:hdel('chat:'..msg.chat.id..':mediawarn', msg.from.id) --remove media warns
+    	                    local message
+    	                    if status == 'ban' then
+			        			message = _("%s <b>banned</b>: media sent not allowed!\n❗️ <code>%d/%d</code>"):format(name, n, max)
+    	                    else
+			        			message = _("%s <b>kicked</b>: media sent not allowed!\n❗️ <code>%d/%d</code>"):format(name, n, max)
+    	                    end
+    	                    api.sendMessage(msg.chat.id, message, 'html')
+    	                end
+	                else --max num not reached -> warn
+			        	local message = _("%s, this type of media is <b>not allowed</b> in this chat.\n(<code>%d/%d</code>)"):format(name, n, max)
+	                    api.sendReply(msg, message, 'html')
+	                end
+	                u.logEvent('mediawarn', msg, {warns = n, warnmax = max, media = _(media), hammered = status})
+                end
     	    end
     	end
     end
@@ -139,8 +156,8 @@ function plugin.onEveryMessage(msg)
         local last_name = 'x'
         if msg.from.last_name then last_name = msg.from.last_name end
         local check = msg.text:find(rtl..'+') or msg.from.first_name:find(rtl..'+') or last_name:find(rtl..'+')
-        if check ~= nil and not roles.is_admin_cached(msg) then
-            local name = misc.getname_final(msg.from)
+        if check ~= nil and not msg.from.mod then
+            local name = u.getname_final(msg.from)
             local res
             if rtl_status == 'kick' then
                 res = api.kickUser(msg.chat.id, msg.from.id)
@@ -148,7 +165,6 @@ function plugin.onEveryMessage(msg)
                 res = api.banUser(msg.chat.id, msg.from.id)
             end
     	    if res then
-    	        misc.saveBan(msg.from.id, 'rtl') --save ban
     	        local message = _("%s <b>kicked</b>: RTL character in names / messages not allowed!"):format(name)
     	        if rtl_status == 'ban' then
 					message = _("%s <b>banned</b>: RTL character in names / messages not allowed!"):format(name)
@@ -162,8 +178,8 @@ function plugin.onEveryMessage(msg)
     if msg.text and msg.text:find('([\216-\219][\128-\191])') then
         local arab_status = (db:hget('chat:'..msg.chat.id..':char', 'Arab')) or 'allowed'
         if arab_status == 'kick' or arab_status == 'ban' then
-    	    if not roles.is_admin_cached(msg) then
-    	        local name = misc.getname_final(msg.from)
+    	    if not msg.from.mod then
+    	        local name = u.getname_final(msg.from)
     	        local res
     	        if arab_status == 'kick' then
     	            res = api.kickUser(msg.chat.id, msg.from.id)
@@ -171,7 +187,6 @@ function plugin.onEveryMessage(msg)
     	            res = api.banUser(msg.chat.id, msg.from.id)
     	        end
     	        if res then
-    	            misc.saveBan(msg.from.id, 'arab') --save ban
     	            local message = _("%s <b>kicked</b>: arab/persian message detected!"):format(name)
     	            if arab_status == 'ban' then
 						message = _("%s <b>banned</b>: arab/persian message detected!"):format(name)

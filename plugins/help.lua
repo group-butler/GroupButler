@@ -1,6 +1,5 @@
 local config = require 'config'
-local misc = require 'utilities'.misc
-local roles = require 'utilities'.roles
+local u = require 'utilities'
 local api = require 'methods'
 
 local plugin = {}
@@ -77,16 +76,18 @@ Remember: you have to use commands  *in the group*, unless they are specifically
 		return _([[
 *Commands available for every user in a group*:
 
-• `/dashboard` : see all the informations about the group
-• `/rules` : show the group rules
-• `/adminlist` : show the moderators of the group
-• `/help` : receive the help message
-*Note*: `/dashboard` and `/adminlist` replies always in private. If the bot is unable to reach an user, he will ask in the group to that user to be started, but just if _silent mode_ is off.
+• `/dashboard`: see all the informations about the group
+• `/rules`: show the group rules
+• `/adminlist`: show the administrators of the group
+• `/modlist`: show the moderators of the group
+• `/staff`: show the list of the administrators and moderators
+• `/help`: receive the help message
+• `!kickme`: the bot will kick you
+*Note*: `/dashboard`, `/adminlist`, `/modlist` and `/staff`replies always in private. If the bot is unable to reach an user, he will ask in the group to that user to be started, but just if _silent mode_ is off.
 With `/rules`, the bot always answer in the group for admins, but with normal users the message is sent in the group or in private according to the group settings.
 
 • `@admin` (by reply): report a message to the admins of the group (the bot will forward it in prvate). This ability could be turned off from the group settings. A description of the report can be added.
 Admins need to give their consense to receive reports from users, with `/mysettings` command
-• `/kickme` : get kicked by the bot
 ]])
 	elseif key == 'info' then
 		return _([[
@@ -115,6 +116,10 @@ Kicked people can join back, banned people can't. Banned users are added to the 
 • `/ban [by reply|username|id|text mention]`: ban a user from the group.
 • `/tempban [hours|nd nh]` = ban an user for a specific amount of hours (max: one week). For now, only by reply. Short form: `/tempban 1d 7h`
 • `/unban [by reply|username|id|text mention]`: unban the user from the group.
+• `/block`: this command can be used in reply to a forwarded message (from the user you want to block), or in alterantive you can provide a list of usernames. You should block only users who are outside the group.
+Blocked users are *automatically* banned once they join the group.
+• `/unblock`: works in the same way of `/block`, but allows to remove one or more users from the list of blocked users.
+• `/blockedlist`: get the list of blocked users.
 • `/user [by reply|username|id|text mention]`: shows how many times the user has been banned *in all the groups*, and the warns received.
 • `/status [username|id]`: show the current status of the user `(member|kicked/left the chat|banned|admin/creator|never seen)`.
 A bot can't retrieve the status of an user if that user never started it before (in this case, the _never seen_ status is returned)
@@ -159,6 +164,23 @@ Placeholders:
 
 *GIF/sticker as welcome message*
 You can use a particular gif/sticker as welcome message. To set it, reply to the gif/sticker you want to set as welcome message with `/welcome`. Same goes for `/goodbye`
+]])
+	elseif key == 'whitelist' then
+		return _([[*Whitelist settings*
+
+As you may know, the bot can warn/kick/ban who sends a telegram.me link (antispam settings) or any other link (media settings).
+The whitelist is a list of links that will be ignored by the bot.
+If an user sends a whitelisted link, he won't be warned or kicked.
+
+`/whitelist [link(s)]` or `/wl [link(s)]`: add one or more links to the whitelist.
+`/unwhitelist [link(s)]` or `/unwl [link(s)]`: remove one or more links from the whitelist.
+`/whitelist` or `/wl`: get the whitelist.
+`/whitelistl -` or `/wl -`: empty the whitelist.
+
+When the group link is saved with `/setlink`, it gets automatically added to the whitelist.
+
+*Why links are saved without* _https://_ *and* _www_*?*
+The bot auto-removes _https://, http:// and www_ from every link to reduce the possibility of having the same link saved twice.
 ]])
 	elseif key == 'extra' then
 		return _([[
@@ -207,7 +229,7 @@ So with `/pin` you can generate a message to pin, and edit it how many times you
 *Note*: `/pin` supports markdown, but only `$rules` and `$title` placeholders
 ]])
 	elseif key == 'lang' then
-		-- TRANSLATORS: leave your contact information for reports mistakes in translation
+		-- TRANSLATORS: leave your contact information to reports mistakes in translation
 		return _([[
 *Group language*"
 • `/lang`: choose the group language (can be changed in private too).
@@ -231,15 +253,38 @@ When Rtl is not allowed (🚫), everyone that writes this character (or that has
 *General group settings*
 
 `/config` or  `/settings`: manage the group settings in private from an inline keyboard.
-The inline keyboard has three sub-menus:
+The inline keyboard has six sub-menus:
 
 *Menu*: manage the most important group settings
 *Antiflood*: turn on or off the antiflood, set its sensitivity and choose some media to ignore, if you want
 *Media*: choose which media to forbid in your group, and set the number of times that an user will be warned before being kicked/banned
 *Antispam*: choose which kind of spam you want to forbid (example: telegram.me links, forwarded messages from channels)
+*Log channel*: choose which updates should be logged
+*Moderators*: promote or demote moderators
+
+*Bonus commands*:
+`/reportflood [number of messages]/[timeframe]`: set how many times users can use the @admin command within a certain timeframe.
+`/leave`: the bot will leave the group without deleting its data. Use this command only if you are going to add the bot to the group again
+`/snap`: generate a backup file that can be restored with `/import` (send the file in the group and reply to it). `/snap` can be used once every three days
 ]])
+	elseif key == 'mods' then
+		return _([[*Moderators*
+
+Moderators are normal users that can use some of the commands that are usually available only to the group administrators.
+
+By default, moderators only have the banhammer (they can use _/ban, /kick, /unban, /tempban, /warn, /nowarn, /block, /unblock, /user_).
+But their powers can be expanded or restricted by the administrators: there is a button in the /config menu, called _"Moderators"_, where the permissions of the moderators can be configured.
+
+By default, every admin can promote a new moderator, or demote an user who is already a mod.
+If you are the group owner, in the _"Moderators"_ section of the configuration menu you will be able to find a switch called _"Admins can manage mods"_.
+When disabled, the group administrators *can't promote or demote new moderators*, and also they won't be allowed to access the _"Moderators"_ section of the configuration menu (so they *won't be able to change the moderators permissions*).
+
+*Commands*
+`/promote [by reply|by username|by text mention|by ID]`: promote an user to moderator. If used on a moderator, it will update his name in the moderators list.
+`/demote [by reply|by username|by text mention|by ID]`: demote an moderator.
+`/modlist`: show the list of the moderators]])
 	elseif key == 'logchannel' then
-		return _([[*Log channel iformations*
+		return _([[*Log channel informations*
 			
 A log channel is a _(private)_ channel where the bot will record all the important events that will happen in your group.
 If you want to use this feature, you need to pair your group with a channel with the commands described below.
@@ -271,7 +316,7 @@ local function dk_admins()
 	    	[_("Pin")] = 'pin'
 	    },
 	    {
-	    	[_("Languages")] = 'lang', --+ char
+	    	[_("Languages")] = 'lang',
 	    	[_("Group configuration")] = 'config'
 	    },
 	    {
@@ -280,6 +325,7 @@ local function dk_admins()
 	    },
 	    {
 	    	[_("Welcome settings")] = 'welcome',
+	    	[_("Links whitelist")] = 'whitelist',
 	    }
 	    
     }
@@ -318,6 +364,7 @@ local function dk_main()
 		{{text = _('Commands in private'), callback_data = 'help:private'}},
 		--{{text = _('Realms'), callback_data = 'help:realm'}},
 		{{text = _('Log channel'), callback_data = 'help:logchannel'}},
+		{{text = _('Moderators'), callback_data = 'help:mods'}},
 	}
 	
 	return keyboard
@@ -347,11 +394,15 @@ function plugin.onTextMessage(msg, blocks)
         end
     end
     if blocks[1] == 'help' then
-        local keyboard = do_keyboard('main')
-        local text = get_helped_string('main_menu')
-    	local res = api.sendMessage(msg.from.id, text, true, keyboard)
-    	if not res and msg.chat.type ~= 'private' and db:hget('chat:'..msg.chat.id..':settings', 'Silent') ~= 'on' then
-    	    api.sendMessage(msg.chat.id, _('[Start me](%s) _to get the list of commands_'):format(misc.deeplink_constructor('', 'help')), true)
+    	local text = get_helped_string(blocks[2] or 'main_menu')
+    	if blocks[2] then
+    		api.sendMessage(msg.from.id, text, true)
+    	else
+        	local keyboard = do_keyboard('main')
+    		local res = api.sendMessage(msg.from.id, text, true, keyboard)
+    		if not res and msg.chat.type ~= 'private' and db:hget('chat:'..msg.chat.id..':settings', 'Silent') ~= 'on' then
+    		    api.sendMessage(msg.chat.id, _('[Start me](%s) _to get the list of commands_'):format(u.deeplink_constructor('', 'help')), true)
+    		end
     	end
     end
 end
@@ -379,6 +430,9 @@ function plugin.onCallbackQuery(msg, blocks)
     elseif query == 'logchannel' then
     	text = get_helped_string('logchannel')
     	answerCallbackQuery_text = _('Log channel informations')
+    elseif query == 'mods' then
+    	text = get_helped_string('mods')
+    	answerCallbackQuery_text = _('Informations about the moderators')
     else --query == 'admins'
     	keyboard_type = 'admins'
     	text = get_helped_string(blocks[2])
@@ -402,7 +456,8 @@ plugin.triggers = {
 	onTextMessage = {
 		config.cmd..'(start)$',
 		config.cmd..'(help)$',
-		'^/start :(help)$'
+		'^/start :(help)$',
+		'^/start (help):([%w_]+)$',
 	},
 	onCallbackQuery = {
 		'^###cb:help:(admins):(%a+)$',
