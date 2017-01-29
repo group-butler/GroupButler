@@ -214,7 +214,7 @@ function plugin.onTextMessage(msg, blocks)
 				local username = msg.new_chat_member.username:lower()
 				if username:find('bot', -3) then
 					if antibot_on(msg.chat.id) and not msg.from.mod then
-						api.sendMessage(msg.chat.id, _("_@%s banned: antibot is on_"):format(msg.new_chat_member.username:escape()), true)
+						api.sendMessage(msg.chat.id, _("@%s _banned: antibot is on_"):format(msg.new_chat_member.username:escape()), true)
 						api.banUser(msg.chat.id, msg.new_chat_member.id)
 					end
 					return

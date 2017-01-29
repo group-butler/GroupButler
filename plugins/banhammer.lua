@@ -205,7 +205,7 @@ plugin.triggers = {
 		config.cmd..'(tempban) (.+)',
 		config.cmd..'(unban) (.+)',
 		config.cmd..'(unban)$',
-		'^[#!](kickme)'
+		'^[#!](kickme)$'
 	}
 }
 
