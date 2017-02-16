@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GroupButler 4.0\n"
 "Report-Msgid-Bugs-To: https://telegram.me/bac0nnn\n"
-"POT-Creation-Date: 2017-01-22 21:14+0100\n"
-"PO-Revision-Date: 2017-01-22 21:22+0100\n"
+"POT-Creation-Date: 2017-02-16 20:16+0000\n"
+"PO-Revision-Date: 2017-02-16 21:19+0100\n"
 "Last-Translator: Nicholas Guriev <guriev-ns@ya.ru>\n"
 "Language-Team: Italian\n"
 "Language: it\n"
@@ -33,19 +33,19 @@ msgid ""
 "convert this group to a supergroup.\n"
 msgstr ""
 
-#: methods.lua:145
+#: methods.lua:146
 msgid "I'm not an admin, I can't kick people"
 msgstr "Non sono admin, quindi non posso kickare"
 
-#: methods.lua:147
+#: methods.lua:148
 msgid "I can't kick or ban an admin"
 msgstr "Non posso kickare o bannare un admin"
 
-#: methods.lua:149
+#: methods.lua:150
 msgid "There is no need to unban in a normal group"
 msgstr "Non c'è bisogno di unbannare in un gruppo normale"
 
-#: methods.lua:151
+#: methods.lua:152
 msgid "This user is not a chat member"
 msgstr "Questo utente non fa parte del gruppo"
 
@@ -2572,14 +2572,14 @@ msgstr ""
 
 #: plugins/report.lua:102
 #, lua-format
-msgid "_Unvalid value:_ number of times allowed (`input: %d`)"
+msgid "_Invalid value:_ number of times allowed (`input: %d`)"
 msgstr ""
 "_Valore non valido:_ numero di volte che il comando @admin può essere usato "
 "(`input: %d`)"
 
 #: plugins/report.lua:104
 #, lua-format
-msgid "_Unvalid value:_ time (`input: %d`)"
+msgid "_Invalid value:_ time (`input: %d`)"
 msgstr "_Valore non valido:_ tempo (`input: %d`)"
 
 #: plugins/report.lua:109
@@ -2849,11 +2849,10 @@ msgstr ""
 #, lua-format
 msgid ""
 "Done! %s has been forgiven.\n"
-"<b>Warns removed</b>: <i>normal warns x%d, for media x%d, spamwarns x%d</i>"
+"<b>Warns found</b>: <i>normal warns %s, for media %s, spamwarns %s</i>"
 msgstr ""
 "Fatto! %s è stato perdonato.\n"
-"<b>Warns rimossi</b>: <i>normali x%d, per media non permessi x%d, per spam x"
-"%d</i>"
+"<b>Warning rimossi</b>: <i>normali %s,per media proibiti %s, per spam %s</i>"
 
 #: plugins/warn.lua:83
 #, lua-format
@@ -2920,66 +2919,66 @@ msgstr ""
 msgid "_Action aborted_"
 msgstr "_Azione annullata_"
 
-#: plugins/welcome.lua:54
+#: plugins/welcome.lua:50 plugins/welcome.lua:234
+msgid "Read the rules"
+msgstr "Leggi le regole"
+
+#: plugins/welcome.lua:59
 #, lua-format
 msgid "Hi %s!"
 msgstr "Ciao %s!"
 
-#: plugins/welcome.lua:79
+#: plugins/welcome.lua:84
 #, lua-format
 msgid "Goodbye, %s!"
 msgstr "Addio, %s!"
 
-#: plugins/welcome.lua:93
+#: plugins/welcome.lua:98
 msgid "Welcome and...?"
 msgstr "Welcome e...?"
 
-#: plugins/welcome.lua:116
+#: plugins/welcome.lua:121
 #, lua-format
 msgid "A form of media has been set as the welcome message: `%s`"
 msgstr "Media impostato come messaggio di benvenuto: `%s`"
 
-#: plugins/welcome.lua:118
+#: plugins/welcome.lua:123
 msgid "Reply to a `sticker` or a `gif` to set them as the *welcome message*"
 msgstr ""
 "Rispondi ad uno `sticker` a ad una `gif` per usarli come *messaggio di "
 "benvenuto*"
 
-#: plugins/welcome.lua:135
+#: plugins/welcome.lua:140
 msgid "*Custom welcome message saved!*"
 msgstr "*Messaggio di benvenuto personalizzato salvato!*"
 
-#: plugins/welcome.lua:147
+#: plugins/welcome.lua:152
 msgid "No goodbye message"
 msgstr "Nessun messaggio di arrivederci"
 
-#: plugins/welcome.lua:170
+#: plugins/welcome.lua:175
 #, lua-format
 msgid "New media setted as goodbye message: `%s`"
 msgstr "Media impostato come messaggio di addio: `%s`"
 
-#: plugins/welcome.lua:172
+#: plugins/welcome.lua:177
 msgid "Reply to a `sticker` or a `gif` to set them as *goodbye message*"
 msgstr ""
 "Rispondi ad uno `sticker` a ad una `gif` per usarli come *messaggio di addio*"
 
-#: plugins/welcome.lua:189
+#: plugins/welcome.lua:194
 msgid "*Custom goodbye message saved!*"
 msgstr "*Messaggio di addio personalizzato salvato!*"
 
-#: plugins/welcome.lua:204
+#: plugins/welcome.lua:209
 #, lua-format
 msgid "%s banned: the user was blocked"
 msgstr "%s bannato: questo utente era stato bloccato"
 
-#: plugins/welcome.lua:217
+#: plugins/welcome.lua:222
 #, lua-format
-msgid "_@%s banned: antibot is on_"
-msgstr "_@%s bannato: l'aggiunta di bot non è permessa_"
-
-#: plugins/welcome.lua:229
-msgid "Read the rules"
-msgstr "Leggi le regole"
+msgid "@%s _banned: antibot is on_"
+msgstr "@%s _bannato: l'aggiunta di bot non è permessa_"
 
 #: utilities.lua:331
 msgid "More info [here](https://telegram.me/GB_tutorials/12)"
@@ -3333,14 +3332,14 @@ msgid ""
 "• <b>Admin</b>: %s [#id%s]\n"
 "• %s\n"
 "• <b>User</b>: %s [#id%s]\n"
-"• <b>Warns removed</b>: <i>normal: %d, for media: %d, spamwarns: %d</i>"
+"• <b>Warns found</b>: <i>normal: %s, for media: %s, spamwarns: %s</i>"
 msgstr ""
 "#%s\n"
 "• <b>Admin</b>: %s [#id%s]\n"
 "• %s\n"
 "• <b>Utente</b>: %s [#id%s]\n"
-"• <b>Warn rimossi</b>: <i>normali: %d, per media non consentiti: %d, per "
-"spam: %d</i>"
+"• <b>Warn rimossi</b>: <i>normali: %s, per media non consentiti: %s, per "
+"spam: %s</i>"
 
 #: utilities.lua:1010
 #, lua-format
@@ -3407,89 +3406,6 @@ msgstr ""
 #: utilities.lua:1044
 msgid "Go to the message"
 msgstr "Vai al messaggio"
-
-#~ msgid "_Manage your group_"
-#~ msgstr "_Gestisci il tuo gruppo_"
-
-#~ msgid "_Change the settings by navigating the keyboard_"
-#~ msgstr "_Cambia le impostazioni tramite questa tastiera_"
-
-#~ msgid "Nothing to display\n"
-#~ msgstr "`Nulla da segnalare`\n"
-
-#~ msgid "Kicked: *%d*"
-#~ msgstr "Kickato: *%d*"
-
-#~ msgid "Banned: *%d*"
-#~ msgstr "Bannato: *%d*"
-
-#~ msgid "Temporarily banned: *%d*"
-#~ msgstr "Bannato temporaneamente: *%d*"
-
-#~ msgid "Removed for flooding chat: *%d*"
-#~ msgstr "Rimosso per flood: *%d*"
-
-#~ msgid "Removed for forbidden media: *%d*"
-#~ msgstr "Rimosso per media vietati: *%d*"
-
-#~ msgid "Removed for max warnings: *%d*"
-#~ msgstr "Rimosso per warns: *%d*"
-
-#~ msgid "Removed for arab chars: *%d*"
-#~ msgstr "Rimosso per caratteri arabi: *%d*"
-
-#~ msgid "Removed for RTL char: *%d*"
-#~ msgstr "Rimosso per carattere RTL: *%d*"
-
-#~ msgid "Nothing to display"
-#~ msgstr "`Nulla da segnalare`"
-
-#~ msgid "🔨 Ban"
-#~ msgstr "🔨 Ban"
-
-#~ msgid "*Ban info* (globals):\n"
-#~ msgstr "*Ban info (globali)*:\n"
-
-#~ msgid ""
-#~ "_Look at the views counter of this message to see how many users are "
-#~ "online_"
-#~ msgstr ""
-#~ "_Il contatore delle visualizzazioni di questo messaggio mostra quanti "
-#~ "utenti sono attualmente online_"
-
-#~ msgid ""
-#~ "_I'm sorry, this command has been used too many times lately by my users. "
-#~ "Retry later_"
-#~ msgstr ""
-#~ "_Mi dispiace, questo comando è stato usato troppo frequentemente dai miei "
-#~ "utenti negli utlimi minuti. Riprova più tardi_"
-
-#~ msgid ""
-#~ "_I'm sorry, an unknown error occured while executing this command._\n"
-#~ "`[error code: %d]`"
-#~ msgstr ""
-#~ "_Mi dispiace, un errore sconosciuto si è verificato durante l'esecuzione "
-#~ "di questo comando_\n"
-#~ "`[codice errore: %d]`"
-
-#~ msgid "Ban from the /user command"
-#~ msgstr "Ban dal comando /user"
-
-#~ msgid ""
-#~ "<i>Banned!</i>\n"
-#~ "Banned by: %s"
-#~ msgstr ""
-#~ "<i>Bannato!</i>\n"
-#~ "Bannato da: %s"
-
-#~ msgid "Reset warns"
-#~ msgstr "Azzera i warns"
-
-#~ msgid "Warns <b>reset</b> by %s"
-#~ msgstr "Warn <b>azzerati</b> da %s"
-
-#~ msgid "Done! %s has been forgiven"
-#~ msgstr "Fatto! %s è stato perdonato"
 
 #~ msgid "Cancel"
 #~ msgstr "Annulla"
@@ -3822,6 +3738,89 @@ msgstr "Vai al messaggio"
 #~ msgstr ""
 #~ "<i>Canali log usati dai tuoi subgruppi</i>:\n"
 #~ "\n"
+
+#~ msgid "_Manage your group_"
+#~ msgstr "_Gestisci il tuo gruppo_"
+
+#~ msgid "_Change the settings by navigating the keyboard_"
+#~ msgstr "_Cambia le impostazioni tramite questa tastiera_"
+
+#~ msgid "Nothing to display\n"
+#~ msgstr "`Nulla da segnalare`\n"
+
+#~ msgid "Kicked: *%d*"
+#~ msgstr "Kickato: *%d*"
+
+#~ msgid "Banned: *%d*"
+#~ msgstr "Bannato: *%d*"
+
+#~ msgid "Temporarily banned: *%d*"
+#~ msgstr "Bannato temporaneamente: *%d*"
+
+#~ msgid "Removed for flooding chat: *%d*"
+#~ msgstr "Rimosso per flood: *%d*"
+
+#~ msgid "Removed for forbidden media: *%d*"
+#~ msgstr "Rimosso per media vietati: *%d*"
+
+#~ msgid "Removed for max warnings: *%d*"
+#~ msgstr "Rimosso per warns: *%d*"
+
+#~ msgid "Removed for arab chars: *%d*"
+#~ msgstr "Rimosso per caratteri arabi: *%d*"
+
+#~ msgid "Removed for RTL char: *%d*"
+#~ msgstr "Rimosso per carattere RTL: *%d*"
+
+#~ msgid "Nothing to display"
+#~ msgstr "`Nulla da segnalare`"
+
+#~ msgid "🔨 Ban"
+#~ msgstr "🔨 Ban"
+
+#~ msgid "*Ban info* (globals):\n"
+#~ msgstr "*Ban info (globali)*:\n"
+
+#~ msgid ""
+#~ "_Look at the views counter of this message to see how many users are "
+#~ "online_"
+#~ msgstr ""
+#~ "_Il contatore delle visualizzazioni di questo messaggio mostra quanti "
+#~ "utenti sono attualmente online_"
+
+#~ msgid ""
+#~ "_I'm sorry, this command has been used too many times lately by my users. "
+#~ "Retry later_"
+#~ msgstr ""
+#~ "_Mi dispiace, questo comando è stato usato troppo frequentemente dai miei "
+#~ "utenti negli utlimi minuti. Riprova più tardi_"
+
+#~ msgid ""
+#~ "_I'm sorry, an unknown error occured while executing this command._\n"
+#~ "`[error code: %d]`"
+#~ msgstr ""
+#~ "_Mi dispiace, un errore sconosciuto si è verificato durante l'esecuzione "
+#~ "di questo comando_\n"
+#~ "`[codice errore: %d]`"
+
+#~ msgid "Ban from the /user command"
+#~ msgstr "Ban dal comando /user"
+
+#~ msgid ""
+#~ "<i>Banned!</i>\n"
+#~ "Banned by: %s"
+#~ msgstr ""
+#~ "<i>Bannato!</i>\n"
+#~ "Bannato da: %s"
+
+#~ msgid "Reset warns"
+#~ msgstr "Azzera i warns"
+
+#~ msgid "Warns <b>reset</b> by %s"
+#~ msgstr "Warn <b>azzerati</b> da %s"
+
+#~ msgid "Done! %s has been forgiven"
+#~ msgstr "Fatto! %s è stato perdonato"
 
 #~ msgid "‼️ Please don't abuse the keyboard, requests will be ignored"
 #~ msgstr ""
