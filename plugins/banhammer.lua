@@ -20,6 +20,13 @@ local function get_motivation(msg)
 	end			
 end	
 
+local function set_lang(chat_id)
+	locale.language = db:get('lang:'..chat_id) or 'en' --group language
+	if not config.available_languages[locale.language] then
+		locale.language = 'en'
+	end
+end
+
 function plugin.cron()
 	local all = db:hgetall('tempbanned')
 	if next(all) then
@@ -32,6 +39,7 @@ function plugin.cron()
 				db:hdel('tempbanned', unban_time)
 				db:srem('chat:'..chat_id..':tempbanned', user_id) --hash needed to check if an user is already tempbanned or not
 				if user_object then
+					set_lang(chat_id)
 					api.sendMessage(chat_id, _("Ban expired for %s [<code>%d</code>]"):format(u.getname_final(user_object.result), user_object.result.id), 'html')
 				end
 				if chat_object then
@@ -45,6 +53,7 @@ function plugin.cron()
 					local chat_string = chat_title
 					if chat_link then chat_string = ('</i><a href="%s">%s</a><i>'):format(chat_link, chat_title) end
 					print(("<i>Your ban from %s has expired</i>"):format(chat_string))
+					set_lang(user_id)
 					api.sendMessage(user_id, _("<i>Your ban from %s has expired</i>"):format(chat_string), 'html')
 				end
 			end

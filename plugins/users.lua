@@ -89,38 +89,10 @@ local function get_userinfo(user_id, chat_id)
 end
 
 function plugin.onTextMessage(msg, blocks)
-	if blocks[1] == 'id' then
-		-- Send ID of specified user or chat
-		local what, text
-		if msg.reply and msg.reply.from.id == msg.from.id or
-				not msg.reply and msg.chat.type == 'private' then
-			what = msg.from.id
-			text = _("That's your ID. Copy it")
-		elseif msg.reply and msg.reply.from.id == bot.id then
-			what = bot.id
-			text = _("That's my ID. Copy it")
-		elseif not msg.reply then
-			what = msg.chat.id
-			text = _("That's the ID of this group. Copy it")
-		else
-			what = msg.reply.from.id
-			text = _("That's his (her) ID. Copy it")
+	if blocks[1] == 'id' then --just for debug
+		if msg.chat.id < 0 and u.is_admin(msg.chat.id, msg.from.id) then
+			api.sendMessage(msg.chat.id, string.format('`%d`', msg.chat.id), true)
 		end
-
-		local where
-		if msg.chat.type ~= 'private' and (u.is_mod(msg.chat.id, msg.from.id) or
-										   not u.is_silentmode_on(msg.chat.id)) then
-			where = msg.chat.id
-		else
-			where = msg.from.id
-		end
-
-		if msg.reply and where == msg.chat.id then
-			api.sendReply(msg.reply, text)
-		else
-			api.sendMessage(where, text)
-		end
-		api.sendMessage(where, string.format('`%d`', what), true)
  	end
 
 	if msg.chat.type == 'private' then return end
