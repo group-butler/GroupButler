@@ -22,8 +22,8 @@ function plugin.onTextMessage(msg, blocks)
 			local reply_markup, new_text = u.reply_markup_from_text(blocks[2])
 			local res, code = api.editMessageText(msg.chat.id, pin_id, new_text:replaceholders(msg, 'rules', 'title'), true, reply_markup)
 			if not res then
-				if code == 116 then
-			    	--the old message doesn't exist. Send a new one in the chat --> set pin_id to false, so the code will entr the next if
+				if code == 155 then
+			    	--the old message doesn't exist. Send a new one in the chat --> set pin_id to false, so the code will enter the next if
 			    	was_deleted = true
 			    	pin_id = nil
 				else

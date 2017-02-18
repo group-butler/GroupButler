@@ -13,9 +13,9 @@ end
 
 local function forget_user_warns(chat_id, user_id)
 	local removed = {
-		normal = db:hdel('chat:'..chat_id..':warns', user_id),
-		media = db:hdel('chat:'..chat_id..':mediawarn', user_id),
-		spam = db:hdel('chat:'..chat_id..':spamwarns', user_id)
+		normal = db:hdel('chat:'..chat_id..':warns', user_id) == 1 and '✅' or '❌',
+		media = db:hdel('chat:'..chat_id..':mediawarn', user_id) == 1 and '✅' or '❌',
+		spam = db:hdel('chat:'..chat_id..':spamwarns', user_id) == 1 and '✅' or '❌'
 	}
 	
 	return removed
@@ -62,7 +62,7 @@ function plugin.onTextMessage(msg, blocks)
 		local removed = forget_user_warns(msg.chat.id, msg.reply.from.id)
 		local admin = u.getname_final(msg.from)
 		local user = u.getname_final(msg.reply.from)
-		local text = _('Done! %s has been forgiven.\n<b>Warns removed</b>: <i>normal warns x%d, for media x%d, spamwarns x%d</i>'):format(user, removed.normal or 0, removed.media or 0, removed.spam or 0)
+		local text = _('Done! %s has been forgiven.\n<b>Warns found</b>: <i>normal warns %s, for media %s, spamwarns %s</i>'):format(user, removed.normal or 0, removed.media or 0, removed.spam or 0)
 		api.sendReply(msg, text, 'html')
 		u.logEvent('nowarn', msg, {admin = admin, user = user, user_id = msg.reply.from.id, rem = removed})
 	end	
