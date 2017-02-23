@@ -44,14 +44,19 @@ local function get_welcome(msg)
 		local file_id = content
 		local caption = db:hget(hash, 'caption')
 		if caption then caption = caption:replaceholders(msg, true) end
+		local rules_button = db:hget('chat:'..msg.chat.id..':settings', 'Welbut') or config.chat_settings['settings']['Welbut']
+		local reply_markup
+		if rules_button == 'on' then
+			reply_markup = {inline_keyboard={{{text = _('Read the rules'), url = u.deeplink_constructor(msg.chat.id, 'rules')}}}}
+		end
 		
-		api.sendDocumentId(msg.chat.id, file_id, nil, caption)
+		api.sendDocumentId(msg.chat.id, file_id, nil, caption, reply_markup)
 		return false
 	elseif type == 'custom' then
 		local reply_markup, new_text = u.reply_markup_from_text(content)
 		return new_text:replaceholders(msg), reply_markup
 	else
-		return _("Hi %s!"):format(msg.new_chat_member.first_name:escape(), msg.chat.title:escape_hard('bold'))
+		return _("Hi %s!"):format(msg.new_chat_member.first_name:escape())
 	end
 end
 

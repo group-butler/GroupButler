@@ -278,7 +278,7 @@ function utilities.telegram_file_link(res)
 end
 
 function utilities.deeplink_constructor(chat_id, what)
-	return 'https://telegram.me/'..bot.username..'?start='..chat_id..':'..what
+	return 'https://telegram.me/'..bot.username..'?start='..chat_id..'_'..what
 end
 
 function table.clone(t)
@@ -1000,7 +1000,7 @@ function utilities.logEvent(event, msg, extra)
 			--admin name formatted: admin
 			--user name formatted: user
 			--user id: user_id
-			text = _('#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n• <b>User</b>: %s [#id%s]\n• <b>Warns removed</b>: <i>normal: %d, for media: %d, spamwarns: %d</i>')
+			text = _('#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n• <b>User</b>: %s [#id%s]\n• <b>Warns found</b>: <i>normal: %s, for media: %s, spamwarns: %s</i>')
 				:format('WARNS_RESET', extra.admin, msg.from.id, chat_info, extra.user, tostring(extra.user_id), extra.rem.normal, extra.rem.media, extra.rem.spam)
 		elseif event == 'promote' or event == 'demote' then
 			--PROMOTE OR DEMOTE

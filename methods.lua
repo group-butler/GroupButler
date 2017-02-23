@@ -12,6 +12,7 @@ local api = {}
 local curl_context = curl.easy{verbose = config.bot_settings.debug_connections}
 
 local function getCode(err)
+	err = err:lower()
 	for k,v in pairs(api_errors) do
 		if err:match(v) then
 			return k
@@ -67,7 +68,7 @@ end
 local function log_error(method, code, extras, description)
 	if not method or not code then return end
 	
-	local ignored_errors = {403, 429, 110, 111, 116, 131, 150, 118}
+	local ignored_errors = {110, 111, 116, 118, 131, 150, 155, 403, 429}
 	
 	for _, ignored_code in pairs(ignored_errors) do
 		if tonumber(code) == tonumber(ignored_code) then return end
@@ -417,7 +418,7 @@ end
 
 ----------------------------By Id----------------------------------------------
 
-function api.sendMediaId(chat_id, file_id, media, reply_to_message_id)
+function api.sendMediaId(chat_id, file_id, media, reply_to_message_id, caption)
 	local url = BASE_URL
 	if media == 'voice' then
 		url = url..'/sendVoice?chat_id='..chat_id..'&voice='
@@ -434,32 +435,40 @@ function api.sendMediaId(chat_id, file_id, media, reply_to_message_id)
 	if reply_to_message_id then
 		url = url..'&reply_to_message_id='..reply_to_message_id
 	end
+	if caption then
+		url = url..'&caption='..URL.escape(caption)
+	end
 	
 	return sendRequest(url)
 end
 
-function api.sendPhotoId(chat_id, file_id, reply_to_message_id)
+function api.sendPhotoId(chat_id, file_id, reply_to_message_id, caption)
 	
 	local url = BASE_URL .. '/sendPhoto?chat_id=' .. chat_id .. '&photo=' .. file_id
 	
 	if reply_to_message_id then
 		url = url..'&reply_to_message_id='..reply_to_message_id
 	end
-
+	if caption then
+		url = url..'&caption='..URL.escape(caption)
+	end
+	
 	return sendRequest(url)
 	
 end
 
-function api.sendDocumentId(chat_id, file_id, reply_to_message_id, caption)
+function api.sendDocumentId(chat_id, file_id, reply_to_message_id, caption, reply_markup)
 	
 	local url = BASE_URL .. '/sendDocument?chat_id=' .. chat_id .. '&document=' .. file_id
 	
 	if reply_to_message_id then
 		url = url..'&reply_to_message_id='..reply_to_message_id
 	end
-	
 	if caption then
 		url = url..'&caption='..URL.escape(caption)
+	end
+	if reply_markup then
+		url = url..'&reply_markup='..URL.escape(JSON.encode(reply_markup))
 	end
 
 	return sendRequest(url)

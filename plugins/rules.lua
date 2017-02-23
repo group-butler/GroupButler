@@ -85,7 +85,7 @@ plugin.triggers = {
 		config.cmd..'(setrules)$',
 		config.cmd..'(setrules) (.*)',
 		config.cmd..'(rules)$',
-		'^/(start) (-?%d+):rules$'
+		'^/(start) (-?%d+)_rules$'
 	}
 }
 
