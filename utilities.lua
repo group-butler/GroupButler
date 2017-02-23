@@ -278,7 +278,7 @@ function utilities.telegram_file_link(res)
 end
 
 function utilities.deeplink_constructor(chat_id, what)
-	return 'https://telegram.me/'..bot.username..'?start='..chat_id..':'..what
+	return 'https://telegram.me/'..bot.username..'?start='..chat_id..'_'..what
 end
 
 function table.clone(t)
