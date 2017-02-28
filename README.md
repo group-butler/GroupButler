@@ -4,7 +4,7 @@
 
 This bot has been created to help people administrate their groups, and includes many useful tools.
 
-Group Butler was born as an [otouto](otou.to) [v3.1](https://github.com/topkecleon/otouto/tree/26c1299374af130bbf8457af904cb4ea450caa51) ([`@mokubot`](https://telegram.me/mokubot)), but it has been turned into an administration bot.
+Group Butler was born as an [otouto](https://otou.to) [v3.1](https://github.com/topkecleon/otouto/tree/26c1299374af130bbf8457af904cb4ea450caa51) ([`@mokubot`](https://telegram.me/mokubot)), but it has been turned into an administration bot.
 
 #### Group Butler on Telegram:
 
@@ -173,7 +173,7 @@ The [Werewolf](https://github.com/parabola949/Werewolf) guys, for aiding the spr
 
 Lucas Montuano, for helping me a lot in the debugging of the bot
 
-All the Admins of our [discussion groups](telegram.me/gbgroups) about Group Butler
+All the Admins of our [discussion groups](https://telegram.me/gbgroups) about Group Butler
 
 All the people who reported bugs and suggested new stuffs
 
