@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: GroupButler 4.0\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-10-29 21:22+0200\n"
-"PO-Revision-Date: 2017-03-01 14:39+0100\n"
+"PO-Revision-Date: 2017-03-01 15:22+0100\n"
 "Last-Translator: Nicholas Guriev <guriev-ns@ya.ru>\n"
 "Language-Team: Spanish\n"
 "Language: es\n"
@@ -361,54 +361,50 @@ msgstr "Descripción no disponible"
 
 #: plugins/floodmanager.lua:27
 msgid "👞️ kick"
-msgstr ""
+msgstr "👞️ Expulsar"
 
 #: plugins/floodmanager.lua:29
 msgid "🔨 ️ban"
-msgstr ""
+msgstr "🔨 ️Banear"
 
 #: plugins/floodmanager.lua:48
 msgid "Forwards"
-msgstr ""
+msgstr "Reenvios"
 
 #: plugins/floodmanager.lua:81
-#, fuzzy
 msgid "Flooders will be banned"
-msgstr "Los flooders seran baneados"
+msgstr "Los flooders serán baneados"
 
 #: plugins/floodmanager.lua:84
-#, fuzzy
 msgid "Flooders will be kicked"
-msgstr "Los flooders seran expulsados"
+msgstr "Los flooders serán expulsados"
 
 #: plugins/floodmanager.lua:93 plugins/floodmanager.lua:100
 #, lua-format
 msgid "%d is not a valid value!\n"
-msgstr ""
+msgstr "%d no es un valor válido!\n"
 
 #: plugins/floodmanager.lua:115
-#, fuzzy
 msgid "You're no longer an admin"
-msgstr "Tu *no* eres admin"
+msgstr "Tu ya no eres administrador"
 
 #: plugins/floodmanager.lua:117
 msgid "You can manage the antiflood settings from here"
-msgstr ""
+msgstr "Puedes manejar los ajustes antiflood desde aquí"
 
 #: plugins/floodmanager.lua:122
-#, fuzzy
 msgid "Antiflood settings"
-msgstr "Ajustes Anti-flood"
+msgstr "Ajustes Antiflood"
 
 #: plugins/floodmanager.lua:136
-#, fuzzy, lua-format
+#, lua-format
 msgid "❎ [%s] will be ignored by the anti-flood"
-msgstr "[%s] será ignorado por el anti-flood"
+msgstr "❎ [%s] serán ignorados por el antiflood"
 
 #: plugins/floodmanager.lua:139
-#, fuzzy, lua-format
+#, lua-format
 msgid "🚫 [%s] won't be ignored by the anti-flood"
-msgstr "[%s] no será ignorado por el anti-flood"
+msgstr "🚫 [%s] no serán ignorados por el antiflood"
 
 #: plugins/help.lua:5
 #, lua-format
@@ -432,6 +428,26 @@ msgid ""
 "I work better if you add me to the group administrators (otherwise I won't be "
 "able to kick or ban)!\n"
 msgstr ""
+"\n"
+"Hola %s 👋🏼, encantado de conocerte!\n"
+"Soy Barreeeiroo's Police, el primer bot de administración usando la API "
+"oficial de Bots.\n"
+"\n"
+"*Puedo hacer muchas cosas*, aquí están algunas:\n"
+"• Puedo*expulsar o banear* usuarios\n"
+"• Puedes usarme para poner las reglas del grupo\n"
+"• Tengo un sistema antiflood muy manejable\n"
+"• Puedo *dar la bienvenida* a nuevos usuarios, o incluso con un GIF o "
+"Sticker\n"
+"• Puedo *avisar* a los usuarios, y banearlos cuando alcancen un número "
+"máximo\n"
+"• También puedo avisar, expulsar y banear a los usuarios cuando envíen cierto "
+"tipo de multimedia\n"
+"…y mucho más. Debajo puedes encontrar en el botón \"all commands\" para la "
+"lista completa!\n"
+"\n"
+"Yo funciono mejor si me añaden como administrador a un grupo (sino no podré "
+"expulsar o banear usuarios)!\n"
 
 #: plugins/help.lua:21
 msgid ""
@@ -447,6 +463,19 @@ msgid ""
 "Remember: you have to use commands  *in the group*, unless they are "
 "specifically designed for private chats (see \"private\" tab)."
 msgstr ""
+"\n"
+"Este bot solo funcio a en supergrupos.\n"
+"\n"
+"Para funcionar correctamente, [necesita ser administrador del grupo](https://"
+"telegram.me/GroupButler_ch/104), para poder expulsar y banear gente si es "
+"necesario\n"
+"Solo el propietario del grupo lo puede promover :)\n"
+"\n"
+"Puedes usar `/, ! or #` para llamar a un comando.\n"
+"\n"
+"Recuerda: tienes que usar los comandos  *en el grupo*, a no ser que se haya "
+"especificado que solo funcionan en mensaje privado (mira la pestaña \"private"
+"\")."
 
 #: plugins/help.lua:31
 #, fuzzy
