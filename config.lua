@@ -1,5 +1,6 @@
 return {
 	bot_api_key = "", --Please add your bot api key here!
+	cleverbot_api_key = "", --Add here your cleverbot API key to use talk plugin: https://www.cleverbot.com/api/#abovetitle
 	cmd = '^[/!#]',
 	allowed_updates = {"message", "edited_message", "callback_query"},
 	db = 2, --default redis db: 0
