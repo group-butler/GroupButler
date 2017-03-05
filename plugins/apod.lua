@@ -15,7 +15,7 @@ function plugin.onTextMessage(msg, blocks)
 - /apod `image` - _Sends the NASA Image of the day_
 - /apod `hd` - _Sends the NASA Image of the day in HD quality_
 - /apod `data` - Sends the data of the NASA Image of the day_]]
-			api.sendReply(msg, message, reply_markup, true)
+			api.sendReply(msg, message, true, true)
 		else
 			if blocks[2] == 'image' then
 
@@ -24,7 +24,7 @@ function plugin.onTextMessage(msg, blocks)
 		    if not output or res ~= 200 or output:len() == 0 then
 		        output, res = HTTP.request(url)
 		    end
-				local message = "*Hey there*\n[NASA Image]("..output..")<br><br><b>Hey there</b><br><a href=\""..output.."\">NASA Image</a>"
+				local message = "[Today's NASA Image]("..output..")"
 				api.sendReply(msg, message, true, nil, true)
 
 
@@ -36,8 +36,8 @@ function plugin.onTextMessage(msg, blocks)
 		    if not output or res ~= 200 or output:len() == 0 then
 		        output, res = HTTP.request(url)
 		    end
-				local message = "*Hey there*\n[NASA Image]("..output..")<br><br><b>Hey there</b><br><a href=\""..output.."\">NASA Image</a>"
-				api.sendReply(msg, message, 'html', nil, true)
+				local message = "[Today's NASA Image in High-Definition]("..output..")"
+				api.sendReply(msg, message, true, nil, true)
 
 
 			elseif blocks[2] == 'data' then
