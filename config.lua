@@ -11,8 +11,8 @@ return {
 	db = 2, --default redis db: 0
 	superadmins = {23646077, 278941742},
 	log = {
-		chat = -1001089188566, --Your log chat, where your bot must be added!
-		admin = 23646077, --The admin.
+		chat = 110723613, --Your log chat, where your bot must be added!
+		admin = 210903833, --The admin.
 		stats = nil
 	},
 	human_readable_version = '4.2.0',
@@ -32,7 +32,7 @@ return {
 		admin_mode = false,
 		debug_connections = false,
 		realm_max_members = 60,
-		realm_max_subgroups = 6
+		realm_max_subgroups = 1
 	},
 	channel = '@Barreeeiroo_Ch', --channel username with the '@'
 	source_code = 'https://github.com/barreeeiroo/GroupButler/',
