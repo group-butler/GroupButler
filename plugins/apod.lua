@@ -10,8 +10,7 @@ function plugin.onTextMessage(msg, blocks)
 	if blocks[1] == 'apod' then
 		local base_url = "http://barreeeiroo.ga/BarrePolice/apod/?key="..config.apod_api_key
 		if not blocks[2] then
-			message = """
-*Command methods:*
+			message = """*Command methods:*
 - /apod `image` - _Sends the NASA Image of the day_
 - /apod `hd` - Sends the NASA Image of the day in HD quality_
 - /apod `data` - Sends the data of the NASA Image of the day_
