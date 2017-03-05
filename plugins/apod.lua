@@ -15,7 +15,7 @@ function plugin.onTextMessage(msg, blocks)
 - /apod `image` - _Sends the NASA Image of the day_
 - /apod `hd` - _Sends the NASA Image of the day in HD quality_
 - /apod `data` - Sends the data of the NASA Image of the day_]]
-			api.sendReply(msg, message, true, reply_markup)
+			api.sendReply(msg, message, reply_markup)
 		else
 			if blocks[2] == 'image' then
 				local url = base_url .. "&image"
@@ -24,7 +24,7 @@ function plugin.onTextMessage(msg, blocks)
 		        output, res = HTTP.request(url)
 		    end
 				local message = "<a href='"..output.."'>NASA Image</a>"
-				api.sendMessage(msg.chat.id, message, false, nil, 'html')
+				api.sendMessage(msg.chat.id, output, false, nil, 'html')
 			elseif blocks[2] == 'hd' then
 				local url = base_url .. "&hd"
 				local output, res = HTTP.request(url)
@@ -32,7 +32,7 @@ function plugin.onTextMessage(msg, blocks)
 		        output, res = HTTP.request(url)
 		    end
 				local message = "<a href='"..output.."'>NASA Image</a>"
-				api.sendMessage(msg.chat.id, message, false, nil, 'html')
+				api.sendMessage(msg.chat.id, output, false, nil, 'html')
 			elseif blocks[2] == 'data' then
 				local url = base_url .. "&data"
 				local output, res = HTTP.request(url)
