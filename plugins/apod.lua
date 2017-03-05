@@ -10,7 +10,11 @@ function plugin.onTextMessage(msg, blocks)
 	if blocks[1] == 'apod' then
 		local base_url = "http://barreeeiroo.ga/BarrePolice/apod/?key="..config.apod_api_key
 		if not blocks[2] then
-			local message = "*Avaliable Commands:*\n\n- /apod `image` - _Sends the NASA Image of the day_\n- /apod `hd` - _Sends the NASA Image of the day in HD quality_\n- /apod `data` - Sends the data of the NASA Image of the day_"
+			local message = "
+*Avaliable Commands:*
+- /apod `image` - _Sends the NASA Image of the day_
+- /apod `hd` - _Sends the NASA Image of the day in HD quality_
+- /apod `data` - Sends the data of the NASA Image of the day_"
 			api.sendReply(msg, message, true, reply_markup)
 		else
 			if blocks[2] == 'image' then
@@ -20,7 +24,7 @@ function plugin.onTextMessage(msg, blocks)
 		        output, res = HTTP.request(url)
 		    end
 				local message = "<a href='"..output.."'>NASA Image</a>"
-				api.sendReply(msg, message, false, nil, 'html')
+				api.sendReply(msg, message, 'html')
 			elseif blocks[2] == 'hd' then
 				local url = base_url .. "&hd"
 				local output, res = HTTP.request(url)
@@ -28,7 +32,7 @@ function plugin.onTextMessage(msg, blocks)
 		        output, res = HTTP.request(url)
 		    end
 				local message = "<a href='"..output.."'>NASA Image</a>"
-				api.sendReply(msg, message, false, nil, 'html')
+				api.sendReply(msg, message, 'html')
 			elseif blocks[2] == 'data' then
 				local url = base_url .. "&data"
 				local output, res = HTTP.request(url)
