@@ -326,6 +326,12 @@ My creator has worked so much in this plugin, and it allows you to talk with me 
 It uses CleverBot API for receiving the answers, but don't abuse, because I can only receive 5000 petitions per month
 The avaliable commands are:
 - /talk `something` - _I will reply to your _`something`_ with a clever (or not) answer_]])
+	elseif key == 'cats' then
+		return _([[*Cats Plugin*
+
+I love cats, so why not send a picture of a cat?
+The avaliable commands are:
+- /cat - _Sends a cat_]])
 	end
 end
 
@@ -372,10 +378,11 @@ local function dk_others()
 	keyboard.inline_keyboard = {}
 	local list = {
 		{
-	    [_("NASA Apod")] = 'apod',
-	    [_("Ping")] = 'ping'
+			[_("Cats")] = 'cats',
+	    [_("NASA Apod")] = 'apod'
 	  },
 		{
+			[_("Ping")] = 'ping',
 	    [_("Talk")] = 'talk'
 	  },
 
