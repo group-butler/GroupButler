@@ -20,7 +20,7 @@ function plugin.onTextMessage(msg, blocks)
 		        output, res = HTTP.request(url)
 		    end
 				local message = "<a href=\""..output.."\">Hey there</a>"
-				api.sendReply(msg, message, html, link_preview)
+				api.sendReply(msg, message, 'html', link_preview)
 			elseif blocks[2] == 'hd' then
 				local url = base_url .. "&hd"
 				local output, res = HTTP.request(url)
@@ -28,7 +28,7 @@ function plugin.onTextMessage(msg, blocks)
 		        output, res = HTTP.request(url)
 		    end
 				local message = "<a href=\""..output.."\">Hey there</a>"
-				api.sendReply(msg, message, html, link_preview)
+				api.sendReply(msg, message, 'html', link_preview)
 			elseif blocks[2] == 'data' then
 				local url = base_url .. "&data"
 				local output, res = HTTP.request(url)
