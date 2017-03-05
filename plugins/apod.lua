@@ -25,7 +25,7 @@ function plugin.onTextMessage(msg, blocks)
 		        output, res = HTTP.request(url)
 		    end
 				local message = "<b>Hey there</b><br><a href=\""..output.."\">NASA Image</a>"
-				api.sendReply(msg, message, false, nil, 'html')
+				api.sendReply(msg, message, false, nil, 'html', keyboard)
 
 
 			elseif blocks[2] == 'hd' then
@@ -36,8 +36,8 @@ function plugin.onTextMessage(msg, blocks)
 		    if not output or res ~= 200 or output:len() == 0 then
 		        output, res = HTTP.request(url)
 		    end
-				local message = "<b>Hey there</b><br><a href=\""..output.."\">NASA Image</a>"
-				api.sendReply(msg, message, false, nil, 'html')
+				local message = "*Hey there*\n[NASA Image]("..output..")"
+				api.sendReply(msg, message, reply_markup, false, nil, 'html', keyboard)
 
 
 			elseif blocks[2] == 'data' then
