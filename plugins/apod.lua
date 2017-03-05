@@ -15,7 +15,7 @@ function plugin.onTextMessage(msg, blocks)
 - /apod `image` - _Sends the NASA Image of the day_
 - /apod `hd` - _Sends the NASA Image of the day in HD quality_
 - /apod `data` - Sends the data of the NASA Image of the day_]]
-			api.sendReply(msg, message, true, reply_markup)
+			api.sendReply(msg, message, false, reply_markup)
 		else
 			if blocks[2] == 'image' then
 				local url = base_url .. "&image"
