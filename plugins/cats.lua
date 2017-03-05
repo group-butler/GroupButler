@@ -1,3 +1,4 @@
+local config = require 'config'
 local u = require 'utilities'
 local api = require 'methods'
 local HTTP = require('socket.http')
