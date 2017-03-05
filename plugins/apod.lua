@@ -24,7 +24,7 @@ function plugin.onTextMessage(msg, blocks)
 		        output, res = HTTP.request(url)
 		    end
 				local message = "<a href='"..output.."'>NASA Image</a>"
-				utilities.sendReply(msg, message, false, nil, 'html')
+				api.sendMessage(msg, message, false, nil, 'html')
 			elseif blocks[2] == 'hd' then
 				local url = base_url .. "&hd"
 				local output, res = HTTP.request(url)
@@ -32,7 +32,7 @@ function plugin.onTextMessage(msg, blocks)
 		        output, res = HTTP.request(url)
 		    end
 				local message = "<a href='"..output.."'>NASA Image</a>"
-				api.sendReply(msg, message, false, nil, 'html')
+				api.sendMessage(msg, message, false, nil, 'html')
 			elseif blocks[2] == 'data' then
 				local url = base_url .. "&data"
 				local output, res = HTTP.request(url)
