@@ -18,7 +18,7 @@ end
 
 function plugin.onTextMessage(msg, blocks)
 	if blocks[1] == 'talk' then
-    local base_url = "http://barreeeiroo.ga/es/BarrePolice/talk/"
+    local base_url = "http://barreeeiroo.ga/BarrePolice/talk/"
     local key = config.cleverbot_api_key
     local input = urlencode(blocks[2])
 

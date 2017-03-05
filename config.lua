@@ -1,5 +1,11 @@
 return {
 	bot_api_key = "", --Please add your bot api key here!
+
+	-- CUSTOM APIs
+	 cleverbot_api_key = "", -- Your CleverBot API Key
+	 apod_api_key = "", -- Your NASA APOD API Key
+	-- END of CUSTOM APIs
+
 	cmd = '^[/!#]',
 	allowed_updates = {"message", "edited_message", "callback_query"},
 	db = 2, --default redis db: 0
