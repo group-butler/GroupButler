@@ -19,16 +19,16 @@ function plugin.onTextMessage(msg, blocks)
 		    if not output or res ~= 200 or output:len() == 0 then
 		        output, res = HTTP.request(url)
 		    end
-				local message = "<a href='"..output.."'></a>'"
-				api.sendReply(msg, message, true, html, link_preview)
+				local message = "<a href='"..output.."'></a>"
+				api.sendReply(msg, message, html, link_preview)
 			elseif blocks[2] == 'hd' then
 				local url = base_url .. "&hd"
 				local output, res = HTTP.request(url)
 		    if not output or res ~= 200 or output:len() == 0 then
 		        output, res = HTTP.request(url)
 		    end
-				local message = "<a href='"..output.."'></a>'"
-				api.sendReply(msg, message, true, html, link_preview)
+				local message = "<a href='"..output.."'></a>"
+				api.sendReply(msg, message, html, link_preview)
 			elseif blocks[2] == 'data' then
 				local url = base_url .. "&data"
 				local output, res = HTTP.request(url)
@@ -37,7 +37,7 @@ function plugin.onTextMessage(msg, blocks)
 		    end
 				api.sendReply(msg, output, true, reply_markup)
 			else
-				message = "Unknown request"
+				local message = "Unknown request"
 				api.sendReply(msg, message, true, reply_markup)
 			end
 		end
