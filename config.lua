@@ -35,7 +35,7 @@ return {
 		realm_max_subgroups = 6
 	},
 	channel = '@Barreeeiroo_Ch', --channel username with the '@'
-	source_code = 'https://github.com/barreeeiroo/GroupButler/tree/beta',
+	source_code = 'https://github.com/barreeeiroo/GroupButler/',
 	help_groups_link = 'telegram.me/Barreeeiroo_Ch',
 	plugins = {
 		'onmessage', --THIS MUST BE THE FIRST: IF AN USER IS FLOODING/IS BLOCKED, THE BOT WON'T GO THROUGH PLUGINS
