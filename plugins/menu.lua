@@ -139,11 +139,11 @@ local function charsettings_table(settings, chat_id)
     for field, default in pairs(settings) do
         local status = (db:hget('chat:'..chat_id..':char', field)) or default
         if status == 'kick' then
-            return_table[field] = '👞 '..status
+            return_table[field] = _('👞 kick')
         elseif status == 'ban' then
-            return_table[field] = '🔨 '..status
+            return_table[field] = _('🔨 ban')
         elseif status == 'allowed' then
-            return_table[field] = '✅'
+            return_table[field] = _('✅')
         end
     end
     
