@@ -46,7 +46,7 @@ end
 
 plugin.triggers = {
 	onTextMessage = {
-		config.cmd..'(apod) (.*)$',
+		config.cmd..'(apod) (.+)$',
 		config.cmd..'(apod)$'
 	}
 }
