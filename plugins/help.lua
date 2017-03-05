@@ -300,7 +300,7 @@ To change your log channel, simply repeat this process with another channel.
 
 `/unsetlog`: remove your current log channel
 `/logchannel`: get some informations about your log channel, if paired]])
-	elseif key == 'others_main' then
+	elseif key == 'othersMain' then
 		return _([[*Other commands informations*
 
 As this bot is bassed on GroupButler, I've made some changes and plugins so it can be more attractive to users.
@@ -416,7 +416,7 @@ local function dk_main()
 		{{text = _('Realms'), callback_data = 'help:realm'}},
 		{{text = _('Log channel'), callback_data = 'help:logchannel'}},
 		{{text = _('Moderators'), callback_data = 'help:mods'}},
-		{{text = _('Other commands'), callback_data = 'help:others:others_main'}},
+		{{text = _('Other commands'), callback_data = 'help:others:othersMain'}},
 	}
 
 	return keyboard
