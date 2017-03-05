@@ -489,10 +489,12 @@ function plugin.onCallbackQuery(msg, blocks)
 		elseif query == 'others' then
 			keyboard_type = 'others'
 			text = get_helped_string(blocks[2])
+			api.sendReply(msg, blocks[2])
 			answerCallbackQuery_text = _('Informations other extra commands')
     elseif query == 'admins' then
     	keyboard_type = 'admins'
     	text = get_helped_string(blocks[2])
+			api.sendReply(msg, blocks[2])
     	answerCallbackQuery_text = _('Available commands for admins')
     end
 
