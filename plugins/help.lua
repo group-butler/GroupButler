@@ -358,6 +358,31 @@ local function dk_admins()
 	return keyboard
 end
 
+local function dk_others()
+	local keyboard = {}
+	keyboard.inline_keyboard = {}
+	local list = {
+		{
+	    [_("NASA Apod")] = 'apod',
+	    [_("Ping")] = 'ping'
+	  },
+		{
+	    [_("Talk")] = 'talk'
+	  },
+
+  }
+  local line = {}
+  for i, line in pairs(list) do
+    local kb_line = {}
+    for label, cb_data in pairs(line) do
+      table.insert(kb_line, {text = '× '..label, callback_data = 'help:others:'..cb_data})
+    end
+      table.insert(keyboard.inline_keyboard, kb_line)
+  end
+
+	return keyboard
+end
+
 local function do_keyboard_private()
     local keyboard = {}
     keyboard.inline_keyboard = {
@@ -391,7 +416,8 @@ end
 local function do_keyboard(keyboard_type)
 	local callbacks = {
 		['main'] = dk_main(),
-		['admins'] = dk_admins()
+		['admins'] = dk_admins(),
+		['others'] = dk_others()
 	}
 
 	local keyboard = callbacks[keyboard_type] or {inline_keyboard = {}}
@@ -452,9 +478,10 @@ function plugin.onCallbackQuery(msg, blocks)
     	text = get_helped_string('mods')
     	answerCallbackQuery_text = _('Informations about the moderators')
 		elseif query == 'others' then
-			text = get_helped_string('others')
+			keyboard_type = 'others'
+			text = get_helped_string(blocks[2])
 			answerCallbackQuery_text = _('Informations other extra commands')
-    else --query == 'admins'
+    elseif query == 'admins' then
     	keyboard_type = 'admins'
     	text = get_helped_string(blocks[2])
     	answerCallbackQuery_text = _('Available commands for admins')
@@ -482,6 +509,7 @@ plugin.triggers = {
 	},
 	onCallbackQuery = {
 		'^###cb:help:(admins):(%a+)$',
+		'^###cb:help:(others):(%a+)$',
 		'^###cb:help:(.*)$'
 	}
 }
