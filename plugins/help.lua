@@ -303,20 +303,29 @@ To change your log channel, simply repeat this process with another channel.
 	elseif key == 'others' then
 		return _([[*Other commands informations*
 
-A log channel is a _(private)_ channel where the bot will record all the important events that will happen in your group.
-If you want to use this feature, you need to pair your group with a channel with the commands described below.
-All the events, by default, are *not logged*. Admins can choose which events to log from the `/config` menu -> `log channel` button.
+As this bot is bassed on GroupButler, I've made some changes and plugins so it can be more attractive to users.
+I'm working right now adding more plugins to the bot, but now the extra plugins that are avaliable are:]])
+	elseif key == 'apod' then
+		return _([[*NASA Apod Plugin*
 
-To pair a channel with a group, the *channel creator* must [add the bot to the channel administrators](telegram.me/gb_tutorials/4) (otherwise it won't be able to post), and send in the channel this command:
-`/setlog`
-Then, an admin of the group must forward in the group the message ("`/setlog`") sent in the channel. *Done*!
-(you can find a video-tutorial [here](https://telegram.me/GB_tutorials/8))
+This plugins uses the Official NASA API to receive the NASA Image of the day.
+The avaliable commands are:
+- /apod `image` - _Sends the NASA Image of the day_
+- /apod `hd` - _Sends the NASA Image of the day in HD quality_
+- /apod `data` - _Sends the data of the NASA Image of the day_]])
+	elseif key == 'apod' then
+		return _([[*Ping Plugin*
 
-A channel can be used as log by different groups.
-To change your log channel, simply repeat this process with another channel.
+This plugins cannot be more simple. It's function is just to know if I'm running or not.
+The avaliable commands are:
+- /ping - _Receive an answer to see if I'm alive_]])
+	elseif key == 'apod' then
+		return _([[*Talk Plugin*
 
-`/unsetlog`: remove your current log channel
-`/logchannel`: get some informations about your log channel, if paired]])
+My creator has worked so much in this plugin, and it allows you to talk with me as if I were a human!
+It uses CleverBot API for receiving the answers, but don't abuse, because I can only receive 5000 petitions per month
+The avaliable commands are:
+- /talk `something` - _I will reply to your _`something`_ with a clever (or not) answer_]])
 	end
 end
 
