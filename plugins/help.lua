@@ -379,7 +379,7 @@ local function dk_main()
 		{{text = _('Admin commands'), callback_data = 'help:admins:banhammer'}},
 		{{text = _('Normal users commands'), callback_data = 'help:users'}},
 		{{text = _('Commands in private'), callback_data = 'help:private'}},
-		--{{text = _('Realms'), callback_data = 'help:realm'}},
+		{{text = _('Realms'), callback_data = 'help:realm'}},
 		{{text = _('Log channel'), callback_data = 'help:logchannel'}},
 		{{text = _('Moderators'), callback_data = 'help:mods'}},
 		{{text = _('Other commands'), callback_data = 'help:others'}},
@@ -451,7 +451,7 @@ function plugin.onCallbackQuery(msg, blocks)
     elseif query == 'mods' then
     	text = get_helped_string('mods')
     	answerCallbackQuery_text = _('Informations about the moderators')
-		elseif query == 'mods' then
+		elseif query == 'others' then
 			text = get_helped_string('others')
 			answerCallbackQuery_text = _('Informations other extra commands')
     else --query == 'admins'
