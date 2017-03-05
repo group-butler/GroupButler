@@ -26,11 +26,24 @@ function plugin.onTextMessage(msg, blocks)
 		        output, res = HTTP.request(url)
 		    end
 				message = "<a href='"..output.."'></a>'"
-				api.sendReply(msg, message, true, html, reply_markup)
+				api.sendReply(msg, message, true, html, reply_markup, link_preview)
 			elseif blocks[2] == 'hd' then
-
+				local url = base_url .. "&image"
+				local output, res = HTTP.request(url)
+		    if not output or res ~= 200 or output:len() == 0 then
+		        url = url = base_url .. "&hd"
+		        output, res = HTTP.request(url)
+		    end
+				message = "<a href='"..output.."'></a>'"
+				api.sendReply(msg, message, true, html, reply_markup, link_preview)
 			elseif blocks[2] == 'data' then
-
+				local url = base_url .. "&data"
+				local output, res = HTTP.request(url)
+		    if not output or res ~= 200 or output:len() == 0 then
+		        url = url = base_url .. "&image"
+		        output, res = HTTP.request(url)
+		    end
+				api.sendReply(msg, output, true, html, reply_markup)
 			else
 				message = "Unknown request"
 				api.sendReply(msg, message, true, reply_markup)
