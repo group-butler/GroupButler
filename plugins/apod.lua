@@ -19,16 +19,16 @@ function plugin.onTextMessage(msg, blocks)
 		    if not output or res ~= 200 or output:len() == 0 then
 		        output, res = HTTP.request(url)
 		    end
-				local message = "<a href=\""..output.."\">Hey there</a>"
-				api.sendReply(msg, message, false, nil, 'html')
+				local message = "<a href=\""..output.."\">Today's NASA image is:</a>"
+				api.sendReply(msg, message, 'html', false, nil)
 			elseif blocks[2] == 'hd' then
 				local url = base_url .. "&hd"
 				local output, res = HTTP.request(url)
 		    if not output or res ~= 200 or output:len() == 0 then
 		        output, res = HTTP.request(url)
 		    end
-				local message = "<a href=\""..output.."\">Hey there</a>"
-				api.sendReply(msg, message, false, nil, 'html')
+				local message = "<a href=\""..output.."\">Today's NASA image is:</a>"
+				api.sendReply(msg, message, 'html', false, nil)
 			elseif blocks[2] == 'data' then
 				local url = base_url .. "&data"
 				local output, res = HTTP.request(url)
