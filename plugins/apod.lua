@@ -19,7 +19,7 @@ function plugin.onTextMessage(msg, blocks)
 		    if not output or res ~= 200 or output:len() == 0 then
 		        output, res = HTTP.request(url)
 		    end
-				local message = "![NASA Image]("..output.."\"APOD\")"
+				local message = "<a href=\""..output.."\">Hey there</a>"
 				api.sendReply(msg, message, html, link_preview)
 			elseif blocks[2] == 'hd' then
 				local url = base_url .. "&hd"
@@ -27,7 +27,7 @@ function plugin.onTextMessage(msg, blocks)
 		    if not output or res ~= 200 or output:len() == 0 then
 		        output, res = HTTP.request(url)
 		    end
-				local message = "![NASA Image]("..output.."\"APOD\")"
+				local message = "<a href=\""..output.."\">Hey there</a>"
 				api.sendReply(msg, message, html, link_preview)
 			elseif blocks[2] == 'data' then
 				local url = base_url .. "&data"
