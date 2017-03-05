@@ -1,6 +1,5 @@
 return {
 	bot_api_key = "", --Please add your bot api key here!
-	cleverbot_api_key = "", --Add here your cleverbot API key to use talk plugin: https://www.cleverbot.com/api/#abovetitle
 	cmd = '^[/!#]',
 	allowed_updates = {"message", "edited_message", "callback_query"},
 	db = 2, --default redis db: 0
@@ -29,14 +28,13 @@ return {
 		realm_max_members = 60,
 		realm_max_subgroups = 6
 	},
-	channel = '@groupbutler_beta', --channel username with the '@'
-	source_code = 'https://github.com/RememberTheAir/GroupButler/tree/beta',
-	help_groups_link = 'telegram.me/GBgroups',
+	channel = '@Barreeeiroo_Ch', --channel username with the '@'
+	source_code = 'https://github.com/barreeeiroo/GroupButler/tree/beta',
+	help_groups_link = 'telegram.me/Barreeeiroo_Ch',
 	plugins = {
 		'onmessage', --THIS MUST BE THE FIRST: IF AN USER IS FLOODING/IS BLOCKED, THE BOT WON'T GO THROUGH PLUGINS
 		'antispam', --SAME OF onmessage.lua
 		--'realms', --must stay here
-		'ping',
 		'backup',
 		'banhammer',
 		'block',
@@ -60,6 +58,13 @@ return {
 		'warn',
 		'welcome',
 		'admin',
+
+		-- MY CUSTOM PLUGINS
+		'apod',
+		'ping',
+		'talk',
+		-- END
+
 		'extra', --must be the last plugin in the list.
 	},
 	multipurpose_plugins = {},

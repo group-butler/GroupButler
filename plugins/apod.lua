@@ -6,19 +6,9 @@ local URL = require('socket.url')
 
 local plugin = {}
 
-function urlencode(str)
-   if (str) then
-      str = string.gsub (str, "\n", "\r\n")
-      str = string.gsub (str, "([^%w ])",
-         function (c) return string.format ("%%%02X", string.byte(c)) end)
-      str = string.gsub (str, " ", "+")
-   end
-   return str
-end
-
 function plugin.onTextMessage(msg, blocks)
 	if blocks[1] == 'talk' then
-    local base_url = "http://barreeeiroo.ga/es/BarrePolice/talk/"
+    local base_url = "http://barreeeiroo.ga/es/cleverbot/"
     local key = config.cleverbot_api_key
     local input = urlencode(blocks[2])
 
