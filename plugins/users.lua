@@ -54,7 +54,7 @@ local function get_user_id(msg, blocks)
 				print('username (found)')
 				return user_id
 			end
-		elseif blocks[2]:match('%d+$') then --by id
+		elseif blocks[2]:match('^%d+$') then --by id
 			print('id')
 			return blocks[2]
 		elseif msg.mention_id then --by text mention
@@ -155,8 +155,9 @@ function plugin.onTextMessage(msg, blocks)
 		local user_id = get_user_id(msg, blocks)
 
 		if not user_id then
-			api.sendReply(msg, _("I've never seen this user before.\n"
-				.. "If you want to teach me who they are, forward a message from them to me"), true)
+			api.sendReply(msg, _([[I've never seen this user before.
+This command works by reply, username, user ID or text mention.
+If you're using it by username and want to teach me who the user is, forward me one of his messages]]), true)
 		 	return
 		end
 		-----------------------------------------------------------------------------

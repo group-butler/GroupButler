@@ -603,6 +603,7 @@ end
 
 local function get_list_name(chat_id, user_id)
     local user = db:hgetall(('chat:%d:mod:%d'):format(chat_id, tonumber(user_id)))
+    if not user.first_name then return false end
     return utilities.getname_final(user) or 'x'
 end
 
@@ -615,9 +616,9 @@ function utilities.getModlist(chat_id)
         local list_name
         local modlist = {}
         local s = ' ├ '
-        text = _("<b>👥 Moderators</b>\n")
+        text = _("<b>👥 Moderators (%d)</b>\n"):format(#mods)
         for i=1, #mods do
-            list_name = get_list_name(chat_id, mods[i]) --mods[i] -> string
+            list_name = get_list_name(chat_id, mods[i]) or _('<code>unknown name</code>') --mods[i] -> string
             if i == #mods then s = ' └ ' end
             table.insert(modlist, s..list_name)
         end

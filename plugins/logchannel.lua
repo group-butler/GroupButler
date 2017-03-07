@@ -219,9 +219,9 @@ end
 
 plugin.triggers = {
 	onTextMessage = {
-		'^/(setlog)$',
-		'^/(unsetlog)$',
-		'^/(logchannel)$',
+		config.cmd..'(setlog)$',
+		config.cmd..'(unsetlog)$',
+		config.cmd..'(logchannel)$',
 		
 		--deeplinking from log buttons
 		'^/start (photo):(.*)$'

@@ -76,6 +76,12 @@ local function get_time_remaining(seconds)
 	return final
 end
 
+local imported_text = [['Done.
+*Important*:
+- #extra commands which are associated with a media must be set again if the bot you are using now is different from the bot that originated the backup.
+- moderators have been restored too (if there were some moderators when the file has been created)
+]]
+
 function plugin.onTextMessage(msg, blocks)
     if msg.from.admin then
         if blocks[1] == 'snap' then
@@ -130,7 +136,7 @@ function plugin.onTextMessage(msg, blocks)
 		    						        end
 	    					            end
 	    					        end
-		    						text = _('Done.')
+		    						text = _(imported_text)
 		    					end
 	    				    end
 		    			end

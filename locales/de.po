@@ -2415,7 +2415,7 @@ msgstr "Warnungen (Medien): *%s*"
 
 #: utilities.lua:539
 msgid "✅ = _enabled / allowed_\n"
-msgstr "✅ = Aktiviert / Erlaubt_\n"
+msgstr "✅ = _Aktiviert / Erlaubt_\n"
 
 #: utilities.lua:540
 msgid "🚫 = _disabled / not allowed_\n"
@@ -2423,7 +2423,7 @@ msgstr "🚫 = Deaktiviert / Nicht erlaubt_"
 
 #: utilities.lua:541
 msgid "👥 = _sent in group (always for admins)_\n"
-msgstr "👥 = Sende in die Gruppe (immer für Admins)_\n"
+msgstr "👥 = _sende in die Gruppe (immer für Admins)_\n"
 
 #: utilities.lua:542
 msgid "👤 = _sent in private_"

@@ -54,6 +54,8 @@ return {
 	[153] = 'unsupported url protocol',
 	[154] = 'can\'t parse message text: unexpected end tag at byte offset %d+',
 	[155] = 'message to edit not found',
+	[156] = 'group chat was migrated to a supergroup chat',
+	[157] = 'message to forward not found'
 	--[403] = 'bot was blocked by the user', --user blocked the bot
 	--[429] = 'Too many requests: retry later', --the bot is hitting api limits
 	--[430] = 'Too big total timeout', --too many callback_data requests

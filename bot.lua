@@ -120,7 +120,7 @@ local function on_msg_receive(msg, callback) -- The fn run whenever a message is
 
 	if msg.chat.type ~= 'group' then --do not process messages from normal groups
 		
-		if msg.date < os.time() - 7 then return end -- Do not process old messages.
+		if msg.date < os.time() - 7 then print('Old update skipped') return end -- Do not process old messages.
 		if not msg.text then msg.text = msg.caption or '' end
 		
 		locale.language = db:get('lang:'..msg.chat.id) or 'en' --group language
@@ -407,6 +407,7 @@ while true do -- Start a loop while the bot should be running.
 		clocktime_last_update = os.clock()
 		for i, msg in ipairs(res.result) do -- Go through every new message.
 			last_update = msg.update_id
+			--print(last_update)
 			current.h = current.h + 1
 			parseMessageFunction(msg)
 		end
