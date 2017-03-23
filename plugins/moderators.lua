@@ -122,6 +122,11 @@ function plugin.onTextMessage(msg, blocks)
                 end
             end
         end
+		if blocks[1] == 'clean' and blocks[2] == 'modlist' then
+			local hash = 'chat:'..msg.chat.id..':mods'
+			db:del(hash)
+			api.sendReply(msg, _("The moderators list have been clean successfully."))
+		end
     end    
 end
 
@@ -235,6 +240,7 @@ plugin.triggers = {
 		config.cmd..'(demote)$',
 		config.cmd..'(demote) (.+)$',
 		config.cmd..'(modlist)$'
+		config.cmd..'(clean) (modlist)$'
 	},
 	onCallbackQuery = {
 		'^###cb:config:mods:(-%d+)$',
