@@ -41,7 +41,7 @@ function bot_init(on_reload) -- The function run when the bot is started or relo
 
 	print('\n'..clr.blue..'BOT RUNNING:'..clr.reset, clr.red..'[@'..bot.username .. '] [' .. bot.first_name ..'] ['..bot.id..']'..clr.reset..'\n')
 	
-	last_update = last_update or 0 -- Set loop variables: Update offset
+	last_update = last_update or -2 --skip pending updates
 	last_cron = last_cron or os.time() -- the time of the last cron job
 	
 	if on_reload then
@@ -59,7 +59,6 @@ local function extract_usernames(msg)
 		if msg.from.username then
 			db:hset('bot:usernames', '@'..msg.from.username:lower(), msg.from.id)
 		end
-		db:sadd(string.format('chat:%d:members', msg.chat.id), msg.from.id)
 	end
 	if msg.forward_from and msg.forward_from.username then
 		db:hset('bot:usernames', '@'..msg.forward_from.username:lower(), msg.forward_from.id)
@@ -91,11 +90,6 @@ local function collect_stats(msg)
 	if msg.chat.type ~= 'private' and msg.chat.type ~= 'inline' and msg.from then
 		db:hset('chat:'..msg.chat.id..':userlast', msg.from.id, os.time()) --last message for each user
 		db:hset('bot:chats:latsmsg', msg.chat.id, os.time()) --last message in the group
-	end
-	
-	--user stats
-	if msg.from then
-		db:hincrby('user:'..msg.from.id, 'msgs', 1)
 	end
 end
 

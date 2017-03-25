@@ -136,9 +136,6 @@ function plugin.onTextMessage(msg, blocks)
 	    text = text..'   • *average msgs/minute*: `'..round((last.h/60), 3)..'`\n'
 	    text = text..'   • *average msgs/second*: `'..round((last.h/(60*60)), 3)..'`\n'
 	    
-	    local usernames = db:hkeys('bot:usernames')
-	    text = text..'- *usernames cache*: `'..#usernames..'`\n'
-	    
 	    --db info
 	    text = text.. '\n*DB stats*\n'
 		local dbinfo = db:info()

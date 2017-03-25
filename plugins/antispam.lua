@@ -9,11 +9,16 @@ local function is_whitelisted(chat_id, text)
     local links = db:smembers(set)
     if links and next(links) then
         for i=1, #links do
-            if text:find(links[i]:gsub('%-', '%%-')) then
+            if text:find(links[i]:lower():gsub('%-', '%%-')) then
                 return true
             end
         end
     end
+end
+
+local function is_whitelisted_channel(chat_id, channel_id)
+    local set = ('chat:%d:chanwhitelist'):format(chat_id)
+    return db:sismember(set, channel_id)
 end
 
 local function getAntispamWarns(chat_id, user_id)
@@ -27,13 +32,16 @@ end
 
 function plugin.onEveryMessage(msg)
     if not msg.inline and msg.spam and msg.chat.id < 0 and not msg.cb then
-        
         local status = db:hget('chat:'..msg.chat.id..':antispam', msg.spam)
         if status and status == 'notalwd' then
             if not msg.from.mod then
                 local whitelisted
                 if msg.spam == 'links' then
-                    whitelisted = is_whitelisted(msg.chat.id, msg.text)
+                    whitelisted = is_whitelisted(msg.chat.id, msg.text:lower())
+                [[elseif msg.forward_from_chat then 
+                    if msg.forward_from_chat.type == 'channel' then
+                        whitelisted = is_whitelisted_channel(msg.chat.id, msg.forward_from_chat.id)
+                    end]]
                 end
                 
                 if not whitelisted then
@@ -234,6 +242,31 @@ Choose which kind of spam you want to forbid
     end
 end
 
+local function edit_channels_whitelist(chat_id, list, action)
+    
+    local channels = {valid = {}, not_valid ={}}
+    local for_entered
+    local set = ('chat:%d:chanwhitelist'):format(chat_id)
+    local res
+    for channel_id in list:gmatch('-%d+') do
+        if action == 'add' then
+            res = db:sadd(set, channel_id)
+        elseif action == 'rem' then
+            res = db:srem(set, channel_id)
+        end
+        
+        if res == 1 then
+            table.insert(channels.valid, channel_id)
+        elseif res == 0 then
+            table.insert(channels.not_valid, channel_id)
+        end
+        
+        for_entered = true
+    end
+    
+    return for_entered, channels
+end
+
 function plugin.onTextMessage(msg, blocks)
     if u.is_allowed('texts', msg.chat.id, msg.from) then
         if (blocks[1] == 'wl' or blocks[1] == 'whitelist') and blocks[2] then
@@ -297,9 +330,51 @@ function plugin.onTextMessage(msg, blocks)
             end
             api.sendReply(msg, text, true)
         end
-        if blocks[1] == 'funwl' then
+        if blocks[1] == 'funwl' then --force the unwhitelist of a link
             db:srem(('chat:%d:whitelist'):format(msg.chat.id), blocks[2])
             api.sendReply(msg, 'Done')
+        end
+        if blocks[1] == 'wlchan' and not blocks[2] then
+            local channels = db:smembers(('chat:%d:chanwhitelist'):format(msg.chat.id))
+            if not next(channels) then
+                api.sendReply(msg, _("_Whitelist of channels empty_"), true)
+            else
+                api.sendReply(msg, _("*Whitelisted channels:*\n%s"):format(table.concat(channels, '\n')), true)
+            end
+        end
+        if blocks[1] == 'wlchan' and blocks[2] then
+            local for_entered, channels = edit_channels_whitelist(msg.chat.id, blocks[2], 'add')
+            
+            if not for_entered then
+                api.sendReply(msg, _("_I can't find a channel ID in your message_"), true)
+            else
+                local text = ''
+                if next(channels.valid) then
+                    text = text..("*Channels whitelisted*: `%s`\n"):format(table.concat(channels.valid, ', '))
+                end
+                if next(channels.not_valid) then
+                    text = text..("*Channels already whitelisted*: `%s`\n"):format(table.concat(channels.not_valid, ', '))
+                end
+                
+                api.sendReply(msg, text, true)
+            end
+        end
+        if blocks[1] == 'unwlchan' then
+            local for_entered, channels = edit_channels_whitelist(msg.chat.id, blocks[2], 'rem')
+            
+            if not for_entered then
+                api.sendReply(msg, _("_I can't find a channel ID in your message_"), true)
+            else
+                local text = ''
+                if next(channels.valid) then
+                    text = text..("*Channels unwhitelisted*: `%s`\n"):format(table.concat(channels.valid, ', '))
+                end
+                if next(channels.not_valid) then
+                    text = text..("*Channels not whitelisted*: `%s`\n"):format(table.concat(channels.not_valid, ', '))
+                end
+                
+                api.sendReply(msg, text, true)
+            end
         end
     end
 end
@@ -313,10 +388,13 @@ plugin.triggers = {
     onTextMessage = {
         config.cmd..'(wl) (.+)$',
         config.cmd..'(whitelist) (.+)$',
+        --config.cmd..'(wlchan) (.+)$',
         config.cmd..'(unwl) (.+)$',
         config.cmd..'(unwhitelist) (.+)$',
+        --config.cmd..'(unwlchan) (.+)$',
         config.cmd..'(wl)$',
         config.cmd..'(whitelist)$',
+        --config.cmd..'(wlchan)$',
         config.cmd..'(funwl) (.+)'
     }
 }

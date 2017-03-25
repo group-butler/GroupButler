@@ -282,7 +282,8 @@ When disabled, the group administrators *can't promote or demote new moderators*
 *Commands*
 `/promote [by reply|by username|by text mention|by ID]`: promote an user to moderator. If used on a moderator, it will update his name in the moderators list.
 `/demote [by reply|by username|by text mention|by ID]`: demote an moderator.
-`/modlist`: show the list of the moderators]])
+`/modlist`: show the list of the moderators
+`/modlist -`: demote all the moderators (will clean the modlist)]])
 	elseif key == 'logchannel' then
 		return _([[*Log channel informations*
 			

@@ -108,6 +108,20 @@ function plugin.onTextMessage(msg, blocks)
                     api.sendReply(msg, text, 'html')
                 end
             end
+            if blocks[1] == '-' then
+                local set = ('chat:%d:mods'):format(msg.chat.id)
+                local mods_ids = db:smembers(set)
+                if not next(mods_ids) then
+                    api.sendReply(msg, _("_There isn't any moderator in this group_"), true)
+                else
+                    for i=1, #mods_ids do
+                        db:del(('chat:%d:mod:%s'):format(msg.chat.id, mods_ids[i]))
+                    end
+                    db:del(set)
+                    u.logEvent('cleanmods', msg, {admin = u.getname_final(msg.from)})
+                    api.sendReply(msg, _("_Modlist cleaned_"), true)
+                end
+            end
         end
         
         if blocks[1] == 'modlist' then
@@ -234,7 +248,8 @@ plugin.triggers = {
 		config.cmd..'(promote) (.+)$',
 		config.cmd..'(demote)$',
 		config.cmd..'(demote) (.+)$',
-		config.cmd..'(modlist)$'
+		config.cmd..'(modlist)$',
+		config.cmd..'modlist (-)$'
 	},
 	onCallbackQuery = {
 		'^###cb:config:mods:(-%d+)$',

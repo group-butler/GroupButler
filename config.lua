@@ -151,6 +151,7 @@ return {
 			['flood'] = 'no',
 			['promote'] = 'no',
 			['demote'] = 'no',
+			['cleanmods'] = 'no',
 			['new_chat_member'] = 'no',
 			['new_chat_photo'] = 'no',
 			['delete_chat_photo'] = 'no',

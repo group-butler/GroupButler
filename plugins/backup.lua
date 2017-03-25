@@ -44,11 +44,13 @@ local function gen_backup(chat_id)
         end
     end
     for i=1, #config.chat_sets do
-        set = ('chat:%s:%s'):format(chat_id, config.chat_sets[i])
-        local content = db:smembers(set)
-        if next(content) then
+    	if config.chat_sets[i] ~= 'mods' then --do not backup the modlist
+        	set = ('chat:%s:%s'):format(chat_id, config.chat_sets[i])
+        	local content = db:smembers(set)
+        	if next(content) then
             t[chat_id].sets[config.chat_sets[i]] = content
         end
+    	end
     end
     
     save_data(file_path, t)
