@@ -488,7 +488,7 @@ function api.sendPhoto(chat_id, photo, caption, reply_to_message_id)
 
 	local url = BASE_URL .. '/sendPhoto'
 
-	local curl_command = 'curl "' .. url .. '" -F "chat_id=' .. chat_id .. '" -F "photo=@' .. photo .. '"'
+	local curl_command = 'curl -s "' .. url .. '" -F "chat_id=' .. chat_id .. '" -F "photo=@' .. photo .. '"'
 
 	if reply_to_message_id then
 		curl_command = curl_command .. ' -F "reply_to_message_id=' .. reply_to_message_id .. '"'
@@ -506,7 +506,7 @@ function api.sendDocument(chat_id, document, reply_to_message_id, caption)
 
 	local url = BASE_URL .. '/sendDocument'
 
-	local curl_command = 'curl "' .. url .. '" -F "chat_id=' .. chat_id .. '" -F "document=@' .. document .. '"'
+	local curl_command = 'curl -s "' .. url .. '" -F "chat_id=' .. chat_id .. '" -F "document=@' .. document .. '"'
 
 	if reply_to_message_id then
 		curl_command = curl_command .. ' -F "reply_to_message_id=' .. reply_to_message_id .. '"'
@@ -524,7 +524,7 @@ function api.sendSticker(chat_id, sticker, reply_to_message_id)
 
 	local url = BASE_URL .. '/sendSticker'
 
-	local curl_command = 'curl "' .. url .. '" -F "chat_id=' .. chat_id .. '" -F "sticker=@' .. sticker .. '"'
+	local curl_command = 'curl -s "' .. url .. '" -F "chat_id=' .. chat_id .. '" -F "sticker=@' .. sticker .. '"'
 
 	if reply_to_message_id then
 		curl_command = curl_command .. ' -F "reply_to_message_id=' .. reply_to_message_id .. '"'
@@ -550,7 +550,7 @@ function api.sendAudio(chat_id, audio, reply_to_message_id, duration, performer,
 
 	local url = BASE_URL .. '/sendAudio'
 
-	local curl_command = 'curl "' .. url .. '" -F "chat_id=' .. chat_id .. '" -F "audio=@' .. audio .. '"'
+	local curl_command = 'curl -s "' .. url .. '" -F "chat_id=' .. chat_id .. '" -F "audio=@' .. audio .. '"'
 
 	if reply_to_message_id then
 		curl_command = curl_command .. ' -F "reply_to_message_id=' .. reply_to_message_id .. '"'
@@ -576,7 +576,7 @@ function api.sendVideo(chat_id, video, reply_to_message_id, duration, performer,
 
 	local url = BASE_URL .. '/sendVideo'
 
-	local curl_command = 'curl "' .. url .. '" -F "chat_id=' .. chat_id .. '" -F "video=@' .. video .. '"'
+	local curl_command = 'curl -s "' .. url .. '" -F "chat_id=' .. chat_id .. '" -F "video=@' .. video .. '"'
 
 	if reply_to_message_id then
 		curl_command = curl_command .. ' -F "reply_to_message_id=' .. reply_to_message_id .. '"'
@@ -598,7 +598,7 @@ function api.sendVoice(chat_id, voice, reply_to_message_id)
 
 	local url = BASE_URL .. '/sendVoice'
 
-	local curl_command = 'curl "' .. url .. '" -F "chat_id=' .. chat_id .. '" -F "voice=@' .. voice .. '"'
+	local curl_command = 'curl -s "' .. url .. '" -F "chat_id=' .. chat_id .. '" -F "voice=@' .. voice .. '"'
 
 	if reply_to_message_id then
 		curl_command = curl_command .. ' -F "reply_to_message_id=' .. reply_to_message_id .. '"'
