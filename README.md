@@ -74,6 +74,12 @@ $ cd ..
 $ git clone https://github.com/RememberTheAir/GroupButler.git
 $ cd GroupButler
 $ sudo chmod 777 launch.sh
+-----------------------------------------------------
+# If you want clone new branches, use these commends:
+
+$ git clone https://github.com/RememberTheAir/GroupButler.git -b beta
+$ cd GroupButler
+$ sudo chmod 777 launch.sh
 ```
 
 Other things to check before running the bot:
