@@ -392,7 +392,7 @@ end
 
 ------------------------Inline methods-----------------------------------------
 
-function api.answerInlineQuery(inline_query_id, results, cache_time, is_personal, switch_pm_text, switch_pm_parameter)
+function api.answerInlineQuery(inline_query_id, results, cache_time, is_personal, next_offset, switch_pm_text, switch_pm_parameter)
 	
 	local url = BASE_URL .. '/answerInlineQuery?inline_query_id='..inline_query_id..'&results='..JSON.encode(results)
 	
@@ -402,6 +402,10 @@ function api.answerInlineQuery(inline_query_id, results, cache_time, is_personal
 	
 	if is_personal then
 		url = url..'&is_personal=True'
+	end
+	
+	if next_offset then
+		url = url..'&next_offset='..next_offset
 	end
 	
 	if switch_pm_text then
