@@ -572,22 +572,22 @@ function api.sendAudio(chat_id, audio, reply_to_message_id, duration, performer,
 
 end
 
-function api.sendVideo(chat_id, video, reply_to_message_id, duration, performer, title)
+function api.sendVideo(chat_id, video, duration, caption, reply_to_message_id)
 
 	local url = BASE_URL .. '/sendVideo'
 
 	local curl_command = 'curl "' .. url .. '" -F "chat_id=' .. chat_id .. '" -F "video=@' .. video .. '"'
-
-	if reply_to_message_id then
-		curl_command = curl_command .. ' -F "reply_to_message_id=' .. reply_to_message_id .. '"'
+	
+	if duration then
+		curl_command = curl_command .. ' -F "duration=' .. duration .. '"'
 	end
-
+	
 	if caption then
 		curl_command = curl_command .. ' -F "caption=' .. caption .. '"'
 	end
 
-	if duration then
-		curl_command = curl_command .. ' -F "duration=' .. duration .. '"'
+	if reply_to_message_id then
+		curl_command = curl_command .. ' -F "reply_to_message_id=' .. reply_to_message_id .. '"'
 	end
 
 	return curlRequest(curl_command)
