@@ -18,6 +18,16 @@ Group Butler was born as an [otouto](https://otou.to) [v3.1](https://github.com/
 
 * * *
 
+## Running (with docker)
+Requires docker and docker-compose installed.
+
+- Create a .env file with `TG_TOKEN=yourbottoken`
+- Always run with `docker-compose up --build`
+- ???
+- Profit
+
+Bellow is the old setup instructions just in case you hate docker or something. In addition to that you will obviously need to set the `$TG_TOKEN` variable manually on your shell before running the bot.
+
 ## Setup
 List of required packages:
 - `libreadline-dev`

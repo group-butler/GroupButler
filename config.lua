@@ -1,12 +1,17 @@
 return {
-	bot_api_key = "", --Please add your bot api key here!
+	bot_api_key = os.getenv("TG_TOKEN"),
 	cmd = '^[/!#]',
 	allowed_updates = {"message", "edited_message", "callback_query"},
-	db = 2, --default redis db: 0
-	superadmins = {23646077, 278941742},
+	db = 0, --default redis db: 0
+	superadmins = {
+		89198119, -- Tiago
+		186513800, -- Vycktor
+		67577672, -- Wesley
+		61029284 -- Yan
+	},
 	log = {
-		chat = -1001089188566, --Your log chat, where your bot must be added!
-		admin = 23646077, --The admin.
+		chat = nil, --Your log chat, where your bot must be added!
+		admin = 61029284, --The admin.
 		stats = nil
 	},
 	human_readable_version = '4.2.0',

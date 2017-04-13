@@ -2,23 +2,23 @@ local api = require 'methods'
 local redis = require 'redis'
 local clr = require 'term.colors'
 local u, config, plugins, last_update, last_cron
-db = redis.connect('127.0.0.1', 6379)
+db = redis.connect('redis', 6379)
 
 function bot_init(on_reload) -- The function run when the bot is started or reloaded.
-	
+
 	config = dofile('config.lua') -- Load configuration file.
-	assert(not (config.bot_api_key == "" or not config.bot_api_key), clr.red..'Insert the bot token in config.lua -> bot_api_key'..clr.reset)
+	assert(not (config.bot_api_key == "" or not config.bot_api_key), clr.red..'Insert the bot token in .env -> TG_TOKEN'..clr.reset)
 	assert(#config.superadmins > 0, clr.red..'Insert your Telegram ID in config.lua -> superadmins'..clr.reset)
 	assert(config.log.admin, clr.red..'Insert your Telegram ID in config.lua -> log.admin'..clr.reset)
-	
+
 	db:select(config.db or 0) --select the redis db
-	
+
 	u = dofile('utilities.lua') -- Load miscellaneous and cross-plugin functions.
 	locale = dofile('languages.lua')
 	now_ms = require('socket').gettime
-	
+
 	bot = api.getMe().result -- Get bot info
-	bot.revision = u.bash('git rev-parse --short HEAD')
+	bot.revision = os.getenv("COMMIT")
 
 	plugins = {} -- Load plugins.
 	for i,v in ipairs(config.plugins) do
@@ -40,10 +40,10 @@ function bot_init(on_reload) -- The function run when the bot is started or relo
 	end
 
 	print('\n'..clr.blue..'BOT RUNNING:'..clr.reset, clr.red..'[@'..bot.username .. '] [' .. bot.first_name ..'] ['..bot.id..']'..clr.reset..'\n')
-	
+
 	last_update = last_update or -2 --skip pending updates
 	last_cron = last_cron or os.time() -- the time of the last cron job
-	
+
 	if on_reload then
 		return #plugins
 	else
@@ -84,9 +84,9 @@ local function extract_usernames(msg)
 end
 
 local function collect_stats(msg)
-	
+
 	extract_usernames(msg)
-	
+
 	if msg.chat.type ~= 'private' and msg.chat.type ~= 'inline' and msg.from then
 		db:hset('chat:'..msg.chat.id..':userlast', msg.from.id, os.time()) --last message for each user
 		db:hset('bot:chats:latsmsg', msg.chat.id, os.time()) --last message in the group
@@ -113,17 +113,17 @@ local function on_msg_receive(msg, callback) -- The fn run whenever a message is
 	end
 
 	if msg.chat.type ~= 'group' then --do not process messages from normal groups
-		
+
 		if msg.date < os.time() - 7 then print('Old update skipped') return end -- Do not process old messages.
 		if not msg.text then msg.text = msg.caption or '' end
-		
+
 		locale.language = db:get('lang:'..msg.chat.id) or 'en' --group language
 		if not config.available_languages[locale.language] then
 			locale.language = 'en'
 		end
-		
+
 		collect_stats(msg)
-		
+
 		local continue = true
 		local onm_success
 		for i, plugin in pairs(plugins) do
@@ -135,23 +135,23 @@ local function on_msg_receive(msg, callback) -- The fn run whenever a message is
 			end
 			if not continue then return end
 		end
-		
+
 		for i,plugin in pairs(plugins) do
 			if plugin.triggers then
 				local blocks, trigger = match_triggers(plugin.triggers[callback], msg.text)
 				if blocks then
-					
+
 					if msg.chat.type ~= 'private' and msg.chat.type ~= 'inline'and not db:exists('chat:'..msg.chat.id..':settings') and not msg.service then --init agroup if the bot wasn't aware to be in
 							u.initGroup(msg.chat.id)
 						end
-					
+
 					if config.bot_settings.stream_commands then --print some info in the terminal
 						print(clr.reset..clr.blue..'['..os.date('%X')..']'..clr.red..' '..trigger..clr.reset..' '..msg.from.first_name..' ['..msg.from.id..'] -> ['..msg.chat.id..']')
 					end
-					
+
 					--if not check_callback(msg, callback) then goto searchaction end
 					local success, result = xpcall(plugin[callback], debug.traceback, msg, blocks) --execute the main function of the plugin triggered
-					
+
 					if not success then --if a bug happens
 							print(result)
 							if config.bot_settings.notify_bug then
@@ -160,14 +160,14 @@ local function on_msg_receive(msg, callback) -- The fn run whenever a message is
     	      				api.sendAdmin('An #error occurred.\n'..result..'\n'..locale.language..'\n'..msg.text)
 							return
 						end
-					
+
 					if type(result) == 'string' then --if the action returns a string, make that string the new msg.text
 						msg.text = result
 					elseif not result then --if the action returns true, then don't stop the loop of the plugin's actions
 						return
 					end
 				end
-				
+
 			end
 		end
 	else
@@ -177,14 +177,14 @@ local function on_msg_receive(msg, callback) -- The fn run whenever a message is
 			if not config.available_languages[locale.language] then
 				locale.language = 'en'
 			end]]
-			
+
 			-- send disclamer
 			api.sendMessage(msg.chat.id, _([[
 Hello everyone!
 My name is %s, and I'm a bot made to help administrators in their hard work.
 Unfortunately I can't work in normal groups, please ask the creator to convert this group to a supergroup.
 ]]):format(bot.first_name))
-			
+
 			-- log this event
 			if config.bot_settings.stream_commands then
 				print(string.format('%s[%s]%s Bot was added to a normal group %s%s [%d] -> [%d]',
@@ -195,16 +195,16 @@ Unfortunately I can't work in normal groups, please ask the creator to convert t
 end
 
 local function parseMessageFunction(update)
-	
+
 	db:hincrby('bot:general', 'messages', 1)
-	
+
 	local msg, function_key
-	
+
 	--if update.message or update.edited_message or update.channel_post or update.edited_channel_post then
 	if update.message or update.edited_message then
-		
+
 		function_key = 'onTextMessage'
-		
+
 		--if not update.message then
 			if update.edited_message then
 				update.edited_message.edited = true
@@ -221,10 +221,10 @@ local function parseMessageFunction(update)
 				function_key = 'onEditedChannelPost']]
 			end
 		--end
-		
+
 		--msg = update.message or update.edited_message or update.channel_post or update.edited_channel_post
 		msg = update.message or update.edited_message
-		
+
 		if msg.text then
 		elseif msg.photo then
 			msg.media = true
@@ -304,7 +304,7 @@ local function parseMessageFunction(update)
 			--callback = 'onUnknownType'
 			print('Unknown update type') return
 		end
-		
+
 		if msg.forward_from_chat then
 			if msg.forward_from_chat.type == 'channel' then
 				msg.spam = 'forwards'
@@ -378,7 +378,7 @@ local function parseMessageFunction(update)
 		--function_key = 'onUnknownType'
 		print('Unknown update type') return
 	end
-	
+
 	if (msg.chat.id < 0 or msg.target_id) and msg.from then
 		msg.from.admin = u.is_admin(msg.target_id or msg.chat.id, msg.from.id)
 		if msg.from.admin then
@@ -387,7 +387,7 @@ local function parseMessageFunction(update)
 			msg.from.mod = u.is_mod(msg.target_id or msg.chat.id, msg.from.id)
 		end
 	end
-	
+
 	--print('Mod:', msg.from.mod, 'Admin:', msg.from.admin)
 	return on_msg_receive(msg, function_key)
 end
