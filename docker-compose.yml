@@ -20,4 +20,9 @@ services:
       - redis
     environment:
       - TG_TOKEN
+      - SUPERADMINS
+      - LOG
+      - CHANNEL
+      - SOURCE
+      - GROUP
     privileged: true

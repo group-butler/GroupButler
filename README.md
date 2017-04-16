@@ -18,17 +18,10 @@ Group Butler was born as an [otouto](https://otou.to) [v3.1](https://github.com/
 
 * * *
 
-## Running (with docker)
-Requires docker and docker-compose installed.
+## Setup (with docker)
+You will need to install `docker-compose` in addition to `docker` itself.
 
-- Create a .env file with `TG_TOKEN=yourbottoken`
-- Always run with `docker-compose up --build`
-- ???
-- Profit
-
-Bellow is the old setup instructions just in case you hate docker or something. In addition to that you will obviously need to set the `$TG_TOKEN` variable manually on your shell before running the bot.
-
-## Setup
+## Setup (without docker)
 List of required packages:
 - `libreadline-dev`
 - `redis-server`
@@ -43,7 +36,7 @@ List of required packages:
 
 You will need some other Lua modules too, which can be (and should be) installed through the Lua package manager LuaRocks.
 
-**Installation**
+**Installation (skip if using docker)**
 
 You can easily install Group Butler by running the following commands:
 
@@ -86,37 +79,39 @@ $ cd GroupButler
 $ sudo chmod 777 launch.sh
 ```
 
-Other things to check before running the bot:
+## Other things to check before running the bot
 
-**First of all, take a look at your bot settings:**
+First of all, take a look at your bot settings:
 
 > • Make sure privacy is disabled (more info can be found by heading to the [official Bots FAQ page](https://core.telegram.org/bots/faq#what-messages-will-my-bot-get)). Send `/setprivacy` to [@BotFather](http://telegram.me/BotFather) to check the current status of this setting.
 
-**Before you do anything else, open config.lua (in a text editor) and make the following changes:**
+**Before you do anything else, open `.env-example` (in a text editor) and create a `.env` file with the following changes:**
 
-> • Set `bot_api_key` to the authentication token that you received from [`@BotFather`](http://telegram.me/BotFather).
+> • Set `TG_TOKEN` to the authentication token that you received from [`@BotFather`](http://telegram.me/BotFather).
 >
-> • Insert your numerical Telegram ID into the `superadmins` table. Other superadmins can be added too. It is important that you insert the numerical ID and NOT a string.
+> • Insert your numerical Telegram ID into the `SUPERADMINS` array. Other superadmins can be added too. It is important that you insert the numerical ID and NOT a string.
 >
-> • Set your `log.chat` (the ID of the chat where the bot will send all the bad requests received from Telegram) and your `log.admin` (the ID of the user that will receive execution errors).
+> • Set your `LOG.chat` (the ID of the chat where the bot will send all the bad requests received from Telegram) and your `LOG.admin` (the ID of the user that will receive execution errors).
 
-Before you start the bot, you have to start the Redis process.
+Before you start the bot, you have to start the Redis process (ignore if using docker).
+
 ```bash
 # Start Redis
 
 $ sudo service redis-server start
 ```
 
-## Starting the process
+## Starting the process (with docker)
+To start the bot, run `docker-compose up`. To stop the bot, press <kbd>CTRL</kbd>+<kbd>C</kbd>.
 
-To start the bot, run `./launch.sh`. To stop the bot, press Control <kbd>CTRL</kbd>+<kbd>C</kbd> twice.
+## Starting the process (without docker)
 
-You may also start the bot with `lua bot.lua`, however it will not restart automatically.
+To start the bot, source the `.env` file in your shell then run `lua bot.lua`. To stop the bot, press <kbd>CTRL</kbd>+<kbd>C</kbd>.
 
 * * *
 ## Something that you should known before run the bot
 
-  * You can change some settings of the bot. All the settings are placed in `config.lua`, in the `bot_settings` table
+  * You can change some settings of the bot. All the settings are placed in `config.lua`, in the `bot_settings` table. WIP: move settings to env vars
     * `cache_time.adminlist`: the permanence in seconds of the adminlist in the cache. The bot caches the adminlist to avoid to hit Telegram limits
     * `notify_bug`: if `true`, the bot will send a message that notifies that a bug has occured to the current user, when a plugin is executed and an error happens
     * `log_api_errors`: if `true`, the bot will send in the `log_chat` (`config.lua`) all the relevant errors returned by an api request toward Telegram

@@ -2,16 +2,17 @@ local api = require 'methods'
 local redis = require 'redis'
 local clr = require 'term.colors'
 local u, config, plugins, last_update, last_cron
-db = redis.connect('redis', 6379)
 
 function bot_init(on_reload) -- The function run when the bot is started or reloaded.
 
 	config = dofile('config.lua') -- Load configuration file.
 	assert(not (config.bot_api_key == "" or not config.bot_api_key), clr.red..'Insert the bot token in .env -> TG_TOKEN'..clr.reset)
-	assert(#config.superadmins > 0, clr.red..'Insert your Telegram ID in config.lua -> superadmins'..clr.reset)
-	assert(config.log.admin, clr.red..'Insert your Telegram ID in config.lua -> log.admin'..clr.reset)
+	assert(#config.superadmins > 0, clr.red..'Insert your Telegram ID in .env -> superadmins'..clr.reset)
+	assert(config.log.admin, clr.red..'Insert your Telegram ID in .env -> log.admin'..clr.reset)
 
-	db:select(config.db or 0) --select the redis db
+	db = redis.connect(config.redis_host, config.redis_port)
+
+	db:select(config.redis_db) --select the redis db
 
 	u = dofile('utilities.lua') -- Load miscellaneous and cross-plugin functions.
 	locale = dofile('languages.lua')

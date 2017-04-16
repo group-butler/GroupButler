@@ -1,20 +1,29 @@
+-- Editing this file directly is now highly disencouraged. You should instead use environment variables. This new method is a WIP, so if you need to change something which doesn't have a env var, you are encouraged to open an issue or a PR
+json = require ("dkjson")
+
 return {
+	-- Setting these is required in order to run, so no defaults
 	bot_api_key = os.getenv("TG_TOKEN"),
+	superadmins = json.decode(os.getenv("SUPERADMINS")),
+	log = json.decode(os.getenv("LOG")),
+
+	-- Setting these is only required when running without Docker
+	db_host = os.getenv("DB_HOST") or 'db',
+	db_port = os.getenv("DB_PORT") or 5432,
+
+	redis_host = os.getenv("REDIS_HOST") or 'redis',
+	redis_port = os.getenv("REDIS_PORT") or 6379,
+
+	-- Setting these is optional, although recommend
+	channel = os.getenv("CHANNEL") or '@RoboED', --channel username with the '@'
+	source_code = os.getenv("SOURCE") or 'https://gitlab.com/Synko/GroupButler',
+	help_groups_link = os.getenv("GROUP") or 'https://t.me/RoboED',
+
+	-- Setting these is completely optional
+	redis_db = 0,
+	human_readable_version = '4.2.0',
 	cmd = '^[/!#]',
 	allowed_updates = {"message", "edited_message", "callback_query"},
-	db = 0, --default redis db: 0
-	superadmins = {
-		89198119, -- Tiago
-		186513800, -- Vycktor
-		67577672, -- Wesley
-		61029284 -- Yan
-	},
-	log = {
-		chat = nil, --Your log chat, where your bot must be added!
-		admin = 61029284, --The admin.
-		stats = nil
-	},
-	human_readable_version = '4.2.0',
 	bot_settings = {
 		cache_time = {
 			adminlist = 18000, --5 hours (18000s) Admin Cache time, in seconds.
@@ -33,9 +42,6 @@ return {
 		realm_max_members = 60,
 		realm_max_subgroups = 6
 	},
-	channel = '@groupbutler_beta', --channel username with the '@'
-	source_code = 'https://github.com/RememberTheAir/GroupButler/tree/beta',
-	help_groups_link = 'telegram.me/GBgroups',
 	plugins = {
 		'onmessage', --THIS MUST BE THE FIRST: IF AN USER IS FLOODING/IS BLOCKED, THE BOT WON'T GO THROUGH PLUGINS
 		'antispam', --SAME OF onmessage.lua
