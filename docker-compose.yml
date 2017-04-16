@@ -20,4 +20,5 @@ services:
       - redis
     environment:
       - TG_TOKEN
-    privileged: true
+    volumes:
+      - ./:/srv/app
