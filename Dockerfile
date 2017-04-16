@@ -1,10 +1,9 @@
 FROM ubuntu:16.04
 
-WORKDIR /srv/telebots
+WORKDIR /srv/app
 
 COPY .deps .
 
-# TODO: migrar dependências para rockspec e parar de usar bash
 RUN mv /bin/sh /bin/sh.bak && ln -s /bin/bash /bin/sh
 
 RUN . ./.deps && \
@@ -16,7 +15,7 @@ RUN rm /bin/sh && mv /bin/sh.bak /bin/sh
 
 ENTRYPOINT ["lua", "bot.lua"]
 
-ARG BUILD_DATE=Hoje
+ARG BUILD_DATE=dev
 ENV BUILD_DATE=$BUILD_DATE
 
 ARG BUILD_REV=dev
@@ -24,5 +23,3 @@ ENV BUILD_REV=$BUILD_REV
 
 ARG COMMIT=HEAD
 ENV COMMIT=$COMMIT
-
-COPY . .

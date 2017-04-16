@@ -25,4 +25,5 @@ services:
       - CHANNEL
       - SOURCE
       - GROUP
-    privileged: true
+    volumes:
+      - ./:/srv/app
