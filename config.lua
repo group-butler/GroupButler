@@ -18,6 +18,7 @@ return {
 	channel = os.getenv("CHANNEL") or '@RoboED', --channel username with the '@'
 	source_code = os.getenv("SOURCE") or 'https://gitlab.com/Synko/GroupButler',
 	help_groups_link = os.getenv("GROUP") or 'https://t.me/RoboED',
+	lang = os.getenv("CORE_LANG"),
 
 	-- Setting these is completely optional
 	redis_db = 0,

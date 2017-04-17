@@ -1,25 +1,32 @@
+local i18n = require 'i18n'
 local api = require 'methods'
 local redis = require 'redis'
 local clr = require 'term.colors'
 local u, config, plugins, last_update, last_cron
 
 function bot_init(on_reload) -- The function run when the bot is started or reloaded.
+	i18n.loadFile('i18n.lua') -- Load core localization
 
-	config = dofile('config.lua') -- Load configuration file.
-	assert(not (config.bot_api_key == "" or not config.bot_api_key), clr.red..'Insert the bot token in .env -> TG_TOKEN'..clr.reset)
-	assert(#config.superadmins > 0, clr.red..'Insert your Telegram ID in .env -> superadmins'..clr.reset)
-	assert(config.log.admin, clr.red..'Insert your Telegram ID in .env -> log.admin'..clr.reset)
+	config = dofile('config.lua') -- Load configuration file
+	i18n.setLocale(config.lang) -- Set core localization
+
+	assert(not (config.bot_api_key == "" or not config.bot_api_key), clr.red .. i18n('missing_token') .. clr.reset)
+	assert(#config.superadmins > 0, clr.red .. i18n('missing_superadmin') .. clr.reset)
+	assert(config.log.admin, clr.red .. i18n('missing_logadmin') .. clr.reset)
 
 	db = redis.connect(config.redis_host, config.redis_port)
-
 	db:select(config.redis_db) --select the redis db
 
 	u = dofile('utilities.lua') -- Load miscellaneous and cross-plugin functions.
-	locale = dofile('languages.lua')
 	now_ms = require('socket').gettime
 
 	bot = api.getMe().result -- Get bot info
 	bot.revision = os.getenv("COMMIT")
+
+	-- Load plugins localization
+	for i,plugin in ipairs(config.plugins) do
+		i18n.loadFile('plugins/i18n/' .. plugin .. '.lua')
+	end
 
 	plugins = {} -- Load plugins.
 	for i,v in ipairs(config.plugins) do
@@ -40,7 +47,7 @@ function bot_init(on_reload) -- The function run when the bot is started or relo
 		table.insert(plugins, p)
 	end
 
-	print('\n'..clr.blue..'BOT RUNNING:'..clr.reset, clr.red..'[@'..bot.username .. '] [' .. bot.first_name ..'] ['..bot.id..']'..clr.reset..'\n')
+	print('\n'..clr.blue.. i18n('bot_running') ..clr.reset, clr.red..'[@'..bot.username .. '] [' .. bot.first_name ..'] ['..bot.id..']'..clr.reset..'\n')
 
 	last_update = last_update or -2 --skip pending updates
 	last_cron = last_cron or os.time() -- the time of the last cron job
@@ -48,7 +55,9 @@ function bot_init(on_reload) -- The function run when the bot is started or relo
 	if on_reload then
 		return #plugins
 	else
-		api.sendAdmin('*Bot started!*\n_'..os.date('On %A, %d %B %Y\nAt %X')..'_\n'..#plugins..' plugins loaded', true)
+		temp = os.date("*t")
+		temp["plugins"] = #plugins
+		api.sendAdmin(i18n('bot_started',temp), true)
 		start_timestamp = os.time()
 		current = {h = 0}
 		last = {h = 0}
