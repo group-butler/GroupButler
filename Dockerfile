@@ -8,8 +8,9 @@ RUN mv /bin/sh /bin/sh.bak && ln -s /bin/bash /bin/sh
 
 RUN . ./.deps && \
     apt-get update && apt-get install -y $NATIVE ca-certificates gcc --no-install-recommends && \
-    git clone http://github.com/keplerproject/luarocks && cd luarocks && ./configure --lua-version=$LUA && make build && make install && for ROCK in $ROCKS; do luarocks install $ROCK; done && \
-    apt-get remove -y git gcc make unzip && apt-get autoremove -y && rm -rf luarocks /var/lib/apt/lists/* /tmp/* /root/.cache
+    git clone http://github.com/keplerproject/luarocks && cd luarocks && ./configure --lua-version=$LUA && make build && make install && for ROCK in $ROCKS; do luarocks install $ROCK; done
+
+RUN luarocks install PGSQL_INCDIR=/usr/include/postgresql/ luasql-postgres
 
 RUN rm /bin/sh && mv /bin/sh.bak /bin/sh
 
