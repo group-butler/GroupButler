@@ -2,4 +2,4 @@ LUA=5.2
 
 NATIVE="libreadline-dev libssl-dev lua$LUA luarocks liblua$LUA-dev git make unzip curl libcurl4-gnutls-dev libpq-dev"
 
-ROCKS="luasocket luasec redis-lua lua-term serpent dkjson Lua-cURL i18n"
+ROCKS="luasocket luasec lua-term serpent dkjson Lua-cURL i18n"

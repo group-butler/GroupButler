@@ -14,9 +14,6 @@ return {
 	db_pass = os.getenv("DB_PASS") or 'password',
 	db_db = os.getenv("DB_DB") or 'postgres',
 
-	redis_host = os.getenv("REDIS_HOST") or 'redis',
-	redis_port = os.getenv("REDIS_PORT") or 6379,
-
 	-- Setting these is optional, although recommend
 	channel = os.getenv("CHANNEL") or '@RoboED', --channel username with the '@'
 	source_code = os.getenv("SOURCE") or 'https://gitlab.com/Synko/GroupButler',
@@ -24,7 +21,6 @@ return {
 	lang = os.getenv("CORE_LANG"),
 
 	-- Setting these is completely optional
-	redis_db = 0,
 	human_readable_version = '4.2.0',
 	cmd = '^[/!#]',
 	allowed_updates = {"message", "edited_message", "callback_query"},

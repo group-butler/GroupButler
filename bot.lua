@@ -1,6 +1,5 @@
 local i18n = require 'i18n'
 local api = require 'methods'
-local redis = require 'redis'
 local clr = require 'term.colors'
 local driver = require "luasql.postgres"
 local u, config, plugins, last_update, last_cron
@@ -17,9 +16,6 @@ function bot_init(on_reload) -- The function run when the bot is started or relo
 
 	env = assert (driver.postgres())
 	con = assert (env:connect(config.db_db, config.db_user, config.db_pass, config.db_host, config.db_port))
-
-	db = redis.connect(config.redis_host, config.redis_port)
-	db:select(config.redis_db) --select the redis db
 
 	u = dofile('utilities.lua') -- Load miscellaneous and cross-plugin functions.
 	now_ms = require('socket').gettime
