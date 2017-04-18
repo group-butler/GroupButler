@@ -162,5 +162,5 @@ plugin.triggers = {
     onTextMessage = {config.cmd..'(dashboard)$'},
     onCallbackQuery = {'^###cb:(dashboard):(%a+):(-%d+)'}
 }
-        
+
 return plugin

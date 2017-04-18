@@ -35,7 +35,7 @@ local function doKeyboard_privsett(user_id)
             end
         end
     end
-    
+
     local keyboard = {inline_keyboard = {}}
     local button_names = {
         ['rules_on_join'] = _('Rules on join'),
@@ -46,7 +46,7 @@ local function doKeyboard_privsett(user_id)
         if status == 'on' then icon = '✅' else icon = '☑️'end
         table.insert(keyboard.inline_keyboard, {{text = button_names[key], callback_data = 'myset:alert:'..key}, {text = icon, callback_data = 'myset:switch:'..key}})
     end
-    
+
     return keyboard
 end
 

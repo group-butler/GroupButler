@@ -46,7 +46,7 @@ local function do_keyboard_flood(chat_id)
             }
         }
     }
-    
+
     local exceptions = {
         text = ("Texts"),
 		forward = ("Forwards"),
@@ -70,10 +70,10 @@ local function do_keyboard_flood(chat_id)
         }
         table.insert(keyboard.inline_keyboard, line)
     end
-    
+
     --back button
     table.insert(keyboard.inline_keyboard, {{text = '🔙', callback_data = 'config:back:'..chat_id}})
-    
+
     return keyboard
 end
 
@@ -117,11 +117,11 @@ function plugin.onCallbackQuery(msg, blocks)
     
 	    local header = ("You can manage the antiflood settings from here")
         local text
-        
+
         if blocks[1] == 'config' then
             text = ("Antiflood settings")
         end
-    
+
         if blocks[1] == 'alert' then
 			if config.available_languages[blocks[3]] then
 				locale.language = blocks[3]
@@ -130,7 +130,7 @@ function plugin.onCallbackQuery(msg, blocks)
             api.answerCallbackQuery(msg.cb_id, text, true, config.bot_settings.cache_time.alert_help)
 			return
         end
-        
+
         if blocks[1] == 'exc' then
             local media = blocks[2]
             local hash = 'chat:'..chat_id..':floodexceptions'
@@ -143,7 +143,7 @@ function plugin.onCallbackQuery(msg, blocks)
                 text = ("🚫 [%s] won't be ignored by the anti-flood"):format(media)
             end
         end
-        
+
         local action
         if blocks[1] == 'action' or blocks[1] == 'dim' or blocks[1] == 'raise' then
             if blocks[1] == 'action' then
@@ -155,11 +155,11 @@ function plugin.onCallbackQuery(msg, blocks)
             end
             text = changeFloodSettings(chat_id, action)
         end
-        
+
         if blocks[1] == 'status' then
             text = u.changeSettingStatus(chat_id, 'Flood')
         end
-        
+
         local keyboard = do_keyboard_flood(chat_id)
         api.editMessageText(msg.chat.id, msg.message_id, header, true, keyboard)
         api.answerCallbackQuery(msg.cb_id, text)
@@ -174,7 +174,7 @@ plugin.triggers = {
         '^###cb:flood:(dim):(-?%d+)$',
         '^###cb:flood:(raise):(-?%d+)$',
         '^###cb:flood:(exc):(%a+):(-?%d+)$',
-        
+
         '^###cb:(config):antiflood:'
     }
 }

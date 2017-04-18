@@ -17,13 +17,13 @@ local function forget_user_warns(chat_id, user_id)
 		media = db:hdel('chat:'..chat_id..':mediawarn', user_id) == 1 and '✅' or '❌',
 		spam = db:hdel('chat:'..chat_id..':spamwarns', user_id) == 1 and '✅' or '❌'
 	}
-	
+
 	return removed
 end
 
 function plugin.onTextMessage(msg, blocks)
 	if msg.chat.type == 'private' or (msg.chat.type ~= 'private' and not u.is_allowed('hammer', msg.chat.id, msg.from)) then return end
-	
+
 	if blocks[1] == 'warnmax' then
     	local new, default, text, key
     	local hash = 'chat:'..msg.chat.id..':warnsettings'
@@ -44,20 +44,20 @@ function plugin.onTextMessage(msg, blocks)
         api.sendReply(msg, text, true)
         return
     end
-	
+
 	if blocks[1] == 'cleanwarn' then
 		local reply_markup = {inline_keyboard = {{{text = ('Yes'), callback_data = 'cleanwarns:yes'}, {text = ('No'), callback_data = 'cleanwarns:no'}}}}
 		api.sendMessage(msg.chat.id, ('Do you want to continue and reset *all* the warnings received by *all* the users of the group?'), true, reply_markup)
 		return
 	end
-	
+
     --do not reply when...
     if not msg.reply
     	or u.is_mod(msg.chat.id, msg.reply.from.id)
     	or msg.reply.from.id == bot.id then
     	return
     end
-	
+
 	if blocks[1] == 'nowarn' then
 		local removed = forget_user_warns(msg.chat.id, msg.reply.from.id)
 		local admin = u.getname_final(msg.from)
@@ -65,8 +65,8 @@ function plugin.onTextMessage(msg, blocks)
 		local text = ('Done! %s has been forgiven.\n<b>Warns found</b>: <i>normal warns %s, for media %s, spamwarns %s</i>'):format(user, removed.normal or 0, removed.media or 0, removed.spam or 0)
 		api.sendReply(msg, text, 'html')
 		u.logEvent('nowarn', msg, {admin = admin, user = user, user_id = msg.reply.from.id, rem = removed})
-	end	
-		
+	end
+
     if blocks[1] == 'warn'  or blocks[1] == 'sw' then
 
 	    local name = u.getname_final(msg.reply.from)
@@ -133,7 +133,7 @@ function plugin.onCallbackQuery(msg, blocks)
 	if not u.is_allowed('hammer', msg.chat.id, msg.from) then
 		api.answerCallbackQuery(msg.cb_id, ("You are not allowed to use this button")) return
 	end
-	
+
 	if blocks[1] == 'removewarn' then
     	local user_id = blocks[2]
 		local num = db:hincrby('chat:'..msg.chat.id..':warns', user_id, -1) --add one warn

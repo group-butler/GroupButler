@@ -39,7 +39,7 @@ local function get_button_description(key)
     else
         return _("Description not available")
     end
-end 
+end
 
 local function changeWarnSettings(chat_id, action)
     local current = tonumber(db:hget('chat:'..chat_id..':warnsettings', 'max')) or 3
@@ -113,7 +113,7 @@ local function usersettings_table(settings, chat_id)
             end
         end
     end
-    
+
     return return_table
 end
 
@@ -130,7 +130,7 @@ local function adminsettings_table(settings, chat_id)
             end
         end
     end
-    
+
     return return_table
 end
 
@@ -146,7 +146,7 @@ local function charsettings_table(settings, chat_id)
             return_table[field] = _('✅')
         end
     end
-    
+
     return return_table
 end
 
@@ -172,22 +172,22 @@ local function insert_settings_section(keyboard, settings_section, chat_id)
         }
         table.insert(keyboard.inline_keyboard, current)
     end
-    
+
     return keyboard
 end
 
 local function doKeyboard_menu(chat_id)
     local keyboard = {inline_keyboard = {}}
-    
+
     local settings_section = adminsettings_table(config.chat_settings['settings'], chat_id)
     keyboad = insert_settings_section(keyboard, settings_section, chat_id)
-    
+
     settings_section = usersettings_table(config.chat_settings['settings'], chat_id)
     keyboad = insert_settings_section(keyboard, settings_section, chat_id)
-    
+
     settings_section = charsettings_table(config.chat_settings['char'], chat_id)
     keyboad = insert_settings_section(keyboard, settings_section, chat_id)
-    
+
     --warn
     local max = (db:hget('chat:'..chat_id..':warnsettings', 'max')) or config.chat_settings['warnsettings']['max']
     local action = (db:hget('chat:'..chat_id..':warnsettings', 'type')) or config.chat_settings['warnsettings']['type']
@@ -210,10 +210,10 @@ local function doKeyboard_menu(chat_id)
     for i, button in pairs(warn) do
         table.insert(keyboard.inline_keyboard, button)
     end
-    
+
     --back button
     table.insert(keyboard.inline_keyboard, {{text = '🔙', callback_data = 'config:back:'..chat_id}})
-    
+
     return keyboard
 end
 
@@ -223,9 +223,9 @@ function plugin.onCallbackQuery(msg, blocks)
 		api.answerCallbackQuery(msg.cb_id, _("You're no longer an admin"))
 	else
 	    local menu_first = _("Manage the settings of the group. Click on the left column to get a small hint")
-    
+
         local keyboard, text, show_alert
-        
+
         if blocks[1] == 'config' then
             keyboard = doKeyboard_menu(chat_id)
             api.editMessageText(msg.chat.id, msg.message_id, menu_first, true, keyboard)
@@ -264,9 +264,9 @@ end
 plugin.triggers = {
     onCallbackQuery = {
         '^###cb:(menu):(alert):settings:([%w_]+):([%w_]+)$',
-    	
+
     	'^###cb:(menu):(.*):',
-    	
+
     	'^###cb:(config):menu:(-?%d+)$'
     }
 }

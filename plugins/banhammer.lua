@@ -17,8 +17,8 @@ local function get_motivation(msg)
 		elseif msg.entities then
 			return msg.text:match(config.cmd.."ban .+\n(.+)") or msg.text:match(config.cmd.."kick .+\n(.+)")
 		end
-	end			
-end	
+	end
+end
 
 local function set_lang(chat_id)
 	locale.language = db:get('lang:'..chat_id) or 'en' --group language
@@ -105,23 +105,23 @@ end
 function plugin.onTextMessage(msg, blocks)
 	if msg.chat.type ~= 'private' then
 		if u.is_allowed('hammer', msg.chat.id, msg.from) then
-		    
+
 		    local user_id, error_translation_key = u.get_user_id(msg, blocks)
-		    
+
 		    if not user_id and blocks[1] ~= 'kickme' then
 		    	api.sendReply(msg, error_translation_key, true) return
 		    end
 		    if tonumber(user_id) == bot.id then return end
-		 	
+
 		 	local res
 		 	local chat_id = msg.chat.id
 		 	if u.is_mod(chat_id, user_id) and not u.is_admin(msg.chat.id, user_id) then
 		 		api.sendReply(msg, ("_This user is a moderator. Please /demote him first_"), true) return
 		 	end
 		 	local admin, kicked = u.getnames_complete(msg, blocks)
-		 	
+
 		 	--print(get_motivation(msg))
-		 	
+
 		 	if blocks[1] == 'tempban' then
 				if not msg.reply then
 					api.sendReply(msg, ("_Reply to someone_"), true)
@@ -141,7 +141,7 @@ function plugin.onTextMessage(msg, blocks)
 				end
 				local val = msg.chat.id..':'..user_id
 				local unban_time = os.time() + (temp * 60 * 60)
-				
+
 				--try to kick
 				local res, code, motivation = api.banUser(chat_id, user_id)
 		    	if not res then

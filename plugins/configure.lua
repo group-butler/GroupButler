@@ -9,7 +9,7 @@ local function cache_chat_title(chat_id, title)
     local key = 'chat:'..chat_id..':title'
     db:set(key, title)
     db:expire(key, config.bot_settings.cache_time.chat_titles)
-    
+
     return title
 end
 
@@ -21,7 +21,7 @@ local function get_chat_title(chat_id)
             return cache_chat_title(chat_id, chat_object.result.title)
         end
     else
-        return cached_title 
+        return cached_title
     end
 end
 
@@ -35,12 +35,12 @@ local function do_keyboard_config(chat_id, user_id, is_admin)
             {{text = ("📥 Log channel"), callback_data = 'config:logchannel:'..chat_id}}
         }
     }
-    
+
     local show_mod_button = db:hget('chat:'..chat_id..':modsettings', 'promdem') or config.chat_settings['modsettings']['promdem']
     if u.is_owner(chat_id, user_id) or (show_mod_button == 'yes' and is_admin) then
         table.insert(keyboard.inline_keyboard, {{text = ("👔 Moderators"), callback_data = 'config:mods:'..chat_id}})
     end
-    
+
     return keyboard
 end
 
