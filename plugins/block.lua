@@ -19,7 +19,7 @@ function block.Users(chat_id, users)
         local is_new = db:hset(hash, user_id, username..' [<code>'..user_id..'</code>]')
         if is_new then n = n + 1 end
     end
-    
+
     return n
 end
 
@@ -35,7 +35,7 @@ function unblock.Users(chat_id, users)
         local is_blocked = db:hdel(hash, user_id) == 1
         if is_blocked then n = n + 1 end
     end
-    
+
     return n
 end
 
@@ -51,10 +51,10 @@ local function getUsernamesList(text)
             table.insert(not_found, username)
         end
     end
-    
+
     return users, not_found
 end
- 
+
 function plugin.onTextMessage(msg, blocks)
     if msg.chat.id < 0 and u.is_allowed('hammer', msg.chat.id, msg.from) then
         local text, reply_markup
@@ -129,7 +129,7 @@ function plugin.onCallbackQuery(msg, blocks)
             api.editMessageText(msg.chat.id, msg.message_id, _('<i>The list is empty</i>'), 'html')
         else
             local text = _([[<b>List of blocked users (%d)</b>:
-            
+
 - %s
 
 <i>When a blocked user joins and gets banned, he's removed from this list</i>]]):format(#users_blocked, table.concat(users_blocked, '\n- '))
@@ -142,7 +142,7 @@ function plugin.onCallbackQuery(msg, blocks)
             elseif blocks[1] == 'group' then
                 res, code = api.editMessageText(msg.chat.id, msg.message_id, text, 'html')
             end
-            
+
             if not res then --something went wrong while sending/editing the message
                 local text
                 if code == 118 then

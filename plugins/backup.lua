@@ -52,9 +52,9 @@ local function gen_backup(chat_id)
         end
     	end
     end
-    
+
     save_data(file_path, t)
-    
+
     return file_path
 end
 
@@ -104,7 +104,7 @@ function plugin.onTextMessage(msg, blocks)
         end
         if blocks[1] == 'import' then
 		    local text
-		    if msg.reply then 
+		    if msg.reply then
 		    	if msg.reply.document then
 		    		if msg.reply.document.file_name == 'snap'..msg.chat.id..'.gbb' then
 		    			local res = api.getFile(msg.reply.document.file_id)
@@ -125,7 +125,7 @@ function plugin.onTextMessage(msg, blocks)
 		    					            db:sadd(('chat:%d:%s'):format(chat_id, set), table.unpack(content))
 		    					        end
 		    					    end
-		    					    
+
 		    					    --restoring hashes
 		    					    if group_data.hashes and next(group_data.hashes) then
 		    						    for hash, content in pairs(group_data.hashes) do

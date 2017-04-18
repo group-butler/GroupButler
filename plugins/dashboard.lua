@@ -61,7 +61,7 @@ local function doKeyboard_dashboard(chat_id)
 	   	    {text = _("Media settings"), callback_data = 'dashboard:media:'..chat_id}
 	    },
     }
-    
+
     return keyboard
 end
 
@@ -162,5 +162,5 @@ plugin.triggers = {
     onTextMessage = {config.cmd..'(dashboard)$'},
     onCallbackQuery = {'^###cb:(dashboard):(%a+):(-%d+)'}
 }
-        
+
 return plugin

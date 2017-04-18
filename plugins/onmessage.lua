@@ -26,15 +26,15 @@ end
 
 local function is_flooding_funct(msg)
     local spamhash = 'spam:'..msg.chat.id..':'..msg.from.id
-    
+
     local msgs = tonumber(db:get(spamhash)) or 1
-    
+
     local max_msgs = tonumber(db:hget('chat:'..msg.chat.id..':flood', 'MaxFlood')) or 5
     if msg.cb then max_msgs = 15 end
-    
+
     local max_time = 5
     db:setex(spamhash, max_time, msgs+1)
-    
+
     if msgs > max_msgs then
         return true, msgs, max_msgs
     else
@@ -64,9 +64,9 @@ local function is_whitelisted(chat_id, text)
 end
 
 function plugin.onEveryMessage(msg)
-    
+
     if not msg.inline then
-    
+
     local msg_type = 'text'
 	if msg.forward_from or msg.forward_from_chat then msg_type = 'forward' end
 	if msg.media_type then msg_type = msg.media_type end
@@ -98,14 +98,14 @@ function plugin.onEveryMessage(msg)
         	        end
         	    end
         	end
-            
+
             if msg.cb then
                 --api.answerCallbackQuery(msg.cb_id, _("‼️ Please don't abuse the keyboard, requests will be ignored")) --avoid to hit the limits with answerCallbackQuery
             end
             return false --if an user is spamming, don't go through plugins
         end
     end
-    
+
     if msg.media and msg.chat.type ~= 'private' and not msg.cb and not msg.edited then
         local media = msg.media_type
         local hash = 'chat:'..msg.chat.id..':media'
@@ -117,7 +117,7 @@ function plugin.onEveryMessage(msg)
                 if media == 'link' then
                     whitelisted = is_whitelisted(msg.chat.id, msg.text)
                 end
-                
+
                 if not whitelisted then
                     local status
                     local name = u.getname_final(msg.from)
@@ -149,7 +149,7 @@ function plugin.onEveryMessage(msg)
     	    end
     	end
     end
-    
+
     local rtl_status = (db:hget('chat:'..msg.chat.id..':char', 'Rtl')) or 'allowed'
     if rtl_status == 'kick' or rtl_status == 'ban' then
         local rtl = '‮'
@@ -174,7 +174,7 @@ function plugin.onEveryMessage(msg)
     	    end
         end
     end
-    
+
     if msg.text and msg.text:find('([\216-\219][\128-\191])') then
         local arab_status = (db:hget('chat:'..msg.chat.id..':char', 'Arab')) or 'allowed'
         if arab_status == 'kick' or arab_status == 'ban' then
@@ -197,15 +197,15 @@ function plugin.onEveryMessage(msg)
             end
         end
     end
-    
+
     end --if not msg.inline then [if statement closed]
-    
+
     if is_blocked(msg.from.id) then --ignore blocked users
         return false --if an user is blocked, don't go through plugins
     end
-    
+
     --don't return false for edited messages: the antispam need to process them
-    
+
     return true
 end
 

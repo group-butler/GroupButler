@@ -6,7 +6,7 @@ local plugin = {}
 
 function plugin.onTextMessage(msg, blocks)
 	if msg.chat.type == 'private' then return end
-	
+
 	if u.is_allowed('texts', msg.chat.id, msg.from) then
 		if not blocks[2] then
 			local pin_id = db:get('chat:'..msg.chat.id..':pin')
@@ -15,7 +15,7 @@ function plugin.onTextMessage(msg, blocks)
 			end
 			return
 		end
-		
+
 		local pin_id = db:get('chat:'..msg.chat.id..':pin')
 		local was_deleted
 		if pin_id then --try to edit the old message
@@ -39,7 +39,7 @@ function plugin.onTextMessage(msg, blocks)
 			local res, code = api.sendMessage(msg.chat.id, new_text:replaceholders(msg, 'rules', 'title'), true, reply_markup)
 			if not res then
 				api.sendMessage(msg.chat.id, u.get_sm_error_string(code), true)
-    		else --if the message has been sent, then set its ID as new pinned message 
+    		else --if the message has been sent, then set its ID as new pinned message
     			db:set('chat:'..msg.chat.id..':pin', res.result.message_id)
     			local text
     			if was_deleted then

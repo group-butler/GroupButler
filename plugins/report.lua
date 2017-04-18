@@ -8,7 +8,7 @@ local function table_join(t1, t2)
     for i=1,#t2 do
         t1[#t1+1] = t2[i]
     end
-    
+
     return t1
 end
 
@@ -16,7 +16,7 @@ local function get_admin_mod_list(admins_list, chat_id)
     if not admins_list then
         admins_list = {}
     end
-    
+
     local mods_have_hammer = db:hget('chat:'..chat_id..':modsettings', 'hammer') or config.chat_settings['modsettings']['hammer']
     if mods_have_hammer == 'yes' then
         local mods = db:smembers('chat:'..chat_id..':mods')
@@ -24,13 +24,13 @@ local function get_admin_mod_list(admins_list, chat_id)
             admins_list = table_join(admins_list, mods)
         end
     end
-    
+
     if next(admins_list) then
         return admins_list
     else
         return nil
     end
-end     
+end
 
 local function seconds2minutes(seconds)
     seconds = tonumber(seconds)
@@ -56,13 +56,13 @@ local function report(msg, description)
     if description then
         text = text.._('\n• <b>Description</b>: <i>%s</i>'):format(description:escape_html())
     end
-    
+
     local n = 0
-    
+
     local admins_list = u.get_cached_admins_list(msg.chat.id)
     admins_list = get_admin_mod_list(admins_list, msg.chat.id)
     if not admins_list then return false end
-    
+
     for i=1, #admins_list do
         local receive_reports = db:hget('user:'..admins_list[i]..':settings', 'reports')
         if receive_reports and receive_reports == 'on' then
@@ -73,7 +73,7 @@ local function report(msg, description)
             end
         end
     end
-    
+
     return n
 end
 
@@ -115,10 +115,10 @@ function plugin.onTextMessage(msg, blocks)
                 or u.is_mod(msg.chat.id, msg.reply.from.id) then
                 return
             end
-            
+
             local status = (db:hget('chat:'..msg.chat.id..':settings', 'Reports')) or config.chat_settings['settings']['Reports']
             if not status or status == 'off' then return end
-            
+
             local text
             if user_is_abusing(msg.chat.id, msg.from.id) then
                 local hash = 'chat:'..msg.chat.id..':report'
@@ -134,11 +134,11 @@ Wait other %d minutes, %d seconds.]]):format(times_allowed, (duration / 60), min
                 if blocks[1] and blocks[1] ~= '@admin' and blocks[1] ~= config.cmd..'report' then
                     description = blocks[1]
                 end
-                
+
                 local n_sent = report(msg, description) or 0
-                
+
                 text = _('_Reported to %d admin(s)_'):format(n_sent)
-                
+
                 u.logEvent('report', msg, {n_admins = n_sent})
                 api.sendReply(msg, text, true)
             end
