@@ -154,7 +154,7 @@ local function doKeyboard_antispam(chat_id)
             local status = (db:hget('chat:'..chat_id..':antispam', field)) or config.chat_settings['antispam'][field]
             if status == 'notalwd' then icon = '❌' end
             local line = {
-                {text = (humanizations[field] or field), callback_data = 'antispam:alert:'..field..':'..locale.language},
+                {text = (humanizations[field] or field), callback_data = 'antispam:alert:'..field..':'},
                 {text = icon, callback_data = 'antispam:toggle:'..field..':'..chat_id}
             }
             table.insert(keyboard.inline_keyboard, line)
@@ -171,7 +171,7 @@ local function doKeyboard_antispam(chat_id)
 		end
 
     local line = {
-        {text = 'Warns: '..warns, callback_data = 'antispam:alert:warns:'..locale.language},
+        {text = 'Warns: '..warns, callback_data = 'antispam:alert:warns:'},
         {text = '➖', callback_data = 'antispam:toggle:dim:'..chat_id},
         {text = '➕', callback_data = 'antispam:toggle:raise:'..chat_id},
         {text = (action), callback_data = 'antispam:toggle:action:'..chat_id}

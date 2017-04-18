@@ -87,7 +87,7 @@ local function doKeyboard_logchannel(chat_id)
 		local current_status = db:hget('chat:'..chat_id..':tolog', event) or default_status
 		icon = '✅'
 		if current_status == 'no' then icon = '☑️' end
-		table.insert(keyboard.inline_keyboard, {{text = event_pretty[event] or event, callback_data = 'logchannel:alert:'..event..':'..locale.language}, {text = icon, callback_data = 'logchannel:toggle:'..event..':'..chat_id}})
+		table.insert(keyboard.inline_keyboard, {{text = event_pretty[event] or event, callback_data = 'logchannel:alert:'..event..':'}, {text = icon, callback_data = 'logchannel:toggle:'..event..':'..chat_id}})
 	end
 
 	--back button

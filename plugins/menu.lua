@@ -167,7 +167,7 @@ local function insert_settings_section(keyboard, settings_section, chat_id)
 
     for key, icon in pairs(settings_section) do
         local current = {
-            {text = strings[key] or key, callback_data = 'menu:alert:settings:'..key..':'..locale.language},
+            {text = strings[key] or key, callback_data = 'menu:alert:settings:'..key..':'},
             {text = icon, callback_data = 'menu:'..key..':'..chat_id}
         }
         table.insert(keyboard.inline_keyboard, current)
@@ -198,12 +198,12 @@ local function doKeyboard_menu(chat_id)
 	end
     local warn = {
         {
-            {text = ('Warns: ')..max, callback_data = 'menu:alert:settings:warnsnum:'..locale.language},
+            {text = ('Warns: ')..max, callback_data = 'menu:alert:settings:warnsnum:'},
 		    {text = '➖', callback_data = 'menu:DimWarn:'..chat_id},
 		    {text = '➕', callback_data = 'menu:RaiseWarn:'..chat_id},
         },
         {
-            {text = ('Action:'), callback_data = 'menu:alert:settings:warnsact:'..locale.language},
+            {text = ('Action:'), callback_data = 'menu:alert:settings:warnsact:'},
             {text = action, callback_data = 'menu:ActionWarn:'..chat_id}
         }
     }

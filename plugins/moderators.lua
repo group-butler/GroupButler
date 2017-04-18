@@ -179,7 +179,7 @@ local function doKeyboard_mods_rights(chat_id, is_owner)
             status = (db:hget('chat:'..chat_id..':modsettings', field)) or config.chat_settings['modsettings'][field]
             if status == 'no' then icon = '❌' end
             line = {
-                {text = (humanizations[field] or field), callback_data = 'modsettings:alert:'..field..':'..locale.language},
+                {text = (humanizations[field] or field), callback_data = 'modsettings:alert:'..field..':'},
                 {text = icon, callback_data = 'modsettings:toggle:'..field..':'..chat_id}
             }
             table.insert(keyboard.inline_keyboard, line)
@@ -188,7 +188,7 @@ local function doKeyboard_mods_rights(chat_id, is_owner)
             status = (db:hget('chat:'..chat_id..':modsettings', field)) or config.chat_settings['modsettings'][field]
             if status == 'no' then icon = '❌' end
             line = {
-                {text = (humanizations[field] or field), callback_data = 'modsettings:alert:'..field..':'..locale.language},
+                {text = (humanizations[field] or field), callback_data = 'modsettings:alert:'..field..':'},
                 {text = icon, callback_data = 'modsettings:toggle:'..field..':'..chat_id}
             }
             table.insert(keyboard.inline_keyboard, line)

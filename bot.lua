@@ -137,7 +137,7 @@ local function on_msg_receive(msg, callback) -- The fn run whenever a message is
 			if plugin.onEveryMessage then
 				onm_success, continue = pcall(plugin.onEveryMessage, msg)
 				if not onm_success then
-					api.sendAdmin('An #error occurred (preprocess).\n'..tostring(continue)..'\n'..locale.language..'\n'..msg.text)
+					api.sendAdmin('An #error occurred (preprocess).\n'..tostring(continue)..'\n'..'\n'..msg.text)
 				end
 			end
 			if not continue then return end
@@ -164,7 +164,7 @@ local function on_msg_receive(msg, callback) -- The fn run whenever a message is
 							if config.bot_settings.notify_bug then
 								api.sendReply(msg, ("🐞 Sorry, a *bug* occurred"), true)
 							end
-    	      				api.sendAdmin('An #error occurred.\n'..result..'\n'..locale.language..'\n'..msg.text)
+    	      				api.sendAdmin('An #error occurred.\n'..result..'\n'..'\n'..msg.text)
 							return
 						end
 
