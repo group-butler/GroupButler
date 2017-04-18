@@ -6,8 +6,8 @@ local plugin = {}
 
 local function doKeyboard_warn(user_id)
 	local keyboard = {}
-    keyboard.inline_keyboard = {{{text = _("Remove warn"), callback_data = 'removewarn:'..user_id}}}
     
+    keyboard.inline_keyboard = {{{text = ("Remove warn"), callback_data = 'removewarn:'..user_id}}}
     return keyboard
 end
 
@@ -31,23 +31,23 @@ function plugin.onTextMessage(msg, blocks)
     		new = blocks[3]
     		default = 2
     		key = 'mediamax'
-			text = _("Max number of warnings changed (media).\n")
+			text = ("Max number of warnings changed (media).\n")
     	else
     		key = 'max'
     		new = blocks[2]
     		default = 3
-			text = _("Max number of warnings changed.\n")
+			text = ("Max number of warnings changed.\n")
     	end
 		local old = (db:hget(hash, key)) or default
 		db:hset(hash, key, new)
-		text = text .. _("*Old* value was %d\n*New* max is %d"):format(tonumber(old), tonumber(new))
+		text = text .. ("*Old* value was %d\n*New* max is %d"):format(tonumber(old), tonumber(new))
         api.sendReply(msg, text, true)
         return
     end
 	
 	if blocks[1] == 'cleanwarn' then
-		local reply_markup = {inline_keyboard = {{{text = _('Yes'), callback_data = 'cleanwarns:yes'}, {text = _('No'), callback_data = 'cleanwarns:no'}}}}
-		api.sendMessage(msg.chat.id, _('Do you want to continue and reset *all* the warnings received by *all* the users of the group?'), true, reply_markup)
+		local reply_markup = {inline_keyboard = {{{text = ('Yes'), callback_data = 'cleanwarns:yes'}, {text = ('No'), callback_data = 'cleanwarns:no'}}}}
+		api.sendMessage(msg.chat.id, ('Do you want to continue and reset *all* the warnings received by *all* the users of the group?'), true, reply_markup)
 		return
 	end
 	
@@ -62,7 +62,7 @@ function plugin.onTextMessage(msg, blocks)
 		local removed = forget_user_warns(msg.chat.id, msg.reply.from.id)
 		local admin = u.getname_final(msg.from)
 		local user = u.getname_final(msg.reply.from)
-		local text = _('Done! %s has been forgiven.\n<b>Warns found</b>: <i>normal warns %s, for media %s, spamwarns %s</i>'):format(user, removed.normal or 0, removed.media or 0, removed.spam or 0)
+		local text = ('Done! %s has been forgiven.\n<b>Warns found</b>: <i>normal warns %s, for media %s, spamwarns %s</i>'):format(user, removed.normal or 0, removed.media or 0, removed.spam or 0)
 		api.sendReply(msg, text, 'html')
 		u.logEvent('nowarn', msg, {admin = admin, user = user, user_id = msg.reply.from.id, rem = removed})
 	end	
@@ -80,18 +80,18 @@ function plugin.onTextMessage(msg, blocks)
 			local type = (db:hget('chat:'..msg.chat.id..':warnsettings', 'type')) or 'kick'
 			--try to kick/ban
 			if type == 'ban' then
-				text = _("%s <b>banned</b>: reached the max number of warnings (<code>%d/%d</code>)"):format(name, num, nmax)
-				hammer_log = _('banned')
+				text = ("%s <b>banned</b>: reached the max number of warnings (<code>%d/%d</code>)"):format(name, num, nmax)
+				hammer_log = ('banned')
 				res, code, motivation = api.banUser(msg.chat.id, msg.reply.from.id)
 	    	else --kick
-				text = _("%s <b>kicked</b>: reached the max number of warnings (<code>%d/%d</code>)"):format(name, num, nmax)
-				hammer_log = _('kicked')
+				text = ("%s <b>kicked</b>: reached the max number of warnings (<code>%d/%d</code>)"):format(name, num, nmax)
+				hammer_log = ('kicked')
 		    	res, code, motivation = api.kickUser(msg.chat.id, msg.reply.from.id)
 		    end
 		    --if kick/ban fails, send the motivation
 		    if not res then
 		    	if not motivation then
-		    		motivation = _("I can't kick this user.\n"
+		    		motivation = ("I can't kick this user.\n"
 						.. "Probably I'm not an Admin, or the user is an Admin iself")
     			end
 	    		if num > nmax then db:hset(hash, msg.reply.from.id, nmax) end --avoid to have a number of warnings bigger than the max
@@ -112,7 +112,7 @@ function plugin.onTextMessage(msg, blocks)
 		    })
 		else
 			local diff = nmax - num
-			text = _("%s <b>has been warned</b> (<code>%d/%d</code>)"):format(name, num, nmax)
+			text = ("%s <b>has been warned</b> (<code>%d/%d</code>)"):format(name, num, nmax)
 			local keyboard = doKeyboard_warn(msg.reply.from.id)
 			if blocks[1] ~= 'sw' then api.sendMessage(msg.chat.id, text, 'html', keyboard) end
 			u.logEvent('warn', msg, {
@@ -131,7 +131,7 @@ end
 
 function plugin.onCallbackQuery(msg, blocks)
 	if not u.is_allowed('hammer', msg.chat.id, msg.from) then
-		api.answerCallbackQuery(msg.cb_id, _("You are not allowed to use this button")) return
+		api.answerCallbackQuery(msg.cb_id, ("You are not allowed to use this button")) return
 	end
 	
 	if blocks[1] == 'removewarn' then
@@ -139,15 +139,15 @@ function plugin.onCallbackQuery(msg, blocks)
 		local num = db:hincrby('chat:'..msg.chat.id..':warns', user_id, -1) --add one warn
 		local text, nmax, diff
 		if tonumber(num) < 0 then
-			text = _("The number of warnings received by this user is already <i>zero</i>")
+			text = ("The number of warnings received by this user is already <i>zero</i>")
 			db:hincrby('chat:'..msg.chat.id..':warns', user_id, 1) --restore the previouvs number
 		else
 			nmax = (db:hget('chat:'..msg.chat.id..':warnsettings', 'max')) or 3 --get the max num of warnings
 			diff = nmax - num
-			text = _("<b>Warn removed!</b> (%d/%d)"):format(tonumber(num), tonumber(nmax))
+			text = ("<b>Warn removed!</b> (%d/%d)"):format(tonumber(num), tonumber(nmax))
 		end
 
-		text = text .. _("\n(Admin: %s)"):format(u.getname_final(msg.from))
+		text = text .. ("\n(Admin: %s)"):format(u.getname_final(msg.from))
 		api.editMessageText(msg.chat.id, msg.message_id, text, 'html')
 	end
 	if blocks[1] == 'cleanwarns' then
@@ -155,9 +155,9 @@ function plugin.onCallbackQuery(msg, blocks)
 			db:del('chat:'..msg.chat.id..':warns')
 			db:del('chat:'..msg.chat.id..':mediawarn')
 			db:del('chat:'..msg.chat.id..':spamwarns')
-			api.editMessageText(msg.chat.id, msg.message_id, _('Done. All the warnings of this group have been erased by %s'):format(u.getname_final(msg.from)), 'html')
+			api.editMessageText(msg.chat.id, msg.message_id, ('Done. All the warnings of this group have been erased by %s'):format(u.getname_final(msg.from)), 'html')
 		else
-			api.editMessageText(msg.chat.id, msg.message_id, _('_Action aborted_'), true)
+			api.editMessageText(msg.chat.id, msg.message_id, ('_Action aborted_'), true)
 		end
 	end
 end

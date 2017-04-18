@@ -62,12 +62,12 @@ function plugin.onEveryMessage(msg)
                         if res then
                             hammer_text = action
                             db:hdel('chat:'..msg.chat.id..':spamwarns', msg.from.id) --remove media warns
-                            api.sendMessage(msg.chat.id, _('%s %s for <b>spam</b>! (%d/%d)'):format(name, hammer_text, warns_received, max_allowed), 'html')
+                            api.sendMessage(msg.chat.id, ('%s %s for <b>spam</b>! (%d/%d)'):format(name, hammer_text, warns_received, max_allowed), 'html')
                         end
                     else
-                        api.sendReply(msg, _('%s, this kind of spam is not allowed in this chat (<b>%d/%d</b>)'):format(name, warns_received, max_allowed), 'html')
+                        api.sendReply(msg, ('%s, this kind of spam is not allowed in this chat (<b>%d/%d</b>)'):format(name, warns_received, max_allowed), 'html')
                     end
-                    local name_pretty = {links = _("telegram.me link"), forwards = _("message from a channel")}
+                    local name_pretty = {links = ("telegram.me link"), forwards = ("message from a channel")}
                     u.logEvent('spamwarn', msg, {hammered = hammer_text, warns = warns_received, warnmax = max_allowed, spam_type = name_pretty[msg.spam]})
                 end
             end
@@ -86,10 +86,10 @@ local function toggleAntispamSetting(chat_id, key)
     
     db:hset(hash, key, new)
     
-    local text = _('allowed')
-    if new == 'notalwd' then text = _('not allowed') end
     
-    return _(key)..(': %s'):format(text)
+    local text = ('allowed')
+    if new == 'notalwd' then text = ('not allowed') end
+    return (key)..(': %s'):format(text)
 end
 
 local function changeWarnsNumber(chat_id, action)
@@ -103,9 +103,9 @@ local function changeWarnsNumber(chat_id, action)
     end
     
     if current == 1 and action == 'dim' then
-        return _("You can't go lower")
+        return ("You can't go lower")
     elseif current == 7 and action == 'raise' then
-        return _("You can't go higher")
+        return ("You can't go higher")
     else
         local new
         if action == 'dim' then
@@ -113,7 +113,7 @@ local function changeWarnsNumber(chat_id, action)
         elseif action == 'raise' then
             new = db:hincrby(hash, key, 1)
         end
-        return _("New value: %d"):format(new)
+        return ("New value: %d"):format(new)
     end
 end
 
@@ -132,21 +132,21 @@ end
 
 local function get_alert_text(key)
     if key == 'links' then
-        return _("Allow/forbid telegram.me links")
+        return ("Allow/forbid telegram.me links")
     elseif key == 'forwards' then
-        return _("Allow/forbid forwarded messages from channels")
+        return ("Allow/forbid forwarded messages from channels")
     elseif key == 'warns' then
-        return _("Set how many times the bot should warn the user before kick/ban him")
+        return ("Set how many times the bot should warn the user before kick/ban him")
     else
-        return _("Description not available")
+        return ("Description not available")
     end
 end
 
 local function doKeyboard_antispam(chat_id)
     local keyboard = {inline_keyboard = {}}
     local humanizations = {
-        ['links'] = _('telegram.me links'),
-        ['forwards'] = _('Channels messages')
+        ['links'] = ('telegram.me links'),
+        ['forwards'] = ('Channels messages')
     }
     for field, value in pairs(config.chat_settings['antispam']) do
         if field == 'links' or field == 'forwards' then
@@ -154,7 +154,7 @@ local function doKeyboard_antispam(chat_id)
             local status = (db:hget('chat:'..chat_id..':antispam', field)) or config.chat_settings['antispam'][field]
             if status == 'notalwd' then icon = '❌' end
             local line = {
-                {text = _(humanizations[field] or field), callback_data = 'antispam:alert:'..field..':'..locale.language},
+                {text = (humanizations[field] or field), callback_data = 'antispam:alert:'..field..':'..locale.language},
                 {text = icon, callback_data = 'antispam:toggle:'..field..':'..chat_id}
             }
             table.insert(keyboard.inline_keyboard, line)
@@ -165,16 +165,16 @@ local function doKeyboard_antispam(chat_id)
     local action = (db:hget('chat:'..chat_id..':antispam', 'action')) or config.chat_settings['antispam']['action']
 
 		if action == 'kick' then
-			kick = _("Kick 👞")
+			kick = ("Kick 👞")
 		else
-			kick = _("Ban 🔨")
+			kick = ("Ban 🔨")
 		end
     
     local line = {
         {text = 'Warns: '..warns, callback_data = 'antispam:alert:warns:'..locale.language},
         {text = '➖', callback_data = 'antispam:toggle:dim:'..chat_id},
         {text = '➕', callback_data = 'antispam:toggle:raise:'..chat_id},
-        {text = _(action), callback_data = 'antispam:toggle:action:'..chat_id}
+        {text = (action), callback_data = 'antispam:toggle:action:'..chat_id}
     }
     
     table.insert(keyboard.inline_keyboard, line)
@@ -213,9 +213,9 @@ function plugin.onCallbackQuery(msg, blocks)
 	    
 	    local chat_id = msg.target_id
 	    if not u.is_allowed('config', chat_id, msg.from) then
-	    	api.answerCallbackQuery(msg.cb_id, _("You're no longer an admin"))
+	    	api.answerCallbackQuery(msg.cb_id, ("You're no longer an admin"))
 	    else
-	        local antispam_first = _([[*Anti-spam settings*
+	        local antispam_first = ([[*Anti-spam settings*
 Choose which kind of spam you want to forbid
 • ✅ = *Allowed*
 • ❌ = *Not allowed*
@@ -275,10 +275,10 @@ function plugin.onTextMessage(msg, blocks)
                 local n = db:scard(set) or 0
                 local text
                 if n == 0 then
-                    text = _("_The whitelist was already empty_")
+                    text = ("_The whitelist was already empty_")
                 else
                     db:del(set)
-                    text = _("*Whitelist cleaned*\n%d links have been removed"):format(n)
+                    text = ("*Whitelist cleaned*\n%d links have been removed"):format(n)
                 end
                 api.sendReply(msg, text, true)
             else
@@ -286,16 +286,16 @@ function plugin.onTextMessage(msg, blocks)
                 if msg.entities then
                     local links = urls_table(msg.entities, msg.text)
                     if not next(links) then
-                        text = _("_I can't find any url in this message_")
+                        text = ("_I can't find any url in this message_")
                     else
                         local new = db:sadd(('chat:%d:whitelist'):format(msg.chat.id), table.unpack(links))
-                        text = _("%d link(s) will be whitelisted"):format(#links - (#links - new))
+                        text = ("%d link(s) will be whitelisted"):format(#links - (#links - new))
                         if new ~= #links then
-                            text = text.._("\n%d links were already in the list"):format(#links - new)
+                            text = text..("\n%d links were already in the list"):format(#links - new)
                         end
                     end
                 else
-                    text = _("_I can't find any url in this message_")
+                    text = ("_I can't find any url in this message_")
                 end
                 api.sendReply(msg, text, true)
             end
@@ -303,9 +303,9 @@ function plugin.onTextMessage(msg, blocks)
         if (blocks[1] == 'wl' or blocks[1] == 'whitelist') and not blocks[2] then
             local links = db:smembers(('chat:%d:whitelist'):format(msg.chat.id))
             if not next(links) then
-                api.sendReply(msg, _("_The whitelist is empty_.\nUse `/wl [links]` to add some links to the whitelist"), true)
+                api.sendReply(msg, ("_The whitelist is empty_.\nUse `/wl [links]` to add some links to the whitelist"), true)
             else
-                local text = _("Whitelisted links:\n\n")
+                local text = ("Whitelisted links:\n\n")
                 for i=1, #links do
                     text = text..'• '..links[i]..'\n'
                 end
@@ -317,16 +317,16 @@ function plugin.onTextMessage(msg, blocks)
             if msg.entities then
                 local links = urls_table(msg.entities, msg.text)
                 if not next(links) then
-                    text = _("_I can't find any url in this message_")
+                    text = ("_I can't find any url in this message_")
                 else
                     local removed = db:srem(('chat:%d:whitelist'):format(msg.chat.id), table.unpack(links))
-                    text = _("%d link(s) removed from the whitelist"):format(removed)
+                    text = ("%d link(s) removed from the whitelist"):format(removed)
                     if removed ~= #links then
-                        text = text.._("\n%d links were already in the list"):format(#links - removed)
+                        text = text..("\n%d links were already in the list"):format(#links - removed)
                     end
                 end
             else
-                text = _("_I can't find any url in this message_")
+                text = ("_I can't find any url in this message_")
             end
             api.sendReply(msg, text, true)
         end
@@ -337,16 +337,16 @@ function plugin.onTextMessage(msg, blocks)
         if blocks[1] == 'wlchan' and not blocks[2] then
             local channels = db:smembers(('chat:%d:chanwhitelist'):format(msg.chat.id))
             if not next(channels) then
-                api.sendReply(msg, _("_Whitelist of channels empty_"), true)
+                api.sendReply(msg, ("_Whitelist of channels empty_"), true)
             else
-                api.sendReply(msg, _("*Whitelisted channels:*\n%s"):format(table.concat(channels, '\n')), true)
+                api.sendReply(msg, ("*Whitelisted channels:*\n%s"):format(table.concat(channels, '\n')), true)
             end
         end
         if blocks[1] == 'wlchan' and blocks[2] then
             local for_entered, channels = edit_channels_whitelist(msg.chat.id, blocks[2], 'add')
             
             if not for_entered then
-                api.sendReply(msg, _("_I can't find a channel ID in your message_"), true)
+                api.sendReply(msg, ("_I can't find a channel ID in your message_"), true)
             else
                 local text = ''
                 if next(channels.valid) then
@@ -363,7 +363,7 @@ function plugin.onTextMessage(msg, blocks)
             local for_entered, channels = edit_channels_whitelist(msg.chat.id, blocks[2], 'rem')
             
             if not for_entered then
-                api.sendReply(msg, _("_I can't find a channel ID in your message_"), true)
+                api.sendReply(msg, ("_I can't find a channel ID in your message_"), true)
             else
                 local text = ''
                 if next(channels.valid) then

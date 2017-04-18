@@ -47,7 +47,7 @@ local function get_welcome(msg)
 		local rules_button = db:hget('chat:'..msg.chat.id..':settings', 'Welbut') or config.chat_settings['settings']['Welbut']
 		local reply_markup
 		if rules_button == 'on' then
-			reply_markup = {inline_keyboard={{{text = _('Read the rules'), url = u.deeplink_constructor(msg.chat.id, 'rules')}}}}
+			reply_markup = {inline_keyboard={{{text = ('Read the rules'), url = u.deeplink_constructor(msg.chat.id, 'rules')}}}}
 		end
 		
 		api.sendDocumentId(msg.chat.id, file_id, nil, caption, reply_markup)
@@ -56,7 +56,7 @@ local function get_welcome(msg)
 		local reply_markup, new_text = u.reply_markup_from_text(content)
 		return new_text:replaceholders(msg), reply_markup
 	else
-		return _("Hi %s!"):format(msg.new_chat_member.first_name:escape())
+		return ("Hi %s!"):format(msg.new_chat_member.first_name:escape())
 	end
 end
 
@@ -81,7 +81,7 @@ local function get_goodbye(msg)
 			if msg.left_chat_member.username then
 				name = name:escape() .. ' (@' .. msg.left_chat_member.username:escape() .. ')'
 			end
-			return _("Goodbye, %s!"):format(name)
+			return ("Goodbye, %s!"):format(name)
 		end
 		return content:replaceholders(msg)
 	end
@@ -95,7 +95,7 @@ function plugin.onTextMessage(msg, blocks)
         local input = blocks[2]
         
         if not input and not msg.reply then
-			api.sendReply(msg, _("Welcome and...?")) return
+			api.sendReply(msg, ("Welcome and...?")) return
         end
         
         local hash = 'chat:'..msg.chat.id..':welcome'
@@ -118,16 +118,16 @@ function plugin.onTextMessage(msg, blocks)
                 end
 				-- turn on the welcome message in the group settings
 				db:hset(('chat:%d:settings'):format(msg.chat.id), 'Welcome', 'on')
-                api.sendReply(msg, _("A form of media has been set as the welcome message: `%s`"):format(replied_to), true)
+                api.sendReply(msg, ("A form of media has been set as the welcome message: `%s`"):format(replied_to), true)
             else
-                api.sendReply(msg, _("Reply to a `sticker` or a `gif` to set them as the *welcome message*"), true)
+                api.sendReply(msg, ("Reply to a `sticker` or a `gif` to set them as the *welcome message*"), true)
             end
         else
             db:hset(hash, 'type', 'custom')
             db:hset(hash, 'content', input)
-            
+
             local reply_markup, new_text = u.reply_markup_from_text(input)
-            
+
             local res, code = api.sendReply(msg, new_text:gsub('$rules', u.deeplink_constructor(msg.chat.id, 'rules')), true, reply_markup)
             if not res then
                 db:hset(hash, 'type', 'no') --if wrong markdown, remove 'custom' again
@@ -137,7 +137,7 @@ function plugin.onTextMessage(msg, blocks)
 				-- turn on the welcome message in the group settings
 				db:hset(('chat:%d:settings'):format(msg.chat.id), 'Welcome', 'on')
                 local id = res.result.message_id
-                api.editMessageText(msg.chat.id, id, _("*Custom welcome message saved!*"), true)
+                api.editMessageText(msg.chat.id, id, ("*Custom welcome message saved!*"), true)
             end
         end
     end
@@ -149,7 +149,7 @@ function plugin.onTextMessage(msg, blocks)
 
 		-- ignore if not input text and not reply
 		if not input and not msg.reply then
-			api.sendReply(msg, _("No goodbye message"), false)
+			api.sendReply(msg, ("No goodbye message"), false)
 			return
 		end
 
@@ -172,9 +172,9 @@ function plugin.onTextMessage(msg, blocks)
 				-- turn on the goodbye message in the group settings
 				db:hset(('chat:%d:settings'):format(msg.chat.id), 'Goodbye', 'on')
 				
-				api.sendReply(msg, _("New media setted as goodbye message: `%s`"):format(replied_to), true)
+				api.sendReply(msg, ("New media setted as goodbye message: `%s`"):format(replied_to), true)
 			else
-				api.sendReply(msg, _("Reply to a `sticker` or a `gif` to set them as *goodbye message*"), true)
+				api.sendReply(msg, ("Reply to a `sticker` or a `gif` to set them as *goodbye message*"), true)
 			end
 			return
 		end
@@ -191,7 +191,7 @@ function plugin.onTextMessage(msg, blocks)
 			-- turn on the goodbye message in the group settings
 			db:hset(('chat:%d:settings'):format(msg.chat.id), 'Goodbye', 'on')
 			local id = res.result.message_id
-			api.editMessageText(msg.chat.id, id, _("*Custom goodbye message saved!*"), true)
+			api.editMessageText(msg.chat.id, id, ("*Custom goodbye message saved!*"), true)
 		end
 	end
     if blocks[1] == 'new_chat_member' then
@@ -206,7 +206,7 @@ function plugin.onTextMessage(msg, blocks)
 			if res then
 				unblockUser(msg.chat.id, msg.new_chat_member.id)
 				local name = u.getname_final(msg.new_chat_member)
-				api.sendMessage(msg.chat.id, _("%s banned: the user was blocked"):format(name), 'html')
+				api.sendMessage(msg.chat.id, ("%s banned: the user was blocked"):format(name), 'html')
 				u.logEvent('blockban', msg, {name = name, id = msg.new_chat_member.id})
 			end
 			return
@@ -219,7 +219,7 @@ function plugin.onTextMessage(msg, blocks)
 				local username = msg.new_chat_member.username:lower()
 				if username:find('bot', -3) then
 					if antibot_on(msg.chat.id) and not msg.from.mod then
-						api.sendMessage(msg.chat.id, _("@%s _banned: antibot is on_"):format(msg.new_chat_member.username:escape()), true)
+						api.sendMessage(msg.chat.id, ("@%s _banned: antibot is on_"):format(msg.new_chat_member.username:escape()), true)
 						api.banUser(msg.chat.id, msg.new_chat_member.id)
 					end
 					return
@@ -231,7 +231,7 @@ function plugin.onTextMessage(msg, blocks)
 			local attach_button = (db:hget('chat:'..msg.chat.id..':settings', 'Welbut')) or config.chat_settings['settings']['Welbut']
 			if attach_button == 'on' then
 				if not reply_markup then reply_markup = {inline_keyboard={}} end
-				local line = {{text = _('Read the rules'), url = u.deeplink_constructor(msg.chat.id, 'rules')}}
+				local line = {{text = ('Read the rules'), url = u.deeplink_constructor(msg.chat.id, 'rules')}}
 				table.insert(reply_markup.inline_keyboard, line)
 			end
 			local link_preview = text:find('telegra%.ph/') ~= nil

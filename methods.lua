@@ -143,13 +143,13 @@ end
 local function code2text(code)
 	--the default error description can't be sent as output, so a translation is needed
 	if code == 101 or code == 105 or code == 107 then
-		return _("I'm not an admin, I can't kick people")
+		return ("I'm not an admin, I can't kick people")
 	elseif code == 102 or code == 104 then
-		return _("I can't kick or ban an admin")
+		return ("I can't kick or ban an admin")
 	elseif code == 103 then
-		return _("There is no need to unban in a normal group")
+		return ("There is no need to unban in a normal group")
 	elseif code == 106 or code == 134 then
-		return _("This user is not a chat member")
+		return ("This user is not a chat member")
 	elseif code == 7 then
 		return false
 	end
