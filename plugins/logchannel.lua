@@ -47,13 +47,13 @@ end
 local function toggle_event(chat_id, event)
 	local hash = ('chat:%s:tolog'):format(chat_id)
 	local current_status = db:hget(hash, event) or config.chat_settings['tolog'][event]
-	
+
 	if current_status == 'yes' then
 		db:hset(hash, event, 'no')
 	else
 		db:hset(hash, event, 'yes')
 	end
-end	
+end
 
 local function doKeyboard_logchannel(chat_id)
 	local event_pretty = {
@@ -79,22 +79,22 @@ local function doKeyboard_logchannel(chat_id)
 		['block'] = _("Users blocked"),
 		['unblock'] = _("Users unblocked")
 	}
-	
+
 	local keyboard = {inline_keyboard={}}
 	local icon
-	
+
 	for event, default_status in pairs(config.chat_settings['tolog']) do
 		local current_status = db:hget('chat:'..chat_id..':tolog', event) or default_status
 		icon = '✅'
 		if current_status == 'no' then icon = '☑️' end
 		table.insert(keyboard.inline_keyboard, {{text = event_pretty[event] or event, callback_data = 'logchannel:alert:'..event..':'..locale.language}, {text = icon, callback_data = 'logchannel:toggle:'..event..':'..chat_id}})
 	end
-	
+
 	--back button
     table.insert(keyboard.inline_keyboard, {{text = '🔙', callback_data = 'config:back:'..chat_id}})
-    
+
     return keyboard
-end	
+end
 
 function plugin.onCallbackQuery(msg, blocks)
 	if blocks[1] == 'logcb' then
@@ -121,12 +121,12 @@ function plugin.onCallbackQuery(msg, blocks)
 		    	api.answerCallbackQuery(msg.cb_id, _("You're no longer an admin"))
 		    else
     	        local text
-    	        
+
     	        if blocks[1] == 'toggle' then
     	            toggle_event(chat_id, blocks[2])
     	            text = '👌🏼'
     	        end
-    	        
+
     	        local reply_markup = doKeyboard_logchannel(chat_id)
     	        if blocks[1] == 'config' then
     	        	local logchannel_first = _([[*Select the events the will be logged in the channel*
@@ -138,7 +138,7 @@ Tap on a voice to get further informations]])
     	        else
     	        	api.editMarkup(msg.chat.id, msg.message_id, reply_markup)
     	        end
-    	        
+
     	        if text then api.answerCallbackQuery(msg.cb_id, text) end
     	    end
     	end
@@ -148,7 +148,7 @@ end
 function plugin.onTextMessage(msg, blocks)
     if msg.chat.type ~= 'private' then
     	if not msg.from.admin then return end
-	    
+
 	    if blocks[1] == 'setlog' then
 	    	if msg.forward_from_chat then
 	    		if msg.forward_from_chat.type == 'channel' then
@@ -225,14 +225,14 @@ plugin.triggers = {
 		config.cmd..'(setlog)$',
 		config.cmd..'(unsetlog)$',
 		config.cmd..'(logchannel)$',
-		
+
 		--deeplinking from log buttons
 		'^/start (photo):(.*)$'
 	},
 	onCallbackQuery = {
 		 --callbacks from the log channel
 		'^###cb:(logcb):(%w-):(%d+):(-%d+)$',
-		
+
 		--callbacks from the configuration keyboard
         '^###cb:logchannel:(toggle):([%w_]+):(-?%d+)$',
         '^###cb:logchannel:(alert):([%w_]+):([%w_]+)$',

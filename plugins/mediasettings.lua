@@ -37,7 +37,7 @@ local function doKeyboard_media(chat_id)
         }
         table.insert(keyboard.inline_keyboard, line)
     end
-    
+
     --MEDIA WARN
     --action line
     local max = (db:hget('chat:'..chat_id..':warnsettings', 'mediamax')) or config.chat_settings['warnsettings']['mediamax']
@@ -55,10 +55,10 @@ local function doKeyboard_media(chat_id)
         {text = '➕', callback_data = 'mediawarn:raise:'..chat_id},
     }
     table.insert(keyboard.inline_keyboard, warn)
-    
+
     --back button
     table.insert(keyboard.inline_keyboard, {{text = '🔙', callback_data = 'config:back:'..chat_id}})
-    
+
     return keyboard
 end
 
@@ -72,7 +72,7 @@ Tap on a voice in the right colon to *change the setting*
 You can use the last line to change how many warnings should the bot give before kick / ban someone for a forbidden media
 The number is not related the the normal `/warn` command
 ]])
-	
+
 		if  blocks[1] == 'config' then
 			local keyboard = doKeyboard_media(chat_id)
 		    api.editMessageText(msg.chat.id, msg.message_id, media_first, true, keyboard)
@@ -131,7 +131,7 @@ plugin.triggers = {
 		'^###cb:(mediatype):(-?%d+)',
 		'^###cb:(mediawarn):(%a+):(-?%d+)',
 		'^###cb:(mediallert):([%w_]+)$',
-		
+
 		'^###cb:(config):media:(-?%d+)$'
 	}
 }

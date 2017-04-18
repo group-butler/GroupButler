@@ -26,7 +26,7 @@ local function getAntispamWarns(chat_id, user_id)
     max_allowed = tonumber(max_allowed)
     local warns_received = (db:hincrby('chat:'..chat_id..':spamwarns', user_id, 1))
     warns_received = tonumber(warns_received)
-    
+
     return warns_received, max_allowed
 end
 
@@ -38,20 +38,20 @@ function plugin.onEveryMessage(msg)
                 local whitelisted
                 if msg.spam == 'links' then
                     whitelisted = is_whitelisted(msg.chat.id, msg.text:lower())
-                [[elseif msg.forward_from_chat then 
+                [[elseif msg.forward_from_chat then
                     if msg.forward_from_chat.type == 'channel' then
                         whitelisted = is_whitelisted_channel(msg.chat.id, msg.forward_from_chat.id)
                     end]]
                 end
-                
+
                 if not whitelisted then
                     local hammer_text = nil
                     local name = u.getname_final(msg.from)
                     local warns_received, max_allowed = getAntispamWarns(msg.chat.id, msg.from.id)
-                    
+
                     if warns_received >= max_allowed then
                         local action = (db:hget('chat:'..msg.chat.id..':antispam', 'action')) or config.chat_settings['antispam']['action']
-                        
+
                         local hammer_funct
                         if action == 'ban' then
                             hammer_funct = api.banUser
@@ -73,7 +73,7 @@ function plugin.onEveryMessage(msg)
             end
         end
     end
-    
+
     if msg.edited then return false end
     return true
 end
@@ -83,12 +83,12 @@ local function toggleAntispamSetting(chat_id, key)
     local current = (db:hget(hash, key)) or config.chat_settings['antispam'][key]
     local new
     if current == 'alwd' then new = 'notalwd' else new = 'alwd' end
-    
+
     db:hset(hash, key, new)
-    
+
     local text = _('allowed')
     if new == 'notalwd' then text = _('not allowed') end
-    
+
     return _(key)..(': %s'):format(text)
 end
 
@@ -101,7 +101,7 @@ local function changeWarnsNumber(chat_id, action)
         current = 1
         db:hset(hash, key, 1)
     end
-    
+
     if current == 1 and action == 'dim' then
         return _("You can't go lower")
     elseif current == 7 and action == 'raise' then
@@ -121,12 +121,12 @@ local function changeAction(chat_id)
     local hash = 'chat:'..chat_id..':antispam'
     local key = 'action'
     local current = (db:hget(hash, key)) or config.chat_settings['antispam'][key]
-    
+
     local new_action = 'ban'
     if current == 'ban' then new_action = 'kick' end
-    
+
     db:hset(hash, key, new_action)
-    
+
     return '✅'
 end
 
@@ -160,7 +160,7 @@ local function doKeyboard_antispam(chat_id)
             table.insert(keyboard.inline_keyboard, line)
         end
     end
-    
+
     local warns = (db:hget('chat:'..chat_id..':antispam', 'warns')) or config.chat_settings['antispam']['warns']
     local action = (db:hget('chat:'..chat_id..':antispam', 'action')) or config.chat_settings['antispam']['action']
 
@@ -169,19 +169,19 @@ local function doKeyboard_antispam(chat_id)
 		else
 			kick = _("Ban 🔨")
 		end
-    
+
     local line = {
         {text = 'Warns: '..warns, callback_data = 'antispam:alert:warns:'..locale.language},
         {text = '➖', callback_data = 'antispam:toggle:dim:'..chat_id},
         {text = '➕', callback_data = 'antispam:toggle:raise:'..chat_id},
         {text = _(action), callback_data = 'antispam:toggle:action:'..chat_id}
     }
-    
+
     table.insert(keyboard.inline_keyboard, line)
-    
+
     --back button
     table.insert(keyboard.inline_keyboard, {{text = '🔙', callback_data = 'config:back:'..chat_id}})
-    
+
     return keyboard
 end
 
@@ -197,12 +197,12 @@ local function urls_table(entities, text)
             table.insert(links, url)
         end
     end
-    
+
     return links
 end
 
 function plugin.onCallbackQuery(msg, blocks)
-    
+
 	if blocks[1] == 'alert' then
 		if config.available_languages[blocks[3]] then
 			locale.language = blocks[3]
@@ -210,7 +210,7 @@ function plugin.onCallbackQuery(msg, blocks)
 	    local text = get_alert_text(blocks[2])
 	    api.answerCallbackQuery(msg.cb_id, text, true, config.bot_settings.cache_time.alert_help)
 	else
-	    
+
 	    local chat_id = msg.target_id
 	    if not u.is_allowed('config', chat_id, msg.from) then
 	    	api.answerCallbackQuery(msg.cb_id, _("You're no longer an admin"))
@@ -220,9 +220,9 @@ Choose which kind of spam you want to forbid
 • ✅ = *Allowed*
 • ❌ = *Not allowed*
 ]])
-        
+
             local keyboard, text
-            
+
             if blocks[1] == 'toggle' then
                 if blocks[2] == 'forwards' or blocks[2] == 'links' then
                     text = toggleAntispamSetting(chat_id, blocks[2])
@@ -234,7 +234,7 @@ Choose which kind of spam you want to forbid
                     end
                 end
             end
-            
+
             keyboard = doKeyboard_antispam(chat_id)
             api.editMessageText(msg.chat.id, msg.message_id, antispam_first, true, keyboard)
             if text then api.answerCallbackQuery(msg.cb_id, text) end
@@ -243,7 +243,7 @@ Choose which kind of spam you want to forbid
 end
 
 local function edit_channels_whitelist(chat_id, list, action)
-    
+
     local channels = {valid = {}, not_valid ={}}
     local for_entered
     local set = ('chat:%d:chanwhitelist'):format(chat_id)
@@ -254,16 +254,16 @@ local function edit_channels_whitelist(chat_id, list, action)
         elseif action == 'rem' then
             res = db:srem(set, channel_id)
         end
-        
+
         if res == 1 then
             table.insert(channels.valid, channel_id)
         elseif res == 0 then
             table.insert(channels.not_valid, channel_id)
         end
-        
+
         for_entered = true
     end
-    
+
     return for_entered, channels
 end
 
@@ -344,7 +344,7 @@ function plugin.onTextMessage(msg, blocks)
         end
         if blocks[1] == 'wlchan' and blocks[2] then
             local for_entered, channels = edit_channels_whitelist(msg.chat.id, blocks[2], 'add')
-            
+
             if not for_entered then
                 api.sendReply(msg, _("_I can't find a channel ID in your message_"), true)
             else
@@ -355,13 +355,13 @@ function plugin.onTextMessage(msg, blocks)
                 if next(channels.not_valid) then
                     text = text..("*Channels already whitelisted*: `%s`\n"):format(table.concat(channels.not_valid, ', '))
                 end
-                
+
                 api.sendReply(msg, text, true)
             end
         end
         if blocks[1] == 'unwlchan' then
             local for_entered, channels = edit_channels_whitelist(msg.chat.id, blocks[2], 'rem')
-            
+
             if not for_entered then
                 api.sendReply(msg, _("_I can't find a channel ID in your message_"), true)
             else
@@ -372,7 +372,7 @@ function plugin.onTextMessage(msg, blocks)
                 if next(channels.not_valid) then
                     text = text..("*Channels not whitelisted*: `%s`\n"):format(table.concat(channels.not_valid, ', '))
                 end
-                
+
                 api.sendReply(msg, text, true)
             end
         end

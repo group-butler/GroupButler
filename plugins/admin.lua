@@ -89,18 +89,18 @@ local function match_pattern(pattern, text)
 end
 
 function plugin.onTextMessage(msg, blocks)
-	
+
 	if not u.is_superadmin(msg.from.id) then return end
-	
+
 	blocks = {}
-	
+
 	for _, trigger in pairs(triggers2) do
 		blocks = match_pattern(trigger, msg.text)
 		if blocks then break end
 	end
-	
+
 	if not blocks or not next(blocks) then return true end --leave this plugin and continue to match the others
-	
+
 	if blocks[1] == 'admin' then
 		local text = ''
 		for k,v in pairs(triggers2) do
@@ -135,7 +135,7 @@ function plugin.onTextMessage(msg, blocks)
 	    text = text..'- *last hour msgs*: `'..last.h..'`\n'
 	    text = text..'   • *average msgs/minute*: `'..round((last.h/60), 3)..'`\n'
 	    text = text..'   • *average msgs/second*: `'..round((last.h/(60*60)), 3)..'`\n'
-	    
+
 	    --db info
 	    text = text.. '\n*DB stats*\n'
 		local dbinfo = db:info()
@@ -150,7 +150,7 @@ function plugin.onTextMessage(msg, blocks)
 	    	end
     	end
     	text = text..'- *ops/sec*: `'..dbinfo.stats.instantaneous_ops_per_sec..'`\n'
-	    
+
 		api.sendMessage(msg.chat.id, text, true)
 	end
 	if blocks[1] == 'lua' then
@@ -204,7 +204,7 @@ function plugin.onTextMessage(msg, blocks)
 			if msg.chat.type == 'private' then
 				text = 'ID missing'
 			else
-				text = bot_leave(msg.chat.id) 
+				text = bot_leave(msg.chat.id)
 			end
 		else
 			text = bot_leave(blocks[2])
@@ -266,7 +266,7 @@ function plugin.onTextMessage(msg, blocks)
 		for chat_id in pairs(groups) do
 			local hash = 'chat:'..chat_id..':settings'
 			db:hdel(hash, 'Preview')
-			
+
 			--[[local image = db:hget(hash, 'image')
 			db:hdel(hash, 'image')
 			local file = db:hget(hash, 'file')
@@ -311,14 +311,14 @@ function plugin.onTextMessage(msg, blocks)
 		for set, info in pairs(config.chat_settings) do
 			text = text..u.vtext(db:hgetall('chat:'..chat_id..':'..set))
 		end
-		
+
 		local log_channel = db:hget('bot:chatlogs', chat_id)
 		if log_channel then text = text..'\nLog channel: '..log_channel end
 		local realm = db:hget('chat:'..chat_id..':realm', chat_id)
 		if realm then text = text..'\nRealm: '..realm end
-		
+
 		text = text..'</code>'
-		
+
 		api.sendMessage(msg.chat.id, text, 'html')
 	end
 	if blocks[1] == 'rawinfo2' then
@@ -329,7 +329,7 @@ function plugin.onTextMessage(msg, blocks)
 			chat_id = blocks[2]
 		end
 		local text = chat_id..'\n'
-		
+
 		local section
 		for i=1, #config.chat_hashes do
 			section = u.vtext(db:hgetall(('chat:%s:%s'):format(tostring(chat_id), config.chat_hashes[i]))) or '{}'
@@ -444,5 +444,5 @@ end
 plugin.triggers = {
 	onTextMessage = {'^%$'}
 }
-		
+
 return plugin

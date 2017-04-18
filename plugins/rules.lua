@@ -36,13 +36,13 @@ function plugin.onTextMessage(msg, blocks)
     		return
     	end
     end
-    
+
     local hash = 'chat:'..msg.chat.id..':info'
     if blocks[1] == 'rules' or blocks[1] == 'start' then
         local rules = u.getRules(msg.chat.id)
-        
+
         local reply_markup, rules = u.reply_markup_from_text(rules)
-        
+
         local link_preview = rules:find('telegra%.ph/') ~= nil
     	if msg.chat.type == 'private' or (not msg.from.mod and not send_in_group(msg.chat.id)) then
     		api.sendMessage(msg.from.id, rules, true, reply_markup, nil, link_preview)
@@ -50,9 +50,9 @@ function plugin.onTextMessage(msg, blocks)
         	api.sendReply(msg, rules, true, reply_markup, link_preview)
         end
     end
-	
+
 	if not u.is_allowed('texts', msg.chat.id, msg.from) then return end
-	
+
 	if blocks[1] == 'setrules' then
 		local rules = blocks[2]
 		--ignore if not input text
@@ -65,10 +65,10 @@ function plugin.onTextMessage(msg, blocks)
 			api.sendReply(msg, _("Rules has been deleted."))
 			return
 		end
-		
+
 		local reply_markup, test_text = u.reply_markup_from_text(rules)
-		
-		--set the new rules	
+
+		--set the new rules
 		local res, code = api.sendReply(msg, test_text, true, reply_markup)
 		if not res then
 			api.sendMessage(msg.chat.id, u.get_sm_error_string(code), true)

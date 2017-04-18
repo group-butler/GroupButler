@@ -286,7 +286,7 @@ When disabled, the group administrators *can't promote or demote new moderators*
 `/modlist -`: demote all the moderators (will clean the modlist)]])
 	elseif key == 'logchannel' then
 		return _([[*Log channel informations*
-			
+
 A log channel is a _(private)_ channel where the bot will record all the important events that will happen in your group.
 If you want to use this feature, you need to pair your group with a channel with the commands described below.
 All the events, by default, are *not logged*. Admins can choose which events to log from the `/config` menu -> `log channel` button.
@@ -298,7 +298,7 @@ Then, an admin of the group must forward in the group the message ("`/setlog`") 
 
 A channel can be used as log by different groups.
 To change your log channel, simply repeat this process with another channel.
-	
+
 `/unsetlog`: remove your current log channel
 `/logchannel`: get some informations about your log channel, if paired]])
 	end
@@ -328,7 +328,7 @@ local function dk_admins()
 	    	[_("Welcome settings")] = 'welcome',
 	    	[_("Links whitelist")] = 'whitelist',
 	    }
-	    
+
     }
     local line = {}
     for i, line in pairs(list) do
@@ -338,7 +338,7 @@ local function dk_admins()
         end
         table.insert(keyboard.inline_keyboard, kb_line)
     end
-    
+
 	return keyboard
 end
 
@@ -367,7 +367,7 @@ local function dk_main()
 		{{text = _('Log channel'), callback_data = 'help:logchannel'}},
 		{{text = _('Moderators'), callback_data = 'help:mods'}},
 	}
-	
+
 	return keyboard
 end
 
@@ -376,13 +376,13 @@ local function do_keyboard(keyboard_type)
 		['main'] = dk_main(),
 		['admins'] = dk_admins()
 	}
-	
+
 	local keyboard = callbacks[keyboard_type] or {inline_keyboard = {}}
-	
+
 	if keyboard_type ~= 'main' then
 		table.insert(keyboard.inline_keyboard, {{text = _('Back'), callback_data = 'help:back'}})
 	end
-	
+
 	return keyboard
 end
 
@@ -411,7 +411,7 @@ end
 function plugin.onCallbackQuery(msg, blocks)
     local query = blocks[1]
     local text, keyboard_type, answerCallbackQuery_text
-    
+
     if query == 'back' then
     	keyboard_type = 'main'
     	text = get_helped_string('main_menu')
@@ -439,7 +439,7 @@ function plugin.onCallbackQuery(msg, blocks)
     	text = get_helped_string(blocks[2])
     	answerCallbackQuery_text = _('Available commands for admins')
     end
-    
+
     if not text then
     	api.answerCallbackQuery(msg.cb_id, _("Deprecated message, send /help again"), true)
     else

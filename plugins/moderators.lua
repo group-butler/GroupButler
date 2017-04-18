@@ -4,21 +4,21 @@ local api = require 'methods'
 
 local plugin = {}
 
-local mod = { 
+local mod = {
     promote = function(chat_id, user)
         assert(user.id, "mod.promote: user.id missing")
-        
+
         db:hmset(('chat:%d:mod:%d'):format(chat_id, tonumber(user.id)), user)
         local added = db:sadd('chat:'..chat_id..':mods', user.id)
-        
+
         return added == 1
     end,
     demote = function(chat_id, user)
         assert(user.id, "mod.demote: user.id missing")
-        
+
         db:del(('chat:%d:mod:%d'):format(chat_id, tonumber(user.id)))
         local removed = db:srem('chat:'..chat_id..':mods', user.id)
-        
+
         return removed == 1
     end
 }
@@ -53,14 +53,14 @@ local function promdem_user(msg, blocks, action)
         else
             return nil, _("Reply to someone, or mention him")
         end
-        
+
         if u.is_admin(msg.chat.id, user.id) then
             return nil, _("I'm sorry, you can't promote this user because he's already an admin")
         end
-        
+
         return true, user, mod[action](msg.chat.id, user)
     end
-end     
+end
 
 local function can_promdemote(chat_id, user, is_admin)
     if not is_admin then
@@ -123,7 +123,7 @@ function plugin.onTextMessage(msg, blocks)
                 end
             end
         end
-        
+
         if blocks[1] == 'modlist' then
             local is_empty, text = u.getModlist(msg.chat.id)
             if is_empty then
@@ -136,7 +136,7 @@ function plugin.onTextMessage(msg, blocks)
                 end
             end
         end
-    end    
+    end
 end
 
 local function toggleModeratorsSetting(chat_id, key)
@@ -144,9 +144,9 @@ local function toggleModeratorsSetting(chat_id, key)
     local current = (db:hget(hash, key)) or config.chat_settings['modsettings'][key]
     local new
     if current == 'yes' then new = 'no' else new = 'yes' end
-    
+
     db:hset(hash, key, new)
-    
+
     return '✅'
 end
 
@@ -194,10 +194,10 @@ local function doKeyboard_mods_rights(chat_id, is_owner)
             table.insert(keyboard.inline_keyboard, line)
         end
     end
-    
+
     --back button
     table.insert(keyboard.inline_keyboard, {{text = '🔙', callback_data = 'config:back:'..chat_id}})
-    
+
     return keyboard
 end
 
@@ -209,7 +209,7 @@ function plugin.onCallbackQuery(msg, blocks)
 	    local text = get_alert_text(blocks[2])
 	    api.answerCallbackQuery(msg.cb_id, text, true, config.bot_settings.cache_time.alert_help)
 	else
-	    
+
 	    local chat_id = msg.target_id
 	    if not u.is_allowed('config', chat_id, msg.from) then
 	    	api.answerCallbackQuery(msg.cb_id, _("You're no longer an admin"))
@@ -227,13 +227,13 @@ When one or more of the permissions below are given to the moderators, they will
 
 Moderators will be never able to use: /cache, /leave, /snap, /import, /setlog and /unsetlog
 ]])
-        
+
             local reply_markup, text, is_owner
-            
+
             if blocks[1] == 'toggle' then
                 text = toggleModeratorsSetting(chat_id, blocks[2])
             end
-            
+
             is_owner = u.is_owner(chat_id, msg.from.id)
             reply_markup = doKeyboard_mods_rights(chat_id, is_owner)
             api.editMessageText(msg.chat.id, msg.message_id, mod_first, true, reply_markup)

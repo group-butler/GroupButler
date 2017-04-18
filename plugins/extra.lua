@@ -15,14 +15,14 @@ local function is_locked(chat_id)
 end
 
 function plugin.onTextMessage(msg, blocks)
-	
+
 	if msg.chat.type == 'private' then return end
-	
+
 	if blocks[1] == 'extra' then
 		if not u.is_allowed('texts', msg.chat.id, msg.from) then return end
 		if not blocks[2] then return end
 		if not blocks[3] and not msg.reply then return end
-		
+
 	    if msg.reply and not blocks[3] then
 	    	local file_id, media_with_special_method = u.get_media_id(msg.reply)
 	    	if not file_id then
@@ -42,7 +42,7 @@ function plugin.onTextMessage(msg, blocks)
 	    	local new_extra = blocks[3]
 	    	local reply_markup, test_text = u.reply_markup_from_text(new_extra)
 	    	test_text = test_text:gsub('\n', '')
-	    	
+
 	    	local res, code = api.sendReply(msg, test_text:replaceholders(msg), true, reply_markup)
 	    	if not res then
 	    		api.sendMessage(msg.chat.id, u.get_sm_error_string(code), true)
@@ -61,7 +61,7 @@ function plugin.onTextMessage(msg, blocks)
 		end
     elseif blocks[1] == 'extra del' then
         if not u.is_allowed('texts', msg.chat.id, msg.from) then return end
-	    
+
 	    local hash = 'chat:'..msg.chat.id..':extra'
 	    local success = db:hdel(hash, blocks[2])
 	    if success == 1 then
