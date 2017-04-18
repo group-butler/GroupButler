@@ -25,5 +25,7 @@ services:
       - CHANNEL
       - SOURCE
       - GROUP
+      - CORE_LANG
+    restart: always
     volumes:
       - ./:/srv/app

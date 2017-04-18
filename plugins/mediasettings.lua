@@ -17,22 +17,22 @@ local function doKeyboard_media(chat_id)
         end
 
 		local media_texts = {
-			photo = _("Images"),
-			gif = _("GIFs"),
-			video = _("Videos"),
-			document = _("Documents"),
-			TGlink = _("telegram.me links"),
-			voice = _("Vocal messages"),
-			link = _("Links"),
-			audio = _("Music"),
-			sticker = _("Stickers"),
-			contact = _("Contacts"),
-			game = _("Games"),
-			location = _("Locations")
+			photo = ("Images"),
+			gif = ("GIFs"),
+			video = ("Videos"),
+			document = ("Documents"),
+			TGlink = ("telegram.me links"),
+			voice = ("Vocal messages"),
+			link = ("Links"),
+			audio = ("Music"),
+			sticker = ("Stickers"),
+			contact = ("Contacts"),
+			game = ("Games"),
+			location = ("Locations")
 		}
         local media_text = media_texts[media] or media
         local line = {
-            {text = media_text, callback_data = 'mediallert:'..locale.language},
+            {text = media_text, callback_data = 'mediallert:'},
             {text = status, callback_data = 'media:'..media..':'..chat_id}
         }
         table.insert(keyboard.inline_keyboard, line)
@@ -44,9 +44,9 @@ local function doKeyboard_media(chat_id)
     local action = (db:hget('chat:'..chat_id..':warnsettings', 'mediatype')) or config.chat_settings['warnsettings']['mediatype']
 	local caption
 	if action == 'kick' then
-		caption = _("Warns (media) 📍 %d | kick"):format(tonumber(max))
+		caption = ("Warns (media) 📍 %d | kick"):format(tonumber(max))
 	else
-		caption = _("Warns (media) 📍 %d | ban"):format(tonumber(max))
+		caption = ("Warns (media) 📍 %d | ban"):format(tonumber(max))
 	end
     table.insert(keyboard.inline_keyboard, {{text = caption, callback_data = 'mediatype:'..chat_id}})
     --buttons line
@@ -65,9 +65,9 @@ end
 function plugin.onCallbackQuery(msg, blocks)
 	local chat_id = msg.target_id
 	if chat_id and not u.is_allowed('config', chat_id, msg.from) then
-		api.answerCallbackQuery(msg.cb_id, _("You're no longer an admin"))
+		api.answerCallbackQuery(msg.cb_id, ("You're no longer an admin"))
 	else
-		local media_first = _([[
+		local media_first = ([[
 Tap on a voice in the right colon to *change the setting*
 You can use the last line to change how many warnings should the bot give before kick / ban someone for a forbidden media
 The number is not related the the normal `/warn` command
@@ -81,7 +81,7 @@ The number is not related the the normal `/warn` command
 				if config.available_languages[blocks[2]] then
 					locale.language = blocks[2]
 				end
-				api.answerCallbackQuery(msg.cb_id, _("⚠️ Tap on the right column"), false, config.bot_settings.cache_time.alert_help)
+				api.answerCallbackQuery(msg.cb_id, ("⚠️ Tap on the right column"), false, config.bot_settings.cache_time.alert_help)
 				return
 			end
 			local cb_text
@@ -89,14 +89,14 @@ The number is not related the the normal `/warn` command
 				local current = tonumber(db:hget('chat:'..chat_id..':warnsettings', 'mediamax')) or 2
 				if blocks[2] == 'dim' then
 					if current < 2 then
-						cb_text = _("⚙ The new value is too low ( < 1)")
+						cb_text = ("⚙ The new value is too low ( < 1)")
 					else
 						local new = db:hincrby('chat:'..chat_id..':warnsettings', 'mediamax', -1)
 						cb_text = string.format('⚙ %d → %d', current, new)
 					end
 				elseif blocks[2] == 'raise' then
 					if current > 11 then
-						cb_text = _("⚙ The new value is too high ( > 12)")
+						cb_text = ("⚙ The new value is too high ( > 12)")
 					else
 						local new = db:hincrby('chat:'..chat_id..':warnsettings', 'mediamax', 1)
 						cb_text = string.format('⚙ %d → %d', current, new)
@@ -108,10 +108,10 @@ The number is not related the the normal `/warn` command
 				local current = (db:hget(hash, 'mediatype')) or config.chat_settings['warnsettings']['mediatype']
 				if current == 'ban' then
 					db:hset(hash, 'mediatype', 'kick')
-					cb_text = _("🔨 New status is kick")
+					cb_text = ("🔨 New status is kick")
 				else
 					db:hset(hash, 'mediatype', 'ban')
-					cb_text = _("🔨 New status is ban")
+					cb_text = ("🔨 New status is ban")
 				end
 			end
 			if blocks[1] == 'media' then

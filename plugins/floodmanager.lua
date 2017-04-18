@@ -6,13 +6,13 @@ local plugin = {}
 
 local function get_button_description(key)
     if key == 'num' then
-        return _("⚖ Current sensitivity. Tap on the + or the - to change it")
+        return ("⚖ Current sensitivity. Tap on the + or the - to change it")
     elseif key == 'voice' then
-        return _([[Choose which media must be ignored by the antiflood (the bot won't consider them).
+        return ([[Choose which media must be ignored by the antiflood (the bot won't consider them).
 ✅: ignored
 ❌: not ignored]])
     else
-        return _("Description not available")
+        return ("Description not available")
     end
 end
 
@@ -20,17 +20,17 @@ local function do_keyboard_flood(chat_id)
     --no: enabled, yes: disabled
     local status = db:hget('chat:'..chat_id..':settings', 'Flood') or config.chat_settings['settings']['Flood'] --check (default: disabled)
     if status == 'on' then
-        status = _("✅ | ON")
+        status = ("✅ | ON")
     else
-        status = _("❌ | OFF")
+        status = ("❌ | OFF")
     end
 
     local hash = 'chat:'..chat_id..':flood'
     local action = (db:hget(hash, 'ActionFlood')) or config.chat_settings['flood']['ActionFlood']
     if action == 'kick' then
-        action = _("👞️ kick")
+        action = ("👞️ kick")
     else
-        action = _("🔨 ️ban")
+        action = ("🔨 ️ban")
     end
     local num = (db:hget(hash, 'MaxFlood')) or config.chat_settings['flood']['MaxFlood']
     local keyboard = {
@@ -41,19 +41,19 @@ local function do_keyboard_flood(chat_id)
             },
             {
                 {text = '➖', callback_data = 'flood:dim:'..chat_id},
-                {text = tostring(num), callback_data = 'flood:alert:num:'..locale.language},
+                {text = tostring(num), callback_data = 'flood:alert:num:'},
                 {text = '➕', callback_data = 'flood:raise:'..chat_id},
             }
         }
     }
 
     local exceptions = {
-        text = _("Texts"),
-		forward = _("Forwards"),
-        sticker = _("Stickers"),
-        photo = _("Images"),
-        gif = _("GIFs"),
-        video = _("Videos"),
+        text = ("Texts"),
+		forward = ("Forwards"),
+        sticker = ("Stickers"),
+        photo = ("Images"),
+        gif = ("GIFs"),
+        video = ("Videos"),
     }
     local hash = 'chat:'..chat_id..':floodexceptions'
     for media, translation in pairs(exceptions) do
@@ -65,7 +65,7 @@ local function do_keyboard_flood(chat_id)
             exc_status = '❌'
         end
         local line = {
-            {text = translation, callback_data = 'flood:alert:voice:'..locale.language},
+            {text = translation, callback_data = 'flood:alert:voice:'},
             {text = exc_status, callback_data = 'flood:exc:'..media..':'..chat_id},
         }
         table.insert(keyboard.inline_keyboard, line)
@@ -82,10 +82,10 @@ local function changeFloodSettings(chat_id, screm)
     if type(screm) == 'string' then
         if screm == 'kick' then
             db:hset(hash, 'ActionFlood', 'ban')
-            return _("Flooders will be banned")
+            return ("Flooders will be banned")
         else
             db:hset(hash, 'ActionFlood', 'kick')
-            return _("Flooders will be kicked")
+            return ("Flooders will be kicked")
         end
     elseif type(screm) == 'number' then
         local old = tonumber(db:hget(hash, 'MaxFlood')) or 5
@@ -94,14 +94,14 @@ local function changeFloodSettings(chat_id, screm)
             new = db:hincrby(hash, 'MaxFlood', 1)
             if new > 25 then
                 db:hincrby(hash, 'MaxFlood', -1)
-                return _("%d is not a valid value!\n"):format(new)
+                return ("%d is not a valid value!\n"):format(new)
                     .. ("The value should be higher than 3 and lower then 26")
             end
         elseif screm < 0 then
             new = db:hincrby(hash, 'MaxFlood', -1)
             if new < 3 then
                 db:hincrby(hash, 'MaxFlood', 1)
-                return _("%d is not a valid value!\n"):format(new)
+                return ("%d is not a valid value!\n"):format(new)
                     .. ("The value should be higher than 2 and lower then 26")
             end
         end
@@ -112,14 +112,14 @@ end
 function plugin.onCallbackQuery(msg, blocks)
     local chat_id = msg.target_id
 	if chat_id and not u.is_allowed('config', chat_id, msg.from) then
-		api.answerCallbackQuery(msg.cb_id, _("You're no longer an admin"))
+		api.answerCallbackQuery(msg.cb_id, ("You're no longer an admin"))
 	else
-	    local header = _("You can manage the antiflood settings from here")
+	    local header = ("You can manage the antiflood settings from here")
 
         local text
 
         if blocks[1] == 'config' then
-            text = _("Antiflood settings")
+            text = ("Antiflood settings")
         end
 
         if blocks[1] == 'alert' then
@@ -137,10 +137,10 @@ function plugin.onCallbackQuery(msg, blocks)
             local status = (db:hget(hash, media)) or 'no'
             if status == 'no' then
                 db:hset(hash, media, 'yes')
-                text = _("❎ [%s] will be ignored by the anti-flood"):format(media)
+                text = ("❎ [%s] will be ignored by the anti-flood"):format(media)
             else
                 db:hset(hash, media, 'no')
-                text = _("🚫 [%s] won't be ignored by the anti-flood"):format(media)
+                text = ("🚫 [%s] won't be ignored by the anti-flood"):format(media)
             end
         end
 

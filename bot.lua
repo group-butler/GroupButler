@@ -1,25 +1,32 @@
+local i18n = require 'i18n'
 local api = require 'methods'
 local redis = require 'redis'
 local clr = require 'term.colors'
 local u, config, plugins, last_update, last_cron
 
 function bot_init(on_reload) -- The function run when the bot is started or reloaded.
+	i18n.loadFile('i18n.lua') -- Load core localization
 
-	config = dofile('config.lua') -- Load configuration file.
-	assert(not (config.bot_api_key == "" or not config.bot_api_key), clr.red..'Insert the bot token in .env -> TG_TOKEN'..clr.reset)
-	assert(#config.superadmins > 0, clr.red..'Insert your Telegram ID in .env -> superadmins'..clr.reset)
-	assert(config.log.admin, clr.red..'Insert your Telegram ID in .env -> log.admin'..clr.reset)
+	config = dofile('config.lua') -- Load configuration file
+	i18n.setLocale(config.lang) -- Set core localization
+
+	assert(not (config.bot_api_key == "" or not config.bot_api_key), clr.red .. i18n('missing_token') .. clr.reset)
+	assert(#config.superadmins > 0, clr.red .. i18n('missing_superadmin') .. clr.reset)
+	assert(config.log.admin, clr.red .. i18n('missing_logadmin') .. clr.reset)
 
 	db = redis.connect(config.redis_host, config.redis_port)
-
 	db:select(config.redis_db) --select the redis db
 
 	u = dofile('utilities.lua') -- Load miscellaneous and cross-plugin functions.
-	locale = dofile('languages.lua')
 	now_ms = require('socket').gettime
 
 	bot = api.getMe().result -- Get bot info
 	bot.revision = os.getenv("COMMIT")
+
+	-- Load plugins localization
+	for i,plugin in ipairs(config.plugins) do
+		i18n.loadFile('plugins/i18n/' .. plugin .. '.lua')
+	end
 
 	plugins = {} -- Load plugins.
 	for i,v in ipairs(config.plugins) do
@@ -40,7 +47,7 @@ function bot_init(on_reload) -- The function run when the bot is started or relo
 		table.insert(plugins, p)
 	end
 
-	print('\n'..clr.blue..'BOT RUNNING:'..clr.reset, clr.red..'[@'..bot.username .. '] [' .. bot.first_name ..'] ['..bot.id..']'..clr.reset..'\n')
+	print('\n'..clr.blue.. i18n('bot_running') ..clr.reset, clr.red..'[@'..bot.username .. '] [' .. bot.first_name ..'] ['..bot.id..']'..clr.reset..'\n')
 
 	last_update = last_update or -2 --skip pending updates
 	last_cron = last_cron or os.time() -- the time of the last cron job
@@ -48,7 +55,9 @@ function bot_init(on_reload) -- The function run when the bot is started or relo
 	if on_reload then
 		return #plugins
 	else
-		api.sendAdmin('*Bot started!*\n_'..os.date('On %A, %d %B %Y\nAt %X')..'_\n'..#plugins..' plugins loaded', true)
+		temp = os.date("*t")
+		temp["plugins"] = #plugins
+		api.sendAdmin(i18n('bot_started',temp), true)
 		start_timestamp = os.time()
 		current = {h = 0}
 		last = {h = 0}
@@ -118,10 +127,7 @@ local function on_msg_receive(msg, callback) -- The fn run whenever a message is
 		if msg.date < os.time() - 7 then print('Old update skipped') return end -- Do not process old messages.
 		if not msg.text then msg.text = msg.caption or '' end
 
-		locale.language = db:get('lang:'..msg.chat.id) or 'en' --group language
-		if not config.available_languages[locale.language] then
-			locale.language = 'en'
-		end
+		i18n.setLocale(db:get('lang:'..msg.chat.id) or config.lang) --group language
 
 		collect_stats(msg)
 
@@ -131,7 +137,7 @@ local function on_msg_receive(msg, callback) -- The fn run whenever a message is
 			if plugin.onEveryMessage then
 				onm_success, continue = pcall(plugin.onEveryMessage, msg)
 				if not onm_success then
-					api.sendAdmin('An #error occurred (preprocess).\n'..tostring(continue)..'\n'..locale.language..'\n'..msg.text)
+					api.sendAdmin('An #error occurred (preprocess).\n'..tostring(continue)..'\n'..'\n'..msg.text)
 				end
 			end
 			if not continue then return end
@@ -156,9 +162,9 @@ local function on_msg_receive(msg, callback) -- The fn run whenever a message is
 					if not success then --if a bug happens
 							print(result)
 							if config.bot_settings.notify_bug then
-								api.sendReply(msg, _("🐞 Sorry, a *bug* occurred"), true)
+								api.sendReply(msg, ("🐞 Sorry, a *bug* occurred"), true)
 							end
-    	      				api.sendAdmin('An #error occurred.\n'..result..'\n'..locale.language..'\n'..msg.text)
+    	      				api.sendAdmin('An #error occurred.\n'..result..'\n'..'\n'..msg.text)
 							return
 						end
 
@@ -180,7 +186,7 @@ local function on_msg_receive(msg, callback) -- The fn run whenever a message is
 			end]]
 
 			-- send disclamer
-			api.sendMessage(msg.chat.id, _([[
+			api.sendMessage(msg.chat.id, ([[
 Hello everyone!
 My name is %s, and I'm a bot made to help administrators in their hard work.
 Unfortunately I can't work in normal groups, please ask the creator to convert this group to a supergroup.

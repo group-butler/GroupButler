@@ -89,9 +89,9 @@ function plugin.onEveryMessage(msg)
         	        local log_hammered = action
         	        if msgs_sent == (msgs_max + 1) then --send the message only if it's the message after the first message flood. Repeat after 5
         	            if action == 'ban' then
-        	                message = _("%s <b>banned</b> for flood!"):format(name)
+        	                message = ("%s <b>banned</b> for flood!"):format(name)
         	            else
-        	                message = _("%s <b>kicked</b> for flood!"):format(name)
+        	                message = ("%s <b>kicked</b> for flood!"):format(name)
         	            end
         	            api.sendMessage(msg.chat.id, message, 'html')
         	            u.logEvent('flood', msg, {hammered = log_hammered})
@@ -100,7 +100,7 @@ function plugin.onEveryMessage(msg)
         	end
 
             if msg.cb then
-                --api.answerCallbackQuery(msg.cb_id, _("‼️ Please don't abuse the keyboard, requests will be ignored")) --avoid to hit the limits with answerCallbackQuery
+                --api.answerCallbackQuery(msg.cb_id, ("‼️ Please don't abuse the keyboard, requests will be ignored")) --avoid to hit the limits with answerCallbackQuery
             end
             return false --if an user is spamming, don't go through plugins
         end
@@ -134,17 +134,17 @@ function plugin.onEveryMessage(msg)
     	                    db:hdel('chat:'..msg.chat.id..':mediawarn', msg.from.id) --remove media warns
     	                    local message
     	                    if status == 'ban' then
-			        			message = _("%s <b>banned</b>: media sent not allowed!\n❗️ <code>%d/%d</code>"):format(name, n, max)
+			        			message = ("%s <b>banned</b>: media sent not allowed!\n❗️ <code>%d/%d</code>"):format(name, n, max)
     	                    else
-			        			message = _("%s <b>kicked</b>: media sent not allowed!\n❗️ <code>%d/%d</code>"):format(name, n, max)
+			        			message = ("%s <b>kicked</b>: media sent not allowed!\n❗️ <code>%d/%d</code>"):format(name, n, max)
     	                    end
     	                    api.sendMessage(msg.chat.id, message, 'html')
     	                end
 	                else --max num not reached -> warn
-			        	local message = _("%s, this type of media is <b>not allowed</b> in this chat.\n(<code>%d/%d</code>)"):format(name, n, max)
+			        	local message = ("%s, this type of media is <b>not allowed</b> in this chat.\n(<code>%d/%d</code>)"):format(name, n, max)
 	                    api.sendReply(msg, message, 'html')
 	                end
-	                u.logEvent('mediawarn', msg, {warns = n, warnmax = max, media = _(media), hammered = status})
+	                u.logEvent('mediawarn', msg, {warns = n, warnmax = max, media = (media), hammered = status})
                 end
     	    end
     	end
@@ -165,9 +165,9 @@ function plugin.onEveryMessage(msg)
                 res = api.banUser(msg.chat.id, msg.from.id)
             end
     	    if res then
-    	        local message = _("%s <b>kicked</b>: RTL character in names / messages not allowed!"):format(name)
+    	        local message = ("%s <b>kicked</b>: RTL character in names / messages not allowed!"):format(name)
     	        if rtl_status == 'ban' then
-					message = _("%s <b>banned</b>: RTL character in names / messages not allowed!"):format(name)
+					message = ("%s <b>banned</b>: RTL character in names / messages not allowed!"):format(name)
     	        end
     	        api.sendMessage(msg.chat.id, message, 'html')
 				return false -- not execute command already kicked out and not welcome him
@@ -187,9 +187,9 @@ function plugin.onEveryMessage(msg)
     	            res = api.banUser(msg.chat.id, msg.from.id)
     	        end
     	        if res then
-    	            local message = _("%s <b>kicked</b>: arab/persian message detected!"):format(name)
+    	            local message = ("%s <b>kicked</b>: arab/persian message detected!"):format(name)
     	            if arab_status == 'ban' then
-						message = _("%s <b>banned</b>: arab/persian message detected!"):format(name)
+						message = ("%s <b>banned</b>: arab/persian message detected!"):format(name)
     	            end
     	            api.sendMessage(msg.chat.id, message, 'html')
 					return false
