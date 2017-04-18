@@ -25,12 +25,12 @@ local mod = {
 
 local function promdem_user(msg, blocks, action)
     if not msg.reply and not blocks[2] then
-        return nil, _("Reply to someone, or mention him")
+        return nil, ("Reply to someone, or mention him")
     else
         local user = {}
         if msg.reply then
             if msg.reply.from.id == bot.id then
-                return nil, _("You can't promote or demote me")
+                return nil, ("You can't promote or demote me")
             end
             user = msg.reply.from
         elseif msg.mention_id then
@@ -43,7 +43,7 @@ local function promdem_user(msg, blocks, action)
             local username = msg.text:match(config.cmd..action..' (@%a[%w_]+)$')
             user.id = u.resolve_user(username)
             if not user.id then
-                return nil, _("I've never seen this user before.\nIf you want to teach me who is he, forward me a message from him")
+                return nil, ("I've never seen this user before.\nIf you want to teach me who is he, forward me a message from him")
             end
             user.first_name = username
             user.username = username
@@ -51,11 +51,11 @@ local function promdem_user(msg, blocks, action)
             user.id = msg.text:match(config.cmd..action..' (%d+)$')
             user.first_name = user.id
         else
-            return nil, _("Reply to someone, or mention him")
+            return nil, ("Reply to someone, or mention him")
         end
 
         if u.is_admin(msg.chat.id, user.id) then
-            return nil, _("I'm sorry, you can't promote this user because he's already an admin")
+            return nil, ("I'm sorry, you can't promote this user because he's already an admin")
         end
 
         return true, user, mod[action](msg.chat.id, user)
@@ -85,9 +85,9 @@ function plugin.onTextMessage(msg, blocks)
                     local name = u.getname_final(extra)
                     if new_mod then
                         u.logEvent('promote', msg, {admin = u.getname_final(msg.from), user = name, user_id = extra.id})
-                        text = _("%s now is a moderator"):format(name)
+                        text = ("%s now is a moderator"):format(name)
                     else
-                        text = _("%s is already a moderator. I have updated his name."):format(name)
+                        text = ("%s is already a moderator. I have updated his name."):format(name)
                     end
                     api.sendReply(msg, text, 'html')
                 end
@@ -101,9 +101,9 @@ function plugin.onTextMessage(msg, blocks)
                     if was_mod then
                         local name = u.getname_final(extra)
                         u.logEvent('demote', msg, {admin = u.getname_final(msg.from), user = name, user_id = extra.id})
-                        text = _("%s is no longer a moderator"):format(name)
+                        text = ("%s is no longer a moderator"):format(name)
                     else
-                        text = _("<i>This user was not a moderator</i>")
+                        text = ("<i>This user was not a moderator</i>")
                     end
                     api.sendReply(msg, text, 'html')
                 end
@@ -112,14 +112,14 @@ function plugin.onTextMessage(msg, blocks)
                 local set = ('chat:%d:mods'):format(msg.chat.id)
                 local mods_ids = db:smembers(set)
                 if not next(mods_ids) then
-                    api.sendReply(msg, _("_There isn't any moderator in this group_"), true)
+                    api.sendReply(msg, ("_There isn't any moderator in this group_"), true)
                 else
                     for i=1, #mods_ids do
                         db:del(('chat:%d:mod:%s'):format(msg.chat.id, mods_ids[i]))
                     end
                     db:del(set)
                     u.logEvent('cleanmods', msg, {admin = u.getname_final(msg.from)})
-                    api.sendReply(msg, _("_Modlist cleaned_"), true)
+                    api.sendReply(msg, ("_Modlist cleaned_"), true)
                 end
             end
         end
@@ -152,25 +152,25 @@ end
 
 local function get_alert_text(key)
     if key == 'hammer' then
-        return _("If enabled, moderators will be able to use their banhammer powers")
+        return ("If enabled, moderators will be able to use their banhammer powers")
     elseif key == 'config' then
-        return _("If enabled, moderators will be able to use the /config command (and change the group settings)")
+        return ("If enabled, moderators will be able to use the /config command (and change the group settings)")
     elseif key == 'texts' then
-        return _("If enabled, moderators will be able to change the rules, save a new link, or set/delete #extra commands")
+        return ("If enabled, moderators will be able to change the rules, save a new link, or set/delete #extra commands")
     elseif key == 'promdem' then
-        return _("The group administrators will be able to promote or demote new moderators, and also to see this section of the setting (but not this switch)")
+        return ("The group administrators will be able to promote or demote new moderators, and also to see this section of the setting (but not this switch)")
     else
-        return _("Description not available")
+        return ("Description not available")
     end
 end
 
 local function doKeyboard_mods_rights(chat_id, is_owner)
     local keyboard = {inline_keyboard = {}}
     local humanizations = {
-        ['promdem'] = _('Admins can manage mods'),
-        ['hammer'] = _('Banhammer'),
-        ['config'] = _('Group configuration'),
-        ['texts'] = _('Group info'),
+        ['promdem'] = ('Admins can manage mods'),
+        ['hammer'] = ('Banhammer'),
+        ['config'] = ('Group configuration'),
+        ['texts'] = ('Group info'),
     }
     for field, value in pairs(config.chat_settings['modsettings']) do
         local line, status, icon
@@ -179,7 +179,7 @@ local function doKeyboard_mods_rights(chat_id, is_owner)
             status = (db:hget('chat:'..chat_id..':modsettings', field)) or config.chat_settings['modsettings'][field]
             if status == 'no' then icon = '❌' end
             line = {
-                {text = _(humanizations[field] or field), callback_data = 'modsettings:alert:'..field..':'..locale.language},
+                {text = (humanizations[field] or field), callback_data = 'modsettings:alert:'..field..':'..locale.language},
                 {text = icon, callback_data = 'modsettings:toggle:'..field..':'..chat_id}
             }
             table.insert(keyboard.inline_keyboard, line)
@@ -188,7 +188,7 @@ local function doKeyboard_mods_rights(chat_id, is_owner)
             status = (db:hget('chat:'..chat_id..':modsettings', field)) or config.chat_settings['modsettings'][field]
             if status == 'no' then icon = '❌' end
             line = {
-                {text = _(humanizations[field] or field), callback_data = 'modsettings:alert:'..field..':'..locale.language},
+                {text = (humanizations[field] or field), callback_data = 'modsettings:alert:'..field..':'..locale.language},
                 {text = icon, callback_data = 'modsettings:toggle:'..field..':'..chat_id}
             }
             table.insert(keyboard.inline_keyboard, line)
@@ -212,9 +212,9 @@ function plugin.onCallbackQuery(msg, blocks)
 
 	    local chat_id = msg.target_id
 	    if not u.is_allowed('config', chat_id, msg.from) then
-	    	api.answerCallbackQuery(msg.cb_id, _("You're no longer an admin"))
+	    	api.answerCallbackQuery(msg.cb_id, ("You're no longer an admin"))
 	    else
-	        local mod_first = _([[*Moderators settings*
+	        local mod_first = ([[*Moderators settings*
 Choose what a moderator can do.
 When one or more of the permissions below are given to the moderators, they will be able to use the associated commands.
 

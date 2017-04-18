@@ -114,8 +114,8 @@ function plugin.onCallbackQuery(msg, blocks)
 	if chat_id and not u.is_allowed('config', chat_id, msg.from) then
 		api.answerCallbackQuery(msg.cb_id, ("You're no longer an admin"))
 	else
-    
 	    local header = ("You can manage the antiflood settings from here")
+
         local text
 
         if blocks[1] == 'config' then

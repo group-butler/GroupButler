@@ -6,8 +6,8 @@ local plugin = {}
 
 local function doKeyboard_warn(user_id)
 	local keyboard = {}
-    
     keyboard.inline_keyboard = {{{text = ("Remove warn"), callback_data = 'removewarn:'..user_id}}}
+
     return keyboard
 end
 

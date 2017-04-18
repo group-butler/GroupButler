@@ -171,7 +171,7 @@ function plugin.onTextMessage(msg, blocks)
                 end
 				-- turn on the goodbye message in the group settings
 				db:hset(('chat:%d:settings'):format(msg.chat.id), 'Goodbye', 'on')
-				
+
 				api.sendReply(msg, ("New media setted as goodbye message: `%s`"):format(replied_to), true)
 			else
 				api.sendReply(msg, ("Reply to a `sticker` or a `gif` to set them as *goodbye message*"), true)

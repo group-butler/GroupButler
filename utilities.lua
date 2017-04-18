@@ -342,7 +342,7 @@ function utilities.get_sm_error_string(code)
 		[149] = ("One of the inline buttons you are trying to set doesn't have a name"),
 		[115] = ("Please input a text")
 	}
-	
+
 	return descriptions[code] or ("Text not valid: unknown formatting error")
 end
 
@@ -598,8 +598,7 @@ function utilities.getAdminlist(chat_id)
 	end
 	if adminlist == '' then adminlist = '-' end
 	if creator == '' then creator = '-' end
-<<<<<<<
-	
+
 	return ("<b>👤 Creator</b>\n└ %s\n\n<b>👥 Admins</b> (%d)\n%s"):format(creator, #list.result - 1, adminlist)
 =======
 
@@ -723,7 +722,6 @@ function utilities.getSettings(chat_id)
 
     local warnmax_std = (db:hget('chat:'..chat_id..':warnsettings', 'max')) or config.chat_settings['warnsettings']['max']
     local warnmax_media = (db:hget('chat:'..chat_id..':warnsettings', 'mediamax')) or config.chat_settings['warnsettings']['mediamax']
-<<<<<<<
     
 	return message .. ("Warns (`standard`): *%s*\n"):format(warnmax_std)
 				 .. ("Warns (`media`): *%s*\n\n"):format(warnmax_media)
@@ -962,15 +960,9 @@ function utilities.logEvent(event, msg, extra)
 	if not is_loggable or is_loggable == 'no' then return end
 
 	local text, reply_markup
-<<<<<<<
 	
 	
 	local chat_info = ("<b>Chat</b>: %s [#chat%d]"):format(msg.chat.title:escape_html(), msg.chat.id * -1)
-=======
-
-	local chat_info = _("<b>Chat</b>: %s [#chat%d]"):format(msg.chat.title:escape_html(), msg.chat.id * -1)
-
->>>>>>>
 	local member = ("%s [@%s] [#id%d]"):format(msg.from.first_name:escape_html(), msg.from.username or '-', msg.from.id)
 	if event == 'mediawarn' then
 		--MEDIA WARN

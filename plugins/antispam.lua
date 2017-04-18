@@ -85,10 +85,10 @@ local function toggleAntispamSetting(chat_id, key)
     if current == 'alwd' then new = 'notalwd' else new = 'alwd' end
 
     db:hset(hash, key, new)
-    
-    
+
     local text = ('allowed')
     if new == 'notalwd' then text = ('not allowed') end
+
     return (key)..(': %s'):format(text)
 end
 
