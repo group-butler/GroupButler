@@ -600,10 +600,6 @@ function utilities.getAdminlist(chat_id)
 	if creator == '' then creator = '-' end
 
 	return ("<b>👤 Creator</b>\n└ %s\n\n<b>👥 Admins</b> (%d)\n%s"):format(creator, #list.result - 1, adminlist)
-=======
-
-	return _("<b>👤 Creator</b>\n└ %s\n\n<b>👥 Admins</b> (%d)\n%s"):format(creator, #list.result - 1, adminlist)
->>>>>>>
 end
 
 local function get_list_name(chat_id, user_id)
@@ -656,15 +652,9 @@ function utilities.getSettings(chat_id)
     local hash = 'chat:'..chat_id..':settings'
 
 	local lang = db:get('lang:'..chat_id) or 'en' -- group language
-<<<<<<<
     local message = ("Current settings for *the group*:\n\n")
 			.. ("*Language*: %s\n"):format(config.available_languages[lang])
 
-=======
-    local message = _("Current settings for *the group*:\n\n")
-			.. _("*Language*: %s\n"):format(config.available_languages[lang])
-
->>>>>>>
     --build the message
 	local strings = {
 		Welcome = ("Welcome message"),
@@ -722,23 +712,13 @@ function utilities.getSettings(chat_id)
 
     local warnmax_std = (db:hget('chat:'..chat_id..':warnsettings', 'max')) or config.chat_settings['warnsettings']['max']
     local warnmax_media = (db:hget('chat:'..chat_id..':warnsettings', 'mediamax')) or config.chat_settings['warnsettings']['mediamax']
-    
+
 	return message .. ("Warns (`standard`): *%s*\n"):format(warnmax_std)
 				 .. ("Warns (`media`): *%s*\n\n"):format(warnmax_media)
 				 .. ("✅ = _enabled / allowed_\n")
 				 .. ("🚫 = _disabled / not allowed_\n")
 				 .. ("👥 = _sent in group (always for admins)_\n")
 				 .. ("👤 = _sent in private_")
-=======
-
-	return message .. _("Warns (`standard`): *%s*\n"):format(warnmax_std)
-				 .. _("Warns (`media`): *%s*\n\n"):format(warnmax_media)
-				 .. _("✅ = _enabled / allowed_\n")
-				 .. _("🚫 = _disabled / not allowed_\n")
-				 .. _("👥 = _sent in group (always for admins)_\n")
-				 .. _("👤 = _sent in private_")
->>>>>>>
-
 end
 
 function utilities.changeSettingStatus(chat_id, field)
@@ -960,8 +940,8 @@ function utilities.logEvent(event, msg, extra)
 	if not is_loggable or is_loggable == 'no' then return end
 
 	local text, reply_markup
-	
-	
+
+
 	local chat_info = ("<b>Chat</b>: %s [#chat%d]"):format(msg.chat.title:escape_html(), msg.chat.id * -1)
 	local member = ("%s [@%s] [#id%d]"):format(msg.from.first_name:escape_html(), msg.from.username or '-', msg.from.id)
 	if event == 'mediawarn' then
