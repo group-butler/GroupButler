@@ -202,9 +202,6 @@ Unfortunately I can't work in normal groups, please ask the creator to convert t
 end
 
 local function parseMessageFunction(update)
-
-	db:hincrby('bot:general', 'messages', 1)
-
 	local msg, function_key
 
 	--if update.message or update.edited_message or update.channel_post or update.edited_channel_post then
@@ -394,6 +391,8 @@ local function parseMessageFunction(update)
 			msg.from.mod = u.is_mod(msg.target_id or msg.chat.id, msg.from.id)
 		end
 	end
+
+	res = assert (con:execute("INSERT INTO stats (chatid) values ("..msg.chat.id..")\nON CONFLICT (chatid) DO UPDATE SET messages = stats.messages + 1;"))
 
 	--print('Mod:', msg.from.mod, 'Admin:', msg.from.admin)
 	return on_msg_receive(msg, function_key)
