@@ -415,21 +415,21 @@ while true do -- Start a loop while the bot should be running.
 	else
 		print('Connection error')
 	end
-	if last_cron ~= os.date('%H') then -- Run cron jobs every hour.
-		last_cron = os.date('%H')
-		last.h = current.h
-		current.h = 0
-		print(clr.yellow..'Cron...'..clr.reset)
-		for i,v in ipairs(plugins) do
-			if v.cron then -- Call each plugin's cron function, if it has one.
-				local res, err = pcall(v.cron)
-				if not res then
-          			api.sendLog('An #error occurred (cron).\n'..err)
-					return
-				end
-			end
-		end
-	end
+	-- if last_cron ~= os.date('%H') then -- Run cron jobs every hour.
+	-- 	last_cron = os.date('%H')
+	-- 	last.h = current.h
+	-- 	current.h = 0
+	-- 	print(clr.yellow..'Cron...'..clr.reset)
+	-- 	for i,v in ipairs(plugins) do
+	-- 		if v.cron then -- Call each plugin's cron function, if it has one.
+	-- 			local res, err = pcall(v.cron)
+	-- 			if not res then
+	--          			api.sendLog('An #error occurred (cron).\n'..err)
+	-- 				return
+	-- 			end
+	-- 		end
+	-- 	end
+	-- end
 end
 
 print('Halted.\n')
