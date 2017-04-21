@@ -104,13 +104,13 @@ local function collect_stats(msg)
 end
 
 local function match_triggers(triggers, text)
-  	if text and triggers then
+		if text and triggers then
 		text = text:gsub('^(/[%w_]+)@'..bot.username, '%1')
 		for i, trigger in pairs(triggers) do
 			local matches = {}
-	    	matches = { string.match(text, trigger) }
+				matches = { string.match(text, trigger) }
 			if next(matches) then
-	    		return matches, trigger
+					return matches, trigger
 			end
 		end
 	end
@@ -164,7 +164,7 @@ local function on_msg_receive(msg, callback) -- The fn run whenever a message is
 							if config.bot_settings.notify_bug then
 								api.sendReply(msg, ("🐞 Sorry, a *bug* occurred"), true)
 							end
-    	      				api.sendAdmin('An #error occurred.\n'..result..'\n'..'\n'..msg.text)
+										api.sendAdmin('An #error occurred.\n'..result..'\n'..'\n'..msg.text)
 							return
 						end
 
@@ -195,7 +195,7 @@ Unfortunately I can't work in normal groups, please ask the creator to convert t
 			-- log this event
 			if config.bot_settings.stream_commands then
 				print(string.format('%s[%s]%s Bot was added to a normal group %s%s [%d] -> [%d]',
-					  clr.blue, os.date('%X'), clr.yellow, clr.reset, msg.from.first_name, msg.from.id, msg.chat.id))
+						clr.blue, os.date('%X'), clr.yellow, clr.reset, msg.from.first_name, msg.from.id, msg.chat.id))
 			end
 		end
 	end
@@ -287,8 +287,8 @@ local function parseMessageFunction(update)
 			msg.service = true
 			msg.text = '###delete_chat_photo'
 		elseif msg.group_chat_created then
-    		msg.service = true
-    		msg.text = '###group_chat_created'
+				msg.service = true
+				msg.text = '###group_chat_created'
 		elseif msg.supergroup_chat_created then
 			msg.service = true
 			msg.text = '###supergroup_chat_created'
