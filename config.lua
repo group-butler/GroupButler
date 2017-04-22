@@ -46,6 +46,7 @@ return {
 		'onmessage', --THIS MUST BE THE FIRST: IF AN USER IS FLOODING/IS BLOCKED, THE BOT WON'T GO THROUGH PLUGINS
 		'antispam', --SAME OF onmessage.lua
 		--'realms', --must stay here
+		'backup',
 		'banhammer',
 		'block',
 		'configure',
