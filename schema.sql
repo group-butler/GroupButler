@@ -37,6 +37,19 @@ COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 SET search_path = public, pg_catalog;
 
+--
+-- Name: array_distinct(anyarray); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION array_distinct(anyarray) RETURNS anyarray
+    LANGUAGE sql IMMUTABLE
+    AS $_$
+  SELECT array_agg(DISTINCT x) FROM unnest($1) t(x);
+$_$;
+
+
+ALTER FUNCTION public.array_distinct(anyarray) OWNER TO postgres;
+
 SET default_tablespace = '';
 
 SET default_with_oids = false;
@@ -47,7 +60,10 @@ SET default_with_oids = false;
 
 CREATE TABLE chat (
     chatid bigint NOT NULL,
-    lang text
+    lang text,
+    owner integer,
+    admins integer[],
+    mods integer[]
 );
 
 
