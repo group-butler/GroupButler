@@ -42,6 +42,18 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: chat; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE chat (
+    chatid bigint NOT NULL,
+    lang text
+);
+
+
+ALTER TABLE chat OWNER TO postgres;
+
+--
 -- Name: stats; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -52,6 +64,14 @@ CREATE TABLE stats (
 
 
 ALTER TABLE stats OWNER TO postgres;
+
+--
+-- Name: chat chat_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY chat
+    ADD CONSTRAINT chat_pkey PRIMARY KEY (chatid);
+
 
 --
 -- Name: stats stats_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres

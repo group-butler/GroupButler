@@ -122,12 +122,13 @@ local function on_msg_receive(msg, callback) -- The fn run whenever a message is
 		return
 	end
 
+	-- Define chat language
+	i18n.setLocale(con:execute("SELECT lang FROM chat WHERE chatid=%s", msg.chat.id) or config.lang)
+
 	if msg.chat.type ~= 'group' then --do not process messages from normal groups
 
 		if msg.date < os.time() - 7 then print('Old update skipped') return end -- Do not process old messages.
 		if not msg.text then msg.text = msg.caption or '' end
-
-		i18n.setLocale(db:get('lang:'..msg.chat.id) or config.lang) --group language
 
 		collect_stats(msg)
 
