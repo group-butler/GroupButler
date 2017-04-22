@@ -285,8 +285,8 @@ function table.clone(t)
   local new_t = {}
   local i, v = next(t, nil)
   while i do
-    new_t[i] = v
-    i, v = next(t, i)
+	new_t[i] = v
+	i, v = next(t, i)
   end
   return new_t
 end
@@ -358,7 +358,7 @@ function utilities.reply_markup_from_text(text)
 	local clean_text = text
 	local n = 0
 	local reply_markup = {inline_keyboard={}}
-    for label, url in text:gmatch("{{(.-)}{(.-)}}") do
+	for label, url in text:gmatch("{{(.-)}{(.-)}}") do
 		clean_text = clean_text:gsub('{{'..label:escape_magic()..'}{'..url:escape_magic()..'}}', '')
 		if label and url and n < 3 then
 			local line = {{text = label, url = url}}
@@ -366,18 +366,18 @@ function utilities.reply_markup_from_text(text)
 		end
 		n = n + 1
 	end
-    if not next(reply_markup.inline_keyboard) then reply_markup = nil end
+	if not next(reply_markup.inline_keyboard) then reply_markup = nil end
 
-    return reply_markup, clean_text
+	return reply_markup, clean_text
 end
 
 function utilities.demote(chat_id, user_id)
 	chat_id, user_id = tonumber(chat_id), tonumber(user_id)
 
 	db:del(('chat:%d:mod:%d'):format(chat_id, user_id))
-    local removed = db:srem('chat:'..chat_id..':mods', user_id)
+	local removed = db:srem('chat:'..chat_id..':mods', user_id)
 
-    return removed == 1
+	return removed == 1
 end
 
 function utilities.get_media_type(msg)
@@ -536,9 +536,9 @@ end
 
 function utilities.bash(str)
 	local cmd = io.popen(str)
-    local result = cmd:read('*all')
-    cmd:close()
-    return result
+	local result = cmd:read('*all')
+	cmd:close()
+	return result
 end
 
 function utilities.telegram_file_link(res)
@@ -559,11 +559,11 @@ end
 function utilities.getRules(chat_id)
 	local hash = 'chat:'..chat_id..':info'
 	local rules = db:hget(hash, 'rules')
-    if not rules then
-        return ("-*empty*-")
-    else
-       	return rules
-    end
+	if not rules then
+		return ("-*empty*-")
+	else
+		return rules
+	end
 end
 
 function utilities.getAdminlist(chat_id)
@@ -603,30 +603,30 @@ function utilities.getAdminlist(chat_id)
 end
 
 local function get_list_name(chat_id, user_id)
-    local user = db:hgetall(('chat:%d:mod:%d'):format(chat_id, tonumber(user_id)))
-    if not user.first_name then return false end
-    return utilities.getname_final(user) or 'x'
+	local user = db:hgetall(('chat:%d:mod:%d'):format(chat_id, tonumber(user_id)))
+	if not user.first_name then return false end
+	return utilities.getname_final(user) or 'x'
 end
 
 function utilities.getModlist(chat_id)
 	local mods = db:smembers('chat:'..chat_id..':mods')
-    local text
-    if not next(mods) then
-        return false, ("<i>Empty moderators list</i>")
-    else
-        local list_name
-        local modlist = {}
-        local s = ' ├ '
-        text = ("<b>👥 Moderators (%d)</b>\n"):format(#mods)
-        for i=1, #mods do
-            list_name = get_list_name(chat_id, mods[i]) or ('<code>unknown name</code>') --mods[i] -> string
-            if i == #mods then s = ' └ ' end
-            table.insert(modlist, s..list_name)
-        end
+	local text
+	if not next(mods) then
+		return false, ("<i>Empty moderators list</i>")
+	else
+		local list_name
+		local modlist = {}
+		local s = ' ├ '
+		text = ("<b>👥 Moderators (%d)</b>\n"):format(#mods)
+		for i=1, #mods do
+			list_name = get_list_name(chat_id, mods[i]) or ('<code>unknown name</code>') --mods[i] -> string
+			if i == #mods then s = ' └ ' end
+			table.insert(modlist, s..list_name)
+		end
 
-        text = text..table.concat(modlist, '\n')
+		text = text..table.concat(modlist, '\n')
 
-        return true, text
+		return true, text
 	end
 end
 
@@ -649,13 +649,13 @@ function utilities.getExtraList(chat_id)
 end
 
 function utilities.getSettings(chat_id)
-    local hash = 'chat:'..chat_id..':settings'
+	local hash = 'chat:'..chat_id..':settings'
 
 	local lang = db:get('lang:'..chat_id) or 'en' -- group language
-    local message = ("Current settings for *the group*:\n\n")
+	local message = ("Current settings for *the group*:\n\n")
 			.. ("*Language*: %s\n"):format(config.available_languages[lang])
 
-    --build the message
+	--build the message
 	local strings = {
 		Welcome = ("Welcome message"),
 		Goodbye = ("Goodbye message"),
@@ -669,40 +669,40 @@ function utilities.getSettings(chat_id)
 		Reports = ("Reports"),
 		Welbut = ("Welcome button")
 	}
-    for key, default in pairs(config.chat_settings['settings']) do
+	for key, default in pairs(config.chat_settings['settings']) do
 
-        local off_icon, on_icon = '🚫', '✅'
-        if utilities.is_info_message_key(key) then
-        	off_icon, on_icon = '👤', '👥'
-        end
+		local off_icon, on_icon = '🚫', '✅'
+		if utilities.is_info_message_key(key) then
+			off_icon, on_icon = '👤', '👥'
+		end
 
-        local db_val = db:hget(hash, key)
-        if not db_val then db_val = default end
+		local db_val = db:hget(hash, key)
+		if not db_val then db_val = default end
 
-        if db_val == 'off' then
-            message = message .. string.format('%s: %s\n', strings[key], off_icon)
-        else
-            message = message .. string.format('%s: %s\n', strings[key], on_icon)
-        end
-    end
+		if db_val == 'off' then
+			message = message .. string.format('%s: %s\n', strings[key], off_icon)
+		else
+			message = message .. string.format('%s: %s\n', strings[key], on_icon)
+		end
+	end
 
-    --build the char settings lines
-    hash = 'chat:'..chat_id..':char'
-    off_icon, on_icon = '🚫', '✅'
-    for key, default in pairs(config.chat_settings['char']) do
-    	db_val = db:hget(hash, key)
-        if not db_val then db_val = default end
-    	if db_val == 'off' then
-            message = message .. string.format('%s: %s\n', strings[key], off_icon)
-        else
-            message = message .. string.format('%s: %s\n', strings[key], on_icon)
-        end
-    end
+	--build the char settings lines
+	hash = 'chat:'..chat_id..':char'
+	off_icon, on_icon = '🚫', '✅'
+	for key, default in pairs(config.chat_settings['char']) do
+		db_val = db:hget(hash, key)
+		if not db_val then db_val = default end
+		if db_val == 'off' then
+			message = message .. string.format('%s: %s\n', strings[key], off_icon)
+		else
+			message = message .. string.format('%s: %s\n', strings[key], on_icon)
+		end
+	end
 
-    --build the "welcome" line
-    hash = 'chat:'..chat_id..':welcome'
-    local type = db:hget(hash, 'type')
-    if type == 'media' then
+	--build the "welcome" line
+	hash = 'chat:'..chat_id..':welcome'
+	local type = db:hget(hash, 'type')
+	if type == 'media' then
 		message = message .. ("*Welcome type*: `GIF / sticker`\n")
 	elseif type == 'custom' then
 		message = message .. ("*Welcome type*: `custom message`\n")
@@ -710,8 +710,8 @@ function utilities.getSettings(chat_id)
 		message = message .. ("*Welcome type*: `default message`\n")
 	end
 
-    local warnmax_std = (db:hget('chat:'..chat_id..':warnsettings', 'max')) or config.chat_settings['warnsettings']['max']
-    local warnmax_media = (db:hget('chat:'..chat_id..':warnsettings', 'mediamax')) or config.chat_settings['warnsettings']['mediamax']
+	local warnmax_std = (db:hget('chat:'..chat_id..':warnsettings', 'max')) or config.chat_settings['warnsettings']['max']
+	local warnmax_media = (db:hget('chat:'..chat_id..':warnsettings', 'mediamax')) or config.chat_settings['warnsettings']['mediamax']
 
 	return message .. ("Warns (`standard`): *%s*\n"):format(warnmax_std)
 				 .. ("Warns (`media`): *%s*\n\n"):format(warnmax_media)
@@ -783,7 +783,7 @@ function utilities.changeMediaStatus(chat_id, media, new_status)
 end
 
 function utilities.sendStartMe(msg)
-    local keyboard = {inline_keyboard = {{{text = ("Start me"), url = 'https://telegram.me/'..bot.username}}}}
+	local keyboard = {inline_keyboard = {{{text = ("Start me"), url = 'https://telegram.me/'..bot.username}}}}
 	api.sendMessage(msg.chat.id, ("_Please message me first so I can message you_"), true, keyboard)
 end
 
@@ -1057,29 +1057,29 @@ function utilities.logEvent(event, msg, extra)
 end
 
 function utilities.is_info_message_key(key)
-    if key == 'Extra' or key == 'Rules' then
-        return true
-    else
-        return false
-    end
+	if key == 'Extra' or key == 'Rules' then
+		return true
+	else
+		return false
+	end
 end
 
 function utilities.table2keyboard(t)
 	local keyboard = {inline_keyboard = {}}
-    for i, line in pairs(t) do
-        if type(line) ~= 'table' then return false, 'Wrong structure (each line need to be a table, not a single value)' end
-        local new_line ={}
-        for k,v in pairs(line) do
-            if type(k) ~= 'string' then return false, 'Wrong structure (table of arrays)' end
-            local button = {}
-            button.text = k
-            button.callback_data = v
-            table.insert(new_line, button)
-        end
-        table.insert(keyboard.inline_keyboard, new_line)
-    end
+	for i, line in pairs(t) do
+		if type(line) ~= 'table' then return false, 'Wrong structure (each line need to be a table, not a single value)' end
+		local new_line ={}
+		for k,v in pairs(line) do
+			if type(k) ~= 'string' then return false, 'Wrong structure (table of arrays)' end
+			local button = {}
+			button.text = k
+			button.callback_data = v
+			table.insert(new_line, button)
+		end
+		table.insert(keyboard.inline_keyboard, new_line)
+	end
 
-    return keyboard
+	return keyboard
 end
 
 return utilities
