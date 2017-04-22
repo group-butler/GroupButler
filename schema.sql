@@ -66,6 +66,18 @@ CREATE TABLE stats (
 ALTER TABLE stats OWNER TO postgres;
 
 --
+-- Name: users; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE users (
+    userid integer NOT NULL,
+    username text NOT NULL
+);
+
+
+ALTER TABLE users OWNER TO postgres;
+
+--
 -- Name: chat chat_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -79,6 +91,14 @@ ALTER TABLE ONLY chat
 
 ALTER TABLE ONLY stats
     ADD CONSTRAINT stats_pkey PRIMARY KEY (chatid);
+
+
+--
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (userid);
 
 
 --

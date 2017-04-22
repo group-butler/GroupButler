@@ -65,23 +65,28 @@ function bot_init(on_reload) -- The function run when the bot is started or relo
 end
 
 local function extract_usernames(msg)
+	local username, userid
 	if msg.from then
 		if msg.from.username then
-			db:hset('bot:usernames', '@'..msg.from.username:lower(), msg.from.id)
+			username = msg.from.username:lower()
+			userid = msg.from.id
 		end
 	end
 	if msg.forward_from and msg.forward_from.username then
-		db:hset('bot:usernames', '@'..msg.forward_from.username:lower(), msg.forward_from.id)
+		username = msg.forward_from.username:lower()
+		userid = msg.forward_from.id
 	end
 	if msg.new_chat_member then
 		if msg.new_chat_member.username then
-			db:hset('bot:usernames', '@'..msg.new_chat_member.username:lower(), msg.new_chat_member.id)
+			username = msg.new_chat_member.username:lower()
+			userid = msg.new_chat_member.id
 		end
 		db:sadd(string.format('chat:%d:members', msg.chat.id), msg.new_chat_member.id)
 	end
 	if msg.left_chat_member then
 		if msg.left_chat_member.username then
-			db:hset('bot:usernames', '@'..msg.left_chat_member.username:lower(), msg.left_chat_member.id)
+			username = msg.left_chat_member.username:lower()
+			userid = msg.left_chat_member.id
 		end
 		db:srem(string.format('chat:%d:members', msg.chat.id), msg.left_chat_member.id)
 	end
@@ -91,6 +96,10 @@ local function extract_usernames(msg)
 	if msg.pinned_message then
 		extract_usernames(msg.pinned_message)
 	end
+
+	res = assert (con:execute(string.format([[INSERT INTO users (userid, username) values (%s, '%s')
+	ON CONFLICT (userid) DO UPDATE SET username = '%s']], userid, username, username)
+	)) -- Save or update usernames
 end
 
 local function collect_stats(msg)
