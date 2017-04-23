@@ -15,13 +15,9 @@ local function max_reached(chat_id, user_id)
 end
 
 local function is_ignored(chat_id, msg_type)
-	local hash = 'chat:'..chat_id..':floodexceptions'
-	local status = (db:hget(hash, msg_type)) or 'no'
-	if status == 'yes' then
-		return true
-	elseif status == 'no' then
-		return false
-	end
+	res = assert (con:execute(string.format([[SELECT ('%s'=ANY(floodexceptions)) FROM chat AS result
+	WHERE chatid=%s]], msg_type, chat_id)))
+	return res
 end
 
 local function is_flooding_funct(msg)
