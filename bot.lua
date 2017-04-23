@@ -107,8 +107,10 @@ local function collect_stats(msg)
 	extract_usernames(msg)
 
 	if msg.chat.type ~= 'private' and msg.chat.type ~= 'inline' and msg.from then
-		db:hset('chat:'..msg.chat.id..':userlast', msg.from.id, os.time()) --last message for each user
-		db:hset('bot:chats:latsmsg', msg.chat.id, os.time()) --last message in the group
+		-- db:hset('chat:'..msg.chat.id..':userlast', msg.from.id, os.time()) --last message for each user
+		res = assert (con:execute(string.format([[UPDATE chat SET lastmsg = now()
+		WHERE chatid=%s]], msg.chat.id)
+		)) -- store the timestamp of the last message for each chat
 	end
 end
 
