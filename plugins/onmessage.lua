@@ -138,7 +138,7 @@ function plugin.onEveryMessage(msg)
 		end
 	end
 
-	local rtl_status = (db:hget('chat:'..msg.chat.id..':char', 'Rtl')) or 'allowed'
+	local rtl_status = db.getval('chat', 'rtl', 'chatid', msg.chat.id)
 	if rtl_status == 'kick' or rtl_status == 'ban' then
 		local rtl = '‮'
 		local last_name = 'x'
