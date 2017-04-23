@@ -231,11 +231,11 @@ function utilities.get_cached_admins_list(chat_id, second_try)
 end
 
 function utilities.is_blocked_global(id)
-	if db:sismember('bot:blocked', id) then
-		return true
-	else
-		return false
-	end
+	cur = con:execute(string.format([[SELECT blocked FROM users
+	WHERE userid=%s]], id))
+	row = cur:fetch ({}, "a")
+	cur:close()
+	return row.blocked == 't'
 end
 
 function string:trim() -- Trims whitespace from a string.
