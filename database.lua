@@ -30,7 +30,7 @@ function database.getval(table, col1, col2, val2)
 	WHERE %s=%s]], col1, table, col2, val2)))
 	local row = cur:fetch ({}, "a")
 	cur:close()
-	if row[col1] then
+	if row then
 		return row[col1]
 	else
 		return nil
