@@ -42,6 +42,13 @@ function string:escape_hard(ft)
 	end
 end
 
+-- Database SQL helper functions
+function ismember(col, chat_id, user_id)
+	res = assert (con:execute(string.format([[SELECT (%s=ANY(%s)) FROM chat AS result
+	WHERE chatid=%s]], user_id, col, chat_id)))
+	return res
+end
+
 function utilities.is_allowed(action, chat_id, user_obj)
 	--[[ACTION
 
@@ -66,15 +73,13 @@ function utilities.is_mod(chat_id, user_id)
 		else
 			chat_id = msg.chat.id
 			user_id = msg.from.id
-			local set = 'chat:'..chat_id..':mods'
-			return db:sismember(set, user_id)
+			return ismember('mods', chat_id, user_id)
 		end
 	else
 		if utilities.is_admin(chat_id, user_id) then
 			return true
 		else
-			local set = 'chat:'..chat_id..':mods'
-			return db:sismember(set, user_id)
+			return ismember('mods', chat_id, user_id)
 		end
 	end
 end
@@ -119,11 +124,13 @@ function utilities.is_admin(chat_id, user_id)
 		user_id = msg.from.id
 	end
 
-	local set = 'cache:chat:'..chat_id..':admins'
-	if not db:exists(set) then
-		utilities.cache_adminlist(chat_id, res)
-	end
-	return db:sismember(set, user_id)
+	-- local set = 'cache:chat:'..chat_id..':admins'
+	-- TODO: check if adminlist hasn't "expired"
+	-- if not db:exists(set) then
+	utilities.cache_adminlist(chat_id, res)
+	-- end
+
+	return ismember('admins', chat_id, user_id)
 end
 
 function utilities.is_admin2(chat_id, user_id)
@@ -194,15 +201,22 @@ function utilities.cache_adminlist(chat_id)
 	if not res then
 		return false, code
 	end
-	local set = 'cache:chat:'..chat_id..':admins'
+
 	for _, admin in pairs(res.result) do
 		if admin.status == 'creator' then
-			db:set('cache:chat:'..chat_id..':owner', admin.user.id)
+			sql = assert (con:execute(string.format([[INSERT INTO chat (chatid, owner) values (%s, '%s')
+			ON CONFLICT DO NOTHING]], chat_id, admin.user.id)
+			)) -- Save owner
 		end
-		db:sadd(set, admin.user.id)
+		sql = assert (con:execute(string.format([[UPDATE chat SET admins = array_distinct(array_append(admins, %s))
+		WHERE chatid=%s]], admin.user.id, chat_id)
+		)) -- Add admins
+
 		utilities.demote(chat_id, admin.user.id)
 	end
-	db:expire(set, config.bot_settings.cache_time.adminlist)
+
+	-- TODO: figure out a way to "expire" the admin list
+	-- db:expire(set, config.bot_settings.cache_time.adminlist)
 
 	return true, #res.result or 0
 end
@@ -372,12 +386,13 @@ function utilities.reply_markup_from_text(text)
 end
 
 function utilities.demote(chat_id, user_id)
-	chat_id, user_id = tonumber(chat_id), tonumber(user_id)
-
-	db:del(('chat:%d:mod:%d'):format(chat_id, user_id))
-	local removed = db:srem('chat:'..chat_id..':mods', user_id)
-
-	return removed == 1
+	-- chat_id, user_id = tonumber(chat_id), tonumber(user_id)
+	-- db:del(('chat:%d:mod:%d'):format(chat_id, user_id))
+	-- local removed = db:srem('chat:'..chat_id..':mods', user_id)
+	-- return removed == 1
+	res = assert (con:execute(string.format([[UPDATE chat SET mods = array_remove(mods, %s)
+	WHERE chatid=%s]], user_id, chat_id)))
+	return res
 end
 
 function utilities.get_media_type(msg)

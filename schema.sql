@@ -63,7 +63,10 @@ CREATE TABLE chat (
     lang text,
     owner integer,
     admins integer[],
-    mods integer[]
+    mods integer[],
+    lastmsg timestamp with time zone DEFAULT now() NOT NULL,
+    timezone text DEFAULT 'UTC'::text NOT NULL,
+    CONSTRAINT chat_lastmsg_ts_check CHECK ((date_part('timezone'::text, lastmsg) = '0'::double precision))
 );
 
 
