@@ -139,7 +139,7 @@ function plugin.onEveryMessage(msg)
 	end
 
 	local rtl_status = db.getval('chat', 'rtl', 'chatid', msg.chat.id)
-	if rtl_status
+	if rtl_status then
 		local rtl = '‮'
 		local last_name = 'x'
 		if msg.from.last_name then last_name = msg.from.last_name end
