@@ -3,6 +3,7 @@ local config = require 'config'
 local api = require 'methods'
 local ltn12 = require 'ltn12'
 local HTTPS = require 'ssl.https'
+local db = require 'database'
 
 -- utilities.lua
 -- Functions shared among plugins.
@@ -42,13 +43,6 @@ function string:escape_hard(ft)
 	end
 end
 
--- Database SQL helper functions
-function ismember(col, chat_id, user_id)
-	res = assert (con:execute(string.format([[SELECT (%s=ANY(%s)) FROM chat AS result
-	WHERE chatid=%s]], user_id, col, chat_id)))
-	return res
-end
-
 function utilities.is_allowed(action, chat_id, user_obj)
 	--[[ACTION
 
@@ -73,13 +67,13 @@ function utilities.is_mod(chat_id, user_id)
 		else
 			chat_id = msg.chat.id
 			user_id = msg.from.id
-			return ismember('mods', chat_id, user_id)
+			return db.is_in_array('chat', 'mods', user_id, 'chatid', chat_id)
 		end
 	else
 		if utilities.is_admin(chat_id, user_id) then
 			return true
 		else
-			return ismember('mods', chat_id, user_id)
+			return db.is_in_array('chat', 'mods', user_id, 'chatid', chat_id)
 		end
 	end
 end
@@ -130,7 +124,7 @@ function utilities.is_admin(chat_id, user_id)
 	utilities.cache_adminlist(chat_id, res)
 	-- end
 
-	return ismember('admins', chat_id, user_id)
+	return db.is_in_array('chat', 'admins', user_id, 'chatid', chat_id)
 end
 
 function utilities.is_admin2(chat_id, user_id)

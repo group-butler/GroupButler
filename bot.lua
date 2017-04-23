@@ -18,6 +18,8 @@ function bot_init(on_reload) -- The function run when the bot is started or relo
 	con = assert (env:connect(config.db_db, config.db_user, config.db_pass, config.db_host, config.db_port))
 
 	u = dofile('utilities.lua') -- Load miscellaneous and cross-plugin functions.
+	db = dofile('database.lua') -- Load database helper functions
+
 	now_ms = require('socket').gettime
 
 	bot = api.getMe().result -- Get bot info
@@ -134,7 +136,7 @@ local function on_msg_receive(msg, callback) -- The fn run whenever a message is
 	end
 
 	-- Define chat language
-	i18n.setLocale(con:execute("SELECT lang FROM chat WHERE chatid=%s", msg.chat.id) or config.lang)
+	i18n.setLocale(db.getval('chat', 'lang', 'chatid', msg.chat.id) or config.lang)
 
 	if msg.chat.type ~= 'group' then --do not process messages from normal groups
 
