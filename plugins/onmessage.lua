@@ -38,14 +38,6 @@ local function is_flooding_funct(msg)
 	end
 end
 
-local function is_blocked(id)
-	if db:sismember('bot:blocked', id) then
-		return true
-	else
-		return false
-	end
-end
-
 local function is_whitelisted(chat_id, text)
 	local set = ('chat:%d:whitelist'):format(chat_id)
 	local links = db:smembers(set)
@@ -196,7 +188,7 @@ function plugin.onEveryMessage(msg)
 
 	end --if not msg.inline then [if statement closed]
 
-	if is_blocked(msg.from.id) then --ignore blocked users
+	if u.is_blocked_global(msg.from.id) then --ignore blocked users
 		return false --if an user is blocked, don't go through plugins
 	end
 
