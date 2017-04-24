@@ -149,29 +149,6 @@ return {
 			['game'] = 'ok',
 			['location'] = 'ok'
 		},
-		['tolog'] = {
-			['ban'] = 'no',
-			['kick'] = 'no',
-			['unban'] = 'no',
-			['tempban'] = 'no',
-			['report'] = 'no',
-			['warn'] = 'no',
-			['nowarn'] = 'no',
-			['mediawarn'] = 'no',
-			['spamwarn'] = 'no',
-			['flood'] = 'no',
-			['promote'] = 'no',
-			['demote'] = 'no',
-			['cleanmods'] = 'no',
-			['new_chat_member'] = 'no',
-			['new_chat_photo'] = 'no',
-			['delete_chat_photo'] = 'no',
-			['new_chat_title'] = 'no',
-			['pinned_message'] = 'no',
-			['blockban'] = 'no',
-			['block'] = 'no',
-			['unblock'] = 'no'
-		},
 		['modsettings'] = {
 			['promdem'] = 'yes', --'yes': admins can promote or demote moderators; 'no': only the owner can
 			['hammer'] = 'yes',

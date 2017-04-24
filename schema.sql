@@ -89,6 +89,38 @@ CREATE TABLE stats (
 ALTER TABLE stats OWNER TO postgres;
 
 --
+-- Name: tolog; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE tolog (
+    chatid bigint NOT NULL,
+    ban boolean DEFAULT false NOT NULL,
+    kick boolean DEFAULT false NOT NULL,
+    unban boolean DEFAULT false NOT NULL,
+    tempban boolean DEFAULT false NOT NULL,
+    report boolean DEFAULT false NOT NULL,
+    warn boolean DEFAULT false NOT NULL,
+    nowarn boolean DEFAULT false NOT NULL,
+    mediawarn boolean DEFAULT false NOT NULL,
+    spamwarn boolean DEFAULT false NOT NULL,
+    flood boolean DEFAULT false NOT NULL,
+    promote boolean DEFAULT false NOT NULL,
+    demote boolean DEFAULT false NOT NULL,
+    cleanmods boolean DEFAULT false NOT NULL,
+    new_chat_member boolean DEFAULT false NOT NULL,
+    new_chat_photo boolean DEFAULT false NOT NULL,
+    delete_chat_photo boolean DEFAULT false NOT NULL,
+    new_chat_title boolean DEFAULT false NOT NULL,
+    pinned_message boolean DEFAULT false NOT NULL,
+    blockban boolean DEFAULT false NOT NULL,
+    block boolean DEFAULT false NOT NULL,
+    unblock boolean DEFAULT false NOT NULL
+);
+
+
+ALTER TABLE tolog OWNER TO postgres;
+
+--
 -- Name: users; Type: TABLE; Schema: public; Owner: postgres
 --
 
