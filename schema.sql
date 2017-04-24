@@ -60,7 +60,7 @@ SET default_with_oids = false;
 
 CREATE TABLE chat (
     chatid bigint NOT NULL,
-    lang text,
+    lang text DEFAULT 'en'::text NOT NULL,
     owner integer,
     admins integer[],
     mods integer[],
