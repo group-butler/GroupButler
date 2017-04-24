@@ -164,8 +164,8 @@ function plugin.onEveryMessage(msg)
 	end
 
 	if msg.text and msg.text:find('([\216-\219][\128-\191])') then
-		local arab_status = (db:hget('chat:'..msg.chat.id..':char', 'Arab')) or 'allowed'
-		if arab_status == 'kick' or arab_status == 'ban' then
+		local arab_status = db.getval('chat', 'arab', 'chatid', msg.chat.id)
+		if arab_status then
 			if not msg.from.mod then
 				local name = u.getname_final(msg.from)
 				local res
