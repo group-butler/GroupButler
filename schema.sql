@@ -55,6 +55,49 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: antiflood; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE antiflood (
+    chatid bigint NOT NULL,
+    text boolean DEFAULT true NOT NULL,
+    photo boolean DEFAULT true NOT NULL,
+    forward boolean DEFAULT true NOT NULL,
+    video boolean DEFAULT true NOT NULL,
+    sticker boolean DEFAULT true NOT NULL,
+    gif boolean DEFAULT true NOT NULL,
+    threshold integer DEFAULT 5 NOT NULL,
+    action text DEFAULT 'kick'::text NOT NULL
+);
+
+
+ALTER TABLE antiflood OWNER TO postgres;
+
+--
+-- Name: antimedia; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE antimedia (
+    chatid bigint NOT NULL,
+    photo boolean DEFAULT false NOT NULL,
+    audio boolean DEFAULT false NOT NULL,
+    video boolean DEFAULT false NOT NULL,
+    sticker boolean DEFAULT false NOT NULL,
+    gif boolean DEFAULT false NOT NULL,
+    voice boolean DEFAULT false NOT NULL,
+    contact boolean DEFAULT false NOT NULL,
+    document boolean DEFAULT false NOT NULL,
+    link boolean DEFAULT false NOT NULL,
+    game boolean DEFAULT false NOT NULL,
+    location boolean DEFAULT false NOT NULL,
+    warnings integer DEFAULT 2 NOT NULL,
+    action text DEFAULT 'ban'::text NOT NULL
+);
+
+
+ALTER TABLE antimedia OWNER TO postgres;
+
+--
 -- Name: chat; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -75,30 +118,6 @@ CREATE TABLE chat (
 
 
 ALTER TABLE chat OWNER TO postgres;
-
---
--- Name: media; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE media (
-    chatid bigint NOT NULL,
-    photo boolean DEFAULT true NOT NULL,
-    audio boolean DEFAULT true NOT NULL,
-    video boolean DEFAULT true NOT NULL,
-    sticker boolean DEFAULT true NOT NULL,
-    gif boolean DEFAULT true NOT NULL,
-    voice boolean DEFAULT true NOT NULL,
-    contact boolean DEFAULT true NOT NULL,
-    document boolean DEFAULT true NOT NULL,
-    link boolean DEFAULT true NOT NULL,
-    game boolean DEFAULT true NOT NULL,
-    location boolean DEFAULT true NOT NULL,
-    warnings integer DEFAULT 2 NOT NULL,
-    action text DEFAULT 'ban'::text NOT NULL
-);
-
-
-ALTER TABLE media OWNER TO postgres;
 
 --
 -- Name: stats; Type: TABLE; Schema: public; Owner: postgres
@@ -158,6 +177,14 @@ CREATE TABLE users (
 ALTER TABLE users OWNER TO postgres;
 
 --
+-- Name: antiflood antiflood_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY antiflood
+    ADD CONSTRAINT antiflood_pkey PRIMARY KEY (chatid);
+
+
+--
 -- Name: chat chat_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -166,10 +193,10 @@ ALTER TABLE ONLY chat
 
 
 --
--- Name: media media_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: antimedia media_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY media
+ALTER TABLE ONLY antimedia
     ADD CONSTRAINT media_pkey PRIMARY KEY (chatid);
 
 

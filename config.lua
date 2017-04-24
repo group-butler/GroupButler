@@ -94,7 +94,6 @@ return {
 			['Welcome'] = 'off',
 			['Goodbye'] = 'off',
 			['Extra'] = 'on',
-			--['Flood'] = 'off',
 			['Silent'] = 'off',
 			['Rules'] = 'off',
 			['Reports'] = 'off',
@@ -107,21 +106,9 @@ return {
 			['warns'] = 2,
 			['action'] = 'ban'
 		},
-		['flood'] = {
-			['MaxFlood'] = 5,
-			['ActionFlood'] = 'kick'
-		},
 		['char'] = {
 			['Arab'] = 'allowed', --'kick'/'ban'
 			['Rtl'] = 'allowed'
-		},
-		['floodexceptions'] = {
-			['text'] = 'no',
-			['photo'] = 'no', -- image
-			['forward'] = 'no',
-			['video'] = 'no',
-			['sticker'] = 'no',
-			['gif'] = 'no',
 		},
 		['warnsettings'] = {
 			['type'] = 'ban',
