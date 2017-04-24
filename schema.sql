@@ -68,6 +68,8 @@ CREATE TABLE chat (
     timezone text DEFAULT 'UTC'::text NOT NULL,
     members integer[],
     floodexceptions text[],
+    rtl text,
+    arab text,
     CONSTRAINT chat_lastmsg_ts_check CHECK ((date_part('timezone'::text, lastmsg) = '0'::double precision))
 );
 
@@ -92,7 +94,8 @@ ALTER TABLE stats OWNER TO postgres;
 
 CREATE TABLE users (
     userid integer NOT NULL,
-    username text NOT NULL
+    username text NOT NULL,
+    blocked boolean DEFAULT false NOT NULL
 );
 
 
