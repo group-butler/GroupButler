@@ -182,11 +182,5 @@ return {
 	private_settings = {
 		rules_on_join = 'off',
 		reports = 'off'
-	},
-	chat_hashes = {'extra', 'info', 'links', 'warns', 'mediawarn', 'spamwarns', 'blocked', 'report'},
-	chat_sets = {'whitelist', 'mods'},
-	bot_keys = {
-		d3 = {'bot:general', 'bot:usernames', 'bot:chat:latsmsg'},
-		d2 = {'bot:groupsid', 'bot:groupsid:removed', 'tempbanned', 'bot:blocked', 'remolden_chats'} --remolden_chats: chat removed with $remold command
 	}
 }
