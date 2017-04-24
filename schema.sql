@@ -187,7 +187,9 @@ ALTER TABLE tolog OWNER TO postgres;
 CREATE TABLE users (
     userid integer NOT NULL,
     username text NOT NULL,
-    blocked boolean DEFAULT false NOT NULL
+    blocked boolean DEFAULT false NOT NULL,
+    rules_on_join boolean DEFAULT false NOT NULL,
+    reports boolean DEFAULT false NOT NULL
 );
 
 

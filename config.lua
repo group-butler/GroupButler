@@ -113,9 +113,5 @@ return {
 			['config'] = 'no',
 			['texts'] = 'no'
 		}
-	},
-	private_settings = {
-		rules_on_join = 'off',
-		reports = 'off'
 	}
 }
