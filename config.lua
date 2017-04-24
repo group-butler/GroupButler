@@ -100,12 +100,6 @@ return {
 			['Welbut'] = 'off',
 			['Antibot'] = 'off'
 		},
-		['antispam'] = {
-			['links'] = 'alwd',
-			['forwards'] = 'alwd',
-			['warns'] = 2,
-			['action'] = 'ban'
-		},
 		['char'] = {
 			['Arab'] = 'allowed', --'kick'/'ban'
 			['Rtl'] = 'allowed'

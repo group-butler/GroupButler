@@ -98,6 +98,21 @@ CREATE TABLE antimedia (
 ALTER TABLE antimedia OWNER TO postgres;
 
 --
+-- Name: antispam; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE antispam (
+    chatid bigint NOT NULL,
+    link boolean DEFAULT false NOT NULL,
+    forward boolean DEFAULT false NOT NULL,
+    warnings integer DEFAULT 2 NOT NULL,
+    action text DEFAULT 'ban'::text NOT NULL
+);
+
+
+ALTER TABLE antispam OWNER TO postgres;
+
+--
 -- Name: chat; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -182,6 +197,14 @@ ALTER TABLE users OWNER TO postgres;
 
 ALTER TABLE ONLY antiflood
     ADD CONSTRAINT antiflood_pkey PRIMARY KEY (chatid);
+
+
+--
+-- Name: antispam antispam_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY antispam
+    ADD CONSTRAINT antispam_pkey PRIMARY KEY (chatid);
 
 
 --
