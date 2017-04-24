@@ -129,7 +129,7 @@ CREATE TABLE chat (
     rtl text,
     arab text,
     warning_threshold integer DEFAULT 3 NOT NULL,
-    warning_action text DEFAULT 'ban'::text,
+    warning_action text DEFAULT 'ban'::text NOT NULL,
     CONSTRAINT chat_lastmsg_ts_check CHECK ((date_part('timezone'::text, lastmsg) = '0'::double precision))
 );
 
