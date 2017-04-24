@@ -77,6 +77,30 @@ CREATE TABLE chat (
 ALTER TABLE chat OWNER TO postgres;
 
 --
+-- Name: media; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE media (
+    chatid bigint NOT NULL,
+    photo boolean DEFAULT true NOT NULL,
+    audio boolean DEFAULT true NOT NULL,
+    video boolean DEFAULT true NOT NULL,
+    sticker boolean DEFAULT true NOT NULL,
+    gif boolean DEFAULT true NOT NULL,
+    voice boolean DEFAULT true NOT NULL,
+    contact boolean DEFAULT true NOT NULL,
+    document boolean DEFAULT true NOT NULL,
+    link boolean DEFAULT true NOT NULL,
+    game boolean DEFAULT true NOT NULL,
+    location boolean DEFAULT true NOT NULL,
+    warnings integer DEFAULT 2 NOT NULL,
+    action text DEFAULT 'ban'::text NOT NULL
+);
+
+
+ALTER TABLE media OWNER TO postgres;
+
+--
 -- Name: stats; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -142,11 +166,27 @@ ALTER TABLE ONLY chat
 
 
 --
+-- Name: media media_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY media
+    ADD CONSTRAINT media_pkey PRIMARY KEY (chatid);
+
+
+--
 -- Name: stats stats_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY stats
     ADD CONSTRAINT stats_pkey PRIMARY KEY (chatid);
+
+
+--
+-- Name: tolog tolog_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY tolog
+    ADD CONSTRAINT tolog_pkey PRIMARY KEY (chatid);
 
 
 --

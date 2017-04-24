@@ -125,9 +125,7 @@ return {
 		},
 		['warnsettings'] = {
 			['type'] = 'ban',
-			['mediatype'] = 'ban',
 			['max'] = 3,
-			['mediamax'] = 2
 		},
 		['welcome'] = {
 			['type'] = 'no',
@@ -135,19 +133,6 @@ return {
 		},
 		['goodbye'] = {
 			['type'] = 'custom',
-		},
-		['media'] = {
-			['photo'] = 'ok', --'notok' | image
-			['audio'] = 'ok',
-			['video'] = 'ok',
-			['sticker'] = 'ok',
-			['gif'] = 'ok',
-			['voice'] = 'ok',
-			['contact'] = 'ok',
-			['document'] = 'ok', -- file
-			['link'] = 'ok',
-			['game'] = 'ok',
-			['location'] = 'ok'
 		},
 		['modsettings'] = {
 			['promdem'] = 'yes', --'yes': admins can promote or demote moderators; 'no': only the owner can
