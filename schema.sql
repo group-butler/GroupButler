@@ -67,7 +67,8 @@ CREATE TABLE antiflood (
     sticker boolean DEFAULT true NOT NULL,
     gif boolean DEFAULT true NOT NULL,
     threshold integer DEFAULT 5 NOT NULL,
-    action text DEFAULT 'kick'::text NOT NULL
+    action text DEFAULT 'kick'::text NOT NULL,
+    exceptions text[]
 );
 
 
@@ -125,9 +126,10 @@ CREATE TABLE chat (
     lastmsg timestamp with time zone DEFAULT now() NOT NULL,
     timezone text DEFAULT 'UTC'::text NOT NULL,
     members integer[],
-    floodexceptions text[],
     rtl text,
     arab text,
+    warning_threshold integer DEFAULT 3 NOT NULL,
+    warning_action text DEFAULT 'ban'::text NOT NULL,
     CONSTRAINT chat_lastmsg_ts_check CHECK ((date_part('timezone'::text, lastmsg) = '0'::double precision))
 );
 
