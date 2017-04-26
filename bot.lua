@@ -406,9 +406,7 @@ local function parseMessageFunction(update)
 		end
 	end
 
-	res = assert (con:execute(string.format([[INSERT INTO stats (chatid) values (%s)
-	ON CONFLICT (chatid) DO UPDATE SET messages = stats.messages + 1]], msg.chat.id)
-	)) -- Count how many messages were processed on a given chat
+	db.acc('chat_stats', 'chatid', msg.chat.id, 'messages') -- Count how many messages were processed on a given chat
 
 	--print('Mod:', msg.from.mod, 'Admin:', msg.from.admin)
 	return on_msg_receive(msg, function_key)

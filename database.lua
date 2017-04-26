@@ -41,4 +41,11 @@ function database.getval(table, col1, col2, val2)
 	end
 end
 
+-- Accumulator
+function database.acc(table, col, val, col2)
+	res = assert (con:execute(string.format([[INSERT INTO %s (%s) values (%s)
+	ON CONFLICT (%s) DO UPDATE SET %s = %s.%s + 1]], table, col, val, col, col2, table, col2)
+	))
+end
+
 return database
