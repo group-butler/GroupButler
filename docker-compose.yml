@@ -3,6 +3,11 @@ version: '3'
 # database ports are mapped to the host for debug purposes
 
 services:
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+
   db:
     image: postgres:alpine
     environment:
@@ -14,6 +19,7 @@ services:
     build: .
     depends_on:
       - db
+      - redis
     environment:
       - TG_TOKEN
       - SUPERADMINS

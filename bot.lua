@@ -1,7 +1,8 @@
 local i18n = require 'i18n'
 local api = require 'methods'
+local redis_driver = require 'redis'
 local clr = require 'term.colors'
-local driver = require "luasql.postgres"
+local db_driver = require "luasql.postgres"
 local u, config, plugins, last_update, last_cron
 
 function bot_init(on_reload) -- The function run when the bot is started or reloaded.
@@ -14,8 +15,11 @@ function bot_init(on_reload) -- The function run when the bot is started or relo
 	assert(#config.superadmins > 0, clr.red .. i18n('missing_superadmin') .. clr.reset)
 	assert(config.log.admin, clr.red .. i18n('missing_logadmin') .. clr.reset)
 
-	env = assert (driver.postgres())
+	env = assert (db_driver.postgres())
 	con = assert (env:connect(config.db_db, config.db_user, config.db_pass, config.db_host, config.db_port))
+
+	redis = redis_driver.connect(config.redis_host, config.redis_port)
+	redis:select(config.redis_db) -- Select the redis db
 
 	u = dofile('utilities.lua') -- Load miscellaneous and cross-plugin functions.
 	db = dofile('database.lua') -- Load database helper functions
