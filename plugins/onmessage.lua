@@ -15,8 +15,7 @@ local function max_reached(chat_id, user_id)
 end
 
 local function is_ignored(chat_id, msg_type)
-	temp = "'" .. msg_type .. "'"
-	return db.is_in_array('chat_antiflood', 'exceptions', temp, 'chatid', chat_id)
+	return db.is_in_array('chat_antiflood', 'exceptions', "'"..msg_type.."'", 'chatid', chat_id)
 end
 
 local function is_flooding_funct(msg)
