@@ -21,7 +21,11 @@ function database.is_in_array(table, col1, val1, col2, val2)
 	WHERE %s=%s]], val1, col1, table, col2, val2)))
 	local row = cur:fetch ({}, "a")
 	cur:close()
-	return row['?column?'] == 't'
+	if row then -- checks if array is not null
+		return row['?column?'] == 't'
+	else
+		return false
+	end
 end
 
 -- Returns the value in col1 where col2 = val2 from table. Akin to hget (?)
