@@ -162,7 +162,7 @@ local function on_msg_receive(msg, callback) -- The fn run whenever a message is
 				local blocks, trigger = match_triggers(plugin.triggers[callback], msg.text)
 				if blocks then
 
-					if msg.chat.type ~= 'private' and msg.chat.type ~= 'inline'and not db:exists('chat:'..msg.chat.id..':settings') and not msg.service then --init agroup if the bot wasn't aware to be in
+					if msg.chat.type ~= 'private' and msg.chat.type ~= 'inline' and not db.getval('chat', 'lastmsg', 'chatid', msg.chat.id) and not msg.service then --init agroup if the bot wasn't aware to be in
 							u.initGroup(msg.chat.id)
 						end
 
