@@ -15,9 +15,8 @@ local function max_reached(chat_id, user_id)
 end
 
 local function is_ignored(chat_id, msg_type)
-	res = assert (con:execute(string.format([[SELECT ('%s'=ANY(floodexceptions)) FROM chat AS result
-	WHERE chatid=%s]], msg_type, chat_id)))
-	return res
+	temp = "'" .. msg_type .. "'"
+	return db.is_in_array('chat_antiflood', 'exceptions', temp, 'chatid', chat_id)
 end
 
 local function is_flooding_funct(msg)
