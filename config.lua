@@ -87,31 +87,5 @@ return {
 		['id'] = 'Bahasa Indonesia 🇮🇩',
 		['nl'] = 'Dutch 🇱🇺'
 		-- more languages will come
-	},
-	allow_fuzzy_translations = false,
-	chat_settings = {
-		['settings'] = {
-			['Welcome'] = 'off',
-			['Goodbye'] = 'off',
-			['Extra'] = 'on',
-			['Silent'] = 'off',
-			['Rules'] = 'off',
-			['Reports'] = 'off',
-			['Welbut'] = 'off',
-			['Antibot'] = 'off'
-		},
-		['welcome'] = {
-			['type'] = 'no',
-			['content'] = 'no'
-		},
-		['goodbye'] = {
-			['type'] = 'custom',
-		},
-		['modsettings'] = {
-			['promdem'] = 'yes', --'yes': admins can promote or demote moderators; 'no': only the owner can
-			['hammer'] = 'yes',
-			['config'] = 'no',
-			['texts'] = 'no'
-		}
 	}
 }
