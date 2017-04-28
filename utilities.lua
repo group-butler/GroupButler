@@ -936,128 +936,128 @@ function utilities.get_user_id(msg, blocks)
 end
 
 function utilities.logEvent(event, msg, extra)
-	local log_id = db:hget('bot:chatlogs', msg.chat.id)
-	--utilities.dump(extra)
+	-- local log_id = db:hget('bot:chatlogs', msg.chat.id)
+	-- --utilities.dump(extra)
 
-	if not log_id then return end
-	local is_loggable = db:hget('chat:'..msg.chat.id..':tolog', event)
-	if not is_loggable or is_loggable == 'no' then return end
+	-- if not log_id then return end
+	-- local is_loggable = db:hget('chat:'..msg.chat.id..':tolog', event)
+	-- if not is_loggable or is_loggable == 'no' then return end
 
-	local text, reply_markup
+	-- local text, reply_markup
 
 
-	local chat_info = ("<b>Chat</b>: %s [#chat%d]"):format(msg.chat.title:escape_html(), msg.chat.id * -1)
-	local member = ("%s [@%s] [#id%d]"):format(msg.from.first_name:escape_html(), msg.from.username or '-', msg.from.id)
-	if event == 'mediawarn' then
-		--MEDIA WARN
-		--warns n°: warns
-		--warns max: warnmax
-		--media type: media
-		text = ('#MEDIAWARN (<code>%d/%d</code>), %s\n• %s\n• <b>User</b>: %s'):format(extra.warns, extra.warnmax, extra.media, chat_info, member)
-		if extra.hammered then text = text..('\n#%s'):format(extra.hammered:upper()) end
-	elseif event == 'spamwarn' then
-		--SPAM WARN
-		--warns n°: warns
-		--warns max: warnmax
-		--media type: spam_type
-		text = ('#SPAMWARN (<code>%d/%d</code>), <i>%s</i>\n• %s\n• <b>User</b>: %s'):format(extra.warns, extra.warnmax, extra.spam_type, chat_info, member)
-		if extra.hammered then text = text..('\n#%s'):format(extra.hammered:upper()) end
-	elseif event == 'flood' then
-		--FLOOD
-		--hammered?: hammered
-		text = ('#FLOOD\n• %s\n• <b>User</b>: %s'):format(chat_info, member)
-		if extra.hammered then text = text..('\n#%s'):format(extra.hammered:upper()) end
-	elseif event == 'cleanmods' then
-		text = ('%s\n• %s\n• <b>By</b>: %s'):format('#CLEAN_MODLIST', chat_info, extra.admin)
-	elseif event == 'new_chat_photo' then
-		text = ('%s\n• %s\n• <b>By</b>: %s'):format('#NEWPHOTO', chat_info, member)
-		reply_markup = {inline_keyboard={{{text = ("Get the new photo"), url = ("telegram.me/%s?start=photo:%s"):format(bot.username, msg.new_chat_photo[#msg.new_chat_photo].file_id)}}}}
-	elseif event == 'delete_chat_photo' then
-		text = ('%s\n• %s\n• <b>By</b>: %s'):format('#PHOTOREMOVED', chat_info, member)
-	elseif event == 'new_chat_title' then
-		text = ('%s\n• %s\n• <b>By</b>: %s'):format('#NEWTITLE', chat_info, member)
-	elseif event == 'pinned_message' then
-		text = ('%s\n• %s\n• <b>By</b>: %s'):format('#PINNEDMSG', chat_info, member)
-		msg.message_id = msg.pinned_message.message_id --because of the "go to the message" link. The normal msg.message_id brings to the service message
-	elseif event == 'report' then
-		text = ('%s\n• %s\n• <b>By</b>: %s\n• <i>Reported to %d admin(s)</i>'):format('#REPORT', chat_info, member, extra.n_admins)
-	elseif event == 'blockban' then
-		text = ('#BLOCKBAN\n• %s\n• <b>User</b>: %s [#id%d]'):format(chat_info, extra.name, extra.id)
-	elseif event == 'new_chat_member' then
-		local member = ("%s [@%s] [#id%d]"):format(msg.new_chat_member.first_name:escape_html(), msg.new_chat_member.username or '-', msg.new_chat_member.id)
-		text = ('%s\n• %s\n• <b>User</b>: %s'):format('#NEW_MEMBER', chat_info, member)
-		if extra then --extra == msg.from
-			text = text..("\n• <b>Added by</b>: %s [#id%d]"):format(utilities.getname_final(extra), extra.id)
-		end
-	else
-		-- events that requires user + admin
-		if event == 'warn' then
-			--WARN
-			--admin name formatted: admin
-			--user name formatted: user
-			--user id: user_id
-			--warns n°: warns
-			--warns max: warnmax
-			--motivation: motivation
-			text = ('#%s\n• <b>Admin</b>: %s [#id%d]\n• %s\n• <b>User</b>: %s [#id%d]\n• <b>Count</b>: <code>%d/%d</code>'):format(event:upper(), extra.admin, msg.from.id, chat_info, extra.user, extra.user_id, extra.warns, extra.warnmax)
-			if extra.hammered then
-				text = text..('\n<b>Action</b>: <i>%s</i>'):format(extra.hammered)
-			end
-		elseif event == 'nowarn' then
-			--WARNS REMOVED
-			--admin name formatted: admin
-			--user name formatted: user
-			--user id: user_id
-			text = ('#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n• <b>User</b>: %s [#id%s]\n• <b>Warns found</b>: <i>normal: %s, for media: %s, spamwarns: %s</i>')
-				:format('WARNS_RESET', extra.admin, msg.from.id, chat_info, extra.user, tostring(extra.user_id), extra.rem.normal, extra.rem.media, extra.rem.spam)
-		elseif event == 'promote' or event == 'demote' then
-			--PROMOTE OR DEMOTE
-			--admin name formatted: admin
-			--user name formatted: user
-			--user id: user_id
-			text = ('#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n• <b>Moderator</b>: %s [#id%s]'):format(event:upper(), extra.admin, msg.from.id, chat_info, extra.user, tostring(extra.user_id))
-		elseif event == 'block' or event == 'unblock' then
-			text = ('#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n'):format(event:upper(), utilities.getname_final(msg.from), msg.from.id, chat_info)
-			if extra.n then
-				text = text..('• <i>Users involved: %d</i>'):format(extra.n)
-			elseif extra.user then
-				text = text..('• <b>User</b>: %s [#id%d]'):format(extra.user, msg.reply.forward_from.id)
-			end
-		elseif event == 'tempban' then
-			--TEMPBAN
-			--admin name formatted: admin
-			--user name formatted: user
-			--user id: user_id
-			--days: d
-			--hours: h
-			--motivation: motivation
-			text = ('#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n• <b>User</b>: %s [#id%s]\n• <b>Duration</b>: %d days, %d hours'):format(event:upper(), extra.admin, msg.from.id, chat_info, extra.user, tostring(extra.user_id), extra.d, extra.h)
-		else --ban or kick or unban
-			--BAN OR KICK OR UNBAN
-			--admin name formatted: admin
-			--user name formatted: user
-			--user id: user_id
-			--motivation: motivation
-			text = ('#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n• <b>User</b>: %s [#id%s]'):format(event:upper(), extra.admin, msg.from.id, chat_info, extra.user, tostring(extra.user_id))
-		end
-		if event == 'ban' or event == 'tempban' then
-			--logcb:unban:user_id:chat_id for ban, logcb:untempban:user_id:chat_id for tempban
-			reply_markup = {inline_keyboard={{{text = ("Unban"), callback_data = ("logcb:un%s:%d:%d"):format(event, extra.user_id, msg.chat.id)}}}}
-		end
-		if extra.motivation then
-			text = text..('\n• <i>%s</i>'):format(extra.motivation:escape_html())
-		end
-	end
-	if msg.chat.username then
-		text = text..('\n• <a href="telegram.me/%s/%d">%s</a>'):format(msg.chat.username, msg.message_id, ('Go to the message'))
-	end
+	-- local chat_info = ("<b>Chat</b>: %s [#chat%d]"):format(msg.chat.title:escape_html(), msg.chat.id * -1)
+	-- local member = ("%s [@%s] [#id%d]"):format(msg.from.first_name:escape_html(), msg.from.username or '-', msg.from.id)
+	-- if event == 'mediawarn' then
+	-- 	--MEDIA WARN
+	-- 	--warns n°: warns
+	-- 	--warns max: warnmax
+	-- 	--media type: media
+	-- 	text = ('#MEDIAWARN (<code>%d/%d</code>), %s\n• %s\n• <b>User</b>: %s'):format(extra.warns, extra.warnmax, extra.media, chat_info, member)
+	-- 	if extra.hammered then text = text..('\n#%s'):format(extra.hammered:upper()) end
+	-- elseif event == 'spamwarn' then
+	-- 	--SPAM WARN
+	-- 	--warns n°: warns
+	-- 	--warns max: warnmax
+	-- 	--media type: spam_type
+	-- 	text = ('#SPAMWARN (<code>%d/%d</code>), <i>%s</i>\n• %s\n• <b>User</b>: %s'):format(extra.warns, extra.warnmax, extra.spam_type, chat_info, member)
+	-- 	if extra.hammered then text = text..('\n#%s'):format(extra.hammered:upper()) end
+	-- elseif event == 'flood' then
+	-- 	--FLOOD
+	-- 	--hammered?: hammered
+	-- 	text = ('#FLOOD\n• %s\n• <b>User</b>: %s'):format(chat_info, member)
+	-- 	if extra.hammered then text = text..('\n#%s'):format(extra.hammered:upper()) end
+	-- elseif event == 'cleanmods' then
+	-- 	text = ('%s\n• %s\n• <b>By</b>: %s'):format('#CLEAN_MODLIST', chat_info, extra.admin)
+	-- elseif event == 'new_chat_photo' then
+	-- 	text = ('%s\n• %s\n• <b>By</b>: %s'):format('#NEWPHOTO', chat_info, member)
+	-- 	reply_markup = {inline_keyboard={{{text = ("Get the new photo"), url = ("telegram.me/%s?start=photo:%s"):format(bot.username, msg.new_chat_photo[#msg.new_chat_photo].file_id)}}}}
+	-- elseif event == 'delete_chat_photo' then
+	-- 	text = ('%s\n• %s\n• <b>By</b>: %s'):format('#PHOTOREMOVED', chat_info, member)
+	-- elseif event == 'new_chat_title' then
+	-- 	text = ('%s\n• %s\n• <b>By</b>: %s'):format('#NEWTITLE', chat_info, member)
+	-- elseif event == 'pinned_message' then
+	-- 	text = ('%s\n• %s\n• <b>By</b>: %s'):format('#PINNEDMSG', chat_info, member)
+	-- 	msg.message_id = msg.pinned_message.message_id --because of the "go to the message" link. The normal msg.message_id brings to the service message
+	-- elseif event == 'report' then
+	-- 	text = ('%s\n• %s\n• <b>By</b>: %s\n• <i>Reported to %d admin(s)</i>'):format('#REPORT', chat_info, member, extra.n_admins)
+	-- elseif event == 'blockban' then
+	-- 	text = ('#BLOCKBAN\n• %s\n• <b>User</b>: %s [#id%d]'):format(chat_info, extra.name, extra.id)
+	-- elseif event == 'new_chat_member' then
+	-- 	local member = ("%s [@%s] [#id%d]"):format(msg.new_chat_member.first_name:escape_html(), msg.new_chat_member.username or '-', msg.new_chat_member.id)
+	-- 	text = ('%s\n• %s\n• <b>User</b>: %s'):format('#NEW_MEMBER', chat_info, member)
+	-- 	if extra then --extra == msg.from
+	-- 		text = text..("\n• <b>Added by</b>: %s [#id%d]"):format(utilities.getname_final(extra), extra.id)
+	-- 	end
+	-- else
+	-- 	-- events that requires user + admin
+	-- 	if event == 'warn' then
+	-- 		--WARN
+	-- 		--admin name formatted: admin
+	-- 		--user name formatted: user
+	-- 		--user id: user_id
+	-- 		--warns n°: warns
+	-- 		--warns max: warnmax
+	-- 		--motivation: motivation
+	-- 		text = ('#%s\n• <b>Admin</b>: %s [#id%d]\n• %s\n• <b>User</b>: %s [#id%d]\n• <b>Count</b>: <code>%d/%d</code>'):format(event:upper(), extra.admin, msg.from.id, chat_info, extra.user, extra.user_id, extra.warns, extra.warnmax)
+	-- 		if extra.hammered then
+	-- 			text = text..('\n<b>Action</b>: <i>%s</i>'):format(extra.hammered)
+	-- 		end
+	-- 	elseif event == 'nowarn' then
+	-- 		--WARNS REMOVED
+	-- 		--admin name formatted: admin
+	-- 		--user name formatted: user
+	-- 		--user id: user_id
+	-- 		text = ('#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n• <b>User</b>: %s [#id%s]\n• <b>Warns found</b>: <i>normal: %s, for media: %s, spamwarns: %s</i>')
+	-- 			:format('WARNS_RESET', extra.admin, msg.from.id, chat_info, extra.user, tostring(extra.user_id), extra.rem.normal, extra.rem.media, extra.rem.spam)
+	-- 	elseif event == 'promote' or event == 'demote' then
+	-- 		--PROMOTE OR DEMOTE
+	-- 		--admin name formatted: admin
+	-- 		--user name formatted: user
+	-- 		--user id: user_id
+	-- 		text = ('#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n• <b>Moderator</b>: %s [#id%s]'):format(event:upper(), extra.admin, msg.from.id, chat_info, extra.user, tostring(extra.user_id))
+	-- 	elseif event == 'block' or event == 'unblock' then
+	-- 		text = ('#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n'):format(event:upper(), utilities.getname_final(msg.from), msg.from.id, chat_info)
+	-- 		if extra.n then
+	-- 			text = text..('• <i>Users involved: %d</i>'):format(extra.n)
+	-- 		elseif extra.user then
+	-- 			text = text..('• <b>User</b>: %s [#id%d]'):format(extra.user, msg.reply.forward_from.id)
+	-- 		end
+	-- 	elseif event == 'tempban' then
+	-- 		--TEMPBAN
+	-- 		--admin name formatted: admin
+	-- 		--user name formatted: user
+	-- 		--user id: user_id
+	-- 		--days: d
+	-- 		--hours: h
+	-- 		--motivation: motivation
+	-- 		text = ('#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n• <b>User</b>: %s [#id%s]\n• <b>Duration</b>: %d days, %d hours'):format(event:upper(), extra.admin, msg.from.id, chat_info, extra.user, tostring(extra.user_id), extra.d, extra.h)
+	-- 	else --ban or kick or unban
+	-- 		--BAN OR KICK OR UNBAN
+	-- 		--admin name formatted: admin
+	-- 		--user name formatted: user
+	-- 		--user id: user_id
+	-- 		--motivation: motivation
+	-- 		text = ('#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n• <b>User</b>: %s [#id%s]'):format(event:upper(), extra.admin, msg.from.id, chat_info, extra.user, tostring(extra.user_id))
+	-- 	end
+	-- 	if event == 'ban' or event == 'tempban' then
+	-- 		--logcb:unban:user_id:chat_id for ban, logcb:untempban:user_id:chat_id for tempban
+	-- 		reply_markup = {inline_keyboard={{{text = ("Unban"), callback_data = ("logcb:un%s:%d:%d"):format(event, extra.user_id, msg.chat.id)}}}}
+	-- 	end
+	-- 	if extra.motivation then
+	-- 		text = text..('\n• <i>%s</i>'):format(extra.motivation:escape_html())
+	-- 	end
+	-- end
+	-- if msg.chat.username then
+	-- 	text = text..('\n• <a href="telegram.me/%s/%d">%s</a>'):format(msg.chat.username, msg.message_id, ('Go to the message'))
+	-- end
 
-	if text then
-		local res, code = api.sendMessage(log_id, text, 'html', reply_markup)
-		if not res and code == 117 then
-			db:hdel('bot:chatlogs', msg.chat.id)
-		end
-	end
+	-- if text then
+	-- 	local res, code = api.sendMessage(log_id, text, 'html', reply_markup)
+	-- 	if not res and code == 117 then
+	-- 		db:hdel('bot:chatlogs', msg.chat.id)
+	-- 	end
+	-- end
 end
 
 function utilities.is_info_message_key(key)
