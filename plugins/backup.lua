@@ -6,10 +6,10 @@ local JSON = require 'dkjson'
 local plugin = {}
 
 local function save_data(filename, data)
-  local s = JSON.encode(data, {indent = true})
-  local f = io.open(filename, 'w')
-  f:write(s)
-  f:close()
+    local s = JSON.encode(data, {indent = true})
+    local f = io.open(filename, 'w')
+    f:write(s)
+    f:close()
 end
 
 local function load_data(filename)
