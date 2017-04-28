@@ -65,8 +65,8 @@ function utilities.is_mod(chat_id, user_id)
 		if msg.from.admin then
 			return true
 		else
-			chat_id = msg.chat.id
-			user_id = msg.from.id
+			local chat_id = msg.chat.id
+			local user_id = msg.from.id
 			return db.get_karma('rank', chat_id, user_id) == 'mod'
 		end
 	else
