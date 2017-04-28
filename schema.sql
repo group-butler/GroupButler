@@ -133,7 +133,8 @@ CREATE TABLE chat_antimedia (
     game boolean DEFAULT false NOT NULL,
     location boolean DEFAULT false NOT NULL,
     warnings integer DEFAULT 2 NOT NULL,
-    action text DEFAULT 'ban'::text NOT NULL
+    action text DEFAULT 'ban'::text NOT NULL,
+    allowed_links text[]
 );
 
 

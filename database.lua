@@ -72,4 +72,23 @@ function database.get_karma(col, val1, val2)
 	end
 end
 
+--
+function database.getarray(table, col, col2, val)
+	local cur = assert(con:execute(string.format([[SELECT %s FROM %s AS result
+	WHERE %s=%s]], col, table, col2, val)))
+	local row = cur:fetch ({}, "a")
+	cur:close()
+	if row then -- checks if array is not null
+		return row
+	else
+		return nil
+	end
+end
+
+--
+function database.setval(table, col, val, col2, val2)
+	local res = assert(con:execute(string.format([[INSERT INTO %s (%s, %s) values (%s, %s)
+	ON CONFLICT (%s) DO UPDATE SET %s = %s]], table, col, col2, val, val2, col, col2, val2)))
+end
+
 return database
