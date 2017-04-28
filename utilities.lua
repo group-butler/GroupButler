@@ -202,9 +202,7 @@ function utilities.cache_adminlist(chat_id)
 			ON CONFLICT DO NOTHING]], chat_id, admin.user.id)
 			)) -- Save owner
 		end
-		sql = assert (con:execute(string.format([[UPDATE chat SET admins = array_distinct(array_append(admins, %s))
-		WHERE chatid=%s]], admin.user.id, chat_id)
-		)) -- Add admins
+		db.put_in_array('chat', 'admins', admin.user.id, 'chatid', chat_id) -- Add admins
 
 		utilities.demote(chat_id, admin.user.id)
 	end

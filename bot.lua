@@ -87,7 +87,7 @@ local function extract_usernames(msg)
 			username = msg.new_chat_member.username:lower()
 			userid = msg.new_chat_member.id
 		end
-		db:sadd(string.format('chat:%d:members', msg.chat.id), msg.new_chat_member.id)
+		db.put_in_array('chat', 'members', msg.new_chat_member.id, 'chatid', msg.chat.id) -- Add members
 	end
 	if msg.left_chat_member then
 		if msg.left_chat_member.username then

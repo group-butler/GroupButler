@@ -48,4 +48,11 @@ function database.acc(table, col, val, col2)
 	))
 end
 
+-- Add a new member to array
+function database.put_in_array(table, col1, val1, col2, val2)
+	res = assert (con:execute(string.format([[UPDATE %s SET %s = array_distinct(array_append(%s, %s))
+	WHERE %s=%s]], table, col1, col1, val1, col2, val2)
+	))
+end
+
 return database
