@@ -109,8 +109,7 @@ CREATE TABLE chat_antiflood (
     sticker boolean DEFAULT true NOT NULL,
     gif boolean DEFAULT true NOT NULL,
     threshold integer DEFAULT 5 NOT NULL,
-    action text DEFAULT 'kick'::text NOT NULL,
-    exceptions text[]
+    action text DEFAULT 'kick'::text NOT NULL
 );
 
 
@@ -222,12 +221,12 @@ CREATE TABLE karma (
     id chatuser NOT NULL,
     ban timestamp with time zone,
     ban_expiration timestamp with time zone,
-    warning_flood integer DEFAULT 0 NOT NULL,
     warning_media integer DEFAULT 0 NOT NULL,
     warning_spam integer DEFAULT 0 NOT NULL,
     warning_mod integer DEFAULT 0 NOT NULL,
     lastmsg timestamp with time zone DEFAULT now() NOT NULL,
-    rank text DEFAULT 'user'::text
+    rank text DEFAULT 'user'::text NOT NULL,
+    membership boolean DEFAULT true NOT NULL
 );
 
 

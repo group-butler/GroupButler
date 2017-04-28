@@ -87,14 +87,14 @@ local function extract_usernames(msg)
 			username = msg.new_chat_member.username:lower()
 			userid = msg.new_chat_member.id
 		end
-		db.put_in_array('chat', 'members', msg.new_chat_member.id, 'chatid', msg.chat.id) -- Add members
+		db.put_in_karma('membership', msg.chat.id, msg.new_chat_member.id, 'true') -- Enable membership of/create entry for this chat user
 	end
 	if msg.left_chat_member then
 		if msg.left_chat_member.username then
 			username = msg.left_chat_member.username:lower()
 			userid = msg.left_chat_member.id
 		end
-		db:srem(string.format('chat:%d:members', msg.chat.id), msg.left_chat_member.id)
+		db.put_in_karma('membership', msg.chat.id, msg.new_chat_member.id, 'false') -- Disable the membership of this chat user
 	end
 	if msg.reply_to_message then
 		extract_usernames(msg.reply_to_message)
@@ -109,14 +109,13 @@ local function extract_usernames(msg)
 end
 
 local function collect_stats(msg)
-
 	extract_usernames(msg)
 
-	if msg.chat.type ~= 'private' and msg.chat.type ~= 'inline' and msg.from then
-		-- db:hset('chat:'..msg.chat.id..':userlast', msg.from.id, os.time()) --last message for each user
+	if msg.chat.type ~= 'inline' and msg.from then
+		-- TODO: use timestamp from message instead of now()
+		db.put_in_karma('lastmsg', msg.chat.id, msg.from.id, 'now()') --last message for each user
 		res = assert (con:execute(string.format([[UPDATE chat SET lastmsg = now()
-		WHERE chatid=%s]], msg.chat.id)
-		)) -- store the timestamp of the last message for each chat
+		WHERE chatid=%s]], msg.chat.id))) -- store the timestamp of the last message for each chat
 	end
 end
 

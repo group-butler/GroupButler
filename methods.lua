@@ -133,7 +133,7 @@ function api.kickChatMember(chat_id, user_id)
 
 	local success, code, description = sendRequest(url)
 	if success then
-		db:srem(string.format('chat:%d:members', chat_id), user_id)
+		db.put_in_karma('membership', chat_id, user_id, 'false') -- Disable the membership of this chat user
 	end
 
 	return success, code, description
