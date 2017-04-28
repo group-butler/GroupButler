@@ -51,7 +51,6 @@ local function sendRequest(url)
 		end
 
 		print(clr.red..code, tab.description..clr.reset)
-		db:hincrby('bot:errors', code, 1)
 
 		return false, code, tab.description
 	end
