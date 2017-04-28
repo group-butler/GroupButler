@@ -13,23 +13,24 @@ local function save_data(filename, data)
 end
 
 local function load_data(filename)
-  local f = io.open(filename)
-  if f then
-    local s = f:read('*all')
-    f:close()
-    return JSON.decode(s)
-  else
-    return {}
-  end
+    local f = io.open(filename)
+    if f then
+        local s = f:read('*all')
+        f:close()
+        return JSON.decode(s)
+    else
+        return {}
+    end
 end
 
 local function gen_backup(chat_id)
-  chat_id = tostring(chat_id)
-  local file_path = '/tmp/snap'..chat_id..'.gbb'
-  local t = {
-    [chat_id] = {
-      hashes = {},
-      sets = {}
+    chat_id = tostring(chat_id)
+    local file_path = '/tmp/snap'..chat_id..'.gbb'
+    local t = {
+        [chat_id] = {
+            hashes = {},
+            sets = {}
+        }
     }
     local hash
     for i=1, #config.chat_hashes do
