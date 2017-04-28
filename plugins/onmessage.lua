@@ -14,10 +14,6 @@ local function max_reached(chat_id, user_id)
 	end
 end
 
-local function is_ignored(chat_id, msg_type)
-	return db.is_in_array('chat_antiflood', 'exceptions', "'"..msg_type.."'", 'chatid', chat_id)
-end
-
 local function is_flooding_funct(msg)
 	local hash = 'flood:'..msg.chat.id..':'..msg.from.id
 	local msgs = tonumber(redis:get(hash)) or 1
