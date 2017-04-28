@@ -793,14 +793,6 @@ function utilities.sendStartMe(msg)
 end
 
 function utilities.initGroup(chat_id)
-
-	for set, setting in pairs(config.chat_settings) do
-		local hash = 'chat:'..chat_id..':'..set
-		for field, value in pairs(setting) do
-			db:hset(hash, field, value)
-		end
-	end
-
 	utilities.cache_adminlist(chat_id, api.getChatAdministrators(chat_id)) --init admin cache
 
 	--save group id
