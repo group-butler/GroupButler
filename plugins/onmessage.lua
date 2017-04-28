@@ -40,12 +40,11 @@ local function is_flooding_funct(msg)
 end
 
 local function is_whitelisted(chat_id, text)
-	local set = ('chat:%d:whitelist'):format(chat_id)
-	local links = db:smembers(set)
+	local links = db.getarray('chat_antimedia', 'allowed_links', 'chatid', chat_id)
 	if links and next(links) then
 		for i=1, #links do
 			if text:match(links[i]:gsub('%-', '%%-')) then
-				--print('Whitelist:', links[i])
+				print('Whitelist:', links[i])
 				return true
 			end
 		end
@@ -59,7 +58,7 @@ function plugin.onEveryMessage(msg)
 	local msg_type = 'text'
 	if msg.forward_from or msg.forward_from_chat then msg_type = 'forward' end
 	if msg.media_type then msg_type = msg.media_type end
-	if not is_ignored(msg.chat.id, msg_type) and not msg.edited then
+	if not msg.edited and db.getval('chat_antiflood', msg_type, 'chatid', msg.chat.id) == 't' then
 		local is_flooding, msgs_sent, msgs_max = is_flooding_funct(msg)
 		if is_flooding then
 			local action = db.getval('chat_antiflood', 'action', 'chatid', msg.chat.id)
@@ -97,32 +96,27 @@ function plugin.onEveryMessage(msg)
 
 	if msg.media and msg.chat.type ~= 'private' and not msg.cb and not msg.edited then
 		local media = msg.media_type
-		local hash = 'chat:'..msg.chat.id..':media'
-		local media_status = (db:hget(hash, media)) or 'ok'
-		local out
-		if media_status ~= 'ok' then
+		local action = db.getval('chat_antimedia', 'action', 'chatid', msg.chat.id)
+		if action then -- null = disabled
 			if not msg.from.mod then --ignore mods and above
 				local whitelisted
 				if media == 'link' then
 					whitelisted = is_whitelisted(msg.chat.id, msg.text)
 				end
-
 				if not whitelisted then
-					local status
 					local name = u.getname_final(msg.from)
 					local max_reached_var, n, max = max_reached(msg.chat.id, msg.from.id)
 					if max_reached_var then --max num reached. Kick/ban the user
-						status = (db:hget('chat:'..msg.chat.id..':warnsettings', 'mediatype')) or config.chat_settings['warnsettings']['mediatype']
 						--try to kick/ban
-						if status == 'kick' then
-							res = api.kickUser(msg.chat.id, msg.from.id)
-						elseif status == 'ban' then
+						if action == 'ban' then
 							res = api.banUser(msg.chat.id, msg.from.id)
+						else
+							res = api.kickUser(msg.chat.id, msg.from.id)
 						end
 						if res then --kick worked
-							db:hdel('chat:'..msg.chat.id..':mediawarn', msg.from.id) --remove media warns
+							db.put_in_karma('warning_media', msg.chat.id, msg.from.id, 0) --remove media warns
 							local message
-							if status == 'ban' then
+							if action == 'ban' then
 								message = ("%s <b>banned</b>: media sent not allowed!\n❗️ <code>%d/%d</code>"):format(name, n, max)
 							else
 								message = ("%s <b>kicked</b>: media sent not allowed!\n❗️ <code>%d/%d</code>"):format(name, n, max)
@@ -133,7 +127,7 @@ function plugin.onEveryMessage(msg)
 						local message = ("%s, this type of media is <b>not allowed</b> in this chat.\n(<code>%d/%d</code>)"):format(name, n, max)
 						api.sendReply(msg, message, 'html')
 					end
-					u.logEvent('mediawarn', msg, {warns = n, warnmax = max, media = (media), hammered = status})
+					u.logEvent('mediawarn', msg, {warns = n, warnmax = max, media = (media), hammered = action})
 				end
 			end
 		end
