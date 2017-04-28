@@ -19,15 +19,15 @@ local function is_ignored(chat_id, msg_type)
 end
 
 local function is_flooding_funct(msg)
-	local spamhash = 'spam:'..msg.chat.id..':'..msg.from.id
+	local hash = 'flood:'..msg.chat.id..':'..msg.from.id
+	local msgs = tonumber(redis:get(hash)) or 1
+	local max_msgs = tonumber(db.getval('chat_antiflood', 'threshold', 'chatid', msg.chat.id))
 
-	local msgs = tonumber(db:get(spamhash)) or 1
 
-	local max_msgs = tonumber(db:hget('chat:'..msg.chat.id..':flood', 'MaxFlood')) or 5
 	if msg.cb then max_msgs = 15 end
 
 	local max_time = 5
-	db:setex(spamhash, max_time, msgs+1)
+	redis:setex(hash, max_time, msgs+1)
 
 	if msgs > max_msgs then
 		return true, msgs, max_msgs
@@ -59,9 +59,9 @@ function plugin.onEveryMessage(msg)
 	if not is_ignored(msg.chat.id, msg_type) and not msg.edited then
 		local is_flooding, msgs_sent, msgs_max = is_flooding_funct(msg)
 		if is_flooding then
-			local status = (db:hget('chat:'..msg.chat.id..':settings', 'Flood')) or config.chat_settings['settings']['Flood']
-			if status == 'on' and not msg.cb and not msg.from.mod then --if the status is on, and the user is not an admin, and the message is not a callback, then:
-				local action = db:hget('chat:'..msg.chat.id..':flood', 'ActionFlood')
+			local action = db.getval('chat_antiflood', 'action', 'chatid', msg.chat.id)
+			-- if action is not null (null here means disabled), and the user is not an admin, and the message is not a callback, then
+			if action and not msg.cb and not msg.from.mod then
 				local name = u.getname_final(msg.from)
 				local res, message
 				--try to kick or ban
