@@ -127,19 +127,6 @@ function utilities.is_admin(chat_id, user_id)
 	return db.is_in_array('chat', 'admins', user_id, 'chatid', chat_id)
 end
 
-function utilities.is_admin2(chat_id, user_id)
-	local res = api.getChatMember(chat_id, user_id)
-	if not res then
-		return false, false
-	end
-	local status = res.result.status
-	if status == 'creator' or status == 'administrator' then
-		return true, true
-	else
-		return false, true
-	end
-end
-
 function utilities.is_owner_request(msg)
 	local status = api.getChatMember(msg.chat.id, msg.from.id).result.status
 	if status == 'creator' then
@@ -172,15 +159,6 @@ function utilities.is_owner(chat_id, user_id)
 	end
 
 	return false
-end
-
-function utilities.is_owner2(chat_id, user_id)
-	local status = api.getChatMember(chat_id, user_id).result.status
-	if status == 'creator' then
-		return true
-	else
-		return false
-	end
 end
 
 function utilities.add_role(chat_id, user_obj)
@@ -513,16 +491,6 @@ function string:replaceholders(msg, ...)
 	end
 
 	return self:gsub('$(%w+)', substitutions)
-end
-
-function utilities.to_supergroup(msg)
-	local old = msg.chat.id
-	local new = msg.migrate_to_chat_id
-	local done = utilities.migrate_chat_info(old, new, false)
-	if done then
-		utilities.remGroup(old, true, 'to supergroup')
-		api.sendMessage(new, '(_service notification: migration of the group executed_)', true)
-	end
 end
 
 -- Return user mention for output a text
@@ -1065,24 +1033,6 @@ function utilities.is_info_message_key(key)
 	else
 		return false
 	end
-end
-
-function utilities.table2keyboard(t)
-	local keyboard = {inline_keyboard = {}}
-	for i, line in pairs(t) do
-		if type(line) ~= 'table' then return false, 'Wrong structure (each line need to be a table, not a single value)' end
-		local new_line ={}
-		for k,v in pairs(line) do
-			if type(k) ~= 'string' then return false, 'Wrong structure (table of arrays)' end
-			local button = {}
-			button.text = k
-			button.callback_data = v
-			table.insert(new_line, button)
-		end
-		table.insert(keyboard.inline_keyboard, new_line)
-	end
-
-	return keyboard
 end
 
 return utilities
