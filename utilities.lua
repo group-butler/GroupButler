@@ -53,10 +53,7 @@ function utilities.is_allowed(action, chat_id, user_obj)
 	if not user_obj.mod and not user_obj.admin then return end
 	if user_obj.admin then return true end
 
-	local status = db:hget('chat:'..chat_id..':modsettings', action) or config.chat_settings['modsettings'][action]
-
-	--true: requires admin
-	return status == 'yes'
+	return getval('chat_mod', action, 'chatid', chat_id) == 't'
 end
 
 function utilities.is_mod(chat_id, user_id)
