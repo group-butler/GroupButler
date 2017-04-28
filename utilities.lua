@@ -791,12 +791,20 @@ function utilities.sendStartMe(msg)
 end
 
 function utilities.initGroup(chat_id)
+	-- Create chat tables
+	res = assert (con:execute(string.format([[INSERT INTO chat (chatid) values (%s)
+	ON CONFLICT DO NOTHING]], chat_id)
+	))
+	res = assert (con:execute(string.format([[INSERT INTO chat_antiflood (chatid) values (%s)
+	ON CONFLICT DO NOTHING]], chat_id)
+	))
+	res = assert (con:execute(string.format([[INSERT INTO chat_antimedia (chatid) values (%s)
+	ON CONFLICT DO NOTHING]], chat_id)
+	))
+	res = assert (con:execute(string.format([[INSERT INTO chat_antispam (chatid) values (%s)
+	ON CONFLICT DO NOTHING]], chat_id)
+	))
 	utilities.cache_adminlist(chat_id, api.getChatAdministrators(chat_id)) --init admin cache
-
-	--save group id
-	db:sadd('bot:groupsid', chat_id)
-	--remove the group id from the list of dead groups
-	db:srem('bot:groupsid:removed', chat_id)
 end
 
 local function remRealm(chat_id)
