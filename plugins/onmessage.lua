@@ -57,9 +57,8 @@ function plugin.onEveryMessage(msg)
 	if not msg.edited and db.getval('chat_antiflood', msg_type, 'chatid', msg.chat.id) == 't' then
 		local is_flooding, msgs_sent, msgs_max = is_flooding_funct(msg)
 		if is_flooding then
-			local action = db.getval('chat_antiflood', 'action', 'chatid', msg.chat.id)
-			-- if action is not null (null here means disabled), and the user is not an admin, and the message is not a callback, then
-			if action and not msg.cb and not msg.from.mod then
+			if not msg.cb and not msg.from.mod then -- if the user is not an admin, and the message is not a callback, then
+				local action = db.getval('chat_antiflood', 'action', 'chatid', msg.chat.id)
 				local name = u.getname_final(msg.from)
 				local res, message
 				--try to kick or ban
