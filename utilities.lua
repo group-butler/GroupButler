@@ -111,8 +111,8 @@ end
 function utilities.is_admin(chat_id, user_id)
 	if type(chat_id) == 'table' then
 		local msg = chat_id
-		chat_id = msg.chat.id
-		user_id = msg.from.id
+		local chat_id = msg.chat.id
+		local user_id = msg.from.id
 	end
 
 	-- local set = 'cache:chat:'..chat_id..':admins'
@@ -123,7 +123,11 @@ function utilities.is_admin(chat_id, user_id)
 
 	local res = db.get_karma('rank', chat_id, user_id)
 
-	return res == 'admin' or res == 'owner'
+	if res == 'admin' or res == 'owner' then
+		return true
+	else
+		return false
+	end
 end
 
 function utilities.is_admin2(chat_id, user_id)
