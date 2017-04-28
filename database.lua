@@ -43,23 +43,20 @@ end
 
 -- Accumulator
 function database.acc(table, col, val, col2)
-	res = assert (con:execute(string.format([[INSERT INTO %s (%s) values (%s)
-	ON CONFLICT (%s) DO UPDATE SET %s = %s.%s + 1]], table, col, val, col, col2, table, col2)
-	))
+	local res = assert (con:execute(string.format([[INSERT INTO %s (%s) values (%s)
+	ON CONFLICT (%s) DO UPDATE SET %s = %s.%s + 1]], table, col, val, col, col2, table, col2)))
 end
 
 -- Add a new member to array
 function database.put_in_array(table, col1, val1, col2, val2)
-	res = assert (con:execute(string.format([[UPDATE %s SET %s = array_distinct(array_append(%s, %s))
-	WHERE %s=%s]], table, col1, col1, val1, col2, val2)
-	))
+	local res = assert (con:execute(string.format([[UPDATE %s SET %s = array_distinct(array_append(%s, %s))
+	WHERE %s=%s]], table, col1, col1, val1, col2, val2)))
 end
 
 -- Insert into karma
 function database.put_in_karma(col, val1, val2, val3)
-	res = assert (con:execute(string.format([[INSERT INTO karma (id, %s) values ((%s, %s), %s)
-	ON CONFLICT (id) DO UPDATE SET %s = %s]], col, val1, val2, val3, col, val3)
-	))
+	local res = assert (con:execute(string.format([[INSERT INTO karma (id, %s) values ((%s, %s), %s)
+	ON CONFLICT (id) DO UPDATE SET %s = %s]], col, val1, val2, val3, col, val3)))
 end
 
 -- Get from karma
