@@ -67,13 +67,13 @@ function utilities.is_mod(chat_id, user_id)
 		else
 			chat_id = msg.chat.id
 			user_id = msg.from.id
-			return db.is_in_array('chat', 'mods', user_id, 'chatid', chat_id)
+			return db.get_karma('rank', chat_id, user_id) == 'mod'
 		end
 	else
 		if utilities.is_admin(chat_id, user_id) then
 			return true
 		else
-			return db.is_in_array('chat', 'mods', user_id, 'chatid', chat_id)
+			return db.get_karma('rank', chat_id, user_id) == 'mod'
 		end
 	end
 end
@@ -124,7 +124,9 @@ function utilities.is_admin(chat_id, user_id)
 	utilities.cache_adminlist(chat_id, res)
 	-- end
 
-	return db.is_in_array('chat', 'admins', user_id, 'chatid', chat_id)
+	local res = db.get_karma('rank', chat_id, user_id)
+
+	return res == 'admin' or res == 'owner'
 end
 
 function utilities.is_admin2(chat_id, user_id)
@@ -198,13 +200,10 @@ function utilities.cache_adminlist(chat_id)
 
 	for _, admin in pairs(res.result) do
 		if admin.status == 'creator' then
-			sql = assert (con:execute(string.format([[INSERT INTO chat (chatid, owner) values (%s, '%s')
-			ON CONFLICT DO NOTHING]], chat_id, admin.user.id)
-			)) -- Save owner
+			db.put_in_karma('rank', chat_id, admin.user.id, "'owner'") -- Save owner
+		else
+			db.put_in_karma('rank', chat_id, admin.user.id, "'admin'") -- Add admins
 		end
-		db.put_in_array('chat', 'admins', admin.user.id, 'chatid', chat_id) -- Add admins
-
-		utilities.demote(chat_id, admin.user.id)
 	end
 
 	-- TODO: figure out a way to "expire" the admin list
@@ -378,9 +377,11 @@ function utilities.demote(chat_id, user_id)
 	-- db:del(('chat:%d:mod:%d'):format(chat_id, user_id))
 	-- local removed = db:srem('chat:'..chat_id..':mods', user_id)
 	-- return removed == 1
-	res = assert (con:execute(string.format([[UPDATE chat SET mods = array_remove(mods, %s)
-	WHERE chatid=%s]], user_id, chat_id)))
-	return res
+
+	-- res = assert (con:execute(string.format([[UPDATE chat SET mods = array_remove(mods, %s)
+	-- WHERE chatid=%s]], user_id, chat_id)))
+	-- return res
+	db.put_in_karma('rank', chat_id, user_id, "'user'")
 end
 
 function utilities.get_media_type(msg)

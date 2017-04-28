@@ -73,12 +73,8 @@ SET default_with_oids = false;
 CREATE TABLE chat (
     chatid bigint NOT NULL,
     lang text DEFAULT 'en'::text NOT NULL,
-    owner integer,
-    admins integer[],
-    mods integer[],
     lastmsg timestamp with time zone DEFAULT now() NOT NULL,
     timezone text DEFAULT 'UTC'::text NOT NULL,
-    members integer[],
     rtl text,
     arab text,
     warning_threshold integer DEFAULT 3 NOT NULL,
@@ -230,7 +226,8 @@ CREATE TABLE karma (
     warning_media integer DEFAULT 0 NOT NULL,
     warning_spam integer DEFAULT 0 NOT NULL,
     warning_mod integer DEFAULT 0 NOT NULL,
-    lastmsg timestamp with time zone
+    lastmsg timestamp with time zone DEFAULT now() NOT NULL,
+    rank text DEFAULT 'user'::text
 );
 
 
