@@ -39,7 +39,7 @@ function plugin.onTextMessage(msg, blocks)
 
 	local hash = 'chat:'..msg.chat.id..':info'
 	if blocks[1] == 'rules' or blocks[1] == 'start' then
-		local rules = u.getRules(msg.chat.id)
+		local rules = u.get_chat('rules', msg.chat.id)
 
 		local reply_markup, rules = u.reply_markup_from_text(rules)
 

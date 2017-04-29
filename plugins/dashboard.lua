@@ -104,7 +104,7 @@ function plugin.onCallbackQuery(msg, blocks)
 		notification = ("ℹ️ Group ► Settings")
 	end
 	if request == 'rules' then
-		text = u.getRules(chat_id)
+		text = u.get_chat('rules', chat_id)
 		notification = ("ℹ️ Group ► Rules")
 	end
 	if request == 'adminlist' then
