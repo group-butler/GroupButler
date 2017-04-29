@@ -73,12 +73,8 @@ SET default_with_oids = false;
 CREATE TABLE chat (
     chatid bigint NOT NULL,
     lang text DEFAULT 'en'::text NOT NULL,
-    owner integer,
-    admins integer[],
-    mods integer[],
     lastmsg timestamp with time zone DEFAULT now() NOT NULL,
     timezone text DEFAULT 'UTC'::text NOT NULL,
-    members integer[],
     rtl text,
     arab text,
     warning_threshold integer DEFAULT 3 NOT NULL,
@@ -113,8 +109,7 @@ CREATE TABLE chat_antiflood (
     sticker boolean DEFAULT true NOT NULL,
     gif boolean DEFAULT true NOT NULL,
     threshold integer DEFAULT 5 NOT NULL,
-    action text DEFAULT 'kick'::text NOT NULL,
-    exceptions text[]
+    action text DEFAULT 'kick'::text NOT NULL
 );
 
 
@@ -138,7 +133,8 @@ CREATE TABLE chat_antimedia (
     game boolean DEFAULT false NOT NULL,
     location boolean DEFAULT false NOT NULL,
     warnings integer DEFAULT 2 NOT NULL,
-    action text DEFAULT 'ban'::text NOT NULL
+    action text DEFAULT 'ban'::text NOT NULL,
+    allowed_links text[]
 );
 
 
@@ -226,11 +222,12 @@ CREATE TABLE karma (
     id chatuser NOT NULL,
     ban timestamp with time zone,
     ban_expiration timestamp with time zone,
-    warning_flood integer DEFAULT 0 NOT NULL,
     warning_media integer DEFAULT 0 NOT NULL,
     warning_spam integer DEFAULT 0 NOT NULL,
     warning_mod integer DEFAULT 0 NOT NULL,
-    lastmsg timestamp with time zone
+    lastmsg timestamp with time zone DEFAULT now() NOT NULL,
+    rank text DEFAULT 'user'::text NOT NULL,
+    membership boolean DEFAULT true NOT NULL
 );
 
 
