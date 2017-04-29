@@ -216,16 +216,6 @@ function utilities.deeplink_constructor(chat_id, what)
 	return 'https://telegram.me/'..bot.username..'?start='..chat_id..'_'..what
 end
 
-function table.clone(t)
-  local new_t = {}
-  local i, v = next(t, nil)
-  while i do
-	new_t[i] = v
-	i, v = next(t, i)
-  end
-  return new_t
-end
-
 function utilities.get_date(timestamp)
 	if not timestamp then
 		timestamp = os.time()
@@ -448,16 +438,6 @@ function string:replaceholders(msg, ...)
 	end
 
 	return self:gsub('$(%w+)', substitutions)
-end
-
-function utilities.to_supergroup(msg)
-	local old = msg.chat.id
-	local new = msg.migrate_to_chat_id
-	local done = utilities.migrate_chat_info(old, new, false)
-	if done then
-		utilities.remGroup(old, true, 'to supergroup')
-		api.sendMessage(new, '(_service notification: migration of the group executed_)', true)
-	end
 end
 
 -- Return user mention for output a text
@@ -999,25 +979,7 @@ function utilities.is_info_message_key(key)
 		return true
 	else
 		return false
-	end
 end
-
-function utilities.table2keyboard(t)
-	local keyboard = {inline_keyboard = {}}
-	for i, line in pairs(t) do
-		if type(line) ~= 'table' then return false, 'Wrong structure (each line need to be a table, not a single value)' end
-		local new_line ={}
-		for k,v in pairs(line) do
-			if type(k) ~= 'string' then return false, 'Wrong structure (table of arrays)' end
-			local button = {}
-			button.text = k
-			button.callback_data = v
-			table.insert(new_line, button)
-		end
-		table.insert(keyboard.inline_keyboard, new_line)
-	end
-
-	return keyboard
 end
 
 return utilities
