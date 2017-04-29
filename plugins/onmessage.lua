@@ -19,10 +19,6 @@ local function is_flooding_funct(msg)
 	local msgs = tonumber(redis:get(hash)) or 1
 	local max_msgs = tonumber(db.getval('chat_antiflood', 'threshold', 'chatid', msg.chat.id))
 
-	if not max_msgs then -- TODO FIXME HACK Init the group if antiflood threshold is null
-		u.initGroup(msg.chat.id)
-	end
-
 	if msg.cb then max_msgs = 15 end
 
 	local max_time = 5
