@@ -49,7 +49,7 @@ function plugin.onTextMessage(msg, blocks)
 			local chat_id = msg.chat.id
 			local keyboard = do_keyboard_config(chat_id, msg.from.id)
 			local res = api.sendMessage(msg.from.id, ("<b>%s</b>\n<i>Change the settings of your group</i>"):format(msg.chat.title:escape_html()), 'html', keyboard)
-			if not u.is_silentmode_on(msg.chat.id) then --send the responde in the group only if the silent mode is off
+			if not u.get_chat('silentmode', msg.chat.id) then --send the responde in the group only if the silent mode is off
 				if res then
 					api.sendMessage(msg.chat.id, ("_I've sent you the keyboard via private message_"), true)
 				else

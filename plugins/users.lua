@@ -183,7 +183,7 @@ If you're using it by username and want to teach me who the user is, forward me 
 
 		local text = string.format('[%s](https://telegram.me/%s/%d)',
 			("Message N° %d"):format(msg.reply.message_id), msg.chat.username, msg.reply.message_id)
-		if msg.from.mod or not u.is_silentmode_on(msg.chat.id) then
+		if msg.from.mod or not u.get_chat('silentmode', msg.chat.id) then
 			api.sendReply(msg.reply, text, true)
 		else
 			api.sendMessage(msg.from.id, text, true)

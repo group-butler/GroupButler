@@ -66,6 +66,21 @@ function utilities.least_rank(least, chat_id, user_id)
 	end
 end
 
+-- Chat related functions
+function utilities.get_chat(val, chat_id)
+	local result = db.getval('chat', val, 'chatid', chat_id)
+	if val == 'silentmode' then
+		return result == 't'
+	elseif val == 'rules' then
+		if not val then
+			return ("-*empty*-")
+		else
+			return val
+		end
+	end
+	return val
+end
+
 function utilities.is_allowed(action, chat_id, user_obj)
 	--[[ACTION
 
@@ -462,26 +477,6 @@ end
 function utilities.telegram_file_link(res)
 	--res = table returned by getFile()
 	return "https://api.telegram.org/file/bot"..config.bot_api_key.."/"..res.result.file_path
-end
-
-function utilities.is_silentmode_on(chat_id)
-	local hash = 'chat:'..chat_id..':settings'
-	local res = db:hget(hash, 'Silent')
-	if res and res == 'on' then
-		return true
-	else
-		return false
-	end
-end
-
-function utilities.getRules(chat_id)
-	local hash = 'chat:'..chat_id..':info'
-	local rules = db:hget(hash, 'rules')
-	if not rules then
-		return ("-*empty*-")
-	else
-		return rules
-	end
 end
 
 function utilities.getAdminlist(chat_id)
