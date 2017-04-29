@@ -14,9 +14,9 @@ local function send_in_group(chat_id)
 end
 
 function plugin.onTextMessage(msg, blocks)
-    if msg.chat.type == 'private' then
-    	if blocks[1] == 'start' then
-    		msg.chat.id = tonumber(blocks[2])
+	if msg.chat.type == 'private' then
+		if blocks[1] == 'start' then
+			msg.chat.id = tonumber(blocks[2])
 
 			local res = api.getChat(msg.chat.id)
 			if not res then
@@ -32,24 +32,24 @@ function plugin.onTextMessage(msg, blocks)
 					"You can't read the rules of a private group."))
 				return
 			end
-    	else
-    		return
-    	end
-    end
+		else
+			return
+		end
+	end
 
-    local hash = 'chat:'..msg.chat.id..':info'
-    if blocks[1] == 'rules' or blocks[1] == 'start' then
-        local rules = u.getRules(msg.chat.id)
+	local hash = 'chat:'..msg.chat.id..':info'
+	if blocks[1] == 'rules' or blocks[1] == 'start' then
+		local rules = u.getRules(msg.chat.id)
 
-        local reply_markup, rules = u.reply_markup_from_text(rules)
+		local reply_markup, rules = u.reply_markup_from_text(rules)
 
-        local link_preview = rules:find('telegra%.ph/') ~= nil
-    	if msg.chat.type == 'private' or (not msg.from.mod and not send_in_group(msg.chat.id)) then
-    		api.sendMessage(msg.from.id, rules, true, reply_markup, nil, link_preview)
-    	else
-        	api.sendReply(msg, rules, true, reply_markup, link_preview)
-        end
-    end
+		local link_preview = rules:find('telegra%.ph/') ~= nil
+		if msg.chat.type == 'private' or (not msg.from.mod and not send_in_group(msg.chat.id)) then
+			api.sendMessage(msg.from.id, rules, true, reply_markup, nil, link_preview)
+		else
+			api.sendReply(msg, rules, true, reply_markup, link_preview)
+		end
+	end
 
 	if not u.is_allowed('texts', msg.chat.id, msg.from) then return end
 
@@ -59,7 +59,7 @@ function plugin.onTextMessage(msg, blocks)
 		if not rules then
 			api.sendReply(msg, ("Please write something next `/setrules`"), true) return
 		end
-    	--check if a mod want to clean the rules
+		--check if a mod want to clean the rules
 		if rules == '-' then
 			db:hdel(hash, 'rules')
 			api.sendReply(msg, ("Rules has been deleted."))
