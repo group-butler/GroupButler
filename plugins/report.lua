@@ -112,7 +112,7 @@ function plugin.onTextMessage(msg, blocks)
         else
             if msg.from.admin
                 or not msg.reply
-                or u.is_mod(msg.chat.id, msg.reply.from.id) then
+                or u.least_rank('mod',msg.chat.id, msg.reply.from.id) then
                 return
             end
 

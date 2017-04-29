@@ -53,7 +53,7 @@ function plugin.onTextMessage(msg, blocks)
 
     --do not reply when...
     if not msg.reply
-    	or u.is_mod(msg.chat.id, msg.reply.from.id)
+    	or u.least_rank('mod',msg.chat.id, msg.reply.from.id)
     	or msg.reply.from.id == bot.id then
     	return
     end

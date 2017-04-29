@@ -63,7 +63,7 @@ function plugin.onTextMessage(msg, blocks)
                 if not msg.reply.forward_from then
                     text = ("<i>Please reply to a forwarded message to block the original sender, or provide me a list of usernames</i>")
                 else
-                    if u.is_mod(msg.chat.id, msg.reply.forward_from.id) and blocks[1] == 'block'  then
+                    if u.least_rank('mod',msg.chat.id, msg.reply.forward_from.id) and blocks[1] == 'block'  then
                         --/unblock on an admin/mod is possible because an user can be blocked by username even if he is mod/admin
                         text = ("<i>You can't block an admin or a mod</i>")
                     else

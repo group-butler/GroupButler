@@ -43,6 +43,29 @@ function string:escape_hard(ft)
 	end
 end
 
+-- Rank related functions
+-- returns true if user rank is equal to or higher than
+function utilities.least_rank(least, chat_id, user_id)
+	if type(chat_id) == 'table' then
+		local msg = chat_id
+		local chat_id = msg.chat.id
+		local user_id = msg.from.id
+	end
+	-- local set = 'cache:chat:'..chat_id..':admins'
+	-- TODO: check if adminlist hasn't "expired"
+	-- if not db:exists(set) then
+	utilities.cache_adminlist(chat_id, res)
+	-- end
+	local rank = db.get_karma('rank', chat_id, user_id)
+	if rank == least or rank == 'owner' then
+		return true
+	elseif rank == 'admin' and least == 'mod' then
+		return true
+	else
+		return false
+	end
+end
+
 function utilities.is_allowed(action, chat_id, user_obj)
 	--[[ACTION
 
@@ -54,25 +77,6 @@ function utilities.is_allowed(action, chat_id, user_obj)
 	if user_obj.admin then return true end
 
 	return getval('chat_mod', action, 'chatid', chat_id) == 't'
-end
-
-function utilities.is_mod(chat_id, user_id)
-	if type(chat_id) == 'table' then
-		local msg = chat_id
-		if msg.from.admin then
-			return true
-		else
-			local chat_id = msg.chat.id
-			local user_id = msg.from.id
-			return db.get_karma('rank', chat_id, user_id) == 'mod'
-		end
-	else
-		if utilities.is_admin(chat_id, user_id) then
-			return true
-		else
-			return db.get_karma('rank', chat_id, user_id) == 'mod'
-		end
-	end
 end
 
 function utilities.is_superadmin(user_id)
@@ -106,79 +110,8 @@ function utilities.is_admin_request(msg)
 	end
 end
 
--- Returns the admin status of the user. The first argument can be the message,
--- then the function checks the rights of the sender in the incoming chat.
-function utilities.is_admin(chat_id, user_id)
-	if type(chat_id) == 'table' then
-		local msg = chat_id
-		local chat_id = msg.chat.id
-		local user_id = msg.from.id
-	end
-
-	-- local set = 'cache:chat:'..chat_id..':admins'
-	-- TODO: check if adminlist hasn't "expired"
-	-- if not db:exists(set) then
-	utilities.cache_adminlist(chat_id, res)
-	-- end
-
-	local res = db.get_karma('rank', chat_id, user_id)
-
-	if res == 'admin' or res == 'owner' then
-		return true
-	else
-		return false
-	end
-end
-
-function utilities.is_admin2(chat_id, user_id)
-	local res = api.getChatMember(chat_id, user_id)
-	if not res then
-		return false, false
-	end
-	local status = res.result.status
-	if status == 'creator' or status == 'administrator' then
-		return true, true
-	else
-		return false, true
-	end
-end
-
 function utilities.is_owner_request(msg)
 	local status = api.getChatMember(msg.chat.id, msg.from.id).result.status
-	if status == 'creator' then
-		return true
-	else
-		return false
-	end
-end
-
-function utilities.is_owner(chat_id, user_id)
-	if type(chat_id) == 'table' then
-		local msg = chat_id
-		chat_id = msg.chat.id
-		user_id = msg.from.id
-	end
-
-	local hash = 'cache:chat:'..chat_id..':owner'
-	local owner_id, res = nil, true
-	repeat
-		owner_id = db:get(hash)
-		if not owner_id then
-			res = utilities.cache_adminlist(chat_id)
-		end
-	until owner_id or not res
-
-	if owner_id then
-		if tonumber(owner_id) == tonumber(user_id) then
-			return true
-		end
-	end
-
-	return false
-end
-
-function utilities.is_owner2(chat_id, user_id)
-	local status = api.getChatMember(chat_id, user_id).result.status
 	if status == 'creator' then
 		return true
 	else

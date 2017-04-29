@@ -41,8 +41,8 @@ function plugin.onTextMessage(msg, blocks)
 		else
 			text = ("Yay! This group has been upgraded. You are great! Now I can work properly :)\n")
 		end
-		--[[if not u.is_admin(msg.chat.id, bot.id) then
-			if u.is_owner(msg.chat.id, msg.from.id) then
+		--[[if not u.least_rank('admin',msg.chat.id, bot.id) then
+			if u.least_rank('owner',msg.chat.id, msg.from.id) then
 				text = text .. ("Hmm… apparently I'm not an administrator. "
 					.. "I can be more useful if you make me an admin. "
 					.. "See [here](https://telegram.me/GroupButler_ch/104) how to do it.\n")

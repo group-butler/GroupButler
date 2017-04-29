@@ -90,7 +90,7 @@ end
 
 function plugin.onTextMessage(msg, blocks)
 	if blocks[1] == 'id' then --just for debug
-		if msg.chat.id < 0 and u.is_admin(msg.chat.id, msg.from.id) then
+		if msg.chat.id < 0 and u.least_rank('admin',msg.chat.id, msg.from.id) then
 			api.sendMessage(msg.chat.id, string.format('`%d`', msg.chat.id), true)
 		end
  	end

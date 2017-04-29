@@ -115,7 +115,7 @@ function plugin.onTextMessage(msg, blocks)
 
 		 	local res
 		 	local chat_id = msg.chat.id
-		 	if u.is_mod(chat_id, user_id) and not u.is_admin(msg.chat.id, user_id) then
+		 	if u.least_rank('mod',chat_id, user_id) and not u.least_rank('admin',msg.chat.id, user_id) then
 		 		api.sendReply(msg, ("_This user is a moderator. Please /demote him first_"), true) return
 		 	end
 		 	local admin, kicked = u.getnames_complete(msg, blocks)
@@ -192,7 +192,7 @@ function plugin.onTextMessage(msg, blocks)
 		    	end
     		end
    			if blocks[1] == 'unban' then
-   				if u.is_admin(chat_id, user_id) then
+   				if u.least_rank('admin',chat_id, user_id) then
    					api.sendReply(msg, ("_An admin can't be unbanned_"), true)
    				else
    					api.unbanUser(chat_id, user_id)

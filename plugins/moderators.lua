@@ -54,7 +54,7 @@ local function promdem_user(msg, blocks, action)
             return nil, ("Reply to someone, or mention him")
         end
 
-        if u.is_admin(msg.chat.id, user.id) then
+        if u.least_rank('admin',msg.chat.id, user.id) then
             return nil, ("I'm sorry, you can't promote this user because he's already an admin")
         end
 
@@ -65,7 +65,7 @@ end
 local function can_promdemote(chat_id, user, is_admin)
     if not is_admin then
         return false
-    elseif u.is_owner(chat_id, user.id) then
+    elseif u.least_rank('owner',chat_id, user.id) then
         return true
     else
         local status = db:hget('chat:'..chat_id..':modsettings', 'promdem') or config.chat_settings['modsettings']['promdem']
@@ -234,7 +234,7 @@ Moderators will be never able to use: /cache, /leave, /snap, /import, /setlog an
                 text = toggleModeratorsSetting(chat_id, blocks[2])
             end
 
-            is_owner = u.is_owner(chat_id, msg.from.id)
+            is_owner = u.least_rank('owner',chat_id, msg.from.id)
             reply_markup = doKeyboard_mods_rights(chat_id, is_owner)
             api.editMessageText(msg.chat.id, msg.message_id, mod_first, true, reply_markup)
             if text then api.answerCallbackQuery(msg.cb_id, text) end

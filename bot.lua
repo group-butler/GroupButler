@@ -401,11 +401,11 @@ local function parseMessageFunction(update)
 	end
 
 	if (msg.chat.id < 0 or msg.target_id) and msg.from then
-		msg.from.admin = u.is_admin(msg.target_id or msg.chat.id, msg.from.id)
+		msg.from.admin = u.least_rank('admin',msg.target_id or msg.chat.id, msg.from.id)
 		if msg.from.admin then
 			msg.from.mod = true
 		else
-			msg.from.mod = u.is_mod(msg.target_id or msg.chat.id, msg.from.id)
+			msg.from.mod = u.least_rank('mod',msg.target_id or msg.chat.id, msg.from.id)
 		end
 	end
 
