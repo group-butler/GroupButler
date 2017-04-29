@@ -132,7 +132,7 @@ function plugin.onTextMessage(msg, blocks)
 		 		local status = res.result.status
 				local name = u.getname_final(res.result.user)
 				local texts = {
-					kicked = ("%s is banned from this group"),
+					kicked = ("%s is banned from this group"), --Kicker or banned?
 					left = ("%s left the group or has been kicked and unbanned"),
 					administrator = ("%s is an admin"),
 					creator = ("%s is the group creator"),
