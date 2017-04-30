@@ -5,8 +5,6 @@ local BASE_URL = 'https://api.telegram.org/bot' .. config.bot_api_key
 
 local api = {}
 
--- local curl_context = curl.easy{verbose = config.bot_settings.debug_connections}
-
 local function getCode(err)
 	err = err:lower()
 	for k,v in pairs(api_errors) do
@@ -18,23 +16,26 @@ local function getCode(err)
 end
 
 local function performRequest(url)
-	local data = {}
-
-	-- if multithreading is made, this request must be in critical section
-	local c = curl_context:setopt_url(url)
-		:setopt_writefunction(table.insert, data)
-		:perform()
-
-	return table.concat(data), c:getinfo_response_code()
+	local httpc = http.new()
+	local res, err = httpc:request_uri(url, {
+	  ssl_verify = false, -- TODO fix the
+	  -- method = "POST",
+	  -- body = "a=1&b=2", -- TODO or not TODO: send the request on body, since it doesn't require escaping
+	  -- headers = {
+	  --   ["Content-Type"] = "application/x-www-form-urlencoded",
+	  -- }
+	})
+	return res.body, res.status
 end
 
 local function sendRequest(url)
 	local dat, code = performRequest(url)
-	local tab = JSON.decode(dat)
+	local tab = json.decode(dat)
 
 	if not tab then
-		ngx.log(ngx.NOTICE,clr.red..'Error while parsing JSON'..clr.reset, code)
-		ngx.log(ngx.NOTICE,clr.yellow..'Data:'..clr.reset, dat)
+		-- TODO merge these two into a single error message (or not)
+		ngx.log(ngx.ERR,'Error while parsing JSON', code)
+		ngx.log(ngx.ERR,'Data:', dat)
 		api.sendAdmin(dat..'\n'..code)
 		--error('Incorrect response')
 	end
@@ -46,7 +47,7 @@ local function sendRequest(url)
 			 code = getCode(tab.description)
 		end
 
-		ngx.log(ngx.NOTICE,clr.red..code, tab.description..clr.reset)
+		ngx.log(ngx.ERR,code, tab.description)
 
 		return false, code, tab.description
 	end
@@ -98,20 +99,8 @@ function api.getMe()
 
 end
 
-function api.getUpdates(offset)
-
-	local url = BASE_URL .. '/getUpdates?timeout=20'
-
-	if offset then
-		url = url .. '&offset=' .. offset
-	end
-
-	return sendRequest(url)
-
-end
-
 function api.firstUpdate()
-	local url = BASE_URL .. '/getUpdates?timeout=3600&limit=1&allowed_updates='..JSON.encode(config.allowed_updates)
+	local url = BASE_URL .. '/getUpdates?timeout=3600&limit=1&allowed_updates='..json.encode(config.allowed_updates)
 
 	return sendRequest(url)
 end
@@ -265,7 +254,7 @@ function api.sendMessage(chat_id, text, parse_mode, reply_markup, reply_to_messa
 	end
 
 	if reply_markup then
-		url = url..'&reply_markup='..URL.escape(JSON.encode(reply_markup))
+		url = url..'&reply_markup='..URL.escape(json.encode(reply_markup))
 	end
 
 	if not link_preview then
@@ -303,7 +292,7 @@ function api.editMessageText(chat_id, message_id, text, parse_mode, keyboard)
 	url = url .. '&disable_web_page_preview=true'
 
 	if keyboard then
-		url = url..'&reply_markup='..URL.escape(JSON.encode(keyboard))
+		url = url..'&reply_markup='..URL.escape(json.encode(keyboard))
 	end
 
 	local res, code, desc = sendRequest(url)
@@ -320,7 +309,7 @@ function api.editMarkup(chat_id, message_id, reply_markup)
 
 	local url = BASE_URL .. '/editMessageReplyMarkup?chat_id=' .. chat_id ..
 		'&message_id='..message_id..
-		'&reply_markup='..URL.escape(JSON.encode(reply_markup))
+		'&reply_markup='..URL.escape(json.encode(reply_markup))
 
 	return sendRequest(url)
 
@@ -389,7 +378,7 @@ end
 
 function api.answerInlineQuery(inline_query_id, results, cache_time, is_personal, switch_pm_text, switch_pm_parameter)
 
-	local url = BASE_URL .. '/answerInlineQuery?inline_query_id='..inline_query_id..'&results='..JSON.encode(results)
+	local url = BASE_URL .. '/answerInlineQuery?inline_query_id='..inline_query_id..'&results='..json.encode(results)
 
 	if cache_time then
 		url = url..'&cache_time='..cache_time
@@ -463,7 +452,7 @@ function api.sendDocumentId(chat_id, file_id, reply_to_message_id, caption, repl
 		url = url..'&caption='..URL.escape(caption)
 	end
 	if reply_markup then
-		url = url..'&reply_markup='..URL.escape(JSON.encode(reply_markup))
+		url = url..'&reply_markup='..URL.escape(json.encode(reply_markup))
 	end
 
 	return sendRequest(url)

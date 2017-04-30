@@ -40,7 +40,6 @@ return {
 		log_api_errors = true, --Log errors, which happening whilst interacting with the bot api.
 		stream_commands = true,
 		admin_mode = false,
-		debug_connections = false,
 		realm_max_members = 60,
 		realm_max_subgroups = 6
 	},

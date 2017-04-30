@@ -4,7 +4,7 @@ WORKDIR /srv/app
 
 RUN apk add --no-cache bash && mv /bin/sh /bin/sh.bak && ln -s /bin/bash /bin/sh
 
-ARG ROCKS="luasocket luasec serpent httpclient i18n"
+ARG ROCKS="luasocket luasec serpent i18n"
 RUN for ROCK in $ROCKS; do luarocks install $ROCK; done
 
 RUN rm /bin/sh && mv /bin/sh.bak /bin/sh
