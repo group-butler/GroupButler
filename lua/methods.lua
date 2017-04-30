@@ -1,15 +1,11 @@
-local curl = require 'cURL'
 local URL = require 'socket.url'
-local JSON = require 'dkjson'
-local config = require 'config'
-local clr = require 'term.colors'
 local api_errors = require 'api_bad_requests'
 
 local BASE_URL = 'https://api.telegram.org/bot' .. config.bot_api_key
 
 local api = {}
 
-local curl_context = curl.easy{verbose = config.bot_settings.debug_connections}
+-- local curl_context = curl.easy{verbose = config.bot_settings.debug_connections}
 
 local function getCode(err)
 	err = err:lower()
@@ -37,8 +33,8 @@ local function sendRequest(url)
 	local tab = JSON.decode(dat)
 
 	if not tab then
-		print(clr.red..'Error while parsing JSON'..clr.reset, code)
-		print(clr.yellow..'Data:'..clr.reset, dat)
+		ngx.log(ngx.NOTICE,clr.red..'Error while parsing JSON'..clr.reset, code)
+		ngx.log(ngx.NOTICE,clr.yellow..'Data:'..clr.reset, dat)
 		api.sendAdmin(dat..'\n'..code)
 		--error('Incorrect response')
 	end
@@ -50,7 +46,7 @@ local function sendRequest(url)
 			 code = getCode(tab.description)
 		end
 
-		print(clr.red..code, tab.description..clr.reset)
+		ngx.log(ngx.NOTICE,clr.red..code, tab.description..clr.reset)
 
 		return false, code, tab.description
 	end
@@ -252,7 +248,7 @@ function api.leaveChat(chat_id)
 end
 
 function api.sendMessage(chat_id, text, parse_mode, reply_markup, reply_to_message_id, link_preview)
-	--print(text)
+	--ngx.log(ngx.NOTICE,text)
 
 	local url = BASE_URL .. '/sendMessage?chat_id=' .. chat_id .. '&text=' .. URL.escape(text)
 

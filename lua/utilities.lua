@@ -187,7 +187,7 @@ end
 
 function utilities.dump(...)
 	for _, value in pairs{...} do
-		print(serpent.block(value, {comment=false}))
+		ngx.log(ngx.NOTICE,serpent.block(value, {comment=false}))
 	end
 end
 
@@ -200,7 +200,7 @@ function utilities.vtext(...)
 end
 
 function utilities.download_to_file(url, file_path)
-	print("url to download: "..url)
+	ngx.log(ngx.NOTICE,"url to download: "..url)
 	local respbody = {}
 	local options = {
 		url = url,
@@ -215,7 +215,7 @@ function utilities.download_to_file(url, file_path)
 	local headers = response[3]
 	local status = response[4]
 	if code ~= 200 then return false, code end
-	print("Saved to: "..file_path)
+	ngx.log(ngx.NOTICE,"Saved to: "..file_path)
 	file = io.open(file_path, "w+")
 	file:write(table.concat(respbody))
 	file:close()
@@ -544,7 +544,7 @@ function utilities.getModlist(chat_id)
 end
 
 local function sort_funct(a, b)
-	print(a, b)
+	ngx.log(ngx.NOTICE,a, b)
 return a:gsub('#', '') < b:gsub('#', '') end
 
 function utilities.getExtraList(chat_id)
