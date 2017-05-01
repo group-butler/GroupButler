@@ -99,12 +99,6 @@ function api.getMe()
 
 end
 
-function api.firstUpdate()
-	local url = BASE_URL .. '/getUpdates?timeout=3600&limit=1&allowed_updates='..json.encode(config.allowed_updates)
-
-	return sendRequest(url)
-end
-
 function api.unbanChatMember(chat_id, user_id)
 
 	local url = BASE_URL .. '/unbanChatMember?chat_id=' .. chat_id .. '&user_id=' .. user_id
