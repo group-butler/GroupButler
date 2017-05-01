@@ -29,9 +29,7 @@ assert(pg:connect())
 -- Decode the update
 ngx.req.read_body()
 local body = ngx.req.get_body_data()
-local msg = json.decode(body)
-
--- ngx.log(ngx.ERR,body) -- Print received request to terminal
+local msg = assert(json.decode(body))
 
 local function extract_usernames(msg)
 	local username, userid
