@@ -4,6 +4,7 @@ version: '3'
 
 services:
   redis:
+    command: --save "" --appendonly no
     image: redis:alpine
     ports:
       - "6379:6379"
