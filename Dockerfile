@@ -9,7 +9,7 @@ RUN for ROCK in $ROCKS; do luarocks install $ROCK; done
 
 RUN rm /bin/sh && mv /bin/sh.bak /bin/sh
 
-ARG OPM="pintsized/lua-resty-http"
+ARG OPM="pintsized/lua-resty-http leafo/pgmoon"
 RUN opm install $OPM
 
 ENTRYPOINT nginx -g 'daemon off;' -p `pwd`/ -c conf/dev.conf
