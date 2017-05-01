@@ -1,8 +1,3 @@
-local config = require 'config'
-local u = require 'utilities'
-local api = require 'methods'
-local JSON = require 'dkjson'
-
 local plugin = {}
 
 local function save_data(filename, data)

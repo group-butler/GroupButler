@@ -1,10 +1,3 @@
-local serpent = require 'serpent'
-local config = require 'config'
-local api = require 'methods'
-local ltn12 = require 'ltn12'
-local HTTPS = require 'ssl.https'
-local db = require 'database'
-
 -- utilities.lua
 -- Functions shared among plugins.
 
