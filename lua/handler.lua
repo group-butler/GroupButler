@@ -1,9 +1,13 @@
+local api = require 'methods' -- Load Telegram API
+local db = require 'database' -- Load database helper functions
+local u = require 'utilities' -- Load miscellaneous and cross-plugin functions
+
 -- Make telegram aware the update was received
 ngx.status = ngx.HTTP_OK
 ngx.say('{ }')
 
 -- Init redis connection
-local red = redis:new()
+red = redis:new()
 red:set_timeout(1000) -- 1 sec
 local ok, err = red:connect(config.redis_host, config.redis_port)
 if not ok then
@@ -13,7 +17,7 @@ end
 red:select(config.redis_db) -- Select the redis db
 
 -- Init postgres connection
-local pg = pgmoon.new({
+pg = pgmoon.new({
 	host = config.db_host,
 	port = config.db_port,
 	user = config.db_user,
