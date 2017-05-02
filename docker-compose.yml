@@ -29,6 +29,8 @@ services:
       - SOURCE
       - GROUP
       - CORE_LANG
+      - HOOK_URL
+      - MAX_CONNECTIONS
     ports:
       - "80:80"
     volumes:

@@ -4,6 +4,7 @@ return {
 	bot_api_key = os.getenv("TG_TOKEN"),
 	superadmins = json.decode(os.getenv("SUPERADMINS")),
 	log = json.decode(os.getenv("LOG")),
+	url = os.getenv("HOOK_URL"),
 
 	-- Setting these is only required when running without Docker
 	db_host = os.getenv("DB_HOST") or 'db',
@@ -20,6 +21,7 @@ return {
 	source_code = os.getenv("SOURCE") or 'https://gitlab.com/Synko/GroupButler',
 	help_groups_link = os.getenv("GROUP") or 'https://t.me/RoboED',
 	lang = os.getenv("CORE_LANG"),
+	max_connections = os.getenv("MAX_CONNECTIONS") or 40,
 
 	-- Setting these is completely optional
 	redis_db = os.getenv("REDIS_DB") or 0,

@@ -31,13 +31,16 @@ for i,v in ipairs(config.plugins) do
 	table.insert(plugins, p)
 end
 
-local function bot_init() -- Warns the admin when the bot is started
-	local temp = os.date("*t")
-	temp["plugins"] = #plugins
-	api.sendAdmin(i18n('bot_started',temp), true)
-	start_timestamp = os.time()
-	current = {h = 0}
-	last = {h = 0}
-end
+-- Since cosocket API is not available at the init context, I had to improvise...
+local URL = require 'socket.url'
+local BASE_URL = 'https://api.telegram.org/bot' .. config.bot_api_key
 
--- bot_init() -- Disabled. cosockets are not available from the init context, we have to find a
+-- Set Webhook endpoint
+local url = BASE_URL .. '/setWebhook?url=' .. config.url .. '&max_connections=' .. config.max_connections .. '&allowed_updates=' .. json.encode(config.allowed_updates)
+os.execute('curl -s '..url..' > /dev/null')
+
+-- Warns the admin the bot has successfully started
+local temp = os.date("*t")
+temp["plugins"] = #plugins
+local url = BASE_URL .. '/sendMessage'
+os.execute('curl -s -d "parse_mode=Markdown&chat_id=' .. config.log.admin .. '&text=' .. i18n('bot_started',temp) .. '" ' .. url..' > /dev/null')
