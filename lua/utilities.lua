@@ -49,7 +49,7 @@ function utilities.least_rank(least, chat_id, user_id)
 	-- if not db:exists(set) then
 	utilities.cache_adminlist(chat_id, res)
 	-- end
-	local rank = db.get_karma('rank', chat_id, user_id)
+	local rank = db.getvkarma(chat_id, user_id, 'rank')
 	if rank == least or rank == 'owner' then
 		return true
 	elseif rank == 'admin' and least == 'mod' then
@@ -142,9 +142,9 @@ function utilities.cache_adminlist(chat_id)
 
 	for _, admin in pairs(res.result) do
 		if admin.status == 'creator' then
-			db.put_in_karma('rank', chat_id, admin.user.id, "'owner'") -- Save owner
+			db.setvkarma(chat_id, admin.user.id, 'rank', "'owner'") -- Save owner
 		else
-			db.put_in_karma('rank', chat_id, admin.user.id, "'admin'") -- Add admins
+			db.setvkarma(chat_id, admin.user.id, 'rank', "'admin'") -- Add admins
 		end
 	end
 
@@ -170,7 +170,7 @@ function utilities.get_cached_admins_list(chat_id, second_try)
 end
 
 function utilities.is_blocked_global(id)
-	return db.getval('users', 'blocked', 'userid', id) == 't'
+	return db.getvusers('blocked', 'userid', id) == 't'
 end
 
 function string:trim() -- Trims whitespace from a string.
@@ -309,11 +309,8 @@ function utilities.demote(chat_id, user_id)
 	-- db:del(('chat:%d:mod:%d'):format(chat_id, user_id))
 	-- local removed = db:srem('chat:'..chat_id..':mods', user_id)
 	-- return removed == 1
-
-	-- res = assert (con:execute(string.format([[UPDATE chat SET mods = array_remove(mods, %s)
-	-- WHERE chatid=%s]], user_id, chat_id)))
-	-- return res
-	db.put_in_karma('rank', chat_id, user_id, "'user'")
+	local removed = db.setvkarma(chat_id, user_id, 'rank', "'user'")
+	return removed < 0 -- Checks if the number of affected rows is greater than 0
 end
 
 function utilities.get_media_type(msg)
@@ -694,19 +691,11 @@ function utilities.sendStartMe(msg)
 end
 
 function utilities.initGroup(chat_id)
-	-- Create chat tables
-	res = assert (con:execute(string.format([[INSERT INTO chat (chatid) values (%s)
-	ON CONFLICT DO NOTHING]], chat_id)
-	))
-	res = assert (con:execute(string.format([[INSERT INTO chat_antiflood (chatid) values (%s)
-	ON CONFLICT DO NOTHING]], chat_id)
-	))
-	res = assert (con:execute(string.format([[INSERT INTO chat_antimedia (chatid) values (%s)
-	ON CONFLICT DO NOTHING]], chat_id)
-	))
-	res = assert (con:execute(string.format([[INSERT INTO chat_antispam (chatid) values (%s)
-	ON CONFLICT DO NOTHING]], chat_id)
-	))
+	-- Create chat rows
+	res = pg:query('INSERT INTO chat (chatid) values ('..chat_id..') ON CONFLICT DO NOTHING')
+	res = pg:query('INSERT INTO chat (chatid_antiflood) values ('..chat_id..') ON CONFLICT DO NOTHING')
+	res = pg:query('INSERT INTO chat (chatid_antimedia) values ('..chat_id..') ON CONFLICT DO NOTHING')
+	res = pg:query('INSERT INTO chat (chatid_antispam) values ('..chat_id..') ON CONFLICT DO NOTHING')
 	utilities.cache_adminlist(chat_id, api.getChatAdministrators(chat_id)) --init admin cache
 end
 

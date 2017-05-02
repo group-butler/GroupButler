@@ -31,6 +31,9 @@ ngx.req.read_body()
 local body = ngx.req.get_body_data()
 local msg = assert(json.decode(body))
 
+-- TODO: move this to init
+bot = api.getMe().result
+
 local function extract_usernames(msg)
 	local username, userid
 	if msg.from then
@@ -48,14 +51,14 @@ local function extract_usernames(msg)
 			username = msg.new_chat_member.username:lower()
 			userid = msg.new_chat_member.id
 		end
-		db.put_in_karma('membership', msg.chat.id, msg.new_chat_member.id, 'true') -- Enable membership of/create entry for this chat user
+		db.setvkarma(msg.chat.id, msg.new_chat_member.id, 'membership', true) -- Enable membership of/create entry for this chat user
 	end
 	if msg.left_chat_member then
 		if msg.left_chat_member.username then
 			username = msg.left_chat_member.username:lower()
 			userid = msg.left_chat_member.id
 		end
-		db.put_in_karma('membership', msg.chat.id, msg.new_chat_member.id, 'false') -- Disable the membership of this chat user
+		db.setvkarma(msg.chat.id, msg.new_chat_member.id, 'membership', false) -- Disable the membership of this chat user
 	end
 	if msg.reply_to_message then
 		extract_usernames(msg.reply_to_message)
@@ -63,10 +66,7 @@ local function extract_usernames(msg)
 	if msg.pinned_message then
 		extract_usernames(msg.pinned_message)
 	end
-
-	res = assert (con:execute(string.format([[INSERT INTO users (userid, username) values (%s, '%s')
-	ON CONFLICT (userid) DO UPDATE SET username = '%s']], userid, username, username)
-	)) -- Save or update usernames
+	db.setvusers(userid, 'username', username) -- Save or update usernames
 end
 
 local function collect_stats(msg)
@@ -74,9 +74,8 @@ local function collect_stats(msg)
 
 	if msg.chat.type ~= 'inline' and msg.from then
 		-- TODO: use timestamp from message instead of now()
-		db.put_in_karma('lastmsg', msg.chat.id, msg.from.id, 'now()') --last message for each user
-		res = assert (con:execute(string.format([[UPDATE chat SET lastmsg = now()
-		WHERE chatid=%s]], msg.chat.id))) -- store the timestamp of the last message for each chat
+		db.setvkarma(msg.chat.id, msg.from.id, 'lastmsg', 'now()') -- Timestamp of the last message for each user
+		db.setvchat(msg.chat.id, 'lastmsg', 'now()') -- Timestamp of the last message for each chat
 	end
 end
 
