@@ -475,62 +475,81 @@ function api.sendDocumentId(chat_id, file_id, reply_to_message_id, caption, repl
 	
 end
 
-----------------------------To curl--------------------------------------------
-
-local function curlRequest(curl_command)
- -- Use at your own risk. Will not check for success.
-
-	io.popen(curl_command)
-
-end
+---------------------------- File Uploads -------------------------------------
 
 function api.sendPhoto(chat_id, photo, caption, reply_to_message_id)
 
 	local url = BASE_URL .. '/sendPhoto'
+    curl_context:setopt_url(url)
 
-	local curl_command = 'curl "' .. url .. '" -F "chat_id=' .. chat_id .. '" -F "photo=@' .. photo .. '"'
+    local form = curl.form()
+    form:add_content("chat_id", chat_id)
+    form:add_file("photo", photo)
 
 	if reply_to_message_id then
-		curl_command = curl_command .. ' -F "reply_to_message_id=' .. reply_to_message_id .. '"'
+		form:add_content("reply_to_message_id", reply_to_message_id)
 	end
 
 	if caption then
-		curl_command = curl_command .. ' -F "caption=' .. caption .. '"'
+		form:add_content("caption", caption)
 	end
 
-	return curlRequest(curl_command)
+    data = {}
 
+    local c = curl_context:setopt_writefunction(table.insert, data)
+                          :setopt_httppost(form)
+                          :perform()
+
+	return table.concat(data), c:getinfo_response_code()
 end
 
 function api.sendDocument(chat_id, document, reply_to_message_id, caption)
 
 	local url = BASE_URL .. '/sendDocument'
+    curl_context:setopt_url(url)
 
-	local curl_command = 'curl "' .. url .. '" -F "chat_id=' .. chat_id .. '" -F "document=@' .. document .. '"'
+    local form = curl.form()
+    form:add_content("chat_id", chat_id)
+    form:add_file("document", document)
 
 	if reply_to_message_id then
-		curl_command = curl_command .. ' -F "reply_to_message_id=' .. reply_to_message_id .. '"'
+		form:add_content("reply_to_message_id", reply_to_message_id)
 	end
-	
+
 	if caption then
-		curl_command = curl_command .. ' -F "caption=' .. caption .. '"'
+		form:add_content("caption", caption)
 	end
-	
-	return curlRequest(curl_command)
+
+    data = {}
+
+    local c = curl_context:setopt_writefunction(table.insert, data)
+                          :setopt_httppost(form)
+                          :perform()
+
+	return table.concat(data), c:getinfo_response_code()
 
 end
 
 function api.sendSticker(chat_id, sticker, reply_to_message_id)
 
 	local url = BASE_URL .. '/sendSticker'
+    curl_context:setopt_url(url)
 
-	local curl_command = 'curl "' .. url .. '" -F "chat_id=' .. chat_id .. '" -F "sticker=@' .. sticker .. '"'
+    local form = curl.form()
+    form:add_content("chat_id", chat_id)
+    form:add_file("sticker", sticker)
 
 	if reply_to_message_id then
-		curl_command = curl_command .. ' -F "reply_to_message_id=' .. reply_to_message_id .. '"'
+		form:add_content("reply_to_message_id", reply_to_message_id)
 	end
 
-	return curlRequest(curl_command)
+    data = {}
+
+    local c = curl_context:setopt_writefunction(table.insert, data)
+                          :setopt_httppost(form)
+                          :perform()
+
+	return table.concat(data), c:getinfo_response_code()
 
 end
 
@@ -549,66 +568,89 @@ end
 function api.sendAudio(chat_id, audio, reply_to_message_id, duration, performer, title)
 
 	local url = BASE_URL .. '/sendAudio'
+    curl_context:setopt_url(url)
 
-	local curl_command = 'curl "' .. url .. '" -F "chat_id=' .. chat_id .. '" -F "audio=@' .. audio .. '"'
+    local form = curl.form()
+    form:add_content("chat_id", chat_id)
+    form:add_file("audio", audio)
 
 	if reply_to_message_id then
-		curl_command = curl_command .. ' -F "reply_to_message_id=' .. reply_to_message_id .. '"'
+		form:add_content("reply_to_message_id", reply_to_message_id)
 	end
 
 	if duration then
-		curl_command = curl_command .. ' -F "duration=' .. duration .. '"'
+		form:add_content("duration", duration)
 	end
 
 	if performer then
-		curl_command = curl_command .. ' -F "performer=' .. performer .. '"'
+		form:add_content("performer", performer)
 	end
 
 	if title then
-		curl_command = curl_command .. ' -F "title=' .. title .. '"'
+		form:add_content("title", title)
 	end
 
-	return curlRequest(curl_command)
+    data = {}
+
+    local c = curl_context:setopt_writefunction(table.insert, data)
+                          :setopt_httppost(form)
+                          :perform()
+
+	return table.concat(data), c:getinfo_response_code()
 
 end
 
 function api.sendVideo(chat_id, video, duration, caption, reply_to_message_id)
 
 	local url = BASE_URL .. '/sendVideo'
+    curl_context:setopt_url(url)
 
-	local curl_command = 'curl "' .. url .. '" -F "chat_id=' .. chat_id .. '" -F "video=@' .. video .. '"'
-	
-	if duration then
-		curl_command = curl_command .. ' -F "duration=' .. duration .. '"'
-	end
-	
-	if caption then
-		curl_command = curl_command .. ' -F "caption=' .. caption .. '"'
-	end
+    local form = curl.form()
+    form:add_content("chat_id", chat_id)
+    form:add_file("video", video)
 
 	if reply_to_message_id then
-		curl_command = curl_command .. ' -F "reply_to_message_id=' .. reply_to_message_id .. '"'
+		form:add_content("reply_to_message_id", reply_to_message_id)
 	end
 
-	return curlRequest(curl_command)
+	if duration then
+		form:add_content("duration", duration)
+	end
+
+	if caption then
+		form:add_content("caption", caption)
+	end
+
+    data = {}
+
+    local c = curl_context:setopt_writefunction(table.insert, data)
+                          :setopt_httppost(form)
+                          :perform()
+
+	return table.concat(data), c:getinfo_response_code()
 
 end
 
 function api.sendVoice(chat_id, voice, reply_to_message_id)
 
 	local url = BASE_URL .. '/sendVoice'
+    curl_context:setopt_url(url)
 
-	local curl_command = 'curl "' .. url .. '" -F "chat_id=' .. chat_id .. '" -F "voice=@' .. voice .. '"'
+    local form = curl.form()
+    form:add_content("chat_id", chat_id)
+    form:add_file("voice", voice)
 
 	if reply_to_message_id then
-		curl_command = curl_command .. ' -F "reply_to_message_id=' .. reply_to_message_id .. '"'
+		form:add_content("reply_to_message_id", reply_to_message_id)
 	end
 
-	if duration then
-		curl_command = curl_command .. ' -F "duration=' .. duration .. '"'
-	end
+    data = {}
 
-	return curlRequest(curl_command)
+    local c = curl_context:setopt_writefunction(table.insert, data)
+                          :setopt_httppost(form)
+                          :perform()
+
+	return table.concat(data), c:getinfo_response_code()
 
 end
 
