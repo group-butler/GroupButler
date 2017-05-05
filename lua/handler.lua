@@ -16,16 +16,6 @@ if not ok then
 end
 red:select(config.redis_db) -- Select the redis db
 
--- Init postgres connection
-pg = pgmoon.new({
-	host = config.db_host,
-	port = config.db_port,
-	user = config.db_user,
-	database = config.db_db,
-	password =  config.db_pass
-})
-assert(pg:connect())
-
 -- Decode the update
 ngx.req.read_body()
 local body = ngx.req.get_body_data()
@@ -377,4 +367,4 @@ end
 
 parseMessageFunction(msg)
 
-pg:keepalive() -- Allows this connection to be reused by future requests
+-- pg:keepalive() -- Allows this connection to be reused by future requests

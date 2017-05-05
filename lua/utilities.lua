@@ -1,3 +1,5 @@
+local db = require 'database'
+
 -- utilities.lua
 -- Functions shared among plugins.
 
