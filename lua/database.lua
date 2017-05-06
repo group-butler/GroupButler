@@ -57,7 +57,7 @@ function database.setvusers(user_id, col, val)
 end
 function database.getvusers(user_id, col)
 	connect()
-	database.getval('users', 'userid', col, user_id)
+	return database.getval('users', 'userid', col, user_id)
 end
 
 function database.setvchat(chat_id, col, val)
@@ -66,7 +66,7 @@ function database.setvchat(chat_id, col, val)
 end
 function database.getvchat(chat_id, col)
 	connect()
-	database.getval('chat', 'chatid', col, chat_id)
+	return database.getval('chat', 'chatid', col, chat_id)
 end
 
 function database.setvkarma(chat_id, user_id, col, val)
