@@ -32,11 +32,11 @@ function plugin.onCallbackQuery(msg, blocks)
 			api.editMessageText(msg.chat.id, msg.message_id, ("*List of available languages*:"), true, keyboard)
 		else
 			i18n.setLocale(blocks[1])
-			db.setvchat(msg.chat.id, 'lang', '"'..blocks[1]..'"')
+			db.setvchat(msg.chat.id, 'lang', "'"..blocks[1].."'")
 			if (blocks[1] == 'ar' or blocks[1] == 'fa') and msg.chat.type ~= 'private' then
 				-- Here null means allowed. Other possible values are ban and kick
-				db.setvchat(msg.chat.id, arab, 'null')
-				db.setvchat(msg.chat.id, rtl, 'null')
+				db.setvchat(msg.chat.id, 'arab', 'null')
+				db.setvchat(msg.chat.id, 'rtl', 'null')
 			end
 			-- TRANSLATORS: replace 'English' with the name of your language
 			api.editMessageText(msg.chat.id, msg.message_id, ("English language is *set*")..(".\nPlease note that translators are volunteers, and some strings of the translation you selected _could not have been translated yet_"), true)

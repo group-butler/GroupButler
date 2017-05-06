@@ -56,7 +56,7 @@ local function extract_usernames(msg)
 	if msg.pinned_message then
 		extract_usernames(msg.pinned_message)
 	end
-	db.setvusers(userid, 'username', username) -- Save or update usernames
+	db.setvusers(userid, 'username', "'"..username.."'") -- Save or update usernames
 end
 
 local function collect_stats(msg)
