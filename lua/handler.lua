@@ -146,11 +146,7 @@ local function on_msg_receive(msg, callback) -- The fn run whenever a message is
 		end
 	else
 		if msg.group_chat_created or (msg.new_chat_member and msg.new_chat_member.id == bot.id) then
-			-- set the language
-			--[[locale.language = db:get(string.format('lang:%d', msg.from.id)) or 'en'
-			if not config.available_languages[locale.language] then
-				locale.language = 'en'
-			end]]
+			db.setvchat(msg.chat.id, 'lang', '"'..config.lang..'"') -- set the chat language
 
 			-- send disclamer
 			api.sendMessage(msg.chat.id, ([[
