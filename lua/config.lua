@@ -1,11 +1,10 @@
 -- Editing this file directly is now highly disencouraged. You should instead use environment variables. This new method is a WIP, so if you need to change something which doesn't have a env var, you are encouraged to open an issue or a PR
-json = require ("dkjson")
-
 return {
 	-- Setting these is required in order to run, so no defaults
 	bot_api_key = os.getenv("TG_TOKEN"),
 	superadmins = json.decode(os.getenv("SUPERADMINS")),
 	log = json.decode(os.getenv("LOG")),
+	url = os.getenv("HOOK_URL"),
 
 	-- Setting these is only required when running without Docker
 	db_host = os.getenv("DB_HOST") or 'db',
@@ -22,6 +21,7 @@ return {
 	source_code = os.getenv("SOURCE") or 'https://gitlab.com/Synko/GroupButler',
 	help_groups_link = os.getenv("GROUP") or 'https://t.me/RoboED',
 	lang = os.getenv("CORE_LANG"),
+	max_connections = os.getenv("MAX_CONNECTIONS") or 40,
 
 	-- Setting these is completely optional
 	redis_db = os.getenv("REDIS_DB") or 0,
@@ -42,7 +42,6 @@ return {
 		log_api_errors = true, --Log errors, which happening whilst interacting with the bot api.
 		stream_commands = true,
 		admin_mode = false,
-		debug_connections = false,
 		realm_max_members = 60,
 		realm_max_subgroups = 6
 	},

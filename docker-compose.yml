@@ -4,6 +4,7 @@ version: '3'
 
 services:
   redis:
+    command: --save "" --appendonly no
     image: redis:alpine
     ports:
       - "6379:6379"
@@ -28,5 +29,11 @@ services:
       - SOURCE
       - GROUP
       - CORE_LANG
+      - HOOK_URL
+      - MAX_CONNECTIONS
+    ports:
+      - "80:80"
     volumes:
-      - ./:/srv/app
+      - ./lua:/srv/app/lua
+      - ./conf:/srv/app/conf
+      - ./i18n:/srv/app/i18n

@@ -1,26 +1,26 @@
-FROM ubuntu:16.04
+FROM openresty/openresty:alpine-fat
 
 WORKDIR /srv/app
 
-COPY .deps .
+RUN apk add --no-cache bash && mv /bin/sh /bin/sh.bak && ln -s /bin/bash /bin/sh
 
-RUN mv /bin/sh /bin/sh.bak && ln -s /bin/bash /bin/sh
-
-RUN . ./.deps && \
-    apt-get update && apt-get install -y $NATIVE ca-certificates gcc --no-install-recommends && \
-    git clone http://github.com/keplerproject/luarocks && cd luarocks && ./configure --lua-version=$LUA && make build && make install && for ROCK in $ROCKS; do luarocks install $ROCK; done
-
-RUN luarocks install PGSQL_INCDIR=/usr/include/postgresql/ luasql-postgres
+ARG ROCKS="luasocket luasec serpent i18n"
+RUN for ROCK in $ROCKS; do luarocks install $ROCK; done
 
 RUN rm /bin/sh && mv /bin/sh.bak /bin/sh
 
-ENTRYPOINT ["lua", "bot.lua"]
+ARG OPM="pintsized/lua-resty-http leafo/pgmoon"
+RUN opm install $OPM
 
-ARG BUILD_DATE=dev
-ENV BUILD_DATE=$BUILD_DATE
+ENTRYPOINT nginx -g 'daemon off;' -p `pwd`/ -c conf/dev.conf
 
-ARG BUILD_REV=dev
-ENV BUILD_REV=$BUILD_REV
+RUN mkdir /srv/app/logs
 
-ARG COMMIT=HEAD
-ENV COMMIT=$COMMIT
+# ARG BUILD_DATE=dev
+# ENV BUILD_DATE=$BUILD_DATE
+
+# ARG BUILD_REV=dev
+# ENV BUILD_REV=$BUILD_REV
+
+# ARG COMMIT=HEAD
+# ENV COMMIT=$COMMIT

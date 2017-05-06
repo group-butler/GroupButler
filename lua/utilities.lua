@@ -1,8 +1,3 @@
-local serpent = require 'serpent'
-local config = require 'config'
-local api = require 'methods'
-local ltn12 = require 'ltn12'
-local HTTPS = require 'ssl.https'
 local db = require 'database'
 
 -- utilities.lua
@@ -56,7 +51,7 @@ function utilities.least_rank(least, chat_id, user_id)
 	-- if not db:exists(set) then
 	utilities.cache_adminlist(chat_id, res)
 	-- end
-	local rank = db.get_karma('rank', chat_id, user_id)
+	local rank = db.getvkarma(chat_id, user_id, 'rank')
 	if rank == least or rank == 'owner' then
 		return true
 	elseif rank == 'admin' and least == 'mod' then
@@ -149,9 +144,9 @@ function utilities.cache_adminlist(chat_id)
 
 	for _, admin in pairs(res.result) do
 		if admin.status == 'creator' then
-			db.put_in_karma('rank', chat_id, admin.user.id, "'owner'") -- Save owner
+			db.setvkarma(chat_id, admin.user.id, 'rank', "'owner'") -- Save owner
 		else
-			db.put_in_karma('rank', chat_id, admin.user.id, "'admin'") -- Add admins
+			db.setvkarma(chat_id, admin.user.id, 'rank', "'admin'") -- Add admins
 		end
 	end
 
@@ -177,7 +172,7 @@ function utilities.get_cached_admins_list(chat_id, second_try)
 end
 
 function utilities.is_blocked_global(id)
-	return db.getval('users', 'blocked', 'userid', id) == 't'
+	return db.getvusers('blocked', 'userid', id) == 't'
 end
 
 function string:trim() -- Trims whitespace from a string.
@@ -187,7 +182,7 @@ end
 
 function utilities.dump(...)
 	for _, value in pairs{...} do
-		print(serpent.block(value, {comment=false}))
+		ngx.log(ngx.NOTICE,serpent.block(value, {comment=false}))
 	end
 end
 
@@ -200,7 +195,7 @@ function utilities.vtext(...)
 end
 
 function utilities.download_to_file(url, file_path)
-	print("url to download: "..url)
+	ngx.log(ngx.NOTICE,"url to download: "..url)
 	local respbody = {}
 	local options = {
 		url = url,
@@ -215,7 +210,7 @@ function utilities.download_to_file(url, file_path)
 	local headers = response[3]
 	local status = response[4]
 	if code ~= 200 then return false, code end
-	print("Saved to: "..file_path)
+	ngx.log(ngx.NOTICE,"Saved to: "..file_path)
 	file = io.open(file_path, "w+")
 	file:write(table.concat(respbody))
 	file:close()
@@ -316,11 +311,8 @@ function utilities.demote(chat_id, user_id)
 	-- db:del(('chat:%d:mod:%d'):format(chat_id, user_id))
 	-- local removed = db:srem('chat:'..chat_id..':mods', user_id)
 	-- return removed == 1
-
-	-- res = assert (con:execute(string.format([[UPDATE chat SET mods = array_remove(mods, %s)
-	-- WHERE chatid=%s]], user_id, chat_id)))
-	-- return res
-	db.put_in_karma('rank', chat_id, user_id, "'user'")
+	local removed = db.setvkarma(chat_id, user_id, 'rank', "'user'")
+	return removed < 0 -- Checks if the number of affected rows is greater than 0
 end
 
 function utilities.get_media_type(msg)
@@ -544,7 +536,7 @@ function utilities.getModlist(chat_id)
 end
 
 local function sort_funct(a, b)
-	print(a, b)
+	ngx.log(ngx.NOTICE,a, b)
 return a:gsub('#', '') < b:gsub('#', '') end
 
 function utilities.getExtraList(chat_id)
@@ -701,19 +693,11 @@ function utilities.sendStartMe(msg)
 end
 
 function utilities.initGroup(chat_id)
-	-- Create chat tables
-	res = assert (con:execute(string.format([[INSERT INTO chat (chatid) values (%s)
-	ON CONFLICT DO NOTHING]], chat_id)
-	))
-	res = assert (con:execute(string.format([[INSERT INTO chat_antiflood (chatid) values (%s)
-	ON CONFLICT DO NOTHING]], chat_id)
-	))
-	res = assert (con:execute(string.format([[INSERT INTO chat_antimedia (chatid) values (%s)
-	ON CONFLICT DO NOTHING]], chat_id)
-	))
-	res = assert (con:execute(string.format([[INSERT INTO chat_antispam (chatid) values (%s)
-	ON CONFLICT DO NOTHING]], chat_id)
-	))
+	-- Create chat rows
+	res = pg:query('INSERT INTO chat (chatid) values ('..chat_id..') ON CONFLICT DO NOTHING')
+	res = pg:query('INSERT INTO chat (chatid_antiflood) values ('..chat_id..') ON CONFLICT DO NOTHING')
+	res = pg:query('INSERT INTO chat (chatid_antimedia) values ('..chat_id..') ON CONFLICT DO NOTHING')
+	res = pg:query('INSERT INTO chat (chatid_antispam) values ('..chat_id..') ON CONFLICT DO NOTHING')
 	utilities.cache_adminlist(chat_id, api.getChatAdministrators(chat_id)) --init admin cache
 end
 

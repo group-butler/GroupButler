@@ -1,6 +1,7 @@
 local config = require 'config'
 local u = require 'utilities'
 local api = require 'methods'
+local db = require 'database'
 
 local plugin = {}
 
@@ -105,7 +106,7 @@ function plugin.onEveryMessage(msg)
 							res = api.kickUser(msg.chat.id, msg.from.id)
 						end
 						if res then --kick worked
-							db.put_in_karma('warning_media', msg.chat.id, msg.from.id, 0) --remove media warns
+							db.setvkarma(msg.chat.id, msg.from.id, 'warning_media', 0) --remove media warns
 							local message
 							if action == 'ban' then
 								message = ("%s <b>banned</b>: media sent not allowed!\n❗️ <code>%d/%d</code>"):format(name, n, max)
