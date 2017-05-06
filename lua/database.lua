@@ -37,7 +37,9 @@ function database.getval(table, col, col2, val)
 	connect()
 	local res = pg:query('SELECT '..col..' FROM '..table..' WHERE '..col2..'='..val)
 	if res then
-		return res[1][col1]
+		if res[1] then
+			return res[1][col1]
+		end
 	else
 		return nil
 	end
