@@ -33,7 +33,6 @@ for i,v in ipairs(config.plugins) do
 end
 
 -- Since cosocket API is not available at the init context, I had to improvise...
-local URL = require 'socket.url'
 local BASE_URL = 'https://api.telegram.org/bot' .. config.bot_api_key
 
 -- Set Webhook endpoint
