@@ -1,6 +1,7 @@
 local config = require 'config'
 local u = require 'utilities'
 local api = require 'methods'
+local db = require 'database'
 
 local plugin = {}
 
@@ -30,16 +31,17 @@ function plugin.onCallbackQuery(msg, blocks)
 			local keyboard = doKeyboard_lang()
 			api.editMessageText(msg.chat.id, msg.message_id, ("*List of available languages*:"), true, keyboard)
 		else
-			locale.language = blocks[1]
-	    	db:set('lang:'..msg.chat.id, locale.language)
-	    	if (blocks[1] == 'ar' or blocks[1] == 'fa') and msg.chat.type ~= 'private' then
-	    		db:hset('chat:'..msg.chat.id..':char', 'Arab', 'allowed')
-	    		db:hset('chat:'..msg.chat.id..':char', 'Rtl', 'allowed')
-	    	end
+			i18n.setLocale(blocks[1])
+			db.setvchat(msg.chat.id, 'lang', '"'..blocks[1]..'"')
+			if (blocks[1] == 'ar' or blocks[1] == 'fa') and msg.chat.type ~= 'private' then
+				-- Here null means allowed. Other possible values are ban and kick
+				db.setvchat(msg.chat.id, arab, 'null')
+				db.setvchat(msg.chat.id, rtl, 'null')
+			end
 			-- TRANSLATORS: replace 'English' with the name of your language
-        	api.editMessageText(msg.chat.id, msg.message_id, ("English language is *set*")..(".\nPlease note that translators are volunteers, and some strings of the translation you selected _could not have been translated yet_"), true)
-    	end
-    end
+			api.editMessageText(msg.chat.id, msg.message_id, ("English language is *set*")..(".\nPlease note that translators are volunteers, and some strings of the translation you selected _could not have been translated yet_"), true)
+		end
+	end
 end
 
 plugin.triggers = {
