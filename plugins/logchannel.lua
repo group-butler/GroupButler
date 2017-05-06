@@ -33,6 +33,8 @@ local function get_alert_text(key)
 		return _("Log when a new user is promoted to moderator")
 	elseif key == 'demote' then
 		return _("Log when an user looses the role of moderator")
+	elseif key == 'cleanmods' then
+		return _("Log when someone demotes all the moderators with '/modlist -'")
 	elseif key == 'nowarn' then
 		return _("Log when an admin removes the warning received by an user")
 	elseif key == 'report' then
@@ -68,6 +70,7 @@ local function doKeyboard_logchannel(chat_id)
 		['flood'] = _('Flood'),
 		['promote'] = _('Promotions'),
 		['demote'] = _('Demotions'),
+		['cleanmods'] = _('All mods demoted'),
 		['new_chat_photo'] = _('New group icon'),
 		['delete_chat_photo'] = _('Group icon removed'),
 		['new_chat_title'] = _('New group title'),
@@ -219,9 +222,9 @@ end
 
 plugin.triggers = {
 	onTextMessage = {
-		'^/(setlog)$',
-		'^/(unsetlog)$',
-		'^/(logchannel)$',
+		config.cmd..'(setlog)$',
+		config.cmd..'(unsetlog)$',
+		config.cmd..'(logchannel)$',
 		
 		--deeplinking from log buttons
 		'^/start (photo):(.*)$'

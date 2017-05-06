@@ -42,13 +42,13 @@ end
 local function report(msg, description)
     local text = _('• <b>Message reported by</b>: %s (<code>%d</code>)'):format(u.getname_final(msg.from), msg.from.id)
     local chat_link = db:hget('chat:'..msg.chat.id..':links', 'link')
+    if msg.reply.forward_from or msg.reply.forward_from_chat or msg.reply.sticker then
+        text = text.._('\n• <b>Reported message sent by</b>: %s (<code>%d</code>)'):format(u.getname_final(msg.reply.from), msg.reply.from.id)
+    end
     if chat_link then
         text = text.._('\n• <b>Group</b>: <a href="%s">%s</a>'):format(chat_link, msg.chat.title:escape_html())
     else
         text = text.._('\n• <b>Group</b>: %s'):format(msg.chat.title:escape_html())
-    end
-    if msg.reply.sticker then
-        text = text.._('\n• <b>Sticker sent by</b>: %s [<code>%d</code>]'):format(u.getname_final(msg.reply.from), msg.reply.from.id)
     end
     if msg.chat.username then
         text = text.._('\n• <a href="%s">Go to the message</a>'):format('telegram.me/'..msg.chat.username..'/'..msg.message_id)
@@ -132,8 +132,8 @@ Wait other %d minutes, %d seconds.]]):format(times_allowed, (duration / 60), min
             else
                 local description
                 if blocks[1] and blocks[1] ~= '@admin' and blocks[1] ~= config.cmd..'report' then
-            description = blocks[1]
-        end
+                    description = blocks[1]
+                end
                 
                 local n_sent = report(msg, description) or 0
                 

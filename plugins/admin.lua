@@ -136,9 +136,6 @@ function plugin.onTextMessage(msg, blocks)
 	    text = text..'   • *average msgs/minute*: `'..round((last.h/60), 3)..'`\n'
 	    text = text..'   • *average msgs/second*: `'..round((last.h/(60*60)), 3)..'`\n'
 	    
-	    local usernames = db:hkeys('bot:usernames')
-	    text = text..'- *usernames cache*: `'..#usernames..'`\n'
-	    
 	    --db info
 	    text = text.. '\n*DB stats*\n'
 		local dbinfo = db:info()
@@ -332,14 +329,15 @@ function plugin.onTextMessage(msg, blocks)
 			chat_id = blocks[2]
 		end
 		local text = chat_id..'\n'
+		
 		local section
 		for i=1, #config.chat_hashes do
 			section = u.vtext(db:hgetall(('chat:%s:%s'):format(tostring(chat_id), config.chat_hashes[i]))) or '{}'
-			text = text..section
+			text = text..config.chat_hashes[i]..'(hash)>'..section
 		end
 		for i=1, #config.chat_sets do
 			section = u.vtext(db:smembers(('chat:%s:%s'):format(tostring(chat_id), config.chat_sets[i]))) or '{}'
-			text = text..section
+			text = text..config.chat_sets[i]..'(set)>'..section
 		end
 		local res, code = api.sendMessage(msg.chat.id, text)
 		if not res and code == 118 then

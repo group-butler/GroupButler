@@ -41,7 +41,7 @@ function bot_init(on_reload) -- The function run when the bot is started or relo
 
 	print('\n'..clr.blue..'BOT RUNNING:'..clr.reset, clr.red..'[@'..bot.username .. '] [' .. bot.first_name ..'] ['..bot.id..']'..clr.reset..'\n')
 	
-	last_update = last_update or 0 -- Set loop variables: Update offset
+	last_update = last_update or -2 --skip pending updates
 	last_cron = last_cron or os.time() -- the time of the last cron job
 	
 	if on_reload then
@@ -59,7 +59,6 @@ local function extract_usernames(msg)
 		if msg.from.username then
 			db:hset('bot:usernames', '@'..msg.from.username:lower(), msg.from.id)
 		end
-		db:sadd(string.format('chat:%d:members', msg.chat.id), msg.from.id)
 	end
 	if msg.forward_from and msg.forward_from.username then
 		db:hset('bot:usernames', '@'..msg.forward_from.username:lower(), msg.forward_from.id)
@@ -92,11 +91,6 @@ local function collect_stats(msg)
 		db:hset('chat:'..msg.chat.id..':userlast', msg.from.id, os.time()) --last message for each user
 		db:hset('bot:chats:latsmsg', msg.chat.id, os.time()) --last message in the group
 	end
-	
-	--user stats
-	if msg.from then
-		db:hincrby('user:'..msg.from.id, 'msgs', 1)
-	end
 end
 
 local function match_triggers(triggers, text)
@@ -120,7 +114,7 @@ local function on_msg_receive(msg, callback) -- The fn run whenever a message is
 
 	if msg.chat.type ~= 'group' then --do not process messages from normal groups
 		
-		if msg.date < os.time() - 7 then return end -- Do not process old messages.
+		if msg.date < os.time() - 7 then print('Old update skipped') return end -- Do not process old messages.
 		if not msg.text then msg.text = msg.caption or '' end
 		
 		locale.language = db:get('lang:'..msg.chat.id) or 'en' --group language
@@ -407,6 +401,7 @@ while true do -- Start a loop while the bot should be running.
 		clocktime_last_update = os.clock()
 		for i, msg in ipairs(res.result) do -- Go through every new message.
 			last_update = msg.update_id
+			--print(last_update)
 			current.h = current.h + 1
 			parseMessageFunction(msg)
 		end

@@ -192,10 +192,14 @@ function plugin.onTextMessage(msg, blocks)
 		    	end
     		end
    			if blocks[1] == 'unban' then
-   				api.unbanUser(chat_id, user_id)
-   				u.logEvent('unban', msg, {motivation = get_motivation(msg), admin = admin, user = kicked, user_id = user_id})
-   				local text = _("%s unbanned by %s!"):format(kicked, admin)
-   				api.sendReply(msg, text, 'html')
+   				if u.is_admin(chat_id, user_id) then
+   					api.sendReply(msg, _("_An admin can't be unbanned_"), true)
+   				else
+   					api.unbanUser(chat_id, user_id)
+   					u.logEvent('unban', msg, {motivation = get_motivation(msg), admin = admin, user = kicked, user_id = user_id})
+   					local text = _("%s unbanned by %s!"):format(kicked, admin)
+   					api.sendReply(msg, text, 'html')
+   				end
    			end
 		else
 			if blocks[1] == 'kickme' then

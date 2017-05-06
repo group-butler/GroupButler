@@ -44,11 +44,13 @@ local function gen_backup(chat_id)
         end
     end
     for i=1, #config.chat_sets do
-        set = ('chat:%s:%s'):format(chat_id, config.chat_sets[i])
-        local content = db:smembers(set)
-        if next(content) then
+    	if config.chat_sets[i] ~= 'mods' then --do not backup the modlist
+        	set = ('chat:%s:%s'):format(chat_id, config.chat_sets[i])
+        	local content = db:smembers(set)
+        	if next(content) then
             t[chat_id].sets[config.chat_sets[i]] = content
         end
+    	end
     end
     
     save_data(file_path, t)
@@ -75,6 +77,12 @@ local function get_time_remaining(seconds)
 
 	return final
 end
+
+local imported_text = [['Done.
+*Important*:
+- #extra commands which are associated with a media must be set again if the bot you are using now is different from the bot that originated the backup.
+- moderators have been restored too (if there were some moderators when the file has been created)
+]]
 
 function plugin.onTextMessage(msg, blocks)
     if msg.from.admin then
@@ -130,7 +138,7 @@ function plugin.onTextMessage(msg, blocks)
 		    						        end
 	    					            end
 	    					        end
-		    						text = _('Done.')
+		    						text = _(imported_text)
 		    					end
 	    				    end
 		    			end

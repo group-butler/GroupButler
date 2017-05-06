@@ -497,6 +497,7 @@ function string:replaceholders(msg, ...)
 			name = msg.from.first_name:escape(),
 			surname = msg.from.last_name and msg.from.last_name:escape() or '',
 			username = msg.from.username and '@'..msg.from.username:escape() or '-',
+			userorname = msg.from.username and '@'..msg.from.username:escape() or msg.from.first_name:escape(),
 			id = msg.from.id,
 			title = msg.chat.title:escape(),
 			rules = utilities.deeplink_constructor(msg.chat.id, 'rules'),
@@ -603,6 +604,7 @@ end
 
 local function get_list_name(chat_id, user_id)
     local user = db:hgetall(('chat:%d:mod:%d'):format(chat_id, tonumber(user_id)))
+    if not user.first_name then return false end
     return utilities.getname_final(user) or 'x'
 end
 
@@ -615,9 +617,9 @@ function utilities.getModlist(chat_id)
         local list_name
         local modlist = {}
         local s = ' ├ '
-        text = _("<b>👥 Moderators</b>\n")
+        text = _("<b>👥 Moderators (%d)</b>\n"):format(#mods)
         for i=1, #mods do
-            list_name = get_list_name(chat_id, mods[i]) --mods[i] -> string
+            list_name = get_list_name(chat_id, mods[i]) or _('<code>unknown name</code>') --mods[i] -> string
             if i == #mods then s = ' └ ' end
             table.insert(modlist, s..list_name)
         end
@@ -850,6 +852,7 @@ function utilities.remGroup(chat_id, full, converted_to_realm)
 	db:hdel('bot:logchats', chat_id) --delete the associated log chat
 	db:del('chat:'..chat_id..':pin') --delete the msg id of the (maybe) pinned message
 	db:del('chat:'..chat_id..':userlast')
+	db:del('chat:'..chat_id..':members')
 	db:hdel('bot:chats:latsmsg', chat_id)
 	db:hdel('bot:chatlogs', chat_id) --log channel
 	
@@ -961,6 +964,8 @@ function utilities.logEvent(event, msg, extra)
 		--hammered?: hammered
 		text = ('#FLOOD\n• %s\n• <b>User</b>: %s'):format(chat_info, member)
 		if extra.hammered then text = text..('\n#%s'):format(extra.hammered:upper()) end
+	elseif event == 'cleanmods' then
+		text = _('%s\n• %s\n• <b>By</b>: %s'):format('#CLEAN_MODLIST', chat_info, extra.admin)
 	elseif event == 'new_chat_photo' then
 		text = _('%s\n• %s\n• <b>By</b>: %s'):format('#NEWPHOTO', chat_info, member)
 		reply_markup = {inline_keyboard={{{text = _("Get the new photo"), url = ("telegram.me/%s?start=photo:%s"):format(bot.username, msg.new_chat_photo[#msg.new_chat_photo].file_id)}}}}
