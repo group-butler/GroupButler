@@ -66,6 +66,7 @@ $ sudo luarocks install lua-term
 $ sudo luarocks install serpent
 $ sudo luarocks install dkjson
 $ sudo luarocks install Lua-cURL
+$ sudo luarocks install luaposix
 $ cd ..
 
 # Clone the repository and give the launch script permissions to be executed

@@ -3,6 +3,7 @@ local config = require 'config'
 local api = require 'methods'
 local ltn12 = require 'ltn12'
 local HTTPS = require 'ssl.https'
+local sys = require 'posix'
 
 -- utilities.lua
 -- Functions shared among plugins.
@@ -39,6 +40,15 @@ function string:escape_hard(ft)
 		return self:gsub(']', '')
 	else
 		return self:gsub('[*_`[%]]', '')
+	end
+end
+
+function utilities.make_subprocess(function_call)
+	local pid_t = sys.fork()
+	if pid_t == 0 then
+		pcall(function_call)
+		local tm = sys.getpid()
+		sys.kill(tm.pid)
 	end
 end
 
