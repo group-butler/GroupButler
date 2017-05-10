@@ -1,4 +1,6 @@
--- Database helper functions
+local pgmoon = require 'pgmoon' -- Load postgres client
+
+-- Database abstraction module
 local database = {}
 
 -- Debug: dump lua table to console

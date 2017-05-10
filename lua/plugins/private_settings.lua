@@ -1,5 +1,6 @@
 local config = require 'config'
 local api = require 'methods'
+local db = require 'database'
 
 local plugin = {}
 

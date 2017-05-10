@@ -1,6 +1,5 @@
 require 'resty.core' -- replaces Lua C API bindings with LuaJIT bindings
 redis = require 'resty.redis' -- Load redis client
-pgmoon = require 'pgmoon' -- Load postgres client
 json = require 'cjson' -- Load json library
 http = require 'resty.http' -- Load resty http library
 config = require 'config' -- Load configuration file
