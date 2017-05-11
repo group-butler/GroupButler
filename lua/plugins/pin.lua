@@ -56,7 +56,7 @@ end
 plugin.triggers = {
 	onTextMessage = {
 		config.cmd..'(pin)$',
-        config.cmd..'(pin) (.*)$'
+		config.cmd..'(pin) (.*)$'
 	}
 }
 

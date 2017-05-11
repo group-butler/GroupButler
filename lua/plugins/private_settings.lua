@@ -70,11 +70,11 @@ function plugin.onCallbackQuery(msg, blocks)
 end
 
 plugin.triggers = {
-    onTextMessage = {config.cmd..'(mysettings)$'},
-    onCallbackQuery = {
-        '^###cb:myset:(alert):(.*)$',
-        '^###cb:myset:(switch):(.*)$',
-        }
+  onTextMessage = {config.cmd..'(mysettings)$'},
+  onCallbackQuery = {
+    '^###cb:myset:(alert):(.*)$',
+    '^###cb:myset:(switch):(.*)$',
+  }
 }
 
 return plugin
