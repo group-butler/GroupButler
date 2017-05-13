@@ -2,6 +2,8 @@ FROM openresty/openresty:alpine-fat
 
 WORKDIR /srv/app
 
+RUN mkdir logs
+
 RUN apk add --no-cache bash && mv /bin/sh /bin/sh.bak && ln -s /bin/bash /bin/sh
 
 ARG ROCKS="luasocket luasec serpent i18n"
@@ -12,15 +14,8 @@ RUN rm /bin/sh && mv /bin/sh.bak /bin/sh
 ARG OPM="pintsized/lua-resty-http leafo/pgmoon"
 RUN opm install $OPM
 
-ENTRYPOINT nginx -g 'daemon off;' -p `pwd`/ -c conf/dev.conf
+ENTRYPOINT nginx -g 'daemon off;' -p `pwd`/ -c conf/"$ENV".conf
 
-RUN mkdir /srv/app/logs
-
-# ARG BUILD_DATE=dev
-# ENV BUILD_DATE=$BUILD_DATE
-
-# ARG BUILD_REV=dev
-# ENV BUILD_REV=$BUILD_REV
-
-# ARG COMMIT=HEAD
-# ENV COMMIT=$COMMIT
+COPY lua .
+COPY conf .
+COPY i18n .
