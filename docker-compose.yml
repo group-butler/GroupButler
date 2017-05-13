@@ -16,23 +16,16 @@ services:
     ports:
       - "5432:5432"
 
-  bot:
+  groupbutler:
+    extends:
+      file: docker-compose-shared.yml
+      service: groupbutler
     build: .
     depends_on:
       - db
       - redis
     environment:
-      - TG_TOKEN
-      - SUPERADMINS
-      - LOG
-      - CHANNEL
-      - SOURCE
-      - GROUP
-      - CORE_LANG
-      - HOOK_URL
-      - MAX_CONNECTIONS
-    ports:
-      - "80:80"
+      - ENV=development
     volumes:
       - ./lua:/srv/app/lua
       - ./conf:/srv/app/conf

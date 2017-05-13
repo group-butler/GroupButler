@@ -1,0 +1,22 @@
+version: '2'
+
+services:
+  groupbutler:
+    environment:
+      - TG_TOKEN
+      - SUPERADMINS
+      - LOG
+      - HOOK_URL
+      - DB_HOST
+      - DB_PORT
+      - DB_USER
+      - DB_PASS
+      - DB_DB
+      - REDIS_HOST
+      - REDIS_PORT
+      - REDIS_DB
+      - CHANNEL
+      - SOURCE
+      - GROUP
+      - CORE_LANG
+      - MAX_CONNECTIONS
