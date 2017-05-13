@@ -1,0 +1,50 @@
+stages:
+  # - lint
+  - build
+  # - test
+  # - review
+  - staging
+  - production
+
+variables:
+  DOCKER_DRIVER: overlay2
+
+build:
+  image: docker:latest
+  services:
+    - docker:dind
+  stage: build
+  script:
+    - docker login -u "gitlab-ci-token" -p "$CI_JOB_TOKEN" $CI_REGISTRY
+    - docker build -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG" .
+    - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG"
+
+staging:
+  environment:
+    name: staging
+  stage: staging
+  variables:
+    - DEPLOY_DIR: "/srv/staging_$CI_PROJECT_NAME/"
+  script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    - rsync -av --delete "$PWD"/ $DEPLOY_DIR
+    - cd $DEPLOY_DIR
+    - docker-compose -f docker-compose-staging.yml pull
+    - docker-compose -f docker-compose-staging.yml up -d --remove-orphan
+  only:
+    - master
+
+production:
+  environment:
+    name: production
+  stage: production
+  variables:
+    - DEPLOY_DIR: "/srv/production_$CI_PROJECT_NAME/"
+  script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    - rsync -av --delete "$PWD"/ $DEPLOY_DIR
+    - cd $DEPLOY_DIR
+    - docker-compose -f docker-compose-production.yml pull
+    - docker-compose -f docker-compose-production.yml up -d --remove-orphan
+  only:
+    - production

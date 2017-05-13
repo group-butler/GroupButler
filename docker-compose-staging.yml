@@ -1,0 +1,24 @@
+version: '2'
+
+services:
+  groupbutler:
+    extends:
+      file: docker-compose-shared.yml
+      service: groupbutler
+    image: registry.gitlab.com/synko/groupbutler:master
+    environment:
+      - DB_HOST=db_staging
+      - DB_PASS=$POSTGRES_PASSWORD_STAGING
+      - REDIS_HOST=redis_staging
+      - ENV=staging
+    expose:
+      - "80"
+    networks:
+      - stack_default
+      - bot-router_staging
+
+networks:
+  stack_default:
+    external: true
+  bot-router_staging:
+    external: true
