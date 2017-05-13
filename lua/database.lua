@@ -78,7 +78,7 @@ function database.setvkarma(chat_id, user_id, col, val)
 end
 function database.getvkarma(chat_id, user_id, col)
 	connect()
-	local res = pg:query('SELECT '..col..'FROM karma WHERE id = ('..chat_id..', '..user_id..')::chatuser')
+	local res = pg:query('SELECT '..col..' FROM karma WHERE id = ('..chat_id..', '..user_id..')::chatuser')
 	if res then
 		return res[1][col]
 	else
