@@ -24,7 +24,7 @@ staging:
     name: staging
   stage: staging
   variables:
-    - DEPLOY_DIR: "/srv/staging_$CI_PROJECT_NAME/"
+    DEPLOY_DIR: "/srv/staging_$CI_PROJECT_NAME/"
   script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
     - rsync -av --delete "$PWD"/ $DEPLOY_DIR
@@ -39,7 +39,7 @@ production:
     name: production
   stage: production
   variables:
-    - DEPLOY_DIR: "/srv/production_$CI_PROJECT_NAME/"
+    DEPLOY_DIR: "/srv/production_$CI_PROJECT_NAME/"
   script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
     - rsync -av --delete "$PWD"/ $DEPLOY_DIR
