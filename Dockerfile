@@ -16,6 +16,6 @@ RUN opm install $OPM
 
 ENTRYPOINT nginx -g 'daemon off;' -p `pwd`/ -c conf/"$ENV".conf
 
-COPY lua .
-COPY conf .
-COPY i18n .
+COPY lua lua
+COPY conf conf
+COPY i18n i18n
