@@ -19,24 +19,26 @@ end
 
 -- Init database connection
 local function connect()
-	pg = pgmoon.new({
+	local pg = pgmoon.new({
 		host = config.db_host,
 		port = config.db_port,
 		user = config.db_user,
 		database = config.db_db,
 		password =  config.db_pass
 	})
+	pg:settimeout(1000) -- closes connection after 1 second
 	assert(pg:connect())
+	return pg
 end
 
 -- Generic functions
 function database.setval(table, col, val, col2, val2)
-	connect()
+	local pg = connect()
 	local res = pg:query('INSERT INTO '..table..' ('..col..', '..col2..') values ('..val..', '..val2..') ON CONFLICT ('..col..') DO UPDATE SET '..col2..' = '..val2)
 end
 
 function database.getval(table, col, col2, val)
-	connect()
+	local pg = connect()
 	local res = pg:query('SELECT '..col..' FROM '..table..' WHERE '..col2..'='..val)
 	if res then
 		if res[1] then
@@ -48,36 +50,36 @@ function database.getval(table, col, col2, val)
 end
 
 function database.acc(table, col, val, col2)
-	connect()
+	local pg = connect()
 	local res = pg:query('INSERT INTO '..table..' ('..col..') values ('..val..') ON CONFLICT ('..col..') DO UPDATE SET '..col2..' = '..table..'.'..col2..' + 1')
 end
 
 -- Dedicated functions
 function database.setvusers(user_id, col, val)
-	connect()
+	local pg = connect()
 	database.setval('users', 'userid', user_id, col, val)
 end
 function database.getvusers(user_id, col)
-	connect()
+	local pg = connect()
 	return database.getval('users', 'userid', col, user_id)
 end
 
 function database.setvchat(chat_id, col, val)
-	connect()
+	local pg = connect()
 	database.setval('chat', 'chatid', chat_id, col, val)
 end
 function database.getvchat(chat_id, col)
-	connect()
+	local pg = connect()
 	return database.getval('chat', 'chatid', col, chat_id)
 end
 
 function database.setvkarma(chat_id, user_id, col, val)
-	connect()
+	local pg = connect()
 	local res = pg:query('INSERT INTO karma (id, '..col..') values (('..chat_id..', '..user_id..'), '..val..') ON CONFLICT (id) DO UPDATE SET '..col..' = '..val)
 	return res.affected_rows
 end
 function database.getvkarma(chat_id, user_id, col)
-	connect()
+	local pg = connect()
 	local res = pg:query('SELECT '..col..' FROM karma WHERE id = ('..chat_id..', '..user_id..')::chatuser')
 	if res then
 		if res[1] then
