@@ -170,7 +170,7 @@ function utilities.get_cached_admins_list(chat_id, second_try)
 end
 
 function utilities.is_blocked_global(id)
-	return db.getvusers('blocked', 'userid', id) == 't'
+	return db.getvusers(id, 'blocked')
 end
 
 function string:trim() -- Trims whitespace from a string.
