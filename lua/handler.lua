@@ -1,6 +1,5 @@
-local api = require 'methods' -- Load Telegram API
-local db = require 'database' -- Load database abstraction layer
-local u = require 'utilities' -- Load miscellaneous and cross-plugin functions
+db = dofile('lua/database.lua') -- Load database abstraction layer
+local u = dofile('lua/utilities.lua') -- Load miscellaneous and cross-plugin functions
 
 -- Make telegram aware the update was received
 ngx.status = ngx.HTTP_OK
