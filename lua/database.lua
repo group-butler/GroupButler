@@ -70,7 +70,7 @@ function database.setvchat(chat_id, col, val)
 end
 function database.getvchat(chat_id, col)
 	local pg = connect()
-	return database.getval('chat', 'chatid', col, chat_id)
+	return database.getval('chat', col, 'chatid', chat_id)
 end
 
 function database.setvkarma(chat_id, user_id, col, val)
