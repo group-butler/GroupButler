@@ -26,6 +26,8 @@ services:
       - redis
     environment:
       - ENV=development
+    ports:
+      - "80:80"
     volumes:
       - ./lua:/srv/app/lua
       - ./conf:/srv/app/conf
