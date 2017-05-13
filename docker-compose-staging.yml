@@ -16,6 +16,7 @@ services:
     networks:
       - stack_default
       - stagingbotrouter_default
+    restart: always
 
 networks:
   stack_default:
