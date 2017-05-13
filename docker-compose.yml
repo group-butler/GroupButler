@@ -1,4 +1,4 @@
-version: '3'
+version: '2'
 
 # database ports are mapped to the host for debug purposes
 
