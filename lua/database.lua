@@ -61,7 +61,7 @@ function database.setvusers(user_id, col, val)
 end
 function database.getvusers(user_id, col)
 	local pg = connect()
-	return database.getval('users', 'userid', col, user_id)
+	return database.getval('users', col, 'userid', user_id)
 end
 
 function database.setvchat(chat_id, col, val)
