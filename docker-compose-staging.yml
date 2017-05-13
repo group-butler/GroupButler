@@ -15,10 +15,10 @@ services:
       - "80"
     networks:
       - stack_default
-      - bot-router_staging
+      - stagingbotrouter_default
 
 networks:
   stack_default:
     external: true
-  bot-router_staging:
+  stagingbotrouter_default:
     external: true
