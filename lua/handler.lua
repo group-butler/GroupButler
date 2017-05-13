@@ -1,5 +1,5 @@
 local api = require 'methods' -- Load Telegram API
-local db = require 'database' -- Load database helper functions
+local db = require 'database' -- Load database abstraction layer
 local u = require 'utilities' -- Load miscellaneous and cross-plugin functions
 
 -- Make telegram aware the update was received

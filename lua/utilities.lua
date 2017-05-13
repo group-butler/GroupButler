@@ -1,4 +1,5 @@
-local db = require 'database'
+local api = require 'methods' -- Load Telegram API
+local db = require 'database' -- Load database abstraction layer
 
 -- utilities.lua
 -- Functions shared among plugins.
