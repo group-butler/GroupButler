@@ -92,6 +92,15 @@ function database.getvkarma(chat_id, user_id, col)
 	end
 end
 
+function database.initgroup(chat_id)
+	local pg = connect()
+	-- Create chat rows
+	local res = pg:query('INSERT INTO chat (chatid) values ('..chat_id..') ON CONFLICT DO NOTHING')
+	local res = pg:query('INSERT INTO chat_antiflood (chatid) values ('..chat_id..') ON CONFLICT DO NOTHING')
+	local res = pg:query('INSERT INTO chat_antimedia (chatid) values ('..chat_id..') ON CONFLICT DO NOTHING')
+	local res = pg:query('INSERT INTO chat_antispam (chatid) values ('..chat_id..') ON CONFLICT DO NOTHING')
+end
+
 -- Check table if val1 is in col1[] where col2 = val2. Akin to redis sismember
 -- function database.is_in_array(table, col1, val1, col2, val2)
 -- 	local cur = assert(con:execute(string.format([[SELECT (%s=ANY(%s)) FROM %s AS result

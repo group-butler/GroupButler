@@ -693,11 +693,7 @@ function utilities.sendStartMe(msg)
 end
 
 function utilities.initGroup(chat_id)
-	-- Create chat rows
-	res = pg:query('INSERT INTO chat (chatid) values ('..chat_id..') ON CONFLICT DO NOTHING')
-	res = pg:query('INSERT INTO chat (chatid_antiflood) values ('..chat_id..') ON CONFLICT DO NOTHING')
-	res = pg:query('INSERT INTO chat (chatid_antimedia) values ('..chat_id..') ON CONFLICT DO NOTHING')
-	res = pg:query('INSERT INTO chat (chatid_antispam) values ('..chat_id..') ON CONFLICT DO NOTHING')
+	db.initgroup(chat_id)
 	utilities.cache_adminlist(chat_id, api.getChatAdministrators(chat_id)) --init admin cache
 end
 
