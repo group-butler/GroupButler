@@ -286,7 +286,7 @@ When disabled, the group administrators *can't promote or demote new moderators*
 `/modlist -`: demote all the moderators (will clean the modlist)]])
 	elseif key == 'logchannel' then
 		return _([[*Log channel informations*
-			
+
 A log channel is a _(private)_ channel where the bot will record all the important events that will happen in your group.
 If you want to use this feature, you need to pair your group with a channel with the commands described below.
 All the events, by default, are *not logged*. Admins can choose which events to log from the `/config` menu -> `log channel` button.
@@ -298,9 +298,41 @@ Then, an admin of the group must forward in the group the message ("`/setlog`") 
 
 A channel can be used as log by different groups.
 To change your log channel, simply repeat this process with another channel.
-	
+
 `/unsetlog`: remove your current log channel
 `/logchannel`: get some informations about your log channel, if paired]])
+	elseif key == 'othersMain' then
+		return _([[*Other commands informations*
+
+As this bot is bassed on GroupButler, I've made some changes and plugins so it can be more attractive to users.
+I'm working right now adding more plugins to the bot, but now the extra plugins that are avaliable are:]])
+	elseif key == 'apod' then
+		return _([[*NASA Apod Plugin*
+
+This plugins uses the Official NASA API to receive the NASA Image of the day.
+The avaliable commands are:
+- /apod `image` - _Sends the NASA Image of the day_
+- /apod `hd` - _Sends the NASA Image of the day in HD quality_
+- /apod `data` - _Sends the data of the NASA Image of the day_]])
+	elseif key == 'ping' then
+		return _([[*Ping Plugin*
+
+This plugins cannot be more simple. It's function is just to know if I'm running or not.
+The avaliable commands are:
+- /ping - _Receive an answer to see if I'm alive_]])
+	elseif key == 'talk' then
+		return _([[*Talk Plugin*
+
+My creator has worked so much in this plugin, and it allows you to talk with me as if I were a human!
+It uses CleverBot API for receiving the answers, but don't abuse, because I can only receive 5000 petitions per month
+The avaliable commands are:
+- /talk `something` - _I will reply to your _`something`_ with a clever (or not) answer_]])
+	elseif key == 'cats' then
+		return _([[*Cats Plugin*
+
+I love cats, so why not send a picture of a cat?
+The avaliable commands are:
+- /cat - _Sends a cat_]])
 	end
 end
 
@@ -328,7 +360,7 @@ local function dk_admins()
 	    	[_("Welcome settings")] = 'welcome',
 	    	[_("Links whitelist")] = 'whitelist',
 	    }
-	    
+
     }
     local line = {}
     for i, line in pairs(list) do
@@ -338,7 +370,33 @@ local function dk_admins()
         end
         table.insert(keyboard.inline_keyboard, kb_line)
     end
-    
+
+	return keyboard
+end
+
+local function dk_others()
+	local keyboard = {}
+	keyboard.inline_keyboard = {}
+	local list = {
+		{
+			[_("Cats")] = 'cats',
+	    [_("NASA Apod")] = 'apod'
+	  },
+		{
+			[_("Ping")] = 'ping',
+	    [_("Talk")] = 'talk'
+	  },
+
+  }
+  local line = {}
+  for i, line in pairs(list) do
+    local kb_line = {}
+    for label, cb_data in pairs(line) do
+      table.insert(kb_line, {text = '× '..label, callback_data = 'help:others:'..cb_data})
+    end
+      table.insert(keyboard.inline_keyboard, kb_line)
+  end
+
 	return keyboard
 end
 
@@ -363,26 +421,28 @@ local function dk_main()
 		{{text = _('Admin commands'), callback_data = 'help:admins:banhammer'}},
 		{{text = _('Normal users commands'), callback_data = 'help:users'}},
 		{{text = _('Commands in private'), callback_data = 'help:private'}},
-		--{{text = _('Realms'), callback_data = 'help:realm'}},
+		{{text = _('Realms'), callback_data = 'help:realm'}},
 		{{text = _('Log channel'), callback_data = 'help:logchannel'}},
 		{{text = _('Moderators'), callback_data = 'help:mods'}},
+		{{text = _('Other commands'), callback_data = 'help:others:othersMain'}},
 	}
-	
+
 	return keyboard
 end
 
 local function do_keyboard(keyboard_type)
 	local callbacks = {
 		['main'] = dk_main(),
-		['admins'] = dk_admins()
+		['admins'] = dk_admins(),
+		['others'] = dk_others()
 	}
-	
+
 	local keyboard = callbacks[keyboard_type] or {inline_keyboard = {}}
-	
+
 	if keyboard_type ~= 'main' then
 		table.insert(keyboard.inline_keyboard, {{text = _('Back'), callback_data = 'help:back'}})
 	end
-	
+
 	return keyboard
 end
 
@@ -411,7 +471,7 @@ end
 function plugin.onCallbackQuery(msg, blocks)
     local query = blocks[1]
     local text, keyboard_type, answerCallbackQuery_text
-    
+
     if query == 'back' then
     	keyboard_type = 'main'
     	text = get_helped_string('main_menu')
@@ -434,12 +494,16 @@ function plugin.onCallbackQuery(msg, blocks)
     elseif query == 'mods' then
     	text = get_helped_string('mods')
     	answerCallbackQuery_text = _('Informations about the moderators')
-    else --query == 'admins'
+		elseif query == 'others' then
+			keyboard_type = 'others'
+			text = get_helped_string(blocks[2])
+			answerCallbackQuery_text = _('Informations other extra commands')
+    elseif query == 'admins' then
     	keyboard_type = 'admins'
     	text = get_helped_string(blocks[2])
     	answerCallbackQuery_text = _('Available commands for admins')
     end
-    
+
     if not text then
     	api.answerCallbackQuery(msg.cb_id, _("Deprecated message, send /help again"), true)
     else
@@ -462,6 +526,7 @@ plugin.triggers = {
 	},
 	onCallbackQuery = {
 		'^###cb:help:(admins):(%a+)$',
+		'^###cb:help:(others):(%a+)$',
 		'^###cb:help:(.*)$'
 	}
 }
