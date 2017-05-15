@@ -1,12 +1,12 @@
 return {
-	bot_api_key = "", --Please add your bot api key here!
+	bot_api_key = "361637339:AAFKYfWUTsXUYEtGpq2cAFl-zdiQ9D1zOKs", --Please add your bot api key here!
 	cmd = '^[/!#]',
 	allowed_updates = {"message", "edited_message", "callback_query"},
 	db = 2, --default redis db: 0
-	superadmins = {23646077, 278941742},
+	superadmins = {190698911, 0},
 	log = {
-		chat = -1001089188566, --Your log chat, where your bot must be added!
-		admin = 23646077, --The admin.
+		chat = -1001105912799, --Your log chat, where your bot must be added!
+		admin = 190698911, --The admin.
 		stats = nil
 	},
 	human_readable_version = '4.2.0',
@@ -62,19 +62,19 @@ return {
 	},
 	multipurpose_plugins = {},
 	available_languages = {
-		['en'] = 'English 🇬🇧',
-		['it'] = 'Italiano 🇮🇹',
-		['es'] = 'Español 🇪🇸',
-		['pt_BR'] = 'Português 🇧🇷',
-		['ru'] = 'Русский 🇷🇺',
-		['de'] = 'Deutsch 🇩🇪',
-		--['sv'] = 'Svensk 🇸🇪',
 		['ar'] = 'العربية 🇸🇩',
+		['en'] = 'English 🇬🇧',
+		--['it'] = 'Italiano 🇮🇹',
+		--['es'] = 'Español 🇪🇸',
+		--['pt_BR'] = 'Português 🇧🇷',
+		--['ru'] = 'Русский 🇷🇺',
+		--['de'] = 'Deutsch 🇩🇪',
+		--['sv'] = 'Svensk 🇸🇪',
 		--['fr'] = 'Français 🇫🇷',
-		['zh'] = '中文 🇨🇳',
+		--['zh'] = '中文 🇨🇳',
 		['fa'] = 'فارسی 🇮🇷',
-		['id'] = 'Bahasa Indonesia 🇮🇩',
-		['nl'] = 'Dutch 🇱🇺'
+		--['id'] = 'Bahasa Indonesia 🇮🇩',
+		--['nl'] = 'Dutch 🇱🇺'
 		-- more languages will come
 	},
 	allow_fuzzy_translations = false,
@@ -170,7 +170,7 @@ return {
 	},
 	private_settings = {
 		rules_on_join = 'off',
-		reports = 'off'
+		reports = 'on'
 	},
 	chat_hashes = {'extra', 'info', 'links', 'warns', 'mediawarn', 'spamwarns', 'blocked', 'report'},
 	chat_sets = {'whitelist', 'mods'},

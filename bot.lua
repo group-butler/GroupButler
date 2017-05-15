@@ -119,9 +119,9 @@ local function on_msg_receive(msg, callback) -- The fn run whenever a message is
 		-- the ! indicates UTC - https://www.lua.org/manual/5.2/manual.html#pdf-os.date
 		if not msg.text then msg.text = msg.caption or '' end
 		
-		locale.language = db:get('lang:'..msg.chat.id) or 'en' --group language
+		locale.language = db:get('lang:'..msg.chat.id) or 'ar' --group language
 		if not config.available_languages[locale.language] then
-			locale.language = 'en'
+			locale.language = 'ar'
 		end
 		
 		collect_stats(msg)
