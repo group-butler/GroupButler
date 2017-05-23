@@ -17,13 +17,13 @@ end
 
 local function is_flooding_funct(msg)
 	local hash = 'flood:'..msg.chat.id..':'..msg.from.id
-	local msgs = tonumber(redis:get(hash)) or 1
+	local msgs = tonumber(red:get(hash)) or 1
 	local max_msgs = tonumber(db.getval('chat_antiflood', 'threshold', 'chatid', msg.chat.id))
 
 	if msg.cb then max_msgs = 15 end
 
 	local max_time = 5
-	redis:setex(hash, max_time, msgs+1)
+	red:setex(hash, max_time, msgs+1)
 
 	if msgs > max_msgs then
 		return true, msgs, max_msgs
