@@ -246,6 +246,9 @@ local function parseMessageFunction(update)
 		elseif msg.video then
 			msg.media = true
 			msg.media_type = 'video'
+		elseif msg.video_note then
+			msg.media = true
+			msg.media_type = 'video_note'
 		elseif msg.voice then
 			msg.media = true
 			msg.media_type = 'voice'
