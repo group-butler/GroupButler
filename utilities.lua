@@ -385,6 +385,8 @@ function utilities.get_media_type(msg)
 		return 'photo'
 	elseif msg.video then
 		return 'video'
+	elseif msg.video_note then
+		return 'video_note'
 	elseif msg.audio then
 		return 'audio'
 	elseif msg.voice then
