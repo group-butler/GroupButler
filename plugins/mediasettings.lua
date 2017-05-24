@@ -20,6 +20,7 @@ local function doKeyboard_media(chat_id)
 			photo = _("Images"),
 			gif = _("GIFs"),
 			video = _("Videos"),
+			video_note = _("Video messages"),
 			document = _("Documents"),
 			TGlink = _("telegram.me links"),
 			voice = _("Vocal messages"),
