@@ -1,8 +1,32 @@
 return {
 	en = {
-
+		readrules = "Read the rules",
+		hi = "Hi %s!",
+		goodbye = "Goodbye, %s!",
+		notinput = "Welcome and...?",
+		setwelc = "A form of media has been set as the welcome message: `%s`",
+		replywelc = "Reply to a `sticker` or a `gif` to set them as the *welcome message*",
+		customwelc = "*Custom welcome message saved!*",
+		nogoodbye = "No goodbye message",
+		mediaset = "New media setted as goodbye message: `%s`",
+		replygbye = "Reply to a `sticker` or a `gif` to set them as *goodbye message*",
+		cgoodbye = "*Custom goodbye message saved!*",
+		banned = "%s banned: the user was blocked",
+		antibot = "@%s _banned: antibot is on_",
 	},
 	pt = {
-
+		readrules = "Leia as regras",
+		hi = "Olá %s!",
+		goodbye = "Adeus, %s!",
+		notinput = "Bem-vindo e...?",
+		setwelc = "Um tipo de mídia foi definido como a mensagem de boas-vindas: `%s`",
+		replywelc = "Responda a um `sticker` ou um `gif` para escolhê-los como *mensagem de boas-vindas*",
+		customwelc = "*Mensagem de boas-vindas personalizada salva!*",
+		nogoodbye = "Sem mensagem de despedida",
+		mediaset = "Um tipo de mídia foi definido como mensagem de despedida: `%s`",
+		replygbye = "Responda a um `sticker` ou um `gif` para escolhê-los como *mensagem de despedida*",
+		cgoodbye = "*Mensagem de despedida personalizada salva!*",
+		banned = "%s banido: o usuário estava na lista de bloqueados",
+		antibot = "_@%s banido: antibot está ligado_",
 	}
 }
