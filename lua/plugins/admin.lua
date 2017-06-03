@@ -42,12 +42,6 @@ local triggers2 = {
 	'^%$(realm) (.+)$'
 }
 
-function plugin.cron()
-	db:bgsave()
-end
-
-plugin.cron = nil
-
 local function bot_leave(chat_id)
 	local res = api.leaveChat(chat_id)
 	if not res then
