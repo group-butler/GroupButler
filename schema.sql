@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.6.2
--- Dumped by pg_dump version 9.6.2
+-- Dumped from database version 9.6.3
+-- Dumped by pg_dump version 9.6.3
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -13,13 +13,6 @@ SET standard_conforming_strings = on;
 SET check_function_bodies = false;
 SET client_min_messages = warning;
 SET row_security = off;
-
---
--- Name: postgres; Type: COMMENT; Schema: -; Owner: postgres
---
-
-COMMENT ON DATABASE postgres IS 'default administrative connection database';
-
 
 --
 -- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
@@ -37,31 +30,6 @@ COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 SET search_path = public, pg_catalog;
 
---
--- Name: chatuser; Type: TYPE; Schema: public; Owner: postgres
---
-
-CREATE TYPE chatuser AS (
-	chatid bigint,
-	userid integer
-);
-
-
-ALTER TYPE chatuser OWNER TO postgres;
-
---
--- Name: array_distinct(anyarray); Type: FUNCTION; Schema: public; Owner: postgres
---
-
-CREATE FUNCTION array_distinct(anyarray) RETURNS anyarray
-    LANGUAGE sql IMMUTABLE
-    AS $_$
-  SELECT array_agg(DISTINCT x) FROM unnest($1) t(x);
-$_$;
-
-
-ALTER FUNCTION public.array_distinct(anyarray) OWNER TO postgres;
-
 SET default_tablespace = '';
 
 SET default_with_oids = false;
@@ -71,7 +39,7 @@ SET default_with_oids = false;
 --
 
 CREATE TABLE chat (
-    chatid bigint NOT NULL,
+    chat_id bigint NOT NULL,
     lang text DEFAULT 'en'::text NOT NULL,
     lastmsg timestamp with time zone DEFAULT now() NOT NULL,
     timezone text DEFAULT 'UTC'::text NOT NULL,
@@ -101,7 +69,7 @@ ALTER TABLE chat OWNER TO postgres;
 --
 
 CREATE TABLE chat_antiflood (
-    chatid bigint NOT NULL,
+    chat_id bigint NOT NULL,
     text boolean DEFAULT true NOT NULL,
     photo boolean DEFAULT true NOT NULL,
     forward boolean DEFAULT true NOT NULL,
@@ -120,7 +88,7 @@ ALTER TABLE chat_antiflood OWNER TO postgres;
 --
 
 CREATE TABLE chat_antimedia (
-    chatid bigint NOT NULL,
+    chat_id bigint NOT NULL,
     photo boolean DEFAULT false NOT NULL,
     audio boolean DEFAULT false NOT NULL,
     video boolean DEFAULT false NOT NULL,
@@ -145,7 +113,7 @@ ALTER TABLE chat_antimedia OWNER TO postgres;
 --
 
 CREATE TABLE chat_antispam (
-    chatid bigint NOT NULL,
+    chat_id bigint NOT NULL,
     link boolean DEFAULT false NOT NULL,
     forward boolean DEFAULT false NOT NULL,
     warnings integer DEFAULT 2 NOT NULL,
@@ -160,7 +128,7 @@ ALTER TABLE chat_antispam OWNER TO postgres;
 --
 
 CREATE TABLE chat_mod (
-    chatid bigint NOT NULL,
+    chat_id bigint NOT NULL,
     admin_promdem boolean DEFAULT true NOT NULL,
     hammer boolean DEFAULT true NOT NULL,
     config boolean DEFAULT false NOT NULL,
@@ -175,7 +143,7 @@ ALTER TABLE chat_mod OWNER TO postgres;
 --
 
 CREATE TABLE chat_stats (
-    chatid bigint NOT NULL,
+    chat_id bigint NOT NULL,
     messages bigint DEFAULT 1 NOT NULL
 );
 
@@ -187,7 +155,7 @@ ALTER TABLE chat_stats OWNER TO postgres;
 --
 
 CREATE TABLE chat_tolog (
-    chatid bigint NOT NULL,
+    chat_id bigint NOT NULL,
     ban boolean DEFAULT false NOT NULL,
     kick boolean DEFAULT false NOT NULL,
     unban boolean DEFAULT false NOT NULL,
@@ -219,7 +187,8 @@ ALTER TABLE chat_tolog OWNER TO postgres;
 --
 
 CREATE TABLE karma (
-    id chatuser NOT NULL,
+    chat_id bigint NOT NULL,
+    user_id integer NOT NULL,
     ban timestamp with time zone,
     ban_expiration timestamp with time zone,
     warning_media integer DEFAULT 0 NOT NULL,
@@ -238,7 +207,7 @@ ALTER TABLE karma OWNER TO postgres;
 --
 
 CREATE TABLE users (
-    userid integer NOT NULL,
+    user_id integer NOT NULL,
     username text NOT NULL,
     blocked boolean DEFAULT false NOT NULL,
     rules_on_join boolean DEFAULT false NOT NULL,
@@ -249,19 +218,11 @@ CREATE TABLE users (
 ALTER TABLE users OWNER TO postgres;
 
 --
--- Name: chat_antispam antispam_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY chat_antispam
-    ADD CONSTRAINT antispam_pkey PRIMARY KEY (chatid);
-
-
---
 -- Name: chat_antiflood chat_antiflood_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY chat_antiflood
-    ADD CONSTRAINT chat_antiflood_pkey PRIMARY KEY (chatid);
+    ADD CONSTRAINT chat_antiflood_pkey PRIMARY KEY (chat_id);
 
 
 --
@@ -269,7 +230,15 @@ ALTER TABLE ONLY chat_antiflood
 --
 
 ALTER TABLE ONLY chat_antimedia
-    ADD CONSTRAINT chat_antimedia_pkey PRIMARY KEY (chatid);
+    ADD CONSTRAINT chat_antimedia_pkey PRIMARY KEY (chat_id);
+
+
+--
+-- Name: chat_antispam chat_antispam_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY chat_antispam
+    ADD CONSTRAINT chat_antispam_pkey PRIMARY KEY (chat_id);
 
 
 --
@@ -277,7 +246,7 @@ ALTER TABLE ONLY chat_antimedia
 --
 
 ALTER TABLE ONLY chat_mod
-    ADD CONSTRAINT chat_mod_pkey PRIMARY KEY (chatid);
+    ADD CONSTRAINT chat_mod_pkey PRIMARY KEY (chat_id);
 
 
 --
@@ -285,7 +254,7 @@ ALTER TABLE ONLY chat_mod
 --
 
 ALTER TABLE ONLY chat
-    ADD CONSTRAINT chat_pkey PRIMARY KEY (chatid);
+    ADD CONSTRAINT chat_pkey PRIMARY KEY (chat_id);
 
 
 --
@@ -293,7 +262,7 @@ ALTER TABLE ONLY chat
 --
 
 ALTER TABLE ONLY chat_stats
-    ADD CONSTRAINT chat_stats_pkey PRIMARY KEY (chatid);
+    ADD CONSTRAINT chat_stats_pkey PRIMARY KEY (chat_id);
 
 
 --
@@ -301,7 +270,7 @@ ALTER TABLE ONLY chat_stats
 --
 
 ALTER TABLE ONLY chat_tolog
-    ADD CONSTRAINT chat_tolog_pkey PRIMARY KEY (chatid);
+    ADD CONSTRAINT chat_tolog_pkey PRIMARY KEY (chat_id);
 
 
 --
@@ -309,7 +278,7 @@ ALTER TABLE ONLY chat_tolog
 --
 
 ALTER TABLE ONLY karma
-    ADD CONSTRAINT karma_pkey PRIMARY KEY (id);
+    ADD CONSTRAINT karma_pkey PRIMARY KEY (chat_id, user_id);
 
 
 --
@@ -317,7 +286,23 @@ ALTER TABLE ONLY karma
 --
 
 ALTER TABLE ONLY users
-    ADD CONSTRAINT users_pkey PRIMARY KEY (userid);
+    ADD CONSTRAINT users_pkey PRIMARY KEY (user_id);
+
+
+--
+-- Name: karma karma_chat_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY karma
+    ADD CONSTRAINT karma_chat_id_fkey FOREIGN KEY (chat_id) REFERENCES chat(chat_id) ON UPDATE CASCADE;
+
+
+--
+-- Name: karma karma_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY karma
+    ADD CONSTRAINT karma_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
