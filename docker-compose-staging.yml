@@ -1,7 +1,7 @@
 version: '2'
 
 services:
-  bot:
+  groupbutler:
     extends:
       file: docker-compose-shared.yml
       service: bot
@@ -15,11 +15,11 @@ services:
       - "80"
     networks:
       - stack_default
-      - stagingbotrouter_default
+      - botrouter_staging
     restart: always
 
 networks:
   stack_default:
     external: true
-  stagingbotrouter_default:
+  botrouter_staging:
     external: true
