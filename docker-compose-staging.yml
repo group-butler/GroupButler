@@ -15,11 +15,11 @@ services:
       - "80"
     networks:
       - stack_default
-      - botrouter_staging
+      - bot-router_staging
     restart: always
 
 networks:
   stack_default:
     external: true
-  botrouter_staging:
+  bot-router_staging:
     external: true
