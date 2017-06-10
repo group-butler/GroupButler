@@ -16,10 +16,10 @@ services:
     ports:
       - "5432:5432"
 
-  groupbutler:
+  bot:
     extends:
       file: docker-compose-shared.yml
-      service: groupbutler
+      service: bot
     build: .
     depends_on:
       - db

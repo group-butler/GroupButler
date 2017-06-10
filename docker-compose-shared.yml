@@ -1,7 +1,7 @@
 version: '2'
 
 services:
-  groupbutler:
+  bot:
     environment:
       - TG_TOKEN
       - SUPERADMINS

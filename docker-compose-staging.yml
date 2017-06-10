@@ -1,10 +1,10 @@
 version: '2'
 
 services:
-  groupbutler:
+  bot:
     extends:
       file: docker-compose-shared.yml
-      service: groupbutler
+      service: bot
     image: registry.gitlab.com/synko/groupbutler:master
     environment:
       - DB_HOST=db_staging
