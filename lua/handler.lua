@@ -40,14 +40,14 @@ local function extract_usernames(msg)
 			username = msg.new_chat_member.username:lower()
 			userid = msg.new_chat_member.id
 		end
-		db.setvcu(msg.chat.id, msg.new_chat_member.id, 'membership', true) -- Enable membership of/create entry for this chat user
+		db.setvcu(msg.chat.id, msg.new_chat_member.id, 'membership', 'true') -- Enable membership of/create entry for this chat user
 	end
 	if msg.left_chat_member then
 		if msg.left_chat_member.username then
 			username = msg.left_chat_member.username:lower()
 			userid = msg.left_chat_member.id
 		end
-		db.setvcu(msg.chat.id, msg.new_chat_member.id, 'membership', false) -- Disable the membership of this chat user
+		db.setvcu(msg.chat.id, msg.new_chat_member.id, 'membership', 'false') -- Disable the membership of this chat user
 	end
 	if msg.reply_to_message then
 		extract_usernames(msg.reply_to_message)
