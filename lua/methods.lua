@@ -112,7 +112,7 @@ function api.kickChatMember(chat_id, user_id)
 
 	local success, code, description = sendRequest(url)
 	if success then
-		db.setvkarma(chat_id, user_id, 'membership', false) -- Disable the membership of this chat user
+		db.setvcu(chat_id, user_id, 'membership', false) -- Disable the membership of this chat user
 	end
 
 	return success, code, description

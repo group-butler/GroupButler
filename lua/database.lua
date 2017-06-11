@@ -54,12 +54,13 @@ function db.initgroup(chat_id)
 	local res = pg:query('INSERT INTO chat (chat_id) values ('..chat_id..') ON CONFLICT DO NOTHING')
 end
 
-function db.acckarma(chat_id, user_id, col)
+-- cu = chat_users
+function db.acccu(chat_id, user_id, col)
 	-- TODO
 end
-function db.getvkarma(chat_id, user_id, col)
+function db.getvcu(chat_id, user_id, col)
 	local pg = connect()
-	local res = pg:query('SELECT '..col..' FROM karma WHERE id = ('..chat_id..', '..user_id..')::chatuser')
+	local res = pg:query('SELECT '..col..' FROM chat_users WHERE id = ('..chat_id..', '..user_id..')::chatuser')
 	if res then
 		if res[1] then
 			if res[1][col] then
@@ -70,9 +71,9 @@ function db.getvkarma(chat_id, user_id, col)
 		return nil
 	end
 end
-function db.setvkarma(chat_id, user_id, col, val)
+function db.setvcu(chat_id, user_id, col, val)
 	local pg = connect()
-	local res = pg:query('INSERT INTO karma (chat_id, user_id, '..col..') values ('..chat_id..', '..user_id..', '..val..') ON CONFLICT (chat_id, user_id) DO UPDATE SET '..col..' = '..val)
+	local res = pg:query('INSERT INTO chat_users (chat_id, user_id, '..col..') values ('..chat_id..', '..user_id..', '..val..') ON CONFLICT (chat_id, user_id) DO UPDATE SET '..col..' = '..val)
 	if res then
 		return res.affected_rows
 	else

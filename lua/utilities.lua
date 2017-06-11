@@ -51,7 +51,7 @@ function utilities.least_rank(least, chat_id, user_id)
 	-- if not db:exists(set) then
 	utilities.cache_adminlist(chat_id, res)
 	-- end
-	local rank = db.getvkarma(chat_id, user_id, 'rank')
+	local rank = db.getvcu(chat_id, user_id, 'rank')
 	if rank == least or rank == 'owner' then
 		return true
 	elseif rank == 'admin' and least == 'mod' then
@@ -144,9 +144,9 @@ function utilities.cache_adminlist(chat_id)
 
 	for _, admin in pairs(res.result) do
 		if admin.status == 'creator' then
-			db.setvkarma(chat_id, admin.user.id, 'rank', "'owner'") -- Save owner
+			db.setvcu(chat_id, admin.user.id, 'rank', "'owner'") -- Save owner
 		else
-			db.setvkarma(chat_id, admin.user.id, 'rank', "'admin'") -- Add admins
+			db.setvcu(chat_id, admin.user.id, 'rank', "'admin'") -- Add admins
 		end
 	end
 
@@ -311,7 +311,7 @@ function utilities.demote(chat_id, user_id)
 	-- db:del(('chat:%d:mod:%d'):format(chat_id, user_id))
 	-- local removed = db:srem('chat:'..chat_id..':mods', user_id)
 	-- return removed == 1
-	local removed = db.setvkarma(chat_id, user_id, 'rank', "'user'")
+	local removed = db.setvcu(chat_id, user_id, 'rank', "'user'")
 	return removed < 0 -- Checks if the number of affected rows is greater than 0
 end
 

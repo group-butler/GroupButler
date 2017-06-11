@@ -117,10 +117,24 @@ CREATE TABLE chat (
 ALTER TABLE chat OWNER TO postgres;
 
 --
--- Name: karma; Type: TABLE; Schema: public; Owner: postgres
+-- Name: chat_extra; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE karma (
+CREATE TABLE chat_extra (
+    chat_id bigint NOT NULL,
+    extra_id text NOT NULL,
+    response text,
+    kind text
+);
+
+
+ALTER TABLE chat_extra OWNER TO postgres;
+
+--
+-- Name: chat_users; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE chat_users (
     chat_id bigint NOT NULL,
     user_id integer NOT NULL,
     ban timestamp with time zone,
@@ -134,7 +148,7 @@ CREATE TABLE karma (
 );
 
 
-ALTER TABLE karma OWNER TO postgres;
+ALTER TABLE chat_users OWNER TO postgres;
 
 --
 -- Name: users; Type: TABLE; Schema: public; Owner: postgres
@@ -152,6 +166,14 @@ CREATE TABLE users (
 ALTER TABLE users OWNER TO postgres;
 
 --
+-- Name: chat_extra chat_extra_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY chat_extra
+    ADD CONSTRAINT chat_extra_pkey PRIMARY KEY (chat_id, extra_id);
+
+
+--
 -- Name: chat chat_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -160,11 +182,11 @@ ALTER TABLE ONLY chat
 
 
 --
--- Name: karma karma_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: chat_users chat_users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY karma
-    ADD CONSTRAINT karma_pkey PRIMARY KEY (chat_id, user_id);
+ALTER TABLE ONLY chat_users
+    ADD CONSTRAINT chat_users_pkey PRIMARY KEY (chat_id, user_id);
 
 
 --
@@ -176,19 +198,27 @@ ALTER TABLE ONLY users
 
 
 --
--- Name: karma karma_chat_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: chat_extra chat_extra_chat_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY karma
-    ADD CONSTRAINT karma_chat_id_fkey FOREIGN KEY (chat_id) REFERENCES chat(chat_id) ON UPDATE CASCADE;
+ALTER TABLE ONLY chat_extra
+    ADD CONSTRAINT chat_extra_chat_id_fkey FOREIGN KEY (chat_id) REFERENCES chat(chat_id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
--- Name: karma karma_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: chat_users chat_users_chat_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY karma
-    ADD CONSTRAINT karma_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE ONLY chat_users
+    ADD CONSTRAINT chat_users_chat_id_fkey FOREIGN KEY (chat_id) REFERENCES chat(chat_id) ON UPDATE CASCADE;
+
+
+--
+-- Name: chat_users chat_users_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY chat_users
+    ADD CONSTRAINT chat_users_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
