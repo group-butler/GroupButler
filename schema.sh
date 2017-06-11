@@ -12,5 +12,3 @@ elif [[ "$1" = "restore" ]]; then
 	DOCKER_DB_NAME="$(docker-compose ps -q db)"
 	docker exec -i "${DOCKER_DB_NAME}" psql -U postgres groupbutler < schema.sql
 fi
-
-docker-compose stop db
