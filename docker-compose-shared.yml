@@ -12,6 +12,7 @@ services:
       - DB_USER
       - DB_PASS
       - DB_DB
+      - DB_TIMEOUT
       - REDIS_HOST
       - REDIS_PORT
       - REDIS_DB

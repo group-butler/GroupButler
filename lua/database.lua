@@ -26,7 +26,7 @@ local function connect()
 		database = config.db_db,
 		password =  config.db_pass
 	})
-	pg:settimeout(1000) -- closes connection after 1 second
+	pg:settimeout(config.db_timeout)
 	assert(pg:connect())
 	return pg
 end
