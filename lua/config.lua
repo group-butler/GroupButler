@@ -11,7 +11,7 @@ return {
 	db_port = os.getenv("DB_PORT") or 5432,
 	db_user = os.getenv("DB_USER") or 'postgres',
 	db_pass = os.getenv("DB_PASS") or 'password',
-	db_db = os.getenv("DB_DB") or 'postgres',
+	db_db = os.getenv("DB_DB") or 'groupbutler',
 
 	redis_host = os.getenv("REDIS_HOST") or 'redis',
 	redis_port = os.getenv("REDIS_PORT") or 6379,
