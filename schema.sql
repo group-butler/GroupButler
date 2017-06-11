@@ -47,7 +47,6 @@ CREATE TABLE chat (
     arab text,
     warning_threshold integer DEFAULT 3 NOT NULL,
     warning_action text DEFAULT 'ban'::text NOT NULL,
-    antibot boolean DEFAULT false NOT NULL,
     silent boolean DEFAULT false NOT NULL,
     extra boolean DEFAULT true NOT NULL,
     reports boolean DEFAULT false NOT NULL,
@@ -58,129 +57,64 @@ CREATE TABLE chat (
     goodbye_content text[],
     rules text,
     rules_ongroup boolean DEFAULT false NOT NULL,
+    antibot boolean DEFAULT false NOT NULL,
+    antiflood_text boolean DEFAULT true NOT NULL,
+    antiflood_photo boolean DEFAULT true NOT NULL,
+    antiflood_forward boolean DEFAULT true NOT NULL,
+    antiflood_video boolean DEFAULT true NOT NULL,
+    antiflood_sticker boolean DEFAULT true NOT NULL,
+    antiflood_gif boolean DEFAULT true NOT NULL,
+    antiflood_threshold integer DEFAULT 5 NOT NULL,
+    antiflood_action text DEFAULT 'kick'::text NOT NULL,
+    antimedia_photo boolean DEFAULT false NOT NULL,
+    antimedia_audio boolean DEFAULT false NOT NULL,
+    antimedia_video boolean DEFAULT false NOT NULL,
+    antimedia_sticker boolean DEFAULT false NOT NULL,
+    antimedia_gif boolean DEFAULT false NOT NULL,
+    antimedia_voice boolean DEFAULT false NOT NULL,
+    antimedia_contact boolean DEFAULT false NOT NULL,
+    antimedia_document boolean DEFAULT false NOT NULL,
+    antimedia_link boolean DEFAULT false NOT NULL,
+    antimedia_game boolean DEFAULT false NOT NULL,
+    antimedia_location boolean DEFAULT false NOT NULL,
+    antimedia_warnings integer DEFAULT 2 NOT NULL,
+    antimedia_action text DEFAULT 'ban'::text NOT NULL,
+    antimedia_allowed_links text[],
+    antispam_link boolean DEFAULT false NOT NULL,
+    antispam_forward boolean DEFAULT false NOT NULL,
+    antispam_warnings integer DEFAULT 2 NOT NULL,
+    antispam_action text DEFAULT 'ban'::text NOT NULL,
+    mod_admin_promdem boolean DEFAULT true NOT NULL,
+    mod_hammer boolean DEFAULT true NOT NULL,
+    mod_config boolean DEFAULT false NOT NULL,
+    mod_texts boolean DEFAULT false NOT NULL,
+    tolog_ban boolean DEFAULT false NOT NULL,
+    tolog_kick boolean DEFAULT false NOT NULL,
+    tolog_unban boolean DEFAULT false NOT NULL,
+    tolog_tempban boolean DEFAULT false NOT NULL,
+    tolog_report boolean DEFAULT false NOT NULL,
+    tolog_warn boolean DEFAULT false NOT NULL,
+    tolog_nowarn boolean DEFAULT false NOT NULL,
+    tolog_mediawarn boolean DEFAULT false NOT NULL,
+    tolog_spamwarn boolean DEFAULT false NOT NULL,
+    tolog_flood boolean DEFAULT false NOT NULL,
+    tolog_promote boolean DEFAULT false NOT NULL,
+    tolog_demote boolean DEFAULT false NOT NULL,
+    tolog_cleanmods boolean DEFAULT false NOT NULL,
+    tolog_new_chat_member boolean DEFAULT false NOT NULL,
+    tolog_new_chat_photo boolean DEFAULT false NOT NULL,
+    tolog_delete_chat_photo boolean DEFAULT false NOT NULL,
+    tolog_new_chat_title boolean DEFAULT false NOT NULL,
+    tolog_pinned_message boolean DEFAULT false NOT NULL,
+    tolog_blockban boolean DEFAULT false NOT NULL,
+    tolog_block boolean DEFAULT false NOT NULL,
+    tolog_unblock boolean DEFAULT false NOT NULL,
+    stats_messages bigint DEFAULT 1 NOT NULL,
     CONSTRAINT chat_lastmsg_ts_check CHECK ((date_part('timezone'::text, lastmsg) = '0'::double precision))
 );
 
 
 ALTER TABLE chat OWNER TO postgres;
-
---
--- Name: chat_antiflood; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE chat_antiflood (
-    chat_id bigint NOT NULL,
-    text boolean DEFAULT true NOT NULL,
-    photo boolean DEFAULT true NOT NULL,
-    forward boolean DEFAULT true NOT NULL,
-    video boolean DEFAULT true NOT NULL,
-    sticker boolean DEFAULT true NOT NULL,
-    gif boolean DEFAULT true NOT NULL,
-    threshold integer DEFAULT 5 NOT NULL,
-    action text DEFAULT 'kick'::text NOT NULL
-);
-
-
-ALTER TABLE chat_antiflood OWNER TO postgres;
-
---
--- Name: chat_antimedia; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE chat_antimedia (
-    chat_id bigint NOT NULL,
-    photo boolean DEFAULT false NOT NULL,
-    audio boolean DEFAULT false NOT NULL,
-    video boolean DEFAULT false NOT NULL,
-    sticker boolean DEFAULT false NOT NULL,
-    gif boolean DEFAULT false NOT NULL,
-    voice boolean DEFAULT false NOT NULL,
-    contact boolean DEFAULT false NOT NULL,
-    document boolean DEFAULT false NOT NULL,
-    link boolean DEFAULT false NOT NULL,
-    game boolean DEFAULT false NOT NULL,
-    location boolean DEFAULT false NOT NULL,
-    warnings integer DEFAULT 2 NOT NULL,
-    action text DEFAULT 'ban'::text NOT NULL,
-    allowed_links text[]
-);
-
-
-ALTER TABLE chat_antimedia OWNER TO postgres;
-
---
--- Name: chat_antispam; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE chat_antispam (
-    chat_id bigint NOT NULL,
-    link boolean DEFAULT false NOT NULL,
-    forward boolean DEFAULT false NOT NULL,
-    warnings integer DEFAULT 2 NOT NULL,
-    action text DEFAULT 'ban'::text NOT NULL
-);
-
-
-ALTER TABLE chat_antispam OWNER TO postgres;
-
---
--- Name: chat_mod; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE chat_mod (
-    chat_id bigint NOT NULL,
-    admin_promdem boolean DEFAULT true NOT NULL,
-    hammer boolean DEFAULT true NOT NULL,
-    config boolean DEFAULT false NOT NULL,
-    texts boolean DEFAULT false NOT NULL
-);
-
-
-ALTER TABLE chat_mod OWNER TO postgres;
-
---
--- Name: chat_stats; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE chat_stats (
-    chat_id bigint NOT NULL,
-    messages bigint DEFAULT 1 NOT NULL
-);
-
-
-ALTER TABLE chat_stats OWNER TO postgres;
-
---
--- Name: chat_tolog; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE chat_tolog (
-    chat_id bigint NOT NULL,
-    ban boolean DEFAULT false NOT NULL,
-    kick boolean DEFAULT false NOT NULL,
-    unban boolean DEFAULT false NOT NULL,
-    tempban boolean DEFAULT false NOT NULL,
-    report boolean DEFAULT false NOT NULL,
-    warn boolean DEFAULT false NOT NULL,
-    nowarn boolean DEFAULT false NOT NULL,
-    mediawarn boolean DEFAULT false NOT NULL,
-    spamwarn boolean DEFAULT false NOT NULL,
-    flood boolean DEFAULT false NOT NULL,
-    promote boolean DEFAULT false NOT NULL,
-    demote boolean DEFAULT false NOT NULL,
-    cleanmods boolean DEFAULT false NOT NULL,
-    new_chat_member boolean DEFAULT false NOT NULL,
-    new_chat_photo boolean DEFAULT false NOT NULL,
-    delete_chat_photo boolean DEFAULT false NOT NULL,
-    new_chat_title boolean DEFAULT false NOT NULL,
-    pinned_message boolean DEFAULT false NOT NULL,
-    blockban boolean DEFAULT false NOT NULL,
-    block boolean DEFAULT false NOT NULL,
-    unblock boolean DEFAULT false NOT NULL
-);
-
-
-ALTER TABLE chat_tolog OWNER TO postgres;
 
 --
 -- Name: karma; Type: TABLE; Schema: public; Owner: postgres
@@ -218,59 +152,11 @@ CREATE TABLE users (
 ALTER TABLE users OWNER TO postgres;
 
 --
--- Name: chat_antiflood chat_antiflood_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY chat_antiflood
-    ADD CONSTRAINT chat_antiflood_pkey PRIMARY KEY (chat_id);
-
-
---
--- Name: chat_antimedia chat_antimedia_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY chat_antimedia
-    ADD CONSTRAINT chat_antimedia_pkey PRIMARY KEY (chat_id);
-
-
---
--- Name: chat_antispam chat_antispam_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY chat_antispam
-    ADD CONSTRAINT chat_antispam_pkey PRIMARY KEY (chat_id);
-
-
---
--- Name: chat_mod chat_mod_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY chat_mod
-    ADD CONSTRAINT chat_mod_pkey PRIMARY KEY (chat_id);
-
-
---
 -- Name: chat chat_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY chat
     ADD CONSTRAINT chat_pkey PRIMARY KEY (chat_id);
-
-
---
--- Name: chat_stats chat_stats_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY chat_stats
-    ADD CONSTRAINT chat_stats_pkey PRIMARY KEY (chat_id);
-
-
---
--- Name: chat_tolog chat_tolog_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY chat_tolog
-    ADD CONSTRAINT chat_tolog_pkey PRIMARY KEY (chat_id);
 
 
 --

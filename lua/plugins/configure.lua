@@ -36,7 +36,7 @@ local function do_keyboard_config(chat_id, user_id, is_admin)
 		}
 	}
 
-	if u.least_rank('owner',chat_id, user_id) or (db.getval('chat_mod', 'promdem', 'chatid', chat_id) == 't' and is_admin) then
+	if u.least_rank('owner', chat_id, user_id) or (db.getvchat(chat_id, 'mod_admin_promdem') and is_admin) then
 		table.insert(keyboard.inline_keyboard, {{text = ("👔 Moderators"), callback_data = 'config:mods:'..chat_id}})
 	end
 

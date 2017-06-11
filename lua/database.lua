@@ -1,24 +1,9 @@
 local pgmoon = require 'pgmoon' -- Load postgres client
 
--- Database abstraction module
-local database = {}
+local db = {} -- Database abstraction module
 
--- Debug: dump lua table to console
-function dump(o)
-   if type(o) == 'table' then
-      local s = '{ '
-      for k,v in pairs(o) do
-         if type(k) ~= 'number' then k = '"'..k..'"' end
-         s = s .. '['..k..'] = ' .. dump(v) .. ','
-      end
-      return s .. '} '
-   else
-      return tostring(o)
-   end
-end
-
--- Init database connection
-local function connect()
+-- Private functions
+local function connect() -- Init database connection
 	local pg = pgmoon.new({
 		host = config.db_host,
 		port = config.db_port,
@@ -31,13 +16,12 @@ local function connect()
 	return pg
 end
 
--- Generic functions
-function database.setval(table, col, val, col2, val2)
+local function acc(table, col, val, col2) -- Accumulator
 	local pg = connect()
-	local res = pg:query('INSERT INTO '..table..' ('..col..', '..col2..') values ('..val..', '..val2..') ON CONFLICT ('..col..') DO UPDATE SET '..col2..' = '..val2)
+	local res = pg:query('INSERT INTO '..table..' ('..col..') values ('..val..') ON CONFLICT ('..col..') DO UPDATE SET '..col2..' = '..table..'.'..col2..' + 1')
 end
 
-function database.getval(table, col, col2, val)
+local function getval(table, col, col2, val)
 	local pg = connect()
 	local res = pg:query('SELECT '..col..' FROM '..table..' WHERE '..col2..'='..val)
 	if res then
@@ -49,36 +33,31 @@ function database.getval(table, col, col2, val)
 	end
 end
 
-function database.acc(table, col, val, col2)
+local function setval(table, col, val, col2, val2)
 	local pg = connect()
-	local res = pg:query('INSERT INTO '..table..' ('..col..') values ('..val..') ON CONFLICT ('..col..') DO UPDATE SET '..col2..' = '..table..'.'..col2..' + 1')
+	local res = pg:query('INSERT INTO '..table..' ('..col..', '..col2..') values ('..val..', '..val2..') ON CONFLICT ('..col..') DO UPDATE SET '..col2..' = '..val2)
 end
 
--- Dedicated functions
-function database.setvusers(user_id, col, val)
-	local pg = connect()
-	database.setval('users', 'userid', user_id, col, val)
+-- Public functions
+function db.accchat(chat_id, col)
+	acc('chat', 'chat_id', chat_id, col)
 end
-function database.getvusers(user_id, col)
-	local pg = connect()
-	return database.getval('users', col, 'userid', user_id)
+function db.getvchat(chat_id, col)
+	return getval('chat', col, 'chat_id', chat_id)
 end
-
-function database.setvchat(chat_id, col, val)
-	local pg = connect()
-	database.setval('chat', 'chatid', chat_id, col, val)
-end
-function database.getvchat(chat_id, col)
-	local pg = connect()
-	return database.getval('chat', col, 'chatid', chat_id)
+function db.setvchat(chat_id, col, val)
+	setval('chat', 'chat_id', chat_id, col, val)
 end
 
-function database.setvkarma(chat_id, user_id, col, val)
+function db.initgroup(chat_id)
 	local pg = connect()
-	local res = pg:query('INSERT INTO karma (id, '..col..') values (('..chat_id..', '..user_id..'), '..val..') ON CONFLICT (id) DO UPDATE SET '..col..' = '..val)
-	return res.affected_rows
+	local res = pg:query('INSERT INTO chat (chat_id) values ('..chat_id..') ON CONFLICT DO NOTHING')
 end
-function database.getvkarma(chat_id, user_id, col)
+
+function db.acckarma(chat_id, user_id, col)
+	-- TODO
+end
+function db.getvkarma(chat_id, user_id, col)
 	local pg = connect()
 	local res = pg:query('SELECT '..col..' FROM karma WHERE id = ('..chat_id..', '..user_id..')::chatuser')
 	if res then
@@ -91,46 +70,20 @@ function database.getvkarma(chat_id, user_id, col)
 		return nil
 	end
 end
-
-function database.initgroup(chat_id)
+function db.setvkarma(chat_id, user_id, col, val)
 	local pg = connect()
-	-- Create chat rows
-	local res = pg:query('INSERT INTO chat (chatid) values ('..chat_id..') ON CONFLICT DO NOTHING')
-	local res = pg:query('INSERT INTO chat_antiflood (chatid) values ('..chat_id..') ON CONFLICT DO NOTHING')
-	local res = pg:query('INSERT INTO chat_antimedia (chatid) values ('..chat_id..') ON CONFLICT DO NOTHING')
-	local res = pg:query('INSERT INTO chat_antispam (chatid) values ('..chat_id..') ON CONFLICT DO NOTHING')
+	local res = pg:query('INSERT INTO karma (chat_id, user_id, '..col..') values ('..chat_id..', '..user_id..', '..val..') ON CONFLICT (chat_id, user_id) DO UPDATE SET '..col..' = '..val)
+	return res.affected_rows
 end
 
--- Check table if val1 is in col1[] where col2 = val2. Akin to redis sismember
--- function database.is_in_array(table, col1, val1, col2, val2)
--- 	local cur = assert(con:execute(string.format([[SELECT (%s=ANY(%s)) FROM %s AS result
--- 	WHERE %s=%s]], val1, col1, table, col2, val2)))
--- 	local row = cur:fetch ({}, "a")
--- 	cur:close()
--- 	if row then -- checks if array is not null
--- 		return row['?column?'] == 't'
--- 	else
--- 		return false
--- 	end
--- end
+function db.accusers(user_id, col)
+	acc('users', 'user_id', user_id, col)
+end
+function db.getvusers(user_id, col)
+	return getval('users', col, 'user_id', user_id)
+end
+function db.setvusers(user_id, col, val)
+	setval('users', 'user_id', user_id, col, val)
+end
 
--- Add a new member to array
--- function database.put_in_array(table, col1, val1, col2, val2)
--- 	local res = assert(con:execute(string.format([[UPDATE %s SET %s = array_distinct(array_append(%s, %s))
--- 	WHERE %s=%s]], table, col1, col1, val1, col2, val2)))
--- end
-
---
--- function database.getarray(table, col, col2, val)
--- 	local cur = assert(con:execute(string.format([[SELECT %s FROM %s AS result
--- 	WHERE %s=%s]], col, table, col2, val)))
--- 	local row = cur:fetch ({}, "a")
--- 	cur:close()
--- 	if row then -- checks if array is not null
--- 		return row
--- 	else
--- 		return nil
--- 	end
--- end
-
-return database
+return db

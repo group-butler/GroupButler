@@ -62,10 +62,10 @@ function utilities.least_rank(least, chat_id, user_id)
 end
 
 -- Chat related functions
-function utilities.get_chat(val, chat_id)
-	local result = db.getval('chat', val, 'chatid', chat_id)
+function utilities.get_chat(val, chat_id) -- TODO: remove this function
+	local result = db.getvchat(chat_id, val)
 	if val == 'silentmode' then
-		return result == 't'
+		return result
 	elseif val == 'rules' then
 		if not val then
 			return ("-*empty*-")

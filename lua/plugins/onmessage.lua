@@ -18,7 +18,7 @@ end
 local function is_flooding_funct(msg)
 	local hash = 'flood:'..msg.chat.id..':'..msg.from.id
 	local msgs = tonumber(red:get(hash)) or 1
-	local max_msgs = tonumber(db.getval('chat_antiflood', 'threshold', 'chatid', msg.chat.id))
+	local max_msgs = tonumber(db.getvchat(msg.chat.id, 'antiflood_threshold'))
 
 	if msg.cb then max_msgs = 15 end
 
@@ -51,11 +51,11 @@ function plugin.onEveryMessage(msg)
 	local msg_type = 'text'
 	if msg.forward_from or msg.forward_from_chat then msg_type = 'forward' end
 	if msg.media_type then msg_type = msg.media_type end
-	if not msg.edited and db.getval('chat_antiflood', msg_type, 'chatid', msg.chat.id) == 't' then
+	if not msg.edited and db.getvchat(msg.chat.id, ('antiflood_'..msg_type)) then
 		local is_flooding, msgs_sent, msgs_max = is_flooding_funct(msg)
 		if is_flooding then
 			if not msg.cb and not msg.from.mod then -- if the user is not an admin, and the message is not a callback, then
-				local action = db.getval('chat_antiflood', 'action', 'chatid', msg.chat.id)
+				local action = db.getvchat(msg.chat.id, 'antiflood_action')
 				local name = u.getname_final(msg.from)
 				local res, message
 				--try to kick or ban
@@ -88,7 +88,7 @@ function plugin.onEveryMessage(msg)
 
 	if msg.media and msg.chat.type ~= 'private' and not msg.cb and not msg.edited then
 		local media = msg.media_type
-		local action = db.getval('chat_antimedia', 'action', 'chatid', msg.chat.id)
+		local action = db.getvchat(msg.chat.id, 'antimedia_action')
 		if action then -- null = disabled
 			if not msg.from.mod then --ignore mods and above
 				local whitelisted
@@ -125,7 +125,7 @@ function plugin.onEveryMessage(msg)
 		end
 	end
 
-	local rtl_status = db.getval('chat', 'rtl', 'chatid', msg.chat.id)
+	local rtl_status = db.getvchat(msg.chat.id, 'rtl')
 	if rtl_status then
 		local rtl = '‮'
 		local last_name = 'x'
@@ -151,7 +151,7 @@ function plugin.onEveryMessage(msg)
 	end
 
 	if msg.text and msg.text:find('([\216-\219][\128-\191])') then
-		local arab_status = db.getval('chat', 'arab', 'chatid', msg.chat.id)
+		local arab_status = db.getvchat(msg.chat.id, 'arab')
 		if arab_status then
 			if not msg.from.mod then
 				local name = u.getname_final(msg.from)

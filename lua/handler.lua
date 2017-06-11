@@ -88,7 +88,7 @@ local function on_msg_receive(msg, callback) -- The fn run whenever a message is
 	end
 
 	-- Define chat language
-	i18n.setLocale(db.getval('chat', 'lang', 'chatid', msg.chat.id) or config.lang)
+	i18n.setLocale(db.getvchat(msg.chat.id, 'lang') or config.lang)
 
 	if msg.chat.type ~= 'group' then --do not process messages from normal groups
 
@@ -114,7 +114,7 @@ local function on_msg_receive(msg, callback) -- The fn run whenever a message is
 				local blocks, trigger = match_triggers(plugin.triggers[callback], msg.text)
 				if blocks then
 
-					if msg.chat.type ~= 'private' and msg.chat.type ~= 'inline' and not db.getval('chat', 'lastmsg', 'chatid', msg.chat.id) and not msg.service then --init agroup if the bot wasn't aware to be in
+					if msg.chat.type ~= 'private' and msg.chat.type ~= 'inline' and not db.getvchat(msg.chat.id, 'lastmsg') and not msg.service then --init agroup if the bot wasn't aware to be in
 							u.initGroup(msg.chat.id)
 						end
 
@@ -354,7 +354,7 @@ local function parseMessageFunction(update)
 		end
 	end
 
-	db.acc('chat_stats', 'chatid', msg.chat.id, 'messages') -- Count how many messages were processed on a given chat
+	db.accchat(msg.chat.id, 'stats_messages') -- Count how many messages were processed on a given chat
 
 	--print('Mod:', msg.from.mod, 'Admin:', msg.from.admin)
 	return on_msg_receive(msg, function_key)
