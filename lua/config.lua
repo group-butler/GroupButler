@@ -78,18 +78,18 @@ return {
 	multipurpose_plugins = {},
 	available_languages = {
 		['en'] = 'English 🇬🇧',
-		['it'] = 'Italiano 🇮🇹',
-		['es'] = 'Español 🇪🇸',
-		['pt_BR'] = 'Português 🇧🇷',
-		['ru'] = 'Русский 🇷🇺',
-		['de'] = 'Deutsch 🇩🇪',
+		-- ['it'] = 'Italiano 🇮🇹',
+		-- ['es'] = 'Español 🇪🇸',
+		['pt'] = 'Português 🇵🇹',
+		['pt_BR'] = 'Português Brasileiro 🇧🇷',
+		-- ['ru'] = 'Русский 🇷🇺',
+		-- ['de'] = 'Deutsch 🇩🇪',
 		--['sv'] = 'Svensk 🇸🇪',
-		['ar'] = 'العربية 🇸🇩',
+		-- ['ar'] = 'العربية 🇸🇩',
 		--['fr'] = 'Français 🇫🇷',
-		['zh'] = '中文 🇨🇳',
-		['fa'] = 'فارسی 🇮🇷',
-		['id'] = 'Bahasa Indonesia 🇮🇩',
-		['nl'] = 'Dutch 🇱🇺'
-		-- more languages will come
+		-- ['zh'] = '中文 🇨🇳',
+		-- ['fa'] = 'فارسی 🇮🇷',
+		-- ['id'] = 'Bahasa Indonesia 🇮🇩',
+		-- ['nl'] = 'Dutch 🇱🇺'
 	}
 }
