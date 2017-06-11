@@ -24,6 +24,7 @@ return {
 	max_connections = os.getenv("MAX_CONNECTIONS") or 40,
 
 	-- Setting these is completely optional
+	db_db = os.getenv("DB_DB") or 'groupbutler',
 	redis_db = os.getenv("REDIS_DB") or 0,
 	human_readable_version = '4.2.0',
 	cmd = '^[/!#]',
