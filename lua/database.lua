@@ -73,7 +73,11 @@ end
 function db.setvkarma(chat_id, user_id, col, val)
 	local pg = connect()
 	local res = pg:query('INSERT INTO karma (chat_id, user_id, '..col..') values ('..chat_id..', '..user_id..', '..val..') ON CONFLICT (chat_id, user_id) DO UPDATE SET '..col..' = '..val)
-	return res.affected_rows
+	if res then
+		return res.affected_rows
+	else
+		return 0
+	end
 end
 
 function db.accusers(user_id, col)
