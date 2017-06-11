@@ -27,8 +27,8 @@ function plugin.onTextMessage(msg, blocks)
 					to_save = '###file_id!'..media_with_special_method..'###:'..file_id
 				else
 					to_save = '###file_id###:'..file_id
-				end
-				db:hset('chat:'..msg.chat.id..':extra', blocks[2], to_save)
+				end --                  extra_id  content
+				db.setvce(msg.chat.id, blocks[2], to_save)
 				api.sendReply(msg, ("This media has been saved as a response to %s"):format(blocks[2]))
 			end
 		else

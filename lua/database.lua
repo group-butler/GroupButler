@@ -38,6 +38,30 @@ local function setval(table, col, val, col2, val2)
 	local res = pg:query('INSERT INTO '..table..' ('..col..', '..col2..') values ('..val..', '..val2..') ON CONFLICT ('..col..') DO UPDATE SET '..col2..' = '..val2)
 end
 
+local function getval2(table, col, val, col2, val2, col3)
+	local pg = connect()
+	local res = pg:query('SELECT '..col3..' FROM chat_users WHERE ('..col..', '..col2..') = ('..val..', '..val2..')')
+	if res then
+		if res[1] then
+			if res[1][col3] then
+				return res[1][col3]
+			end
+		end
+	else
+		return nil
+	end
+end
+
+local function setval2(table, col, val, col2, val2, col3, val3)
+	local pg = connect()
+	local res = pg:query('INSERT INTO '..table..' ('..col..', '..col2..', '..col3..') values ('..val..', '..val2..', '..val3..') ON CONFLICT ('..col..', '..col2..') DO UPDATE SET '..col3..' = '..val3)
+	if res then
+		return res.affected_rows
+	else
+		return 0
+	end
+end
+
 -- Public functions
 function db.accchat(chat_id, col)
 	acc('chat', 'chat_id', chat_id, col)
@@ -47,6 +71,17 @@ function db.getvchat(chat_id, col)
 end
 function db.setvchat(chat_id, col, val)
 	setval('chat', 'chat_id', chat_id, col, val)
+end
+
+-- ce = chat_extra
+function db.getvce(chat_id, extra_id, col)
+	setval2('chat_extra', 'chat_id', chat_id, 'extra_id', extra_id, col)
+end
+function db.listce(chat_id, extra_id)
+	-- TODO
+end
+function db.setvce(chat_id, extra_id, col, val)
+	setval2('chat_extra', 'chat_id', chat_id, 'extra_id', extra_id, col, val)
 end
 
 function db.initgroup(chat_id)
@@ -59,26 +94,10 @@ function db.acccu(chat_id, user_id, col)
 	-- TODO
 end
 function db.getvcu(chat_id, user_id, col)
-	local pg = connect()
-	local res = pg:query('SELECT '..col..' FROM chat_users WHERE id = ('..chat_id..', '..user_id..')::chatuser')
-	if res then
-		if res[1] then
-			if res[1][col] then
-				return res[1][col]
-			end
-		end
-	else
-		return nil
-	end
+	getval2('chat_users', 'chat_id', chat_id, 'user_id', user_id, col)
 end
 function db.setvcu(chat_id, user_id, col, val)
-	local pg = connect()
-	local res = pg:query('INSERT INTO chat_users (chat_id, user_id, '..col..') values ('..chat_id..', '..user_id..', '..val..') ON CONFLICT (chat_id, user_id) DO UPDATE SET '..col..' = '..val)
-	if res then
-		return res.affected_rows
-	else
-		return 0
-	end
+	setval2('chat_users', 'chat_id', chat_id, 'user_id', user_id, col, val)
 end
 
 function db.accusers(user_id, col)
