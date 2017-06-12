@@ -92,7 +92,7 @@ local function on_msg_receive(msg, callback) -- The fn run whenever a message is
 
 	if msg.chat.type ~= 'group' then --do not process messages from normal groups
 
-		if msg.date < os.time() - 7 then print('Old update skipped') return end -- Do not process old messages.
+		if msg.date < os.time() - config.old_message then print('Old update skipped') return end -- Do not process old messages.
 		if not msg.text then msg.text = msg.caption or '' end
 
 		collect_stats(msg)

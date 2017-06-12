@@ -26,6 +26,7 @@ return {
 	-- Setting these is completely optional
 	db_db = os.getenv("DB_DB") or 'groupbutler',
 	redis_db = os.getenv("REDIS_DB") or 0,
+	old_message = os.getenv("OLD_MESSAGE") or 7, -- How much time needs to have passed until a message is ignored
 	human_readable_version = '4.2.0',
 	cmd = '^[/!#]',
 	allowed_updates = {"message", "edited_message", "callback_query"},

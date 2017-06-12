@@ -21,3 +21,4 @@ services:
       - GROUP
       - CORE_LANG
       - MAX_CONNECTIONS
+      - OLD_MESSAGE
