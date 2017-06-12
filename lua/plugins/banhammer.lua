@@ -111,7 +111,7 @@ function plugin.onTextMessage(msg, blocks)
 		    if not user_id and blocks[1] ~= 'kickme' then
 		    	api.sendReply(msg, error_translation_key, true) return
 		    end
-		    if tonumber(user_id) == bot.id then return end
+		    if tonumber(user_id) == bot:get('id') then return end
 
 		 	local res
 		 	local chat_id = msg.chat.id

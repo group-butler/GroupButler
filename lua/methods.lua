@@ -230,7 +230,7 @@ function api.leaveChat(chat_id)
 	local res, code = sendRequest(url)
 
 	if res then
-		db:srem(string.format('chat:%d:members', chat_id), bot.id)
+		db:srem(string.format('chat:%d:members', chat_id), bot:get('id'))
 	end
 
 	if not res and code then --if the request failed and a code is returned (not 403 and 429)

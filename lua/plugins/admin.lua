@@ -72,7 +72,7 @@ end
 
 local function match_pattern(pattern, text)
   if text then
-  	text = text:gsub('@'..bot.username, '')
+  	text = text:gsub('@'..bot:get('username'), '')
     local matches = {}
     matches = { string.match(text, pattern) }
     if next(matches) then
@@ -107,10 +107,10 @@ function plugin.onTextMessage(msg, blocks)
 	end
 	if blocks[1] == 'backup' then
 		db:bgsave()
-		local cmd = io.popen('sudo tar -cpf '..bot.first_name:gsub(' ', '_')..'.tar *')
+		local cmd = io.popen('sudo tar -cpf '..bot:get('first_name'):gsub(' ', '_')..'.tar *')
     	cmd:read('*all')
     	cmd:close()
-    	api.sendDocument(msg.from.id, './'..bot.first_name:gsub(' ', '_')..'.tar')
+    	api.sendDocument(msg.from.id, './'..bot:get('first_name'):gsub(' ', '_')..'.tar')
     end
 	if blocks[1] == 'save' then
 		db:bgsave()

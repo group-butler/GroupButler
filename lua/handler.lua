@@ -1,4 +1,5 @@
 db = dofile('lua/database.lua') -- Load database abstraction layer
+bot = ngx.shared.bot -- Load bot shared dictonary
 local u = dofile('lua/utilities.lua') -- Load miscellaneous and cross-plugin functions
 
 -- Make telegram aware the update was received
@@ -19,9 +20,6 @@ red:select(config.redis_db) -- Select the redis db
 ngx.req.read_body()
 local body = ngx.req.get_body_data()
 local msg = assert(json.decode(body))
-
--- TODO: move this to init
-bot = api.getMe().result
 
 local function extract_usernames(msg)
 	local username, userid
@@ -66,7 +64,7 @@ end
 
 local function match_triggers(triggers, text)
 		if text and triggers then
-		text = text:gsub('^(/[%w_]+)@'..bot.username, '%1')
+		text = text:gsub('^(/[%w_]+)@'..bot:get('username'), '%1')
 		for i, trigger in pairs(triggers) do
 			local matches = {}
 				matches = { string.match(text, trigger) }
@@ -140,7 +138,7 @@ local function on_msg_receive(msg, callback) -- The fn run whenever a message is
 			end
 		end
 	else
-		if msg.group_chat_created or (msg.new_chat_member and msg.new_chat_member.id == bot.id) then
+		if msg.group_chat_created or (msg.new_chat_member and msg.new_chat_member.id == bot:get('id')) then
 			db.setvchat(msg.chat.id, 'lang', '"'..config.lang..'"') -- set the chat language
 
 			-- send disclamer
@@ -148,7 +146,7 @@ local function on_msg_receive(msg, callback) -- The fn run whenever a message is
 Hello everyone!
 My name is %s, and I'm a bot made to help administrators in their hard work.
 Unfortunately I can't work in normal groups, please ask the creator to convert this group to a supergroup.
-]]):format(bot.first_name))
+]]):format(bot:get('first_name')))
 
 			-- log this event
 			if config.bot_settings.stream_commands then
@@ -223,14 +221,14 @@ local function parseMessageFunction(update)
 			msg.media_type = 'game'
 		elseif msg.left_chat_member then
 			msg.service = true
-			if msg.left_chat_member.id == bot.id then
+			if msg.left_chat_member.id == bot:get('id') then
 				msg.text = '###left_chat_member:bot'
 			else
 				msg.text = '###left_chat_member'
 			end
 		elseif msg.new_chat_member then
 			msg.service = true
-			if msg.new_chat_member.id == bot.id then
+			if msg.new_chat_member.id == bot:get('id') then
 				msg.text = '###new_chat_member:bot'
 			else
 				msg.text = '###new_chat_member'

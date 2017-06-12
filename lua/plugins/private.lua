@@ -10,7 +10,7 @@ local function do_keyboard_credits()
     	{
     		{text = ("Channel"), url = 'https://telegram.me/'..config.channel:gsub('@', '')},
     		{text = ("GitHub"), url = config.source_code},
-    		{text = ("Rate me!"), url = 'https://telegram.me/storebot?start='..bot.username},
+    		{text = ("Rate me!"), url = 'https://telegram.me/storebot?start='..bot:get('username')},
 		},
 		{
 			{text = ("👥 Groups"), callback_data = 'private:groups'}

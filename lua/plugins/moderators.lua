@@ -29,7 +29,7 @@ local function promdem_user(msg, blocks, action)
     else
         local user = {}
         if msg.reply then
-            if msg.reply.from.id == bot.id then
+            if msg.reply.from.id == bot:get('id') then
                 return nil, ("You can't promote or demote me")
             end
             user = msg.reply.from

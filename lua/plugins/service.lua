@@ -37,11 +37,11 @@ function plugin.onTextMessage(msg, blocks)
 		if blocks[1] == 'new_chat_member:bot' then
 			text = ("Hello everyone!\n"
 				.. "My name is %s, and I'm a bot made to help administrators in their hard work.\n")
-				:format(bot.first_name:escape())
+				:format(bot:get('first_name'):escape())
 		else
 			text = ("Yay! This group has been upgraded. You are great! Now I can work properly :)\n")
 		end
-		--[[if not u.least_rank('admin',msg.chat.id, bot.id) then
+		--[[if not u.least_rank('admin',msg.chat.id, bot:get('id')) then
 			if u.least_rank('owner',msg.chat.id, msg.from.id) then
 				text = text .. ("Hmm… apparently I'm not an administrator. "
 					.. "I can be more useful if you make me an admin. "

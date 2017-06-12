@@ -3,11 +3,16 @@ local bot = ngx.shared.bot
 local function bot_init(url, max_connections, allowed_updates)
 	api.setWebhook(url, max_connections, allowed_updates)
 
+	-- Warn the admin the bot has started
 	local temp = os.date("*t")
 	temp["plugins"] = #plugins
 	api.sendAdmin(i18n('bot_started',temp), 'Markdown')
 
-	-- api.getMe()
+	-- Store bot properties on a shared dictonary
+	local res = api.getMe().result
+	bot:set('username', res.username)
+	bot:set('id', res.id)
+	bot:set('first_name', res.first_name)
 end
 
 local started = bot:get('started')

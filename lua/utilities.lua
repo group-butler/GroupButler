@@ -99,7 +99,7 @@ function utilities.is_superadmin(user_id)
 end
 
 function utilities.bot_is_admin(chat_id)
-	local status = api.getChatMember(chat_id, bot.id).result.status
+	local status = api.getChatMember(chat_id, bot:get('id')).result.status
 	if not(status == 'administrator') then
 		return false
 	else
@@ -223,7 +223,7 @@ function utilities.telegram_file_link(res)
 end
 
 function utilities.deeplink_constructor(chat_id, what)
-	return 'https://telegram.me/'..bot.username..'?start='..chat_id..'_'..what
+	return 'https://telegram.me/'..bot:get('username')..'?start='..chat_id..'_'..what
 end
 
 function utilities.get_date(timestamp)
@@ -688,7 +688,7 @@ function utilities.changeMediaStatus(chat_id, media, new_status)
 end
 
 function utilities.sendStartMe(msg)
-	local keyboard = {inline_keyboard = {{{text = ("Start me"), url = 'https://telegram.me/'..bot.username}}}}
+	local keyboard = {inline_keyboard = {{{text = ("Start me"), url = 'https://telegram.me/'..bot:get('username')}}}}
 	api.sendMessage(msg.chat.id, ("_Please message me first so I can message you_"), true, keyboard)
 end
 
@@ -860,7 +860,7 @@ function utilities.logEvent(event, msg, extra)
 	-- 	text = ('%s\n• %s\n• <b>By</b>: %s'):format('#CLEAN_MODLIST', chat_info, extra.admin)
 	-- elseif event == 'new_chat_photo' then
 	-- 	text = ('%s\n• %s\n• <b>By</b>: %s'):format('#NEWPHOTO', chat_info, member)
-	-- 	reply_markup = {inline_keyboard={{{text = ("Get the new photo"), url = ("telegram.me/%s?start=photo:%s"):format(bot.username, msg.new_chat_photo[#msg.new_chat_photo].file_id)}}}}
+	-- 	reply_markup = {inline_keyboard={{{text = ("Get the new photo"), url = ("telegram.me/%s?start=photo:%s"):format(bot:get('username'), msg.new_chat_photo[#msg.new_chat_photo].file_id)}}}}
 	-- elseif event == 'delete_chat_photo' then
 	-- 	text = ('%s\n• %s\n• <b>By</b>: %s'):format('#PHOTOREMOVED', chat_info, member)
 	-- elseif event == 'new_chat_title' then

@@ -150,7 +150,7 @@ function plugin.onCallbackQuery(msg, blocks)
                 elseif code == 144 or code == 145 then
                     text = ("<i>Something went wrong with the formattation of the list</i>")
                 elseif (code == 403 or code == 110) and blocks[1] == 'private' then
-                    api.answerCallbackQuery(msg.cb_id, ("You need to start me first.\nClick/tap here: t.me/%s"):format(bot.username), true)
+                    api.answerCallbackQuery(msg.cb_id, ("You need to start me first.\nClick/tap here: t.me/%s"):format(bot:get('username')), true)
                     return
                 else
                     text = ("<i>An unknown error occurred</i>. Code: %d"):format(code)
