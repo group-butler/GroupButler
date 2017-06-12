@@ -75,7 +75,7 @@ end
 
 -- ce = chat_extra
 function db.getvce(chat_id, extra_id, col)
-	getval2('chat_extra', 'chat_id', chat_id, 'extra_id', extra_id, col)
+	return getval2('chat_extra', 'chat_id', chat_id, 'extra_id', extra_id, col)
 end
 function db.listce(chat_id, extra_id)
 	-- TODO
@@ -94,7 +94,7 @@ function db.acccu(chat_id, user_id, col)
 	-- TODO
 end
 function db.getvcu(chat_id, user_id, col)
-	getval2('chat_users', 'chat_id', chat_id, 'user_id', user_id, col)
+	return getval2('chat_users', 'chat_id', chat_id, 'user_id', user_id, col)
 end
 function db.setvcu(chat_id, user_id, col, val)
 	setval2('chat_users', 'chat_id', chat_id, 'user_id', user_id, col, val)
