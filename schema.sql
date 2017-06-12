@@ -58,14 +58,18 @@ CREATE TABLE chat (
     rules text,
     rules_ongroup boolean DEFAULT false NOT NULL,
     antibot boolean DEFAULT false NOT NULL,
+    antiflood_action text DEFAULT 'kick'::text NOT NULL,
+    antiflood_threshold integer DEFAULT 5 NOT NULL,
+    antiflood_link boolean DEFAULT true NOT NULL,
     antiflood_text boolean DEFAULT true NOT NULL,
     antiflood_photo boolean DEFAULT true NOT NULL,
     antiflood_forward boolean DEFAULT true NOT NULL,
     antiflood_video boolean DEFAULT true NOT NULL,
     antiflood_sticker boolean DEFAULT true NOT NULL,
     antiflood_gif boolean DEFAULT true NOT NULL,
-    antiflood_threshold integer DEFAULT 5 NOT NULL,
-    antiflood_action text DEFAULT 'kick'::text NOT NULL,
+    antimedia_action text DEFAULT 'ban'::text NOT NULL,
+    antimedia_warnings integer DEFAULT 2 NOT NULL,
+    antimedia_allowed_links text[],
     antimedia_photo boolean DEFAULT false NOT NULL,
     antimedia_audio boolean DEFAULT false NOT NULL,
     antimedia_video boolean DEFAULT false NOT NULL,
@@ -77,13 +81,10 @@ CREATE TABLE chat (
     antimedia_link boolean DEFAULT false NOT NULL,
     antimedia_game boolean DEFAULT false NOT NULL,
     antimedia_location boolean DEFAULT false NOT NULL,
-    antimedia_warnings integer DEFAULT 2 NOT NULL,
-    antimedia_action text DEFAULT 'ban'::text NOT NULL,
-    antimedia_allowed_links text[],
+    antispam_action text DEFAULT 'ban'::text NOT NULL,
+    antispam_warnings integer DEFAULT 2 NOT NULL,
     antispam_link boolean DEFAULT false NOT NULL,
     antispam_forward boolean DEFAULT false NOT NULL,
-    antispam_warnings integer DEFAULT 2 NOT NULL,
-    antispam_action text DEFAULT 'ban'::text NOT NULL,
     mod_admin_promdem boolean DEFAULT true NOT NULL,
     mod_hammer boolean DEFAULT true NOT NULL,
     mod_config boolean DEFAULT false NOT NULL,
@@ -123,8 +124,8 @@ ALTER TABLE chat OWNER TO postgres;
 CREATE TABLE chat_extra (
     chat_id bigint NOT NULL,
     extra_id text NOT NULL,
-    response text,
-    kind text
+    content text NOT NULL,
+    kind text DEFAULT 'text'::text NOT NULL
 );
 
 
