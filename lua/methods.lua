@@ -17,8 +17,9 @@ end
 
 local function performRequest(url, body)
 	local httpc = http.new()
+	local arguments = {}
 	if body then
-		local arguments = {
+		arguments = {
 			method = 'POST',
 			body = body,
 			headers = {
