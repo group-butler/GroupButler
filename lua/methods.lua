@@ -18,7 +18,6 @@ end
 local function performRequest(url)
 	local httpc = http.new()
 	local res, err = httpc:request_uri(url, {
-	  ssl_verify = false, -- TODO fix the
 	  -- method = "POST",
 	  -- body = "a=1&b=2", -- TODO or not TODO: send the request on body, since it doesn't require escaping
 	  -- headers = {
