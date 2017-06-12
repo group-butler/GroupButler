@@ -608,4 +608,10 @@ function api.sendLog(text, markdown)
 	return api.sendMessage(config.log.chat or config.log.admin, text, markdown)
 end
 
+function api.setWebhook(url, max_connections, allowed_updates)
+	local url = BASE_URL..'/setWebhook'
+	local body = 'url='..config.url..'&max_connections='..config.max_connections..'&allowed_updates='..json.encode(config.allowed_updates)
+	sendRequest(url, body)
+end
+
 return api

@@ -31,22 +31,3 @@ for i,v in ipairs(config.plugins) do
 	end
 	table.insert(plugins, p)
 end
-
--- Since cosocket API is not available at the init context, I had to improvise...
-local BASE_URL = 'https://api.telegram.org/bot' .. config.bot_api_key
-
-local function request(url, body)
-	os.execute('curl -s -d "'..body..'" '..url..' > /dev/null')
-end
-
--- Set Webhook endpoint
-local url = BASE_URL..'/setWebhook'
-local body = 'url='..config.url..'&max_connections='..config.max_connections..'&allowed_updates='..json.encode(config.allowed_updates)
-request(url, body)
-
--- Warns the admin the bot has successfully started
-local temp = os.date("*t")
-temp["plugins"] = #plugins
-local url = BASE_URL .. '/sendMessage'
-local body = 'parse_mode=Markdown&chat_id='..config.log.admin..'&text='..i18n('bot_started',temp)
-request(url, body)
