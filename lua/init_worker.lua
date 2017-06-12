@@ -13,7 +13,6 @@ end
 local started = bot:get('started')
 if not started then
 	bot:set('started', true)
-	print(bot:get('started'))
 	local ok, err = ngx.timer.at(0, bot_init, config.url, config.max_connections, config.allowed_updates)
 	if not ok then
 		ngx.log(ngx.ERR, "failed to create timer: ", err)
