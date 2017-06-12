@@ -10,7 +10,7 @@ red = redis:new()
 red:set_timeout(1000) -- 1 sec
 local ok, err = red:connect(config.redis_host, config.redis_port)
 if not ok then
-	ngx.log(ngx.CRIT, "redis connection failed: ", err)
+	ngx.log(ngx.CRIT, 'redis connection failed: ', err)
 	return
 end
 red:select(config.redis_db) -- Select the redis db
