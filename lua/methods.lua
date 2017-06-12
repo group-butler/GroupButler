@@ -15,20 +15,31 @@ local function getCode(err)
 	return 7 --if unknown
 end
 
-local function performRequest(url)
+local function performRequest(url, body)
 	local httpc = http.new()
-	local res, err = httpc:request_uri(url, {
-	  -- method = "POST",
-	  -- body = "a=1&b=2", -- TODO or not TODO: send the request on body, since it doesn't require escaping
-	  -- headers = {
-	  --   ["Content-Type"] = "application/x-www-form-urlencoded",
-	  -- }
-	})
-	return res.body, res.status
+	if body then
+		local arguments = {
+			method = 'POST',
+			body = body,
+			headers = {
+				['Content-Type'] = 'application/x-www-form-urlencoded',
+			}
+		}
+	end
+	local res, err = httpc:request_uri(url, arguments)
+	if res then
+		return res.body, res.status
+	else
+		if body then
+			ngx.log(ngx.ERR, 'Failed to request: '..url..' with body: '..body, err)
+		else
+			ngx.log(ngx.ERR, 'Failed to request: '..url, err)
+		end
+	end
 end
 
-local function sendRequest(url)
-	local dat, code = performRequest(url)
+local function sendRequest(url, body)
+	local dat, code = performRequest(url, body)
 	local tab = json.decode(dat)
 
 	if not tab then
