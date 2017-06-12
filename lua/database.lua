@@ -40,7 +40,7 @@ end
 
 local function getval2(table, col, val, col2, val2, col3)
 	local pg = connect()
-	local res = pg:query('SELECT '..col3..' FROM chat_users WHERE ('..col..', '..col2..') = ('..val..', '..val2..')')
+	local res = pg:query('SELECT '..col3..' FROM '..table..' WHERE ('..col..', '..col2..') = ('..val..', '..val2..')')
 	if res then
 		if res[1] then
 			if res[1][col3] then
