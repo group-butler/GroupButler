@@ -5,21 +5,19 @@ local api = require 'methods'
 local plugin = {}
 
 local function antibot_on(chat_id)
-	local hash = 'chat:'..chat_id..':settings'
-	local status = db:hget(hash, 'Antibot')
-	if status and status == 'on' then
-		return true
-	end
+	return db.getvchat(chat_id, 'antibot')
 end
 
 local function unblockUser(chat_id, user_id)
-	local hash = 'chat:'..chat_id..':blocked'
-	db:hdel(hash, user_id)
+	db.setvcu(chat_id, user_id, 'ban', 'NULL')
 end
 
 local function is_blocked(chat_id, user_id)
-	local hash = 'chat:'..chat_id..':blocked'
-	return db:hexists(hash, user_id)
+	if db.getvcu(chat_id, user_id, 'ban') then
+		return true
+	else
+		return false
+	end
 end
 
 local function is_locked(chat_id, thing)
