@@ -75,7 +75,7 @@ end
 
 -- ce = chat_extra
 function db.getvce(chat_id, extra_id, col)
-	setval2('chat_extra', 'chat_id', chat_id, 'extra_id', extra_id, col)
+	getval2('chat_extra', 'chat_id', chat_id, 'extra_id', extra_id, col)
 end
 function db.listce(chat_id, extra_id)
 	-- TODO
