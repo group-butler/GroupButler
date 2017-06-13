@@ -1,6 +1,7 @@
 local config = require 'config'
 local u = require 'utilities'
 local api = require 'methods'
+local bot = ngx.shared.bot -- Load bot shared dictonary
 
 local plugin = {}
 
