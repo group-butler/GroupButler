@@ -143,6 +143,9 @@ function utilities.cache_adminlist(chat_id)
 	end
 
 	for _, admin in pairs(res.result) do
+		db.initgroup(chat_id) -- Looks like sometimes the chat row doesn't exist when saving new members
+		-- TODO: save admin username BEFORE creating the chat_use table
+		db.setvusers(admin.user.id, 'username', "'unknown'")
 		if admin.status == 'creator' then
 			db.setvcu(chat_id, admin.user.id, 'rank', "'owner'") -- Save owner
 		else

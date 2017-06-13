@@ -38,6 +38,7 @@ local function extract_usernames(msg)
 			username = msg.new_chat_member.username:lower()
 			userid = msg.new_chat_member.id
 		end
+		db.initgroup(msg.chat.id) -- Looks like sometimes the chat row doesn't exist when saving new members
 		db.setvcu(msg.chat.id, msg.new_chat_member.id, 'membership', 'true') -- Enable membership of/create entry for this chat user
 	end
 	if msg.left_chat_member then
