@@ -21,6 +21,21 @@ local function acc(table, col, val, col2) -- Accumulator
 	local res = pg:query('INSERT INTO '..table..' ('..col..') values ('..val..') ON CONFLICT ('..col..') DO UPDATE SET '..col2..' = '..table..'.'..col2..' + 1')
 end
 
+local function delrow(table, col, val, col2, val2)
+	local pg = connect()
+	local res
+	if col2 then
+		res = pg:query('DELETE FROM '..table..' WHERE ('..col..', '..col2..') = ('..val..', '..val2..')')
+	else
+		res = pg:query('DELETE FROM '..table..' WHERE '..col..' = '..val)
+	end
+	if res.affected_rows then
+		return res.affected_rows
+	else
+		return 0
+	end
+end
+
 local function getval(table, col, col2, val)
 	local pg = connect()
 	local res = pg:query('SELECT '..col..' FROM '..table..' WHERE '..col2..'='..val)
@@ -74,14 +89,17 @@ function db.setvchat(chat_id, col, val)
 end
 
 -- ce = chat_extra
+function db.delce(chat_id, extra_id)
+	return delrow('chat_extra', 'chat_id', chat_id, 'extra_id', "'"..extra_id.."'")
+end
 function db.getvce(chat_id, extra_id, col)
-	return getval2('chat_extra', 'chat_id', chat_id, 'extra_id', extra_id, col)
+	return getval2('chat_extra', 'chat_id', chat_id, 'extra_id', "'"..extra_id.."'", col)
 end
 function db.listce(chat_id, extra_id)
 	-- TODO
 end
 function db.setvce(chat_id, extra_id, col, val)
-	setval2('chat_extra', 'chat_id', chat_id, 'extra_id', extra_id, col, val)
+	setval2('chat_extra', 'chat_id', chat_id, 'extra_id', "'"..extra_id.."'", col, "'"..val.."'")
 end
 
 function db.initgroup(chat_id)

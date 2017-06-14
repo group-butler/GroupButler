@@ -27,8 +27,9 @@ function plugin.onTextMessage(msg, blocks)
 					to_save = '###file_id!'..media_with_special_method..'###:'..file_id
 				else
 					to_save = '###file_id###:'..file_id
-				end --                  extra_id  content
-				db.setvce(msg.chat.id, blocks[2], to_save)
+				end
+				db.setvce(msg.chat.id, blocks[2], 'response', to_save)
+				db.setvce(msg.chat.id, blocks[2], 'kind', "'media'")
 				api.sendReply(msg, ("This media has been saved as a response to %s"):format(blocks[2]))
 			end
 		else
@@ -41,7 +42,7 @@ function plugin.onTextMessage(msg, blocks)
 			if not res then
 				api.sendMessage(msg.chat.id, u.get_sm_error_string(code), true)
 			else
-				db:hset(hash, blocks[2], new_extra)
+				db.setvce(msg.chat.id, blocks[2], 'response', new_extra)
 				local msg_id = res.result.message_id
 				api.editMessageText(msg.chat.id, msg_id, ("Command '%s' saved!"):format(blocks[2]))
 			end
@@ -56,18 +57,16 @@ function plugin.onTextMessage(msg, blocks)
 	elseif blocks[1] == 'extra del' then
 		if not u.is_allowed('texts', msg.chat.id, msg.from) then return end
 
-		local hash = 'chat:'..msg.chat.id..':extra'
-		local success = db:hdel(hash, blocks[2])
-		if success == 1 then
-			local out = ("The command '%s' has been deleted!"):format(blocks[2])
-			api.sendReply(msg, out)
+		local res = db.delce(msg.chat.id, blocks[2])
+		local out
+		if res > 0 then
+			out = ("The command '%s' has been deleted!"):format(blocks[2])
 		else
-			local out = ("The command '%s' does not exist!"):format(blocks[2])
-			api.sendReply(msg, out)
+			out = ("The command '%s' does not exist!"):format(blocks[2])
 		end
+		api.sendReply(msg, out)
 	else
-		local hash = 'chat:'..msg.chat.id..':extra'
-		local text = db:hget(hash, blocks[1])
+		local text = db.getvce(msg.chat.id, blocks[1], 'response')
 		if not text then return true end --continue to match plugins
 		local file_id = text:match('^###.+###:(.*)')
 		local special_method = text:match('^###file_id!(.*)###') --photo, voices, video need their method to be sent by file_id

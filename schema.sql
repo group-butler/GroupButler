@@ -124,7 +124,7 @@ ALTER TABLE chat OWNER TO postgres;
 CREATE TABLE chat_extra (
     chat_id bigint NOT NULL,
     extra_id text NOT NULL,
-    content text NOT NULL,
+    response text NOT NULL,
     kind text DEFAULT 'text'::text NOT NULL
 );
 
