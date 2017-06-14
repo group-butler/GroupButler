@@ -60,6 +60,7 @@ CREATE TABLE chat (
     antibot boolean DEFAULT false NOT NULL,
     antiflood_action text DEFAULT 'kick'::text NOT NULL,
     antiflood_threshold integer DEFAULT 5 NOT NULL,
+    antiflood_document boolean DEFAULT true NOT NULL,
     antiflood_link boolean DEFAULT true NOT NULL,
     antiflood_text boolean DEFAULT true NOT NULL,
     antiflood_photo boolean DEFAULT true NOT NULL,
