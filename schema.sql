@@ -212,7 +212,7 @@ ALTER TABLE ONLY chat_extra
 --
 
 ALTER TABLE ONLY chat_users
-    ADD CONSTRAINT chat_users_chat_id_fkey FOREIGN KEY (chat_id) REFERENCES chat(chat_id) ON UPDATE CASCADE;
+    ADD CONSTRAINT chat_users_chat_id_fkey FOREIGN KEY (chat_id) REFERENCES chat(chat_id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
