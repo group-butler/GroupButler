@@ -29,7 +29,7 @@ function plugin.onTextMessage(msg, blocks)
 					to_save = '###file_id###:'..file_id
 				end
 				db.setvce(msg.chat.id, blocks[2], 'response', to_save)
-				db.setvce(msg.chat.id, blocks[2], 'kind', "'media'")
+				db.setvce(msg.chat.id, blocks[2], 'kind', 'media')
 				api.sendReply(msg, ("This media has been saved as a response to %s"):format(blocks[2]))
 			end
 		else
