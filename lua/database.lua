@@ -29,37 +29,28 @@ local function delrow(table, col, val, col2, val2)
 	else
 		res = pg:query('DELETE FROM '..table..' WHERE '..col..' = '..val)
 	end
-	if res.affected_rows then
-		return res.affected_rows
+	if res then
+		if res.affected_rows then
+			return res.affected_rows
+		end
 	else
 		return 0
 	end
 end
 
-local function getval(table, col, col2, val)
+local function getval(table, col, val, col2, val2, col3)
 	local pg = connect()
-	local res = pg:query('SELECT '..col..' FROM '..table..' WHERE '..col2..'='..val)
-	if res then
-		if res[1] then
-			return res[1][col1]
-		end
+	local res
+	if val2 then
+		res = pg:query('SELECT '..col3..' FROM '..table..' WHERE ('..col..', '..col2..') = ('..val..', '..val2..')')
+		col = col3
 	else
-		return nil
+		res = pg:query('SELECT '..col2..' FROM '..table..' WHERE '..col..'='..val)
 	end
-end
-
-local function setval(table, col, val, col2, val2)
-	local pg = connect()
-	local res = pg:query('INSERT INTO '..table..' ('..col..', '..col2..') values ('..val..', '..val2..') ON CONFLICT ('..col..') DO UPDATE SET '..col2..' = '..val2)
-end
-
-local function getval2(table, col, val, col2, val2, col3)
-	local pg = connect()
-	local res = pg:query('SELECT '..col3..' FROM '..table..' WHERE ('..col..', '..col2..') = ('..val..', '..val2..')')
 	if res then
 		if res[1] then
-			if res[1][col3] then
-				return res[1][col3]
+			if res[1][col] then
+				return res[1][col]
 			end
 		end
 	else
@@ -67,11 +58,18 @@ local function getval2(table, col, val, col2, val2, col3)
 	end
 end
 
-local function setval2(table, col, val, col2, val2, col3, val3)
+local function setval(table, col, val, col2, val2, col3, val3)
 	local pg = connect()
-	local res = pg:query('INSERT INTO '..table..' ('..col..', '..col2..', '..col3..') values ('..val..', '..val2..', '..val3..') ON CONFLICT ('..col..', '..col2..') DO UPDATE SET '..col3..' = '..val3)
+	local res
+	if col3 then
+		res = pg:query('INSERT INTO '..table..' ('..col..', '..col2..', '..col3..') values ('..val..', '..val2..', '..val3..') ON CONFLICT ('..col..', '..col2..') DO UPDATE SET '..col3..' = '..val3)
+	else
+		res = pg:query('INSERT INTO '..table..' ('..col..', '..col2..') values ('..val..', '..val2..') ON CONFLICT ('..col..') DO UPDATE SET '..col2..' = '..val2)
+	end
 	if res then
-		return res.affected_rows
+		if res.affected_rows then
+			return res.affected_rows
+		end
 	else
 		return 0
 	end
@@ -82,10 +80,10 @@ function db.accchat(chat_id, col)
 	acc('chat', 'chat_id', chat_id, col)
 end
 function db.getvchat(chat_id, col)
-	return getval('chat', col, 'chat_id', chat_id)
+	return getval('chat', 'chat_id', chat_id, col)
 end
 function db.setvchat(chat_id, col, val)
-	setval('chat', 'chat_id', chat_id, col, val)
+	return setval('chat', 'chat_id', chat_id, col, val)
 end
 
 -- ce = chat_extra
@@ -93,13 +91,13 @@ function db.delce(chat_id, extra_id)
 	return delrow('chat_extra', 'chat_id', chat_id, 'extra_id', "'"..extra_id.."'")
 end
 function db.getvce(chat_id, extra_id, col)
-	return getval2('chat_extra', 'chat_id', chat_id, 'extra_id', "'"..extra_id.."'", col)
+	return getval('chat_extra', 'chat_id', chat_id, 'extra_id', "'"..extra_id.."'", col)
 end
 function db.listce(chat_id, extra_id)
 	-- TODO
 end
 function db.setvce(chat_id, extra_id, col, val)
-	setval2('chat_extra', 'chat_id', chat_id, 'extra_id', "'"..extra_id.."'", col, "'"..val.."'")
+	return setval('chat_extra', 'chat_id', chat_id, 'extra_id', "'"..extra_id.."'", col, "'"..val.."'")
 end
 
 function db.initgroup(chat_id)
@@ -112,20 +110,20 @@ function db.acccu(chat_id, user_id, col)
 	-- TODO
 end
 function db.getvcu(chat_id, user_id, col)
-	return getval2('chat_users', 'chat_id', chat_id, 'user_id', user_id, col)
+	return getval('chat_users', 'chat_id', chat_id, 'user_id', user_id, col)
 end
 function db.setvcu(chat_id, user_id, col, val)
-	setval2('chat_users', 'chat_id', chat_id, 'user_id', user_id, col, val)
+	return setval('chat_users', 'chat_id', chat_id, 'user_id', user_id, col, val)
 end
 
 function db.accusers(user_id, col)
 	acc('users', 'user_id', user_id, col)
 end
 function db.getvusers(user_id, col)
-	return getval('users', col, 'user_id', user_id)
+	return getval('users', 'user_id', user_id, col)
 end
 function db.setvusers(user_id, col, val)
-	setval('users', 'user_id', user_id, col, val)
+	return setval('users', 'user_id', user_id, col, val)
 end
 
 return db
