@@ -79,6 +79,9 @@ end
 function db.accchat(chat_id, col)
 	acc('chat', 'chat_id', chat_id, col)
 end
+function db.delchat(chat_id)
+	return delrow('chat', 'chat_id', chat_id)
+end
 function db.getvchat(chat_id, col)
 	return getval('chat', 'chat_id', chat_id, col)
 end

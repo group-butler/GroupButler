@@ -728,50 +728,7 @@ local function empty_modlist(chat_id)
 end
 
 function utilities.remGroup(chat_id, full, converted_to_realm)
-	if not converted_to_realm then
-		--remove group id
-		db:srem('bot:groupsid', chat_id)
-		--add to the removed groups list
-		db:sadd('bot:groupsid:removed', chat_id)
-		--remove the owner cached
-		db:del('cache:chat:'..chat_id..':owner')
-		--remove the realm data: the group is not being converted to realm -> remove all the info
-		remRealm(chat_id)
-	end
-
-	for set,field in pairs(config.chat_settings) do
-		db:del('chat:'..chat_id..':'..set)
-	end
-
-	db:del('cache:chat:'..chat_id..':admins') --delete the cache
-	db:hdel('bot:logchats', chat_id) --delete the associated log chat
-	db:del('chat:'..chat_id..':pin') --delete the msg id of the (maybe) pinned message
-	db:del('chat:'..chat_id..':userlast')
-	db:del('chat:'..chat_id..':members')
-	db:hdel('bot:chats:latsmsg', chat_id)
-	db:hdel('bot:chatlogs', chat_id) --log channel
-
-	--if chat_id has a realm
-	if db:exists('chat:'..chat_id..':realm') then
-		local realm_id = db:get('chat:'..chat_id..':realm') --get the realm id
-		db:hdel('realm:'..realm_id..':subgroups', chat_id) --remove the group from the realm subgroups
-		db:del('chat:'..chat_id..':realm') --remove the key with the group realm
-	end
-
-	if full or converted_to_realm then
-		for i=1, #config.chat_hashes do
-			db:del('chat:'..chat_id..':'..config.chat_hashes[i])
-		end
-		for i=1, #config.chat_sets do
-			db:del('chat:'..chat_id..':'..config.chat_sets[i])
-		end
-
-		if db:exists('chat:'..chat_id..':mods') then
-			empty_modlist(chat_id)
-		end
-
-		db:del('lang:'..chat_id)
-	end
+	db.delchat(chat_id)
 end
 
 function utilities.getnames_complete(msg, blocks)
