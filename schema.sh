@@ -2,6 +2,9 @@
 
 docker-compose up -d db
 
+# wait 2 seconds before reaching db because it might not have started up yet otherwise
+sleep 2
+
 if [ "$1" = "dump" ]; then
 	rm -f schema.sql && docker-compose exec db pg_dump -U postgres groupbutler --schema-only > schema.sql
 elif [[ "$1" = "restore" ]]; then
