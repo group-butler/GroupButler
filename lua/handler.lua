@@ -71,8 +71,8 @@ local function collect_stats(msg)
 	extract_usernames(msg)
 
 	if msg.chat.type ~= 'inline' and msg.from then
-		db.setvchat(msg.chat.id, 'lastmsg', msg.date) -- Timestamp of the last message for each chat
-		db.setvcu(msg.chat.id, msg.from.id, 'lastmsg', msg.date) -- Timestamp of the last message for each chat_user
+		db.setvchat(msg.chat.id, 'lastmsg', 'to_timestamp('..msg.date..')') -- Timestamp of the last message for each chat
+		db.setvcu(msg.chat.id, msg.from.id, 'lastmsg', 'to_timestamp('..msg.date..')') -- Timestamp of the last message for each chat_user
 	end
 end
 
