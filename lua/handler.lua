@@ -375,4 +375,5 @@ end
 
 parseMessageFunction(msg)
 
--- pg:keepalive() -- Allows this connection to be reused by future requests
+-- Relinquish the sockets so they can be reused in reused by future requests
+pg:keepalive()
