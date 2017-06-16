@@ -361,7 +361,7 @@ function plugin.onTextMessage(msg, blocks)
 	end
 	if blocks[1] == 'active' then
 		local days = tonumber(blocks[2]) or 7
-		local now = os.time()
+		local now = luatz.time()
 		local seconds_per_day = 60*60*24
 		local groups = db:hgetall('bot:chats:latsmsg')
 		local n = 0

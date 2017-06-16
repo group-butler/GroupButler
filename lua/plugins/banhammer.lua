@@ -32,7 +32,7 @@ function plugin.cron()
 	local all = db:hgetall('tempbanned')
 	if next(all) then
 		for unban_time, info in pairs(all) do
-			if os.time() > tonumber(unban_time) then
+			if luatz.time() > tonumber(unban_time) then
 				local chat_id, user_id = info:match('(-%d+):(%d+)')
 				local user_object = api.getChat(user_id)
 				local chat_object = api.getChat(chat_id)
@@ -141,7 +141,7 @@ function plugin.onTextMessage(msg, blocks)
 					return
 				end
 				local val = msg.chat.id..':'..user_id
-				local unban_time = os.time() + (temp * 60 * 60)
+				local unban_time = luatz.time() + (temp * 60 * 60)
 
 				--try to kick
 				local res, code, motivation = api.banUser(chat_id, user_id)

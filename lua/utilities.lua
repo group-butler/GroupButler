@@ -229,13 +229,6 @@ function utilities.deeplink_constructor(chat_id, what)
 	return 'https://telegram.me/'..bot:get('username')..'?start='..chat_id..'_'..what
 end
 
-function utilities.get_date(timestamp)
-	if not timestamp then
-		timestamp = os.time()
-	end
-	return os.date('%d/%m/%y', timestamp)
-end
-
 -- Resolves username. Returns ID of user if it was early stored in date base.
 -- Argument username must begin with symbol @ (commercial 'at')
 function utilities.resolve_user(username)

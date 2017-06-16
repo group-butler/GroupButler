@@ -87,7 +87,7 @@ local function on_msg_receive(msg, callback) -- The fn run whenever a message is
 
 	if msg.chat.type ~= 'group' then --do not process messages from normal groups
 
-		if msg.date < os.time() - config.old_message then print('Old update skipped') return end -- Do not process old messages.
+		if msg.date < luatz.time() - config.old_message then print('Old update skipped') return end -- Do not process old messages.
 		if not msg.text then msg.text = msg.caption or '' end
 
 		collect_stats(msg)
@@ -307,7 +307,7 @@ local function parseMessageFunction(update)
 		msg = update.inline_query
 		msg.inline = true
 		msg.chat = {id = msg.from.id, type = 'inline', title = 'inline'}
-		msg.date = os.time()
+		msg.date = luatz.time()
 		msg.text = '###inline:'..msg.query
 		function_key = 'onInlineQuery'
 	elseif update.chosen_inline_result then
@@ -315,7 +315,7 @@ local function parseMessageFunction(update)
 		msg.text = '###chosenresult:'..msg.query
 		msg.chat = {type = 'inline', id = msg.from.id, title = msg.from.first_name}
 		msg.message_id = msg.inline_message_id
-		msg.date = os.time()
+		msg.date = luatz.time()
 		function_key = 'onChosenInlineQuery']]
 	elseif update.callback_query then
 		msg = update.callback_query
@@ -326,11 +326,15 @@ local function parseMessageFunction(update)
 			msg.original_date = msg.message.date
 			msg.message_id = msg.message.message_id
 			msg.chat = msg.message.chat
+			if msg.message.edit_date then
+				msg.date = msg.message.edit_date
+			else
+				msg.date = msg.message.date
+			end
 		else --when the inline keyboard is sent via the inline mode
 			msg.chat = {type = 'inline', id = msg.from.id, title = msg.from.first_name}
 			msg.message_id = msg.inline_message_id
 		end
-		msg.date = os.time()
 		msg.cb_id = msg.id
 		msg.message = nil
 		msg.target_id = msg.data:match('(-%d+)$') --callback datas often ship IDs
