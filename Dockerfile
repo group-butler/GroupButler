@@ -16,7 +16,7 @@ RUN opm install $OPM
 
 RUN apk add --no-cache tzdata
 
-ENTRYPOINT nginx -g 'daemon off;' -p `pwd`/ -c conf/"$ENV".conf
+ENTRYPOINT nginx -g 'daemon off;' -p `pwd` -c conf/"$ENV".conf
 
 COPY lua lua
 COPY conf conf
