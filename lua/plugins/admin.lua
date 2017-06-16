@@ -5,9 +5,6 @@ local api = require 'methods'
 local plugin = {}
 
 local triggers2 = {
-	'^%$(init)$',
-	'^%$(backup)$',
-	'^%$(save)$',
 	'^%$(stats)$',
 	'^%$(lua) (.*)$',
 	'^%$(run) (.*)$',
@@ -19,7 +16,6 @@ local triggers2 = {
 	'^%$(leave) (-%d+)$',
 	'^%$(leave)$',
 	'^%$(api errors)$',
-	'^%$(rediscli) (.*)$',
 	'^%$(sendfile) (.*)$',
 	'^%$(resid) (%d+)$',
 	'^%$(res) (@%a[%w_]+)',
@@ -99,21 +95,6 @@ function plugin.onTextMessage(msg, blocks)
 			text = text..v..'\n'
 		end
 		api.sendMessage(msg.from.id, text)
-	end
-	if blocks[1] == 'init' then
-		local n_plugins = bot_init(true) or 0
-		api.sendReply(msg, '*Bot reloaded!*\n_'..n_plugins..' plugins enabled_', true)
-	end
-	if blocks[1] == 'backup' then
-		db:bgsave()
-		local cmd = io.popen('sudo tar -cpf '..bot:get('first_name'):gsub(' ', '_')..'.tar *')
-    	cmd:read('*all')
-    	cmd:close()
-    	api.sendDocument(msg.from.id, './'..bot:get('first_name'):gsub(' ', '_')..'.tar')
-    end
-	if blocks[1] == 'save' then
-		db:bgsave()
-		api.sendMessage(msg.chat.id, 'Redis updated', true)
 	end
     if blocks[1] == 'stats' then
     	local text = '#stats `['..u.get_date()..']`:\n'
@@ -219,15 +200,6 @@ function plugin.onTextMessage(msg, blocks)
     		text = text..errors[i]..': '..times[i]..'\n'
     	end
     	api.sendMessage(msg.from.id, text)
-    end
-    if blocks[1] == 'rediscli' then
-    	local redis_f = blocks[2]:gsub(' ', '(\'', 1)
-    	redis_f = redis_f:gsub(' ', '\',\'')
-    	redis_f = 'return db:'..redis_f..'\')'
-    	redis_f = redis_f:gsub('$chat', msg.chat.id)
-    	redis_f = redis_f:gsub('$from', msg.from.id)
-    	local output = load_lua(redis_f)
-    	api.sendReply(msg, output, true)
     end
 	if blocks[1] == 'sendfile' then
 		local path = blocks[2]
