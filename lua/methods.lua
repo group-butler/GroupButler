@@ -165,8 +165,6 @@ function api.kickUser(chat_id, user_id)
 	if res then --if the user has been kicked, then...
 		--unban
 		api.unbanChatMember(chat_id, user_id)
-		api.unbanChatMember(chat_id, user_id)
-		api.unbanChatMember(chat_id, user_id)
 		return res
 	else
 		local motivation = code2text(code)
