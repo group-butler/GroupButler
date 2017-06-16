@@ -1,5 +1,3 @@
-db = dofile('lua/database.lua') -- Load database abstraction layer
-
 -- utilities.lua
 -- Functions shared among plugins.
 

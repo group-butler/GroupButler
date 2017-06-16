@@ -1,20 +1,34 @@
-db = dofile('lua/database.lua') -- Load database abstraction layer
 bot = ngx.shared.bot -- Load bot shared dictonary
-local u = dofile('lua/utilities.lua') -- Load miscellaneous and cross-plugin functions
+
+pg = require ('database').connect(config) -- Connect to the database
+db = require ('database').load(pg) -- Load database snippets
+
+red = require ('redis').connect(config) -- Connect to Redis
+
+local u = require 'utilities' -- Load miscellaneous and cross-plugin functions
+
+plugins = {} -- Load plugins.
+for i,v in ipairs(config.plugins) do
+	local p = require('plugins.'..v)
+	package.loaded['plugins.'..v] = nil
+	if p.triggers then
+		for funct, trgs in pairs(p.triggers) do
+			for i = 1, #trgs do
+				-- interpret any whitespace character in commands just as space
+				trgs[i] = trgs[i]:gsub(' ', '%%s+')
+			end
+			if not p[funct] then
+				p.trgs[funct] = nil
+				print(funct..' triggers ignored in '..v..': '..funct..' function not defined')
+			end
+		end
+	end
+	table.insert(plugins, p)
+end
 
 -- Make telegram aware the update was received
 ngx.status = ngx.HTTP_OK
 ngx.say('{ }')
-
--- Init redis connection
-red = redis:new()
-red:set_timeout(1000) -- 1 sec
-local ok, err = red:connect(config.redis_host, config.redis_port)
-if not ok then
-	ngx.log(ngx.CRIT, 'redis connection failed: ', err)
-	return
-end
-red:select(config.redis_db) -- Select the redis db
 
 -- Decode the update
 ngx.req.read_body()

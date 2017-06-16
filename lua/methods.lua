@@ -120,9 +120,10 @@ function api.kickChatMember(chat_id, user_id)
 	local url = BASE_URL .. '/kickChatMember?chat_id=' .. chat_id .. '&user_id=' .. user_id
 
 	local success, code, description = sendRequest(url)
-	if success then
-		db.setvcu(chat_id, user_id, 'membership', 'false') -- Disable the membership of this chat user
-	end
+
+	-- if success then -- TODO: move this out of here
+	-- 	db.setvcu(chat_id, user_id, 'membership', 'false') -- Disable the membership of this chat user
+	-- end
 
 	return success, code, description
 end
