@@ -374,5 +374,7 @@ end
 
 parseMessageFunction(msg)
 
--- Relinquish the sockets so they can be reused in reused by future requests
-pg:keepalive()
+-- Blocked: https://github.com/leafo/pgmoon/pull/46
+-- Suggested workaround: use pgbouncer
+-- -- Relinquish the sockets so they can be reused in reused by future requests
+-- pg:keepalive()
