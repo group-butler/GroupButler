@@ -44,9 +44,7 @@ local function sendRequest(url, body)
 	local tab = json.decode(dat)
 
 	if not tab then
-		-- TODO merge these two into a single error message (or not)
-		ngx.log(ngx.ERR,'Error while parsing JSON', code)
-		ngx.log(ngx.ERR,'Data:', dat)
+		ngx.log(ngx.ERR,'Error while parsing JSON: '..dat, code)
 		api.sendAdmin(dat..'\n'..code)
 		--error('Incorrect response')
 	end
