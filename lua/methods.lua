@@ -1,4 +1,6 @@
 local URL = require 'socket.url'
+local json = require 'cjson'
+local http = require 'resty.http'
 local api_errors = require 'api_bad_requests'
 
 local BASE_URL = 'https://api.telegram.org/bot' .. config.bot_api_key
@@ -6,7 +8,7 @@ local BASE_URL = 'https://api.telegram.org/bot' .. config.bot_api_key
 local api = {}
 
 local function getCode(err)
-	err = err:lower()
+	local err = err:lower()
 	for k,v in pairs(api_errors) do
 		if err:match(v) then
 			return k

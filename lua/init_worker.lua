@@ -1,5 +1,7 @@
 local luatz = require 'luatz'
 local timetable = require 'luatz.timetable'
+local api = require 'methods'
+local config = require 'config'
 local bot = ngx.shared.bot
 
 local function bot_init(url, max_connections, allowed_updates)

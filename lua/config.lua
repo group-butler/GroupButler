@@ -1,3 +1,4 @@
+local json = require 'cjson'
 -- Editing this file directly is now highly disencouraged. You should instead use environment variables. This new method is a WIP, so if you need to change something which doesn't have a env var, you are encouraged to open an issue or a PR
 return {
 	-- Setting these is required in order to run, so no defaults

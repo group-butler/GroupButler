@@ -1,6 +1,11 @@
-bot = ngx.shared.bot -- Load bot shared dictonary
+local api = require 'methods'
+local json = require 'cjson'
+local luatz = require 'luatz'
+local timetable = require 'luatz.timetable'
+local config = require 'config'
+local bot = ngx.shared.bot
 
-pg = require ('database').connect(config) -- Connect to the database
+local pg = require ('database').connect(config) -- Connect to the database
 db = require ('database').load(pg) -- Load database snippets
 
 red = require ('redis').connect(config) -- Connect to Redis

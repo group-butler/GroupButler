@@ -1,3 +1,6 @@
+local api = require 'methods'
+local json = require 'cjson'
+
 local plugin = {}
 
 local function save_data(filename, data)

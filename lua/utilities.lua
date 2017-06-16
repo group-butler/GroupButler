@@ -1,7 +1,6 @@
--- utilities.lua
--- Functions shared among plugins.
+local api = require 'methods'
 
-local utilities = {}
+local utilities = {} -- Functions shared among plugins
 
 -- Escape markdown for Telegram. This function makes non-clickable usernames,
 -- hashtags, commands, links and emails, if only_markup flag isn't setted.
