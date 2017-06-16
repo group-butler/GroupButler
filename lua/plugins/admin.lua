@@ -43,12 +43,11 @@ local triggers2 = {
 
 local function bot_leave(chat_id)
 	local res = api.leaveChat(chat_id)
-	if not res then
-		return 'Check the id, it could be wrong'
+	if res then
+		u.remGroup(chat_id)
+		return 'Chat left!'
 	else
-		db:srem('bot:groupsid', chat_id)
-		db:sadd('bot:groupsid:removed', chat_id)
-		return 'Chat leaved!'
+		return 'Check the id, it could be wrong'
 	end
 end
 
