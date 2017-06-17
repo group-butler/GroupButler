@@ -1,5 +1,4 @@
 local api = require 'methods'
-local serpent = require 'serpent'
 
 local utilities = {} -- Functions shared among plugins
 
@@ -182,14 +181,14 @@ end
 
 function utilities.dump(...)
 	for _, value in pairs{...} do
-		ngx.log(ngx.NOTICE,serpent.block(value, {comment=false}))
+		ngx.log(ngx.NOTICE, value)
 	end
 end
 
 function utilities.vtext(...)
 	local lines = {}
 	for _, value in pairs{...} do
-		table.insert(lines, serpent.block(value, {comment=false}))
+		table.insert(lines, value)
 	end
 	return table.concat(lines, '\n')
 end

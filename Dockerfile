@@ -6,7 +6,7 @@ RUN mkdir logs
 
 RUN apk add --no-cache bash && mv /bin/sh /bin/sh.bak && ln -s /bin/bash /bin/sh
 
-ARG ROCKS="serpent i18n luatz"
+ARG ROCKS="i18n luatz"
 RUN for ROCK in $ROCKS; do luarocks install $ROCK; done
 
 RUN rm /bin/sh && mv /bin/sh.bak /bin/sh
