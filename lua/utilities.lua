@@ -1,4 +1,5 @@
 local api = require 'methods'
+local bot = ngx.shared.bot
 
 local utilities = {} -- Functions shared among plugins
 
