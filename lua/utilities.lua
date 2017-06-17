@@ -1,4 +1,5 @@
 local api = require 'methods'
+local serpent = require 'serpent'
 
 local utilities = {} -- Functions shared among plugins
 
