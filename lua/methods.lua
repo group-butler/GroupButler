@@ -236,6 +236,18 @@ function api.leaveChat(chat_id)
 
 end
 
+function  api.deleteMessage(chat_id, message_id)
+
+	local url = BASE_URL .. '/deleteMessage?chat_id=' .. chat_id .. '&message_id=' .. message_id
+
+	local res, code = sendRequest(url)
+
+	if not res and code then --if the request failed and a code is returned (not 403 and 429)
+		log_error('deleteMessage', code)
+	end
+
+end
+
 function api.sendMessage(chat_id, text, parse_mode, reply_markup, reply_to_message_id, link_preview)
 	--ngx.log(ngx.NOTICE,text)
 
