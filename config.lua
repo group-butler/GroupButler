@@ -129,7 +129,7 @@ return {
 			['photo'] = 'ok', --'notok' | image
 			['audio'] = 'ok',
 			['video'] = 'ok',
-			['video_note' = 'ok',
+			['video_note'] = 'ok',
 			['sticker'] = 'ok',
 			['gif'] = 'ok',
 			['voice'] = 'ok',
