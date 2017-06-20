@@ -637,9 +637,9 @@ function api.sendVideoNote(chat_id, video_note, duration, reply_to_message_id)
 	local url = BASE_URL .. '/sendVideoNote'
 	curl_context:setopt_url(url)
 
-    local form = curl.form()
-    form:add_content("chat_id", chat_id)
-    form:add_file("video_note", video_note)
+	local form = curl.form()
+	form:add_content("chat_id", chat_id)
+	form:add_file("video_note", video_note)
 
 	if reply_to_message_id then
 		form:add_content("reply_to_message_id", reply_to_message_id)
@@ -649,11 +649,11 @@ function api.sendVideoNote(chat_id, video_note, duration, reply_to_message_id)
 		form:add_content("duration", duration)
 	end
 
-    data = {}
+	data = {}
 
-    local c = curl_context:setopt_writefunction(table.insert, data)
-                          :setopt_httppost(form)
-                          :perform()
+	local c = curl_context:setopt_writefunction(table.insert, data)
+						  :setopt_httppost(form)
+						  :perform()
 
 	return table.concat(data), c:getinfo_response_code()
 
