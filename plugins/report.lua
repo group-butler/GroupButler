@@ -5,7 +5,7 @@ local api = require 'methods'
 local plugin = {}
 
 local function table_join(t1, t2)
-    for i=1,#t2 do
+    for i=1, #t2 do
         t1[#t1+1] = t2[i]
     end
     
@@ -63,16 +63,26 @@ local function report(msg, description)
     admins_list = get_admin_mod_list(admins_list, msg.chat.id)
     if not admins_list then return false end
     
+    local desc_msg
+    local markup = {inline_keyboard={{{text = "Address this report"}}}}
+    local callback_data = ("report:%d:"):format(msg.chat.id)
+    local hash = 'chat:'..msg.chat.id..':report:'..msg.message_id --stores the user_id and the msg_id of the report messages sent to the admins
     for i=1, #admins_list do
         local receive_reports = db:hget('user:'..admins_list[i]..':settings', 'reports')
         if receive_reports and receive_reports == 'on' then
             local res_fwd = api.forwardMessage(admins_list[i], msg.chat.id, msg.reply.message_id)
             if res_fwd then
-                api.sendMessage(admins_list[i], text, 'html', nil, res_fwd.result.message_id)
-                n = n + 1
+                markup.inline_keyboard[1][1].callback_data = callback_data..(msg.message_id)
+                desc_msg = api.sendMessage(admins_list[i], text, 'html', markup, res_fwd.result.message_id)
+                if desc_msg then
+                    db:hset(hash, admins_list[i], desc_msg.result.message_id) --save the msg_id of the msg sent to the admin
+                    n = n + 1
+                end
             end
         end
     end
+    
+    db:expire(hash, 3600 * 48)
     
     return n
 end
@@ -146,6 +156,33 @@ Wait other %d minutes, %d seconds.]]):format(times_allowed, (duration / 60), min
     end
 end
 
+function plugin.onCallbackQuery(msg, blocks)
+    local chat_id, msg_id = blocks[2], blocks[3]
+    local hash = 'chat:'..chat_id..':report:'..msg_id
+    if not db:exists(hash) then
+        --if the hash doesn't exist, the message is too old
+        api.answerCallbackQuery(msg.cb_id, _("This message is too old (>2 days)"), true)
+    else
+        local addressed_by = db:get(hash..':addressed')
+        if not addressed_by then
+            --no one addressed the issue yet
+            local name = msg.from.first_name:sub(1, 120)
+            local chats_reached = db:hgetall(hash)
+            if next(chats_reached) then
+                local markup = {inline_keyboard={{{text = _("❕ Already (being) adressed"), callback_data = ("report:%s:%s"):format(chat_id, msg_id)}}}}
+                for user_id, message_id in pairs(chats_reached) do
+                    api.editMarkup(user_id, message_id, markup)
+                end
+            end
+            db:setex(hash..':addressed', 3600*24*3, name)
+            api.answerCallbackQuery(msg.cb_id, "✅")
+        else
+            api.answerCallbackQuery(msg.cb_id, _("%s has/will address this report"):format(addressed_by), true, 48 * 3600)
+        end
+    end
+    
+end
+
 plugin.triggers = {
     onTextMessage = {
         '^@admin$',
@@ -153,6 +190,9 @@ plugin.triggers = {
         config.cmd..'report$',
         config.cmd..'report (.+)',
         config.cmd..'(reportflood) (%d+)[%s/:](%d+)'
+    },
+    onCallbackQuery = {
+        "^###cb:(report):(-%d+):(%d+)$"
     }
 }
 

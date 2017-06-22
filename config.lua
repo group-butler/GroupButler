@@ -5,7 +5,7 @@ return {
 	db = 2, --default redis db: 0
 	superadmins = {23646077, 278941742},
 	log = {
-		chat = -1001089188566, --Your log chat, where your bot must be added!
+		chat = -1001118545630, --Your log chat, where your bot must be added!
 		admin = 23646077, --The admin.
 		stats = nil
 	},

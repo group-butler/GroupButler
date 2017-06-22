@@ -202,29 +202,17 @@ local function parseMessageFunction(update)
 	
 	local msg, function_key
 	
-	--if update.message or update.edited_message or update.channel_post or update.edited_channel_post then
 	if update.message or update.edited_message then
 		
 		function_key = 'onTextMessage'
 		
-		--if not update.message then
-			if update.edited_message then
-				update.edited_message.edited = true
-				update.edited_message.original_date = update.edited_message.date
-				update.edited_message.date = update.edited_message.edit_date
-				function_key = 'onEditedMessage'
-			--[[elseif update.channel_post then
-				update.channel_post.channel_post = true
-				function_key = 'onChannelPost'
-			elseif update.edited_channel_post then
-				update.edited_channel_post.edited_channel_post = true
-				update.edited_channel_post.original_date = update.edited_channel_post.date
-				update.edited_channel_post.date = update.edited_channel_post.edit_date
-				function_key = 'onEditedChannelPost']]
-			end
-		--end
+		if update.edited_message then
+			update.edited_message.edited = true
+			update.edited_message.original_date = update.edited_message.date
+			update.edited_message.date = update.edited_message.edit_date
+			function_key = 'onEditedMessage'
+		end
 		
-		--msg = update.message or update.edited_message or update.channel_post or update.edited_channel_post
 		msg = update.message or update.edited_message
 		
 		if msg.text then
@@ -347,20 +335,6 @@ local function parseMessageFunction(update)
 				msg.reply.text = msg.reply.caption
 			end
 		end
-	--[[elseif update.inline_query then
-		msg = update.inline_query
-		msg.inline = true
-		msg.chat = {id = msg.from.id, type = 'inline', title = 'inline'}
-		msg.date = os.time()
-		msg.text = '###inline:'..msg.query
-		function_key = 'onInlineQuery'
-	elseif update.chosen_inline_result then
-		msg = update.chosen_inline_result
-		msg.text = '###chosenresult:'..msg.query
-		msg.chat = {type = 'inline', id = msg.from.id, title = msg.from.first_name}
-		msg.message_id = msg.inline_message_id
-		msg.date = os.time()
-		function_key = 'onChosenInlineQuery']]
 	elseif update.callback_query then
 		msg = update.callback_query
 		msg.cb = true
@@ -429,5 +403,3 @@ while true do -- Start a loop while the bot should be running.
 		end
 	end
 end
-
-print('Halted.\n')

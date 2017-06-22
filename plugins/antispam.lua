@@ -38,7 +38,7 @@ function plugin.onEveryMessage(msg)
                 local whitelisted
                 if msg.spam == 'links' then
                     whitelisted = is_whitelisted(msg.chat.id, msg.text:lower())
-                [[elseif msg.forward_from_chat then 
+                --[[elseif msg.forward_from_chat then 
                     if msg.forward_from_chat.type == 'channel' then
                         whitelisted = is_whitelisted_channel(msg.chat.id, msg.forward_from_chat.id)
                     end]]

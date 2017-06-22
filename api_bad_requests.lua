@@ -10,7 +10,7 @@ return {
 	[109] = 'wrong url host', --hyperlink not valid
 	[110] = 'peer_id_invalid', --user never started the bot
 	[111] = 'message is not modified', --the edit message method hasn't modified the message
-	[112] = 'can\'t parse message text: can\'t find end of the entity starting at byte offset %d+', --the markdown is wrong and breaks the delivery
+	[112] = 'can\'t parse entities in message text: can\'t find end of the entity starting at byte offset %d+', --the markdown is wrong and breaks the delivery
 	[113] = 'group chat is migrated to a supergroup chat', --group updated to supergroup
 	[114] = 'message can\'t be forwarded', --unknown
 	[115] = 'message text is empty', --empty message
