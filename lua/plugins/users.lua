@@ -6,11 +6,11 @@ local plugin = {}
 
 local function do_keyboard_credits()
 	local keyboard = {}
-    keyboard.inline_keyboard = {
-    	{
-    		{text = _("Channel"), url = 'https://telegram.me/'..config.channel:gsub('@', '')},
-    		{text = _("GitHub"), url = 'https://github.com/RememberTheAir/GroupButler'},
-    		{text = _("Rate me!"), url = 'https://telegram.me/storebot?start='..bot.username},
+	keyboard.inline_keyboard = {
+		{
+			{text = _("Channel"), url = 'https://telegram.me/'..config.channel:gsub('@', '')},
+			{text = _("GitHub"), url = 'https://github.com/RememberTheAir/GroupButler'},
+			{text = _("Rate me!"), url = 'https://telegram.me/storebot?start='..bot.username},
 		}
 	}
 	return keyboard
@@ -93,43 +93,43 @@ function plugin.onTextMessage(msg, blocks)
 		if msg.chat.id < 0 and u.is_admin(msg.chat.id, msg.from.id) then
 			api.sendMessage(msg.chat.id, string.format('`%d`', msg.chat.id), true)
 		end
- 	end
+	end
 
 	if msg.chat.type == 'private' then return end
 
 	if blocks[1] == 'adminlist' then
-        local adminlist = u.getAdminlist(msg.chat.id)
-        if not msg.from.mod then
-        	api.sendMessage(msg.from.id, adminlist, 'html')
-        else
-            api.sendReply(msg, adminlist, 'html')
-        end
-    end
+		local adminlist = u.getAdminlist(msg.chat.id)
+		if not msg.from.mod then
+			api.sendMessage(msg.from.id, adminlist, 'html')
+		else
+			api.sendReply(msg, adminlist, 'html')
+		end
+	end
 	if blocks[1] == 'staff' then
-        local adminlist = u.getAdminlist(msg.chat.id)
-        if adminlist then
-        	local is_empty, modlist = u.getModlist(msg.chat.id)
-        	local text = adminlist..'\n'..modlist
-        	if not msg.from.mod then
-        		api.sendMessage(msg.from.id, text, 'html')
-        	else
-        	    api.sendReply(msg, text, 'html')
-        	end
-        end
-    end
+		local adminlist = u.getAdminlist(msg.chat.id)
+		if adminlist then
+			local is_empty, modlist = u.getModlist(msg.chat.id)
+			local text = adminlist..'\n'..modlist
+			if not msg.from.mod then
+				api.sendMessage(msg.from.id, text, 'html')
+			else
+				api.sendReply(msg, text, 'html')
+			end
+		end
+	end
 	if blocks[1] == 'status' then
-    	if u.is_allowed('hammer', msg.chat.id, msg.from) then
-    		if not blocks[2] and not msg.reply then return end
-    		local user_id, error_tr_id = u.get_user_id(msg, blocks)
-    		if not user_id then
+		if u.is_allowed('hammer', msg.chat.id, msg.from) then
+			if not blocks[2] and not msg.reply then return end
+			local user_id, error_tr_id = u.get_user_id(msg, blocks)
+			if not user_id then
 				api.sendReply(msg, _(error_tr_id), true)
-		 	else
-		 		local res = api.getChatMember(msg.chat.id, user_id)
-		 		if not res then
+			else
+				local res = api.getChatMember(msg.chat.id, user_id)
+				if not res then
 					api.sendReply(msg, _("That user has nothing to do with this chat"))
-		 			return
-		 		end
-		 		local status = res.result.status
+					return
+				end
+				local status = res.result.status
 				local name = u.getname_final(res.result.user)
 				local texts = {
 					kicked = _("%s is banned from this group"),
@@ -140,9 +140,9 @@ function plugin.onTextMessage(msg, blocks)
 					member = _("%s is a chat member")
 				}
 				api.sendReply(msg, texts[status]:format(name), 'html')
-		 	end
-	 	end
- 	end
+			end
+		end
+	end
 	if blocks[1] == 'user' then
 		if not u.is_allowed('hammer', msg.chat.id, msg.from) then return end
 
@@ -158,7 +158,7 @@ function plugin.onTextMessage(msg, blocks)
 			api.sendReply(msg, _([[I've never seen this user before.
 This command works by reply, username, user ID or text mention.
 If you're using it by username and want to teach me who the user is, forward me one of his messages]]), true)
-		 	return
+			return
 		end
 		-----------------------------------------------------------------------------
 
@@ -169,17 +169,17 @@ If you're using it by username and want to teach me who the user is, forward me 
 		api.sendMessage(msg.chat.id, text, true, keyboard)
 	end
 	if blocks[1] == 'cache' then
-    	if not msg.from.admin then return end
-    	local hash = 'cache:chat:'..msg.chat.id..':admins'
+		if not msg.from.admin then return end
+		local hash = 'cache:chat:'..msg.chat.id..':admins'
 		local seconds = db:ttl(hash)
 		local cached_admins = db:scard(hash)
 		local text = _("📌 Status: `CACHED`\n⌛ ️Remaining: `%s`\n👥 Admins cached: `%d`")
 			:format(get_time_remaining(tonumber(seconds)), cached_admins)
-    	local keyboard = do_keyboard_cache(msg.chat.id)
-    	api.sendMessage(msg.chat.id, text, true, keyboard)
-    end
+		local keyboard = do_keyboard_cache(msg.chat.id)
+		api.sendMessage(msg.chat.id, text, true, keyboard)
+	end
 	if blocks[1] == 'msglink' then
-    	if not msg.reply or not msg.chat.username then return end
+		if not msg.reply or not msg.chat.username then return end
 
 		local text = string.format('[%s](https://telegram.me/%s/%d)',
 			_("Message N° %d"):format(msg.reply.message_id), msg.chat.username, msg.reply.message_id)
@@ -187,7 +187,7 @@ If you're using it by username and want to teach me who the user is, forward me 
 			api.sendReply(msg.reply, text, true)
 		else
 			api.sendMessage(msg.from.id, text, true)
-    	end
+		end
 	end
 	if blocks[1] == 'leave' then
 		if msg.from.admin then
@@ -209,12 +209,12 @@ function plugin.onCallbackQuery(msg, blocks)
 			spam = db:hdel('chat:'..msg.chat.id..':spamwarns', blocks[2])
 		}
 
-        local name = u.getname_final(msg.from)
+		local name = u.getname_final(msg.from)
 		local text = _("The number of warnings received by this user has been <b>reset</b>, by %s"):format(name)
 		api.editMessageText(msg.chat.id, msg.message_id, text:format(name), 'html')
 		u.logEvent('nowarn', msg, {admin = name, user = ('<code>%s</code>'):format(msg.target_id), user_id = msg.target_id, rem = removed})
-    end
-    if blocks[1] == 'recache' and msg.from.admin then
+	end
+	if blocks[1] == 'recache' and msg.from.admin then
 		local missing_sec = tonumber(db:ttl('cache:chat:'..msg.target_id..':admins') or 0)
 		local wait = 600
 		if config.bot_settings.cache_time.adminlist - missing_sec < wait then
@@ -223,15 +223,15 @@ function plugin.onCallbackQuery(msg, blocks)
 		else
 			db:del('cache:chat:'..msg.target_id..':admins')
 			u.cache_adminlist(msg.target_id)
-    		local cached_admins = db:smembers('cache:chat:'..msg.target_id..':admins')
-    		local time = get_time_remaining(config.bot_settings.cache_time.adminlist)
+			local cached_admins = db:smembers('cache:chat:'..msg.target_id..':admins')
+			local time = get_time_remaining(config.bot_settings.cache_time.adminlist)
 			local text = _("📌 Status: `CACHED`\n⌛ ️Remaining: `%s`\n👥 Admins cached: `%d`")
 				:format(time, #cached_admins)
-    		api.answerCallbackQuery(msg.cb_id, _("✅ Updated. Next update in %s"):format(time))
-    		api.editMessageText(msg.chat.id, msg.message_id, text, true, do_keyboard_cache(msg.target_id))
-    		--api.sendLog('#recache\nChat: '..msg.target_id..'\nFrom: '..msg.from.id)
-    	end
-    end
+			api.answerCallbackQuery(msg.cb_id, _("✅ Updated. Next update in %s"):format(time))
+			api.editMessageText(msg.chat.id, msg.message_id, text, true, do_keyboard_cache(msg.target_id))
+			--api.sendLog('#recache\nChat: '..msg.target_id..'\nFrom: '..msg.from.id)
+		end
+	end
 end
 
 plugin.triggers = {

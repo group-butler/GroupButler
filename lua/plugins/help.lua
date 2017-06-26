@@ -286,7 +286,7 @@ When disabled, the group administrators *can't promote or demote new moderators*
 `/modlist -`: demote all the moderators (will clean the modlist)]])
 	elseif key == 'logchannel' then
 		return _([[*Log channel informations*
-			
+
 A log channel is a _(private)_ channel where the bot will record all the important events that will happen in your group.
 If you want to use this feature, you need to pair your group with a channel with the commands described below.
 All the events, by default, are *not logged*. Admins can choose which events to log from the `/config` menu -> `log channel` button.
@@ -298,7 +298,7 @@ Then, an admin of the group must forward in the group the message ("`/setlog`") 
 
 A channel can be used as log by different groups.
 To change your log channel, simply repeat this process with another channel.
-	
+
 `/unsetlog`: remove your current log channel
 `/logchannel`: get some informations about your log channel, if paired]])
 	end
@@ -309,51 +309,51 @@ local function dk_admins()
 	keyboard.inline_keyboard = {}
 	local list = {
 		{
-	    	[_("Banhammer")] = 'banhammer',
-	    	[_("Group info")] = 'info'
-	    },
-	    {
-	    	[_("Report system")] = 'report',
-	    	[_("Pin")] = 'pin'
-	    },
-	    {
-	    	[_("Languages")] = 'lang',
-	    	[_("Group configuration")] = 'config'
-	    },
-	    {
-	    	[_("Extra commands")] = 'extra',
-	    	[_("Warns")] = 'warns'
-	    },
-	    {
-	    	[_("Welcome settings")] = 'welcome',
-	    	[_("Links whitelist")] = 'whitelist',
-	    }
-	    
-    }
-    local line = {}
-    for i, line in pairs(list) do
-    	local kb_line = {}
-    	for label, cb_data in pairs(line) do
-        	table.insert(kb_line, {text = '× '..label, callback_data = 'help:admins:'..cb_data})
-        end
-        table.insert(keyboard.inline_keyboard, kb_line)
-    end
-    
+			[_("Banhammer")] = 'banhammer',
+			[_("Group info")] = 'info'
+		},
+		{
+			[_("Report system")] = 'report',
+			[_("Pin")] = 'pin'
+		},
+		{
+			[_("Languages")] = 'lang',
+			[_("Group configuration")] = 'config'
+		},
+		{
+			[_("Extra commands")] = 'extra',
+			[_("Warns")] = 'warns'
+		},
+		{
+			[_("Welcome settings")] = 'welcome',
+			[_("Links whitelist")] = 'whitelist',
+		}
+
+	}
+	local line = {}
+	for i, line in pairs(list) do
+		local kb_line = {}
+		for label, cb_data in pairs(line) do
+			table.insert(kb_line, {text = '× '..label, callback_data = 'help:admins:'..cb_data})
+		end
+		table.insert(keyboard.inline_keyboard, kb_line)
+	end
+
 	return keyboard
 end
 
 local function do_keyboard_private()
-    local keyboard = {}
-    keyboard.inline_keyboard = {
-    	{
-    	    {text = _("📢 Bot channel"), url = 'https://telegram.me/'..config.channel:gsub('@', '')},
-    		{text = _("🌍 Select your language"), callback_data = 'selectlang'},
-	    },
-	    {
-	        {text = _("📕 All the commands"), callback_data = 'help:back'}
-        }
-    }
-    return keyboard
+	local keyboard = {}
+	keyboard.inline_keyboard = {
+		{
+			{text = _("📢 Bot channel"), url = 'https://telegram.me/'..config.channel:gsub('@', '')},
+			{text = _("🌍 Select your language"), callback_data = 'selectlang'},
+		},
+		{
+			{text = _("📕 All the commands"), callback_data = 'help:back'}
+		}
+	}
+	return keyboard
 end
 
 local function dk_main()
@@ -367,7 +367,7 @@ local function dk_main()
 		{{text = _('Log channel'), callback_data = 'help:logchannel'}},
 		{{text = _('Moderators'), callback_data = 'help:mods'}},
 	}
-	
+
 	return keyboard
 end
 
@@ -376,77 +376,77 @@ local function do_keyboard(keyboard_type)
 		['main'] = dk_main(),
 		['admins'] = dk_admins()
 	}
-	
+
 	local keyboard = callbacks[keyboard_type] or {inline_keyboard = {}}
-	
+
 	if keyboard_type ~= 'main' then
 		table.insert(keyboard.inline_keyboard, {{text = _('Back'), callback_data = 'help:back'}})
 	end
-	
+
 	return keyboard
 end
 
 function plugin.onTextMessage(msg, blocks)
 	if blocks[1] == 'start' then
-        if msg.chat.type == 'private' then
-            local message = get_helped_string('start'):format(msg.from.first_name:escape())
-            local keyboard = do_keyboard_private()
-            api.sendMessage(msg.from.id, message, true, keyboard)
-        end
-    end
-    if blocks[1] == 'help' then
-    	local text = get_helped_string(blocks[2] or 'main_menu')
-    	if blocks[2] then
-    		api.sendMessage(msg.from.id, text, true)
-    	else
-        	local keyboard = do_keyboard('main')
-    		local res = api.sendMessage(msg.from.id, text, true, keyboard)
-    		if not res and msg.chat.type ~= 'private' and db:hget('chat:'..msg.chat.id..':settings', 'Silent') ~= 'on' then
-    		    api.sendMessage(msg.chat.id, _('[Start me](%s) _to get the list of commands_'):format(u.deeplink_constructor('', 'help')), true)
-    		end
-    	end
-    end
+		if msg.chat.type == 'private' then
+			local message = get_helped_string('start'):format(msg.from.first_name:escape())
+			local keyboard = do_keyboard_private()
+			api.sendMessage(msg.from.id, message, true, keyboard)
+		end
+	end
+	if blocks[1] == 'help' then
+		local text = get_helped_string(blocks[2] or 'main_menu')
+		if blocks[2] then
+			api.sendMessage(msg.from.id, text, true)
+		else
+			local keyboard = do_keyboard('main')
+			local res = api.sendMessage(msg.from.id, text, true, keyboard)
+			if not res and msg.chat.type ~= 'private' and db:hget('chat:'..msg.chat.id..':settings', 'Silent') ~= 'on' then
+				api.sendMessage(msg.chat.id, _('[Start me](%s) _to get the list of commands_'):format(u.deeplink_constructor('', 'help')), true)
+			end
+		end
+	end
 end
 
 function plugin.onCallbackQuery(msg, blocks)
-    local query = blocks[1]
-    local text, keyboard_type, answerCallbackQuery_text
-    
-    if query == 'back' then
-    	keyboard_type = 'main'
-    	text = get_helped_string('main_menu')
-    	answerCallbackQuery_text = _('Main menu')
-    elseif query == 'basics' then
-        text = get_helped_string('basics')
-        answerCallbackQuery_text = _('Basic usage')
-    elseif query == 'users' then
-        text = get_helped_string('users_group')
-        answerCallbackQuery_text = _('Commands for users (group)')
-    elseif query == 'private' then
-    	text = get_helped_string('private')
-    	answerCallbackQuery_text = _('Available commands in private')
-    elseif query == 'realm' then
-    	text = get_helped_string('realm')
-    	answerCallbackQuery_text = _('Available commands in a realm')
-    elseif query == 'logchannel' then
-    	text = get_helped_string('logchannel')
-    	answerCallbackQuery_text = _('Log channel informations')
-    elseif query == 'mods' then
-    	text = get_helped_string('mods')
-    	answerCallbackQuery_text = _('Informations about the moderators')
-    else --query == 'admins'
-    	keyboard_type = 'admins'
-    	text = get_helped_string(blocks[2])
-    	answerCallbackQuery_text = _('Available commands for admins')
-    end
-    
-    if not text then
-    	api.answerCallbackQuery(msg.cb_id, _("Deprecated message, send /help again"), true)
-    else
-    	local keyboard = do_keyboard(keyboard_type)
-    	local res, code = api.editMessageText(msg.chat.id, msg.message_id, text, true, keyboard)
-    	if not res and code and code == 111 then
-    	    api.answerCallbackQuery(msg.cb_id, _("❗️ Already there"))
+	local query = blocks[1]
+	local text, keyboard_type, answerCallbackQuery_text
+
+	if query == 'back' then
+		keyboard_type = 'main'
+		text = get_helped_string('main_menu')
+		answerCallbackQuery_text = _('Main menu')
+	elseif query == 'basics' then
+		text = get_helped_string('basics')
+		answerCallbackQuery_text = _('Basic usage')
+	elseif query == 'users' then
+		text = get_helped_string('users_group')
+		answerCallbackQuery_text = _('Commands for users (group)')
+	elseif query == 'private' then
+		text = get_helped_string('private')
+		answerCallbackQuery_text = _('Available commands in private')
+	elseif query == 'realm' then
+		text = get_helped_string('realm')
+		answerCallbackQuery_text = _('Available commands in a realm')
+	elseif query == 'logchannel' then
+		text = get_helped_string('logchannel')
+		answerCallbackQuery_text = _('Log channel informations')
+	elseif query == 'mods' then
+		text = get_helped_string('mods')
+		answerCallbackQuery_text = _('Informations about the moderators')
+	else --query == 'admins'
+		keyboard_type = 'admins'
+		text = get_helped_string(blocks[2])
+		answerCallbackQuery_text = _('Available commands for admins')
+	end
+
+	if not text then
+		api.answerCallbackQuery(msg.cb_id, _("Deprecated message, send /help again"), true)
+	else
+		local keyboard = do_keyboard(keyboard_type)
+		local res, code = api.editMessageText(msg.chat.id, msg.message_id, text, true, keyboard)
+		if not res and code and code == 111 then
+			api.answerCallbackQuery(msg.cb_id, _("❗️ Already there"))
 		else
 			api.answerCallbackQuery(msg.cb_id, answerCallbackQuery_text)
 		end

@@ -6,11 +6,11 @@ local plugin = {}
 
 local function do_keyboard_credits()
 	local keyboard = {}
-    keyboard.inline_keyboard = {
-    	{
-    		{text = _("Channel"), url = 'https://telegram.me/'..config.channel:gsub('@', '')},
-    		{text = _("GitHub"), url = config.source_code},
-    		{text = _("Rate me!"), url = 'https://telegram.me/storebot?start='..bot.username},
+	keyboard.inline_keyboard = {
+		{
+			{text = _("Channel"), url = 'https://telegram.me/'..config.channel:gsub('@', '')},
+			{text = _("GitHub"), url = config.source_code},
+			{text = _("Rate me!"), url = 'https://telegram.me/storebot?start='..bot.username},
 		},
 		{
 			{text = _("👥 Groups"), callback_data = 'private:groups'}

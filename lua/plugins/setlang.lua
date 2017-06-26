@@ -31,15 +31,15 @@ function plugin.onCallbackQuery(msg, blocks)
 			api.editMessageText(msg.chat.id, msg.message_id, _("*List of available languages*:"), true, keyboard)
 		else
 			locale.language = blocks[1]
-	    	db:set('lang:'..msg.chat.id, locale.language)
-	    	if (blocks[1] == 'ar' or blocks[1] == 'fa') and msg.chat.type ~= 'private' then
-	    		db:hset('chat:'..msg.chat.id..':char', 'Arab', 'allowed')
-	    		db:hset('chat:'..msg.chat.id..':char', 'Rtl', 'allowed')
-	    	end
+			db:set('lang:'..msg.chat.id, locale.language)
+			if (blocks[1] == 'ar' or blocks[1] == 'fa') and msg.chat.type ~= 'private' then
+				db:hset('chat:'..msg.chat.id..':char', 'Arab', 'allowed')
+				db:hset('chat:'..msg.chat.id..':char', 'Rtl', 'allowed')
+			end
 			-- TRANSLATORS: replace 'English' with the name of your language
-        	api.editMessageText(msg.chat.id, msg.message_id, _("English language is *set*").._(".\nPlease note that translators are volunteers, and some strings of the translation you selected _could not have been translated yet_"), true)
-    	end
-    end
+			api.editMessageText(msg.chat.id, msg.message_id, _("English language is *set*").._(".\nPlease note that translators are volunteers, and some strings of the translation you selected _could not have been translated yet_"), true)
+		end
+	end
 end
 
 plugin.triggers = {

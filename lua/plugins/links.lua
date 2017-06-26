@@ -5,12 +5,12 @@ local api = require 'methods'
 local plugin = {}
 
 function plugin.onTextMessage(msg, blocks)
-    if msg.chat.type == 'private' then return end
+	if msg.chat.type == 'private' then return end
 	if not u.is_allowed('texts', msg.chat.id, msg.from) then return end
-	
+
 	local hash = 'chat:'..msg.chat.id..':links'
 	local text
-	
+
 	if blocks[1] == 'link' then
 		if msg.chat.username then
 			db:sadd('chat:'..msg.chat.id..':whitelist', 'telegram.me/'..msg.chat.username)
@@ -46,7 +46,7 @@ function plugin.onTextMessage(msg, blocks)
 					else
 						link = 'https://telegram.me/joinchat/'..blocks[2]
 						db:sadd('chat:'..msg.chat.id..':whitelist', link:gsub('https://', '')) --save the link in the whitelist
-						
+
 						local succ = db:hset(hash, 'link', link)
 						local title = msg.chat.title:escape_hard('link')
 						local substitution = '['..title..']('..link..')'
@@ -56,7 +56,7 @@ function plugin.onTextMessage(msg, blocks)
 							text = _("The link has been set.\n*Here's the link*: %s"):format(substitution)
 						end
 					end
-				end				
+				end
 			end
 		end
 		api.sendReply(msg, text, true)
