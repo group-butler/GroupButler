@@ -1,6 +1,6 @@
 local curl = require 'cURL'
 local URL = require 'socket.url'
-local JSON = require 'dkjson'
+local JSON = require 'cjson'
 local config = require 'config'
 local clr = require 'term.colors'
 local api_errors = require 'api_bad_requests'
