@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 make_template() {
-	find . -name "*.lua" | sort |
+	find . -name "lua/*.lua" | sort |
 		xgettext --from-code=utf-8 \
 			--add-comments=TRANSLATORS \
 			--package-name=GroupButler \
@@ -14,7 +14,7 @@ make_template() {
 
 case $1 in bot | "")
 	while true; do
-		lua bot.lua
+		lua lua/bot.lua
 		sleep 10
 	done
 
