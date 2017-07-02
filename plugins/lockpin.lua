@@ -45,6 +45,14 @@ function plugin.onTextMessage(msg, blocks)
 			if status == 'on' then
 				if u.is_owner(msg.chat.id, msg.from.id) then
 					db:set('chat:'..msg.chat.id..':pin_id', msg.message_id)
+				else
+					local text = _("You're *not allowed* to pin message!")
+					api.sendReply(msg, text, true)
+					api.unpinChatMessage(msg.chat.id)
+					local last_pin = db:set('chat:'..msg.chat.id..':pin_id')
+					if last_pin then
+						api.pinChatMessage(msg.chat.id, last_pin, true) -- disabled notification
+					end
 				end
 			end
 		end
