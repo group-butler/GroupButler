@@ -734,7 +734,8 @@ function utilities.changeSettingStatus(chat_id, field)
 		rules = _("/rules will reply in private (for users)"),
 		silent = _("Silent mode is now off"),
 		preview = _("Links preview disabled"),
-		welbut = _("Welcome message without a button for the rules")
+		welbut = _("Welcome message without a button for the rules"),
+		pin = _("Now all admins can pin message")
 	}
 	local turned_on = {
 		reports = _("@admin command enabled"),
@@ -745,7 +746,8 @@ function utilities.changeSettingStatus(chat_id, field)
 		rules = _("/rules will reply in the group (with everyone)"),
 		silent = _("Silent mode is now on"),
 		preview = _("Links preview enabled"),
-		welbut = _("The welcome message will have a button for the rules")
+		welbut = _("The welcome message will have a button for the rules"),
+		pin = _("Pin message has been locked for admins (Except owner).")
 	}
 
 	local hash = 'chat:'..chat_id..':settings'

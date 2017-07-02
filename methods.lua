@@ -252,6 +252,44 @@ function api.leaveChat(chat_id)
 	
 end
 
+function api.exportChatInviteLink(chat_id)
+	local url = BASE_URL .. '/exportChatInviteLink?chat_id='..chat_id
+	return sendRequest(url)
+end
+
+function api.setChatPhoto(chat_id, photo)
+	local url = BASE_URL .. '/setChatPhoto?chat_id='..chat_id..'&photo='..photo
+	return sendRequest(url)
+end
+
+function api.deleteChatPhoto(chat_id)
+	local url = BASE_URL .. '/deleteChatPhoto?chat_id='..chat_id
+	return sendRequest(url)
+end
+
+function api.setChatTitle(chat_id, title)
+	local url = BASE_URL .. '/setChatTitle?chat_id='..chat_id..'&title='..title
+	return sendRequest(url)
+end
+
+function api.setChatDescription(chat_id, description)
+	local url = BASE_URL .. '/setChatDescription?chat_id='..chat_id..'&description='..description
+	return sendRequest(url)
+end
+
+function api.pinChatMessage(chat_id, message_id, disable_notification)
+	local url = BASE_URL .. '/pinChatMessage?chat_id='..chat_id..'&message_id='..message_id
+	if disable_notification then
+		url = url..'&disable_notification='..disable_notification
+	end
+	return sendRequest(url)
+end
+
+function api.unpinChatMessage(chat_id)
+	local url = BASE_URL .. '/unpinChatMessage?chat_id='..chat_id
+	return sendRequest(url)
+end
+
 function api.sendMessage(chat_id, text, parse_mode, reply_markup, reply_to_message_id, link_preview)
 	--print(text)
 	
