@@ -5,16 +5,21 @@ local u, config, plugins, last_update, last_cron
 db = redis.connect('127.0.0.1', 6379)
 
 function bot_init(on_reload) -- The function run when the bot is started or reloaded.
+	if on_reload then
+		package.loaded.config = nil
+		package.loaded.languages = nil
+		package.loaded.utilities = nil
+	end
 
-	config = dofile('config.lua') -- Load configuration file.
+	config = require 'config' -- Load configuration file.
 	assert(not (config.bot_api_key == "" or not config.bot_api_key), clr.red..'Insert the bot token in config.lua -> bot_api_key'..clr.reset)
 	assert(#config.superadmins > 0, clr.red..'Insert your Telegram ID in config.lua -> superadmins'..clr.reset)
 	assert(config.log.admin, clr.red..'Insert your Telegram ID in config.lua -> log.admin'..clr.reset)
 
 	db:select(config.db or 0) --select the redis db
 
-	u = dofile('utilities.lua') -- Load miscellaneous and cross-plugin functions.
-	locale = dofile('languages.lua')
+	u = require 'utilities' -- Load miscellaneous and cross-plugin functions.
+	locale = require 'languages'
 	now_ms = require('socket').gettime
 
 	bot = api.getMe().result -- Get bot info
