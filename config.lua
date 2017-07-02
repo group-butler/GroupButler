@@ -48,6 +48,7 @@ return {
 		'menu',
 		'moderators',
 		'pin',
+		'lockpin',
 		'private',
 		'private_settings',
 		'report',
@@ -88,7 +89,8 @@ return {
 			['Rules'] = 'off',
 			['Reports'] = 'off',
 			['Welbut'] = 'off',
-			['Antibot'] = 'off'
+			['Antibot'] = 'off',
+			['Pin'] = 'off'
 		},
 		['antispam'] = {
 			['links'] = 'alwd',
