@@ -81,11 +81,15 @@ case $REPLY in [yY])
 	clear
 	echo -en "${Green}Do you want to use the beta branch? (Y/N): ${Default}"
 	read REPLY
-	if [[ $REPLY == [yY] ]]; then
+	if [ -d .git ]; then
+		git stash
+		git checkout beta
+	else
 		echo -en "${Orange}Fetching latest Group Butler source code\n${Default}"
 		git clone -b beta https://github.com/RememberTheAir/GroupButler.git
 		cd GroupButler
-	fi
+	fi;
+
 	clear
 	echo -en "${BGreen}Group Butler successfully installed! Change values in config file and run ${BRed}./launch.sh${BGreen}.${Default}";;
 	*) echo "Exiting...";;
