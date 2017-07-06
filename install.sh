@@ -37,7 +37,7 @@ case $REPLY in [yY])
 
 	# Install Dependencies
 	clear
-	echo -en "${Cyan}Do you want to install the dependencies (Y/N): ${Default}"
+	echo -en "${Blue}The packages will be installed:${Default} ${NATIVE}\n${Cyan}Do you want to install the dependencies (Y/N): ${Default}"
 	read REPLY
 	if [[ $REPLY == [yY] ]]; then
 		sudo apt-get install $NATIVE -y
