@@ -57,17 +57,6 @@ case $REPLY in [yY])
 		done
 	fi
 
-	# Clean System
-	clear
-	echo -en "${Cyan}Do you want to clean your system (Y/N): ${Default}"
-	read REPLY
-	if [[ $REPLY == [yY] ]]; then
-		sudo apt-get autoremove -y
-		sudo apt-get remove $(deborphan)
-		sudo apt-get autoclean -y
-		sudo apt-get clean -y
-	fi
-
 	clear
 	echo -en "${Green}Do you want to use the beta branch? (Y/N): ${Default}"
 	read REPLY
