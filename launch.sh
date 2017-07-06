@@ -13,9 +13,8 @@ make_template() {
 }
 
 case $1 in bot | "")
-	cd lua
 	while true; do
-		lua bot.lua
+		lua polling.lua
 		sleep 10
 	done
 
