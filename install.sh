@@ -25,16 +25,6 @@ Default='\033[0m'
 read -p "Do you want me to install Group Butler Bot? (Y/N): "
 
 case $REPLY in [yY])
-	# Update System
-	clear
-	echo -en "${Cyan}Do you want to upgrade your system (Y/N): ${Default}"
-	read REPLY
-	if [[ $REPLY == [yY] ]]; then
-		sudo apt-get update
-		sudo apt-get upgrade -y
-		sudo apt-get dist-upgrade -y
-	fi
-
 	# Install Dependencies
 	clear
 	echo -en "${Blue}The packages will be installed:${Default} ${NATIVE}\n${Cyan}Do you want to install the dependencies (Y/N): ${Default}"
