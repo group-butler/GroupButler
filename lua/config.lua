@@ -47,7 +47,7 @@ local _M =
 	-- Core
 	log =
 	{
-		chat = os.getenv('LOG_CHAT'),
+		chat = assert(os.getenv('LOG_CHAT'), 'You must export $LOG_CHAT with the numerical ID of the log chat'),
 		admin = assert(os.getenv('LOG_ADMIN'), 'You must export $LOG_ADMIN with your Telegram ID'),
 		stats = os.getenv('LOG_STATS')
 	},
@@ -224,7 +224,7 @@ local _M =
 local multipurpose_plugins = os.getenv('MULTIPURPOSE_PLUGINS')
 if multipurpose_plugins then
 	_M.multipurpose_plugins = assert(json.decode(multipurpose_plugins),
-		'$MULTIPURPOSE_PLUGINS must be a JSON array or empty.')
+		'$MULTIPURPOSE_PLUGINS must be a JSON array or empty')
 end
 
 return _M
