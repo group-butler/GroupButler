@@ -9,9 +9,8 @@ msgstr ""
 "Project-Id-Version: GroupButler 4.0\n"
 "Report-Msgid-Bugs-To: https://telegram.me/bac0nnn\n"
 "POT-Creation-Date: 2016-12-24 22:36+0300\n"
-"PO-Revision-Date: 2016-12-29 10:33+0300\n"
-"Last-Translator: Николай Гурьев <guriev-ns@ya.ru, https://telegram.me/"
-"mymedia>\n"
+"PO-Revision-Date: 2017-05-12 08:37+0300\n"
+"Last-Translator: feUStBWxmxiCUSwGPgTNoqZN3ydPi2qp <feUStBWxmxiCUSwGPgTNoqZN3ydPi2qp@users.noreply.github.com>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -19,13 +18,13 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 1.8.11\n"
+"X-Generator: Poedit 2.0.1\n"
 
 # Бот обращается к пользователю на "ты"
 # "you" переводим как "ты"
 #: bot.lua:164
 msgid "🐞 Sorry, a *bug* occurred"
-msgstr "🐞 Извини, произошла *ошибка*"
+msgstr "🐞 Произошла *ошибка*, извини"
 
 #: bot.lua:188
 #, lua-format
@@ -121,7 +120,7 @@ msgstr "Описание недоступно"
 #: plugins/antispam.lua:140 plugins/dashboard.lua:135
 #: plugins/mediasettings.lua:24
 msgid "telegram.me links"
-msgstr "Ссылки telegram.me"
+msgstr "ссылки telegram.me"
 
 #: plugins/antispam.lua:141
 msgid "Channels messages"
@@ -270,7 +269,7 @@ msgid ""
 "Either I'm not an admin, or the targeted user is!"
 msgstr ""
 "Я не могу кикнуть этого пользователя.\n"
-"Возможно, я не админ или пользователь сам админ"
+"Возможно, я не админ или пользователь сам админ!"
 
 #: plugins/banhammer.lua:133
 #, lua-format
@@ -439,7 +438,7 @@ msgstr "Настройки медиа"
 #: plugins/dashboard.lua:72
 msgid "Navigate this message to see *all the info* about this group!"
 msgstr ""
-"Перемещайся по этому сообщению, чтобы увидеть *всю информацию* о группе"
+"Перемещайся по этому сообщению, чтобы увидеть *всю информацию* о группе!"
 
 #: plugins/dashboard.lua:75
 msgid "_I've sent you the group dashboard via private message_"
@@ -547,12 +546,12 @@ msgstr "Команда «%s» сохранена!"
 #: plugins/extra.lua:68
 #, lua-format
 msgid "The command '%s' has been deleted!"
-msgstr "Команда «%s» удалена"
+msgstr "Команда «%s» удалена!"
 
 #: plugins/extra.lua:71
 #, lua-format
 msgid "The command '%s' does not exist!"
-msgstr "Команды «%s» не существует"
+msgstr "Команды «%s» не существует!"
 
 #: plugins/floodmanager.lua:9
 msgid "⚖ Current sensitivity. Tap on the + or the - to change it"
@@ -600,12 +599,12 @@ msgid "Antiflood settings"
 msgstr "Настройки антифлуда"
 
 #: plugins/floodmanager.lua:140
-#, lua-format
+#, fuzzy, lua-format
 msgid "❎ [%s] will be ignored by the anti-flood"
 msgstr "❎ Антифлуд будет игнорировать [%s]"
 
 #: plugins/floodmanager.lua:143
-#, lua-format
+#, fuzzy, lua-format
 msgid "🚫 [%s] won't be ignored by the anti-flood"
 msgstr "🚫 Антифлуд не будет игнорировать [%s]"
 
@@ -1359,7 +1358,7 @@ msgstr ""
 "модератором. Если он уже модератор, его имя будет обновлено в списке "
 "модераторов.\n"
 "`/demote [с ответом|именем|упоминанием|ID]`: разжаловать модератора.\n"
-"`/modlist`: показать список модераторов."
+"`/modlist`: показать список модераторов"
 
 #: plugins/help.lua:279
 msgid ""
@@ -1636,16 +1635,14 @@ msgid "Unban"
 msgstr "Разбанить"
 
 #: plugins/logchannel.lua:51
-#, fuzzy
 msgid "Tempban"
-msgstr "Врем. бан"
+msgstr "Временный бан"
 
 #: plugins/logchannel.lua:52
 msgid "Report"
 msgstr "Жалоба"
 
 #: plugins/logchannel.lua:54
-#, fuzzy
 msgid "Warns resets"
 msgstr "Сбос предупреждений"
 
@@ -1654,12 +1651,10 @@ msgid "New members"
 msgstr "Новые участники"
 
 #: plugins/logchannel.lua:56
-#, fuzzy
 msgid "Media warns"
 msgstr "Медиа предупреждения"
 
 #: plugins/logchannel.lua:57
-#, fuzzy
 msgid "Spam warns"
 msgstr "Спам предупреждения"
 
@@ -1728,12 +1723,12 @@ msgstr "*Канал с журналом добавлен!*"
 #: plugins/logchannel.lua:155
 #, lua-format
 msgid "<i>%s</i> changed its log channel"
-msgstr "Изменён канал с журналом группы «%s»"
+msgstr "Изменён канал с журналом группы <i>%s</i>"
 
 #: plugins/logchannel.lua:157
 #, lua-format
 msgid "Logs of <i>%s</i> will be posted here"
-msgstr "Теперь здесь будут публиковаться события группы «%s»"
+msgstr "Теперь здесь будут публиковаться события группы <i>%s</i>"
 
 #: plugins/logchannel.lua:161
 msgid "_Only the channel creator can pair the chat with a channel_"
@@ -1997,7 +1992,6 @@ msgstr "🔨️ бан"
 # не помещается,
 # не видно текущее значение предупреждений
 #: plugins/menu.lua:199
-#, fuzzy
 msgid "Warns: "
 msgstr "Предупреждений: "
 
@@ -2015,7 +2009,7 @@ msgstr ""
 
 #: plugins/moderators.lua:33 plugins/moderators.lua:60
 msgid "Reply to someone, or mention him"
-msgstr "_Ответь кому-нибудь или упомяни его_"
+msgstr "Ответь кому-нибудь или упомяни его"
 
 #: plugins/moderators.lua:38
 msgid "You can't promote or demote me"
@@ -2042,7 +2036,7 @@ msgstr "Теперь %s модератор"
 #: plugins/moderators.lua:96
 #, lua-format
 msgid "%s is already a moderator. I have updated his name."
-msgstr "%s уже модератор. Я обновил его имя"
+msgstr "%s уже модератор. Я обновил его имя."
 
 #: plugins/moderators.lua:110
 #, lua-format
@@ -2142,12 +2136,12 @@ msgstr ""
 #: plugins/onmessage.lua:93
 #, lua-format
 msgid "%s <b>banned</b> for flood!"
-msgstr "%s  <b>забанен</b> за флуд"
+msgstr "%s  <b>забанен</b> за флуд!"
 
 #: plugins/onmessage.lua:95
 #, lua-format
 msgid "%s <b>kicked</b> for flood!"
-msgstr "%s  <b>кикнут</b> за флуд"
+msgstr "%s  <b>кикнут</b> за флуд!"
 
 #: plugins/onmessage.lua:139
 #, lua-format
@@ -2155,7 +2149,7 @@ msgid ""
 "%s <b>banned</b>: media sent not allowed!\n"
 "❗️ <code>%d/%d</code>"
 msgstr ""
-"%s <b>забанен</b>: этот тип медиа не разрешен\n"
+"%s <b>забанен</b>: этот тип медиа не разрешен!\n"
 "❗️ <code>%d / %d</code>"
 
 #: plugins/onmessage.lua:141
@@ -2164,7 +2158,7 @@ msgid ""
 "%s <b>kicked</b>: media sent not allowed!\n"
 "❗️ <code>%d/%d</code>"
 msgstr ""
-"%s <b>кикнут</b>: отправленный тип медиа не разрешен\n"
+"%s <b>кикнут</b>: отправленный тип медиа не разрешен!\n"
 "❗️ <code>%d / %d </code>"
 
 #: plugins/onmessage.lua:146
@@ -2179,7 +2173,7 @@ msgstr ""
 #: plugins/onmessage.lua:171
 #, lua-format
 msgid "%s <b>kicked</b>: RTL character in names / messages not allowed!"
-msgstr "%s <b>кикнут</b>: RTL символы в имени / сообщениях не разрешены"
+msgstr "%s <b>кикнут</b>: RTL символы в имени / сообщениях не разрешены!"
 
 #: plugins/onmessage.lua:173
 #, lua-format
@@ -2218,8 +2212,8 @@ msgid ""
 "This message can now be pinned. Use `/pin [new text]` to edit it without "
 "having to send it again"
 msgstr ""
-"Ты можешь сейчас прикрепить это сообщение. Используй `/pin [новый текст]` "
-"чтобы отредактировать его без отправки нового."
+"Ты можешь сейчас прикрепить это сообщение. Используй `/pin [новый текст]`, "
+"чтобы отредактировать его без отправки нового"
 
 #: plugins/private.lua:11 plugins/users.lua:11
 msgid "Channel"
@@ -2411,7 +2405,7 @@ msgstr "Ты не админ"
 #. TRANSLATORS: replace 'English' with the name of your language
 #: plugins/setlang.lua:40
 msgid "English language is *set*"
-msgstr "Установлен русский язык"
+msgstr "*Установлен* русский язык"
 
 #: plugins/setlang.lua:40
 msgid ""
@@ -2599,7 +2593,7 @@ msgid ""
 "refresh"
 msgstr ""
 "Список админов только что обновлён. Просто подожди 10 минут после последнего "
-"обновления."
+"обновления"
 
 #: plugins/users.lua:294
 #, lua-format
@@ -2633,7 +2627,7 @@ msgstr ""
 
 #: plugins/warn.lua:43
 msgid "Yes"
-msgstr "Да\t\t"
+msgstr "Да"
 
 #: plugins/warn.lua:43
 msgid "No"
