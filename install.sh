@@ -8,12 +8,18 @@ NATIVE="libreadline-dev libssl-dev luarocks liblua$LUA-dev git make unzip redis-
 ROCKS="luasocket luasec redis-lua lua-term serpent lua-cjson Lua-cURL"
 
 # Color variables
+Red='\033[0;31m'
 Green='\033[0;32m'
 Orange='\033[0;33m'
 Blue='\033[0;34m'
+Purple='\033[0;35m'
 Cyan='\033[0;36m'
 BRed='\033[1;31m'
 BGreen='\033[1;32m'
+BOrange='\033[1;33m'
+BBlue='\033[1;34m'
+BPurple='\033[1;35m'
+BCyan='\033[1;36m'
 Default='\033[0m'
 
 read -p "Do you want me to install Group Butler Bot? (Y/N): "
