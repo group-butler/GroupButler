@@ -5,7 +5,7 @@ LUA=5.2
 
 # Dependencies and libraries
 NATIVE="libreadline-dev libssl-dev luarocks liblua$LUA-dev git make unzip redis-server curl libcurl4-gnutls-dev deborphan"
-ROCKS="luasocket luasec redis-lua lua-term serpent cjson Lua-cURL"
+ROCKS="luasocket luasec redis-lua lua-term serpent lua-cjson Lua-cURL"
 
 # Color variables
 Red='\033[0;31m'
@@ -50,7 +50,6 @@ case $REPLY in [yY])
 	fi
 
 	clear
-
 	echo -en "${Cyan}Do you want to download the luarocks libraries (Y/N): ${Default}"
 	read REPLY
 	if [[ $REPLY == [yY] ]]; then
