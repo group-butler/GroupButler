@@ -21,7 +21,7 @@ local function get_motivation(msg)
 end
 
 local function set_lang(chat_id)
-	locale.language = db:get('lang:'..chat_id) or 'en' --group language
+	locale.language = db:get('lang:'..chat_id) or config.lang --group language
 	if not config.available_languages[locale.language] then
 		locale.language = 'en'
 	end

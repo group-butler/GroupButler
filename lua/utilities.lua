@@ -615,7 +615,7 @@ end
 function utilities.getSettings(chat_id)
 	local hash = 'chat:'..chat_id..':settings'
 
-	local lang = db:get('lang:'..chat_id) or 'en' -- group language
+	local lang = db:get('lang:'..chat_id) or config.lang -- group language
 	local message = _("Current settings for *the group*:\n\n")
 			.. _("*Language*: %s\n"):format(config.available_languages[lang])
 
