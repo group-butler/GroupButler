@@ -59,15 +59,20 @@ case $REPLY in [yY])
 	fi
 
 	clear
-	echo -en "${Green}Do you want to use the beta branch? (Y/N): ${Default}"
-	read REPLY
+	if [ ! -d .git ]; then
+		echo -en "${Green}Would you like to clone the source of GroupButler? (Y/N): ${Default}"
+		read REPLY
+		if [[ $REPLY == [yY] ]]; then
+			echo -en "${Orange}Fetching latest Group Butler source code\n${Default}"
+			git clone -b master https://github.com/RememberTheAir/GroupButler.git && cd GroupButler
+		fi
+	fi
+
 	if [ -d .git ]; then
+	echo -en "${Green}Do you want to use the beta branch (If you modified something we will do a stash)? (Y/N): ${Default}"
+	read REPLY
 		git stash
 		git checkout beta
-	else
-		echo -en "${Orange}Fetching latest Group Butler source code\n${Default}"
-		git clone -b beta https://github.com/RememberTheAir/GroupButler.git
-		cd GroupButler
 	fi;
 
 	clear
