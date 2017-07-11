@@ -63,7 +63,7 @@ plugin.triggers = {
 	onTextMessage = {
 		config.cmd..'(ping)$',
 		config.cmd..'(echo) (.*)$',
-		config.cmd..'(about)$',
+		--config.cmd..'(about)$',
 		config.cmd..'(group)s?$',
 		'^/start (group)s$'
 	},

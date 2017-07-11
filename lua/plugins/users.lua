@@ -90,7 +90,7 @@ end
 
 function plugin.onTextMessage(msg, blocks)
 	if blocks[1] == 'id' then --just for debug
-		if msg.chat.id < 0 and u.is_admin(msg.chat.id, msg.from.id) then
+		if msg.chat.id < 0 and msg.from.admin then
 			api.sendMessage(msg.chat.id, string.format('`%d`', msg.chat.id), true)
 		end
 	end
@@ -99,26 +99,14 @@ function plugin.onTextMessage(msg, blocks)
 
 	if blocks[1] == 'adminlist' then
 		local adminlist = u.getAdminlist(msg.chat.id)
-		if not msg.from.mod then
+		if not msg.from.admin then
 			api.sendMessage(msg.from.id, adminlist, 'html')
 		else
 			api.sendReply(msg, adminlist, 'html')
 		end
 	end
-	if blocks[1] == 'staff' then
-		local adminlist = u.getAdminlist(msg.chat.id)
-		if adminlist then
-			local is_empty, modlist = u.getModlist(msg.chat.id)
-			local text = adminlist..'\n'..modlist
-			if not msg.from.mod then
-				api.sendMessage(msg.from.id, text, 'html')
-			else
-				api.sendReply(msg, text, 'html')
-			end
-		end
-	end
 	if blocks[1] == 'status' then
-		if u.is_allowed('hammer', msg.chat.id, msg.from) then
+		if msg.from.admin then
 			if not blocks[2] and not msg.reply then return end
 			local user_id, error_tr_id = u.get_user_id(msg, blocks)
 			if not user_id then
@@ -131,7 +119,7 @@ function plugin.onTextMessage(msg, blocks)
 				end
 				local status = res.result.status
 				local name = u.getname_final(res.result.user)
-				local texts = {
+				local statuses = {
 					kicked = _("%s is banned from this group"),
 					left = _("%s left the group or has been kicked and unbanned"),
 					administrator = _("%s is an admin"),
@@ -139,12 +127,12 @@ function plugin.onTextMessage(msg, blocks)
 					unknown = _("%s has nothing to do with this chat"),
 					member = _("%s is a chat member")
 				}
-				api.sendReply(msg, texts[status]:format(name), 'html')
+				api.sendReply(msg, statuses[status]:format(name), 'html')
 			end
 		end
 	end
 	if blocks[1] == 'user' then
-		if not u.is_allowed('hammer', msg.chat.id, msg.from) then return end
+		if not msg.from.admin then return end
 
 		if not msg.reply and (not blocks[2] or (not blocks[2]:match('@[%w_]+$') and not blocks[2]:match('%d+$') and not msg.mention_id)) then
 			api.sendReply(msg, _("Reply to an user or mention them by username or numerical ID"))
@@ -183,7 +171,7 @@ If you're using it by username and want to teach me who the user is, forward me 
 
 		local text = string.format('[%s](https://telegram.me/%s/%d)',
 			_("Message N° %d"):format(msg.reply.message_id), msg.chat.username, msg.reply.message_id)
-		if msg.from.mod or not u.is_silentmode_on(msg.chat.id) then
+		if msg.from.admin or not u.is_silentmode_on(msg.chat.id) then
 			api.sendReply(msg.reply, text, true)
 		else
 			api.sendMessage(msg.from.id, text, true)
@@ -198,7 +186,7 @@ If you're using it by username and want to teach me who the user is, forward me 
 end
 
 function plugin.onCallbackQuery(msg, blocks)
-	if not u.is_allowed('hammer', msg.chat.id, msg.from) then
+	if not msg.from.admin then
 		api.answerCallbackQuery(msg.cb_id, _("You are not allowed to use this button")) return
 	end
 
@@ -244,8 +232,7 @@ plugin.triggers = {
 		config.cmd..'(msglink)$',
 		config.cmd..'(user)$',
 		config.cmd..'(user) (.*)',
-		config.cmd..'(leave)$',
-		config.cmd..'(staff)$',
+		config.cmd..'(leave)$'
 	},
 	onCallbackQuery = {
 		'^###cb:userbutton:(remwarns):(%d+)$',

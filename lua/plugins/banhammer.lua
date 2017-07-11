@@ -104,20 +104,17 @@ end
 
 function plugin.onTextMessage(msg, blocks)
 	if msg.chat.type ~= 'private' then
-		if u.is_allowed('hammer', msg.chat.id, msg.from) then
+		if u.can(msg.chat.id, msg.from.id, "can_restrict_members") then
 
 			local user_id, error_translation_key = u.get_user_id(msg, blocks)
 
-			if not user_id and blocks[1] ~= 'kickme' then
+			if not user_id and blocks[1] ~= 'kickme' and blocks[1] ~= 'fwdban' then
 				api.sendReply(msg, error_translation_key, true) return
 			end
 			if tonumber(user_id) == bot.id then return end
 
 			local res
 			local chat_id = msg.chat.id
-			if u.is_mod(chat_id, user_id) and not u.is_admin(msg.chat.id, user_id) then
-				api.sendReply(msg, _("_This user is a moderator. Please /demote him first_"), true) return
-			end
 			local admin, kicked = u.getnames_complete(msg, blocks)
 
 			--print(get_motivation(msg))
@@ -191,6 +188,24 @@ function plugin.onTextMessage(msg, blocks)
 					api.sendMessage(msg.chat.id, _("%s banned %s!"):format(admin, kicked), 'html')
 				end
 			end
+			if blocks[1] == 'fwdban' then
+				if not msg.reply or not msg.reply.forward_from then
+					api.sendReply(msg, _("_Use this command in reply to a forwarded message_"), true)
+				else
+					user_id = msg.reply.forward_from.id
+					local res, code, motivation = api.banUser(chat_id, user_id)
+					if not res then
+						if not motivation then
+							motivation = _("I can't kick this user.\n"
+									.. "I am not allowed to ban or the target user is an admin")
+						end
+						api.sendReply(msg, motivation, true)
+					else
+						u.logEvent('ban', msg, {motivation = get_motivation(msg), admin = admin, user = kicked, user_id = user_id})
+						api.sendMessage(msg.chat.id, _("%s banned %s!"):format(admin, u.getname_final(msg.reply.forward_from)), 'html')
+					end
+				end
+			end
 			if blocks[1] == 'unban' then
 				if u.is_admin(chat_id, user_id) then
 					api.sendReply(msg, _("_An admin can't be unbanned_"), true)
@@ -215,7 +230,8 @@ plugin.triggers = {
 		config.cmd..'(kick)$',
 		config.cmd..'(ban) (.+)',
 		config.cmd..'(ban)$',
-		config.cmd..'(tempban) (.+)',
+		config.cmd..'(fwdban)$',
+		--config.cmd..'(tempban) (.+)',
 		config.cmd..'(unban) (.+)',
 		config.cmd..'(unban)$',
 		'^[#!](kickme)$'

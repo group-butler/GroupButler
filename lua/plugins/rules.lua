@@ -44,7 +44,7 @@ function plugin.onTextMessage(msg, blocks)
 		local reply_markup, rules = u.reply_markup_from_text(rules)
 
 		local link_preview = rules:find('telegra%.ph/') ~= nil
-		if msg.chat.type == 'private' or (not msg.from.mod and not send_in_group(msg.chat.id)) then
+		if msg.chat.type == 'private' or (not msg.from.admin and not send_in_group(msg.chat.id)) then
 			api.sendMessage(msg.from.id, rules, true, reply_markup, nil, link_preview)
 		else
 			api.sendReply(msg, rules, true, reply_markup, link_preview)

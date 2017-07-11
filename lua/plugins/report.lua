@@ -4,34 +4,6 @@ local api = require 'methods'
 
 local plugin = {}
 
-local function table_join(t1, t2)
-	for i=1, #t2 do
-		t1[#t1+1] = t2[i]
-	end
-
-	return t1
-end
-
-local function get_admin_mod_list(admins_list, chat_id)
-	if not admins_list then
-		admins_list = {}
-	end
-
-	local mods_have_hammer = db:hget('chat:'..chat_id..':modsettings', 'hammer') or config.chat_settings['modsettings']['hammer']
-	if mods_have_hammer == 'yes' then
-		local mods = db:smembers('chat:'..chat_id..':mods')
-		if next(mods) then
-			admins_list = table_join(admins_list, mods)
-		end
-	end
-
-	if next(admins_list) then
-		return admins_list
-	else
-		return nil
-	end
-end
-
 local function seconds2minutes(seconds)
 	seconds = tonumber(seconds)
 	local minutes = math.floor(seconds/60)
@@ -60,7 +32,6 @@ local function report(msg, description)
 	local n = 0
 
 	local admins_list = u.get_cached_admins_list(msg.chat.id)
-	admins_list = get_admin_mod_list(admins_list, msg.chat.id)
 	if not admins_list then return false end
 
 	local desc_msg
@@ -171,7 +142,7 @@ function plugin.onCallbackQuery(msg, blocks)
 			if next(chats_reached) then
 				local markup = {inline_keyboard={{{text = _("❕ Already (being) adressed"), callback_data = ("report:%s:%s"):format(chat_id, msg_id)}}}}
 				for user_id, message_id in pairs(chats_reached) do
-					api.editMarkup(user_id, message_id, markup)
+					api.editMessageReplyMarkup(user_id, message_id, markup)
 				end
 			end
 			db:setex(hash..':addressed', 3600*24*3, name)

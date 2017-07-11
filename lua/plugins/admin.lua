@@ -378,6 +378,10 @@ function plugin.onTextMessage(msg, blocks)
 			chat_id = blocks[2]
 		end
 		local members = db:smembers('cache:chat:'..chat_id..':admins')
+		for i=1, #members do
+			local permissions = db:smembers("cache:chat:"..chat_id..":"..members[i]..":permissions")
+			members[members[i]] = permissions
+		end
 		api.sendMessage(msg.chat.id, chat_id..' ➤ '..tostring(#members)..'\n'..u.vtext(members))
 	end
 	if blocks[1] == 'initcache' then

@@ -136,7 +136,7 @@ function plugin.onCallbackQuery(msg, blocks)
 Tap on a voice to get further informations]])
 					api.editMessageText(msg.chat.id, msg.message_id, logchannel_first, true, reply_markup)
 				else
-					api.editMarkup(msg.chat.id, msg.message_id, reply_markup)
+					api.editMessageReplyMarkup(msg.chat.id, msg.message_id, reply_markup)
 				end
 
 				if text then api.answerCallbackQuery(msg.cb_id, text) end

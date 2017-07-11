@@ -31,32 +31,36 @@ local function getAntispamWarns(chat_id, user_id)
 end
 
 function plugin.onEveryMessage(msg)
-	if not msg.inline and msg.spam and msg.chat.id < 0 and not msg.cb then
+	if not msg.inline and msg.spam and msg.chat.id < 0 and not msg.cb and not msg.from.admin then
 		local status = db:hget('chat:'..msg.chat.id..':antispam', msg.spam)
-		if status and status == 'notalwd' then
-			if not msg.from.mod then
-				local whitelisted
-				if msg.spam == 'links' then
-					whitelisted = is_whitelisted(msg.chat.id, msg.text:lower())
-				--[[elseif msg.forward_from_chat then
-					if msg.forward_from_chat.type == 'channel' then
-						whitelisted = is_whitelisted_channel(msg.chat.id, msg.forward_from_chat.id)
-					end]]
-				end
+		if status and status ~= 'alwd' then
+			local whitelisted
+			if msg.spam == 'links' then
+				whitelisted = is_whitelisted(msg.chat.id, msg.text:lower())
+			--[[elseif msg.forward_from_chat then
+				if msg.forward_from_chat.type == 'channel' then
+					whitelisted = is_whitelisted_channel(msg.chat.id, msg.forward_from_chat.id)
+				end]]
+			end
 
-				if not whitelisted then
+			if not whitelisted then
+				if status == 'del' then
+					api.deleteMessage(msg.chat.id, msg.message_id)
+				else
 					local hammer_text = nil
 					local name = u.getname_final(msg.from)
 					local warns_received, max_allowed = getAntispamWarns(msg.chat.id, msg.from.id)
-
+					
 					if warns_received >= max_allowed then
 						local action = (db:hget('chat:'..msg.chat.id..':antispam', 'action')) or config.chat_settings['antispam']['action']
-
+						
 						local hammer_funct
 						if action == 'ban' then
 							hammer_funct = api.banUser
 						elseif action == 'kick' then
 							hammer_funct = api.kickUser
+						elseif action == 'mute' then
+							hammer_funct = api.muteUser
 						end
 						local res = hammer_funct(msg.chat.id, msg.from.id)
 						if res then
@@ -81,13 +85,17 @@ end
 local function toggleAntispamSetting(chat_id, key)
 	local hash = 'chat:'..chat_id..':antispam'
 	local current = (db:hget(hash, key)) or config.chat_settings['antispam'][key]
+	
 	local new
-	if current == 'alwd' then new = 'notalwd' else new = 'alwd' end
+	if current == 'alwd' then new = 'warn'
+	elseif current == 'warn' then new = 'del'
+	else new = 'alwd' end
 
 	db:hset(hash, key, new)
 
-	local text = _('allowed')
-	if new == 'notalwd' then text = _('not allowed') end
+	local text = _('allow')
+	if new == 'del' then text = _('delete')
+	elseif new == 'warn' then text = _('warn') end
 
 	return _(key)..(': %s'):format(text)
 end
@@ -122,8 +130,9 @@ local function changeAction(chat_id)
 	local key = 'action'
 	local current = (db:hget(hash, key)) or config.chat_settings['antispam'][key]
 
-	local new_action = 'ban'
-	if current == 'ban' then new_action = 'kick' end
+	if current == 'ban' then new_action = 'kick'
+	elseif current == 'kick' then new_action = 'mute'
+	elseif current == 'mute' then new_action = 'ban' end
 
 	db:hset(hash, key, new_action)
 
@@ -142,17 +151,23 @@ local function get_alert_text(key)
 	end
 end
 
+local humanizations = {
+	['links'] = _('telegram.me links'),
+	['forwards'] = _('Channels messages')
+}
+
 local function doKeyboard_antispam(chat_id)
 	local keyboard = {inline_keyboard = {}}
-	local humanizations = {
-		['links'] = _('telegram.me links'),
-		['forwards'] = _('Channels messages')
-	}
+	local warns_count_row
+	
 	for field, value in pairs(config.chat_settings['antispam']) do
 		if field == 'links' or field == 'forwards' then
 			local icon = '✅'
 			local status = (db:hget('chat:'..chat_id..':antispam', field)) or config.chat_settings['antispam'][field]
-			if status == 'notalwd' then icon = '❌' end
+			if status == 'warn' then
+				icon = '❌'
+				warns_count_row = warns_count_row and true or false
+			elseif status == 'del' then icon = '🗑' end
 			local line = {
 				{text = _(humanizations[field] or field), callback_data = 'antispam:alert:'..field..':'..locale.language},
 				{text = icon, callback_data = 'antispam:toggle:'..field..':'..chat_id}
@@ -160,24 +175,28 @@ local function doKeyboard_antispam(chat_id)
 			table.insert(keyboard.inline_keyboard, line)
 		end
 	end
-
-	local warns = (db:hget('chat:'..chat_id..':antispam', 'warns')) or config.chat_settings['antispam']['warns']
-	local action = (db:hget('chat:'..chat_id..':antispam', 'action')) or config.chat_settings['antispam']['action']
-
+	
+	if warns_count_row == false then
+		local warns = (db:hget('chat:'..chat_id..':antispam', 'warns')) or config.chat_settings['antispam']['warns']
+		local action = (db:hget('chat:'..chat_id..':antispam', 'action')) or config.chat_settings['antispam']['action']
+	
 		if action == 'kick' then
 			kick = _("Kick 👞")
-		else
+		elseif action == 'ban' then
 			kick = _("Ban 🔨")
+		elseif action == 'mute' then
+			kick = _("Mute")
 		end
-
-	local line = {
-		{text = 'Warns: '..warns, callback_data = 'antispam:alert:warns:'..locale.language},
-		{text = '➖', callback_data = 'antispam:toggle:dim:'..chat_id},
-		{text = '➕', callback_data = 'antispam:toggle:raise:'..chat_id},
-		{text = _(action), callback_data = 'antispam:toggle:action:'..chat_id}
-	}
-
-	table.insert(keyboard.inline_keyboard, line)
+		
+		local line = {
+			{text = 'Warns: '..warns, callback_data = 'antispam:alert:warns:'..locale.language},
+			{text = '➖', callback_data = 'antispam:toggle:dim:'..chat_id},
+			{text = '➕', callback_data = 'antispam:toggle:raise:'..chat_id},
+			{text = _(action), callback_data = 'antispam:toggle:action:'..chat_id}
+		}
+	
+		table.insert(keyboard.inline_keyboard, line)
+	end
 
 	--back button
 	table.insert(keyboard.inline_keyboard, {{text = '🔙', callback_data = 'config:back:'..chat_id}})
@@ -219,6 +238,7 @@ function plugin.onCallbackQuery(msg, blocks)
 Choose which kind of spam you want to forbid
 • ✅ = *Allowed*
 • ❌ = *Not allowed*
+• 🗑 = *Delete* (doesn't warn, kick or ban. Just deletes)
 ]])
 
 			local keyboard, text

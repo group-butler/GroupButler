@@ -1,6 +1,6 @@
 local curl = require 'cURL'
 local URL = require 'socket.url'
-local JSON = require 'cjson'
+local JSON = require 'dkjson'
 local config = require 'config'
 local clr = require 'term.colors'
 local api_errors = require 'api_bad_requests'
@@ -9,7 +9,7 @@ local BASE_URL = 'https://api.telegram.org/bot' .. config.bot_api_key
 
 local api = {}
 
-local curl_context = curl.easy{verbose = config.bot_settings.debug_connections}
+local curl_context = curl.easy{verbose = false}
 
 local function getCode(err)
 	err = err:lower()
@@ -52,8 +52,10 @@ local function sendRequest(url)
 
 		print(clr.red..code, tab.description..clr.reset)
 		db:hincrby('bot:errors', code, 1)
-
-		return false, code, tab.description
+		
+		local retry_after = code == 429 and tab.parameters.retry_after or nil
+		
+		return false, code, tab.description, retry_after
 	end
 
 	if not tab.ok then
@@ -184,10 +186,34 @@ function api.kickUser(chat_id, user_id)
 	end
 end
 
+function api.muteUser(chat_id, user_id)
+	
+	local url = BASE_URL .. '/restrictChatMember?chat_id=' .. chat_id .. '&user_id=' .. user_id .. '&can_post_messages=false'
+	
+	return sendRequest(url)
+	
+end
+
 function api.unbanUser(chat_id, user_id)
 
 	local res, code = api.unbanChatMember(chat_id, user_id)
 	return true
+end
+
+function api.restrictChatMember(chat_id, user_id, permissions, until_date)
+	
+	local url = BASE_URL .. '/restrictChatMember?chat_id=' .. chat_id .. '&user_id=' .. user_id
+	
+	if until_date then
+		url = url .. '&until_date=' .. until_date
+	end
+	
+	for permission, value in pairs(permissions) do
+		url = url..('&%s=%s'):format(permission, value)
+	end
+	
+	return sendRequest(url)
+	
 end
 
 function api.getChat(chat_id)
@@ -224,13 +250,7 @@ function api.getChatMember(chat_id, user_id)
 
 	local url = BASE_URL .. '/getChatMember?chat_id=' .. chat_id .. '&user_id=' .. user_id
 
-	local res, code, desc = sendRequest(url)
-
-	if not res and code then --if the request failed and a code is returned (not 403 and 429)
-		log_error('getChatMember', code, nil, desc)
-	end
-
-	return res, code
+	return sendRequest(url)
 
 end
 
@@ -311,22 +331,24 @@ function api.editMessageText(chat_id, message_id, text, parse_mode, keyboard)
 		url = url..'&reply_markup='..URL.escape(JSON.encode(keyboard))
 	end
 
-	local res, code, desc = sendRequest(url)
-
-	if not res and code then --if the request failed and a code is returned (not 403 and 429)
-		log_error('editMessageText', code, {text}, desc)
-	end
-
-	return res, code
+	return sendRequest(url)
 
 end
 
-function api.editMarkup(chat_id, message_id, reply_markup)
+function api.editMessageReplyMarkup(chat_id, message_id, reply_markup)
 
-	local url = BASE_URL .. '/editMessageReplyMarkup?chat_id=' .. chat_id ..
+	local url = BASE_URL .. '/editMessageReplyMarkup?chat_id='..chat_id..
 		'&message_id='..message_id..
 		'&reply_markup='..URL.escape(JSON.encode(reply_markup))
 
+	return sendRequest(url)
+
+end
+
+function api.deleteMessage(chat_id, message_id)
+	
+	local url = BASE_URL .. '/deleteMessage?chat_id=' .. chat_id .. '&message_id=' .. message_id
+	
 	return sendRequest(url)
 
 end
@@ -475,6 +497,18 @@ function api.sendDocumentId(chat_id, file_id, reply_to_message_id, caption, repl
 
 end
 
+function api.sendStickerId(chat_id, file_id, reply_to_message_id)
+
+	local url = BASE_URL .. '/sendSticker?chat_id=' .. chat_id .. '&sticker=' .. file_id
+
+	if reply_to_message_id then
+		url = url..'&reply_to_message_id='..reply_to_message_id
+	end
+
+	return sendRequest(url)
+
+end
+
 ---------------------------- File Uploads -------------------------------------
 
 function api.sendPhoto(chat_id, photo, caption, reply_to_message_id)
@@ -499,6 +533,7 @@ function api.sendPhoto(chat_id, photo, caption, reply_to_message_id)
 	local c = curl_context:setopt_writefunction(table.insert, data)
 						  :setopt_httppost(form)
 						  :perform()
+						  :reset()
 
 	return table.concat(data), c:getinfo_response_code()
 end
@@ -525,6 +560,7 @@ function api.sendDocument(chat_id, document, reply_to_message_id, caption)
 	local c = curl_context:setopt_writefunction(table.insert, data)
 						  :setopt_httppost(form)
 						  :perform()
+						  :reset()
 
 	return table.concat(data), c:getinfo_response_code()
 
@@ -548,20 +584,9 @@ function api.sendSticker(chat_id, sticker, reply_to_message_id)
 	local c = curl_context:setopt_writefunction(table.insert, data)
 						  :setopt_httppost(form)
 						  :perform()
+						  :reset()
 
 	return table.concat(data), c:getinfo_response_code()
-
-end
-
-function api.sendStickerId(chat_id, file_id, reply_to_message_id)
-
-	local url = BASE_URL .. '/sendSticker?chat_id=' .. chat_id .. '&sticker=' .. file_id
-
-	if reply_to_message_id then
-		url = url..'&reply_to_message_id='..reply_to_message_id
-	end
-
-	return sendRequest(url)
 
 end
 
@@ -595,6 +620,7 @@ function api.sendAudio(chat_id, audio, reply_to_message_id, duration, performer,
 	local c = curl_context:setopt_writefunction(table.insert, data)
 						  :setopt_httppost(form)
 						  :perform()
+						  :reset()
 
 	return table.concat(data), c:getinfo_response_code()
 
@@ -626,6 +652,7 @@ function api.sendVideo(chat_id, video, duration, caption, reply_to_message_id)
 	local c = curl_context:setopt_writefunction(table.insert, data)
 						  :setopt_httppost(form)
 						  :perform()
+						  :reset()
 
 	return table.concat(data), c:getinfo_response_code()
 

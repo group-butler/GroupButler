@@ -43,40 +43,22 @@ function string:escape_hard(ft)
 end
 
 function utilities.is_allowed(action, chat_id, user_obj)
-	--[[ACTION
+	return utilities.is_admin(chat_id, user_obj.id)
+end
 
-	"hammer": hammering functions (/ban, /kick, /tempban, /warn, /nowarn, /status, /user)
-	"config": managing the group settings (read: /config command)
-	"texts": getting the basic informations of the group (/rules, /adminlis, /modlist, #extras)]]
-
-	if not user_obj.mod and not user_obj.admin then return end
-	if user_obj.admin then return true end
-
-	local status = db:hget('chat:'..chat_id..':modsettings', action) or config.chat_settings['modsettings'][action]
-
-	--true: requires admin
-	return status == 'yes'
+function utilities.can(chat_id, user_id, permission)
+	local set = ("cache:chat:%s:%s:permissions"):format(chat_id, user_id)
+	
+	local set_admins = 'cache:chat:'..chat_id..':admins'
+	if not db:exists(set_admins) then
+		utilities.cache_adminlist(chat_id, res)
+	end
+	
+	return db:sismember(set, permission)
 end
 
 function utilities.is_mod(chat_id, user_id)
-	if type(chat_id) == 'table' then
-		local msg = chat_id
-		if msg.from.admin then
-			return true
-		else
-			chat_id = msg.chat.id
-			user_id = msg.from.id
-			local set = 'chat:'..chat_id..':mods'
-			return db:sismember(set, user_id)
-		end
-	else
-		if utilities.is_admin(chat_id, user_id) then
-			return true
-		else
-			local set = 'chat:'..chat_id..':mods'
-			return db:sismember(set, user_id)
-		end
-	end
+	return utilities.is_admin(chat_id, user_id)
 end
 
 function utilities.is_superadmin(user_id)
@@ -126,19 +108,6 @@ function utilities.is_admin(chat_id, user_id)
 	return db:sismember(set, user_id)
 end
 
-function utilities.is_admin2(chat_id, user_id)
-	local res = api.getChatMember(chat_id, user_id)
-	if not res then
-		return false, false
-	end
-	local status = res.result.status
-	if status == 'creator' or status == 'administrator' then
-		return true, true
-	else
-		return false, true
-	end
-end
-
 function utilities.is_owner_request(msg)
 	local status = api.getChatMember(msg.chat.id, msg.from.id).result.status
 	if status == 'creator' then
@@ -173,20 +142,26 @@ function utilities.is_owner(chat_id, user_id)
 	return false
 end
 
-function utilities.is_owner2(chat_id, user_id)
-	local status = api.getChatMember(chat_id, user_id).result.status
-	if status == 'creator' then
-		return true
-	else
-		return false
-	end
-end
-
 function utilities.add_role(chat_id, user_obj)
 	user_obj.admin = utilities.is_admin(chat_id, user_obj.id)
-	user_obj.mod = utilities.is_mod(chat_id, user_obj.id)
 
 	return user_obj
+end
+
+local admins_permissions = {
+	can_change_info = true,
+	can_delete_messages = true,
+	can_invite_users = true,
+	can_restrict_members = true,
+	can_pin_messages = true,
+	can_promote_member = true
+}
+
+local function set_creator_permissions(chat_id, user_id)
+	local set = ("cache:chat:%s:%s:permissions"):format(chat_id, user_id)
+	for k, _ in pairs(admins_permissions) do
+		db:sadd(set, k)
+	end
 end
 
 function utilities.cache_adminlist(chat_id)
@@ -195,14 +170,26 @@ function utilities.cache_adminlist(chat_id)
 		return false, code
 	end
 	local set = 'cache:chat:'..chat_id..':admins'
+	local cache_time = config.bot_settings.cache_time.adminlist
+	local set_permissions
 	for _, admin in pairs(res.result) do
 		if admin.status == 'creator' then
 			db:set('cache:chat:'..chat_id..':owner', admin.user.id)
+			set_creator_permissions(chat_id, admin.user.id)
+		else
+			set_permissions = "cache:chat:"..chat_id..":"..admin.user.id..":permissions"
+			db:del(set_permissions)
+			for k, v in pairs(admin) do
+				if v and admins_permissions[k] then db:sadd(set_permissions, k) end
+			end
+			db:expire(set_permissions, cache_time)
 		end
+		
 		db:sadd(set, admin.user.id)
+		
 		utilities.demote(chat_id, admin.user.id)
 	end
-	db:expire(set, config.bot_settings.cache_time.adminlist)
+	db:expire(set, cache_time)
 
 	return true, #res.result or 0
 end
@@ -610,31 +597,9 @@ local function get_list_name(chat_id, user_id)
 	return utilities.getname_final(user) or 'x'
 end
 
-function utilities.getModlist(chat_id)
-	local mods = db:smembers('chat:'..chat_id..':mods')
-	local text
-	if not next(mods) then
-		return false, _("<i>Empty moderators list</i>")
-	else
-		local list_name
-		local modlist = {}
-		local s = ' ├ '
-		text = _("<b>👥 Moderators (%d)</b>\n"):format(#mods)
-		for i=1, #mods do
-			list_name = get_list_name(chat_id, mods[i]) or _('<code>unknown name</code>') --mods[i] -> string
-			if i == #mods then s = ' └ ' end
-			table.insert(modlist, s..list_name)
-		end
-
-		text = text..table.concat(modlist, '\n')
-
-		return true, text
-	end
-end
-
 local function sort_funct(a, b)
-	print(a, b)
-return a:gsub('#', '') < b:gsub('#', '') end
+	return a:gsub('#', '') < b:gsub('#', '')
+end
 
 function utilities.getExtraList(chat_id)
 	local hash = 'chat:'..chat_id..':extra'
@@ -642,11 +607,8 @@ function utilities.getExtraList(chat_id)
 	if not next(commands) then
 		return _("No commands set")
 	else
-		local lines = {}
-		for i, k in ipairs(commands) do
-			table.insert(lines, (k:escape(true)))
-		end
-		return _("List of *custom commands*:\n") .. table.concat(lines, '\n')
+		table.sort(commands)
+		return _("List of custom commands:\n") .. table.concat(commands, '\n')
 	end
 end
 
@@ -807,20 +769,6 @@ function utilities.initGroup(chat_id)
 	db:srem('bot:groupsid:removed', chat_id)
 end
 
-local function remRealm(chat_id)
-	if db:exists('realm:'..chat_id..':subgroups') then
-		local subgroups = db:hgetall('realm:'..chat_id..':subgroups')
-		if next(subgroups) then
-			for subgroup_id, _ in pairs(subgroups) do
-				db:del('chat:'..subgroup_id..':realm')
-			end
-		end
-		db:del('realm:'..chat_id..':subgroups')
-		return true
-	end
-	db:srem('bot:realms', chat_id)
-end
-
 local function empty_modlist(chat_id)
 	local set = 'chat:'..chat_id..':mods'
 	local mods = db:smembers(set)
@@ -834,17 +782,14 @@ local function empty_modlist(chat_id)
 	db:del(set)
 end
 
-function utilities.remGroup(chat_id, full, converted_to_realm)
-	if not converted_to_realm then
-		--remove group id
-		db:srem('bot:groupsid', chat_id)
-		--add to the removed groups list
-		db:sadd('bot:groupsid:removed', chat_id)
-		--remove the owner cached
-		db:del('cache:chat:'..chat_id..':owner')
-		--remove the realm data: the group is not being converted to realm -> remove all the info
-		remRealm(chat_id)
-	end
+function utilities.remGroup(chat_id, full)
+	
+	--remove group id
+	db:srem('bot:groupsid', chat_id)
+	--add to the removed groups list
+	db:sadd('bot:groupsid:removed', chat_id)
+	--remove the owner cached
+	db:del('cache:chat:'..chat_id..':owner')
 
 	for set,field in pairs(config.chat_settings) do
 		db:del('chat:'..chat_id..':'..set)
@@ -858,14 +803,7 @@ function utilities.remGroup(chat_id, full, converted_to_realm)
 	db:hdel('bot:chats:latsmsg', chat_id)
 	db:hdel('bot:chatlogs', chat_id) --log channel
 
-	--if chat_id has a realm
-	if db:exists('chat:'..chat_id..':realm') then
-		local realm_id = db:get('chat:'..chat_id..':realm') --get the realm id
-		db:hdel('realm:'..realm_id..':subgroups', chat_id) --remove the group from the realm subgroups
-		db:del('chat:'..chat_id..':realm') --remove the key with the group realm
-	end
-
-	if full or converted_to_realm then
+	if full then
 		for i=1, #config.chat_hashes do
 			db:del('chat:'..chat_id..':'..config.chat_hashes[i])
 		end
@@ -908,7 +846,7 @@ end
 function utilities.get_user_id(msg, blocks)
 	--if no user id: returns false and the msg id of the translation for the problem
 	if not msg.reply and not blocks[2] then
-		return false, _("Reply to someone")
+		return false, _("Reply to an user or mention him")
 	else
 		if msg.reply then
 			if msg.reply.new_chat_member then
@@ -1044,7 +982,7 @@ function utilities.logEvent(event, msg, extra)
 			reply_markup = {inline_keyboard={{{text = _("Unban"), callback_data = ("logcb:un%s:%d:%d"):format(event, extra.user_id, msg.chat.id)}}}}
 		end
 		if extra.motivation then
-			text = text..('\n• <i>%s</i>'):format(extra.motivation:escape_html())
+			text = text..('\n• <b>reason:</b>: <i>%s</i>'):format(extra.motivation:escape_html())
 		end
 	end
 	if msg.chat.username then

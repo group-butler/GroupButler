@@ -23,7 +23,7 @@ function bot_init(on_reload) -- The function run when the bot is started or relo
 	now_ms = require('socket').gettime
 
 	bot = api.getMe().result -- Get bot info
-	bot.revision = u.bash('git rev-parse --short HEAD')
+	--bot.revision = u.bash('git rev-parse --short HEAD')
 
 	plugins = {} -- Load plugins.
 	for i,v in ipairs(config.plugins) do
@@ -189,9 +189,11 @@ local function on_msg_receive(msg, callback) -- The fn run whenever a message is
 			api.sendMessage(msg.chat.id, _([[
 Hello everyone!
 My name is %s, and I'm a bot made to help administrators in their hard work.
-Unfortunately I can't work in normal groups, please ask the creator to convert this group to a supergroup.
+Unfortunately I can't work in normal groups. If you need me, please ask the creator to convert this group to a supergroup and then add me again.
 ]]):format(bot.first_name))
-
+			
+			api.leaveChat(msg.chat.id)
+			
 			-- log this event
 			if config.bot_settings.stream_commands then
 				print(string.format('%s[%s]%s Bot was added to a normal group %s%s [%d] -> [%d]',
@@ -202,7 +204,7 @@ Unfortunately I can't work in normal groups, please ask the creator to convert t
 end
 
 local function parseMessageFunction(update)
-
+	
 	db:hincrby('bot:general', 'messages', 1)
 
 	local msg, function_key
@@ -365,11 +367,6 @@ local function parseMessageFunction(update)
 
 	if (msg.chat.id < 0 or msg.target_id) and msg.from then
 		msg.from.admin = u.is_admin(msg.target_id or msg.chat.id, msg.from.id)
-		if msg.from.admin then
-			msg.from.mod = true
-		else
-			msg.from.mod = u.is_mod(msg.target_id or msg.chat.id, msg.from.id)
-		end
 	end
 
 	--print('Mod:', msg.from.mod, 'Admin:', msg.from.admin)

@@ -20,13 +20,10 @@ return {
 			duration = 1200,
 			times_allowed = 2
 		},
-		notify_bug = false, --Notify if a bug occurs!
-		log_api_errors = true, --Log errors, which happening whilst interacting with the bot api.
+		notify_bug = false, -- notify if a bug occurs!
+		log_api_errors = true, -- log errors, which happening whilst interacting with the bot api.
 		stream_commands = true,
-		admin_mode = false,
-		debug_connections = false,
-		realm_max_members = 60,
-		realm_max_subgroups = 6
+		admin_mode = false
 	},
 	channel = '@groupbutler_beta', --channel username with the '@'
 	source_code = 'https://github.com/RememberTheAir/GroupButler/tree/beta',
@@ -34,10 +31,11 @@ return {
 	plugins = {
 		'onmessage', --THIS MUST BE THE FIRST: IF AN USER IS FLOODING/IS BLOCKED, THE BOT WON'T GO THROUGH PLUGINS
 		'antispam', --SAME OF onmessage.lua
-		--'backup',
+		'backup',
 		'banhammer',
 		'block',
 		'configure',
+		'defaultpermissions',
 		'dashboard',
 		'floodmanager',
 		'help',
@@ -59,7 +57,6 @@ return {
 		'admin',
 		'extra', --must be the last plugin in the list.
 	},
-	multipurpose_plugins = {},
 	available_languages = {
 		['en'] = 'English 🇬🇧',
 		['it'] = 'Italiano 🇮🇹',
@@ -73,31 +70,32 @@ return {
 		['zh'] = '中文 🇨🇳',
 		['fa'] = 'فارسی 🇮🇷',
 		['id'] = 'Bahasa Indonesia 🇮🇩',
-		['nl'] = 'Dutch 🇱🇺'
+		['nl'] = 'Dutch 🇱🇺',
+		['tr'] = 'Turkish 🇹🇷'
 		-- more languages will come
 	},
 	allow_fuzzy_translations = false,
 	chat_settings = {
 		['settings'] = {
 			['Welcome'] = 'off',
-			['Goodbye'] = 'off',
+			--['Goodbye'] = 'off',
 			['Extra'] = 'on',
 			--['Flood'] = 'off',
 			['Silent'] = 'off',
 			['Rules'] = 'off',
 			['Reports'] = 'off',
 			['Welbut'] = 'off',
-			['Antibot'] = 'off'
+			--['Antibot'] = 'off'
 		},
 		['antispam'] = {
 			['links'] = 'alwd',
 			['forwards'] = 'alwd',
 			['warns'] = 2,
-			['action'] = 'ban'
+			['action'] = 'mute'
 		},
 		['flood'] = {
 			['MaxFlood'] = 5,
-			['ActionFlood'] = 'kick'
+			['ActionFlood'] = 'mute'
 		},
 		['char'] = {
 			['Arab'] = 'allowed', --'kick'/'ban'
@@ -149,31 +147,37 @@ return {
 			['mediawarn'] = 'no',
 			['spamwarn'] = 'no',
 			['flood'] = 'no',
-			['promote'] = 'no',
-			['demote'] = 'no',
-			['cleanmods'] = 'no',
+			--['promote'] = 'no',
+			--['demote'] = 'no',
+			--['cleanmods'] = 'no',
 			['new_chat_member'] = 'no',
 			['new_chat_photo'] = 'no',
 			['delete_chat_photo'] = 'no',
 			['new_chat_title'] = 'no',
 			['pinned_message'] = 'no',
-			['blockban'] = 'no',
-			['block'] = 'no',
-			['unblock'] = 'no'
+			--['blockban'] = 'no',
+			--['block'] = 'no',
+			--['unblock'] = 'no'
 		},
-		['modsettings'] = {
-			['promdem'] = 'yes', --'yes': admins can promote or demote moderators; 'no': only the owner can
-			['hammer'] = 'yes',
-			['config'] = 'no',
-			['texts'] = 'no'
+		['defpermissions'] = {
+			['can_send_messages'] = 'true',
+			['can_send_media_messages'] = 'true',
+			['can_send_other_messages'] = 'true',
+			['can_add_web_page_previews'] = 'true'
 		}
+		--['modsettings'] = {
+			--['promdem'] = 'yes', --'yes': admins can promote or demote moderators; 'no': only the owner can
+			--['hammer'] = 'yes',
+			--['config'] = 'no',
+			--['texts'] = 'no'
+		--}
 	},
 	private_settings = {
 		rules_on_join = 'off',
 		reports = 'off'
 	},
-	chat_hashes = {'extra', 'info', 'links', 'warns', 'mediawarn', 'spamwarns', 'blocked', 'report'},
-	chat_sets = {'whitelist', 'mods'},
+	chat_hashes = {'extra', 'info', 'links', 'warns', 'mediawarn', 'spamwarns', 'blocked', 'report', 'defpermissions'},
+	chat_sets = {'whitelist'},--, 'mods'},
 	bot_keys = {
 		d3 = {'bot:general', 'bot:usernames', 'bot:chat:latsmsg'},
 		d2 = {'bot:groupsid', 'bot:groupsid:removed', 'tempbanned', 'bot:blocked', 'remolden_chats'} --remolden_chats: chat removed with $remold command

@@ -74,15 +74,17 @@ function plugin.onEveryMessage(msg)
 		local is_flooding, msgs_sent, msgs_max = is_flooding_funct(msg)
 		if is_flooding then
 			local status = (db:hget('chat:'..msg.chat.id..':settings', 'Flood')) or config.chat_settings['settings']['Flood']
-			if status == 'on' and not msg.cb and not msg.from.mod then --if the status is on, and the user is not an admin, and the message is not a callback, then:
+			if status == 'on' and not msg.cb and not msg.from.admin then --if the status is on, and the user is not an admin, and the message is not a callback, then:
 				local action = db:hget('chat:'..msg.chat.id..':flood', 'ActionFlood')
 				local name = u.getname_final(msg.from)
 				local res, message
 				--try to kick or ban
 				if action == 'ban' then
 					res = api.banUser(msg.chat.id, msg.from.id)
-				else
+				elseif action == 'kick' then
 					res = api.kickUser(msg.chat.id, msg.from.id)
+				elseif action == 'mute' then
+					res = api.muteUser(msg.chat.id, msg.from.id)
 				end
 				--if kicked/banned, send a message
 				if res then
@@ -90,8 +92,10 @@ function plugin.onEveryMessage(msg)
 					if msgs_sent == (msgs_max + 1) then --send the message only if it's the message after the first message flood. Repeat after 5
 						if action == 'ban' then
 							message = _("%s <b>banned</b> for flood!"):format(name)
-						else
+						elseif action == 'kick' then
 							message = _("%s <b>kicked</b> for flood!"):format(name)
+						elseif action == 'mute' then
+							message = _("%s <b>muted</b> for flood!"):format(name)
 						end
 						api.sendMessage(msg.chat.id, message, 'html')
 						u.logEvent('flood', msg, {hammered = log_hammered})
@@ -112,7 +116,7 @@ function plugin.onEveryMessage(msg)
 		local media_status = (db:hget(hash, media)) or 'ok'
 		local out
 		if media_status ~= 'ok' then
-			if not msg.from.mod then --ignore mods and above
+			if not msg.from.admin then --ignore mods and above
 				local whitelisted
 				if media == 'link' then
 					whitelisted = is_whitelisted(msg.chat.id, msg.text)
@@ -156,7 +160,7 @@ function plugin.onEveryMessage(msg)
 		local last_name = 'x'
 		if msg.from.last_name then last_name = msg.from.last_name end
 		local check = msg.text:find(rtl..'+') or msg.from.first_name:find(rtl..'+') or last_name:find(rtl..'+')
-		if check ~= nil and not msg.from.mod then
+		if check ~= nil and not msg.from.admin then
 			local name = u.getname_final(msg.from)
 			local res
 			if rtl_status == 'kick' then
@@ -178,7 +182,7 @@ function plugin.onEveryMessage(msg)
 	if msg.text and msg.text:find('([\216-\219][\128-\191])') then
 		local arab_status = (db:hget('chat:'..msg.chat.id..':char', 'Arab')) or 'allowed'
 		if arab_status == 'kick' or arab_status == 'ban' then
-			if not msg.from.mod then
+			if not msg.from.admin then
 				local name = u.getname_final(msg.from)
 				local res
 				if arab_status == 'kick' then

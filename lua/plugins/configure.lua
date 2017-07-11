@@ -36,9 +36,12 @@ local function do_keyboard_config(chat_id, user_id, is_admin)
 		}
 	}
 
-	local show_mod_button = db:hget('chat:'..chat_id..':modsettings', 'promdem') or config.chat_settings['modsettings']['promdem']
-	if u.is_owner(chat_id, user_id) or (show_mod_button == 'yes' and is_admin) then
-		table.insert(keyboard.inline_keyboard, {{text = _("👔 Moderators"), callback_data = 'config:mods:'..chat_id}})
+	--local show_mod_button = db:hget('chat:'..chat_id..':modsettings', 'promdem') or config.chat_settings['modsettings']['promdem']
+	--if u.is_owner(chat_id, user_id) or (show_mod_button == 'yes' and is_admin) then
+		--table.insert(keyboard.inline_keyboard, {{text = _("👔 Moderators"), callback_data = 'config:mods:'..chat_id}})
+	--end
+	if u.can(chat_id, user_id, "can_restrict_members") then
+		table.insert(keyboard.inline_keyboard, {{text = _("⛔️ Default permissions"), callback_data = 'config:defpermissions:'..chat_id}})
 	end
 
 	return keyboard
