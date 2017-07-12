@@ -146,16 +146,6 @@ function plugin.onTextMessage(msg, blocks)
 			end
 		end
 	end
-	if blocks[1] == 'left_chat_member' then
-		if not msg.service then return end
-
-		if msg.left_chat_member.username and msg.left_chat_member.username:lower():find('bot', -3) then return end
-		local text = get_goodbye(msg)
-		if text then
-			local link_preview = text:find('telegra%.ph/') ~= nil
-			api.sendMessage(msg.chat.id, text, true, nil, nil, link_preview)
-		end
-	end
 end
 
 plugin.triggers = {
@@ -167,8 +157,7 @@ plugin.triggers = {
 		config.cmd..'(goodbye) (.*)$',
 		config.cmd..'set(goodbye) (.*)$',
 
-		'^###(new_chat_member)$',
-		'^###(left_chat_member)$',
+		'^###(new_chat_member)$'
 	}
 }
 

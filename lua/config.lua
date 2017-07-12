@@ -70,7 +70,7 @@ return {
 		['zh'] = '中文 🇨🇳',
 		['fa'] = 'فارسی 🇮🇷',
 		['id'] = 'Bahasa Indonesia 🇮🇩',
-		['nl'] = 'Dutch 🇱🇺',
+		['nl'] = 'Nederlands 🇱🇺',
 		['tr'] = 'Turkish 🇹🇷'
 		-- more languages will come
 	},
@@ -110,7 +110,7 @@ return {
 			['gif'] = 'no',
 		},
 		['warnsettings'] = {
-			['type'] = 'ban',
+			['type'] = 'mute',
 			['mediatype'] = 'ban',
 			['max'] = 3,
 			['mediamax'] = 2
