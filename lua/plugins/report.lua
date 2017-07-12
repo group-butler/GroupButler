@@ -35,7 +35,7 @@ local function report(msg, description)
 	if not admins_list then return false end
 
 	local desc_msg
-	local markup = {inline_keyboard={{{text = "Address this report"}}}}
+	local markup = {inline_keyboard={{{text = _("Address this report")}}}}
 	local callback_data = ("report:%d:"):format(msg.chat.id)
 	local hash = 'chat:'..msg.chat.id..':report:'..msg.message_id --stores the user_id and the msg_id of the report messages sent to the admins
 	for i=1, #admins_list do
