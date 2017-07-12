@@ -1023,4 +1023,16 @@ function utilities.table2keyboard(t)
 	return keyboard
 end
 
+-- This is a helper to display an information about obsolete features. It's
+-- useful for show localized message without retranslate every time. It gets one
+-- parameter, a link with more info, and returns a function to be assigned to
+-- onEveryMessage property of a plugin.
+function utilities.reportDeletedCommand(link)
+	return function(msg)
+		if msg.from.admin then
+			api.sendReply(msg, _("This command has been removed \\[[read more](%s)]"):format(link), true)
+		end
+	end
+end
+
 return utilities

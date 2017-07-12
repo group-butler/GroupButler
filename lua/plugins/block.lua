@@ -1,13 +1,9 @@
 local config = require 'config'
-local api = require 'methods'
+local utils = require 'utilities'
 
 local plugin = {}
 
-function plugin.onTextMessage(msg, blocks)
-	if msg.from.admin then
-		api.sendReply(msg, "This command has been removed \\[[read more](t.me/groupbutler_beta/70)]", true)
-	end
-end
+plugin.onTextMessage = utils.reportDeletedCommand("t.me/groupbutler_beta/70")
 
 plugin.triggers = {
 	onTextMessage = {

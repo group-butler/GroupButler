@@ -84,20 +84,29 @@ end
 
 local function toggleAntispamSetting(chat_id, key)
 	local hash = 'chat:'..chat_id..':antispam'
-	local current = (db:hget(hash, key)) or config.chat_settings['antispam'][key]
-	
-	local new
-	if current == 'alwd' then new = 'warn'
-	elseif current == 'warn' then new = 'del'
-	else new = 'alwd' end
+	local current = db:hget(hash, key) or config.chat_settings['antispam'][key]
 
+	local next_state = { ['alwd'] = 'warn', ['warn'] = 'del', ['del'] = 'alwd' }
+	local new = next_state[current] or 'alwd'
 	db:hset(hash, key, new)
 
-	local text = _('allow')
-	if new == 'del' then text = _('delete')
-	elseif new == 'warn' then text = _('warn') end
-
-	return _(key)..(': %s'):format(text)
+	if key == 'forwards' then
+		if new == 'alwd' then
+			return _("forwards are allowed")
+		elseif new == 'warn' then
+			return _("warn for forwards")
+		elseif new == 'del' then
+			return _("forwards will be deleted")
+		end
+	elseif key == 'links' then
+		if new == 'alwd' then
+			return _("links are allowed")
+		elseif new == 'warn' then
+			return _("warn for links")
+		elseif new == 'del' then
+			return _("links will be deleted")
+		end
+	end
 end
 
 local function changeWarnsNumber(chat_id, action)
@@ -185,7 +194,7 @@ local function doKeyboard_antispam(chat_id)
 		elseif action == 'ban' then
 			kick = _("Ban 🔨")
 		elseif action == 'mute' then
-			kick = _("Mute")
+			kick = _("Mute 👁")
 		end
 		
 		local line = {

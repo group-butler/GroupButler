@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
 make_template() {
-	find . -name "lua/*.lua" | sort |
+	find . -name "*.lua" | sort |
 		xgettext --from-code=utf-8 \
 			--add-comments=TRANSLATORS \
 			--package-name=GroupButler \
 			--package-version=4.2 \
-			--msgid-bugs-address=https://telegram.me/bac0nnn \
+			--msgid-bugs-address=https://telegram.me/baconn \
 			--force-po \
 			--files-from=/dev/stdin \
 			--output=/dev/stdout
