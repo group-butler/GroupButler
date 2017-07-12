@@ -353,6 +353,14 @@ function api.deleteMessage(chat_id, message_id)
 
 end
 
+function api.deleteMessages(chat_id, message_ids)
+	
+	for i=1, #message_ids do
+		api.deleteMessage(chat_id, message_ids[i])
+	end
+
+end
+
 function api.answerCallbackQuery(callback_query_id, text, show_alert, cache_time)
 
 	local url = BASE_URL .. '/answerCallbackQuery?callback_query_id=' .. callback_query_id .. '&text=' .. URL.escape(text)

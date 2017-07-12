@@ -20,6 +20,7 @@ local function toggleModeratorsSetting(chat_id, key)
             new_perm['can_send_media_messages'] = 'true'
         elseif key == 'can_add_web_page_previews' then
             new_perm['can_send_messages'] = 'true'
+            new_perm['can_send_media_messages'] = 'true'
         end
     elseif new == 'false' then
         if key == 'can_send_messages' then
@@ -28,6 +29,7 @@ local function toggleModeratorsSetting(chat_id, key)
             new_perm['can_add_web_page_previews'] = 'false'
         elseif key == 'can_send_media_messages' then
             new_perm['can_send_other_messages'] = 'false'
+            new_perm['can_add_web_page_previews'] = 'false'
         end
     end
 

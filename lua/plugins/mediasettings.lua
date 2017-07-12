@@ -69,8 +69,8 @@ function plugin.onCallbackQuery(msg, blocks)
 		api.answerCallbackQuery(msg.cb_id, _("You're no longer an admin"))
 	else
 		local media_first = _([[
-Tap on a voice in the right colon to *change the setting*
-You can use the last line to change how many warnings should the bot give before kick / ban someone for a forbidden media
+Tap on a voice in the right to *change the setting*
+You can use the last line to change how many warnings should the bot give before kicking/banning someone for a forbidden media
 The number is not related the the normal `/warn` command
 ]])
 
@@ -128,7 +128,7 @@ end
 
 plugin.triggers = {
 	onCallbackQuery = {
-		'^###cb:(media):(%a+):(-?%d+)',
+		'^###cb:(media):([%a_]+):(-?%d+)',
 		'^###cb:(mediatype):(-?%d+)',
 		'^###cb:(mediawarn):(%a+):(-?%d+)',
 		'^###cb:(mediallert):([%w_]+)$',
