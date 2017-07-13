@@ -67,8 +67,8 @@ case $REPLY in [yY])
 	fi
 
 	if [ -d .git ]; then
-	echo -en "${Green}Do you want to use the beta branch (If you modified something we will do a stash)? (Y/N): ${Default}"
-	read REPLY
+		echo -en "${Green}Do you want to use the beta branch (If you modified something we will do a stash)? (Y/N): ${Default}"
+		read REPLY
 		git stash
 		git checkout beta
 	fi;
