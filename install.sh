@@ -4,7 +4,7 @@
 LUA=5.2
 
 # Dependencies and libraries
-NATIVE="libreadline-dev libssl-dev luarocks liblua$LUA-dev git make unzip redis-server curl libcurl4-gnutls-dev deborphan"
+NATIVE="libreadline-dev libssl-dev luarocks lua$LUA liblua$LUA-dev git make unzip redis-server curl libcurl4-gnutls-dev deborphan"
 ROCKS="luasocket luasec redis-lua lua-term serpent lua-cjson Lua-cURL"
 
 # Color variables
@@ -30,8 +30,6 @@ case $REPLY in [yY])
 	echo -en "${Blue}The packages will be installed:${Default} ${NATIVE}\n${Cyan}Do you want to install the dependencies (Y/N): ${Default}"
 	read REPLY
 	if [[ $REPLY == [yY] ]]; then
-		wget https://www.lua.org/ftp/lua-5.2.4.tar.gz && tar -vzxf lua-5.2.4.tar.gz && cd lua-5.2.4 && sudo make linux test
-		cd .. && rm -rf lua-5.2.4*
 		sudo apt-get install $NATIVE -y
 	fi
 
