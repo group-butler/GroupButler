@@ -2627,7 +2627,7 @@ msgid ""
 msgstr ""
 ".\n"
 "Lütfen çevirmenlerin gönüllü olduğunu ve seçtiğiniz bazı çeviri dizgilerinin "
-"daha önce çevirisinin yapılmamış olabileceğini not ediniz_"
+"_daha önce çevirisinin yapılmamış olabileceğini not ediniz_"
 
 #: plugins/users.lua:20
 msgid "🔄️ Refresh cache"

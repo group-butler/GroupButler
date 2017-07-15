@@ -30,6 +30,14 @@ local function getAntispamWarns(chat_id, user_id)
 	return warns_received, max_allowed
 end
 
+local humanizations = {
+	['ban'] = _('banned'),
+	['kick'] = _('kicked'),
+	['mute'] = _('muted'),
+	['links'] = _('telegram.me links'),
+	['forwards'] = _('Channels messages')
+}
+
 function plugin.onEveryMessage(msg)
 	if not msg.inline and msg.spam and msg.chat.id < 0 and not msg.cb and not msg.from.admin then
 		local status = db:hget('chat:'..msg.chat.id..':antispam', msg.spam)
@@ -44,36 +52,38 @@ function plugin.onEveryMessage(msg)
 			end
 
 			if not whitelisted then
-				if status == 'del' then
-					api.deleteMessage(msg.chat.id, msg.message_id)
-				else
-					local hammer_text = nil
-					local name = u.getname_final(msg.from)
-					local warns_received, max_allowed = getAntispamWarns(msg.chat.id, msg.from.id)
+				local hammer_text = nil
+				local name = u.getname_final(msg.from)
+				local warns_received, max_allowed = getAntispamWarns(msg.chat.id, msg.from.id) --also increases the warns counter
+				
+				if warns_received >= max_allowed then
+					local action = (db:hget('chat:'..msg.chat.id..':antispam', 'action')) or config.chat_settings['antispam']['action']
 					
-					if warns_received >= max_allowed then
-						local action = (db:hget('chat:'..msg.chat.id..':antispam', 'action')) or config.chat_settings['antispam']['action']
-						
-						local hammer_funct
-						if action == 'ban' then
-							hammer_funct = api.banUser
-						elseif action == 'kick' then
-							hammer_funct = api.kickUser
-						elseif action == 'mute' then
-							hammer_funct = api.muteUser
-						end
-						local res = hammer_funct(msg.chat.id, msg.from.id)
-						if res then
-							hammer_text = action
-							db:hdel('chat:'..msg.chat.id..':spamwarns', msg.from.id) --remove media warns
-							api.sendMessage(msg.chat.id, _('%s %s for <b>spam</b>! (%d/%d)'):format(name, hammer_text, warns_received, max_allowed), 'html')
-						end
-					else
+					local hammer_funct
+					if action == 'ban' then
+						hammer_funct = api.banUser
+					elseif action == 'kick' then
+						hammer_funct = api.kickUser
+					elseif action == 'mute' then
+						hammer_funct = api.muteUser
+					end
+					local res = hammer_funct(msg.chat.id, msg.from.id)
+					if res then
+						db:hdel('chat:'..msg.chat.id..':spamwarns', msg.from.id) --remove spam warns
+						api.sendMessage(msg.chat.id, _('%s %s for <b>spam</b>! (%d/%d)'):format(name, humanizations[action], warns_received, max_allowed), 'html')
+					end
+				else
+					if status == 'del' and warns_received == max_allowed - 1 then
+						api.sendReply(msg, _('%s, spam is not allowed here. The next time you will be restricted'):format(name), 'html')
+					elseif status == 'del' then
+						--just delete
+						api.deleteMessage(msg.chat.id, msg.message_id)
+					elseif status ~= 'del' then
 						api.sendReply(msg, _('%s, this kind of spam is not allowed in this chat (<b>%d/%d</b>)'):format(name, warns_received, max_allowed), 'html')
 					end
-					local name_pretty = {links = _("telegram.me link"), forwards = _("message from a channel")}
-					u.logEvent('spamwarn', msg, {hammered = hammer_text, warns = warns_received, warnmax = max_allowed, spam_type = name_pretty[msg.spam]})
 				end
+				local name_pretty = {links = _("telegram.me link"), forwards = _("message from a channel")}
+				u.logEvent('spamwarn', msg, {hammered = hammer_text, warns = warns_received, warnmax = max_allowed, spam_type = name_pretty[msg.spam]})
 			end
 		end
 	end
@@ -160,14 +170,8 @@ local function get_alert_text(key)
 	end
 end
 
-local humanizations = {
-	['links'] = _('telegram.me links'),
-	['forwards'] = _('Channels messages')
-}
-
 local function doKeyboard_antispam(chat_id)
 	local keyboard = {inline_keyboard = {}}
-	local warns_count_row
 	
 	for field, value in pairs(config.chat_settings['antispam']) do
 		if field == 'links' or field == 'forwards' then
@@ -175,7 +179,6 @@ local function doKeyboard_antispam(chat_id)
 			local status = (db:hget('chat:'..chat_id..':antispam', field)) or config.chat_settings['antispam'][field]
 			if status == 'warn' then
 				icon = '❌'
-				warns_count_row = warns_count_row and true or false
 			elseif status == 'del' then icon = '🗑' end
 			local line = {
 				{text = _(humanizations[field] or field), callback_data = 'antispam:alert:'..field..':'..locale.language},
@@ -185,27 +188,25 @@ local function doKeyboard_antispam(chat_id)
 		end
 	end
 	
-	if warns_count_row == false then
-		local warns = (db:hget('chat:'..chat_id..':antispam', 'warns')) or config.chat_settings['antispam']['warns']
-		local action = (db:hget('chat:'..chat_id..':antispam', 'action')) or config.chat_settings['antispam']['action']
+	local warns = (db:hget('chat:'..chat_id..':antispam', 'warns')) or config.chat_settings['antispam']['warns']
+	local action = (db:hget('chat:'..chat_id..':antispam', 'action')) or config.chat_settings['antispam']['action']
 	
-		if action == 'kick' then
-			kick = _("Kick 👞")
-		elseif action == 'ban' then
-			kick = _("Ban 🔨")
-		elseif action == 'mute' then
-			kick = _("Mute 👁")
-		end
-		
-		local line = {
-			{text = 'Warns: '..warns, callback_data = 'antispam:alert:warns:'..locale.language},
-			{text = '➖', callback_data = 'antispam:toggle:dim:'..chat_id},
-			{text = '➕', callback_data = 'antispam:toggle:raise:'..chat_id},
-			{text = _(action), callback_data = 'antispam:toggle:action:'..chat_id}
-		}
-	
-		table.insert(keyboard.inline_keyboard, line)
+	if action == 'kick' then
+		action = _("Kick 👞")
+	elseif action == 'ban' then
+		action = _("Ban 🔨")
+	elseif action == 'mute' then
+		action = _("Mute 👁")
 	end
+	
+	local line = {
+		{text = 'Warns: '..warns, callback_data = 'antispam:alert:warns:'..locale.language},
+		{text = '➖', callback_data = 'antispam:toggle:dim:'..chat_id},
+		{text = '➕', callback_data = 'antispam:toggle:raise:'..chat_id},
+		{text = action, callback_data = 'antispam:toggle:action:'..chat_id}
+	}
+	
+	table.insert(keyboard.inline_keyboard, line)
 
 	--back button
 	table.insert(keyboard.inline_keyboard, {{text = '🔙', callback_data = 'config:back:'..chat_id}})

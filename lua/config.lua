@@ -78,13 +78,13 @@ return {
 	chat_settings = {
 		['settings'] = {
 			['Welcome'] = 'off',
-			--['Goodbye'] = 'off',
 			['Extra'] = 'on',
 			--['Flood'] = 'off',
 			['Silent'] = 'off',
 			['Rules'] = 'off',
 			['Reports'] = 'off',
-			['Welbut'] = 'off',
+			['Welbut'] = 'off', -- "read the rules" button under the welcome message
+			['Weldelchain'] = 'off' -- delete the previously sent welcome message when a new welcome message is sent
 			--['Antibot'] = 'off'
 		},
 		['antispam'] = {
@@ -147,36 +147,28 @@ return {
 			['mediawarn'] = 'no',
 			['spamwarn'] = 'no',
 			['flood'] = 'no',
-			--['promote'] = 'no',
-			--['demote'] = 'no',
-			--['cleanmods'] = 'no',
 			['new_chat_member'] = 'no',
 			['new_chat_photo'] = 'no',
 			['delete_chat_photo'] = 'no',
 			['new_chat_title'] = 'no',
-			['pinned_message'] = 'no',
-			--['blockban'] = 'no',
-			--['block'] = 'no',
-			--['unblock'] = 'no'
+			['pinned_message'] = 'no'
 		},
 		['defpermissions'] = {
 			['can_send_messages'] = 'true',
 			['can_send_media_messages'] = 'true',
 			['can_send_other_messages'] = 'true',
 			['can_add_web_page_previews'] = 'true'
-		}
-		--['modsettings'] = {
-			--['promdem'] = 'yes', --'yes': admins can promote or demote moderators; 'no': only the owner can
-			--['hammer'] = 'yes',
-			--['config'] = 'no',
-			--['texts'] = 'no'
-		--}
+		},
+		['defpermduration'] = {
+			['timeframe'] = 'd',
+			['duration'] = 1
+		},
 	},
 	private_settings = {
 		rules_on_join = 'off',
 		reports = 'off'
 	},
-	chat_hashes = {'extra', 'info', 'links', 'warns', 'mediawarn', 'spamwarns', 'blocked', 'report', 'defpermissions'},
+	chat_hashes = {'extra', 'info', 'links', 'warns', 'mediawarn', 'spamwarns', 'blocked', 'report', 'defpermissions', 'defpermduration'},
 	chat_sets = {'whitelist'},--, 'mods'},
 	bot_keys = {
 		d3 = {'bot:general', 'bot:usernames', 'bot:chat:latsmsg'},

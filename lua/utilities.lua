@@ -173,6 +173,7 @@ function utilities.cache_adminlist(chat_id)
 	local set = 'cache:chat:'..chat_id..':admins'
 	local cache_time = config.bot_settings.cache_time.adminlist
 	local set_permissions
+	db:del(set)
 	for _, admin in pairs(res.result) do
 		if admin.status == 'creator' then
 			db:set('cache:chat:'..chat_id..':owner', admin.user.id)
@@ -465,7 +466,9 @@ function string:replaceholders(msg, ...)
 	elseif msg.left_chat_member then
 		msg.from = msg.left_chat_member
 	end
-
+	
+	msg.chat.title = msg.chat.title and msg.chat.title or '-'
+	
 	local tail_arguments = {...}
 	-- check that the second argument is a boolean and true
 	local non_escapable = tail_arguments[1] == true
@@ -774,9 +777,8 @@ local function empty_modlist(chat_id)
 	local set = 'chat:'..chat_id..':mods'
 	local mods = db:smembers(set)
 	if next(mods) then
-		local hash = ('chat:%d:mod:%d'):format(tonumber(chat_id), tonumber(mods[i]))
 		for i=1, #mods do
-			db:del(hash)
+			db:del(('chat:%d:mod:%d'):format(tonumber(chat_id), tonumber(mods[i])))
 		end
 	end
 

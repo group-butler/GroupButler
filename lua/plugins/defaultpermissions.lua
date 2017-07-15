@@ -4,7 +4,7 @@ local api = require 'methods'
 
 local plugin = {}
 
-local function toggleModeratorsSetting(chat_id, key)
+local function toggle_permissions_setting(chat_id, key)
 	local hash = 'chat:'..chat_id..':defpermissions'
 	local current = (db:hget(hash, key)) or config.chat_settings['defpermissions'][key]
 	local new
@@ -99,14 +99,13 @@ function plugin.onCallbackQuery(msg, blocks)
 			local msg_text = _([[*Deafult permissions*
 From this menu you can change the default permissions that will be granted when a new member join.
 _Only the administrators with the permission to restrict a member can access this menu._
-
 Tap on the name of a permission for a description of what kind of messages it will influence.
 ]])
 
 			local reply_markup, popup_text, show_alert
 
 			if blocks[1] == 'toggle' then
-				popup_text = toggleModeratorsSetting(chat_id, blocks[2])
+				popup_text = toggle_permissions_setting(chat_id, blocks[2])
 			end
 
 			reply_markup = doKeyboard_permissions(chat_id)

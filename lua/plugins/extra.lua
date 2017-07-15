@@ -65,10 +65,10 @@ function plugin.onTextMessage(msg, blocks)
 	    local hash = 'chat:'..msg.chat.id..':extra'
 	    local success = db:hdel(hash, blocks[2])
 	    if success == 1 then
-	    	local out = _("The command '%s' has been deleted!"):format(blocks[2])
+	    	local out = _("Command '%s' has been deleted!"):format(blocks[2])
 	        api.sendReply(msg, out)
 	    else
-	        local out = _("The command '%s' does not exist!"):format(blocks[2])
+	        local out = _("Command '%s' does not exist!"):format(blocks[2])
 	        api.sendReply(msg, out)
 	    end
 	else
@@ -91,7 +91,6 @@ function plugin.onTextMessage(msg, blocks)
         	if not file_id then
         		local reply_markup, clean_text = u.reply_markup_from_text(text)
             	res, code = api.sendMessage(msg.from.id, clean_text:replaceholders(msg.reply or msg), true, reply_markup, nil, link_preview)
-            	print(res)
             else
             	if special_method then
             		res, code = api.sendMediaId(msg.from.id, file_id, special_method) --photo, voices, video need their method to be sent by file_id
@@ -120,7 +119,7 @@ function plugin.onTextMessage(msg, blocks)
     	
     	if not res and code == 403.0 and msg.chat.id < 0 and not u.is_silentmode_on(msg.chat.id) then
     		--if the user haven't started the bot and silent mode is off
-        	api.sendReply(msg, _("_Please_ [start me](%s) _so I can send you the answer_"):format(u.deeplink_constructor(msg.chat.id, extra:sub(2, -1))), true)
+        	local res = api.sendReply(msg, _("_Please_ [start me](%s) _so I can send you the answer_"):format(u.deeplink_constructor(msg.chat.id, extra:sub(2, -1))), true)
         end
     end
 end

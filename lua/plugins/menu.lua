@@ -12,6 +12,8 @@ local function get_button_description(key)
 		return _("Enable or disable the goodbye message. Can't be sent in large groups")
 	elseif key == 'Welcome' then
 		return _("Enable or disable the welcome message")
+	elseif key == 'Weldelchain' then
+		return _("When enabled, every time a new welcome message is sent, the previously sent welcome message is removed")
 	elseif key == 'Silent' then
 		return _("When enabled, the bot doesn't answer in the group to /dashboard, /config and /help commands (it will just answer in private)")
 	elseif key == 'Flood' then
@@ -165,6 +167,7 @@ local function insert_settings_section(keyboard, settings_section, chat_id)
 		Rtl = _("RTL"),
 		Antibot = _("Ban bots"),
 		Reports = _("Reports"),
+		Weldelchain = _("Delete last welcome messages"),
 		Welbut = _("Welcome + rules button")
 	}
 
