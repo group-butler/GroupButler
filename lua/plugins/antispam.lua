@@ -57,23 +57,27 @@ function plugin.onEveryMessage(msg)
 				local warns_received, max_allowed = getAntispamWarns(msg.chat.id, msg.from.id) --also increases the warns counter
 				
 				if warns_received >= max_allowed then
+					if status == 'del' then
+						api.deleteMessage(msg.chat.id, msg.message_id)
+					end
+					
 					local action = (db:hget('chat:'..msg.chat.id..':antispam', 'action')) or config.chat_settings['antispam']['action']
 					
-					local hammer_funct
+					local res
 					if action == 'ban' then
-						hammer_funct = api.banUser
+						res = api.banUser(msg.chat.id, msg.from.id)
 					elseif action == 'kick' then
-						hammer_funct = api.kickUser
+						res = api.kickUser(msg.chat.id, msg.from.id)
 					elseif action == 'mute' then
-						hammer_funct = api.muteUser
+						res = api.muteUser(msg.chat.id, msg.from.id)
 					end
-					local res = hammer_funct(msg.chat.id, msg.from.id)
 					if res then
 						db:hdel('chat:'..msg.chat.id..':spamwarns', msg.from.id) --remove spam warns
 						api.sendMessage(msg.chat.id, _('%s %s for <b>spam</b>! (%d/%d)'):format(name, humanizations[action], warns_received, max_allowed), 'html')
 					end
 				else
 					if status == 'del' and warns_received == max_allowed - 1 then
+						api.deleteMessage(msg.chat.id, msg.message_id)
 						api.sendReply(msg, _('%s, spam is not allowed here. The next time you will be restricted'):format(name), 'html')
 					elseif status == 'del' then
 						--just delete

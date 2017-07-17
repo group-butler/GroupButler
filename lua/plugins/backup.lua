@@ -92,11 +92,11 @@ function plugin.onTextMessage(msg, blocks)
 			if last_user then
 				local ttl = db:ttl(key)
 				local time_remaining = get_time_remaining(ttl)
-				local text = _("<i>I'm sorry, this command has been used for the last time less then 3 days ago by</i> %s (ask him for the file).\nWait [<code>%s</code>] to use it again"):format(last_user, time_remaining)
+				local text = _("<i>I'm sorry, this command has been used for the last time less then 3 hours ago by</i> %s (ask him for the file).\nWait [<code>%s</code>] to use it again"):format(last_user, time_remaining)
 				api.sendReply(msg, text, 'html')
 			else
 				local name = u.getname_final(msg.from)
-				db:setex(key, 43200, name) --12 hours
+				db:setex(key, 10800, name) --3 hours
 				local file_path = gen_backup(msg.chat.id)
 				api.sendReply(msg, _('*Sent in private*'), true)
 				api.sendDocument(msg.from.id, file_path, nil, ('#snap\n%s'):format(msg.chat.title))
