@@ -5,7 +5,7 @@ local api = require 'methods'
 local plugin = {}
 
 local function doKeyboard_media(chat_id)
-	if not ln then ln = 'en' end
+	if not ln then ln = config.lang end
 	local keyboard = {}
 	keyboard.inline_keyboard = {}
 	for media, default_status in pairs(config.chat_settings['media']) do

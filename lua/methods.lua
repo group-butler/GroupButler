@@ -5,7 +5,7 @@ local config = require 'config'
 local clr = require 'term.colors'
 local api_errors = require 'api_bad_requests'
 
-local BASE_URL = 'https://api.telegram.org/bot' .. config.bot_api_key
+local BASE_URL = 'https://api.telegram.org/bot' .. config.telegram.token
 
 local api = {}
 
@@ -118,7 +118,8 @@ function api.getUpdates(offset)
 end
 
 function api.firstUpdate()
-	local url = BASE_URL .. '/getUpdates?timeout=3600&limit=1&allowed_updates='..JSON.encode(config.allowed_updates)
+	local url = BASE_URL .. '/getUpdates?timeout=3600&limit=1&allowed_updates=' ..
+		JSON.encode(config.telegram.allowed_updates)
 
 	return sendRequest(url)
 end

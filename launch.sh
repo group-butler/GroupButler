@@ -13,8 +13,9 @@ make_template() {
 }
 
 case $1 in bot | "")
+	source .env && export $(cut -d= -f1 .env)
 	while true; do
-		lua polling.lua
+		./polling.lua
 		sleep 10
 	done
 
