@@ -4,7 +4,7 @@
 LUA=5.2
 
 # Dependencies and libraries
-NATIVE="libreadline-dev libssl-dev luarocks lua$LUA liblua$LUA-dev git make unzip redis-server curl libcurl4-gnutls-dev deborphan"
+NATIVE="luarocks lua$LUA liblua$LUA-dev git make unzip redis-server curl libcurl4-gnutls-dev"
 ROCKS="luasocket luasec redis-lua lua-term serpent lua-cjson Lua-cURL"
 
 # Color variables
@@ -26,7 +26,6 @@ read -p "Do you want me to install Group Butler Bot? (Y/N): "
 
 case $REPLY in [yY])
 	# Install Dependencies
-	clear
 	echo -en "${Blue}The packages will be installed:${Default} ${NATIVE}\n${Cyan}Do you want to install the dependencies (Y/N): ${Default}"
 	read REPLY
 	if [[ $REPLY == [yY] ]]; then
@@ -34,7 +33,6 @@ case $REPLY in [yY])
 	fi
 
 	# Install Luarocks
-	clear
 	echo -en "${Cyan}Do you want to download and install luarocks (Y/N): ${Default}"
 	read REPLY
 	if [[ $REPLY == [yY] ]]; then
@@ -47,7 +45,6 @@ case $REPLY in [yY])
 		rm -rf luarocks*
 	fi
 
-	clear
 	echo -en "${Cyan}Do you want to download the luarocks libraries (Y/N): ${Default}"
 	read REPLY
 	if [[ $REPLY == [yY] ]]; then
@@ -56,7 +53,6 @@ case $REPLY in [yY])
 		done
 	fi
 
-	clear
 	if [ ! -d .git ]; then
 		echo -en "${Green}Would you like to clone the source of GroupButler? (Y/N): ${Default}"
 		read REPLY
@@ -73,7 +69,6 @@ case $REPLY in [yY])
 		git checkout beta
 	fi;
 
-	clear
 	echo -en "${BGreen}Group Butler successfully installed! Change values in config file and run ${BRed}./launch.sh${BGreen}.${Default}";;
 	*) echo "Exiting...";;
 esac
