@@ -4,6 +4,39 @@ local api = require 'methods'
 
 local plugin = {}
 
+local function ban_bots(msg)
+	--if msg.from.admin or msg.from.id == msg.new_chat_member.id then
+	if msg.from.id == msg.new_chat_member.id then
+		--ignore if added by an admin or new member joined by link
+		return
+	else
+		local status = db:hget(('chat:%d:settings'):format(msg.chat.id), 'Antibot') or config.chat_settings.setting.Antibot
+		if status == 'on' then
+			local users = msg.new_chat_members
+			local n = 0 --bots banned
+			for i=1, #users do
+				if not users[i].last_name and users[i].username:lower():find('bot', -3) then
+					if db:sismember('bot:bots', users[i].id) then
+						local res, code, description = api.banUser(msg.chat.id, users[i].id)
+						n = n + 1
+					else
+						local res, code = api.sendChatAction(users[i].id, 'typing')
+						if not res and code == 161 then
+							db:sadd('bot:bots', users[i].id)
+							api.banUser(msg.chat.id, users[i].id)
+							n = n + 1
+						end
+					end
+				end
+			end
+			if n == #users then
+				--if all the new members added are bots then don't send a welcome message
+				return true
+			end
+		end
+	end
+end
+
 local function is_on(chat_id, setting)
 	local hash = 'chat:'..chat_id..':settings'
 	local current = db:hget(hash, setting) or config.chat_settings.settings[setting]
@@ -129,9 +162,12 @@ function plugin.onTextMessage(msg, blocks)
 		local extra
 		if msg.from.id ~= msg.new_chat_member.id then extra = msg.from end
 		u.logEvent(blocks[1], msg, extra)
-
-		apply_default_permissions(msg.chat.id, msg.new_chat_members)		
-
+		
+		local stop = ban_bots(msg)
+		if stop then return end
+		
+		apply_default_permissions(msg.chat.id, msg.new_chat_members)
+		
 		local text, reply_markup = get_welcome(msg)
 		if text then --if not text: welcome is locked or is a gif/sticker
 			local attach_button = (db:hget('chat:'..msg.chat.id..':settings', 'Welbut')) or config.chat_settings['settings']['Welbut']

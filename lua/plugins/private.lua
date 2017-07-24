@@ -36,12 +36,12 @@ function plugin.onTextMessage(msg, blocks)
 	end
 	if blocks[1] == 'about' then
 		local keyboard = do_keyboard_credits()
-		local text = _("This bot is based on [otouto](https://github.com/topkecleon/otouto) (AKA @mokubot, channel: @otouto), a multipurpose Lua bot.\nGroup Butler wouldn't exist without it.\n\nThe owner of this bot is @bac0nnn, do not pm him: use /groups command instead.\n\nBot version: `%s`\n*Some useful links:*"):format(config.human_readable_version .. ' rev.' .. bot.revision)
+		local text = _("This bot is based on [otouto](https://github.com/topkecleon/otouto) (AKA @mokubot, channel: @otouto), a multipurpose Lua bot.\nGroup Butler wouldn't exist without it.\n\nThe owner of this bot is @baconn, do not pm him: use /groups command instead.\n\nBot version: `%s`\n*Some useful links:*"):format(config.human_readable_version)
 		api.sendMessage(msg.chat.id, text, true, keyboard)
 	end
 	if blocks[1] == 'group' then
-		if config.help_groups_link and config.help_groups_link ~= '' then
-			api.sendMessage(msg.chat.id, _("You can find the list of our support groups in [this channel](%s)"):format(config.help_groups_link), true)
+		if config.help_group and config.help_group ~= '' then
+			api.sendMessage(msg.chat.id, _("You can find the list of our support groups in [this channel](%s)"):format(config.help_group), true)
 		end
 	end
 end
@@ -49,12 +49,13 @@ end
 function plugin.onCallbackQuery(msg, blocks)
 	if blocks[1] == 'about' then
 		local keyboard = do_keyboard_credits()
-		local text = _("This bot is based on [otouto](https://github.com/topkecleon/otouto) (AKA @mokubot, channel: @otouto), a multipurpose Lua bot.\nGroup Butler wouldn't exist without it.\n\nThe owner of this bot is @bac0nnn, do not pm him: use /groups command instead.\n\nBot version: `%s`\n*Some useful links:*"):format(config.human_readable_version .. ' rev.' .. bot.revision)
+		local text = _("This bot is based on [otouto](https://github.com/topkecleon/otouto) (AKA @mokubot, channel: @otouto), a multipurpose Lua bot.\nGroup Butler wouldn't exist without it.\n\nThe owner of this bot is @baconn, do not pm him: use /groups command instead.\n\nBot version: `%s`\n*Some useful links:*"):format(config.human_readable_version)
 		api.editMessageText(msg.chat.id, msg.message_id, text, true, keyboard)
 	end
-	if blocks[1] == 'groups' then
-		if config.help_groups_link and config.help_groups_link ~= '' then
-			api.editMessageText(msg.chat.id, msg.message_id, _("You can find the list of our support groups in [this channel](%s)"):format(config.help_groups_link), true, keyboard)
+	if blocks[1] == 'group' then
+		if config.help_group and config.help_group ~= '' then
+			local markup = {inline_keyboard={{{text = _('🔙 back'), callback_data = 'fromhelp:about'}}}}
+			api.editMessageText(msg.chat.id, msg.message_id, _("You can find the list of our support groups in [this channel](%s)"):format(config.help_group), true, markup)
 		end
 	end
 end
@@ -63,13 +64,13 @@ plugin.triggers = {
 	onTextMessage = {
 		config.cmd..'(ping)$',
 		config.cmd..'(echo) (.*)$',
-		--config.cmd..'(about)$',
+		config.cmd..'(about)$',
 		config.cmd..'(group)s?$',
 		'^/start (group)s$'
 	},
 	onCallbackQuery = {
 		'^###cb:fromhelp:(about)$',
-		'^###cb:private:(groups)$',
+		'^###cb:private:(group)s$'
 	}
 }
 

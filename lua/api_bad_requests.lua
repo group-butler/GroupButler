@@ -56,7 +56,10 @@ return {
 	[155] = 'message to edit not found',
 	[156] = 'group chat was migrated to a supergroup chat',
 	[157] = 'message to forward not found',
-	[158] = 'user is an administrator of the chat'
+	[158] = 'user is an administrator of the chat',
+	[159] = 'not enough rights to restrict/unrestrict chat member',
+	[160] = 'have no rights to send a message',
+	[161] = 'user_is_bot'
 	--[403] = 'bot was blocked by the user', --user blocked the bot
 	--[429] = 'Too many requests: retry later', --the bot is hitting api limits
 	--[430] = 'Too big total timeout', --too many callback_data requests

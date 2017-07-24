@@ -536,7 +536,7 @@ end
 
 function utilities.telegram_file_link(res)
 	--res = table returned by getFile()
-	return "https://api.telegram.org/file/bot"..config.bot_api_key.."/"..res.result.file_path
+	return "https://api.telegram.org/file/bot"..config.telegram.token.."/"..res.result.file_path
 end
 
 function utilities.is_silentmode_on(chat_id)
@@ -730,25 +730,6 @@ function utilities.changeSettingStatus(chat_id, field)
 		end
 		return turned_on[field:lower()]
 	end
-end
-
-function utilities.changeMediaStatus(chat_id, media, new_status)
-	local old_status = db:hget('chat:'..chat_id..':media', media)
-	local new_status_icon
-	if new_status == 'next' then
-		if not old_status then
-			new_status = 'ok'
-			new_status_icon = '✅'
-		elseif old_status == 'ok' then
-			new_status = 'notok'
-			new_status_icon = '❌'
-		elseif old_status == 'notok' then
-			new_status = 'ok'
-			new_status_icon = '✅'
-		end
-	end
-	db:hset('chat:'..chat_id..':media', media, new_status)
-	return _("New status = %s"):format(new_status_icon), true
 end
 
 function utilities.sendStartMe(msg)

@@ -1,5 +1,5 @@
 -- Editing this file directly is now highly disencouraged. You should instead use environment variables. This new method is a WIP, so if you need to change something which doesn't have a env var, you are encouraged to open an issue or a PR
-local json = require 'cjson'
+local json = require 'dkjson'
 
 local _M =
 {
@@ -51,7 +51,7 @@ local _M =
 		admin = assert(os.getenv('LOG_ADMIN'), 'You must export $LOG_ADMIN with your Telegram ID'),
 		stats = os.getenv('LOG_STATS')
 	},
-	superadmins = assert(#json.decode(os.getenv('SUPERADMINS')) > 0,
+	superadmins = assert(json.decode(os.getenv('SUPERADMINS')),
 		'You must export $SUPERADMINS with a JSON array containing at least your Telegram ID'),
 	cmd = '^[/!#]',
 	bot_settings = {
@@ -125,8 +125,8 @@ local _M =
 			['Rules'] = 'off',
 			['Reports'] = 'off',
 			['Welbut'] = 'off', -- "read the rules" button under the welcome message
-			['Weldelchain'] = 'off' -- delete the previously sent welcome message when a new welcome message is sent
-			--['Antibot'] = 'off'
+			['Weldelchain'] = 'off', -- delete the previously sent welcome message when a new welcome message is sent
+			['Antibot'] = 'off'
 		},
 		['antispam'] = {
 			['links'] = 'alwd',
@@ -152,7 +152,7 @@ local _M =
 		},
 		['warnsettings'] = {
 			['type'] = 'mute',
-			['mediatype'] = 'ban',
+			['mediatype'] = 'mute',
 			['max'] = 3,
 			['mediamax'] = 2
 		},
