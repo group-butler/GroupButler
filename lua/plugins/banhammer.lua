@@ -27,40 +27,6 @@ local function set_lang(chat_id)
 	end
 end
 
-function plugin.cron()
-	local all = db:hgetall('tempbanned')
-	if next(all) then
-		for unban_time, info in pairs(all) do
-			if os.time() > tonumber(unban_time) then
-				local chat_id, user_id = info:match('(-%d+):(%d+)')
-				local user_object = api.getChat(user_id)
-				local chat_object = api.getChat(chat_id)
-				api.unbanUser(chat_id, user_id)
-				db:hdel('tempbanned', unban_time)
-				db:srem('chat:'..chat_id..':tempbanned', user_id) --hash needed to check if an user is already tempbanned or not
-				if user_object then
-					set_lang(chat_id)
-					api.sendMessage(chat_id, _("Ban expired for %s [<code>%d</code>]"):format(u.getname_final(user_object.result), user_object.result.id), 'html')
-				end
-				if chat_object then
-					local chat_link
-					if chat_object.result.username then
-						chat_link = ('t.me/%s'):format(chat_object.result.username)
-					else
-						chat_link = db:hget(('chat:%s:links'):format(chat_id), 'link')
-					end
-					local chat_title = chat_object.result.title:escape_html()
-					local chat_string = chat_title
-					if chat_link then chat_string = ('</i><a href="%s">%s</a><i>'):format(chat_link, chat_title) end
-					print(("<i>Your ban from %s has expired</i>"):format(chat_string))
-					set_lang(user_id)
-					api.sendMessage(user_id, _("<i>Your ban from %s has expired</i>"):format(chat_string), 'html')
-				end
-			end
-		end
-	end
-end
-
 local function check_valid_time(temp)
 	temp = tonumber(temp)
 	if temp == 0 then
