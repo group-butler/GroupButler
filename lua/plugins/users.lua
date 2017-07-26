@@ -4,6 +4,19 @@ local api = require 'methods'
 
 local plugin = {}
 
+local permissions = {
+	can_change_info = _("can't change the chat title/description/icon"),
+	can_send_messages = _("can't send messages"),
+	can_delete_messages = _("can't delete messages"),
+	can_invite_users = _("can't invite users/generate a link"),
+	can_restrict_members = _("can't restrict members"),
+	can_pin_messages = _("can't pin messages"),
+	can_promote_members = _("can't promote new admins"),
+	can_send_media_messages = _("can't send photos/videos/documents/audios/voice messages/video messages"),
+	can_send_other_messages = _("can't send stickers/GIFs/games/use inline bots"),
+	can_add_web_page_previews = _("can't show link previews")
+}
+
 local function do_keyboard_credits()
 	local keyboard = {}
 	keyboard.inline_keyboard = {
@@ -113,6 +126,7 @@ function plugin.onTextMessage(msg, blocks)
 				api.sendReply(msg, _(error_tr_id), true)
 			else
 				local res = api.getChatMember(msg.chat.id, user_id)
+				
 				if not res then
 					api.sendReply(msg, _("That user has nothing to do with this chat"))
 					return
@@ -128,7 +142,19 @@ function plugin.onTextMessage(msg, blocks)
 					member = _("%s is a chat member"),
 					restricted = _("%s is a restricted")
 				}
-				api.sendReply(msg, statuses[status]:format(name), 'html')
+				local denied_permissions = {}
+				for permission, str in pairs(permissions) do
+					if res.result[permission] ~= nil and res.result[permission] == false then
+						table.insert(denied_permissions, str)
+					end
+				end
+				
+				local text = statuses[status]:format(name)
+				if next(denied_permissions) then
+					text = text.._('\nRestrictions: <i>%s</i>'):format(table.concat(denied_permissions, ', '))
+				end
+				
+				api.sendReply(msg, text, 'html')
 			end
 		end
 	end

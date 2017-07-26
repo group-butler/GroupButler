@@ -837,21 +837,21 @@ function utilities.get_user_id(msg, blocks)
 				msg.reply.from = msg.reply.new_chat_member
 			end
 			return msg.reply.from.id
-		elseif msg.text:match(config.cmd..'%w%w%w%w?%w?%w?%s(@[%w_]+)%s?') then
+		elseif msg.text:match(config.cmd..'%w%w%w%w?%w?%w?%w?%s(@[%w_]+)%s?') then
 			local username = msg.text:match('%s(@[%w_]+)')
 			local id = utilities.resolve_user(username)
 			if not id then
-				return false, _("I've never seen this user before.\nIf you want to teach me who is he, forward me a message from him")
+				return false, _("Unknown user.\nPlease forward a message from them to me")
 			else
 				return id
 			end
 		elseif msg.mention_id then
 			return msg.mention_id
-		elseif msg.text:match(config.cmd..'%w%w%w%w?%w?%w?%s(%d+)') then
+		elseif msg.text:match(config.cmd..'%w%w%w%w?%w?%w?%w?%s(%d+)') then
 			local id = msg.text:match(config.cmd..'%w%w%w%w?%w?%w?%s(%d+)')
 			return id
 		else
-			return false, _("I've never seen this user before.\nIf you want to teach me who is he, forward me a message from him")
+			return false, _("Unknown user.\nPlease forward a message from them to me")
 		end
 	end
 end

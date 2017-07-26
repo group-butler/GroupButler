@@ -134,9 +134,13 @@ function api.unbanChatMember(chat_id, user_id)
 	return sendRequest(url)
 end
 
-function api.kickChatMember(chat_id, user_id)
+function api.kickChatMember(chat_id, user_id, until_date)
 
 	local url = BASE_URL .. '/kickChatMember?chat_id=' .. chat_id .. '&user_id=' .. user_id
+	
+	if until_date then
+		url = url .. '&until_date=' ..until_date
+	end
 
 	local success, code, description = sendRequest(url)
 	if success then
@@ -148,7 +152,9 @@ end
 
 local function code2text(code)
 	--the default error description can't be sent as output, so a translation is needed
-	if code == 101 or code == 105 or code == 107 then
+	if code == 159 then
+		return _("I don't have enough permissions to restrict users")
+	elseif code == 101 or code == 105 or code == 107 then
 		return _("I'm not an admin, I can't kick people")
 	elseif code == 102 or code == 104 then
 		return _("I can't kick or ban an admin")
@@ -162,9 +168,9 @@ local function code2text(code)
 	return false
 end
 
-function api.banUser(chat_id, user_id)
+function api.banUser(chat_id, user_id, until_date)
 
-	local res, code = api.kickChatMember(chat_id, user_id) --try to kick. "code" is already specific
+	local res, code = api.kickChatMember(chat_id, user_id, until_date) --try to kick. "code" is already specific
 
 	if res then --if the user has been kicked, then...
 		return res --return res and not the text

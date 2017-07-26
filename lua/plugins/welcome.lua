@@ -5,8 +5,7 @@ local api = require 'methods'
 local plugin = {}
 
 local function ban_bots(msg)
-	--if msg.from.admin or msg.from.id == msg.new_chat_member.id then
-	if msg.from.id == msg.new_chat_member.id then
+	if msg.from.admin or msg.from.id == msg.new_chat_member.id then
 		--ignore if added by an admin or new member joined by link
 		return
 	else
