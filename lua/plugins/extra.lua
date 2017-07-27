@@ -19,7 +19,7 @@ function plugin.onTextMessage(msg, blocks)
 	if msg.chat.type == 'private' and not(blocks[1] == 'start') then return end
 	
 	if blocks[1] == 'extra' then
-		if not u.is_allowed('texts', msg.chat.id, msg.from) then return end
+		if not msg.from.admin then return end
 		if not blocks[2] then return end
 		if not blocks[3] and not msg.reply then return end
 		
@@ -60,17 +60,23 @@ function plugin.onTextMessage(msg, blocks)
 			api.sendReply(msg, text)
 		end
     elseif blocks[1] == 'extra del' then
-        if not u.is_allowed('texts', msg.chat.id, msg.from) then return end
-	    
+        if not msg.from.admin then return end
+	    local deleted, not_found, found = {}, {}, nil
 	    local hash = 'chat:'..msg.chat.id..':extra'
-	    local success = db:hdel(hash, blocks[2])
-	    if success == 1 then
-	    	local out = _("Command '%s' has been deleted!"):format(blocks[2])
-	        api.sendReply(msg, out)
-	    else
-	        local out = _("Command '%s' does not exist!"):format(blocks[2])
-	        api.sendReply(msg, out)
+	    for extra in blocks[2]:gmatch('(#[%w_]+)') do
+	    	found = db:hdel(hash, extra)
+	    	if found == 1 then
+	    		deleted[#deleted + 1] = extra
+	    	else
+	    		not_found[#not_found + 1] = extra
+	    	end
 	    end
+	    if not next(deleted) then deleted[1] = '-' end
+	    local text = _("Commands deleted: `%s`"):format(table.concat(deleted, '`, `'))
+	    if next(not_found) then
+	    	text = text.._('\nCommands not found: `%s`'):format(table.concat(not_found, '`, `'))
+	    end
+	    api.sendReply(msg, text, true)
 	else
 		local chat_id = blocks[1] == 'start' and tonumber(blocks[2]) or msg.chat.id
 		local extra = blocks[1] == 'start' and '#'..blocks[3] or blocks[1]
@@ -129,7 +135,7 @@ plugin.triggers = {
 		config.cmd..'(extra)$',
 		config.cmd..'(extra) (#[%w_]*) (.*)$',
 		config.cmd..'(extra) (#[%w_]*)',
-		config.cmd..'(extra del) (#[%w_]*)$',
+		config.cmd..'(extra del) (.+)$',
 		config.cmd..'(extra list)$',
 		'^/(start) (-?%d+)_([%w_]+)$',
 		'^(#[%w_]*)$'

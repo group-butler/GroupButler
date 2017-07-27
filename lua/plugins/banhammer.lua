@@ -178,60 +178,64 @@ function plugin.onTextMessage(msg, blocks)
 end
 
 function plugin.onCallbackQuery(msg, matches)
-	if matches[1] == 'nil' then
-		api.answerCallbackQuery(msg.cb_id, _("Tap on the -/+ buttons to change this value. Then select a timeframe to execute the ban"), true)
-	elseif matches[1] == 'val' then
-		local user_id = matches[3]
-		local key = ('chat:%d:%s:tbanvalue'):format(msg.chat.id, user_id)
-		local current_value, new_value
-		current_value = tonumber(db:get(key) or 3)
-		if matches[2] == 'm' then
-			new_value = current_value - 1
-			if new_value < 1 then
-				api.answerCallbackQuery(msg.cb_id, _("You can't set a lower value"))
-				return --don't proceed
-			else
-				db:setex(key, 3600, new_value)
+	if not u.can(msg.chat.id, msg.from.id, 'can_restrict_members') then
+		api.answerCallbackQuery(msg.cb_id, _("You don't have the permissions to restrict members"), true)
+	else
+		if matches[1] == 'nil' then
+			api.answerCallbackQuery(msg.cb_id, _("Tap on the -/+ buttons to change this value. Then select a timeframe to execute the ban"), true)
+		elseif matches[1] == 'val' then
+			local user_id = matches[3]
+			local key = ('chat:%d:%s:tbanvalue'):format(msg.chat.id, user_id)
+			local current_value, new_value
+			current_value = tonumber(db:get(key) or 3)
+			if matches[2] == 'm' then
+				new_value = current_value - 1
+				if new_value < 1 then
+					api.answerCallbackQuery(msg.cb_id, _("You can't set a lower value"))
+					return --don't proceed
+				else
+					db:setex(key, 3600, new_value)
+				end
+			elseif matches[2] == 'p' then
+				new_value = current_value + 1
+				if new_value > 100 then
+					api.answerCallbackQuery(msg.cb_id, _("Stop!!!"), true)
+					return --don't proceed
+				else
+					db:setex(key, 3600, new_value)
+				end
 			end
-		elseif matches[2] == 'p' then
-			new_value = current_value + 1
-			if new_value > 100 then
-				api.answerCallbackQuery(msg.cb_id, _("Stop!!!"), true)
-				return --don't proceed
-			else
-				db:setex(key, 3600, new_value)
+			
+			local markup = markup_tempban(msg.chat.id, user_id, new_value)
+			api.editMessageReplyMarkup(msg.chat.id, msg.message_id, markup)
+		elseif matches[1] == 'ban' then
+			local user_id = matches[3]
+			local key = ('chat:%d:%s:tbanvalue'):format(msg.chat.id, user_id)
+			local time_value = tonumber(db:get(key) or 3)
+			local timeframe_string, until_date
+			if matches[2] == 'h' then
+				time_value = time_value <= 24 and time_value or 24
+				timeframe_string = _('hours')
+				until_date = msg.date + (time_value * 3600)
+			elseif matches[2] == 'd' then
+				time_value = time_value <= 30 and time_value or 30
+				timeframe_string = _('days')
+				until_date = msg.date + (time_value * 3600 * 24)
+			elseif matches[2] == 'm' then
+				time_value = time_value <= 60 and time_value or 60
+				timeframe_string = _('minutes')
+				until_date = msg.date + (time_value * 60)
 			end
-		end
-		
-		local markup = markup_tempban(msg.chat.id, user_id, new_value)
-		api.editMessageReplyMarkup(msg.chat.id, msg.message_id, markup)
-	elseif matches[1] == 'ban' then
-		local user_id = matches[3]
-		local key = ('chat:%d:%s:tbanvalue'):format(msg.chat.id, user_id)
-		local time_value = tonumber(db:get(key) or 3)
-		local timeframe_string, until_date
-		if matches[2] == 'h' then
-			time_value = time_value <= 24 and time_value or 24
-			timeframe_string = _('hours')
-			until_date = msg.date + (time_value * 3600)
-		elseif matches[2] == 'd' then
-			time_value = time_value <= 30 and time_value or 30
-			timeframe_string = _('days')
-			until_date = msg.date + (time_value * 3600 * 24)
-		elseif matches[2] == 'm' then
-			time_value = time_value <= 60 and time_value or 60
-			timeframe_string = _('minutes')
-			until_date = msg.date + (time_value * 60)
-		end
-		local res, code, motivation = api.banUser(msg.chat.id, user_id, until_date)
-		if not res then
-			motivation = motivation or _("I can't kick this user.\n"
-				.. "I am not allowed to ban or the target user is an admin")
-			api.editMessageText(msg.chat.id, msg.message_id, motivation)
-		else
-			local text = _("User banned for %d %s"):format(time_value, timeframe_string)
-			api.editMessageText(msg.chat.id, msg.message_id, text)
-			db:del(key)
+			local res, code, motivation = api.banUser(msg.chat.id, user_id, until_date)
+			if not res then
+				motivation = motivation or _("I can't kick this user.\n"
+					.. "I am not allowed to ban or the target user is an admin")
+				api.editMessageText(msg.chat.id, msg.message_id, motivation)
+			else
+				local text = _("User banned for %d %s"):format(time_value, timeframe_string)
+				api.editMessageText(msg.chat.id, msg.message_id, text)
+				db:del(key)
+			end
 		end
 	end
 end
