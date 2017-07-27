@@ -4,7 +4,7 @@ local strings = {} -- internal array with translated strings
 
 -- Evaluates the Lua's expression
 local function eval(str)
-	return load('return ' .. str)()
+	return loadstring('return ' .. str)()
 end
 
 -- Parses the file with translation and returns a table with English strings as
