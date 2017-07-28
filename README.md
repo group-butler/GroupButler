@@ -19,6 +19,74 @@ Group Butler was born as an [otouto](https://otou.to) [v3.1](https://github.com/
 * * *
 
 ## Setup
+
+**First of all, take a look at your bot settings**
+
+> * Make sure privacy is disabled (more info can be found by heading to the [official Bots FAQ page](https://core.telegram.org/bots/faq#what-messages-will-my-bot-get)). Send `/setprivacy` to [@BotFather](http://telegram.me/BotFather) to check the current status of this setting.
+
+**Create a plain text file named `.env` with the following:**
+
+> * Set `TG_TOKEN` to the authentication token that you received from [`@BotFather`](http://telegram.me/BotFather).
+>
+> * Set `SUPERADMINS` as a JSON array containing your numerical Telegram ID. Other superadmins can be added too. It is important that you insert the numerical ID and NOT a string.
+>
+> * Set `LOG_CHAT` (the ID of the chat where the bot will send all the bad requests received from Telegram) and your `LOG_ADMIN` (the ID of the user that will receive execution errors).
+
+Your `.env` file should now look somewhat like this:
+
+```
+TG_TOKEN=123456789:ABCDefGhw3gUmZOq36-D_46_AMwGBsfefbcQ
+SUPERADMINS=[12345678]
+LOG_CHAT=12345678
+LOG_ADMIN=12345678
+```
+
+
+## Setup (using Docker)
+Requirements:
+
+- docker 17.06.0-ce
+- docker-compose 1.14.0
+- Optional: Docker Swarm cluster for deployment
+- Optional: GitLab repository for CI/CD
+
+### Running (dev mode)
+Run `docker-compose up`. Docker will pull and build the required images, so the first time you run this command should take a little while. After that, the bot should be up and running. 
+
+Code is mounted on the bot container, so you can make changes and restart the bot as you normally would. There’s no need to use `docker-compose up --build` or `docker-compose build` unless you changed something on `Dockerfile`.
+
+Redis default port is mounted to host, just in case you want to debug something using tools available at the host. 
+
+**The redis container is set to not persist data while in dev mode**.
+
+### Running (production mode)
+There’s a number of ways you can use docker for deploying into production.
+
+Files named `docker-compose.*.yml` are gitignored, just in case you feel the need to override `docker-compose.yml` or write something else entirely. `docker-compose.override.yml` is used to store dev mode overrides since it’s read by default by docker-compose.
+
+The bot also supports reading Docker Secrets (may work with other vaults too). Check `lua/config.lua` to see which variables can be read from secrets.
+
+#### Compose Example
+You would need to write another override file (i.e. `docker-compose.deploy.yml`) matching your needs (change restart policy to always, either add groupbutler to an external network or create a redis service with persistency, etc.). 
+
+You could deploy Group Butler by running something like this:
+
+`docker-compose -f docker-compose.yml -f docker-compose.deploy.yml up`
+
+#### Swarm Example
+Assuming you have deployed redis into `staging` (`docker stack deploy …` or `docker service create …`) and exported the required environment variables (like `$TG_TOKEN`…), you could deploy Group Butler by running:
+
+`docker stack deploy staging -c docker-compose.yml`
+
+#### GitLab CI Example (uses swarm)
+- Clone this repo to a GitLab server (could be gitlab.com or self hosted)
+- Set Project Variables, paying attention to variable scope: the `.gitlab-ci.yml` bundled with this repo supports two environments: `staging` and `production`
+- Disable shared runners and install GitLab CI runner on at least one of the manager nodes. Make sure to tag them as `manager` too
+- Deploy (manually or using another repository) redis to `staging` and/or `production`
+- Push to `staging` and/or `production` branches
+- If everything went well, your very own Group Butler should be up and running
+
+## Setup (without using Docker)
 List of required packages:
 - `libreadline-dev`
 - `redis-server`
@@ -74,29 +142,6 @@ $ cd ..
 $ git clone https://github.com/RememberTheAir/GroupButler.git
 $ cd GroupButler
 $ sudo chmod +x launch.sh
-```
-
-Other things to check before running the bot:
-
-**First of all, take a look at your bot settings:**
-
-> • Make sure privacy is disabled (more info can be found by heading to the [official Bots FAQ page](https://core.telegram.org/bots/faq#what-messages-will-my-bot-get)). Send `/setprivacy` to [@BotFather](http://telegram.me/BotFather) to check the current status of this setting.
-
-**Before you do anything else, create a plain text file named .env with the following:**
-
-> * Set `TG_TOKEN` to the authentication token that you received from [`@BotFather`](http://telegram.me/BotFather).
->
-> * Set `SUPERADMINS` as a JSON array containing your numerical Telegram ID. Other superadmins can be added too. It is important that you insert the numerical ID and NOT a string.
->
-> * Set `LOG_CHAT` (the ID of the chat where the bot will send all the bad requests received from Telegram) and your `LOG_ADMIN` (the ID of the user that will receive execution errors).
-
-Your `.env` file should now look somewhat like this:
-
-```
-TG_TOKEN=123456789:ABCDefGhw3gUmZOq36-D_46_AMwGBsfefbcQ
-SUPERADMINS=[12345678]
-LOG_CHAT=12345678
-LOG_ADMIN=12345678
 ```
 
 Before you start the bot, you have to start the Redis process.
