@@ -2,22 +2,20 @@
 local json = require 'dkjson'
 local open = io.open
 
-local function read_file(path)
-	local file = open(path, "rb")
+local function read_secret(path)
+	local file = open('/run/secrets/'..path, "rb")
 	if not file then return nil end
 	local content = file:read "*a"
 	file:close()
 	return content
 end
 
-local secret = '/run/secrets/'
-
 local _M =
 {
 	-- Getting updates
 	telegram =
 	{
-		token = assert(read_file(secret..'telegram/token') or os.getenv('TG_TOKEN'),
+		token = assert(read_secret('telegram/token') or os.getenv('TG_TOKEN'),
 			'You must export $TG_TOKEN with your Telegram Bot API token'),
 		allowed_updates = os.getenv('TG_UPDATES') or {'message', 'edited_message', 'callback_query'},
 		polling =
@@ -28,7 +26,7 @@ local _M =
 		webhook = -- Not implemented
 		{
 			url = os.getenv('TG_WEBHOOK_URL'),
-			certificate = read_file(secret..'telegram/webhook/certificate') or os.getenv('TG_WEBHOOK_CERT'),
+			certificate = read_secret('telegram/webhook/certificate') or os.getenv('TG_WEBHOOK_CERT'),
 			max_connections = os.getenv('TG_WEBHOOK_MAX_CON')
 		}
 	},
@@ -39,7 +37,7 @@ local _M =
 		host = os.getenv('POSTGRES_HOST') or 'localhost',
 		port = os.getenv('POSTGRES_PORT') or 5432,
 		user = os.getenv('POSTGRES_USER') or 'postgres',
-		password = read_file(secret..'postgres/password') or os.getenv('POSTGRES_PASSWORD') or 'postgres',
+		password = read_secret('postgres/password') or os.getenv('POSTGRES_PASSWORD') or 'postgres',
 		database = os.getenv('POSTGRES_DB') or 'groupbutler',
 	},
 	redis =
