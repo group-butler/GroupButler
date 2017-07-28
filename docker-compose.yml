@@ -28,4 +28,4 @@ services:
       - TG_WEBHOOK_CERT
       - TG_WEBHOOK_MAX_CON
     image: ${IMAGE:-groupbutler}:${TAG:-latest}
-    tty: true
+    # tty: true # needed when using lua 5.1
