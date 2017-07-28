@@ -209,7 +209,8 @@ local _M =
 		rules_on_join = 'off',
 		reports = 'off'
 	},
-	chat_hashes = {'extra', 'info', 'links', 'warns', 'mediawarn', 'spamwarns', 'blocked', 'report', 'defpermissions', 'defpermduration'},
+	chat_hashes = {'extra', 'info', 'links', 'warns', 'mediawarn', 'spamwarns', 'blocked', 'report', 'defpermissions',
+		'defpermduration'},
 	chat_sets = {'whitelist'},--, 'mods'},
 	bot_keys = {
 		d3 = {'bot:general', 'bot:usernames', 'bot:chat:latsmsg'},
