@@ -848,7 +848,7 @@ function utilities.get_user_id(msg, blocks)
 		elseif msg.mention_id then
 			return msg.mention_id
 		elseif msg.text:match(config.cmd..'%w%w%w%w?%w?%w?%w?%s(%d+)') then
-			local id = msg.text:match(config.cmd..'%w%w%w%w?%w?%w?%s(%d+)')
+			local id = msg.text:match(config.cmd..'%w%w%w?%w%w?%w?%w?%s(%d+)')
 			return id
 		else
 			return false, _("Unknown user.\nPlease forward a message from them to me")
