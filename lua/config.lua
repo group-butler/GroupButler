@@ -1,12 +1,24 @@
 -- Editing this file directly is now highly disencouraged. You should instead use environment variables. This new method is a WIP, so if you need to change something which doesn't have a env var, you are encouraged to open an issue or a PR
 local json = require 'dkjson'
+local open = io.open
+
+local function read_file(path)
+	local file = open(path, "rb")
+	if not file then return nil end
+	local content = file:read "*a"
+	file:close()
+	return content
+end
+
+local secret = '/run/secrets/'
 
 local _M =
 {
 	-- Getting updates
 	telegram =
 	{
-		token = assert(os.getenv('TG_TOKEN'), 'You must export $TG_TOKEN with your Telegram Bot API token'),
+		token = assert(read_file(secret..'telegram/token') or os.getenv('TG_TOKEN'),
+			'You must export $TG_TOKEN with your Telegram Bot API token'),
 		allowed_updates = os.getenv('TG_UPDATES') or {'message', 'edited_message', 'callback_query'},
 		polling =
 		{
@@ -16,7 +28,7 @@ local _M =
 		webhook = -- Not implemented
 		{
 			url = os.getenv('TG_WEBHOOK_URL'),
-			certificate = os.getenv('TG_WEBHOOK_CERT'),
+			certificate = read_file(secret..'telegram/webhook/certificate') or os.getenv('TG_WEBHOOK_CERT'),
 			max_connections = os.getenv('TG_WEBHOOK_MAX_CON')
 		}
 	},
@@ -27,7 +39,7 @@ local _M =
 		host = os.getenv('POSTGRES_HOST') or 'localhost',
 		port = os.getenv('POSTGRES_PORT') or 5432,
 		user = os.getenv('POSTGRES_USER') or 'postgres',
-		password = os.getenv('POSTGRES_PASS') or 'postgres',
+		password = read_file(secret..'postgres/password') or os.getenv('POSTGRES_PASSWORD') or 'postgres',
 		database = os.getenv('POSTGRES_DB') or 'groupbutler',
 	},
 	redis =
