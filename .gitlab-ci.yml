@@ -4,14 +4,10 @@ stages:
   # - test
   - deploy
 
-variables:
-  DOCKER_DRIVER: overlay2
-
 lint:
-  image: yangm97/luacheck
   stage: lint
   script:
-    - luacheck .
+    - docker run --rm -v $(pwd):/data yangm97/luacheck || [ "$?" -le "1" ]
 
 build:
   stage: build
@@ -27,6 +23,10 @@ build:
     - production
 
 deploy:
+  environment:
+    name: $CI_COMMIT_REF_SLUG
+  tags:
+    - manager
   stage: deploy
   variables:
     IMAGE: $CI_REGISTRY_IMAGE
