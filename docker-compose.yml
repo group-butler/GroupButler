@@ -1,0 +1,31 @@
+version: '3.3'
+
+services:
+  groupbutler:
+    environment:
+      - CHANNEL
+      - DEFAULT_LANG
+      - HELP_GROUP
+      - LOG_CHAT
+      - LOG_ADMIN
+      - LOG_STATS
+      - MULTIPURPOSE_PLUGINS
+      - POSTGRES_HOST
+      - POSTGRES_PORT
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_DB
+      - REDIS_HOST
+      - REDIS_PORT
+      - REDIS_DB
+      - SOURCE
+      - SUPERADMINS
+      - TG_TOKEN
+      - TG_UPDATES
+      - TG_POLLING_LIMIT
+      - TG_POLLING_TIMEOUT
+      - TG_WEBHOOK_URL
+      - TG_WEBHOOK_CERT
+      - TG_WEBHOOK_MAX_CON
+    image: ${IMAGE:-groupbutler}:${TAG:-latest}
+    tty: true

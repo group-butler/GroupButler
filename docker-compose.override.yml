@@ -1,0 +1,17 @@
+version: '3.3'
+
+services:
+  groupbutler:
+    build: .
+    environment:
+      - REDIS_HOST=redis
+    volumes:
+      - ./locales:/srv/app/locales
+      - ./lua:/srv/app/lua
+      - ./polling.lua:/polling.lua
+
+  redis:
+    command: --save "" --appendonly no
+    image: redis:alpine
+    ports:
+      - "6379:6379"

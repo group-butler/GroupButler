@@ -1,8 +1,10 @@
 .env
+docker-compose.*.yml
 *.sh
 *.json
 *.tar
 locales/
 
+!docker-compose.override.yml
 !install.sh
 !launch.sh
