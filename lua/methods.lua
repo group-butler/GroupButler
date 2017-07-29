@@ -205,8 +205,7 @@ function api.muteUser(chat_id, user_id)
 end
 
 function api.unbanUser(chat_id, user_id)
-
-	local res, code = api.unbanChatMember(chat_id, user_id)
+	api.unbanChatMember(chat_id, user_id)
 	return true
 end
 
