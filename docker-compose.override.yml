@@ -11,7 +11,7 @@ services:
     volumes:
       - ./locales:/srv/app/locales
       - ./lua:/srv/app/lua
-      - ./polling.lua:/polling.lua
+      - ./polling.lua:/srv/app/polling.lua
 
   redis:
     command: --save "" --appendonly no
