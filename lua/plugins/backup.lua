@@ -1,7 +1,7 @@
 local config = require 'config'
 local u = require 'utilities'
 local api = require 'methods'
-local JSON = require 'dkjson'
+local JSON = require 'cjson'
 
 local plugin = {}
 

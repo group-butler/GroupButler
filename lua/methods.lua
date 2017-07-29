@@ -1,6 +1,6 @@
 local curl = require 'cURL'
 local URL = require 'socket.url'
-local JSON = require 'dkjson'
+local JSON = require 'cjson'
 local config = require 'config'
 local clr = require 'term.colors'
 local api_errors = require 'api_bad_requests'
@@ -51,13 +51,13 @@ local function sendRequest(url)
 
 		print(clr.red..code, tab.description..clr.reset)
 		db:hincrby('bot:errors', code, 1)
-		
+
 		local retry_after
 		if code == 429 then
 			retry_after = tab.parameters.retry_after
 			print(('%sRate limited for %d seconds%s'):format(clr.yellow, retry_after, clr.reset))
 		end
-		
+
 		return false, code, tab.description, retry_after
 	end
 
@@ -137,7 +137,7 @@ end
 function api.kickChatMember(chat_id, user_id, until_date)
 
 	local url = BASE_URL .. '/kickChatMember?chat_id=' .. chat_id .. '&user_id=' .. user_id
-	
+
 	if until_date then
 		url = url .. '&until_date=' ..until_date
 	end
@@ -197,11 +197,11 @@ function api.kickUser(chat_id, user_id)
 end
 
 function api.muteUser(chat_id, user_id)
-	
+
 	local url = BASE_URL .. '/restrictChatMember?chat_id=' .. chat_id .. '&user_id=' .. user_id .. '&can_post_messages=false'
-	
+
 	return sendRequest(url)
-	
+
 end
 
 function api.unbanUser(chat_id, user_id)
@@ -211,19 +211,19 @@ function api.unbanUser(chat_id, user_id)
 end
 
 function api.restrictChatMember(chat_id, user_id, permissions, until_date)
-	
+
 	local url = BASE_URL .. '/restrictChatMember?chat_id=' .. chat_id .. '&user_id=' .. user_id
-	
+
 	if until_date then
 		url = url .. '&until_date=' .. until_date
 	end
-	
+
 	for permission, value in pairs(permissions) do
 		url = url..('&%s=%s'):format(permission, value)
 	end
-	
+
 	return sendRequest(url)
-	
+
 end
 
 function api.getChat(chat_id)
@@ -283,11 +283,11 @@ function api.leaveChat(chat_id)
 end
 
 function api.exportChatInviteLink(chat_id)
-	
+
 	local url = BASE_URL .. '/exportChatInviteLink?chat_id=' .. chat_id
 
 	return sendRequest(url)
-		
+
 end
 
 function api.sendMessage(chat_id, text, parse_mode, reply_markup, reply_to_message_id, link_preview)
@@ -364,15 +364,15 @@ function api.editMessageReplyMarkup(chat_id, message_id, reply_markup)
 end
 
 function api.deleteMessage(chat_id, message_id)
-	
+
 	local url = BASE_URL .. '/deleteMessage?chat_id=' .. chat_id .. '&message_id=' .. message_id
-	
+
 	return sendRequest(url)
 
 end
 
 function api.deleteMessages(chat_id, message_ids)
-	
+
 	for i=1, #message_ids do
 		api.deleteMessage(chat_id, message_ids[i])
 	end
