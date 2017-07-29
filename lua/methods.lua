@@ -198,7 +198,7 @@ end
 
 function api.muteUser(chat_id, user_id)
 
-	local url = BASE_URL .. '/restrictChatMember?chat_id=' .. chat_id .. '&user_id=' .. user_id .. '&can_post_messages=false'
+	local url = BASE_URL..'/restrictChatMember?chat_id='..chat_id..'&user_id='..user_id ..'&can_post_messages=false'
 
 	return sendRequest(url)
 
@@ -333,7 +333,7 @@ end
 
 function api.editMessageText(chat_id, message_id, text, parse_mode, keyboard)
 
-	local url = BASE_URL .. '/editMessageText?chat_id=' .. chat_id .. '&message_id='..message_id..'&text=' .. URL.escape(text)
+	local url = BASE_URL..'/editMessageText?chat_id='..chat_id..'&message_id='..message_id..'&text='..URL.escape(text)
 
 	if parse_mode then
 		if type(parse_mode) == 'string' and parse_mode:lower() == 'html' then
@@ -418,7 +418,7 @@ end
 
 function api.forwardMessage(chat_id, from_chat_id, message_id)
 
-	local url = BASE_URL .. '/forwardMessage?chat_id=' .. chat_id .. '&from_chat_id=' .. from_chat_id .. '&message_id=' .. message_id
+	local url = BASE_URL..'/forwardMessage?chat_id='..chat_id..'&from_chat_id='..from_chat_id..'&message_id='..message_id
 
 	local res, code, desc = sendRequest(url)
 
