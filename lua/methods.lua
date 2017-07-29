@@ -554,7 +554,7 @@ function api.sendPhoto(chat_id, photo, caption, reply_to_message_id)
 		form:add_content("caption", caption)
 	end
 
-	data = {}
+	local data = {}
 
 	local c = curl_context:setopt_writefunction(table.insert, data)
 						  :setopt_httppost(form)
@@ -581,7 +581,7 @@ function api.sendDocument(chat_id, document, reply_to_message_id, caption)
 		form:add_content("caption", caption)
 	end
 
-	data = {}
+	local data = {}
 
 	local c = curl_context:setopt_writefunction(table.insert, data)
 						  :setopt_httppost(form)
@@ -605,7 +605,7 @@ function api.sendSticker(chat_id, sticker, reply_to_message_id)
 		form:add_content("reply_to_message_id", reply_to_message_id)
 	end
 
-	data = {}
+	local data = {}
 
 	local c = curl_context:setopt_writefunction(table.insert, data)
 						  :setopt_httppost(form)
@@ -641,7 +641,7 @@ function api.sendAudio(chat_id, audio, reply_to_message_id, duration, performer,
 		form:add_content("title", title)
 	end
 
-	data = {}
+	local data = {}
 
 	local c = curl_context:setopt_writefunction(table.insert, data)
 						  :setopt_httppost(form)
@@ -673,7 +673,7 @@ function api.sendVideo(chat_id, video, duration, caption, reply_to_message_id)
 		form:add_content("caption", caption)
 	end
 
-	data = {}
+	local data = {}
 
 	local c = curl_context:setopt_writefunction(table.insert, data)
 						  :setopt_httppost(form)
@@ -702,7 +702,7 @@ function api.sendVideoNote(chat_id, video_note, duration, reply_to_message_id)
 		form:add_content("duration", duration)
 	end
 
-	data = {}
+	local data = {}
 
 	local c = curl_context:setopt_writefunction(table.insert, data)
 						  :setopt_httppost(form)
@@ -725,7 +725,7 @@ function api.sendVoice(chat_id, voice, reply_to_message_id)
 		form:add_content("reply_to_message_id", reply_to_message_id)
 	end
 
-	data = {}
+	local data = {}
 
 	local c = curl_context:setopt_writefunction(table.insert, data)
 						  :setopt_httppost(form)
