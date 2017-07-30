@@ -112,8 +112,10 @@ function plugin.onTextMessage(msg, blocks)
 		api.sendMessage(msg.from.id, u.vtext(triggers2))
 	end
 	if blocks[1] == 'init' then
-		local n_plugins = bot.init(true) or 0
-		api.sendReply(msg, '*Bot reloaded!*\n_'..n_plugins..' plugins enabled_', true)
+		local n_plugins = bot.init(true)
+		local reply = '*Bot reloaded!*'
+		if n_plugins then reply = reply..'\n_'..n_plugins..' plugins enabled_' end
+		api.sendReply(msg, reply, true)
 	end
 	if blocks[1] == 'backup' then
 		db:bgsave()

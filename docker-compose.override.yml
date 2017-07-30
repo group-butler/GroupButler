@@ -9,6 +9,7 @@ services:
       - REDIS_HOST=redis
     restart: on-failure
     volumes:
+      - ./conf:/srv/app/conf
       - ./locales:/srv/app/locales
       - ./lua:/srv/app/lua
       - ./polling.lua:/srv/app/polling.lua
