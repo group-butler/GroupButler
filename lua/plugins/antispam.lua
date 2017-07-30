@@ -1,6 +1,9 @@
 local config = require 'config'
 local u = require 'utilities'
 local api = require 'methods'
+local db = require 'database'
+local locale = require 'languages'
+local _ = locale.translate
 
 local plugin = {}
 
@@ -14,11 +17,6 @@ local function is_whitelisted(chat_id, text)
 			end
 		end
 	end
-end
-
-local function is_whitelisted_channel(chat_id, channel_id)
-	local set = ('chat:%d:chanwhitelist'):format(chat_id)
-	return db:sismember(set, channel_id)
 end
 
 local function getAntispamWarns(chat_id, user_id)
@@ -55,14 +53,14 @@ function plugin.onEveryMessage(msg)
 				local hammer_text = nil
 				local name = u.getname_final(msg.from)
 				local warns_received, max_allowed = getAntispamWarns(msg.chat.id, msg.from.id) --also increases the warns counter
-				
+
 				if warns_received >= max_allowed then
 					if status == 'del' then
 						api.deleteMessage(msg.chat.id, msg.message_id)
 					end
-					
+
 					local action = (db:hget('chat:'..msg.chat.id..':antispam', 'action')) or config.chat_settings['antispam']['action']
-					
+
 					local res
 					if action == 'ban' then
 						res = api.banUser(msg.chat.id, msg.from.id)
@@ -73,7 +71,8 @@ function plugin.onEveryMessage(msg)
 					end
 					if res then
 						db:hdel('chat:'..msg.chat.id..':spamwarns', msg.from.id) --remove spam warns
-						api.sendMessage(msg.chat.id, _('%s %s for <b>spam</b>! (%d/%d)'):format(name, humanizations[action], warns_received, max_allowed), 'html')
+						api.sendMessage(msg.chat.id,
+							_('%s %s for <b>spam</b>! (%d/%d)'):format(name, humanizations[action], warns_received, max_allowed), 'html')
 					end
 				else
 					if status == 'del' and warns_received == max_allowed - 1 then
@@ -83,11 +82,13 @@ function plugin.onEveryMessage(msg)
 						--just delete
 						api.deleteMessage(msg.chat.id, msg.message_id)
 					elseif status ~= 'del' then
-						api.sendReply(msg, _('%s, this kind of spam is not allowed in this chat (<b>%d/%d</b>)'):format(name, warns_received, max_allowed), 'html')
+						api.sendReply(msg, _('%s, this kind of spam is not allowed in this chat (<b>%d/%d</b>)')
+							:format(name, warns_received, max_allowed), 'html')
 					end
 				end
 				local name_pretty = {links = _("telegram.me link"), forwards = _("message from a channel")}
-				u.logEvent('spamwarn', msg, {hammered = hammer_text, warns = warns_received, warnmax = max_allowed, spam_type = name_pretty[msg.spam]})
+				u.logEvent('spamwarn', msg,
+					{hammered = hammer_text, warns = warns_received, warnmax = max_allowed, spam_type = name_pretty[msg.spam]})
 			end
 		end
 	end
@@ -152,6 +153,7 @@ local function changeAction(chat_id)
 	local hash = 'chat:'..chat_id..':antispam'
 	local key = 'action'
 	local current = (db:hget(hash, key)) or config.chat_settings['antispam'][key]
+	local new_action
 
 	if current == 'ban' then new_action = 'kick'
 	elseif current == 'kick' then new_action = 'mute'
@@ -176,8 +178,8 @@ end
 
 local function doKeyboard_antispam(chat_id)
 	local keyboard = {inline_keyboard = {}}
-	
-	for field, value in pairs(config.chat_settings['antispam']) do
+
+	for field, _ in pairs(config.chat_settings['antispam']) do
 		if field == 'links' or field == 'forwards' then
 			local icon = '✅'
 			local status = (db:hget('chat:'..chat_id..':antispam', field)) or config.chat_settings['antispam'][field]
@@ -191,10 +193,10 @@ local function doKeyboard_antispam(chat_id)
 			table.insert(keyboard.inline_keyboard, line)
 		end
 	end
-	
+
 	local warns = (db:hget('chat:'..chat_id..':antispam', 'warns')) or config.chat_settings['antispam']['warns']
 	local action = (db:hget('chat:'..chat_id..':antispam', 'action')) or config.chat_settings['antispam']['action']
-	
+
 	if action == 'kick' then
 		action = _("Kick 👞")
 	elseif action == 'ban' then
@@ -202,14 +204,14 @@ local function doKeyboard_antispam(chat_id)
 	elseif action == 'mute' then
 		action = _("Mute 👁")
 	end
-	
+
 	local line = {
 		{text = 'Warns: '..warns, callback_data = 'antispam:alert:warns:'..locale.language},
 		{text = '➖', callback_data = 'antispam:toggle:dim:'..chat_id},
 		{text = '➕', callback_data = 'antispam:toggle:raise:'..chat_id},
 		{text = action, callback_data = 'antispam:toggle:action:'..chat_id}
 	}
-	
+
 	table.insert(keyboard.inline_keyboard, line)
 
 	--back button

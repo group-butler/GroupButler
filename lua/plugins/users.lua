@@ -1,6 +1,9 @@
 local config = require 'config'
 local u = require 'utilities'
 local api = require 'methods'
+local db = require 'database'
+local locale = require 'languages'
+local _ = locale.translate
 
 local plugin = {}
 
@@ -16,18 +19,6 @@ local permissions = {
 	can_send_other_messages = _("can't send stickers/GIFs/games/use inline bots"),
 	can_add_web_page_previews = _("can't show link previews")
 }
-
-local function do_keyboard_credits()
-	local keyboard = {}
-	keyboard.inline_keyboard = {
-		{
-			{text = _("Channel"), url = 'https://telegram.me/'..config.channel:gsub('@', '')},
-			{text = _("GitHub"), url = 'https://github.com/RememberTheAir/GroupButler'},
-			{text = _("Rate me!"), url = 'https://telegram.me/storebot?start='..bot.username},
-		}
-	}
-	return keyboard
-end
 
 local function do_keyboard_cache(chat_id)
 	local keyboard = {inline_keyboard = {{{text = _("🔄️ Refresh cache"), callback_data = 'recache:'..chat_id}}}}
@@ -126,7 +117,7 @@ function plugin.onTextMessage(msg, blocks)
 				api.sendReply(msg, _(error_tr_id), true)
 			else
 				local res = api.getChatMember(msg.chat.id, user_id)
-				
+
 				if not res then
 					api.sendReply(msg, _("That user has nothing to do with this chat"))
 					return
@@ -148,12 +139,12 @@ function plugin.onTextMessage(msg, blocks)
 						table.insert(denied_permissions, str)
 					end
 				end
-				
+
 				local text = statuses[status]:format(name)
 				if next(denied_permissions) then
 					text = text.._('\nRestrictions: <i>%s</i>'):format(table.concat(denied_permissions, ', '))
 				end
-				
+
 				api.sendReply(msg, text, 'html')
 			end
 		end
@@ -161,7 +152,9 @@ function plugin.onTextMessage(msg, blocks)
 	if blocks[1] == 'user' then
 		if not msg.from.admin then return end
 
-		if not msg.reply and (not blocks[2] or (not blocks[2]:match('@[%w_]+$') and not blocks[2]:match('%d+$') and not msg.mention_id)) then
+		if not msg.reply
+			and (not blocks[2] or (not blocks[2]:match('@[%w_]+$') and not blocks[2]:match('%d+$')
+			and not msg.mention_id)) then
 			api.sendReply(msg, _("Reply to an user or mention them by username or numerical ID"))
 			return
 		end
@@ -227,14 +220,17 @@ function plugin.onCallbackQuery(msg, blocks)
 		local name = u.getname_final(msg.from)
 		local text = _("The number of warnings received by this user has been <b>reset</b>, by %s"):format(name)
 		api.editMessageText(msg.chat.id, msg.message_id, text:format(name), 'html')
-		u.logEvent('nowarn', msg, {admin = name, user = ('<code>%s</code>'):format(msg.target_id), user_id = msg.target_id, rem = removed})
+		u.logEvent('nowarn', msg,
+			{admin = name, user = ('<code>%s</code>'):format(msg.target_id), user_id = msg.target_id, rem = removed})
 	end
 	if blocks[1] == 'recache' and msg.from.admin then
 		local missing_sec = tonumber(db:ttl('cache:chat:'..msg.target_id..':admins') or 0)
 		local wait = 600
 		if config.bot_settings.cache_time.adminlist - missing_sec < wait then
 			local seconds_to_wait = wait - (config.bot_settings.cache_time.adminlist - missing_sec)
-			api.answerCallbackQuery(msg.cb_id, _("The adminlist has just been updated. You must wait 10 minutes from the last refresh (wait %d seconds)"):format(seconds_to_wait), true)
+			api.answerCallbackQuery(msg.cb_id,_(
+					"The adminlist has just been updated. You must wait 10 minutes from the last refresh (wait  %d seconds)"
+				):format(seconds_to_wait), true)
 		else
 			db:del('cache:chat:'..msg.target_id..':admins')
 			u.cache_adminlist(msg.target_id)

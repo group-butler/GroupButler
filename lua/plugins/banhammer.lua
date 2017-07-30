@@ -1,13 +1,16 @@
 local config = require 'config'
 local u = require 'utilities'
 local api = require 'methods'
+local db = require 'database'
+local locale = require 'languages'
+local _ = locale.translate
 
 local plugin = {}
 
 local function markup_tempban(chat_id, user_id, time_value)
 	local key = ('chat:%s:%s:tbanvalue'):format(chat_id, user_id)
-	local time_value = time_value or (db:get(key) or 3)
-	
+	time_value = time_value or (db:get(key) or 3)
+
 	local markup = {inline_keyboard={
 		{--first line
 			{text = '-', callback_data = ('tempban:val:m:%s:%s'):format(user_id, chat_id)},
@@ -20,10 +23,9 @@ local function markup_tempban(chat_id, user_id, time_value)
 			{text = 'days', callback_data = ('tempban:ban:d:%s:%s'):format(user_id, chat_id)},
 		}
 	}}
-	
+
 	return markup
 end
-			
 
 local function get_motivation(msg)
 	if msg.reply then
@@ -41,54 +43,6 @@ local function get_motivation(msg)
 	end
 end
 
-local function set_lang(chat_id)
-	locale.language = db:get('lang:'..chat_id) or config.lang --group language
-	if not config.available_languages[locale.language] then
-		locale.language = 'en'
-	end
-end
-
-local function check_valid_time(temp)
-	temp = tonumber(temp)
-	if temp == 0 then
-		return false, 1
-	elseif temp > 168 then --1 week
-		return false, 2
-	else
-		return temp
-	end
-end
-
-local function get_hours_from_string(input)
-	if input:match('^%d+$') then
-		return tonumber(input)
-	else
-		local days = input:match('(%d)%s?d')
-		if not days then days = 0 end
-		local hours = input:match('(%d%d?)%s?h')
-		if not hours then hours = 0 end
-		if not days and not hours then
-			return input:match('(%d+)')
-		else
-			return ((tonumber(days))*24)+(tonumber(hours))
-		end
-	end
-end
-
-local function get_time_reply(hours)
-	local time_string = ''
-	local time_table = {}
-	time_table.days = math.floor(hours/24)
-	time_table.hours = hours - (time_table.days*24)
-	if time_table.days ~= 0 then
-		time_string = time_table.days..'d'
-	end
-	if time_table.hours ~= 0 then
-		time_string = time_string..' '..time_table.hours..'h'
-	end
-	return time_string, time_table
-end
-
 function plugin.onTextMessage(msg, blocks)
 	if msg.chat.type ~= 'private' then
 		if u.can(msg.chat.id, msg.from.id, "can_restrict_members") then
@@ -100,7 +54,6 @@ function plugin.onTextMessage(msg, blocks)
 			end
 			if tonumber(user_id) == bot.id then return end
 
-			local res
 			local chat_id = msg.chat.id
 			local admin, kicked = u.getnames_complete(msg, blocks)
 
@@ -115,12 +68,12 @@ function plugin.onTextMessage(msg, blocks)
 					local key = ('chat:%s:%s:tbanvalue'):format(msg.chat.id, user_id)
 					db:setex(key, 3600, time_value)
 				end
-				
+
 				local markup = markup_tempban(msg.chat.id, user_id)
 				api.sendReply(msg, _('Use -/+ to edit the value, then select a timeframe to temporary ban the user'), nil, markup)
 			end
 			if blocks[1] == 'kick' then
-				local res, code, motivation = api.kickUser(chat_id, user_id)
+				local res, _, motivation = api.kickUser(chat_id, user_id)
 				if not res then
 					if not motivation then
 						motivation = _("I can't kick this user.\n"
@@ -133,7 +86,7 @@ function plugin.onTextMessage(msg, blocks)
 				end
 			end
 			if blocks[1] == 'ban' then
-				local res, code, motivation = api.banUser(chat_id, user_id)
+				local res, _, motivation = api.banUser(chat_id, user_id)
 				if not res then
 					if not motivation then
 						motivation = _("I can't kick this user.\n"
@@ -150,7 +103,7 @@ function plugin.onTextMessage(msg, blocks)
 					api.sendReply(msg, _("_Use this command in reply to a forwarded message_"), true)
 				else
 					user_id = msg.reply.forward_from.id
-					local res, code, motivation = api.banUser(chat_id, user_id)
+					local res, _, motivation = api.banUser(chat_id, user_id)
 					if not res then
 						if not motivation then
 							motivation = _("I can't kick this user.\n"
@@ -182,7 +135,8 @@ function plugin.onCallbackQuery(msg, matches)
 		api.answerCallbackQuery(msg.cb_id, _("You don't have the permissions to restrict members"), true)
 	else
 		if matches[1] == 'nil' then
-			api.answerCallbackQuery(msg.cb_id, _("Tap on the -/+ buttons to change this value. Then select a timeframe to execute the ban"), true)
+			api.answerCallbackQuery(msg.cb_id,
+				_("Tap on the -/+ buttons to change this value. Then select a timeframe to execute the ban"), true)
 		elseif matches[1] == 'val' then
 			local user_id = matches[3]
 			local key = ('chat:%d:%s:tbanvalue'):format(msg.chat.id, user_id)
@@ -205,7 +159,7 @@ function plugin.onCallbackQuery(msg, matches)
 					db:setex(key, 3600, new_value)
 				end
 			end
-			
+
 			local markup = markup_tempban(msg.chat.id, user_id, new_value)
 			api.editMessageReplyMarkup(msg.chat.id, msg.message_id, markup)
 		elseif matches[1] == 'ban' then
@@ -226,7 +180,7 @@ function plugin.onCallbackQuery(msg, matches)
 				timeframe_string = _('minutes')
 				until_date = msg.date + (time_value * 60)
 			end
-			local res, code, motivation = api.banUser(msg.chat.id, user_id, until_date)
+			local res, _, motivation = api.banUser(msg.chat.id, user_id, until_date)
 			if not res then
 				motivation = motivation or _("I can't kick this user.\n"
 					.. "I am not allowed to ban or the target user is an admin")

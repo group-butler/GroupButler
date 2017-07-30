@@ -1,6 +1,9 @@
 local config = require 'config'
 local u = require 'utilities'
 local api = require 'methods'
+local db = require 'database'
+local locale = require 'languages'
+local _ = locale.translate
 
 local plugin = {}
 
@@ -57,7 +60,8 @@ local function do_keyboard_flood(chat_id)
 		gif = _("GIFs"),
 		video = _("Videos"),
 	}
-	local hash = 'chat:'..chat_id..':floodexceptions'
+
+	hash = 'chat:'..chat_id..':floodexceptions'
 	for media, translation in pairs(exceptions) do
 		--ignored by the antiflood-> yes, no
 		local exc_status = db:hget(hash, media) or config.chat_settings['floodexceptions'][media]
@@ -119,7 +123,9 @@ function plugin.onCallbackQuery(msg, blocks)
 	if chat_id and not u.is_allowed('config', chat_id, msg.from) then
 		api.answerCallbackQuery(msg.cb_id, _("You're no longer an admin"))
 	else
-		local header = _("You can manage the antiflood settings from here.\n\nIt is also possible to choose which type of messages the antiflood will ignore (✅)")
+		local header = _(
+			[[You can manage the antiflood settings from here.\n\nIt is also possible to choose which type of messages the antiflood will ignore (✅)
+			]])
 
 		local text
 

@@ -1,5 +1,8 @@
 local config = require 'config'
 local api = require 'methods'
+local db = require 'database'
+local locale = require 'languages'
+local _ = locale.translate
 
 local plugin = {}
 
@@ -7,7 +10,9 @@ local function get_button_description(key)
 	if key == 'rules_on_join' then
 		return _("When you join a group moderated by this bot, you will receive the group rules in private")
 	elseif key == 'reports' then
-		return _("If enabled, you will receive all the messages reported with the @admin command in the groups you are moderating")
+		return _(
+			'If enabled, you will receive all the messages reported with the @admin command in the groups you are moderating'
+			)
 	else
 		return _("Description not available")
 	end
@@ -44,13 +49,17 @@ local function doKeyboard_privsett(user_id)
 	for key, status in pairs(user_settings) do
 		local icon
 		if status == 'on' then icon = '✅' else icon = '☑️'end
-		table.insert(keyboard.inline_keyboard, {{text = button_names[key], callback_data = 'myset:alert:'..key}, {text = icon, callback_data = 'myset:switch:'..key}})
+		table.insert(keyboard.inline_keyboard,
+			{
+				{text = button_names[key], callback_data = 'myset:alert:'..key},
+				{text = icon, callback_data = 'myset:switch:'..key}
+			})
 	end
 
 	return keyboard
 end
 
-function plugin.onTextMessage(msg, blocks)
+function plugin.onTextMessage(msg)
 	if msg.chat.type == 'private' then
 		local keyboard = doKeyboard_privsett(msg.from.id)
 		api.sendMessage(msg.from.id, _('Change your private settings'), true, keyboard)

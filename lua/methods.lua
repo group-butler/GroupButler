@@ -4,6 +4,9 @@ local JSON = require 'cjson'
 local config = require 'config'
 local clr = require 'term.colors'
 local api_errors = require 'api_bad_requests'
+local db = require 'database'
+local locale = require 'languages'
+local _ = locale.translate
 
 local BASE_URL = 'https://api.telegram.org/bot' .. config.telegram.token
 
@@ -270,7 +273,7 @@ function api.leaveChat(chat_id)
 	local res, code = sendRequest(url)
 
 	if res then
-		db:srem(string.format('chat:%d:members', chat_id), bot.id)
+		db:srem(string.format('chat:%d:members', chat_id), api.getMe().result.id)
 	end
 
 	if not res and code then --if the request failed and a code is returned (not 403 and 429)

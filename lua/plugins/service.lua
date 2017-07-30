@@ -1,6 +1,9 @@
 local config = require 'config'
 local u = require 'utilities'
 local api = require 'methods'
+local db = require 'database'
+local locale = require 'languages'
+local _ = locale.translate
 
 local plugin = {}
 
@@ -61,7 +64,9 @@ function plugin.onTextMessage(msg, blocks)
 		local realm_id = db:get('chat:'..msg.chat.id..':realm')
 		if realm_id then
 			if db:hget('realm:'..realm_id..':subgroups', msg.chat.id) then
-				api.sendMessage(realm_id, _("I've been removed from %s [<code>%d</code>], one of your subgroups"):format(msg.chat.title:escape_html(), msg.chat.id), 'html')
+				api.sendMessage(realm_id, _(
+					"I've been removed from %s [<code>%d</code>], one of your subgroups"
+					):format(msg.chat.title:escape_html(), msg.chat.id), 'html')
 			end
 		end
 

@@ -1,13 +1,16 @@
 local config = require 'config'
 local u = require 'utilities'
 local api = require 'methods'
+local db = require 'database'
+local locale = require 'languages'
+local _ = locale.translate
 
 local plugin = {}
 
 local function seconds2minutes(seconds)
 	seconds = tonumber(seconds)
 	local minutes = math.floor(seconds/60)
-	local seconds = seconds % 60
+	seconds = seconds % 60
 	return minutes, seconds
 end
 
@@ -15,7 +18,9 @@ local function report(msg, description)
 	local text = _('• <b>Message reported by</b>: %s (<code>%d</code>)'):format(u.getname_final(msg.from), msg.from.id)
 	local chat_link = db:hget('chat:'..msg.chat.id..':links', 'link')
 	if msg.reply.forward_from or msg.reply.forward_from_chat or msg.reply.sticker then
-		text = text.._('\n• <b>Reported message sent by</b>: %s (<code>%d</code>)'):format(u.getname_final(msg.reply.from), msg.reply.from.id)
+		text = text.._(
+			'\n• <b>Reported message sent by</b>: %s (<code>%d</code>)'
+			):format(u.getname_final(msg.reply.from), msg.reply.from.id)
 	end
 	if chat_link then
 		text = text.._('\n• <b>Group</b>: <a href="%s">%s</a>'):format(chat_link, msg.chat.title:escape_html())
@@ -23,7 +28,9 @@ local function report(msg, description)
 		text = text.._('\n• <b>Group</b>: %s'):format(msg.chat.title:escape_html())
 	end
 	if msg.chat.username then
-		text = text.._('\n• <a href="%s">Go to the message</a>'):format('telegram.me/'..msg.chat.username..'/'..msg.message_id)
+		text = text.._(
+			'\n• <a href="%s">Go to the message</a>'
+			):format('telegram.me/'..msg.chat.username..'/'..msg.message_id)
 	end
 	if description then
 		text = text.._('\n• <b>Description</b>: <i>%s</i>'):format(description:escape_html())
@@ -87,7 +94,9 @@ function plugin.onTextMessage(msg, blocks)
 				local hash = 'chat:'..msg.chat.id..':report'
 				db:hset(hash, 'times_allowed', times_allowed)
 				db:hset(hash, 'duration', (duration * 60))
-				text = _("*New parameters saved*.\nUsers will be able to use @admin %d times/%d minutes"):format(times_allowed, duration)
+				text = _(
+					'*New parameters saved*.\nUsers will be able to use @admin %d times/%d minutes'
+					):format(times_allowed, duration)
 			end
 			api.sendReply(msg, text, true)
 		else
@@ -129,10 +138,11 @@ end
 
 function plugin.onCallbackQuery(msg, blocks)
 	if not blocks[2] then --###cb:issueclosed
-		api.answerCallbackQuery(msg.cb_id, _("You closed this issue and deleted all the other reports sent to the admins"), true, 48 * 3600)
+		api.answerCallbackQuery(msg.cb_id, _('You closed this issue and deleted all the other reports sent to the admins'),
+			true, 48 * 3600)
 		return
 	end
-	
+
 	local chat_id, msg_id = blocks[2], blocks[3]
 	local hash = 'chat:'..chat_id..':report:'..msg_id
 	if not db:exists(hash) then
@@ -143,7 +153,7 @@ function plugin.onCallbackQuery(msg, blocks)
 			local addressed_by = db:get(hash..':addressed')
 			if not addressed_by then
 				--no one addressed the issue yet
-				
+
 					local name = msg.from.first_name:sub(1, 120)
 					local chats_reached = db:hgetall(hash)
 					if next(chats_reached) then
@@ -167,7 +177,8 @@ function plugin.onCallbackQuery(msg, blocks)
 			local second_tap = db:get(key)
 			if not second_tap then
 				db:setex(key, 3600*24, 'x')
-				api.answerCallbackQuery(msg.cb_id, _("This button will delete all the reports sent to the other admins. Tap it again to confirm"), true)
+				api.answerCallbackQuery(msg.cb_id, _(
+					'This button will delete all the reports sent to the other admins. Tap it again to confirm'), true)
 			else
 				local chats_reached = db:hgetall(hash)
 				for user_id, message_id in pairs(chats_reached) do

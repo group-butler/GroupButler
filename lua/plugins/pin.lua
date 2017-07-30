@@ -1,6 +1,9 @@
 local config = require 'config'
 local u = require 'utilities'
 local api = require 'methods'
+local db = require 'database'
+local locale = require 'languages'
+local _ = locale.translate
 
 local plugin = {}
 
@@ -20,7 +23,8 @@ function plugin.onTextMessage(msg, blocks)
 		local was_deleted
 		if pin_id and blocks[1] ~= "newpin" then --try to edit the old message
 			local reply_markup, new_text = u.reply_markup_from_text(blocks[2])
-			local res, code = api.editMessageText(msg.chat.id, pin_id, new_text:replaceholders(msg, 'rules', 'title'), true, reply_markup)
+			local res, code = api.editMessageText(msg.chat.id, pin_id, new_text:replaceholders(msg, 'rules', 'title'), true,
+				reply_markup)
 			if not res then
 				if code == 155 then
 					--the old message doesn't exist. Send a new one in the chat --> set pin_id to false, so the code will enter the next if
@@ -43,7 +47,9 @@ function plugin.onTextMessage(msg, blocks)
 				db:set('chat:'..msg.chat.id..':pin', res.result.message_id)
 				local text
 				if was_deleted then
-					text = _("The old message generated with `/pin` does not exist anymore, so I can't edit it. This is the new message that can be now pinned")
+					text =
+					_([[The old message generated with `/pin` does not exist anymore, so I can't edit it. This is the new message that can be now pinned
+						]])
 				else
 					text = _("This message can now be pinned. Use `/pin [new text]` to edit it without having to send it again")
 				end

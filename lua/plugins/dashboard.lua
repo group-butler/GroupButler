@@ -1,6 +1,9 @@
 local config = require 'config'
 local u = require 'utilities'
 local api = require 'methods'
+local db = require 'database'
+local locale = require 'languages'
+local _ = locale.translate
 
 local plugin = {}
 
@@ -67,11 +70,12 @@ local function doKeyboard_dashboard(chat_id)
 	return keyboard
 end
 
-function plugin.onTextMessage(msg, blocks)
+function plugin.onTextMessage(msg)
 	if msg.chat.type ~= 'private' then
 		local chat_id = msg.chat.id
 		local keyboard = doKeyboard_dashboard(chat_id)
-		local res = api.sendMessage(msg.from.id, _("Navigate this message to see *all the info* about this group!"), true, keyboard)
+		local res = api.sendMessage(msg.from.id, _("Navigate this message to see *all the info* about this group!"), true,
+			keyboard)
 		if not u.is_silentmode_on(msg.chat.id) then --send the responde in the group only if the silent mode is off
 			if res then
 				api.sendMessage(msg.chat.id, _("_I've sent you the group dashboard via private message_"), true)
@@ -94,7 +98,7 @@ function plugin.onCallbackQuery(msg, blocks)
 	end
 	-- Private chats don't have an username
 	local private = not res.result.username
-	local res = api.getChatMember(chat_id, msg.from.id)
+	res = api.getChatMember(chat_id, msg.from.id)
 	if not res or (res.result.status == 'left' or res.result.status == 'kicked') and private then
 		api.editMessageText(msg.from.id, msg.message_id, _("🚷 You are not a member of the chat. " ..
 			"You can't see the settings of a private group."))

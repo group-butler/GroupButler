@@ -1,6 +1,9 @@
 local config = require 'config'
 local u = require 'utilities'
 local api = require 'methods'
+local db = require 'database'
+local locale = require 'languages'
+local _ = locale.translate
 
 local plugin = {}
 
@@ -34,7 +37,8 @@ Group Butler saves the adminlist of a group in its databse to avoid to send too 
 This list is updated every 5 hours, so there could be some differences between who the bot thinks are the admins and who the admins actually are, if during the 5 hours timeframe some users have been prmoted/demoted.
 It's possible to force the bot to update its adminlist with `/cache`.
 
-Remember: you have to use commands  *in the group*, unless they are specifically designed for private chats (see "private" tab).]])
+Remember: you have to use commands  *in the group*, unless they are specifically designed for private chats (see "private" tab).
+]])
 	elseif key == 'main_menu' then
 		return _("In this menu you will find all the available commands")
 	elseif key == 'private' then
@@ -305,8 +309,7 @@ local function dk_admins()
 		}
 
 	}
-	local line = {}
-	for i, line in pairs(list) do
+	for _, line in pairs(list) do
 		local kb_line = {}
 		for label, cb_data in pairs(line) do
 			table.insert(kb_line, {text = '× '..label, callback_data = 'help:admins:'..cb_data})
@@ -377,7 +380,8 @@ function plugin.onTextMessage(msg, blocks)
 			local keyboard = do_keyboard('main')
 			local res = api.sendMessage(msg.from.id, text, true, keyboard)
 			if not res and msg.chat.type ~= 'private' and db:hget('chat:'..msg.chat.id..':settings', 'Silent') ~= 'on' then
-				api.sendMessage(msg.chat.id, _('[Start me](%s) _to get the list of commands_'):format(u.deeplink_constructor('', 'help')), true)
+				api.sendMessage(msg.chat.id,
+					_('[Start me](%s) _to get the list of commands_'):format(u.deeplink_constructor('', 'help')), true)
 			end
 		end
 	end

@@ -1,11 +1,13 @@
 local config = require 'config'
 local u = require 'utilities'
 local api = require 'methods'
+local db = require 'database'
+local locale = require 'languages'
+local _ = locale.translate
 
 local plugin = {}
 
 local function doKeyboard_media(chat_id)
-	if not ln then ln = config.lang end
 	local keyboard = {}
 	keyboard.inline_keyboard = {}
 	for media, default_status in pairs(config.chat_settings['media']) do
@@ -43,8 +45,10 @@ local function doKeyboard_media(chat_id)
 
 	--MEDIA WARN
 	--action line
-	local max = (db:hget('chat:'..chat_id..':warnsettings', 'mediamax')) or config.chat_settings['warnsettings']['mediamax']
-	local action = (db:hget('chat:'..chat_id..':warnsettings', 'mediatype')) or config.chat_settings['warnsettings']['mediatype']
+	local max = (db:hget('chat:'..chat_id..':warnsettings', 'mediamax'))
+		or config.chat_settings['warnsettings']['mediamax']
+	local action = (db:hget('chat:'..chat_id..':warnsettings', 'mediatype'))
+		or config.chat_settings['warnsettings']['mediatype']
 	local caption
 	if action == 'kick' then
 		caption = _("Warnings | %d | kick"):format(tonumber(max))
@@ -68,7 +72,7 @@ end
 local function change_media_status(chat_id, media)
 	local hash = ('chat:%s:media'):format(chat_id)
 	local status = db:hget(hash, media) or config.chat_settings.media[media]
-	
+
 	if status == 'ok' then
 		db:hset(hash, media, 'notok')
 		return _('❌ warning')
@@ -106,7 +110,8 @@ When a media is set on delete, the bot will give a warning *only* when the user 
 				if config.available_languages[blocks[2]] then
 					locale.language = blocks[2]
 				end
-				api.answerCallbackQuery(msg.cb_id, _("⚠️ Tap on the right column"), false, config.bot_settings.cache_time.alert_help)
+				api.answerCallbackQuery(msg.cb_id, _("⚠️ Tap on the right column"), false,
+					config.bot_settings.cache_time.alert_help)
 				return
 			end
 			local cb_text

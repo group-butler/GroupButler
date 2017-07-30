@@ -1,6 +1,9 @@
 local config = require 'config'
 local u = require 'utilities'
 local api = require 'methods'
+local db = require 'database'
+local locale = require 'languages'
+local _ = locale.translate
 
 local plugin = {}
 
@@ -10,28 +13,28 @@ local function toggle_permissions_setting(chat_id, key)
 	local new
 	if current == 'true' then new = 'false' else new = 'true' end
 
-    local new_perm = {[key] = new}
-    
-    if new == 'true' then
-        if key == 'can_send_media_messages' then
-            new_perm['can_send_messages'] = 'true'
-        elseif key == 'can_send_other_messages' then
-            new_perm['can_send_messages'] = 'true'
-            new_perm['can_send_media_messages'] = 'true'
-        elseif key == 'can_add_web_page_previews' then
-            new_perm['can_send_messages'] = 'true'
-            new_perm['can_send_media_messages'] = 'true'
-        end
-    elseif new == 'false' then
-        if key == 'can_send_messages' then
-            new_perm['can_send_other_messages'] = 'false'
-            new_perm['can_send_media_messages'] = 'false'
-            new_perm['can_add_web_page_previews'] = 'false'
-        elseif key == 'can_send_media_messages' then
-            new_perm['can_send_other_messages'] = 'false'
-            new_perm['can_add_web_page_previews'] = 'false'
-        end
-    end
+		local new_perm = {[key] = new}
+
+		if new == 'true' then
+				if key == 'can_send_media_messages' then
+						new_perm['can_send_messages'] = 'true'
+				elseif key == 'can_send_other_messages' then
+						new_perm['can_send_messages'] = 'true'
+						new_perm['can_send_media_messages'] = 'true'
+				elseif key == 'can_add_web_page_previews' then
+						new_perm['can_send_messages'] = 'true'
+						new_perm['can_send_media_messages'] = 'true'
+				end
+		elseif new == 'false' then
+				if key == 'can_send_messages' then
+						new_perm['can_send_other_messages'] = 'false'
+						new_perm['can_send_media_messages'] = 'false'
+						new_perm['can_add_web_page_previews'] = 'false'
+				elseif key == 'can_send_media_messages' then
+						new_perm['can_send_other_messages'] = 'false'
+						new_perm['can_add_web_page_previews'] = 'false'
+				end
+		end
 
 	db:hmset(hash, new_perm)
 
@@ -42,9 +45,13 @@ local function get_alert_text(key)
 	if key == 'can_send_messages' then
 		return _("Permission to send messages. If disabled, the user won't be able to send any kind of message")
 	elseif key == 'can_send_media_messages' then
-		return _("Permission to send media (audios, documents, photos, videos, video notes and voice notes). Implies the permission to send messages")
+		return _(
+			[[Permission to send media (audios, documents, photos, videos, video notes and voice notes). Implies the permission to send messages
+			]])
 	elseif key == 'can_send_other_messages' then
-		return _("Permission to send other types of messages (GIFs, games, stickers and use inline bots). Implies the permission to send medias")
+		return _(
+			[[Permission to send other types of messages (GIFs, games, stickers and use inline bots). Implies the permission to send medias
+			]])
 	elseif key == 'can_add_web_page_previews' then
 		return _("When disabled, user's messages with a link won't show the web page preview")
 	else
@@ -59,28 +66,36 @@ local humanizations = {
 	['can_add_web_page_previews'] = _('Show web page preview'),
 }
 
-local permissions = {'can_send_messages', 'can_send_media_messages', 'can_send_other_messages', 'can_add_web_page_previews'}
+local permissions =
+{'can_send_messages', 'can_send_media_messages', 'can_send_other_messages', 'can_add_web_page_previews'}
 
 local function doKeyboard_permissions(chat_id)
 	local keyboard = {inline_keyboard = {}}
-	
+
 	local line, status, icon, permission
 	--for field, value in pairs(config.chat_settings['defpermissions']) do
-    for i=1, #permissions do --pairs() doesn't keep the order of the keys
-        permission = permissions[i]
+		for i=1, #permissions do --pairs() doesn't keep the order of the keys
+				permission = permissions[i]
 		icon = '✅'
-		status = (db:hget('chat:'..chat_id..':defpermissions', permission)) or config.chat_settings['defpermissions'][permission]
+		status = (db:hget('chat:'..chat_id..':defpermissions', permission))
+			or config.chat_settings['defpermissions'][permission]
 		if status == 'false' then icon = '☑️' end
 		line = {
-			{text = _(humanizations[permission] or permission), callback_data = 'defpermissions:alert:'..permission..':'..locale.language},
-			{text = icon, callback_data = 'defpermissions:toggle:'..permission..':'..chat_id}
+			{
+				text = _(humanizations[permission] or permission),
+				callback_data = 'defpermissions:alert:'..permission..':'..locale.language
+			},
+			{
+				text = icon,
+				callback_data = 'defpermissions:toggle:'..permission..':'..chat_id
+			}
 		}
 		table.insert(keyboard.inline_keyboard, line)
 	end
 
 	--back button
 	table.insert(keyboard.inline_keyboard, {{text = '🔙', callback_data = 'config:back:'..chat_id}})
-    
+
 	return keyboard
 end
 
@@ -109,17 +124,18 @@ Tap on the name of a permission for a description of what kind of messages it wi
 			end
 
 			reply_markup = doKeyboard_permissions(chat_id)
-			local res, code, desc, retry_after
+			local res, code, retry_after
 			if blocks[2] then
 				--if the user tapped on a keybord button, just edit the markup and not the whole message
-				res, code, desc, retry_after = api.editMessageReplyMarkup(msg.chat.id, msg.message_id, reply_markup)
+				res, code, _, retry_after = api.editMessageReplyMarkup(msg.chat.id, msg.message_id, reply_markup)
 			else
-				res, code, desc, retry_after = api.editMessageText(msg.chat.id, msg.message_id, msg_text, true, reply_markup)
+				res, code, _, retry_after = api.editMessageText(msg.chat.id, msg.message_id, msg_text, true, reply_markup)
 			end
-			
+
 			if not res and code == 429 and retry_after then
-			    popup_text = _("Setting saved, but I can't edit the buttons because you are too fast! Wait other %d seconds"):format(retry_after)
-			    show_alert = true
+					popup_text = _("Setting saved, but I can't edit the buttons because you are too fast! Wait other %d seconds")
+						:format(retry_after)
+					show_alert = true
 			end
 			if popup_text then api.answerCallbackQuery(msg.cb_id, popup_text, show_alert) end
 		end

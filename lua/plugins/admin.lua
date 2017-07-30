@@ -1,6 +1,9 @@
 local config = require 'config'
 local u = require 'utilities'
 local api = require 'methods'
+local db = require 'database'
+local locale = require 'languages'
+local _ = locale.translate
 
 local plugin = {}
 
@@ -75,12 +78,11 @@ end
 
 local function match_pattern(pattern, text)
   if text then
-	text = text:gsub('@'..bot.username, '')
-	local matches = {}
-	matches = { string.match(text, pattern) }
-	if next(matches) then
-		return matches
-	end
+		text = text:gsub('@'..bot.username, '')
+		local matches = { string.match(text, pattern) }
+		if next(matches) then
+			return matches
+		end
   end
 end
 
@@ -99,10 +101,7 @@ local function get_chat_id(msg)
 end
 
 function plugin.onTextMessage(msg, blocks)
-
 	if not u.is_superadmin(msg.from.id) then return end
-
-	blocks = {}
 
 	for i=1, #triggers2 do
 		blocks = match_pattern(triggers2[i], msg.text)
@@ -115,7 +114,7 @@ function plugin.onTextMessage(msg, blocks)
 		api.sendMessage(msg.from.id, u.vtext(triggers2))
 	end
 	if blocks[1] == 'init' then
-		local n_plugins = bot_init(true) or 0
+		local n_plugins = bot.init(true) or 0
 		api.sendReply(msg, '*Bot reloaded!*\n_'..n_plugins..' plugins enabled_', true)
 	end
 	if blocks[1] == 'backup' then
@@ -137,10 +136,10 @@ function plugin.onTextMessage(msg, blocks)
 		for i=1, #names do
 			text = text..'- *'..names[i]..'*: `'..num[i]..'`\n'
 		end
-		text = text..'- *uptime*: `from '..(os.date("%c", start_timestamp))..' (GMT+2)`\n'
-		text = text..'- *last hour msgs*: `'..last.h..'`\n'
-		text = text..'   • *average msgs/minute*: `'..round((last.h/60), 3)..'`\n'
-		text = text..'   • *average msgs/second*: `'..round((last.h/(60*60)), 3)..'`\n'
+		text = text..'- *uptime*: `from '..(os.date("%c", bot.start_timestamp))..' (GMT+2)`\n'
+		text = text..'- *last hour msgs*: `'..bot.last.h..'`\n'
+		text = text..'   • *average msgs/minute*: `'..round((bot.last.h/60), 3)..'`\n'
+		text = text..'   • *average msgs/second*: `'..round((bot.last.h/(60*60)), 3)..'`\n'
 
 		--db info
 		text = text.. '\n*DB stats*\n'
@@ -148,7 +147,7 @@ function plugin.onTextMessage(msg, blocks)
 		text = text..'- *uptime days*: `'..dbinfo.server.uptime_in_days..'('..dbinfo.server.uptime_in_seconds..' seconds)`\n'
 		text = text..'- *keyspace*:\n'
 		for dbase,info in pairs(dbinfo.keyspace) do
-			for real,num in pairs(info) do
+			for real, _ in pairs(info) do
 				local keys = real:match('keys=(%d+),.*')
 				if keys then
 					text = text..'  '..dbase..': `'..keys..'`\n'
@@ -268,7 +267,7 @@ function plugin.onTextMessage(msg, blocks)
 			chat_id = msg.chat.id
 		end
 		local text = '<code>'..chat_id..'\n'
-		for set, info in pairs(config.chat_settings) do
+		for set, _ in pairs(config.chat_settings) do
 			text = text..u.vtext(db:hgetall('chat:'..chat_id..':'..set))
 		end
 
@@ -348,7 +347,7 @@ function plugin.onTextMessage(msg, blocks)
 		local seconds_per_day = 60*60*24
 		local groups = db:hgetall('bot:chats:latsmsg')
 		local n = 0
-		for chat_id, timestamp in pairs(groups) do
+		for _, timestamp in pairs(groups) do
 			if tonumber(timestamp) > (now - (seconds_per_day * days)) then
 				n = n + 1
 			end

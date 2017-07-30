@@ -1,6 +1,9 @@
 local config = require 'config'
 local u = require 'utilities'
 local api = require 'methods'
+local db = require 'database'
+local locale = require 'languages'
+local _ = locale.translate
 
 local plugin = {}
 
@@ -87,7 +90,11 @@ local function doKeyboard_logchannel(chat_id)
 		local current_status = db:hget('chat:'..chat_id..':tolog', event) or default_status
 		icon = '✅'
 		if current_status == 'no' then icon = '☑️' end
-		table.insert(keyboard.inline_keyboard, {{text = event_pretty[event] or event, callback_data = 'logchannel:alert:'..event..':'..locale.language}, {text = icon, callback_data = 'logchannel:toggle:'..event..':'..chat_id}})
+		table.insert(keyboard.inline_keyboard,
+			{
+				{text = event_pretty[event] or event, callback_data = 'logchannel:alert:'..event..':'..locale.language},
+				{text = icon, callback_data = 'logchannel:toggle:'..event..':'..chat_id}
+			})
 	end
 
 	--back button
@@ -172,7 +179,8 @@ function plugin.onTextMessage(msg, blocks)
 									if old_log then
 										api.sendMessage(old_log, _("<i>%s</i> changed its log channel"):format(msg.chat.title:escape_html()), 'html')
 									end
-									api.sendMessage(msg.forward_from_chat.id, _("Logs of <i>%s</i> will be posted here"):format(msg.chat.title:escape_html()), 'html')
+									api.sendMessage(msg.forward_from_chat.id,
+										_("Logs of <i>%s</i> will be posted here"):format(msg.chat.title:escape_html()), 'html')
 								end
 								api.sendReply(msg, text, true)
 							else
@@ -203,13 +211,16 @@ function plugin.onTextMessage(msg, blocks)
 			else
 				local channel_info, code = api.getChat(log_channel)
 				if not channel_info and code == 403 then
-					api.sendReply(msg, _("_This group has a log channel saved, but I'm not a member there, so I can't post/retrieve its info_"), true)
+					api.sendReply(msg,
+						_("_This group has a log channel saved, but I'm not a member there, so I can't post/retrieve its info_"), true)
 				else
 					local channel_identifier = log_channel
 					if channel_info and channel_info.result then
 						channel_identifier = channel_info.result.title
 					end
-					api.sendReply(msg, _("<b>This group has a log channel</b>\nChannel: <code>%s</code>"):format(channel_identifier:escape_html()), 'html')
+					api.sendReply(msg, _(
+						'<b>This group has a log channel</b>\nChannel: <code>%s</code>'
+						):format(channel_identifier:escape_html()), 'html')
 				end
 			end
 		end

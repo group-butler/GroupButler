@@ -1,6 +1,9 @@
 local config = require 'config'
 local u = require 'utilities'
 local api = require 'methods'
+local db = require 'database'
+local locale = require 'languages'
+local _ = locale.translate
 
 local plugin = {}
 
@@ -16,7 +19,7 @@ local function ban_bots(msg)
 			for i=1, #users do
 				if not users[i].last_name and users[i].username and users[i].username:lower():find('bot', -3) then
 					if db:sismember('bot:bots', users[i].id) then
-						local res, code, description = api.banUser(msg.chat.id, users[i].id)
+						api.banUser(msg.chat.id, users[i].id)
 						n = n + 1
 					else
 						local res, code = api.sendChatAction(users[i].id, 'typing')
@@ -46,19 +49,20 @@ local function is_on(chat_id, setting)
 	end
 end
 
-local permissions = {'can_send_messages', 'can_send_media_messages', 'can_send_other_messages', 'can_add_web_page_previews'}
+local permissions =
+{'can_send_messages', 'can_send_media_messages', 'can_send_other_messages', 'can_add_web_page_previews'}
 
 local function apply_default_permissions(chat_id, users)
 	local hash = ('chat:%d:defpermissions'):format(chat_id)
 	local def_permissions = db:hgetall(hash)
-	
+
 	if next(def_permissions) then
 		for i=1, #permissions do
 			if not def_permissions[permissions[i]] then
 			def_permissions[permissions[i]] = config.chat_settings.defpermissions[permissions[i]]
 			end
 		end
-		
+
 		for i=1, #users do
 			api.restrictChatMember(chat_id, users[i].id, def_permissions)
 		end
@@ -77,7 +81,8 @@ local function get_welcome(msg)
 		local file_id = content
 		local caption = db:hget(hash, 'caption')
 		if caption then caption = caption:replaceholders(msg, true) end
-		local rules_button = db:hget('chat:'..msg.chat.id..':settings', 'Welbut') or config.chat_settings['settings']['Welbut']
+		local rules_button = db:hget('chat:'..msg.chat.id..':settings', 'Welbut')
+			or config.chat_settings['settings']['Welbut']
 		local reply_markup
 		if rules_button == 'on' then
 			reply_markup = {inline_keyboard={{{text = _('Read the rules'), url = u.deeplink_constructor(msg.chat.id, 'rules')}}}}
@@ -142,7 +147,8 @@ function plugin.onTextMessage(msg, blocks)
 
 			local reply_markup, new_text = u.reply_markup_from_text(input)
 
-			local res, code = api.sendReply(msg, new_text:gsub('$rules', u.deeplink_constructor(msg.chat.id, 'rules')), true, reply_markup)
+			local res, code = api.sendReply(msg, new_text:gsub('$rules', u.deeplink_constructor(msg.chat.id, 'rules')), true,
+				reply_markup)
 			if not res then
 				db:hset(hash, 'type', 'no') --if wrong markdown, remove 'custom' again
 				db:hset(hash, 'content', 'no')
@@ -161,15 +167,16 @@ function plugin.onTextMessage(msg, blocks)
 		local extra
 		if msg.from.id ~= msg.new_chat_member.id then extra = msg.from end
 		u.logEvent(blocks[1], msg, extra)
-		
+
 		local stop = ban_bots(msg)
 		if stop then return end
-		
+
 		apply_default_permissions(msg.chat.id, msg.new_chat_members)
-		
+
 		local text, reply_markup = get_welcome(msg)
 		if text then --if not text: welcome is locked or is a gif/sticker
-			local attach_button = (db:hget('chat:'..msg.chat.id..':settings', 'Welbut')) or config.chat_settings['settings']['Welbut']
+			local attach_button = (db:hget('chat:'..msg.chat.id..':settings', 'Welbut'))
+				or config.chat_settings['settings']['Welbut']
 			if attach_button == 'on' then
 				if not reply_markup then reply_markup = {inline_keyboard={}} end
 				local line = {{text = _('Read the rules'), url = u.deeplink_constructor(msg.chat.id, 'rules')}}
