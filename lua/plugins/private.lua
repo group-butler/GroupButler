@@ -2,7 +2,7 @@ local config = require 'config'
 local u = require 'utilities'
 local api = require 'methods'
 local locale = require 'languages'
-local _ = locale.translate
+local i18n = locale.translate
 
 local plugin = {}
 
@@ -10,12 +10,12 @@ local function do_keyboard_credits()
 	local keyboard = {}
 	keyboard.inline_keyboard = {
 		{
-			{text = _("Channel"), url = 'https://telegram.me/'..config.channel:gsub('@', '')},
-			{text = _("GitHub"), url = config.source_code},
-			{text = _("Rate me!"), url = 'https://telegram.me/storebot?start='..bot.username},
+			{text = i18n("Channel"), url = 'https://telegram.me/'..config.channel:gsub('@', '')},
+			{text = i18n("GitHub"), url = config.source_code},
+			{text = i18n("Rate me!"), url = 'https://telegram.me/storebot?start='..bot.username},
 		},
 		{
-			{text = _("👥 Groups"), callback_data = 'private:groups'}
+			{text = i18n("👥 Groups"), callback_data = 'private:groups'}
 		}
 	}
 	return keyboard
@@ -25,8 +25,8 @@ function plugin.onTextMessage(msg, blocks)
 	if msg.chat.type ~= 'private' then return end
 
 	if blocks[1] == 'ping' then
-		api.sendMessage(msg.from.id, _("Pong!"), true)
-		-- local res = api.sendMessage(msg.from.id, _("Pong!"), true)
+		api.sendMessage(msg.from.id, i18n("Pong!"), true)
+		-- local res = api.sendMessage(msg.from.id, i18n("Pong!"), true)
 		--[[if res then
 			api.editMessageText(msg.chat.id, res.result.message_id, 'Response time: '..(os.clock() - clocktime_last_update))
 		end]]
@@ -39,7 +39,7 @@ function plugin.onTextMessage(msg, blocks)
 	end
 	if blocks[1] == 'about' then
 		local keyboard = do_keyboard_credits()
-		local text = _([[
+		local text = i18n([[
 This bot is based on [otouto](https://github.com/topkecleon/otouto) (AKA @mokubot, channel: @otouto), a multipurpose Lua bot.\nGroup Butler wouldn't exist without it.\n\nThe owner of this bot is @baconn, do not pm him: use /groups command instead.\n\nBot version: `%s`\n*Some useful links:*
 ]]):format(config.human_readable_version)
 		api.sendMessage(msg.chat.id, text, true, keyboard)
@@ -47,7 +47,7 @@ This bot is based on [otouto](https://github.com/topkecleon/otouto) (AKA @mokubo
 	if blocks[1] == 'group' then
 		if config.help_group and config.help_group ~= '' then
 			api.sendMessage(msg.chat.id,
-				_('You can find the list of our support groups in [this channel](%s)'):format(config.help_group), true)
+				i18n('You can find the list of our support groups in [this channel](%s)'):format(config.help_group), true)
 		end
 	end
 end
@@ -55,16 +55,16 @@ end
 function plugin.onCallbackQuery(msg, blocks)
 	if blocks[1] == 'about' then
 		local keyboard = do_keyboard_credits()
-		local text = _([[
+		local text = i18n([[
 This bot is based on [otouto](https://github.com/topkecleon/otouto) (AKA @mokubot, channel: @otouto), a multipurpose Lua bot.\nGroup Butler wouldn't exist without it.\n\nThe owner of this bot is @baconn, do not pm him: use /groups command instead.\n\nBot version: `%s`\n*Some useful links:*
 ]]):format(config.human_readable_version)
 		api.editMessageText(msg.chat.id, msg.message_id, text, true, keyboard)
 	end
 	if blocks[1] == 'group' then
 		if config.help_group and config.help_group ~= '' then
-			local markup = {inline_keyboard={{{text = _('🔙 back'), callback_data = 'fromhelp:about'}}}}
+			local markup = {inline_keyboard={{{text = i18n('🔙 back'), callback_data = 'fromhelp:about'}}}}
 			api.editMessageText(msg.chat.id, msg.message_id,
-				_("You can find the list of our support groups in [this channel](%s)"):format(config.help_group), true, markup)
+				i18n("You can find the list of our support groups in [this channel](%s)"):format(config.help_group), true, markup)
 		end
 	end
 end

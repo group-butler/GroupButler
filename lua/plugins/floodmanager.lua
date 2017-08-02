@@ -3,19 +3,19 @@ local u = require 'utilities'
 local api = require 'methods'
 local db = require 'database'
 local locale = require 'languages'
-local _ = locale.translate
+local i18n = locale.translate
 
 local plugin = {}
 
 local function get_button_description(key)
 	if key == 'num' then
-		return _("⚖ Current sensitivity. Tap on the + or the - to change it")
+		return i18n("⚖ Current sensitivity. Tap on the + or the - to change it")
 	elseif key == 'voice' then
-		return _([[Choose which media must be ignored by the antiflood (the bot won't consider them).
+		return i18n([[Choose which media must be ignored by the antiflood (the bot won't consider them).
 ✅: ignored
 ❌: not ignored]])
 	else
-		return _("Description not available")
+		return i18n("Description not available")
 	end
 end
 
@@ -23,19 +23,19 @@ local function do_keyboard_flood(chat_id)
 	--no: enabled, yes: disabled
 	local status = db:hget('chat:'..chat_id..':settings', 'Flood') or config.chat_settings['settings']['Flood'] --check (default: disabled)
 	if status == 'on' then
-		status = _("✅ | ON")
+		status = i18n("✅ | ON")
 	else
-		status = _("❌ | OFF")
+		status = i18n("❌ | OFF")
 	end
 
 	local hash = 'chat:'..chat_id..':flood'
 	local action = (db:hget(hash, 'ActionFlood')) or config.chat_settings['flood']['ActionFlood']
 	if action == 'kick' then
-		action = _("👞️ kick")
+		action = i18n("👞️ kick")
 	elseif action == 'ban' then
-		action = _("🔨 ️ban")
+		action = i18n("🔨 ️ban")
 	elseif action == 'mute' then
-		action = _("👁 mute")
+		action = i18n("👁 mute")
 	end
 	local num = (db:hget(hash, 'MaxFlood')) or config.chat_settings['flood']['MaxFlood']
 	local keyboard = {
@@ -53,12 +53,12 @@ local function do_keyboard_flood(chat_id)
 	}
 
 	local exceptions = {
-		text = _("Texts"),
-		forward = _("Forwards"),
-		sticker = _("Stickers"),
-		photo = _("Images"),
-		gif = _("GIFs"),
-		video = _("Videos"),
+		text = i18n("Texts"),
+		forward = i18n("Forwards"),
+		sticker = i18n("Stickers"),
+		photo = i18n("Images"),
+		gif = i18n("GIFs"),
+		video = i18n("Videos"),
 	}
 
 	hash = 'chat:'..chat_id..':floodexceptions'
@@ -88,13 +88,13 @@ local function changeFloodSettings(chat_id, screm)
 	if type(screm) == 'string' then
 		if screm == 'mute' then
 			db:hset(hash, 'ActionFlood', 'ban')
-			return _("Flooders will be banned")
+			return i18n("Flooders will be banned")
 		elseif screm == 'ban' then
 			db:hset(hash, 'ActionFlood', 'kick')
-			return _("Flooders will be kicked")
+			return i18n("Flooders will be kicked")
 		elseif screm == 'kick' then
 			db:hset(hash, 'ActionFlood', 'mute')
-			return _("Flooders will be muted")
+			return i18n("Flooders will be muted")
 		end
 	elseif type(screm) == 'number' then
 		local old = tonumber(db:hget(hash, 'MaxFlood')) or 5
@@ -103,14 +103,14 @@ local function changeFloodSettings(chat_id, screm)
 			new = db:hincrby(hash, 'MaxFlood', 1)
 			if new > 25 then
 				db:hincrby(hash, 'MaxFlood', -1)
-				return _("%d is not a valid value!\n"):format(new)
+				return i18n("%d is not a valid value!\n"):format(new)
 					.. ("The value should be higher than 3 and lower then 26")
 			end
 		elseif screm < 0 then
 			new = db:hincrby(hash, 'MaxFlood', -1)
 			if new < 3 then
 				db:hincrby(hash, 'MaxFlood', 1)
-				return _("%d is not a valid value!\n"):format(new)
+				return i18n("%d is not a valid value!\n"):format(new)
 					.. ("The value should be higher than 2 and lower then 26")
 			end
 		end
@@ -121,16 +121,16 @@ end
 function plugin.onCallbackQuery(msg, blocks)
 	local chat_id = msg.target_id
 	if chat_id and not u.is_allowed('config', chat_id, msg.from) then
-		api.answerCallbackQuery(msg.cb_id, _("You're no longer an admin"))
+		api.answerCallbackQuery(msg.cb_id, i18n("You're no longer an admin"))
 	else
-		local header = _(
+		local header = i18n(
 			[[You can manage the antiflood settings from here.\n\nIt is also possible to choose which type of messages the antiflood will ignore (✅)
 			]])
 
 		local text
 
 		if blocks[1] == 'config' then
-			text = _("Antiflood settings")
+			text = i18n("Antiflood settings")
 		end
 
 		if blocks[1] == 'alert' then
@@ -148,10 +148,10 @@ function plugin.onCallbackQuery(msg, blocks)
 			local status = (db:hget(hash, media)) or 'no'
 			if status == 'no' then
 				db:hset(hash, media, 'yes')
-				text = _("❎ [%s] will be ignored by the anti-flood"):format(media)
+				text = i18n("❎ [%s] will be ignored by the anti-flood"):format(media)
 			else
 				db:hset(hash, media, 'no')
-				text = _("🚫 [%s] won't be ignored by the anti-flood"):format(media)
+				text = i18n("🚫 [%s] won't be ignored by the anti-flood"):format(media)
 			end
 		end
 

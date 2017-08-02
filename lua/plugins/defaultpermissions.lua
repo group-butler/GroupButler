@@ -3,7 +3,7 @@ local u = require 'utilities'
 local api = require 'methods'
 local db = require 'database'
 local locale = require 'languages'
-local _ = locale.translate
+local i18n = locale.translate
 
 local plugin = {}
 
@@ -43,27 +43,27 @@ end
 
 local function get_alert_text(key)
 	if key == 'can_send_messages' then
-		return _("Permission to send messages. If disabled, the user won't be able to send any kind of message")
+		return i18n("Permission to send messages. If disabled, the user won't be able to send any kind of message")
 	elseif key == 'can_send_media_messages' then
-		return _(
+		return i18n(
 			[[Permission to send media (audios, documents, photos, videos, video notes and voice notes). Implies the permission to send messages
 			]])
 	elseif key == 'can_send_other_messages' then
-		return _(
+		return i18n(
 			[[Permission to send other types of messages (GIFs, games, stickers and use inline bots). Implies the permission to send medias
 			]])
 	elseif key == 'can_add_web_page_previews' then
-		return _("When disabled, user's messages with a link won't show the web page preview")
+		return i18n("When disabled, user's messages with a link won't show the web page preview")
 	else
-		return _("Description not available")
+		return i18n("Description not available")
 	end
 end
 
 local humanizations = {
-	['can_send_messages'] = _('Send messages'),
-	['can_send_media_messages'] = _('Send media'),
-	['can_send_other_messages'] = _('Send other types of media'),
-	['can_add_web_page_previews'] = _('Show web page preview'),
+	['can_send_messages'] = i18n('Send messages'),
+	['can_send_media_messages'] = i18n('Send media'),
+	['can_send_other_messages'] = i18n('Send other types of media'),
+	['can_add_web_page_previews'] = i18n('Show web page preview'),
 }
 
 local permissions =
@@ -82,7 +82,7 @@ local function doKeyboard_permissions(chat_id)
 		if status == 'false' then icon = '☑️' end
 		line = {
 			{
-				text = _(humanizations[permission] or permission),
+				text = i18n(humanizations[permission] or permission),
 				callback_data = 'defpermissions:alert:'..permission..':'..locale.language
 			},
 			{
@@ -109,9 +109,9 @@ function plugin.onCallbackQuery(msg, blocks)
 	else
 		local chat_id = msg.target_id
 		if not u.can(chat_id, msg.from.id, 'can_restrict_members') then
-			api.answerCallbackQuery(msg.cb_id, _("You don't have the permission to restrict members"))
+			api.answerCallbackQuery(msg.cb_id, i18n("You don't have the permission to restrict members"))
 		else
-			local msg_text = _([[*Deafult permissions*
+			local msg_text = i18n([[*Deafult permissions*
 From this menu you can change the default permissions that will be granted when a new member join.
 _Only the administrators with the permission to restrict a member can access this menu._
 Tap on the name of a permission for a description of what kind of messages it will influence.
@@ -124,7 +124,7 @@ Tap on the name of a permission for a description of what kind of messages it wi
 			end
 
 			reply_markup = doKeyboard_permissions(chat_id)
-			local res, code, retry_after
+			local res, code, _, retry_after
 			if blocks[2] then
 				--if the user tapped on a keybord button, just edit the markup and not the whole message
 				res, code, _, retry_after = api.editMessageReplyMarkup(msg.chat.id, msg.message_id, reply_markup)
@@ -133,7 +133,7 @@ Tap on the name of a permission for a description of what kind of messages it wi
 			end
 
 			if not res and code == 429 and retry_after then
-					popup_text = _("Setting saved, but I can't edit the buttons because you are too fast! Wait other %d seconds")
+					popup_text = i18n("Setting saved, but I can't edit the buttons because you are too fast! Wait other %d seconds")
 						:format(retry_after)
 					show_alert = true
 			end

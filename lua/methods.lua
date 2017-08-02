@@ -6,7 +6,7 @@ local clr = require 'term.colors'
 local api_errors = require 'api_bad_requests'
 local db = require 'database'
 local locale = require 'languages'
-local _ = locale.translate
+local i18n = locale.translate
 
 local BASE_URL = 'https://api.telegram.org/bot' .. config.telegram.token
 
@@ -156,15 +156,15 @@ end
 local function code2text(code)
 	--the default error description can't be sent as output, so a translation is needed
 	if code == 159 then
-		return _("I don't have enough permissions to restrict users")
+		return i18n("I don't have enough permissions to restrict users")
 	elseif code == 101 or code == 105 or code == 107 then
-		return _("I'm not an admin, I can't kick people")
+		return i18n("I'm not an admin, I can't kick people")
 	elseif code == 102 or code == 104 then
-		return _("I can't kick or ban an admin")
+		return i18n("I can't kick or ban an admin")
 	elseif code == 103 then
-		return _("There is no need to unban in a normal group")
+		return i18n("There is no need to unban in a normal group")
 	elseif code == 106 or code == 134 then
-		return _("This user is not a chat member")
+		return i18n("This user is not a chat member")
 	elseif code == 7 then
 		return false
 	end

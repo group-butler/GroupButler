@@ -3,13 +3,13 @@ local u = require 'utilities'
 local api = require 'methods'
 local db = require 'database'
 local locale = require 'languages'
-local _ = locale.translate
+local i18n = locale.translate
 
 local plugin = {}
 
 local function get_helped_string(key)
 	if key == 'start' then
-		return _([[
+		return i18n([[
 Hello %s 👋🏼, nice to meet you!
 I'm Group Butler, the first administration bot using the official Bot API.
 
@@ -25,7 +25,7 @@ I'm Group Butler, the first administration bot using the official Bot API.
 I work better if you add me to the group administrators (otherwise I won't be able to kick or ban)!
 ]])
 	elseif key == 'basics' then
-		return _([[
+		return i18n([[
 This bot works only in supergroups.
 
 To work properly, [it needs to be admin in your group](https://telegram.me/GroupButler_ch/104), so it can kick or ban people if needed.
@@ -40,9 +40,9 @@ It's possible to force the bot to update its adminlist with `/cache`.
 Remember: you have to use commands  *in the group*, unless they are specifically designed for private chats (see "private" tab).
 ]])
 	elseif key == 'main_menu' then
-		return _("In this menu you will find all the available commands")
+		return i18n("In this menu you will find all the available commands")
 	elseif key == 'private' then
-		return _([[
+		return i18n([[
 *Commands that work in private*:
 
 • `/mysettings`: show a keyboard that allows you to change your personal settings, such as choosing if receive the rules in private when you join a group or if receive reports made with the `@admin` command
@@ -54,7 +54,7 @@ Remember: you have to use commands  *in the group*, unless they are specifically
 • `/help` : show this message
 ]])
 	elseif key == 'users_group' then
-		return _([[
+		return i18n([[
 *Commands available for every user in a group*:
 
 • `/dashboard`: see all the informations about the group
@@ -69,7 +69,7 @@ With `/rules`, the bot always answer in the group for admins, but with normal us
 Admins need to give their consense to receive reports from users, with `/mysettings` command
 ]])
 	elseif key == 'info' then
-		return _([[
+		return i18n([[
 *Admins: info about the group*
 
 • `/setrules [group rules]`: set the new regulation for the group (the old will be overwritten).
@@ -86,7 +86,7 @@ If you are going to use it in a public supergroup, you do not need to append the
 *Note*: the bot can recognize valid group links. If a link is not valid, you won't receive a reply.
 ]])
 	elseif key == 'banhammer' then
-		return _([[
+		return i18n([[
 *Banhammer powers*
 A set of commands that let admins kick and ban people from a group, and get some information about an user.
 Kicked people can join back, banned people can't. Banned users are added to the group's blacklist. It's possible to blacklist users even if they are not part of the group.
@@ -109,7 +109,7 @@ If on, the antiflood system will kick/ban flooders.
 • `/config` command, then `antiflood` button: manage the flood settings in private, with an inline keyboard. You can change the sensitivity, the action (kick/ban) to perform, and even set some exceptions.
 ]])
 	elseif key == 'report' then
-		return _([[
+		return i18n([[
 *Reports settings*
 `@admin` is an useful command to let users report some messages to the group admins.
 A reported message will be forwarded to the available admins.
@@ -120,7 +120,7 @@ Only admins who accepted to receive reports (with `/mysettings` command) will be
 
 *Note*: admins can't use the `@admin` command, and users can't report admins with it.]])
 	elseif key == 'welcome' then
-		return _([[
+		return i18n([[
 *Welcome/goodbye settings*
 
 • `/config`, then `menu` tab: receive in private the menu keyboard. You will find an option to enable/disable welcome/goodbye messages.
@@ -144,7 +144,7 @@ Placeholders:
 You can use a particular gif/sticker as welcome message. To set it, reply to the gif/sticker you want to set as welcome message with `/welcome`. Same goes for `/goodbye`
 ]])
 	elseif key == 'whitelist' then
-		return _([[*Whitelist settings*
+		return i18n([[*Whitelist settings*
 
 As you may know, the bot can warn/kick/ban who sends a telegram.me link (antispam settings) or any other link (media settings).
 The whitelist is a list of links that will be ignored by the bot.
@@ -161,7 +161,7 @@ When the group link is saved with `/setlink`, it gets automatically added to the
 The bot auto-removes _https://, http:// and www_ from every link to reduce the possibility of having the same link saved twice.
 ]])
 	elseif key == 'extra' then
-		return _([[
+		return i18n([[
 *Extra commands*
 #extra commands are a smart way to save your own custom commands.
 
@@ -176,7 +176,7 @@ For a correct use of the markdown, check [this post](https://telegram.me/GroupBu
 Now supports placeholders. Check the "welcome" tab for the list of the available placeholders
 ]])
 	elseif key == 'warns' then
-		return _([[
+		return i18n([[
 *Warns*
 Warn are made to keep the count of the admonitions received by an user. Once an user has been warned for the defined number of times, he is kicked/banned by the bot.
 There are two different type of warns:
@@ -195,7 +195,7 @@ How to change the max. number of warnings allowed for medias: `/config` command,
 How to change the max. number of warnings allowed for spam: `/config` command, then `antispam` button.
 ]])
 	elseif key == 'pin' then
-		return _([[
+		return i18n([[
 *Pinning messages*
 The "48 hours limit" to edit your own messages doesn't apply to bots.
 This command was born from the necessity of editing the pinned message without sending it again, maybe just to change few things.
@@ -209,7 +209,7 @@ So with `/pin` you can generate a message to pin, and edit it how many times you
 ]])
 	elseif key == 'lang' then
 		-- TRANSLATORS: leave your contact information to reports mistakes in translation
-		return _([[
+		return i18n([[
 *Group language*"
 • `/lang`: choose the group language (can be changed in private too).
 
@@ -228,7 +228,7 @@ Here you will find two particular options: _Arab and RTL_.
 When Rtl is not allowed (🚫), everyone that writes this character (or that has it in his name) will be kicked.
 ]])
 	elseif key == 'config' then
-		return _([[
+		return i18n([[
 *General group settings*
 
 `/config` or  `/settings`: manage the group settings in private from an inline keyboard.
@@ -247,7 +247,7 @@ The inline keyboard has six sub-menus:
 `/snap`: generate a backup file that can be restored with `/import` (send the file in the group and reply to it). `/snap` can be used once every three days
 ]])
 	elseif key == 'mods' then
-		return _([[*Moderators*
+		return i18n([[*Moderators*
 
 Moderators are normal users that can use some of the commands that are usually available only to the group administrators.
 
@@ -264,9 +264,9 @@ When disabled, the group administrators *can't promote or demote new moderators*
 `/modlist`: show the list of the moderators
 `/modlist -`: demote all the moderators (will clean the modlist)]])
 	elseif key == 'logchannel' then
-		return _([[*Log channel informations*
+		return i18n([[*Log channel informations*
 
-A log channel is a _(private)_ channel where the bot will record all the important events that will happen in your group.
+A log channel is a i18n(private)_ channel where the bot will record all the important events that will happen in your group.
 If you want to use this feature, you need to pair your group with a channel with the commands described below.
 All the events, by default, are *not logged*. Admins can choose which events to log from the `/config` menu -> `log channel` button.
 
@@ -288,24 +288,24 @@ local function dk_admins()
 	keyboard.inline_keyboard = {}
 	local list = {
 		{
-			[_("Banhammer")] = 'banhammer',
-			[_("Group info")] = 'info'
+			[i18n("Banhammer")] = 'banhammer',
+			[i18n("Group info")] = 'info'
 		},
 		{
-			[_("Report system")] = 'report',
-			[_("Pin")] = 'pin'
+			[i18n("Report system")] = 'report',
+			[i18n("Pin")] = 'pin'
 		},
 		{
-			[_("Languages")] = 'lang',
-			[_("Group configuration")] = 'config'
+			[i18n("Languages")] = 'lang',
+			[i18n("Group configuration")] = 'config'
 		},
 		{
-			[_("Extra commands")] = 'extra',
-			[_("Warns")] = 'warns'
+			[i18n("Extra commands")] = 'extra',
+			[i18n("Warns")] = 'warns'
 		},
 		{
-			[_("Welcome settings")] = 'welcome',
-			[_("Links whitelist")] = 'whitelist',
+			[i18n("Welcome settings")] = 'welcome',
+			[i18n("Links whitelist")] = 'whitelist',
 		}
 
 	}
@@ -324,11 +324,11 @@ local function do_keyboard_private()
 	local keyboard = {}
 	keyboard.inline_keyboard = {
 		{
-			{text = _("📢 Bot channel"), url = 'https://telegram.me/'..config.channel:gsub('@', '')},
-			{text = _("🌍 Select your language"), callback_data = 'selectlang'},
+			{text = i18n("📢 Bot channel"), url = 'https://telegram.me/'..config.channel:gsub('@', '')},
+			{text = i18n("🌍 Select your language"), callback_data = 'selectlang'},
 		},
 		{
-			{text = _("📕 All the commands"), callback_data = 'help:back'}
+			{text = i18n("📕 All the commands"), callback_data = 'help:back'}
 		}
 	}
 	return keyboard
@@ -337,13 +337,13 @@ end
 local function dk_main()
 	local keyboard = {inline_keyboard={}}
 	keyboard.inline_keyboard = {
-		{{text = _('Basics'), callback_data = 'help:basics'}},
-		{{text = _('Admin commands'), callback_data = 'help:admins:banhammer'}},
-		{{text = _('Normal users commands'), callback_data = 'help:users'}},
-		{{text = _('Commands in private'), callback_data = 'help:private'}},
-		--{{text = _('Realms'), callback_data = 'help:realm'}},
-		{{text = _('Log channel'), callback_data = 'help:logchannel'}},
-		--{{text = _('Moderators'), callback_data = 'help:mods'}},
+		{{text = i18n('Basics'), callback_data = 'help:basics'}},
+		{{text = i18n('Admin commands'), callback_data = 'help:admins:banhammer'}},
+		{{text = i18n('Normal users commands'), callback_data = 'help:users'}},
+		{{text = i18n('Commands in private'), callback_data = 'help:private'}},
+		--{{text = i18n('Realms'), callback_data = 'help:realm'}},
+		{{text = i18n('Log channel'), callback_data = 'help:logchannel'}},
+		--{{text = i18n('Moderators'), callback_data = 'help:mods'}},
 	}
 
 	return keyboard
@@ -358,7 +358,7 @@ local function do_keyboard(keyboard_type)
 	local keyboard = callbacks[keyboard_type] or {inline_keyboard = {}}
 
 	if keyboard_type ~= 'main' then
-		table.insert(keyboard.inline_keyboard, {{text = _('Back'), callback_data = 'help:back'}})
+		table.insert(keyboard.inline_keyboard, {{text = i18n('Back'), callback_data = 'help:back'}})
 	end
 
 	return keyboard
@@ -381,7 +381,7 @@ function plugin.onTextMessage(msg, blocks)
 			local res = api.sendMessage(msg.from.id, text, true, keyboard)
 			if not res and msg.chat.type ~= 'private' and db:hget('chat:'..msg.chat.id..':settings', 'Silent') ~= 'on' then
 				api.sendMessage(msg.chat.id,
-					_('[Start me](%s) _to get the list of commands_'):format(u.deeplink_constructor('', 'help')), true)
+					i18n('[Start me](%s) _to get the list of commands_'):format(u.deeplink_constructor('', 'help')), true)
 			end
 		end
 	end
@@ -394,38 +394,38 @@ function plugin.onCallbackQuery(msg, blocks)
 	if query == 'back' then
 		keyboard_type = 'main'
 		text = get_helped_string('main_menu')
-		answerCallbackQuery_text = _('Main menu')
+		answerCallbackQuery_text = i18n('Main menu')
 	elseif query == 'basics' then
 		text = get_helped_string('basics')
-		answerCallbackQuery_text = _('Basic usage')
+		answerCallbackQuery_text = i18n('Basic usage')
 	elseif query == 'users' then
 		text = get_helped_string('users_group')
-		answerCallbackQuery_text = _('Commands for users (group)')
+		answerCallbackQuery_text = i18n('Commands for users (group)')
 	elseif query == 'private' then
 		text = get_helped_string('private')
-		answerCallbackQuery_text = _('Available commands in private')
+		answerCallbackQuery_text = i18n('Available commands in private')
 	elseif query == 'realm' then
 		text = get_helped_string('realm')
-		answerCallbackQuery_text = _('Available commands in a realm')
+		answerCallbackQuery_text = i18n('Available commands in a realm')
 	elseif query == 'logchannel' then
 		text = get_helped_string('logchannel')
-		answerCallbackQuery_text = _('Log channel informations')
+		answerCallbackQuery_text = i18n('Log channel informations')
 	elseif query == 'mods' then
 		text = get_helped_string('mods')
-		answerCallbackQuery_text = _('Informations about the moderators')
+		answerCallbackQuery_text = i18n('Informations about the moderators')
 	else --query == 'admins'
 		keyboard_type = 'admins'
 		text = get_helped_string(blocks[2])
-		answerCallbackQuery_text = _('Available commands for admins')
+		answerCallbackQuery_text = i18n('Available commands for admins')
 	end
 
 	if not text then
-		api.answerCallbackQuery(msg.cb_id, _("Deprecated message, send /help again"), true)
+		api.answerCallbackQuery(msg.cb_id, i18n("Deprecated message, send /help again"), true)
 	else
 		local keyboard = do_keyboard(keyboard_type)
 		local res, code = api.editMessageText(msg.chat.id, msg.message_id, text, true, keyboard)
 		if not res and code and code == 111 then
-			api.answerCallbackQuery(msg.cb_id, _("❗️ Already there"))
+			api.answerCallbackQuery(msg.cb_id, i18n("❗️ Already there"))
 		else
 			api.answerCallbackQuery(msg.cb_id, answerCallbackQuery_text)
 		end

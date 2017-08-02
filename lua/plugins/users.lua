@@ -3,25 +3,25 @@ local u = require 'utilities'
 local api = require 'methods'
 local db = require 'database'
 local locale = require 'languages'
-local _ = locale.translate
+local i18n = locale.translate
 
 local plugin = {}
 
 local permissions = {
-	can_change_info = _("can't change the chat title/description/icon"),
-	can_send_messages = _("can't send messages"),
-	can_delete_messages = _("can't delete messages"),
-	can_invite_users = _("can't invite users/generate a link"),
-	can_restrict_members = _("can't restrict members"),
-	can_pin_messages = _("can't pin messages"),
-	can_promote_members = _("can't promote new admins"),
-	can_send_media_messages = _("can't send photos/videos/documents/audios/voice messages/video messages"),
-	can_send_other_messages = _("can't send stickers/GIFs/games/use inline bots"),
-	can_add_web_page_previews = _("can't show link previews")
+	can_change_info = i18n("can't change the chat title/description/icon"),
+	can_send_messages = i18n("can't send messages"),
+	can_delete_messages = i18n("can't delete messages"),
+	can_invite_users = i18n("can't invite users/generate a link"),
+	can_restrict_members = i18n("can't restrict members"),
+	can_pin_messages = i18n("can't pin messages"),
+	can_promote_members = i18n("can't promote new admins"),
+	can_send_media_messages = i18n("can't send photos/videos/documents/audios/voice messages/video messages"),
+	can_send_other_messages = i18n("can't send stickers/GIFs/games/use inline bots"),
+	can_add_web_page_previews = i18n("can't show link previews")
 }
 
 local function do_keyboard_cache(chat_id)
-	local keyboard = {inline_keyboard = {{{text = _("🔄️ Refresh cache"), callback_data = 'recache:'..chat_id}}}}
+	local keyboard = {inline_keyboard = {{{text = i18n("🔄️ Refresh cache"), callback_data = 'recache:'..chat_id}}}}
 	return keyboard
 end
 
@@ -73,7 +73,7 @@ end
 local function do_keyboard_userinfo(user_id)
 	local keyboard = {
 		inline_keyboard = {
-			{{text = _("Remove warnings"), callback_data = 'userbutton:remwarns:'..user_id}}
+			{{text = i18n("Remove warnings"), callback_data = 'userbutton:remwarns:'..user_id}}
 		}
 	}
 
@@ -81,7 +81,7 @@ local function do_keyboard_userinfo(user_id)
 end
 
 local function get_userinfo(user_id, chat_id)
-	local text = _([[*User ID*: `%d`
+	local text = i18n([[*User ID*: `%d`
 `Warnings`: *%d*
 `Media warnings`: *%d*
 `Spam warnings`: *%d*
@@ -114,24 +114,24 @@ function plugin.onTextMessage(msg, blocks)
 			if not blocks[2] and not msg.reply then return end
 			local user_id, error_tr_id = u.get_user_id(msg, blocks)
 			if not user_id then
-				api.sendReply(msg, _(error_tr_id), true)
+				api.sendReply(msg, i18n(error_tr_id), true)
 			else
 				local res = api.getChatMember(msg.chat.id, user_id)
 
 				if not res then
-					api.sendReply(msg, _("That user has nothing to do with this chat"))
+					api.sendReply(msg, i18n("That user has nothing to do with this chat"))
 					return
 				end
 				local status = res.result.status
 				local name = u.getname_final(res.result.user)
 				local statuses = {
-					kicked = _("%s is banned from this group"),
-					left = _("%s left the group or has been kicked and unbanned"),
-					administrator = _("%s is an admin"),
-					creator = _("%s is the group creator"),
-					unknown = _("%s has nothing to do with this chat"),
-					member = _("%s is a chat member"),
-					restricted = _("%s is a restricted")
+					kicked = i18n("%s is banned from this group"),
+					left = i18n("%s left the group or has been kicked and unbanned"),
+					administrator = i18n("%s is an admin"),
+					creator = i18n("%s is the group creator"),
+					unknown = i18n("%s has nothing to do with this chat"),
+					member = i18n("%s is a chat member"),
+					restricted = i18n("%s is a restricted")
 				}
 				local denied_permissions = {}
 				for permission, str in pairs(permissions) do
@@ -142,7 +142,7 @@ function plugin.onTextMessage(msg, blocks)
 
 				local text = statuses[status]:format(name)
 				if next(denied_permissions) then
-					text = text.._('\nRestrictions: <i>%s</i>'):format(table.concat(denied_permissions, ', '))
+					text = text..i18n('\nRestrictions: <i>%s</i>'):format(table.concat(denied_permissions, ', '))
 				end
 
 				api.sendReply(msg, text, 'html')
@@ -155,7 +155,7 @@ function plugin.onTextMessage(msg, blocks)
 		if not msg.reply
 			and (not blocks[2] or (not blocks[2]:match('@[%w_]+$') and not blocks[2]:match('%d+$')
 			and not msg.mention_id)) then
-			api.sendReply(msg, _("Reply to an user or mention them by username or numerical ID"))
+			api.sendReply(msg, i18n("Reply to an user or mention them by username or numerical ID"))
 			return
 		end
 
@@ -163,7 +163,7 @@ function plugin.onTextMessage(msg, blocks)
 		local user_id = get_user_id(msg, blocks)
 
 		if not user_id then
-			api.sendReply(msg, _([[I've never seen this user before.
+			api.sendReply(msg, i18n([[I've never seen this user before.
 This command works by reply, username, user ID or text mention.
 If you're using it by username and want to teach me who the user is, forward me one of his messages]]), true)
 			return
@@ -181,7 +181,7 @@ If you're using it by username and want to teach me who the user is, forward me 
 		local hash = 'cache:chat:'..msg.chat.id..':admins'
 		local seconds = db:ttl(hash)
 		local cached_admins = db:scard(hash)
-		local text = _("📌 Status: `CACHED`\n⌛ ️Remaining: `%s`\n👥 Admins cached: `%d`")
+		local text = i18n("📌 Status: `CACHED`\n⌛ ️Remaining: `%s`\n👥 Admins cached: `%d`")
 			:format(get_time_remaining(tonumber(seconds)), cached_admins)
 		local keyboard = do_keyboard_cache(msg.chat.id)
 		api.sendMessage(msg.chat.id, text, true, keyboard)
@@ -190,7 +190,7 @@ If you're using it by username and want to teach me who the user is, forward me 
 		if not msg.reply or not msg.chat.username then return end
 
 		local text = string.format('[%s](https://telegram.me/%s/%d)',
-			_("Message N° %d"):format(msg.reply.message_id), msg.chat.username, msg.reply.message_id)
+			i18n("Message N° %d"):format(msg.reply.message_id), msg.chat.username, msg.reply.message_id)
 		if msg.from.admin or not u.is_silentmode_on(msg.chat.id) then
 			api.sendReply(msg.reply, text, true)
 		else
@@ -207,7 +207,7 @@ end
 
 function plugin.onCallbackQuery(msg, blocks)
 	if not msg.from.admin then
-		api.answerCallbackQuery(msg.cb_id, _("You are not allowed to use this button")) return
+		api.answerCallbackQuery(msg.cb_id, i18n("You are not allowed to use this button")) return
 	end
 
 	if blocks[1] == 'remwarns' then
@@ -218,7 +218,7 @@ function plugin.onCallbackQuery(msg, blocks)
 		}
 
 		local name = u.getname_final(msg.from)
-		local text = _("The number of warnings received by this user has been <b>reset</b>, by %s"):format(name)
+		local text = i18n("The number of warnings received by this user has been <b>reset</b>, by %s"):format(name)
 		api.editMessageText(msg.chat.id, msg.message_id, text:format(name), 'html')
 		u.logEvent('nowarn', msg,
 			{admin = name, user = ('<code>%s</code>'):format(msg.target_id), user_id = msg.target_id, rem = removed})
@@ -228,7 +228,7 @@ function plugin.onCallbackQuery(msg, blocks)
 		local wait = 600
 		if config.bot_settings.cache_time.adminlist - missing_sec < wait then
 			local seconds_to_wait = wait - (config.bot_settings.cache_time.adminlist - missing_sec)
-			api.answerCallbackQuery(msg.cb_id,_(
+			api.answerCallbackQuery(msg.cb_id,i18n(
 					"The adminlist has just been updated. You must wait 10 minutes from the last refresh (wait  %d seconds)"
 				):format(seconds_to_wait), true)
 		else
@@ -236,9 +236,9 @@ function plugin.onCallbackQuery(msg, blocks)
 			u.cache_adminlist(msg.target_id)
 			local cached_admins = db:smembers('cache:chat:'..msg.target_id..':admins')
 			local time = get_time_remaining(config.bot_settings.cache_time.adminlist)
-			local text = _("📌 Status: `CACHED`\n⌛ ️Remaining: `%s`\n👥 Admins cached: `%d`")
+			local text = i18n("📌 Status: `CACHED`\n⌛ ️Remaining: `%s`\n👥 Admins cached: `%d`")
 				:format(time, #cached_admins)
-			api.answerCallbackQuery(msg.cb_id, _("✅ Updated. Next update in %s"):format(time))
+			api.answerCallbackQuery(msg.cb_id, i18n("✅ Updated. Next update in %s"):format(time))
 			api.editMessageText(msg.chat.id, msg.message_id, text, true, do_keyboard_cache(msg.target_id))
 			--api.sendLog('#recache\nChat: '..msg.target_id..'\nFrom: '..msg.from.id)
 		end

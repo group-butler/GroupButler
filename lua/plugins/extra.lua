@@ -3,7 +3,7 @@ local u = require 'utilities'
 local api = require 'methods'
 local db = require 'database'
 local locale = require 'languages'
-local _ = locale.translate
+local i18n = locale.translate
 
 local plugin = {}
 
@@ -38,7 +38,7 @@ function plugin.onTextMessage(msg, blocks)
 						to_save = '###file_id###:'..file_id
 					end
 					db:hset('chat:'..msg.chat.id..':extra', blocks[2], to_save)
-					api.sendReply(msg, _("This media has been saved as a response to %s"):format(blocks[2]))
+					api.sendReply(msg, i18n("This media has been saved as a response to %s"):format(blocks[2]))
 				end
 		else
 				local hash = 'chat:'..msg.chat.id..':extra'
@@ -52,7 +52,7 @@ function plugin.onTextMessage(msg, blocks)
 				else
 					db:hset(hash, blocks[2]:lower(), new_extra)
 					local msg_id = res.result.message_id
-				api.editMessageText(msg.chat.id, msg_id, _("Command '%s' saved!"):format(blocks[2]))
+				api.editMessageText(msg.chat.id, msg_id, i18n("Command '%s' saved!"):format(blocks[2]))
 				end
 			end
 	elseif blocks[1] == 'extra list' then
@@ -75,9 +75,9 @@ function plugin.onTextMessage(msg, blocks)
 				end
 			end
 			if not next(deleted) then deleted[1] = '-' end
-			local text = _("Commands deleted: `%s`"):format(table.concat(deleted, '`, `'))
+			local text = i18n("Commands deleted: `%s`"):format(table.concat(deleted, '`, `'))
 			if next(not_found) then
-				text = text.._('\nCommands not found: `%s`'):format(table.concat(not_found, '`, `'))
+				text = text..i18n('\nCommands not found: `%s`'):format(table.concat(not_found, '`, `'))
 			end
 			api.sendReply(msg, text, true)
 	else
@@ -129,7 +129,7 @@ function plugin.onTextMessage(msg, blocks)
 
 			if not res and code == 403.0 and msg.chat.id < 0 and not u.is_silentmode_on(msg.chat.id) then
 				--if the user haven't started the bot and silent mode is off
-					api.sendReply(msg, _("_Please_ [start me](%s) _so I can send you the answer_")
+					api.sendReply(msg, i18n("_Please_ [start me](%s) _so I can send you the answer_")
 						:format(u.deeplink_constructor(msg.chat.id, extra:sub(2, -1))), true)
 				end
 		end

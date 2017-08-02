@@ -3,50 +3,51 @@ local u = require 'utilities'
 local api = require 'methods'
 local db = require 'database'
 local locale = require 'languages'
-local _ = locale.translate
+local i18n = locale.translate
 
 local plugin = {}
 
 local function get_button_description(key)
 	if key == 'Reports' then
 		-- TRANSLATORS: these strings should be shorter than 200 characters
-		return _("When enabled, users will be able to report messages with the @admin command")
+		return i18n("When enabled, users will be able to report messages with the @admin command")
 	elseif key == 'Goodbye' then
-		return _("Enable or disable the goodbye message. Can't be sent in large groups")
+		return i18n("Enable or disable the goodbye message. Can't be sent in large groups")
 	elseif key == 'Welcome' then
-		return _("Enable or disable the welcome message")
+		return i18n("Enable or disable the welcome message")
 	elseif key == 'Weldelchain' then
-		return _("When enabled, every time a new welcome message is sent, the previously sent welcome message is removed")
+		return i18n("When enabled, every time a new welcome message is sent, the previously sent welcome message is removed")
 	elseif key == 'Silent' then
-		return _(
+		return i18n(
 			[[When enabled, the bot doesn't answer in the group to /dashboard, /config and /help commands (it will just answer in private)
 			]])
 	elseif key == 'Flood' then
-		return _("Enable and disable the anti-flood system (more info in the /help message)")
+		return i18n("Enable and disable the anti-flood system (more info in the /help message)")
 	elseif key == 'Welbut' then
-		return _(
+		return i18n(
 			[[If the welcome message is enabled, it will include an inline button that will send to the user the rules in private
 			]])
 	elseif key == 'Rules' then
-		return _([[When someone uses /rules
+		return i18n([[When someone uses /rules
 👥: the bot will answer in the group (always, with admins)
 👤: the bot will answer in private]])
 	elseif key == 'Extra' then
-		return _([[When someone uses an #extra
+		return i18n([[When someone uses an #extra
 👥: the bot will answer in the group (always, with admins)
 👤: the bot will answer in private]])
 	elseif key == 'Arab' then
-		return _("Select what the bot should do when someone sends a message with arab characters")
+		return i18n("Select what the bot should do when someone sends a message with arab characters")
 	elseif key == 'Antibot' then
-		return _("Bots will be banned when added by normal users")
+		return i18n("Bots will be banned when added by normal users")
 	elseif key == 'Rtl' then
-		return _("Select what the bot should do when someone sends a message with the RTL character, or has it in his name")
+		return i18n(
+			"Select what the bot should do when someone sends a message with the RTL character, or has it in his name")
 	elseif key == 'warnsnum' then
-		return _("Change how many times an user has to be warned before being kicked/banned")
+		return i18n("Change how many times an user has to be warned before being kicked/banned")
 	elseif key == 'warnsact' then
-		return _("Change the action to perform when an user reaches the max. number of warnings")
+		return i18n("Change the action to perform when an user reaches the max. number of warnings")
 	else
-		return _("Description not available")
+		return i18n("Description not available")
 	end
 end
 
@@ -55,14 +56,14 @@ local function changeWarnSettings(chat_id, action)
 	local new_val
 	if action == 1 then
 		if current > 12 then
-			return _("The new value is too high ( > 12)")
+			return i18n("The new value is too high ( > 12)")
 		else
 			new_val = db:hincrby('chat:'..chat_id..':warnsettings', 'max', 1)
 			return current..'->'..new_val
 		end
 	elseif action == -1 then
 		if current < 2 then
-			return _("The new value is too low ( < 1)")
+			return i18n("The new value is too low ( < 1)")
 		else
 			new_val = db:hincrby('chat:'..chat_id..':warnsettings', 'max', -1)
 			return current..'->'..new_val
@@ -71,23 +72,23 @@ local function changeWarnSettings(chat_id, action)
 		local status = (db:hget('chat:'..chat_id..':warnsettings', 'type')) or config.chat_settings.warnsettings.type
 		if status == 'kick' then
 			db:hset('chat:'..chat_id..':warnsettings', 'type', 'ban')
-			return _("New action on max number of warns received: ban")
+			return i18n("New action on max number of warns received: ban")
 		elseif status == 'ban' then
 			db:hset('chat:'..chat_id..':warnsettings', 'type', 'mute')
-			return _("New action on max number of warns received: mute")
+			return i18n("New action on max number of warns received: mute")
 		elseif status == 'mute' then
 			db:hset('chat:'..chat_id..':warnsettings', 'type', 'kick')
-			return _("New action on max number of warns received: kick")
+			return i18n("New action on max number of warns received: kick")
 		end
 	end
 end
 
 local function changeCharSettings(chat_id, field)
 	local humanizations = {
-		kick = _("Action -> kick"),
-		ban = _("Action -> ban"),
-		mute = _("Action -> mute"),
-		allow = _("Allowed ✅")
+		kick = i18n("Action -> kick"),
+		ban = i18n("Action -> ban"),
+		mute = i18n("Action -> mute"),
+		allow = i18n("Allowed ✅")
 	}
 
 	local hash = 'chat:'..chat_id..':char'
@@ -149,13 +150,13 @@ local function charsettings_table(settings, chat_id)
 	for field, default in pairs(settings) do
 		local status = (db:hget('chat:'..chat_id..':char', field)) or default
 		if status == 'kick' then
-			return_table[field] = _('👞 kick')
+			return_table[field] = i18n('👞 kick')
 		elseif status == 'ban' then
-			return_table[field] = _('🔨 ban')
+			return_table[field] = i18n('🔨 ban')
 		elseif status == 'mute' then
-			return_table[field] = _('👁 mute')
+			return_table[field] = i18n('👁 mute')
 		elseif status == 'allowed' then
-			return_table[field] = _('✅')
+			return_table[field] = i18n('✅')
 		end
 	end
 
@@ -164,18 +165,18 @@ end
 
 local function insert_settings_section(keyboard, settings_section, chat_id)
 	local strings = {
-		Welcome = _("Welcome"),
-		Goodbye = _("Goodbye"),
-		Extra = _("Extra"),
-		Flood = _("Anti-flood"),
-		Silent = _("Silent mode"),
-		Rules = _("Rules"),
-		Arab = _("Arab"),
-		Rtl = _("RTL"),
-		Antibot = _("Ban bots"),
-		Reports = _("Reports"),
-		Weldelchain = _("Delete last welcome message"),
-		Welbut = _("Welcome + rules button")
+		Welcome = i18n("Welcome"),
+		Goodbye = i18n("Goodbye"),
+		Extra = i18n("Extra"),
+		Flood = i18n("Anti-flood"),
+		Silent = i18n("Silent mode"),
+		Rules = i18n("Rules"),
+		Arab = i18n("Arab"),
+		Rtl = i18n("RTL"),
+		Antibot = i18n("Ban bots"),
+		Reports = i18n("Reports"),
+		Weldelchain = i18n("Delete last welcome message"),
+		Welbut = i18n("Welcome + rules button")
 	}
 
 	for key, icon in pairs(settings_section) do
@@ -205,20 +206,20 @@ local function doKeyboard_menu(chat_id)
 	local max = (db:hget('chat:'..chat_id..':warnsettings', 'max')) or config.chat_settings['warnsettings']['max']
 	local action = (db:hget('chat:'..chat_id..':warnsettings', 'type')) or config.chat_settings['warnsettings']['type']
 	if action == 'kick' then
-		action = _("👞 kick")
+		action = i18n("👞 kick")
 	elseif action == 'ban' then
-		action = _("🔨️ ban")
+		action = i18n("🔨️ ban")
 	elseif action == 'mute' then
-		action = _("👁 mute")
+		action = i18n("👁 mute")
 	end
 	local warn = {
 		{
-			{text = _('Warns: ')..max, callback_data = 'menu:alert:settings:warnsnum:'..locale.language},
+			{text = i18n('Warns: ')..max, callback_data = 'menu:alert:settings:warnsnum:'..locale.language},
 			{text = '➖', callback_data = 'menu:DimWarn:'..chat_id},
 			{text = '➕', callback_data = 'menu:RaiseWarn:'..chat_id},
 		},
 		{
-			{text = _('Action:'), callback_data = 'menu:alert:settings:warnsact:'..locale.language},
+			{text = i18n('Action:'), callback_data = 'menu:alert:settings:warnsact:'..locale.language},
 			{text = action, callback_data = 'menu:ActionWarn:'..chat_id}
 		}
 	}
@@ -235,9 +236,9 @@ end
 function plugin.onCallbackQuery(msg, blocks)
 	local chat_id = msg.target_id
 	if chat_id and not u.is_allowed('config', chat_id, msg.from) then
-		api.answerCallbackQuery(msg.cb_id, _("You're no longer an admin"))
+		api.answerCallbackQuery(msg.cb_id, i18n("You're no longer an admin"))
 	else
-		local menu_first = _("Manage the settings of the group. Click on the left column to get a small hint")
+		local menu_first = i18n("Manage the settings of the group. Click on the left column to get a small hint")
 
 		local keyboard, text, show_alert
 

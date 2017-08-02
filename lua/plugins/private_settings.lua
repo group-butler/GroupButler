@@ -2,19 +2,19 @@ local config = require 'config'
 local api = require 'methods'
 local db = require 'database'
 local locale = require 'languages'
-local _ = locale.translate
+local i18n = locale.translate
 
 local plugin = {}
 
 local function get_button_description(key)
 	if key == 'rules_on_join' then
-		return _("When you join a group moderated by this bot, you will receive the group rules in private")
+		return i18n("When you join a group moderated by this bot, you will receive the group rules in private")
 	elseif key == 'reports' then
-		return _(
+		return i18n(
 			'If enabled, you will receive all the messages reported with the @admin command in the groups you are moderating'
 			)
 	else
-		return _("Description not available")
+		return i18n("Description not available")
 	end
 end
 
@@ -43,8 +43,8 @@ local function doKeyboard_privsett(user_id)
 
 	local keyboard = {inline_keyboard = {}}
 	local button_names = {
-		['rules_on_join'] = _('Rules on join'),
-		['reports'] = _('Users reports')
+		['rules_on_join'] = i18n('Rules on join'),
+		['reports'] = i18n('Users reports')
 	}
 	for key, status in pairs(user_settings) do
 		local icon
@@ -62,7 +62,7 @@ end
 function plugin.onTextMessage(msg)
 	if msg.chat.type == 'private' then
 		local keyboard = doKeyboard_privsett(msg.from.id)
-		api.sendMessage(msg.from.id, _('Change your private settings'), true, keyboard)
+		api.sendMessage(msg.from.id, i18n('Change your private settings'), true, keyboard)
 	end
 end
 
@@ -73,7 +73,7 @@ function plugin.onCallbackQuery(msg, blocks)
 		change_private_setting(msg.from.id, blocks[2])
 		local keyboard = doKeyboard_privsett(msg.from.id)
 		api.editMessageReplyMarkup(msg.from.id, msg.message_id, keyboard)
-		api.answerCallbackQuery(msg.cb_id, _('⚙ Setting applied'))
+		api.answerCallbackQuery(msg.cb_id, i18n('⚙ Setting applied'))
 	end
 end
 
