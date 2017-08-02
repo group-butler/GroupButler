@@ -65,8 +65,10 @@ case $REPLY in [yY])
 	if [ -d .git ]; then
 		echo -en "${Green}Do you want to use the beta branch (If you modified something we will do a stash)? (Y/N): ${Default}"
 		read REPLY
-		git stash
-		git checkout beta
+		if [[ $REPLY == [yY] ]]; then
+			git stash
+			git checkout beta
+		fi
 	fi;
 
 	echo -en "${BGreen}Group Butler successfully installed! Change values in config file and run ${BRed}./launch.sh${BGreen}.${Default}";;
