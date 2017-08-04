@@ -18,7 +18,7 @@ function plugin.onTextMessage(msg, blocks)
 
 		local pin_id = db:get('chat:'..msg.chat.id..':pin')
 		local was_deleted
-		if pin_id then --try to edit the old message
+		if pin_id and blocks[1] ~= "newpin" then --try to edit the old message
 			local reply_markup, new_text = u.reply_markup_from_text(blocks[2])
 			local res, code = api.editMessageText(msg.chat.id, pin_id, new_text:replaceholders(msg, 'rules', 'title'), true, reply_markup)
 			if not res then

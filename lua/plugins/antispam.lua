@@ -252,7 +252,8 @@ function plugin.onCallbackQuery(msg, blocks)
 Choose which kind of spam you want to forbid
 • ✅ = *Allowed*
 • ❌ = *Not allowed*
-• 🗑 = *Delete* (doesn't warn, kick or ban. Just deletes)
+• 🗑 = *Delete*
+When set on `delete`, the bot doesn't warn users until they are about to be kicked/banned/muted (at the second-to-last warning)
 ]])
 
 			local keyboard, text

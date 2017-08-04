@@ -90,12 +90,13 @@ Only the administrators who have the permission to restrict users can use these 
 
 • `/kick [by reply|username|id|text mention]`: kick a user from the group.
 • `/ban [by reply|username|id|text mention]`: ban a user from the group.
-• (*not working right now*) `/tempban [hours|nd nh]` = ban an user for a specific amount of hours (max: one week). For now, only by reply. Short form: `/tempban 1d 7h`
+• `/tempban [by reply|username|id|text mention]`: ban an user for a specific amount of time. Use the returned keyboard to ban the user.
+Pass a value on a new line to use it as starting value. When a ban expires, the user won't be added back. Check the Telegram's restricted users list for pending unbans.
 • `/fwdban [by reply]`: ban the original sender of a forwarded message.
 • `/unban [by reply|username|id|text mention]`: unban the user from the group.
 • `/user [by reply|username|id|text mention]`: shows how many times the user has been banned *in all the groups*, and the warns received.
-• `/status [username|id]`: show the current status of the user `(member|kicked/left the chat|banned|admin/creator|never seen)`.
-A bot can't retrieve the status of an user if that user never started it before (in this case, the _never seen_ status is returned)
+• `/status [username|id]`: show the current status of the user `(member|restricted|kicked/left the chat|banned|admin/creator|never seen)`.
+Will also show the permissions the user *doesn't* have.
 
 *Antiflood*
 The "antiflood" is a system that auto-removes people that send many consecutive messages in a group.

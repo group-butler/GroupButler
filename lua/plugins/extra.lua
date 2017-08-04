@@ -138,7 +138,7 @@ plugin.triggers = {
 		config.cmd..'(extra del) (.+)$',
 		config.cmd..'(extra list)$',
 		'^/(start) (-?%d+)_([%w_]+)$',
-		'^(#[%w_]*)$'
+		'^(#[%w_]+)$'
 	}
 }
 
