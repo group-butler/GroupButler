@@ -21,15 +21,12 @@ local triggers2 = {
 	'^%$(api errors)$',
 	'^%$(rediscli) (.*)$',
 	'^%$(sendfile) (.*)$',
-	'^%$(resid) (%d+)$',
 	'^%$(res) (@%a[%w_]+)',
-	'^%$(update)$',
 	'^%$(tban) (get)$',
 	'^%$(tban) (flush)$',
 	'^%$(remban) (@[%w_]+)$',
 	'^%$(rawinfo) (.*)$',
 	'^%$(rawinfo2) (.*)$',
-	'^%$(cleandeadgroups)$',
 	'^%$(initgroup) (-%d+)$',
 	'^%$(remgroup) (-%d+)$',
 	'^%$(remgroup) (true) (-%d+)$',
@@ -38,8 +35,7 @@ local triggers2 = {
 	'^%$(active) (%d%d?)$',
 	'^%$(active)$',
 	'^%$(getid)$',
-	'^%$(redisbackup)$',
-	'^%$(realm) (.+)$'
+	'^%$(permission)s?'
 }
 
 function plugin.cron()
@@ -88,25 +84,35 @@ local function match_pattern(pattern, text)
   end
 end
 
+local function get_chat_id(msg)
+	if msg.text:find('$chat') then
+		return msg.chat.id
+	elseif msg.text:find('-%d+') then
+		return msg.text:match('(-%d+)')
+	elseif msg.reply then
+		if msg.reply.text:find('-%d+') then
+			return msg.reply.text:match('(-%d+)')
+		end
+	else
+		return false
+	end
+end
+
 function plugin.onTextMessage(msg, blocks)
 
 	if not u.is_superadmin(msg.from.id) then return end
 
 	blocks = {}
 
-	for _, trigger in pairs(triggers2) do
-		blocks = match_pattern(trigger, msg.text)
+	for i=1, #triggers2 do
+		blocks = match_pattern(triggers2[i], msg.text)
 		if blocks then break end
 	end
 
 	if not blocks or not next(blocks) then return true end --leave this plugin and continue to match the others
 
 	if blocks[1] == 'admin' then
-		local text = ''
-		for k,v in pairs(triggers2) do
-			text = text..v..'\n'
-		end
-		api.sendMessage(msg.from.id, text)
+		api.sendMessage(msg.from.id, u.vtext(triggers2))
 	end
 	if blocks[1] == 'init' then
 		local n_plugins = bot_init(true) or 0
@@ -120,8 +126,8 @@ function plugin.onTextMessage(msg, blocks)
 		api.sendDocument(msg.from.id, './'..bot.first_name:gsub(' ', '_')..'.tar')
 	end
 	if blocks[1] == 'save' then
-		db:bgsave()
-		api.sendMessage(msg.chat.id, 'Redis updated', true)
+		local res = db:save()
+		api.sendMessage(msg.chat.id, 'res: '..tostring(res))
 	end
 	if blocks[1] == 'stats' then
 		local text = '#stats `['..u.get_date()..']`:\n'
@@ -211,22 +217,9 @@ function plugin.onTextMessage(msg, blocks)
 		end
 		api.sendMessage(msg.from.id, text)
 	end
-	if blocks[1] == 'forward' then
-		if msg.chat.type == 'private' then
-			if msg.forward_from then
-				api.sendReply(msg, msg.forward_from.id)
-			end
-		end
-		return msg.text:gsub('###forward:', '')
-	end
 	if blocks[1] == 'api errors' then
-		local errors = db:hkeys('bot:errors')
-		local times = db:hvals('bot:errors')
-		local text = 'Api errors:\n'
-		for i=1,#errors do
-			text = text..errors[i]..': '..times[i]..'\n'
-		end
-		api.sendMessage(msg.from.id, text)
+		local t = db:hgetall('bot:errors')
+		api.sendMessage(msg.chat.id, u.vtext(t))
 	end
 	if blocks[1] == 'rediscli' then
 		local redis_f = blocks[2]:gsub(' ', '(\'', 1)
@@ -241,17 +234,6 @@ function plugin.onTextMessage(msg, blocks)
 		local path = blocks[2]
 		api.sendDocument(msg.from.id, path)
 	end
-	if blocks[1] == 'resid' then
-		local user_id = blocks[2]
-		local all = db:hgetall('bot:usernames')
-		for username,id in pairs(all) do
-			if tostring(id) == user_id then
-				api.sendReply(msg, username)
-				return
-			end
-		end
-		api.sendReply(msg, 'Not found')
-	end
 	if blocks[1] == 'res' then
 		local username = blocks[2]
 		local user_id = {
@@ -259,28 +241,6 @@ function plugin.onTextMessage(msg, blocks)
 			lower = u.resolve_user(username:lower())
 		}
 		api.sendMessage(msg.chat.id, u.vtext(user_id))
-	end
-	if blocks[1] == 'update' then
-		local groups = db:smembers('bot:groupsid')
-		local n = 0
-		for chat_id in pairs(groups) do
-			local hash = 'chat:'..chat_id..':settings'
-			db:hdel(hash, 'Preview')
-
-			--[[local image = db:hget(hash, 'image')
-			db:hdel(hash, 'image')
-			local file = db:hget(hash, 'file')
-			db:hdel(hash, 'file')
-			if image and type(image) == 'string' then
-				db:hset(hash, 'photo', image)
-				n = n + 1
-			end
-			if file and type(file) == 'string' then
-				db:hset(hash, 'document', file)
-				n = n + 1
-			end]]
-		end
-		api.sendReply(msg, 'Done')
 	end
 	if blocks[1] == 'tban' then
 		if blocks[2] == 'flush' then
@@ -348,14 +308,6 @@ function plugin.onTextMessage(msg, blocks)
 			api.sendDocument(msg.chat.id, file_path)
 		end
 	end
-	if blocks[1] == 'cleandeadgroups' then
-		--not tested
-		local dead_groups = db:smembers('bot:groupsid:removed')
-		for _, chat_id in pairs(dead_groups) do
-			u.remGroup(chat_id, true)
-		end
-		api.sendReply(msg, 'Done. Groups passed: '..#dead_groups)
-	end
 	if blocks[1] == 'initgroup' then
 		u.initGroup(blocks[2])
 		api.sendMessage(msg.chat.id, 'Done')
@@ -371,22 +323,17 @@ function plugin.onTextMessage(msg, blocks)
 		api.sendMessage(msg.chat.id, 'Removed (heavy: '..tostring(full)..')')
 	end
 	if blocks[1] == 'cache' then
-		local chat_id
-		if blocks[2] == '$chat' then
-			chat_id = msg.chat.id
-		else
-			chat_id = blocks[2]
-		end
+		local chat_id = get_chat_id(msg)
 		local members = db:smembers('cache:chat:'..chat_id..':admins')
+		for i=1, #members do
+			local permissions = db:smembers("cache:chat:"..chat_id..":"..members[i]..":permissions")
+			members[members[i]] = permissions
+		end
 		api.sendMessage(msg.chat.id, chat_id..' ➤ '..tostring(#members)..'\n'..u.vtext(members))
 	end
 	if blocks[1] == 'initcache' then
 		local chat_id, text
-		if blocks[2] == '$chat' then
-			chat_id = msg.chat.id
-		else
-			chat_id = blocks[2]
-		end
+		chat_id = get_chat_id(msg)
 		local res, code = u.cache_adminlist(chat_id)
 		if res then
 			text = 'Cached ➤ '..code..' admins stored'
@@ -413,31 +360,14 @@ function plugin.onTextMessage(msg, blocks)
 			api.sendMessage(msg.chat.id, '`'..msg.reply.forward_from.id..'`', true)
 		end
 	end
-	if blocks[1] == 'realm' then
-		local chat_id
-		if blocks[2] == '$chat' then
-			chat_id = msg.chat.id
+	if blocks[1] == 'permission' then
+		local chat_id = get_chat_id(msg)
+		if not chat_id then
+			api.sendMessage(msg, "Can't find a chat_id")
 		else
-			chat_id = blocks[2]
+			local res = api.getChatMember(chat_id, bot.id)
+			api.sendMessage(msg.chat.id, ('%s\n%s'):format(chat_id, u.vtext(res)))
 		end
-		local text = 'Group: '..chat_id..'\nIs in the general list: '..tostring(db:sismember('bot:realms', chat_id))..'\n'
-		local subgroups = db:hgetall('realm:'..chat_id..':subgroups')
-		if not next(subgroups) then
-			text = text..'Doesn\'t have subgroups paired'
-		else
-			text = text..'Subgroups:\n'
-			for subgroup_id, subgroup_name in pairs(subgroups) do
-				text = text..subgroup_id
-				local subgroup_paired_realm = (db:get('chat:'..subgroup_id..':realm')) or 'none'
-				text = text..' X '..subgroup_paired_realm..'\n'
-			end
-		end
-		api.sendMessage(msg.chat.id, text)
-	end
-	if blocks[1] == 'redisbackup' then
-		local res = u.bash('./redisbackup.sh')
-		if not res then res = '-' end
-		api.sendMessage(msg.chat.id, res)
 	end
 end
 

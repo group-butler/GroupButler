@@ -1,15 +1,15 @@
 local curl = require 'cURL'
 local URL = require 'socket.url'
-local JSON = require 'cjson'
+local JSON = require 'dkjson'
 local config = require 'config'
 local clr = require 'term.colors'
 local api_errors = require 'api_bad_requests'
 
-local BASE_URL = 'https://api.telegram.org/bot' .. config.bot_api_key
+local BASE_URL = 'https://api.telegram.org/bot' .. config.telegram.token
 
 local api = {}
 
-local curl_context = curl.easy{verbose = config.bot_settings.debug_connections}
+local curl_context = curl.easy{verbose = false}
 
 local function getCode(err)
 	err = err:lower()
@@ -40,7 +40,6 @@ local function sendRequest(url)
 		print(clr.red..'Error while parsing JSON'..clr.reset, code)
 		print(clr.yellow..'Data:'..clr.reset, dat)
 		api.sendAdmin(dat..'\n'..code)
-		--error('Incorrect response')
 	end
 
 	if code ~= 200 then
@@ -52,8 +51,14 @@ local function sendRequest(url)
 
 		print(clr.red..code, tab.description..clr.reset)
 		db:hincrby('bot:errors', code, 1)
-
-		return false, code, tab.description
+		
+		local retry_after
+		if code == 429 then
+			retry_after = tab.parameters.retry_after
+			print(('%sRate limited for %d seconds%s'):format(clr.yellow, retry_after, clr.reset))
+		end
+		
+		return false, code, tab.description, retry_after
 	end
 
 	if not tab.ok then
@@ -116,7 +121,8 @@ function api.getUpdates(offset)
 end
 
 function api.firstUpdate()
-	local url = BASE_URL .. '/getUpdates?timeout=3600&limit=1&allowed_updates='..JSON.encode(config.allowed_updates)
+	local url = BASE_URL .. '/getUpdates?timeout=3600&limit=1&allowed_updates=' ..
+		JSON.encode(config.telegram.allowed_updates)
 
 	return sendRequest(url)
 end
@@ -128,9 +134,13 @@ function api.unbanChatMember(chat_id, user_id)
 	return sendRequest(url)
 end
 
-function api.kickChatMember(chat_id, user_id)
+function api.kickChatMember(chat_id, user_id, until_date)
 
 	local url = BASE_URL .. '/kickChatMember?chat_id=' .. chat_id .. '&user_id=' .. user_id
+	
+	if until_date then
+		url = url .. '&until_date=' ..until_date
+	end
 
 	local success, code, description = sendRequest(url)
 	if success then
@@ -142,7 +152,9 @@ end
 
 local function code2text(code)
 	--the default error description can't be sent as output, so a translation is needed
-	if code == 101 or code == 105 or code == 107 then
+	if code == 159 then
+		return _("I don't have enough permissions to restrict users")
+	elseif code == 101 or code == 105 or code == 107 then
 		return _("I'm not an admin, I can't kick people")
 	elseif code == 102 or code == 104 then
 		return _("I can't kick or ban an admin")
@@ -156,9 +168,9 @@ local function code2text(code)
 	return false
 end
 
-function api.banUser(chat_id, user_id)
+function api.banUser(chat_id, user_id, until_date)
 
-	local res, code = api.kickChatMember(chat_id, user_id) --try to kick. "code" is already specific
+	local res, code = api.kickChatMember(chat_id, user_id, until_date) --try to kick. "code" is already specific
 
 	if res then --if the user has been kicked, then...
 		return res --return res and not the text
@@ -184,10 +196,34 @@ function api.kickUser(chat_id, user_id)
 	end
 end
 
+function api.muteUser(chat_id, user_id)
+	
+	local url = BASE_URL .. '/restrictChatMember?chat_id=' .. chat_id .. '&user_id=' .. user_id .. '&can_post_messages=false'
+	
+	return sendRequest(url)
+	
+end
+
 function api.unbanUser(chat_id, user_id)
 
 	local res, code = api.unbanChatMember(chat_id, user_id)
 	return true
+end
+
+function api.restrictChatMember(chat_id, user_id, permissions, until_date)
+	
+	local url = BASE_URL .. '/restrictChatMember?chat_id=' .. chat_id .. '&user_id=' .. user_id
+	
+	if until_date then
+		url = url .. '&until_date=' .. until_date
+	end
+	
+	for permission, value in pairs(permissions) do
+		url = url..('&%s=%s'):format(permission, value)
+	end
+	
+	return sendRequest(url)
+	
 end
 
 function api.getChat(chat_id)
@@ -224,13 +260,7 @@ function api.getChatMember(chat_id, user_id)
 
 	local url = BASE_URL .. '/getChatMember?chat_id=' .. chat_id .. '&user_id=' .. user_id
 
-	local res, code, desc = sendRequest(url)
-
-	if not res and code then --if the request failed and a code is returned (not 403 and 429)
-		log_error('getChatMember', code, nil, desc)
-	end
-
-	return res, code
+	return sendRequest(url)
 
 end
 
@@ -250,6 +280,14 @@ function api.leaveChat(chat_id)
 
 	return res, code
 
+end
+
+function api.exportChatInviteLink(chat_id)
+	
+	local url = BASE_URL .. '/exportChatInviteLink?chat_id=' .. chat_id
+
+	return sendRequest(url)
+		
 end
 
 function api.sendMessage(chat_id, text, parse_mode, reply_markup, reply_to_message_id, link_preview)
@@ -311,23 +349,33 @@ function api.editMessageText(chat_id, message_id, text, parse_mode, keyboard)
 		url = url..'&reply_markup='..URL.escape(JSON.encode(keyboard))
 	end
 
-	local res, code, desc = sendRequest(url)
-
-	if not res and code then --if the request failed and a code is returned (not 403 and 429)
-		log_error('editMessageText', code, {text}, desc)
-	end
-
-	return res, code
+	return sendRequest(url)
 
 end
 
-function api.editMarkup(chat_id, message_id, reply_markup)
+function api.editMessageReplyMarkup(chat_id, message_id, reply_markup)
 
-	local url = BASE_URL .. '/editMessageReplyMarkup?chat_id=' .. chat_id ..
+	local url = BASE_URL .. '/editMessageReplyMarkup?chat_id='..chat_id..
 		'&message_id='..message_id..
 		'&reply_markup='..URL.escape(JSON.encode(reply_markup))
 
 	return sendRequest(url)
+
+end
+
+function api.deleteMessage(chat_id, message_id)
+	
+	local url = BASE_URL .. '/deleteMessage?chat_id=' .. chat_id .. '&message_id=' .. message_id
+	
+	return sendRequest(url)
+
+end
+
+function api.deleteMessages(chat_id, message_ids)
+	
+	for i=1, #message_ids do
+		api.deleteMessage(chat_id, message_ids[i])
+	end
 
 end
 
@@ -475,6 +523,18 @@ function api.sendDocumentId(chat_id, file_id, reply_to_message_id, caption, repl
 
 end
 
+function api.sendStickerId(chat_id, file_id, reply_to_message_id)
+
+	local url = BASE_URL .. '/sendSticker?chat_id=' .. chat_id .. '&sticker=' .. file_id
+
+	if reply_to_message_id then
+		url = url..'&reply_to_message_id='..reply_to_message_id
+	end
+
+	return sendRequest(url)
+
+end
+
 ---------------------------- File Uploads -------------------------------------
 
 function api.sendPhoto(chat_id, photo, caption, reply_to_message_id)
@@ -499,6 +559,7 @@ function api.sendPhoto(chat_id, photo, caption, reply_to_message_id)
 	local c = curl_context:setopt_writefunction(table.insert, data)
 						  :setopt_httppost(form)
 						  :perform()
+						  :reset()
 
 	return table.concat(data), c:getinfo_response_code()
 end
@@ -525,6 +586,7 @@ function api.sendDocument(chat_id, document, reply_to_message_id, caption)
 	local c = curl_context:setopt_writefunction(table.insert, data)
 						  :setopt_httppost(form)
 						  :perform()
+						  :reset()
 
 	return table.concat(data), c:getinfo_response_code()
 
@@ -548,20 +610,9 @@ function api.sendSticker(chat_id, sticker, reply_to_message_id)
 	local c = curl_context:setopt_writefunction(table.insert, data)
 						  :setopt_httppost(form)
 						  :perform()
+						  :reset()
 
 	return table.concat(data), c:getinfo_response_code()
-
-end
-
-function api.sendStickerId(chat_id, file_id, reply_to_message_id)
-
-	local url = BASE_URL .. '/sendSticker?chat_id=' .. chat_id .. '&sticker=' .. file_id
-
-	if reply_to_message_id then
-		url = url..'&reply_to_message_id='..reply_to_message_id
-	end
-
-	return sendRequest(url)
 
 end
 
@@ -595,6 +646,7 @@ function api.sendAudio(chat_id, audio, reply_to_message_id, duration, performer,
 	local c = curl_context:setopt_writefunction(table.insert, data)
 						  :setopt_httppost(form)
 						  :perform()
+						  :reset()
 
 	return table.concat(data), c:getinfo_response_code()
 
@@ -626,6 +678,7 @@ function api.sendVideo(chat_id, video, duration, caption, reply_to_message_id)
 	local c = curl_context:setopt_writefunction(table.insert, data)
 						  :setopt_httppost(form)
 						  :perform()
+						  :reset()
 
 	return table.concat(data), c:getinfo_response_code()
 

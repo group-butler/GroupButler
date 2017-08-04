@@ -13,9 +13,9 @@ end
 
 local function forget_user_warns(chat_id, user_id)
 	local removed = {
-		normal = db:hdel('chat:'..chat_id..':warns', user_id) == 1 and '✅' or '❌',
-		media = db:hdel('chat:'..chat_id..':mediawarn', user_id) == 1 and '✅' or '❌',
-		spam = db:hdel('chat:'..chat_id..':spamwarns', user_id) == 1 and '✅' or '❌'
+		normal = db:hdel('chat:'..chat_id..':warns', user_id) == 1 and 'v' or '⨯',
+		media = db:hdel('chat:'..chat_id..':mediawarn', user_id) == 1 and 'v' or '⨯',
+		spam = db:hdel('chat:'..chat_id..':spamwarns', user_id) == 1 and 'v' or '⨯'
 	}
 
 	return removed
@@ -79,14 +79,19 @@ function plugin.onTextMessage(msg, blocks)
 		if num >= nmax then
 			local type = (db:hget('chat:'..msg.chat.id..':warnsettings', 'type')) or 'kick'
 			--try to kick/ban
+			local text = _("%s <b>%s</b>: reached the max number of warnings (<code>%d/%d</code>)")
 			if type == 'ban' then
-				text = _("%s <b>banned</b>: reached the max number of warnings (<code>%d/%d</code>)"):format(name, num, nmax)
 				hammer_log = _('banned')
+				text = text:format(name, hammer_log, num, nmax)
 				res, code, motivation = api.banUser(msg.chat.id, msg.reply.from.id)
-			else --kick
-				text = _("%s <b>kicked</b>: reached the max number of warnings (<code>%d/%d</code>)"):format(name, num, nmax)
+			elseif type == 'kick' then --kick
 				hammer_log = _('kicked')
+				text = text:format(name, hammer_log, num, nmax)
 				res, code, motivation = api.kickUser(msg.chat.id, msg.reply.from.id)
+			elseif type == 'mute' then --kick
+				hammer_log = _('muted')
+				text = text:format(name, hammer_log, num, nmax)
+				res, code, motivation = api.muteUser(msg.chat.id, msg.reply.from.id)
 			end
 			--if kick/ban fails, send the motivation
 			if not res then

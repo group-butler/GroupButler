@@ -29,8 +29,10 @@ local function do_keyboard_flood(chat_id)
 	local action = (db:hget(hash, 'ActionFlood')) or config.chat_settings['flood']['ActionFlood']
 	if action == 'kick' then
 		action = _("👞️ kick")
-	else
+	elseif action == 'ban' then
 		action = _("🔨 ️ban")
+	elseif action == 'mute' then
+		action = _("👁 mute")
 	end
 	local num = (db:hget(hash, 'MaxFlood')) or config.chat_settings['flood']['MaxFlood']
 	local keyboard = {
@@ -80,12 +82,15 @@ end
 local function changeFloodSettings(chat_id, screm)
 	local hash = 'chat:'..chat_id..':flood'
 	if type(screm) == 'string' then
-		if screm == 'kick' then
+		if screm == 'mute' then
 			db:hset(hash, 'ActionFlood', 'ban')
 			return _("Flooders will be banned")
-		else
+		elseif screm == 'ban' then
 			db:hset(hash, 'ActionFlood', 'kick')
 			return _("Flooders will be kicked")
+		elseif screm == 'kick' then
+			db:hset(hash, 'ActionFlood', 'mute')
+			return _("Flooders will be muted")
 		end
 	elseif type(screm) == 'number' then
 		local old = tonumber(db:hget(hash, 'MaxFlood')) or 5
@@ -114,7 +119,7 @@ function plugin.onCallbackQuery(msg, blocks)
 	if chat_id and not u.is_allowed('config', chat_id, msg.from) then
 		api.answerCallbackQuery(msg.cb_id, _("You're no longer an admin"))
 	else
-		local header = _("You can manage the antiflood settings from here")
+		local header = _("You can manage the antiflood settings from here.\n\nIt is also possible to choose which type of messages the antiflood will ignore (✅)")
 
 		local text
 
@@ -147,7 +152,7 @@ function plugin.onCallbackQuery(msg, blocks)
 		local action
 		if blocks[1] == 'action' or blocks[1] == 'dim' or blocks[1] == 'raise' then
 			if blocks[1] == 'action' then
-				action = db:hget('chat:'..chat_id..':flood', 'ActionFlood') or 'kick'
+				action = db:hget('chat:'..chat_id..':flood', 'ActionFlood') or config.chat_settings.flood.ActionFlood
 			elseif blocks[1] == 'dim' then
 				action = -1
 			elseif blocks[1] == 'raise' then

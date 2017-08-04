@@ -5,7 +5,7 @@ local api = require 'methods'
 local plugin = {}
 
 local function max_reached(chat_id, user_id)
-	local max = tonumber(db:hget('chat:'..chat_id..':warnsettings', 'mediamax')) or 2
+	local max = tonumber(db:hget('chat:'..chat_id..':warnsettings', 'mediamax')) or config.chat_settings.warnsettings.mediamax
 	local n = tonumber(db:hincrby('chat:'..chat_id..':mediawarn', user_id, 1))
 	if n >= max then
 		return true, n, max
@@ -74,15 +74,17 @@ function plugin.onEveryMessage(msg)
 		local is_flooding, msgs_sent, msgs_max = is_flooding_funct(msg)
 		if is_flooding then
 			local status = (db:hget('chat:'..msg.chat.id..':settings', 'Flood')) or config.chat_settings['settings']['Flood']
-			if status == 'on' and not msg.cb and not msg.from.mod then --if the status is on, and the user is not an admin, and the message is not a callback, then:
+			if status == 'on' and not msg.cb and not msg.from.admin then --if the status is on, and the user is not an admin, and the message is not a callback, then:
 				local action = db:hget('chat:'..msg.chat.id..':flood', 'ActionFlood')
 				local name = u.getname_final(msg.from)
 				local res, message
 				--try to kick or ban
 				if action == 'ban' then
 					res = api.banUser(msg.chat.id, msg.from.id)
-				else
+				elseif action == 'kick' then
 					res = api.kickUser(msg.chat.id, msg.from.id)
+				elseif action == 'mute' then
+					res = api.muteUser(msg.chat.id, msg.from.id)
 				end
 				--if kicked/banned, send a message
 				if res then
@@ -90,8 +92,10 @@ function plugin.onEveryMessage(msg)
 					if msgs_sent == (msgs_max + 1) then --send the message only if it's the message after the first message flood. Repeat after 5
 						if action == 'ban' then
 							message = _("%s <b>banned</b> for flood!"):format(name)
-						else
+						elseif action == 'kick' then
 							message = _("%s <b>kicked</b> for flood!"):format(name)
+						elseif action == 'mute' then
+							message = _("%s <b>muted</b> for flood!"):format(name)
 						end
 						api.sendMessage(msg.chat.id, message, 'html')
 						u.logEvent('flood', msg, {hammered = log_hammered})
@@ -105,19 +109,20 @@ function plugin.onEveryMessage(msg)
 			return false --if an user is spamming, don't go through plugins
 		end
 	end
-
-	if msg.media and msg.chat.type ~= 'private' and not msg.cb and not msg.edited then
-		local media = msg.media_type
-		local hash = 'chat:'..msg.chat.id..':media'
-		local media_status = (db:hget(hash, media)) or 'ok'
-		local out
-		if media_status ~= 'ok' then
-			if not msg.from.mod then --ignore mods and above
+	
+	if not msg.from.admin then
+		
+		if msg.media and msg.chat.type ~= 'private' and not msg.cb and not msg.edited then
+			local media = msg.media_type
+			local hash = 'chat:'..msg.chat.id..':media'
+			local media_status = (db:hget(hash, media)) or config.chat_settings.media[media]
+			local out
+			if media_status ~= 'ok' then
 				local whitelisted
 				if media == 'link' then
 					whitelisted = is_whitelisted(msg.chat.id, msg.text)
 				end
-
+	
 				if not whitelisted then
 					local status
 					local name = u.getname_final(msg.from)
@@ -125,73 +130,87 @@ function plugin.onEveryMessage(msg)
 					if max_reached_var then --max num reached. Kick/ban the user
 						status = (db:hget('chat:'..msg.chat.id..':warnsettings', 'mediatype')) or config.chat_settings['warnsettings']['mediatype']
 						--try to kick/ban
+						local punishment
 						if status == 'kick' then
 							res = api.kickUser(msg.chat.id, msg.from.id)
+							punishment = _('kicked')
 						elseif status == 'ban' then
 							res = api.banUser(msg.chat.id, msg.from.id)
+							punishment = _('banned')
+						elseif status == 'mute' then
+							res = api.muteUser(msg.chat.id, msg.from.id)
+							punishment = _('muted')
 						end
 						if res then --kick worked
 							db:hdel('chat:'..msg.chat.id..':mediawarn', msg.from.id) --remove media warns
-							local message
-							if status == 'ban' then
-								message = _("%s <b>banned</b>: media sent not allowed!\n❗️ <code>%d/%d</code>"):format(name, n, max)
-							else
-								message = _("%s <b>kicked</b>: media sent not allowed!\n❗️ <code>%d/%d</code>"):format(name, n, max)
-							end
+							local message = _("%s <b>%s</b>: media sent not allowed!\n❗️ <code>%d/%d</code>"):format(name, punishment, n, max)
 							api.sendMessage(msg.chat.id, message, 'html')
 						end
-					else --max num not reached -> warn
-						local message = _("%s, this type of media is <b>not allowed</b> in this chat.\n(<code>%d/%d</code>)"):format(name, n, max)
-						api.sendReply(msg, message, 'html')
+						
+						if media_status == 'del' then --do not forget to delete the message
+							api.deleteMessage(msg.chat.id, msg.message_id)
+						end
+					else --max num not reached -> warn or delete
+						if media_status ~= 'del' then
+							local message = _("%s, this type of media is <b>not allowed</b> in this chat.\n(<code>%d/%d</code>)"):format(name, n, max)
+							api.sendReply(msg, message, 'html')
+						elseif media_status == 'del' and n + 1 >= max then
+							api.deleteMessage(msg.chat.id, msg.message_id)
+							local message = _("%s, this type of media is <b>not allowed</b> in this chat.\n<i>The next time you will be banned/kicked/muted</i>"):format(name)
+							api.sendMessage(msg.chat.id, message, 'html')
+						elseif media_status == 'del' then
+							api.deleteMessage(msg.chat.id, msg.message_id)
+						end
 					end
 					u.logEvent('mediawarn', msg, {warns = n, warnmax = max, media = _(media), hammered = status})
 				end
 			end
 		end
-	end
 
-	local rtl_status = (db:hget('chat:'..msg.chat.id..':char', 'Rtl')) or 'allowed'
-	if rtl_status == 'kick' or rtl_status == 'ban' then
-		local rtl = '‮'
-		local last_name = 'x'
-		if msg.from.last_name then last_name = msg.from.last_name end
-		local check = msg.text:find(rtl..'+') or msg.from.first_name:find(rtl..'+') or last_name:find(rtl..'+')
-		if check ~= nil and not msg.from.mod then
-			local name = u.getname_final(msg.from)
-			local res
-			if rtl_status == 'kick' then
-				res = api.kickUser(msg.chat.id, msg.from.id)
-			elseif status == 'ban' then
-				res = api.banUser(msg.chat.id, msg.from.id)
-			end
-			if res then
-				local message = _("%s <b>kicked</b>: RTL character in names / messages not allowed!"):format(name)
-				if rtl_status == 'ban' then
-					message = _("%s <b>banned</b>: RTL character in names / messages not allowed!"):format(name)
-				end
-				api.sendMessage(msg.chat.id, message, 'html')
-				return false -- not execute command already kicked out and not welcome him
-			end
-		end
-	end
-
-	if msg.text and msg.text:find('([\216-\219][\128-\191])') then
-		local arab_status = (db:hget('chat:'..msg.chat.id..':char', 'Arab')) or 'allowed'
-		if arab_status == 'kick' or arab_status == 'ban' then
-			if not msg.from.mod then
-				local name = u.getname_final(msg.from)
-				local res
-				if arab_status == 'kick' then
+		
+		local rtl_status = (db:hget('chat:'..msg.chat.id..':char', 'Rtl')) or config.chat_settings.char.Rtl
+		if rtl_status ~= 'allowed' then
+			local rtl = '‮'
+			local last_name = 'x'
+			if msg.from.last_name then last_name = msg.from.last_name end
+			local check = msg.text:find(rtl..'+') or msg.from.first_name:find(rtl..'+') or last_name:find(rtl..'+')
+			if check ~= nil then
+				local res, message
+				if rtl_status == 'kick' then
 					res = api.kickUser(msg.chat.id, msg.from.id)
-				elseif arab_status == 'ban' then
+					message = _("%s <b>kicked</b>: RTL character in names/messages are not allowed!")
+				elseif rtl_status == 'ban' then
 					res = api.banUser(msg.chat.id, msg.from.id)
+					message = _("%s <b>banned</b>: RTL character in names/messages are not allowed!")
+				elseif rtl_status == 'mute' then
+					res = api.muteUser(msg.chat.id, msg.from.id)
+					message = _("%s <b>muted</b>: RTL character in names/messages are not allowed!")
 				end
 				if res then
-					local message = _("%s <b>kicked</b>: arab/persian message detected!"):format(name)
-					if arab_status == 'ban' then
-						message = _("%s <b>banned</b>: arab/persian message detected!"):format(name)
-					end
-					api.sendMessage(msg.chat.id, message, 'html')
+					local name = u.getname_final(msg.from)
+					api.sendMessage(msg.chat.id, message:format(name), 'html')
+					return false
+				end
+			end
+		end
+	
+		if msg.text and msg.text:find('([\216-\219][\128-\191])') then
+			local arab_status = (db:hget('chat:'..msg.chat.id..':char', 'Arab')) or config.chat_settings.char.Arab
+			if arab_status ~= 'allowed' then
+				local res, message
+				if arab_status == 'kick' then
+					res = api.kickUser(msg.chat.id, msg.from.id)
+					message = _("%s <b>kicked</b>: arab/persian message detected!")
+				elseif arab_status == 'ban' then
+					res = api.banUser(msg.chat.id, msg.from.id)
+					message = _("%s <b>banned</b>: arab/persian message detected!")
+				elseif arab_status == 'mute' then
+					res = api.muteUser(msg.chat.id, msg.from.id)
+					message = _("%s <b>muted</b>: arab/persian message detected!")
+				end
+				if res then
+					local name = u.getname_final(msg.from)
+					api.sendMessage(msg.chat.id, message:format(name), 'html')
 					return false
 				end
 			end
@@ -204,7 +223,7 @@ function plugin.onEveryMessage(msg)
 		return false --if an user is blocked, don't go through plugins
 	end
 
-	--don't return false for edited messages: the antispam need to process them
+	--don't return false for edited messages: the antispam needs to process them
 
 	return true
 end

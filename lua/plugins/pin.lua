@@ -34,7 +34,7 @@ function plugin.onTextMessage(msg, blocks)
 				api.sendMessage(msg.chat.id, _("Message edited. Check it here"), nil, nil, pin_id)
 			end
 		end
-		if not pin_id then
+		if not pin_id or blocks[1] == "newpin" then
 			local reply_markup, new_text = u.reply_markup_from_text(blocks[2])
 			local res, code = api.sendMessage(msg.chat.id, new_text:replaceholders(msg, 'rules', 'title'), true, reply_markup)
 			if not res then
@@ -56,7 +56,8 @@ end
 plugin.triggers = {
 	onTextMessage = {
 		config.cmd..'(pin)$',
-		config.cmd..'(pin) (.*)$'
+		config.cmd..'(pin) (.*)$',
+		config.cmd..'(newpin) (.*)$'
 	}
 }
 

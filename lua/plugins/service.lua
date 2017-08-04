@@ -10,7 +10,7 @@ function plugin.onTextMessage(msg, blocks)
 
 	if blocks[1] == 'new_chat_member:bot' or blocks[1] == 'migrate_from_chat_id' then
 		-- set the language
-		--[[locale.language = db:get(string.format('lang:%d', msg.from.id)) or 'en'
+		--[[locale.language = db:get(string.format('lang:%d', msg.from.id)) or config.lang
 		if not config.available_languages[locale.language] then
 			locale.language = 'en'
 		end]]

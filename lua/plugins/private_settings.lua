@@ -63,7 +63,7 @@ function plugin.onCallbackQuery(msg, blocks)
 	else
 		change_private_setting(msg.from.id, blocks[2])
 		local keyboard = doKeyboard_privsett(msg.from.id)
-		api.editMarkup(msg.from.id, msg.message_id, keyboard)
+		api.editMessageReplyMarkup(msg.from.id, msg.message_id, keyboard)
 		api.answerCallbackQuery(msg.cb_id, _('⚙ Setting applied'))
 	end
 end

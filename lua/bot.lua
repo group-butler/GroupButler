@@ -2,26 +2,27 @@ local api = require 'methods'
 local redis = require 'redis'
 local clr = require 'term.colors'
 local u, config, plugins, last_update, last_cron
-db = redis.connect('127.0.0.1', 6379)
+config = require 'config' -- Load configuration file.
+db = redis.connect(config.redis.host, config.redis.port)
 
 function bot_init(on_reload) -- The function run when the bot is started or reloaded.
+	if on_reload then
+		package.loaded.config = nil
+		package.loaded.languages = nil
+		package.loaded.utilities = nil
+	end
 
-	config = dofile('config.lua') -- Load configuration file.
-	assert(not (config.bot_api_key == "" or not config.bot_api_key), clr.red..'Insert the bot token in config.lua -> bot_api_key'..clr.reset)
-	assert(#config.superadmins > 0, clr.red..'Insert your Telegram ID in config.lua -> superadmins'..clr.reset)
-	assert(config.log.admin, clr.red..'Insert your Telegram ID in config.lua -> log.admin'..clr.reset)
+	db:select(config.redis.db) --select the redis db
 
-	db:select(config.db or 0) --select the redis db
-
-	u = dofile('utilities.lua') -- Load miscellaneous and cross-plugin functions.
-	locale = dofile('languages.lua')
+	u = require 'utilities' -- Load miscellaneous and cross-plugin functions.
+	locale = require 'languages'
 	now_ms = require('socket').gettime
 
 	bot = api.getMe().result -- Get bot info
-	bot.revision = u.bash('git rev-parse --short HEAD')
+	--bot.revision = u.bash('git rev-parse --short HEAD')
 
 	plugins = {} -- Load plugins.
-	for i,v in ipairs(config.plugins) do
+	for i, v in ipairs(config.plugins) do
 		local p = require('plugins.'..v)
 		package.loaded['plugins.'..v] = nil
 		if p.triggers then
@@ -119,18 +120,18 @@ local function on_msg_receive(msg, callback) -- The fn run whenever a message is
 		-- the ! indicates UTC - https://www.lua.org/manual/5.2/manual.html#pdf-os.date
 		if not msg.text then msg.text = msg.caption or '' end
 
-		locale.language = db:get('lang:'..msg.chat.id) or 'en' --group language
+		locale.language = db:get('lang:'..msg.chat.id) or config.lang --group language
 		if not config.available_languages[locale.language] then
-			locale.language = 'en'
+			locale.language = config.lang
 		end
 
 		collect_stats(msg)
 
 		local continue = true
 		local onm_success
-		for i, plugin in pairs(plugins) do
-			if plugin.onEveryMessage then
-				onm_success, continue = pcall(plugin.onEveryMessage, msg)
+		for i=1, #plugins do
+			if plugins[i].onEveryMessage then
+				onm_success, continue = pcall(plugins[i].onEveryMessage, msg)
 				if not onm_success then
 					api.sendAdmin('An #error occurred (preprocess).\n'..tostring(continue)..'\n'..locale.language..'\n'..msg.text)
 				end
@@ -138,14 +139,14 @@ local function on_msg_receive(msg, callback) -- The fn run whenever a message is
 			if not continue then return end
 		end
 
-		for i,plugin in pairs(plugins) do
+		for i, plugin in pairs(plugins) do
 			if plugin.triggers then
 				local blocks, trigger = match_triggers(plugin.triggers[callback], msg.text)
 				if blocks then
 
-					if msg.chat.type ~= 'private' and msg.chat.type ~= 'inline'and not db:exists('chat:'..msg.chat.id..':settings') and not msg.service then --init agroup if the bot wasn't aware to be in
-							u.initGroup(msg.chat.id)
-						end
+					if msg.chat.id < 0 and msg.chat.type ~= 'inline'and not db:exists('chat:'..msg.chat.id..':settings') and not msg.service then --init agroup if the bot wasn't aware to be in
+						u.initGroup(msg.chat.id)
+					end
 
 					if config.bot_settings.stream_commands then --print some info in the terminal
 						print(clr.reset..clr.blue..'['..os.date('%X')..']'..clr.red..' '..trigger..clr.reset..' '..msg.from.first_name..' ['..msg.from.id..'] -> ['..msg.chat.id..']')
@@ -155,17 +156,15 @@ local function on_msg_receive(msg, callback) -- The fn run whenever a message is
 					local success, result = xpcall(plugin[callback], debug.traceback, msg, blocks) --execute the main function of the plugin triggered
 
 					if not success then --if a bug happens
-							print(result)
-							if config.bot_settings.notify_bug then
-								api.sendReply(msg, _("🐞 Sorry, a *bug* occurred"), true)
-							end
-							api.sendAdmin('An #error occurred.\n'..result..'\n'..locale.language..'\n'..msg.text)
-							return
+						print(result)
+						if config.bot_settings.notify_bug then
+							api.sendReply(msg, _("🐞 Sorry, a *bug* occurred"), true)
 						end
+						api.sendAdmin('An #error occurred.\n'..result..'\n'..locale.language..'\n'..msg.text)
+						return
+					end
 
-					if type(result) == 'string' then --if the action returns a string, make that string the new msg.text
-						msg.text = result
-					elseif not result then --if the action returns true, then don't stop the loop of the plugin's actions
+					if not result then --if the action returns true, then don't stop the loop of the plugin's actions
 						return
 					end
 				end
@@ -184,9 +183,11 @@ local function on_msg_receive(msg, callback) -- The fn run whenever a message is
 			api.sendMessage(msg.chat.id, _([[
 Hello everyone!
 My name is %s, and I'm a bot made to help administrators in their hard work.
-Unfortunately I can't work in normal groups, please ask the creator to convert this group to a supergroup.
+Unfortunately I can't work in normal groups. If you need me, please ask the creator to convert this group to a supergroup and then add me again.
 ]]):format(bot.first_name))
-
+			
+			api.leaveChat(msg.chat.id)
+			
 			-- log this event
 			if config.bot_settings.stream_commands then
 				print(string.format('%s[%s]%s Bot was added to a normal group %s%s [%d] -> [%d]',
@@ -197,7 +198,7 @@ Unfortunately I can't work in normal groups, please ask the creator to convert t
 end
 
 local function parseMessageFunction(update)
-
+	
 	db:hincrby('bot:general', 'messages', 1)
 
 	local msg, function_key
@@ -360,11 +361,6 @@ local function parseMessageFunction(update)
 
 	if (msg.chat.id < 0 or msg.target_id) and msg.from then
 		msg.from.admin = u.is_admin(msg.target_id or msg.chat.id, msg.from.id)
-		if msg.from.admin then
-			msg.from.mod = true
-		else
-			msg.from.mod = u.is_mod(msg.target_id or msg.chat.id, msg.from.id)
-		end
 	end
 
 	--print('Mod:', msg.from.mod, 'Admin:', msg.from.admin)
@@ -378,11 +374,11 @@ while true do -- Start a loop while the bot should be running.
 	local res = api.getUpdates(last_update+1) -- Get the latest updates
 	if res then
 		clocktime_last_update = os.clock()
-		for i, msg in ipairs(res.result) do -- Go through every new message.
-			last_update = msg.update_id
+		for i=1, #res.result do -- Go through every new message.
+			last_update = res.result[i].update_id
 			--print(last_update)
 			current.h = current.h + 1
-			parseMessageFunction(msg)
+			parseMessageFunction(res.result[i])
 		end
 	else
 		print('Connection error')
@@ -392,9 +388,9 @@ while true do -- Start a loop while the bot should be running.
 		last.h = current.h
 		current.h = 0
 		print(clr.yellow..'Cron...'..clr.reset)
-		for i,v in ipairs(plugins) do
-			if v.cron then -- Call each plugin's cron function, if it has one.
-				local res, err = pcall(v.cron)
+		for i=1, #plugins do
+			if plugins[i].cron then -- Call each plugin's cron function, if it has one.
+				local res, err = pcall(plugins[i].cron)
 				if not res then
 					api.sendLog('An #error occurred (cron).\n'..err)
 					return

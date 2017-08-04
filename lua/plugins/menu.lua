@@ -12,6 +12,8 @@ local function get_button_description(key)
 		return _("Enable or disable the goodbye message. Can't be sent in large groups")
 	elseif key == 'Welcome' then
 		return _("Enable or disable the welcome message")
+	elseif key == 'Weldelchain' then
+		return _("When enabled, every time a new welcome message is sent, the previously sent welcome message is removed")
 	elseif key == 'Silent' then
 		return _("When enabled, the bot doesn't answer in the group to /dashboard, /config and /help commands (it will just answer in private)")
 	elseif key == 'Flood' then
@@ -59,11 +61,14 @@ local function changeWarnSettings(chat_id, action)
 			return current..'->'..new_val
 		end
 	elseif action == 'status' then
-		local status = (db:hget('chat:'..chat_id..':warnsettings', 'type')) or 'kick'
+		local status = (db:hget('chat:'..chat_id..':warnsettings', 'type')) or config.chat_settings.warnsettings.type
 		if status == 'kick' then
 			db:hset('chat:'..chat_id..':warnsettings', 'type', 'ban')
 			return _("New action on max number of warns received: ban")
 		elseif status == 'ban' then
+			db:hset('chat:'..chat_id..':warnsettings', 'type', 'mute')
+			return _("New action on max number of warns received: mute")
+		elseif status == 'mute' then
 			db:hset('chat:'..chat_id..':warnsettings', 'type', 'kick')
 			return _("New action on max number of warns received: kick")
 		end
@@ -71,13 +76,11 @@ local function changeWarnSettings(chat_id, action)
 end
 
 local function changeCharSettings(chat_id, field)
-	local chars = {
-		arab_kick = _("Senders of arab messages will be kicked"),
-		arab_ban = _("Senders of arab messages will be banned"),
-		arab_allow = _("Arab language allowed"),
-		rtl_kick = _("The use of the RTL character will lead to a kick"),
-		rtl_ban = _("The use of the RTL character will lead to a ban"),
-		rtl_allow = _("RTL character allowed"),
+	local humanizations = {
+		kick = _("Action -> kick"),
+		ban = _("Action -> ban"),
+		mute = _("Action -> mute"),
+		allow = _("Allowed ✅")
 	}
 
 	local hash = 'chat:'..chat_id..':char'
@@ -85,16 +88,16 @@ local function changeCharSettings(chat_id, field)
 	local text
 	if status == 'allowed' then
 		db:hset(hash, field, 'kick')
-		text = chars[field:lower()..'_kick']
+		text = humanizations['kick']
 	elseif status == 'kick' then
 		db:hset(hash, field, 'ban')
-		text = chars[field:lower()..'_ban']
+		text = humanizations['ban']
 	elseif status == 'ban' then
+		db:hset(hash, field, 'mute')
+		text = humanizations['mute']
+	elseif status == 'mute' then
 		db:hset(hash, field, 'allowed')
-		text = chars[field:lower()..'_allow']
-	else
-		db:hset(hash, field, 'allowed')
-		text = chars[field:lower()..'_allow']
+		text = humanizations['allow']
 	end
 
 	return text
@@ -142,6 +145,8 @@ local function charsettings_table(settings, chat_id)
 			return_table[field] = _('👞 kick')
 		elseif status == 'ban' then
 			return_table[field] = _('🔨 ban')
+		elseif status == 'mute' then
+			return_table[field] = _('👁 mute')
 		elseif status == 'allowed' then
 			return_table[field] = _('✅')
 		end
@@ -162,6 +167,7 @@ local function insert_settings_section(keyboard, settings_section, chat_id)
 		Rtl = _("RTL"),
 		Antibot = _("Ban bots"),
 		Reports = _("Reports"),
+		Weldelchain = _("Delete last welcome message"),
 		Welbut = _("Welcome + rules button")
 	}
 
@@ -193,8 +199,10 @@ local function doKeyboard_menu(chat_id)
 	local action = (db:hget('chat:'..chat_id..':warnsettings', 'type')) or config.chat_settings['warnsettings']['type']
 	if action == 'kick' then
 		action = _("👞 kick")
-	else
+	elseif action == 'ban' then
 		action = _("🔨️ ban")
+	elseif action == 'mute' then
+		action = _("👁 mute")
 	end
 	local warn = {
 		{

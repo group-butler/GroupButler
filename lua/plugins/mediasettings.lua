@@ -5,15 +5,17 @@ local api = require 'methods'
 local plugin = {}
 
 local function doKeyboard_media(chat_id)
-	if not ln then ln = 'en' end
+	if not ln then ln = config.lang end
 	local keyboard = {}
 	keyboard.inline_keyboard = {}
 	for media, default_status in pairs(config.chat_settings['media']) do
 		local status = (db:hget('chat:'..chat_id..':media', media)) or default_status
 		if status == 'ok' then
 			status = '✅'
-		else
+		elseif status == 'notok' then
 			status = '❌'
+		elseif status == 'del' then
+			status = '🗑'
 		end
 
 		local media_texts = {
@@ -22,7 +24,7 @@ local function doKeyboard_media(chat_id)
 			video = _("Videos"),
 			video_note = _("Video messages"),
 			document = _("Documents"),
-			TGlink = _("telegram.me links"),
+			--TGlink = _("telegram.me links"),
 			voice = _("Vocal messages"),
 			link = _("Links"),
 			audio = _("Music"),
@@ -45,9 +47,9 @@ local function doKeyboard_media(chat_id)
 	local action = (db:hget('chat:'..chat_id..':warnsettings', 'mediatype')) or config.chat_settings['warnsettings']['mediatype']
 	local caption
 	if action == 'kick' then
-		caption = _("Warns (media) 📍 %d | kick"):format(tonumber(max))
+		caption = _("Warnings | %d | kick"):format(tonumber(max))
 	else
-		caption = _("Warns (media) 📍 %d | ban"):format(tonumber(max))
+		caption = _("Warnings | %d | ban"):format(tonumber(max))
 	end
 	table.insert(keyboard.inline_keyboard, {{text = caption, callback_data = 'mediatype:'..chat_id}})
 	--buttons line
@@ -63,18 +65,40 @@ local function doKeyboard_media(chat_id)
 	return keyboard
 end
 
+local function change_media_status(chat_id, media)
+	local hash = ('chat:%s:media'):format(chat_id)
+	local status = db:hget(hash, media) or config.chat_settings.media[media]
+	
+	if status == 'ok' then
+		db:hset(hash, media, 'notok')
+		return _('❌ warning')
+	elseif status == 'notok' then
+		db:hset(hash, media, 'del')
+		return _('🗑 delete')
+	elseif status == 'del' then
+		db:hset(hash, media, 'ok')
+		return ''
+	else
+		db:hset(hash, media, 'ok')
+		return _('✅ allowed')
+	end
+end
+
 function plugin.onCallbackQuery(msg, blocks)
 	local chat_id = msg.target_id
 	if chat_id and not u.is_allowed('config', chat_id, msg.from) then
 		api.answerCallbackQuery(msg.cb_id, _("You're no longer an admin"))
 	else
 		local media_first = _([[
-Tap on a voice in the right colon to *change the setting*
-You can use the last line to change how many warnings should the bot give before kick / ban someone for a forbidden media
-The number is not related the the normal `/warn` command
+Tap on a voice in the right to *change the setting*
+You can use the last lines to change how many warnings should the bot give before kicking/banning/muting someone.
+The number is not related the the normal `/warn` command.
+
+Medias possible statuses: ✅ allowed, ❌ warning, 🗑 delete.
+When a media is set on delete, the bot will give a warning *only* when the user is at one media from being punished
 ]])
 
-		if  blocks[1] == 'config' then
+		if blocks[1] == 'config' then
 			local keyboard = doKeyboard_media(chat_id)
 			api.editMessageText(msg.chat.id, msg.message_id, media_first, true, keyboard)
 		else
@@ -109,15 +133,18 @@ The number is not related the the normal `/warn` command
 				local current = (db:hget(hash, 'mediatype')) or config.chat_settings['warnsettings']['mediatype']
 				if current == 'ban' then
 					db:hset(hash, 'mediatype', 'kick')
-					cb_text = _("🔨 New status is kick")
-				else
+					cb_text = _("👞 New status is kick")
+				elseif current == 'kick' then
+					db:hset(hash, 'mediatype', 'mute')
+					cb_text = _("👁 New status is mute")
+				elseif current == 'mute' then
 					db:hset(hash, 'mediatype', 'ban')
 					cb_text = _("🔨 New status is ban")
 				end
 			end
 			if blocks[1] == 'media' then
 				local media = blocks[2]
-				cb_text = '⚡️ '..u.changeMediaStatus(chat_id, media, 'next')
+				cb_text = change_media_status(chat_id, media)
 			end
 			local keyboard = doKeyboard_media(chat_id)
 			api.editMessageText(msg.chat.id, msg.message_id, media_first, true, keyboard)
@@ -128,7 +155,7 @@ end
 
 plugin.triggers = {
 	onCallbackQuery = {
-		'^###cb:(media):(%a+):(-?%d+)',
+		'^###cb:(media):([%a_]+):(-?%d+)',
 		'^###cb:(mediatype):(-?%d+)',
 		'^###cb:(mediawarn):(%a+):(-?%d+)',
 		'^###cb:(mediallert):([%w_]+)$',

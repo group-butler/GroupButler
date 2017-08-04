@@ -1,7 +1,7 @@
 local config = require 'config'
 local u = require 'utilities'
 local api = require 'methods'
-local JSON = require 'cjson'
+local JSON = require 'dkjson'
 
 local plugin = {}
 
@@ -48,11 +48,11 @@ local function gen_backup(chat_id)
 			set = ('chat:%s:%s'):format(chat_id, config.chat_sets[i])
 			local content = db:smembers(set)
 			if next(content) then
-			t[chat_id].sets[config.chat_sets[i]] = content
-		end
+				t[chat_id].sets[config.chat_sets[i]] = content
+			end
 		end
 	end
-
+	u.dump(t)
 	save_data(file_path, t)
 
 	return file_path
@@ -92,11 +92,11 @@ function plugin.onTextMessage(msg, blocks)
 			if last_user then
 				local ttl = db:ttl(key)
 				local time_remaining = get_time_remaining(ttl)
-				local text = _("<i>I'm sorry, this command has been used for the last time less then 3 days ago by</i> %s (ask him for the file).\nWait [<code>%s</code>] to use it again"):format(last_user, time_remaining)
+				local text = _("<i>I'm sorry, this command has been used for the last time less then 3 hours ago by</i> %s (ask him for the file).\nWait [<code>%s</code>] to use it again"):format(last_user, time_remaining)
 				api.sendReply(msg, text, 'html')
 			else
 				local name = u.getname_final(msg.from)
-				db:setex(key, 259200, name) --3 days
+				db:setex(key, 10800, name) --3 hours
 				local file_path = gen_backup(msg.chat.id)
 				api.sendReply(msg, _('*Sent in private*'), true)
 				api.sendDocument(msg.from.id, file_path, nil, ('#snap\n%s'):format(msg.chat.title))

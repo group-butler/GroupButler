@@ -21,7 +21,7 @@ return {
 	[120] = 'can\'t parse reply keyboard markup json object', --keyboard table invalid
 	[121] = 'field \\\"inline_keyboard\\\" of the inlinekeyboardmarkup should be an array of arrays', --inline keyboard is not an array of array
 	[122] = 'can\'t parse inline keyboard button: inlinekeyboardbutton should be an object',
-	[123] = 'bad Request: object expected as reply markup', --empty inline keyboard table
+	[123] = 'object expected as reply markup', --empty inline keyboard table
 	[124] = 'query_id_invalid', --callback query id invalid
 	[125] = 'channel_private', --I don't know
 	[126] = 'message_too_long', --text of an inline callback answer is too long
@@ -55,7 +55,11 @@ return {
 	[154] = 'can\'t parse message text: unexpected end tag at byte offset %d+',
 	[155] = 'message to edit not found',
 	[156] = 'group chat was migrated to a supergroup chat',
-	[157] = 'message to forward not found'
+	[157] = 'message to forward not found',
+	[158] = 'user is an administrator of the chat',
+	[159] = 'not enough rights to restrict/unrestrict chat member',
+	[160] = 'have no rights to send a message',
+	[161] = 'user_is_bot'
 	--[403] = 'bot was blocked by the user', --user blocked the bot
 	--[429] = 'Too many requests: retry later', --the bot is hitting api limits
 	--[430] = 'Too big total timeout', --too many callback_data requests

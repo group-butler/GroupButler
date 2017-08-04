@@ -4,34 +4,6 @@ local api = require 'methods'
 
 local plugin = {}
 
-local function table_join(t1, t2)
-	for i=1, #t2 do
-		t1[#t1+1] = t2[i]
-	end
-
-	return t1
-end
-
-local function get_admin_mod_list(admins_list, chat_id)
-	if not admins_list then
-		admins_list = {}
-	end
-
-	local mods_have_hammer = db:hget('chat:'..chat_id..':modsettings', 'hammer') or config.chat_settings['modsettings']['hammer']
-	if mods_have_hammer == 'yes' then
-		local mods = db:smembers('chat:'..chat_id..':mods')
-		if next(mods) then
-			admins_list = table_join(admins_list, mods)
-		end
-	end
-
-	if next(admins_list) then
-		return admins_list
-	else
-		return nil
-	end
-end
-
 local function seconds2minutes(seconds)
 	seconds = tonumber(seconds)
 	local minutes = math.floor(seconds/60)
@@ -60,11 +32,10 @@ local function report(msg, description)
 	local n = 0
 
 	local admins_list = u.get_cached_admins_list(msg.chat.id)
-	admins_list = get_admin_mod_list(admins_list, msg.chat.id)
 	if not admins_list then return false end
 
 	local desc_msg
-	local markup = {inline_keyboard={{{text = "Address this report"}}}}
+	local markup = {inline_keyboard={{{text = _("Address this report")}}}}
 	local callback_data = ("report:%d:"):format(msg.chat.id)
 	local hash = 'chat:'..msg.chat.id..':report:'..msg.message_id --stores the user_id and the msg_id of the report messages sent to the admins
 	for i=1, #admins_list do
@@ -157,30 +128,58 @@ Wait other %d minutes, %d seconds.]]):format(times_allowed, (duration / 60), min
 end
 
 function plugin.onCallbackQuery(msg, blocks)
+	if not blocks[2] then --###cb:issueclosed
+		api.answerCallbackQuery(msg.cb_id, _("You closed this issue and deleted all the other reports sent to the admins"), true, 48 * 3600)
+		return
+	end
+	
 	local chat_id, msg_id = blocks[2], blocks[3]
 	local hash = 'chat:'..chat_id..':report:'..msg_id
 	if not db:exists(hash) then
 		--if the hash doesn't exist, the message is too old
 		api.answerCallbackQuery(msg.cb_id, _("This message is too old (>2 days)"), true)
 	else
-		local addressed_by = db:get(hash..':addressed')
-		if not addressed_by then
-			--no one addressed the issue yet
-			local name = msg.from.first_name:sub(1, 120)
-			local chats_reached = db:hgetall(hash)
-			if next(chats_reached) then
-				local markup = {inline_keyboard={{{text = _("❕ Already (being) adressed"), callback_data = ("report:%s:%s"):format(chat_id, msg_id)}}}}
-				for user_id, message_id in pairs(chats_reached) do
-					api.editMarkup(user_id, message_id, markup)
-				end
+		if blocks[1] == "report" then
+			local addressed_by = db:get(hash..':addressed')
+			if not addressed_by then
+				--no one addressed the issue yet
+				
+					local name = msg.from.first_name:sub(1, 120)
+					local chats_reached = db:hgetall(hash)
+					if next(chats_reached) then
+						local markup = {inline_keyboard={
+							{{text = _("❕ Already (being) adressed"), callback_data = ("report:%s:%s"):format(chat_id, msg_id)}}
+						}}
+						local close_issue_line = {{text = _("Close issue"), callback_data = ("close:%s:%s"):format(chat_id, msg_id)}}
+						for user_id, message_id in pairs(chats_reached) do
+							api.editMessageReplyMarkup(user_id, message_id, markup)
+						end
+						table.insert(markup.inline_keyboard, close_issue_line)
+						api.editMessageReplyMarkup(msg.from.id, msg.message_id, markup)
+					end
+					db:setex(hash..':addressed', 3600*24*2, name)
+					api.answerCallbackQuery(msg.cb_id, "✅")
+			else
+				api.answerCallbackQuery(msg.cb_id, _("%s has/will address this report"):format(addressed_by), true, 48 * 3600)
 			end
-			db:setex(hash..':addressed', 3600*24*3, name)
-			api.answerCallbackQuery(msg.cb_id, "✅")
-		else
-			api.answerCallbackQuery(msg.cb_id, _("%s has/will address this report"):format(addressed_by), true, 48 * 3600)
+		elseif blocks[1] == 'close' then
+			local key = hash .. (':close:%d'):format(msg.from.id)
+			local second_tap = db:get(key)
+			if not second_tap then
+				db:setex(key, 3600*24, 'x')
+				api.answerCallbackQuery(msg.cb_id, _("This button will delete all the reports sent to the other admins. Tap it again to confirm"), true)
+			else
+				local chats_reached = db:hgetall(hash)
+				for user_id, message_id in pairs(chats_reached) do
+					if tonumber(user_id) ~= msg.from.id then
+						api.deleteMessages(user_id, { [1] = message_id, [2] = (tonumber(message_id) - 1) })
+					end
+				end
+				local markup = {inline_keyboard={{{text = _("(issue closed by you)"), callback_data = "issueclosed"}}}}
+				api.editMessageReplyMarkup(msg.from.id, msg.message_id, markup)
+			end
 		end
 	end
-
 end
 
 plugin.triggers = {
@@ -192,7 +191,9 @@ plugin.triggers = {
 		config.cmd..'(reportflood) (%d+)[%s/:](%d+)'
 	},
 	onCallbackQuery = {
-		"^###cb:(report):(-%d+):(%d+)$"
+		"^###cb:(report):(-%d+):(%d+)$",
+		"^###cb:(close):(-%d+):(%d+)$",
+		"^###cb:issueclosed$"
 	}
 }
 

@@ -32,7 +32,7 @@ case $REPLY in [yY])
 		sudo apt-get install $NATIVE -y
 	fi
 
-	# Install Luarocks
+# Install Luarocks
 	echo -en "${Cyan}Do you want to download and install luarocks (Y/N): ${Default}"
 	read REPLY
 	if [[ $REPLY == [yY] ]]; then

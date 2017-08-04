@@ -4,6 +4,27 @@ local api = require 'methods'
 
 local plugin = {}
 
+local function markup_tempban(chat_id, user_id, time_value)
+	local key = ('chat:%s:%s:tbanvalue'):format(chat_id, user_id)
+	local time_value = time_value or (db:get(key) or 3)
+	
+	local markup = {inline_keyboard={
+		{--first line
+			{text = '-', callback_data = ('tempban:val:m:%s:%s'):format(user_id, chat_id)},
+			{text = '🕑 '..time_value, callback_data = 'tempban:nil'},
+			{text = '+', callback_data = ('tempban:val:p:%s:%s'):format(user_id, chat_id)}
+		},
+		{--second line
+			{text = 'minutes', callback_data = ('tempban:ban:m:%s:%s'):format(user_id, chat_id)},
+			{text = 'hours', callback_data = ('tempban:ban:h:%s:%s'):format(user_id, chat_id)},
+			{text = 'days', callback_data = ('tempban:ban:d:%s:%s'):format(user_id, chat_id)},
+		}
+	}}
+	
+	return markup
+end
+			
+
 local function get_motivation(msg)
 	if msg.reply then
 		return msg.text:match(("%sban (.+)"):format(config.cmd))
@@ -21,43 +42,9 @@ local function get_motivation(msg)
 end
 
 local function set_lang(chat_id)
-	locale.language = db:get('lang:'..chat_id) or 'en' --group language
+	locale.language = db:get('lang:'..chat_id) or config.lang --group language
 	if not config.available_languages[locale.language] then
 		locale.language = 'en'
-	end
-end
-
-function plugin.cron()
-	local all = db:hgetall('tempbanned')
-	if next(all) then
-		for unban_time, info in pairs(all) do
-			if os.time() > tonumber(unban_time) then
-				local chat_id, user_id = info:match('(-%d+):(%d+)')
-				local user_object = api.getChat(user_id)
-				local chat_object = api.getChat(chat_id)
-				api.unbanUser(chat_id, user_id)
-				db:hdel('tempbanned', unban_time)
-				db:srem('chat:'..chat_id..':tempbanned', user_id) --hash needed to check if an user is already tempbanned or not
-				if user_object then
-					set_lang(chat_id)
-					api.sendMessage(chat_id, _("Ban expired for %s [<code>%d</code>]"):format(u.getname_final(user_object.result), user_object.result.id), 'html')
-				end
-				if chat_object then
-					local chat_link
-					if chat_object.result.username then
-						chat_link = ('t.me/%s'):format(chat_object.result.username)
-					else
-						chat_link = db:hget(('chat:%s:links'):format(chat_id), 'link')
-					end
-					local chat_title = chat_object.result.title:escape_html()
-					local chat_string = chat_title
-					if chat_link then chat_string = ('</i><a href="%s">%s</a><i>'):format(chat_link, chat_title) end
-					print(("<i>Your ban from %s has expired</i>"):format(chat_string))
-					set_lang(user_id)
-					api.sendMessage(user_id, _("<i>Your ban from %s has expired</i>"):format(chat_string), 'html')
-				end
-			end
-		end
 	end
 end
 
@@ -104,66 +91,33 @@ end
 
 function plugin.onTextMessage(msg, blocks)
 	if msg.chat.type ~= 'private' then
-		if u.is_allowed('hammer', msg.chat.id, msg.from) then
+		if u.can(msg.chat.id, msg.from.id, "can_restrict_members") then
 
 			local user_id, error_translation_key = u.get_user_id(msg, blocks)
 
-			if not user_id and blocks[1] ~= 'kickme' then
+			if not user_id and blocks[1] ~= 'kickme' and blocks[1] ~= 'fwdban' then
 				api.sendReply(msg, error_translation_key, true) return
 			end
 			if tonumber(user_id) == bot.id then return end
 
 			local res
 			local chat_id = msg.chat.id
-			if u.is_mod(chat_id, user_id) and not u.is_admin(msg.chat.id, user_id) then
-				api.sendReply(msg, _("_This user is a moderator. Please /demote him first_"), true) return
-			end
 			local admin, kicked = u.getnames_complete(msg, blocks)
 
 			--print(get_motivation(msg))
 
 			if blocks[1] == 'tempban' then
-				if not msg.reply then
-					api.sendReply(msg, _("_Reply to someone_"), true)
-					return
-				end
-				local user_id = msg.reply.from.id
-				local hours = get_hours_from_string(blocks[2])
-				if not hours then return end
-				local temp, code = check_valid_time(hours)
-				if not temp then
-					if code == 1 then
-						api.sendReply(msg, _("For this, you can directly use /ban"))
-					else
-						api.sendReply(msg, _("_The time limit is one week (168 hours)_"), true)
+				local time_value = msg.text:match(("%stempban.*\n"):format(config.cmd).."(%d+)")
+				if time_value then --save the time value passed by the user
+					if tonumber(time_value) > 100 then
+						time_value = 100
 					end
-					return
+					local key = ('chat:%s:%s:tbanvalue'):format(msg.chat.id, user_id)
+					db:setex(key, 3600, time_value)
 				end
-				local val = msg.chat.id..':'..user_id
-				local unban_time = os.time() + (temp * 60 * 60)
-
-				--try to kick
-				local res, code, motivation = api.banUser(chat_id, user_id)
-				if not res then
-					if not motivation then
-						motivation = _("I can't kick this user.\n"
-								.. "Either I'm not an admin, or the targeted user is!")
-					end
-					api.sendReply(msg, motivation, true)
-				else
-					db:hset('tempbanned', unban_time, val) --set the hash
-					local time_reply, time_table = get_time_reply(temp)
-					local is_already_tempbanned = db:sismember('chat:'..chat_id..':tempbanned', user_id) --hash needed to check if an user is already tempbanned or not
-					local text
-					if is_already_tempbanned then
-						text = _("Ban time updated for %s. Ban expiration: %s\n<b>Admin</b>: %s"):format(kicked, time_reply, admin)
-					else
-						text = _("User %s banned by %s.\n<i>Ban expiration:</i> %s"):format(kicked, admin, time_reply)
-						db:sadd('chat:'..chat_id..':tempbanned', user_id) --hash needed to check if an user is already tempbanned or not
-					end
-					u.logEvent('tempban', msg, {motivation = get_motivation(msg), admin = admin, user = kicked, user_id = user_id, h = time_table.hours, d = time_table.days})
-					api.sendMessage(chat_id, text, 'html')
-				end
+				
+				local markup = markup_tempban(msg.chat.id, user_id)
+				api.sendReply(msg, _('Use -/+ to edit the value, then select a timeframe to temporary ban the user'), nil, markup)
 			end
 			if blocks[1] == 'kick' then
 				local res, code, motivation = api.kickUser(chat_id, user_id)
@@ -191,6 +145,24 @@ function plugin.onTextMessage(msg, blocks)
 					api.sendMessage(msg.chat.id, _("%s banned %s!"):format(admin, kicked), 'html')
 				end
 			end
+			if blocks[1] == 'fwdban' then
+				if not msg.reply or not msg.reply.forward_from then
+					api.sendReply(msg, _("_Use this command in reply to a forwarded message_"), true)
+				else
+					user_id = msg.reply.forward_from.id
+					local res, code, motivation = api.banUser(chat_id, user_id)
+					if not res then
+						if not motivation then
+							motivation = _("I can't kick this user.\n"
+									.. "I am not allowed to ban or the target user is an admin")
+						end
+						api.sendReply(msg, motivation, true)
+					else
+						u.logEvent('ban', msg, {motivation = get_motivation(msg), admin = admin, user = kicked, user_id = user_id})
+						api.sendMessage(msg.chat.id, _("%s banned %s!"):format(admin, u.getname_final(msg.reply.forward_from)), 'html')
+					end
+				end
+			end
 			if blocks[1] == 'unban' then
 				if u.is_admin(chat_id, user_id) then
 					api.sendReply(msg, _("_An admin can't be unbanned_"), true)
@@ -201,9 +173,68 @@ function plugin.onTextMessage(msg, blocks)
 					api.sendReply(msg, text, 'html')
 				end
 			end
-		else
-			if blocks[1] == 'kickme' then
-				api.kickUser(msg.chat.id, msg.from.id)
+		end
+	end
+end
+
+function plugin.onCallbackQuery(msg, matches)
+	if not u.can(msg.chat.id, msg.from.id, 'can_restrict_members') then
+		api.answerCallbackQuery(msg.cb_id, _("You don't have the permissions to restrict members"), true)
+	else
+		if matches[1] == 'nil' then
+			api.answerCallbackQuery(msg.cb_id, _("Tap on the -/+ buttons to change this value. Then select a timeframe to execute the ban"), true)
+		elseif matches[1] == 'val' then
+			local user_id = matches[3]
+			local key = ('chat:%d:%s:tbanvalue'):format(msg.chat.id, user_id)
+			local current_value, new_value
+			current_value = tonumber(db:get(key) or 3)
+			if matches[2] == 'm' then
+				new_value = current_value - 1
+				if new_value < 1 then
+					api.answerCallbackQuery(msg.cb_id, _("You can't set a lower value"))
+					return --don't proceed
+				else
+					db:setex(key, 3600, new_value)
+				end
+			elseif matches[2] == 'p' then
+				new_value = current_value + 1
+				if new_value > 100 then
+					api.answerCallbackQuery(msg.cb_id, _("Stop!!!"), true)
+					return --don't proceed
+				else
+					db:setex(key, 3600, new_value)
+				end
+			end
+			
+			local markup = markup_tempban(msg.chat.id, user_id, new_value)
+			api.editMessageReplyMarkup(msg.chat.id, msg.message_id, markup)
+		elseif matches[1] == 'ban' then
+			local user_id = matches[3]
+			local key = ('chat:%d:%s:tbanvalue'):format(msg.chat.id, user_id)
+			local time_value = tonumber(db:get(key) or 3)
+			local timeframe_string, until_date
+			if matches[2] == 'h' then
+				time_value = time_value <= 24 and time_value or 24
+				timeframe_string = _('hours')
+				until_date = msg.date + (time_value * 3600)
+			elseif matches[2] == 'd' then
+				time_value = time_value <= 30 and time_value or 30
+				timeframe_string = _('days')
+				until_date = msg.date + (time_value * 3600 * 24)
+			elseif matches[2] == 'm' then
+				time_value = time_value <= 60 and time_value or 60
+				timeframe_string = _('minutes')
+				until_date = msg.date + (time_value * 60)
+			end
+			local res, code, motivation = api.banUser(msg.chat.id, user_id, until_date)
+			if not res then
+				motivation = motivation or _("I can't kick this user.\n"
+					.. "I am not allowed to ban or the target user is an admin")
+				api.editMessageText(msg.chat.id, msg.message_id, motivation)
+			else
+				local text = _("User banned for %d %s"):format(time_value, timeframe_string)
+				api.editMessageText(msg.chat.id, msg.message_id, text)
+				db:del(key)
 			end
 		end
 	end
@@ -215,10 +246,16 @@ plugin.triggers = {
 		config.cmd..'(kick)$',
 		config.cmd..'(ban) (.+)',
 		config.cmd..'(ban)$',
+		config.cmd..'(fwdban)$',
+		config.cmd..'(tempban)$',
 		config.cmd..'(tempban) (.+)',
 		config.cmd..'(unban) (.+)',
-		config.cmd..'(unban)$',
-		'^[#!](kickme)$'
+		config.cmd..'(unban)$'
+	},
+	onCallbackQuery = {
+		'^###cb:tempban:(val):(%a):(%d+):(-%d+)',
+		'^###cb:tempban:(ban):(%a):(%d+):(-%d+)',
+		'^###cb:tempban:(nil)$'
 	}
 }
 
