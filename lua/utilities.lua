@@ -492,7 +492,7 @@ function utilities.migrate_chat_info(old, new, on_request)
 	for i=1, #config.chat_sets do
 		local old_t = db:smembers('chat:'..old..':'..config.chat_sets[i])
 		if next(old_t) then
-			db:sadd('chat:'..new..':'..config.chat_sets[i], table.unpack(old_t))
+			db:sadd('chat:'..new..':'..config.chat_sets[i], unpack(old_t))
 		end
 	end
 

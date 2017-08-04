@@ -127,7 +127,7 @@ function plugin.onTextMessage(msg, blocks)
 									--restoring sets
 									if group_data.sets and next(group_data.sets) then
 										for set, content in pairs(group_data.sets) do
-											db:sadd(('chat:%d:%s'):format(chat_id, set), table.unpack(content))
+											db:sadd(('chat:%d:%s'):format(chat_id, set), unpack(content))
 										end
 									end
 

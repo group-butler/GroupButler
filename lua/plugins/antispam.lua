@@ -326,7 +326,7 @@ function plugin.onTextMessage(msg, blocks)
 					if not next(links) then
 						text = i18n("_I can't find any url in this message_")
 					else
-						local new = db:sadd(('chat:%d:whitelist'):format(msg.chat.id), table.unpack(links))
+						local new = db:sadd(('chat:%d:whitelist'):format(msg.chat.id), unpack(links))
 						text = i18n("%d link(s) will be whitelisted"):format(#links - (#links - new))
 						if new ~= #links then
 							text = text..i18n("\n%d links were already in the list"):format(#links - new)
@@ -357,7 +357,7 @@ function plugin.onTextMessage(msg, blocks)
 				if not next(links) then
 					text = i18n("_I can't find any url in this message_")
 				else
-					local removed = db:srem(('chat:%d:whitelist'):format(msg.chat.id), table.unpack(links))
+					local removed = db:srem(('chat:%d:whitelist'):format(msg.chat.id), unpack(links))
 					text = i18n("%d link(s) removed from the whitelist"):format(removed)
 					if removed ~= #links then
 						text = text..i18n("\n%d links were already in the list"):format(#links - removed)
