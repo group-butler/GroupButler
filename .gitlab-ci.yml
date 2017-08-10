@@ -36,7 +36,7 @@ deploy:
     TAG: $CI_COMMIT_REF_SLUG
   script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
-    - docker stack deploy $CI_COMMIT_REF_SLUG -c docker-compose.yml
+    - docker stack deploy --with-registry-auth $CI_COMMIT_REF_SLUG -c docker-compose.yml
   only:
     - staging
     - production
