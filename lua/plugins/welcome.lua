@@ -176,7 +176,12 @@ function plugin.onTextMessage(msg, blocks)
 				table.insert(reply_markup.inline_keyboard, line)
 			end
 			local link_preview = text:find('telegra%.ph/') ~= nil
-			local res = api.sendMessage(msg.chat.id, text, true, reply_markup, nil, link_preview)
+			local res, code = api.sendMessage(msg.chat.id, text, true, reply_markup, nil, link_preview)
+			if not res and code == 160 then -- if bot can't send message
+				u.remGroup(msg.chat.id, true)
+				api.leaveChat(msg.chat.id)
+				return
+			end
 			if res and is_on(msg.chat.id, 'Weldelchain') then
 				local key = ('chat:%d:lastwelcome'):format(msg.chat.id) -- get the id of the last sent welcome message
 				local message_id = db:get(key)
