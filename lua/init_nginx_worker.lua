@@ -1,20 +1,16 @@
 require 'resty.core' -- Replaces Lua C API bindings with LuaJIT bindings
-local plugins = require 'plugins'
 local info = ngx.shared.info
 local started = info:get('started')
 
 local function bot_init()
 	local config = require 'config'
 	local api = require ('telegram-bot-api.methods').init(config.telegram.token)
-	local api_old = require 'methods'
-
 	if config.telegram.webhook.url then
 		api.setWebhook(config.telegram.webhook.url, config.telegram.webhook.certificate,
 		config.telegram.webhook.max_connections, config.telegram.allowed_updates)
 	else
 		ngx.log(ngx.INFO, 'No $TG_WEBHOOK_URL detected. You may not receive updates unless you set your webhook manually.')
 	end
-	api_old.sendAdmin('*Bot started!*\n_'..os.date('On %A, %d %B %Y\nAt %X')..'_\n'..#plugins..' plugins loaded', true)
 end
 
 if not started then -- Run init code only once

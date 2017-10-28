@@ -57,8 +57,6 @@ local _M =
 	-- Core
 	log =
 	{
-		chat = assert(os.getenv('LOG_CHAT'), 'You must export $LOG_CHAT with the numerical ID of the log chat'),
-		admin = assert(os.getenv('LOG_ADMIN'), 'You must export $LOG_ADMIN with your Telegram ID'),
 		stats = os.getenv('LOG_STATS')
 	},
 	superadmins = assert(json.decode(os.getenv('SUPERADMINS')),

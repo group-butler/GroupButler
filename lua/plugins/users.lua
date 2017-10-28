@@ -241,7 +241,6 @@ function plugin.onCallbackQuery(msg, blocks)
 				:format(time, #cached_admins)
 			api.answerCallbackQuery(msg.cb_id, i18n("✅ Updated. Next update in %s"):format(time))
 			api.editMessageText(msg.chat.id, msg.message_id, text, true, do_keyboard_cache(msg.target_id))
-			--api.sendLog('#recache\nChat: '..msg.target_id..'\nFrom: '..msg.from.id)
 		end
 	end
 end

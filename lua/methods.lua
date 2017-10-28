@@ -11,36 +11,6 @@ local _M = {}
 
 local curl_context = curl.easy{verbose = false}
 
-local function log_error(method, code, extras, description)
-	if not method or not code then return end
-
-	local ignored_errors = {110, 111, 116, 118, 131, 150, 155, 403, 429}
-
-	for _, ignored_code in pairs(ignored_errors) do
-		if tonumber(code) == tonumber(ignored_code) then return end
-	end
-
-	local text = 'Type: #badrequest\nMethod: #'..method..'\nCode: #n'..code
-
-	if description then
-		text = text..'\nDesc: '..description
-	end
-
-	if extras then
-		if next(extras) then
-			for i, extra in pairs(extras) do
-				text = text..'\n#more'..i..': '..extra
-			end
-		else
-			text = text..'\n#more: empty'
-		end
-	else
-		text = text..'\n#more: nil'
-	end
-
-	_M.sendLog(text)
-end
-
 function _M.getMe()
 	return api.getMe()
 end
@@ -125,11 +95,7 @@ function _M.getChat(chat_id)
 end
 function _M.getChatAdministrators(chat_id)
 
-	local res, code, tab = api.getChatAdministrators(chat_id)
-	if not res then --if the request failed and a code is returned (not 403 and 429)
-		log_error('getChatAdministrators', code, nil, tab.description)
-	end
-	return res, code
+	return api.getChatAdministrators(chat_id)
 end
 
 function _M.getChatMembersCount(chat_id)
@@ -144,9 +110,6 @@ function _M.leaveChat(chat_id)
 	local res, code = api.leaveChat(chat_id)
 	if res then
 		db:srem(string.format('chat:%d:members', chat_id), _M.getMe().result.id)
-	end
-	if not res and code then --if the request failed and a code is returned (not 403 and 429)
-		log_error('leaveChat', code)
 	end
 	return res, code
 end
@@ -167,11 +130,8 @@ function _M.sendMessage(chat_id, text, parse_mode, reply_markup, reply_to_messag
 	if not link_preview then
 		disable_web_page_preview = true
 	end
-	local res, code, desc = api.sendMessage(chat_id, text, parse_mode, disable_web_page_preview, nil,
+	local res, code = api.sendMessage(chat_id, text, parse_mode, disable_web_page_preview, nil,
 		reply_to_message_id, reply_markup)
-	if not res and code then --if the request failed and a code is returned (not 403 and 429)
-		log_error('sendMessage', code, {text}, desc)
-	end
 	return res, code --return false, and the code
 end
 
@@ -221,11 +181,7 @@ function _M.sendLocation(chat_id, latitude, longitude, reply_to_message_id)
 end
 
 function _M.forwardMessage(chat_id, from_chat_id, message_id)
-	local res, code, desc = api.forwardMessage(chat_id, from_chat_id, nil, message_id)
-	if not res and code then --if the request failed and a code is returned (not 403 and 429)
-		log_error('forwardMessage', code, nil, desc)
-	end
-	return res, code
+	return api.forwardMessage(chat_id, from_chat_id, nil, message_id)
 end
 
 function _M.getFile(file_id)
@@ -405,22 +361,6 @@ function _M.sendVoice(chat_id, voice, reply_to_message_id)
 						:setopt_httppost(form)
 						:perform()
 	return table.concat(data), c:getinfo_response_code()
-end
-
-function _M.sendAdmin(text)
-	text = text:gsub('&', '&amp;')
-	text = text:gsub('"', '&quot;')
-	text = text:gsub('<', '&lt;'):gsub('>', '&gt;')
-	text="<code>"..text.."</code>"
-	return _M.sendMessage(config.log.admin, text, "html")
-end
-
-function _M.sendLog(text)
-	text = text:gsub('&', '&amp;')
-	text = text:gsub('"', '&quot;')
-	text = text:gsub('<', '&lt;'):gsub('>', '&gt;')
-	text="<code>"..text.."</code>"
-	return _M.sendMessage(config.log.chat or config.log.admin, text, "html")
 end
 
 return _M
