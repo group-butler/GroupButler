@@ -77,7 +77,7 @@ local _M =
 		notify_bug = false, -- notify if a bug occurs!
 		log_api_errors = true, -- log errors, which happening whilst interacting with the bot api.
 		stream_commands = true,
-		admin_mode = false
+		admin_mode = os.getenv('GB_ADMIN_MODE') or false
 	},
 	plugins = {
 		'onmessage', --THIS MUST BE THE FIRST: IF AN USER IS FLOODING/IS BLOCKED, THE BOT WON'T GO THROUGH PLUGINS
