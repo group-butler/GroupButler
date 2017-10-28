@@ -3,7 +3,6 @@ package.path=package.path .. ';./lua/?.lua'
 io.stdout:setvbuf "no" -- switch off buffering for stdout
 
 local api = require 'methods'
-local clr = require 'term.colors'
 local plugins = require 'plugins'
 local main = require 'main'
 
@@ -17,8 +16,7 @@ function bot.init(on_reload) -- The function run when the bot is started or relo
 		package.loaded.utilities = nil
 	end
 
-	print('\n'..clr.blue..'BOT RUNNING:'..clr.reset,
-		clr.red..'[@'..bot.username .. '] [' .. bot.first_name ..'] ['..bot.id..']'..clr.reset..'\n')
+	print('\n'..'BOT RUNNING:', '[@'..bot.username .. '] [' .. bot.first_name ..'] ['..bot.id..']'..'\n')
 
 	last_update = last_update or -2 -- skip pending updates
 	last_cron = last_cron or os.time() -- the time of the last cron job
@@ -53,7 +51,7 @@ while true do -- Start a loop while the bot should be running.
 		last_cron = os.date('%H')
 		bot.last.h = current.h
 		current.h = 0
-		print(clr.yellow..'Cron...'..clr.reset)
+		print('Cron...')
 		for i=1, #plugins do
 			if plugins[i].cron then -- Call each plugin's cron function, if it has one.
 				local res2, err = pcall(plugins[i].cron)

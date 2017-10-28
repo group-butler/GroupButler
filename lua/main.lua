@@ -1,5 +1,4 @@
 local api = require 'methods'
-local clr = require 'term.colors'
 local u = require 'utilities'
 local config = require 'config'
 local db = require 'database'
@@ -107,8 +106,7 @@ local function on_msg_receive(msg, callback) -- The fn run whenever a message is
 					end
 
 					if config.bot_settings.stream_commands then --print some info in the terminal
-						print(clr.reset..clr.blue..'['..os.date('%X')..']'..clr.red..' '..trigger..clr.reset..' '..
-							msg.from.first_name..' ['..msg.from.id..'] -> ['..msg.chat.id..']')
+						print(trigger..' '..msg.from.first_name..' ['..msg.from.id..'] -> ['..msg.chat.id..']')
 					end
 
 					--if not check_callback(msg, callback) then goto searchaction end
@@ -148,8 +146,8 @@ Unfortunately I can't work in normal groups. If you need me, please ask the crea
 
 			-- log this event
 			if config.bot_settings.stream_commands then
-				print(clr.blue..'['..os.date('%X')..']'..clr.yellow..' Bot was added to a normal group'
-					..clr.reset..''..msg.from.first_name..' ['..msg.from.id..'] -> ['..msg.chat.id..']')
+				print('['..os.date('%X')..'] Bot was added to a normal group '..msg.from.first_name..
+					' ['..msg.from.id..'] -> ['..msg.chat.id..']')
 			end
 		end
 	end

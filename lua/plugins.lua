@@ -1,4 +1,3 @@
-local clr = require 'term.colors'
 local config = require 'config'
 
 local plugins = {}
@@ -14,7 +13,7 @@ for _, v in ipairs(config.plugins) do
 			end
 			if not p[funct] then
 				p.trgs[funct] = nil
-				print(clr.red..funct..' triggers ignored in '..v..': '..funct..' function not defined'..clr.reset)
+				print(funct..' triggers ignored in '..v..': '..funct..' function not defined')
 			end
 		end
 	end
