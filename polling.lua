@@ -2,9 +2,10 @@
 package.path=package.path .. ';./lua/?.lua'
 io.stdout:setvbuf "no" -- switch off buffering for stdout
 
-local api = require 'methods'
 local plugins = require 'plugins'
 local main = require 'main'
+local config = require 'config'
+local api = require ('telegram-bot-api.methods').init(config.telegram.token)
 
 bot = api.getMe().result
 local last_update, last_cron, current
@@ -24,7 +25,6 @@ function bot.init(on_reload) -- The function run when the bot is started or relo
 	if on_reload then
 		return #plugins
 	else
-		api.sendAdmin('Bot started!\n'..os.date('On %A, %d %B %Y\nAt %X')..'\n'..#plugins..' plugins loaded', true)
 		bot.start_timestamp = os.time()
 		current = {h = 0}
 		bot.last = {h = 0}
@@ -33,7 +33,8 @@ end
 
 bot.init()
 
-api.firstUpdate()
+api.getUpdates(nil, 1, 3600, config.telegram.allowed_updates) -- First update
+
 while true do -- Start a loop while the bot should be running.
 	local res = api.getUpdates(last_update+1) -- Get the latest updates
 	if res then
@@ -56,7 +57,7 @@ while true do -- Start a loop while the bot should be running.
 			if plugins[i].cron then -- Call each plugin's cron function, if it has one.
 				local res2, err = pcall(plugins[i].cron)
 				if not res2 then
-					api.sendLog('An #error occurred (cron).\n'..err)
+					print('An #error occurred (cron).\n'..err)
 					return
 				end
 			end

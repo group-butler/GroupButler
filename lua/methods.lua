@@ -15,14 +15,6 @@ function _M.getMe()
 	return api.getMe()
 end
 
-function _M.getUpdates(offset)
-	return api.getUpdates(offset)
-end
-
-function _M.firstUpdate()
-	return api.getUpdates(nil, 1, 3600, config.telegram.allowed_updates)
-end
-
 function _M.unbanChatMember(chat_id, user_id)
 	return api.unbanChatMember(chat_id, user_id)
 end
@@ -78,7 +70,7 @@ function _M.kickUser(chat_id, user_id)
 end
 
 function _M.muteUser(chat_id, user_id)
-	return api.restrictChatMember(chat_id, user_id, nil, {can_send_messages=false})
+	return api.restrictChatMember(chat_id, user_id, {can_send_messages=false})
 end
 
 function _M.unbanUser(chat_id, user_id)
@@ -87,7 +79,8 @@ function _M.unbanUser(chat_id, user_id)
 end
 
 function _M.restrictChatMember(chat_id, user_id, permissions, until_date)
-	return api.restrictChatMember(chat_id, user_id, until_date, permissions)
+	permissions.until_date=until_date
+	return api.restrictChatMember(chat_id, user_id, permissions)
 end
 
 function _M.getChat(chat_id)

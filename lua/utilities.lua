@@ -1,6 +1,6 @@
-local serpent = require 'serpent'
 local config = require 'config'
-local api = require 'methods'
+local api = require ('telegram-bot-api.methods').init(config.telegram.token)
+local serpent = require 'serpent'
 local ltn12 = require 'ltn12'
 local HTTPS = require 'ssl.https'
 local db = require 'database'
@@ -8,7 +8,14 @@ local locale = require 'languages'
 local socket = require 'socket'
 local i18n = locale.translate
 
-local utilities = {} -- Functions shared among plugins
+local _M = {} -- Functions shared among plugins
+
+-- API helper functions
+
+function _M.sendReply(msg, text, parse_mode, disable_web_page_preview, disable_notification, reply_markup)
+	return api.sendMessage(msg.chat.id, text, parse_mode, disable_web_page_preview, disable_notification,
+		msg.message_id, reply_markup)
+end
 
 -- Strings
 
@@ -85,7 +92,7 @@ function string:replaceholders(msg, ...)
 			username = msg.from.username and '@'..msg.from.username or '-',
 			id = msg.from.id,
 			title = msg.chat.title,
-			rules = utilities.deeplink_constructor(msg.chat.id, 'rules'),
+			rules = _M.deeplink_constructor(msg.chat.id, 'rules'),
 		}
 		-- remove flag about escaping
 		table.remove(tail_arguments, 1)
@@ -97,7 +104,7 @@ function string:replaceholders(msg, ...)
 			userorname = msg.from.username and '@'..msg.from.username:escape() or msg.from.first_name:escape(),
 			id = msg.from.id,
 			title = msg.chat.title:escape(),
-			rules = utilities.deeplink_constructor(msg.chat.id, 'rules'),
+			rules = _M.deeplink_constructor(msg.chat.id, 'rules'),
 		}
 	end
 
@@ -109,22 +116,26 @@ function string:replaceholders(msg, ...)
 	return self:gsub('$(%w+)', substitutions)
 end
 
-function utilities.is_allowed(_, chat_id, user_obj) -- action is not used anymore
-	return utilities.is_admin(chat_id, user_obj.id)
+function _M.is_allowed(_, chat_id, user_obj) -- action is not used anymore
+	return _M.is_admin(chat_id, user_obj.id)
 end
 
-function utilities.can(chat_id, user_id, permission)
+function _M.can(chat_id, user_id, permission)
 	local set = ("cache:chat:%s:%s:permissions"):format(chat_id, user_id)
 
 	local set_admins = 'cache:chat:'..chat_id..':admins'
 	if not db:exists(set_admins) then
-		utilities.cache_adminlist(chat_id)
+		_M.cache_adminlist(chat_id)
 	end
 
 	return db:sismember(set, permission)
 end
 
-function utilities.is_superadmin(user_id)
+function _M.is_mod(chat_id, user_id)
+	return _M.is_admin(chat_id, user_id)
+end
+
+function _M.is_superadmin(user_id)
 	for i=1, #config.superadmins do
 		if tonumber(user_id) == config.superadmins[i] then
 			return true
@@ -133,8 +144,8 @@ function utilities.is_superadmin(user_id)
 	return false
 end
 
-function utilities.bot_is_admin(chat_id)
-	local status = api.getChatMember(chat_id, bot.id).result.status
+function _M.bot_is_admin(chat_id)
+	local status = api.getChatMember(chat_id, api.getMe().result.id).result.status
 	if not(status == 'administrator') then
 		return false
 	else
@@ -142,7 +153,7 @@ function utilities.bot_is_admin(chat_id)
 	end
 end
 
-function utilities.is_admin_request(msg)
+function _M.is_admin_request(msg)
 	local res = api.getChatMember(msg.chat.id, msg.from.id)
 	if not res then
 		return false, false
@@ -157,7 +168,7 @@ end
 
 -- Returns the admin status of the user. The first argument can be the message,
 -- then the function checks the rights of the sender in the incoming chat.
-function utilities.is_admin(chat_id, user_id)
+function _M.is_admin(chat_id, user_id)
 	if type(chat_id) == 'table' then
 		local msg = chat_id
 		chat_id = msg.chat.id
@@ -166,12 +177,12 @@ function utilities.is_admin(chat_id, user_id)
 
 	local set = 'cache:chat:'..chat_id..':admins'
 	if not db:exists(set) then
-		utilities.cache_adminlist(chat_id)
+		_M.cache_adminlist(chat_id)
 	end
 	return db:sismember(set, user_id)
 end
 
-function utilities.is_owner_request(msg)
+function _M.is_owner_request(msg)
 	local status = api.getChatMember(msg.chat.id, msg.from.id).result.status
 	if status == 'creator' then
 		return true
@@ -180,7 +191,7 @@ function utilities.is_owner_request(msg)
 	end
 end
 
-function utilities.is_owner(chat_id, user_id)
+function _M.is_owner(chat_id, user_id)
 	if type(chat_id) == 'table' then
 		local msg = chat_id
 		chat_id = msg.chat.id
@@ -193,7 +204,7 @@ function utilities.is_owner(chat_id, user_id)
 	repeat
 		owner_id = db:get(hash)
 		if not owner_id then
-			res = utilities.cache_adminlist(chat_id)
+			res = _M.cache_adminlist(chat_id)
 		end
 	until owner_id or not res
 
@@ -206,8 +217,8 @@ function utilities.is_owner(chat_id, user_id)
 	return false
 end
 
-function utilities.add_role(chat_id, user_obj)
-	user_obj.admin = utilities.is_admin(chat_id, user_obj.id)
+function _M.add_role(chat_id, user_obj)
+	user_obj.admin = _M.is_admin(chat_id, user_obj.id)
 
 	return user_obj
 end
@@ -228,7 +239,7 @@ local function set_creator_permissions(chat_id, user_id)
 	end
 end
 
-function utilities.cache_adminlist(chat_id)
+function _M.cache_adminlist(chat_id)
 	print('Saving the adminlist for:', chat_id)
 	utilities.metric_incr("api_getchatadministrators_count")
 	local res, code = api.getChatAdministrators(chat_id)
@@ -254,19 +265,20 @@ function utilities.cache_adminlist(chat_id)
 
 		db:sadd(set, admin.user.id)
 
+		_M.demote(chat_id, admin.user.id)
 	end
 	db:expire(set, cache_time)
 
 	return true, #res.result or 0
 end
 
-function utilities.get_cached_admins_list(chat_id, second_try)
+function _M.get_cached_admins_list(chat_id, second_try)
 	local hash = 'cache:chat:'..chat_id..':admins'
 	local list = db:smembers(hash)
 	if not list or not next(list) then
-		utilities.cache_adminlist(chat_id)
+		_M.cache_adminlist(chat_id)
 		if not second_try then
-			return utilities.get_cached_admins_list(chat_id, true)
+			return _M.get_cached_admins_list(chat_id, true)
 		else
 			return false
 		end
@@ -275,7 +287,7 @@ function utilities.get_cached_admins_list(chat_id, second_try)
 	end
 end
 
-function utilities.is_blocked_global(id)
+function _M.is_blocked_global(id)
 	if db:sismember('bot:blocked', id) then
 		return true
 	else
@@ -283,13 +295,13 @@ function utilities.is_blocked_global(id)
 	end
 end
 
-function utilities.dump(...)
+function _M.dump(...)
 	for _, value in pairs{...} do
 		print(serpent.block(value, {comment=false}))
 	end
 end
 
-function utilities.vtext(...)
+function _M.vtext(...)
 	local lines = {}
 	for _, value in pairs{...} do
 		table.insert(lines, serpent.block(value, {comment=false}))
@@ -297,7 +309,7 @@ function utilities.vtext(...)
 	return table.concat(lines, '\n')
 end
 
-function utilities.download_to_file(url, file_path)
+function _M.download_to_file(url, file_path)
 	print("url to download: "..url)
 	local respbody = {}
 	local options = {
@@ -319,16 +331,16 @@ function utilities.download_to_file(url, file_path)
 	return file_path, code
 end
 
-function utilities.telegram_file_link(res)
+function _M.telegram_file_link(res)
 	--res = table returned by getFile()
 	return "https://api.telegram.org/file/bot"..config.api_token.."/"..res.result.file_path
 end
 
-function utilities.deeplink_constructor(chat_id, what)
-	return 'https://telegram.me/'..bot.username..'?start='..chat_id..'_'..what
+function _M.deeplink_constructor(chat_id, what)
+	return 'https://telegram.me/'..api.getMe().result.username..'?start='..chat_id..'_'..what
 end
 
-function utilities.get_date(timestamp)
+function _M.get_date(timestamp)
 	if not timestamp then
 		timestamp = os.time()
 	end
@@ -337,7 +349,7 @@ end
 
 -- Resolves username. Returns ID of user if it was early stored in date base.
 -- Argument username must begin with symbol @ (commercial 'at')
-function utilities.resolve_user(username)
+function _M.resolve_user(username)
 	assert(username:byte(1) == string.byte('@'))
 	username = username:lower()
 
@@ -364,7 +376,7 @@ function utilities.resolve_user(username)
 	return user_obj.result.id
 end
 
-function utilities.get_sm_error_string(code)
+function _M.get_sm_error_string(code)
 	local hyperlinks_text = i18n('More info [here](https://telegram.me/GB_tutorials/12)')
 	local descriptions = {
 		[109] =
@@ -387,7 +399,7 @@ function utilities.get_sm_error_string(code)
 	return descriptions[code] or i18n("Text not valid: unknown formatting error")
 end
 
-function utilities.reply_markup_from_text(text)
+function _M.reply_markup_from_text(text)
 	local clean_text = text
 	local n = 0
 	local reply_markup = {inline_keyboard={}}
@@ -404,7 +416,16 @@ function utilities.reply_markup_from_text(text)
 	return reply_markup, clean_text
 end
 
-function utilities.get_media_type(msg)
+function _M.demote(chat_id, user_id)
+	chat_id, user_id = tonumber(chat_id), tonumber(user_id)
+
+	db:del(('chat:%d:mod:%d'):format(chat_id, user_id))
+	local removed = db:srem('chat:'..chat_id..':mods', user_id)
+
+	return removed == 1
+end
+
+function _M.get_media_type(msg)
 	if msg.photo then
 		return 'photo'
 	elseif msg.video then
@@ -436,7 +457,7 @@ function utilities.get_media_type(msg)
 	end
 end
 
-function utilities.get_media_id(msg)
+function _M.get_media_id(msg)
 	if msg.photo then
 		return msg.photo[#msg.photo].file_id, 'photo'
 	elseif msg.document then
@@ -454,7 +475,7 @@ function utilities.get_media_id(msg)
 	end
 end
 
-function utilities.migrate_chat_info(old, new, on_request)
+function _M.migrate_chat_info(old, new, on_request)
 	if not old or not new then
 		return false
 	end
@@ -485,43 +506,43 @@ function utilities.migrate_chat_info(old, new, on_request)
 	end
 
 	if on_request then
-		api.sendReply(nil, 'Should be done')
+		_M.sendReply(nil, 'Should be done')
 	end
 end
 
-function utilities.to_supergroup(msg)
+function _M.to_supergroup(msg)
 	local old = msg.chat.id
 	local new = msg.migrate_to_chat_id
-	local done = utilities.migrate_chat_info(old, new, false)
+	local done = _M.migrate_chat_info(old, new, false)
 	if done then
-		utilities.remGroup(old, true, 'to supergroup')
-		api.sendMessage(new, '(_service notification: migration of the group executed_)', true)
+		_M.remGroup(old, true, 'to supergroup')
+		api.sendMessage(new, '(_service notification: migration of the group executed_)', 'Markdown')
 	end
 end
 
 -- Return user mention for output a text
-function utilities.getname_final(user)
-	return utilities.getname_link(user) or '<code>'..user.first_name:escape_html()..'</code>'
+function _M.getname_final(user)
+	return _M.getname_link(user) or '<code>'..user.first_name:escape_html()..'</code>'
 end
 
 -- Return link to user profile or false, if they don't have login
-function utilities.getname_link(user)
+function _M.getname_link(user)
 	return ('<a href="%s">%s</a>'):format('tg://user?id='..user.id, user.first_name:escape_html())
 end
 
-function utilities.bash(str)
+function _M.bash(str)
 	local cmd = io.popen(str)
 	local result = cmd:read('*all')
 	cmd:close()
 	return result
 end
 
-function utilities.telegram_file_link(res)
+function _M.telegram_file_link(res)
 	--res = table returned by getFile()
 	return "https://api.telegram.org/file/bot"..config.telegram.token.."/"..res.result.file_path
 end
 
-function utilities.is_silentmode_on(chat_id)
+function _M.is_silentmode_on(chat_id)
 	local hash = 'chat:'..chat_id..':settings'
 	local res = db:hget(hash, 'Silent')
 	if res and res == 'on' then
@@ -531,7 +552,7 @@ function utilities.is_silentmode_on(chat_id)
 	end
 end
 
-function utilities.getRules(chat_id)
+function _M.getRules(chat_id)
 	local hash = 'chat:'..chat_id..':info'
 	local rules = db:hget(hash, 'rules')
 	if not rules then
@@ -541,7 +562,7 @@ function utilities.getRules(chat_id)
 	end
 end
 
-function utilities.getAdminlist(chat_id)
+function _M.getAdminlist(chat_id)
 	local list, code = api.getChatAdministrators(chat_id)
 	if not list then
 		return false, code
@@ -577,7 +598,7 @@ function utilities.getAdminlist(chat_id)
 	return i18n("<b>👤 Creator</b>\n└ %s\n\n<b>👥 Admins</b> (%d)\n%s"):format(creator, #list.result - 1, adminlist)
 end
 
-function utilities.getExtraList(chat_id)
+function _M.getExtraList(chat_id)
 	local hash = 'chat:'..chat_id..':extra'
 	local commands = db:hkeys(hash)
 	if not next(commands) then
@@ -588,7 +609,7 @@ function utilities.getExtraList(chat_id)
 	end
 end
 
-function utilities.getSettings(chat_id)
+function _M.getSettings(chat_id)
 	local hash = 'chat:'..chat_id..':settings'
 
 	local lang = db:get('lang:'..chat_id) or config.lang -- group language
@@ -613,7 +634,7 @@ function utilities.getSettings(chat_id)
 	for key, default in pairs(config.chat_settings['settings']) do
 
 		local off_icon, on_icon = '🚫', '✅'
-		if utilities.is_info_message_key(key) then
+		if _M.is_info_message_key(key) then
 			off_icon, on_icon = '👤', '👥'
 		end
 
@@ -663,7 +684,7 @@ function utilities.getSettings(chat_id)
 
 end
 
-function utilities.changeSettingStatus(chat_id, field)
+function _M.changeSettingStatus(chat_id, field)
 	local turned_off = {
 		reports = i18n("@admin command disabled"),
 		welcome = i18n("Welcome message won't be displayed from now"),
@@ -705,12 +726,14 @@ function utilities.changeSettingStatus(chat_id, field)
 	end
 end
 
-function utilities.sendStartMe(msg)
-	local keyboard = {inline_keyboard = {{{text = i18n("Start me"), url = 'https://telegram.me/'..bot.username}}}}
-	api.sendMessage(msg.chat.id, i18n("_Please message me first so I can message you_"), true, keyboard)
+function _M.sendStartMe(msg)
+	local keyboard = {
+		inline_keyboard = {{{text = i18n("Start me"), url = 'https://telegram.me/'..api.getMe().result.username}}}
+		}
+	api.sendMessage(msg.chat.id, i18n("_Please message me first so I can message you_"), 'Markdown', keyboard)
 end
 
-function utilities.initGroup(chat_id)
+function _M.initGroup(chat_id)
 
 	for set, setting in pairs(config.chat_settings) do
 		local hash = 'chat:'..chat_id..':'..set
@@ -719,7 +742,7 @@ function utilities.initGroup(chat_id)
 		end
 	end
 
-	utilities.cache_adminlist(chat_id, api.getChatAdministrators(chat_id)) --init admin cache
+	_M.cache_adminlist(chat_id, api.getChatAdministrators(chat_id)) --init admin cache
 
 	--save group id
 	db:sadd('bot:groupsid', chat_id)
@@ -727,7 +750,7 @@ function utilities.initGroup(chat_id)
 	db:srem('bot:groupsid:removed', chat_id)
 end
 
-function utilities.remGroup(chat_id, full)
+function _M.remGroup(chat_id, full)
 
 	--remove group id
 	db:srem('bot:groupsid', chat_id)
@@ -760,13 +783,13 @@ function utilities.remGroup(chat_id, full)
 	end
 end
 
-function utilities.getnames_complete(msg)
+function _M.getnames_complete(msg)
 	local admin, kicked
 
-	admin = utilities.getname_link(msg.from)
+	admin = _M.getname_link(msg.from)
 
 	if msg.reply then
-		kicked = utilities.getname_link(msg.reply.from)
+		kicked = _M.getname_link(msg.reply.from)
 	elseif msg.text:match(config.cmd..'%w%w%w%w?%w?%s(@[%w_]+)%s?') then
 		local username = msg.text:match('%s(@[%w_]+)')
 		kicked = username
@@ -791,7 +814,7 @@ function utilities.getnames_complete(msg)
 	return admin, kicked
 end
 
-function utilities.get_user_id(msg, blocks)
+function _M.get_user_id(msg, blocks)
 	--if no user id: returns false and the msg id of the translation for the problem
 	if not msg.reply and not blocks[2] then
 		return false, i18n("Reply to an user or mention them")
@@ -803,7 +826,7 @@ function utilities.get_user_id(msg, blocks)
 			return msg.reply.from.id
 		elseif msg.text:match(config.cmd..'%w%w%w%w?%w?%w?%w?%s(@[%w_]+)%s?') then
 			local username = msg.text:match('%s(@[%w_]+)')
-			local id = utilities.resolve_user(username)
+			local id = _M.resolve_user(username)
 			if not id then
 				return false, i18n("Unknown user.\nPlease forward a message from them to me")
 			else
@@ -820,9 +843,9 @@ function utilities.get_user_id(msg, blocks)
 	end
 end
 
-function utilities.logEvent(event, msg, extra)
+function _M.logEvent(event, msg, extra)
 	local log_id = db:hget('bot:chatlogs', msg.chat.id)
-	--utilities.dump(extra)
+	--_M.dump(extra)
 
 	if not log_id then return end
 	local is_loggable = db:hget('chat:'..msg.chat.id..':tolog', event)
@@ -859,7 +882,8 @@ function utilities.logEvent(event, msg, extra)
 		reply_markup =
 		{
 			inline_keyboard={{{text = i18n("Get the new photo"),
-			url = ("telegram.me/%s?start=photo:%s"):format(bot.username, msg.new_chat_photo[#msg.new_chat_photo].file_id)}}}
+			url = ("telegram.me/%s?start=photo:%s"):format(api.getMe().result.username,
+				msg.new_chat_photo[#msg.new_chat_photo].file_id)}}}
 		}
 	elseif event == 'delete_chat_photo' then
 		text = i18n('%s\n• %s\n• <b>By</b>: %s'):format('#PHOTOREMOVED', chat_info, member)
@@ -878,7 +902,7 @@ function utilities.logEvent(event, msg, extra)
 			msg.new_chat_member.username or '-', msg.new_chat_member.id)
 		text = i18n('%s\n• %s\n• <b>User</b>: %s'):format('#NEW_MEMBER', chat_info, member2)
 		if extra then --extra == msg.from
-			text = text..i18n("\n• <b>Added by</b>: %s [#id%d]"):format(utilities.getname_final(extra), extra.id)
+			text = text..i18n("\n• <b>Added by</b>: %s [#id%d]"):format(_M.getname_final(extra), extra.id)
 		end
 	else
 		-- events that requires user + admin
@@ -909,7 +933,7 @@ function utilities.logEvent(event, msg, extra)
 		elseif event == 'block' or event == 'unblock' then
 			text = i18n(
 				'#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n'
-			):format(event:upper(), utilities.getname_final(msg.from), msg.from.id, chat_info)
+			):format(event:upper(), _M.getname_final(msg.from), msg.from.id, chat_info)
 			if extra.n then
 				text = text..i18n('• <i>Users involved: %d</i>'):format(extra.n)
 			elseif extra.user then
@@ -963,7 +987,7 @@ function utilities.logEvent(event, msg, extra)
 	end
 end
 
-function utilities.is_info_message_key(key)
+function _M.is_info_message_key(key)
 	if key == 'Extra' or key == 'Rules' then
 		return true
 	else
@@ -971,7 +995,7 @@ function utilities.is_info_message_key(key)
 	end
 end
 
-function utilities.table2keyboard(t)
+function _M.table2keyboard(t)
 	local keyboard = {inline_keyboard = {}}
 	for _, line in pairs(t) do
 		if type(line) ~= 'table' then return false, 'Wrong structure (each line need to be a table, not a single value)' end
@@ -993,10 +1017,10 @@ end
 -- useful for show localized message without retranslate every time. It gets one
 -- parameter, a link with more info, and returns a function to be assigned to
 -- onEveryMessage property of a plugin.
-function utilities.reportDeletedCommand(link)
+function _M.reportDeletedCommand(link)
 	return function(msg)
 		if msg.from.admin then
-			api.sendReply(msg, i18n("This command has been removed \\[[read more](%s)]"):format(link), true)
+			_M.sendReply(msg, i18n("This command has been removed \\[[read more](%s)]"):format(link), true)
 		end
 	end
 end
@@ -1017,4 +1041,4 @@ function utilities.time_hires()
 	return socket.gettime()
 end
 
-return utilities
+return _M
