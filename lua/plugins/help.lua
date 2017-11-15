@@ -160,6 +160,19 @@ When the group link is saved with `/setlink`, it gets automatically added to the
 *Why links are saved without* _https://_ *and* _www_*?*
 The bot auto-removes _https://, http:// and www_ from every link to reduce the possibility of having the same link saved twice.
 ]])
+		elseif key == 'blacklist' then
+		return _([[*Blacklist settings*
+
+If an user sends a blacklisted link, it will be deleted.
+
+`/blacklist [link(s)]` or `/bl [link(s)]`: add one or more links to the blacklist.
+`/unblacklist [link(s)]` or `/unbl [link(s)]`: remove one or more links from the blacklist.
+`/blacklist` or `/bl`: get the blacklist.
+`/blacklistl -` or `/bl -`: empty the blacklist.
+
+*Why links are saved without* _https://_ *and* _www_*?*
+The bot auto-removes _https://, http:// and www_ from every link to reduce the possibility of having the same link saved twice.
+]])
 	elseif key == 'extra' then
 		return i18n([[
 *Extra commands*
@@ -303,9 +316,12 @@ local function dk_admins()
 			[i18n("Extra commands")] = 'extra',
 			[i18n("Warns")] = 'warns'
 		},
-		{
-			[i18n("Welcome settings")] = 'welcome',
+		{			
 			[i18n("Links whitelist")] = 'whitelist',
+			[i18n("Links blacklist")] = 'blacklist',
+		},
+		{
+			[i18n("Welcome settings")] = 'welcome',			
 		}
 
 	}
