@@ -372,6 +372,73 @@ function plugin.onTextMessage(msg, blocks)
 			db:srem(('chat:%d:whitelist'):format(msg.chat.id), blocks[2])
 			api.sendReply(msg, 'Done')
 		end
+		
+		if (blocks[1] == 'bl' or blocks[1] == 'blacklist') and blocks[2] then
+			if blocks[2] == '-' then
+				local set = ('chat:%d:blacklist'):format(msg.chat.id)
+				local n = db:scard(set) or 0
+				local text
+				if n == 0 then
+					text = i18n("_The blacklist was already empty_")
+				else
+					db:del(set)
+					text = i18n("*Blacklist cleaned*\n%d links have been removed"):format(n)
+				end
+				api.sendReply(msg, text, true)
+			else
+				local text
+				if msg.entities then
+					local links = urls_table(msg.entities, msg.text)
+					if not next(links) then
+						text = i18n("_I can't find any url in this message_")
+					else
+						local new = db:sadd(('chat:%d:blacklist'):format(msg.chat.id), table.unpack(links))
+						text = i18n("%d link(s) will be blacklisted"):format(#links - (#links - new))
+						if new ~= #links then
+							text = text..i18n("\n%d links were already in the list"):format(#links - new)
+						end
+					end
+				else
+					text = i18n("_I can't find any url in this message_")
+				end
+				api.sendReply(msg, text, true)
+			end
+		end
+		if (blocks[1] == 'bl' or blocks[1] == 'blacklist') and not blocks[2] then
+			local links = db:smembers(('chat:%d:blacklist'):format(msg.chat.id))
+			if not next(links) then
+				api.sendReply(msg, i18n("_The blacklist is empty_.\nUse `/bl [links]` to add some links to the blacklist"), true)
+			else
+				local text = i18n("Blacklisted links:\n\n")
+				for i=1, #links do
+					text = text..'• '..links[i]..'\n'
+				end
+				api.sendReply(msg, text)
+			end
+		end
+		if blocks[1] == 'unbl' or blocks[1] == 'unblacklist' then
+			local text
+			if msg.entities then
+				local links = urls_table(msg.entities, msg.text)
+				if not next(links) then
+					text = i18n("_I can't find any url in this message_")
+				else
+					local removed = db:srem(('chat:%d:blacklist'):format(msg.chat.id), table.unpack(links))
+					text = i18n("%d link(s) removed from the blacklist"):format(removed)
+					if removed ~= #links then
+						text = text.._("\n%d links were already in the list"):format(#links - removed)
+					end
+				end
+			else
+				text = i18n("_I can't find any url in this message_")
+			end
+			api.sendReply(msg, text, true)
+		end
+		if blocks[1] == 'funbl' then --force the unblacklist of a link
+			db:srem(('chat:%d:blacklist'):format(msg.chat.id), blocks[2])
+			api.sendReply(msg, 'Done')
+		end		
+		
 		if blocks[1] == 'wlchan' and not blocks[2] then
 			local channels = db:smembers(('chat:%d:chanwhitelist'):format(msg.chat.id))
 			if not next(channels) then
@@ -433,7 +500,14 @@ plugin.triggers = {
 		config.cmd..'(wl)$',
 		config.cmd..'(whitelist)$',
 		--config.cmd..'(wlchan)$',
-		config.cmd..'(funwl) (.+)'
+		config.cmd..'(funwl) (.+)',
+		config.cmd..'(bl) (.+)$',
+		config.cmd..'(blacklist) (.+)$',
+		config.cmd..'(bl)$',
+		config.cmd..'(blacklist)$',
+		config.cmd..'(unbl) (.+)$',
+		config.cmd..'(unblacklist) (.+)$',
+		config.cmd..'(funbl) (.+)'
 	}
 }
 
