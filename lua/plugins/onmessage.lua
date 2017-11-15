@@ -67,6 +67,18 @@ local function is_whitelisted(chat_id, text)
 	end
 end
 
+local function is_blacklisted(chat_id, text)
+	local set = ('chat:%d:blacklist'):format(chat_id)
+	local links = db:smembers(set)
+	if links and next(links) then
+		for i=1, #links do
+			if text:match(links[i]:gsub('%-', '%%-')) then
+				return true
+			end
+		end
+	end
+end
+
 function plugin.onEveryMessage(msg)
 
 	if not msg.inline then
@@ -120,7 +132,14 @@ function plugin.onEveryMessage(msg)
 			local media = msg.media_type
 			local hash = 'chat:'..msg.chat.id..':media'
 			local media_status = (db:hget(hash, media)) or config.chat_settings.media[media]
-			if media_status ~= 'ok' then
+			local blacklisted			
+			if media == 'link' then
+				blacklisted = is_blacklisted(msg.chat.id, msg.text)
+		  end
+				
+			if blacklisted then
+					api.deleteMessage(msg.chat.id, msg.message_id)					
+			elseif media_status ~= 'ok' then
 				local whitelisted
 				if media == 'link' then
 					whitelisted = is_whitelisted(msg.chat.id, msg.text)
