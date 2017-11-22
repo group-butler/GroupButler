@@ -132,7 +132,7 @@ $ sudo luarocks install luasocket
 $ sudo luarocks install redis-lua
 $ sudo luarocks install lua-term
 $ sudo luarocks install serpent
-$ sudo luarocks install dkjson
+$ sudo luarocks install lua-cjson
 $ sudo luarocks install Lua-cURL
 $ cd ..
 

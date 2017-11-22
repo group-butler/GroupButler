@@ -1,7 +1,10 @@
 local config = require 'config'
 local u = require 'utilities'
 local api = require 'methods'
-local JSON = require 'dkjson'
+local JSON = require 'cjson'
+local db = require 'database'
+local locale = require 'languages'
+local i18n = locale.translate
 
 local plugin = {}
 
@@ -45,7 +48,7 @@ local function gen_backup(chat_id)
 	end
 	for i=1, #config.chat_sets do
 		if config.chat_sets[i] ~= 'mods' then --do not backup the modlist
-			set = ('chat:%s:%s'):format(chat_id, config.chat_sets[i])
+			local set = ('chat:%s:%s'):format(chat_id, config.chat_sets[i])
 			local content = db:smembers(set)
 			if next(content) then
 				t[chat_id].sets[config.chat_sets[i]] = content
@@ -92,13 +95,15 @@ function plugin.onTextMessage(msg, blocks)
 			if last_user then
 				local ttl = db:ttl(key)
 				local time_remaining = get_time_remaining(ttl)
-				local text = _("<i>I'm sorry, this command has been used for the last time less then 3 hours ago by</i> %s (ask him for the file).\nWait [<code>%s</code>] to use it again"):format(last_user, time_remaining)
+				local text = i18n(
+					[[<i>I'm sorry, this command has been used for the last time less then 3 hours ago by</i> %s (ask him for the file).\nWait [<code>%s</code>] to use it again
+					]]):format(last_user, time_remaining)
 				api.sendReply(msg, text, 'html')
 			else
 				local name = u.getname_final(msg.from)
 				db:setex(key, 10800, name) --3 hours
 				local file_path = gen_backup(msg.chat.id)
-				api.sendReply(msg, _('*Sent in private*'), true)
+				api.sendReply(msg, i18n('*Sent in private*'), true)
 				api.sendDocument(msg.from.id, file_path, nil, ('#snap\n%s'):format(msg.chat.title))
 			end
 		end
@@ -111,18 +116,18 @@ function plugin.onTextMessage(msg, blocks)
 						local download_link = u.telegram_file_link(res)
 						local file_path, code = u.download_to_file(download_link, '/tmp/'..msg.chat.id..'.json')
 						if not file_path then
-							text = _('Download of the file failed with code %s'):format(tostring(code))
+							text = i18n('Download of the file failed with code %s'):format(tostring(code))
 						else
 							local data = load_data(file_path)
 							for chat_id, group_data in pairs(data) do
 								chat_id = tonumber(chat_id)
 								if tonumber(chat_id) ~= msg.chat.id then
-									text = _('Chat IDs don\'t match (%s and %s)'):format(tostring(chat_id), tostring(msg.chat.id))
+									text = i18n('Chat IDs don\'t match (%s and %s)'):format(tostring(chat_id), tostring(msg.chat.id))
 								else
 									--restoring sets
 									if group_data.sets and next(group_data.sets) then
 										for set, content in pairs(group_data.sets) do
-											db:sadd(('chat:%d:%s'):format(chat_id, set), table.unpack(content))
+											db:sadd(('chat:%d:%s'):format(chat_id, set), unpack(content))
 										end
 									end
 
@@ -138,18 +143,19 @@ function plugin.onTextMessage(msg, blocks)
 											end
 										end
 									end
-									text = _(imported_text)
+									text = i18n(imported_text)
 								end
 							end
 						end
 					else
-						text = _('This is not a valid backup file.\nReason: invalid name (%s)'):format(tostring(msg.reply_to_message.document.file_name))
+						text = i18n('This is not a valid backup file.\nReason: invalid name (%s)')
+							:format(tostring(msg.reply_to_message.document.file_name))
 					end
 				else
-					text = _('Invalid input. Please reply to a document')
+					text = i18n('Invalid input. Please reply to a document')
 				end
 			else
-				text = _('Invalid input. Please reply to the backup file (/snap command to get it)')
+				text = i18n('Invalid input. Please reply to the backup file (/snap command to get it)')
 			end
 			api.sendMessage(msg.chat.id, text)
 		end

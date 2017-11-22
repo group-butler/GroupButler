@@ -1,59 +1,13 @@
 local api = require 'methods'
-local redis = require 'redis'
 local clr = require 'term.colors'
-local u, config, plugins, last_update, last_cron
-config = require 'config' -- Load configuration file.
-db = redis.connect(config.redis.host, config.redis.port)
+local u = require 'utilities'
+local config = require 'config'
+local db = require 'database'
+local plugins = require 'plugins'
+local locale = require 'languages'
+local _ = locale.translate
 
-function bot_init(on_reload) -- The function run when the bot is started or reloaded.
-	if on_reload then
-		package.loaded.config = nil
-		package.loaded.languages = nil
-		package.loaded.utilities = nil
-	end
-
-	db:select(config.redis.db) --select the redis db
-
-	u = require 'utilities' -- Load miscellaneous and cross-plugin functions.
-	locale = require 'languages'
-	now_ms = require('socket').gettime
-
-	bot = api.getMe().result -- Get bot info
-	--bot.revision = u.bash('git rev-parse --short HEAD')
-
-	plugins = {} -- Load plugins.
-	for i, v in ipairs(config.plugins) do
-		local p = require('plugins.'..v)
-		package.loaded['plugins.'..v] = nil
-		if p.triggers then
-			for funct, trgs in pairs(p.triggers) do
-				for i = 1, #trgs do
-					-- interpret any whitespace character in commands just as space
-					trgs[i] = trgs[i]:gsub(' ', '%%s+')
-				end
-				if not p[funct] then
-					p.trgs[funct] = nil
-					print(clr.red..funct..' triggers ignored in '..v..': '..funct..' function not defined'..clr.reset)
-				end
-			end
-		end
-		table.insert(plugins, p)
-	end
-
-	print('\n'..clr.blue..'BOT RUNNING:'..clr.reset, clr.red..'[@'..bot.username .. '] [' .. bot.first_name ..'] ['..bot.id..']'..clr.reset..'\n')
-
-	last_update = last_update or -2 --skip pending updates
-	last_cron = last_cron or os.time() -- the time of the last cron job
-
-	if on_reload then
-		return #plugins
-	else
-		api.sendAdmin('*Bot started!*\n_'..os.date('On %A, %d %B %Y\nAt %X')..'_\n'..#plugins..' plugins loaded', true)
-		start_timestamp = os.time()
-		current = {h = 0}
-		last = {h = 0}
-	end
-end
+local _M = {}
 
 local function extract_usernames(msg)
 	if msg.from then
@@ -85,9 +39,7 @@ local function extract_usernames(msg)
 end
 
 local function collect_stats(msg)
-
 	extract_usernames(msg)
-
 	if msg.chat.type ~= 'private' and msg.chat.type ~= 'inline' and msg.from then
 		db:hset('chat:'..msg.chat.id..':userlast', msg.from.id, os.time()) --last message for each user
 		db:hset('bot:chats:latsmsg', msg.chat.id, os.time()) --last message in the group
@@ -97,9 +49,8 @@ end
 local function match_triggers(triggers, text)
 	if text and triggers then
 		text = text:gsub('^(/[%w_]+)@'..bot.username, '%1')
-		for i, trigger in pairs(triggers) do
-			local matches = {}
-			matches = { string.match(text, trigger) }
+		for _, trigger in pairs(triggers) do
+			local matches = { string.match(text, trigger) }
 			if next(matches) then
 				return matches, trigger
 			end
@@ -114,7 +65,6 @@ local function on_msg_receive(msg, callback) -- The fn run whenever a message is
 	end
 
 	if msg.chat.type ~= 'group' then --do not process messages from normal groups
-
 		if msg.date < os.time(os.date("!*t")) - 7 then print('Old update skipped') return end -- Do not process old messages.
 		-- os.time(os.date("!*t")) is used so that the timestamp is returned from UTC, not the current timezone.
 		-- the ! indicates UTC - https://www.lua.org/manual/5.2/manual.html#pdf-os.date
@@ -139,7 +89,7 @@ local function on_msg_receive(msg, callback) -- The fn run whenever a message is
 			if not continue then return end
 		end
 
-		for i, plugin in pairs(plugins) do
+		for _, plugin in pairs(plugins) do
 			if plugin.triggers then
 				local blocks, trigger = match_triggers(plugin.triggers[callback], msg.text)
 				if blocks then
@@ -149,7 +99,8 @@ local function on_msg_receive(msg, callback) -- The fn run whenever a message is
 					end
 
 					if config.bot_settings.stream_commands then --print some info in the terminal
-						print(clr.reset..clr.blue..'['..os.date('%X')..']'..clr.red..' '..trigger..clr.reset..' '..msg.from.first_name..' ['..msg.from.id..'] -> ['..msg.chat.id..']')
+						print(clr.reset..clr.blue..'['..os.date('%X')..']'..clr.red..' '..trigger..clr.reset..' '..
+							msg.from.first_name..' ['..msg.from.id..'] -> ['..msg.chat.id..']')
 					end
 
 					--if not check_callback(msg, callback) then goto searchaction end
@@ -185,20 +136,20 @@ Hello everyone!
 My name is %s, and I'm a bot made to help administrators in their hard work.
 Unfortunately I can't work in normal groups. If you need me, please ask the creator to convert this group to a supergroup and then add me again.
 ]]):format(bot.first_name))
-			
+
 			api.leaveChat(msg.chat.id)
-			
+
 			-- log this event
 			if config.bot_settings.stream_commands then
 				print(string.format('%s[%s]%s Bot was added to a normal group %s%s [%d] -> [%d]',
-					  clr.blue, os.date('%X'), clr.yellow, clr.reset, msg.from.first_name, msg.from.id, msg.chat.id))
+					clr.blue, os.date('%X'), clr.yellow, clr.reset, msg.from.first_name, msg.from.id, msg.chat.id))
 			end
 		end
 	end
 end
 
-local function parseMessageFunction(update)
-	
+function _M.parseMessageFunction(update)
+
 	db:hincrby('bot:general', 'messages', 1)
 
 	local msg, function_key
@@ -217,6 +168,7 @@ local function parseMessageFunction(update)
 		msg = update.message or update.edited_message
 
 		if msg.text then
+			msg.text = msg.text -- Just so that luacheck stops complaining about empty if branch
 		elseif msg.photo then
 			msg.media = true
 			msg.media_type = 'photo'
@@ -311,7 +263,7 @@ local function parseMessageFunction(update)
 			end
 		end
 		if msg.entities then
-			for i, entity in pairs(msg.entities) do
+			for _, entity in pairs(msg.entities) do
 				if entity.type == 'text_mention' then
 					msg.mention_id = entity.user.id
 				end
@@ -367,35 +319,4 @@ local function parseMessageFunction(update)
 	return on_msg_receive(msg, function_key)
 end
 
-bot_init() -- Actually start the script. Run the bot_init function.
-
-api.firstUpdate()
-while true do -- Start a loop while the bot should be running.
-	local res = api.getUpdates(last_update+1) -- Get the latest updates
-	if res then
-		clocktime_last_update = os.clock()
-		for i=1, #res.result do -- Go through every new message.
-			last_update = res.result[i].update_id
-			--print(last_update)
-			current.h = current.h + 1
-			parseMessageFunction(res.result[i])
-		end
-	else
-		print('Connection error')
-	end
-	if last_cron ~= os.date('%H') then -- Run cron jobs every hour.
-		last_cron = os.date('%H')
-		last.h = current.h
-		current.h = 0
-		print(clr.yellow..'Cron...'..clr.reset)
-		for i=1, #plugins do
-			if plugins[i].cron then -- Call each plugin's cron function, if it has one.
-				local res, err = pcall(plugins[i].cron)
-				if not res then
-					api.sendLog('An #error occurred (cron).\n'..err)
-					return
-				end
-			end
-		end
-	end
-end
+return _M

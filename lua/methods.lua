@@ -1,9 +1,12 @@
 local curl = require 'cURL'
 local URL = require 'socket.url'
-local JSON = require 'dkjson'
+local JSON = require 'cjson'
 local config = require 'config'
 local clr = require 'term.colors'
 local api_errors = require 'api_bad_requests'
+local db = require 'database'
+local locale = require 'languages'
+local i18n = locale.translate
 
 local BASE_URL = 'https://api.telegram.org/bot' .. config.telegram.token
 
@@ -51,13 +54,13 @@ local function sendRequest(url)
 
 		print(clr.red..code, tab.description..clr.reset)
 		db:hincrby('bot:errors', code, 1)
-		
+
 		local retry_after
 		if code == 429 then
 			retry_after = tab.parameters.retry_after
 			print(('%sRate limited for %d seconds%s'):format(clr.yellow, retry_after, clr.reset))
 		end
-		
+
 		return false, code, tab.description, retry_after
 	end
 
@@ -137,7 +140,7 @@ end
 function api.kickChatMember(chat_id, user_id, until_date)
 
 	local url = BASE_URL .. '/kickChatMember?chat_id=' .. chat_id .. '&user_id=' .. user_id
-	
+
 	if until_date then
 		url = url .. '&until_date=' ..until_date
 	end
@@ -153,15 +156,15 @@ end
 local function code2text(code)
 	--the default error description can't be sent as output, so a translation is needed
 	if code == 159 then
-		return _("I don't have enough permissions to restrict users")
+		return i18n("I don't have enough permissions to restrict users")
 	elseif code == 101 or code == 105 or code == 107 then
-		return _("I'm not an admin, I can't kick people")
+		return i18n("I'm not an admin, I can't kick people")
 	elseif code == 102 or code == 104 then
-		return _("I can't kick or ban an admin")
+		return i18n("I can't kick or ban an admin")
 	elseif code == 103 then
-		return _("There is no need to unban in a normal group")
+		return i18n("There is no need to unban in a normal group")
 	elseif code == 106 or code == 134 then
-		return _("This user is not a chat member")
+		return i18n("This user is not a chat member")
 	elseif code == 7 then
 		return false
 	end
@@ -197,33 +200,32 @@ function api.kickUser(chat_id, user_id)
 end
 
 function api.muteUser(chat_id, user_id)
-	
-	local url = BASE_URL .. '/restrictChatMember?chat_id=' .. chat_id .. '&user_id=' .. user_id .. '&can_post_messages=false'
-	
+
+	local url = BASE_URL..'/restrictChatMember?chat_id='..chat_id..'&user_id='..user_id ..'&can_post_messages=false'
+
 	return sendRequest(url)
-	
+
 end
 
 function api.unbanUser(chat_id, user_id)
-
-	local res, code = api.unbanChatMember(chat_id, user_id)
+	api.unbanChatMember(chat_id, user_id)
 	return true
 end
 
 function api.restrictChatMember(chat_id, user_id, permissions, until_date)
-	
+
 	local url = BASE_URL .. '/restrictChatMember?chat_id=' .. chat_id .. '&user_id=' .. user_id
-	
+
 	if until_date then
 		url = url .. '&until_date=' .. until_date
 	end
-	
+
 	for permission, value in pairs(permissions) do
 		url = url..('&%s=%s'):format(permission, value)
 	end
-	
+
 	return sendRequest(url)
-	
+
 end
 
 function api.getChat(chat_id)
@@ -271,7 +273,7 @@ function api.leaveChat(chat_id)
 	local res, code = sendRequest(url)
 
 	if res then
-		db:srem(string.format('chat:%d:members', chat_id), bot.id)
+		db:srem(string.format('chat:%d:members', chat_id), api.getMe().result.id)
 	end
 
 	if not res and code then --if the request failed and a code is returned (not 403 and 429)
@@ -283,11 +285,11 @@ function api.leaveChat(chat_id)
 end
 
 function api.exportChatInviteLink(chat_id)
-	
+
 	local url = BASE_URL .. '/exportChatInviteLink?chat_id=' .. chat_id
 
 	return sendRequest(url)
-		
+
 end
 
 function api.sendMessage(chat_id, text, parse_mode, reply_markup, reply_to_message_id, link_preview)
@@ -333,7 +335,7 @@ end
 
 function api.editMessageText(chat_id, message_id, text, parse_mode, keyboard)
 
-	local url = BASE_URL .. '/editMessageText?chat_id=' .. chat_id .. '&message_id='..message_id..'&text=' .. URL.escape(text)
+	local url = BASE_URL..'/editMessageText?chat_id='..chat_id..'&message_id='..message_id..'&text='..URL.escape(text)
 
 	if parse_mode then
 		if type(parse_mode) == 'string' and parse_mode:lower() == 'html' then
@@ -364,15 +366,15 @@ function api.editMessageReplyMarkup(chat_id, message_id, reply_markup)
 end
 
 function api.deleteMessage(chat_id, message_id)
-	
+
 	local url = BASE_URL .. '/deleteMessage?chat_id=' .. chat_id .. '&message_id=' .. message_id
-	
+
 	return sendRequest(url)
 
 end
 
 function api.deleteMessages(chat_id, message_ids)
-	
+
 	for i=1, #message_ids do
 		api.deleteMessage(chat_id, message_ids[i])
 	end
@@ -418,7 +420,7 @@ end
 
 function api.forwardMessage(chat_id, from_chat_id, message_id)
 
-	local url = BASE_URL .. '/forwardMessage?chat_id=' .. chat_id .. '&from_chat_id=' .. from_chat_id .. '&message_id=' .. message_id
+	local url = BASE_URL..'/forwardMessage?chat_id='..chat_id..'&from_chat_id='..from_chat_id..'&message_id='..message_id
 
 	local res, code, desc = sendRequest(url)
 
@@ -554,7 +556,7 @@ function api.sendPhoto(chat_id, photo, caption, reply_to_message_id)
 		form:add_content("caption", caption)
 	end
 
-	data = {}
+	local data = {}
 
 	local c = curl_context:setopt_writefunction(table.insert, data)
 						  :setopt_httppost(form)
@@ -581,7 +583,7 @@ function api.sendDocument(chat_id, document, reply_to_message_id, caption)
 		form:add_content("caption", caption)
 	end
 
-	data = {}
+	local data = {}
 
 	local c = curl_context:setopt_writefunction(table.insert, data)
 						  :setopt_httppost(form)
@@ -605,7 +607,7 @@ function api.sendSticker(chat_id, sticker, reply_to_message_id)
 		form:add_content("reply_to_message_id", reply_to_message_id)
 	end
 
-	data = {}
+	local data = {}
 
 	local c = curl_context:setopt_writefunction(table.insert, data)
 						  :setopt_httppost(form)
@@ -641,7 +643,7 @@ function api.sendAudio(chat_id, audio, reply_to_message_id, duration, performer,
 		form:add_content("title", title)
 	end
 
-	data = {}
+	local data = {}
 
 	local c = curl_context:setopt_writefunction(table.insert, data)
 						  :setopt_httppost(form)
@@ -673,7 +675,7 @@ function api.sendVideo(chat_id, video, duration, caption, reply_to_message_id)
 		form:add_content("caption", caption)
 	end
 
-	data = {}
+	local data = {}
 
 	local c = curl_context:setopt_writefunction(table.insert, data)
 						  :setopt_httppost(form)
@@ -702,7 +704,7 @@ function api.sendVideoNote(chat_id, video_note, duration, reply_to_message_id)
 		form:add_content("duration", duration)
 	end
 
-	data = {}
+	local data = {}
 
 	local c = curl_context:setopt_writefunction(table.insert, data)
 						  :setopt_httppost(form)
@@ -725,7 +727,7 @@ function api.sendVoice(chat_id, voice, reply_to_message_id)
 		form:add_content("reply_to_message_id", reply_to_message_id)
 	end
 
-	data = {}
+	local data = {}
 
 	local c = curl_context:setopt_writefunction(table.insert, data)
 						  :setopt_httppost(form)

@@ -2,6 +2,12 @@ local config = require 'config'
 
 local strings = {} -- internal array with translated strings
 
+-- String functions
+function string:trim() -- Trims whitespace from a string
+	local s = self:gsub('^%s*(.-)%s*$', '%1')
+	return s
+end
+
 -- Evaluates the Lua's expression
 local function eval(str)
 	return loadstring('return ' .. str)()
@@ -61,7 +67,7 @@ end
 
 local locale = {} -- table with exported functions
 
-locale.language = 'en' -- default language
+locale.language = config.lang -- default language
 
 function locale.init(directory)
 	directory = directory or "locales"
@@ -74,8 +80,6 @@ end
 function locale.translate(msgid)
 	return strings[locale.language][msgid:gsub('^\n', '')] or msgid
 end
-
-_ = locale.translate
 
 locale.init()
 
