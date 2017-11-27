@@ -60,7 +60,10 @@ local function apply_default_permissions(chat_id, users)
 		end
 		
 		for i=1, #users do
-			api.restrictChatMember(chat_id, users[i].id, def_permissions)
+			local res = api.getChatMember(chat_id, users[i].id)
+			if res.result.status ~= 'restricted' then
+				api.restrictChatMember(chat_id, users[i].id, def_permissions)
+			end
 		end
 	end
 end
