@@ -7,7 +7,7 @@ stages:
 lint:
   stage: lint
   script:
-    - docker run --rm -v $(pwd):/data yangm97/luacheck || [ "$?" -le "1" ]
+    - docker run --rm -v $(pwd):/data yangm97/luacheck
 
 build:
   stage: build
