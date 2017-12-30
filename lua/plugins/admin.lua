@@ -169,7 +169,7 @@ function plugin.onTextMessage(msg, blocks)
 		else
 			output = '```\n'..output..'\n```'
 		end
-		api.sendMessage(msg.chat.id, output, true, msg.message_id, true)
+		api.sendReply(msg, output, true)
 	end
 	if blocks[1] == 'block' then
 		local id

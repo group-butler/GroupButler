@@ -16,19 +16,10 @@ local function ban_bots(msg)
 		if status == 'on' then
 			local users = msg.new_chat_members
 			local n = 0 --bots banned
-			for i=1, #users do
-				if not users[i].last_name and users[i].username and users[i].username:lower():find('bot', -3) then
-					if db:sismember('bot:bots', users[i].id) then
-						api.banUser(msg.chat.id, users[i].id)
-						n = n + 1
-					else
-						local res, code = api.sendChatAction(users[i].id, 'typing')
-						if not res and code == 161 then
-							db:sadd('bot:bots', users[i].id)
-							api.banUser(msg.chat.id, users[i].id)
-							n = n + 1
-						end
-					end
+			for i = 1, #users do
+				if users[i].is_bot == true then
+					api.banUser(msg.chat.id, users[i].id)
+					n = n + 1
 				end
 			end
 			if n == #users then
@@ -64,7 +55,10 @@ local function apply_default_permissions(chat_id, users)
 		end
 
 		for i=1, #users do
-			api.restrictChatMember(chat_id, users[i].id, def_permissions)
+			local res = api.getChatMember(chat_id, users[i].id)
+			if res.result.status ~= 'restricted' then
+				api.restrictChatMember(chat_id, users[i].id, def_permissions)
+			end
 		end
 	end
 end
