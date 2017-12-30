@@ -1,6 +1,9 @@
 local config = require 'config'
 local u = require 'utilities'
 local api = require 'methods'
+local db = require 'database'
+local locale = require 'languages'
+local i18n = locale.translate
 
 local plugin = {}
 
@@ -37,19 +40,20 @@ local function is_on(chat_id, setting)
 	end
 end
 
-local permissions = {'can_send_messages', 'can_send_media_messages', 'can_send_other_messages', 'can_add_web_page_previews'}
+local permissions =
+{'can_send_messages', 'can_send_media_messages', 'can_send_other_messages', 'can_add_web_page_previews'}
 
 local function apply_default_permissions(chat_id, users)
 	local hash = ('chat:%d:defpermissions'):format(chat_id)
 	local def_permissions = db:hgetall(hash)
-	
+
 	if next(def_permissions) then
 		for i=1, #permissions do
 			if not def_permissions[permissions[i]] then
 			def_permissions[permissions[i]] = config.chat_settings.defpermissions[permissions[i]]
 			end
 		end
-		
+
 		for i=1, #users do
 			local res = api.getChatMember(chat_id, users[i].id)
 			if res.result.status ~= 'restricted' then
@@ -71,10 +75,14 @@ local function get_welcome(msg)
 		local file_id = content
 		local caption = db:hget(hash, 'caption')
 		if caption then caption = caption:replaceholders(msg, true) end
-		local rules_button = db:hget('chat:'..msg.chat.id..':settings', 'Welbut') or config.chat_settings['settings']['Welbut']
+		local rules_button = db:hget('chat:'..msg.chat.id..':settings', 'Welbut')
+			or config.chat_settings['settings']['Welbut']
 		local reply_markup
 		if rules_button == 'on' then
-			reply_markup = {inline_keyboard={{{text = _('Read the rules'), url = u.deeplink_constructor(msg.chat.id, 'rules')}}}}
+			reply_markup =
+			{
+				inline_keyboard={{{text = i18n('Read the rules'), url = u.deeplink_constructor(msg.chat.id, 'rules')}}}
+			}
 		end
 
 		local res = api.sendDocumentId(msg.chat.id, file_id, nil, caption, reply_markup)
@@ -91,7 +99,7 @@ local function get_welcome(msg)
 		local reply_markup, new_text = u.reply_markup_from_text(content)
 		return new_text:replaceholders(msg), reply_markup
 	else
-		return _("Hi %s!"):format(msg.new_chat_member.first_name:escape())
+		return i18n("Hi %s!"):format(msg.new_chat_member.first_name:escape())
 	end
 end
 
@@ -103,7 +111,7 @@ function plugin.onTextMessage(msg, blocks)
 		local input = blocks[2]
 
 		if not input and not msg.reply then
-			api.sendReply(msg, _("Welcome and...?")) return
+			api.sendReply(msg, i18n("Welcome and...?")) return
 		end
 
 		local hash = 'chat:'..msg.chat.id..':welcome'
@@ -126,9 +134,9 @@ function plugin.onTextMessage(msg, blocks)
 				end
 				-- turn on the welcome message in the group settings
 				db:hset(('chat:%d:settings'):format(msg.chat.id), 'Welcome', 'on')
-				api.sendReply(msg, _("A form of media has been set as the welcome message: `%s`"):format(replied_to), true)
+				api.sendReply(msg, i18n("A form of media has been set as the welcome message: `%s`"):format(replied_to), true)
 			else
-				api.sendReply(msg, _("Reply to a `sticker` or a `gif` to set them as the *welcome message*"), true)
+				api.sendReply(msg, i18n("Reply to a `sticker` or a `gif` to set them as the *welcome message*"), true)
 			end
 		else
 			db:hset(hash, 'type', 'custom')
@@ -136,7 +144,8 @@ function plugin.onTextMessage(msg, blocks)
 
 			local reply_markup, new_text = u.reply_markup_from_text(input)
 
-			local res, code = api.sendReply(msg, new_text:gsub('$rules', u.deeplink_constructor(msg.chat.id, 'rules')), true, reply_markup)
+			local res, code = api.sendReply(msg, new_text:gsub('$rules', u.deeplink_constructor(msg.chat.id, 'rules')), true,
+				reply_markup)
 			if not res then
 				db:hset(hash, 'type', 'no') --if wrong markdown, remove 'custom' again
 				db:hset(hash, 'content', 'no')
@@ -145,7 +154,7 @@ function plugin.onTextMessage(msg, blocks)
 				-- turn on the welcome message in the group settings
 				db:hset(('chat:%d:settings'):format(msg.chat.id), 'Welcome', 'on')
 				local id = res.result.message_id
-				api.editMessageText(msg.chat.id, id, _("*Custom welcome message saved!*"), true)
+				api.editMessageText(msg.chat.id, id, i18n("*Custom welcome message saved!*"), true)
 			end
 		end
 	end
@@ -155,18 +164,19 @@ function plugin.onTextMessage(msg, blocks)
 		local extra
 		if msg.from.id ~= msg.new_chat_member.id then extra = msg.from end
 		u.logEvent(blocks[1], msg, extra)
-		
+
 		local stop = ban_bots(msg)
 		if stop then return end
-		
+
 		apply_default_permissions(msg.chat.id, msg.new_chat_members)
-		
+
 		local text, reply_markup = get_welcome(msg)
 		if text then --if not text: welcome is locked or is a gif/sticker
-			local attach_button = (db:hget('chat:'..msg.chat.id..':settings', 'Welbut')) or config.chat_settings['settings']['Welbut']
+			local attach_button = (db:hget('chat:'..msg.chat.id..':settings', 'Welbut'))
+				or config.chat_settings['settings']['Welbut']
 			if attach_button == 'on' then
 				if not reply_markup then reply_markup = {inline_keyboard={}} end
-				local line = {{text = _('Read the rules'), url = u.deeplink_constructor(msg.chat.id, 'rules')}}
+				local line = {{text = i18n('Read the rules'), url = u.deeplink_constructor(msg.chat.id, 'rules')}}
 				table.insert(reply_markup.inline_keyboard, line)
 			end
 			local link_preview = text:find('telegra%.ph/') ~= nil

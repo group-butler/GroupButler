@@ -1,6 +1,9 @@
 local config = require 'config'
 local u = require 'utilities'
 local api = require 'methods'
+local db = require 'database'
+local locale = require 'languages'
+local i18n = locale.translate
 
 local plugin = {}
 
@@ -25,38 +28,40 @@ local function get_chat_title(chat_id)
 	end
 end
 
-local function do_keyboard_config(chat_id, user_id, is_admin)
+local function do_keyboard_config(chat_id, user_id) -- is_admin
 	local keyboard = {
 		inline_keyboard = {
-			{{text = _("🛠 Menu"), callback_data = 'config:menu:'..chat_id}},
-			{{text = _("⚡️ Antiflood"), callback_data = 'config:antiflood:'..chat_id}},
-			{{text = _("🌈 Media"), callback_data = 'config:media:'..chat_id}},
-			{{text = _("🚫 Antispam"), callback_data = 'config:antispam:'..chat_id}},
-			{{text = _("📥 Log channel"), callback_data = 'config:logchannel:'..chat_id}}
+			{{text = i18n("🛠 Menu"), callback_data = 'config:menu:'..chat_id}},
+			{{text = i18n("⚡️ Antiflood"), callback_data = 'config:antiflood:'..chat_id}},
+			{{text = i18n("🌈 Media"), callback_data = 'config:media:'..chat_id}},
+			{{text = i18n("🚫 Antispam"), callback_data = 'config:antispam:'..chat_id}},
+			{{text = i18n("📥 Log channel"), callback_data = 'config:logchannel:'..chat_id}}
 		}
 	}
 
 	--local show_mod_button = db:hget('chat:'..chat_id..':modsettings', 'promdem') or config.chat_settings['modsettings']['promdem']
 	--if u.is_owner(chat_id, user_id) or (show_mod_button == 'yes' and is_admin) then
-		--table.insert(keyboard.inline_keyboard, {{text = _("👔 Moderators"), callback_data = 'config:mods:'..chat_id}})
+		--table.insert(keyboard.inline_keyboard, {{text = i18n("👔 Moderators"), callback_data = 'config:mods:'..chat_id}})
 	--end
 	if u.can(chat_id, user_id, "can_restrict_members") then
-		table.insert(keyboard.inline_keyboard, {{text = _("⛔️ Default permissions"), callback_data = 'config:defpermissions:'..chat_id}})
+		table.insert(keyboard.inline_keyboard,
+			{{text = i18n("⛔️ Default permissions"), callback_data = 'config:defpermissions:'..chat_id}})
 	end
 
 	return keyboard
 end
 
-function plugin.onTextMessage(msg, blocks)
+function plugin.onTextMessage(msg)
 	if msg.chat.type ~= 'private' then
 		if u.is_allowed('config', msg.chat.id, msg.from) then
 			local chat_id = msg.chat.id
 			local keyboard = do_keyboard_config(chat_id, msg.from.id)
 			if not db:get('chat:'..chat_id..':title') then cache_chat_title(chat_id, msg.chat.title) end
-			local res = api.sendMessage(msg.from.id, _("<b>%s</b>\n<i>Change the settings of your group</i>"):format(msg.chat.title:escape_html()), 'html', keyboard)
+			local res = api.sendMessage(msg.from.id,
+				i18n("<b>%s</b>\n<i>Change the settings of your group</i>"):format(msg.chat.title:escape_html()), 'html', keyboard)
 			if not u.is_silentmode_on(msg.chat.id) then --send the responde in the group only if the silent mode is off
 				if res then
-					api.sendMessage(msg.chat.id, _("_I've sent you the keyboard via private message_"), true)
+					api.sendMessage(msg.chat.id, i18n("_I've sent you the keyboard via private message_"), true)
 				else
 					u.sendStartMe(msg)
 				end
@@ -65,10 +70,10 @@ function plugin.onTextMessage(msg, blocks)
 	end
 end
 
-function plugin.onCallbackQuery(msg, blocks)
+function plugin.onCallbackQuery(msg)
 	local chat_id = msg.target_id
 	local keyboard = do_keyboard_config(chat_id, msg.from.id, msg.from.admin)
-	local text = _("<i>Change the settings of your group</i>")
+	local text = i18n("<i>Change the settings of your group</i>")
 	local chat_title = get_chat_title(chat_id)
 	if chat_title then
 		text = ("<b>%s</b>\n"):format(chat_title:escape_html())..text

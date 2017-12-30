@@ -1,5 +1,5 @@
 -- Editing this file directly is now highly disencouraged. You should instead use environment variables. This new method is a WIP, so if you need to change something which doesn't have a env var, you are encouraged to open an issue or a PR
-local json = require 'dkjson'
+local json = require 'cjson'
 local open = io.open
 
 local function read_secret(path)
@@ -77,7 +77,7 @@ local _M =
 		notify_bug = false, -- notify if a bug occurs!
 		log_api_errors = true, -- log errors, which happening whilst interacting with the bot api.
 		stream_commands = true,
-		admin_mode = false
+		admin_mode = os.getenv('GB_ADMIN_MODE') == 'true' or false
 	},
 	plugins = {
 		'onmessage', --THIS MUST BE THE FIRST: IF AN USER IS FLOODING/IS BLOCKED, THE BOT WON'T GO THROUGH PLUGINS

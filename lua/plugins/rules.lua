@@ -1,6 +1,9 @@
 local config = require 'config'
 local u = require 'utilities'
 local api = require 'methods'
+local db = require 'database'
+local locale = require 'languages'
+local i18n = locale.translate
 
 local plugin = {}
 
@@ -20,15 +23,15 @@ function plugin.onTextMessage(msg, blocks)
 
 			local res = api.getChat(msg.chat.id)
 			if not res then
-				api.sendMessage(msg.from.id, _("🚫 Unknown or non-existent group"))
+				api.sendMessage(msg.from.id, i18n("🚫 Unknown or non-existent group"))
 				return
 			end
 			-- Private chats have no an username
 			local private = not res.result.username
 
-			local res = api.getChatMember(msg.chat.id, msg.from.id)
+			res = api.getChatMember(msg.chat.id, msg.from.id)
 			if not res or (res.result.status == 'left' or res.result.status == 'kicked') and private then
-				api.sendMessage(msg.from.id, _("🚷 You are not a member of this chat. " ..
+				api.sendMessage(msg.from.id, i18n("🚷 You are not a member of this chat. " ..
 					"You can't read the rules of a private group."))
 				return
 			end
@@ -40,8 +43,9 @@ function plugin.onTextMessage(msg, blocks)
 	local hash = 'chat:'..msg.chat.id..':info'
 	if blocks[1] == 'rules' or blocks[1] == 'start' then
 		local rules = u.getRules(msg.chat.id)
+		local reply_markup
 
-		local reply_markup, rules = u.reply_markup_from_text(rules)
+		reply_markup, rules = u.reply_markup_from_text(rules)
 
 		local link_preview = rules:find('telegra%.ph/') ~= nil
 		if msg.chat.type == 'private' or (not msg.from.admin and not send_in_group(msg.chat.id)) then
@@ -57,12 +61,12 @@ function plugin.onTextMessage(msg, blocks)
 		local rules = blocks[2]
 		--ignore if not input text
 		if not rules then
-			api.sendReply(msg, _("Please write something next `/setrules`"), true) return
+			api.sendReply(msg, i18n("Please write something next `/setrules`"), true) return
 		end
 		--check if a mod want to clean the rules
 		if rules == '-' then
 			db:hdel(hash, 'rules')
-			api.sendReply(msg, _("Rules has been deleted."))
+			api.sendReply(msg, i18n("Rules has been deleted."))
 			return
 		end
 
@@ -75,7 +79,7 @@ function plugin.onTextMessage(msg, blocks)
 		else
 			db:hset(hash, 'rules', rules)
 			local id = res.result.message_id
-			api.editMessageText(msg.chat.id, id, _("New rules *saved successfully*!"), true)
+			api.editMessageText(msg.chat.id, id, i18n("New rules *saved successfully*!"), true)
 		end
 	end
 end
