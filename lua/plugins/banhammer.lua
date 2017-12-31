@@ -123,7 +123,7 @@ function plugin.onTextMessage(msg, blocks)
 				else
 					local result = api.getChatMember(chat_id, user_id)
 					local text
-					if result.status ~= 'kicked' then
+					if result.result.status ~= 'kicked' then
 						text = i18n("This user is not banned!")
 					else
 						api.unbanUser(chat_id, user_id)
