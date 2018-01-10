@@ -48,17 +48,25 @@ local function apply_default_permissions(chat_id, users)
 	local def_permissions = db:hgetall(hash)
 
 	if next(def_permissions) then
-		for i=1, #permissions do
-			if not def_permissions[permissions[i]] then
-			def_permissions[permissions[i]] = config.chat_settings.defpermissions[permissions[i]]
-			end
-		end
+		--for i=1, #permissions do
+			--if not def_permissions[permissions[i]] then
+				--def_permissions[permissions[i]] = config.chat_settings.defpermissions[permissions[i]]
+			--end
+		--end
 
 		for i=1, #users do
-			local res = api.getChatMember(chat_id, users[i].id)
-			if res.result.status ~= 'restricted' then
-				api.restrictChatMember(chat_id, users[i].id, def_permissions)
+			local chat_member = api.getChatMember(chat_id, users[i].id)
+			for j=1, #permissions do
+				if chat_member.result[permissions[j]] == false then
+					-- the user has already been restricted: just force-restrict this permission 
+					def_permissions[permissions[j]] = false
+				elseif not def_permissions[permissions[j]] then
+					-- no default value set for this permission, use the default in config.lua
+					def_permissions[permissions[j]] = config.chat_settings.defpermissions[permissions[j]]
+				end
 			end
+
+			api.restrictChatMember(chat_id, users[i].id, def_permissions)
 		end
 	end
 end

@@ -9,11 +9,11 @@ Group Butler was born as an [otouto](https://otou.to) [v3.1](https://github.com/
 #### Group Butler on Telegram:
 
 - [`@GroupButler_bot`](https://telegram.me/GroupButler_Bot)
-	- **_branch_**: `master`
+	- **_branch_**: `production`
 	- **_channel_**: [`@GroupButler_ch`](https://telegram.me/groupbutler_ch).
 
 - [`@GBReborn_bot`](https://telegram.me/GBReborn_bot)
-	- **_branch_**: `beta`
+	- **_branch_**: `staging`
 	- **_channel_**: [`@GroupButler_beta`](https://telegram.me/GroupButler_beta).
 
 * * *
