@@ -51,7 +51,8 @@ local function is_flooding_funct(msg)
 	if msg.cb then max_msgs = 15 end
 
 	local max_time = 5
-	db:setex(spamkey, max_time, msgs+1)
+	db:incr(spamkey)
+	db:expire(spamkey, max_time)
 
 	if msgs > max_msgs then
 		return true, msgs, max_msgs
