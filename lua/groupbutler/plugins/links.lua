@@ -1,6 +1,5 @@
 local config = require "groupbutler.config"
 local u = require "groupbutler.utilities"
-local api = require "groupbutler.methods"
 local db = require "groupbutler.database"
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
@@ -18,7 +17,7 @@ function plugin.onTextMessage(msg, blocks)
 		if msg.chat.username then
 			db:sadd('chat:'..msg.chat.id..':whitelist', 'telegram.me/'..msg.chat.username)
 			local title = msg.chat.title:escape_hard('link')
-			api.sendReply(msg, string.format('[%s](telegram.me/%s)', title, msg.chat.username), true)
+			u.sendReply(msg, string.format('[%s](telegram.me/%s)', title, msg.chat.username), "Markdown")
 		else
 			local link = db:hget(hash, 'link')
 			if not link then
@@ -27,7 +26,7 @@ function plugin.onTextMessage(msg, blocks)
 				local title = msg.chat.title:escape_hard('link')
 				text = string.format('[%s](%s)', title, link)
 			end
-			api.sendReply(msg, text, true)
+			u.sendReply(msg, text, "Markdown")
 		end
 	end
 	if blocks[1] == 'setlink' then
@@ -62,7 +61,7 @@ function plugin.onTextMessage(msg, blocks)
 				end
 			end
 		end
-		api.sendReply(msg, text, true)
+		u.sendReply(msg, text, "Markdown")
 	end
 end
 

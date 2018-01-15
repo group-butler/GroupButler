@@ -1,6 +1,6 @@
 local config = require "groupbutler.config"
 local u = require "groupbutler.utilities"
-local api = require "groupbutler.methods"
+local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local db = require "groupbutler.database"
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
@@ -165,17 +165,17 @@ function plugin.onCallbackQuery(msg, blocks)
 		end
 
 		text = text .. i18n("\n(Admin: %s)"):format(u.getname_final(msg.from))
-		api.editMessageText(msg.chat.id, msg.message_id, text, 'html')
+		api.editMessageText(msg.chat.id, msg.message_id, nil, text, 'html')
 	end
 	if blocks[1] == 'cleanwarns' then
 		if blocks[2] == 'yes' then
 			db:del('chat:'..msg.chat.id..':warns')
 			db:del('chat:'..msg.chat.id..':mediawarn')
 			db:del('chat:'..msg.chat.id..':spamwarns')
-			api.editMessageText(msg.chat.id, msg.message_id,
+			api.editMessageText(msg.chat.id, msg.message_id, nil,
 				i18n('Done. All the warnings of this group have been erased by %s'):format(u.getname_final(msg.from)), 'html')
 		else
-			api.editMessageText(msg.chat.id, msg.message_id, i18n('_Action aborted_'), true)
+			api.editMessageText(msg.chat.id, msg.message_id, nil, i18n('_Action aborted_'), "Markdown")
 		end
 	end
 end

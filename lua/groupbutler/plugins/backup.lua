@@ -1,7 +1,8 @@
 local config = require "groupbutler.config"
 local u = require "groupbutler.utilities"
-local api = require "groupbutler.methods"
-local JSON = require 'cjson'
+local api = require "telegram-bot-api.methods".init(config.telegram.token)
+local api_old = require "groupbutler.methods"
+local json = require "cjson"
 local db = require "groupbutler.database"
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
@@ -9,7 +10,7 @@ local i18n = locale.translate
 local plugin = {}
 
 local function save_data(filename, data)
-	local s = JSON.encode(data)
+	local s = json.encode(data)
 	local f = io.open(filename, 'w')
 	f:write(s)
 	f:close()
@@ -20,7 +21,7 @@ local function load_data(filename)
 	if f then
 		local s = f:read('*all')
 		f:close()
-		return JSON.decode(s)
+		return json.decode(s)
 	else
 		return {}
 	end
@@ -99,14 +100,14 @@ function plugin.onTextMessage(msg, blocks)
 			local text = i18n([[<i>I'm sorry, this command has been used for the last time less then 3 hours ago by</i> %s (ask them for the file).
 Wait [<code>%s</code>] to use it again
 ]]):format(last_user, time_remaining)
-			api.sendReply(msg, text, 'html')
+				u.sendReply(msg, text, 'html')
 		else
 			-- no snapshot has been done recently
 			local name = u.getname_final(msg.from)
 			db:setex(key, 10800, name) --3 hours
 			local file_path = gen_backup(msg.chat.id)
-			api.sendReply(msg, i18n('*Sent in private*'), true)
-			api.sendDocument(msg.from.id, file_path, nil, ('#snap\n%s'):format(msg.chat.title))
+				u.sendReply(msg, i18n('*Sent in private*'), "Markdown")
+				api_old.sendDocument(msg.from.id, file_path, nil, ('#snap\n%s'):format(msg.chat.title))
 		end
 	end
 	if blocks[1] == 'import' then

@@ -1,6 +1,6 @@
 local config = require "groupbutler.config"
 local u = require "groupbutler.utilities"
-local api = require "groupbutler.methods"
+local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local db = require "groupbutler.database"
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
@@ -334,19 +334,19 @@ function plugin.onTextMessage(msg, blocks)
 		if msg.chat.type == 'private' then
 			local message = get_helped_string('start'):format(msg.from.first_name:escape())
 			local keyboard = do_keyboard_private()
-			api.sendMessage(msg.from.id, message, true, keyboard)
+			api.sendMessage(msg.from.id, message, "Markdown", nil, nil, nil, keyboard)
 		end
 	end
 	if blocks[1] == 'help' then
 		local text = get_helped_string(blocks[2] or 'main_menu')
 		if blocks[2] then
-			api.sendMessage(msg.from.id, text, true)
+			api.sendMessage(msg.from.id, text, "Markdown")
 		else
 			local keyboard = do_keyboard('main')
-			local res = api.sendMessage(msg.from.id, text, true, keyboard)
+			local res = api.sendMessage(msg.from.id, text, "Markdown", nil, nil, nil, keyboard)
 			if not res and msg.chat.type ~= 'private' and db:hget('chat:'..msg.chat.id..':settings', 'Silent') ~= 'on' then
 				api.sendMessage(msg.chat.id,
-					i18n('[Start me](%s) _to get the list of commands_'):format(u.deeplink_constructor('', 'help')), true)
+					i18n('[Start me](%s) _to get the list of commands_'):format(u.deeplink_constructor('', 'help')), "Markdown")
 			end
 		end
 	end
@@ -382,7 +382,7 @@ function plugin.onCallbackQuery(msg, blocks)
 		api.answerCallbackQuery(msg.cb_id, i18n("Deprecated message, send /help again"), true)
 	else
 		local keyboard = do_keyboard(keyboard_type)
-		local res, code = api.editMessageText(msg.chat.id, msg.message_id, text, true, keyboard)
+		local res, code = api.editMessageText(msg.chat.id, msg.message_id, nil, text, "Markdown", nil, keyboard)
 		if not res and code and code == 111 then
 			api.answerCallbackQuery(msg.cb_id, i18n("❗️ Already there"))
 		else

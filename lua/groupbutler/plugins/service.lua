@@ -1,6 +1,6 @@
 local config = require "groupbutler.config"
 local u = require "groupbutler.utilities"
-local api = require "groupbutler.methods"
+local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local db = require "groupbutler.database"
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
@@ -8,33 +8,28 @@ local i18n = locale.translate
 local plugin = {}
 
 function plugin.onTextMessage(msg, blocks)
-
 	if not msg.service then return end
-
 	if blocks[1] == 'new_chat_member:bot' or blocks[1] == 'migrate_from_chat_id' then
 		-- set the language
 		--[[locale.language = db:get(string.format('lang:%d', msg.from.id)) or config.lang
 		if not config.available_languages[locale.language] then
 			locale.language = 'en'
 		end]]
-
 		if u.is_blocked_global(msg.from.id) then
-			api.sendMessage(msg.chat.id, i18n("_You (user ID: %d) are in the blocked list_"):format(msg.from.id), true)
+			api.sendMessage(msg.chat.id, i18n("_You (user ID: %d) are in the blocked list_"):format(msg.from.id), "Markdown")
 			api.leaveChat(msg.chat.id)
 			return
 		end
 		if config.bot_settings.admin_mode and not u.is_superadmin(msg.from.id) then
-			api.sendMessage(msg.chat.id, i18n("_Admin mode is on: only the bot admin can add me to a new group_"), true)
+			api.sendMessage(msg.chat.id, i18n("_Admin mode is on: only the bot admin can add me to a new group_"), "Markdown")
 			api.leaveChat(msg.chat.id)
 			return
 		end
-
 		-- save language
 		--[[if locale.language then
 			db:set(string.format('lang:%d', msg.chat.id), locale.language)
 		end]]
 		u.initGroup(msg.chat.id)
-
 		-- send manuals
 		local text
 		if blocks[1] == 'new_chat_member:bot' then
@@ -58,7 +53,7 @@ function plugin.onTextMessage(msg, blocks)
 		text = text .. i18n("I can do a lot of cool things. To discover about them, "
 				-- TODO: old link, update it
 			.. "watch this [video-tutorial](https://youtu.be/uqNumbcUyzs).") ]]
-		api.sendMessage(msg.chat.id, text, true)
+		api.sendMessage(msg.chat.id, text, "Markdown")
 	elseif blocks[1] == 'left_chat_member:bot' then
 		u.remGroup(msg.chat.id, true)
 	else

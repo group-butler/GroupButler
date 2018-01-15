@@ -1,5 +1,5 @@
 local config = require "groupbutler.config"
-local api = require ('telegram-bot-api.methods').init(config.telegram.token)
+local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local serpent = require 'serpent'
 local ltn12 = require 'ltn12'
 local HTTPS = require 'ssl.https'
@@ -15,6 +15,38 @@ local _M = {} -- Functions shared among plugins
 function _M.sendReply(msg, text, parse_mode, disable_web_page_preview, disable_notification, reply_markup)
 	return api.sendMessage(msg.chat.id, text, parse_mode, disable_web_page_preview, disable_notification,
 		msg.message_id, reply_markup)
+end
+
+function _M.banUser(chat_id, user_id, until_date)
+	local ok, err = api.kickChatMember(chat_id, user_id, until_date) --try to kick. "code" is already specific
+	if ok then --if the user has been kicked, then...
+		return ok --return res and not the text
+	else
+		return nil, api_err.trans(err)
+	end
+end
+
+function _M.kickUser(chat_id, user_id)
+	local ok, err = api.kickChatMember(chat_id, user_id) --try to kick
+	if ok then --if the user has been kicked, then unban...
+		api.unbanChatMember(chat_id, user_id)
+		return ok
+	else
+		return nil, api_err.trans(err)
+	end
+end
+
+function _M.muteUser(chat_id, user_id)
+	local ok, err = api.restrictChatMember({
+		chat_id = chat_id,
+		user_id = user_id,
+		can_send_messages = false
+	})
+	if ok then
+		return ok
+	else
+		return nil, api_err.trans(err)
+	end
 end
 
 -- Strings
@@ -145,7 +177,7 @@ function _M.is_superadmin(user_id)
 end
 
 function _M.bot_is_admin(chat_id)
-	local status = api.getChatMember(chat_id, api.getMe().id).result.status
+	local status = api.getChatMember(chat_id, api.getMe().id).status
 	if not(status == 'administrator') then
 		return false
 	else
@@ -158,7 +190,7 @@ function _M.is_admin_request(msg)
 	if not res then
 		return false, false
 	end
-	local status = res.result.status
+	local status = res.status
 	if status == 'creator' or status == 'administrator' then
 		return true, true
 	else
@@ -183,7 +215,7 @@ function _M.is_admin(chat_id, user_id)
 end
 
 function _M.is_owner_request(msg)
-	local status = api.getChatMember(msg.chat.id, msg.from.id).result.status
+	local status = api.getChatMember(msg.chat.id, msg.from.id).status
 	if status == 'creator' then
 		return true
 	else
@@ -250,7 +282,7 @@ function _M.cache_adminlist(chat_id)
 	local cache_time = config.bot_settings.cache_time.adminlist
 	local set_permissions
 	db:del(set)
-	for _, admin in pairs(res.result) do
+	for _, admin in pairs(res) do
 		if admin.status == 'creator' then
 			db:set('cache:chat:'..chat_id..':owner', admin.user.id)
 			set_creator_permissions(chat_id, admin.user.id)
@@ -269,7 +301,7 @@ function _M.cache_adminlist(chat_id)
 	end
 	db:expire(set, cache_time)
 
-	return true, #res.result or 0
+	return true, #res or 0
 end
 
 function _M.get_cached_admins_list(chat_id, second_try)
@@ -333,7 +365,7 @@ end
 
 function _M.telegram_file_link(res)
 	--res = table returned by getFile()
-	return "https://api.telegram.org/file/bot"..config.api_token.."/"..res.result.file_path
+	return "https://api.telegram.org/file/bot"..config.api_token.."/"..res.file_path
 end
 
 function _M.deeplink_constructor(chat_id, what)
@@ -359,21 +391,21 @@ function _M.resolve_user(username)
 	if not user_obj then
 		return stored_id
 	else
-		if not user_obj.result.username then return stored_id end
+		if not user_obj.username then return stored_id end
 	end
 
 	-- Users could change their username
-	if username ~= '@' .. user_obj.result.username:lower() then
-		if user_obj.result.username then
+	if username ~= '@' .. user_obj.username:lower() then
+		if user_obj.username then
 			-- Update it if it exists
-			db:hset('bot:usernames', '@'..user_obj.result.username:lower(), user_obj.result.id)
+			db:hset('bot:usernames', '@'..user_obj.username:lower(), user_obj.id)
 		end
 		-- And return false because this user not the same that asked
 		return false
 	end
 
-	assert(stored_id == user_obj.result.id)
-	return user_obj.result.id
+	assert(stored_id == user_obj.id)
+	return user_obj.id
 end
 
 function _M.get_sm_error_string(code)
@@ -539,7 +571,7 @@ end
 
 function _M.telegram_file_link(res)
 	--res = table returned by getFile()
-	return "https://api.telegram.org/file/bot"..config.telegram.token.."/"..res.result.file_path
+	return "https://api.telegram.org/file/bot"..config.telegram.token.."/"..res.file_path
 end
 
 function _M.is_silentmode_on(chat_id)
@@ -570,7 +602,7 @@ function _M.getAdminlist(chat_id)
 	local creator = ''
 	local adminlist = ''
 	local count = 1
-	for _, admin in pairs(list.result) do
+	for _, admin in pairs(list) do
 		local name
 		local s = ' ├ '
 		if admin.status == 'administrator' then
@@ -580,7 +612,7 @@ function _M.getAdminlist(chat_id)
 			else
 				name = name:escape_html()
 			end
-			if count + 1 == #list.result then s = ' └ ' end
+			if count + 1 == #list then s = ' └ ' end
 			adminlist = adminlist..s..name..'\n'
 			count = count + 1
 		elseif admin.status == 'creator' then
@@ -595,7 +627,7 @@ function _M.getAdminlist(chat_id)
 	if adminlist == '' then adminlist = '-' end
 	if creator == '' then creator = '-' end
 
-	return i18n("<b>👤 Creator</b>\n└ %s\n\n<b>👥 Admins</b> (%d)\n%s"):format(creator, #list.result - 1, adminlist)
+	return i18n("<b>👤 Creator</b>\n└ %s\n\n<b>👥 Admins</b> (%d)\n%s"):format(creator, #list - 1, adminlist)
 end
 
 function _M.getExtraList(chat_id)
@@ -717,7 +749,7 @@ function _M.changeSettingStatus(chat_id, field)
 		db:hset(hash, field, 'on')
 		if field:lower() == 'goodbye' then
 			local r = api.getChatMembersCount(chat_id)
-			if r and r.result > 50 then
+			if r and r > 50 then
 				return i18n("This setting is enabled, but the goodbye message won't be displayed in large groups, "
 					.. "because I can't see service messages about left members"), true
 			end

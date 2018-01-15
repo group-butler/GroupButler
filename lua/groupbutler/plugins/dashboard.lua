@@ -1,6 +1,6 @@
 local config = require "groupbutler.config"
 local u = require "groupbutler.utilities"
-local api = require "groupbutler.methods"
+local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local db = require "groupbutler.database"
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
@@ -19,7 +19,7 @@ local function getFloodSettings_text(chat_id)
 	if action == 'kick' then
 		action = i18n("👞 kick")
 	elseif action == 'ban' then
-		action = i18n("🔨️ ️ban")
+		action = i18n("🔨 ban")
 	elseif action == 'mute' then
 		action = i18n("👁 mute")
 	end
@@ -74,11 +74,11 @@ function plugin.onTextMessage(msg)
 	if msg.chat.type ~= 'private' then
 		local chat_id = msg.chat.id
 		local keyboard = doKeyboard_dashboard(chat_id)
-		local res = api.sendMessage(msg.from.id, i18n("Navigate this message to see *all the info* about this group!"), true,
-			keyboard)
+		local res = api.sendMessage(msg.from.id, i18n("Navigate this message to see *all the info* about this group!"),
+			"Markdown", keyboard)
 		if not u.is_silentmode_on(msg.chat.id) then --send the responde in the group only if the silent mode is off
 			if res then
-				api.sendMessage(msg.chat.id, i18n("_I've sent you the group dashboard via private message_"), true)
+				api.sendMessage(msg.chat.id, i18n("_I've sent you the group dashboard via private message_"), "Markdown")
 			else
 				u.sendStartMe(msg)
 			end
@@ -90,17 +90,17 @@ function plugin.onCallbackQuery(msg, blocks)
 	local chat_id = msg.target_id
 	local request = blocks[2]
 	local text, notification
-	local parse_mode = true
+	local parse_mode = "Markdown"
 	local res = api.getChat(chat_id)
 	if not res then
 		api.answerCallbackQuery(msg.cb_id, i18n("🚫 This group does not exist"))
 		return
 	end
 	-- Private chats don't have an username
-	local private = not res.result.username
+	local private = not res.username
 	res = api.getChatMember(chat_id, msg.from.id)
-	if not res or (res.result.status == 'left' or res.result.status == 'kicked') and private then
-		api.editMessageText(msg.from.id, msg.message_id, i18n("🚷 You are not a member of the chat. " ..
+	if not res or (res.status == 'left' or res.status == 'kicked') and private then
+		api.editMessageText(msg.from.id, msg.message_id, nil, i18n("🚷 You are not a member of the chat. " ..
 			"You can't see the settings of a private group."))
 		return
 	end
@@ -159,7 +159,7 @@ function plugin.onCallbackQuery(msg, blocks)
 		end
 		notification = i18n("ℹ️ Group ► Media")
 	end
-	api.editMessageText(msg.from.id, msg.message_id, text, parse_mode, keyboard)
+	api.editMessageText(msg.from.id, msg.message_id, nil, text, parse_mode, keyboard)
 	api.answerCallbackQuery(msg.cb_id, notification)
 end
 

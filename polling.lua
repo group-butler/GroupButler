@@ -5,9 +5,9 @@ io.stdout:setvbuf "no" -- switch off buffering for stdout
 local plugins = require "groupbutler.plugins"
 local main = require "groupbutler.main"
 local config = require "groupbutler.config"
-local api = require ('telegram-bot-api.methods').init(config.telegram.token)
+local api = require "telegram-bot-api.methods".init(config.telegram.token)
 
-bot = api.getMe().result
+local bot = api.getMe()
 local last_update, last_cron, current
 
 function bot.init(on_reload) -- The function run when the bot is started or reloaded
@@ -39,11 +39,11 @@ while true do -- Start a loop while the bot should be running.
 	local res = api.getUpdates(last_update+1) -- Get the latest updates
 	if res then
 		-- clocktime_last_update = os.clock()
-		for i=1, #res.result do -- Go through every new message.
-			last_update = res.result[i].update_id
+		for i=1, #res do -- Go through every new message.
+			last_update = res[i].update_id
 			--print(last_update)
 			current.h = current.h + 1
-			main.parseMessageFunction(res.result[i])
+			main.parseMessageFunction(res[i])
 		end
 	else
 		print('Connection error')

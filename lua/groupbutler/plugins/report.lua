@@ -1,6 +1,6 @@
 local config = require "groupbutler.config"
 local u = require "groupbutler.utilities"
-local api = require "groupbutler.methods"
+local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local db = require "groupbutler.database"
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
@@ -52,9 +52,9 @@ local function report(msg, description)
 			local res_fwd = api.forwardMessage(admins_list[i], msg.chat.id, msg.reply.message_id)
 			if res_fwd then
 				markup.inline_keyboard[1][1].callback_data = callback_data..(msg.message_id)
-				desc_msg = api.sendMessage(admins_list[i], text, 'html', markup, res_fwd.result.message_id)
+				desc_msg = api.sendMessage(admins_list[i], text, 'html', true, nil, res_fwd.message_id, markup)
 				if desc_msg then
-					db:hset(hash, admins_list[i], desc_msg.result.message_id) --save the msg_id of the msg sent to the admin
+					db:hset(hash, admins_list[i], desc_msg.message_id) --save the msg_id of the msg sent to the admin
 					n = n + 1
 				end
 			end
@@ -99,7 +99,7 @@ function plugin.onTextMessage(msg, blocks)
 					'*New parameters saved*.\nUsers will be able to use @admin %d times/%d minutes'
 					):format(times_allowed, duration)
 			end
-			api.sendReply(msg, text, true)
+			u.sendReply(msg, text, "Markdown")
 		else
 			if msg.from.admin or not msg.reply then
 				return
@@ -117,7 +117,7 @@ function plugin.onTextMessage(msg, blocks)
 				local minutes, seconds = seconds2minutes(ttl)
 				text = i18n([[_Please, do not abuse this command. It can be used %d times every %d minutes_.
 Wait other %d minutes, %d seconds.]]):format(times_allowed, (duration / 60), minutes, seconds)
-				api.sendReply(msg, text, true)
+				u.sendReply(msg, text, "Markdown")
 			else
 				local description
 				if blocks[1] and blocks[1] ~= '@admin' and blocks[1] ~= config.cmd..'report' then
@@ -129,7 +129,7 @@ Wait other %d minutes, %d seconds.]]):format(times_allowed, (duration / 60), min
 				text = i18n('_Reported to %d admin(s)_'):format(n_sent)
 
 				u.logEvent('report', msg, {n_admins = n_sent})
-				api.sendReply(msg, text, true)
+				u.sendReply(msg, text, "Markdown")
 			end
 		end
 	end
@@ -186,7 +186,7 @@ function plugin.onCallbackQuery(msg, blocks)
 					end
 				end
 				local markup = {inline_keyboard={{{text = i18n("(issue closed by you)"), callback_data = "issueclosed"}}}}
-				api.editMessageReplyMarkup(msg.from.id, msg.message_id, markup)
+				api.editMessageReplyMarkup(msg.from.id, msg.message_id, nil, markup)
 			end
 		end
 	end

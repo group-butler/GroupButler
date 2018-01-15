@@ -1,5 +1,5 @@
 local config = require "groupbutler.config"
-local api = require "groupbutler.methods"
+local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local db = require "groupbutler.database"
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
@@ -62,7 +62,7 @@ end
 function plugin.onTextMessage(msg)
 	if msg.chat.type == 'private' then
 		local keyboard = doKeyboard_privsett(msg.from.id)
-		api.sendMessage(msg.from.id, i18n('Change your private settings'), true, keyboard)
+		api.sendMessage(msg.from.id, i18n('Change your private settings'), "Markdown", nil, nil, nil, keyboard)
 	end
 end
 
@@ -72,7 +72,7 @@ function plugin.onCallbackQuery(msg, blocks)
 	else
 		change_private_setting(msg.from.id, blocks[2])
 		local keyboard = doKeyboard_privsett(msg.from.id)
-		api.editMessageReplyMarkup(msg.from.id, msg.message_id, keyboard)
+		api.editMessageReplyMarkup(msg.from.id, msg.message_id, nil, keyboard)
 		api.answerCallbackQuery(msg.cb_id, i18n('⚙ Setting applied'))
 	end
 end

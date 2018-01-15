@@ -1,6 +1,6 @@
 local config = require "groupbutler.config"
 local u = require "groupbutler.utilities"
-local api = require "groupbutler.methods"
+local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local db = require "groupbutler.database"
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
@@ -122,17 +122,17 @@ Tap on the name of a permission for a description of what kind of messages it wi
 			end
 
 			reply_markup = doKeyboard_permissions(chat_id)
-			local res, code, _, retry_after
+			local ok, err
 			if blocks[2] then
 				--if the user tapped on a keybord button, just edit the markup and not the whole message
-				res, code, _, retry_after = api.editMessageReplyMarkup(msg.chat.id, msg.message_id, reply_markup)
+				ok, err = api.editMessageReplyMarkup(msg.chat.id, msg.message_id, nil, reply_markup)
 			else
-				res, code, _, retry_after = api.editMessageText(msg.chat.id, msg.message_id, msg_text, true, reply_markup)
+				ok, err = api.editMessageText(msg.chat.id, msg.message_id, nil, msg_text, "Markdown", nil, reply_markup)
 			end
 
-			if not res and code == 429 and retry_after then
+			if not ok and err.error_code == 429 and err.retry_after then
 					popup_text = i18n("Setting saved, but I can't edit the buttons because you are too fast! Wait other %d seconds")
-						:format(retry_after)
+						:format(err.retry_after)
 					show_alert = true
 			end
 			if popup_text then api.answerCallbackQuery(msg.cb_id, popup_text, show_alert) end

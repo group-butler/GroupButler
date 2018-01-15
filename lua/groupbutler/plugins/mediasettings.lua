@@ -1,6 +1,6 @@
 local config = require "groupbutler.config"
 local u = require "groupbutler.utilities"
-local api = require "groupbutler.methods"
+local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local db = require "groupbutler.database"
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
@@ -106,7 +106,7 @@ When a media is set to delete, the bot will give a warning *only* when this is t
 
 		if blocks[1] == 'config' then
 			local keyboard = doKeyboard_media(chat_id)
-			api.editMessageText(msg.chat.id, msg.message_id, media_first, true, keyboard)
+			api.editMessageText(msg.chat.id, msg.message_id, nil, media_first, "Markdown", nil, keyboard)
 		else
 			if blocks[1] == 'mediallert' then
 				if config.available_languages[blocks[2]] then
@@ -154,7 +154,7 @@ When a media is set to delete, the bot will give a warning *only* when this is t
 				cb_text = change_media_status(chat_id, media)
 			end
 			local keyboard = doKeyboard_media(chat_id)
-			api.editMessageText(msg.chat.id, msg.message_id, media_first, true, keyboard)
+			api.editMessageText(msg.chat.id, msg.message_id, nil, media_first, "Markdown", nil, keyboard)
 			api.answerCallbackQuery(msg.cb_id, cb_text)
 		end
 	end

@@ -1,6 +1,6 @@
 local config = require "groupbutler.config"
 local u = require "groupbutler.utilities"
-local api = require "groupbutler.methods"
+local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local db = require "groupbutler.database"
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
@@ -171,7 +171,7 @@ function plugin.onCallbackQuery(msg, blocks)
 		end
 
 		local keyboard = do_keyboard_flood(chat_id)
-		api.editMessageText(msg.chat.id, msg.message_id, header, true, keyboard)
+		api.editMessageText(msg.chat.id, msg.message_id, nil, header, "Markdown", nil, keyboard)
 		api.answerCallbackQuery(msg.cb_id, text)
 	end
 end

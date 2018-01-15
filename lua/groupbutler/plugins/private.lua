@@ -1,6 +1,6 @@
 local config = require "groupbutler.config"
 local u = require "groupbutler.utilities"
-local api = require "groupbutler.methods"
+local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
 
@@ -42,26 +42,22 @@ function plugin.onTextMessage(msg, blocks)
 	if msg.chat.type ~= 'private' then return end
 
 	if blocks[1] == 'ping' then
-		api.sendMessage(msg.from.id, i18n("Pong!"), true)
-		-- local res = api.sendMessage(msg.from.id, i18n("Pong!"), true)
-		--[[if res then
-			api.editMessageText(msg.chat.id, res.result.message_id, 'Response time: '..(os.clock() - clocktime_last_update))
-		end]]
+		api.sendMessage(msg.from.id, i18n("Pong!"), "Markdown")
 	end
 	if blocks[1] == 'echo' then
-		local res, code = api.sendMessage(msg.chat.id, blocks[2], true)
+		local res, code = api.sendMessage(msg.chat.id, blocks[2], "Markdown")
 		if not res then
-			api.sendMessage(msg.chat.id, u.get_sm_error_string(code), true)
+			api.sendMessage(msg.chat.id, u.get_sm_error_string(code), "Markdown")
 		end
 	end
 	if blocks[1] == 'about' then
 		local keyboard = do_keyboard_credits()
-		api.sendMessage(msg.chat.id, strings.about, true, keyboard)
+		api.sendMessage(msg.chat.id, strings.about, "Markdown", true, nil, nil, keyboard)
 	end
 	if blocks[1] == 'group' then
 		if config.help_group and config.help_group ~= '' then
 			api.sendMessage(msg.chat.id,
-				i18n('You can find the list of our support groups in [this channel](%s)'):format(config.help_group), true)
+				i18n('You can find the list of our support groups in [this channel](%s)'):format(config.help_group), "Markdown")
 		end
 	end
 end
@@ -69,13 +65,14 @@ end
 function plugin.onCallbackQuery(msg, blocks)
 	if blocks[1] == 'about' then
 		local keyboard = do_keyboard_credits()
-		api.editMessageText(msg.chat.id, msg.message_id, strings.about, true, keyboard)
+		api.editMessageText(msg.chat.id, msg.message_id, nil, strings.about, "Markdown", true, keyboard)
 	end
 	if blocks[1] == 'group' then
 		if config.help_group and config.help_group ~= '' then
 			local markup = {inline_keyboard={{{text = i18n('🔙 back'), callback_data = 'fromhelp:about'}}}}
-			api.editMessageText(msg.chat.id, msg.message_id,
-				i18n("You can find the list of our support groups in [this channel](%s)"):format(config.help_group), true, markup)
+			api.editMessageText(msg.chat.id, msg.message_id, nil,
+				i18n("You can find the list of our support groups in [this channel](%s)"):format(config.help_group),
+				"Markdown", nil, markup)
 		end
 	end
 end

@@ -1,6 +1,6 @@
 local config = require "groupbutler.config"
 local u = require "groupbutler.utilities"
-local api = require "groupbutler.methods"
+local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local db = require "groupbutler.database"
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
@@ -21,7 +21,7 @@ local function get_chat_title(chat_id)
 	if not cached_title then
 		local chat_object = api.getChat(chat_id)
 		if chat_object then
-			return cache_chat_title(chat_id, chat_object.result.title)
+			return cache_chat_title(chat_id, chat_object.title)
 		end
 	else
 		return cached_title
@@ -54,10 +54,11 @@ function plugin.onTextMessage(msg)
 			local keyboard = do_keyboard_config(chat_id, msg.from.id)
 			if not db:get('chat:'..chat_id..':title') then cache_chat_title(chat_id, msg.chat.title) end
 			local res = api.sendMessage(msg.from.id,
-				i18n("<b>%s</b>\n<i>Change the settings of your group</i>"):format(msg.chat.title:escape_html()), 'html', keyboard)
+				i18n("<b>%s</b>\n<i>Change the settings of your group</i>"):format(msg.chat.title:escape_html()), 'html',
+					nil, nil, nil, keyboard)
 			if not u.is_silentmode_on(msg.chat.id) then --send the responde in the group only if the silent mode is off
 				if res then
-					api.sendMessage(msg.chat.id, i18n("_I've sent you the keyboard via private message_"), true)
+					api.sendMessage(msg.chat.id, i18n("_I've sent you the keyboard via private message_"), "Markdown")
 				else
 					u.sendStartMe(msg)
 				end
@@ -74,7 +75,7 @@ function plugin.onCallbackQuery(msg)
 	if chat_title then
 		text = ("<b>%s</b>\n"):format(chat_title:escape_html())..text
 	end
-	api.editMessageText(msg.chat.id, msg.message_id, text, 'html', keyboard)
+	api.editMessageText(msg.chat.id, msg.message_id, nil, text, 'html', nil, keyboard)
 end
 
 plugin.triggers = {

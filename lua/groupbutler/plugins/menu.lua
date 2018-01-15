@@ -1,6 +1,6 @@
 local config = require "groupbutler.config"
 local u = require "groupbutler.utilities"
-local api = require "groupbutler.methods"
+local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local db = require "groupbutler.database"
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
@@ -242,7 +242,7 @@ function plugin.onCallbackQuery(msg, blocks)
 
 		if blocks[1] == 'config' then
 			keyboard = doKeyboard_menu(chat_id)
-			api.editMessageText(msg.chat.id, msg.message_id, menu_first, true, keyboard)
+			api.editMessageText(msg.chat.id, msg.message_id, nil, menu_first, "Markdown", nil, keyboard)
 		else
 			if blocks[2] == 'alert' then
 				if config.available_languages[blocks[4]] then
@@ -266,7 +266,7 @@ function plugin.onCallbackQuery(msg, blocks)
 				text, show_alert = u.changeSettingStatus(chat_id, blocks[2])
 			end
 			keyboard = doKeyboard_menu(chat_id)
-			api.editMessageText(msg.chat.id, msg.message_id, menu_first, true, keyboard)
+			api.editMessageText(msg.chat.id, msg.message_id, nil, menu_first, "Markdown", nil, keyboard)
 			if text then
 				--workaround to avoid to send an error to users who are using an old inline keyboard
 				api.answerCallbackQuery(msg.cb_id, '⚙ '..text, show_alert)

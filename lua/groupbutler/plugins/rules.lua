@@ -1,6 +1,6 @@
 local config = require "groupbutler.config"
 local u = require "groupbutler.utilities"
-local api = require "groupbutler.methods"
+local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local db = require "groupbutler.database"
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
@@ -27,10 +27,10 @@ function plugin.onTextMessage(msg, blocks)
 				return
 			end
 			-- Private chats have no an username
-			local private = not res.result.username
+			local private = not res.username
 
 			res = api.getChatMember(msg.chat.id, msg.from.id)
-			if not res or (res.result.status == 'left' or res.result.status == 'kicked') and private then
+			if not res or (res.status == 'left' or res.status == 'kicked') and private then
 				api.sendMessage(msg.from.id, i18n("🚷 You are not a member of this chat. " ..
 					"You can't read the rules of a private group."))
 				return
@@ -49,9 +49,9 @@ function plugin.onTextMessage(msg, blocks)
 
 		local link_preview = rules:find('telegra%.ph/') ~= nil
 		if msg.chat.type == 'private' or (not msg.from.admin and not send_in_group(msg.chat.id)) then
-			api.sendMessage(msg.from.id, rules, true, reply_markup, nil, link_preview)
+			u.sendMessage(msg.from.id, rules, "Markdown", link_preview, nil, nil, reply_markup)
 		else
-			api.sendReply(msg, rules, true, reply_markup, link_preview)
+			u.sendReply(msg, rules, "Markdown", link_preview, nil, reply_markup)
 		end
 	end
 
@@ -61,25 +61,26 @@ function plugin.onTextMessage(msg, blocks)
 		local rules = blocks[2]
 		--ignore if not input text
 		if not rules then
-			api.sendReply(msg, i18n("Please write something next `/setrules`"), true) return
+			u.sendReply(msg, i18n("Please write something next `/setrules`"), "Markdown")
+			return
 		end
 		--check if an admin want to clean the rules
 		if rules == '-' then
 			db:hdel(hash, 'rules')
-			api.sendReply(msg, i18n("Rules has been deleted."))
+			u.sendReply(msg, i18n("Rules has been deleted."))
 			return
 		end
 
 		local reply_markup, test_text = u.reply_markup_from_text(rules)
 
 		--set the new rules
-		local res, code = api.sendReply(msg, test_text, true, reply_markup)
+		local res, code = u.sendReply(msg, test_text, "Markdown", nil, nil, reply_markup)
 		if not res then
-			api.sendMessage(msg.chat.id, u.get_sm_error_string(code), true)
+			api.sendMessage(msg.chat.id, u.get_sm_error_string(code), "Markdown")
 		else
 			db:hset(hash, 'rules', rules)
-			local id = res.result.message_id
-			api.editMessageText(msg.chat.id, id, i18n("New rules *saved successfully*!"), true)
+			local id = res.message_id
+			api.editMessageText(msg.chat.id, id, nil, i18n("New rules *saved successfully*!"), "Markdown")
 		end
 	end
 end

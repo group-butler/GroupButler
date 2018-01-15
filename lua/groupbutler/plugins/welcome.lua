@@ -1,6 +1,6 @@
 local config = require "groupbutler.config"
 local u = require "groupbutler.utilities"
-local api = require "groupbutler.methods"
+local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local db = require "groupbutler.database"
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
@@ -18,7 +18,7 @@ local function ban_bots(msg)
 			local n = 0 --bots banned
 			for i = 1, #users do
 				if users[i].is_bot == true then
-					api.banUser(msg.chat.id, users[i].id)
+					u.banUser(msg.chat.id, users[i].id)
 					n = n + 1
 				end
 			end
@@ -84,15 +84,14 @@ local function get_welcome(msg)
 				inline_keyboard={{{text = i18n('Read the rules'), url = u.deeplink_constructor(msg.chat.id, 'rules')}}}
 			}
 		end
-
-		local res = api.sendDocumentId(msg.chat.id, file_id, nil, caption, reply_markup)
+		local res = api.sendDocument(msg.chat.id, file_id, caption, nil, nil, reply_markup)
 		if res and is_on(msg.chat.id, 'Weldelchain') then
 			local key = ('chat:%d:lastwelcome'):format(msg.chat.id) -- get the id of the last sent welcome message
 			local message_id = db:get(key)
 			if message_id then
 				api.deleteMessage(msg.chat.id, message_id)
 			end
-			db:setex(key, 259200, res.result.message_id) --set the new message id to delete
+			db:setex(key, 259200, res.message_id) --set the new message id to delete
 		end
 		return false
 	elseif type == 'custom' then
@@ -111,7 +110,8 @@ function plugin.onTextMessage(msg, blocks)
 		local input = blocks[2]
 
 		if not input and not msg.reply then
-			api.sendReply(msg, i18n("Welcome and...?")) return
+			u.sendReply(msg, i18n("Welcome and...?"))
+			return
 		end
 
 		local hash = 'chat:'..msg.chat.id..':welcome'
@@ -134,9 +134,9 @@ function plugin.onTextMessage(msg, blocks)
 				end
 				-- turn on the welcome message in the group settings
 				db:hset(('chat:%d:settings'):format(msg.chat.id), 'Welcome', 'on')
-				api.sendReply(msg, i18n("A form of media has been set as the welcome message: `%s`"):format(replied_to), true)
+				u.sendReply(msg, i18n("A form of media has been set as the welcome message: `%s`"):format(replied_to), "Markdown")
 			else
-				api.sendReply(msg, i18n("Reply to a `sticker` or a `gif` to set them as the *welcome message*"), true)
+				u.sendReply(msg, i18n("Reply to a `sticker` or a `gif` to set them as the *welcome message*"), "Markdown")
 			end
 		else
 			db:hset(hash, 'type', 'custom')
@@ -144,17 +144,17 @@ function plugin.onTextMessage(msg, blocks)
 
 			local reply_markup, new_text = u.reply_markup_from_text(input)
 
-			local res, code = api.sendReply(msg, new_text:gsub('$rules', u.deeplink_constructor(msg.chat.id, 'rules')), true,
+			local res, code = u.sendReply(msg, new_text:gsub('$rules', u.deeplink_constructor(msg.chat.id, 'rules')), "Markdown",
 				reply_markup)
 			if not res then
 				db:hset(hash, 'type', 'no') --if wrong markdown, remove 'custom' again
 				db:hset(hash, 'content', 'no')
-				api.sendMessage(msg.chat.id, u.get_sm_error_string(code), true)
+				api.sendMessage(msg.chat.id, u.get_sm_error_string(code), "Markdown")
 			else
 				-- turn on the welcome message in the group settings
 				db:hset(('chat:%d:settings'):format(msg.chat.id), 'Welcome', 'on')
-				local id = res.result.message_id
-				api.editMessageText(msg.chat.id, id, i18n("*Custom welcome message saved!*"), true)
+				local id = res.message_id
+				api.editMessageText(msg.chat.id, id, nil, i18n("*Custom welcome message saved!*"), "Markdown")
 			end
 		end
 	end
@@ -180,7 +180,7 @@ function plugin.onTextMessage(msg, blocks)
 				table.insert(reply_markup.inline_keyboard, line)
 			end
 			local link_preview = text:find('telegra%.ph/') ~= nil
-			local res, code = api.sendMessage(msg.chat.id, text, true, reply_markup, nil, link_preview)
+			local res, code = api.sendMessage(msg.chat.id, text, "Markdown", link_preview, nil, nil, reply_markup)
 			if not res and code == 160 then -- if bot can't send message
 				u.remGroup(msg.chat.id, true)
 				api.leaveChat(msg.chat.id)
@@ -192,7 +192,7 @@ function plugin.onTextMessage(msg, blocks)
 				if message_id then
 					api.deleteMessage(msg.chat.id, message_id)
 				end
-				db:setex(key, 259200, res.result.message_id) --set the new message id to delete
+				db:setex(key, 259200, res.message_id) --set the new message id to delete
 			end
 		end
 
@@ -200,7 +200,7 @@ function plugin.onTextMessage(msg, blocks)
 		if send_rules_private and send_rules_private == 'on' then
 			local rules = db:hget('chat:'..msg.chat.id..':info', 'rules')
 			if rules then
-				api.sendMessage(msg.new_chat_member.id, rules, true)
+				api.sendMessage(msg.new_chat_member.id, rules, "Markdown")
 			end
 		end
 	end

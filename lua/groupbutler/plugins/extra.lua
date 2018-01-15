@@ -1,6 +1,6 @@
 local config = require "groupbutler.config"
 local u = require "groupbutler.utilities"
-local api = require "groupbutler.methods"
+local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local db = require "groupbutler.database"
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
@@ -17,8 +17,19 @@ local function is_locked(chat_id)
 		end
 end
 
-function plugin.onTextMessage(msg, blocks)
+local function sendMedia(chat_id, file_id, media, reply_to_message_id, caption)
+	if media == 'voice' then
+		return api.sendVoice(chat_id, file_id, caption, nil, nil, reply_to_message_id)
+	elseif media == 'video' then
+		return api.sendVideo(chat_id, file_id, nil, nil, nil, caption, nil, reply_to_message_id)
+	elseif media == 'photo' then
+		return api.sendPhoto(chat_id, file_id, caption, nil, reply_to_message_id)
+	else
+		return false, 'Media passed is not voice/video/photo'
+	end
+end
 
+function plugin.onTextMessage(msg, blocks)
 	if msg.chat.type == 'private' and not(blocks[1] == 'start') then return end
 
 	if blocks[1] == 'extra' then
@@ -38,7 +49,7 @@ function plugin.onTextMessage(msg, blocks)
 						to_save = '###file_id###:'..file_id
 					end
 					db:hset('chat:'..msg.chat.id..':extra', blocks[2], to_save)
-					api.sendReply(msg, i18n("This media has been saved as a response to %s"):format(blocks[2]))
+				u.sendReply(msg, i18n("This media has been saved as a response to %s"):format(blocks[2]))
 				end
 		else
 				local hash = 'chat:'..msg.chat.id..':extra'
@@ -46,13 +57,13 @@ function plugin.onTextMessage(msg, blocks)
 				local reply_markup, test_text = u.reply_markup_from_text(new_extra)
 				test_text = test_text:gsub('\n', '')
 
-				local res, code = api.sendReply(msg, test_text:replaceholders(msg), true, reply_markup)
+			local res, code = u.sendReply(msg, test_text:replaceholders(msg), "Markdown", reply_markup)
 				if not res then
-					api.sendMessage(msg.chat.id, u.get_sm_error_string(code), true)
+				api.sendMessage(msg.chat.id, u.get_sm_error_string(code), "Markdown")
 				else
 					db:hset(hash, blocks[2]:lower(), new_extra)
-					local msg_id = res.result.message_id
-				api.editMessageText(msg.chat.id, msg_id, i18n("Command '%s' saved!"):format(blocks[2]))
+				local msg_id = res.message_id
+				api.editMessageText(msg.chat.id, msg_id, nil, i18n("Command '%s' saved!"):format(blocks[2]))
 				end
 			end
 	elseif blocks[1] == 'extra list' then
@@ -60,7 +71,7 @@ function plugin.onTextMessage(msg, blocks)
 			if not msg.from.admin and not is_locked(msg.chat.id) then
 			api.sendMessage(msg.from.id, text)
 		else
-			api.sendReply(msg, text)
+			u.sendReply(msg, text)
 		end
 		elseif blocks[1] == 'extra del' then
 				if not msg.from.admin then return end
@@ -79,34 +90,30 @@ function plugin.onTextMessage(msg, blocks)
 			if next(not_found) then
 				text = text..i18n('\nCommands not found: `%s`'):format(table.concat(not_found, '`, `'))
 			end
-			api.sendReply(msg, text, true)
+		u.sendReply(msg, text, "Markdown")
 	else
 		local chat_id = blocks[1] == 'start' and tonumber(blocks[2]) or msg.chat.id
 		local extra = blocks[1] == 'start' and '#'..blocks[3] or blocks[1]
 		--print(chat_id, extra)
 			local hash = 'chat:'..chat_id..':extra'
+		local text = db:hget(hash, extra:lower()) or db:hget(hash, extra)
 
-			local text = db:hget(hash, extra:lower()) or db:hget(hash, extra)
-				if not text then return true end --continue to match plugins
+		if not text then return true end -- continue to match plugins
 
 				local file_id = text:match('^###.+###:(.*)')
-				local special_method = text:match('^###file_id!(.*)###') --photo, voices, video need their method to be sent by file_id
-
+		local special_method = text:match('^###file_id!(.*)###') -- photo, voices, video need their method to be sent by file_id
 			local link_preview = text:find('telegra%.ph/') ~= nil
+		local _, err
 
-				local res = true
-				local code
-				if msg.chat.id > 0 or (is_locked(msg.chat.id) and not msg.from.admin) then --send it in private
+		if msg.chat.id > 0 or (is_locked(msg.chat.id) and not msg.from.admin) then -- send it in private
 					if not file_id then
 						local reply_markup, clean_text = u.reply_markup_from_text(text)
-							res, code = api.sendMessage(msg.from.id, clean_text:replaceholders(msg.reply or msg), true, reply_markup,
-								nil, link_preview)
+				_, err = api.sendMessage(msg.from.id, clean_text:replaceholders(msg.reply or msg), "Markdown",
+					link_preview, nil, nil, reply_markup)
+			elseif special_method then
+				_, err = sendMedia(msg.from.id, file_id, special_method) -- photo, voices, video need their method to be sent by file_id
 						else
-							if special_method then
-								res, code = api.sendMediaId(msg.from.id, file_id, special_method) --photo, voices, video need their method to be sent by file_id
-							else
-								res, code = api.sendDocumentId(msg.from.id, file_id)
-							end
+				_, err = api.sendDocument(msg.from.id, file_id)
 					end
 				else
 					local msg_to_reply
@@ -117,20 +124,19 @@ function plugin.onTextMessage(msg, blocks)
 					end
 					if file_id then
 						if special_method then
-							api.sendMediaId(msg.chat.id, file_id, special_method, msg_to_reply) --photo, voices, video need their method to be sent by file_id
+					sendMedia(msg.chat.id, file_id, special_method, msg_to_reply) -- photo, voices, video need their method to be sent by file_id
 						else
-							api.sendDocumentId(msg.chat.id, file_id, msg_to_reply)
+					api.sendDocument(msg.chat.id, file_id, nil, msg_to_reply)
 						end
 				else
 					local reply_markup, clean_text = u.reply_markup_from_text(text)
-						api.sendMessage(msg.chat.id, clean_text:replaceholders(msg.reply or msg), true, reply_markup, msg_to_reply, link_preview) --if the admin replies to an user, the bot will reply to the user too
+				api.sendMessage(msg.chat.id, clean_text:replaceholders(msg.reply or msg), "Markdown", link_preview, nil, msg_to_reply, reply_markup) -- if the admin replies to an user, the bot will reply to the user too
 					end
 			end
 
-			if not res and code == 403.0 and msg.chat.id < 0 and not u.is_silentmode_on(msg.chat.id) then
-				--if the user haven't started the bot and silent mode is off
-					api.sendReply(msg, i18n("_Please_ [start me](%s) _so I can send you the answer_")
-						:format(u.deeplink_constructor(msg.chat.id, extra:sub(2, -1))), true)
+		if err and err.error_code == 403 and msg.chat.id < 0 and not u.is_silentmode_on(msg.chat.id) then -- if the user haven't started the bot and silent mode is off
+			u.sendReply(msg, i18n("_Please_ [start me](%s) _so I can send you the answer_")
+				:format(u.deeplink_constructor(msg.chat.id, extra:sub(2, -1))), "Markdown")
 				end
 		end
 end

@@ -1,6 +1,6 @@
 local config = require "groupbutler.config"
 local u = require "groupbutler.utilities"
-local api = require "groupbutler.methods"
+local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local db = require "groupbutler.database"
 
 local plugin = {}
@@ -38,12 +38,6 @@ local triggers2 = {
 	'^%$(getid)$',
 	'^%$(permission)s?'
 }
-
-function plugin.cron()
-	db:bgsave()
-end
-
-plugin.cron = nil
 
 local function bot_leave(chat_id)
 	local res = api.leaveChat(chat_id)
@@ -111,12 +105,12 @@ function plugin.onTextMessage(msg, blocks)
 	if blocks[1] == 'admin' then
 		api.sendMessage(msg.from.id, u.vtext(triggers2))
 	end
-	if blocks[1] == 'init' then
-		local n_plugins = bot.init(true)
-		local reply = '*Bot reloaded!*'
-		if n_plugins then reply = reply..'\n_'..n_plugins..' plugins enabled_' end
-		api.sendReply(msg, reply, true)
-	end
+	-- if blocks[1] == 'init' then
+	-- 	local n_plugins = bot.init(true)
+	-- 	local reply = '*Bot reloaded!*'
+	-- 	if n_plugins then reply = reply..'\n_'..n_plugins..' plugins enabled_' end
+	-- 	u.sendReply(msg, reply, "Markdown")
+	-- end
 	if blocks[1] == 'backup' then
 		db:bgsave()
 		local cmd = io.popen('sudo tar -cpf '..api.getMe().first_name:gsub(' ', '_')..'.tar *')
@@ -137,10 +131,10 @@ function plugin.onTextMessage(msg, blocks)
 			text = text..'- *'..names[i]..'*: `'..num[i]..'`\n'
 		end
 		text = text..'- *total msg*: '..(u.metric_get("messages_count") or "No Data")..' \n'
-		text = text..'- *uptime*: `from '..(os.date("%c", bot.start_timestamp))..' (GMT+2)`\n'
-		text = text..'- *last hour msgs*: `'..bot.last.h..'`\n'
-		text = text..'   • *average msgs/minute*: `'..round((bot.last.h/60), 3)..'`\n'
-		text = text..'   • *average msgs/second*: `'..round((bot.last.h/(60*60)), 3)..'`\n'
+		-- text = text..'- *uptime*: `from '..(os.date("%c", bot.start_timestamp))..' (GMT+2)`\n'
+		-- text = text..'- *last hour msgs*: `'..bot.last.h..'`\n'
+		-- text = text..'   • *average msgs/minute*: `'..round((bot.last.h/60), 3)..'`\n'
+		-- text = text..'   • *average msgs/second*: `'..round((bot.last.h/(60*60)), 3)..'`\n'
 
 		--db info
 		text = text.. '\n*DB stats*\n'
@@ -157,11 +151,11 @@ function plugin.onTextMessage(msg, blocks)
 		end
 		text = text..'- *ops/sec*: `'..dbinfo.stats.instantaneous_ops_per_sec..'`\n'
 
-		api.sendMessage(msg.chat.id, text, true)
+		api.sendMessage(msg.chat.id, text, "Markdown")
 	end
 	if blocks[1] == 'lua' then
 		local output = load_lua(blocks[2], msg)
-		api.sendMessage(msg.chat.id, output, true)
+		api.sendMessage(msg.chat.id, output, "Markdown")
 	end
 	if blocks[1] == 'run' then
 		--read the output
@@ -172,7 +166,7 @@ function plugin.onTextMessage(msg, blocks)
 		else
 			output = '```\n'..output..'\n```'
 		end
-		api.sendReply(msg, output, true)
+		u.sendReply(msg, output, "Markdown")
 	end
 	if blocks[1] == 'block' then
 		local id
@@ -228,7 +222,7 @@ function plugin.onTextMessage(msg, blocks)
 		redis_f = redis_f:gsub('$chat', msg.chat.id)
 		redis_f = redis_f:gsub('$from', msg.from.id)
 		local output = load_lua(redis_f)
-		api.sendReply(msg, output, true)
+		u.sendReply(msg, output, "Markdown")
 	end
 	if blocks[1] == 'sendfile' then
 		local path = blocks[2]
@@ -245,7 +239,7 @@ function plugin.onTextMessage(msg, blocks)
 	if blocks[1] == 'tban' then
 		if blocks[2] == 'flush' then
 			db:del('tempbanned')
-			api.sendReply(msg, 'Flushed!')
+			u.sendReply(msg, 'Flushed!')
 		end
 		if blocks[2] == 'get' then
 			api.sendMessage(msg.chat.id, u.vtext(db:hgetall('tempbanned')))
@@ -260,7 +254,7 @@ function plugin.onTextMessage(msg, blocks)
 		else
 			text = 'Username not stored'
 		end
-		api.sendReply(msg, text)
+		u.sendReply(msg, text)
 	end
 	if blocks[1] == 'rawinfo' then
 		local chat_id = blocks[2]

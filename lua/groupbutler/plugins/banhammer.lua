@@ -1,6 +1,6 @@
 local config = require "groupbutler.config"
 local u = require "groupbutler.utilities"
-local api = require "groupbutler.methods"
+local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local db = require "groupbutler.database"
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
@@ -14,7 +14,7 @@ local function markup_tempban(chat_id, user_id, time_value)
 	local markup = {inline_keyboard={
 		{--first line
 			{text = '-', callback_data = ('tempban:val:m:%s:%s'):format(user_id, chat_id)},
-			{text = '🕑 '..time_value, callback_data = 'tempban:nil'},
+			{text = "🕑 "..time_value, callback_data = "tempban:nil"},
 			{text = '+', callback_data = ('tempban:val:p:%s:%s'):format(user_id, chat_id)}
 		},
 		{--second line
@@ -50,7 +50,7 @@ function plugin.onTextMessage(msg, blocks)
 			local user_id, error_translation_key = u.get_user_id(msg, blocks)
 
 			if not user_id and blocks[1] ~= 'kickme' and blocks[1] ~= 'fwdban' then
-				api.sendReply(msg, error_translation_key, true) return
+				u.sendReply(msg, error_translation_key, "Markdown") return
 			end
 			if tonumber(user_id) == api.getMe().id then return end
 
@@ -70,67 +70,55 @@ function plugin.onTextMessage(msg, blocks)
 				end
 
 				local markup = markup_tempban(msg.chat.id, user_id)
-				api.sendReply(msg, i18n('Use -/+ to edit the value, then select a timeframe to temporary ban the user'), nil,
-					markup)
+				u.sendReply(msg, i18n("Use -/+ to edit the value, then select a timeframe to temporary ban the user"),
+					"Markdown", nil, nil, markup)
 			end
 			if blocks[1] == 'kick' then
-				local res, _, motivation = api.kickUser(chat_id, user_id)
-				if not res then
-					if not motivation then
-						motivation = i18n("I can't kick this user.\n"
-								.. "Either I'm not an admin, or the targeted user is!")
-					end
-					api.sendReply(msg, motivation, true)
-				else
+				local ok, err = u.kickUser(chat_id, user_id)
+				if ok then
 					u.logEvent('kick', msg, {motivation = get_motivation(msg), admin = admin, user = kicked, user_id = user_id})
-					api.sendMessage(msg.chat.id, i18n("%s kicked %s!"):format(admin, kicked), 'html')
+					api.sendMessage(msg.chat.id, i18n("%s kicked %s!"):format(admin, kicked), 'html', true)
+				else
+					u.sendReply(msg, err, "Markdown")
 				end
 			end
 			if blocks[1] == 'ban' then
-				local res, _, motivation = api.banUser(chat_id, user_id)
-				if not res then
-					if not motivation then
-						motivation = i18n("I can't kick this user.\n"
-								.. "Either I'm not an admin, or the targeted user is!")
-					end
-					api.sendReply(msg, motivation, true)
-				else
+				local ok, err = u.banUser(chat_id, user_id)
+				if ok then
 					u.logEvent('ban', msg, {motivation = get_motivation(msg), admin = admin, user = kicked, user_id = user_id})
-					api.sendMessage(msg.chat.id, i18n("%s banned %s!"):format(admin, kicked), 'html')
+					api.sendMessage(msg.chat.id, i18n("%s banned %s!"):format(admin, kicked), 'html', true)
+				else
+					u.sendReply(msg, err, "Markdown")
 				end
 			end
 			if blocks[1] == 'fwdban' then
 				if not msg.reply or not msg.reply.forward_from then
-					api.sendReply(msg, i18n("_Use this command in reply to a forwarded message_"), true)
+					u.sendReply(msg, i18n("_Use this command in reply to a forwarded message_"), "Markdown")
 				else
 					user_id = msg.reply.forward_from.id
-					local res, _, motivation = api.banUser(chat_id, user_id)
-					if not res then
-						if not motivation then
-							motivation = i18n("I can't kick this user.\n"
-									.. "I am not allowed to ban or the target user is an admin")
-						end
-						api.sendReply(msg, motivation, true)
-					else
+					local ok, err = u.banUser(chat_id, user_id)
+					if ok then
 						u.logEvent('ban', msg, {motivation = get_motivation(msg), admin = admin, user = kicked, user_id = user_id})
 						api.sendMessage(msg.chat.id, i18n("%s banned %s!"):format(admin, u.getname_final(msg.reply.forward_from)), 'html')
+					else
+						u.sendReply(msg, err, "Markdown")
 					end
 				end
 			end
 			if blocks[1] == 'unban' then
 				if u.is_admin(chat_id, user_id) then
-					api.sendReply(msg, i18n("_An admin can't be unbanned_"), true)
+					u.sendReply(msg, i18n("_An admin can't be unbanned_"), "Markdown")
 				else
-					local result = api.getChatMember(chat_id, user_id).result
+					local result = api.getChatMember(chat_id, user_id)
 					local text
 					if result.status ~= 'kicked' then
 						text = i18n("This user is not banned!")
 					else
-						api.unbanUser(chat_id, user_id)
+						api.unbanChatMember(chat_id, user_id)
 						u.logEvent('unban', msg, {motivation = get_motivation(msg), admin = admin, user = kicked, user_id = user_id})
 						text = i18n("%s unbanned by %s!"):format(kicked, admin)
 					end
-					api.sendReply(msg, text, 'html')
+					u.sendReply(msg, text, 'html')
 				end
 			end
 		end
@@ -168,7 +156,7 @@ function plugin.onCallbackQuery(msg, matches)
 			end
 
 			local markup = markup_tempban(msg.chat.id, user_id, new_value)
-			api.editMessageReplyMarkup(msg.chat.id, msg.message_id, markup)
+			api.editMessageReplyMarkup(msg.chat.id, msg.message_id, nil, markup)
 		elseif matches[1] == 'ban' then
 			local user_id = matches[3]
 			local key = ('chat:%d:%s:tbanvalue'):format(msg.chat.id, user_id)
@@ -187,15 +175,14 @@ function plugin.onCallbackQuery(msg, matches)
 				timeframe_string = i18n('minutes')
 				until_date = msg.date + (time_value * 60)
 			end
-			local res, _, motivation = api.banUser(msg.chat.id, user_id, until_date)
-			if not res then
-				motivation = motivation or i18n("I can't kick this user.\n"
-					.. "I am not allowed to ban or the target user is an admin")
-				api.editMessageText(msg.chat.id, msg.message_id, motivation)
-			else
+
+			local ok, err = u.banUser(msg.chat.id, user_id, until_date)
+			if ok then
 				local text = i18n("User banned for %d %s"):format(time_value, timeframe_string)
-				api.editMessageText(msg.chat.id, msg.message_id, text)
+				api.editMessageText(msg.chat.id, msg.message_id, nil, text)
 				db:del(key)
+			else
+				api.editMessageText(msg.chat.id, msg.message_id, nil, err)
 			end
 		end
 	end
