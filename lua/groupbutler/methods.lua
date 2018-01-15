@@ -102,7 +102,7 @@ end
 function _M.leaveChat(chat_id)
 	local res, code = api.leaveChat(chat_id)
 	if res then
-		db:srem(string.format('chat:%d:members', chat_id), _M.getMe().result.id)
+		db:srem(string.format('chat:%d:members', chat_id), _M.getMe().id)
 	end
 	return res, code
 end

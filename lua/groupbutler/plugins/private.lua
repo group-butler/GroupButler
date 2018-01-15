@@ -29,7 +29,7 @@ local function do_keyboard_credits()
 		{
 			{text = i18n("Channel"), url = 'https://telegram.me/'..config.channel:gsub('@', '')},
 			{text = i18n("GitHub"), url = config.source_code},
-			{text = i18n("Rate me!"), url = 'https://telegram.me/storebot?start='..bot.username},
+			{text = i18n("Rate me!"), url = 'https://telegram.me/storebot?start='..api.getMe().username},
 		},
 		{
 			{text = i18n("👥 Groups"), callback_data = 'private:groups'}
