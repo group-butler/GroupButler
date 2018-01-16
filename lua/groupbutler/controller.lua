@@ -16,10 +16,9 @@ function _M.run()
 	-- Finally, encode the response and send it to Telegram
 	response_body = json.encode(response_body or {})
 	ngx.status = ngx.HTTP_OK
-	ngx.header.content_type = "application/json; charset=utf-8"
-	ngx.header.content_length = #response_body
 	ngx.say(response_body)
 	ngx.log(ngx.DEBUG, "Outgoing response: "..response_body)
+	return ngx.exit(ngx.HTTP_OK)
 end
 
 return _M
