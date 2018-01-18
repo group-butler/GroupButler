@@ -48,7 +48,7 @@ local _M =
 	},
 
 	-- Aesthetic
-	lang = os.getenv('DEFAULT_LANG') or 'en',
+	lang = os.getenv('DEFAULT_LANG') or 'es',
 	human_readable_version = os.getenv('VERSION') or 'unknown',
 	channel = os.getenv('CHANNEL') or '@groupbutler_beta',
 	source_code = os.getenv('SOURCE') or 'https://github.com/RememberTheAir/GroupButler/tree/beta',
