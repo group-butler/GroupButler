@@ -19,12 +19,12 @@ function plugin.onTextMessage(msg, blocks)
 		end]]
 
 		if u.is_blocked_global(msg.from.id) then
-			api.sendMessage(msg.chat.id, i18n("_You (user ID: %d) are in the blocked list_"):format(msg.from.id), true)
+			api.sendMessage(msg.chat.id, i18n("_Tu (user ID: %d) están en la lista de suspendidos_"):format(msg.from.id), true)
 			api.leaveChat(msg.chat.id)
 			return
 		end
 		if config.bot_settings.admin_mode and not u.is_superadmin(msg.from.id) then
-			api.sendMessage(msg.chat.id, i18n("_Admin mode is on: only the bot admin can add me to a new group_"), true)
+			api.sendMessage(msg.chat.id, i18n("_El modo de administración está activado: solo el administrador del bot puede agregarme a un nuevo grupo_"), true)
 			api.leaveChat(msg.chat.id)
 			return
 		end
@@ -38,11 +38,11 @@ function plugin.onTextMessage(msg, blocks)
 		-- send manuals
 		local text
 		if blocks[1] == 'new_chat_member:bot' then
-			text = i18n("Hello everyone!\n"
-				.. "My name is %s, and I'm a bot made to help administrators in their hard work.\n")
+			text = i18n("Hola a todos!\n"
+				.. "Mi nombre es %s, y soy un bot creado para ayudar al administardor del grupo.\n")
 				:format(bot.first_name:escape())
 		else
-			text = i18n("Yay! This group has been upgraded. You are great! Now I can work properly :)\n")
+			text = i18n("Que bien! Este grupo ha sido actualizado. ¡Eso es genial! Ahora puedo trabajar adecuadamente :)\n")
 		end
 		--[[if not u.is_admin(msg.chat.id, bot.id) then
 			if u.is_owner(msg.chat.id, msg.from.id) then
@@ -65,7 +65,7 @@ function plugin.onTextMessage(msg, blocks)
 		if realm_id then
 			if db:hget('realm:'..realm_id..':subgroups', msg.chat.id) then
 				api.sendMessage(realm_id, i18n(
-					"I've been removed from %s [<code>%d</code>], one of your subgroups"
+					"He sido eliminado de %s [<code>%d</code>], uno de tus subgrupos"
 					):format(msg.chat.title:escape_html(), msg.chat.id), 'html')
 			end
 		end
