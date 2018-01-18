@@ -5,8 +5,8 @@ EXPOSE 80
 WORKDIR /srv/app
 
 ARG DEPS_NATIVE="curl-dev openssl-dev git"
-ARG DEPS_OPM="yangm97/lua-telegram-bot-api"
-ARG DEPS_ROCKS="luasec luasocket redis-lua serpent Lua-cURL"
+ARG DEPS_OPM="yangm97/lua-telegram-bot-api pintsized/lua-resty-http"
+ARG DEPS_ROCKS="redis-lua serpent Lua-cURL"
 
 RUN mkdir logs && \
     apk add --no-cache $DEPS_NATIVE && \

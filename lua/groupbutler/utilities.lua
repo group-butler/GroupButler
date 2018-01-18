@@ -1,13 +1,18 @@
 local config = require "groupbutler.config"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local serpent = require 'serpent'
-local ltn12 = require 'ltn12'
-local HTTPS = require 'ssl.https'
 local db = require "groupbutler.database"
 local api_err = require "groupbutler.api_errors"
 local locale = require "groupbutler.languages"
 local socket = require 'socket'
 local i18n = locale.translate
+local http, HTTPS, ltn12
+if ngx then
+	http = require "resty.http"
+else
+	HTTPS = require "ssl.http"
+	ltn12 = require "ltn12"
+end
 
 local _M = {} -- Functions shared among plugins
 
@@ -344,24 +349,37 @@ end
 
 function _M.download_to_file(url, file_path)
 	print("url to download: "..url)
-	local respbody = {}
-	local options = {
-		url = url,
-		sink = ltn12.sink.table(respbody),
-		redirect = true
-	}
-	-- nil, code, headers, status
-	options.redirect = false
-	local response = {HTTPS.request(options)}
-	local code = response[2]
-	-- local headers = response[3] -- unused variables
-	-- local status = response[4] -- unused variables
-	if code ~= 200 then return false, code end
-	print("Saved to: "..file_path)
-	local file = io.open(file_path, "w+")
-	file:write(table.concat(respbody))
-	file:close()
-	return file_path, code
+	if ngx then
+		local httpc = http.new()
+		local res, err = httpc:request_uri(url)
+		if not err and res.status == 200 then
+			local file = io.open(file_path, "w+")
+			file:write(res.body)
+			file:close()
+			return file_path, res.status
+		else
+			return nil, res.status
+		end
+	else
+		local respbody = {}
+		local options = {
+			url = url,
+			sink = ltn12.sink.table(respbody),
+			redirect = true
+		}
+		-- nil, code, headers, status
+		options.redirect = false
+		local response = {HTTPS.request(options)}
+		local code = response[2]
+		-- local headers = response[3] -- unused variables
+		-- local status = response[4] -- unused variables
+		if code ~= 200 then return false, code end
+		print("Saved to: "..file_path)
+		local file = io.open(file_path, "w+")
+		file:write(table.concat(respbody))
+		file:close()
+		return file_path, code
+	end
 end
 
 function _M.telegram_file_link(res)
