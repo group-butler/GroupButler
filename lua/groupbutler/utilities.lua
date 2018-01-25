@@ -10,7 +10,7 @@ local http, HTTPS, ltn12
 if ngx then
 	http = require "resty.http"
 else
-	HTTPS = require "ssl.http"
+	HTTPS = require "ssl.https"
 	ltn12 = require "ltn12"
 end
 
