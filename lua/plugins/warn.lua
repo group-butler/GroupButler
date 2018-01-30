@@ -9,7 +9,7 @@ local plugin = {}
 
 local function doKeyboard_warn(user_id)
 	local keyboard = {}
-	keyboard.inline_keyboard = {{{text = i18n("Remove warn"), callback_data = 'removewarn:'..user_id}}}
+	keyboard.inline_keyboard = {{{text = i18n("eliminar"), callback_data = 'removewarn:'..user_id}}}
 
 	return keyboard
 end
@@ -132,7 +132,7 @@ function plugin.onTextMessage(msg, blocks)
 				warnmax = nmax
 			})
 		else
-			text = i18n("%s <b>has been warned</b> (<code>%d/%d</code>)"):format(name, num, nmax)
+			text = i18n("%s <b>ha sido advertido</b> (<code>%d/%d</code>)"):format(name, num, nmax)
 			local keyboard = doKeyboard_warn(msg.reply.from.id)
 			if blocks[1] ~= 'sw' then api.sendMessage(msg.chat.id, text, 'html', keyboard) end
 			u.logEvent('warn', msg, {
