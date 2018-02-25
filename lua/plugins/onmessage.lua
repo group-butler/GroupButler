@@ -222,13 +222,13 @@ function plugin.onEveryMessage(msg)
 				local res, message
 				if arab_status == 'kick' then
 					res = api.kickUser(msg.chat.id, msg.from.id)
-					message = i18n("%s <b>kicked</b>: arab/persian message detected!")
+					message = i18n("%s <b>kicked</b>: Arabic/Persian message detected!")
 				elseif arab_status == 'ban' then
 					res = api.banUser(msg.chat.id, msg.from.id)
-					message = i18n("%s <b>banned</b>: arab/persian message detected!")
+					message = i18n("%s <b>banned</b>: Arabic/Persian message detected!")
 				elseif arab_status == 'mute' then
 					res = api.muteUser(msg.chat.id, msg.from.id)
-					message = i18n("%s <b>muted</b>: arab/persian message detected!")
+					message = i18n("%s <b>muted</b>: Arabic/Persian message detected!")
 				end
 				if res then
 					local name = u.getname_final(msg.from)
