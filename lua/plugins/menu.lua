@@ -36,7 +36,7 @@ local function get_button_description(key)
 👥: the bot will answer in the group (always, with admins)
 👤: the bot will answer in private]])
 	elseif key == 'Arab' then
-		return i18n("Select what the bot should do when someone sends a message with arab characters")
+		return i18n("Select what the bot should do when someone sends a message with Arabic characters")
 	elseif key == 'Antibot' then
 		return i18n("Bots will be banned when added by normal users")
 	elseif key == 'Rtl' then
@@ -171,7 +171,7 @@ local function insert_settings_section(keyboard, settings_section, chat_id)
 		Flood = i18n("Anti-flood"),
 		Silent = i18n("Silent mode"),
 		Rules = i18n("Rules"),
-		Arab = i18n("Arab"),
+		Arabic = i18n("Arab"),
 		Rtl = i18n("RTL"),
 		Antibot = i18n("Ban bots"),
 		Reports = i18n("Reports"),
