@@ -221,11 +221,11 @@ Ask in the English /group for the `.po` file of your language.
 *Special characters*
 
 • `/config` command, then `menu` button: you will receive in private the menu keyboard.
-Here you will find two particular options: _Arab and RTL_.
+Here you will find two particular options: _Arabic and RTL_.
 
-*Arab*: when Arab it's not allowed (🚫), everyone who will write an arab character will be kicked from the group.
-*Rtl*: it stands for 'Righ To Left' character, and it's the responsible of the weird service messages that are written in the opposite sense.
-When Rtl is not allowed (🚫), everyone that writes this character (or that has it in his name) will be kicked.
+*Arabic*: when Arabic is not allowed (🚫), everyone who sends an Arabic character will be kicked from the group.
+*RTL*: it stands for 'Righ To Left' character, and it's responsible for the weird service messages that are written in the opposite direction.
+When RTL is not allowed (🚫), everyone that writes this character (or that has it in their name) will be kicked.
 ]])
 	elseif key == 'config' then
 		return i18n([[
