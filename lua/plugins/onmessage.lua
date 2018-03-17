@@ -88,7 +88,7 @@ function plugin.onEveryMessage(msg)
 	local msg_type = 'text'
 	if msg.forward_from or msg.forward_from_chat then msg_type = 'forward' end
 	if msg.media_type then msg_type = msg.media_type end
-	if not is_ignored(msg.chat.id, msg_type) and not msg.edited then
+	if not is_ignored(msg.chat.id, msg_type) and not msg.edited and not msg.new_chat_members then
 		local is_flooding, msgs_sent, msgs_max = is_flooding_funct(msg)
 		if is_flooding then
 			local status = (db:hget('chat:'..msg.chat.id..':settings', 'Flood')) or config.chat_settings['settings']['Flood']
