@@ -14,7 +14,7 @@ make_template() {
 
 case $1 in 
   bot | "")
-    sed -i -E 's/\r$//' .env
+    sed -i -E 's/\r$//' .env # Converting CRLF (\r\n) to LF (\n)
 	source .env && export $(cut -d= -f1 .env)
 	while true; do
 		./polling.lua
