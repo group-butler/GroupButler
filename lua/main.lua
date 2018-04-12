@@ -63,11 +63,14 @@ local function on_msg_receive(msg, callback) -- The fn run whenever a message is
 	if not msg then
 		return
 	end
-
-	if msg.chat.type ~= 'group' then --do not process messages from normal groups
-		if msg.date < os.time(os.date("!*t")) - 7 then print('Old update skipped') return end -- Do not process old messages.
+	if msg.chat.type ~= 'private' and msg.date < os.time(os.date("!*t")) - 7 then 
+		print('Old update skipped') 
+		return
+		-- Do not process old messages from non pv chats because it leads to spam
 		-- os.time(os.date("!*t")) is used so that the timestamp is returned from UTC, not the current timezone.
 		-- the ! indicates UTC - https://www.lua.org/manual/5.2/manual.html#pdf-os.date
+	elseif msg.chat.type ~= 'group' then --do not process messages from normal groups
+	
 		if not msg.text then msg.text = msg.caption or '' end
 
 		locale.language = db:get('lang:'..msg.chat.id) or config.lang --group language
@@ -122,28 +125,26 @@ local function on_msg_receive(msg, callback) -- The fn run whenever a message is
 
 			end
 		end
-	else
-		if msg.group_chat_created or (msg.new_chat_member and msg.new_chat_member.id == bot.id) then
-			-- set the language
-			--[[locale.language = db:get(string.format('lang:%d', msg.from.id)) or 'en'
-			if not config.available_languages[locale.language] then
-				locale.language = 'en'
-			end]]
+	elseif msg.group_chat_created or (msg.new_chat_member and msg.new_chat_member.id == bot.id) then
+		-- set the language
+		--[[locale.language = db:get(string.format('lang:%d', msg.from.id)) or 'en'
+		if not config.available_languages[locale.language] then
+			locale.language = 'en'
+		end]]
 
-			-- send disclamer
-			api.sendMessage(msg.chat.id, _([[
+		-- send disclamer
+		api.sendMessage(msg.chat.id, _([[
 Hello everyone!
 My name is %s, and I'm a bot made to help administrators in their hard work.
 Unfortunately I can't work in normal groups. If you need me, please ask the creator to convert this group to a supergroup and then add me again.
 ]]):format(bot.first_name))
 
-			api.leaveChat(msg.chat.id)
+		api.leaveChat(msg.chat.id)
 
-			-- log this event
-			if config.bot_settings.stream_commands then
-				print(string.format('%s[%s]%s Bot was added to a normal group %s%s [%d] -> [%d]',
-					clr.blue, os.date('%X'), clr.yellow, clr.reset, msg.from.first_name, msg.from.id, msg.chat.id))
-			end
+		-- log this event
+		if config.bot_settings.stream_commands then
+			print(string.format('%s[%s]%s Bot was added to a normal group %s%s [%d] -> [%d]',
+				clr.blue, os.date('%X'), clr.yellow, clr.reset, msg.from.first_name, msg.from.id, msg.chat.id))
 		end
 	end
 end
