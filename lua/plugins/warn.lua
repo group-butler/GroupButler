@@ -9,7 +9,7 @@ local plugin = {}
 
 local function doKeyboard_warn(user_id)
 	local keyboard = {}
-	keyboard.inline_keyboard = {{{text = i18n("Remove warn"), callback_data = 'removewarn:'..user_id}}}
+	keyboard.inline_keyboard = {{{text = i18n("Eliminar"), callback_data = 'removewarn:'..user_id}}}
 
 	return keyboard
 end
@@ -132,7 +132,7 @@ function plugin.onTextMessage(msg, blocks)
 				warnmax = nmax
 			})
 		else
-			text = i18n("%s <b>has been warned</b> (<code>%d/%d</code>)"):format(name, num, nmax)
+			text = i18n("%s <b>Llamado de atención </b><code>%d</code> de <code>%d</code>"):format(name, num, nmax)
 			local keyboard = doKeyboard_warn(msg.reply.from.id)
 			if blocks[1] ~= 'sw' then api.sendMessage(msg.chat.id, text, 'html', keyboard) end
 			u.logEvent('warn', msg, {
@@ -161,7 +161,7 @@ function plugin.onCallbackQuery(msg, blocks)
 			db:hincrby('chat:'..msg.chat.id..':warns', user_id, 1) --restore the previouvs number
 		else
 			nmax = (db:hget('chat:'..msg.chat.id..':warnsettings', 'max')) or 3 --get the max num of warnings
-			text = i18n("<b>Warn removed!</b> (%d/%d)"):format(tonumber(num), tonumber(nmax))
+			text = i18n("<b>Advertencia eliminada!</b> (%d/%d)"):format(tonumber(num), tonumber(nmax))
 		end
 
 		text = text .. i18n("\n(Admin: %s)"):format(u.getname_final(msg.from))
