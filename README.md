@@ -1,6 +1,6 @@
 # Group Butler
 
-[![Build Status](https://travis-ci.org/group-butler/GroupButler.svg?branch=travis-ci)](https://travis-ci.org/group-butler/GroupButler)
+[![Build Status](https://travis-ci.com/group-butler/GroupButler.svg?branch=master)](https://travis-ci.com/group-butler/GroupButler)
 
 ## Short introduction
 
