@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Lua Version
-LUA=5.2
+LUA=5.1
 
 # Dependencies and libraries
 NATIVE="luarocks lua$LUA liblua$LUA-dev git make unzip redis-server curl libcurl4-gnutls-dev"

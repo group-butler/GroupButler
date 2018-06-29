@@ -9,7 +9,7 @@ local i18n = locale.translate
 local plugin = {}
 
 local function save_data(filename, data)
-	local s = JSON.encode(data, {indent = true})
+	local s = JSON.encode(data)
 	local f = io.open(filename, 'w')
 	f:write(s)
 	f:close()

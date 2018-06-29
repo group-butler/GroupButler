@@ -14,7 +14,7 @@ local function markup_tempban(chat_id, user_id, time_value)
 	local markup = {inline_keyboard={
 		{--first line
 			{text = '-', callback_data = ('tempban:val:m:%s:%s'):format(user_id, chat_id)},
-			{text = '🕑 '..time_value, callback_data = 'tempban:nil'},
+			{text = 'ðŸ•‘ '..time_value, callback_data = 'tempban:nil'},
 			{text = '+', callback_data = ('tempban:val:p:%s:%s'):format(user_id, chat_id)}
 		},
 		{--second line
@@ -121,9 +121,15 @@ function plugin.onTextMessage(msg, blocks)
 				if u.is_admin(chat_id, user_id) then
 					api.sendReply(msg, i18n("_An admin can't be unbanned_"), true)
 				else
-					api.unbanUser(chat_id, user_id)
-					u.logEvent('unban', msg, {motivation = get_motivation(msg), admin = admin, user = kicked, user_id = user_id})
-					local text = i18n("%s unbanned by %s!"):format(kicked, admin)
+					local result = api.getChatMember(chat_id, user_id).result
+					local text
+					if result.status ~= 'kicked' then
+						text = i18n("This user is not banned!")
+					else
+						api.unbanUser(chat_id, user_id)
+						u.logEvent('unban', msg, {motivation = get_motivation(msg), admin = admin, user = kicked, user_id = user_id})
+						text = i18n("%s unbanned by %s!"):format(kicked, admin)
+					end
 					api.sendReply(msg, text, 'html')
 				end
 			end

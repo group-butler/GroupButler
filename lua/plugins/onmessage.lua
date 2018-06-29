@@ -29,15 +29,29 @@ local function is_ignored(chat_id, msg_type)
 end
 
 local function is_flooding_funct(msg)
-	local spamhash = 'spam:'..msg.chat.id..':'..msg.from.id
+	if msg.media_group_id then
+		-- albums should count as one message
 
-	local msgs = tonumber(db:get(spamhash)) or 1
+		local media_group_id_key = 'mediagroupidkey:'..msg.chat.id
+		if msg.media_group_id == db:get(media_group_id_key) then -- msg.media_group_id is a str
+			-- photo/video is from an already processed sent album
+			return false
+		else
+			-- save the ID of the albums as last processed album,
+			-- so we can ignore all the following updates containing medias from that album
+			db:setex(media_group_id_key, 600, msg.media_group_id)
+		end
+	end
+
+	local spamkey = 'spam:'..msg.chat.id..':'..msg.from.id
+
+	local msgs = tonumber(db:get(spamkey)) or 1
 
 	local max_msgs = tonumber(db:hget('chat:'..msg.chat.id..':flood', 'MaxFlood')) or 5
 	if msg.cb then max_msgs = 15 end
 
 	local max_time = 5
-	db:setex(spamhash, max_time, msgs+1)
+	db:setex(spamkey, max_time, msgs+1)
 
 	if msgs > max_msgs then
 		return true, msgs, max_msgs
@@ -74,7 +88,7 @@ function plugin.onEveryMessage(msg)
 	local msg_type = 'text'
 	if msg.forward_from or msg.forward_from_chat then msg_type = 'forward' end
 	if msg.media_type then msg_type = msg.media_type end
-	if not is_ignored(msg.chat.id, msg_type) and not msg.edited then
+	if not is_ignored(msg.chat.id, msg_type) and not msg.edited and not msg.new_chat_members then
 		local is_flooding, msgs_sent, msgs_max = is_flooding_funct(msg)
 		if is_flooding then
 			local status = (db:hget('chat:'..msg.chat.id..':settings', 'Flood')) or config.chat_settings['settings']['Flood']

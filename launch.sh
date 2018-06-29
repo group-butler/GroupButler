@@ -12,14 +12,17 @@ make_template() {
 			--output=/dev/stdout
 }
 
-case $1 in bot | "")
+case $1 in 
+  bot | "")
+    sed -i -E 's/\r$//' .env # Converting CRLF (\r\n) to LF (\n)
 	source .env && export $(cut -d= -f1 .env)
 	while true; do
 		./polling.lua
 		sleep 10
 	done
+	;;
 
-	;; create-locale)
+  create-locale)
 	if [ -z "$2" ]; then
 		echo "Using: $0 $1 <locale_name>" >&2
 	elif [ -a locales/$2.po ]; then
@@ -30,8 +33,9 @@ case $1 in bot | "")
 			--output-file=locales/$2.po
 	fi
 	exit
+	;; 
 
-	;; update-locale)
+  update-locale)
 	if [ -z "$2" ]; then
 		echo "Using: $0 $1 <locale_name>" >&2
 	else

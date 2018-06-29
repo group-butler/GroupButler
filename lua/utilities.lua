@@ -357,7 +357,7 @@ function utilities.resolve_user(username)
 	if username ~= '@' .. user_obj.result.username:lower() then
 		if user_obj.result.username then
 			-- Update it if it exists
-			db:hset('bot:usernames', user_obj.result.username:lower(), user_obj.result.id)
+			db:hset('bot:usernames', '@'..user_obj.result.username:lower(), user_obj.result.id)
 		end
 		-- And return false because this user not the same that asked
 		return false

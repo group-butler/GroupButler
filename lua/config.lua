@@ -51,7 +51,7 @@ local _M =
 	lang = os.getenv('DEFAULT_LANG') or 'en',
 	human_readable_version = os.getenv('VERSION') or 'unknown',
 	channel = os.getenv('CHANNEL') or '@groupbutler_beta',
-	source_code = os.getenv('SOURCE') or 'https://github.com/RememberTheAir/GroupButler/tree/staging',
+	source_code = os.getenv('SOURCE') or 'https://github.com/RememberTheAir/GroupButler',
 	help_group = os.getenv('HELP_GROUP') or 'telegram.me/GBgroups',
 
 	-- Core

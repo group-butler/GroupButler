@@ -48,11 +48,11 @@ local function apply_default_permissions(chat_id, users)
 	local def_permissions = db:hgetall(hash)
 
 	if next(def_permissions) then
-		for i=1, #permissions do
-			if not def_permissions[permissions[i]] then
-			def_permissions[permissions[i]] = config.chat_settings.defpermissions[permissions[i]]
-			end
-		end
+		--for i=1, #permissions do
+			--if not def_permissions[permissions[i]] then
+				--def_permissions[permissions[i]] = config.chat_settings.defpermissions[permissions[i]]
+			--end
+		--end
 
 		for i=1, #users do
 			local res = api.getChatMember(chat_id, users[i].id)

@@ -52,6 +52,8 @@ local function doKeyboard_media(chat_id)
 	local caption
 	if action == 'kick' then
 		caption = i18n("Warnings | %d | kick"):format(tonumber(max))
+	elseif action == 'mute' then
+		caption = i18n("Warnings | %d | mute"):format(tonumber(max))
 	else
 		caption = i18n("Warnings | %d | ban"):format(tonumber(max))
 	end
