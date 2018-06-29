@@ -40,8 +40,8 @@ local function is_on(chat_id, setting)
 	end
 end
 
-local permissions =
-{'can_send_messages', 'can_send_media_messages', 'can_send_other_messages', 'can_add_web_page_previews'}
+-- local permissions =
+-- {'can_send_messages', 'can_send_media_messages', 'can_send_other_messages', 'can_add_web_page_previews'}
 
 local function apply_default_permissions(chat_id, users)
 	local hash = ('chat:%d:defpermissions'):format(chat_id)
