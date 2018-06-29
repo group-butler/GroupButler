@@ -1,5 +1,7 @@
 # Group Butler
 
+[![Build Status](https://travis-ci.org/group-butler/GroupButler.svg?branch=travis-ci)](https://travis-ci.org/group-butler/GroupButler)
+
 ## Short introduction
 
 This bot has been created to help people administrate their groups, and includes many useful tools.
@@ -51,11 +53,11 @@ Requirements:
 - Optional: GitLab repository for CI/CD
 
 ### Running (dev mode)
-Run `docker-compose up`. Docker will pull and build the required images, so the first time you run this command should take a little while. After that, the bot should be up and running. 
+Run `docker-compose up`. Docker will pull and build the required images, so the first time you run this command should take a little while. After that, the bot should be up and running.
 
 Code is mounted on the bot container, so you can make changes and restart the bot as you normally would. There’s no need to use `docker-compose up --build` or `docker-compose build` unless you changed something on `Dockerfile`.
 
-Redis default port is mounted to host, just in case you want to debug something using tools available at the host. 
+Redis default port is mounted to host, just in case you want to debug something using tools available at the host.
 
 **The redis container is set to not persist data while in dev mode**.
 
@@ -67,7 +69,7 @@ Files named `docker-compose.*.yml` are gitignored, just in case you feel the nee
 The bot also supports reading Docker Secrets (may work with other vaults too). Check `lua/config.lua` to see which variables can be read from secrets.
 
 #### Compose Example
-You would need to write another override file (i.e. `docker-compose.deploy.yml`) matching your needs (change restart policy to always, either add groupbutler to an external network or create a redis service with persistency, etc.). 
+You would need to write another override file (i.e. `docker-compose.deploy.yml`) matching your needs (change restart policy to always, either add groupbutler to an external network or create a redis service with persistency, etc.).
 
 You could deploy Group Butler by running something like this:
 

@@ -31,7 +31,7 @@ end
 local function is_flooding_funct(msg)
 	if msg.media_group_id then
 		-- albums should count as one message
-		
+
 		local media_group_id_key = 'mediagroupidkey:'..msg.chat.id
 		if msg.media_group_id == db:get(media_group_id_key) then -- msg.media_group_id is a str
 			-- photo/video is from an already processed sent album
