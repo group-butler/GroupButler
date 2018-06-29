@@ -27,4 +27,4 @@ services:
       - TG_WEBHOOK_URL
       - TG_WEBHOOK_CERT
       - TG_WEBHOOK_MAX_CON
-    image: ${IMAGE:-groupbutler}:${TAG:-latest}
+    image: ${IMAGE:-groupbutler/groupbutler}:${TAG:-latest}
