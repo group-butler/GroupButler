@@ -58,7 +58,7 @@ local function apply_default_permissions(chat_id, users)
 			local chat_member = api.getChatMember(chat_id, users[i].id)
 			for j=1, #permissions do
 				if chat_member.result[permissions[j]] == false then
-					-- the user has already been restricted: just force-restrict this permission 
+					-- the user has already been restricted: just force-restrict this permission
 					def_permissions[permissions[j]] = false
 				elseif not def_permissions[permissions[j]] then
 					-- no default value set for this permission, use the default in config.lua

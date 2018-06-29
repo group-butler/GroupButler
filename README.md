@@ -1,5 +1,7 @@
 # Group Butler
 
+[![Build Status](https://travis-ci.org/group-butler/GroupButler.svg?branch=travis-ci)](https://travis-ci.org/group-butler/GroupButler)
+
 ## Short introduction
 
 This bot has been created to help people administrate their groups, and includes many useful tools.
