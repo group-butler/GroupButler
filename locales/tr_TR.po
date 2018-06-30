@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 12:10\n"
+"PO-Revision-Date: 2018-06-30 12:20\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Turkish\n"
 "Language: tr\n"
@@ -87,7 +87,7 @@ msgstr "%s, burada spam'e izin verilmez. Bir daha olursa kısıtlanacaksınız"
 #: lua/plugins/antispam.lua:86
 #, lua-format
 msgid "%s, this kind of spam is not allowed in this chat (<b>%d/%d</b>)"
-msgstr "%s, Bu tarz şeylere bu sohbette izin verilmez  (<b>%d/%d</b>)"
+msgstr "%s, Bu tarz şeylere bu grupta izin verilmez (<b>%d/%d</b>)"
 
 #: lua/plugins/antispam.lua:90
 msgid "telegram.me link"
