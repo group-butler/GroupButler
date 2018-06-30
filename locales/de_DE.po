@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 09:30\n"
+"PO-Revision-Date: 2018-06-30 09:40\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -1867,15 +1867,15 @@ msgstr "Juhu! Diese Gruppe wurde upgegraded. Jetzt kann ich richtig Arbeiten :)"
 #: lua/plugins/service.lua:68
 #, lua-format
 msgid "I've been removed from %s [<code>%d</code>], one of your subgroups"
-msgstr ""
+msgstr "Ich wurde von %s [<code>%d</code>] einer deiner Untergruppen entfernt"
 
 #: lua/plugins/setlang.lua:24 lua/plugins/setlang.lua:34
 msgid "*List of available languages*:"
-msgstr ""
+msgstr "*Liste verfügbarer Sprachen*:"
 
 #: lua/plugins/setlang.lua:30
 msgid "You are not an admin"
-msgstr ""
+msgstr "Du bist kein Administrator"
 
 #. TRANSLATORS: replace 'English' with the name of your language
 #: lua/plugins/setlang.lua:43
@@ -1885,47 +1885,48 @@ msgstr "German language is *set*"
 #: lua/plugins/setlang.lua:44
 msgid ".\n"
 "Please note that translators are volunteers, and some strings of the translation you selected _could not have been translated yet_\n"
-msgstr ""
+msgstr ".\n"
+"Bitte beachte, dass die Übersetzer ehrenamtlich tätig sind, und einige Stellen der Übersetzung, die Sie ausgewählt haben _noch nicht übersetzt wurden_\n"
 
 #: lua/plugins/users.lua:11
 msgid "can't change the chat title/description/icon"
-msgstr ""
+msgstr "kann Chat Titel/Beschreibung/Symbol nicht ändern"
 
 #: lua/plugins/users.lua:12
 msgid "can't send messages"
-msgstr ""
+msgstr "Kann keine Nachrichten senden"
 
 #: lua/plugins/users.lua:13
 msgid "can't delete messages"
-msgstr ""
+msgstr "Kann keine Nachrichten löschen"
 
 #: lua/plugins/users.lua:14
 msgid "can't invite users/generate a link"
-msgstr ""
+msgstr "Kann keine Nutzer einladen/keinen Link erstellen"
 
 #: lua/plugins/users.lua:15
 msgid "can't restrict members"
-msgstr ""
+msgstr "Kann keine Mitglieder einschränken"
 
 #: lua/plugins/users.lua:16
 msgid "can't pin messages"
-msgstr ""
+msgstr "Kann keine Nachrichten anpinnen"
 
 #: lua/plugins/users.lua:17
 msgid "can't promote new admins"
-msgstr ""
+msgstr "Kann keine neuen Admins befördern"
 
 #: lua/plugins/users.lua:18
 msgid "can't send photos/videos/documents/audios/voice messages/video messages"
-msgstr ""
+msgstr "Kann keine Fotos/Videos/Dokumente/Audios/Sprachnachrichten/Videonachrichten senden"
 
 #: lua/plugins/users.lua:19
 msgid "can't send stickers/GIFs/games/use inline bots"
-msgstr ""
+msgstr "Kann keine Sticker/GIFs/Spiele senden oder Inline Bots benutzen"
 
 #: lua/plugins/users.lua:20
 msgid "can't show link previews"
-msgstr ""
+msgstr "Kann keine Linkvorschau anzeigen"
 
 #: lua/plugins/users.lua:24
 msgid "🔄️ Refresh cache"
