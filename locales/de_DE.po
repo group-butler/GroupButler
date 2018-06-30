@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 14:31\n"
+"PO-Revision-Date: 2018-06-30 14:41\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -290,7 +290,7 @@ msgstr "Ich kann diesen Nutzer (user) nicht entfernen (kicken).\n"
 #: lua/plugins/banhammer.lua:86
 #, lua-format
 msgid "%s kicked %s!"
-msgstr "%s entfernt %s! (Aber es ist dem Nutzer (user) noch immer möglich zurückzukommen (rejoin))"
+msgstr ""
 
 #: lua/plugins/banhammer.lua:99 lua/plugins/banhammer.lua:116
 #, lua-format
@@ -375,7 +375,7 @@ msgstr "📥 Log den Kanal"
 
 #: lua/plugins/configure.lua:48
 msgid "⛔️ Default permissions"
-msgstr "⛔️ Standard Einstellungen"
+msgstr "⛔️ Standardberechtigungen"
 
 #: lua/plugins/configure.lua:61
 #, lua-format
@@ -412,7 +412,7 @@ msgstr "🔨️ ️bann"
 #: lua/plugins/dashboard.lua:24 lua/plugins/floodmanager.lua:38
 #: lua/plugins/menu.lua:157 lua/plugins/menu.lua:213
 msgid "👁 mute"
-msgstr "Stummschalten"
+msgstr "👁 stummschalten"
 
 #: lua/plugins/dashboard.lua:28 lua/plugins/floodmanager.lua:56
 msgid "Texts"
@@ -2281,7 +2281,7 @@ msgstr "👤 = Sende in Pivat"
 
 #: lua/utilities.lua:682
 msgid "@admin command disabled"
-msgstr ""
+msgstr "@admin Befehl deaktiviert"
 
 #: lua/utilities.lua:683
 msgid "Welcome message won't be displayed from now"
@@ -2321,7 +2321,7 @@ msgstr "@admin Kommand aktiviert"
 
 #: lua/utilities.lua:694
 msgid "Welcome message will be displayed"
-msgstr ""
+msgstr "Die Wilkommensnachricht wird nun angezeigt"
 
 #: lua/utilities.lua:695
 msgid "Goodbye message will be displayed"
@@ -2329,7 +2329,7 @@ msgstr "Die Verabschiedungsnachricht wird von nun an angezeigt"
 
 #: lua/utilities.lua:696
 msgid "#extra commands are now available for all"
-msgstr ""
+msgstr "#extra-Befehle sind jetzt für alle verfügbar"
 
 #: lua/utilities.lua:697
 msgid "Anti-flood is now on"
@@ -2349,7 +2349,7 @@ msgstr "Linkvorschau aktiviert"
 
 #: lua/utilities.lua:701
 msgid "The welcome message will have a button for the rules"
-msgstr ""
+msgstr "Die Willkommens-Nachricht hat nun eine Taste für die Regeln"
 
 #: lua/utilities.lua:714
 msgid "This setting is enabled, but the goodbye message won't be displayed in large groups, because I can't see service messages about left members"
@@ -2375,7 +2375,7 @@ msgstr ""
 #: lua/utilities.lua:858
 #, lua-format
 msgid "<b>Chat</b>: %s [#chat%d]"
-msgstr ""
+msgstr "<b>Chat</b>: %s [#chat%d]"
 
 #: lua/utilities.lua:883 lua/utilities.lua:885 lua/utilities.lua:892
 #: lua/utilities.lua:894 lua/utilities.lua:896
@@ -2404,20 +2404,25 @@ msgstr ""
 msgid "#BLOCKBAN\n"
 "• %s\n"
 "• <b>User</b>: %s [#id%d]"
-msgstr ""
+msgstr "#BLOCKBAN\n"
+"• %s\n"
+"• <b>Benutzer</b>: %s [#id%d]"
 
 #: lua/utilities.lua:906
 #, lua-format
 msgid "%s\n"
 "• %s\n"
 "• <b>User</b>: %s"
-msgstr ""
+msgstr "%s\n"
+"• %s\n"
+"• <b>Benutzer</b>: %s"
 
 #: lua/utilities.lua:908
 #, lua-format
 msgid "\n"
 "• <b>Added by</b>: %s [#id%d]"
-msgstr ""
+msgstr "\n"
+"• <b>Hinzugefügt von</b>: %s [#id%d]"
 
 #: lua/utilities.lua:921
 #, lua-format
@@ -2426,7 +2431,11 @@ msgid "#%s\n"
 "• %s\n"
 "• <b>User</b>: %s [#id%d]\n"
 "• <b>Count</b>: <code>%d/%d</code>"
-msgstr ""
+msgstr "#%s\n"
+"• <b>Admin</b>: %s [#id%d]\n"
+"• %s\n"
+"• <b>Benutzer</b>: %s [#id%d]\n"
+"• <b>Anzahl</b>: <code>%d/%d</code>"
 
 #: lua/utilities.lua:924
 #, lua-format
