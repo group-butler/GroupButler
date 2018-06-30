@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 09:40\n"
+"PO-Revision-Date: 2018-06-30 13:31\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -115,7 +115,7 @@ msgstr "Links sind erlaubt"
 
 #: lua/plugins/antispam.lua:121
 msgid "warn for links"
-msgstr ""
+msgstr "für Links verwarnen"
 
 #: lua/plugins/antispam.lua:123
 msgid "links will be deleted"
@@ -407,12 +407,12 @@ msgstr "👞 kicken"
 
 #: lua/plugins/dashboard.lua:22
 msgid "🔨️ ️ban"
-msgstr ""
+msgstr "🔨️ ️bann"
 
 #: lua/plugins/dashboard.lua:24 lua/plugins/floodmanager.lua:38
 #: lua/plugins/menu.lua:157 lua/plugins/menu.lua:213
 msgid "👁 mute"
-msgstr ""
+msgstr "Stummschalten"
 
 #: lua/plugins/dashboard.lua:28 lua/plugins/floodmanager.lua:56
 msgid "Texts"
@@ -425,7 +425,7 @@ msgstr "Antworten"
 #: lua/plugins/dashboard.lua:30 lua/plugins/dashboard.lua:144
 #: lua/plugins/floodmanager.lua:58 lua/plugins/mediasettings.lua:33
 msgid "Stickers"
-msgstr ""
+msgstr "Stickers"
 
 #: lua/plugins/dashboard.lua:31 lua/plugins/dashboard.lua:136
 #: lua/plugins/floodmanager.lua:59 lua/plugins/mediasettings.lua:24
@@ -440,7 +440,7 @@ msgstr "Animierte Bilder (GIFs)"
 #: lua/plugins/dashboard.lua:33 lua/plugins/dashboard.lua:138
 #: lua/plugins/floodmanager.lua:61 lua/plugins/mediasettings.lua:26
 msgid "Videos"
-msgstr ""
+msgstr "Videos"
 
 #: lua/plugins/dashboard.lua:47
 #, lua-format
@@ -466,27 +466,27 @@ msgstr "-*Ingorierte Medien*:\n"
 
 #: lua/plugins/dashboard.lua:57
 msgid "Settings"
-msgstr ""
+msgstr "Einstellungen"
 
 #: lua/plugins/dashboard.lua:58
 msgid "Admins"
-msgstr ""
+msgstr "Administratoren"
 
 #: lua/plugins/dashboard.lua:61 lua/plugins/menu.lua:173 lua/utilities.lua:620
 msgid "Rules"
-msgstr ""
+msgstr "Regeln"
 
 #: lua/plugins/dashboard.lua:62 lua/plugins/help.lua:303
 msgid "Extra commands"
-msgstr ""
+msgstr "Extra Befehle"
 
 #: lua/plugins/dashboard.lua:65
 msgid "Flood settings"
-msgstr ""
+msgstr "Flood-Einstellungen"
 
 #: lua/plugins/dashboard.lua:66
 msgid "Media settings"
-msgstr ""
+msgstr "Medien-Einstellungen"
 
 #: lua/plugins/dashboard.lua:77
 msgid "Navigate this message to see *all the info* about this group!"
@@ -494,11 +494,11 @@ msgstr "Navigiere diese Nachricht um *alle Infos* über diese Gruppe zu sehen"
 
 #: lua/plugins/dashboard.lua:81
 msgid "_I've sent you the group dashboard via private message_"
-msgstr ""
+msgstr "_Ich hab dir das Dashboard via Privatnachricht geschickt_"
 
 #: lua/plugins/dashboard.lua:96
 msgid "🚫 This group does not exist"
-msgstr ""
+msgstr "Diese Gruppe existiert nicht"
 
 #: lua/plugins/dashboard.lua:103
 msgid "🚷 You are not a member of the chat. You can't see the settings of a private group."
@@ -534,11 +534,11 @@ msgstr "Dokumente"
 
 #: lua/plugins/dashboard.lua:141 lua/plugins/mediasettings.lua:30
 msgid "Vocal messages"
-msgstr ""
+msgstr "Sprachnachrichten"
 
 #: lua/plugins/dashboard.lua:142 lua/plugins/mediasettings.lua:31
 msgid "Links"
-msgstr ""
+msgstr "Links"
 
 #: lua/plugins/dashboard.lua:143 lua/plugins/mediasettings.lua:32
 msgid "Music"
@@ -558,7 +558,7 @@ msgstr "Standorte"
 
 #: lua/plugins/dashboard.lua:149
 msgid "*Current media settings*:\n\n"
-msgstr ""
+msgstr "*Aktuelle Medien-Einstellungen*:\n\n"
 
 #: lua/plugins/dashboard.lua:160
 msgid "ℹ️ Group ► Media"
