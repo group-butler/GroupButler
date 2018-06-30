@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 07:50\n"
+"PO-Revision-Date: 2018-06-30 08:10\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Persian\n"
 "Language: fa\n"
@@ -177,7 +177,12 @@ msgid "*Anti-spam settings*\n"
 "• ❌ = *Not allowed*\n"
 "• 🗑 = *Delete*\n"
 "When set on `delete`, the bot doesn't warn users until they are about to be kicked/banned/muted (at the second-to-last warning)\n"
-msgstr ""
+msgstr "*تنظیمات ضداسپم*\n"
+"انتخاب کنید که چه نوع اسپمی را میخواهید ممنوع کنید\n"
+"• ✅ = *مجاز*\n"
+"• ❌ = *غیر مجاز*\n"
+"• 🗑️ = *حذف*\n"
+"زمانی که بر روی حالت `حذف` تنظیم شده باشد، ربات به کاربران هشداری نمی‌دهد تا زمانی که آنها در آستانه ی اخراج/بن/بی صدا شدن باشند (هشدار یکی مانده به آخر)\n"
 
 #: lua/plugins/antispam.lua:316
 msgid "_The whitelist was already empty_"
@@ -224,7 +229,7 @@ msgstr "%d لینک از لیست سفید حذف شد"
 
 #: lua/plugins/antispam.lua:378
 msgid "_Whitelist of channels empty_"
-msgstr ""
+msgstr "_لیست سفید کانال ها خالی است_"
 
 #: lua/plugins/antispam.lua:380
 #, lua-format
