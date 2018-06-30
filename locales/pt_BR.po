@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 15:20\n"
+"PO-Revision-Date: 2018-06-30 15:30\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Portuguese, Brazilian\n"
 "Language: pt_BR\n"
@@ -322,7 +322,7 @@ msgstr "%s desbanido por %s!"
 
 #: lua/plugins/banhammer.lua:142
 msgid "You don't have the permissions to restrict members"
-msgstr ""
+msgstr "Você não tem as permissões para restringir membros"
 
 #: lua/plugins/banhammer.lua:146
 msgid "Tap on the -/+ buttons to change this value. Then select a timeframe to execute the ban"
@@ -330,7 +330,7 @@ msgstr ""
 
 #: lua/plugins/banhammer.lua:155
 msgid "You can't set a lower value"
-msgstr ""
+msgstr "Você não pode definir um valor menor"
 
 #: lua/plugins/banhammer.lua:163
 msgid "Stop!!!"
@@ -566,7 +566,7 @@ msgstr "ℹ️ Grupo ► Midia"
 
 #: lua/plugins/defaultpermissions.lua:46
 msgid "Permission to send messages. If disabled, the user won't be able to send any kind of message"
-msgstr ""
+msgstr "Permissão para enviar mensagens. Se desabilitado, o usuário não será capaz de enviar qualquer tipo de mensagem"
 
 #: lua/plugins/defaultpermissions.lua:49
 msgid "Permission to send media (audios, documents, photos, videos, video notes and voice notes). Implies the permission to send messages\n"
@@ -1082,7 +1082,7 @@ msgstr "Reporte"
 
 #: lua/plugins/help.lua:296
 msgid "Pin"
-msgstr ""
+msgstr "Fixar"
 
 #: lua/plugins/help.lua:299
 msgid "Languages"
@@ -1285,11 +1285,11 @@ msgstr "Quando ativado, os usuários poderão relatar mensagens impróprias com 
 
 #: lua/plugins/logchannel.lua:63
 msgid "Ban"
-msgstr ""
+msgstr "Banir"
 
 #: lua/plugins/logchannel.lua:64
 msgid "Kick"
-msgstr ""
+msgstr "Expulsar"
 
 #: lua/plugins/logchannel.lua:65 lua/utilities.lua:979
 msgid "Unban"
@@ -1321,7 +1321,7 @@ msgstr "Spam"
 
 #: lua/plugins/logchannel.lua:73
 msgid "Flood"
-msgstr ""
+msgstr "Flood"
 
 #: lua/plugins/logchannel.lua:74
 msgid "Promotions"
@@ -1333,7 +1333,7 @@ msgstr "Rebaixamentos"
 
 #: lua/plugins/logchannel.lua:76
 msgid "All mods demoted"
-msgstr ""
+msgstr "Todos os mods rebaixados"
 
 #: lua/plugins/logchannel.lua:77
 msgid "New group icon"
@@ -1440,7 +1440,7 @@ msgstr "<b>Este grupo tem um canal de registro</b>\n"
 
 #: lua/plugins/mediasettings.lua:27
 msgid "Video messages"
-msgstr ""
+msgstr "Mensagens de vídeo"
 
 #: lua/plugins/mediasettings.lua:54
 #, lua-format
@@ -1762,7 +1762,7 @@ msgstr "Canal"
 
 #: lua/plugins/private.lua:14
 msgid "GitHub"
-msgstr ""
+msgstr "GitHub"
 
 #: lua/plugins/private.lua:15
 msgid "Rate me!"
@@ -2442,12 +2442,13 @@ msgstr "_Por favor, me envie uma mensagem para que eu possa te enviar mensagens 
 
 #: lua/utilities.lua:822
 msgid "Reply to an user or mention him"
-msgstr ""
+msgstr "Resposta a um usuário ou menção a ele"
 
 #: lua/utilities.lua:833 lua/utilities.lua:843
 msgid "Unknown user.\n"
 "Please forward a message from them to me"
-msgstr ""
+msgstr "Usuário desconhecido.\n"
+"Por favor, encaminhe uma mensagem dele para mim"
 
 #: lua/utilities.lua:858
 #, lua-format
