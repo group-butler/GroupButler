@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 04:01\n"
+"PO-Revision-Date: 2018-06-30 10:51\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Turkish\n"
 "Language: tr\n"
@@ -26,11 +26,14 @@ msgid "\n"
 "Hello everyone!\n"
 "My name is %s, and I'm a bot made to help administrators in their hard work.\n"
 "Unfortunately I can't work in normal groups. If you need me, please ask the creator to convert this group to a supergroup and then add me again.\n"
-msgstr ""
+msgstr "\n"
+"Herkese merhaba!\n"
+"Benim adım %s, ve ben yöneticilerin zor işlerinde yardımcı olmak üzere tasarlanmış bier botum.\n"
+"Malesef normal gruplarda çalışamıyorum. Eğer bana ihtiyacınız varsa, bu grubun yaratıcısından supergroup'a yükseltmesini isteyin ve ardından beni tekrar ekleyin.\n"
 
 #: lua/methods.lua:159
 msgid "I don't have enough permissions to restrict users"
-msgstr ""
+msgstr "Kullanıcıları kısıtlamak için yeterli yetkiye sahip değilim"
 
 #: lua/methods.lua:161
 msgid "I'm not an admin, I can't kick people"
@@ -61,7 +64,7 @@ msgstr "atıldı"
 #: lua/plugins/antispam.lua:34 lua/plugins/onmessage.lua:160
 #: lua/plugins/warn.lua:108
 msgid "muted"
-msgstr ""
+msgstr "sessize alındı"
 
 #: lua/plugins/antispam.lua:35 lua/plugins/dashboard.lua:140
 msgid "telegram.me links"
@@ -79,7 +82,7 @@ msgstr "%s %s için <b>Spam! (%d/%d)"
 #: lua/plugins/antispam.lua:80
 #, lua-format
 msgid "%s, spam is not allowed here. The next time you will be restricted"
-msgstr ""
+msgstr "%s, burada spam'e izin verilmez. Bir daha olursa kısıtlanacaksınız"
 
 #: lua/plugins/antispam.lua:86
 #, lua-format
@@ -96,27 +99,27 @@ msgstr "yönlendirmeler"
 
 #: lua/plugins/antispam.lua:111
 msgid "forwards are allowed"
-msgstr ""
+msgstr "yönlendirmelere izin verildi"
 
 #: lua/plugins/antispam.lua:113
 msgid "warn for forwards"
-msgstr ""
+msgstr "yönlendirmeler için uyar"
 
 #: lua/plugins/antispam.lua:115
 msgid "forwards will be deleted"
-msgstr ""
+msgstr "yönlendirmeler silinecek"
 
 #: lua/plugins/antispam.lua:119
 msgid "links are allowed"
-msgstr ""
+msgstr "bağlantılara izin verildi"
 
 #: lua/plugins/antispam.lua:121
 msgid "warn for links"
-msgstr ""
+msgstr "bağlantılar için uyar"
 
 #: lua/plugins/antispam.lua:123
 msgid "links will be deleted"
-msgstr ""
+msgstr "bağlantılar silinecek"
 
 #: lua/plugins/antispam.lua:139
 msgid "You can't go lower"
@@ -159,7 +162,7 @@ msgstr "Banla"
 
 #: lua/plugins/antispam.lua:206
 msgid "Mute 👁"
-msgstr ""
+msgstr "Sessize al"
 
 #: lua/plugins/antispam.lua:252 lua/plugins/floodmanager.lua:124
 #: lua/plugins/logchannel.lua:128 lua/plugins/mediasettings.lua:96
