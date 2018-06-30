@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 09:30\n"
+"PO-Revision-Date: 2018-06-30 09:40\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Indonesian\n"
 "Language: id\n"
@@ -2223,7 +2223,7 @@ msgstr "Selesai! %s telah dimaafkan\n"
 #: lua/plugins/warn.lua:98
 #, lua-format
 msgid "%s <b>%s</b>: reached the max number of warnings (<code>%d/%d</code>)"
-msgstr ""
+msgstr "%s <b>%s</b>: mencapai jumlah peringatan maksimal (<code>%d/%d</code>)"
 
 #: lua/plugins/warn.lua:115
 msgid "I can't kick this user.\n"
@@ -2249,12 +2249,13 @@ msgstr "<b>Warn dihapus!</b> (%d/%d)"
 #, lua-format
 msgid "\n"
 "(Admin: %s)"
-msgstr ""
+msgstr "\n"
+"(Admin: %s)"
 
 #: lua/plugins/warn.lua:176
 #, lua-format
 msgid "Done. All the warnings of this group have been erased by %s"
-msgstr ""
+msgstr "Selesai. Semua peringatan dari grup ini telah dihapus oleh %s"
 
 #: lua/plugins/warn.lua:178
 msgid "_Action aborted_"
@@ -2267,7 +2268,7 @@ msgstr "Baca rules"
 #: lua/plugins/welcome.lua:102
 #, lua-format
 msgid "Hi %s!"
-msgstr ""
+msgstr "Hai %s!"
 
 #: lua/plugins/welcome.lua:114
 msgid "Welcome and...?"
@@ -2288,18 +2289,20 @@ msgstr "*Pesan selamat datang kustom telah disimpan*"
 
 #: lua/utilities.lua:371
 msgid "More info [here](https://telegram.me/GB_tutorials/12)"
-msgstr ""
+msgstr "Info lebih lanjut [disini](https://telegram.me/GB_tutorials/12)"
 
 #: lua/utilities.lua:374 lua/utilities.lua:376 lua/utilities.lua:378
 #, lua-format
 msgid "Inline link formatted incorrectly. Check the text between brackets -> \\[]()\n"
 "%s"
-msgstr ""
+msgstr "Format inline link salah. Periksa kembali teks, kurung, dan kurung siku -> \\[]()\n"
+"%s"
 
 #: lua/utilities.lua:379
 msgid "This text breaks the markdown.\n"
 "More info about a proper use of markdown [here](https://telegram.me/GB_tutorials/10) and [here](https://telegram.me/GB_tutorials/12)."
-msgstr ""
+msgstr "Format markdown salah.\n"
+"Info lebih lanjut tentang penggunaan markdown yang tepat [disini](https://telegram.me/GB_tutorials/10) dan [disini](https://telegram.me/GB_tutorials/12)."
 
 #: lua/utilities.lua:382
 msgid "This message is too long. Max lenght allowed by Telegram: 4000 characters"
@@ -2307,23 +2310,23 @@ msgstr "Pesan terlalu panjang. Maksimal yang diperbolehkan oleh Telegram: 4000 k
 
 #: lua/utilities.lua:384
 msgid "One of the URLs that should be placed in an inline button seems to be invalid (not an URL). Please check it"
-msgstr ""
+msgstr "Salah satu Url yang harus ditempatkan dalam sebuah tombol inline tampaknya tidak valid (bukan URL). Silakan cek"
 
 #: lua/utilities.lua:385
 msgid "One of the inline buttons you are trying to set is missing the URL"
-msgstr ""
+msgstr "Salah satu tombol inline yang mau ditetapkan tidak memiliki URL"
 
 #: lua/utilities.lua:386
 msgid "One of the inline buttons you are trying to set doesn't have a name"
-msgstr ""
+msgstr "Salah satu tombol inline yang mau ditetapkan tidak memiliki nama"
 
 #: lua/utilities.lua:387
 msgid "Please input a text"
-msgstr ""
+msgstr "Silakan masukkan teks"
 
 #: lua/utilities.lua:390
 msgid "Text not valid: unknown formatting error"
-msgstr ""
+msgstr "Teks tidak valid: kesalahan format tidak diketahui"
 
 #: lua/utilities.lua:552
 msgid "-*empty*-"
@@ -2335,7 +2338,10 @@ msgid "<b>👤 Creator</b>\n"
 "└ %s\n\n"
 "<b>👥 Admins</b> (%d)\n"
 "%s"
-msgstr ""
+msgstr "<b>👤 Creator</b>\n"
+"└ %s\n\n"
+"<b>👥 Admin</b> (%d)\n"
+"%s"
 
 #: lua/utilities.lua:598
 msgid "No commands set"
@@ -2343,7 +2349,7 @@ msgstr "Belum ada perintah yang dibuat"
 
 #: lua/utilities.lua:601
 msgid "List of custom commands:\n"
-msgstr ""
+msgstr "Daftar custom commands:\n"
 
 #: lua/utilities.lua:609
 msgid "Current settings for *the group*:\n\n"
@@ -2430,11 +2436,11 @@ msgstr "/rules akan dibalas ke pesan pribadi (untuk pengguna)"
 
 #: lua/utilities.lua:688
 msgid "Silent mode is now off"
-msgstr ""
+msgstr "Silent mode sekarang off"
 
 #: lua/utilities.lua:689
 msgid "Links preview disabled"
-msgstr ""
+msgstr "Link preview dinonaktifkan"
 
 #: lua/utilities.lua:690
 msgid "Welcome message without a button for the rules"
@@ -2466,11 +2472,11 @@ msgstr "/rules akan dibalas di grup (untuk semua)"
 
 #: lua/utilities.lua:699
 msgid "Silent mode is now on"
-msgstr ""
+msgstr "Silent mode sekarang on"
 
 #: lua/utilities.lua:700
 msgid "Links preview enabled"
-msgstr ""
+msgstr "Link preview diaktifkan"
 
 #: lua/utilities.lua:701
 msgid "The welcome message will have a button for the rules"
@@ -2490,12 +2496,13 @@ msgstr "_Kirimkan saya pesan terlebih dahulu agar saya bisa mengirimkan pesan ke
 
 #: lua/utilities.lua:822
 msgid "Reply to an user or mention him"
-msgstr ""
+msgstr "Reply ke user atau mention dia"
 
 #: lua/utilities.lua:833 lua/utilities.lua:843
 msgid "Unknown user.\n"
 "Please forward a message from them to me"
-msgstr ""
+msgstr "Pengguna yang tidak diketahui.\n"
+"Coba forward salah satu pesannya ke private message saya."
 
 #: lua/utilities.lua:858
 #, lua-format
@@ -2508,7 +2515,9 @@ msgstr "<b>Obrolan</b>: %s [#chat%d]"
 msgid "%s\n"
 "• %s\n"
 "• <b>By</b>: %s"
-msgstr ""
+msgstr "%s\n"
+"• %s\n"
+"• <b>Oleh</b>: %s"
 
 #: lua/utilities.lua:888
 msgid "Get the new photo"
@@ -2520,27 +2529,35 @@ msgid "%s\n"
 "• %s\n"
 "• <b>By</b>: %s\n"
 "• <i>Reported to %d admin(s)</i>"
-msgstr ""
+msgstr "%s\n"
+"• %s\n"
+"• <b>Oleh</b>: %s\n"
+"• <i>Dilaporkan ke %d admin(s)</i>"
 
 #: lua/utilities.lua:902
 #, lua-format
 msgid "#BLOCKBAN\n"
 "• %s\n"
 "• <b>User</b>: %s [#id%d]"
-msgstr ""
+msgstr "#BLOCKBAN\n"
+"• %s\n"
+"• <b>Pengguna</b>: %s [#id%d]"
 
 #: lua/utilities.lua:906
 #, lua-format
 msgid "%s\n"
 "• %s\n"
 "• <b>User</b>: %s"
-msgstr ""
+msgstr "%s\n"
+"• %s\n"
+"• <b>Pengguna</b>: %s"
 
 #: lua/utilities.lua:908
 #, lua-format
 msgid "\n"
 "• <b>Added by</b>: %s [#id%d]"
-msgstr ""
+msgstr "\n"
+"• <b>Ditambahkan oleh</b>: %s [#id%d]"
 
 #: lua/utilities.lua:921
 #, lua-format
@@ -2549,7 +2566,11 @@ msgid "#%s\n"
 "• %s\n"
 "• <b>User</b>: %s [#id%d]\n"
 "• <b>Count</b>: <code>%d/%d</code>"
-msgstr ""
+msgstr "#%s\n"
+"• <b>Admin</b>: %s [#id%d]\n"
+"• %s\n"
+"• <b>Pengguna</b>: %s [#id%d]\n"
+"• <b>Count</b>: <code>%d/%d</code>"
 
 #: lua/utilities.lua:924
 #, lua-format
@@ -2565,7 +2586,11 @@ msgid "#%s\n"
 "• %s\n"
 "• <b>User</b>: %s [#id%s]\n"
 "• <b>Warns found</b>: <i>normal: %s, for media: %s, spamwarns: %s</i>"
-msgstr ""
+msgstr "#%s\n"
+"• <b>Admin</b>: %s [#id%s]\n"
+"• %s\n"
+"• <b>Pengguna</b>: %s [#id%s]\n"
+"• <b>Peringatan ditemukan</b>: <i>normal: %s, media: %s, spamwarns: %s</i>"
 
 #: lua/utilities.lua:942
 #, lua-format
@@ -2573,24 +2598,29 @@ msgid "#%s\n"
 "• <b>Admin</b>: %s [#id%s]\n"
 "• %s\n"
 "• <b>Moderator</b>: %s [#id%s]"
-msgstr ""
+msgstr "#%s\n"
+"• <b>Admin</b>: %s [#id%s]\n"
+"• %s\n"
+"• <b>Moderator</b>: %s [#id%s]"
 
 #: lua/utilities.lua:946
 #, lua-format
 msgid "#%s\n"
 "• <b>Admin</b>: %s [#id%s]\n"
 "• %s\n"
-msgstr ""
+msgstr "#%s\n"
+"• <b>Admin</b>: %s [#id%s]\n"
+"• %s\n"
 
 #: lua/utilities.lua:949
 #, lua-format
 msgid "• <i>Users involved: %d</i>"
-msgstr ""
+msgstr "• <i>Pengguna yang terlibat: %d</i>"
 
 #: lua/utilities.lua:951
 #, lua-format
 msgid "• <b>User</b>: %s [#id%d]"
-msgstr ""
+msgstr "• <b>Pengguna</b>: %s [#id%d]"
 
 #: lua/utilities.lua:962
 #, lua-format
@@ -2599,7 +2629,11 @@ msgid "#%s\n"
 "• %s\n"
 "• <b>User</b>: %s [#id%s]\n"
 "• <b>Duration</b>: %d days, %d hours"
-msgstr ""
+msgstr "#%s\n"
+"• <b>Admin</b>: %s [#id%s]\n"
+"• %s\n"
+"• <b>Pengguna</b>: %s [#id%s]\n"
+"• <b>Durasi</b>: %d hari, %d jam"
 
 #: lua/utilities.lua:971
 #, lua-format
@@ -2607,14 +2641,17 @@ msgid "#%s\n"
 "• <b>Admin</b>: %s [#id%s]\n"
 "• %s\n"
 "• <b>User</b>: %s [#id%s]"
-msgstr ""
+msgstr "#%s\n"
+"• <b>Admin</b>: %s [#id%s]\n"
+"• %s\n"
+"• <b>Pengguna</b>: %s [#id%s]"
 
 #: lua/utilities.lua:990
 msgid "Go to the message"
-msgstr ""
+msgstr "Lihat pesan"
 
 #: lua/utilities.lua:1034
 #, lua-format
 msgid "This command has been removed \\[[read more](%s)]"
-msgstr ""
+msgstr "Perintah ini telah dihapus \\[[baca lebih lanjut](%s)]"
 
