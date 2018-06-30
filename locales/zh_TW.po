@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 06:01\n"
+"PO-Revision-Date: 2018-06-30 06:10\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Chinese Traditional\n"
 "Language: zh\n"
@@ -651,7 +651,9 @@ msgstr "⚖ 目前定義。使用加減號(+/-)變更設定"
 msgid "Choose which media must be ignored by the antiflood (the bot won't consider them).\n"
 "✅: ignored\n"
 "❌: not ignored"
-msgstr ""
+msgstr "選擇哪些媒體要在反洗版功能中被忽略(機器人會跳過這些訊息)\n"
+"✅: 忽略\n"
+"❌: 不要忽略"
 
 #: lua/plugins/floodmanager.lua:34
 msgid "👞️ kick"
@@ -681,7 +683,7 @@ msgstr "%d 不是一個有效的值！\n"
 #: lua/plugins/floodmanager.lua:127
 msgid "You can manage the antiflood settings from here.\\n\\nIt is also possible to choose which type of messages the antiflood will ignore (✅)\n"
 "\t\t\t"
-msgstr ""
+msgstr "您可以管理的反洗版設定在這裡。\\n\\n也可以選擇哪種類型的訊息要被反洗版忽略(✅)"
 
 #: lua/plugins/floodmanager.lua:133
 msgid "Antiflood settings"
