@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 13:50\n"
+"PO-Revision-Date: 2018-06-30 14:00\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -742,7 +742,13 @@ msgid "\n"
 "This list is updated every 5 hours, so there could be some differences between who the bot thinks are the admins and who the admins actually are, if during the 5 hours timeframe some users have been prmoted/demoted.\n"
 "It's possible to force the bot to update its adminlist with `/cache`.\n\n"
 "Remember: you have to use commands  *in the group*, unless they are specifically designed for private chats (see \"private\" tab).\n"
-msgstr ""
+msgstr "\n"
+"Dieser bot funktioniert nur in der supergroups.\n\n"
+"Um richtig zu arbeiten, [benötige ich Adminrechte](https://telegram.me/GroupButler_ch/104), damit ich Menschen kicken oder bannen kann, wenn nötig.\n\n"
+"`/, ! oder #` kömmem zum auslösen eines Befehls benutzt werden.\n\n"
+"GroupButler speichert die Adminliste in der Datenbank, um weniger Anfragen an Telegram zu senden.\n"
+"Diese Liste wird nur alle 5 Stunden aktualisiert. Mit `/cache` kann die Adminliste aufgefrischt werden, ohne 5 Stunden warten zu müssen.\n\n"
+"Achtung: Mit wenigen Ausnahmen müssen alle Befehle *in der Gruppe* ausgeführt werden, es sei denn, sie sind speziell für die privaten chats (siehe \"privat\" tab).\n"
 
 #: lua/plugins/help.lua:43
 msgid "In this menu you will find all the available commands"
@@ -989,7 +995,7 @@ msgstr ""
 
 #: lua/plugins/help.lua:291
 msgid "Banhammer"
-msgstr ""
+msgstr "Bann-Hammer"
 
 #: lua/plugins/help.lua:292
 msgid "Group info"
@@ -1758,7 +1764,8 @@ msgstr ""
 #, lua-format
 msgid "\n"
 "• <b>Group</b>: %s"
-msgstr ""
+msgstr "\n"
+"• <b>Gruppe</b>: %s"
 
 #: lua/plugins/report.lua:33
 #, lua-format
@@ -1776,23 +1783,24 @@ msgstr "\n\n"
 
 #: lua/plugins/report.lua:46
 msgid "Address this report"
-msgstr ""
+msgstr "Report begutachten"
 
 #: lua/plugins/report.lua:91
 #, lua-format
 msgid "_Invalid value:_ number of times allowed (`input: %d`)"
-msgstr ""
+msgstr "_Ungültiger Wert:_ Anzahl der Male, die erlaubt ist (`eingabe: %d`)"
 
 #: lua/plugins/report.lua:93
 #, lua-format
 msgid "_Invalid value:_ time (`input: %d`)"
-msgstr ""
+msgstr "_Ungültiger Wert:_ Zeit (`eingabe: %d`)"
 
 #: lua/plugins/report.lua:99
 #, lua-format
 msgid "*New parameters saved*.\n"
 "Users will be able to use @admin %d times/%d minutes"
-msgstr ""
+msgstr "*Neue Parameter gespeichert*.\n"
+"Benutzer werden %d mal in %d Minuten in der Lage sein, @admin zu benutzen"
 
 #: lua/plugins/report.lua:120
 #, lua-format
