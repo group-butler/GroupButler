@@ -14,7 +14,7 @@ local function markup_tempban(chat_id, user_id, time_value)
 	local markup = {inline_keyboard={
 		{--first line
 			{text = '-', callback_data = ('tempban:val:m:%s:%s'):format(user_id, chat_id)},
-			{text = 'ðŸ•‘ '..time_value, callback_data = 'tempban:nil'},
+			{text = '🕑 '..time_value, callback_data = 'tempban:nil'},
 			{text = '+', callback_data = ('tempban:val:p:%s:%s'):format(user_id, chat_id)}
 		},
 		{--second line
