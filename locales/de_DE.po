@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 08:50\n"
+"PO-Revision-Date: 2018-06-30 09:00\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -209,73 +209,77 @@ msgstr "%d Link(s) werden auf die Whitelist gesetzt"
 #, lua-format
 msgid "\n"
 "%d links were already in the list"
-msgstr ""
+msgstr "\n"
+"%d Links waren schon auf der Liste"
 
 #: lua/plugins/antispam.lua:344
 msgid "_The whitelist is empty_.\n"
 "Use `/wl [links]` to add some links to the whitelist"
-msgstr ""
+msgstr "_Die Whitelist ist leer_.\n"
+"Benutze `/wl [links]` um der Whitelist Links hinzuzufügen"
 
 #: lua/plugins/antispam.lua:346
 msgid "Whitelisted links:\n\n"
-msgstr ""
+msgstr "Whitelist Links:\n\n"
 
 #: lua/plugins/antispam.lua:361
 #, lua-format
 msgid "%d link(s) removed from the whitelist"
-msgstr ""
+msgstr "%d Link(s) wurden von der Whitelist entfernt"
 
 #: lua/plugins/antispam.lua:378
 msgid "_Whitelist of channels empty_"
-msgstr ""
+msgstr "_Whitelist für Kanäle ist leer_"
 
 #: lua/plugins/antispam.lua:380
 #, lua-format
 msgid "*Whitelisted channels:*\n"
 "%s"
-msgstr ""
+msgstr "*Kanäle auf der Whitelist*\n"
+"%s"
 
 #: lua/plugins/antispam.lua:387 lua/plugins/antispam.lua:404
 msgid "_I can't find a channel ID in your message_"
-msgstr ""
+msgstr "_Ich kann keine Kanal ID in deiner Nachricht finden_"
 
 #: lua/plugins/backup.lua:99
 #, lua-format
 msgid "<i>I'm sorry, this command has been used for the last time less then 3 hours ago by</i> %s (ask him for the file).\\nWait [<code>%s</code>] to use it again\n"
 "\t\t\t\t\t"
-msgstr ""
+msgstr "<i> Tut mir Leid, dieser Befehl wurde in den letzten 3 Stunden bereits von </i> %s (frag ihn für die Datei). \\nWarte [<code>%s</code>] um den Code wieder zu benutzen"
 
 #: lua/plugins/backup.lua:106
 msgid "*Sent in private*"
-msgstr ""
+msgstr "*In Privatnachricht geschickt*"
 
 #: lua/plugins/backup.lua:119
 #, lua-format
 msgid "Download of the file failed with code %s"
-msgstr ""
+msgstr "Download der Datei fehlgeschlagen mit Code %s"
 
 #: lua/plugins/backup.lua:125
 #, lua-format
 msgid "Chat IDs don't match (%s and %s)"
-msgstr ""
+msgstr "Chat IDs stimmen nicht überein (%s und %s)"
 
 #: lua/plugins/backup.lua:151
 #, lua-format
 msgid "This is not a valid backup file.\n"
 "Reason: invalid name (%s)"
-msgstr ""
+msgstr "Das ist keine gültige Backup Datei. \n"
+"Grund: ungültiger Name (%s)"
 
 #: lua/plugins/backup.lua:155
 msgid "Invalid input. Please reply to a document"
-msgstr ""
+msgstr "Ungültige Eingabe. Bitte antworte auf ein Dokument"
 
 #: lua/plugins/backup.lua:158
 msgid "Invalid input. Please reply to the backup file (/snap command to get it)"
-msgstr ""
+msgstr "Ungültige Eingabe. Bitte antworte auf die Backup Datei (/snap Befehl um sie zu bekommen)"
 
 #: lua/plugins/banhammer.lua:73
 msgid "Use -/+ to edit the value, then select a timeframe to temporary ban the user"
-msgstr ""
+msgstr "Benutze -/+ um den Wert zu bearbeiten, wähle dann einen Zeitrahmen aus um den Nutzer temporär zu bannen"
 
 #: lua/plugins/banhammer.lua:80 lua/plugins/banhammer.lua:93
 msgid "I can't kick this user.\n"
@@ -295,7 +299,7 @@ msgstr "Nutzer (user) entsperrt (unbanned) by %s!"
 
 #: lua/plugins/banhammer.lua:104
 msgid "_Use this command in reply to a forwarded message_"
-msgstr ""
+msgstr "_Benutze diesen Befehl als Antwort auf eine weitergeleitete Nachricht_"
 
 #: lua/plugins/banhammer.lua:110 lua/plugins/banhammer.lua:192
 msgid "I can't kick this user.\n"
