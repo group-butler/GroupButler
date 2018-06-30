@@ -176,9 +176,8 @@ function plugin.onEveryMessage(msg)
 							api.sendReply(msg, message, 'html')
 						elseif media_status == 'del' and n + 1 >= max then
 							api.deleteMessage(msg.chat.id, msg.message_id)
-							local message = i18n('
-									%s, this type of media is <b>not allowed</b> in this chat.\n<i>Next time you will be banned, kicked, or muted.</i>
-								'):format(name)
+							local message = i18n([[%s, this type of media is <b>not allowed</b> in this chat.
+							<i>Next time you will be banned, kicked, or muted.</i>]]):format(name)
 							api.sendMessage(msg.chat.id, message, 'html')
 						elseif media_status == 'del' then
 							api.deleteMessage(msg.chat.id, msg.message_id)
