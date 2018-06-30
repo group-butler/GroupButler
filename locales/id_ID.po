@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 05:31\n"
+"PO-Revision-Date: 2018-06-30 05:40\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Indonesian\n"
 "Language: id\n"
@@ -617,7 +617,7 @@ msgstr "*Deafult permissions*\n"
 #: lua/plugins/defaultpermissions.lua:136
 #, lua-format
 msgid "Setting saved, but I can't edit the buttons because you are too fast! Wait other %d seconds"
-msgstr ""
+msgstr "Pengaturan tersimpan, tapi saya tidak bisa mengubah tombol karena Anda terlalu cepat! Tunggu sekitar %d detik"
 
 #: lua/plugins/extra.lua:41
 #, lua-format
@@ -632,18 +632,19 @@ msgstr "Perintah '%s' tersimpan!"
 #: lua/plugins/extra.lua:78
 #, lua-format
 msgid "Commands deleted: `%s`"
-msgstr ""
+msgstr "Perintah dihapus: `%s`"
 
 #: lua/plugins/extra.lua:80
 #, lua-format
 msgid "\n"
 "Commands not found: `%s`"
-msgstr ""
+msgstr "\n"
+"Perintah tidak ditemukan: `%s`"
 
 #: lua/plugins/extra.lua:132
 #, lua-format
 msgid "_Please_ [start me](%s) _so I can send you the answer_"
-msgstr ""
+msgstr "_Start saya terlebih dahulu_ [start me](%s) _agar saya bisa mengirimkan balasan_"
 
 #: lua/plugins/floodmanager.lua:12
 msgid "⚖ Current sensitivity. Tap on the + or the - to change it"
@@ -675,7 +676,7 @@ msgstr "Flooders akan ditendang"
 
 #: lua/plugins/floodmanager.lua:97
 msgid "Flooders will be muted"
-msgstr ""
+msgstr "Flooders akan dimuted"
 
 #: lua/plugins/floodmanager.lua:106 lua/plugins/floodmanager.lua:113
 #, lua-format
@@ -685,7 +686,9 @@ msgstr "%d bukan nilai yang valid!\n"
 #: lua/plugins/floodmanager.lua:127
 msgid "You can manage the antiflood settings from here.\\n\\nIt is also possible to choose which type of messages the antiflood will ignore (✅)\n"
 "\t\t\t"
-msgstr ""
+msgstr "Anda dapat mengelola pengaturan antiflood dari sini.\\n\\nDisini kamu juga bisa menentukan jenis pesan yang akan diabaikan oleh bot (✅)\n"
+"\t\t\t\n"
+"\t\t\t"
 
 #: lua/plugins/floodmanager.lua:133
 msgid "Antiflood settings"
@@ -738,7 +741,15 @@ msgid "\n"
 "This list is updated every 5 hours, so there could be some differences between who the bot thinks are the admins and who the admins actually are, if during the 5 hours timeframe some users have been prmoted/demoted.\n"
 "It's possible to force the bot to update its adminlist with `/cache`.\n\n"
 "Remember: you have to use commands  *in the group*, unless they are specifically designed for private chats (see \"private\" tab).\n"
-msgstr ""
+msgstr "\n"
+"Bot ini hanya bekerja di supergroups.\n\n"
+"Untuk bekerja dengan maksimal, [jadikan saya sebagai Admin grup Anda](https://telegram.me/GroupButler_ch/104), agar dapat menendang atau memblokir orang-orang jika diperlukan.\n"
+"Hanya pemilik grup dapat mempromosikannya :)\n\n"
+"Anda dapat menggunakan `/, ! atau #` untuk memicu perintah.\n\n"
+"Group Butler menyimpan daftar admin dalam database untuk menghindari send to many requests to Telegram.\n"
+"Daftar ini diperbarui setiap 5 jam, jadi mungkin ada beberapa perbedaan antara daftar admin yang diketahui bot, dengan daftar admin sebenarnya jika selama 5 jam rentang waktu terdapat perubahan daftar admin.\n"
+"Tapi kamu juga bisa memperbarui daftar admin secara manual dengan perintah`/cache`.\n\n"
+"Ingat: kamu harus menggunakan perintah *di grup*, kecuali perintah tersebut memang diperuntukkan untuk chat ini private dengan bot  (lihat di tab \"private\").\n"
 
 #: lua/plugins/help.lua:43
 msgid "In this menu you will find all the available commands"
