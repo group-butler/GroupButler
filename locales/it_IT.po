@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 05:40\n"
+"PO-Revision-Date: 2018-06-30 05:50\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Italian\n"
 "Language: it\n"
@@ -1292,7 +1292,7 @@ msgstr ""
 
 #: lua/plugins/logchannel.lua:65 lua/utilities.lua:979
 msgid "Unban"
-msgstr "Unbanna"
+msgstr "Rimuovi ban"
 
 #: lua/plugins/logchannel.lua:66
 msgid "Tempban"
@@ -1759,7 +1759,7 @@ msgstr "Canale"
 
 #: lua/plugins/private.lua:14
 msgid "GitHub"
-msgstr ""
+msgstr "GitHub"
 
 #: lua/plugins/private.lua:15
 msgid "Rate me!"
@@ -1771,7 +1771,7 @@ msgstr "👥 Gruppi"
 
 #: lua/plugins/private.lua:28
 msgid "Pong!"
-msgstr ""
+msgstr "Pong!"
 
 #: lua/plugins/private.lua:42 lua/plugins/private.lua:58
 #, lua-format
@@ -1891,7 +1891,7 @@ msgstr ""
 
 #: lua/plugins/report.lua:151
 msgid "This message is too old (>2 days)"
-msgstr ""
+msgstr "Questo messaggio è troppo vecchio (oltre 2 giorni)"
 
 #: lua/plugins/report.lua:162
 msgid "❕ Already (being) adressed"
