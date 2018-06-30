@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 11:21\n"
+"PO-Revision-Date: 2018-06-30 11:31\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Turkish\n"
 "Language: tr\n"
@@ -1884,15 +1884,15 @@ msgstr "_%d Admin(ler) e raporlandı_"
 
 #: lua/plugins/report.lua:142
 msgid "You closed this issue and deleted all the other reports sent to the admins"
-msgstr ""
+msgstr "Bu sorunu kapattınız ve yöneticilere gönderilen diğer tüm raporları sildiniz"
 
 #: lua/plugins/report.lua:151
 msgid "This message is too old (>2 days)"
-msgstr ""
+msgstr "Bu mesaj çok eski (>2 gün)"
 
 #: lua/plugins/report.lua:162
 msgid "❕ Already (being) adressed"
-msgstr ""
+msgstr "❕ Zaten adreslendi"
 
 #: lua/plugins/report.lua:164
 msgid "Close issue"
@@ -1909,7 +1909,7 @@ msgstr ""
 
 #: lua/plugins/report.lua:190
 msgid "(issue closed by you)"
-msgstr ""
+msgstr "(sorun sizin tarafınızdan kapatıldı)"
 
 #: lua/plugins/rules.lua:26
 msgid "🚫 Unknown or non-existent group"
@@ -1972,47 +1972,48 @@ msgstr "İngilizce *ayarlandı*"
 #: lua/plugins/setlang.lua:44
 msgid ".\n"
 "Please note that translators are volunteers, and some strings of the translation you selected _could not have been translated yet_\n"
-msgstr ""
+msgstr ".\n"
+"Çevirmenlerin gönüllüler olduğunu ve seçtiğiniz çevirinin bazı dizelerinin henüz çevrilmediğini lütfen unutmayın\n"
 
 #: lua/plugins/users.lua:11
 msgid "can't change the chat title/description/icon"
-msgstr ""
+msgstr "grup başlığı/açıklaması/ikonu değiştirilemiyor"
 
 #: lua/plugins/users.lua:12
 msgid "can't send messages"
-msgstr ""
+msgstr "mesaj gönderilemiyor"
 
 #: lua/plugins/users.lua:13
 msgid "can't delete messages"
-msgstr ""
+msgstr "mesaj silinemiyor"
 
 #: lua/plugins/users.lua:14
 msgid "can't invite users/generate a link"
-msgstr ""
+msgstr "kullanıcı davet edilemiyor/bağlantı üretilemiyor"
 
 #: lua/plugins/users.lua:15
 msgid "can't restrict members"
-msgstr ""
+msgstr "kullanıcılar kısıtlanamıyor"
 
 #: lua/plugins/users.lua:16
 msgid "can't pin messages"
-msgstr ""
+msgstr "mesaj pinlenemiyor"
 
 #: lua/plugins/users.lua:17
 msgid "can't promote new admins"
-msgstr ""
+msgstr "yeni adminler yaratılamıyor"
 
 #: lua/plugins/users.lua:18
 msgid "can't send photos/videos/documents/audios/voice messages/video messages"
-msgstr ""
+msgstr "fotoğraf/video/döküman/ses/ses mesajı/video mesajı gönderilemiyor"
 
 #: lua/plugins/users.lua:19
 msgid "can't send stickers/GIFs/games/use inline bots"
-msgstr ""
+msgstr "stickers/GIFs/games/ satır içi bot ile gönderilemez"
 
 #: lua/plugins/users.lua:20
 msgid "can't show link previews"
-msgstr ""
+msgstr "bağlantı önizlemeleri gösterilemiyor"
 
 #: lua/plugins/users.lua:24
 msgid "🔄️ Refresh cache"
@@ -2070,13 +2071,14 @@ msgstr "%s sohbet üyesidir"
 #: lua/plugins/users.lua:134
 #, lua-format
 msgid "%s is a restricted"
-msgstr ""
+msgstr "%s kısıtlanmış"
 
 #: lua/plugins/users.lua:145
 #, lua-format
 msgid "\n"
 "Restrictions: <i>%s</i>"
-msgstr ""
+msgstr "\n"
+"Kısıtlamalar: <i>%s</i>"
 
 #: lua/plugins/users.lua:158
 msgid "Reply to an user or mention them by username or numerical ID"
@@ -2116,7 +2118,7 @@ msgstr "Kullanıcının aldığı uyarılar tarafından, %s <b>resetlendi</b"
 #: lua/plugins/users.lua:232
 #, lua-format
 msgid "The adminlist has just been updated. You must wait 10 minutes from the last refresh (wait  %d seconds)"
-msgstr ""
+msgstr "Admin listesi yeni güncellendi. Son yenilemeden 10 dakika beklemeniz gerekir (bekle %d saniye)"
 
 #: lua/plugins/users.lua:241
 #, lua-format
@@ -2164,7 +2166,7 @@ msgstr "Bitti! %s uyarı sıfırlandı.\n"
 #: lua/plugins/warn.lua:98
 #, lua-format
 msgid "%s <b>%s</b>: reached the max number of warnings (<code>%d/%d</code>)"
-msgstr ""
+msgstr "%s <b>%s</b>: maksimum uyarı sayısına ulaşıldı (<code>%d/%d</code>)"
 
 #: lua/plugins/warn.lua:115
 msgid "I can't kick this user.\n"
@@ -2189,7 +2191,8 @@ msgstr "<b>Uyarı silindi!</b> (%d/%d)"
 #, lua-format
 msgid "\n"
 "(Admin: %s)"
-msgstr ""
+msgstr "\n"
+"(Admin: %s)"
 
 #: lua/plugins/warn.lua:176
 #, lua-format
@@ -2288,7 +2291,7 @@ msgstr "Komut ayarlanmadı"
 
 #: lua/utilities.lua:601
 msgid "List of custom commands:\n"
-msgstr ""
+msgstr "Özel komutların listesi:\n"
 
 #: lua/utilities.lua:609
 msgid "Current settings for *the group*:\n\n"
@@ -2435,12 +2438,13 @@ msgstr "_Lütfen ilk mesajı yaz sonra sana mesaj göndereceğim_"
 
 #: lua/utilities.lua:822
 msgid "Reply to an user or mention him"
-msgstr ""
+msgstr "Bir kullanıcıya cevap verin veya onu belirtin"
 
 #: lua/utilities.lua:833 lua/utilities.lua:843
 msgid "Unknown user.\n"
 "Please forward a message from them to me"
-msgstr ""
+msgstr "Bilinmeyen kullanıcı.\n"
+"Lütfen bana ondan bir mesaj iletin"
 
 #: lua/utilities.lua:858
 #, lua-format
@@ -2546,7 +2550,9 @@ msgstr "#%s\n"
 msgid "#%s\n"
 "• <b>Admin</b>: %s [#id%s]\n"
 "• %s\n"
-msgstr ""
+msgstr "#%s\n"
+"• <b>Admin</b>: %s [#id%s]\n"
+"• %s\n"
 
 #: lua/utilities.lua:949
 #, lua-format
@@ -2589,5 +2595,5 @@ msgstr "Mesaja git"
 #: lua/utilities.lua:1034
 #, lua-format
 msgid "This command has been removed \\[[read more](%s)]"
-msgstr ""
+msgstr "Bu komut kaldırıldı \\[[read more](%s)]"
 
