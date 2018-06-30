@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 06:51\n"
+"PO-Revision-Date: 2018-06-30 07:01\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -45,16 +45,16 @@ msgstr "Ich kann einen Administrator weder entfernen, noch sperren (kicken/banne
 
 #: lua/methods.lua:165
 msgid "There is no need to unban in a normal group"
-msgstr ""
+msgstr "In einer normalen Gruppe besteht keine Notwendigkeit zu entbannen"
 
 #: lua/methods.lua:167
 msgid "This user is not a chat member"
-msgstr ""
+msgstr "Dieser Benutzer ist kein Mitglied des Chats"
 
 #: lua/plugins/antispam.lua:32 lua/plugins/onmessage.lua:157
 #: lua/plugins/warn.lua:100
 msgid "banned"
-msgstr ""
+msgstr "Gebannt"
 
 #: lua/plugins/antispam.lua:33 lua/plugins/onmessage.lua:154
 #: lua/plugins/warn.lua:104
@@ -64,7 +64,7 @@ msgstr "%s entfernt %s! (Aber es ist dem Nutzer (user) noch immer möglich zurü
 #: lua/plugins/antispam.lua:34 lua/plugins/onmessage.lua:160
 #: lua/plugins/warn.lua:108
 msgid "muted"
-msgstr ""
+msgstr "Stumm geschaltet "
 
 #: lua/plugins/antispam.lua:35 lua/plugins/dashboard.lua:140
 msgid "telegram.me links"
@@ -72,7 +72,7 @@ msgstr "telegram.me Links"
 
 #: lua/plugins/antispam.lua:36
 msgid "Channels messages"
-msgstr ""
+msgstr "Kanal Nachrichten"
 
 #: lua/plugins/antispam.lua:75
 #, lua-format
@@ -82,7 +82,7 @@ msgstr "%s %s für <b>Spam</b>! (%d/%d)"
 #: lua/plugins/antispam.lua:80
 #, lua-format
 msgid "%s, spam is not allowed here. The next time you will be restricted"
-msgstr ""
+msgstr "%s, spam ist hier nicht erlaubt. Das nächste mal wirst du eingeschränkt"
 
 #: lua/plugins/antispam.lua:86
 #, lua-format
