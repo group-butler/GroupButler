@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 14:21\n"
+"PO-Revision-Date: 2018-06-30 14:31\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -41,11 +41,11 @@ msgstr "Ich bin kein admin, ich kann Leute nicht kicken"
 
 #: lua/methods.lua:163
 msgid "I can't kick or ban an admin"
-msgstr "Ich kann einen Administrator weder entfernen, noch sperren (kicken/bannen)"
+msgstr "Ich kann einen Administrator weder entfernen, noch bannen"
 
 #: lua/methods.lua:165
 msgid "There is no need to unban in a normal group"
-msgstr "In einer normalen Gruppe besteht keine Notwendigkeit zu entbannen"
+msgstr "In einer normalen Gruppe besteht keine Notwendigkeit zum entbannen"
 
 #: lua/methods.lua:167
 msgid "This user is not a chat member"
@@ -59,7 +59,7 @@ msgstr "Gebannt"
 #: lua/plugins/antispam.lua:33 lua/plugins/onmessage.lua:154
 #: lua/plugins/warn.lua:104
 msgid "kicked"
-msgstr "%s entfernt %s! (Aber es ist dem Nutzer (user) noch immer möglich zurückzukommen (rejoin))"
+msgstr "gekickt"
 
 #: lua/plugins/antispam.lua:34 lua/plugins/onmessage.lua:160
 #: lua/plugins/warn.lua:108
@@ -1521,31 +1521,31 @@ msgstr ""
 
 #: lua/plugins/menu.lua:88
 msgid "Action -> kick"
-msgstr ""
+msgstr "Aktion -> kick"
 
 #: lua/plugins/menu.lua:89
 msgid "Action -> ban"
-msgstr ""
+msgstr "Aktion -> ban"
 
 #: lua/plugins/menu.lua:90
 msgid "Action -> mute"
-msgstr ""
+msgstr "Aktion -> stummschalten"
 
 #: lua/plugins/menu.lua:91
 msgid "Allowed ✅"
-msgstr ""
+msgstr "Erlaubt ✅"
 
 #: lua/plugins/menu.lua:155
 msgid "🔨 ban"
-msgstr ""
+msgstr "🔨 bann"
 
 #: lua/plugins/menu.lua:159
 msgid "✅"
-msgstr ""
+msgstr "✅"
 
 #: lua/plugins/menu.lua:168
 msgid "Welcome"
-msgstr ""
+msgstr "Willkommen"
 
 #: lua/plugins/menu.lua:169
 msgid "Goodbye"
@@ -1553,11 +1553,11 @@ msgstr "Auf Wiedersehen"
 
 #: lua/plugins/menu.lua:170 lua/utilities.lua:616
 msgid "Extra"
-msgstr ""
+msgstr "Extra"
 
 #: lua/plugins/menu.lua:171 lua/utilities.lua:617
 msgid "Anti-flood"
-msgstr ""
+msgstr "Anti-Flood"
 
 #: lua/plugins/menu.lua:172 lua/utilities.lua:619
 msgid "Silent mode"
@@ -1565,11 +1565,11 @@ msgstr "Stiller Modus"
 
 #: lua/plugins/menu.lua:174 lua/utilities.lua:621
 msgid "Arab"
-msgstr ""
+msgstr "Arabisch"
 
 #: lua/plugins/menu.lua:175 lua/utilities.lua:622
 msgid "RTL"
-msgstr ""
+msgstr "RTL"
 
 #: lua/plugins/menu.lua:176 lua/utilities.lua:618
 msgid "Ban bots"
@@ -1581,11 +1581,11 @@ msgstr "Reports/Meldungen"
 
 #: lua/plugins/menu.lua:178
 msgid "Delete last welcome message"
-msgstr ""
+msgstr "Letze Wilkommensnachricht löschen"
 
 #: lua/plugins/menu.lua:179
 msgid "Welcome + rules button"
-msgstr ""
+msgstr "Willkommen + \"Regeln\" taste"
 
 #: lua/plugins/menu.lua:211
 msgid "🔨️ ban"
@@ -1593,7 +1593,7 @@ msgstr "🔨 Bann"
 
 #: lua/plugins/menu.lua:217
 msgid "Warns: "
-msgstr ""
+msgstr "Verwarnungen: "
 
 #: lua/plugins/menu.lua:222
 msgid "Action:"
@@ -1616,13 +1616,14 @@ msgstr "%s *entfernt (kicked)* wegen flutens (flodding)!"
 #: lua/plugins/onmessage.lua:116
 #, lua-format
 msgid "%s <b>muted</b> for flood!"
-msgstr ""
+msgstr "%s <b>stummgeschaltet</b> wegen flooding!"
 
 #: lua/plugins/onmessage.lua:165
 #, lua-format
 msgid "%s <b>%s</b>: media sent not allowed!\n"
 "❗️ <code>%d/%d</code>"
-msgstr ""
+msgstr "%s <b>%s</b>: Medien senden nicht erlaubt!\n"
+"❗️ <code>%d/%d</code>"
 
 #: lua/plugins/onmessage.lua:175
 #, lua-format
@@ -1690,7 +1691,7 @@ msgstr "Kanal"
 
 #: lua/plugins/private.lua:14
 msgid "GitHub"
-msgstr ""
+msgstr "GitHub"
 
 #: lua/plugins/private.lua:15
 msgid "Rate me!"
@@ -1702,7 +1703,7 @@ msgstr "👥 Gruppen"
 
 #: lua/plugins/private.lua:28
 msgid "Pong!"
-msgstr ""
+msgstr "Pong!"
 
 #: lua/plugins/private.lua:42 lua/plugins/private.lua:58
 #, lua-format
@@ -1717,7 +1718,7 @@ msgstr ""
 
 #: lua/plugins/private.lua:65
 msgid "🔙 back"
-msgstr ""
+msgstr "🔙 zurück"
 
 #: lua/plugins/private_settings.lua:11
 msgid "When you join a group moderated by this bot, you will receive the group rules in private"
@@ -1758,7 +1759,8 @@ msgstr ""
 #, lua-format
 msgid "\n"
 "• <b>Group</b>: <a href=\"%s\">%s</a>"
-msgstr ""
+msgstr "\n"
+"• <b>Gruppe</b>: <a href=\"%s\">%s</a>"
 
 #: lua/plugins/report.lua:29
 #, lua-format
@@ -2237,7 +2239,7 @@ msgstr "Abschieds-Nachricht"
 
 #: lua/utilities.lua:624
 msgid "Welcome button"
-msgstr ""
+msgstr "Willkommens-Taste"
 
 #: lua/utilities.lua:660
 msgid "*Welcome type*: `GIF / sticker`\n"
@@ -2295,7 +2297,7 @@ msgstr ""
 
 #: lua/utilities.lua:686
 msgid "Anti-flood is now off"
-msgstr ""
+msgstr "Anti-Flood ist nun aus"
 
 #: lua/utilities.lua:687
 msgid "/rules will reply in private (for users)"
@@ -2307,7 +2309,7 @@ msgstr ""
 
 #: lua/utilities.lua:689
 msgid "Links preview disabled"
-msgstr ""
+msgstr "Linkvorschau deaktiviert"
 
 #: lua/utilities.lua:690
 msgid "Welcome message without a button for the rules"
@@ -2331,7 +2333,7 @@ msgstr ""
 
 #: lua/utilities.lua:697
 msgid "Anti-flood is now on"
-msgstr ""
+msgstr "Anti-Flood ist nun an"
 
 #: lua/utilities.lua:698
 msgid "/rules will reply in the group (with everyone)"
@@ -2343,7 +2345,7 @@ msgstr ""
 
 #: lua/utilities.lua:700
 msgid "Links preview enabled"
-msgstr ""
+msgstr "Linkvorschau aktiviert"
 
 #: lua/utilities.lua:701
 msgid "The welcome message will have a button for the rules"
@@ -2381,7 +2383,9 @@ msgstr ""
 msgid "%s\n"
 "• %s\n"
 "• <b>By</b>: %s"
-msgstr ""
+msgstr "%s\n"
+"• %s\n"
+"• <b>Von</b>: %s"
 
 #: lua/utilities.lua:888
 msgid "Get the new photo"
