@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 13:31\n"
+"PO-Revision-Date: 2018-06-30 13:41\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Portuguese, Brazilian\n"
 "Language: pt_BR\n"
@@ -2174,7 +2174,7 @@ msgstr ""
 msgid "I can't kick this user.\n"
 "Probably I'm not an Admin, or the user is an Admin iself"
 msgstr "Eu não posso kickar este usuário.\n"
-"Provavelmente eu não sou um administrador desse grupo, ou talvez ele seja."
+"Provavelmente eu não sou um administrador desse grupo, ou talvez ele seja"
 
 #: lua/plugins/warn.lua:135
 #, lua-format
