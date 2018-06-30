@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 10:00\n"
+"PO-Revision-Date: 2018-06-30 10:10\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Indonesian\n"
 "Language: id\n"
@@ -2085,7 +2085,7 @@ msgstr "tidak dapat mengirim stiker/Gif/permainan/menggunakan inline bot"
 
 #: lua/plugins/users.lua:20
 msgid "can't show link previews"
-msgstr ""
+msgstr "tidak bisa menampilkan link preview"
 
 #: lua/plugins/users.lua:24
 msgid "🔄️ Refresh cache"
@@ -2101,7 +2101,10 @@ msgid "*User ID*: `%d`\n"
 "`Warnings`: *%d*\n"
 "`Media warnings`: *%d*\n"
 "`Spam warnings`: *%d*\n"
-msgstr ""
+msgstr "*User ID*: `%d`\n"
+"`Peringatan`: *%d*\n"
+"`Peringatan media`: *%d*\n"
+"`Peringatan spam`: *%d*\n"
 
 #: lua/plugins/users.lua:122
 msgid "That user has nothing to do with this chat"
@@ -2140,13 +2143,13 @@ msgstr "%s ada di anggota obrolan"
 #: lua/plugins/users.lua:134
 #, lua-format
 msgid "%s is a restricted"
-msgstr ""
+msgstr "%s is a restricted"
 
 #: lua/plugins/users.lua:145
 #, lua-format
 msgid "\n"
 "Restrictions: <i>%s</i>"
-msgstr ""
+msgstr "Restrictions: <i>%s</i>"
 
 #: lua/plugins/users.lua:158
 msgid "Reply to an user or mention them by username or numerical ID"
