@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 04:01\n"
+"PO-Revision-Date: 2018-06-30 06:01\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -33,7 +33,7 @@ msgstr "\n"
 
 #: lua/methods.lua:159
 msgid "I don't have enough permissions to restrict users"
-msgstr ""
+msgstr "У меня недостаточно прав на ограничение пользователей"
 
 #: lua/methods.lua:161
 msgid "I'm not an admin, I can't kick people"
@@ -64,7 +64,7 @@ msgstr "выгнан"
 #: lua/plugins/antispam.lua:34 lua/plugins/onmessage.lua:160
 #: lua/plugins/warn.lua:108
 msgid "muted"
-msgstr ""
+msgstr "заглушён(а)"
 
 #: lua/plugins/antispam.lua:35 lua/plugins/dashboard.lua:140
 msgid "telegram.me links"
@@ -82,7 +82,7 @@ msgstr "%s %s за <b>спам</b>! (%d / %d)"
 #: lua/plugins/antispam.lua:80
 #, lua-format
 msgid "%s, spam is not allowed here. The next time you will be restricted"
-msgstr ""
+msgstr "%s, здесь нельзя спамить. В следующий раз на вас будут наложены ограничения"
 
 #: lua/plugins/antispam.lua:86
 #, lua-format
