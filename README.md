@@ -1,6 +1,7 @@
 # Group Butler
 
 [![Build Status](https://travis-ci.com/group-butler/GroupButler.svg?branch=master)](https://travis-ci.com/group-butler/GroupButler)
+[![Crowdin](https://d322cqt584bo4o.cloudfront.net/group-butler/localized.svg)](https://crowdin.com/project/group-butler)
 
 ## Short introduction
 
@@ -188,14 +189,15 @@ You can find a backup of your Redis database in `/etc/redis/dump.rdb`. The name 
 * * *
 
 ## Translators
-If you want to help translate the bot, follow the instructions below. Parts of Group Butler use tools from [gettext](https://www.gnu.org/software/gettext/). However we don't use binary format `*.mo` for the sake of simplicity. The bot manually parses the `*.po` files in the `locales` directory.
+If you want to help translate the bot, follow the instructions below. Parts of Group Butler use tools from [gettext](https://www.gnu.org/software/gettext/). However we don't use binary format `*.mo` for the sake of simplicity. The bot  parses the `*.po` files in the `locales` directory at runtime.
 
-If you want to improve an existing translation, run this command in the root directoy with the bot: `./launch.sh update-locale <name>` where &lt;name&gt; is two letters of your chosen locale. Further edit the file `locales/<name>.po`, make sure that the translation is done correctly and send your translation.
+We recommend contributing translations to our [Crowdin project](https://crowdin.com/project/group-butler).
 
-We recommend [Poedit](https://poedit.net/) as editor of `*.po` files. You must specify information about yourself in the settings; put the link to your Telegram account in the field Email if you have it.
+**Note for developers**: update the POT file whenever you change a string, and don't forget to use the `i18n()` function so it's translatable. In order to update the POT file you will need to install gettext and then run:
 
-If you want to create new locale, run `./launch.sh create-locale <name>`. This command creates the file `locales/<name>.po` with untranslated strings. You can also use Poedit to translate the bot. List of available locales see in [gettext manual](https://www.gnu.org/software/gettext/manual/gettext.html#Language-Codes).
-After add your new locale in the file `config.lua`.
+```
+make pot
+```
 
 * * *
 
