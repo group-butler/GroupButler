@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 07:01\n"
+"PO-Revision-Date: 2018-06-30 07:11\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Portuguese, Brazilian\n"
 "Language: pt_BR\n"
@@ -633,12 +633,13 @@ msgstr ""
 #, lua-format
 msgid "\n"
 "Commands not found: `%s`"
-msgstr ""
+msgstr "\n"
+"Comandos não encontrados: `%s`"
 
 #: lua/plugins/extra.lua:132
 #, lua-format
 msgid "_Please_ [start me](%s) _so I can send you the answer_"
-msgstr ""
+msgstr "_Por favor_ [inicie me](%s) _para que eu possa lhe responder_"
 
 #: lua/plugins/floodmanager.lua:12
 msgid "⚖ Current sensitivity. Tap on the + or the - to change it"
@@ -680,7 +681,9 @@ msgstr "%d não é um valor válido!\n"
 #: lua/plugins/floodmanager.lua:127
 msgid "You can manage the antiflood settings from here.\\n\\nIt is also possible to choose which type of messages the antiflood will ignore (✅)\n"
 "\t\t\t"
-msgstr ""
+msgstr "Você pode gerenciar as configurações de antiflood a partir daqui.\\n\\nTambém é possível escolher qual o tipo de mensagens que o antiflood irá ignorar (✅)\n"
+"\t\t\t\n"
+"\t\t\t"
 
 #: lua/plugins/floodmanager.lua:133
 msgid "Antiflood settings"
