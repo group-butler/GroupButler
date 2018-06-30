@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 10:51\n"
+"PO-Revision-Date: 2018-06-30 11:00\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Turkish\n"
 "Language: tr\n"
@@ -177,7 +177,12 @@ msgid "*Anti-spam settings*\n"
 "• ❌ = *Not allowed*\n"
 "• 🗑 = *Delete*\n"
 "When set on `delete`, the bot doesn't warn users until they are about to be kicked/banned/muted (at the second-to-last warning)\n"
-msgstr ""
+msgstr "*Anti-spam ayarları*\n"
+"Hangi tür spamleri yasaklayacağınızı seçin\n"
+"• ✅ = *İzin ver*\n"
+"• ❌ = *İzin verme*\n"
+"• 🗑 = *Sil*\n"
+"Ayarı `sil`olarak seçtiğinizde bot kullanıcıları onlar kovulana/engellenene/sessize alınmak üzere olana kadar uyarmaz. (sondan ikinci uyarıda)\n"
 
 #: lua/plugins/antispam.lua:316
 msgid "_The whitelist was already empty_"
@@ -353,7 +358,7 @@ msgstr "🛠  Menü"
 
 #: lua/plugins/configure.lua:35
 msgid "⚡️ Antiflood"
-msgstr ""
+msgstr "⚡️ Antiflood"
 
 #: lua/plugins/configure.lua:36
 msgid "🌈 Media"
@@ -361,7 +366,7 @@ msgstr "🌈 Medya"
 
 #: lua/plugins/configure.lua:37
 msgid "🚫 Antispam"
-msgstr ""
+msgstr "🚫 Antispam"
 
 #: lua/plugins/configure.lua:38
 msgid "📥 Log channel"
@@ -369,7 +374,7 @@ msgstr "📥 Log Kanal"
 
 #: lua/plugins/configure.lua:48
 msgid "⛔️ Default permissions"
-msgstr ""
+msgstr "⛔️ Varsayılan izinler"
 
 #: lua/plugins/configure.lua:61
 #, lua-format
@@ -406,7 +411,7 @@ msgstr "🔨 ️banla"
 #: lua/plugins/dashboard.lua:24 lua/plugins/floodmanager.lua:38
 #: lua/plugins/menu.lua:157 lua/plugins/menu.lua:213
 msgid "👁 mute"
-msgstr ""
+msgstr "👁 sessize al"
 
 #: lua/plugins/dashboard.lua:28 lua/plugins/floodmanager.lua:56
 msgid "Texts"
@@ -578,19 +583,19 @@ msgstr ""
 
 #: lua/plugins/defaultpermissions.lua:63
 msgid "Send messages"
-msgstr ""
+msgstr "Mesaj gönderme"
 
 #: lua/plugins/defaultpermissions.lua:64
 msgid "Send media"
-msgstr ""
+msgstr "Medya gönderme"
 
 #: lua/plugins/defaultpermissions.lua:65
 msgid "Send other types of media"
-msgstr ""
+msgstr "Diğer türlerde medya gönderme"
 
 #: lua/plugins/defaultpermissions.lua:66
 msgid "Show web page preview"
-msgstr ""
+msgstr "Web sayfası ön izlemesini göster"
 
 #: lua/plugins/defaultpermissions.lua:112
 msgid "You don't have the permission to restrict members"
@@ -621,13 +626,14 @@ msgstr "Komut %s kaydedildi!"
 #: lua/plugins/extra.lua:78
 #, lua-format
 msgid "Commands deleted: `%s`"
-msgstr ""
+msgstr "Komut silindi: `%s`"
 
 #: lua/plugins/extra.lua:80
 #, lua-format
 msgid "\n"
 "Commands not found: `%s`"
-msgstr ""
+msgstr "\n"
+"Komut bulunamadı: `%s`"
 
 #: lua/plugins/extra.lua:132
 #, lua-format
@@ -664,7 +670,7 @@ msgstr "Flood atanlar atılacak"
 
 #: lua/plugins/floodmanager.lua:97
 msgid "Flooders will be muted"
-msgstr ""
+msgstr "Flood yapanlar sessize alınacak"
 
 #: lua/plugins/floodmanager.lua:106 lua/plugins/floodmanager.lua:113
 #, lua-format
