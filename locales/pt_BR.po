@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 13:00\n"
+"PO-Revision-Date: 2018-06-30 13:10\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Portuguese, Brazilian\n"
 "Language: pt_BR\n"
@@ -1035,7 +1035,7 @@ msgstr "\n"
 "*Bonus commands*:\n"
 "`/reportflood [número de mensagens]/[prazo]`: configure quantas vezes os usuários poderão utilizar o comando @admin em um certo prazo.\n"
 "`/leave`: o bot irá abandonar o grupo sem deletar os dados salvos. Use esse comando somente se você pretende adicionar o bot no grupo novamente.\n"
-"`/snap`: gera um arquivo de backup que permite que você restaure com o comando `/import` (envie o arquivo no grupo e responda-o). O comando `/snap` pode ser usado somente a cada 3 dias.\n\n"
+"`/snap`: gera um arquivo de backup que permite que você restaure com o comando `/import` (envie o arquivo no grupo e responda-o). O comando `/snap` pode ser usado somente a cada 3 dias\n"
 
 #: lua/plugins/help.lua:250
 msgid "*Moderators*\n\n"
@@ -1308,7 +1308,7 @@ msgstr "Advertências resetadas"
 
 #: lua/plugins/logchannel.lua:70
 msgid "New members"
-msgstr "Novos membros "
+msgstr "Novos membros"
 
 #: lua/plugins/logchannel.lua:71
 msgid "Media warns"
@@ -1626,7 +1626,7 @@ msgstr "Extra"
 
 #: lua/plugins/menu.lua:171 lua/utilities.lua:617
 msgid "Anti-flood"
-msgstr "Anti-flood "
+msgstr "Anti-flood"
 
 #: lua/plugins/menu.lua:172 lua/utilities.lua:619
 msgid "Silent mode"
@@ -1680,7 +1680,7 @@ msgstr "%s foi <b>banido</b> por flood!"
 #: lua/plugins/onmessage.lua:114
 #, lua-format
 msgid "%s <b>kicked</b> for flood!"
-msgstr " %s foi <b>kickado</b> por flood!"
+msgstr "%s foi <b>kickado</b> por flood!"
 
 #: lua/plugins/onmessage.lua:116
 #, lua-format
@@ -1931,11 +1931,11 @@ msgstr "Por favor escreva algo após este comando: `/setrules `"
 
 #: lua/plugins/rules.lua:69
 msgid "Rules has been deleted."
-msgstr "As regras foram removidas. "
+msgstr "As regras foram removidas."
 
 #: lua/plugins/rules.lua:82
 msgid "New rules *saved successfully*!"
-msgstr "As novas regras foram *salvas com sucesso*! "
+msgstr "As novas regras foram *salvas com sucesso*!"
 
 #: lua/plugins/service.lua:22
 #, lua-format
@@ -1964,7 +1964,7 @@ msgstr "Eu fui removido de %s [<code>%d</code>], um de seus subgrupos"
 
 #: lua/plugins/setlang.lua:24 lua/plugins/setlang.lua:34
 msgid "*List of available languages*:"
-msgstr "*Lista de idiomas disponíveis:* "
+msgstr "*Lista de idiomas disponíveis*:"
 
 #: lua/plugins/setlang.lua:30
 msgid "You are not an admin"
@@ -2401,7 +2401,7 @@ msgstr "A mensagem de boas-vindas será mostrada"
 
 #: lua/utilities.lua:695
 msgid "Goodbye message will be displayed"
-msgstr "A mensagem de despedida será mostrada "
+msgstr "A mensagem de despedida será mostrada"
 
 #: lua/utilities.lua:696
 msgid "#extra commands are now available for all"
@@ -2592,7 +2592,7 @@ msgstr "#%s\n"
 
 #: lua/utilities.lua:990
 msgid "Go to the message"
-msgstr "Vá para a mensagem "
+msgstr "Vá para a mensagem"
 
 #: lua/utilities.lua:1034
 #, lua-format
