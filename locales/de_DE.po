@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 13:31\n"
+"PO-Revision-Date: 2018-06-30 13:41\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -566,17 +566,21 @@ msgstr "ℹ️ Gruppe ► Medien"
 
 #: lua/plugins/defaultpermissions.lua:46
 msgid "Permission to send messages. If disabled, the user won't be able to send any kind of message"
-msgstr ""
+msgstr "Berechtigung zum senden von Nachrichten. Benutzer ohne diese Berechtigung können keine Nachrichten jeglicher art senden"
 
 #: lua/plugins/defaultpermissions.lua:49
 msgid "Permission to send media (audios, documents, photos, videos, video notes and voice notes). Implies the permission to send messages\n"
 "\t\t\t"
-msgstr ""
+msgstr "Berechtigung zum senden von Medien (Audio, Dokumente, Fotos, Videos, Videonachrichten und Sprachnachrichten). Impliziert die Berechtigung zum senden von Nachrichten\n"
+"\t\t\t\n"
+"\t\t\t"
 
 #: lua/plugins/defaultpermissions.lua:53
 msgid "Permission to send other types of messages (GIFs, games, stickers and use inline bots). Implies the permission to send medias\n"
 "\t\t\t"
-msgstr ""
+msgstr "Berechtigung zum senden von anderen Arten von Nachrichten (GIFs, Spiele, Aufkleber und das Benutzen von inline-bots). Impliziert die Berechtigung zum senden von Medien\n"
+"\t\t\t\n"
+"\t\t\t"
 
 #: lua/plugins/defaultpermissions.lua:56
 msgid "When disabled, user's messages with a link won't show the web page preview"
@@ -584,35 +588,38 @@ msgstr ""
 
 #: lua/plugins/defaultpermissions.lua:63
 msgid "Send messages"
-msgstr ""
+msgstr "Nachrichten versenden"
 
 #: lua/plugins/defaultpermissions.lua:64
 msgid "Send media"
-msgstr ""
+msgstr "Medien versenden"
 
 #: lua/plugins/defaultpermissions.lua:65
 msgid "Send other types of media"
-msgstr ""
+msgstr "Andere Arten von Medien versenden"
 
 #: lua/plugins/defaultpermissions.lua:66
 msgid "Show web page preview"
-msgstr ""
+msgstr "Webseitenvorschau zeigen"
 
 #: lua/plugins/defaultpermissions.lua:112
 msgid "You don't have the permission to restrict members"
-msgstr ""
+msgstr "Du hast keine Berechtigung Nutzer einzuschränken"
 
 #: lua/plugins/defaultpermissions.lua:114
 msgid "*Deafult permissions*\n"
 "From this menu you can change the default permissions that will be granted when a new member join.\n"
 "_Only the administrators with the permission to restrict a member can access this menu._\n"
 "Tap on the name of a permission for a description of what kind of messages it will influence.\n"
-msgstr ""
+msgstr "*Standard-Berechtigungen*\n"
+"Aus diesem Menü können die Standard-Berechtigungen verändert werden, die neue Mitglieder erhalten.\n"
+"_Nur Administratoren mit der Berechtigung, Benutzer einschränken, können auf dieses Menu zugreifen._\n"
+"Tippen Sie auf den Namen einer Berechtigung um zu erfahren, welche Art von Nachrichten sie beeinflusst.\n"
 
 #: lua/plugins/defaultpermissions.lua:136
 #, lua-format
 msgid "Setting saved, but I can't edit the buttons because you are too fast! Wait other %d seconds"
-msgstr ""
+msgstr "Einstellung gespeichert, aber ich konnte die Tasten nicht bearbeiten, weil du zu schnell warst! Warte %d Sekunden"
 
 #: lua/plugins/extra.lua:41
 #, lua-format
@@ -627,22 +634,23 @@ msgstr "Keine Befehle (commands) gespeichert!"
 #: lua/plugins/extra.lua:78
 #, lua-format
 msgid "Commands deleted: `%s`"
-msgstr ""
+msgstr "Befehl gelöscht: `%s`"
 
 #: lua/plugins/extra.lua:80
 #, lua-format
 msgid "\n"
 "Commands not found: `%s`"
-msgstr ""
+msgstr "\n"
+"Befehl nicht gefunden: `%s`"
 
 #: lua/plugins/extra.lua:132
 #, lua-format
 msgid "_Please_ [start me](%s) _so I can send you the answer_"
-msgstr ""
+msgstr "_Bitte_ [starte mich](%s) _damit ich die Antwort schicken kann_"
 
 #: lua/plugins/floodmanager.lua:12
 msgid "⚖ Current sensitivity. Tap on the + or the - to change it"
-msgstr ""
+msgstr "⚖ Aktuelle Empfindlichkeit. Drück auf + oder - um sie zu ändern"
 
 #: lua/plugins/floodmanager.lua:14
 msgid "Choose which media must be ignored by the antiflood (the bot won't consider them).\n"
