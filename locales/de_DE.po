@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 09:00\n"
+"PO-Revision-Date: 2018-06-30 09:10\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -304,15 +304,16 @@ msgstr "_Benutze diesen Befehl als Antwort auf eine weitergeleitete Nachricht_"
 #: lua/plugins/banhammer.lua:110 lua/plugins/banhammer.lua:192
 msgid "I can't kick this user.\n"
 "I am not allowed to ban or the target user is an admin"
-msgstr ""
+msgstr "Ich kann diesen Nutzer nicht kicken.\n"
+"Mir ist nicht erlaubt zu bannen oder das Ziel ist ein Admin"
 
 #: lua/plugins/banhammer.lua:122
 msgid "_An admin can't be unbanned_"
-msgstr ""
+msgstr "_Ein Admin kann nicht entbrannt werden_"
 
 #: lua/plugins/banhammer.lua:127
 msgid "This user is not banned!"
-msgstr ""
+msgstr "Dieser Nutzer ist nicht gebannt!"
 
 #: lua/plugins/banhammer.lua:131
 #, lua-format
@@ -321,40 +322,40 @@ msgstr "Nutzer (user) entsperrt (unbanned) by %s!"
 
 #: lua/plugins/banhammer.lua:142
 msgid "You don't have the permissions to restrict members"
-msgstr ""
+msgstr "Du hast keine Berechtigung Nutzer einzuschränken"
 
 #: lua/plugins/banhammer.lua:146
 msgid "Tap on the -/+ buttons to change this value. Then select a timeframe to execute the ban"
-msgstr ""
+msgstr "Tippe auf die -/+ Tasten um diesen Wert zu ändern. Wähle dann einen Zeitraum aus um den Bann auszuführen"
 
 #: lua/plugins/banhammer.lua:155
 msgid "You can't set a lower value"
-msgstr ""
+msgstr "Du kannst keinen niedrigeren Wert einstellen"
 
 #: lua/plugins/banhammer.lua:163
 msgid "Stop!!!"
-msgstr ""
+msgstr "Stop!!!"
 
 #: lua/plugins/banhammer.lua:179
 msgid "hours"
-msgstr ""
+msgstr "Stunden"
 
 #: lua/plugins/banhammer.lua:183
 msgid "days"
-msgstr ""
+msgstr "Tage"
 
 #: lua/plugins/banhammer.lua:187
 msgid "minutes"
-msgstr ""
+msgstr "Minuten"
 
 #: lua/plugins/banhammer.lua:196
 #, lua-format
 msgid "User banned for %d %s"
-msgstr ""
+msgstr "Nutzer gebannt für %d %s"
 
 #: lua/plugins/configure.lua:34
 msgid "🛠 Menu"
-msgstr ""
+msgstr "🛠️ Menü"
 
 #: lua/plugins/configure.lua:35
 msgid "⚡️ Antiflood"
@@ -366,29 +367,30 @@ msgstr "🌈 Medien"
 
 #: lua/plugins/configure.lua:37
 msgid "🚫 Antispam"
-msgstr ""
+msgstr "🚫 Anti-Spam"
 
 #: lua/plugins/configure.lua:38
 msgid "📥 Log channel"
-msgstr ""
+msgstr "📥 Log den Kanal"
 
 #: lua/plugins/configure.lua:48
 msgid "⛔️ Default permissions"
-msgstr ""
+msgstr "⛔️ Standard Einstellungen"
 
 #: lua/plugins/configure.lua:61
 #, lua-format
 msgid "<b>%s</b>\n"
 "<i>Change the settings of your group</i>"
-msgstr ""
+msgstr "<b>%s</b>\n"
+"<i>Ändere die Einstellungen deiner Gruppe</i>"
 
 #: lua/plugins/configure.lua:64
 msgid "_I've sent you the keyboard via private message_"
-msgstr ""
+msgstr "_Ich hab dir die Tastatur via Privatnachricht geschickt_"
 
 #: lua/plugins/configure.lua:76
 msgid "<i>Change the settings of your group</i>"
-msgstr ""
+msgstr "<i>Ändere die Einstellungen deiner Gruppe</i>"
 
 #: lua/plugins/dashboard.lua:13 lua/plugins/floodmanager.lua:26
 msgid "✅ | ON"
@@ -401,7 +403,7 @@ msgstr "❌ | AUS"
 #: lua/plugins/dashboard.lua:20 lua/plugins/menu.lua:153
 #: lua/plugins/menu.lua:209
 msgid "👞 kick"
-msgstr ""
+msgstr "👞 kicken"
 
 #: lua/plugins/dashboard.lua:22
 msgid "🔨️ ️ban"
@@ -989,7 +991,7 @@ msgstr "Melde/Report System"
 
 #: lua/plugins/help.lua:296
 msgid "Pin"
-msgstr ""
+msgstr "Anpinnen"
 
 #: lua/plugins/help.lua:299
 msgid "Languages"
@@ -997,7 +999,7 @@ msgstr "Sprachen"
 
 #: lua/plugins/help.lua:300
 msgid "Group configuration"
-msgstr ""
+msgstr "Gruppenkonfiguration"
 
 #: lua/plugins/help.lua:304 lua/plugins/logchannel.lua:68
 msgid "Warns"
@@ -1005,11 +1007,11 @@ msgstr "Verwarnungen"
 
 #: lua/plugins/help.lua:307
 msgid "Welcome settings"
-msgstr ""
+msgstr "Wilkommenseinstellungen"
 
 #: lua/plugins/help.lua:308
 msgid "Links whitelist"
-msgstr ""
+msgstr "Link Whitelist"
 
 #: lua/plugins/help.lua:327
 msgid "📢 Bot channel"
@@ -1029,11 +1031,11 @@ msgstr "Basis"
 
 #: lua/plugins/help.lua:341
 msgid "Admin commands"
-msgstr ""
+msgstr "Admin Befehle"
 
 #: lua/plugins/help.lua:342
 msgid "Normal users commands"
-msgstr ""
+msgstr "Befehle für Normale Nutzer"
 
 #: lua/plugins/help.lua:343
 msgid "Commands in private"
@@ -1041,7 +1043,7 @@ msgstr "Kommands in Privat"
 
 #: lua/plugins/help.lua:345
 msgid "Log channel"
-msgstr ""
+msgstr "Log den Kanal"
 
 #: lua/plugins/help.lua:361
 msgid "Back"
@@ -1078,7 +1080,7 @@ msgstr "Log Channel Informationen"
 
 #: lua/plugins/help.lua:415
 msgid "Informations about the moderators"
-msgstr ""
+msgstr "Informationen über den Moderator"
 
 #: lua/plugins/help.lua:419
 msgid "Available commands for admins"
@@ -1094,7 +1096,7 @@ msgstr "❗️ Schon hier"
 
 #: lua/plugins/links.lua:25
 msgid "*No link* for this group. Ask the owner to save it with `/setlink [group link]`"
-msgstr ""
+msgstr "*Kein Link* für diese Gruppe. Frage den Besitzer ihn mit `/setlink [group link]` zu speichern"
 
 #: lua/plugins/links.lua:36
 msgid "Link *unset*"
