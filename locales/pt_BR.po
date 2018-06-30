@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 06:31\n"
+"PO-Revision-Date: 2018-06-30 06:41\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Portuguese, Brazilian\n"
 "Language: pt_BR\n"
@@ -304,7 +304,8 @@ msgstr ""
 #: lua/plugins/banhammer.lua:110 lua/plugins/banhammer.lua:192
 msgid "I can't kick this user.\n"
 "I am not allowed to ban or the target user is an admin"
-msgstr ""
+msgstr "Eu não posso expulsar este usuário.\n"
+"Eu não estou autorizado a banir ou o usuário é um administrador"
 
 #: lua/plugins/banhammer.lua:122
 msgid "_An admin can't be unbanned_"
@@ -312,7 +313,7 @@ msgstr ""
 
 #: lua/plugins/banhammer.lua:127
 msgid "This user is not banned!"
-msgstr ""
+msgstr "Este usuário não está banido!"
 
 #: lua/plugins/banhammer.lua:131
 #, lua-format
@@ -333,19 +334,19 @@ msgstr ""
 
 #: lua/plugins/banhammer.lua:163
 msgid "Stop!!!"
-msgstr ""
+msgstr "Pare!!!"
 
 #: lua/plugins/banhammer.lua:179
 msgid "hours"
-msgstr ""
+msgstr "horas"
 
 #: lua/plugins/banhammer.lua:183
 msgid "days"
-msgstr ""
+msgstr "dias"
 
 #: lua/plugins/banhammer.lua:187
 msgid "minutes"
-msgstr ""
+msgstr "minutos"
 
 #: lua/plugins/banhammer.lua:196
 #, lua-format
