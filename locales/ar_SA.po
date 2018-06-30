@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 09:00\n"
+"PO-Revision-Date: 2018-06-30 09:10\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Arabic\n"
 "Language: ar\n"
@@ -2000,7 +2000,7 @@ msgstr " اللغة العربية تم *تعيينها*"
 #: lua/plugins/setlang.lua:44
 msgid ".\n"
 "Please note that translators are volunteers, and some strings of the translation you selected _could not have been translated yet_\n"
-msgstr ""
+msgstr "نرجو ملاحظة ان المترجمين متطوعون، وان بعض لوائح الترجمة التي اخترتها _لم تترجم بعد_\n"
 
 #: lua/plugins/users.lua:11
 msgid "can't change the chat title/description/icon"
@@ -2145,7 +2145,7 @@ msgstr "التنبيهات التي تلقاها هذا المستخدم تم <b
 #: lua/plugins/users.lua:232
 #, lua-format
 msgid "The adminlist has just been updated. You must wait 10 minutes from the last refresh (wait  %d seconds)"
-msgstr ""
+msgstr "قائمو المسؤولين قد حدثت للتو. يجب ان تنتظر 10 دقائق من اخر تحديث (انتظر %d ثانية)"
 
 #: lua/plugins/users.lua:241
 #, lua-format
