@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 08:10\n"
+"PO-Revision-Date: 2018-06-30 08:20\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Persian\n"
 "Language: fa\n"
@@ -235,11 +235,12 @@ msgstr "_لیست سفید کانال ها خالی است_"
 #, lua-format
 msgid "*Whitelisted channels:*\n"
 "%s"
-msgstr ""
+msgstr "*کانال های لیست سفید شده:*\n"
+"%s"
 
 #: lua/plugins/antispam.lua:387 lua/plugins/antispam.lua:404
 msgid "_I can't find a channel ID in your message_"
-msgstr ""
+msgstr "_من نمیتوانم شناسه (ID) کانالی را در پیام شما پیدا کنم_"
 
 #: lua/plugins/backup.lua:99
 #, lua-format
@@ -303,15 +304,16 @@ msgstr ""
 #: lua/plugins/banhammer.lua:110 lua/plugins/banhammer.lua:192
 msgid "I can't kick this user.\n"
 "I am not allowed to ban or the target user is an admin"
-msgstr ""
+msgstr "من نمیتوانم این کاربر را اخراج کنم.\n"
+"من اجازه ی بن کردن را ندارم و یا کاربر هدف ادمین است"
 
 #: lua/plugins/banhammer.lua:122
 msgid "_An admin can't be unbanned_"
-msgstr ""
+msgstr "_یک ادمین نمی تواند از حالت بن خارج شود_"
 
 #: lua/plugins/banhammer.lua:127
 msgid "This user is not banned!"
-msgstr ""
+msgstr "این کاربر بن نشده است!"
 
 #: lua/plugins/banhammer.lua:131
 #, lua-format
