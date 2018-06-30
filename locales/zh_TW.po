@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 05:01\n"
+"PO-Revision-Date: 2018-06-30 05:31\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Chinese Traditional\n"
 "Language: zh\n"
@@ -304,7 +304,8 @@ msgstr ""
 #: lua/plugins/banhammer.lua:110 lua/plugins/banhammer.lua:192
 msgid "I can't kick this user.\n"
 "I am not allowed to ban or the target user is an admin"
-msgstr ""
+msgstr "我無法踢出這個用戶。\n"
+"我沒有封鎖權限或者對象是管理員。"
 
 #: lua/plugins/banhammer.lua:122
 msgid "_An admin can't be unbanned_"
@@ -312,7 +313,7 @@ msgstr ""
 
 #: lua/plugins/banhammer.lua:127
 msgid "This user is not banned!"
-msgstr ""
+msgstr "這個使用者沒被封鎖！"
 
 #: lua/plugins/banhammer.lua:131
 #, lua-format
@@ -366,7 +367,7 @@ msgstr "🌈 媒體"
 
 #: lua/plugins/configure.lua:37
 msgid "🚫 Antispam"
-msgstr ""
+msgstr "🚫 反垃圾訊息"
 
 #: lua/plugins/configure.lua:38
 msgid "📥 Log channel"
@@ -380,7 +381,8 @@ msgstr "⛔️ 預設權限"
 #, lua-format
 msgid "<b>%s</b>\n"
 "<i>Change the settings of your group</i>"
-msgstr ""
+msgstr "<b>%s</b>\n"
+"<i>更改群組設定</i>"
 
 #: lua/plugins/configure.lua:64
 msgid "_I've sent you the keyboard via private message_"
