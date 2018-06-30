@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 05:31\n"
+"PO-Revision-Date: 2018-06-30 05:40\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Italian\n"
 "Language: it\n"
@@ -140,7 +140,7 @@ msgstr "Consenti/proibisci l'invio di link telegram.me"
 
 #: lua/plugins/antispam.lua:172
 msgid "Allow/forbid forwarded messages from channels"
-msgstr "Consenti/proibisci l'inoltro di messaggi da canali"
+msgstr "Consenti/proibisci l'inoltro di messaggi dai canali"
 
 #: lua/plugins/antispam.lua:174
 msgid "Set how many times the bot should warn the user before kick/ban him"
@@ -353,7 +353,7 @@ msgstr "minuti"
 #: lua/plugins/banhammer.lua:196
 #, lua-format
 msgid "User banned for %d %s"
-msgstr "Utente bannato per %d %s"
+msgstr "Utente bannato per %d e %s"
 
 #: lua/plugins/configure.lua:34
 msgid "🛠 Menu"
@@ -613,7 +613,10 @@ msgid "*Deafult permissions*\n"
 "From this menu you can change the default permissions that will be granted when a new member join.\n"
 "_Only the administrators with the permission to restrict a member can access this menu._\n"
 "Tap on the name of a permission for a description of what kind of messages it will influence.\n"
-msgstr ""
+msgstr "*Permessi predefiniti*\n"
+"Da questo menu è possibile modificare i permessi predefiniti che saranno concessi ai nuovi membri.\n"
+"_Soltanto gli amministratori col permesso di limitare i membri possono accedere a questo menu._\n"
+"Tocca il nome di un permesso per una descrizione del tipo di messaggi che andrà ad influenzare.\n"
 
 #: lua/plugins/defaultpermissions.lua:136
 #, lua-format
@@ -1163,7 +1166,7 @@ msgstr "Comandi da usare in un Realm"
 
 #: lua/plugins/help.lua:412
 msgid "Log channel informations"
-msgstr "Informazioni sul canale log"
+msgstr "Informazioni sul canale di log"
 
 #: lua/plugins/help.lua:415
 msgid "Informations about the moderators"
@@ -1783,7 +1786,7 @@ msgstr "Puoi trovare la lista dei nostri gruppi in [questo canale](%s)"
 
 #: lua/plugins/private.lua:65
 msgid "🔙 back"
-msgstr ""
+msgstr "🔙 indietro"
 
 #: lua/plugins/private_settings.lua:11
 msgid "When you join a group moderated by this bot, you will receive the group rules in private"
@@ -2547,7 +2550,9 @@ msgstr "#%s\n"
 msgid "#%s\n"
 "• <b>Admin</b>: %s [#id%s]\n"
 "• %s\n"
-msgstr ""
+msgstr "#%s\n"
+"• <b>Amministratore</b>: %s [#id%s]\n"
+"• %s\n"
 
 #: lua/utilities.lua:949
 #, lua-format
