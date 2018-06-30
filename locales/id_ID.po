@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 09:20\n"
+"PO-Revision-Date: 2018-06-30 09:30\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Indonesian\n"
 "Language: id\n"
@@ -1531,7 +1531,11 @@ msgid "\n"
 "The number is not related the the normal `/warn` command.\n\n"
 "Medias possible statuses: ✅ allowed, ❌ warning, 🗑 delete.\n"
 "When a media is set on delete, the bot will give a warning *only* when the user is at one media from being punished\n"
-msgstr ""
+msgstr "\n"
+"Tap pada tombol kanan untuk *mengubah pengaturan*\n"
+"Anda dapat menggunakan baris terakhir untuk mengubah berapa banyak peringatan yang harus bot berikan sebelum menendang/melarang/memblokir seseorang.\n"
+"Jumlah peringatan ini berbeda dari (tidak terkait) dari jumlah`/warn` biasa.\n\n"
+"Status: ✅ diperbolehkan, ❌ peringatan, 🗑 hapus.\n"
 
 #: lua/plugins/mediasettings.lua:115
 msgid "⚠️ Tap on the right column"
@@ -1547,11 +1551,11 @@ msgstr "⚙ Nilai terlalu besar ( > 12)"
 
 #: lua/plugins/mediasettings.lua:143
 msgid "👞 New status is kick"
-msgstr ""
+msgstr "👞 Status baru: tendang"
 
 #: lua/plugins/mediasettings.lua:146
 msgid "👁 New status is mute"
-msgstr ""
+msgstr "👁 Status baru: mute"
 
 #: lua/plugins/mediasettings.lua:149
 msgid "🔨 New status is ban"
@@ -1572,12 +1576,14 @@ msgstr "Aktif/nonaktifkan pesan selamat datang"
 
 #: lua/plugins/menu.lua:19
 msgid "When enabled, every time a new welcome message is sent, the previously sent welcome message is removed"
-msgstr ""
+msgstr "Jika aktif, tiap kali pesan selamat datang yang baru telah terkirim, maka pesan selamat datang sebelumnya akan dihapus"
 
 #: lua/plugins/menu.lua:22
 msgid "When enabled, the bot doesn't answer in the group to /dashboard, /config and /help commands (it will just answer in private)\n"
 "\t\t\t"
-msgstr ""
+msgstr "Ketika diaktifkan, bot tidak mengirim pesan konfirmasi dari balasan perintah /dashboard /config dan /bantuan  (balasan langsung dikirim ke private message). Pastikan pengirim perintah sudah men-start bot.\n"
+"\t\t\t\n"
+"\t\t\t"
 
 #: lua/plugins/menu.lua:25
 msgid "Enable and disable the anti-flood system (more info in the /help message)"
@@ -1586,7 +1592,9 @@ msgstr "Aktifkan dan nonaktifkan sistem anti-flood (info lengkap di pesan /help)
 #: lua/plugins/menu.lua:28
 msgid "If the welcome message is enabled, it will include an inline button that will send to the user the rules in private\n"
 "\t\t\t"
-msgstr ""
+msgstr "Jika pesan selamat datang diaktifkan, ini menyertakan sebuah tombol yang berfungsi untuk memberi aturan grup kepada pengguna (di private message)\n"
+"\t\t\t\n"
+"\t\t\t"
 
 #: lua/plugins/menu.lua:31
 msgid "When someone uses /rules\n"
@@ -1610,7 +1618,7 @@ msgstr "Tentukan aksi yang dilakukan bot jika pengguna mengirim karakter arab"
 
 #: lua/plugins/menu.lua:41
 msgid "Bots will be banned when added by normal users"
-msgstr ""
+msgstr "Bot akan diblokir jika dia ditambahkan oleh member biasa"
 
 #: lua/plugins/menu.lua:44
 msgid "Select what the bot should do when someone sends a message with the RTL character, or has it in his name"
@@ -1638,7 +1646,7 @@ msgstr "Aksi baru jika menerima jumlah peringatan maksimal: blokir"
 
 #: lua/plugins/menu.lua:78
 msgid "New action on max number of warns received: mute"
-msgstr ""
+msgstr "Aksi baru jika menerima jumlah peringatan maksimal: mute"
 
 #: lua/plugins/menu.lua:81
 msgid "New action on max number of warns received: kick"
@@ -1646,35 +1654,35 @@ msgstr "Aksi baru jika menerima jumlah peringatan maksimal: tendang"
 
 #: lua/plugins/menu.lua:88
 msgid "Action -> kick"
-msgstr ""
+msgstr "Tindakan -> tendang"
 
 #: lua/plugins/menu.lua:89
 msgid "Action -> ban"
-msgstr ""
+msgstr "Tindakan -> blokir"
 
 #: lua/plugins/menu.lua:90
 msgid "Action -> mute"
-msgstr ""
+msgstr "Tindakan -> mute"
 
 #: lua/plugins/menu.lua:91
 msgid "Allowed ✅"
-msgstr ""
+msgstr "Diperbolehkan ✅"
 
 #: lua/plugins/menu.lua:155
 msgid "🔨 ban"
-msgstr ""
+msgstr "🔨 blokir"
 
 #: lua/plugins/menu.lua:159
 msgid "✅"
-msgstr ""
+msgstr "✅"
 
 #: lua/plugins/menu.lua:168
 msgid "Welcome"
-msgstr ""
+msgstr "Selamat Datang"
 
 #: lua/plugins/menu.lua:169
 msgid "Goodbye"
-msgstr ""
+msgstr "Selamat tinggal"
 
 #: lua/plugins/menu.lua:170 lua/utilities.lua:616
 msgid "Extra"
@@ -2137,14 +2145,18 @@ msgstr "Balas ke pesan pengguna atau mention mereka dengan nama, username, atau 
 msgid "I've never seen this user before.\n"
 "This command works by reply, username, user ID or text mention.\n"
 "If you're using it by username and want to teach me who the user is, forward me one of his messages"
-msgstr ""
+msgstr "Aku belum mengenali pengguna ini sebelumnya.\n"
+"Perintah ini cuma bekerja dengan reply, username, ID pengguna atau teks mention.\n"
+"Jika anda menggunakannya dengan username dan ingin memberitahu siapa user tersebut, forward salah satu pesannya ke private message ku."
 
 #: lua/plugins/users.lua:184 lua/plugins/users.lua:239
 #, lua-format
 msgid "📌 Status: `CACHED`\n"
 "⌛ ️Remaining: `%s`\n"
 "👥 Admins cached: `%d`"
-msgstr ""
+msgstr "📌 Status: `CACHE`\n"
+"⌛ Remaining: `%s`\n"
+"👥 Admin cache: `%d`"
 
 #: lua/plugins/users.lua:193
 #, lua-format
@@ -2153,7 +2165,7 @@ msgstr "Pesan ke° %d"
 
 #: lua/plugins/users.lua:210 lua/plugins/warn.lua:152
 msgid "You are not allowed to use this button"
-msgstr ""
+msgstr "Anda tidak diizinkan menggunakan tombol ini"
 
 #: lua/plugins/users.lua:221
 #, lua-format
@@ -2163,7 +2175,7 @@ msgstr "Jumlah peringatan yang diterima pengguna ini telah <b>direset</b>, oleh 
 #: lua/plugins/users.lua:232
 #, lua-format
 msgid "The adminlist has just been updated. You must wait 10 minutes from the last refresh (wait  %d seconds)"
-msgstr ""
+msgstr "Daftar admin telah diperbarui. Anda harus menunggu 10 menit dari refresh terakhir (waktu tunggu  %d detik)"
 
 #: lua/plugins/users.lua:241
 #, lua-format
@@ -2191,21 +2203,22 @@ msgstr "Nilai *sebelumnya*: %d\n"
 
 #: lua/plugins/warn.lua:58
 msgid "Yes"
-msgstr ""
+msgstr "Ya"
 
 #: lua/plugins/warn.lua:58
 msgid "No"
-msgstr ""
+msgstr "Tidak"
 
 #: lua/plugins/warn.lua:62
 msgid "Do you want to continue and reset *all* the warnings received by *all* the users of the group?"
-msgstr ""
+msgstr "Apakah anda ingin melanjutkan dan me-reset *semua* peringatan yang diterima oleh *semua* pengguna di grup?"
 
 #: lua/plugins/warn.lua:80
 #, lua-format
 msgid "Done! %s has been forgiven.\n"
 "<b>Warns found</b>: <i>normal warns %s, for media %s, spamwarns %s</i>"
-msgstr ""
+msgstr "Selesai! %s telah dimaafkan\n"
+"<b>Peringatan yang ditemukan</b>: <i> normal %s, media %s, spam %s</i>"
 
 #: lua/plugins/warn.lua:98
 #, lua-format
