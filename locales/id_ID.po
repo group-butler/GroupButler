@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 05:11\n"
+"PO-Revision-Date: 2018-06-30 05:21\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Indonesian\n"
 "Language: id\n"
@@ -213,68 +213,71 @@ msgstr "%d link sudah berada di daftar"
 #: lua/plugins/antispam.lua:344
 msgid "_The whitelist is empty_.\n"
 "Use `/wl [links]` to add some links to the whitelist"
-msgstr ""
+msgstr "_Whitelist saat ini kosong_\n"
+"Gunakan `/wl [links]` untuk menambahkan beberapa link ke whitelist"
 
 #: lua/plugins/antispam.lua:346
 msgid "Whitelisted links:\n\n"
-msgstr ""
+msgstr "Daftar whitelist link:"
 
 #: lua/plugins/antispam.lua:361
 #, lua-format
 msgid "%d link(s) removed from the whitelist"
-msgstr ""
+msgstr "%d link dihapus dari whitelist"
 
 #: lua/plugins/antispam.lua:378
 msgid "_Whitelist of channels empty_"
-msgstr ""
+msgstr "_Whitelist channel kosong_"
 
 #: lua/plugins/antispam.lua:380
 #, lua-format
 msgid "*Whitelisted channels:*\n"
 "%s"
-msgstr ""
+msgstr "*Daftar whitelist channel:*\n"
+"%s"
 
 #: lua/plugins/antispam.lua:387 lua/plugins/antispam.lua:404
 msgid "_I can't find a channel ID in your message_"
-msgstr ""
+msgstr "_Saya tidak menemukan ID channel di pesan Anda_"
 
 #: lua/plugins/backup.lua:99
 #, lua-format
 msgid "<i>I'm sorry, this command has been used for the last time less then 3 hours ago by</i> %s (ask him for the file).\\nWait [<code>%s</code>] to use it again\n"
 "\t\t\t\t\t"
-msgstr ""
+msgstr "<i>Maaf, command ini baru digunakan kurang dari 3 jam yang lalu oleh</i>%s (kamu bisa memintanya untuk file tersebut).\\nTunggu [<code>%s</code>] untuk menggunakannya lagi"
 
 #: lua/plugins/backup.lua:106
 msgid "*Sent in private*"
-msgstr ""
+msgstr "*Dikirim melalui pm*"
 
 #: lua/plugins/backup.lua:119
 #, lua-format
 msgid "Download of the file failed with code %s"
-msgstr ""
+msgstr "Download file yang gagal dengan kode %s"
 
 #: lua/plugins/backup.lua:125
 #, lua-format
 msgid "Chat IDs don't match (%s and %s)"
-msgstr ""
+msgstr "Chat ID tidak cocok (%s dan %s)"
 
 #: lua/plugins/backup.lua:151
 #, lua-format
 msgid "This is not a valid backup file.\n"
 "Reason: invalid name (%s)"
-msgstr ""
+msgstr "Ini bukan file backup yang valid.\n"
+"Reason: invalid name (%s)"
 
 #: lua/plugins/backup.lua:155
 msgid "Invalid input. Please reply to a document"
-msgstr ""
+msgstr "Input tidak valid. Tolong reply ke dokumen"
 
 #: lua/plugins/backup.lua:158
 msgid "Invalid input. Please reply to the backup file (/snap command to get it)"
-msgstr ""
+msgstr "Input tidak valid. Tolong reply ke file backup (gunakan `/snap` untuk mengambilnya)"
 
 #: lua/plugins/banhammer.lua:73
 msgid "Use -/+ to edit the value, then select a timeframe to temporary ban the user"
-msgstr ""
+msgstr "Gunakan -/+ untuk mengubah nilai, kemudian tentukan rentang waktu temporary ban ke pengguna"
 
 #: lua/plugins/banhammer.lua:80 lua/plugins/banhammer.lua:93
 msgid "I can't kick this user.\n"
@@ -294,20 +297,21 @@ msgstr "%s memblokir %s!"
 
 #: lua/plugins/banhammer.lua:104
 msgid "_Use this command in reply to a forwarded message_"
-msgstr ""
+msgstr "_Gunakan perintah ini dengan mereplynya ke pesan forward_"
 
 #: lua/plugins/banhammer.lua:110 lua/plugins/banhammer.lua:192
 msgid "I can't kick this user.\n"
 "I am not allowed to ban or the target user is an admin"
-msgstr ""
+msgstr "Saya tidak bisa menendang pengguna ini.\n"
+"Bot tidak memiliki akses banned atau target adalah admin"
 
 #: lua/plugins/banhammer.lua:122
 msgid "_An admin can't be unbanned_"
-msgstr ""
+msgstr "_Seorang admin tidak bisa diunblokir_"
 
 #: lua/plugins/banhammer.lua:127
 msgid "This user is not banned!"
-msgstr ""
+msgstr "Pengguna ini tidak terblokir!"
 
 #: lua/plugins/banhammer.lua:131
 #, lua-format
@@ -316,52 +320,52 @@ msgstr "%s diunblokir oleh %s!"
 
 #: lua/plugins/banhammer.lua:142
 msgid "You don't have the permissions to restrict members"
-msgstr ""
+msgstr "Anda tidak punya permission untuk merestrict member"
 
 #: lua/plugins/banhammer.lua:146
 msgid "Tap on the -/+ buttons to change this value. Then select a timeframe to execute the ban"
-msgstr ""
+msgstr "Tap -/+ untuk mengganti nilai. Kemudian pilih rentang waktu untuk memblokir"
 
 #: lua/plugins/banhammer.lua:155
 msgid "You can't set a lower value"
-msgstr ""
+msgstr "Anda tidak bisa menetapkan nilai yang lebih rendah"
 
 #: lua/plugins/banhammer.lua:163
 msgid "Stop!!!"
-msgstr ""
+msgstr "Stop!!!"
 
 #: lua/plugins/banhammer.lua:179
 msgid "hours"
-msgstr ""
+msgstr "Jam"
 
 #: lua/plugins/banhammer.lua:183
 msgid "days"
-msgstr ""
+msgstr "Hari"
 
 #: lua/plugins/banhammer.lua:187
 msgid "minutes"
-msgstr ""
+msgstr "Menit"
 
 #: lua/plugins/banhammer.lua:196
 #, lua-format
 msgid "User banned for %d %s"
-msgstr ""
+msgstr "Pengguna diblokir karena %d %s"
 
 #: lua/plugins/configure.lua:34
 msgid "🛠 Menu"
-msgstr ""
+msgstr "🛠 Menu"
 
 #: lua/plugins/configure.lua:35
 msgid "⚡️ Antiflood"
-msgstr ""
+msgstr "⚡️ Antiflood"
 
 #: lua/plugins/configure.lua:36
 msgid "🌈 Media"
-msgstr ""
+msgstr "🌈 Media"
 
 #: lua/plugins/configure.lua:37
 msgid "🚫 Antispam"
-msgstr ""
+msgstr "🚫 Antispam"
 
 #: lua/plugins/configure.lua:38
 msgid "📥 Log channel"
