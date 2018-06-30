@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 05:50\n"
+"PO-Revision-Date: 2018-06-30 07:11\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Indonesian\n"
 "Language: id\n"
@@ -1070,7 +1070,7 @@ msgstr "Sistem laporan"
 
 #: lua/plugins/help.lua:296
 msgid "Pin"
-msgstr ""
+msgstr "Pin"
 
 #: lua/plugins/help.lua:299
 msgid "Languages"
@@ -1090,7 +1090,7 @@ msgstr "Pengaturan welcome"
 
 #: lua/plugins/help.lua:308
 msgid "Links whitelist"
-msgstr ""
+msgstr "Link telah diwhitelist"
 
 #: lua/plugins/help.lua:327
 msgid "📢 Bot channel"
