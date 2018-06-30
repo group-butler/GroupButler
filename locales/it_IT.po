@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 05:21\n"
+"PO-Revision-Date: 2018-06-30 05:31\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Italian\n"
 "Language: it\n"
@@ -353,23 +353,23 @@ msgstr "minuti"
 #: lua/plugins/banhammer.lua:196
 #, lua-format
 msgid "User banned for %d %s"
-msgstr ""
+msgstr "Utente bannato per %d %s"
 
 #: lua/plugins/configure.lua:34
 msgid "🛠 Menu"
-msgstr ""
+msgstr "🛠 Menu"
 
 #: lua/plugins/configure.lua:35
 msgid "⚡️ Antiflood"
-msgstr ""
+msgstr "⚡️ Antiflood"
 
 #: lua/plugins/configure.lua:36
 msgid "🌈 Media"
-msgstr ""
+msgstr "🌈 Media"
 
 #: lua/plugins/configure.lua:37
 msgid "🚫 Antispam"
-msgstr ""
+msgstr "🚫 Antispam"
 
 #: lua/plugins/configure.lua:38
 msgid "📥 Log channel"
@@ -377,7 +377,7 @@ msgstr "📥 Canale log"
 
 #: lua/plugins/configure.lua:48
 msgid "⛔️ Default permissions"
-msgstr ""
+msgstr "⛔️ Autorizzazioni predefinite"
 
 #: lua/plugins/configure.lua:61
 #, lua-format
@@ -396,25 +396,25 @@ msgstr "<i>Gestisci le impostazioni del gruppo</i>"
 
 #: lua/plugins/dashboard.lua:13 lua/plugins/floodmanager.lua:26
 msgid "✅ | ON"
-msgstr ""
+msgstr "✅ | ON"
 
 #: lua/plugins/dashboard.lua:15 lua/plugins/floodmanager.lua:28
 msgid "❌ | OFF"
-msgstr ""
+msgstr "❌ | OFF"
 
 #: lua/plugins/dashboard.lua:20 lua/plugins/menu.lua:153
 #: lua/plugins/menu.lua:209
 msgid "👞 kick"
-msgstr ""
+msgstr "👞 kicka"
 
 #: lua/plugins/dashboard.lua:22
 msgid "🔨️ ️ban"
-msgstr ""
+msgstr "🔨️ ️banna"
 
 #: lua/plugins/dashboard.lua:24 lua/plugins/floodmanager.lua:38
 #: lua/plugins/menu.lua:157 lua/plugins/menu.lua:213
 msgid "👁 mute"
-msgstr ""
+msgstr "👁 muta"
 
 #: lua/plugins/dashboard.lua:28 lua/plugins/floodmanager.lua:56
 msgid "Texts"
@@ -568,41 +568,45 @@ msgstr "ℹ️ Gruppo ► Media"
 
 #: lua/plugins/defaultpermissions.lua:46
 msgid "Permission to send messages. If disabled, the user won't be able to send any kind of message"
-msgstr ""
+msgstr "Permesso di inviare messaggi. Se disattivata, l'utente non sarà in grado di inviare qualsiasi tipo di messaggio"
 
 #: lua/plugins/defaultpermissions.lua:49
 msgid "Permission to send media (audios, documents, photos, videos, video notes and voice notes). Implies the permission to send messages\n"
 "\t\t\t"
-msgstr ""
+msgstr "Autorizzazione di inviare media (audio, documenti, foto, video, note video e note vocali). Implica l'autorizzazione a inviare messaggi\n"
+"\t\t\t\n"
+"\t\t\t"
 
 #: lua/plugins/defaultpermissions.lua:53
 msgid "Permission to send other types of messages (GIFs, games, stickers and use inline bots). Implies the permission to send medias\n"
 "\t\t\t"
-msgstr ""
+msgstr "Permesso di inviare altri tipi di messaggi (Gif, giochi, sticker e uso dei bot inline). Implica il permesso di inviare media\n"
+"\t\t\t\n"
+"\t\t\t"
 
 #: lua/plugins/defaultpermissions.lua:56
 msgid "When disabled, user's messages with a link won't show the web page preview"
-msgstr ""
+msgstr "Quando disattivato, i messaggi dell'utente con un link non mostrano l'anteprima della pagina web"
 
 #: lua/plugins/defaultpermissions.lua:63
 msgid "Send messages"
-msgstr ""
+msgstr "Invia messaggi"
 
 #: lua/plugins/defaultpermissions.lua:64
 msgid "Send media"
-msgstr ""
+msgstr "Invia media"
 
 #: lua/plugins/defaultpermissions.lua:65
 msgid "Send other types of media"
-msgstr ""
+msgstr "Invia altri tipi di media"
 
 #: lua/plugins/defaultpermissions.lua:66
 msgid "Show web page preview"
-msgstr ""
+msgstr "Mostra l'anteprima della pagina web"
 
 #: lua/plugins/defaultpermissions.lua:112
 msgid "You don't have the permission to restrict members"
-msgstr ""
+msgstr "Non hai il permesso per limitare gli utenti"
 
 #: lua/plugins/defaultpermissions.lua:114
 msgid "*Deafult permissions*\n"
