@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 06:10\n"
+"PO-Revision-Date: 2018-06-30 06:21\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -578,7 +578,8 @@ msgstr "Право на отправку файлов (аудиофайлы, д�
 #: lua/plugins/defaultpermissions.lua:53
 msgid "Permission to send other types of messages (GIFs, games, stickers and use inline bots). Implies the permission to send medias\n"
 "\t\t\t"
-msgstr ""
+msgstr "Право на отправку других типов сообщений (GIF, игры, стикеры и использование ботов). Подразумевает право на отправку файлов\n"
+"\t\t\t"
 
 #: lua/plugins/defaultpermissions.lua:56
 msgid "When disabled, user's messages with a link won't show the web page preview"
@@ -609,7 +610,10 @@ msgid "*Deafult permissions*\n"
 "From this menu you can change the default permissions that will be granted when a new member join.\n"
 "_Only the administrators with the permission to restrict a member can access this menu._\n"
 "Tap on the name of a permission for a description of what kind of messages it will influence.\n"
-msgstr ""
+msgstr "*Права по умолчанию*\n"
+"В этом меню вы можете изменить настройки по умолчанию, они будут применяться ко всем новым пользователям.\n"
+"_Только администраторы, у которых есть права на ограничение прав пользователей, имеют доступ к этому меню._\n"
+"Нажмите на название права для получения описания, в котором описано, на какие типы сообщений оно влияет.\n"
 
 #: lua/plugins/defaultpermissions.lua:136
 #, lua-format
@@ -629,13 +633,14 @@ msgstr "Команда %s сохранена"
 #: lua/plugins/extra.lua:78
 #, lua-format
 msgid "Commands deleted: `%s`"
-msgstr ""
+msgstr "Комманд удалено: `%s`"
 
 #: lua/plugins/extra.lua:80
 #, lua-format
 msgid "\n"
 "Commands not found: `%s`"
-msgstr ""
+msgstr "\n"
+"Команд не найдено: `%s`"
 
 #: lua/plugins/extra.lua:132
 #, lua-format
@@ -682,7 +687,8 @@ msgstr "%d — недопустимое значение\n"
 #: lua/plugins/floodmanager.lua:127
 msgid "You can manage the antiflood settings from here.\\n\\nIt is also possible to choose which type of messages the antiflood will ignore (✅)\n"
 "\t\t\t"
-msgstr ""
+msgstr "Здесь вы можете изменить настройки антифлуда.\\n\\nТакже можно выбрать, какие сообщения будут игнорироваться системой антифлуда. (✅)\n"
+"\t\t\t"
 
 #: lua/plugins/floodmanager.lua:133
 msgid "Antiflood settings"
