@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 11:50\n"
+"PO-Revision-Date: 2018-06-30 12:00\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Turkish\n"
 "Language: tr\n"
@@ -246,7 +246,7 @@ msgstr "_Mesajda kanal kimliği bulamadım_"
 #, lua-format
 msgid "<i>I'm sorry, this command has been used for the last time less then 3 hours ago by</i> %s (ask him for the file).\\nWait [<code>%s</code>] to use it again\n"
 "\t\t\t\t\t"
-msgstr ""
+msgstr "<i>Üzgünüm, bu komut 3 saat önce</i> %s (tarafından kullanıldı). Tekrar kullanmak için \\nWait [<code>%s</code>]"
 
 #: lua/plugins/backup.lua:106
 msgid "*Sent in private*"
@@ -279,7 +279,7 @@ msgstr "Hatalı giriş. Lütfen yedekleme dosyasını yanıtlayın (/snap komutu
 
 #: lua/plugins/banhammer.lua:73
 msgid "Use -/+ to edit the value, then select a timeframe to temporary ban the user"
-msgstr ""
+msgstr "Değeri düzenlemek için -/+ tuşlarını kullanın, ardından kullanıcıyı geçici olarak engellemek için bir zaman dilimi seçin"
 
 #: lua/plugins/banhammer.lua:80 lua/plugins/banhammer.lua:93
 msgid "I can't kick this user.\n"
@@ -299,7 +299,7 @@ msgstr "%s banlandı %s!"
 
 #: lua/plugins/banhammer.lua:104
 msgid "_Use this command in reply to a forwarded message_"
-msgstr ""
+msgstr "_İletilen mesaja yanıt olarak bu komutu kullanın_"
 
 #: lua/plugins/banhammer.lua:110 lua/plugins/banhammer.lua:192
 msgid "I can't kick this user.\n"
@@ -326,7 +326,7 @@ msgstr "Üyeleri kısıtlamak için izinleriniz yok"
 
 #: lua/plugins/banhammer.lua:146
 msgid "Tap on the -/+ buttons to change this value. Then select a timeframe to execute the ban"
-msgstr ""
+msgstr "Bu değeri değiştirmek için -/+ düğmelerine dokunun. Sonra yasağı uygulamak için bir zaman dilimi seçin"
 
 #: lua/plugins/banhammer.lua:155
 msgid "You can't set a lower value"
@@ -566,17 +566,17 @@ msgstr "ℹ️ Grop ► Medya"
 
 #: lua/plugins/defaultpermissions.lua:46
 msgid "Permission to send messages. If disabled, the user won't be able to send any kind of message"
-msgstr ""
+msgstr "Mesaj gönderme izni. Devre dışı bırakılırsa, kullanıcı herhangi bir mesaj gönderemez"
 
 #: lua/plugins/defaultpermissions.lua:49
 msgid "Permission to send media (audios, documents, photos, videos, video notes and voice notes). Implies the permission to send messages\n"
 "\t\t\t"
-msgstr ""
+msgstr "Medya gönderme izni (audios, documents, photos, videos, video notes and voice notes). Mesaj gönderme iznini ima eder"
 
 #: lua/plugins/defaultpermissions.lua:53
 msgid "Permission to send other types of messages (GIFs, games, stickers and use inline bots). Implies the permission to send medias\n"
 "\t\t\t"
-msgstr ""
+msgstr "Diğer mesaj türlerini göndermek için izin (GIFs, games, stickers and use inline bots). Medya gönderme iznini ima eder"
 
 #: lua/plugins/defaultpermissions.lua:56
 msgid "When disabled, user's messages with a link won't show the web page preview"
@@ -600,19 +600,22 @@ msgstr "Web sayfası ön izlemesini göster"
 
 #: lua/plugins/defaultpermissions.lua:112
 msgid "You don't have the permission to restrict members"
-msgstr ""
+msgstr "Üyeleri kısıtlama izniniz yok"
 
 #: lua/plugins/defaultpermissions.lua:114
 msgid "*Deafult permissions*\n"
 "From this menu you can change the default permissions that will be granted when a new member join.\n"
 "_Only the administrators with the permission to restrict a member can access this menu._\n"
 "Tap on the name of a permission for a description of what kind of messages it will influence.\n"
-msgstr ""
+msgstr "*Varsayılan izinler*\n"
+"Bu menüden, yeni üye eklendiğinde verilecek varsayılan izinleri değiştirebilirsiniz.\n"
+"Sadece bir üyeyi kısıtlama izni olan yöneticiler bu menüye erişebilir.\n"
+"Hangi tür iletileri etkileyeceğine dair bir açıklama için izin adına dokunun.\n"
 
 #: lua/plugins/defaultpermissions.lua:136
 #, lua-format
 msgid "Setting saved, but I can't edit the buttons because you are too fast! Wait other %d seconds"
-msgstr ""
+msgstr "Ayar kaydedildi, ancak düğmeleri çok hızlı yaptığınız için düzenleyemiyorum! %d saniye bekleyin"
 
 #: lua/plugins/extra.lua:41
 #, lua-format
@@ -639,7 +642,7 @@ msgstr "\n"
 #: lua/plugins/extra.lua:132
 #, lua-format
 msgid "_Please_ [start me](%s) _so I can send you the answer_"
-msgstr ""
+msgstr "_Lütfen_ [başlat beni](%s) _böylece sana cevap verebilirim_"
 
 #: lua/plugins/floodmanager.lua:12
 msgid "⚖ Current sensitivity. Tap on the + or the - to change it"
