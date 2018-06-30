@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 04:00\n"
+"PO-Revision-Date: 2018-06-30 05:11\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Indonesian\n"
 "Language: id\n"
@@ -26,11 +26,13 @@ msgid "\n"
 "Hello everyone!\n"
 "My name is %s, and I'm a bot made to help administrators in their hard work.\n"
 "Unfortunately I can't work in normal groups. If you need me, please ask the creator to convert this group to a supergroup and then add me again.\n"
-msgstr ""
+msgstr "Halo!\n"
+"Saya adalah %s, bot yang berguna untuk membantu admin dalam mengadministrasi grup.\n"
+"Saya tidak bisa digunakan di normal group, jadi pastikan grup kamu telah diupgrade menjadi supergroup dan tambahkan saya ke grup sebagai administrator."
 
 #: lua/methods.lua:159
 msgid "I don't have enough permissions to restrict users"
-msgstr ""
+msgstr "Saya tidak memiliki permissions untuk merestrict pengguna."
 
 #: lua/methods.lua:161
 msgid "I'm not an admin, I can't kick people"
@@ -61,7 +63,7 @@ msgstr "ditendang"
 #: lua/plugins/antispam.lua:34 lua/plugins/onmessage.lua:160
 #: lua/plugins/warn.lua:108
 msgid "muted"
-msgstr ""
+msgstr "Muted"
 
 #: lua/plugins/antispam.lua:35 lua/plugins/dashboard.lua:140
 msgid "telegram.me links"
@@ -74,12 +76,12 @@ msgstr "pesan channel"
 #: lua/plugins/antispam.lua:75
 #, lua-format
 msgid "%s %s for <b>spam</b>! (%d/%d)"
-msgstr ""
+msgstr "%s%s karena <b>spam</b>! (%d%d)"
 
 #: lua/plugins/antispam.lua:80
 #, lua-format
 msgid "%s, spam is not allowed here. The next time you will be restricted"
-msgstr ""
+msgstr "%s, jangan spam disini. Selanjutnya kamu akan direstrict."
 
 #: lua/plugins/antispam.lua:86
 #, lua-format
@@ -96,27 +98,27 @@ msgstr "pesan dari channel"
 
 #: lua/plugins/antispam.lua:111
 msgid "forwards are allowed"
-msgstr ""
+msgstr "forward diperbolehkan"
 
 #: lua/plugins/antispam.lua:113
 msgid "warn for forwards"
-msgstr ""
+msgstr "peringatan untuk forward"
 
 #: lua/plugins/antispam.lua:115
 msgid "forwards will be deleted"
-msgstr ""
+msgstr "forward akan dihapus"
 
 #: lua/plugins/antispam.lua:119
 msgid "links are allowed"
-msgstr ""
+msgstr "links diperbolehkan"
 
 #: lua/plugins/antispam.lua:121
 msgid "warn for links"
-msgstr ""
+msgstr "peringakatan untuk link"
 
 #: lua/plugins/antispam.lua:123
 msgid "links will be deleted"
-msgstr ""
+msgstr "link akan dihapus"
 
 #: lua/plugins/antispam.lua:139
 msgid "You can't go lower"
@@ -151,15 +153,15 @@ msgstr "Deskripsi tidak tersedia"
 
 #: lua/plugins/antispam.lua:202
 msgid "Kick 👞"
-msgstr ""
+msgstr "Tendang 👞"
 
 #: lua/plugins/antispam.lua:204
 msgid "Ban 🔨"
-msgstr ""
+msgstr "Blokir 🔨"
 
 #: lua/plugins/antispam.lua:206
 msgid "Mute 👁"
-msgstr ""
+msgstr "Mute 👁"
 
 #: lua/plugins/antispam.lua:252 lua/plugins/floodmanager.lua:124
 #: lua/plugins/logchannel.lua:128 lua/plugins/mediasettings.lua:96
@@ -174,33 +176,39 @@ msgid "*Anti-spam settings*\n"
 "• ❌ = *Not allowed*\n"
 "• 🗑 = *Delete*\n"
 "When set on `delete`, the bot doesn't warn users until they are about to be kicked/banned/muted (at the second-to-last warning)\n"
-msgstr ""
+msgstr "*Pengaturan anti-spam*\n"
+"Pilih jenis spam yang akan dianulisr\n"
+"• ✅ = *Diperbolehkan*\n"
+"• ❌ = *Tidak diperbolehkan*\n"
+"• 🗑 = *Hapus*\n"
+"Jika `hapus` dipilih, bot tidak akan memberi peringatan ke pengguna sampai dia ditendang/blokir/muted (pada peringatan kedua sampai akhir)."
 
 #: lua/plugins/antispam.lua:316
 msgid "_The whitelist was already empty_"
-msgstr ""
+msgstr "_Whitelist sudah kosong_"
 
 #: lua/plugins/antispam.lua:319
 #, lua-format
 msgid "*Whitelist cleaned*\n"
 "%d links have been removed"
-msgstr ""
+msgstr "*Whitelist dikosongkan*\n"
+"%d links berhasil terhapus"
 
 #: lua/plugins/antispam.lua:327 lua/plugins/antispam.lua:336
 #: lua/plugins/antispam.lua:358 lua/plugins/antispam.lua:367
 msgid "_I can't find any url in this message_"
-msgstr ""
+msgstr "_Saya tidak menemukan link apapun di pesan ini_"
 
 #: lua/plugins/antispam.lua:330
 #, lua-format
 msgid "%d link(s) will be whitelisted"
-msgstr ""
+msgstr "%d link akan diwhitelist"
 
 #: lua/plugins/antispam.lua:332 lua/plugins/antispam.lua:363
 #, lua-format
 msgid "\n"
 "%d links were already in the list"
-msgstr ""
+msgstr "%d link sudah berada di daftar"
 
 #: lua/plugins/antispam.lua:344
 msgid "_The whitelist is empty_.\n"
