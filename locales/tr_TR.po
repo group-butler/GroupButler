@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 12:00\n"
+"PO-Revision-Date: 2018-06-30 12:10\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Turkish\n"
 "Language: tr\n"
@@ -684,7 +684,7 @@ msgstr "%d hatalı değer!\n"
 #: lua/plugins/floodmanager.lua:127
 msgid "You can manage the antiflood settings from here.\\n\\nIt is also possible to choose which type of messages the antiflood will ignore (✅)\n"
 "\t\t\t"
-msgstr ""
+msgstr "Antiflood ayarlarını buradan yönetebilirsiniz.\\n\\nIt ayrıca antifloodun hangi tür mesajları görmezden geleceğini seçmek de mümkündür (✅)"
 
 #: lua/plugins/floodmanager.lua:133
 msgid "Antiflood settings"
@@ -1475,7 +1475,12 @@ msgid "\n"
 "The number is not related the the normal `/warn` command.\n\n"
 "Medias possible statuses: ✅ allowed, ❌ warning, 🗑 delete.\n"
 "When a media is set on delete, the bot will give a warning *only* when the user is at one media from being punished\n"
-msgstr ""
+msgstr "\n"
+"*ayarı değiştirmek için* sağ taraftaki seslerden birine dokunun\n"
+"Birini kovmadan/engellemeden/sessize almadan önce kaç tane uyarı vermesi gerektiğini değiştirmek için son satırları kullanabilirsiniz.\n"
+"normal `/warn` komutuyla verilen uyarılar bununla lakalı değildir.\n\n"
+"Medyaların olası durumları: ✅ izinli, ❌ uyar, 🗑 sil.\n"
+"Bir medya sil olarak ayarlandığında, bot *sadece* kullanıcıyı cezalandırılması gereken bir medya üzerinden uyarır\n"
 
 #: lua/plugins/mediasettings.lua:115
 msgid "⚠️ Tap on the right column"
@@ -1778,7 +1783,8 @@ msgstr "Pong!"
 #, lua-format
 msgid "\n"
 "This bot is based on [otouto](https://github.com/topkecleon/otouto) (AKA @mokubot, channel: @otouto), a multipurpose Lua bot.\\nGroup Butler wouldn't exist without it.\\n\\nThe owner of this bot is @baconn, do not pm him: use /groups command instead.\\n\\nBot version: `%s`\\n*Some useful links:*\n"
-msgstr ""
+msgstr "\n"
+"Bu bot [otouto] (https://github.com/topkecleon/otouto) (AKA @mokubot, kanal: @otouto), çok amaçlı bir Lua botuna dayanır. \\nGrup Butler onsuz olmazdı. \\n\\nBu botun sahibi @baconn'tir, onu pm yapmayın: bunun yerine /groups komutunu kullanın. \\n\\nBot sürümü: `%s`\\n* Bazı faydalı linkler:*\n"
 
 #: lua/plugins/private.lua:50 lua/plugins/private.lua:67
 #, lua-format
