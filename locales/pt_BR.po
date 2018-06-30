@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 06:21\n"
+"PO-Revision-Date: 2018-06-30 06:31\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Portuguese, Brazilian\n"
 "Language: pt_BR\n"
@@ -177,7 +177,12 @@ msgid "*Anti-spam settings*\n"
 "• ❌ = *Not allowed*\n"
 "• 🗑 = *Delete*\n"
 "When set on `delete`, the bot doesn't warn users until they are about to be kicked/banned/muted (at the second-to-last warning)\n"
-msgstr ""
+msgstr "*Configurações Anti-spam*\n"
+"Escolha qual spam você deseja permitir ou proibir\n"
+"• ✅ = *Permitir*\n"
+"• ❌ = *Não permitir*\n"
+"• 🗑 = *Apagar*\n"
+"Quando configurado para `apagar`, o bot não vai advertir os usuários enquanto eles não estiverem prestes a ser expulsos/banidos/silenciados (penúltima advertência)\n"
 
 #: lua/plugins/antispam.lua:316
 msgid "_The whitelist was already empty_"
@@ -240,7 +245,8 @@ msgstr ""
 #, lua-format
 msgid "<i>I'm sorry, this command has been used for the last time less then 3 hours ago by</i> %s (ask him for the file).\\nWait [<code>%s</code>] to use it again\n"
 "\t\t\t\t\t"
-msgstr ""
+msgstr "<i>Desculpe, esse comando foi usado pela última vez menos de 3 horas atrás por</i> %s (peça-lhe o arquivo).\n"
+"Espere [<code>%s</code>] para usar novamente"
 
 #: lua/plugins/backup.lua:106
 msgid "*Sent in private*"
@@ -273,7 +279,7 @@ msgstr "Entrada invalida. Por favor responda ao arquivo de backup (use o comando
 
 #: lua/plugins/banhammer.lua:73
 msgid "Use -/+ to edit the value, then select a timeframe to temporary ban the user"
-msgstr ""
+msgstr "Use -/+ para editar o valor, em seguida, selecione um período de tempo para banir temporariamente o usuário"
 
 #: lua/plugins/banhammer.lua:80 lua/plugins/banhammer.lua:93
 msgid "I can't kick this user.\n"
