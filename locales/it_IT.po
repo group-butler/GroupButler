@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 10:20\n"
+"PO-Revision-Date: 2018-06-30 10:30\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Italian\n"
 "Language: it\n"
@@ -636,18 +636,19 @@ msgstr "%s salvato!"
 #: lua/plugins/extra.lua:78
 #, lua-format
 msgid "Commands deleted: `%s`"
-msgstr ""
+msgstr "Comandi eliminati: `%s`"
 
 #: lua/plugins/extra.lua:80
 #, lua-format
 msgid "\n"
 "Commands not found: `%s`"
-msgstr ""
+msgstr "\n"
+"Comandi non trovati: `%s`"
 
 #: lua/plugins/extra.lua:132
 #, lua-format
 msgid "_Please_ [start me](%s) _so I can send you the answer_"
-msgstr ""
+msgstr "_Per favore_ [avviami](%s) _per permettermi di inviarti la risposta_"
 
 #: lua/plugins/floodmanager.lua:12
 msgid "⚖ Current sensitivity. Tap on the + or the - to change it"
@@ -663,11 +664,11 @@ msgstr "Scegli quali media verranno ignorati dall'antiflood (non verranno consid
 
 #: lua/plugins/floodmanager.lua:34
 msgid "👞️ kick"
-msgstr ""
+msgstr "👞️ kicka"
 
 #: lua/plugins/floodmanager.lua:36
 msgid "🔨 ️ban"
-msgstr ""
+msgstr "🔨 ️banna"
 
 #: lua/plugins/floodmanager.lua:91
 msgid "Flooders will be banned"
@@ -679,7 +680,7 @@ msgstr "I flooders verranno kickati"
 
 #: lua/plugins/floodmanager.lua:97
 msgid "Flooders will be muted"
-msgstr ""
+msgstr "I flooders verranno bannati"
 
 #: lua/plugins/floodmanager.lua:106 lua/plugins/floodmanager.lua:113
 #, lua-format
@@ -689,7 +690,9 @@ msgstr "%d non è un valore valido!\n"
 #: lua/plugins/floodmanager.lua:127
 msgid "You can manage the antiflood settings from here.\\n\\nIt is also possible to choose which type of messages the antiflood will ignore (✅)\n"
 "\t\t\t"
-msgstr ""
+msgstr "È possibile gestire le impostazioni antiflood da qui.\\n\\nÉ ' anche possibile scegliere il tipo di messaggi che il antiflood ignora (✅)\n"
+"\t\t\t\n"
+"\t\t\t"
 
 #: lua/plugins/floodmanager.lua:133
 msgid "Antiflood settings"
@@ -1069,7 +1072,7 @@ msgstr ""
 
 #: lua/plugins/help.lua:291
 msgid "Banhammer"
-msgstr ""
+msgstr "Banhammer"
 
 #: lua/plugins/help.lua:292
 msgid "Group info"
@@ -1081,7 +1084,7 @@ msgstr "Segnalazioni"
 
 #: lua/plugins/help.lua:296
 msgid "Pin"
-msgstr ""
+msgstr "Fissa in alto"
 
 #: lua/plugins/help.lua:299
 msgid "Languages"
@@ -1093,7 +1096,7 @@ msgstr "Configurazione gruppo"
 
 #: lua/plugins/help.lua:304 lua/plugins/logchannel.lua:68
 msgid "Warns"
-msgstr ""
+msgstr "Warn"
 
 #: lua/plugins/help.lua:307
 msgid "Welcome settings"
@@ -1272,7 +1275,7 @@ msgstr "Logga quando un utente viene rimosso dalla lista dei moderatori"
 
 #: lua/plugins/logchannel.lua:40
 msgid "Log when someone demotes all the moderators with '/modlist -'"
-msgstr ""
+msgstr "Log quando qualcuno retrocede tutti i moderatori con '/modlist -'"
 
 #: lua/plugins/logchannel.lua:42
 msgid "Log when an admin removes the warning received by an user"
@@ -1284,11 +1287,11 @@ msgstr "Logga quando un utente segnala un messaggio con @admin"
 
 #: lua/plugins/logchannel.lua:63
 msgid "Ban"
-msgstr ""
+msgstr "Banna"
 
 #: lua/plugins/logchannel.lua:64
 msgid "Kick"
-msgstr ""
+msgstr "Kicka"
 
 #: lua/plugins/logchannel.lua:65 lua/utilities.lua:979
 msgid "Unban"
@@ -1296,7 +1299,7 @@ msgstr "Rimuovi ban"
 
 #: lua/plugins/logchannel.lua:66
 msgid "Tempban"
-msgstr ""
+msgstr "Banna temporaneamente"
 
 #: lua/plugins/logchannel.lua:67
 msgid "Report"
@@ -1320,7 +1323,7 @@ msgstr "Warn per spam"
 
 #: lua/plugins/logchannel.lua:73
 msgid "Flood"
-msgstr ""
+msgstr "Flood"
 
 #: lua/plugins/logchannel.lua:74
 msgid "Promotions"
@@ -1328,11 +1331,11 @@ msgstr "Promozioni"
 
 #: lua/plugins/logchannel.lua:75
 msgid "Demotions"
-msgstr ""
+msgstr "Retrocedi"
 
 #: lua/plugins/logchannel.lua:76
 msgid "All mods demoted"
-msgstr ""
+msgstr "Tutti i mods retrocessi"
 
 #: lua/plugins/logchannel.lua:77
 msgid "New group icon"
@@ -1439,34 +1442,34 @@ msgstr "<b>Questo gruppo ha un canale log associato</b>\n"
 
 #: lua/plugins/mediasettings.lua:27
 msgid "Video messages"
-msgstr ""
+msgstr "Video messaggi"
 
 #: lua/plugins/mediasettings.lua:54
 #, lua-format
 msgid "Warnings | %d | kick"
-msgstr ""
+msgstr "Avvertimenti | %d | kick"
 
 #: lua/plugins/mediasettings.lua:56
 #, lua-format
 msgid "Warnings | %d | mute"
-msgstr ""
+msgstr "Avvertimenti | %d | muta"
 
 #: lua/plugins/mediasettings.lua:58
 #, lua-format
 msgid "Warnings | %d | ban"
-msgstr ""
+msgstr "Avvvertimenti | %d | ban"
 
 #: lua/plugins/mediasettings.lua:80
 msgid "❌ warning"
-msgstr ""
+msgstr "❌ avviso"
 
 #: lua/plugins/mediasettings.lua:83
 msgid "🗑 delete"
-msgstr ""
+msgstr "🗑 elimina"
 
 #: lua/plugins/mediasettings.lua:89
 msgid "✅ allowed"
-msgstr ""
+msgstr "✅ permesso"
 
 #: lua/plugins/mediasettings.lua:98
 msgid "\n"
@@ -1491,11 +1494,11 @@ msgstr "Il nuovo valore è troppo alto (>12)"
 
 #: lua/plugins/mediasettings.lua:143
 msgid "👞 New status is kick"
-msgstr ""
+msgstr "👞 Nuovo stato è kick"
 
 #: lua/plugins/mediasettings.lua:146
 msgid "👁 New status is mute"
-msgstr ""
+msgstr "👁 Nuovo stato è muto"
 
 #: lua/plugins/mediasettings.lua:149
 msgid "🔨 New status is ban"
