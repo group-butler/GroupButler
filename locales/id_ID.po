@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 08:30\n"
+"PO-Revision-Date: 2018-06-30 09:20\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Indonesian\n"
 "Language: id\n"
@@ -1111,11 +1111,21 @@ msgid "*Log channel informations*\n\n"
 "To change your log channel, simply repeat this process with another channel.\n\n"
 "`/unsetlog`: remove your current log channel\n"
 "`/logchannel`: get some informations about your log channel, if paired"
-msgstr ""
+msgstr "*Channel log*\n\n"
+"Channel log adalah channel private yang akan mencatat dan memposting catatan kejadian tertentu dari grup (misal new member, warn, ban, dst).\n"
+"Agar fitur ini bekerja, kamu perlu memasangkan channel (private) ke grup, dengan cara berikut:\n"
+"Semua peristiwa, secara default, *tidak dilog*. Admin bisa memilihnya dari `/config` menu -> `log channel` tombol.\n\n"
+"Pertama,  *creator channel* harus [menambahkan bot ke admin channel](telegram.me/gb_tutorials/4) (jika tidak maka tidak akan bisa post). Kemudian kirim perintah berikut ke channel:\n"
+"`/setlog`\n"
+"Setelah itu,  forward pesan tersebut (\"`/setlog`\") ke grup (ini dilakukan oleh creator channel yang juga admin grup). *Done*!\n"
+"(anda dapat menemukan video tutorial [here](https://telegram.me/GB_tutorials/8))\n\n"
+"Satu channel log dapat digunakan oleh beberapa grup. Cukup ulangi proses diatas untuk menambahkan grup.\n\n"
+"`/unsetlog`: menghapus channel log\n"
+"`/logchannel`: melihat beberapa informasi tentang log channel"
 
 #: lua/plugins/help.lua:291
 msgid "Banhammer"
-msgstr ""
+msgstr "Banhammer"
 
 #: lua/plugins/help.lua:292
 msgid "Group info"
@@ -1216,7 +1226,7 @@ msgstr "Informasi channel log"
 
 #: lua/plugins/help.lua:415
 msgid "Informations about the moderators"
-msgstr ""
+msgstr "Informasi tentang moderator"
 
 #: lua/plugins/help.lua:419
 msgid "Available commands for admins"
@@ -1232,11 +1242,11 @@ msgstr "❗️ Sudah di tab ini"
 
 #: lua/plugins/links.lua:25
 msgid "*No link* for this group. Ask the owner to save it with `/setlink [group link]`"
-msgstr ""
+msgstr "*Tidak ada invite link* untuk grup ini. Tanyakan creator mengenai link nya kemudian admin bisa menggunakan perintah `/setlink [invite link]`"
 
 #: lua/plugins/links.lua:36
 msgid "Link *unset*"
-msgstr ""
+msgstr "Link *unset*"
 
 #: lua/plugins/links.lua:42 lua/plugins/links.lua:59
 #, lua-format
@@ -1247,7 +1257,7 @@ msgstr "Tautan telah dibuat.\n"
 
 #: lua/plugins/links.lua:45
 msgid "This is not a *public supergroup*, so you need to write the link near `/setlink`"
-msgstr ""
+msgstr "Ini bukan *public supergroup*, jadi kamu perlu menambahkan link grup setelah `/setlink`"
 
 #: lua/plugins/links.lua:48
 msgid "This link is *not valid!*"
@@ -1306,27 +1316,27 @@ msgstr "Log pesan pin"
 
 #: lua/plugins/logchannel.lua:34
 msgid "Log when an user who has been blocked is banned from the group (when he join)"
-msgstr ""
+msgstr "Log ketika seorang yang diblock terbanned dari grup  (ketika ia bergabung)"
 
 #: lua/plugins/logchannel.lua:36
 msgid "Log when a new user is promoted to moderator"
-msgstr ""
+msgstr "Log ketika pengguna baru dipromosikan menjadi moderator"
 
 #: lua/plugins/logchannel.lua:38
 msgid "Log when an user looses the role of moderator"
-msgstr ""
+msgstr "Log ketika pengguna kehilangan peran moderator"
 
 #: lua/plugins/logchannel.lua:40
 msgid "Log when someone demotes all the moderators with '/modlist -'"
-msgstr ""
+msgstr "Log ketika seseorang mendemote semua moderator dengan '/modlist -'"
 
 #: lua/plugins/logchannel.lua:42
 msgid "Log when an admin removes the warning received by an user"
-msgstr ""
+msgstr "Log ketika admin menghapus peringatan yang diterima oleh pengguna"
 
 #: lua/plugins/logchannel.lua:44
 msgid "Log when an user reports a message with the @admin command"
-msgstr ""
+msgstr "Log ketika pengguna melaporkan pesan dengan perintah @admin"
 
 #: lua/plugins/logchannel.lua:63
 msgid "Ban"
@@ -1346,7 +1356,7 @@ msgstr "Blokir sementara"
 
 #: lua/plugins/logchannel.lua:67
 msgid "Report"
-msgstr ""
+msgstr "Report"
 
 #: lua/plugins/logchannel.lua:69
 msgid "Warns resets"
@@ -1366,19 +1376,19 @@ msgstr "Peringatan spam"
 
 #: lua/plugins/logchannel.lua:73
 msgid "Flood"
-msgstr ""
+msgstr "Flood"
 
 #: lua/plugins/logchannel.lua:74
 msgid "Promotions"
-msgstr ""
+msgstr "Promotions"
 
 #: lua/plugins/logchannel.lua:75
 msgid "Demotions"
-msgstr ""
+msgstr "Demotions"
 
 #: lua/plugins/logchannel.lua:76
 msgid "All mods demoted"
-msgstr ""
+msgstr "All mods demoted"
 
 #: lua/plugins/logchannel.lua:77
 msgid "New group icon"
@@ -1402,11 +1412,11 @@ msgstr "Users blocked and banned"
 
 #: lua/plugins/logchannel.lua:82
 msgid "Users blocked"
-msgstr ""
+msgstr "Users blocked"
 
 #: lua/plugins/logchannel.lua:83
 msgid "Users unblocked"
-msgstr ""
+msgstr "Users unblocked"
 
 #: lua/plugins/logchannel.lua:110
 msgid "You are not admin of this group"
@@ -1421,7 +1431,10 @@ msgid "*Select the events the will be logged in the channel*\n"
 "✅ = will be logged\n"
 "☑️ = won't be logged\n\n"
 "Tap on a voice to get further informations"
-msgstr ""
+msgstr "*Pilih peristiwa yang akan dicatat dalam channel*\n"
+"✅ = akan dilog\n"
+"☑ lain-lain = tidak akan dilog\n\n"
+"Tap pada tombol untuk melihat keterangan"
 
 #: lua/plugins/logchannel.lua:166
 msgid "_Too many requests. Retry later_"
@@ -1482,34 +1495,34 @@ msgstr "<b>Grup ini memiliki log channel</b>\n"
 
 #: lua/plugins/mediasettings.lua:27
 msgid "Video messages"
-msgstr ""
+msgstr "Pesan video"
 
 #: lua/plugins/mediasettings.lua:54
 #, lua-format
 msgid "Warnings | %d | kick"
-msgstr ""
+msgstr "Peringatan | %d | tendang"
 
 #: lua/plugins/mediasettings.lua:56
 #, lua-format
 msgid "Warnings | %d | mute"
-msgstr ""
+msgstr "Peringatan | %d | tendang"
 
 #: lua/plugins/mediasettings.lua:58
 #, lua-format
 msgid "Warnings | %d | ban"
-msgstr ""
+msgstr "Peringatan | %d | block"
 
 #: lua/plugins/mediasettings.lua:80
 msgid "❌ warning"
-msgstr ""
+msgstr "❌ beri peringatan"
 
 #: lua/plugins/mediasettings.lua:83
 msgid "🗑 delete"
-msgstr ""
+msgstr "🗑 hapus"
 
 #: lua/plugins/mediasettings.lua:89
 msgid "✅ allowed"
-msgstr ""
+msgstr "✅ diperbolehkan"
 
 #: lua/plugins/mediasettings.lua:98
 msgid "\n"
