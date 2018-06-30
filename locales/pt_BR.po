@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 06:51\n"
+"PO-Revision-Date: 2018-06-30 07:01\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Portuguese, Brazilian\n"
 "Language: pt_BR\n"
@@ -654,11 +654,11 @@ msgstr "Escolha quais meios devem ser ignorados pelo antiflood (o bot não os co
 
 #: lua/plugins/floodmanager.lua:34
 msgid "👞️ kick"
-msgstr ""
+msgstr "👞️ expulsar"
 
 #: lua/plugins/floodmanager.lua:36
 msgid "🔨 ️ban"
-msgstr ""
+msgstr "🔨 ️banir"
 
 #: lua/plugins/floodmanager.lua:91
 msgid "Flooders will be banned"
@@ -670,7 +670,7 @@ msgstr "Agora floodadores serão kickados"
 
 #: lua/plugins/floodmanager.lua:97
 msgid "Flooders will be muted"
-msgstr ""
+msgstr "Agora floodadores serão silenciados"
 
 #: lua/plugins/floodmanager.lua:106 lua/plugins/floodmanager.lua:113
 #, lua-format
@@ -1448,15 +1448,15 @@ msgstr ""
 
 #: lua/plugins/mediasettings.lua:80
 msgid "❌ warning"
-msgstr ""
+msgstr "❌ advertência"
 
 #: lua/plugins/mediasettings.lua:83
 msgid "🗑 delete"
-msgstr ""
+msgstr "🗑 apagar"
 
 #: lua/plugins/mediasettings.lua:89
 msgid "✅ allowed"
-msgstr ""
+msgstr "✅ permitido"
 
 #: lua/plugins/mediasettings.lua:98
 msgid "\n"
@@ -1481,11 +1481,11 @@ msgstr "⚙ O novo valor é muito alto ( > 12)"
 
 #: lua/plugins/mediasettings.lua:143
 msgid "👞 New status is kick"
-msgstr ""
+msgstr "👞 Novo status é expulsar"
 
 #: lua/plugins/mediasettings.lua:146
 msgid "👁 New status is mute"
-msgstr ""
+msgstr "👁 Novo status é silenciar"
 
 #: lua/plugins/mediasettings.lua:149
 msgid "🔨 New status is ban"
@@ -1580,15 +1580,15 @@ msgstr "Nova ação ao atingir o número máximo de advertências: kick"
 
 #: lua/plugins/menu.lua:88
 msgid "Action -> kick"
-msgstr ""
+msgstr "Ação -> expulsar"
 
 #: lua/plugins/menu.lua:89
 msgid "Action -> ban"
-msgstr ""
+msgstr "Ação -> banir"
 
 #: lua/plugins/menu.lua:90
 msgid "Action -> mute"
-msgstr ""
+msgstr "Ação -> silenciar"
 
 #: lua/plugins/menu.lua:91
 msgid "Allowed ✅"
@@ -1612,7 +1612,7 @@ msgstr "Despedida"
 
 #: lua/plugins/menu.lua:170 lua/utilities.lua:616
 msgid "Extra"
-msgstr ""
+msgstr "Extra"
 
 #: lua/plugins/menu.lua:171 lua/utilities.lua:617
 msgid "Anti-flood"
@@ -1628,7 +1628,7 @@ msgstr "Árabe"
 
 #: lua/plugins/menu.lua:175 lua/utilities.lua:622
 msgid "RTL"
-msgstr ""
+msgstr "DPE"
 
 #: lua/plugins/menu.lua:176 lua/utilities.lua:618
 msgid "Ban bots"
@@ -1681,7 +1681,8 @@ msgstr "%s foi <b>silenciado</b> por flood!"
 #, lua-format
 msgid "%s <b>%s</b>: media sent not allowed!\n"
 "❗️ <code>%d/%d</code>"
-msgstr ""
+msgstr "%s <b>%s</b>: a mídia enviada não é permitida!\n"
+"❗️ <code>%d/%d</code>"
 
 #: lua/plugins/onmessage.lua:175
 #, lua-format
@@ -1694,22 +1695,23 @@ msgstr "%s, este tipo de mídia <b>é proibido</b> nesse grupo.\n"
 #, lua-format
 msgid "%s, this type of media is <b>not allowed</b> in this chat.\\n<i>The next time you will be banned/kicked/muted</i>\n"
 "\t\t\t\t\t\t\t\t"
-msgstr ""
+msgstr "%s, este tipo de mídia é <b>não é permitido</b> neste chat.\\n<i>Da próxima vez você será banido/expulso/silenciado</i>\n"
+"\t\t\t\t\t\t\t\t"
 
 #: lua/plugins/onmessage.lua:203
 #, lua-format
 msgid "%s <b>kicked</b>: RTL character in names/messages are not allowed!"
-msgstr ""
+msgstr "%s <b>foi expulso</b>: caracteres DPE em nomes/mensagens não são permitidos!"
 
 #: lua/plugins/onmessage.lua:206
 #, lua-format
 msgid "%s <b>banned</b>: RTL character in names/messages are not allowed!"
-msgstr ""
+msgstr "%s <b>foi banido</b>: caracteres DPE em nomes/mensagens não são permitidos!"
 
 #: lua/plugins/onmessage.lua:209
 #, lua-format
 msgid "%s <b>muted</b>: RTL character in names/messages are not allowed!"
-msgstr ""
+msgstr "%s <b>foi silenciado</b>: caracteres DPE em nomes/mensagens não são permitidos!"
 
 #: lua/plugins/onmessage.lua:225
 #, lua-format
@@ -1778,7 +1780,7 @@ msgstr "Você pode encontrar a lista dos grupos oficiais de suporte, incluindo e
 
 #: lua/plugins/private.lua:65
 msgid "🔙 back"
-msgstr ""
+msgstr "🔙 voltar"
 
 #: lua/plugins/private_settings.lua:11
 msgid "When you join a group moderated by this bot, you will receive the group rules in private"
