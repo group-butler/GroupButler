@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 06:11\n"
+"PO-Revision-Date: 2018-06-30 06:21\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Portuguese, Brazilian\n"
 "Language: pt_BR\n"
@@ -99,27 +99,27 @@ msgstr "mensagem de um canal"
 
 #: lua/plugins/antispam.lua:111
 msgid "forwards are allowed"
-msgstr "permitir encaminhamento"
+msgstr "permitir mensagens encaminhadas"
 
 #: lua/plugins/antispam.lua:113
 msgid "warn for forwards"
-msgstr "advertir por encaminhamento"
+msgstr "advertir por mensagens encaminhadas"
 
 #: lua/plugins/antispam.lua:115
 msgid "forwards will be deleted"
-msgstr ""
+msgstr "mensagens encaminhadas serão apagados"
 
 #: lua/plugins/antispam.lua:119
 msgid "links are allowed"
-msgstr ""
+msgstr "permitir links"
 
 #: lua/plugins/antispam.lua:121
 msgid "warn for links"
-msgstr ""
+msgstr "advertir por links"
 
 #: lua/plugins/antispam.lua:123
 msgid "links will be deleted"
-msgstr ""
+msgstr "links serão apagados"
 
 #: lua/plugins/antispam.lua:139
 msgid "You can't go lower"
@@ -154,15 +154,15 @@ msgstr "Descrição não disponível"
 
 #: lua/plugins/antispam.lua:202
 msgid "Kick 👞"
-msgstr ""
+msgstr "Expulsar 👞"
 
 #: lua/plugins/antispam.lua:204
 msgid "Ban 🔨"
-msgstr ""
+msgstr "Banir 🔨"
 
 #: lua/plugins/antispam.lua:206
 msgid "Mute 👁"
-msgstr ""
+msgstr "Silenciar 👁"
 
 #: lua/plugins/antispam.lua:252 lua/plugins/floodmanager.lua:124
 #: lua/plugins/logchannel.lua:128 lua/plugins/mediasettings.lua:96
