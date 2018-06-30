@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 04:01\n"
+"PO-Revision-Date: 2018-06-30 07:50\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Persian\n"
 "Language: fa\n"
@@ -26,11 +26,14 @@ msgid "\n"
 "Hello everyone!\n"
 "My name is %s, and I'm a bot made to help administrators in their hard work.\n"
 "Unfortunately I can't work in normal groups. If you need me, please ask the creator to convert this group to a supergroup and then add me again.\n"
-msgstr ""
+msgstr "\n"
+"سلام به همه!\n"
+"اسم من %s است و من ساخته شدم که به ادمین ها در کار سختشون کمک کنم.\n"
+"متاسفانه من نمیتونم توی گروه های معمولی کاری کنم. اگر به من نیازی دارید، لطفا از سازنده ی گروه بخواهید گروه را به ابرگروه ( super group) تبدیل کند و بعد از آن من را دوباره ادد کند.\n"
 
 #: lua/methods.lua:159
 msgid "I don't have enough permissions to restrict users"
-msgstr ""
+msgstr "من دسترسی کافی برای محدود کردن کاربران را ندارم"
 
 #: lua/methods.lua:161
 msgid "I'm not an admin, I can't kick people"
@@ -61,7 +64,7 @@ msgstr "اخراج شد"
 #: lua/plugins/antispam.lua:34 lua/plugins/onmessage.lua:160
 #: lua/plugins/warn.lua:108
 msgid "muted"
-msgstr ""
+msgstr "بیصدا"
 
 #: lua/plugins/antispam.lua:35 lua/plugins/dashboard.lua:140
 msgid "telegram.me links"
@@ -79,7 +82,7 @@ msgstr "کاربر %s به دلیل اسپم %s شد. (%d/%d)"
 #: lua/plugins/antispam.lua:80
 #, lua-format
 msgid "%s, spam is not allowed here. The next time you will be restricted"
-msgstr ""
+msgstr "%s، اسپم در اینجا ممنوع است. دفعه بعد شما محدود خواهید شد"
 
 #: lua/plugins/antispam.lua:86
 #, lua-format
@@ -96,27 +99,27 @@ msgstr "پیام ارسالی از کانال"
 
 #: lua/plugins/antispam.lua:111
 msgid "forwards are allowed"
-msgstr ""
+msgstr "هدایت پیام ها مجاز است"
 
 #: lua/plugins/antispam.lua:113
 msgid "warn for forwards"
-msgstr ""
+msgstr "هشدار برای هدایت پیام ها"
 
 #: lua/plugins/antispam.lua:115
 msgid "forwards will be deleted"
-msgstr ""
+msgstr "پیام های هدایت شده پاک خواهند شد"
 
 #: lua/plugins/antispam.lua:119
 msgid "links are allowed"
-msgstr ""
+msgstr "لینک ها مجاز هستند"
 
 #: lua/plugins/antispam.lua:121
 msgid "warn for links"
-msgstr ""
+msgstr "هشدار برای لینک ها"
 
 #: lua/plugins/antispam.lua:123
 msgid "links will be deleted"
-msgstr ""
+msgstr "لینک ها پاک خواهند شد"
 
 #: lua/plugins/antispam.lua:139
 msgid "You can't go lower"
@@ -159,7 +162,7 @@ msgstr "مسدود 🔨"
 
 #: lua/plugins/antispam.lua:206
 msgid "Mute 👁"
-msgstr ""
+msgstr "حالت بی صدا 👁️"
 
 #: lua/plugins/antispam.lua:252 lua/plugins/floodmanager.lua:124
 #: lua/plugins/logchannel.lua:128 lua/plugins/mediasettings.lua:96
