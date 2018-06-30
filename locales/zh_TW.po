@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 05:50\n"
+"PO-Revision-Date: 2018-06-30 06:01\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Chinese Traditional\n"
 "Language: zh\n"
@@ -299,7 +299,7 @@ msgstr "%s 封鎖了 %s！"
 
 #: lua/plugins/banhammer.lua:104
 msgid "_Use this command in reply to a forwarded message_"
-msgstr ""
+msgstr "_這個指令只能對回覆或轉傳中使用_"
 
 #: lua/plugins/banhammer.lua:110 lua/plugins/banhammer.lua:192
 msgid "I can't kick this user.\n"
@@ -322,7 +322,7 @@ msgstr "%s 已被 %s 解除封鎖！"
 
 #: lua/plugins/banhammer.lua:142
 msgid "You don't have the permissions to restrict members"
-msgstr ""
+msgstr "您沒有權限限制成員"
 
 #: lua/plugins/banhammer.lua:146
 msgid "Tap on the -/+ buttons to change this value. Then select a timeframe to execute the ban"
@@ -607,7 +607,10 @@ msgid "*Deafult permissions*\n"
 "From this menu you can change the default permissions that will be granted when a new member join.\n"
 "_Only the administrators with the permission to restrict a member can access this menu._\n"
 "Tap on the name of a permission for a description of what kind of messages it will influence.\n"
-msgstr ""
+msgstr "*預設權限*\n"
+"在此目錄中您可以更改新成員的預設權限。\n"
+"_只有擁有限制成員權限的管理員能夠訪問此目錄。_\n"
+"點擊權限名稱來顯示它將影響甚麼類型的訊息。\n"
 
 #: lua/plugins/defaultpermissions.lua:136
 #, lua-format
