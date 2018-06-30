@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 14:03\n"
+"PO-Revision-Date: 2018-06-30 14:10\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -1824,7 +1824,7 @@ msgstr "Diese Nachricht ist zu alt (>2 Tage)"
 
 #: lua/plugins/report.lua:162
 msgid "❕ Already (being) adressed"
-msgstr ""
+msgstr "❕ Wird schon begutachtet"
 
 #: lua/plugins/report.lua:164
 msgid "Close issue"
@@ -1961,11 +1961,14 @@ msgid "*User ID*: `%d`\n"
 "`Warnings`: *%d*\n"
 "`Media warnings`: *%d*\n"
 "`Spam warnings`: *%d*\n"
-msgstr ""
+msgstr "*Benutzer-ID*: `%d`\n"
+"`Warnungen`: *%d*\n"
+"`Medien-Warnungen`: *%d*\n"
+"`Spam-Warnungen`: *%d*\n"
 
 #: lua/plugins/users.lua:122
 msgid "That user has nothing to do with this chat"
-msgstr ""
+msgstr "Dieser Benutzer hat nichts zu tun mit diesem chat"
 
 #: lua/plugins/users.lua:128
 #, lua-format
@@ -1990,7 +1993,7 @@ msgstr "%s ist der Gruppen Ersteller"
 #: lua/plugins/users.lua:132
 #, lua-format
 msgid "%s has nothing to do with this chat"
-msgstr ""
+msgstr "%s hat nichts zu tun mit diesem chat"
 
 #: lua/plugins/users.lua:133
 #, lua-format
@@ -2000,17 +2003,18 @@ msgstr "%s ist ein Chat User"
 #: lua/plugins/users.lua:134
 #, lua-format
 msgid "%s is a restricted"
-msgstr ""
+msgstr "%s ist eingeschränkt"
 
 #: lua/plugins/users.lua:145
 #, lua-format
 msgid "\n"
 "Restrictions: <i>%s</i>"
-msgstr ""
+msgstr "\n"
+"Einschränkungen: <i>%s</i>"
 
 #: lua/plugins/users.lua:158
 msgid "Reply to an user or mention them by username or numerical ID"
-msgstr ""
+msgstr "Antworte auf einen Benutzer oder erwähne einen Benutzernamen oder Benutzer ID"
 
 #: lua/plugins/users.lua:166
 msgid "I've never seen this user before.\n"
@@ -2034,7 +2038,7 @@ msgstr "Nachricht N° %d"
 
 #: lua/plugins/users.lua:210 lua/plugins/warn.lua:152
 msgid "You are not allowed to use this button"
-msgstr ""
+msgstr "Du darfst diese Taste nicht benutzen"
 
 #: lua/plugins/users.lua:221
 #, lua-format
@@ -2044,7 +2048,7 @@ msgstr "Die Anzahl der Warnungen des Nutzers wurde auf den Ausgangszustand zurü
 #: lua/plugins/users.lua:232
 #, lua-format
 msgid "The adminlist has just been updated. You must wait 10 minutes from the last refresh (wait  %d seconds)"
-msgstr ""
+msgstr "Die adminlist wurde gerade erst aktualisiert. Warte %d Sekunden"
 
 #: lua/plugins/users.lua:241
 #, lua-format
@@ -2057,7 +2061,7 @@ msgstr "Entferne diese Warnung"
 
 #: lua/plugins/warn.lua:40
 msgid "Max number of warnings changed (media).\n"
-msgstr ""
+msgstr "Max Anzahl von Verwarnungen geändert (Medien).\n"
 
 #: lua/plugins/warn.lua:45
 msgid "Max number of warnings changed.\n"
