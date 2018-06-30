@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 09:20\n"
+"PO-Revision-Date: 2018-06-30 09:30\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -1354,29 +1354,29 @@ msgstr "Videonachrichten"
 #: lua/plugins/mediasettings.lua:54
 #, lua-format
 msgid "Warnings | %d | kick"
-msgstr ""
+msgstr "Warnungen | %d | kicken"
 
 #: lua/plugins/mediasettings.lua:56
 #, lua-format
 msgid "Warnings | %d | mute"
-msgstr ""
+msgstr "Warnungen | %d | stummschalten"
 
 #: lua/plugins/mediasettings.lua:58
 #, lua-format
 msgid "Warnings | %d | ban"
-msgstr ""
+msgstr "Warnungen | %d | bannen"
 
 #: lua/plugins/mediasettings.lua:80
 msgid "❌ warning"
-msgstr ""
+msgstr "❌ Warnung"
 
 #: lua/plugins/mediasettings.lua:83
 msgid "🗑 delete"
-msgstr ""
+msgstr "🗑 löschen"
 
 #: lua/plugins/mediasettings.lua:89
 msgid "✅ allowed"
-msgstr ""
+msgstr "✅ erlaubt"
 
 #: lua/plugins/mediasettings.lua:98
 msgid "\n"
@@ -1385,7 +1385,12 @@ msgid "\n"
 "The number is not related the the normal `/warn` command.\n\n"
 "Medias possible statuses: ✅ allowed, ❌ warning, 🗑 delete.\n"
 "When a media is set on delete, the bot will give a warning *only* when the user is at one media from being punished\n"
-msgstr ""
+msgstr "\n"
+"Tippe auf eine Stimme rechts um *die Einstellungen zu ändern*\n"
+"Du kannst die letzten Zeilen benutzen um zu ändern, wie viele Warnungen der Bot nutzt bevor er jemanden kickt/bannt/stummschaltet.\n"
+"Diese Nummer ist unabhängig vom normalen `/warn` Befehl.\n\n"
+"Möglicher Status von Medien: ✅ erlaubt, ❌ Warnung, 🗑 löschen.\n"
+"Wenn ein Medium auf löschen gestellt ist, wird der Bot *nur* warnen, wenn der Nutzer ein Medium davon entfernt ist bestraft zu werden\n"
 
 #: lua/plugins/mediasettings.lua:115
 msgid "⚠️ Tap on the right column"
@@ -1401,15 +1406,15 @@ msgstr "⚙️ Der neue Wert ist zu hoch ( > 12)"
 
 #: lua/plugins/mediasettings.lua:143
 msgid "👞 New status is kick"
-msgstr ""
+msgstr "👞 Neuer Status ist kicken"
 
 #: lua/plugins/mediasettings.lua:146
 msgid "👁 New status is mute"
-msgstr ""
+msgstr "👁 Neuer Status ist stummschalten"
 
 #: lua/plugins/mediasettings.lua:149
 msgid "🔨 New status is ban"
-msgstr ""
+msgstr "🔨 Neuer Status ist bannen"
 
 #. TRANSLATORS: these strings should be shorter than 200 characters
 #: lua/plugins/menu.lua:13
@@ -1422,11 +1427,11 @@ msgstr "Aktiviere oder Desktiviere die Auf Wiedersehen Nachricht. Kann nicht in 
 
 #: lua/plugins/menu.lua:17
 msgid "Enable or disable the welcome message"
-msgstr ""
+msgstr "Aktivieren oder deaktivieren Sie die Willkommens-Nachricht"
 
 #: lua/plugins/menu.lua:19
 msgid "When enabled, every time a new welcome message is sent, the previously sent welcome message is removed"
-msgstr ""
+msgstr "Wenn aktiviert, jedes Mal wenn eine neue Willkommensnachricht geschickt wurde, wird die vorher gesendete gelöscht"
 
 #: lua/plugins/menu.lua:22
 msgid "When enabled, the bot doesn't answer in the group to /dashboard, /config and /help commands (it will just answer in private)\n"
@@ -1817,7 +1822,7 @@ msgstr ""
 
 #: lua/plugins/report.lua:190
 msgid "(issue closed by you)"
-msgstr ""
+msgstr "(Thema von dir geschlossen)"
 
 #: lua/plugins/rules.lua:26
 msgid "🚫 Unknown or non-existent group"
@@ -1829,11 +1834,11 @@ msgstr "🚷 Du bist kein User von diesem Chat. Du kannst die Regeln einer Priva
 
 #: lua/plugins/rules.lua:64
 msgid "Please write something next `/setrules`"
-msgstr ""
+msgstr "Schreiben Sie bitte etwas nach `/setrules`"
 
 #: lua/plugins/rules.lua:69
 msgid "Rules has been deleted."
-msgstr ""
+msgstr "Regeln wurden gelöscht."
 
 #: lua/plugins/rules.lua:82
 msgid "New rules *saved successfully*!"
