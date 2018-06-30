@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 08:40\n"
+"PO-Revision-Date: 2018-06-30 08:50\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -119,7 +119,7 @@ msgstr ""
 
 #: lua/plugins/antispam.lua:123
 msgid "links will be deleted"
-msgstr ""
+msgstr "Links werden gelöscht"
 
 #: lua/plugins/antispam.lua:139
 msgid "You can't go lower"
@@ -154,21 +154,21 @@ msgstr "Beschreibung nicht verfügbar"
 
 #: lua/plugins/antispam.lua:202
 msgid "Kick 👞"
-msgstr ""
+msgstr "Kicken 👞"
 
 #: lua/plugins/antispam.lua:204
 msgid "Ban 🔨"
-msgstr ""
+msgstr "Bannen 🔨"
 
 #: lua/plugins/antispam.lua:206
 msgid "Mute 👁"
-msgstr ""
+msgstr "Stummschalten 👁️"
 
 #: lua/plugins/antispam.lua:252 lua/plugins/floodmanager.lua:124
 #: lua/plugins/logchannel.lua:128 lua/plugins/mediasettings.lua:96
 #: lua/plugins/menu.lua:239
 msgid "You're no longer an admin"
-msgstr ""
+msgstr "Du bist kein Admin mehr"
 
 #: lua/plugins/antispam.lua:254
 msgid "*Anti-spam settings*\n"
@@ -177,27 +177,33 @@ msgid "*Anti-spam settings*\n"
 "• ❌ = *Not allowed*\n"
 "• 🗑 = *Delete*\n"
 "When set on `delete`, the bot doesn't warn users until they are about to be kicked/banned/muted (at the second-to-last warning)\n"
-msgstr ""
+msgstr "*Anti-Spam Einstellungen*\n"
+"Wähle, welche Art von Spam du verbieten möchtest\n"
+"• ✅ = *Erlaubt*\n"
+"• ❌ = *Nicht erlaubt*\n"
+"• 🗑 = *Löschen*\n"
+"Wenn auf `löschen` gestellt ist, warnt der Bot Nutzer nicht, bis sie gekickt/gebannt/stummgeschaltet werden (bis zur 2t letzten Warnung)"
 
 #: lua/plugins/antispam.lua:316
 msgid "_The whitelist was already empty_"
-msgstr ""
+msgstr "_Die Whitelist war schon leer_"
 
 #: lua/plugins/antispam.lua:319
 #, lua-format
 msgid "*Whitelist cleaned*\n"
 "%d links have been removed"
-msgstr ""
+msgstr "*Whitelist gesäubert*\n"
+"%d Links wurden entfernt"
 
 #: lua/plugins/antispam.lua:327 lua/plugins/antispam.lua:336
 #: lua/plugins/antispam.lua:358 lua/plugins/antispam.lua:367
 msgid "_I can't find any url in this message_"
-msgstr ""
+msgstr "_Ich kann keine URL in dieser Nachricht finden_"
 
 #: lua/plugins/antispam.lua:330
 #, lua-format
 msgid "%d link(s) will be whitelisted"
-msgstr ""
+msgstr "%d Link(s) werden auf die Whitelist gesetzt"
 
 #: lua/plugins/antispam.lua:332 lua/plugins/antispam.lua:363
 #, lua-format
