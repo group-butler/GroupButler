@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 09:50\n"
+"PO-Revision-Date: 2018-06-30 10:00\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Indonesian\n"
 "Language: id\n"
@@ -1813,7 +1813,9 @@ msgstr "Pesan diubah. Lihat disini"
 #: lua/plugins/pin.lua:51
 msgid "The old message generated with `/pin` does not exist anymore, so I can't edit it. This is the new message that can be now pinned\n"
 "\t\t\t\t\t\t"
-msgstr ""
+msgstr "Pesan lama yang dihasilkan dengan `/pin` tidak ada lagi, jadi saya tidak bisa mengeditnya. Ini adalah pesan baru yang bisa kamu pinned\n"
+"\t\t\t\t\t\t\n"
+"\t\t\t\t\t\t"
 
 #: lua/plugins/pin.lua:54
 msgid "This message can now be pinned. Use `/pin [new text]` to edit it without having to send it again"
@@ -1821,11 +1823,11 @@ msgstr "Sekarang Anda bisa menyematkan pesan ini. Gunakan `/pin [teks baru]` unt
 
 #: lua/plugins/private.lua:13
 msgid "Channel"
-msgstr ""
+msgstr "Channel"
 
 #: lua/plugins/private.lua:14
 msgid "GitHub"
-msgstr ""
+msgstr "GitHub"
 
 #: lua/plugins/private.lua:15
 msgid "Rate me!"
@@ -1837,22 +1839,23 @@ msgstr "👥 Grup"
 
 #: lua/plugins/private.lua:28
 msgid "Pong!"
-msgstr ""
+msgstr "Pong!"
 
 #: lua/plugins/private.lua:42 lua/plugins/private.lua:58
 #, lua-format
 msgid "\n"
 "This bot is based on [otouto](https://github.com/topkecleon/otouto) (AKA @mokubot, channel: @otouto), a multipurpose Lua bot.\\nGroup Butler wouldn't exist without it.\\n\\nThe owner of this bot is @baconn, do not pm him: use /groups command instead.\\n\\nBot version: `%s`\\n*Some useful links:*\n"
-msgstr ""
+msgstr "\n"
+"Bot ini berbasis [otouto](https://github.com/topkecleon/otouto) (alias @mokubot, channel: @otouto), bot LUA multifungsi.\\nGroup Butler tidak akan ada tanpa itu.\\n\\nPemilik bot ini adalah @baconn, jangan pm dia: gunakan perintah /groups untuk bergabung ke support group.\\n\\nBot versi: `%s`\\n*Beberapa link yang berguna:*\n"
 
 #: lua/plugins/private.lua:50 lua/plugins/private.lua:67
 #, lua-format
 msgid "You can find the list of our support groups in [this channel](%s)"
-msgstr ""
+msgstr "Anda dapat menemukan daftar support group di [channel ini](%s)"
 
 #: lua/plugins/private.lua:65
 msgid "🔙 back"
-msgstr ""
+msgstr "🔙 kembali"
 
 #: lua/plugins/private_settings.lua:11
 msgid "When you join a group moderated by this bot, you will receive the group rules in private"
@@ -1881,25 +1884,28 @@ msgstr "⚙ Pengaturan sudah diterapkan"
 #: lua/plugins/report.lua:19
 #, lua-format
 msgid "• <b>Message reported by</b>: %s (<code>%d</code>)"
-msgstr ""
+msgstr "• <b>Pesan dilaporkan oleh</b>: %s (<code>%d</code>)"
 
 #: lua/plugins/report.lua:23
 #, lua-format
 msgid "\n"
 "• <b>Reported message sent by</b>: %s (<code>%d</code>)"
-msgstr ""
+msgstr "\n"
+"• <b>Pesan terlapor dikirim oleh</b>: %s (<code>%d</code>)"
 
 #: lua/plugins/report.lua:27
 #, lua-format
 msgid "\n"
 "• <b>Group</b>: <a href=\"%s\">%s</a>"
-msgstr ""
+msgstr "\n"
+"• <b>Grup</b>: <a href=\"%s\">%s</a>"
 
 #: lua/plugins/report.lua:29
 #, lua-format
 msgid "\n"
 "• <b>Group</b>: %s"
-msgstr ""
+msgstr "\n"
+"• <b>Grup</b>: %s"
 
 #: lua/plugins/report.lua:33
 #, lua-format
@@ -1917,29 +1923,31 @@ msgstr "\n"
 
 #: lua/plugins/report.lua:46
 msgid "Address this report"
-msgstr ""
+msgstr "Temukan laporan ini"
 
 #: lua/plugins/report.lua:91
 #, lua-format
 msgid "_Invalid value:_ number of times allowed (`input: %d`)"
-msgstr ""
+msgstr "_Nilai tidak valid:_ jumlah waktu yang diperbolehkan (`input: %d`)"
 
 #: lua/plugins/report.lua:93
 #, lua-format
 msgid "_Invalid value:_ time (`input: %d`)"
-msgstr ""
+msgstr "_Nilai tidak valid:_ (`input: %d`)"
 
 #: lua/plugins/report.lua:99
 #, lua-format
 msgid "*New parameters saved*.\n"
 "Users will be able to use @admin %d times/%d minutes"
-msgstr ""
+msgstr "*Parameter baru tersimpan*.\n"
+"Pengguna akan dapat menggunakan @admin %d kali/%d menit."
 
 #: lua/plugins/report.lua:120
 #, lua-format
 msgid "_Please, do not abuse this command. It can be used %d times every %d minutes_.\n"
 "Wait other %d minutes, %d seconds."
-msgstr ""
+msgstr "_Ow ow ow, tolong jangan abuse perintah ini. Cuma bisa digunakan %d kali setiap %d menit_.\n"
+"Tunggu %d menit, %d detik."
 
 #: lua/plugins/report.lua:131
 #, lua-format
@@ -1948,32 +1956,32 @@ msgstr "_Telah dilaporkan ke %d admin_"
 
 #: lua/plugins/report.lua:142
 msgid "You closed this issue and deleted all the other reports sent to the admins"
-msgstr ""
+msgstr "Anda menutup masalah ini dan menghapus semua laporan-laporan lain yang dikirim ke admin"
 
 #: lua/plugins/report.lua:151
 msgid "This message is too old (>2 days)"
-msgstr ""
+msgstr "Pesan ini terlalu tua (>2 hari)"
 
 #: lua/plugins/report.lua:162
 msgid "❕ Already (being) adressed"
-msgstr ""
+msgstr "❕ Sudah ditemukan"
 
 #: lua/plugins/report.lua:164
 msgid "Close issue"
-msgstr ""
+msgstr "Close issue"
 
 #: lua/plugins/report.lua:174
 #, lua-format
 msgid "%s has/will address this report"
-msgstr ""
+msgstr "%s telah/akan membahas laporan ini"
 
 #: lua/plugins/report.lua:182
 msgid "This button will delete all the reports sent to the other admins. Tap it again to confirm"
-msgstr ""
+msgstr "Tombol ini akan menghapus semua laporan yang dikirim ke admin lain. Ketuk lagi untuk konfirmasi"
 
 #: lua/plugins/report.lua:190
 msgid "(issue closed by you)"
-msgstr ""
+msgstr "(masalah diselesaikan oleh Anda)"
 
 #: lua/plugins/rules.lua:26
 msgid "🚫 Unknown or non-existent group"
@@ -1985,7 +1993,7 @@ msgstr "🚷 Anda bukan anggota dari obrolan ini. Anda tidak dapat melihat rules
 
 #: lua/plugins/rules.lua:64
 msgid "Please write something next `/setrules`"
-msgstr ""
+msgstr "Silakan tulis sesuatu setelah `/setrules`"
 
 #: lua/plugins/rules.lua:69
 msgid "Rules has been deleted."
@@ -2036,43 +2044,44 @@ msgstr "Bahasa Indonesia *telah digunakan*"
 #: lua/plugins/setlang.lua:44
 msgid ".\n"
 "Please note that translators are volunteers, and some strings of the translation you selected _could not have been translated yet_\n"
-msgstr ""
+msgstr ".\n"
+"Harap dicatat bahwa penerjemah adalah relawan dan beberapa string dari terjemahan yang anda pilih _bisa saja belum diterjemahkan_\n"
 
 #: lua/plugins/users.lua:11
 msgid "can't change the chat title/description/icon"
-msgstr ""
+msgstr "tidak dapat mengubah judul/deskripsi/icon obrolan"
 
 #: lua/plugins/users.lua:12
 msgid "can't send messages"
-msgstr ""
+msgstr "tidak dapat mengirim pesan"
 
 #: lua/plugins/users.lua:13
 msgid "can't delete messages"
-msgstr ""
+msgstr "tidak dapat menghapus pesan"
 
 #: lua/plugins/users.lua:14
 msgid "can't invite users/generate a link"
-msgstr ""
+msgstr "tidak dapat mengundang pengguna/menghasilkan link"
 
 #: lua/plugins/users.lua:15
 msgid "can't restrict members"
-msgstr ""
+msgstr "tidak bisa merestrict member"
 
 #: lua/plugins/users.lua:16
 msgid "can't pin messages"
-msgstr ""
+msgstr "tidak bisa menyematkan pesan"
 
 #: lua/plugins/users.lua:17
 msgid "can't promote new admins"
-msgstr ""
+msgstr "tidak dapat mempromosikan admin baru"
 
 #: lua/plugins/users.lua:18
 msgid "can't send photos/videos/documents/audios/voice messages/video messages"
-msgstr ""
+msgstr "tidak bisa mengirim foto/video/dokumen/audio/pesan suara/pesan video"
 
 #: lua/plugins/users.lua:19
 msgid "can't send stickers/GIFs/games/use inline bots"
-msgstr ""
+msgstr "tidak dapat mengirim stiker/Gif/permainan/menggunakan inline bot"
 
 #: lua/plugins/users.lua:20
 msgid "can't show link previews"
