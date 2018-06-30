@@ -5,7 +5,7 @@ local config = require 'config'
 local db = require 'database'
 local plugins = require 'plugins'
 local locale = require 'languages'
-local _ = locale.translate
+local i18n = locale.translate
 
 local _M = {}
 
