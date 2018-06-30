@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 13:21\n"
+"PO-Revision-Date: 2018-06-30 13:31\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Portuguese, Brazilian\n"
 "Language: pt_BR\n"
@@ -210,7 +210,7 @@ msgstr "%d link(s) entrará(ão) na Lista de Permissões"
 msgid "\n"
 "%d links were already in the list"
 msgstr "\n"
-"%d links já estavam na Lista de Permissões."
+"%d links já estavam na Lista de Permissões"
 
 #: lua/plugins/antispam.lua:344
 msgid "_The whitelist is empty_.\n"
@@ -1236,7 +1236,7 @@ msgstr "A mídia proibida será registrada no Canal de Registro"
 
 #: lua/plugins/logchannel.lua:22
 msgid "Spam links/forwards from channels will be logged in the channel, only if forbidden"
-msgstr "Spam de links telegram.me/encaminhamento de canais serão registrados no canal de registro, somente se for configurado como proibido"
+msgstr "Spam de links/encaminhamentos de canais serão registrados no canal de registro, somente se for configurado como proibido"
 
 #: lua/plugins/logchannel.lua:24
 msgid "Log when an user is flooding (new log message every 5 flood messages)"
@@ -1377,7 +1377,7 @@ msgid "*Select the events the will be logged in the channel*\n"
 "Tap on a voice to get further informations"
 msgstr "*Escolha os eventos que serão registrados no Canal de Registro*\n"
 "✅ = será registrado\n"
-"☑️ = não será registrado\n"
+"☑️ = não será registrado\n\n"
 "Clique na coluna da esquerda para adquirir as informações"
 
 #: lua/plugins/logchannel.lua:166
@@ -2086,7 +2086,7 @@ msgstr ""
 
 #: lua/plugins/users.lua:158
 msgid "Reply to an user or mention them by username or numerical ID"
-msgstr "Responda para um usuário ou mencione-o com o seu nome de usuário ou ID."
+msgstr "Responda para um usuário ou mencione-o com o seu nome de usuário ou ID"
 
 #: lua/plugins/users.lua:166
 msgid "I've never seen this user before.\n"
@@ -2156,7 +2156,7 @@ msgstr "Não"
 
 #: lua/plugins/warn.lua:62
 msgid "Do you want to continue and reset *all* the warnings received by *all* the users of the group?"
-msgstr "Você quer continuar e resetar *TODAS* as advertências recebidas por *TODOS* os usuários do grupo?"
+msgstr "Você quer continuar e resetar *todas* as advertências recebidas por *todos* os usuários do grupo?"
 
 #: lua/plugins/warn.lua:80
 #, lua-format
