@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 06:41\n"
+"PO-Revision-Date: 2018-06-30 06:51\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Portuguese, Brazilian\n"
 "Language: pt_BR\n"
@@ -351,15 +351,15 @@ msgstr "minutos"
 #: lua/plugins/banhammer.lua:196
 #, lua-format
 msgid "User banned for %d %s"
-msgstr ""
+msgstr "Usuário banido por %d %s"
 
 #: lua/plugins/configure.lua:34
 msgid "🛠 Menu"
-msgstr ""
+msgstr "🛠 Menu"
 
 #: lua/plugins/configure.lua:35
 msgid "⚡️ Antiflood"
-msgstr ""
+msgstr "⚡️ Antiflood"
 
 #: lua/plugins/configure.lua:36
 msgid "🌈 Media"
@@ -367,7 +367,7 @@ msgstr "🌈 Midia"
 
 #: lua/plugins/configure.lua:37
 msgid "🚫 Antispam"
-msgstr ""
+msgstr "🚫 Antispam"
 
 #: lua/plugins/configure.lua:38
 msgid "📥 Log channel"
@@ -375,7 +375,7 @@ msgstr "📥 Canal de registro"
 
 #: lua/plugins/configure.lua:48
 msgid "⛔️ Default permissions"
-msgstr ""
+msgstr "⛔️ Permissões padrão"
 
 #: lua/plugins/configure.lua:61
 #, lua-format
@@ -403,7 +403,7 @@ msgstr "❌ | DESLIGADO"
 #: lua/plugins/dashboard.lua:20 lua/plugins/menu.lua:153
 #: lua/plugins/menu.lua:209
 msgid "👞 kick"
-msgstr ""
+msgstr "👞 expulsar"
 
 #: lua/plugins/dashboard.lua:22
 msgid "🔨️ ️ban"
@@ -412,7 +412,7 @@ msgstr "🔨 ️ban"
 #: lua/plugins/dashboard.lua:24 lua/plugins/floodmanager.lua:38
 #: lua/plugins/menu.lua:157 lua/plugins/menu.lua:213
 msgid "👁 mute"
-msgstr ""
+msgstr "👁 silenciar"
 
 #: lua/plugins/dashboard.lua:28 lua/plugins/floodmanager.lua:56
 msgid "Texts"
@@ -425,7 +425,7 @@ msgstr "Encaminhamentos"
 #: lua/plugins/dashboard.lua:30 lua/plugins/dashboard.lua:144
 #: lua/plugins/floodmanager.lua:58 lua/plugins/mediasettings.lua:33
 msgid "Stickers"
-msgstr ""
+msgstr "Stickers"
 
 #: lua/plugins/dashboard.lua:31 lua/plugins/dashboard.lua:136
 #: lua/plugins/floodmanager.lua:59 lua/plugins/mediasettings.lua:24
@@ -435,7 +435,7 @@ msgstr "Imagens"
 #: lua/plugins/dashboard.lua:32 lua/plugins/dashboard.lua:137
 #: lua/plugins/floodmanager.lua:60 lua/plugins/mediasettings.lua:25
 msgid "GIFs"
-msgstr ""
+msgstr "GIFs"
 
 #: lua/plugins/dashboard.lua:33 lua/plugins/dashboard.lua:138
 #: lua/plugins/floodmanager.lua:61 lua/plugins/mediasettings.lua:26
@@ -445,7 +445,7 @@ msgstr "Vídeos"
 #: lua/plugins/dashboard.lua:47
 #, lua-format
 msgid "- *Status*: `%s`\n"
-msgstr ""
+msgstr "- *Status*: `%s`\n"
 
 #: lua/plugins/dashboard.lua:48
 #, lua-format
@@ -538,7 +538,7 @@ msgstr "Messagens de voz "
 
 #: lua/plugins/dashboard.lua:142 lua/plugins/mediasettings.lua:31
 msgid "Links"
-msgstr ""
+msgstr "Links"
 
 #: lua/plugins/dashboard.lua:143 lua/plugins/mediasettings.lua:32
 msgid "Music"
@@ -584,23 +584,23 @@ msgstr ""
 
 #: lua/plugins/defaultpermissions.lua:63
 msgid "Send messages"
-msgstr ""
+msgstr "Enviar mensagens"
 
 #: lua/plugins/defaultpermissions.lua:64
 msgid "Send media"
-msgstr ""
+msgstr "Enviar mídia"
 
 #: lua/plugins/defaultpermissions.lua:65
 msgid "Send other types of media"
-msgstr ""
+msgstr "Enviar outros tipos de mídia"
 
 #: lua/plugins/defaultpermissions.lua:66
 msgid "Show web page preview"
-msgstr ""
+msgstr "Mostrar visualização de página da web"
 
 #: lua/plugins/defaultpermissions.lua:112
 msgid "You don't have the permission to restrict members"
-msgstr ""
+msgstr "Você não possui permissão para restringir membros"
 
 #: lua/plugins/defaultpermissions.lua:114
 msgid "*Deafult permissions*\n"
@@ -1592,15 +1592,15 @@ msgstr ""
 
 #: lua/plugins/menu.lua:91
 msgid "Allowed ✅"
-msgstr ""
+msgstr "Permitido ✅"
 
 #: lua/plugins/menu.lua:155
 msgid "🔨 ban"
-msgstr ""
+msgstr "🔨 banir"
 
 #: lua/plugins/menu.lua:159
 msgid "✅"
-msgstr ""
+msgstr "✅"
 
 #: lua/plugins/menu.lua:168
 msgid "Welcome"
@@ -1640,7 +1640,7 @@ msgstr "Reportes"
 
 #: lua/plugins/menu.lua:178
 msgid "Delete last welcome message"
-msgstr ""
+msgstr "Apagar a última mensagem de boas-vindas"
 
 #: lua/plugins/menu.lua:179
 msgid "Welcome + rules button"
@@ -1648,7 +1648,7 @@ msgstr "Botão Bem vindo + regras"
 
 #: lua/plugins/menu.lua:211
 msgid "🔨️ ban"
-msgstr ""
+msgstr "🔨️ banir"
 
 #: lua/plugins/menu.lua:217
 msgid "Warns: "
@@ -1675,7 +1675,7 @@ msgstr " %s foi <b>kickado</b> por flood!"
 #: lua/plugins/onmessage.lua:116
 #, lua-format
 msgid "%s <b>muted</b> for flood!"
-msgstr ""
+msgstr "%s foi <b>silenciado</b> por flood!"
 
 #: lua/plugins/onmessage.lua:165
 #, lua-format
