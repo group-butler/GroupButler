@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 14:10\n"
+"PO-Revision-Date: 2018-06-30 15:20\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Portuguese, Brazilian\n"
 "Language: pt_BR\n"
@@ -299,7 +299,7 @@ msgstr "%s baniu %s!"
 
 #: lua/plugins/banhammer.lua:104
 msgid "_Use this command in reply to a forwarded message_"
-msgstr ""
+msgstr "_Use este comando em resposta a uma mensagen encaminhada_"
 
 #: lua/plugins/banhammer.lua:110 lua/plugins/banhammer.lua:192
 msgid "I can't kick this user.\n"
@@ -309,7 +309,7 @@ msgstr "Eu não posso expulsar este usuário.\n"
 
 #: lua/plugins/banhammer.lua:122
 msgid "_An admin can't be unbanned_"
-msgstr ""
+msgstr "_Um admin não pode ser desbanido_"
 
 #: lua/plugins/banhammer.lua:127
 msgid "This user is not banned!"
