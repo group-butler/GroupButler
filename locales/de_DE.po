@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 13:41\n"
+"PO-Revision-Date: 2018-06-30 13:50\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -666,19 +666,19 @@ msgstr "👞 entfernen"
 
 #: lua/plugins/floodmanager.lua:36
 msgid "🔨 ️ban"
-msgstr ""
+msgstr "🔨 ️bannen"
 
 #: lua/plugins/floodmanager.lua:91
 msgid "Flooders will be banned"
-msgstr ""
+msgstr "Flooder werden gebannt"
 
 #: lua/plugins/floodmanager.lua:94
 msgid "Flooders will be kicked"
-msgstr ""
+msgstr "Flooder werden gekickt"
 
 #: lua/plugins/floodmanager.lua:97
 msgid "Flooders will be muted"
-msgstr ""
+msgstr "Flooder werden stummgeschaltet"
 
 #: lua/plugins/floodmanager.lua:106 lua/plugins/floodmanager.lua:113
 #, lua-format
@@ -688,11 +688,13 @@ msgstr "%d ist kein verfügbarer Wert!"
 #: lua/plugins/floodmanager.lua:127
 msgid "You can manage the antiflood settings from here.\\n\\nIt is also possible to choose which type of messages the antiflood will ignore (✅)\n"
 "\t\t\t"
-msgstr ""
+msgstr "Die Antiflood Einstellungen können von hier aus verwaltet werden.\\n\\NEs ist auch möglich, zu wählen, welche Art von Nachrichten Antiflood ignoriert (✅)\n"
+"\t\t\t\n"
+"\t\t\t"
 
 #: lua/plugins/floodmanager.lua:133
 msgid "Antiflood settings"
-msgstr ""
+msgstr "Antiflood-Einstellungen"
 
 #: lua/plugins/floodmanager.lua:151
 #, lua-format
