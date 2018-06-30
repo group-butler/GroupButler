@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 05:21\n"
+"PO-Revision-Date: 2018-06-30 05:31\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Indonesian\n"
 "Language: id\n"
@@ -369,17 +369,18 @@ msgstr "🚫 Antispam"
 
 #: lua/plugins/configure.lua:38
 msgid "📥 Log channel"
-msgstr ""
+msgstr "📥 Channel log"
 
 #: lua/plugins/configure.lua:48
 msgid "⛔️ Default permissions"
-msgstr ""
+msgstr "⛔️ Default permissions"
 
 #: lua/plugins/configure.lua:61
 #, lua-format
 msgid "<b>%s</b>\n"
 "<i>Change the settings of your group</i>"
-msgstr ""
+msgstr "<b>%s</b>\n"
+"<i>Ubah pengaturan untuk grup Anda</i>"
 
 #: lua/plugins/configure.lua:64
 msgid "_I've sent you the keyboard via private message_"
@@ -387,7 +388,7 @@ msgstr "_Saya telah mengirim keyboard ke pesan pribadi Anda_"
 
 #: lua/plugins/configure.lua:76
 msgid "<i>Change the settings of your group</i>"
-msgstr ""
+msgstr "<i>Ubah pengaturan untuk grup Anda</i>"
 
 #: lua/plugins/dashboard.lua:13 lua/plugins/floodmanager.lua:26
 msgid "✅ | ON"
@@ -409,7 +410,7 @@ msgstr "🔨️ ️blokir"
 #: lua/plugins/dashboard.lua:24 lua/plugins/floodmanager.lua:38
 #: lua/plugins/menu.lua:157 lua/plugins/menu.lua:213
 msgid "👁 mute"
-msgstr ""
+msgstr "👁 mute"
 
 #: lua/plugins/dashboard.lua:28 lua/plugins/floodmanager.lua:56
 msgid "Texts"
@@ -442,7 +443,7 @@ msgstr "Video"
 #: lua/plugins/dashboard.lua:47
 #, lua-format
 msgid "- *Status*: `%s`\n"
-msgstr ""
+msgstr "- *Status*: `%s`\n"
 
 #: lua/plugins/dashboard.lua:48
 #, lua-format
@@ -471,7 +472,7 @@ msgstr "Admin"
 
 #: lua/plugins/dashboard.lua:61 lua/plugins/menu.lua:173 lua/utilities.lua:620
 msgid "Rules"
-msgstr ""
+msgstr "Aturan"
 
 #: lua/plugins/dashboard.lua:62 lua/plugins/help.lua:303
 msgid "Extra commands"
@@ -563,48 +564,55 @@ msgstr "ℹ️ Grup ► Media"
 
 #: lua/plugins/defaultpermissions.lua:46
 msgid "Permission to send messages. If disabled, the user won't be able to send any kind of message"
-msgstr ""
+msgstr "Izin untuk mengirim pesan. Jika dinonaktifkan, pengguna tidak akan dapat mengirim pesan apapun"
 
 #: lua/plugins/defaultpermissions.lua:49
 msgid "Permission to send media (audios, documents, photos, videos, video notes and voice notes). Implies the permission to send messages\n"
 "\t\t\t"
-msgstr ""
+msgstr "Izin untuk mengirim media (audio, dokumen, foto, video, catatan video dan catatan suara). Berarti izin untuk mengirim pesan\n"
+"\t\t\t\n"
+"\t\t\t"
 
 #: lua/plugins/defaultpermissions.lua:53
 msgid "Permission to send other types of messages (GIFs, games, stickers and use inline bots). Implies the permission to send medias\n"
 "\t\t\t"
-msgstr ""
+msgstr "Izin untuk mengirim jenis lain dari pesan (Gif, permainan, stiker dan menggunakan inline bot). Berarti izin untuk mengirim media\n"
+"\t\t\t\n"
+"\t\t\t"
 
 #: lua/plugins/defaultpermissions.lua:56
 msgid "When disabled, user's messages with a link won't show the web page preview"
-msgstr ""
+msgstr "Bila dinonaktifkan, pengguna pesan dengan link tidak akan ditampilkan halaman web preview"
 
 #: lua/plugins/defaultpermissions.lua:63
 msgid "Send messages"
-msgstr ""
+msgstr "Kirim pesan"
 
 #: lua/plugins/defaultpermissions.lua:64
 msgid "Send media"
-msgstr ""
+msgstr "Kirim Media"
 
 #: lua/plugins/defaultpermissions.lua:65
 msgid "Send other types of media"
-msgstr ""
+msgstr "Mengirim jenis media lainnya"
 
 #: lua/plugins/defaultpermissions.lua:66
 msgid "Show web page preview"
-msgstr ""
+msgstr "Tampilkan pratinjau pesan"
 
 #: lua/plugins/defaultpermissions.lua:112
 msgid "You don't have the permission to restrict members"
-msgstr ""
+msgstr "Anda tidak punya permission untuk merestrict member"
 
 #: lua/plugins/defaultpermissions.lua:114
 msgid "*Deafult permissions*\n"
 "From this menu you can change the default permissions that will be granted when a new member join.\n"
 "_Only the administrators with the permission to restrict a member can access this menu._\n"
 "Tap on the name of a permission for a description of what kind of messages it will influence.\n"
-msgstr ""
+msgstr "*Deafult permissions*\n"
+"Dari menu ini anda dapat mengubah default izin yang akan diberikan ketika member baru bergabung.\n"
+"_hanya administrator dengan izin untuk membatasi anggota dapat mengakses menu ini._\n"
+"Ketuk ke nama permissions dan perhatikan deskripsi jenis pesan yang akan dipengaruhi.\n"
 
 #: lua/plugins/defaultpermissions.lua:136
 #, lua-format
