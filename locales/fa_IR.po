@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 08:20\n"
+"PO-Revision-Date: 2018-06-30 08:31\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Persian\n"
 "Language: fa\n"
@@ -322,36 +322,36 @@ msgstr "کاربر %s توسط %s از لیست مسدودین خارج شد!"
 
 #: lua/plugins/banhammer.lua:142
 msgid "You don't have the permissions to restrict members"
-msgstr ""
+msgstr "شما دسترسی لازم برای محدود کردن اعضا را ندارید"
 
 #: lua/plugins/banhammer.lua:146
 msgid "Tap on the -/+ buttons to change this value. Then select a timeframe to execute the ban"
-msgstr ""
+msgstr "برای تغییر این مقدار بر روی دکمه های +/- بزنید. سپس یک چارچوب زمانی برای اجرای بن انتخاب کنید"
 
 #: lua/plugins/banhammer.lua:155
 msgid "You can't set a lower value"
-msgstr ""
+msgstr "نمی‌توانید مقدار کمتری انتخاب کنید"
 
 #: lua/plugins/banhammer.lua:163
 msgid "Stop!!!"
-msgstr ""
+msgstr "کافیه!!!"
 
 #: lua/plugins/banhammer.lua:179
 msgid "hours"
-msgstr ""
+msgstr "ساعت"
 
 #: lua/plugins/banhammer.lua:183
 msgid "days"
-msgstr ""
+msgstr "روز"
 
 #: lua/plugins/banhammer.lua:187
 msgid "minutes"
-msgstr ""
+msgstr "دقیقه"
 
 #: lua/plugins/banhammer.lua:196
 #, lua-format
 msgid "User banned for %d %s"
-msgstr ""
+msgstr "کاربر به مدت %s %d بن شد"
 
 #: lua/plugins/configure.lua:34
 msgid "🛠 Menu"
@@ -375,13 +375,14 @@ msgstr "📥 کانال وقایع"
 
 #: lua/plugins/configure.lua:48
 msgid "⛔️ Default permissions"
-msgstr ""
+msgstr "⛔ دسترسی های پیشفرض"
 
 #: lua/plugins/configure.lua:61
 #, lua-format
 msgid "<b>%s</b>\n"
 "<i>Change the settings of your group</i>"
-msgstr ""
+msgstr "<b>%s</b>\n"
+"<i>تغییر تنظیمات گروه خود</i>"
 
 #: lua/plugins/configure.lua:64
 msgid "_I've sent you the keyboard via private message_"
@@ -389,7 +390,7 @@ msgstr "_در پیام خصوصی شما ارسال شد_"
 
 #: lua/plugins/configure.lua:76
 msgid "<i>Change the settings of your group</i>"
-msgstr ""
+msgstr "<i>تغییر تنظیمات گروه خود</i>"
 
 #: lua/plugins/dashboard.lua:13 lua/plugins/floodmanager.lua:26
 msgid "✅ | ON"
@@ -411,7 +412,7 @@ msgstr "🔨 مسدود"
 #: lua/plugins/dashboard.lua:24 lua/plugins/floodmanager.lua:38
 #: lua/plugins/menu.lua:157 lua/plugins/menu.lua:213
 msgid "👁 mute"
-msgstr ""
+msgstr "👁 بیصدا"
 
 #: lua/plugins/dashboard.lua:28 lua/plugins/floodmanager.lua:56
 msgid "Texts"
