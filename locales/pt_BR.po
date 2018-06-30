@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 07:20\n"
+"PO-Revision-Date: 2018-06-30 13:00\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Portuguese, Brazilian\n"
 "Language: pt_BR\n"
@@ -91,7 +91,7 @@ msgstr "%s, este tipo de mídia não é permitido nesse chat (<b>%d/%d</b>)"
 
 #: lua/plugins/antispam.lua:90
 msgid "telegram.me link"
-msgstr "link telegram.me "
+msgstr "link telegram.me"
 
 #: lua/plugins/antispam.lua:90
 msgid "message from a channel"
@@ -144,7 +144,7 @@ msgstr "Permitir/proibir mensagens encaminhadas de canais"
 
 #: lua/plugins/antispam.lua:174
 msgid "Set how many times the bot should warn the user before kick/ban him"
-msgstr "Definir quantas vezes o bot deve avisar o usuário antes de kick / ban nele "
+msgstr "Definir quantas vezes o bot deve avisar o usuário antes de kick / ban nele"
 
 #: lua/plugins/antispam.lua:176 lua/plugins/defaultpermissions.lua:58
 #: lua/plugins/floodmanager.lua:18 lua/plugins/logchannel.lua:46
@@ -245,8 +245,7 @@ msgstr ""
 #, lua-format
 msgid "<i>I'm sorry, this command has been used for the last time less then 3 hours ago by</i> %s (ask him for the file).\\nWait [<code>%s</code>] to use it again\n"
 "\t\t\t\t\t"
-msgstr "<i>Desculpe, esse comando foi usado pela última vez menos de 3 horas atrás por</i> %s (peça-lhe o arquivo).\n"
-"Espere [<code>%s</code>] para usar novamente"
+msgstr "<i>Desculpe, esse comando foi usado pela última vez menos de 3 horas atrás por</i> %s (peça-lhe o arquivo).\\nEspere [<code>%s</code>] para usar novamente"
 
 #: lua/plugins/backup.lua:106
 msgid "*Sent in private*"
@@ -534,7 +533,7 @@ msgstr "Documentos"
 
 #: lua/plugins/dashboard.lua:141 lua/plugins/mediasettings.lua:30
 msgid "Vocal messages"
-msgstr "Messagens de voz "
+msgstr "Messagens de voz"
 
 #: lua/plugins/dashboard.lua:142 lua/plugins/mediasettings.lua:31
 msgid "Links"
