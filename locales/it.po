@@ -43,7 +43,7 @@ msgstr "Non posso kickare o bannare un admin"
 
 #: methods.lua:150
 msgid "There is no need to unban in a normal group"
-msgstr "Non c'è bisogno di unbannare in un gruppo normale"
+msgstr "Non c'è bisogno di sbannare in un gruppo normale"
 
 #: methods.lua:152
 msgid "This user is not a chat member"
@@ -1877,7 +1877,7 @@ msgstr "Kick"
 
 #: plugins/logchannel.lua:62 utilities.lua:1042
 msgid "Unban"
-msgstr "Unbanna"
+msgstr "Sbanna"
 
 #: plugins/logchannel.lua:63
 msgid "Tempban"
@@ -1954,7 +1954,7 @@ msgstr "Non sei un admin!"
 
 #: plugins/logchannel.lua:108
 msgid "User unbanned!"
-msgstr "Utente bannato!"
+msgstr "Utente sbannato!"
 
 #: plugins/logchannel.lua:132
 msgid ""
@@ -2768,7 +2768,7 @@ msgstr "%s è bannato da questo gruppo"
 #: plugins/users.lua:136
 #, lua-format
 msgid "%s left the group or has been kicked and unbanned"
-msgstr "%s ha lasciato il gruppo, o è stato kickato e unbannato"
+msgstr "%s ha lasciato il gruppo, o è stato kickato e sbannato"
 
 #: plugins/users.lua:137
 #, lua-format
