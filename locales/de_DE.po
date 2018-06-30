@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 14:00\n"
+"PO-Revision-Date: 2018-06-30 14:03\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -1806,7 +1806,8 @@ msgstr "*Neue Parameter gespeichert*.\n"
 #, lua-format
 msgid "_Please, do not abuse this command. It can be used %d times every %d minutes_.\n"
 "Wait other %d minutes, %d seconds."
-msgstr ""
+msgstr "_Bitte diesen Befehl nicht misbrauchen. Er kann %d mal jede %d Minuten benutzt werden_.\n"
+"Warte %d Minuten, %d Sekunden."
 
 #: lua/plugins/report.lua:131
 #, lua-format
@@ -1819,7 +1820,7 @@ msgstr ""
 
 #: lua/plugins/report.lua:151
 msgid "This message is too old (>2 days)"
-msgstr ""
+msgstr "Diese Nachricht ist zu alt (>2 Tage)"
 
 #: lua/plugins/report.lua:162
 msgid "❕ Already (being) adressed"
