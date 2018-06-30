@@ -8,11 +8,12 @@ make_template() {
 			--package-version=4.2 \
 			--msgid-bugs-address=https://telegram.me/baconn \
 			--force-po \
+			--keyword=i18n \
 			--files-from=/dev/stdin \
 			--output=/dev/stdout
 }
 
-case $1 in 
+case $1 in
   bot | "")
     sed -i -E 's/\r$//' .env # Converting CRLF (\r\n) to LF (\n)
 	source .env && export $(cut -d= -f1 .env)
@@ -33,7 +34,7 @@ case $1 in
 			--output-file=locales/$2.po
 	fi
 	exit
-	;; 
+	;;
 
   update-locale)
 	if [ -z "$2" ]; then
