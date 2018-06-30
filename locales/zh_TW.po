@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 04:00\n"
+"PO-Revision-Date: 2018-06-30 04:50\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Chinese Traditional\n"
 "Language: zh\n"
@@ -77,12 +77,12 @@ msgstr "頻道"
 #: lua/plugins/antispam.lua:75
 #, lua-format
 msgid "%s %s for <b>spam</b>! (%d/%d)"
-msgstr ""
+msgstr "%s %s 為 <b>spam</b>！(%d/%d)"
 
 #: lua/plugins/antispam.lua:80
 #, lua-format
 msgid "%s, spam is not allowed here. The next time you will be restricted"
-msgstr ""
+msgstr "%s，傳送垃圾訊息在這裡是不允許的，當你下一次這麼做時，你將會被剝奪在這群組傳送訊息的權利。"
 
 #: lua/plugins/antispam.lua:86
 #, lua-format
@@ -99,11 +99,11 @@ msgstr "來自頻道的訊息"
 
 #: lua/plugins/antispam.lua:111
 msgid "forwards are allowed"
-msgstr ""
+msgstr "允許轉傳"
 
 #: lua/plugins/antispam.lua:113
 msgid "warn for forwards"
-msgstr ""
+msgstr "轉傳警告"
 
 #: lua/plugins/antispam.lua:115
 msgid "forwards will be deleted"
@@ -111,11 +111,11 @@ msgstr "轉發信息將被刪除"
 
 #: lua/plugins/antispam.lua:119
 msgid "links are allowed"
-msgstr ""
+msgstr "允許連結"
 
 #: lua/plugins/antispam.lua:121
 msgid "warn for links"
-msgstr ""
+msgstr "連結警告"
 
 #: lua/plugins/antispam.lua:123
 msgid "links will be deleted"
@@ -177,7 +177,12 @@ msgid "*Anti-spam settings*\n"
 "• ❌ = *Not allowed*\n"
 "• 🗑 = *Delete*\n"
 "When set on `delete`, the bot doesn't warn users until they are about to be kicked/banned/muted (at the second-to-last warning)\n"
-msgstr ""
+msgstr "* 防垃圾訊息設定 *\n"
+"選擇想要禁止什麼類型的垃圾訊息\n"
+"• ✅ = * 允許 *\n"
+"• ❌ = * 不允許 *\n"
+"• 🗑 = * 刪除 *\n"
+"當設定為「刪除」，機器人將不會警告使用者，直到被踢出、封鎖或靜音（倒數第二個警告）為止。\n"
 
 #: lua/plugins/antispam.lua:316
 msgid "_The whitelist was already empty_"
