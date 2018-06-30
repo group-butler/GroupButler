@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 05:31\n"
+"PO-Revision-Date: 2018-06-30 05:40\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Chinese Traditional\n"
 "Language: zh\n"
@@ -386,7 +386,7 @@ msgstr "<b>%s</b>\n"
 
 #: lua/plugins/configure.lua:64
 msgid "_I've sent you the keyboard via private message_"
-msgstr ""
+msgstr "_我已透過私人訊息發送了鍵盤給你_"
 
 #: lua/plugins/configure.lua:76
 msgid "<i>Change the settings of your group</i>"
@@ -494,7 +494,7 @@ msgstr "瀏覽這個訊息來取得關於這個群組的*所有訊息*！"
 
 #: lua/plugins/dashboard.lua:81
 msgid "_I've sent you the group dashboard via private message_"
-msgstr ""
+msgstr "_我已透過私人訊息發送了控制面板給你_"
 
 #: lua/plugins/dashboard.lua:96
 msgid "🚫 This group does not exist"
@@ -566,7 +566,7 @@ msgstr "ℹ️ 群組 ► 媒體"
 
 #: lua/plugins/defaultpermissions.lua:46
 msgid "Permission to send messages. If disabled, the user won't be able to send any kind of message"
-msgstr ""
+msgstr "允許發送訊息。如果關閉，使用者將不能發送任何訊息。"
 
 #: lua/plugins/defaultpermissions.lua:49
 msgid "Permission to send media (audios, documents, photos, videos, video notes and voice notes). Implies the permission to send messages\n"
