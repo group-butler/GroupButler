@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 05:01\n"
+"PO-Revision-Date: 2018-06-30 05:11\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Italian\n"
 "Language: it\n"
@@ -64,7 +64,7 @@ msgstr "ha kickato"
 #: lua/plugins/antispam.lua:34 lua/plugins/onmessage.lua:160
 #: lua/plugins/warn.lua:108
 msgid "muted"
-msgstr ""
+msgstr "silenziato"
 
 #: lua/plugins/antispam.lua:35 lua/plugins/dashboard.lua:140
 msgid "telegram.me links"
@@ -240,7 +240,9 @@ msgstr ""
 #, lua-format
 msgid "<i>I'm sorry, this command has been used for the last time less then 3 hours ago by</i> %s (ask him for the file).\\nWait [<code>%s</code>] to use it again\n"
 "\t\t\t\t\t"
-msgstr ""
+msgstr "<i>mi spiace, questo comando è stato utilizzato per l'ultima volta meno di 3 ore fa da</i> %s (chiedi a lui per il file).\\nAttendi [<code>%s</code>] per utilizzarlo di nuovo\n"
+"\t\t\t\t\t\n"
+"\t\t\t\t\t"
 
 #: lua/plugins/backup.lua:106
 msgid "*Sent in private*"
