@@ -109,7 +109,7 @@ local function on_msg_receive(msg, callback) -- The fn run whenever a message is
 					if not success then --if a bug happens
 						print(result)
 						if config.bot_settings.notify_bug then
-							api.sendReply(msg, _("🐞 Sorry, a *bug* occurred"), true)
+							api.sendReply(msg, i18n("🐞 Sorry, a *bug* occurred"), true)
 						end
 						api.sendAdmin('An #error occurred.\n'..result..'\n'..locale.language..'\n'..msg.text)
 						return
@@ -131,7 +131,7 @@ local function on_msg_receive(msg, callback) -- The fn run whenever a message is
 			end]]
 
 			-- send disclamer
-			api.sendMessage(msg.chat.id, _([[
+			api.sendMessage(msg.chat.id, i18n([[
 Hello everyone!
 My name is %s, and I'm a bot made to help administrators in their hard work.
 Unfortunately I can't work in normal groups. If you need me, please ask the creator to convert this group to a supergroup and then add me again.
