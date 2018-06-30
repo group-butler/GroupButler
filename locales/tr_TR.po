@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 11:31\n"
+"PO-Revision-Date: 2018-06-30 11:40\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Turkish\n"
 "Language: tr\n"
@@ -1513,12 +1513,12 @@ msgstr "Hoş geldin mesajını aç veya kapat"
 
 #: lua/plugins/menu.lua:19
 msgid "When enabled, every time a new welcome message is sent, the previously sent welcome message is removed"
-msgstr ""
+msgstr "Etkinleştirildiğinde, yeni bir hoşgeldin mesajı gönderildiğinde, daha önce gönderilen karşılama mesajı kaldırılır"
 
 #: lua/plugins/menu.lua:22
 msgid "When enabled, the bot doesn't answer in the group to /dashboard, /config and /help commands (it will just answer in private)\n"
 "\t\t\t"
-msgstr ""
+msgstr "Etkinleştirildiğinde, bot grupta /dashboard, /config ve /help komutlarına yanıt vermez (yalnızca özel olarak cevaplayacak)"
 
 #: lua/plugins/menu.lua:25
 msgid "Enable and disable the anti-flood system (more info in the /help message)"
@@ -1579,7 +1579,7 @@ msgstr "Maksimum değer sonucunda uygulanacak eylem: banla"
 
 #: lua/plugins/menu.lua:78
 msgid "New action on max number of warns received: mute"
-msgstr ""
+msgstr "Alınan en fazla sayıda uyarı için yeni işlem: sessize al"
 
 #: lua/plugins/menu.lua:81
 msgid "New action on max number of warns received: kick"
@@ -1682,13 +1682,14 @@ msgstr "flood gönderdiği için %s <b>gruptan atıldı</b>!"
 #: lua/plugins/onmessage.lua:116
 #, lua-format
 msgid "%s <b>muted</b> for flood!"
-msgstr ""
+msgstr "%s <b>sessize alındı</b> flood yüzünden!"
 
 #: lua/plugins/onmessage.lua:165
 #, lua-format
 msgid "%s <b>%s</b>: media sent not allowed!\n"
 "❗️ <code>%d/%d</code>"
-msgstr ""
+msgstr "%s <b>%s</b>: medya gönderimine izin verilmedi!\n"
+"❗️ <code>%d/%d</code>"
 
 #: lua/plugins/onmessage.lua:175
 #, lua-format
@@ -1901,11 +1902,11 @@ msgstr "Sorunu kapat"
 #: lua/plugins/report.lua:174
 #, lua-format
 msgid "%s has/will address this report"
-msgstr ""
+msgstr "%s bu rapora sahip olacak"
 
 #: lua/plugins/report.lua:182
 msgid "This button will delete all the reports sent to the other admins. Tap it again to confirm"
-msgstr ""
+msgstr "Bu düğme, diğer adminlere gönderilen tüm raporları siler. Onaylamak için tekrar dokunun"
 
 #: lua/plugins/report.lua:190
 msgid "(issue closed by you)"
