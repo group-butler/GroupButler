@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 09:10\n"
+"PO-Revision-Date: 2018-06-30 09:20\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -1100,7 +1100,7 @@ msgstr "*Kein Link* für diese Gruppe. Frage den Besitzer ihn mit `/setlink [gro
 
 #: lua/plugins/links.lua:36
 msgid "Link *unset*"
-msgstr ""
+msgstr "Link *nicht gesetzt*"
 
 #: lua/plugins/links.lua:42 lua/plugins/links.lua:59
 #, lua-format
@@ -1111,11 +1111,11 @@ msgstr "Der Link wurde gespeichert.\n"
 
 #: lua/plugins/links.lua:45
 msgid "This is not a *public supergroup*, so you need to write the link near `/setlink`"
-msgstr ""
+msgstr "Das ist keine *öffentliche Supergruppe*, also musst du den Link nahe `/setlink` schreiben"
 
 #: lua/plugins/links.lua:48
 msgid "This link is *not valid!*"
-msgstr ""
+msgstr "Dieser Link ist *ungültig!*"
 
 #: lua/plugins/links.lua:57
 #, lua-format
@@ -1166,31 +1166,31 @@ msgstr "Speichere wenn ein Admin den Titel der Gruppe ändert"
 
 #: lua/plugins/logchannel.lua:32
 msgid "Log pinned messages"
-msgstr ""
+msgstr "Log angepinnte Nachrichten"
 
 #: lua/plugins/logchannel.lua:34
 msgid "Log when an user who has been blocked is banned from the group (when he join)"
-msgstr ""
+msgstr "Loggen, wenn ein Nutzer der geblockt war von der Gruppe gebannt wurde (wenn er beitritt)"
 
 #: lua/plugins/logchannel.lua:36
 msgid "Log when a new user is promoted to moderator"
-msgstr ""
+msgstr "Loggen, wenn ein neuer Nutzer zum Moderator ernannt wird"
 
 #: lua/plugins/logchannel.lua:38
 msgid "Log when an user looses the role of moderator"
-msgstr ""
+msgstr "Loggen, wenn ein Nutzer die Rolle des Moderators verliert"
 
 #: lua/plugins/logchannel.lua:40
 msgid "Log when someone demotes all the moderators with '/modlist -'"
-msgstr ""
+msgstr "Loggen, wenn jemand alle Moderatoren mit `/modlist -` degradiert"
 
 #: lua/plugins/logchannel.lua:42
 msgid "Log when an admin removes the warning received by an user"
-msgstr ""
+msgstr "Loggen, wenn ein Admin die Warnung für einen Nutzer entfernt"
 
 #: lua/plugins/logchannel.lua:44
 msgid "Log when an user reports a message with the @admin command"
-msgstr ""
+msgstr "Loggen, wenn ein Nutzer eine Nachricht mit dem @admin Befehl meldet"
 
 #: lua/plugins/logchannel.lua:63
 msgid "Ban"
@@ -1198,7 +1198,7 @@ msgstr "Bann"
 
 #: lua/plugins/logchannel.lua:64
 msgid "Kick"
-msgstr ""
+msgstr "Kicken"
 
 #: lua/plugins/logchannel.lua:65 lua/utilities.lua:979
 msgid "Unban"
@@ -1210,11 +1210,11 @@ msgstr "Tempbann"
 
 #: lua/plugins/logchannel.lua:67
 msgid "Report"
-msgstr ""
+msgstr "Melden"
 
 #: lua/plugins/logchannel.lua:69
 msgid "Warns resets"
-msgstr ""
+msgstr "Warnungen zurücksetzen"
 
 #: lua/plugins/logchannel.lua:70
 msgid "New members"
@@ -1222,7 +1222,7 @@ msgstr "Neue User"
 
 #: lua/plugins/logchannel.lua:71
 msgid "Media warns"
-msgstr ""
+msgstr "Medienwarnungen"
 
 #: lua/plugins/logchannel.lua:72
 msgid "Spam warns"
@@ -1230,27 +1230,27 @@ msgstr "Spam warnungen"
 
 #: lua/plugins/logchannel.lua:73
 msgid "Flood"
-msgstr ""
+msgstr "Überschwemmung"
 
 #: lua/plugins/logchannel.lua:74
 msgid "Promotions"
-msgstr ""
+msgstr "Beförderungen"
 
 #: lua/plugins/logchannel.lua:75
 msgid "Demotions"
-msgstr ""
+msgstr "Degradierungen"
 
 #: lua/plugins/logchannel.lua:76
 msgid "All mods demoted"
-msgstr ""
+msgstr "Alle Mods degradiert"
 
 #: lua/plugins/logchannel.lua:77
 msgid "New group icon"
-msgstr ""
+msgstr "Neues Gruppensymbol"
 
 #: lua/plugins/logchannel.lua:78
 msgid "Group icon removed"
-msgstr ""
+msgstr "Gruppensymbol entfernt"
 
 #: lua/plugins/logchannel.lua:79
 msgid "New group title"
@@ -1258,34 +1258,37 @@ msgstr "Neuer Gruppen Titel"
 
 #: lua/plugins/logchannel.lua:80
 msgid "Pinned messages"
-msgstr ""
+msgstr "Angepinnte Nachrichten"
 
 #: lua/plugins/logchannel.lua:81
 msgid "Users blocked and banned"
-msgstr ""
+msgstr "Nutzer blockiert und gebannt"
 
 #: lua/plugins/logchannel.lua:82
 msgid "Users blocked"
-msgstr ""
+msgstr "Nutzer blockiert"
 
 #: lua/plugins/logchannel.lua:83
 msgid "Users unblocked"
-msgstr ""
+msgstr "Nutzer entblockiert"
 
 #: lua/plugins/logchannel.lua:110
 msgid "You are not admin of this group"
-msgstr ""
+msgstr "Du bist nicht Admin dieser Gruppe"
 
 #: lua/plugins/logchannel.lua:115
 msgid "User unbanned!"
-msgstr ""
+msgstr "Nutzer entbannt!"
 
 #: lua/plugins/logchannel.lua:139
 msgid "*Select the events the will be logged in the channel*\n"
 "✅ = will be logged\n"
 "☑️ = won't be logged\n\n"
 "Tap on a voice to get further informations"
-msgstr ""
+msgstr "*Wähle die Ergebnisse aus die in diesem Channel gelogged werden*\n"
+"✅ = werden gelogged\n"
+"☑️ = werden nicht gelogged\n\n"
+"Tippe auf eine Stimme um weitere Informationen zu erhalten"
 
 #: lua/plugins/logchannel.lua:166
 msgid "_Too many requests. Retry later_"
@@ -1327,7 +1330,7 @@ msgstr "Du must die Nachricht *Antworten* vom Kanal"
 
 #: lua/plugins/logchannel.lua:202 lua/plugins/logchannel.lua:211
 msgid "_This groups is not using a log channel_"
-msgstr ""
+msgstr "_Diese Gruppe benutzt keinen Log Kanal_"
 
 #: lua/plugins/logchannel.lua:205
 msgid "*Log channel removed*"
@@ -1346,7 +1349,7 @@ msgstr "<b>Diese Gruppe hat einen Kanal</b>\n"
 
 #: lua/plugins/mediasettings.lua:27
 msgid "Video messages"
-msgstr ""
+msgstr "Videonachrichten"
 
 #: lua/plugins/mediasettings.lua:54
 #, lua-format
