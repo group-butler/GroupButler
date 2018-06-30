@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 14:10\n"
+"PO-Revision-Date: 2018-06-30 14:21\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -18,7 +18,7 @@ msgstr ""
 
 #: lua/main.lua:112
 msgid "🐞 Sorry, a *bug* occurred"
-msgstr "Sorry, ein Fehler ist aufgetreten"
+msgstr "🐞 Leider ist ein *Fehler* aufgetreten"
 
 #: lua/main.lua:134
 #, lua-format
@@ -33,11 +33,11 @@ msgstr "Hallo alle zusammen!\n"
 
 #: lua/methods.lua:159
 msgid "I don't have enough permissions to restrict users"
-msgstr "I habe nicht genug Berechtigung um Benutzer einzuschränken"
+msgstr "I habe nicht genug Berechtigung, um Benutzer einzuschränken"
 
 #: lua/methods.lua:161
 msgid "I'm not an admin, I can't kick people"
-msgstr "Ich bin kein Administrator, ich kann keine Leute entfernen (kicken)"
+msgstr "Ich bin kein admin, ich kann Leute nicht kicken"
 
 #: lua/methods.lua:163
 msgid "I can't kick or ban an admin"
@@ -2061,11 +2061,11 @@ msgstr "Entferne diese Warnung"
 
 #: lua/plugins/warn.lua:40
 msgid "Max number of warnings changed (media).\n"
-msgstr "Max Anzahl von Verwarnungen geändert (Medien).\n"
+msgstr "Maximale Anzahl von Verwarnungen geändert (Medien).\n"
 
 #: lua/plugins/warn.lua:45
 msgid "Max number of warnings changed.\n"
-msgstr ""
+msgstr "Maximale Anzahl von Verwarnungen geändert.\n"
 
 #: lua/plugins/warn.lua:49
 #, lua-format
@@ -2076,11 +2076,11 @@ msgstr "*Alter* Wert war %s\n"
 
 #: lua/plugins/warn.lua:58
 msgid "Yes"
-msgstr ""
+msgstr "Ja"
 
 #: lua/plugins/warn.lua:58
 msgid "No"
-msgstr ""
+msgstr "Nein"
 
 #: lua/plugins/warn.lua:62
 msgid "Do you want to continue and reset *all* the warnings received by *all* the users of the group?"
@@ -2090,17 +2090,19 @@ msgstr ""
 #, lua-format
 msgid "Done! %s has been forgiven.\n"
 "<b>Warns found</b>: <i>normal warns %s, for media %s, spamwarns %s</i>"
-msgstr ""
+msgstr "Fertig! %s wurde vergeben.\n"
+"<b>Warnungn</b>: <i>%s normale Verwarnungen, %s für Medien, %s für Spam</i>"
 
 #: lua/plugins/warn.lua:98
 #, lua-format
 msgid "%s <b>%s</b>: reached the max number of warnings (<code>%d/%d</code>)"
-msgstr ""
+msgstr "%s <b>%s</b>: erreichte die maximale Anzahl von Warnungen (<code>%d/%d</code>)"
 
 #: lua/plugins/warn.lua:115
 msgid "I can't kick this user.\n"
 "Probably I'm not an Admin, or the user is an Admin iself"
-msgstr ""
+msgstr "Ich kann diesen Benutzer nicht kicken.\n"
+"Wahrscheinlich bin ich kein Admin, oder der Benutzer ist ein Admin"
 
 #: lua/plugins/warn.lua:135
 #, lua-format
@@ -2109,7 +2111,7 @@ msgstr "%s <b>Wurde gewarnt</b> (<code>%d/%d</code>)"
 
 #: lua/plugins/warn.lua:160
 msgid "The number of warnings received by this user is already <i>zero</i>"
-msgstr ""
+msgstr "Die Anzahl der Warnungen des Nutzers ist bereits <i>null</i>"
 
 #: lua/plugins/warn.lua:164
 #, lua-format
@@ -2125,11 +2127,11 @@ msgstr "(Admin: %s)"
 #: lua/plugins/warn.lua:176
 #, lua-format
 msgid "Done. All the warnings of this group have been erased by %s"
-msgstr ""
+msgstr "Fertig. Alle Warnungen ind dieser Gruppe wurden von %s gelöscht"
 
 #: lua/plugins/warn.lua:178
 msgid "_Action aborted_"
-msgstr ""
+msgstr "_Aktion abgebrochen_"
 
 #: lua/plugins/welcome.lua:84 lua/plugins/welcome.lua:179
 msgid "Read the rules"
@@ -2138,11 +2140,11 @@ msgstr "Lies die Regeln"
 #: lua/plugins/welcome.lua:102
 #, lua-format
 msgid "Hi %s!"
-msgstr ""
+msgstr "Hallo %s!"
 
 #: lua/plugins/welcome.lua:114
 msgid "Welcome and...?"
-msgstr ""
+msgstr "Willkommen und...?"
 
 #: lua/plugins/welcome.lua:137
 #, lua-format
@@ -2159,7 +2161,7 @@ msgstr "*Benutzerdefinierte Willkommensnachricht gespeichert*"
 
 #: lua/utilities.lua:371
 msgid "More info [here](https://telegram.me/GB_tutorials/12)"
-msgstr ""
+msgstr "Mehr info [hier](https://telegram.me/GB_tutorials/12)"
 
 #: lua/utilities.lua:374 lua/utilities.lua:376 lua/utilities.lua:378
 #, lua-format
@@ -2190,15 +2192,15 @@ msgstr ""
 
 #: lua/utilities.lua:387
 msgid "Please input a text"
-msgstr ""
+msgstr "Bitte geben Sie etwas ein"
 
 #: lua/utilities.lua:390
 msgid "Text not valid: unknown formatting error"
-msgstr ""
+msgstr "Text ungültig: unbekannter Formatierungsfehler"
 
 #: lua/utilities.lua:552
 msgid "-*empty*-"
-msgstr ""
+msgstr "-*leer*-"
 
 #: lua/utilities.lua:591
 #, lua-format
@@ -2218,7 +2220,7 @@ msgstr ""
 
 #: lua/utilities.lua:609
 msgid "Current settings for *the group*:\n\n"
-msgstr ""
+msgstr "Aktuellen Einstellungen *der Gruppe*:\n\n"
 
 #: lua/utilities.lua:610
 #, lua-format
@@ -2227,11 +2229,11 @@ msgstr "*Folgende Sprache wurde eingestellt:* %s"
 
 #: lua/utilities.lua:614
 msgid "Welcome message"
-msgstr ""
+msgstr "Willkommensnachricht"
 
 #: lua/utilities.lua:615
 msgid "Goodbye message"
-msgstr ""
+msgstr "Abschieds-Nachricht"
 
 #: lua/utilities.lua:624
 msgid "Welcome button"
@@ -2482,10 +2484,10 @@ msgstr ""
 
 #: lua/utilities.lua:990
 msgid "Go to the message"
-msgstr ""
+msgstr "Gehe zur Nachricht"
 
 #: lua/utilities.lua:1034
 #, lua-format
 msgid "This command has been removed \\[[read more](%s)]"
-msgstr ""
+msgstr "Dieser Befehl wurde entfernt \\[[mehr infos](%s)]"
 
