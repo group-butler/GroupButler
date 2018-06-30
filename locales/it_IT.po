@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 05:11\n"
+"PO-Revision-Date: 2018-06-30 05:21\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Italian\n"
 "Language: it\n"
@@ -82,7 +82,7 @@ msgstr "%s %s per <b>spam</b>! (%d/%d)"
 #: lua/plugins/antispam.lua:80
 #, lua-format
 msgid "%s, spam is not allowed here. The next time you will be restricted"
-msgstr ""
+msgstr "%s, lo spam non è permesso qui. La prossima volta verrai limitato"
 
 #: lua/plugins/antispam.lua:86
 #, lua-format
@@ -99,27 +99,27 @@ msgstr "messaggio inoltrato da un canale"
 
 #: lua/plugins/antispam.lua:111
 msgid "forwards are allowed"
-msgstr ""
+msgstr "gli inoltri sono ammessi"
 
 #: lua/plugins/antispam.lua:113
 msgid "warn for forwards"
-msgstr ""
+msgstr "avvisa degli inoltri"
 
 #: lua/plugins/antispam.lua:115
 msgid "forwards will be deleted"
-msgstr ""
+msgstr "gli inoltri saranno cancellati"
 
 #: lua/plugins/antispam.lua:119
 msgid "links are allowed"
-msgstr ""
+msgstr "i link sono ammessi"
 
 #: lua/plugins/antispam.lua:121
 msgid "warn for links"
-msgstr ""
+msgstr "avvisa dei link"
 
 #: lua/plugins/antispam.lua:123
 msgid "links will be deleted"
-msgstr ""
+msgstr "i link verranno cancellati"
 
 #: lua/plugins/antispam.lua:139
 msgid "You can't go lower"
@@ -154,15 +154,15 @@ msgstr "Descrizione non disponibile"
 
 #: lua/plugins/antispam.lua:202
 msgid "Kick 👞"
-msgstr ""
+msgstr "Kicka 👞"
 
 #: lua/plugins/antispam.lua:204
 msgid "Ban 🔨"
-msgstr ""
+msgstr "Banna 🔨"
 
 #: lua/plugins/antispam.lua:206
 msgid "Mute 👁"
-msgstr ""
+msgstr "Muta 👁"
 
 #: lua/plugins/antispam.lua:252 lua/plugins/floodmanager.lua:124
 #: lua/plugins/logchannel.lua:128 lua/plugins/mediasettings.lua:96
@@ -177,7 +177,12 @@ msgid "*Anti-spam settings*\n"
 "• ❌ = *Not allowed*\n"
 "• 🗑 = *Delete*\n"
 "When set on `delete`, the bot doesn't warn users until they are about to be kicked/banned/muted (at the second-to-last warning)\n"
-msgstr ""
+msgstr "*Impostazioni anti-spam*\n"
+"Scegliere quale tipo di spam si desidera vietare\n"
+"• ✅ = *Ammesso*\n"
+"• ❌ = *Non ammesso*\n"
+"• 🗑 = *Elimina*\n"
+"Quando impostato su \"elimina\" il bot non avverte gli utenti finché non stanno per essere kickati/bannati/mutati (al penultimo avviso)\n"
 
 #: lua/plugins/antispam.lua:316
 msgid "_The whitelist was already empty_"
@@ -224,17 +229,18 @@ msgstr "%d link rimossi dalla whitelist"
 
 #: lua/plugins/antispam.lua:378
 msgid "_Whitelist of channels empty_"
-msgstr ""
+msgstr "_Whitelist per i canali vuota_"
 
 #: lua/plugins/antispam.lua:380
 #, lua-format
 msgid "*Whitelisted channels:*\n"
 "%s"
-msgstr ""
+msgstr "*Whitelist per i canali:*\n"
+"%s"
 
 #: lua/plugins/antispam.lua:387 lua/plugins/antispam.lua:404
 msgid "_I can't find a channel ID in your message_"
-msgstr ""
+msgstr "_Non riesco a trovare un ID del canale nel messaggio_"
 
 #: lua/plugins/backup.lua:99
 #, lua-format
@@ -275,7 +281,7 @@ msgstr "Input non valido. Per favore, rispondi ad un documento (usa /snap per ot
 
 #: lua/plugins/banhammer.lua:73
 msgid "Use -/+ to edit the value, then select a timeframe to temporary ban the user"
-msgstr ""
+msgstr "Usa +/- per modificare il valore. Quindi seleziona la durata di ban temporaneo per l'utente"
 
 #: lua/plugins/banhammer.lua:80 lua/plugins/banhammer.lua:93
 msgid "I can't kick this user.\n"
@@ -295,12 +301,13 @@ msgstr "%s ha bannato %s!"
 
 #: lua/plugins/banhammer.lua:104
 msgid "_Use this command in reply to a forwarded message_"
-msgstr ""
+msgstr "_Usa questo comando in risposta ad un messaggio inoltrato_"
 
 #: lua/plugins/banhammer.lua:110 lua/plugins/banhammer.lua:192
 msgid "I can't kick this user.\n"
 "I am not allowed to ban or the target user is an admin"
-msgstr ""
+msgstr "Non posso kickare questo utente.\n"
+"Forse non ho i permessi per bannare oppure l'utente su cui si vorrebbe eseguire l'azione è un amministratore"
 
 #: lua/plugins/banhammer.lua:122
 msgid "_An admin can't be unbanned_"
@@ -308,7 +315,7 @@ msgstr "_Un admin non può essere sbannato_"
 
 #: lua/plugins/banhammer.lua:127
 msgid "This user is not banned!"
-msgstr ""
+msgstr "Questo utente non è bannato!"
 
 #: lua/plugins/banhammer.lua:131
 #, lua-format
@@ -317,31 +324,31 @@ msgstr "%s sbannato da %s!"
 
 #: lua/plugins/banhammer.lua:142
 msgid "You don't have the permissions to restrict members"
-msgstr ""
+msgstr "Non hai i permessi per limitare gli utenti"
 
 #: lua/plugins/banhammer.lua:146
 msgid "Tap on the -/+ buttons to change this value. Then select a timeframe to execute the ban"
-msgstr ""
+msgstr "Tocca i pulsanti +/- per modificare questo valore. Quindi imposta una durata di ban"
 
 #: lua/plugins/banhammer.lua:155
 msgid "You can't set a lower value"
-msgstr ""
+msgstr "Non è possibile impostare un valore inferiore"
 
 #: lua/plugins/banhammer.lua:163
 msgid "Stop!!!"
-msgstr ""
+msgstr "Ferma!!!"
 
 #: lua/plugins/banhammer.lua:179
 msgid "hours"
-msgstr ""
+msgstr "ore"
 
 #: lua/plugins/banhammer.lua:183
 msgid "days"
-msgstr ""
+msgstr "giorni"
 
 #: lua/plugins/banhammer.lua:187
 msgid "minutes"
-msgstr ""
+msgstr "minuti"
 
 #: lua/plugins/banhammer.lua:196
 #, lua-format
