@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 06:01\n"
+"PO-Revision-Date: 2018-06-30 06:10\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -33,7 +33,7 @@ msgstr "\n"
 
 #: lua/methods.lua:159
 msgid "I don't have enough permissions to restrict users"
-msgstr "У меня недостаточно прав на ограничение пользователей"
+msgstr "У меня недостаточно прав на ограничение прав пользователей"
 
 #: lua/methods.lua:161
 msgid "I'm not an admin, I can't kick people"
@@ -177,7 +177,12 @@ msgid "*Anti-spam settings*\n"
 "• ❌ = *Not allowed*\n"
 "• 🗑 = *Delete*\n"
 "When set on `delete`, the bot doesn't warn users until they are about to be kicked/banned/muted (at the second-to-last warning)\n"
-msgstr ""
+msgstr "*Настройки антиспама*\n"
+"Выберите, какие виды спама вы хотите запретить\n"
+"• ✅ = *Разрешён*\n"
+"• ❌ = *Запрещён*\n"
+"• 🗑 = *Удаляется*\n"
+"Когда выставлен режим `Удаляется`, бот не оповещает пользователей до тех пор, пока они не получат предпоследнее предупреждение\n"
 
 #: lua/plugins/antispam.lua:316
 msgid "_The whitelist was already empty_"
@@ -241,7 +246,8 @@ msgstr "_Я не могу найти ID каналов в этом сообще�
 #, lua-format
 msgid "<i>I'm sorry, this command has been used for the last time less then 3 hours ago by</i> %s (ask him for the file).\\nWait [<code>%s</code>] to use it again\n"
 "\t\t\t\t\t"
-msgstr ""
+msgstr "<i>Извините, последний раз эту команду использовал меньше 3 часов назад пользователь</i> %s (попросите у него файл).\\nПодождите [<code>%s</code>], перед повторной попытке\n"
+"\t\t\t\t\t"
 
 #: lua/plugins/backup.lua:106
 msgid "*Sent in private*"
@@ -274,7 +280,7 @@ msgstr "Неверный ввод. Ответь на файл резервной
 
 #: lua/plugins/banhammer.lua:73
 msgid "Use -/+ to edit the value, then select a timeframe to temporary ban the user"
-msgstr ""
+msgstr "Используйте -/+, чтобы изменить значение, затем установите длительность временного бана пользователя"
 
 #: lua/plugins/banhammer.lua:80 lua/plugins/banhammer.lua:93
 msgid "I can't kick this user.\n"
@@ -308,7 +314,7 @@ msgstr "_Админа нельзя разбанить_"
 
 #: lua/plugins/banhammer.lua:127
 msgid "This user is not banned!"
-msgstr ""
+msgstr "Пользователь не забанен!"
 
 #: lua/plugins/banhammer.lua:131
 #, lua-format
@@ -317,36 +323,36 @@ msgstr "%s разбанен админом %s!"
 
 #: lua/plugins/banhammer.lua:142
 msgid "You don't have the permissions to restrict members"
-msgstr ""
+msgstr "У вас нет прав на ограничение прав участников"
 
 #: lua/plugins/banhammer.lua:146
 msgid "Tap on the -/+ buttons to change this value. Then select a timeframe to execute the ban"
-msgstr ""
+msgstr "Нажимайте на кнопки -/+, чтобы изменить значение. Затем установите длительность, чтобы вызвать бан"
 
 #: lua/plugins/banhammer.lua:155
 msgid "You can't set a lower value"
-msgstr ""
+msgstr "Вы не можете установить значение ниже"
 
 #: lua/plugins/banhammer.lua:163
 msgid "Stop!!!"
-msgstr ""
+msgstr "Остановитесь!!!"
 
 #: lua/plugins/banhammer.lua:179
 msgid "hours"
-msgstr ""
+msgstr "ч."
 
 #: lua/plugins/banhammer.lua:183
 msgid "days"
-msgstr ""
+msgstr "дн."
 
 #: lua/plugins/banhammer.lua:187
 msgid "minutes"
-msgstr ""
+msgstr "мин."
 
 #: lua/plugins/banhammer.lua:196
 #, lua-format
 msgid "User banned for %d %s"
-msgstr ""
+msgstr "Пользователь забанен на %d %s"
 
 #: lua/plugins/configure.lua:34
 msgid "🛠 Menu"
@@ -566,7 +572,8 @@ msgstr "Разрешение отправлять сообщения. Если �
 #: lua/plugins/defaultpermissions.lua:49
 msgid "Permission to send media (audios, documents, photos, videos, video notes and voice notes). Implies the permission to send messages\n"
 "\t\t\t"
-msgstr ""
+msgstr "Право на отправку файлов (аудиофайлы, документы, фото, видео, видеосообщения и голосовые сообщения). Подразумевает право на отправку сообщений\n"
+"\t\t\t"
 
 #: lua/plugins/defaultpermissions.lua:53
 msgid "Permission to send other types of messages (GIFs, games, stickers and use inline bots). Implies the permission to send medias\n"
