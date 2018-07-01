@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 14:41\n"
+"PO-Revision-Date: 2018-07-01 02:56\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -37,7 +37,7 @@ msgstr "I habe nicht genug Berechtigung, um Benutzer einzuschränken"
 
 #: lua/methods.lua:161
 msgid "I'm not an admin, I can't kick people"
-msgstr "Ich bin kein admin, ich kann Leute nicht kicken"
+msgstr "Ich bin kein Administrator, ich kann keine Leute entfernen (kicken)"
 
 #: lua/methods.lua:163
 msgid "I can't kick or ban an admin"
@@ -140,11 +140,11 @@ msgstr "Erlaube/Verbiete telegram.me links"
 
 #: lua/plugins/antispam.lua:172
 msgid "Allow/forbid forwarded messages from channels"
-msgstr "Erlaube/Verbiete \"Antwort\" Nachrichten von Channels"
+msgstr "Erlaube/Verbiete weitergeleitete Nachrichten von Kanälen"
 
 #: lua/plugins/antispam.lua:174
 msgid "Set how many times the bot should warn the user before kick/ban him"
-msgstr "Setzte wie oft der bot einen User warnen soll befor er ihn kicken/bannen soll"
+msgstr "Stell ein, wie oft der Bot einen Nutzer warnen soll bevor er ihn kicken/bannen soll"
 
 #: lua/plugins/antispam.lua:176 lua/plugins/defaultpermissions.lua:58
 #: lua/plugins/floodmanager.lua:18 lua/plugins/logchannel.lua:46
@@ -284,18 +284,18 @@ msgstr "Benutze -/+ um den Wert zu bearbeiten, wähle dann einen Zeitrahmen aus 
 #: lua/plugins/banhammer.lua:80 lua/plugins/banhammer.lua:93
 msgid "I can't kick this user.\n"
 "Either I'm not an admin, or the targeted user is!"
-msgstr "Ich kann diesen Nutzer (user) nicht entfernen (kicken).\n"
-"Wahrscheinlich bin ich entweder kein Administrator oder der Nutzer ist selbst Admin"
+msgstr "Ich kann diesen Nutzer nicht kicken.\n"
+"Wahrscheinlich bin ich kein Admin oder der Nutzer ist einer!"
 
 #: lua/plugins/banhammer.lua:86
 #, lua-format
 msgid "%s kicked %s!"
-msgstr ""
+msgstr "%s entfernt %s! (Aber es ist dem Nutzer (user) noch immer möglich zurückzukommen (rejoin))"
 
 #: lua/plugins/banhammer.lua:99 lua/plugins/banhammer.lua:116
 #, lua-format
 msgid "%s banned %s!"
-msgstr "Nutzer (user) entsperrt (unbanned) by %s!"
+msgstr "Nutzer entbannt von %s !"
 
 #: lua/plugins/banhammer.lua:104
 msgid "_Use this command in reply to a forwarded message_"
@@ -318,11 +318,11 @@ msgstr "Dieser Nutzer ist nicht gebannt!"
 #: lua/plugins/banhammer.lua:131
 #, lua-format
 msgid "%s unbanned by %s!"
-msgstr "Nutzer (user) entsperrt (unbanned) by %s!"
+msgstr "Nutzer entbannt von %s !"
 
 #: lua/plugins/banhammer.lua:142
 msgid "You don't have the permissions to restrict members"
-msgstr "Du hast keine Berechtigung Nutzer einzuschränken"
+msgstr "Du hast keine Berechtigung, Nutzer einzuschränken"
 
 #: lua/plugins/banhammer.lua:146
 msgid "Tap on the -/+ buttons to change this value. Then select a timeframe to execute the ban"
@@ -359,7 +359,7 @@ msgstr "🛠️ Menü"
 
 #: lua/plugins/configure.lua:35
 msgid "⚡️ Antiflood"
-msgstr "⚡️ Antispam"
+msgstr "⚡️ Anti Überschwemmung"
 
 #: lua/plugins/configure.lua:36
 msgid "🌈 Media"
@@ -371,7 +371,7 @@ msgstr "🚫 Anti-Spam"
 
 #: lua/plugins/configure.lua:38
 msgid "📥 Log channel"
-msgstr "📥 Log den Kanal"
+msgstr "📥 Logge den Kanal"
 
 #: lua/plugins/configure.lua:48
 msgid "⛔️ Default permissions"
@@ -407,7 +407,7 @@ msgstr "👞 kicken"
 
 #: lua/plugins/dashboard.lua:22
 msgid "🔨️ ️ban"
-msgstr "🔨️ ️bann"
+msgstr "🔨️ ️bannen"
 
 #: lua/plugins/dashboard.lua:24 lua/plugins/floodmanager.lua:38
 #: lua/plugins/menu.lua:157 lua/plugins/menu.lua:213
@@ -420,12 +420,12 @@ msgstr "Texte"
 
 #: lua/plugins/dashboard.lua:29 lua/plugins/floodmanager.lua:57
 msgid "Forwards"
-msgstr "Antworten"
+msgstr "Weitergeleitete Nachrichten"
 
 #: lua/plugins/dashboard.lua:30 lua/plugins/dashboard.lua:144
 #: lua/plugins/floodmanager.lua:58 lua/plugins/mediasettings.lua:33
 msgid "Stickers"
-msgstr "Stickers"
+msgstr "Sticker"
 
 #: lua/plugins/dashboard.lua:31 lua/plugins/dashboard.lua:136
 #: lua/plugins/floodmanager.lua:59 lua/plugins/mediasettings.lua:24
@@ -435,7 +435,7 @@ msgstr "Bilder"
 #: lua/plugins/dashboard.lua:32 lua/plugins/dashboard.lua:137
 #: lua/plugins/floodmanager.lua:60 lua/plugins/mediasettings.lua:25
 msgid "GIFs"
-msgstr "Animierte Bilder (GIFs)"
+msgstr "GIFs"
 
 #: lua/plugins/dashboard.lua:33 lua/plugins/dashboard.lua:138
 #: lua/plugins/floodmanager.lua:61 lua/plugins/mediasettings.lua:26
@@ -494,15 +494,15 @@ msgstr "Navigiere diese Nachricht um *alle Infos* über diese Gruppe zu sehen"
 
 #: lua/plugins/dashboard.lua:81
 msgid "_I've sent you the group dashboard via private message_"
-msgstr "_Ich hab dir das Dashboard via Privatnachricht geschickt_"
+msgstr "_Ich hab dir das Gruopen Dashboard via Privatnachricht geschickt_"
 
 #: lua/plugins/dashboard.lua:96
 msgid "🚫 This group does not exist"
-msgstr "Diese Gruppe existiert nicht"
+msgstr "🚫 Diese Gruppe existiert nicht"
 
 #: lua/plugins/dashboard.lua:103
 msgid "🚷 You are not a member of the chat. You can't see the settings of a private group."
-msgstr "🚷 Du bist kein Member in diesem Chat. Su kannst nicht due einstellungen einer Privaten Gruppe sehen."
+msgstr "🚷 Du bist kein Mitglied in diesem Chat. Du kannst die Einstellungen einer Privaten Gruppe nicht sehen."
 
 #: lua/plugins/dashboard.lua:110
 msgid "ℹ️ Group ► Settings"
@@ -526,7 +526,7 @@ msgstr "ℹ️ Gruppe ► Extra"
 
 #: lua/plugins/dashboard.lua:132
 msgid "ℹ️ Group ► Flood"
-msgstr "ℹ️ Gruppe ► Flood"
+msgstr "ℹ️ Gruppe ► Überschwemmung"
 
 #: lua/plugins/dashboard.lua:139 lua/plugins/mediasettings.lua:28
 msgid "Documents"
@@ -566,7 +566,7 @@ msgstr "ℹ️ Gruppe ► Medien"
 
 #: lua/plugins/defaultpermissions.lua:46
 msgid "Permission to send messages. If disabled, the user won't be able to send any kind of message"
-msgstr "Berechtigung zum senden von Nachrichten. Benutzer ohne diese Berechtigung können keine Nachrichten jeglicher art senden"
+msgstr "Berechtigung zum Senden von Nachrichten. Benutzer ohne diese Berechtigung können keine Nachrichten jeglicher art senden"
 
 #: lua/plugins/defaultpermissions.lua:49
 msgid "Permission to send media (audios, documents, photos, videos, video notes and voice notes). Implies the permission to send messages\n"
@@ -578,9 +578,9 @@ msgstr "Berechtigung zum senden von Medien (Audio, Dokumente, Fotos, Videos, Vid
 #: lua/plugins/defaultpermissions.lua:53
 msgid "Permission to send other types of messages (GIFs, games, stickers and use inline bots). Implies the permission to send medias\n"
 "\t\t\t"
-msgstr "Berechtigung zum senden von anderen Arten von Nachrichten (GIFs, Spiele, Aufkleber und das Benutzen von inline-bots). Impliziert die Berechtigung zum senden von Medien\n"
+msgstr "Berechtigung zum Senden von anderen Arten von Nachrichten (GIFs, Spiele, Sticker und das Benutzen von Inline-bots). Impliziert die Berechtigung zum Senden von Medien\n"
 "\t\t\t\n"
-"\t\t\t"
+"\t\t\t\t\t\t"
 
 #: lua/plugins/defaultpermissions.lua:56
 msgid "When disabled, user's messages with a link won't show the web page preview"
@@ -604,7 +604,7 @@ msgstr "Webseitenvorschau zeigen"
 
 #: lua/plugins/defaultpermissions.lua:112
 msgid "You don't have the permission to restrict members"
-msgstr "Du hast keine Berechtigung Nutzer einzuschränken"
+msgstr "Du hast keine Berechtigung, Nutzer einzuschränken"
 
 #: lua/plugins/defaultpermissions.lua:114
 msgid "*Deafult permissions*\n"
@@ -619,29 +619,29 @@ msgstr "*Standard-Berechtigungen*\n"
 #: lua/plugins/defaultpermissions.lua:136
 #, lua-format
 msgid "Setting saved, but I can't edit the buttons because you are too fast! Wait other %d seconds"
-msgstr "Einstellung gespeichert, aber ich konnte die Tasten nicht bearbeiten, weil du zu schnell warst! Warte %d Sekunden"
+msgstr "Einstellung gespeichert, aber ich konnte die Tasten nicht bearbeiten, weil du zu schnell bist! Warte %d Sekunden"
 
 #: lua/plugins/extra.lua:41
 #, lua-format
 msgid "This media has been saved as a response to %s"
-msgstr "Medie wurde gespeichert zu %s"
+msgstr "Dieses Medium wurde als Antwort gespeichert auf %s"
 
 #: lua/plugins/extra.lua:55
 #, lua-format
 msgid "Command '%s' saved!"
-msgstr "Keine Befehle (commands) gespeichert!"
+msgstr "Befehl '%s' gespeichert!"
 
 #: lua/plugins/extra.lua:78
 #, lua-format
 msgid "Commands deleted: `%s`"
-msgstr "Befehl gelöscht: `%s`"
+msgstr "Befehle gelöscht: `%s`"
 
 #: lua/plugins/extra.lua:80
 #, lua-format
 msgid "\n"
 "Commands not found: `%s`"
 msgstr "\n"
-"Befehl nicht gefunden: `%s`"
+"Befehle nicht gefunden: `%s`"
 
 #: lua/plugins/extra.lua:132
 #, lua-format
@@ -656,13 +656,13 @@ msgstr "⚖ Aktuelle Empfindlichkeit. Drück auf + oder - um sie zu ändern"
 msgid "Choose which media must be ignored by the antiflood (the bot won't consider them).\n"
 "✅: ignored\n"
 "❌: not ignored"
-msgstr "Suche aus welche medien von Antiflood ignoriert werden (der Bot wird sie nicht berücksichtigen)\n"
+msgstr "Suche aus, welche Medien von Anti-Überschwemmung ignoriert werden (der Bot wird sie nicht berücksichtigen)\n"
 "✅: Ignoriert\n"
 "❌: Nicht Ignoriert"
 
 #: lua/plugins/floodmanager.lua:34
 msgid "👞️ kick"
-msgstr "👞 entfernen"
+msgstr "👞 kicken"
 
 #: lua/plugins/floodmanager.lua:36
 msgid "🔨 ️ban"
@@ -670,15 +670,15 @@ msgstr "🔨 ️bannen"
 
 #: lua/plugins/floodmanager.lua:91
 msgid "Flooders will be banned"
-msgstr "Flooder werden gebannt"
+msgstr "Überschwemmer werden gebannt"
 
 #: lua/plugins/floodmanager.lua:94
 msgid "Flooders will be kicked"
-msgstr "Flooder werden gekickt"
+msgstr "Überschwemmer werden gekickt"
 
 #: lua/plugins/floodmanager.lua:97
 msgid "Flooders will be muted"
-msgstr "Flooder werden stummgeschaltet"
+msgstr "Überschwemmer werden stummgeschaltet"
 
 #: lua/plugins/floodmanager.lua:106 lua/plugins/floodmanager.lua:113
 #, lua-format
@@ -688,18 +688,18 @@ msgstr "%d ist kein verfügbarer Wert!"
 #: lua/plugins/floodmanager.lua:127
 msgid "You can manage the antiflood settings from here.\\n\\nIt is also possible to choose which type of messages the antiflood will ignore (✅)\n"
 "\t\t\t"
-msgstr "Die Antiflood Einstellungen können von hier aus verwaltet werden.\\n\\NEs ist auch möglich, zu wählen, welche Art von Nachrichten Antiflood ignoriert (✅)\n"
+msgstr "Die Anti-Überschwemmungs Einstellungen können von hier aus verwaltet werden.\\n\\nEs ist auch möglich zu wählen, welche Art von Nachrichten Anti-Überschwemmung ignoriert (✅)\n"
 "\t\t\t\n"
 "\t\t\t"
 
 #: lua/plugins/floodmanager.lua:133
 msgid "Antiflood settings"
-msgstr "Antiflood-Einstellungen"
+msgstr "Anti-Überschwemmungs-Einstellungen"
 
 #: lua/plugins/floodmanager.lua:151
 #, lua-format
 msgid "❎ [%s] will be ignored by the anti-flood"
-msgstr "❎ [%s] wird vom Anti-Spam ignoriert werden"
+msgstr "❎ [%s] wird von Anti-Überschwemmung ignoriert werden"
 
 #: lua/plugins/floodmanager.lua:154
 #, lua-format
