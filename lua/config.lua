@@ -110,20 +110,20 @@ local _M =
 	},
 	available_languages = {
 		['en'] = 'English 🇬🇧',
-		['it'] = 'Italiano 🇮🇹',
-		['es'] = 'Español 🇪🇸',
+		['it_IT'] = 'Italiano 🇮🇹',
+		['es_ES'] = 'Español 🇪🇸',
 		['pt_BR'] = 'Português 🇧🇷',
-		['ru'] = 'Русский 🇷🇺',
-		['de'] = 'Deutsch 🇩🇪',
-		--['sv'] = 'Svensk 🇸🇪',
-		['ar'] = 'العربية 🇸🇩',
-		--['fr'] = 'Français 🇫🇷',
-		['zh'] = '中文 🇨🇳',
-		['fa'] = 'فارسی 🇮🇷',
-		['id'] = 'Bahasa Indonesia 🇮🇩',
-		['nl'] = 'Nederlands 🇱🇺',
-		['tr'] = 'Turkish 🇹🇷'
-		-- more languages will come
+		['ru_RU'] = 'Русский 🇷🇺',
+		['de_DE'] = 'Deutsch 🇩🇪',
+		-- ['sv_SE'] = 'Svensk 🇸🇪',
+		['ar_SA'] = 'العربية 🇸🇩',
+		-- ['fr_FR'] = 'Français 🇫🇷',
+		['zh_TW'] = '中文 🇨🇳',
+		['fa_IR'] = 'فارسی 🇮🇷',
+		['id_ID'] = 'Bahasa Indonesia 🇮🇩',
+		['nl_NL'] = 'Nederlands 🇱🇺',
+		['tr_TR'] = 'Turkish 🇹🇷'
+		-- languages become available once they reach a reasonable progress at Crowdin
 	},
 	allow_fuzzy_translations = false,
 	chat_settings = {
