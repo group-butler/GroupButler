@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 06:31\n"
+"PO-Revision-Date: 2018-07-01 02:56\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -1673,7 +1673,7 @@ msgstr "🔨️ забанить"
 
 #: lua/plugins/menu.lua:217
 msgid "Warns: "
-msgstr ""
+msgstr "Предупреждения: "
 
 #: lua/plugins/menu.lua:222
 msgid "Action:"
