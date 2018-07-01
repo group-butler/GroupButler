@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: https://telegram.me/baconnn\n"
 "POT-Creation-Date: 2016-08-27 17:50+0300\n"
-"PO-Revision-Date: 2018-06-30 09:10\n"
+"PO-Revision-Date: 2018-07-01 02:56\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Arabic\n"
 "Language: ar\n"
@@ -687,7 +687,7 @@ msgstr "%d قيمة غير صالحة\n"
 #: lua/plugins/floodmanager.lua:127
 msgid "You can manage the antiflood settings from here.\\n\\nIt is also possible to choose which type of messages the antiflood will ignore (✅)\n"
 "\t\t\t"
-msgstr ""
+msgstr "After the new order is put on track I assume the marketing and sales will take another speed,also if we fix the banks facilities if not working with Drexel for big jobs,I m happy for what and how we are moving,but at the earliest we need to start hammering gind more seriously because could prevent our growth and sales if not reputation..let's say phase 1 is mostly achieved now we need by any means SIM 14 and design the after sales structure we think we should need..may be on phases using outsourcing but taking control of the documentation and serious after sales system that can help marketing new businesses..phase 2 must start asap... that's our next goal beside what we are doing...we don't want own goals ...like we see many at world cup😃😃 brainstorm it please amongst you all and take notes to implement..ciao"
 
 #: lua/plugins/floodmanager.lua:133
 msgid "Antiflood settings"
