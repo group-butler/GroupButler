@@ -203,7 +203,7 @@ local function doKeyboard_antispam(chat_id)
 	elseif action == 'ban' then
 		action = i18n("Ban 🔨")
 	elseif action == 'mute' then
-		action = i18n("Mute 👁")
+		action = i18n("Mute 👝")
 	end
 
 	local line = {
