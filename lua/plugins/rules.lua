@@ -61,12 +61,12 @@ function plugin.onTextMessage(msg, blocks)
 		local rules = blocks[2]
 		--ignore if not input text
 		if not rules then
-			api.sendReply(msg, i18n("Please write something next `/setrules`"), true) return
+			api.sendReply(msg, i18n("Please write something after `/setrules`"), true) return
 		end
 		--check if a mod want to clean the rules
 		if rules == '-' then
 			db:hdel(hash, 'rules')
-			api.sendReply(msg, i18n("Rules has been deleted."))
+			api.sendReply(msg, i18n("Rules have been deleted."))
 			return
 		end
 

@@ -43,17 +43,17 @@ end
 
 local function get_alert_text(key)
 	if key == 'can_send_messages' then
-		return i18n("Permission to send messages. If disabled, the user won't be able to send any kind of message")
+		return i18n("Permission to send messages. If disabled, the user won't be able to send any kind of message.")
 	elseif key == 'can_send_media_messages' then
 		return i18n(
-			[[Permission to send media (audios, documents, photos, videos, video notes and voice notes). Implies the permission to send messages
+			[[Permission to send media (audio, documents, pictures, videos, video messages and voice messages). Implies the permission to send messages.
 			]])
 	elseif key == 'can_send_other_messages' then
 		return i18n(
-			[[Permission to send other types of messages (GIFs, games, stickers and use inline bots). Implies the permission to send medias
+			[[Permission to send other types of messages (GIFs, games, stickers and use inline bots). Implies the permission to send media.
 			]])
 	elseif key == 'can_add_web_page_previews' then
-		return i18n("When disabled, user's messages with a link won't show the web page preview")
+		return i18n("When disabled, user's messages that contain a link won't show the web page preview.")
 	else
 		return i18n("Description not available")
 	end
@@ -109,11 +109,13 @@ function plugin.onCallbackQuery(msg, blocks)
 	else
 		local chat_id = msg.target_id
 		if not u.can(chat_id, msg.from.id, 'can_restrict_members') then
-			api.answerCallbackQuery(msg.cb_id, i18n("You don't have the permission to restrict members"))
+			api.answerCallbackQuery(msg.cb_id, i18n("You don't have the permission to restrict members!"))
 		else
-			local msg_text = i18n([[*Deafult permissions*
-From this menu you can change the default permissions that will be granted when a new member join.
+			local msg_text = i18n([[*Default Permissions*
+From this menu you can change the default permissions that will be granted when a new member joins.
+
 _Only the administrators with the permission to restrict a member can access this menu._
+
 Tap on the name of a permission for a description of what kind of messages it will influence.
 ]])
 
@@ -133,7 +135,7 @@ Tap on the name of a permission for a description of what kind of messages it wi
 			end
 
 			if not res and code == 429 and retry_after then
-					popup_text = i18n("Setting saved, but I can't edit the buttons because you are too fast! Wait other %d seconds")
+					popup_text = i18n("Setting saved, but I can't edit the buttons because you are too fast! Please wait %d seconds.")
 						:format(retry_after)
 					show_alert = true
 			end

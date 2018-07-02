@@ -70,15 +70,15 @@ function plugin.onTextMessage(msg, blocks)
 				end
 
 				local markup = markup_tempban(msg.chat.id, user_id)
-				api.sendReply(msg, i18n('Use -/+ to edit the value, then select a timeframe to temporary ban the user'), nil,
+				api.sendReply(msg, i18n('Use -/+ to edit the value, then select a timeframe to temporarily ban the user'), nil,
 					markup)
 			end
 			if blocks[1] == 'kick' then
 				local res, _, motivation = api.kickUser(chat_id, user_id)
 				if not res then
 					if not motivation then
-						motivation = i18n("I can't kick this user.\n"
-								.. "Either I'm not an admin, or the targeted user is!")
+						motivation = i18n([[I can't kick this user.
+Either I'm not an admin, or the targeted user is!]])
 					end
 					api.sendReply(msg, motivation, true)
 				else
@@ -90,8 +90,8 @@ function plugin.onTextMessage(msg, blocks)
 				local res, _, motivation = api.banUser(chat_id, user_id)
 				if not res then
 					if not motivation then
-						motivation = i18n("I can't kick this user.\n"
-								.. "Either I'm not an admin, or the targeted user is!")
+						motivation = i18n([[I can't kick this user.
+Either I'm not an admin, or the targeted user is!]])
 					end
 					api.sendReply(msg, motivation, true)
 				else
@@ -107,8 +107,8 @@ function plugin.onTextMessage(msg, blocks)
 					local res, _, motivation = api.banUser(chat_id, user_id)
 					if not res then
 						if not motivation then
-							motivation = i18n("I can't kick this user.\n"
-									.. "I am not allowed to ban or the target user is an admin")
+							motivation = i18n([[I can't kick this user.
+I am not allowed to ban or the target user is an admin]])
 						end
 						api.sendReply(msg, motivation, true)
 					else
@@ -189,8 +189,8 @@ function plugin.onCallbackQuery(msg, matches)
 			end
 			local res, _, motivation = api.banUser(msg.chat.id, user_id, until_date)
 			if not res then
-				motivation = motivation or i18n("I can't kick this user.\n"
-					.. "I am not allowed to ban or the target user is an admin")
+				motivation = motivation or i18n([[I can't kick this user.
+I am not allowed to ban or the target user is an admin]])
 				api.editMessageText(msg.chat.id, msg.message_id, motivation)
 			else
 				local text = i18n("User banned for %d %s"):format(time_value, timeframe_string)

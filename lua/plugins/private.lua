@@ -40,7 +40,13 @@ function plugin.onTextMessage(msg, blocks)
 	if blocks[1] == 'about' then
 		local keyboard = do_keyboard_credits()
 		local text = i18n([[
-This bot is based on [otouto](https://github.com/topkecleon/otouto) (AKA @mokubot, channel: @otouto), a multipurpose Lua bot.\nGroup Butler wouldn't exist without it.\n\nThe owner of this bot is @baconn, do not pm him: use /groups command instead.\n\nBot version: `%s`\n*Some useful links:*
+This bot is based on [otouto](https://github.com/topkecleon/otouto) (AKA @mokubot, channel: @otouto), a multipurpose Lua bot.
+Group Butler wouldn't exist without it.
+
+The owner of this bot is @baconn, do not pm him: use /groups command instead.
+
+Bot version: `%s`
+*Some useful links:*
 ]]):format(config.human_readable_version)
 		api.sendMessage(msg.chat.id, text, true, keyboard)
 	end
@@ -56,7 +62,13 @@ function plugin.onCallbackQuery(msg, blocks)
 	if blocks[1] == 'about' then
 		local keyboard = do_keyboard_credits()
 		local text = i18n([[
-This bot is based on [otouto](https://github.com/topkecleon/otouto) (AKA @mokubot, channel: @otouto), a multipurpose Lua bot.\nGroup Butler wouldn't exist without it.\n\nThe owner of this bot is @baconn, do not pm him: use /groups command instead.\n\nBot version: `%s`\n*Some useful links:*
+This bot is based on [otouto](https://github.com/topkecleon/otouto) (AKA @mokubot, channel: @otouto), a multipurpose Lua bot.
+Group Butler wouldn't exist without it.
+
+The owner of this bot is @baconn, do not pm him: use /groups command instead.
+
+Bot version: `%s`
+*Some useful links:*
 ]]):format(config.human_readable_version)
 		api.editMessageText(msg.chat.id, msg.message_id, text, true, keyboard)
 	end

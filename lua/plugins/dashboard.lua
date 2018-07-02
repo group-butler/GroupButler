@@ -45,9 +45,12 @@ local function getFloodSettings_text(chat_id)
 		list_exc = list_exc..'• `'..translation..'`: '..exc_status..'\n'
 	end
 	return i18n("- *Status*: `%s`\n"):format(status)
-			.. i18n("- *Action* to perform when an user floods: `%s`\n"):format(action)
-			.. i18n("- Number of messages allowed *every 5 seconds*: `%d`\n"):format(num)
-			.. i18n("- *Ignored media*:\n%s"):format(list_exc)
+			.. i18n([[- *Action* to perform when an user floods: `%s`
+			]]):format(action)
+			.. i18n([[- Number of messages allowed *every 5 seconds*: `%d`
+			]]):format(num)
+			.. i18n([[- *Ignored media*:
+			%s]]):format(list_exc)
 end
 
 local function doKeyboard_dashboard(chat_id)

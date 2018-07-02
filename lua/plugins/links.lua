@@ -39,7 +39,8 @@ function plugin.onTextMessage(msg, blocks)
 			if msg.chat.username then
 				link = 'https://telegram.me/'..msg.chat.username
 				local substitution = '['..msg.chat.title:escape_hard('link')..']('..link..')'
-				text = i18n("The link has been set.\n*Here's the link*: %s"):format(substitution)
+				text = i18n([[The link has been set.
+*Here's the link*: %s]]):format(substitution)
 			else
 				if not blocks[2] then
 					text = i18n("This is not a *public supergroup*, so you need to write the link near `/setlink`")
@@ -54,9 +55,11 @@ function plugin.onTextMessage(msg, blocks)
 						local title = msg.chat.title:escape_hard('link')
 						local substitution = '['..title..']('..link..')'
 						if not succ then
-							text = i18n("The link has been updated.\n*Here's the new link*: %s"):format(substitution)
+							text = i18n([[The link has been updated.
+*Here's the new link*: %s]]):format(substitution)
 						else
-							text = i18n("The link has been set.\n*Here's the link*: %s"):format(substitution)
+							text = i18n([[The link has been set.
+*Here's the link*: %s]]):format(substitution)
 						end
 					end
 				end

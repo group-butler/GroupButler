@@ -19,9 +19,10 @@ local function report(msg, description)
 		'• <b>Message reported by</b>: %s (<code>%d</code>)'):format(u.getname_final(msg.from), msg.from.id)
 	local chat_link = db:hget('chat:'..msg.chat.id..':links', 'link')
 	if msg.reply.forward_from or msg.reply.forward_from_chat or msg.reply.sticker then
-		text = text..i18n(
-			'\n• <b>Reported message sent by</b>: %s (<code>%d</code>)'
-			):format(u.getname_final(msg.reply.from), msg.reply.from.id)
+		text = text..i18n([[
+
+• <b>Reported message sent by</b>: %s (<code>%d</code>)
+		]]):format(u.getname_final(msg.reply.from), msg.reply.from.id)
 	end
 	if chat_link then
 		text = text..i18n('\n• <b>Group</b>: <a href="%s">%s</a>'):format(chat_link, msg.chat.title:escape_html())
@@ -29,9 +30,9 @@ local function report(msg, description)
 		text = text..i18n('\n• <b>Group</b>: %s'):format(msg.chat.title:escape_html())
 	end
 	if msg.chat.username then
-		text = text..i18n(
-			'\n• <a href="%s">Go to the message</a>'
-			):format('telegram.me/'..msg.chat.username..'/'..msg.message_id)
+		text = text..i18n([[
+
+• <a href="%s">Go to the message</a>]]):format('telegram.me/'..msg.chat.username..'/'..msg.message_id)
 	end
 	if description then
 		text = text..i18n('\n• <b>Description</b>: <i>%s</i>'):format(description:escape_html())
@@ -95,9 +96,8 @@ function plugin.onTextMessage(msg, blocks)
 				local hash = 'chat:'..msg.chat.id..':report'
 				db:hset(hash, 'times_allowed', times_allowed)
 				db:hset(hash, 'duration', (duration * 60))
-				text = i18n(
-					'*New parameters saved*.\nUsers will be able to use @admin %d times/%d minutes'
-					):format(times_allowed, duration)
+				text = i18n([[*New parameters saved*.
+Users will be able to use @admin %d times/%d minutes]]):format(times_allowed, duration)
 			end
 			api.sendReply(msg, text, true)
 		else

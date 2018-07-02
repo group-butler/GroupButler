@@ -162,7 +162,8 @@ function plugin.onEveryMessage(msg)
 						if res then --kick worked
 							db:hdel('chat:'..msg.chat.id..':mediawarn', msg.from.id) --remove media warns
 							local message =
-								i18n('%s <b>%s</b>: media sent not allowed!\n❗️ <code>%d/%d</code>'):format(name, punishment, n, max)
+								i18n([[%s <b>%s</b>: media sent not allowed!
+❗ <code>%d/%d</code>]]):format(name, punishment, n, max)
 							api.sendMessage(msg.chat.id, message, 'html')
 						end
 
@@ -172,13 +173,13 @@ function plugin.onEveryMessage(msg)
 					else --max num not reached -> warn or delete
 						if media_status ~= 'del' then
 							local message =
-							i18n('%s, this type of media is <b>not allowed</b> in this chat.\n(<code>%d/%d</code>)'):format(name, n, max)
+							i18n([[%s, this type of media is <b>not allowed</b> in this chat.
+(<code>%d/%d</code>)]]):format(name, n, max)
 							api.sendReply(msg, message, 'html')
 						elseif media_status == 'del' and n + 1 >= max then
 							api.deleteMessage(msg.chat.id, msg.message_id)
-							local message =
-							i18n([[%s, this type of media is <b>not allowed</b> in this chat.\n<i>The next time you will be banned/kicked/muted</i>
-								]]):format(name)
+							local message = i18n([[%s, this type of media is <b>not allowed</b> in this chat.
+<i>Next time you will be banned, kicked, or muted.</i>]]):format(name)
 							api.sendMessage(msg.chat.id, message, 'html')
 						elseif media_status == 'del' then
 							api.deleteMessage(msg.chat.id, msg.message_id)
@@ -200,13 +201,13 @@ function plugin.onEveryMessage(msg)
 				local res, message
 				if rtl_status == 'kick' then
 					res = api.kickUser(msg.chat.id, msg.from.id)
-					message = i18n("%s <b>kicked</b>: RTL character in names/messages are not allowed!")
+					message = i18n("%s <b>kicked</b>: RTL characters in names/messages are not allowed!")
 				elseif rtl_status == 'ban' then
 					res = api.banUser(msg.chat.id, msg.from.id)
-					message = i18n("%s <b>banned</b>: RTL character in names/messages are not allowed!")
+					message = i18n("%s <b>banned</b>: RTL characters in names/messages are not allowed!")
 				elseif rtl_status == 'mute' then
 					res = api.muteUser(msg.chat.id, msg.from.id)
-					message = i18n("%s <b>muted</b>: RTL character in names/messages are not allowed!")
+					message = i18n("%s <b>muted</b>: RTL characters in names/messages are not allowed!")
 				end
 				if res then
 					local name = u.getname_final(msg.from)
@@ -222,13 +223,13 @@ function plugin.onEveryMessage(msg)
 				local res, message
 				if arab_status == 'kick' then
 					res = api.kickUser(msg.chat.id, msg.from.id)
-					message = i18n("%s <b>kicked</b>: arab/persian message detected!")
+					message = i18n("%s has been <b>kicked</b>: Arabic/Persian message detected!")
 				elseif arab_status == 'ban' then
 					res = api.banUser(msg.chat.id, msg.from.id)
-					message = i18n("%s <b>banned</b>: arab/persian message detected!")
+					message = i18n("%s has been <b>banned</b>: Arabic/Persian message detected!")
 				elseif arab_status == 'mute' then
 					res = api.muteUser(msg.chat.id, msg.from.id)
-					message = i18n("%s <b>muted</b>: arab/persian message detected!")
+					message = i18n("%s has been <b>muted</b>: Arabic/Persian message detected!")
 				end
 				if res then
 					local name = u.getname_final(msg.from)

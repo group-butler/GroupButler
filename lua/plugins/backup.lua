@@ -122,7 +122,7 @@ function plugin.onTextMessage(msg, blocks)
 							for chat_id, group_data in pairs(data) do
 								chat_id = tonumber(chat_id)
 								if tonumber(chat_id) ~= msg.chat.id then
-									text = i18n('Chat IDs don\'t match (%s and %s)'):format(tostring(chat_id), tostring(msg.chat.id))
+									text = i18n("Chat IDs don't match (%s and %s)"):format(tostring(chat_id), tostring(msg.chat.id))
 								else
 									--restoring sets
 									if group_data.sets and next(group_data.sets) then
@@ -148,7 +148,8 @@ function plugin.onTextMessage(msg, blocks)
 							end
 						end
 					else
-						text = i18n('This is not a valid backup file.\nReason: invalid name (%s)')
+						text = i18n([[This is not a valid backup file.
+Reason: invalid name (%s)]])
 							:format(tostring(msg.reply_to_message.document.file_name))
 					end
 				else
