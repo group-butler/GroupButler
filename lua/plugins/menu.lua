@@ -43,9 +43,9 @@ local function get_button_description(key)
 		return i18n(
 			"Select what the bot should do when someone sends a message with the RTL character, or has it in his name")
 	elseif key == 'warnsnum' then
-		return i18n("Change how many times an user has to be warned before being kicked/banned")
+		return i18n("Change how many times a user has to be warned before being kicked/banned")
 	elseif key == 'warnsact' then
-		return i18n("Change the action to perform when an user reaches the max. number of warnings")
+		return i18n("Change the action to perform when a user reaches the max. number of warnings")
 	else
 		return i18n("Description not available")
 	end

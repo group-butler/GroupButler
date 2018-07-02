@@ -13,13 +13,13 @@ local function get_helped_string(key)
 Hello %s 👋🏼, nice to meet you!
 I'm Group Butler, the first administration bot using the official Bot API.
 
-*I can do a lot of cool stuffs*, here's a short list:
-• I can *kick or ban* users
+*I can do a lot of cool stuff*, here's a short list:
+• I can *kick* or *ban* users
 • You can use me to set the group rules
 • I have a flexible *anti-flood* system
 • I can *welcome new users* with a customizable message, or if you want with a gif or a sticker
 • I can *warn* users, and ban them when they reach the maximum number of warnings
-• I can also warn, kick or ban users when they post a specific media
+• I can also warn, kick, or ban users when they post specific media
 …and more, below you can find the "all commands" button to get the whole list!
 
 I work better if you add me to the group administrators (otherwise I won't be able to kick or ban)!

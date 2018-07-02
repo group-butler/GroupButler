@@ -48,7 +48,7 @@ plugin.cron = nil
 local function bot_leave(chat_id)
 	local res = api.leaveChat(chat_id)
 	if not res then
-		return 'Check the id, it could be wrong'
+		return 'Check the id, it could be wrong.'
 	else
 		db:srem('bot:groupsid', chat_id)
 		db:sadd('bot:groupsid:removed', chat_id)

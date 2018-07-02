@@ -76,9 +76,10 @@ function plugin.onTextMessage(msg, blocks)
 		local removed = forget_user_warns(msg.chat.id, msg.reply.from.id)
 		local admin = u.getname_final(msg.from)
 		local user = u.getname_final(msg.reply.from)
-		local text = i18n(
-			'Done! %s has been forgiven.\n<b>Warns found</b>: <i>normal warns %s, for media %s, spamwarns %s</i>'
-			):format(user, removed.normal or 0, removed.media or 0, removed.spam or 0)
+		local text = i18n([[
+			Done! %s has been forgiven.
+			<b>Warnings found</b>: <i>normal warnings %s, media warnings %s, spam warnings %s</i>
+			]]):format(user, removed.normal or 0, removed.media or 0, removed.spam or 0)
 		api.sendReply(msg, text, 'html')
 		u.logEvent('nowarn', msg, {admin = admin, user = user, user_id = msg.reply.from.id, rem = removed})
 	end
@@ -112,8 +113,8 @@ function plugin.onTextMessage(msg, blocks)
 			--if kick/ban fails, send the motivation
 			if not res then
 				if not motivation then
-					motivation = i18n("I can't kick this user.\n"
-						.. "Probably I'm not an Admin, or the user is an Admin iself")
+					motivation = i18n([[I can't kick this user.
+Either I am not an admin, or the user is!]])
 				end
 				if num > nmax then db:hset(hash, msg.reply.from.id, nmax) end --avoid to have a number of warnings bigger than the max
 				text = motivation

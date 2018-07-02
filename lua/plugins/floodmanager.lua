@@ -124,7 +124,9 @@ function plugin.onCallbackQuery(msg, blocks)
 		api.answerCallbackQuery(msg.cb_id, i18n("You're no longer an admin"))
 	else
 		local header = i18n(
-			[[You can manage the antiflood settings from here.\n\nIt is also possible to choose which type of messages the antiflood will ignore (✅)
+			[[You can manage the antiflood settings from here.
+
+It is also possible to choose which type of messages the antiflood will ignore (✅)
 			]])
 
 		local text

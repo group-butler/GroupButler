@@ -58,7 +58,8 @@ function plugin.onTextMessage(msg)
 			local keyboard = do_keyboard_config(chat_id, msg.from.id)
 			if not db:get('chat:'..chat_id..':title') then cache_chat_title(chat_id, msg.chat.title) end
 			local res = api.sendMessage(msg.from.id,
-				i18n("<b>%s</b>\n<i>Change the settings of your group</i>"):format(msg.chat.title:escape_html()), 'html', keyboard)
+				i18n([[<b>%s</b>
+<i>Change the settings of your group</i>]]):format(msg.chat.title:escape_html()), 'html', keyboard)
 			if not u.is_silentmode_on(msg.chat.id) then --send the responde in the group only if the silent mode is off
 				if res then
 					api.sendMessage(msg.chat.id, i18n("_I've sent you the keyboard via private message_"), true)
@@ -76,7 +77,7 @@ function plugin.onCallbackQuery(msg)
 	local text = i18n("<i>Change the settings of your group</i>")
 	local chat_title = get_chat_title(chat_id)
 	if chat_title then
-		text = ("<b>%s</b>\n"):format(chat_title:escape_html())..text
+		text = ('<b>%s</b>\n'):format(chat_title:escape_html())..text
 	end
 	api.editMessageText(msg.chat.id, msg.message_id, text, 'html', keyboard)
 end

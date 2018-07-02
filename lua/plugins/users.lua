@@ -155,7 +155,7 @@ function plugin.onTextMessage(msg, blocks)
 		if not msg.reply
 			and (not blocks[2] or (not blocks[2]:match('@[%w_]+$') and not blocks[2]:match('%d+$')
 			and not msg.mention_id)) then
-			api.sendReply(msg, i18n("Reply to an user or mention them by username or numerical ID"))
+			api.sendReply(msg, i18n("Reply to a user or mention them by username or numerical ID"))
 			return
 		end
 
@@ -181,7 +181,9 @@ If you're using it by username and want to teach me who the user is, forward me 
 		local hash = 'cache:chat:'..msg.chat.id..':admins'
 		local seconds = db:ttl(hash)
 		local cached_admins = db:scard(hash)
-		local text = i18n("📌 Status: `CACHED`\n⌛ ️Remaining: `%s`\n👥 Admins cached: `%d`")
+		local text = i18n([[📌 Status: `CACHED`
+⌛ ️Remaining: `%s`
+👥 Admins cached: `%d`]])
 			:format(get_time_remaining(tonumber(seconds)), cached_admins)
 		local keyboard = do_keyboard_cache(msg.chat.id)
 		api.sendMessage(msg.chat.id, text, true, keyboard)
@@ -236,7 +238,9 @@ function plugin.onCallbackQuery(msg, blocks)
 			u.cache_adminlist(msg.target_id)
 			local cached_admins = db:smembers('cache:chat:'..msg.target_id..':admins')
 			local time = get_time_remaining(config.bot_settings.cache_time.adminlist)
-			local text = i18n("📌 Status: `CACHED`\n⌛ ️Remaining: `%s`\n👥 Admins cached: `%d`")
+			local text = i18n([[📌 Status: `CACHED`
+⌛ ️Remaining: `%s`
+👥 Admins cached: `%d`]])
 				:format(time, #cached_admins)
 			api.answerCallbackQuery(msg.cb_id, i18n("✅ Updated. Next update in %s"):format(time))
 			api.editMessageText(msg.chat.id, msg.message_id, text, true, do_keyboard_cache(msg.target_id))

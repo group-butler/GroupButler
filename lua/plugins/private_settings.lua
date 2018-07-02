@@ -10,9 +10,9 @@ local function get_button_description(key)
 	if key == 'rules_on_join' then
 		return i18n("When you join a group moderated by this bot, you will receive the group rules in private")
 	elseif key == 'reports' then
-		return i18n(
-			'If enabled, you will receive all the messages reported with the @admin command in the groups you are moderating'
-			)
+		return i18n([[
+			If enabled, you will receive all of the messages reported with the @admin command in the groups you are moderating
+			]])
 	else
 		return i18n("Description not available")
 	end

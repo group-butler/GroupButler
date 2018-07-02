@@ -9,7 +9,7 @@ local plugin = {}
 
 local function get_alert_text(key)
 	if key == 'new_chat_member' then
-		return i18n("Log every time an user join the group")
+		return i18n("Log every time a user join the group")
 	elseif key == 'ban' then
 		return i18n("Bans will be logged. I can't log manual bans")
 	elseif key == 'kick' then
@@ -31,7 +31,7 @@ local function get_alert_text(key)
 	elseif key == 'pinned_message' then
 		return i18n("Log pinned messages")
 	elseif key == 'blockban' then
-		return i18n("Log when an user who has been blocked is banned from the group (when he join)")
+		return i18n("Log when an user who has been blocked is banned from the group (when he joins)")
 	elseif key == 'promote' then
 		return i18n("Log when a new user is promoted to moderator")
 	elseif key == 'demote' then
@@ -189,7 +189,7 @@ function plugin.onTextMessage(msg, blocks)
 							end
 						end
 					else
-						api.sendReply(msg, i18n('_I\'m sorry, only private channels are supported for now_'), true)
+						api.sendReply(msg, i18n("_I'm sorry, only private channels are supported for now_"), true)
 					end
 				end
 			else
@@ -219,8 +219,8 @@ function plugin.onTextMessage(msg, blocks)
 					if channel_info and channel_info.result then
 						channel_identifier = channel_info.result.title
 					end
-					api.sendReply(msg, i18n(
-						'<b>This group has a log channel</b>\nChannel: <code>%s</code>'
+					api.sendReply(msg, i18n([[<b>This group has a log channel</b>
+Channel: <code>%s</code>]]
 						):format(channel_identifier:escape_html()), 'html')
 				end
 			end

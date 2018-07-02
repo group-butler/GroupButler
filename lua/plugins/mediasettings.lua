@@ -96,12 +96,12 @@ function plugin.onCallbackQuery(msg, blocks)
 		api.answerCallbackQuery(msg.cb_id, i18n("You're no longer an admin"))
 	else
 		local media_first = i18n([[
-Tap on a voice in the right to *change the setting*
-You can use the last lines to change how many warnings should the bot give before kicking/banning/muting someone.
+Tap on a buttom on the right to *change the setting*
+You can use the last lines to change how many warnings the bot will give before kicking/banning/muting someone.
 The number is not related the the normal `/warn` command.
 
-Medias possible statuses: ✅ allowed, ❌ warning, 🗑 delete.
-When a media is set on delete, the bot will give a warning *only* when the user is at one media from being punished
+Possible settings: ✅ allowed, ❌ warning, 🗑 delete
+When a media is set to delete, the bot will give a warning *only* when the user is at one media from being punished
 ]])
 
 		if blocks[1] == 'config' then
@@ -143,7 +143,7 @@ When a media is set on delete, the bot will give a warning *only* when the user 
 					cb_text = i18n("👞 New status is kick")
 				elseif current == 'kick' then
 					db:hset(hash, 'mediatype', 'mute')
-					cb_text = i18n("👁 New status is mute")
+					cb_text = i18n("👁 New status is 'mute'")
 				elseif current == 'mute' then
 					db:hset(hash, 'mediatype', 'ban')
 					cb_text = i18n("🔨 New status is ban")

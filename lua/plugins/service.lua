@@ -38,11 +38,13 @@ function plugin.onTextMessage(msg, blocks)
 		-- send manuals
 		local text
 		if blocks[1] == 'new_chat_member:bot' then
-			text = i18n("Hello everyone!\n"
-				.. "My name is %s, and I'm a bot made to help administrators in their hard work.\n")
+			text = i18n([[Hello everyone!
+"My name is %s, and I'm a bot made to help administrators in their hard work.
+				]])
 				:format(bot.first_name:escape())
 		else
-			text = i18n("Yay! This group has been upgraded. You are great! Now I can work properly :)\n")
+			text = i18n([[Yay! This group has been upgraded. You are great! Now I can work properly :)
+			]])
 		end
 		--[[if not u.is_admin(msg.chat.id, bot.id) then
 			if u.is_owner(msg.chat.id, msg.from.id) then

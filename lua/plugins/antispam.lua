@@ -77,7 +77,7 @@ function plugin.onEveryMessage(msg)
 				else
 					if status == 'del' and warns_received == max_allowed - 1 then
 						api.deleteMessage(msg.chat.id, msg.message_id)
-						api.sendReply(msg, i18n('%s, spam is not allowed here. The next time you will be restricted'):format(name),
+						api.sendReply(msg, i18n('%s, spam is not allowed here. Next time you will be restricted'):format(name),
 							'html')
 					elseif status == 'del' then
 						--just delete
@@ -110,7 +110,7 @@ local function toggleAntispamSetting(chat_id, key)
 		if new == 'alwd' then
 			return i18n("forwards are allowed")
 		elseif new == 'warn' then
-			return i18n("warn for forwards")
+			return i18n("warn for forwarding")
 		elseif new == 'del' then
 			return i18n("forwards will be deleted")
 		end
@@ -171,7 +171,7 @@ local function get_alert_text(key)
 	elseif key == 'forwards' then
 		return i18n("Allow/forbid forwarded messages from channels")
 	elseif key == 'warns' then
-		return i18n("Set how many times the bot should warn the user before kick/ban him")
+		return i18n("Set how many times the bot should warn the user before kicking or banning him")
 	else
 		return i18n("Description not available")
 	end
@@ -251,12 +251,12 @@ function plugin.onCallbackQuery(msg, blocks)
 		if not u.is_allowed('config', chat_id, msg.from) then
 			api.answerCallbackQuery(msg.cb_id, i18n("You're no longer an admin"))
 		else
-			local antispam_first = i18n([[*Anti-spam settings*
+			local antispam_first = i18n([[*Anti-spam Settings*
 Choose which kind of spam you want to forbid
 • ✅ = *Allowed*
 • ❌ = *Not allowed*
 • 🗑 = *Delete*
-When set on `delete`, the bot doesn't warn users until they are about to be kicked/banned/muted (at the second-to-last warning)
+When set to `delete` 🗑, the bot doesn't warn users until they are about to be kicked/banned/muted (at the second-to-last warning).
 ]])
 
 			local keyboard, text
@@ -316,7 +316,8 @@ function plugin.onTextMessage(msg, blocks)
 					text = i18n("_The whitelist was already empty_")
 				else
 					db:del(set)
-					text = i18n("*Whitelist cleaned*\n%d links have been removed"):format(n)
+					text = i18n([[*Whitelist cleaned*
+%d links have been removed]]):format(n)
 				end
 				api.sendReply(msg, text, true)
 			else
@@ -324,7 +325,7 @@ function plugin.onTextMessage(msg, blocks)
 				if msg.entities then
 					local links = urls_table(msg.entities, msg.text)
 					if not next(links) then
-						text = i18n("_I can't find any url in this message_")
+						text = i18n("_I can't find a url in this message_")
 					else
 						local new = db:sadd(('chat:%d:whitelist'):format(msg.chat.id), unpack(links))
 						text = i18n("%d link(s) will be whitelisted"):format(#links - (#links - new))
@@ -333,7 +334,7 @@ function plugin.onTextMessage(msg, blocks)
 						end
 					end
 				else
-					text = i18n("_I can't find any url in this message_")
+					text = i18n("_I can't find a url in this message_")
 				end
 				api.sendReply(msg, text, true)
 			end
@@ -341,7 +342,8 @@ function plugin.onTextMessage(msg, blocks)
 		if (blocks[1] == 'wl' or blocks[1] == 'whitelist') and not blocks[2] then
 			local links = db:smembers(('chat:%d:whitelist'):format(msg.chat.id))
 			if not next(links) then
-				api.sendReply(msg, i18n("_The whitelist is empty_.\nUse `/wl [links]` to add some links to the whitelist"), true)
+				api.sendReply(msg, i18n([[_The whitelist is empty_.
+Use `/wl [links]` to add some links to the whitelist]]), true)
 			else
 				local text = i18n("Whitelisted links:\n\n")
 				for i=1, #links do
@@ -364,7 +366,7 @@ function plugin.onTextMessage(msg, blocks)
 					end
 				end
 			else
-				text = i18n("_I can't find any url in this message_")
+				text = i18n("_I can't find a url in this message_")
 			end
 			api.sendReply(msg, text, true)
 		end
@@ -375,9 +377,11 @@ function plugin.onTextMessage(msg, blocks)
 		if blocks[1] == 'wlchan' and not blocks[2] then
 			local channels = db:smembers(('chat:%d:chanwhitelist'):format(msg.chat.id))
 			if not next(channels) then
-				api.sendReply(msg, i18n("_Whitelist of channels empty_"), true)
+				api.sendReply(msg, i18n("_Whitelist of channels is empty_"), true)
 			else
-				api.sendReply(msg, i18n("*Whitelisted channels:*\n%s"):format(table.concat(channels, '\n')), true)
+				api.sendReply(msg, i18n([[*Whitelisted channels:*
+%s"):format(table.concat(channels, '
+]]), true)
 			end
 		end
 		if blocks[1] == 'wlchan' and blocks[2] then
@@ -388,10 +392,12 @@ function plugin.onTextMessage(msg, blocks)
 			else
 				local text = ''
 				if next(channels.valid) then
-					text = text..("*Channels whitelisted*: `%s`\n"):format(table.concat(channels.valid, ', '))
+					text = text..([[*Channels whitelisted*: `%s`
+					]]):format(table.concat(channels.valid, ', '))
 				end
 				if next(channels.not_valid) then
-					text = text..("*Channels already whitelisted*: `%s`\n"):format(table.concat(channels.not_valid, ', '))
+					text = text..([[*Channels already whitelisted*: `%s`
+					]]):format(table.concat(channels.not_valid, ', '))
 				end
 
 				api.sendReply(msg, text, true)
