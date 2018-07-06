@@ -16,6 +16,24 @@ end
 
 local _M = {} -- Functions shared among plugins
 
+function _M.assert_startup(stage, ok, err)
+	if stage and not ok then
+		if not err then
+			print("unknown error starting up")
+			return os.exit()
+		end
+		print(err.description or "unknown error starting up 2")
+		return os.exit()
+	end
+	if not stage then
+		return _M.assert_startup(1, api.setWebhook("")) -- Clean Webhook if there's one
+	end
+	if stage == 1 then
+		return _M.assert_startup(2, api.getUpdates(-1)) -- Clean update queue
+	end
+	return
+end
+
 -- API helper functions
 
 function _M.sendReply(msg, text, parse_mode, disable_web_page_preview, disable_notification, reply_markup)

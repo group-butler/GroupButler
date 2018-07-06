@@ -1,6 +1,8 @@
 require "resty.core" -- Replaces Lua C API bindings with LuaJIT bindings
 local config = require "groupbutler.config"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
+local u = require "groupbutler.utilities"
+u.assert_startup()
 
 bot = api.get_me()
 bot.start_timestamp = os.time()

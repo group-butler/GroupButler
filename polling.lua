@@ -5,9 +5,10 @@ io.stdout:setvbuf "no" -- switch off buffering for stdout
 local plugins = require "groupbutler.plugins"
 local main = require "groupbutler.main"
 local config = require "groupbutler.config"
+local u = require "groupbutler.utilities"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
 
-api.setWebhook("") -- Clean Webhook if there's one
+u.assert_startup()
 bot = api.getMe()
 local last_update, last_cron, current
 
