@@ -70,7 +70,7 @@ end
 
 local function match_pattern(pattern, text)
   if text then
-		text = text:gsub('@'..api.getMe().username, '')
+		text = text:gsub('@'..bot.username, '')
 		local matches = { string.match(text, pattern) }
 		if next(matches) then
 			return matches
@@ -113,10 +113,10 @@ function plugin.onTextMessage(msg, blocks)
 	-- end
 	if blocks[1] == 'backup' then
 		db:bgsave()
-		local cmd = io.popen('sudo tar -cpf '..api.getMe().first_name:gsub(' ', '_')..'.tar *')
+		local cmd = io.popen('sudo tar -cpf '..bot.first_name:gsub(' ', '_')..'.tar *')
 		cmd:read('*all')
 		cmd:close()
-		api.sendDocument(msg.from.id, './'..api.getMe().first_name:gsub(' ', '_')..'.tar')
+		api.sendDocument(msg.from.id, './'..bot.first_name:gsub(' ', '_')..'.tar')
 	end
 	if blocks[1] == 'save' then
 		local res = db:save()
@@ -357,7 +357,7 @@ function plugin.onTextMessage(msg, blocks)
 		if not chat_id then
 			api.sendMessage(msg, "Can't find a chat_id")
 		else
-			local res = api.getChatMember(chat_id, api.getMe().id)
+			local res = api.getChatMember(chat_id, bot.id)
 			api.sendMessage(msg.chat.id, ('%s\n%s'):format(chat_id, u.vtext(res)))
 		end
 	end

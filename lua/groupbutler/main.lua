@@ -50,7 +50,7 @@ end
 
 local function match_triggers(triggers, text)
 	if text and triggers then
-		text = text:gsub('^(/[%w_]+)@'..api.getMe().username, '%1')
+		text = text:gsub('^(/[%w_]+)@'..bot.username, '%1')
 		for _, trigger in pairs(triggers) do
 			local matches = { string.match(text, trigger) }
 			if next(matches) then
@@ -128,7 +128,7 @@ local function on_msg_receive(msg, callback) -- The fn run whenever a message is
 			end
 		end
 	else
-		if msg.group_chat_created or (msg.new_chat_member and msg.new_chat_member.id == api.getMe().id) then
+		if msg.group_chat_created or (msg.new_chat_member and msg.new_chat_member.id == bot.id) then
 			-- set the language
 			--[[locale.language = db:get(string.format('lang:%d', msg.from.id)) or 'en'
 			if not config.available_languages[locale.language] then
@@ -140,7 +140,7 @@ local function on_msg_receive(msg, callback) -- The fn run whenever a message is
 Hello everyone!
 My name is %s, and I'm a bot made to help administrators in their hard work.
 Unfortunately I can't work in normal groups. If you need me, please ask the creator to convert this group to a supergroup and then add me again.
-]]):format(api.getMe().first_name))
+]]):format(bot.first_name))
 
 			api.leaveChat(msg.chat.id)
 
@@ -213,14 +213,14 @@ function _M.parseMessageFunction(update)
 			msg.media_type = 'game'
 		elseif msg.left_chat_member then
 			msg.service = true
-			if msg.left_chat_member.id == api.getMe().id then
+			if msg.left_chat_member.id == bot.id then
 				msg.text = '###left_chat_member:bot'
 			else
 				msg.text = '###left_chat_member'
 			end
 		elseif msg.new_chat_member then
 			msg.service = true
-			if msg.new_chat_member.id == api.getMe().id then
+			if msg.new_chat_member.id == bot.id then
 				msg.text = '###new_chat_member:bot'
 			else
 				msg.text = '###new_chat_member'

@@ -35,11 +35,11 @@ function plugin.onTextMessage(msg, blocks)
 		if blocks[1] == 'new_chat_member:bot' then
 			text = i18n("Hello everyone!\n"
 				.. "My name is %s, and I'm a bot made to help administrators in their hard work.\n")
-				:format(api.getMe().first_name:escape())
+				:format(bot.first_name:escape())
 		else
 			text = i18n("Yay! This group has been upgraded. You are great! Now I can work properly :)\n")
 		end
-		--[[if not u.is_admin(msg.chat.id, api.getMe().id) then
+		--[[if not u.is_admin(msg.chat.id, bot.id) then
 			if u.is_owner(msg.chat.id, msg.from.id) then
 				text = text .. i18n("Hmm… apparently I'm not an administrator. "
 					.. "I can be more useful if you make me an admin. "

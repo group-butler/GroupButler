@@ -183,7 +183,7 @@ function _M.is_superadmin(user_id)
 end
 
 function _M.bot_is_admin(chat_id)
-	local status = api.getChatMember(chat_id, api.getMe().id).status
+	local status = api.getChatMember(chat_id, bot.id).status
 	if not(status == 'administrator') then
 		return false
 	else
@@ -388,7 +388,7 @@ function _M.telegram_file_link(res)
 end
 
 function _M.deeplink_constructor(chat_id, what)
-	return 'https://telegram.me/'..api.getMe().username..'?start='..chat_id..'_'..what
+	return 'https://telegram.me/'..bot.username..'?start='..chat_id..'_'..what
 end
 
 function _M.get_date(timestamp)
@@ -779,7 +779,7 @@ end
 
 function _M.sendStartMe(msg)
 	local keyboard = {
-		inline_keyboard = {{{text = i18n("Start me"), url = 'https://telegram.me/'..api.getMe().username}}}
+		inline_keyboard = {{{text = i18n("Start me"), url = 'https://telegram.me/'..bot.username}}}
 		}
 	api.sendMessage(msg.chat.id, i18n("_Please message me first so I can message you_"), 'Markdown', keyboard)
 end
@@ -933,7 +933,7 @@ function _M.logEvent(event, msg, extra)
 		reply_markup =
 		{
 			inline_keyboard={{{text = i18n("Get the new photo"),
-			url = ("telegram.me/%s?start=photo:%s"):format(api.getMe().username,
+			url = ("telegram.me/%s?start=photo:%s"):format(bot.username,
 				msg.new_chat_photo[#msg.new_chat_photo].file_id)}}}
 		}
 	elseif event == 'delete_chat_photo' then
