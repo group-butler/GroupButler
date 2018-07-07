@@ -89,9 +89,9 @@ local function on_msg_receive(msg, callback) -- The fn run whenever a message is
 			if not continue then return end
 		end
 
-		for _, plugin in pairs(plugins) do
-			if plugin.triggers then
-				local blocks, trigger = match_triggers(plugin.triggers[callback], msg.text)
+		for i=1, #plugins do
+			if plugins[i].triggers then
+				local blocks, trigger = match_triggers(plugins[i].triggers[callback], msg.text)
 				if blocks then
 
 					if msg.chat.id < 0 and msg.chat.type ~= 'inline'and not db:exists('chat:'..msg.chat.id..':settings') and not msg.service then --init agroup if the bot wasn't aware to be in
@@ -104,7 +104,7 @@ local function on_msg_receive(msg, callback) -- The fn run whenever a message is
 					end
 
 					--if not check_callback(msg, callback) then goto searchaction end
-					local success, result = xpcall(plugin[callback], debug.traceback, msg, blocks) --execute the main function of the plugin triggered
+					local success, result = xpcall((function() return plugins[i][callback](msg, blocks) end), debug.traceback) --execute the main function of the plugin triggered
 
 					if not success then --if a bug happens
 						print(result)
