@@ -11,4 +11,6 @@ ARG DEPS_ROCKS="luasec luasocket redis-lua lua-term serpent lua-cjson Lua-cURL"
 RUN apk add --no-cache $DEPS_NATIVE && \
     for ROCK in $DEPS_ROCKS; do luarocks install $ROCK; done
 
-COPY . .
+COPY locales locales
+COPY lua lua
+COPY polling.lua .
