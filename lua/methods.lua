@@ -737,12 +737,20 @@ function api.sendVoice(chat_id, voice, reply_to_message_id)
 
 end
 
-function api.sendAdmin(text, markdown)
-	return api.sendMessage(config.log.admin, text, markdown)
+function api.sendAdmin(text)
+	text = text:gsub('&', '&amp;')
+	text = text:gsub('"', '&quot;')
+	text = text:gsub('<', '&lt;'):gsub('>', '&gt;')
+	text="<code>"..text.."</code>"
+	return api.sendMessage(config.log.admin, text, "html")
 end
 
-function api.sendLog(text, markdown)
-	return api.sendMessage(config.log.chat or config.log.admin, text, markdown)
+function api.sendLog(text)
+	text = text:gsub('&', '&amp;')
+	text = text:gsub('"', '&quot;')
+	text = text:gsub('<', '&lt;'):gsub('>', '&gt;')
+	text="<code>"..text.."</code>"
+	return api.sendMessage(config.log.chat or config.log.admin, text, "html")
 end
 
 return api
