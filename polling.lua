@@ -1,5 +1,6 @@
 #!/usr/bin/env lua
 package.path=package.path .. ';./lua/?.lua'
+io.stdout:setvbuf "no" -- switch off buffering for stdout
 
 local api = require 'methods'
 local clr = require 'term.colors'
