@@ -84,7 +84,6 @@ local _M =
 		'antispam', --SAME OF onmessage.lua
 		'backup',
 		'banhammer',
-		'block',
 		'configure',
 		'defaultpermissions',
 		'dashboard',
@@ -94,7 +93,6 @@ local _M =
 		'logchannel',
 		'mediasettings',
 		'menu',
-		'moderators',
 		'pin',
 		'private',
 		'private_settings',
