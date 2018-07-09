@@ -16,7 +16,7 @@ local utilities = {} -- Functions shared among plugins
 function string:escape(only_markup)
 	if not only_markup then
 		-- insert word joiner
-		self = self:gsub('([@#/.])(%w)', '%1\xE2\x81\xA0%2')
+		self = self:gsub('([@#/.])(%w)', '%1\226\129\160%2')
 	end
 	return self:gsub('[*_`[]', '\\%0')
 end
