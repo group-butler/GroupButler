@@ -37,9 +37,10 @@ local humanizations = {
 }
 
 function plugin.onEveryMessage(msg)
-	if not msg.inline and msg.spam and msg.chat.id < 0 and not msg.cb and not msg.from.admin then
+	if not msg.inline and msg.spam and msg.chat.id < 0 and not msg.cb then
 		local status = db:hget('chat:'..msg.chat.id..':antispam', msg.spam)
 		if status and status ~= 'alwd' then
+			if msg.from.admin then return end
 			local whitelisted
 			if msg.spam == 'links' then
 				whitelisted = is_whitelisted(msg.chat.id, msg.text:lower())

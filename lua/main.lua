@@ -312,7 +312,11 @@ function _M.parseMessageFunction(update)
 	end
 
 	if (msg.chat.id < 0 or msg.target_id) and msg.from then
-		msg.from.admin = u.is_admin(msg.target_id or msg.chat.id, msg.from.id)
+		-- msg.from.admin = u.is_admin(chat_id, msg.from.id)
+		local chat_id = msg.target_id or msg.chat.id
+		msg.from.admin = function()
+				return u.is_admin(chat_id, msg.from.id)
+			end
 	end
 
 	--print('Mod:', msg.from.mod, 'Admin:', msg.from.admin)

@@ -92,7 +92,8 @@ function plugin.onEveryMessage(msg)
 		local is_flooding, msgs_sent, msgs_max = is_flooding_funct(msg)
 		if is_flooding then
 			local status = (db:hget('chat:'..msg.chat.id..':settings', 'Flood')) or config.chat_settings['settings']['Flood']
-			if status == 'on' and not msg.cb and not msg.from.admin then --if the status is on, and the user is not an admin, and the message is not a callback, then:
+			-- if status == 'on' and not msg.cb and not msg.from.admin then --if the status is on, and the user is not an admin, and the message is not a callback, then:
+			if status == 'on' and not msg.cb then --if the status is on, and the user is not an admin, and the message is not a callback, then:
 				local action = db:hget('chat:'..msg.chat.id..':flood', 'ActionFlood')
 				local name = u.getname_final(msg.from)
 				local res, message
@@ -128,7 +129,7 @@ function plugin.onEveryMessage(msg)
 		end
 	end
 
-	if not msg.from.admin then
+	-- if not msg.from.admin then
 
 		if msg.media and msg.chat.type ~= 'private' and not msg.cb and not msg.edited then
 			local media = msg.media_type
@@ -237,7 +238,7 @@ function plugin.onEveryMessage(msg)
 				end
 			end
 		end
-	end
+	-- end
 
 	end --if not msg.inline then [if statement closed]
 
