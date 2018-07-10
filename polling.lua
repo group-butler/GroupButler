@@ -26,7 +26,7 @@ function bot.init(on_reload) -- The function run when the bot is started or relo
 	if on_reload then
 		return #plugins
 	else
-		api.sendAdmin('*Bot started!*\n_'..os.date('On %A, %d %B %Y\nAt %X')..'_\n'..#plugins..' plugins loaded', true)
+		api.sendAdmin('Bot started!\n'..os.date('On %A, %d %B %Y\nAt %X')..'\n'..#plugins..' plugins loaded', true)
 		bot.start_timestamp = os.time()
 		current = {h = 0}
 		bot.last = {h = 0}
@@ -51,7 +51,7 @@ while true do -- Start a loop while the bot should be running.
 	end
 	if last_cron ~= os.date('%H') then -- Run cron jobs every hour.
 		last_cron = os.date('%H')
-		-- last.h = current.h
+		bot.last.h = current.h
 		current.h = 0
 		print(clr.yellow..'Cron...'..clr.reset)
 		for i=1, #plugins do
