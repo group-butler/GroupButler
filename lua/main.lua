@@ -141,8 +141,7 @@ Unfortunately I can't work in normal groups. If you need me, please ask the crea
 
 			-- log this event
 			if config.bot_settings.stream_commands then
-				print(string.format('%s[%s]%s Bot was added to a normal group %s%s [%d] -> [%d]',
-					clr.blue, os.date('%X'), clr.yellow, clr.reset, msg.from.first_name, msg.from.id, msg.chat.id))
+				print(clr.blue..'['..os.date('%X')..']'..clr.yellow..' Bot was added to a normal group'..clr.reset..''..msg.from.first_name..' ['..msg.from.id..'] -> ['..msg.chat.id..']')
 			end
 		end
 	end

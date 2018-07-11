@@ -621,6 +621,7 @@ function utilities.getSettings(chat_id)
 		Arab = i18n("Arab"),
 		Rtl = i18n("RTL"),
 		Reports = i18n("Reports"),
+		Weldelchain = i18n("Delete last welcome message"),
 		Welbut = i18n("Welcome button")
 	}
 	for key, default in pairs(config.chat_settings['settings']) do
@@ -630,8 +631,7 @@ function utilities.getSettings(chat_id)
 			off_icon, on_icon = '👤', '👥'
 		end
 
-		local db_val = db:hget(hash, key)
-		if not db_val then db_val = default end
+		local db_val = db:hget(hash, key) or default
 
 		if db_val == 'off' then
 			message = message .. string.format('%s: %s\n', strings[key], off_icon)
