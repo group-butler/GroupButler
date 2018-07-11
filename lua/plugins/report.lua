@@ -47,8 +47,8 @@ local function report(msg, description)
 	local callback_data = ("report:%d:"):format(msg.chat.id)
 	local hash = 'chat:'..msg.chat.id..':report:'..msg.message_id --stores the user_id and the msg_id of the report messages sent to the admins
 	for i=1, #admins_list do
-		local receive_reports = db:hget('user:'..admins_list[i]..':settings', 'reports')
-		if receive_reports and receive_reports == 'on' then
+		local receive_reports = db:hget('user:'..admins_list[i]..':settings', 'reports') or config.private_settings['reports']
+		if receive_reports == 'on' then
 			local res_fwd = api.forwardMessage(admins_list[i], msg.chat.id, msg.reply.message_id)
 			if res_fwd then
 				markup.inline_keyboard[1][1].callback_data = callback_data..(msg.message_id)
