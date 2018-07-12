@@ -65,8 +65,9 @@ local _M =
 		'You must export $SUPERADMINS with a JSON array containing at least your Telegram ID'),
 	cmd = '^[/!#]',
 	bot_settings = {
+		old_update = tonumber(os.getenv("GB_OLD_UPDATE")) or 7, -- Age in seconds for updates to be skipped
 		cache_time = {
-			adminlist = 18000, --5 hours (18000s) Admin Cache time, in seconds.
+			adminlist = tonumber(os.getenv("GB_CACHE_ADMIN")) or 18000, -- 5 hours (18000s) Admin Cache time, in seconds.
 			alert_help = 72,  -- amount of hours for cache help alerts
 			chat_titles = 18000
 		},

@@ -3,6 +3,9 @@ version: '3.3'
 services:
   groupbutler:
     environment:
+      - GB_ADMIN_MODE
+      - GB_CACHE_ADMIN
+      - GB_OLD_UPDATE
       - CHANNEL
       - DEFAULT_LANG
       - HELP_GROUP
