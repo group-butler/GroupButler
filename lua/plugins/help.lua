@@ -266,7 +266,7 @@ When disabled, the group administrators *can't promote or demote new moderators*
 	elseif key == 'logchannel' then
 		return i18n([[*Log channel informations*
 
-A log channel is a i18n(private)_ channel where the bot will record all the important events that will happen in your group.
+A log channel is a _(private)_ channel where the bot will record all the important events that will happen in your group.
 If you want to use this feature, you need to pair your group with a channel with the commands described below.
 All the events, by default, are *not logged*. Admins can choose which events to log from the `/config` menu -> `log channel` button.
 
