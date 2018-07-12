@@ -65,9 +65,14 @@ local function on_msg_receive(msg, callback) -- The fn run whenever a message is
 	end
 
 	if msg.chat.type ~= 'group' then --do not process messages from normal groups
-		if msg.date < os.time(os.date("!*t")) - 7 then print('Old update skipped') return end -- Do not process old messages.
 		-- os.time(os.date("!*t")) is used so that the timestamp is returned from UTC, not the current timezone.
 		-- the ! indicates UTC - https://www.lua.org/manual/5.1/manual.html#pdf-os.date
+		local now = os.time(os.date("!*t"))
+		if msg.date < now - config.bot_settings.old_update then -- Do not process old messages.
+			print(os.date('![%H:%M:%S]', now), 'Old update skipped: ', os.date('!%H:%M:%S', msg.date), now-msg.date)
+			return
+		end
+
 		if not msg.text then msg.text = msg.caption or '' end
 
 		locale.language = db:get('lang:'..msg.chat.id) or config.lang --group language
