@@ -218,10 +218,11 @@ function plugin.onCallbackQuery(msg, blocks)
 		}
 
 		local name = u.getname_final(msg.from)
+		local res = api.getChatMember(msg.chat.id, blocks[2])
 		local text = i18n("The number of warnings received by this user has been <b>reset</b>, by %s"):format(name)
 		api.editMessageText(msg.chat.id, msg.message_id, text:format(name), 'html')
 		u.logEvent('nowarn', msg,
-			{admin = name, user = ('<code>%s</code>'):format(msg.target_id), user_id = msg.target_id, rem = removed})
+               {admin = name, user = u.getname_final(res.result.user), user_id = blocks[2], rem = removed})
 	end
 	if blocks[1] == 'recache' and msg.from.admin then
 		local missing_sec = tonumber(db:ttl('cache:chat:'..msg.target_id..':admins') or 0)

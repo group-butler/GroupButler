@@ -513,14 +513,12 @@ end
 
 -- Return user mention for output a text
 function utilities.getname_final(user)
-	return utilities.getname_link(user.first_name, user.username) or '<code>'..user.first_name:escape_html()..'</code>'
+	return utilities.getname_link(user) or '<code>'..user.first_name:escape_html()..'</code>'
 end
 
 -- Return link to user profile or false, if he doesn't have login
-function utilities.getname_link(name, username)
-	if not name or not username then return nil end
-	username = username:gsub('@', '')
-	return ('<a href="%s">%s</a>'):format('https://telegram.me/'..username, name:escape_html())
+function utilities.getname_link(user)
+	return ('<a href="%s">%s</a>'):format('tg://user?id='..user.id, user.first_name:escape_html())
 end
 
 function utilities.bash(str)
@@ -621,6 +619,7 @@ function utilities.getSettings(chat_id)
 		Arab = i18n("Arab"),
 		Rtl = i18n("RTL"),
 		Reports = i18n("Reports"),
+		Weldelchain = i18n("Delete last welcome message"),
 		Welbut = i18n("Welcome button")
 	}
 	for key, default in pairs(config.chat_settings['settings']) do
@@ -630,8 +629,7 @@ function utilities.getSettings(chat_id)
 			off_icon, on_icon = '👤', '👥'
 		end
 
-		local db_val = db:hget(hash, key)
-		if not db_val then db_val = default end
+		local db_val = db:hget(hash, key) or default
 
 		if db_val == 'off' then
 			message = message .. string.format('%s: %s\n', strings[key], off_icon)
@@ -793,24 +791,25 @@ end
 function utilities.getnames_complete(msg)
 	local admin, kicked
 
-	admin = utilities.getname_link(msg.from.first_name, msg.from.username)
-		or ("<code>%s</code>"):format(msg.from.first_name:escape_html())
+	admin = utilities.getname_link(msg.from)
 
 	if msg.reply then
-		kicked = utilities.getname_link(msg.reply.from.first_name, msg.reply.from.username)
-			or ("<code>%s</code>"):format(msg.reply.from.first_name:escape_html())
+		kicked = utilities.getname_link(msg.reply.from)
 	elseif msg.text:match(config.cmd..'%w%w%w%w?%w?%s(@[%w_]+)%s?') then
 		local username = msg.text:match('%s(@[%w_]+)')
 		kicked = username
 	elseif msg.mention_id then
 		for _, entity in pairs(msg.entities) do
 			if entity.user then
-				kicked = '<code>'..entity.user.first_name:escape_html()..'</code>'
+				kicked = utilities.getname_link(entity.user)
 			end
 		end
 	elseif msg.text:match(config.cmd..'%w%w%w%w?%w?%s(%d+)') then
 		local id = msg.text:match(config.cmd..'%w%w%w%w?%w?%s(%d+)')
-		kicked = '<code>'..id..'</code>'
+		local res = api.getChatMember(msg.chat.id, id)
+		if res then
+			kicked = utilities.getname_final(res.result.user)
+		end
 	end
 
 	return admin, kicked
