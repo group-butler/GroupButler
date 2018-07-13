@@ -67,7 +67,7 @@ local function on_msg_receive(msg, callback) -- The fn run whenever a message is
 	if msg.chat.type ~= 'group' then --do not process messages from normal groups
 		-- os.time(os.date("!*t")) is used so that the timestamp is returned from UTC, not the current timezone.
 		-- the ! indicates UTC - https://www.lua.org/manual/5.1/manual.html#pdf-os.date
-		local now = os.time(os.date("!*t"))
+		local now = os.time(os.date("*t"))
 		if msg.date < now - config.bot_settings.old_update then -- Do not process old messages.
 			print(os.date('![%H:%M:%S]', now), 'Old update skipped: ', os.date('!%H:%M:%S', msg.date), now-msg.date)
 			return
