@@ -63,7 +63,7 @@ function plugin.onTextMessage(msg, blocks)
 		if not rules then
 			api.sendReply(msg, i18n("Please write something next `/setrules`"), true) return
 		end
-		--check if a mod want to clean the rules
+		--check if an admin want to clean the rules
 		if rules == '-' then
 			db:hdel(hash, 'rules')
 			api.sendReply(msg, i18n("Rules has been deleted."))

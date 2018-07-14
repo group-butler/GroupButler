@@ -101,9 +101,7 @@ function plugin.onTextMessage(msg, blocks)
 			end
 			api.sendReply(msg, text, true)
 		else
-			if msg.from.admin
-				or not msg.reply
-				or u.is_mod(msg.chat.id, msg.reply.from.id) then
+			if msg.from.admin or not msg.reply then
 				return
 			end
 

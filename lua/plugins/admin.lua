@@ -271,8 +271,6 @@ function plugin.onTextMessage(msg, blocks)
 
 		local log_channel = db:hget('bot:chatlogs', chat_id)
 		if log_channel then text = text..'\nLog channel: '..log_channel end
-		local realm = db:hget('chat:'..chat_id..':realm', chat_id)
-		if realm then text = text..'\nRealm: '..realm end
 
 		text = text..'</code>'
 

@@ -34,7 +34,7 @@ Only the group owner can promote it :)
 You can use `/, ! or #` to trigger a command.
 
 Group Butler saves the adminlist of a group in its databse to avoid to send too many requests to Telegram.
-This list is updated every 5 hours, so there could be some differences between who the bot thinks are the admins and who the admins actually are, if during the 5 hours timeframe some users have been prmoted/demoted.
+This list is updated every 5 hours, so there could be some differences between who the bot thinks are the admins and who the admins actually are, if during the 5 hours timeframe some users have been promoted/demoted.
 It's possible to force the bot to update its adminlist with `/cache`.
 
 Remember: you have to use commands  *in the group*, unless they are specifically designed for private chats (see "private" tab).
@@ -62,7 +62,7 @@ Remember: you have to use commands  *in the group*, unless they are specifically
 • `/adminlist`: show the administrators of the group
 • `/help`: receive the help message
 • `!kickme`: the bot will kick you
-*Note*: `/dashboard`, `/adminlist`, `/modlist` and `/staff`replies always in private. If the bot is unable to reach an user, he will ask in the group to that user to be started, but just if _silent mode_ is off.
+*Note*: `/dashboard`, `/adminlist` and `/staff` always reply in private. If the bot is unable to reach an user, he will ask in the group to that user to be started, but just if _silent mode_ is off.
 With `/rules`, the bot always answer in the group for admins, but with normal users the message is sent in the group or in private according to the group settings.
 
 • `@admin` (by reply): report a message to the admins of the group (the bot will forward it in prvate). This ability could be turned off from the group settings. A description of the report can be added.
@@ -239,30 +239,12 @@ The inline keyboard has six sub-menus:
 *Media*: choose which media to forbid in your group, and set the number of times that an user will be warned before being kicked/banned
 *Antispam*: choose which kind of spam you want to forbid (example: telegram.me links, forwarded messages from channels)
 *Log channel*: choose which updates should be logged
-*Moderators*: promote or demote moderators
 
 *Bonus commands*:
 `/reportflood [number of messages]/[timeframe]`: set how many times users can use the @admin command within a certain timeframe.
 `/leave`: the bot will leave the group without deleting its data. Use this command only if you are going to add the bot to the group again
 `/snap`: generate a backup file that can be restored with `/import` (send the file in the group and reply to it). `/snap` can be used once every three days
 ]])
-	elseif key == 'mods' then
-		return i18n([[*Moderators*
-
-Moderators are normal users that can use some of the commands that are usually available only to the group administrators.
-
-By default, moderators only have the banhammer (they can use _/ban, /kick, /unban, /tempban, /warn, /nowarn, /block, /unblock, /user_).
-But their powers can be expanded or restricted by the administrators: there is a button in the /config menu, called _"Moderators"_, where the permissions of the moderators can be configured.
-
-By default, every admin can promote a new moderator, or demote an user who is already a mod.
-If you are the group owner, in the _"Moderators"_ section of the configuration menu you will be able to find a switch called _"Admins can manage mods"_.
-When disabled, the group administrators *can't promote or demote new moderators*, and also they won't be allowed to access the _"Moderators"_ section of the configuration menu (so they *won't be able to change the moderators permissions*).
-
-*Commands*
-`/promote [by reply|by username|by text mention|by ID]`: promote an user to moderator. If used on a moderator, it will update his name in the moderators list.
-`/demote [by reply|by username|by text mention|by ID]`: demote an moderator.
-`/modlist`: show the list of the moderators
-`/modlist -`: demote all the moderators (will clean the modlist)]])
 	elseif key == 'logchannel' then
 		return i18n([[*Log channel informations*
 
@@ -341,9 +323,7 @@ local function dk_main()
 		{{text = i18n('Admin commands'), callback_data = 'help:admins:banhammer'}},
 		{{text = i18n('Normal users commands'), callback_data = 'help:users'}},
 		{{text = i18n('Commands in private'), callback_data = 'help:private'}},
-		--{{text = i18n('Realms'), callback_data = 'help:realm'}},
 		{{text = i18n('Log channel'), callback_data = 'help:logchannel'}},
-		--{{text = i18n('Moderators'), callback_data = 'help:mods'}},
 	}
 
 	return keyboard
@@ -404,15 +384,9 @@ function plugin.onCallbackQuery(msg, blocks)
 	elseif query == 'private' then
 		text = get_helped_string('private')
 		answerCallbackQuery_text = i18n('Available commands in private')
-	elseif query == 'realm' then
-		text = get_helped_string('realm')
-		answerCallbackQuery_text = i18n('Available commands in a realm')
 	elseif query == 'logchannel' then
 		text = get_helped_string('logchannel')
 		answerCallbackQuery_text = i18n('Log channel informations')
-	elseif query == 'mods' then
-		text = get_helped_string('mods')
-		answerCallbackQuery_text = i18n('Informations about the moderators')
 	else --query == 'admins'
 		keyboard_type = 'admins'
 		text = get_helped_string(blocks[2])

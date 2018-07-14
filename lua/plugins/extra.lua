@@ -123,7 +123,7 @@ function plugin.onTextMessage(msg, blocks)
 						end
 				else
 					local reply_markup, clean_text = u.reply_markup_from_text(text)
-						api.sendMessage(msg.chat.id, clean_text:replaceholders(msg.reply or msg), true, reply_markup, msg_to_reply, link_preview) --if the mod replies to an user, the bot will reply to the user too
+						api.sendMessage(msg.chat.id, clean_text:replaceholders(msg.reply or msg), true, reply_markup, msg_to_reply, link_preview) --if the admin replies to an user, the bot will reply to the user too
 					end
 			end
 

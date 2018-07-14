@@ -320,7 +320,7 @@ function _M.parseMessageFunction(update)
 		msg.from.admin = u.is_admin(msg.target_id or msg.chat.id, msg.from.id)
 	end
 
-	--print('Mod:', msg.from.mod, 'Admin:', msg.from.admin)
+	-- print('Admin:', msg.from.admin)
 	return on_msg_receive(msg, function_key)
 end
 

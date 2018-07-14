@@ -32,12 +32,6 @@ local function get_alert_text(key)
 		return i18n("Log pinned messages")
 	elseif key == 'blockban' then
 		return i18n("Log when an user who has been blocked is banned from the group (when he join)")
-	elseif key == 'promote' then
-		return i18n("Log when a new user is promoted to moderator")
-	elseif key == 'demote' then
-		return i18n("Log when an user looses the role of moderator")
-	elseif key == 'cleanmods' then
-		return i18n("Log when someone demotes all the moderators with '/modlist -'")
 	elseif key == 'nowarn' then
 		return i18n("Log when an admin removes the warning received by an user")
 	elseif key == 'report' then
@@ -71,9 +65,6 @@ local function doKeyboard_logchannel(chat_id)
 		['mediawarn'] = i18n('Media warns'),
 		['spamwarn'] = i18n('Spam warns'),
 		['flood'] = i18n('Flood'),
-		['promote'] = i18n('Promotions'),
-		['demote'] = i18n('Demotions'),
-		['cleanmods'] = i18n('All mods demoted'),
 		['new_chat_photo'] = i18n('New group icon'),
 		['delete_chat_photo'] = i18n('Group icon removed'),
 		['new_chat_title'] = i18n('New group title'),

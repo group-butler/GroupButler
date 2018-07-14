@@ -123,10 +123,6 @@ function utilities.can(chat_id, user_id, permission)
 	return db:sismember(set, permission)
 end
 
-function utilities.is_mod(chat_id, user_id)
-	return utilities.is_admin(chat_id, user_id)
-end
-
 function utilities.is_superadmin(user_id)
 	for i=1, #config.superadmins do
 		if tonumber(user_id) == config.superadmins[i] then
@@ -256,7 +252,6 @@ function utilities.cache_adminlist(chat_id)
 
 		db:sadd(set, admin.user.id)
 
-		utilities.demote(chat_id, admin.user.id)
 	end
 	db:expire(set, cache_time)
 
@@ -407,15 +402,6 @@ function utilities.reply_markup_from_text(text)
 	return reply_markup, clean_text
 end
 
-function utilities.demote(chat_id, user_id)
-	chat_id, user_id = tonumber(chat_id), tonumber(user_id)
-
-	db:del(('chat:%d:mod:%d'):format(chat_id, user_id))
-	local removed = db:srem('chat:'..chat_id..':mods', user_id)
-
-	return removed == 1
-end
-
 function utilities.get_media_type(msg)
 	if msg.photo then
 		return 'photo'
@@ -564,7 +550,7 @@ function utilities.getAdminlist(chat_id)
 	for _, admin in pairs(list.result) do
 		local name
 		local s = ' ├ '
-		if admin.status == 'administrator' or admin.status == 'moderator' then
+		if admin.status == 'administrator' then
 			name = admin.user.first_name
 			if admin.user.username then
 				name = ('<a href="telegram.me/%s">%s</a>'):format(admin.user.username, name:escape_html())
@@ -680,7 +666,7 @@ function utilities.changeSettingStatus(chat_id, field)
 		reports = i18n("@admin command disabled"),
 		welcome = i18n("Welcome message won't be displayed from now"),
 		goodbye = i18n("Goodbye message won't be displayed from now"),
-		extra = i18n("#extra commands are now available only for moderator"),
+		extra = i18n("#extra commands are now available only for administrators"),
 		flood = i18n("Anti-flood is now off"),
 		rules = i18n("/rules will reply in private (for users)"),
 		silent = i18n("Silent mode is now off"),
@@ -739,18 +725,6 @@ function utilities.initGroup(chat_id)
 	db:srem('bot:groupsid:removed', chat_id)
 end
 
-local function empty_modlist(chat_id)
-	local set = 'chat:'..chat_id..':mods'
-	local mods = db:smembers(set)
-	if next(mods) then
-		for i=1, #mods do
-			db:del(('chat:%d:mod:%d'):format(tonumber(chat_id), tonumber(mods[i])))
-		end
-	end
-
-	db:del(set)
-end
-
 function utilities.remGroup(chat_id, full)
 
 	--remove group id
@@ -778,10 +752,6 @@ function utilities.remGroup(chat_id, full)
 		end
 		for i=1, #config.chat_sets do
 			db:del('chat:'..chat_id..':'..config.chat_sets[i])
-		end
-
-		if db:exists('chat:'..chat_id..':mods') then
-			empty_modlist(chat_id)
 		end
 
 		db:del('lang:'..chat_id)
@@ -878,8 +848,6 @@ function utilities.logEvent(event, msg, extra)
 		--hammered?: hammered
 		text = ('#FLOOD\n• %s\n• <b>User</b>: %s'):format(chat_info, member)
 		if extra.hammered then text = text..('\n#%s'):format(extra.hammered:upper()) end
-	elseif event == 'cleanmods' then
-		text = i18n('%s\n• %s\n• <b>By</b>: %s'):format('#CLEAN_MODLIST', chat_info, extra.admin)
 	elseif event == 'new_chat_photo' then
 		text = i18n('%s\n• %s\n• <b>By</b>: %s'):format('#NEWPHOTO', chat_info, member)
 		reply_markup =
@@ -932,14 +900,6 @@ function utilities.logEvent(event, msg, extra)
 				'• <b>Warns found</b>: <i>normal: %s, for media: %s, spamwarns: %s</i>'
 			):format('WARNS_RESET', extra.admin, msg.from.id, chat_info, extra.user, tostring(extra.user_id), extra.rem.normal,
 			extra.rem.media, extra.rem.spam)
-		elseif event == 'promote' or event == 'demote' then
-			--PROMOTE OR DEMOTE
-			--admin name formatted: admin
-			--user name formatted: user
-			--user id: user_id
-			text = i18n(
-				'#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n• <b>Moderator</b>: %s [#id%s]'
-			):format(event:upper(), extra.admin, msg.from.id, chat_info, extra.user, tostring(extra.user_id))
 		elseif event == 'block' or event == 'unblock' then
 			text = i18n(
 				'#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n'
