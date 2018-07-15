@@ -5,6 +5,7 @@ local ltn12 = require 'ltn12'
 local HTTPS = require 'ssl.https'
 local db = require 'database'
 local locale = require 'languages'
+local socket = require 'socket'
 local i18n = locale.translate
 
 local utilities = {} -- Functions shared among plugins
@@ -229,6 +230,7 @@ end
 
 function utilities.cache_adminlist(chat_id)
 	print('Saving the adminlist for:', chat_id)
+	utilities.metric_incr("api_getchatadministrators_count")
 	local res, code = api.getChatAdministrators(chat_id)
 	if not res then
 		return false, code
@@ -993,6 +995,22 @@ function utilities.reportDeletedCommand(link)
 			api.sendReply(msg, i18n("This command has been removed \\[[read more](%s)]"):format(link), true)
 		end
 	end
+end
+
+function utilities.metric_incr(name)
+	db:incr("bot:metrics:" .. name)
+end
+
+function utilities.metric_set(name, value)
+	db:set("bot:metrics:" .. name, value)
+end
+
+function utilities.metric_get(name)
+	return db:get("bot:metrics:" .. name)
+end
+
+function utilities.time_hires()
+	return socket.gettime()
 end
 
 return utilities
