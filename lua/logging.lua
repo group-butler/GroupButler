@@ -15,7 +15,7 @@ for level, name in pairs(loglevels) do
 	logging[name] = level
 end
 
-function interpolate(s, tab)
+local function interpolate(s, tab)
 	return (
 		s:gsub('(%b{})', function(w)
 			return assert(tab[w:sub(2, -2)],
@@ -29,7 +29,7 @@ function logging.text_log_formatter(level, message, data)
 	if not data then
 		data = {}
 	end
-	entry = {
+	local entry = {
 		message=interpolate(message, data),
 		time=os.date("%x %X"),
 		level=loglevels[level],
@@ -42,6 +42,8 @@ function logging.json_log_formatter(level, message, data)
 		data = {}
 	end
 	data.message = message
+	data.level = level
+	data.timestamp = os.time(os.date("*t"))
 	return JSON.encode(data)
 end
 
