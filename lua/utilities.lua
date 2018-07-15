@@ -784,6 +784,8 @@ function utilities.getnames_complete(msg)
 		end
 	end
 
+	assert(kicked, "kicked is false/nil")
+	assert(admin, "admin is false/nil")
 	return admin, kicked
 end
 
