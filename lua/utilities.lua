@@ -229,6 +229,7 @@ end
 
 function utilities.cache_adminlist(chat_id)
 	print('Saving the adminlist for:', chat_id)
+	utilities.metric_incr("api_getchatadministrators_count")
 	local res, code = api.getChatAdministrators(chat_id)
 	if not res then
 		return false, code
@@ -993,6 +994,18 @@ function utilities.reportDeletedCommand(link)
 			api.sendReply(msg, i18n("This command has been removed \\[[read more](%s)]"):format(link), true)
 		end
 	end
+end
+
+function utilities.metric_incr(name)
+	db:incr("bot:metrics:" .. name)
+end
+
+function utilities.metric_set(name, value)
+	db:set("bot:metrics:" .. name, value)
+end
+
+function utilities.metric_get(name)
+	db:get("bot:metrics:" .. name)
 end
 
 return utilities

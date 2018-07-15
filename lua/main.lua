@@ -155,9 +155,10 @@ end
 
 function _M.parseMessageFunction(update)
 
-	db:hincrby('bot:general', 'messages', 1)
+	u.metric_incr("messages_count")
 
 	local msg, function_key
+	local start_time = os.time()
 
 	if update.message or update.edited_message then
 
@@ -321,7 +322,9 @@ function _M.parseMessageFunction(update)
 	end
 
 	-- print('Admin:', msg.from.admin)
-	return on_msg_receive(msg, function_key)
+	local retval = on_msg_receive(msg, function_key)
+	u.metric_set("msg_request_duration_sec", os.time() - start_time)
+	return retval
 end
 
 return _M

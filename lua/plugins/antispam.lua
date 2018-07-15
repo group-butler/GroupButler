@@ -288,6 +288,7 @@ local function edit_channels_whitelist(chat_id, list, action)
 	local res
 	for channel_id in list:gmatch('-%d+') do
 		if action == 'add' then
+			-- Insert check for whitelists that contain invalid patterns here
 			res = db:sadd(set, channel_id)
 		elseif action == 'rem' then
 			res = db:srem(set, channel_id)
