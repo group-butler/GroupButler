@@ -5,6 +5,7 @@ local ltn12 = require 'ltn12'
 local HTTPS = require 'ssl.https'
 local db = require 'database'
 local locale = require 'languages'
+local socket = require 'socket'
 local i18n = locale.translate
 
 local utilities = {} -- Functions shared among plugins
@@ -1005,7 +1006,11 @@ function utilities.metric_set(name, value)
 end
 
 function utilities.metric_get(name)
-	db:get("bot:metrics:" .. name)
+	return db:get("bot:metrics:" .. name)
+end
+
+function utilities.time_hires()
+	return socket.gettime()
 end
 
 return utilities

@@ -134,7 +134,7 @@ function plugin.onTextMessage(msg, blocks)
 		for i=1, #names do
 			text = text..'- *'..names[i]..'*: `'..num[i]..'`\n'
 		end
-		text = text..'- *total msg*:'..u.metric_get("messages_count")..' \n'
+		text = text..'- *total msg*: '..(u.metric_get("messages_count") or "No Data")..' \n'
 		text = text..'- *uptime*: `from '..(os.date("%c", bot.start_timestamp))..' (GMT+2)`\n'
 		text = text..'- *last hour msgs*: `'..bot.last.h..'`\n'
 		text = text..'   • *average msgs/minute*: `'..round((bot.last.h/60), 3)..'`\n'

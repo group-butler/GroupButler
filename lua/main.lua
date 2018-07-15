@@ -158,7 +158,7 @@ function _M.parseMessageFunction(update)
 	u.metric_incr("messages_count")
 
 	local msg, function_key
-	local start_time = os.time()
+	local start_time = u.time_hires()
 
 	if update.message or update.edited_message then
 
@@ -323,7 +323,7 @@ function _M.parseMessageFunction(update)
 
 	-- print('Admin:', msg.from.admin)
 	local retval = on_msg_receive(msg, function_key)
-	u.metric_set("msg_request_duration_sec", os.time() - start_time)
+	u.metric_set("msg_request_duration_sec", u.time_hires() - start_time)
 	return retval
 end
 
