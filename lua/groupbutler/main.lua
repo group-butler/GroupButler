@@ -1,7 +1,7 @@
 local config = require "groupbutler.config"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local utilities = require "groupbutler.utilities"
-local database = require "groupbutler.database"
+local redis = require "resty.redis"
 local plugins = require "groupbutler.plugins"
 local get_bot = require "groupbutler.bot"
 local locale = require "groupbutler.languages"
@@ -22,8 +22,10 @@ function _M.new(update)
 
 	local self = setmetatable({}, _M)
 	self.update = update
-	self.u = utilities:new()
-	self.db = database:new()
+	self.db = redis:new()
+	self.db:connect(config.redis.host, config.redis.port)
+	self.db:select(config.redis.db)
+	self.u = utilities.new(self)
 	bot = get_bot.init()
 	return self
 end
@@ -121,6 +123,11 @@ Unfortunately I can't work in normal groups. If you need me, please ask the crea
 
 	if not msg.text then msg.text = msg.caption or '' end
 
+	locale.language = db:get('lang:'..msg.chat.id) --group language
+	if not config.available_languages[locale.language] then
+		locale.language = config.lang
+	end
+
 	collect_stats(self, msg)
 
 	local continue, onm_success, plugin_obj
@@ -142,7 +149,7 @@ Unfortunately I can't work in normal groups. If you need me, please ask the crea
 		plugin_obj = plugins[i].new(self)
 		local blocks, trigger = match_triggers(plugin_obj.triggers[callback], msg.text)
 			if blocks then
-				if msg.chat.id < 0 and msg.chat.type ~= 'inline'and not db:exists('chat:'..msg.chat.id..':settings') and not msg.service then --init agroup if the bot wasn't aware to be in
+				if msg.chat.id < 0 and msg.chat.type ~= 'inline'and db:exists('chat:'..msg.chat.id..':settings') == 0 and not msg.service then --init agroup if the bot wasn't aware to be in
 				u:initGroup(msg.chat.id)
 				end
 				if config.bot_settings.stream_commands then --print some info in the terminal
@@ -339,8 +346,8 @@ function _M:parseMessageFunction()
 	-- print('Admin:', msg.from.admin)
 	local retval = on_msg_receive(self, msg, function_key)
 	u:metric_set("msg_request_duration_sec", u:time_hires() - start_time)
-	-- db:keep_alive()
-	db:quit()
+	-- print(db:get_reused_times())
+	db:set_keepalive()
 	return retval
 end
 

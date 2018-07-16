@@ -1,7 +1,7 @@
 local config = require "groupbutler.config"
-local utilities = require "groupbutler.utilities"
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
+local null = ngx.null
 
 local _M = {}
 
@@ -16,7 +16,7 @@ setmetatable(_M, {
 function _M.new(main)
 	local self = setmetatable({}, _M)
 	self.update = main.update
-	self.u = utilities:new()
+	self.u = main.u
 	self.db = main.db
 	return self
 end
@@ -37,7 +37,7 @@ function _M:onTextMessage(msg, blocks)
 			u:sendReply(msg, string.format('[%s](telegram.me/%s)', title, msg.chat.username), "Markdown")
 		else
 			local link = db:hget(hash, 'link')
-			if not link then
+			if link == null then
 				text = i18n("*No link* for this group. Ask the owner to save it with `/setlink [group link]`")
 			else
 				local title = msg.chat.title:escape_hard('link')

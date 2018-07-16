@@ -1,8 +1,8 @@
 local config = require "groupbutler.config"
-local utilities = require "groupbutler.utilities"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
+local null = ngx.null
 
 local _M = {}
 
@@ -17,17 +17,17 @@ setmetatable(_M, {
 function _M.new(main)
 	local self = setmetatable({}, _M)
 	self.update = main.update
-	self.u = utilities:new()
+	self.u = main.u
 	self.db = main.db
 	return self
 end
 
 local function getFloodSettings_text(self, chat_id)
 	local db = self.db
-	local status = db:hget('chat:'..chat_id..':settings', 'Flood') or 'yes' --check (default: disabled)
+	local status = db:hget('chat:'..chat_id..':settings', 'Flood') -- (default: disabled)
 	if status == 'no' or status == 'on' then
 		status = i18n("✅ | ON")
-	elseif status == 'yes' or status == 'off' then
+	else
 		status = i18n("❌ | OFF")
 	end
 	local hash = 'chat:'..chat_id..':flood'
@@ -39,7 +39,7 @@ local function getFloodSettings_text(self, chat_id)
 	elseif action == 'mute' then
 		action = i18n("👁 mute")
 	end
-	local num = (db:hget(hash, 'MaxFlood')) or 5
+	local num = tonumber(db:hget(hash, 'MaxFlood')) or 5
 	local exceptions = {
 		text = i18n("Texts"),
 		forward = i18n("Forwards"),
@@ -52,7 +52,7 @@ local function getFloodSettings_text(self, chat_id)
 	local list_exc = ''
 	for media, translation in pairs(exceptions) do
 		--ignored by the antiflood-> yes, no
-		local exc_status = (db:hget(hash, media)) or 'no'
+		local exc_status = db:hget(hash, media)
 		if exc_status == 'yes' then
 			exc_status = '✅'
 		else
@@ -167,7 +167,8 @@ function _M:onCallbackQuery(msg, blocks)
 		}
 		text = i18n("*Current media settings*:\n\n")
 		for media, default_status in pairs(config.chat_settings['media']) do
-			local status = (db:hget('chat:'..chat_id..':media', media)) or default_status
+			local status = db:hget('chat:'..chat_id..':media', media)
+			if status == null then status = default_status end
 			if status == 'ok' then
 				status = '✅'
 			else

@@ -1,7 +1,7 @@
 local config = require "groupbutler.config"
-local utilities = require "groupbutler.utilities"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local get_bot = require "groupbutler.bot"
+local null = ngx.null
 
 local _M = {}
 
@@ -18,7 +18,7 @@ setmetatable(_M, {
 function _M.new(main)
 	local self = setmetatable({}, _M)
 	self.update = main.update
-	self.u = utilities:new()
+	self.u = main.u
 	self.db = main.db
 	bot = get_bot.init()
 	return self
@@ -288,7 +288,7 @@ function _M:onTextMessage(msg, blocks)
 		end
 
 		local log_channel = db:hget('bot:chatlogs', chat_id)
-		if log_channel then text = text..'\nLog channel: '..log_channel end
+		if log_channel ~= null then text = text..'\nLog channel: '..log_channel end
 
 		text = text..'</code>'
 

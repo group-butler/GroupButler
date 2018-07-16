@@ -1,9 +1,9 @@
 local config = require "groupbutler.config"
-local utilities = require "groupbutler.utilities"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local get_bot = require "groupbutler.bot"
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
+local null = ngx.null
 
 local _M = {}
 
@@ -20,7 +20,7 @@ setmetatable(_M, {
 function _M.new(main)
 	local self = setmetatable({}, _M)
 	self.update = main.update
-	self.u = utilities:new()
+	self.u = main.u
 	self.db = main.db
 	bot = get_bot.init()
 	return self
@@ -68,7 +68,9 @@ function _M:onTextMessage(msg, blocks)
 			default = 3
 			text = i18n("Max number of warnings changed.\n")
 		end
-		local old = (db:hget(hash, key)) or default
+		local old = db:hget(hash, key)
+		if old == null then old = default end
+
 		db:hset(hash, key, new)
 		text = text .. i18n("*Old* value was %d\n*New* max is %d"):format(tonumber(old), tonumber(new))
 		u:sendReply(msg, text, "Markdown")
@@ -111,13 +113,14 @@ function _M:onTextMessage(msg, blocks)
 
 		local name = u:getname_final(msg.reply.from)
 		local hash = 'chat:'..msg.chat.id..':warns'
-		local num = db:hincrby(hash, msg.reply.from.id, 1) --add one warn
-		local nmax = (db:hget('chat:'..msg.chat.id..':warnsettings', 'max')) or 3 --get the max num of warnings
+		local num = tonumber(db:hincrby(hash, msg.reply.from.id, 1)) --add one warn
+		local nmax = tonumber(db:hget('chat:'..msg.chat.id..':warnsettings', 'max')) or 3 --get the max num of warnings
 		local text, res, err, hammer_log
-		num, nmax = tonumber(num), tonumber(nmax)
 
 		if num >= nmax then
-			local type = (db:hget('chat:'..msg.chat.id..':warnsettings', 'type')) or 'kick'
+			local type = db:hget('chat:'..msg.chat.id..':warnsettings', 'type')
+			if type == null then type = 'kick' end
+
 			--try to kick/ban
 			text = i18n("%s <b>%s</b>: reached the max number of warnings (<code>%d/%d</code>)")
 			if type == 'ban' then
@@ -177,14 +180,14 @@ function _M:onCallbackQuery(msg, blocks)
 
 	if blocks[1] == 'removewarn' then
 		local user_id = blocks[2]
-		local num = db:hincrby('chat:'..msg.chat.id..':warns', user_id, -1) --add one warn
+		local num = tonumber(db:hincrby('chat:'..msg.chat.id..':warns', user_id, -1)) --add one warn
 		local text, nmax
-		if tonumber(num) < 0 then
+		if num < 0 then
 			text = i18n("The number of warnings received by this user is already <i>zero</i>")
 			db:hincrby('chat:'..msg.chat.id..':warns', user_id, 1) --restore the previouvs number
 		else
-			nmax = (db:hget('chat:'..msg.chat.id..':warnsettings', 'max')) or 3 --get the max num of warnings
-			text = i18n("<b>Warn removed!</b> (%d/%d)"):format(tonumber(num), tonumber(nmax))
+			nmax = tonumber(db:hget('chat:'..msg.chat.id..':warnsettings', 'max')) or 3 --get the max num of warnings
+			text = i18n("<b>Warn removed!</b> (%d/%d)"):format(num, nmax)
 		end
 
 		text = text .. i18n("\n(Admin: %s)"):format(u:getname_final(msg.from))

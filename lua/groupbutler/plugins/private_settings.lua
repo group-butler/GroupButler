@@ -2,6 +2,7 @@ local config = require "groupbutler.config"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
+local null = ngx.null
 
 local _M = {}
 
@@ -36,7 +37,9 @@ local function change_private_setting(self, user_id, key)
 	local db = self.db
 	local hash = 'user:'..user_id..':settings'
 	local val = 'off'
-	local current_status = (db:hget(hash, key)) or config.private_settings[key]
+	local current_status = db:hget(hash, key)
+	if current_status == null then current_status = config.private_settings[key] end
+
 	if current_status == 'off' then
 		val = 'on'
 	end

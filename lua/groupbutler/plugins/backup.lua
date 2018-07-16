@@ -1,10 +1,10 @@
 local config = require "groupbutler.config"
-local utilities = require "groupbutler.utilities"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local api_old = require "groupbutler.methods"
 local json = require "cjson"
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
+local null = ngx.null
 
 local _M = {}
 
@@ -19,7 +19,7 @@ setmetatable(_M, {
 function _M.new(main)
 	local self = setmetatable({}, _M)
 	self.update = main.update
-	self.u = utilities:new()
+	self.u = main.u
 	self.db = main.db
 	return self
 end
@@ -112,7 +112,7 @@ function _M:onTextMessage(msg, blocks)
 	if blocks[1] == 'snap' then
 		local key = 'chat:'..msg.chat.id..':lastsnap'
 		local last_user = db:get(key)
-		if last_user then
+			if last_user ~= null then
 			-- A snapshot has been done recently
 			local ttl = db:ttl(key)
 			local time_remaining = get_time_remaining(ttl)

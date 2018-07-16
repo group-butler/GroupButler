@@ -1,8 +1,8 @@
 local config = require "groupbutler.config"
-local utilities = require "groupbutler.utilities"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
+local null = ngx.null
 
 local _M = {}
 
@@ -17,7 +17,7 @@ setmetatable(_M, {
 function _M.new(main)
 	local self = setmetatable({}, _M)
 	self.update = main.update
-	self.u = utilities:new()
+	self.u = main.u
 	self.db = main.db
 	return self
 end
@@ -37,9 +37,11 @@ end
 
 local function getAntispamWarns(self, chat_id, user_id)
 	local db = self.db
-	local max_allowed = (db:hget('chat:'..chat_id..':antispam', 'warns')) or config.chat_settings['antispam']['warns']
+	local max_allowed = db:hget('chat:'..chat_id..':antispam', 'warns')
+	if max_allowed == null then max_allowed = config.chat_settings['antispam']['warns'] end
 	max_allowed = tonumber(max_allowed)
-	local warns_received = (db:hincrby('chat:'..chat_id..':spamwarns', user_id, 1))
+
+	local warns_received = db:hincrby('chat:'..chat_id..':spamwarns', user_id, 1)
 	warns_received = tonumber(warns_received)
 
 	return warns_received, max_allowed
@@ -59,7 +61,7 @@ function _M:onEveryMessage(msg)
 
 	if not msg.inline and msg.spam and msg.chat.id < 0 and not msg.cb and not msg.from.admin then
 		local status = db:hget('chat:'..msg.chat.id..':antispam', msg.spam)
-		if status and status ~= 'alwd' then
+		if status ~= null and status ~= 'alwd' then
 			local whitelisted
 			if msg.spam == 'links' then
 				whitelisted = is_whitelisted(self, msg.chat.id, msg.text:lower())
@@ -79,7 +81,8 @@ function _M:onEveryMessage(msg)
 						api.deleteMessage(msg.chat.id, msg.message_id)
 					end
 
-					local action = (db:hget('chat:'..msg.chat.id..':antispam', 'action')) or config.chat_settings['antispam']['action']
+					local action = db:hget('chat:'..msg.chat.id..':antispam', 'action')
+					if action == null then action = config.chat_settings['antispam']['action'] end
 
 					local res
 					if action == 'ban' then
@@ -121,7 +124,8 @@ end
 local function toggleAntispamSetting(self, chat_id, key)
 	local db = self.db
 	local hash = 'chat:'..chat_id..':antispam'
-	local current = db:hget(hash, key) or config.chat_settings['antispam'][key]
+	local current =db:hget(hash, key)
+	if current == null then current = config.chat_settings['antispam'][key] end
 
 	local next_state = { ['alwd'] = 'warn', ['warn'] = 'del', ['del'] = 'alwd' }
 	local new = next_state[current] or 'alwd'
@@ -150,7 +154,8 @@ local function changeWarnsNumber(self, chat_id, action)
 	local db = self.db
 	local hash = 'chat:'..chat_id..':antispam'
 	local key = 'warns'
-	local current = (db:hget(hash, key)) or config.chat_settings['antispam'][key]
+	local current = db:hget(hash, key)
+	if current == null then current = config.chat_settings['antispam'][key] end
 	current = tonumber(current)
 	if current < 1 then
 		current = 1
@@ -176,7 +181,8 @@ local function changeAction(self, chat_id)
 	local db = self.db
 	local hash = 'chat:'..chat_id..':antispam'
 	local key = 'action'
-	local current = (db:hget(hash, key)) or config.chat_settings['antispam'][key]
+	local current = db:hget(hash, key)
+	if current == null then current = config.chat_settings['antispam'][key] end
 	local new_action
 
 	if current == 'ban' then new_action = 'kick'
@@ -207,7 +213,8 @@ local function doKeyboard_antispam(self, chat_id)
 	for field, _ in pairs(config.chat_settings['antispam']) do
 		if field == 'links' or field == 'forwards' then
 			local icon = '✅'
-			local status = (db:hget('chat:'..chat_id..':antispam', field)) or config.chat_settings['antispam'][field]
+			local status = db:hget('chat:'..chat_id..':antispam', field)
+			if status == null then status = config.chat_settings['antispam'][field] end
 			if status == 'warn' then
 				icon = '❌'
 			elseif status == 'del' then icon = '🗑' end
@@ -219,8 +226,11 @@ local function doKeyboard_antispam(self, chat_id)
 		end
 	end
 
-	local warns = (db:hget('chat:'..chat_id..':antispam', 'warns')) or config.chat_settings['antispam']['warns']
-	local action = (db:hget('chat:'..chat_id..':antispam', 'action')) or config.chat_settings['antispam']['action']
+	local warns = db:hget('chat:'..chat_id..':antispam', 'warns')
+	if warns == null then warns = config.chat_settings['antispam']['warns'] end
+
+	local action = db:hget('chat:'..chat_id..':antispam', 'action')
+	if action == null then action = config.chat_settings['antispam']['action'] end
 
 	if action == 'kick' then
 		action = i18n("Kick 👞")

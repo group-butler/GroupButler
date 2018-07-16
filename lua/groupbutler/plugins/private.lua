@@ -1,5 +1,4 @@
 local config = require "groupbutler.config"
-local utilities = require "groupbutler.utilities"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local get_bot = require "groupbutler.bot"
 local locale = require "groupbutler.languages"
@@ -17,9 +16,9 @@ setmetatable(_M, {
 	end,
 })
 
-function _M.new()
+function _M.new(main)
 	local self = setmetatable({}, _M)
-	self.u = utilities:new()
+	self.u = main.u
 	bot = get_bot.init()
 	return self
 end

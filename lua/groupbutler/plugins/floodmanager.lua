@@ -1,8 +1,8 @@
 local config = require "groupbutler.config"
-local utilities = require "groupbutler.utilities"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
+local null = ngx.null
 
 local _M = {}
 
@@ -17,7 +17,7 @@ setmetatable(_M, {
 function _M.new(main)
 	local self = setmetatable({}, _M)
 	self.update = main.update
-	self.u = utilities:new()
+	self.u = main.u
 	self.db = main.db
 	return self
 end
@@ -37,7 +37,9 @@ end
 local function do_keyboard_flood(self, chat_id)
 	local db = self.db
 	--no: enabled, yes: disabled
-	local status = db:hget('chat:'..chat_id..':settings', 'Flood') or config.chat_settings['settings']['Flood'] --check (default: disabled)
+	local status = db:hget('chat:'..chat_id..':settings', 'Flood')
+	if status == null then status = config.chat_settings['settings']['Flood'] end
+
 	if status == 'on' then
 		status = i18n("✅ | ON")
 	else
@@ -45,7 +47,8 @@ local function do_keyboard_flood(self, chat_id)
 	end
 
 	local hash = 'chat:'..chat_id..':flood'
-	local action = (db:hget(hash, 'ActionFlood')) or config.chat_settings['flood']['ActionFlood']
+	local action = db:hget(hash, 'ActionFlood')
+	if action == null then action = config.chat_settings['flood']['ActionFlood'] end
 	if action == 'kick' then
 		action = i18n("👞️ kick")
 	elseif action == 'ban' then
@@ -53,7 +56,7 @@ local function do_keyboard_flood(self, chat_id)
 	elseif action == 'mute' then
 		action = i18n("👁 mute")
 	end
-	local num = (db:hget(hash, 'MaxFlood')) or config.chat_settings['flood']['MaxFlood']
+	local num = tonumber(db:hget(hash, 'MaxFlood')) or config.chat_settings['flood']['MaxFlood']
 	local keyboard = {
 		inline_keyboard = {
 			{
@@ -80,7 +83,9 @@ local function do_keyboard_flood(self, chat_id)
 	hash = 'chat:'..chat_id..':floodexceptions'
 	for media, translation in pairs(exceptions) do
 		--ignored by the antiflood-> yes, no
-		local exc_status = db:hget(hash, media) or config.chat_settings['floodexceptions'][media]
+		local exc_status = db:hget(hash, media)
+		if exc_status == null then exc_status = config.chat_settings['floodexceptions'][media] end
+
 		if exc_status == 'yes' then
 			exc_status = '✅'
 		else
@@ -163,7 +168,7 @@ function _M:onCallbackQuery(msg, blocks)
 		if blocks[1] == 'exc' then
 			local media = blocks[2]
 			local hash = 'chat:'..chat_id..':floodexceptions'
-			local status = (db:hget(hash, media)) or 'no'
+			local status = db:hget(hash, media)
 			if status == 'no' then
 				db:hset(hash, media, 'yes')
 				text = i18n("❎ [%s] will be ignored by the anti-flood"):format(media)
@@ -176,7 +181,8 @@ function _M:onCallbackQuery(msg, blocks)
 		local action
 		if blocks[1] == 'action' or blocks[1] == 'dim' or blocks[1] == 'raise' then
 			if blocks[1] == 'action' then
-				action = db:hget('chat:'..chat_id..':flood', 'ActionFlood') or config.chat_settings.flood.ActionFlood
+				action = db:hget('chat:'..chat_id..':flood', 'ActionFlood')
+				if action == null then action = config.chat_settings.flood.ActionFlood end
 			elseif blocks[1] == 'dim' then
 				action = -1
 			elseif blocks[1] == 'raise' then

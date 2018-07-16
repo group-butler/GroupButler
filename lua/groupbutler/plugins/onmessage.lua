@@ -1,7 +1,7 @@
 local config = require "groupbutler.config"
-local utilities = require "groupbutler.utilities"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local i18n = require "groupbutler.languages".translate
+local null = ngx.null
 
 local _M = {}
 
@@ -16,7 +16,7 @@ setmetatable(_M, {
 function _M.new(main)
 	local self = setmetatable({}, _M)
 	self.update = main.update
-	self.u = utilities:new()
+	self.u = main.u
 	self.db = main.db
 	return self
 end
@@ -28,21 +28,19 @@ local function max_reached(self, chat_id, user_id)
 	local n = tonumber(db:hincrby('chat:'..chat_id..':mediawarn', user_id, 1))
 	if n >= max then
 		return true, n, max
-	else
-		return false, n, max
 	end
+		return false, n, max
 end
 
 local function is_ignored(self, chat_id, msg_type)
 	local db = self.db
 	local hash = 'chat:'..chat_id..':floodexceptions'
-	local status = (db:hget(hash, msg_type)) or 'no'
+	local status = db:hget(hash, msg_type)
 	if status == 'yes' then
 		return true
-	elseif status == 'no' then
+	end
 		return false
 	end
-end
 
 local function is_flooding_funct(self, msg)
 	local db = self.db
@@ -77,14 +75,6 @@ local function is_flooding_funct(self, msg)
 		return false
 end
 
-local function is_blocked(self, id)
-	local db = self.db
-	if db:sismember('bot:blocked', id) then
-		return true
-	end
-		return false
-end
-
 local function is_whitelisted(self, chat_id, text)
 	local db = self.db
 	local set = ('chat:%d:whitelist'):format(chat_id)
@@ -109,7 +99,9 @@ function _M:onEveryMessage(msg)
 		if not is_ignored(self, msg.chat.id, msg_type) and not msg.edited then
 			local is_flooding, msgs_sent, msgs_max = is_flooding_funct(self, msg)
 		if is_flooding then
-			local status = (db:hget('chat:'..msg.chat.id..':settings', 'Flood')) or config.chat_settings['settings']['Flood']
+				local status = db:hget('chat:'..msg.chat.id..':settings', 'Flood')
+				if status == null then status = config.chat_settings['settings']['Flood'] end
+
 			if status == 'on' and not msg.cb and not msg.from.admin then --if the status is on, and the user is not an admin, and the message is not a callback, then:
 				local action = db:hget('chat:'..msg.chat.id..':flood', 'ActionFlood')
 					local name = u:getname_final(msg.from)
@@ -150,7 +142,9 @@ function _M:onEveryMessage(msg)
 		if msg.media and msg.chat.type ~= 'private' and not msg.cb and not msg.edited then
 			local media = msg.media_type
 			local hash = 'chat:'..msg.chat.id..':media'
-			local media_status = (db:hget(hash, media)) or config.chat_settings.media[media]
+				local media_status = (db:hget(hash, media))
+				if media_status == null then media_status = config.chat_settings.media[media] end
+
 			if media_status ~= 'ok' then
 				local whitelisted
 				if media == 'link' then
@@ -162,8 +156,9 @@ function _M:onEveryMessage(msg)
 						local name = u:getname_final(msg.from)
 						local max_reached_var, n, max = max_reached(self, msg.chat.id, msg.from.id)
 					if max_reached_var then --max num reached. Kick/ban the user
-						status = (db:hget('chat:'..msg.chat.id..':warnsettings', 'mediatype'))
-							or config.chat_settings['warnsettings']['mediatype']
+							status = db:hget('chat:'..msg.chat.id..':warnsettings', 'mediatype')
+							if status == null then status = config.chat_settings['warnsettings']['mediatype'] end
+
 						--try to kick/ban
 							local ok, punishment
 						if status == 'kick' then
@@ -207,7 +202,9 @@ function _M:onEveryMessage(msg)
 			end
 		end
 
-		local rtl_status = (db:hget('chat:'..msg.chat.id..':char', 'Rtl')) or config.chat_settings.char.Rtl
+			local rtl_status = db:hget('chat:'..msg.chat.id..':char', 'Rtl')
+			if rtl_status == null then rtl_status = config.chat_settings.char.Rtl end
+
 		if rtl_status ~= 'allowed' then
 			local rtl = '‮'
 			local last_name = 'x'
@@ -234,7 +231,9 @@ function _M:onEveryMessage(msg)
 		end
 
 		if msg.text and msg.text:find('([\216-\219][\128-\191])') then
-			local arab_status = (db:hget('chat:'..msg.chat.id..':char', 'Arab')) or config.chat_settings.char.Arab
+				local arab_status = db:hget('chat:'..msg.chat.id..':char', 'Arab')
+				if arab_status == null then arab_status = config.chat_settings.char.Arab end
+
 			if arab_status ~= 'allowed' then
 					local ok, message
 				if arab_status == 'kick' then
@@ -257,7 +256,7 @@ function _M:onEveryMessage(msg)
 		end
 	end
 
-	if is_blocked(self, msg.from.id) then --ignore blocked users
+	if u:is_blocked_global(msg.from.id) then --ignore blocked users
 		return false -- if an user is blocked, don't go through plugins
 	else
 		return true -- don't return false for edited messages: the antispam needs to process them

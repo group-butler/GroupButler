@@ -1,5 +1,4 @@
 local config = require "groupbutler.config"
-local utilities = require "groupbutler.utilities"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
@@ -17,7 +16,7 @@ setmetatable(_M, {
 function _M.new(main)
 	local self = setmetatable({}, _M)
 	self.update = main.update
-	self.u = utilities:new()
+	self.u = main.u
 	self.db = main.db
 	return self
 end
@@ -67,9 +66,9 @@ function _M:onTextMessage(msg, blocks)
 
 		local link_preview = rules:find('telegra%.ph/') ~= nil
 		if msg.chat.type == 'private' or (not msg.from.admin and not send_in_group(self, msg.chat.id)) then
-			u:sendMessage(msg.from.id, rules, "Markdown", link_preview, nil, nil, reply_markup)
+			api.sendMessage(msg.from.id, rules, "Markdown", link_preview, nil, nil, reply_markup)
 		else
-			u:sendReply(msg, rules, "Markdown", link_preview, nil, reply_markup)
+			u:sendReply(msg, rules, "Markdown", link_preview, nil, nil, reply_markup)
 		end
 	end
 

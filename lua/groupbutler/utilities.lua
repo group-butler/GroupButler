@@ -1,12 +1,12 @@
 local json = require "cjson"
 local config = require "groupbutler.config"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
-local redis = require "redis"
 local api_err = require "groupbutler.api_errors"
 local get_bot = require "groupbutler.bot"
 local locale = require "groupbutler.languages"
 local socket = require 'socket'
 local i18n = locale.translate
+local null = ngx.null
 local http, HTTPS, ltn12
 if ngx then
 	http = require "resty.http"
@@ -27,12 +27,9 @@ setmetatable(_M, {
 	end,
 })
 
-function _M.new()
+function _M.new(main)
 	local self = setmetatable({}, _M)
-	-- self.db = redis:new()
-	-- self.db:connect(config.redis.host, config.redis.port)
-	self.db = redis.connect(config.redis.host, config.redis.port)
-	self.db:select(config.redis.db)
+	self.db = main.db
 	bot = get_bot.init()
 	return self
 end
@@ -188,11 +185,11 @@ function _M:can(chat_id, user_id, permission)
 	local set = ("cache:chat:%s:%s:permissions"):format(chat_id, user_id)
 
 	local set_admins = 'cache:chat:'..chat_id..':admins'
-	if not db:exists(set_admins) then
+	if db:exists(set_admins) == 0 then
 		_M.cache_adminlist(self, chat_id)
 	end
 
-	return db:sismember(set, permission)
+	return db:sismember(set, permission) ~= 0
 end
 
 function _M:is_mod(chat_id, user_id)
@@ -244,10 +241,10 @@ function _M:is_admin(chat_id, user_id)
 	end
 
 	local set = 'cache:chat:'..chat_id..':admins'
-	if not db:exists(set) then
+	if db:exists(set) == 0 then
 		_M.cache_adminlist(self, chat_id)
 	end
-	return db:sismember(set, user_id)
+	return db:sismember(set, user_id) ~= 0
 end
 
 function _M:is_owner_request(msg)
@@ -272,10 +269,10 @@ function _M:is_owner(chat_id, user_id)
 	local res = true
 	repeat
 		owner_id = db:get(hash)
-		if not owner_id then
+		if owner_id == null then
 			res = _M.cache_adminlist(self, chat_id)
 		end
-	until owner_id or not res
+	until owner_id ~= null or not res
 
 	if owner_id then
 		if tonumber(owner_id) == tonumber(user_id) then
@@ -361,10 +358,7 @@ end
 
 function _M:is_blocked_global(id)
 	local db = self.db
-	if db:sismember('bot:blocked', id) then
-		return true
-	end
-		return false
+	return db:sismember('bot:blocked', id) ~= 0
 end
 
 function _M:dump(...)
@@ -438,6 +432,7 @@ function _M:resolve_user(username)
 
 	local stored_id = tonumber(db:hget('bot:usernames', username))
 	if not stored_id then return false end
+
 	local user_obj = api.getChat(stored_id)
 	if not user_obj then
 		return stored_id
@@ -636,19 +631,14 @@ end
 
 function _M:is_silentmode_on(chat_id)
 	local db = self.db
-	local hash = 'chat:'..chat_id..':settings'
-	local res = db:hget(hash, 'Silent')
-	if res and res == 'on' then
-		return true
-	end
-	return false
+	return db:hget("chat:"..chat_id..":settings", "Silent") == "on"
 end
 
 function _M:getRules(chat_id)
 	local db = self.db
 	local hash = 'chat:'..chat_id..':info'
 	local rules = db:hget(hash, 'rules')
-	if not rules then
+	if rules == null then
 		return i18n("-*empty*-")
 	end
 	return rules
@@ -706,7 +696,9 @@ function _M:getSettings(chat_id)
 	local db = self.db
 	local hash = 'chat:'..chat_id..':settings'
 
-	local lang = db:get('lang:'..chat_id) or config.lang -- group language
+	local lang = db:get('lang:'..chat_id) -- group language
+	if lang == null then lang = config.lang end
+
 	local message = i18n("Current settings for *the group*:\n\n")
 			.. i18n("*Language*: %s\n"):format(config.available_languages[lang])
 
@@ -732,7 +724,8 @@ function _M:getSettings(chat_id)
 			off_icon, on_icon = '👤', '👥'
 		end
 
-		local db_val = db:hget(hash, key) or default
+		local db_val = db:hget(hash, key)
+		if db_val == null then db_val = default end
 
 		if db_val == 'off' then
 			message = message .. string.format('%s: %s\n', strings[key], off_icon)
@@ -746,7 +739,7 @@ function _M:getSettings(chat_id)
 	local off_icon, on_icon = '🚫', '✅'
 	for key, default in pairs(config.chat_settings['char']) do
 		local db_val = db:hget(hash, key)
-		if not db_val then db_val = default end
+		if db_val == null then db_val = default end
 		if db_val == 'off' then
 			message = message .. string.format('%s: %s\n', strings[key], off_icon)
 		else
@@ -765,9 +758,11 @@ function _M:getSettings(chat_id)
 		message = message .. i18n("*Welcome type*: `default message`\n")
 	end
 
-	local warnmax_std = (db:hget('chat:'..chat_id..':warnsettings', 'max')) or config.chat_settings['warnsettings']['max']
-	local warnmax_media = (db:hget('chat:'..chat_id..':warnsettings', 'mediamax'))
-		or config.chat_settings['warnsettings']['mediamax']
+	local warnmax_std = db:hget('chat:'..chat_id..':warnsettings', 'max')
+	if warnmax_std == null then warnmax_std = config.chat_settings['warnsettings']['max'] end
+
+	local warnmax_media = db:hget('chat:'..chat_id..':warnsettings', 'mediamax')
+	if warnmax_media == null then warnmax_media = config.chat_settings['warnsettings']['mediamax'] end
 
 	return message .. i18n("Warns (`standard`): *%s*\n"):format(warnmax_std)
 		.. i18n("Warns (`media`): *%s*\n\n"):format(warnmax_media)
@@ -889,7 +884,7 @@ function _M:remGroup(chat_id, full)
 			db:del('chat:'..chat_id..':'..config.chat_sets[i])
 		end
 
-		if db:exists('chat:'..chat_id..':mods') then
+		if db:exists('chat:'..chat_id..':mods') == 1 then
 			empty_modlist(self, chat_id)
 		end
 
@@ -962,9 +957,9 @@ function _M:logEvent(event, msg, extra)
 	local log_id = db:hget('bot:chatlogs', msg.chat.id)
 	-- _M.dump(self, extra)
 
-	if not log_id then return end
+	if log_id == null then return end
 	local is_loggable = db:hget('chat:'..msg.chat.id..':tolog', event)
-	if not is_loggable or is_loggable == 'no' then return end
+	if is_loggable == null or is_loggable == 'no' then return end
 
 	local text, reply_markup
 

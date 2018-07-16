@@ -1,8 +1,8 @@
 local config = require "groupbutler.config"
-local utilities = require "groupbutler.utilities"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
+local null = ngx.null
 
 local _M = {}
 
@@ -17,7 +17,7 @@ setmetatable(_M, {
 function _M.new(main)
 	local self = setmetatable({}, _M)
 	self.update = main.update
-	self.u = utilities:new()
+	self.u = main.u
 	self.db = main.db
 	return self
 end
@@ -83,7 +83,9 @@ local function changeWarnSettings(self, chat_id, action)
 			return current..'->'..new_val
 		end
 	elseif action == 'status' then
-		local status = (db:hget('chat:'..chat_id..':warnsettings', 'type')) or config.chat_settings.warnsettings.type
+		local status = db:hget('chat:'..chat_id..':warnsettings', 'type')
+		if status == null then status = config.chat_settings.warnsettings.type end
+
 		if status == 'kick' then
 			db:hset('chat:'..chat_id..':warnsettings', 'type', 'ban')
 			return i18n("New action on max number of warns received: ban")
@@ -108,22 +110,20 @@ local function changeCharSettings(self, chat_id, field)
 
 	local hash = 'chat:'..chat_id..':char'
 	local status = db:hget(hash, field)
-	local text
+
 	if status == 'allowed' then
 		db:hset(hash, field, 'kick')
-		text = humanizations['kick']
+		return humanizations['kick']
 	elseif status == 'kick' then
 		db:hset(hash, field, 'ban')
-		text = humanizations['ban']
+		return humanizations['ban']
 	elseif status == 'ban' then
 		db:hset(hash, field, 'mute')
-		text = humanizations['mute']
-	elseif status == 'mute' then
+		return humanizations['mute']
+	else
 		db:hset(hash, field, 'allowed')
-		text = humanizations['allow']
+		return humanizations['allow']
 	end
-
-	return text
 end
 
 local function usersettings_table(self, settings, chat_id)
@@ -132,7 +132,8 @@ local function usersettings_table(self, settings, chat_id)
 	local icon_off, icon_on = '👤', '👥'
 	for field, default in pairs(settings) do
 		if field == 'Extra' or field == 'Rules' then
-			local status = (db:hget('chat:'..chat_id..':settings', field)) or default
+			local status = db:hget('chat:'..chat_id..':settings', field)
+			if status == null then status = default end
 			if status == 'off' then
 				return_table[field] = icon_off
 			elseif status == 'on' then
@@ -150,7 +151,9 @@ local function adminsettings_table(self, settings, chat_id)
 	local icon_off, icon_on = '☑️', '✅'
 	for field, default in pairs(settings) do
 		if field ~= 'Extra' and field ~= 'Rules' then
-			local status = (db:hget('chat:'..chat_id..':settings', field)) or default
+			local status = db:hget('chat:'..chat_id..':settings', field)
+			if status == null then status = default end
+
 			if status == 'off' then
 				return_table[field] = icon_off
 			elseif status == 'on' then
@@ -166,7 +169,9 @@ local function charsettings_table(self, settings, chat_id)
 	local db = self.db
 	local return_table = {}
 	for field, default in pairs(settings) do
-		local status = (db:hget('chat:'..chat_id..':char', field)) or default
+		local status = db:hget('chat:'..chat_id..':char', field)
+		if status == null then status = default end
+
 		if status == 'kick' then
 			return_table[field] = i18n('👞 kick')
 		elseif status == 'ban' then
@@ -222,8 +227,12 @@ local function doKeyboard_menu(self, chat_id)
 	keyboard = insert_settings_section(keyboard, settings_section, chat_id)
 
 	--warn
-	local max = (db:hget('chat:'..chat_id..':warnsettings', 'max')) or config.chat_settings['warnsettings']['max']
-	local action = (db:hget('chat:'..chat_id..':warnsettings', 'type')) or config.chat_settings['warnsettings']['type']
+	local max = db:hget('chat:'..chat_id..':warnsettings', 'max')
+	if max == null then max = config.chat_settings['warnsettings']['max'] end
+
+	local action = db:hget('chat:'..chat_id..':warnsettings', 'type')
+	if action == null then action = config.chat_settings['warnsettings']['type'] end
+
 	if action == 'kick' then
 		action = i18n("👞 kick")
 	elseif action == 'ban' then

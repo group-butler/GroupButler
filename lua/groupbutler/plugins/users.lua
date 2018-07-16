@@ -1,5 +1,4 @@
 local config = require "groupbutler.config"
-local utilities = require "groupbutler.utilities"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
@@ -17,7 +16,7 @@ setmetatable(_M, {
 function _M.new(main)
 	local self = setmetatable({}, _M)
 	self.update = main.update
-	self.u = utilities:new()
+	self.u = main.u
 	self.db = main.db
 	return self
 end
@@ -104,9 +103,9 @@ local function get_userinfo(self, user_id, chat_id)
 `Media warnings`: *%d*
 `Spam warnings`: *%d*
 ]])
-	local warns = (db:hget('chat:'..chat_id..':warns', user_id)) or 0
-	local media_warns = (db:hget('chat:'..chat_id..':mediawarn', user_id)) or 0
-	local spam_warns = (db:hget('chat:'..chat_id..':spamwarns', user_id)) or 0
+	local warns = tonumber(db:hget('chat:'..chat_id..':warns', user_id)) or 0
+	local media_warns = tonumber(db:hget('chat:'..chat_id..':mediawarn', user_id)) or 0
+	local spam_warns = tonumber(db:hget('chat:'..chat_id..':spamwarns', user_id)) or 0
 	return text:format(tonumber(user_id), warns, media_warns, spam_warns)
 end
 function _M:onTextMessage(msg, blocks)

@@ -1,8 +1,8 @@
 local config = require "groupbutler.config"
-local utilities = require "groupbutler.utilities"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
+local null = ngx.null
 
 local _M = {}
 
@@ -17,7 +17,7 @@ setmetatable(_M, {
 function _M.new(main)
 	local self = setmetatable({}, _M)
 	self.update = main.update
-	self.u = utilities:new()
+	self.u = main.u
 	self.db = main.db
 	return self
 end
@@ -25,7 +25,9 @@ end
 local function toggle_permissions_setting(self, chat_id, key)
 	local db = self.db
 	local hash = 'chat:'..chat_id..':defpermissions'
-	local current = (db:hget(hash, key)) or config.chat_settings['defpermissions'][key]
+	local current = db:hget(hash, key)
+	if current == null then current = config.chat_settings['defpermissions'][key] end
+
 	local new = "true"
 	if current == 'true' then
 		new = 'false'
@@ -94,8 +96,9 @@ local function doKeyboard_permissions(self, chat_id)
 	for i=1, #permissions do --pairs() doesn't keep the order of the keys
 		permission = permissions[i]
 		icon = '✅'
-		status = (db:hget('chat:'..chat_id..':defpermissions', permission))
-			or config.chat_settings['defpermissions'][permission]
+		status = db:hget('chat:'..chat_id..':defpermissions', permission)
+		if status == null then status = config.chat_settings['defpermissions'][permission] end
+
 		if status == 'false' then icon = '☑️' end
 		line = {
 			{

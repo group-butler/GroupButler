@@ -1,8 +1,8 @@
 local config = require "groupbutler.config"
-local utilities = require "groupbutler.utilities"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
+local null = ngx.null
 
 local _M = {}
 
@@ -17,7 +17,7 @@ setmetatable(_M, {
 function _M.new(main)
 	local self = setmetatable({}, _M)
 	self.update = main.update
-	self.u = utilities:new()
+	self.u = main.u
 	self.db = main.db
 	return self
 end
@@ -59,7 +59,8 @@ end
 local function toggle_event(self, chat_id, event)
 	local db = self.db
 	local hash = ('chat:%s:tolog'):format(chat_id)
-	local current_status = db:hget(hash, event) or config.chat_settings['tolog'][event]
+	local current_status = db:hget(hash, event)
+	if current_status == null then current_status = config.chat_settings['tolog'][event] end
 
 	if current_status == 'yes' then
 		db:hset(hash, event, 'no')
@@ -95,7 +96,9 @@ local function doKeyboard_logchannel(self, chat_id)
 	local icon
 
 	for event, default_status in pairs(config.chat_settings['tolog']) do
-		local current_status = db:hget('chat:'..chat_id..':tolog', event) or default_status
+		local current_status = db:hget('chat:'..chat_id..':tolog', event)
+		if current_status == null then current_status = default_status end
+
 		icon = '✅'
 		if current_status == 'no' then icon = '☑️' end
 		table.insert(keyboard.inline_keyboard,
@@ -210,7 +213,7 @@ function _M:onTextMessage(msg, blocks)
 			end
 		elseif blocks[1] == 'unsetlog' then
 			local log_channel = db:hget('bot:chatlogs', msg.chat.id)
-			if not log_channel then
+			if log_channel == null then
 				u:sendReply(msg, i18n("_This groups is not using a log channel_"), "Markdown")
 			else
 				db:hdel('bot:chatlogs', msg.chat.id)
@@ -218,7 +221,7 @@ function _M:onTextMessage(msg, blocks)
 			end
 		elseif blocks[1] == 'logchannel' then
 			local log_channel = db:hget('bot:chatlogs', msg.chat.id)
-			if not log_channel then
+			if log_channel == null then
 				u:sendReply(msg, i18n("_This groups is not using a log channel_"), "Markdown")
 			else
 				local channel_info, code = api.getChat(log_channel)

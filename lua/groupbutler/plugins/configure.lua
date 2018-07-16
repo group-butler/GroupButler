@@ -1,8 +1,8 @@
 local config = require "groupbutler.config"
-local utilities = require "groupbutler.utilities"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
+local null = ngx.null
 
 local _M = {}
 
@@ -17,7 +17,7 @@ setmetatable(_M, {
 function _M.new(main)
 	local self = setmetatable({}, _M)
 	self.update = main.update
-	self.u = utilities:new()
+	self.u = main.u
 	self.db = main.db
 	return self
 end
@@ -34,7 +34,11 @@ end
 
 local function get_chat_title(self, chat_id)
 	local db = self.db
-	return db:get('chat:'..chat_id..':title') or cache_chat_title(self, chat_id)
+	local title = db:get('chat:'..chat_id..':title')
+	if title == null then
+		return cache_chat_title(self, chat_id)
+	end
+	return title
 end
 
 local function do_keyboard_config(self, chat_id, user_id) -- is_admin
@@ -64,7 +68,7 @@ function _M:onTextMessage(msg)
 		if u:is_allowed('config', msg.chat.id, msg.from) then
 			local chat_id = msg.chat.id
 			local keyboard = do_keyboard_config(self, chat_id, msg.from.id)
-			if not db:get('chat:'..chat_id..':title') then cache_chat_title(self, chat_id, msg.chat.title) end
+			if db:get('chat:'..chat_id..':title') == null then cache_chat_title(self, chat_id, msg.chat.title) end
 			local res = api.sendMessage(msg.from.id,
 				i18n("<b>%s</b>\n<i>Change the settings of your group</i>"):format(msg.chat.title:escape_html()), 'html',
 					nil, nil, nil, keyboard)

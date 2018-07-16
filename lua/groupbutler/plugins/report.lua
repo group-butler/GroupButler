@@ -1,8 +1,8 @@
 local config = require "groupbutler.config"
-local utilities = require "groupbutler.utilities"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
+local null = ngx.null
 
 local _M = {}
 
@@ -17,7 +17,7 @@ setmetatable(_M, {
 function _M.new(main)
 	local self = setmetatable({}, _M)
 	self.update = main.update
-	self.u = utilities:new()
+	self.u = main.u
 	self.db = main.db
 	return self
 end
@@ -41,10 +41,10 @@ local function report(self, msg, description)
 			'\n• <b>Reported message sent by</b>: %s (<code>%d</code>)'
 			):format(u:getname_final(msg.reply.from), msg.reply.from.id)
 	end
-	if chat_link then
-		text = text..i18n('\n• <b>Group</b>: <a href="%s">%s</a>'):format(chat_link, msg.chat.title:escape_html())
-	else
+	if chat_link == null then
 		text = text..i18n('\n• <b>Group</b>: %s'):format(msg.chat.title:escape_html())
+	else
+		text = text..i18n('\n• <b>Group</b>: <a href="%s">%s</a>'):format(chat_link, msg.chat.title:escape_html())
 	end
 	if msg.chat.username then
 		text = text..i18n(
@@ -65,8 +65,8 @@ local function report(self, msg, description)
 	local callback_data = ("report:%d:"):format(msg.chat.id)
 	local hash = 'chat:'..msg.chat.id..':report:'..msg.message_id --stores the user_id and the msg_id of the report messages sent to the admins
 	for i=1, #admins_list do
-		local receive_reports = db:hget('user:'..admins_list[i]..':settings', 'reports') or config.private_settings['reports']
-		if receive_reports == 'on' then
+		local receive_reports = db:hget('user:'..admins_list[i]..':settings', 'reports')
+		if receive_reports ~= null and receive_reports == 'on' then
 			local res_fwd = api.forwardMessage(admins_list[i], msg.chat.id, msg.reply.message_id)
 			if res_fwd then
 				markup.inline_keyboard[1][1].callback_data = callback_data..(msg.message_id)
@@ -128,8 +128,10 @@ function _M:onTextMessage(msg, blocks)
 				return
 			end
 
-			local status = (db:hget('chat:'..msg.chat.id..':settings', 'Reports')) or config.chat_settings['settings']['Reports']
-			if not status or status == 'off' then return end
+			local status = db:hget('chat:'..msg.chat.id..':settings', 'Reports')
+			if status == null then status = config.chat_settings['settings']['Reports'] end
+
+			if status == 'off' then return end
 
 			local text
 			if user_is_abusing(self, msg.chat.id, msg.from.id) then
@@ -169,13 +171,13 @@ function _M:onCallbackQuery(msg, blocks)
 
 	local chat_id, msg_id = blocks[2], blocks[3]
 	local hash = 'chat:'..chat_id..':report:'..msg_id
-	if not db:exists(hash) then
+	if db:exists(hash) == 0 then
 		--if the hash doesn't exist, the message is too old
 		api.answerCallbackQuery(msg.cb_id, i18n("This message is too old (>2 days)"), true)
 	else
 		if blocks[1] == "report" then
 			local addressed_by = db:get(hash..':addressed')
-			if not addressed_by then
+			if addressed_by == null then
 				--no one addressed the issue yet
 
 					local name = msg.from.first_name:sub(1, 120)
@@ -199,7 +201,7 @@ function _M:onCallbackQuery(msg, blocks)
 		elseif blocks[1] == 'close' then
 			local key = hash .. (':close:%d'):format(msg.from.id)
 			local second_tap = db:get(key)
-			if not second_tap then
+			if second_tap == null then
 				db:setex(key, 3600*24, 'x')
 				api.answerCallbackQuery(msg.cb_id, i18n(
 					'This button will delete all the reports sent to the other admins. Tap it again to confirm'), true)

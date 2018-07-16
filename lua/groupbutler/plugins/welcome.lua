@@ -1,8 +1,8 @@
 local config = require "groupbutler.config"
-local utilities = require "groupbutler.utilities"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
+local null = ngx.null
 
 local _M = {}
 
@@ -17,7 +17,7 @@ setmetatable(_M, {
 function _M.new(main)
 	local self = setmetatable({}, _M)
 	self.update = main.update
-	self.u = utilities:new()
+	self.u = main.u
 	self.db = main.db
 	return self
 end
@@ -30,7 +30,9 @@ local function ban_bots(self, msg)
 		--ignore if added by an admin or new member joined by link
 		return
 	else
-		local status = db:hget(('chat:%d:settings'):format(msg.chat.id), 'Antibot') or config.chat_settings.settings.Antibot
+		local status = db:hget(('chat:%d:settings'):format(msg.chat.id), 'Antibot')
+		if status == null then status = config.chat_settings.settings.Antibot end
+
 		if status == 'on' then
 			local users = msg.new_chat_members
 			local n = 0 --bots banned
@@ -52,7 +54,9 @@ local function is_on(self, chat_id, setting)
 	local db = self.db
 
 	local hash = 'chat:'..chat_id..':settings'
-	local current = db:hget(hash, setting) or config.chat_settings.settings[setting]
+	local current = db:hget(hash, setting)
+	if current == null then current = config.chat_settings.settings[setting] end
+
 	if current == 'on' then
 		return true
 	end
@@ -93,14 +97,20 @@ local function get_welcome(self, msg)
 	end
 
 	local hash = 'chat:'..msg.chat.id..':welcome'
-	local type = (db:hget(hash, 'type')) or config.chat_settings['welcome']['type']
-	local content = (db:hget(hash, 'content')) or config.chat_settings['welcome']['content']
+	local type = db:hget(hash, 'type')
+	if type == null then type = config.chat_settings['welcome']['type'] end
+
+	local content = db:hget(hash, 'content')
+	if content == null then content = config.chat_settings['welcome']['content'] end
+
 	if type == 'media' then
 		local file_id = content
 		local caption = db:hget(hash, 'caption')
-		if caption then caption = caption:replaceholders(msg, true) end
+		if caption ~= null then caption = caption:replaceholders(msg, true) else caption = nil end
+
 		local rules_button = db:hget('chat:'..msg.chat.id..':settings', 'Welbut')
-			or config.chat_settings['settings']['Welbut']
+		if rules_button == null then rules_button = config.chat_settings['settings']['Welbut'] end
+
 		local reply_markup
 		if rules_button == 'on' then
 			reply_markup =
@@ -112,7 +122,7 @@ local function get_welcome(self, msg)
 		if res and is_on(self, msg.chat.id, 'Weldelchain') then
 			local key = ('chat:%d:lastwelcome'):format(msg.chat.id) -- get the id of the last sent welcome message
 			local message_id = db:get(key)
-			if message_id then
+			if message_id ~= null then
 				api.deleteMessage(msg.chat.id, message_id)
 			end
 			db:setex(key, 259200, res.message_id) --set the new message id to delete
@@ -200,7 +210,8 @@ function _M:onTextMessage(msg, blocks)
 		local text, reply_markup = get_welcome(self, msg)
 		if text then --if not text: welcome is locked or is a gif/sticker
 			local attach_button = (db:hget('chat:'..msg.chat.id..':settings', 'Welbut'))
-				or config.chat_settings['settings']['Welbut']
+			if attach_button == null then attach_button = config.chat_settings['settings']['Welbut'] end
+
 			if attach_button == 'on' then
 				if not reply_markup then reply_markup = {inline_keyboard={}} end
 				local line = {{text = i18n('Read the rules'), url = u:deeplink_constructor(msg.chat.id, 'rules')}}
@@ -216,7 +227,7 @@ function _M:onTextMessage(msg, blocks)
 			if res and is_on(self, msg.chat.id, 'Weldelchain') then
 				local key = ('chat:%d:lastwelcome'):format(msg.chat.id) -- get the id of the last sent welcome message
 				local message_id = db:get(key)
-				if message_id then
+				if message_id ~= null then
 					api.deleteMessage(msg.chat.id, message_id)
 				end
 				db:setex(key, 259200, res.message_id) --set the new message id to delete
@@ -224,7 +235,7 @@ function _M:onTextMessage(msg, blocks)
 		end
 
 		local send_rules_private = db:hget('user:'..msg.new_chat_member.id..':settings', 'rules_on_join')
-		if send_rules_private and send_rules_private == 'on' then
+		if send_rules_private ~= null and send_rules_private == 'on' then
 			local rules = db:hget('chat:'..msg.chat.id..':info', 'rules')
 			if rules then
 				api.sendMessage(msg.new_chat_member.id, rules, "Markdown")

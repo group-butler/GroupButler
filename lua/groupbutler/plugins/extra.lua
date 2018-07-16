@@ -1,8 +1,8 @@
 local config = require "groupbutler.config"
-local utilities = require "groupbutler.utilities"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
+local null = ngx.null
 
 local _M = {}
 
@@ -17,7 +17,7 @@ setmetatable(_M, {
 function _M.new(main)
 	local self = setmetatable({}, _M)
 	self.update = main.update
-	self.u = utilities:new()
+	self.u = main.u
 	self.db = main.db
 	return self
 end
@@ -26,7 +26,7 @@ local function is_locked(self, chat_id)
 	local db = self.db
 		local hash = 'chat:'..chat_id..':settings'
 		local current = db:hget(hash, 'Extra')
-		if current == 'off' then
+	if current == 'on' then
 			return true
 	end
 			return false
@@ -38,14 +38,18 @@ local function set_default(t, d)
 end
 
 local function sendMedia(chat_id, file_id, media, reply_to_message_id, caption)
+	if not media then
+		return false, "Media passed is not voice/video/photo"
+	end
 	local body = {
 		chat_id = chat_id,
-		file_id = file_id,
+		[media] = file_id,
 		caption = caption,
 		reply_to_message_id = reply_to_message_id
 	}
 	local action = {
-		voice = api.send_audio,
+		audio = api.send_audio,
+		voice = api.send_voice,
 		video = api.send_video,
 		photo = api.send_photo
 	}
@@ -124,9 +128,10 @@ function _M:onTextMessage(msg, blocks)
 		local extra = blocks[1] == 'start' and '#'..blocks[3] or blocks[1]
 		--print(chat_id, extra)
 			local hash = 'chat:'..chat_id..':extra'
-		local text = db:hget(hash, extra:lower()) or db:hget(hash, extra)
+		local text = db:hget(hash, extra:lower())
+		if text == null then text = db:hget(hash, extra) end
 
-		if not text then return true end -- continue to match plugins
+		if text == null then return true end -- continue to match plugins
 
 				local file_id = text:match('^###.+###:(.*)')
 		local special_method = text:match('^###file_id!(.*)###') -- photo, voices, video need their method to be sent by file_id
@@ -154,7 +159,7 @@ function _M:onTextMessage(msg, blocks)
 						if special_method then
 					sendMedia(msg.chat.id, file_id, special_method, msg_to_reply) -- photo, voices, video need their method to be sent by file_id
 						else
-					api.sendDocument(msg.chat.id, file_id, nil, msg_to_reply)
+					api.sendDocument(msg.chat.id, file_id, nil, nil, msg_to_reply)
 						end
 				else
 				local reply_markup, clean_text = u:reply_markup_from_text(text)

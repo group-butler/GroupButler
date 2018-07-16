@@ -1,8 +1,8 @@
 local config = require "groupbutler.config"
-local utilities = require "groupbutler.utilities"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
+local null = ngx.null
 
 local _M = {}
 
@@ -17,7 +17,7 @@ setmetatable(_M, {
 function _M.new(main)
 	local self = setmetatable({}, _M)
 	self.update = main.update
-	self.u = utilities:new()
+	self.u = main.u
 	self.db = main.db
 	return self
 end
@@ -27,7 +27,9 @@ local function doKeyboard_media(self, chat_id)
 	local keyboard = {}
 	keyboard.inline_keyboard = {}
 	for media, default_status in pairs(config.chat_settings['media']) do
-		local status = (db:hget('chat:'..chat_id..':media', media)) or default_status
+		local status = db:hget('chat:'..chat_id..':media', media)
+		if status == null then status = default_status end
+
 		if status == 'ok' then
 			status = '✅'
 		elseif status == 'notok' then
@@ -61,10 +63,11 @@ local function doKeyboard_media(self, chat_id)
 
 	--MEDIA WARN
 	--action line
-	local max = (db:hget('chat:'..chat_id..':warnsettings', 'mediamax'))
-		or config.chat_settings['warnsettings']['mediamax']
-	local action = (db:hget('chat:'..chat_id..':warnsettings', 'mediatype'))
-		or config.chat_settings['warnsettings']['mediatype']
+	local max = db:hget('chat:'..chat_id..':warnsettings', 'mediamax')
+	if max == null then max = config.chat_settings['warnsettings']['mediamax'] end
+	local action = db:hget('chat:'..chat_id..':warnsettings', 'mediatype')
+	if action == null then action = config.chat_settings['warnsettings']['mediatype'] end
+
 	local caption
 	if action == 'kick' then
 		caption = i18n("Warnings | %d | kick"):format(tonumber(max))
@@ -90,7 +93,8 @@ end
 local function change_media_status(self, chat_id, media)
 	local db = self.db
 	local hash = ('chat:%s:media'):format(chat_id)
-	local status = db:hget(hash, media) or config.chat_settings.media[media]
+	local status = db:hget(hash, media)
+	if status == null then status = config.chat_settings.media[media] end
 
 	if status == 'ok' then
 		db:hset(hash, media, 'notok')
@@ -156,7 +160,9 @@ When a media is set to delete, the bot will give a warning *only* when this is t
 			end
 			if blocks[1] == 'mediatype' then
 				local hash = 'chat:'..chat_id..':warnsettings'
-				local current = (db:hget(hash, 'mediatype')) or config.chat_settings['warnsettings']['mediatype']
+				local current = db:hget(hash, 'mediatype')
+				if current == null then current = config.chat_settings['warnsettings']['mediatype'] end
+
 				if current == 'ban' then
 					db:hset(hash, 'mediatype', 'kick')
 					cb_text = i18n("👞 New status is kick")

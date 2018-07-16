@@ -1,5 +1,4 @@
 local config = require "groupbutler.config"
-local utilities = require "groupbutler.utilities"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local get_bot = require "groupbutler.bot"
 local locale = require "groupbutler.languages"
@@ -20,7 +19,7 @@ setmetatable(_M, {
 function _M.new(main)
 	local self = setmetatable({}, _M)
 	self.update = main.update
-	self.u = utilities:new()
+	self.u = main.u
 	self.db = main.db
 	bot = get_bot.init()
 	return self
@@ -29,7 +28,7 @@ end
 local function markup_tempban(self, chat_id, user_id, time_value)
 	local db = self.db
 	local key = ('chat:%s:%s:tbanvalue'):format(chat_id, user_id)
-	time_value = time_value or (db:get(key) or 3)
+	time_value = time_value or tonumber(db:get(key)) or 3
 
 	local markup = {inline_keyboard={
 		{--first line
@@ -162,7 +161,7 @@ function _M:onCallbackQuery(msg, matches)
 			local user_id = matches[3]
 			local key = ('chat:%d:%s:tbanvalue'):format(msg.chat.id, user_id)
 			local current_value, new_value
-			current_value = tonumber(db:get(key) or 3)
+			current_value = tonumber(db:get(key)) or 3
 			if matches[2] == 'm' then
 				new_value = current_value - 1
 				if new_value < 1 then
@@ -186,7 +185,7 @@ function _M:onCallbackQuery(msg, matches)
 		elseif matches[1] == 'ban' then
 			local user_id = matches[3]
 			local key = ('chat:%d:%s:tbanvalue'):format(msg.chat.id, user_id)
-			local time_value = tonumber(db:get(key) or 3)
+			local time_value = tonumber(db:get(key)) or 3
 			local timeframe_string, until_date
 			if matches[2] == 'h' then
 				time_value = time_value <= 24 and time_value or 24
