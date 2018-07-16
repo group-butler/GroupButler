@@ -31,10 +31,10 @@ local function extract_usernames(msg, dbp)
 		dbp:srem(string.format('chat:%d:members', msg.chat.id), msg.left_chat_member.id)
 	end
 	if msg.reply_to_message then
-		extract_usernames(msg.reply_to_message)
+		extract_usernames(msg.reply_to_message, dbp)
 	end
 	if msg.pinned_message then
-		extract_usernames(msg.pinned_message)
+		extract_usernames(msg.pinned_message, dbp)
 	end
 end
 
