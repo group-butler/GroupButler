@@ -9,26 +9,26 @@ local i18n = locale.translate
 
 local _M = {}
 
-local function extract_usernames(msg)
+local function extract_usernames(msg, dbp)
 	if msg.from then
 		if msg.from.username then
-			db:hset('bot:usernames', '@'..msg.from.username:lower(), msg.from.id)
+			dbp:hset('bot:usernames', '@'..msg.from.username:lower(), msg.from.id)
 		end
 	end
 	if msg.forward_from and msg.forward_from.username then
-		db:hset('bot:usernames', '@'..msg.forward_from.username:lower(), msg.forward_from.id)
+		dbp:hset('bot:usernames', '@'..msg.forward_from.username:lower(), msg.forward_from.id)
 	end
 	if msg.new_chat_member then
 		if msg.new_chat_member.username then
-			db:hset('bot:usernames', '@'..msg.new_chat_member.username:lower(), msg.new_chat_member.id)
+			dbp:hset('bot:usernames', '@'..msg.new_chat_member.username:lower(), msg.new_chat_member.id)
 		end
-		db:sadd(string.format('chat:%d:members', msg.chat.id), msg.new_chat_member.id)
+		dbp:sadd(string.format('chat:%d:members', msg.chat.id), msg.new_chat_member.id)
 	end
 	if msg.left_chat_member then
 		if msg.left_chat_member.username then
-			db:hset('bot:usernames', '@'..msg.left_chat_member.username:lower(), msg.left_chat_member.id)
+			dbp:hset('bot:usernames', '@'..msg.left_chat_member.username:lower(), msg.left_chat_member.id)
 		end
-		db:srem(string.format('chat:%d:members', msg.chat.id), msg.left_chat_member.id)
+		dbp:srem(string.format('chat:%d:members', msg.chat.id), msg.left_chat_member.id)
 	end
 	if msg.reply_to_message then
 		extract_usernames(msg.reply_to_message)
@@ -38,11 +38,13 @@ local function extract_usernames(msg)
 	end
 end
 
-local function collect_stats(msg)
-	extract_usernames(msg)
+local function collect_stats(msg, dbp)
+	-- note that we have seen this user and collect their username
+	-- This is pipelined for speed
+	extract_usernames(msg, dbp)
 	if msg.chat.type ~= 'private' and msg.chat.type ~= 'inline' and msg.from then
-		db:hset('chat:'..msg.chat.id..':userlast', msg.from.id, os.time()) --last message for each user
-		db:hset('bot:chats:latsmsg', msg.chat.id, os.time()) --last message in the group
+		dbp:hset('chat:'..msg.chat.id..':userlast', msg.from.id, os.time()) --last message for each user
+		dbp:hset('bot:chats:latsmsg', msg.chat.id, os.time()) --last message in the group
 	end
 end
 
@@ -80,7 +82,15 @@ local function on_msg_receive(msg, callback) -- The fn run whenever a message is
 			locale.language = config.lang
 		end
 
-		collect_stats(msg)
+		db:pipeline(function(p)
+			collect_stats(msg, p)
+			-- since we have a pipeline here anyway, (ab)use this for stats
+			-- FIXME: properly use the metrics utilities for this (those don't
+			-- support pipelines right now)
+			-- test
+			p:incr("bot:metrics:messages_processed_count")
+			p:set("bot:metrics:message_timestamp_distance_sec", now - msg.date)
+		end)
 
 		local continue = true
 		local onm_success
