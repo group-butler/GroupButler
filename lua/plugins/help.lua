@@ -225,7 +225,7 @@ Here you will find two particular options: _Arab and RTL_.
 
 *Arab*: when Arab it's not allowed (🚫), everyone who will write an arab character will be kicked from the group.
 *Rtl*: it stands for 'Righ To Left' character, and it's the responsible of the weird service messages that are written in the opposite sense.
-When Rtl is not allowed (🚫), everyone that writes this character (or that has it in his name) will be kicked.
+When Rtl is not allowed (🚫), everyone that writes this character (or that has it in their name) will be kicked.
 ]])
 	elseif key == 'config' then
 		return i18n([[

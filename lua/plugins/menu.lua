@@ -41,7 +41,7 @@ local function get_button_description(key)
 		return i18n("Bots will be banned when added by normal users")
 	elseif key == 'Rtl' then
 		return i18n(
-			"Select what the bot should do when someone sends a message with the RTL character, or has it in his name")
+			"Select what the bot should do when someone sends a message with the RTL character, or has it in their name")
 	elseif key == 'warnsnum' then
 		return i18n("Change how many times an user has to be warned before being kicked/banned")
 	elseif key == 'warnsact' then

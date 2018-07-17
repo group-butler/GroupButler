@@ -350,7 +350,7 @@ function utilities.resolve_user(username)
 		if not user_obj.result.username then return stored_id end
 	end
 
-	-- User could change his username
+	-- Users could change their username
 	if username ~= '@' .. user_obj.result.username:lower() then
 		if user_obj.result.username then
 			-- Update it if it exists

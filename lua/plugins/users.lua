@@ -165,7 +165,7 @@ function plugin.onTextMessage(msg, blocks)
 		if not user_id then
 			api.sendReply(msg, i18n([[I've never seen this user before.
 This command works by reply, username, user ID or text mention.
-If you're using it by username and want to teach me who the user is, forward me one of his messages]]), true)
+If you're using it by username and want to teach me who the user is, forward me one of their messages]]), true)
 			return
 		end
 		-----------------------------------------------------------------------------

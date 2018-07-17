@@ -111,7 +111,7 @@ function plugin.onCallbackQuery(msg, blocks)
 		if not u.can(chat_id, msg.from.id, 'can_restrict_members') then
 			api.answerCallbackQuery(msg.cb_id, i18n("You don't have the permission to restrict members"))
 		else
-			local msg_text = i18n([[*Deafult permissions*
+			local msg_text = i18n([[*Default permissions*
 From this menu you can change the default permissions that will be granted when a new member join.
 _Only the administrators with the permission to restrict a member can access this menu._
 Tap on the name of a permission for a description of what kind of messages it will influence.
