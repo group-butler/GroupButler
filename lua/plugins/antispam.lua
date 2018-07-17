@@ -171,7 +171,7 @@ local function get_alert_text(key)
 	elseif key == 'forwards' then
 		return i18n("Allow/forbid forwarded messages from channels")
 	elseif key == 'warns' then
-		return i18n("Set how many times the bot should warn the user before kick/ban him")
+		return i18n("Set how many times the bot should warn users before kicking/banning them")
 	else
 		return i18n("Description not available")
 	end

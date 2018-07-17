@@ -792,7 +792,7 @@ end
 function utilities.get_user_id(msg, blocks)
 	--if no user id: returns false and the msg id of the translation for the problem
 	if not msg.reply and not blocks[2] then
-		return false, i18n("Reply to an user or mention him")
+		return false, i18n("Reply to an user or mention them")
 	else
 		if msg.reply then
 			if msg.reply.new_chat_member then

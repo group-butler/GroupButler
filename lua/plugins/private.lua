@@ -40,7 +40,7 @@ function plugin.onTextMessage(msg, blocks)
 	if blocks[1] == 'about' then
 		local keyboard = do_keyboard_credits()
 		local text = i18n([[
-This bot is based on [otouto](https://github.com/topkecleon/otouto) (AKA @mokubot, channel: @otouto), a multipurpose Lua bot.\nGroup Butler wouldn't exist without it.\n\nThe owner of this bot is @baconn, do not pm him: use /groups command instead.\n\nBot version: `%s`\n*Some useful links:*
+This bot is based on [otouto](https://github.com/topkecleon/otouto) (AKA @mokubot, channel: @otouto), a multipurpose Lua bot.\nGroup Butler wouldn't exist without it.\n\nYou can contact the owners of this bot using the /groups command.\n\nBot version: `%s`\n*Some useful links:*
 ]]):format(config.human_readable_version)
 		api.sendMessage(msg.chat.id, text, true, keyboard)
 	end
