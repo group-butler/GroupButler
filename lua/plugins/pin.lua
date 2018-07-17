@@ -47,9 +47,8 @@ function plugin.onTextMessage(msg, blocks)
 				db:set('chat:'..msg.chat.id..':pin', res.result.message_id)
 				local text
 				if was_deleted then
-					text =
-					i18n([[The old message generated with `/pin` does not exist anymore, so I can't edit it. This is the new message that can be now pinned
-						]])
+					text = i18n([[The old message generated with `/pin` does not exist anymore, so I can't edit it. This is the new message that can be now pinned
+]])
 				else
 					text = i18n("This message can now be pinned. Use `/pin [new text]` to edit it without having to send it again")
 				end

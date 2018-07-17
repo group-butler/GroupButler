@@ -45,13 +45,11 @@ local function get_alert_text(key)
 	if key == 'can_send_messages' then
 		return i18n("Permission to send messages. If disabled, the user won't be able to send any kind of message")
 	elseif key == 'can_send_media_messages' then
-		return i18n(
-			[[Permission to send media (audios, documents, photos, videos, video notes and voice notes). Implies the permission to send messages
-			]])
+		return i18n([[Permission to send media (audios, documents, photos, videos, video notes and voice notes). Implies the permission to send messages
+]])
 	elseif key == 'can_send_other_messages' then
-		return i18n(
-			[[Permission to send other types of messages (GIFs, games, stickers and use inline bots). Implies the permission to send medias
-			]])
+		return i18n([[Permission to send other types of messages (GIFs, games, stickers and use inline bots). Implies the permission to send medias
+]])
 	elseif key == 'can_add_web_page_previews' then
 		return i18n("When disabled, user's messages with a link won't show the web page preview")
 	else
