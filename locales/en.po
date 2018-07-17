@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GroupButler 4.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-17 11:43-0300\n"
+"POT-Creation-Date: 2018-07-17 13:29-0300\n"
 "PO-Revision-Date: 2016-08-27 17:50+0300\n"
 "Last-Translator: Nicholas Guriev <guriev-ns@ya.ru>\n"
 "Language-Team: English\n"
@@ -483,7 +483,7 @@ msgstr ""
 msgid "Rules"
 msgstr ""
 
-#: lua/plugins/dashboard.lua:62 lua/plugins/help.lua:272
+#: lua/plugins/dashboard.lua:62 lua/plugins/help.lua:270
 msgid "Extra commands"
 msgstr ""
 
@@ -1018,20 +1018,16 @@ msgid ""
 "placeholders\n"
 msgstr ""
 
-#. TRANSLATORS: leave your contact information to reports mistakes in translation
-#: lua/plugins/help.lua:201
+#: lua/plugins/help.lua:200
 msgid ""
-"*Group language*\"\n"
-"• `/lang`: choose the group language (can be changed in private too).\n"
+"*Group language*\n"
+"• `/lang`: change the bot language (works on groups and private chats)\n"
 "\n"
-"*Note*: translators are volunteers, so I can't ensure the correctness of all "
-"the translations. And I can't force them to translate the new strings after "
-"each update (not translated strings are in english).\n"
+"*Note*: the translators are volunteers, so neither the correctness nor "
+"completeness of localizations can be guaranteed.\n"
 "\n"
-"Anyway, translations are open to everyone. If you want to translate the bot, "
-"see an [information](https://github.com/RememberTheAir/"
-"GroupButler#translators) on GitHub.\n"
-"Ask in the English /group for the `.po` file of your language.\n"
+"You can help improve translations on our [Crowdin Project](https://crowdin."
+"com/project/group-butler).\n"
 "\n"
 "*Special characters*\n"
 "\n"
@@ -1039,15 +1035,15 @@ msgid ""
 "menu keyboard.\n"
 "Here you will find two particular options: _Arab and RTL_.\n"
 "\n"
-"*Arab*: when Arab it's not allowed (🚫), everyone who will write an arab "
-"character will be kicked from the group.\n"
-"*Rtl*: it stands for 'Righ To Left' character, and it's the responsible of "
-"the weird service messages that are written in the opposite sense.\n"
-"When Rtl is not allowed (🚫), everyone that writes this character (or that "
-"has it in his name) will be kicked.\n"
+"*Arab*: when Arab is not allowed (🚫), people who write Arab characters will "
+"be kicked from the group.\n"
+"*Rtl*: stands for 'Righ To Left' character, is the cause of weird service "
+"messages written in the opposite direction.\n"
+"When Rtl is not allowed (🚫), people who write Rtl characters (or has it in "
+"their names) will be kicked.\n"
 msgstr ""
 
-#: lua/plugins/help.lua:219
+#: lua/plugins/help.lua:217
 msgid ""
 "*General group settings*\n"
 "\n"
@@ -1074,7 +1070,7 @@ msgid ""
 "days\n"
 msgstr ""
 
-#: lua/plugins/help.lua:236
+#: lua/plugins/help.lua:234
 msgid ""
 "*Log channel informations*\n"
 "\n"
@@ -1101,112 +1097,112 @@ msgid ""
 "`/logchannel`: get some informations about your log channel, if paired"
 msgstr ""
 
-#: lua/plugins/help.lua:260
+#: lua/plugins/help.lua:258
 msgid "Banhammer"
 msgstr ""
 
-#: lua/plugins/help.lua:261
+#: lua/plugins/help.lua:259
 msgid "Group info"
 msgstr ""
 
-#: lua/plugins/help.lua:264
+#: lua/plugins/help.lua:262
 msgid "Report system"
 msgstr ""
 
-#: lua/plugins/help.lua:265
+#: lua/plugins/help.lua:263
 msgid "Pin"
 msgstr ""
 
-#: lua/plugins/help.lua:268
+#: lua/plugins/help.lua:266
 msgid "Languages"
 msgstr ""
 
-#: lua/plugins/help.lua:269
+#: lua/plugins/help.lua:267
 msgid "Group configuration"
 msgstr ""
 
-#: lua/plugins/help.lua:273 lua/plugins/logchannel.lua:62
+#: lua/plugins/help.lua:271 lua/plugins/logchannel.lua:62
 msgid "Warns"
 msgstr ""
 
-#: lua/plugins/help.lua:276
+#: lua/plugins/help.lua:274
 msgid "Welcome settings"
 msgstr ""
 
-#: lua/plugins/help.lua:277
+#: lua/plugins/help.lua:275
 msgid "Links whitelist"
 msgstr ""
 
-#: lua/plugins/help.lua:296
+#: lua/plugins/help.lua:294
 msgid "📢 Bot channel"
 msgstr ""
 
-#: lua/plugins/help.lua:297
+#: lua/plugins/help.lua:295
 msgid "🌍 Select your language"
 msgstr ""
 
-#: lua/plugins/help.lua:300
+#: lua/plugins/help.lua:298
 msgid "📕 All the commands"
 msgstr ""
 
-#: lua/plugins/help.lua:309
+#: lua/plugins/help.lua:307
 msgid "Basics"
 msgstr ""
 
-#: lua/plugins/help.lua:310
+#: lua/plugins/help.lua:308
 msgid "Admin commands"
 msgstr ""
 
-#: lua/plugins/help.lua:311
+#: lua/plugins/help.lua:309
 msgid "Normal users commands"
 msgstr ""
 
-#: lua/plugins/help.lua:312
+#: lua/plugins/help.lua:310
 msgid "Commands in private"
 msgstr ""
 
-#: lua/plugins/help.lua:313
+#: lua/plugins/help.lua:311
 msgid "Log channel"
 msgstr ""
 
-#: lua/plugins/help.lua:328
+#: lua/plugins/help.lua:326
 msgid "Back"
 msgstr ""
 
-#: lua/plugins/help.lua:351
+#: lua/plugins/help.lua:349
 #, lua-format
 msgid "[Start me](%s) _to get the list of commands_"
 msgstr ""
 
-#: lua/plugins/help.lua:364
+#: lua/plugins/help.lua:362
 msgid "Main menu"
 msgstr ""
 
-#: lua/plugins/help.lua:367
+#: lua/plugins/help.lua:365
 msgid "Basic usage"
 msgstr ""
 
-#: lua/plugins/help.lua:370
+#: lua/plugins/help.lua:368
 msgid "Commands for users (group)"
 msgstr ""
 
-#: lua/plugins/help.lua:373
+#: lua/plugins/help.lua:371
 msgid "Available commands in private"
 msgstr ""
 
-#: lua/plugins/help.lua:376
+#: lua/plugins/help.lua:374
 msgid "Log channel informations"
 msgstr ""
 
-#: lua/plugins/help.lua:380
+#: lua/plugins/help.lua:378
 msgid "Available commands for admins"
 msgstr ""
 
-#: lua/plugins/help.lua:384
+#: lua/plugins/help.lua:382
 msgid "Deprecated message, send /help again"
 msgstr ""
 
-#: lua/plugins/help.lua:389
+#: lua/plugins/help.lua:387
 msgid "❗️ Already there"
 msgstr ""
 

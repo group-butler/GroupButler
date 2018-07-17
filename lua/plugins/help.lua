@@ -197,23 +197,21 @@ So with `/pin` you can generate a message to pin, and edit it how many times you
 *Note*: `/pin` supports markdown, but only `$rules` and `$title` placeholders
 ]])
 	elseif key == 'lang' then
-		-- TRANSLATORS: leave your contact information to reports mistakes in translation
-		return i18n([[*Group language*"
-• `/lang`: choose the group language (can be changed in private too).
+		return i18n([[*Group language*
+• `/lang`: change the bot language (works on groups and private chats)
 
-*Note*: translators are volunteers, so I can't ensure the correctness of all the translations. And I can't force them to translate the new strings after each update (not translated strings are in english).
+*Note*: the translators are volunteers, so neither the correctness nor completeness of localizations can be guaranteed.
 
-Anyway, translations are open to everyone. If you want to translate the bot, see an [information](https://github.com/RememberTheAir/GroupButler#translators) on GitHub.
-Ask in the English /group for the `.po` file of your language.
+You can help improve translations on our [Crowdin Project](https://crowdin.com/project/group-butler).
 
 *Special characters*
 
 • `/config` command, then `menu` button: you will receive in private the menu keyboard.
 Here you will find two particular options: _Arab and RTL_.
 
-*Arab*: when Arab it's not allowed (🚫), everyone who will write an arab character will be kicked from the group.
-*Rtl*: it stands for 'Righ To Left' character, and it's the responsible of the weird service messages that are written in the opposite sense.
-When Rtl is not allowed (🚫), everyone that writes this character (or that has it in his name) will be kicked.
+*Arab*: when Arab is not allowed (🚫), people who write Arab characters will be kicked from the group.
+*Rtl*: stands for 'Righ To Left' character, is the cause of weird service messages written in the opposite direction.
+When Rtl is not allowed (🚫), people who write Rtl characters (or has it in their names) will be kicked.
 ]])
 	elseif key == 'config' then
 		return i18n([[*General group settings*
