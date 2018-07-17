@@ -62,7 +62,7 @@ Remember: you have to use commands  *in the group*, unless they are specifically
 • `/adminlist`: show the administrators of the group
 • `/help`: receive the help message
 • `!kickme`: the bot will kick you
-*Note*: `/dashboard`, `/adminlist` and `/staff` always reply in private. If the bot is unable to reach an user, he will ask in the group to that user to be started, but just if _silent mode_ is off.
+*Note*: `/dashboard`, `/adminlist` and `/staff` always reply in private. If the bot is unable to reach an user, it will ask in the group to that user to be started, but just if _silent mode_ is off.
 With `/rules`, the bot always answer in the group for admins, but with normal users the message is sent in the group or in private according to the group settings.
 
 • `@admin` (by reply): report a message to the admins of the group (the bot will forward it in prvate). This ability could be turned off from the group settings. A description of the report can be added.
@@ -148,7 +148,7 @@ You can use a particular gif/sticker as welcome message. To set it, reply to the
 
 As you may know, the bot can warn/kick/ban who sends a telegram.me link (antispam settings) or any other link (media settings).
 The whitelist is a list of links that will be ignored by the bot.
-If an user sends a whitelisted link, he won't be warned or kicked.
+If users send a whitelisted link, they won't be warned or kicked.
 
 `/whitelist [link(s)]` or `/wl [link(s)]`: add one or more links to the whitelist.
 `/unwhitelist [link(s)]` or `/unwl [link(s)]`: remove one or more links from the whitelist.
@@ -178,7 +178,7 @@ Now supports placeholders. Check the "welcome" tab for the list of the available
 	elseif key == 'warns' then
 		return i18n([[
 *Warns*
-Warn are made to keep the count of the admonitions received by an user. Once an user has been warned for the defined number of times, he is kicked/banned by the bot.
+Warn are made to keep the count of the admonitions received by an user. Once users have been warned for the defined number of times, they are kicked/banned by the bot.
 There are two different type of warns:
 - _normal warns_, given by an admin with the `/warn` command
 - _automatic warns_ (read: media warns and spam warns), given by the bot when someone sends a media that is not allowed in the chat, or spams other channels or telegram.me links.

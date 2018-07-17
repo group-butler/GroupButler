@@ -31,7 +31,7 @@ local function get_alert_text(key)
 	elseif key == 'pinned_message' then
 		return i18n("Log pinned messages")
 	elseif key == 'blockban' then
-		return i18n("Log when an user who has been blocked is banned from the group (when he join)")
+		return i18n("Log when an user who has been blocked is banned from the group on join")
 	elseif key == 'nowarn' then
 		return i18n("Log when an admin removes the warning received by an user")
 	elseif key == 'report' then

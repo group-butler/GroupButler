@@ -51,7 +51,7 @@ function plugin.onTextMessage(msg, blocks)
 			else
 				text = text .. i18n("Hmm… apparently I'm not an administrator. "
 					.. "I can be more useful if I'm an admin. Ask a creator to make me an admin. "
-					.. "If he doesn't know how, there is a good [guide](https://telegram.me/GroupButler_ch/104).\n")
+					.. "If they don't know how, there is a good [guide](https://telegram.me/GroupButler_ch/104).\n")
 			end
 		end
 		text = text .. i18n("I can do a lot of cool things. To discover about them, "

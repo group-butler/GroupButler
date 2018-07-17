@@ -504,7 +504,7 @@ function utilities.getname_final(user)
 	return utilities.getname_link(user) or '<code>'..user.first_name:escape_html()..'</code>'
 end
 
--- Return link to user profile or false, if he doesn't have login
+-- Return link to user profile or false, if they don't have login
 function utilities.getname_link(user)
 	return ('<a href="%s">%s</a>'):format('tg://user?id='..user.id, user.first_name:escape_html())
 end
