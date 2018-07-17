@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GroupButler 4.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-13 22:05-0300\n"
+"POT-Creation-Date: 2018-07-17 02:17+0200\n"
 "PO-Revision-Date: 2016-08-27 17:50+0300\n"
 "Last-Translator: Nicholas Guriev <guriev-ns@ya.ru>\n"
 "Language-Team: English\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: lua/main.lua:117
+#: lua/main.lua:127
 msgid "🐞 Sorry, a *bug* occurred"
 msgstr ""
 
-#: lua/main.lua:139
+#: lua/main.lua:149
 #, lua-format
 msgid ""
 "\n"
@@ -182,63 +182,63 @@ msgid ""
 "kicked/banned/muted (at the second-to-last warning)\n"
 msgstr ""
 
-#: lua/plugins/antispam.lua:316
+#: lua/plugins/antispam.lua:317
 msgid "_The whitelist was already empty_"
 msgstr ""
 
-#: lua/plugins/antispam.lua:319
+#: lua/plugins/antispam.lua:320
 #, lua-format
 msgid ""
 "*Whitelist cleaned*\n"
 "%d links have been removed"
 msgstr ""
 
-#: lua/plugins/antispam.lua:327 lua/plugins/antispam.lua:336
-#: lua/plugins/antispam.lua:358 lua/plugins/antispam.lua:367
+#: lua/plugins/antispam.lua:328 lua/plugins/antispam.lua:337
+#: lua/plugins/antispam.lua:359 lua/plugins/antispam.lua:368
 msgid "_I can't find any url in this message_"
 msgstr ""
 
-#: lua/plugins/antispam.lua:330
+#: lua/plugins/antispam.lua:331
 #, lua-format
 msgid "%d link(s) will be whitelisted"
 msgstr ""
 
-#: lua/plugins/antispam.lua:332 lua/plugins/antispam.lua:363
+#: lua/plugins/antispam.lua:333 lua/plugins/antispam.lua:364
 #, lua-format
 msgid ""
 "\n"
 "%d links were already in the list"
 msgstr ""
 
-#: lua/plugins/antispam.lua:344
+#: lua/plugins/antispam.lua:345
 msgid ""
 "_The whitelist is empty_.\n"
 "Use `/wl [links]` to add some links to the whitelist"
 msgstr ""
 
-#: lua/plugins/antispam.lua:346
+#: lua/plugins/antispam.lua:347
 msgid ""
 "Whitelisted links:\n"
 "\n"
 msgstr ""
 
-#: lua/plugins/antispam.lua:361
+#: lua/plugins/antispam.lua:362
 #, lua-format
 msgid "%d link(s) removed from the whitelist"
 msgstr ""
 
-#: lua/plugins/antispam.lua:378
+#: lua/plugins/antispam.lua:379
 msgid "_Whitelist of channels empty_"
 msgstr ""
 
-#: lua/plugins/antispam.lua:380
+#: lua/plugins/antispam.lua:381
 #, lua-format
 msgid ""
 "*Whitelisted channels:*\n"
 "%s"
 msgstr ""
 
-#: lua/plugins/antispam.lua:387 lua/plugins/antispam.lua:404
+#: lua/plugins/antispam.lua:388 lua/plugins/antispam.lua:405
 msgid "_I can't find a channel ID in your message_"
 msgstr ""
 
@@ -799,7 +799,7 @@ msgid ""
 "• `/help`: receive the help message\n"
 "• `!kickme`: the bot will kick you\n"
 "*Note*: `/dashboard`, `/adminlist` and `/staff` always reply in private. If "
-"the bot is unable to reach an user, he will ask in the group to that user to "
+"the bot is unable to reach an user, it will ask in the group to that user to "
 "be started, but just if _silent mode_ is off.\n"
 "With `/rules`, the bot always answer in the group for admins, but with "
 "normal users the message is sent in the group or in private according to the "
@@ -936,7 +936,7 @@ msgid ""
 "As you may know, the bot can warn/kick/ban who sends a telegram.me link "
 "(antispam settings) or any other link (media settings).\n"
 "The whitelist is a list of links that will be ignored by the bot.\n"
-"If an user sends a whitelisted link, he won't be warned or kicked.\n"
+"If users send a whitelisted link, they won't be warned or kicked.\n"
 "\n"
 "`/whitelist [link(s)]` or `/wl [link(s)]`: add one or more links to the "
 "whitelist.\n"
@@ -982,8 +982,8 @@ msgid ""
 "\n"
 "*Warns*\n"
 "Warn are made to keep the count of the admonitions received by an user. Once "
-"an user has been warned for the defined number of times, he is kicked/banned "
-"by the bot.\n"
+"users have been warned for the defined number of times, they are kicked/"
+"banned by the bot.\n"
 "There are two different type of warns:\n"
 "- _normal warns_, given by an admin with the `/warn` command\n"
 "- _automatic warns_ (read: media warns and spam warns), given by the bot "
@@ -1307,8 +1307,7 @@ msgid "Log pinned messages"
 msgstr ""
 
 #: lua/plugins/logchannel.lua:34
-msgid ""
-"Log when an user who has been blocked is banned from the group (when he join)"
+msgid "Log when an user who has been blocked is banned from the group on join"
 msgstr ""
 
 #: lua/plugins/logchannel.lua:36
@@ -1327,7 +1326,7 @@ msgstr ""
 msgid "Kick"
 msgstr ""
 
-#: lua/plugins/logchannel.lua:59 lua/utilities.lua:939
+#: lua/plugins/logchannel.lua:59 lua/utilities.lua:942
 msgid "Unban"
 msgstr ""
 
@@ -1690,7 +1689,7 @@ msgstr ""
 msgid "Reports"
 msgstr ""
 
-#: lua/plugins/menu.lua:178
+#: lua/plugins/menu.lua:178 lua/utilities.lua:610
 msgid "Delete last welcome message"
 msgstr ""
 
@@ -2157,7 +2156,7 @@ msgid ""
 "me one of his messages"
 msgstr ""
 
-#: lua/plugins/users.lua:184 lua/plugins/users.lua:239
+#: lua/plugins/users.lua:184 lua/plugins/users.lua:240
 #, lua-format
 msgid ""
 "📌 Status: `CACHED`\n"
@@ -2174,20 +2173,20 @@ msgstr ""
 msgid "You are not allowed to use this button"
 msgstr ""
 
-#: lua/plugins/users.lua:221
+#: lua/plugins/users.lua:222
 #, lua-format
 msgid ""
 "The number of warnings received by this user has been <b>reset</b>, by %s"
 msgstr ""
 
-#: lua/plugins/users.lua:232
+#: lua/plugins/users.lua:233
 #, lua-format
 msgid ""
 "The adminlist has just been updated. You must wait 10 minutes from the last "
 "refresh (wait  %d seconds)"
 msgstr ""
 
-#: lua/plugins/users.lua:241
+#: lua/plugins/users.lua:242
 #, lua-format
 msgid "✅ Updated. Next update in %s"
 msgstr ""
@@ -2299,11 +2298,11 @@ msgstr ""
 msgid "*Custom welcome message saved!*"
 msgstr ""
 
-#: lua/utilities.lua:366
+#: lua/utilities.lua:368
 msgid "More info [here](https://telegram.me/GB_tutorials/12)"
 msgstr ""
 
-#: lua/utilities.lua:369 lua/utilities.lua:371 lua/utilities.lua:373
+#: lua/utilities.lua:371 lua/utilities.lua:373 lua/utilities.lua:375
 #, lua-format
 msgid ""
 "Inline link formatted incorrectly. Check the text between brackets -> \\[]"
@@ -2311,37 +2310,37 @@ msgid ""
 "%s"
 msgstr ""
 
-#: lua/utilities.lua:374
+#: lua/utilities.lua:376
 msgid ""
 "This text breaks the markdown.\n"
 "More info about a proper use of markdown [here](https://telegram.me/"
 "GB_tutorials/10) and [here](https://telegram.me/GB_tutorials/12)."
 msgstr ""
 
-#: lua/utilities.lua:377
+#: lua/utilities.lua:379
 msgid ""
 "This message is too long. Max lenght allowed by Telegram: 4000 characters"
 msgstr ""
 
-#: lua/utilities.lua:379
+#: lua/utilities.lua:381
 msgid ""
 "One of the URLs that should be placed in an inline button seems to be "
 "invalid (not an URL). Please check it"
 msgstr ""
 
-#: lua/utilities.lua:380
+#: lua/utilities.lua:382
 msgid "One of the inline buttons you are trying to set is missing the URL"
 msgstr ""
 
-#: lua/utilities.lua:381
+#: lua/utilities.lua:383
 msgid "One of the inline buttons you are trying to set doesn't have a name"
 msgstr ""
 
-#: lua/utilities.lua:382
+#: lua/utilities.lua:384
 msgid "Please input a text"
 msgstr ""
 
-#: lua/utilities.lua:385
+#: lua/utilities.lua:387
 msgid "Text not valid: unknown formatting error"
 msgstr ""
 
@@ -2386,7 +2385,7 @@ msgstr ""
 msgid "Goodbye message"
 msgstr ""
 
-#: lua/utilities.lua:610
+#: lua/utilities.lua:611
 msgid "Welcome button"
 msgstr ""
 
@@ -2516,23 +2515,23 @@ msgstr ""
 msgid "_Please message me first so I can message you_"
 msgstr ""
 
-#: lua/utilities.lua:792
+#: lua/utilities.lua:795
 msgid "Reply to an user or mention him"
 msgstr ""
 
-#: lua/utilities.lua:803 lua/utilities.lua:813
+#: lua/utilities.lua:806 lua/utilities.lua:816
 msgid ""
 "Unknown user.\n"
 "Please forward a message from them to me"
 msgstr ""
 
-#: lua/utilities.lua:828
+#: lua/utilities.lua:831
 #, lua-format
 msgid "<b>Chat</b>: %s [#chat%d]"
 msgstr ""
 
-#: lua/utilities.lua:853 lua/utilities.lua:860 lua/utilities.lua:862
-#: lua/utilities.lua:864
+#: lua/utilities.lua:856 lua/utilities.lua:863 lua/utilities.lua:865
+#: lua/utilities.lua:867
 #, lua-format
 msgid ""
 "%s\n"
@@ -2540,11 +2539,11 @@ msgid ""
 "• <b>By</b>: %s"
 msgstr ""
 
-#: lua/utilities.lua:856
+#: lua/utilities.lua:859
 msgid "Get the new photo"
 msgstr ""
 
-#: lua/utilities.lua:867
+#: lua/utilities.lua:870
 #, lua-format
 msgid ""
 "%s\n"
@@ -2553,7 +2552,7 @@ msgid ""
 "• <i>Reported to %d admin(s)</i>"
 msgstr ""
 
-#: lua/utilities.lua:870
+#: lua/utilities.lua:873
 #, lua-format
 msgid ""
 "#BLOCKBAN\n"
@@ -2561,7 +2560,7 @@ msgid ""
 "• <b>User</b>: %s [#id%d]"
 msgstr ""
 
-#: lua/utilities.lua:874
+#: lua/utilities.lua:877
 #, lua-format
 msgid ""
 "%s\n"
@@ -2569,14 +2568,14 @@ msgid ""
 "• <b>User</b>: %s"
 msgstr ""
 
-#: lua/utilities.lua:876
+#: lua/utilities.lua:879
 #, lua-format
 msgid ""
 "\n"
 "• <b>Added by</b>: %s [#id%d]"
 msgstr ""
 
-#: lua/utilities.lua:889
+#: lua/utilities.lua:892
 #, lua-format
 msgid ""
 "#%s\n"
@@ -2586,14 +2585,14 @@ msgid ""
 "• <b>Count</b>: <code>%d/%d</code>"
 msgstr ""
 
-#: lua/utilities.lua:892
+#: lua/utilities.lua:895
 #, lua-format
 msgid ""
 "\n"
 "<b>Action</b>: <i>%s</i>"
 msgstr ""
 
-#: lua/utilities.lua:900
+#: lua/utilities.lua:903
 #, lua-format
 msgid ""
 "#%s\n"
@@ -2603,7 +2602,7 @@ msgid ""
 "• <b>Warns found</b>: <i>normal: %s, for media: %s, spamwarns: %s</i>"
 msgstr ""
 
-#: lua/utilities.lua:906
+#: lua/utilities.lua:909
 #, lua-format
 msgid ""
 "#%s\n"
@@ -2611,17 +2610,17 @@ msgid ""
 "• %s\n"
 msgstr ""
 
-#: lua/utilities.lua:909
+#: lua/utilities.lua:912
 #, lua-format
 msgid "• <i>Users involved: %d</i>"
 msgstr ""
 
-#: lua/utilities.lua:911
+#: lua/utilities.lua:914
 #, lua-format
 msgid "• <b>User</b>: %s [#id%d]"
 msgstr ""
 
-#: lua/utilities.lua:922
+#: lua/utilities.lua:925
 #, lua-format
 msgid ""
 "#%s\n"
@@ -2631,7 +2630,7 @@ msgid ""
 "• <b>Duration</b>: %d days, %d hours"
 msgstr ""
 
-#: lua/utilities.lua:931
+#: lua/utilities.lua:934
 #, lua-format
 msgid ""
 "#%s\n"
@@ -2640,11 +2639,11 @@ msgid ""
 "• <b>User</b>: %s [#id%s]"
 msgstr ""
 
-#: lua/utilities.lua:950
+#: lua/utilities.lua:953
 msgid "Go to the message"
 msgstr ""
 
-#: lua/utilities.lua:994
+#: lua/utilities.lua:997
 #, lua-format
 msgid "This command has been removed \\[[read more](%s)]"
 msgstr ""
