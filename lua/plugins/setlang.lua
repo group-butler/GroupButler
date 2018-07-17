@@ -35,14 +35,14 @@ function plugin.onCallbackQuery(msg, blocks)
 		else
 			locale.language = blocks[1]
 			db:set('lang:'..msg.chat.id, locale.language)
-			if (blocks[1] == 'ar' or blocks[1] == 'fa') and msg.chat.type ~= 'private' then
+			if (blocks[1] == 'ar_SA' or blocks[1] == 'fa_IR') and msg.chat.type ~= 'private' then
 				db:hset('chat:'..msg.chat.id..':char', 'Arab', 'allowed')
 				db:hset('chat:'..msg.chat.id..':char', 'Rtl', 'allowed')
 			end
 			-- TRANSLATORS: replace 'English' with the name of your language
 			api.editMessageText(msg.chat.id, msg.message_id, i18n("English language is *set*") ..
 i18n([[.
-Please note that translators are volunteers, and some strings of the translation you selected _could not have been translated yet_
+Please note that translators are volunteers, and this localization _may be incomplete_. You can help improve translations on our [Crowdin Project](https://crowdin.com/project/group-butler).
 ]]), true)
 		end
 	end

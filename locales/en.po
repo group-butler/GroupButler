@@ -2048,8 +2048,9 @@ msgstr ""
 #: lua/plugins/setlang.lua:44
 msgid ""
 ".\n"
-"Please note that translators are volunteers, and some strings of the "
-"translation you selected _could not have been translated yet_\n"
+"Please note that translators are volunteers, and this localization _may be "
+"incomplete_. You can help improve translations on our [Crowdin Project]"
+"(https://crowdin.com/project/group-butler).\n"
 msgstr ""
 
 #: lua/plugins/users.lua:11
