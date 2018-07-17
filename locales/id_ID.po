@@ -1,3371 +1,2599 @@
-# Indonesian translations for GroupButler package.
-# Copyright (C) 2016 THE GroupButler'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the GroupButler package.
-# Fathur Rizki Saragih <fathursaragih@gmail.com>, 2016.
-#
 msgid ""
 msgstr ""
-"Project-Id-Version: GroupButler 4.0\n"
-"Report-Msgid-Bugs-To: https://telegram.me/bac0nnn\n"
-"POT-Creation-Date: 2016-12-11 01:36-0500\n"
-"PO-Revision-Date: 2016-12-11 13:34+0700\n"
-"Last-Translator: Fathur Rizki Saragih <fathursaragih@gmail.com>\n"
+"Project-Id-Version: group-butler\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-07-13 22:05-0300\n"
+"PO-Revision-Date: 2018-07-16 23:27\n"
+"Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Indonesian\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: crowdin.com\n"
+"X-Crowdin-Project: group-butler\n"
+"X-Crowdin-Language: id\n"
+"X-Crowdin-File: /master/locales/en.po\n"
 
-#: bot.lua:165
+#: lua/main.lua:117
 msgid "🐞 Sorry, a *bug* occurred"
 msgstr "🐞 Maaf, terjadi *bug*"
 
-#: bot.lua:189
+#: lua/main.lua:139
 #, lua-format
-msgid ""
-"\n"
+msgid "\n"
 "Hello everyone!\n"
-"My name is %s, and I'm a bot made to help administrators in their hard "
-"work.\n"
-"Unfortunately I can't work in normal groups, please ask the creator to "
-"convert this group to a supergroup.\n"
-msgstr ""
-"\n"
-"Halo semuanya!\n"
-"Saya adalah %s, sebuah bot yang dibuat untuk membantu admin dalam mengelola "
-"grup mereka.\n"
-"Sayangnya, saya tidak bisa berfungsi di normal grup, tanyakan kepada creator "
-"grup untuk mengubah grup ini menjadi supergrup.\n"
+"My name is %s, and I'm a bot made to help administrators in their hard work.\n"
+"Unfortunately I can't work in normal groups. If you need me, please ask the creator to convert this group to a supergroup and then add me again.\n"
+msgstr "Halo!\n"
+"Saya adalah %s, bot yang berguna untuk membantu admin dalam mengadministrasi grup.\n"
+"Saya tidak bisa digunakan di normal group, jadi pastikan grup kamu telah diupgrade menjadi supergroup dan tambahkan saya ke grup sebagai administrator."
 
-#: methods.lua:145
+#: lua/methods.lua:159
+msgid "I don't have enough permissions to restrict users"
+msgstr "Saya tidak memiliki permissions untuk merestrict pengguna."
+
+#: lua/methods.lua:161
 msgid "I'm not an admin, I can't kick people"
 msgstr "Saya bukan admin. Saya tidak bisa menendang anggota grup."
 
-#: methods.lua:147
+#: lua/methods.lua:163
 msgid "I can't kick or ban an admin"
 msgstr "Saya tidak bisa menendang atau memblokir admin."
 
-#: methods.lua:149
+#: lua/methods.lua:165
 msgid "There is no need to unban in a normal group"
-msgstr "Unban tidak dibutuhkan grup biasa"
+msgstr "Unban tidak dibutuhkan di normal group"
 
-#: methods.lua:151
+#: lua/methods.lua:167
 msgid "This user is not a chat member"
-msgstr "Pengguna ini bukan anggota obrolan"
+msgstr "Pengguna ini bukan anggota grup"
 
-#: plugins/antispam.lua:41
+#: lua/plugins/antispam.lua:32 lua/plugins/onmessage.lua:157
+#: lua/plugins/warn.lua:100
+msgid "banned"
+msgstr "diblokir"
+
+#: lua/plugins/antispam.lua:33 lua/plugins/onmessage.lua:154
+#: lua/plugins/warn.lua:104
+msgid "kicked"
+msgstr "ditendang"
+
+#: lua/plugins/antispam.lua:34 lua/plugins/onmessage.lua:160
+#: lua/plugins/warn.lua:108
+msgid "muted"
+msgstr "Muted"
+
+#: lua/plugins/antispam.lua:35 lua/plugins/dashboard.lua:140
+msgid "telegram.me links"
+msgstr "tautan telegram.me"
+
+#: lua/plugins/antispam.lua:36
+msgid "Channels messages"
+msgstr "pesan channel"
+
+#: lua/plugins/antispam.lua:75
 #, lua-format
 msgid "%s %s for <b>spam</b>! (%d/%d)"
-msgstr "%s %s for <b>spam</b>! (%d/%d)"
+msgstr "%s%s karena <b>spam</b>! (%d%d)"
 
-#: plugins/antispam.lua:44
+#: lua/plugins/antispam.lua:80
+#, lua-format
+msgid "%s, spam is not allowed here. The next time you will be restricted"
+msgstr "%s, jangan spam disini. Selanjutnya kamu akan direstrict."
+
+#: lua/plugins/antispam.lua:86
 #, lua-format
 msgid "%s, this kind of spam is not allowed in this chat (<b>%d/%d</b>)"
 msgstr "%s, jenis spam ini dianulir di obrolan ini (<b>%d/%d</b>)"
 
-#: plugins/antispam.lua:46
+#: lua/plugins/antispam.lua:90
 msgid "telegram.me link"
 msgstr "tautan telegram.me"
 
-#: plugins/antispam.lua:46
+#: lua/plugins/antispam.lua:90
 msgid "message from a channel"
 msgstr "pesan dari channel"
 
-#: plugins/antispam.lua:64
-msgid "allowed"
-msgstr "diperbolehkan"
+#: lua/plugins/antispam.lua:111
+msgid "forwards are allowed"
+msgstr "forward diperbolehkan"
 
-#: plugins/antispam.lua:65
-msgid "not allowed"
-msgstr "dianulir"
+#: lua/plugins/antispam.lua:113
+msgid "warn for forwards"
+msgstr "peringatan untuk forward"
 
-#: plugins/antispam.lua:81
+#: lua/plugins/antispam.lua:115
+msgid "forwards will be deleted"
+msgstr "forward akan dihapus"
+
+#: lua/plugins/antispam.lua:119
+msgid "links are allowed"
+msgstr "links diperbolehkan"
+
+#: lua/plugins/antispam.lua:121
+msgid "warn for links"
+msgstr "peringakatan untuk link"
+
+#: lua/plugins/antispam.lua:123
+msgid "links will be deleted"
+msgstr "link akan dihapus"
+
+#: lua/plugins/antispam.lua:139
 msgid "You can't go lower"
 msgstr "Nilai terlalu rendah"
 
-#: plugins/antispam.lua:83
+#: lua/plugins/antispam.lua:141
 msgid "You can't go higher"
 msgstr "Nilai terlalu tinggi"
 
-#: plugins/antispam.lua:91
+#: lua/plugins/antispam.lua:149
 #, lua-format
 msgid "New value: %d"
 msgstr "Nilai baru: %d"
 
-#: plugins/antispam.lua:110
+#: lua/plugins/antispam.lua:170
 msgid "Allow/forbid telegram.me links"
 msgstr "Izinkan/anulir tautan telegram.me"
 
-#: plugins/antispam.lua:112
+#: lua/plugins/antispam.lua:172
 msgid "Allow/forbid forwarded messages from channels"
 msgstr "Izinkan/anulir forward pesan dari channel"
 
-#: plugins/antispam.lua:114
+#: lua/plugins/antispam.lua:174
 msgid "Set how many times the bot should warn the user before kick/ban him"
-msgstr ""
-"Tentukan berapa kali bot memperingatkan user sebelum memblokir/menendangnya"
+msgstr "Tentukan berapa kali bot memperingatkan user sebelum memblokir/menendangnya"
 
-#: plugins/antispam.lua:116 plugins/floodmanager.lua:16
-#: plugins/logchannel.lua:32 plugins/menu.lua:41
-#: plugins/private_settings.lua:14
+#: lua/plugins/antispam.lua:176 lua/plugins/defaultpermissions.lua:58
+#: lua/plugins/floodmanager.lua:18 lua/plugins/logchannel.lua:40
+#: lua/plugins/menu.lua:50 lua/plugins/private_settings.lua:17
 msgid "Description not available"
 msgstr "Deskripsi tidak tersedia"
 
-#: plugins/antispam.lua:123 plugins/dashboard.lua:136
-#: plugins/mediasettings.lua:25
-msgid "telegram.me links"
-msgstr "tautan telegram.me"
+#: lua/plugins/antispam.lua:202
+msgid "Kick 👞"
+msgstr "Tendang 👞"
 
-#: plugins/antispam.lua:124
-msgid "Channels messages"
-msgstr "pesan channel"
+#: lua/plugins/antispam.lua:204
+msgid "Ban 🔨"
+msgstr "Blokir 🔨"
 
-#: plugins/antispam.lua:166 plugins/floodmanager.lua:120
-#: plugins/logchannel.lua:101 plugins/mediasettings.lua:73 plugins/menu.lua:225
+#: lua/plugins/antispam.lua:206
+msgid "Mute 👁"
+msgstr "Mute 👁"
+
+#: lua/plugins/antispam.lua:252 lua/plugins/floodmanager.lua:124
+#: lua/plugins/logchannel.lua:119 lua/plugins/mediasettings.lua:96
+#: lua/plugins/menu.lua:239
 msgid "You're no longer an admin"
 msgstr "Anda bukan lagi seorang admin"
 
-#: plugins/antispam.lua:168
-msgid ""
-"*Anti-spam settings*\n"
+#: lua/plugins/antispam.lua:254
+msgid "*Anti-spam settings*\n"
 "Choose which kind of spam you want to forbid\n"
 "• ✅ = *Allowed*\n"
 "• ❌ = *Not allowed*\n"
-msgstr ""
-"*Pengaturan anti-spam*\n"
-"Tentukan jenis spam yang akan Anda anulir\n"
-"• ✅ = *Diizinkan*\n"
-"• ❌ = *Dianulir*\n"
+"• 🗑 = *Delete*\n"
+"When set on `delete`, the bot doesn't warn users until they are about to be kicked/banned/muted (at the second-to-last warning)\n"
+msgstr "*Pengaturan anti-spam*\n"
+"Pilih jenis spam yang akan dianulisr\n"
+"• ✅ = *Diperbolehkan*\n"
+"• ❌ = *Tidak diperbolehkan*\n"
+"• 🗑 = *Hapus*\n"
+"Jika `hapus` dipilih, bot tidak akan memberi peringatan ke pengguna sampai dia ditendang/blokir/muted (pada peringatan kedua sampai akhir)."
 
-#: plugins/banhammer.lua:98
-msgid "_Reply to someone_"
-msgstr "_Balas ke pesan seseorang_"
+#: lua/plugins/antispam.lua:316
+msgid "_The whitelist was already empty_"
+msgstr "_Whitelist sudah kosong_"
 
-#: plugins/banhammer.lua:107
-msgid "For this, you can directly use /ban"
-msgstr "Untuk ini, Anda dapat langsung menggunakan /ban"
+#: lua/plugins/antispam.lua:319
+#, lua-format
+msgid "*Whitelist cleaned*\n"
+"%d links have been removed"
+msgstr "*Whitelist dikosongkan*\n"
+"%d links berhasil terhapus"
 
-#: plugins/banhammer.lua:109
-msgid "_The time limit is one week (168 hours)_"
-msgstr "_Batasan waktu adalah satu minggu (168 jam)_"
+#: lua/plugins/antispam.lua:327 lua/plugins/antispam.lua:336
+#: lua/plugins/antispam.lua:358 lua/plugins/antispam.lua:367
+msgid "_I can't find any url in this message_"
+msgstr "_Saya tidak menemukan link apapun di pesan ini_"
 
-#: plugins/banhammer.lua:120 plugins/banhammer.lua:144
-#: plugins/banhammer.lua:158
-msgid ""
-"I can't kick this user.\n"
+#: lua/plugins/antispam.lua:330
+#, lua-format
+msgid "%d link(s) will be whitelisted"
+msgstr "%d link akan diwhitelist"
+
+#: lua/plugins/antispam.lua:332 lua/plugins/antispam.lua:363
+#, lua-format
+msgid "\n"
+"%d links were already in the list"
+msgstr "%d link sudah berada di daftar"
+
+#: lua/plugins/antispam.lua:344
+msgid "_The whitelist is empty_.\n"
+"Use `/wl [links]` to add some links to the whitelist"
+msgstr "_Whitelist saat ini kosong_\n"
+"Gunakan `/wl [links]` untuk menambahkan beberapa link ke whitelist"
+
+#: lua/plugins/antispam.lua:346
+msgid "Whitelisted links:\n\n"
+msgstr "Daftar whitelist link:"
+
+#: lua/plugins/antispam.lua:361
+#, lua-format
+msgid "%d link(s) removed from the whitelist"
+msgstr "%d link dihapus dari whitelist"
+
+#: lua/plugins/antispam.lua:378
+msgid "_Whitelist of channels empty_"
+msgstr "_Whitelist channel kosong_"
+
+#: lua/plugins/antispam.lua:380
+#, lua-format
+msgid "*Whitelisted channels:*\n"
+"%s"
+msgstr "*Daftar whitelist channel:*\n"
+"%s"
+
+#: lua/plugins/antispam.lua:387 lua/plugins/antispam.lua:404
+msgid "_I can't find a channel ID in your message_"
+msgstr "_Saya tidak menemukan ID channel di pesan Anda_"
+
+#: lua/plugins/backup.lua:96
+#, lua-format
+msgid "<i>I'm sorry, this command has been used for the last time less then 3 hours ago by</i> %s (ask him for the file).\\nWait [<code>%s</code>] to use it again\n"
+"\t\t\t\t\t"
+msgstr "<i>Maaf, command ini baru digunakan kurang dari 3 jam yang lalu oleh</i>%s (kamu bisa memintanya untuk file tersebut).\\nTunggu [<code>%s</code>] untuk menggunakannya lagi"
+
+#: lua/plugins/backup.lua:103
+msgid "*Sent in private*"
+msgstr "*Dikirim melalui pm*"
+
+#: lua/plugins/backup.lua:116
+#, lua-format
+msgid "Download of the file failed with code %s"
+msgstr "Download file yang gagal dengan kode %s"
+
+#: lua/plugins/backup.lua:122
+#, lua-format
+msgid "Chat IDs don't match (%s and %s)"
+msgstr "Chat ID tidak cocok (%s dan %s)"
+
+#: lua/plugins/backup.lua:148
+#, lua-format
+msgid "This is not a valid backup file.\n"
+"Reason: invalid name (%s)"
+msgstr "Ini bukan file backup yang valid.\n"
+"Reason: invalid name (%s)"
+
+#: lua/plugins/backup.lua:152
+msgid "Invalid input. Please reply to a document"
+msgstr "Input tidak valid. Tolong reply ke dokumen"
+
+#: lua/plugins/backup.lua:155
+msgid "Invalid input. Please reply to the backup file (/snap command to get it)"
+msgstr "Input tidak valid. Tolong reply ke file backup (gunakan `/snap` untuk mengambilnya)"
+
+#: lua/plugins/banhammer.lua:73
+msgid "Use -/+ to edit the value, then select a timeframe to temporary ban the user"
+msgstr "Gunakan -/+ untuk mengubah nilai, kemudian tentukan rentang waktu temporary ban ke pengguna"
+
+#: lua/plugins/banhammer.lua:80 lua/plugins/banhammer.lua:93
+msgid "I can't kick this user.\n"
 "Either I'm not an admin, or the targeted user is!"
-msgstr ""
-"Saya tidak bisa menendang pengguna ini.\n"
+msgstr "Saya tidak bisa menendang pengguna ini.\n"
 "Mungkin saya bukan admin, atau dia sendiri adalah admin."
 
-#: plugins/banhammer.lua:131
-#, lua-format
-msgid ""
-"Ban time updated for %s. Ban expiration: %s\n"
-"<b>Admin</b>: %s"
-msgstr ""
-"Periode blokir diperbarui untuk %s. Berakhir sampai: %s\n"
-"<b>Admin</b>: %s"
-
-#: plugins/banhammer.lua:133
-#, lua-format
-msgid ""
-"User %s banned by %s.\n"
-"<i>Ban expiration:</i> %s"
-msgstr ""
-"Pengguna %s diblokir oleh %s.\n"
-"<i>Waktu berakhir:</i> %s"
-
-#: plugins/banhammer.lua:151
+#: lua/plugins/banhammer.lua:86
 #, lua-format
 msgid "%s kicked %s!"
 msgstr "%s menendang %s!"
 
-#: plugins/banhammer.lua:166
+#: lua/plugins/banhammer.lua:99 lua/plugins/banhammer.lua:116
 #, lua-format
 msgid "%s banned %s!"
 msgstr "%s memblokir %s!"
 
-#: plugins/banhammer.lua:171
+#: lua/plugins/banhammer.lua:104
+msgid "_Use this command in reply to a forwarded message_"
+msgstr "_Gunakan perintah ini dengan mereplynya ke pesan forward_"
+
+#: lua/plugins/banhammer.lua:110 lua/plugins/banhammer.lua:192
+msgid "I can't kick this user.\n"
+"I am not allowed to ban or the target user is an admin"
+msgstr "Saya tidak bisa menendang pengguna ini.\n"
+"Bot tidak memiliki akses banned atau target adalah admin"
+
+#: lua/plugins/banhammer.lua:122
+msgid "_An admin can't be unbanned_"
+msgstr "_Seorang admin tidak bisa diunblokir_"
+
+#: lua/plugins/banhammer.lua:127
+msgid "This user is not banned!"
+msgstr "Pengguna ini tidak terblokir!"
+
+#: lua/plugins/banhammer.lua:131
 #, lua-format
 msgid "%s unbanned by %s!"
 msgstr "%s diunblokir oleh %s!"
 
-#: plugins/configure.lua:11 plugins/realms.lua:255
+#: lua/plugins/banhammer.lua:142
+msgid "You don't have the permissions to restrict members"
+msgstr "Anda tidak punya permission untuk merestrict member"
+
+#: lua/plugins/banhammer.lua:146
+msgid "Tap on the -/+ buttons to change this value. Then select a timeframe to execute the ban"
+msgstr "Tap -/+ untuk mengganti nilai. Kemudian pilih rentang waktu untuk memblokir"
+
+#: lua/plugins/banhammer.lua:155
+msgid "You can't set a lower value"
+msgstr "Anda tidak bisa menetapkan nilai yang lebih rendah"
+
+#: lua/plugins/banhammer.lua:163
+msgid "Stop!!!"
+msgstr "Stop!!!"
+
+#: lua/plugins/banhammer.lua:179
+msgid "hours"
+msgstr "Jam"
+
+#: lua/plugins/banhammer.lua:183
+msgid "days"
+msgstr "Hari"
+
+#: lua/plugins/banhammer.lua:187
+msgid "minutes"
+msgstr "Menit"
+
+#: lua/plugins/banhammer.lua:196
+#, lua-format
+msgid "User banned for %d %s"
+msgstr "Pengguna diblokir karena %d %s"
+
+#: lua/plugins/configure.lua:34
 msgid "🛠 Menu"
 msgstr "🛠 Menu"
 
-#: plugins/configure.lua:12 plugins/realms.lua:256
+#: lua/plugins/configure.lua:35
 msgid "⚡️ Antiflood"
 msgstr "⚡️ Antiflood"
 
-#: plugins/configure.lua:13 plugins/realms.lua:257
+#: lua/plugins/configure.lua:36
 msgid "🌈 Media"
 msgstr "🌈 Media"
 
-#: plugins/configure.lua:14 plugins/realms.lua:258
+#: lua/plugins/configure.lua:37
 msgid "🚫 Antispam"
 msgstr "🚫 Antispam"
 
-#: plugins/configure.lua:15
+#: lua/plugins/configure.lua:38
 msgid "📥 Log channel"
-msgstr "📥 Log channel"
+msgstr "📥 Channel log"
 
-#: plugins/configure.lua:27
-msgid "_Manage your group_"
-msgstr "_Kelola grup Anda_"
+#: lua/plugins/configure.lua:44
+msgid "⛔️ Default permissions"
+msgstr "⛔️ Default permissions"
 
-#: plugins/configure.lua:30
+#: lua/plugins/configure.lua:57
+#, lua-format
+msgid "<b>%s</b>\n"
+"<i>Change the settings of your group</i>"
+msgstr "<b>%s</b>\n"
+"<i>Ubah pengaturan untuk grup Anda</i>"
+
+#: lua/plugins/configure.lua:60
 msgid "_I've sent you the keyboard via private message_"
 msgstr "_Saya telah mengirim keyboard ke pesan pribadi Anda_"
 
-#: plugins/configure.lua:42
-msgid "_Change the settings by navigating the keyboard_"
-msgstr "_Navigasikan keyboard untuk mengubah pengaturan_"
+#: lua/plugins/configure.lua:72
+msgid "<i>Change the settings of your group</i>"
+msgstr "<i>Ubah pengaturan untuk grup Anda</i>"
 
-#: plugins/dashboard.lua:11 plugins/floodmanager.lua:24
+#: lua/plugins/dashboard.lua:13 lua/plugins/floodmanager.lua:26
 msgid "✅ | ON"
 msgstr "✅ | AKTIF"
 
-#: plugins/dashboard.lua:13 plugins/floodmanager.lua:26
+#: lua/plugins/dashboard.lua:15 lua/plugins/floodmanager.lua:28
 msgid "❌ | OFF"
 msgstr "❌ | TIDAK AKTIF"
 
-#: plugins/dashboard.lua:18 plugins/menu.lua:197
+#: lua/plugins/dashboard.lua:20 lua/plugins/menu.lua:153
+#: lua/plugins/menu.lua:209
 msgid "👞 kick"
 msgstr "👞 tendang"
 
-#: plugins/dashboard.lua:20
+#: lua/plugins/dashboard.lua:22
 msgid "🔨️ ️ban"
 msgstr "🔨️ ️blokir"
 
-#: plugins/dashboard.lua:24 plugins/floodmanager.lua:52
+#: lua/plugins/dashboard.lua:24 lua/plugins/floodmanager.lua:38
+#: lua/plugins/menu.lua:157 lua/plugins/menu.lua:213
+msgid "👁 mute"
+msgstr "👁 mute"
+
+#: lua/plugins/dashboard.lua:28 lua/plugins/floodmanager.lua:56
 msgid "Texts"
 msgstr "Teks"
 
-#: plugins/dashboard.lua:25 plugins/floodmanager.lua:53
+#: lua/plugins/dashboard.lua:29 lua/plugins/floodmanager.lua:57
 msgid "Forwards"
 msgstr "Forward"
 
-#: plugins/dashboard.lua:26 plugins/dashboard.lua:140
-#: plugins/floodmanager.lua:54 plugins/mediasettings.lua:29
+#: lua/plugins/dashboard.lua:30 lua/plugins/dashboard.lua:144
+#: lua/plugins/floodmanager.lua:58 lua/plugins/mediasettings.lua:33
 msgid "Stickers"
 msgstr "Stiker"
 
-#: plugins/dashboard.lua:27 plugins/dashboard.lua:132
-#: plugins/floodmanager.lua:55 plugins/mediasettings.lua:21
+#: lua/plugins/dashboard.lua:31 lua/plugins/dashboard.lua:136
+#: lua/plugins/floodmanager.lua:59 lua/plugins/mediasettings.lua:24
 msgid "Images"
 msgstr "Gambar"
 
-#: plugins/dashboard.lua:28 plugins/dashboard.lua:133
-#: plugins/floodmanager.lua:56 plugins/mediasettings.lua:22
+#: lua/plugins/dashboard.lua:32 lua/plugins/dashboard.lua:137
+#: lua/plugins/floodmanager.lua:60 lua/plugins/mediasettings.lua:25
 msgid "GIFs"
 msgstr "GIF"
 
-#: plugins/dashboard.lua:29 plugins/dashboard.lua:134
-#: plugins/floodmanager.lua:57 plugins/mediasettings.lua:23
+#: lua/plugins/dashboard.lua:33 lua/plugins/dashboard.lua:138
+#: lua/plugins/floodmanager.lua:61 lua/plugins/mediasettings.lua:26
 msgid "Videos"
 msgstr "Video"
 
-#: plugins/dashboard.lua:43
+#: lua/plugins/dashboard.lua:47
 #, lua-format
 msgid "- *Status*: `%s`\n"
 msgstr "- *Status*: `%s`\n"
 
-#: plugins/dashboard.lua:44
+#: lua/plugins/dashboard.lua:48
 #, lua-format
 msgid "- *Action* to perform when an user floods: `%s`\n"
 msgstr "- *Aksi* yang dilakukan ketika pengguna membanjiri obrolan: `%s`\n"
 
-#: plugins/dashboard.lua:45
+#: lua/plugins/dashboard.lua:49
 #, lua-format
 msgid "- Number of messages allowed *every 5 seconds*: `%d`\n"
 msgstr "- Jumlah pesan yg diperbolehkan *setiap 5 detik*: `%d`\n"
 
-#: plugins/dashboard.lua:46
+#: lua/plugins/dashboard.lua:50
 #, lua-format
-msgid ""
-"- *Ignored media*:\n"
+msgid "- *Ignored media*:\n"
 "%s"
-msgstr ""
-"- *Media yang diabaikan*:\n"
+msgstr "- *Media yang diabaikan*:\n"
 "%s"
 
-#: plugins/dashboard.lua:53
+#: lua/plugins/dashboard.lua:57
 msgid "Settings"
 msgstr "Pengaturan"
 
-#: plugins/dashboard.lua:54
+#: lua/plugins/dashboard.lua:58
 msgid "Admins"
 msgstr "Admin"
 
-#: plugins/dashboard.lua:57 plugins/menu.lua:161 utilities.lua:487
+#: lua/plugins/dashboard.lua:61 lua/plugins/menu.lua:173 lua/utilities.lua:606
 msgid "Rules"
-msgstr "Rules"
+msgstr "Aturan"
 
-#: plugins/dashboard.lua:58 plugins/help.lua:277
+#: lua/plugins/dashboard.lua:62 lua/plugins/help.lua:285
 msgid "Extra commands"
 msgstr "Perintah ekstra"
 
-#: plugins/dashboard.lua:61
+#: lua/plugins/dashboard.lua:65
 msgid "Flood settings"
 msgstr "Pengaturan flood"
 
-#: plugins/dashboard.lua:62
+#: lua/plugins/dashboard.lua:66
 msgid "Media settings"
 msgstr "Pengaturan media"
 
-#: plugins/dashboard.lua:73
+#: lua/plugins/dashboard.lua:77
 msgid "Navigate this message to see *all the info* about this group!"
-msgstr ""
-"Navigasikan pesan dibawah untuk melihat *semua informasi* tentang grup!"
+msgstr "Navigasikan pesan dibawah untuk melihat *semua informasi* tentang grup!"
 
-#: plugins/dashboard.lua:76
+#: lua/plugins/dashboard.lua:81
 msgid "_I've sent you the group dashboard via private message_"
 msgstr "_Saya telah mengirim dasbor grup ke pesan pribadi Anda_"
 
-#: plugins/dashboard.lua:91
+#: lua/plugins/dashboard.lua:96
 msgid "🚫 This group does not exist"
 msgstr "🚫 Grup ini tidak ada"
 
-#: plugins/dashboard.lua:98
-msgid ""
-"🚷 You are not a member of the chat. You can't see the settings of a private "
-"group."
-msgstr ""
-"🚷 Anda bukan anggota grup. Anda tidak bisa melihat pengaturan grup private."
+#: lua/plugins/dashboard.lua:103
+msgid "🚷 You are not a member of the chat. You can't see the settings of a private group."
+msgstr "🚷 Anda bukan anggota grup. Anda tidak bisa melihat pengaturan grup private."
 
-#: plugins/dashboard.lua:105
+#: lua/plugins/dashboard.lua:110
 msgid "ℹ️ Group ► Settings"
 msgstr "ℹ️ Grup ► Pengaturan"
 
-#: plugins/dashboard.lua:109
+#: lua/plugins/dashboard.lua:114
 msgid "ℹ️ Group ► Rules"
 msgstr "ℹ️ Grup ► Rules"
 
-#: plugins/dashboard.lua:116
+#: lua/plugins/dashboard.lua:122
 msgid "I got kicked out of this group 😓"
 msgstr "Saya ditendang dari grup ini 😓"
 
-#: plugins/dashboard.lua:118 plugins/realms.lua:314 plugins/users.lua:165
-#, lua-format
-msgid ""
-"<b>Creator</b>:\n"
-"%s\n"
-"\n"
-"<b>Admins</b>:\n"
-"%s"
-msgstr ""
-"<b>Pendiri grup</b>:\n"
-"%s\n"
-"\n"
-"<b>Admin</b>:\n"
-"%s"
-
-#: plugins/dashboard.lua:120
+#: lua/plugins/dashboard.lua:124
 msgid "ℹ️ Group ► Admin list"
 msgstr "ℹ️ Grup ► Daftar admin"
 
-#: plugins/dashboard.lua:124
+#: lua/plugins/dashboard.lua:128
 msgid "ℹ️ Group ► Extra"
 msgstr "ℹ️ Grup ► Ekstra"
 
-#: plugins/dashboard.lua:128
+#: lua/plugins/dashboard.lua:132
 msgid "ℹ️ Group ► Flood"
 msgstr "ℹ️ Grup ► Flood"
 
-#: plugins/dashboard.lua:135 plugins/mediasettings.lua:24
+#: lua/plugins/dashboard.lua:139 lua/plugins/mediasettings.lua:28
 msgid "Documents"
 msgstr "Dokumen"
 
-#: plugins/dashboard.lua:137 plugins/mediasettings.lua:26
+#: lua/plugins/dashboard.lua:141 lua/plugins/mediasettings.lua:30
 msgid "Vocal messages"
 msgstr "Pesan suara"
 
-#: plugins/dashboard.lua:138 plugins/mediasettings.lua:27
+#: lua/plugins/dashboard.lua:142 lua/plugins/mediasettings.lua:31
 msgid "Links"
-msgstr "Tautan"
+msgstr "Links"
 
-#: plugins/dashboard.lua:139 plugins/mediasettings.lua:28
+#: lua/plugins/dashboard.lua:143 lua/plugins/mediasettings.lua:32
 msgid "Music"
 msgstr "Musik"
 
-#: plugins/dashboard.lua:141 plugins/mediasettings.lua:30
+#: lua/plugins/dashboard.lua:145 lua/plugins/mediasettings.lua:34
 msgid "Contacts"
 msgstr "Kontak"
 
-#: plugins/dashboard.lua:142 plugins/mediasettings.lua:31
+#: lua/plugins/dashboard.lua:146 lua/plugins/mediasettings.lua:35
 msgid "Games"
 msgstr "Permainan"
 
-#: plugins/dashboard.lua:143 plugins/mediasettings.lua:32
+#: lua/plugins/dashboard.lua:147 lua/plugins/mediasettings.lua:36
 msgid "Locations"
 msgstr "Lokasi"
 
-#: plugins/dashboard.lua:145
-msgid ""
-"*Current media settings*:\n"
-"\n"
-msgstr ""
-"*Pengaturan media saat ini*:\n"
-"\n"
+#: lua/plugins/dashboard.lua:149
+msgid "*Current media settings*:\n\n"
+msgstr "*Pengaturan media saat ini*:\n\n"
 
-#: plugins/dashboard.lua:156
+#: lua/plugins/dashboard.lua:160
 msgid "ℹ️ Group ► Media"
 msgstr "ℹ️ Grup ► Media"
 
-#: plugins/extra.lua:39
+#: lua/plugins/defaultpermissions.lua:46
+msgid "Permission to send messages. If disabled, the user won't be able to send any kind of message"
+msgstr "Izin untuk mengirim pesan. Jika dinonaktifkan, pengguna tidak akan dapat mengirim pesan apapun"
+
+#: lua/plugins/defaultpermissions.lua:49
+msgid "Permission to send media (audios, documents, photos, videos, video notes and voice notes). Implies the permission to send messages\n"
+"\t\t\t"
+msgstr "Izin untuk mengirim media (audio, dokumen, foto, video, catatan video dan catatan suara). Berarti izin untuk mengirim pesan\n"
+"\t\t\t\n"
+"\t\t\t"
+
+#: lua/plugins/defaultpermissions.lua:53
+msgid "Permission to send other types of messages (GIFs, games, stickers and use inline bots). Implies the permission to send medias\n"
+"\t\t\t"
+msgstr "Izin untuk mengirim jenis lain dari pesan (Gif, permainan, stiker dan menggunakan inline bot). Berarti izin untuk mengirim media\n"
+"\t\t\t\n"
+"\t\t\t"
+
+#: lua/plugins/defaultpermissions.lua:56
+msgid "When disabled, user's messages with a link won't show the web page preview"
+msgstr "Bila dinonaktifkan, pengguna pesan dengan link tidak akan ditampilkan halaman web preview"
+
+#: lua/plugins/defaultpermissions.lua:63
+msgid "Send messages"
+msgstr "Kirim pesan"
+
+#: lua/plugins/defaultpermissions.lua:64
+msgid "Send media"
+msgstr "Kirim Media"
+
+#: lua/plugins/defaultpermissions.lua:65
+msgid "Send other types of media"
+msgstr "Mengirim jenis media lainnya"
+
+#: lua/plugins/defaultpermissions.lua:66
+msgid "Show web page preview"
+msgstr "Tampilkan pratinjau pesan"
+
+#: lua/plugins/defaultpermissions.lua:112
+msgid "You don't have the permission to restrict members"
+msgstr "Anda tidak punya permission untuk merestrict member"
+
+#: lua/plugins/defaultpermissions.lua:114
+msgid "*Deafult permissions*\n"
+"From this menu you can change the default permissions that will be granted when a new member join.\n"
+"_Only the administrators with the permission to restrict a member can access this menu._\n"
+"Tap on the name of a permission for a description of what kind of messages it will influence.\n"
+msgstr "*Deafult permissions*\n"
+"Dari menu ini anda dapat mengubah default izin yang akan diberikan ketika member baru bergabung.\n"
+"_hanya administrator dengan izin untuk membatasi anggota dapat mengakses menu ini._\n"
+"Ketuk ke nama permissions dan perhatikan deskripsi jenis pesan yang akan dipengaruhi.\n"
+
+#: lua/plugins/defaultpermissions.lua:136
+#, lua-format
+msgid "Setting saved, but I can't edit the buttons because you are too fast! Wait other %d seconds"
+msgstr "Pengaturan tersimpan, tapi saya tidak bisa mengubah tombol karena Anda terlalu cepat! Tunggu sekitar %d detik"
+
+#: lua/plugins/extra.lua:41
 #, lua-format
 msgid "This media has been saved as a response to %s"
 msgstr "Media ini telah disimpan sebagai respon untuk %s"
 
-#: plugins/extra.lua:50
+#: lua/plugins/extra.lua:55
 #, lua-format
 msgid "Command '%s' saved!"
 msgstr "Perintah '%s' tersimpan!"
 
-#: plugins/extra.lua:66
+#: lua/plugins/extra.lua:78
 #, lua-format
-msgid "The command '%s' has been deleted!"
-msgstr "Perintah '%s' telah dihapus!"
+msgid "Commands deleted: `%s`"
+msgstr "Perintah dihapus: `%s`"
 
-#: plugins/extra.lua:69
+#: lua/plugins/extra.lua:80
 #, lua-format
-msgid "The command '%s' does not exist!"
-msgstr "Perintah '%s' tidak tersedia!"
+msgid "\n"
+"Commands not found: `%s`"
+msgstr "\n"
+"Perintah tidak ditemukan: `%s`"
 
-#: plugins/floodmanager.lua:10
+#: lua/plugins/extra.lua:132
+#, lua-format
+msgid "_Please_ [start me](%s) _so I can send you the answer_"
+msgstr "_Start saya terlebih dahulu_ [start me](%s) _agar saya bisa mengirimkan balasan_"
+
+#: lua/plugins/floodmanager.lua:12
 msgid "⚖ Current sensitivity. Tap on the + or the - to change it"
 msgstr "⚖ Sensitifitas saat ini. Tap pada + atau - untuk mengubahnya"
 
-#: plugins/floodmanager.lua:12
-msgid ""
-"Choose which media must be ignored by the antiflood (the bot won't consider "
-"them).\n"
+#: lua/plugins/floodmanager.lua:14
+msgid "Choose which media must be ignored by the antiflood (the bot won't consider them).\n"
 "✅: ignored\n"
 "❌: not ignored"
-msgstr ""
-"Tentukan media yang akan diabaikan oleh antiflood (bot tidak akan "
-"mendeteksinya).\n"
+msgstr "Tentukan media yang akan diabaikan oleh antiflood (bot tidak akan mendeteksinya).\n"
 "✅: diabaikan\n"
 "❌: dideteksi"
 
-#: plugins/floodmanager.lua:32
+#: lua/plugins/floodmanager.lua:34
 msgid "👞️ kick"
 msgstr "👞️ tendang"
 
-#: plugins/floodmanager.lua:34
+#: lua/plugins/floodmanager.lua:36
 msgid "🔨 ️ban"
 msgstr "🔨 ️blokir"
 
-#: plugins/floodmanager.lua:86
+#: lua/plugins/floodmanager.lua:91
 msgid "Flooders will be banned"
 msgstr "Flooders akan diblokir"
 
-#: plugins/floodmanager.lua:89
+#: lua/plugins/floodmanager.lua:94
 msgid "Flooders will be kicked"
 msgstr "Flooders akan ditendang"
 
-#: plugins/floodmanager.lua:98 plugins/floodmanager.lua:105
+#: lua/plugins/floodmanager.lua:97
+msgid "Flooders will be muted"
+msgstr "Flooders akan dimuted"
+
+#: lua/plugins/floodmanager.lua:106 lua/plugins/floodmanager.lua:113
 #, lua-format
 msgid "%d is not a valid value!\n"
 msgstr "%d bukan nilai yang valid!\n"
 
-#: plugins/floodmanager.lua:122
-msgid "You can manage the antiflood settings from here"
-msgstr "Anda dapat mengelola pengaturan antiflood dari sini"
+#: lua/plugins/floodmanager.lua:127
+msgid "You can manage the antiflood settings from here.\\n\\nIt is also possible to choose which type of messages the antiflood will ignore (✅)\n"
+"\t\t\t"
+msgstr "Anda dapat mengelola pengaturan antiflood dari sini.\\n\\nDisini kamu juga bisa menentukan jenis pesan yang akan diabaikan oleh bot (✅)\n"
+"\t\t\t\n"
+"\t\t\t"
 
-#: plugins/floodmanager.lua:127
+#: lua/plugins/floodmanager.lua:133
 msgid "Antiflood settings"
 msgstr "Pengaturan antiflood"
 
-#: plugins/floodmanager.lua:141
+#: lua/plugins/floodmanager.lua:151
 #, lua-format
 msgid "❎ [%s] will be ignored by the anti-flood"
 msgstr "❎ [%s] akan diabaikan oleh anti-flood"
 
-#: plugins/floodmanager.lua:144
+#: lua/plugins/floodmanager.lua:154
 #, lua-format
 msgid "🚫 [%s] won't be ignored by the anti-flood"
 msgstr "🚫 [%s] akan dideteksi oleh anti-flood"
 
-#: plugins/help.lua:10
+#: lua/plugins/help.lua:12
 #, lua-format
-msgid ""
-"\n"
+msgid "\n"
 "Hello %s 👋🏼, nice to meet you!\n"
-"I'm Group Butler, the first administration bot using the official Bot API.\n"
-"\n"
+"I'm Group Butler, the first administration bot using the official Bot API.\n\n"
 "*I can do a lot of cool stuffs*, here's a short list:\n"
 "• I can *kick or ban* users\n"
 "• You can use me to set the group rules\n"
 "• I have a flexible *anti-flood* system\n"
-"• I can *welcome new users* with a customizable message, or if you want with "
-"a gif or a sticker\n"
-"• I can *warn* users, and ban them when they reach the maximum number of "
-"warnings\n"
+"• I can *welcome new users* with a customizable message, or if you want with a gif or a sticker\n"
+"• I can *warn* users, and ban them when they reach the maximum number of warnings\n"
 "• I can also warn, kick or ban users when they post a specific media\n"
-"…and more, below you can find the \"all commands\" button to get the whole "
-"list!\n"
-"\n"
-"I work better if you add me to the group administrators (otherwise I won't "
-"be able to kick or ban)!\n"
-msgstr ""
-"\n"
+"…and more, below you can find the \"all commands\" button to get the whole list!\n\n"
+"I work better if you add me to the group administrators (otherwise I won't be able to kick or ban)!\n"
+msgstr "\n"
 "Halo *%s* 👋🏼,  senang berjumpa denganmu!\n"
-"Saya adalah Group Butler, bot administrasi pertama kali yang menggunakan API "
-"Bot resmi.\n"
-"\n"
+"Saya adalah Group Butler, bot administrasi pertama kali yang menggunakan API Bot resmi.\n\n"
 "*Saya dapat melakukan beberapa hal*, seperti berikut:\n"
 "• *Menendang/memblokir* (kick-ban) anggota dari grup.\n"
 "• Menetapkan *rules* grup.\n"
 "• Saya memiliki sistem *anti-flood* yg fleksibel, dapat disesuaikan\n"
-"• Pesan *selamat datang* kepada anggota yang baru bergabung ke obrolan yang "
-"dapat di kustomisasi. Jika mau, Anda bisa menggunakan gif atau stiker\n"
-"• Memberi *peringatan* (warn) kepada pengguna,  kemudian menendang/"
-"memblokirnya jika jumlah peringatannya sudah maksimal\n"
-"• Saya juga dapat memberi *peringatan* secara otomatis kepada pengguna yang "
-"mengirim media tertentu, atau langsung mendendang/memblokirnya dari obrolan\n"
-"…dan masih banyak lagi, gunakan tombol \"Semua perintah\" dibawah ini untuk "
-"selengkapnya!\n"
-"\n"
-"Saya akan berfungsi lebih baik jika Anda menjadikan saya sebagai Admin grup "
-"(jika tidak, *kick* dan *ban* tidak berfungsi)!\n"
+"• Pesan *selamat datang* kepada anggota yang baru bergabung ke obrolan yang dapat di kustomisasi. Jika mau, Anda bisa menggunakan gif atau stiker\n"
+"• Memberi *peringatan* (warn) kepada pengguna,  kemudian menendang/memblokirnya jika jumlah peringatannya sudah maksimal\n"
+"• Saya juga dapat memberi *peringatan* secara otomatis kepada pengguna yang mengirim media tertentu, atau langsung mendendang/memblokirnya dari obrolan\n"
+"…dan masih banyak lagi, gunakan tombol \"Semua perintah\" dibawah ini untuk selengkapnya!\n\n"
+"Saya akan berfungsi lebih baik jika Anda menjadikan saya sebagai Admin grup (jika tidak, *kick* dan *ban* tidak berfungsi)!\n"
 
-#: plugins/help.lua:26
-msgid ""
-"*Realm commands*\n"
-"_Realm = administration group, from where you can manage more sub-groups "
-"without sending there commands_\n"
-"\n"
-"`/setrealm` (*only for the group owner*): use the group as a realm. A realm "
-"can't have more than 60 members and must be a *private* supergroup.\n"
-"Follow the instructions the bot will give you to associate a group "
-"(subgroup) to a realm.\n"
-"`/subgroups`: get the list of the subgroups administrated by a realm. Can't "
-"be more than 6 for now.\n"
-"`/remove`: choose a subgroup to remove from the realm subgroups.\n"
-"`/send [message]`: broadcast a message to one or more subgroups.\n"
-"`/setrules [rules]`: apply the rules to one (or more) of your groups.\n"
-"`/pin [message]`: edit the last message generated with `/pin` in one or more "
-"groups.\n"
-"`/adminlist`: get the adminlist of one of your subgroups.\n"
-"`/id`: get the Telegram ID of one of your subgroups.\n"
-"`/realm`: get some info about your realm.\n"
-"`/add`: get the message to copy-paste in a group to add it to the subgroups "
-"of the realm.\n"
-"`/ban [by username|by id|by forwarded message]`: ban the user from all of "
-"your subgroups.\n"
-"*By forwarded message*: forward a message from the user in the realm and "
-"reply to it with `/ban`.\n"
-"`/config`: manage the settings of one of your subgroups.\n"
-"`/setlog` (forwarded from a channel): set the log channel for one or more of "
-"your subgroups. More info in the dedicated tab.\n"
-"`/delrealm` (*only for the owner*): the group will no longer be used as a "
-"realm.\n"
-"\n"
-"*Commands to use in a subgroup*\n"
-"`/unpair` (*only for the owner*): remove the association between the group "
-"and its realm.\n"
-"\n"
-"*Important*: realms are meant to be groups where their members administrate "
-"one or more associated groups. So in a realm you won't be able to use "
-"regular commands, such as `/warn`, `/welcome` and so on.\n"
-"The only commands that will work are those that are described above.\n"
-"Also, every member of the realm can take actions in groups where he is not "
-"admin. So take care about who to invite in a realm :)"
-msgstr ""
-"*Perintah realm*\n"
-"_Realm = grup administrasi, sebagai induk grup, dimana Anda dapat mengelola "
-"beberapa sub-grup tanpa mengirim perintah ke grup-grup tersebut_\n"
-"\n"
-"`/setrealm` (*hanya untuk creator grup*): menjadikan grup sebagai grup "
-"induk. Grup ini tidak boleh memiliki lebih dari 60 anggota, dan harus "
-"bersifat *private* supergrup.\n"
-"Ikuti petunjuk berikut, bot akan mengaitkan beberapa grup Anda (sub-grup) "
-"kedalam sebuah grup realm.\n"
-"`/subgroups`: melihat daftar subgrup yang sudah diadministrasi dengan induk "
-"grup. Tidak bisa lebih dari 6, untuk saat ini.\n"
-"`/remove`: memilih subgrup yang akan dipisahkan dari grup induk.\n"
-"`/send [message]`: membroadcast pesan ke satu atau lebih subgrup.\n"
-"`/setrules [rules]`: menetapkan rules ke satu atau lebih subgrup.\n"
-"`/pin [message]`: mengedit pesan yang terakhir dihasilkan dengan `/pin` di "
-"satu atau lebih grup.\n"
-"`/adminlist`: melihat daftar admin di salah satu sub grup Anda.\n"
-"`/id`: melihat ID salah satu subgrup Anda.\n"
-"`/realm`: beberapa informasi tentang grup induk Anda.\n"
-"`/add`: mengambil sebuah pesan yang akan di copy-paste di grup dan "
-"menambahkannya ke sub-grup.\n"
-"`/ban [dengan username|id|forward pesan]`: memblokir seorang pengguna dari "
-"seluruh subgrup Anda.\n"
-"*By forwarded message*: forward pesan dari pengguna tersebut kemudian reply "
-"dengan perintah `/ban`.\n"
-"`/config`: mengelola pengaturan salah satu subgrup Anda.\n"
-"`/setlog` (diforward dari channel): menentukan log channel dari satu atau "
-"lebih subgrup Anda. Penjelasan lebih detil ada di tab khusus.\n"
-"`/delrealm` (*hanya untuk creator grup*): grup tidak akan bisa digunakan "
-"sebagai grup induk.\n"
-"\n"
-"*Perintah yang digunakan di subgrup*\n"
-"`/unpair` (*hanya untuk creator grup*): memisahkan grup dari grup induk yang "
-"telah dibuat.\n"
-"\n"
-"*Penting*: realm atau induk grup dimaksudkan untuk mendukung sebuah grup "
-"dimana anggotanya sedang mengelola satu atau beberapa grup yang saling "
-"berkaitan. Jadi, di grup induk Anda tidak dapat menggunakan perintah seperti "
-"`/warn`, `/welcome` dan sebagainya.\n"
-"Perintah-perintah yang dapat digunakan sudah dijelaskan seperti diatas.\n"
-"Juga, anggota grup dari grup induk dapat mengirim perintah ke subgrup "
-"walaupun dia bukan admin disana. Jadi, hati-hati untuk mengundang seseorang "
-"ke induk grup Anda :)"
+#: lua/plugins/help.lua:28
+msgid "\n"
+"This bot works only in supergroups.\n\n"
+"To work properly, [it needs to be admin in your group](https://telegram.me/GroupButler_ch/104), so it can kick or ban people if needed.\n"
+"Only the group owner can promote it :)\n\n"
+"You can use `/, ! or #` to trigger a command.\n\n"
+"Group Butler saves the adminlist of a group in its databse to avoid to send too many requests to Telegram.\n"
+"This list is updated every 5 hours, so there could be some differences between who the bot thinks are the admins and who the admins actually are, if during the 5 hours timeframe some users have been promoted/demoted.\n"
+"It's possible to force the bot to update its adminlist with `/cache`.\n\n"
+"Remember: you have to use commands  *in the group*, unless they are specifically designed for private chats (see \"private\" tab).\n"
+msgstr "Bot ini hanya bekerja dalam Supergroup\n\n"
+"Untuk bekerja secara optimal [bot ini membutuhkan akses sebagai administrator](https://telegram.me/GroupButler_ch/104), agar dapat melakukan kick atau ban user bila diperlukan. \n"
+"Creator group dapat menjadikan bot ini sebagai adminstrator :)\n\n"
+"Anda dapat menggunakan `/, ! atau #`untuk memulai command.\n\n"
+"Group Butler menyimpan adminlist dari sebuah group dalam sebuah database, untuk menghindari send request yang berlebihan ke Telegram. \n"
+"Adminlist diupdate setiap 5 jam, sehingga memungkinkan terjadinya perbedaan antara nama yang tertera pada adminlist dengan nama adminstrator group sesungguhnya, bila dalam rentang waktu 5 jam terdapat perubahan struktur administrator. \n"
+"Untuk memperbaharui adminlist secara manual, anda dapat menggunakan `/cache`. \n\n"
+"Catatan: Anda harus menggunakan command *dalam group*, kecuali command yang dibuat khusus untuk private chat (lihat tab \"private\")."
 
-#: plugins/help.lua:53
-msgid ""
-"\n"
-"This bot works only in supergroups.\n"
-"\n"
-"To work properly, [it needs to be admin in your group](https://telegram.me/"
-"GroupButler_ch/104), so it can kick or ban people if needed.\n"
-"Only the group owner can promote it :)\n"
-"\n"
-"You can use `/, ! or #` to trigger a command.\n"
-"\n"
-"Remember: you have to use commands  *in the group*, unless they are "
-"specifically designed for private chats (see \"private\" tab)."
-msgstr ""
-"\n"
-"Bot ini hanya berfungsi di supergrup.\n"
-"\n"
-"Untuk fungsi yang lebih baik, [jadikan bot sebagai admin grup](https://"
-"telegram.me/GroupButler_ch/104), sehingga dia bisa menendang/memblokir "
-"anggota obrolan jika dibutuhkan.\n"
-"\n"
-"Hanya creator grup yang dapat menjadikan bot sebagai admin :)\n"
-"\n"
-"Anda dapat menggunakan `/, ! or #` untuk memicu perintah.\n"
-"\n"
-"Ingat: Anda harus mengirim perintah  *di dalam grup*, kecuali perintah "
-"tersebut memang dirancang untuk pesan pribadi (lihat tab \"perintah di pesan "
-"pribadi\")."
-
-#: plugins/help.lua:63
+#: lua/plugins/help.lua:43
 msgid "In this menu you will find all the available commands"
 msgstr "Di menu ini Anda akan menemukan perintah yang tersedia"
 
-#: plugins/help.lua:65
-msgid ""
-"\n"
-"*Commands that work in private*:\n"
-"\n"
-"• `/mysettings`: show a keyboard that allows you to change your personal "
-"settings, such as choosing if receive the rules in private when you join a "
-"group or if receive reports made with the `@admin` command\n"
+#: lua/plugins/help.lua:45
+msgid "\n"
+"*Commands that work in private*:\n\n"
+"• `/mysettings`: show a keyboard that allows you to change your personal settings, such as choosing if receive the rules in private when you join a group or if receive reports made with the `@admin` command\n"
 "• `/echo [text]` : the bot will send the text back, formatted with markdown\n"
 "• `/about` : show some useful informations about the bot\n"
 "• `/groups` : show the list of the discussion groups\n"
 "• `/id`: get your id\n"
 "• `/start` : show the initial message\n"
 "• `/help` : show this message\n"
-msgstr ""
-"\n"
-"*Perintah yang tersedia di pesan pribadi*:\n"
-"\n"
-"• `/mysettings`: menampilkan keyboard yang memungkinkan Anda untuk mengubah "
-"pengaturan pribadi seperti, menerima rules (melalui pesan pribadi) ketika "
-"bergabung ke grup, atau menerima laporan yang dikirim dengan perintah "
-"`@admin` \n"
-"• `/echo [teks]`: bot akan mengirimkan teks kembali, diformat dengan "
-"markdown\n"
+msgstr "\n"
+"*Perintah yang tersedia di pesan pribadi*:\n\n"
+"• `/mysettings`: menampilkan keyboard yang memungkinkan Anda untuk mengubah pengaturan pribadi seperti, menerima rules (melalui pesan pribadi) ketika bergabung ke grup, atau menerima laporan yang dikirim dengan perintah `@admin` \n"
+"• `/echo [teks]`: bot akan mengirimkan teks kembali, diformat dengan markdown\n"
 "• `/about`: menampilkan beberapa informasi yang berguna tentang bot\n"
 "• `/groups`:  menampilkan daftar grup diskusi\n"
 "• `/id`: melihat id Anda\n"
 "• `/start`: menampilkan pesan awal\n"
 "• `/help`: menampilkan pesan ini\n"
 
-#: plugins/help.lua:77
-msgid ""
-"\n"
-"*Commands available for every user in a group*:\n"
-"\n"
-"• `/dashboard` : see all the informations about the group\n"
-"• `/rules` : show the group rules\n"
-"• `/adminlist` : show the moderators of the group\n"
-"• `/help` : receive the help message\n"
-"*Note*: `/dashboard` and `/adminlist` replies always in private. If the bot "
-"is unable to reach an user, he will ask in the group to that user to be "
-"started, but just if _silent mode_ is off.\n"
-"With `/rules`, the bot always answer in the group for admins, but with "
-"normal users the message is sent in the group or in private according to the "
-"group settings.\n"
-"\n"
-"• `@admin` (by reply): report a message to the admins of the group (the bot "
-"will forward it in prvate). This ability could be turned off from the group "
-"settings. A description of the report can be added.\n"
-"Admins need to give their consense to receive reports from users, with `/"
-"mysettings` command\n"
-"• `/kickme` : get kicked by the bot\n"
-msgstr ""
-"\n"
-"*Perintah yang tersedia untuk semua anggota di grup*:\n"
-"\n"
-"• `/dashboard` : melihat semua informasi tentang grup\n"
-"• `/rules` : menampilkan rules grup\n"
-"• `/adminlist` : menampilkan moderator grup\n"
-"• `/help` : bantuan\n"
-"*Catatan*: `/dashboard` dan `/adminlist` akan selalu dibalas ke pesan "
-"pribadi. Jika bot tidak dapat mengirimkan pesan ke pengguna, bot akan "
-"memintanya untuk mengirimkan pesan terlebih dahulu ke bot, namun hanya jika "
-"_mode hening_ dinonaktifkan.\n"
-"Jika admin, balasan perintah `/rules` akan selalu ditampilkan di grup. "
-"Tetapi jika bukan, pesan balasan dapat ditampilkan di grup atau dikirim ke "
-"pesan pribadi sesuai pengaturan grup..\n"
-"\n"
-"• `@admin` (dengan reply): melaporkan pesan (bot akan meneruskannya ke "
-"admin). Deskripsi laporan juga dapat ditambahkan. Fitur ini dapat "
-"dinonaktifkan melalui pengaturan grup. \n"
-"Admin harus mengaktifkan notifikasi laporan menggunakan perintah `/"
-"mysettings`\n"
-"• `/kickme` : ditendang dari grup oleh bot\n"
+#: lua/plugins/help.lua:57
+msgid "\n"
+"*Commands available for every user in a group*:\n\n"
+"• `/dashboard`: see all the informations about the group\n"
+"• `/rules`: show the group rules\n"
+"• `/adminlist`: show the administrators of the group\n"
+"• `/help`: receive the help message\n"
+"• `!kickme`: the bot will kick you\n"
+"*Note*: `/dashboard`, `/adminlist` and `/staff` always reply in private. If the bot is unable to reach an user, he will ask in the group to that user to be started, but just if _silent mode_ is off.\n"
+"With `/rules`, the bot always answer in the group for admins, but with normal users the message is sent in the group or in private according to the group settings.\n\n"
+"• `@admin` (by reply): report a message to the admins of the group (the bot will forward it in prvate). This ability could be turned off from the group settings. A description of the report can be added.\n"
+"Admins need to give their consense to receive reports from users, with `/mysettings` command\n"
+msgstr "*Commands yang Dapat Digunakan Oleh Setiap User dalam Group*:\n\n"
+"• `/dashboard`: melihat seluruh informasi mengenai group\n"
+"• `/rules`: menunjukan peraturan atau rules milik group\n"
+"• `/adminlist`: menunjukan nama - nama administrator group \n"
+"• `/help`: meminta pesan bantuan\n"
+"• `!kickme`: memerintahkan bot untuk mengeluarkan anda dari group\n\n"
+"*Catatan*: `/dashboard`, `/adminlist` dan `/staff` akan dibalas melalui private message.\n"
+"Jika bot tidak dapat mengirimkan pesan kepada user, bot akan mengirimkan request kepada anda untuk melakukan start bot melalui pesan dalam group, apabila _silent mode_ dalam keadaan nonaktif. \n"
+"Command`/rules` yang dikirimkan admin akan dibalas dalam group, sedangkan command`/rules` yang dikirimkan user non-admin akan dibalas dalam group atau melalui private message, sesuai group settings.\n\n"
+"• `@admin` (melalui reply): melaporkan sebuah pesan dalam group kepada administrator (Group Butler akan mem-forward laporan anda kepada adminstrator melalui private message).\n"
+"Fungsi ini dapat dinonaktifkan melalui group settings. Anda dapat menambahkan deskripsi dari sebuah report atau laporan. \n"
+"Administrator dapat menentukan penerimaan report atau laporan dari user, menggunakan command `/mysettings`."
 
-#: plugins/help.lua:92
-msgid ""
-"\n"
-"*Admins: info about the group*\n"
-"\n"
-"• `/setrules [group rules]`: set the new regulation for the group (the old "
-"will be overwritten).\n"
-"• `/setrules -`: delete the current rules.\n"
-"\n"
-"*Note*: the markdown is supported. If the text sent breaks the markdown, the "
-"bot will notify that something is wrong.\n"
-"For a correct use of the markdown, check [this post](https://telegram.me/"
-"GroupButler_ch/46) in the channel\n"
-"\n"
-"• `/setlink [link|-]`: set the group link, so it can be re-called by other "
-"admins, or unset it.\n"
-"If you are going to use it in a public supergroup, you do not need to append "
-"the group link. Just send `/setlink`\n"
+#: lua/plugins/help.lua:72
+msgid "\n"
+"*Admins: info about the group*\n\n"
+"• `/setrules [group rules]`: set the new regulation for the group (the old will be overwritten).\n"
+"• `/setrules -`: delete the current rules.\n\n"
+"*Note*: the markdown is supported. If the text sent breaks the markdown, the bot will notify that something is wrong.\n"
+"For a correct use of the markdown, check [this post](https://telegram.me/GroupButler_ch/46) in the channel\n\n"
+"• `/setlink [link|-]`: set the group link, so it can be re-called by other admins, or unset it.\n"
+"If you are going to use it in a public supergroup, you do not need to append the group link. Just send `/setlink`\n"
 "• `/link`: get the group link, if already set.\n"
-"• `/msglink`: get the link to a message. Works only in public supergroups\n"
-"\n"
-"*Note*: the bot can recognize valid group links. If a link is not valid, you "
-"won't receive a reply.\n"
-msgstr ""
-"\n"
-"*Admins: informasi tentang grup*\n"
-"\n"
-"`/setrules [peraturan grup]` = membuat rules/peraturan grup (yang lama akan "
-"ditimpah).\n"
-"`/setrules -` = menghapus rules grup saat ini.\n"
-"\n"
-"*Catatan*: Format markdown didukung. Jika penggunaan salah, bot akan "
-"membalas bahwa format salah.\n"
-"Untuk penggunaan markdown yang benar. Baca [postingan berikut](https://"
-"telegram.me/GroupButler_ch/46)\n"
-"\n"
-"`/setlink [tautan|-]`: membuat link grup, sehingga bisa ditampilkan oleh "
-"admin, atau dihapus.\n"
-"Jika kamu ingin menggunakannya di public supergroup, cukup gunakan command `/"
-"setlink` tanpa diikuti dengan teks\n"
+"• `/msglink`: get the link to a message. Works only in public supergroups\n\n"
+"*Note*: the bot can recognize valid group links. If a link is not valid, you won't receive a reply.\n"
+msgstr "\n"
+"*Admins: informasi tentang grup*\n\n"
+"`/setrules [peraturan grup]` = membuat rules/peraturan grup (yang lama akan ditimpah).\n"
+"`/setrules -` = menghapus rules grup saat ini.\n\n"
+"*Catatan*: Format markdown didukung. Jika penggunaan salah, bot akan membalas bahwa format salah.\n"
+"Untuk penggunaan markdown yang benar. Baca [postingan berikut](https://telegram.me/GroupButler_ch/46)\n\n"
+"`/setlink [tautan|-]`: membuat link grup, sehingga bisa ditampilkan oleh admin, atau dihapus.\n"
+"Jika kamu ingin menggunakannya di public supergroup, cukup gunakan command `/setlink` tanpa diikuti dengan teks\n"
 "`/link`: melihat tautan grup, jika sudah dibuat.\n"
-"`/msglink`: melihat tautan pesan. Hanya bisa di public supergroup\n"
-"\n"
-"*Catatan*: bot hanya akan menerima link yang valid. Jika tidak, Anda tidak "
-"akan menerima balasan.\n"
+"`/msglink`: melihat tautan pesan. Hanya bisa di public supergroup\n\n"
+"*Catatan*: bot hanya akan menerima link yang valid. Jika tidak, Anda tidak akan menerima balasan.\n"
 
-#: plugins/help.lua:109
-msgid ""
-"\n"
+#: lua/plugins/help.lua:89
+msgid "\n"
 "*Banhammer powers*\n"
-"A set of commands that let admins kick and ban people from a group, and get "
-"some information about an user.\n"
-"Kicked people can join back, banned people can't. Banned users are added to "
-"the group blacklist\n"
-"\n"
+"A set of commands that let admins kick and ban people from a group, and get some information about an user.\n"
+"Kicked people can join back, banned people can't. Banned users are added to the group's blacklist. It's possible to blacklist users even if they are not part of the group.\n"
+"Only the administrators who have the permission to restrict users can use these commands, but `/status` can be used by all the admins.\n\n"
 "• `/kick [by reply|username|id|text mention]`: kick a user from the group.\n"
 "• `/ban [by reply|username|id|text mention]`: ban a user from the group.\n"
-"• `/tempban [hours|nd nh]` = ban an user for a specific amount of hours "
-"(max: one week). For now, only by reply. Short form: `/tempban 1d 7h`\n"
-"• `/unban [by reply|username|id|text mention]`: unban the user from the "
-"group.\n"
-"• `/user [by reply|username|id|text mention]`: shows how many times the user "
-"has been banned *in all the groups*, and the warns received.\n"
-"• `/status [username|id]`: show the current status of the user `(member|"
-"kicked/left the chat|banned|admin/creator|never seen)`.\n"
-"A bot can't retrieve the status of an user if that user never started it "
-"before (in this case, the _never seen_ status is returned)\n"
-"\n"
+"• `/tempban [by reply|username|id|text mention]`: ban an user for a specific amount of time. Use the returned keyboard to ban the user.\n"
+"Pass a value on a new line to use it as starting value. When a ban expires, the user won't be added back. Check the Telegram's restricted users list for pending unbans.\n"
+"• `/fwdban [by reply]`: ban the original sender of a forwarded message.\n"
+"• `/unban [by reply|username|id|text mention]`: unban the user from the group.\n"
+"• `/user [by reply|username|id|text mention]`: shows how many times the user has been banned *in all the groups*, and the warns received.\n"
+"• `/status [username|id]`: show the current status of the user `(member|restricted|kicked/left the chat|banned|admin/creator|never seen)`.\n"
+"Will also show the permissions the user *doesn't* have.\n\n"
 "*Antiflood*\n"
-"The \"antiflood\" is a system that auto-removes people that send many "
-"consecutive messages in a group.\n"
-"If on, the antiflood system will kick/ban flooders.\n"
-"\n"
-"• `/config` command, then `antiflood` button: manage the flood settings in "
-"private, with an inline keyboard. You can change the sensitivity, the action "
-"(kick/ban) to perform, and even set some exceptions.\n"
-msgstr ""
-"\n"
-"*Banhammer powers*\n"
-"Beberapa perintah yang memungkinkan admin dapat menendang (kick) dan "
-"memblokir (ban) anggota dari grup, dan melihat informasi tentang pengguna.\n"
-"Anggota yang dikeluarkan dapat bergabung kembali, sedangkan yang diblokir "
-"tidak, dia akan ditambahkan ke blocked list. \n"
-"\n"
-"• `/kick [dengan reply|username|id|mention teks]`: menendang pengguna dari "
-"grup.\n"
-"• `/ban [dengan reply|username|id|mention teks]`: memblokir pengguna dari "
-"grup\n"
-"• `/tempban [hours|nd nh]` = memblokir pengguna dalam periode tertentu (jam) "
-"(maks: satu minggu). Untuk sekarang, hanya bisa dengan reply. Contoh: `/"
-"tempban 1d 7h`\n"
-"• `/unban [dengan reply|username|id|mention teks]`: unblokir pengguna dari "
-"grup.\n"
-"• `/user [dengan reply|username|id|textmention teks]`: menampilkan berapa "
-"kali pengguna pernah di blokir (ban history) *di semua grup*, dan jumlah "
-"peringatan yang diterima.\n"
-"• `/status [username|id]`: menampilkan status pengguna terakhir `(anggota|"
-"ditendang/meninggalkan obrolan|diblokir|admin/creator|tidak dikenali)`.\n"
-"Bot tidak bisa mengetahui status pengguna yang belum pernah memulai "
-"percakapan dengan bot. (dalam hal ini, status akan tampil dengan \"tidak "
-"dikenali\")\n"
-"\n"
+"The \"antiflood\" is a system that auto-removes people that send many consecutive messages in a group.\n"
+"If on, the antiflood system will kick/ban flooders.\n\n"
+"• `/config` command, then `antiflood` button: manage the flood settings in private, with an inline keyboard. You can change the sensitivity, the action (kick/ban) to perform, and even set some exceptions.\n"
+msgstr "\n"
+"*Banhammer power*\n"
+"Satu set perintah untuk menendang dan memblokir member dari grup, dan mengambil informasi tentang member.\n"
+"Pengguna yang ditendang bisa bergabung kembali ke grup, sedangkan yang diblokir tidak bisa, mereka akan masuk ke blacklist grup. \n"
+"Hanya admin dengan izin banned yang bisa menggunakan perintah dibawah, sedangkan `/status` dapat digunakan oleh semua admin.\n\n"
+"• `/kick [dengan reply|username|id|teks mention]`: menendang user dari grup.\n"
+"• `/ban [dengan reply|username|id|teks mention]`: memblokir user dari grup.\n"
+"• `/tempban [dengan reply|username|id|teks mention]`: memblokir user untuk sementara waktu.\n"
+"Akan tampil tombol untuk menentukan rentang waktu blokir terhadap user, tentukan nilai dan akhiri dengan tombol menit, jam, atau hari. Jika waktu blokir berakhir, user tidak dimasukkan kembali ke grup. Kamu bisa melihat daftarnya di menu restricted user.\n"
+"• `/fwdban [dengan reply]`: ban yang asli pengirim pesan yang diteruskan.\n"
+"• `/unban [yg|username|id|teks mention]`: unblokir user dari grup.\n"
+"• `/pengguna [yg|username|id|teks mentiun]`: melihat jumlah peringatan yang diterima user dan berapa kali ia diblokir dari grup.\n"
+"• `/status [username|id]`: menunjukkan status dari user `(anggota|restricted|ditendang/meninggalkan chat|diblokir|admin/creator|tidak dikenali)`.\n"
+"Juga akan menunjukkan permission *yang tidak dimiliki* oleh user\n\n"
 "*Antiflood*\n"
-"Fitur \"antiflood\" akan secara otomatis mengeluarkan pengguna jika mengirim "
-"banyak pesan/berturut-turut di grup..\n"
-"Jika aktif, bot akan menendang/memblokir mereka.\n"
-"\n"
-"• `/config` kemudian tombol `antiflood`: mengelola pengaturan flood di pesan "
-"pribadi dengan inline keyboard. Anda dapat mengatur sensitifitas, aksi (kick/"
-"ban), dan beberapa pengecualian untuk teks dan media..\n"
+"\"Antiflood\" adalah suatu sistem yang otomatis mengeksekusi user yang mengirimkan pesan beruntun di grup.\n"
+"Jika aktif, mereka akan ditendang/diblokir dari grup.\n\n"
+"• `/config` kemudian akan muncul tombol `antiflood`: atur darisini menggunakan inline keyboard. Anda dapat mengubah sensitivitas, tindakan (tendang/blokir) dan beberapa pengecualian.\n"
 
-#: plugins/help.lua:129
-msgid ""
-"\n"
+#: lua/plugins/help.lua:112
+msgid "\n"
 "*Reports settings*\n"
-"`@admin` is an useful command to let users report some messages to the group "
-"admins.\n"
-"A reported message will be forwarded to the available admins.\n"
-"\n"
-"• `/config` command, then `menu` button: here you can find a voice, \"Report"
-"\". If turned on, users will be able to use `@admin` command.\n"
-"Only admins who accepted to receive reports (with `/mysettings` command) "
-"will be notified\n"
-"• `/mysettings` (in private): from here, you can choose if receive reports "
-"or not\n"
-"\n"
-"*Note*: admins can't use the `@admin` command, and users can't report admins "
-"with it."
-msgstr ""
-"\n"
+"`@admin` is an useful command to let users report some messages to the group admins.\n"
+"A reported message will be forwarded to the available admins.\n\n"
+"• `/config` command, then `menu` button: here you can find a voice, \"Report\". If turned on, users will be able to use `@admin` command.\n"
+"Only admins who accepted to receive reports (with `/mysettings` command) will be notified\n"
+"• `/mysettings` (in private): from here, you can choose if receive reports or not\n\n"
+"*Note*: admins can't use the `@admin` command, and users can't report admins with it."
+msgstr "\n"
 "*Pengaturan laporan*\n"
-"`@admin` perintah yang berfungsi untuk melaporkan beberapa pesan ke admin "
-"grup.\n"
-"Pesan yang dilaporkan akan diterukan ke admin yang tersedia.\n"
-"\n"
-"• `/config` kemudian tombol `menu`: disini Anda akan menemukan pilihan "
-"\"laporan\". Jika diaktifkan, anggota grup akan dapat menggunakan perintah "
-"`@admin`\n"
-"Hanya admin yang bersedia menerima laporan pesan (dengan perintah `/"
-"mysettings`) yang akan mendapat notifikasi\n"
-"• `/mysettings` (di pesan pribadi): dengan ini, Anda dapat menentukan ingin "
-"menerima laporan pesan atau tidak\n"
-"\n"
-"*Catatan*: admin tidak dapat menggunakan perintah `@admin` command, dan "
-"anggota grup juga tidak dapat melaporkan admin dengan perintah tersebut."
+"`@admin` perintah yang berfungsi untuk melaporkan beberapa pesan ke admin grup.\n"
+"Pesan yang dilaporkan akan diterukan ke admin yang tersedia.\n\n"
+"• `/config` kemudian tombol `menu`: disini Anda akan menemukan pilihan \"laporan\". Jika diaktifkan, anggota grup akan dapat menggunakan perintah `@admin`\n"
+"Hanya admin yang bersedia menerima laporan pesan (dengan perintah `/mysettings`) yang akan mendapat notifikasi\n"
+"• `/mysettings` (di pesan pribadi): dengan ini, Anda dapat menentukan ingin menerima laporan pesan atau tidak\n\n"
+"*Catatan*: admin tidak dapat menggunakan perintah `@admin` command, dan anggota grup juga tidak dapat melaporkan admin dengan perintah tersebut."
 
-#: plugins/help.lua:140
-msgid ""
-"\n"
-"*Welcome/goodbye settings*\n"
-"\n"
-"• `/config`, then `menu` tab: receive in private the menu keyboard. You will "
-"find an option to enable/disable welcome/goodbye messages.\n"
-"*Note*: goodbye messages don't work in large groups. This is a Telegram "
-"limitation that can't be avoided.\n"
-"\n"
+#: lua/plugins/help.lua:123
+msgid "\n"
+"*Welcome/goodbye settings*\n\n"
+"• `/config`, then `menu` tab: receive in private the menu keyboard. You will find an option to enable/disable welcome/goodbye messages.\n"
+"*Note*: goodbye messages don't work in large groups. This is a Telegram limitation that can't be avoided.\n\n"
 "*Custom welcome message*:\n"
 "• `/welcome Welcome $name, enjoy the group!`\n"
-"Write after `/welcome` your welcome message. `/goodbye` works in the same "
-"way.\n"
-"\n"
-"You can use some placeholders to include the name/username/id of the new "
-"member of the group\n"
+"Write after `/welcome` your welcome message. `/goodbye` works in the same way.\n\n"
+"You can use some placeholders to include the name/username/id of the new member of the group\n"
 "Placeholders:\n"
 "`$username`: _will be replaced with the username_\n"
 "`$name`: _will be replaced with the name_\n"
 "`$id`: _will be replaced with the id_\n"
 "`$title`: _will be replaced with the group title_\n"
 "`$surname`: _will be replaced by the user's last name_\n"
-"`$rules`: _will be replaced by a link to the rules of the group. Please "
-"read_ [here](https://telegram.me/GroupButler_beta/26) _how to use it, or you "
-"will get an error for sure_\n"
-"*Note*: `$name`, `$surname`, and `$title` may not work properly within "
-"markdown markup.\n"
-"\n"
+"`$rules`: _will be replaced by a link to the rules of the group. Please read_ [here](https://telegram.me/GroupButler_beta/26) _how to use it, or you will get an error for sure_\n"
+"*Note*: `$name`, `$surname`, and `$title` may not work properly within markdown markup.\n\n"
 "*GIF/sticker as welcome message*\n"
-"You can use a particular gif/sticker as welcome message. To set it, reply to "
-"the gif/sticker you want to set as welcome message with `/welcome`. Same "
-"goes for `/goodbye`\n"
-msgstr ""
-"\n"
-"*Pengaturan pesan selamat datang/goodbye*\n"
-"\n"
-"• `/config` kemudian tombol `menu`: menerima keyboard menu di pesan "
-"pribadi.  tab: receive in private the menu keyboard. Anda akan melihat opsi "
-"untuk mengaktifkan/menonaktifkan pesan selamat datang/goodbye.\n"
-"*Catatan*: pesan goodbye tidak akan tampil di grup besar (lebih dari sekitar "
-"50 anggota). Ini batasan dari telegram, tidak dapat dihindarkan.\n"
-"\n"
+"You can use a particular gif/sticker as welcome message. To set it, reply to the gif/sticker you want to set as welcome message with `/welcome`. Same goes for `/goodbye`\n"
+msgstr "\n"
+"*Pengaturan pesan selamat datang/goodbye*\n\n"
+"• `/config` kemudian tombol `menu`: menerima keyboard menu di pesan pribadi.  tab: receive in private the menu keyboard. Anda akan melihat opsi untuk mengaktifkan/menonaktifkan pesan selamat datang/goodbye.\n"
+"*Catatan*: pesan goodbye tidak akan tampil di grup besar (lebih dari sekitar 50 anggota). Ini batasan dari telegram, tidak dapat dihindarkan.\n\n"
 "*Pesan selamat datang kustom*:\n"
 "• `/welcome Hai $name, selamat datang di grup!`\n"
-"Tulis pesan selamat datang Anda setelah perintah `/welcome`. Begitu juga "
-"dengan `/goodbye`.\n"
-"\n"
-"Anda dapat menggunakan beberapa placeholder mencakup nama/username/id dari "
-"anggota yang baru bergabung di obrolan\n"
+"Tulis pesan selamat datang Anda setelah perintah `/welcome`. Begitu juga dengan `/goodbye`.\n\n"
+"Anda dapat menggunakan beberapa placeholder mencakup nama/username/id dari anggota yang baru bergabung di obrolan\n"
 "Placeholders:\n"
 "`$username`: _akan digantikan dengan username_\n"
 "`$name`: _akan digantikan dengan nama_\n"
 "`$id`: _akan digantikan dengan id_\n"
 "`$title`: _akan digantikan dengan judul grup_\n"
 "`$surname`: _akan digantikan dengan nama belakang anggota baru_\n"
-"`$rules`: _akan digantikan dengan link yang menuju ke rules grup. Silakan "
-"baca_ [disini](https://telegram.me/GroupButler_beta/26) _cara penggunaanya, "
-"atau Anda akan mendapatkan pesan error, pasti._\n"
-"*Catatan*: `$name`, `$surname`, dan `$title` bisa saja tidak berfungsi "
-"maksimal dengan format markdown.\n"
-"\n"
+"`$rules`: _akan digantikan dengan link yang menuju ke rules grup. Silakan baca_ [disini](https://telegram.me/GroupButler_beta/26) _cara penggunaanya, atau Anda akan mendapatkan pesan error, pasti._\n"
+"*Catatan*: `$name`, `$surname`, dan `$title` bisa saja tidak berfungsi maksimal dengan format markdown.\n\n"
 "*GIF/sticker sebagai pesan selamat datang*\n"
-"Anda dapat menggunakan gif/stiker tertentu sebagai pesan selamat datang. "
-"Untuk membuatnya, reply gif/sticker yang akan kamu jadikan pesan selamat "
-"datang dengan perintah `/welcome`. Begitu juga dengan `/goodbye`\n"
+"Anda dapat menggunakan gif/stiker tertentu sebagai pesan selamat datang. Untuk membuatnya, reply gif/sticker yang akan kamu jadikan pesan selamat datang dengan perintah `/welcome`. Begitu juga dengan `/goodbye`\n"
 
-#: plugins/help.lua:164
-msgid ""
-"\n"
+#: lua/plugins/help.lua:147
+msgid "*Whitelist settings*\n\n"
+"As you may know, the bot can warn/kick/ban who sends a telegram.me link (antispam settings) or any other link (media settings).\n"
+"The whitelist is a list of links that will be ignored by the bot.\n"
+"If an user sends a whitelisted link, he won't be warned or kicked.\n\n"
+"`/whitelist [link(s)]` or `/wl [link(s)]`: add one or more links to the whitelist.\n"
+"`/unwhitelist [link(s)]` or `/unwl [link(s)]`: remove one or more links from the whitelist.\n"
+"`/whitelist` or `/wl`: get the whitelist.\n"
+"`/whitelistl -` or `/wl -`: empty the whitelist.\n\n"
+"When the group link is saved with `/setlink`, it gets automatically added to the whitelist.\n\n"
+"*Why links are saved without* _https://_ *and* _www_*?*\n"
+"The bot auto-removes _https://, http:// and www_ from every link to reduce the possibility of having the same link saved twice.\n"
+msgstr "*Pengaturan whitelist*\n\n"
+"Seperti anda mungkin tahu, bot dapat memperingatkan/menendang/memblokir orangyang mengirim link telegram.me (pengaturan antispam) atau link lainnya (pengaturan media). \n"
+"Whitelist adalah daftar link yang akan diabaikan oleh bot, artinya jika user mengirim link yang ada diwhitelist, pesan tersebut akan terabaikan oleh bot.\n\n"
+"`/whitelist [link(s)]` atau `/wl [link(s)]`: tambahkan satu atau lebih link ke whitelist.\n"
+"`/unwhitelist [link(s)]` atau `/unwl [link(s)]`: menghapus satu atau lebih link dari whitelist.\n"
+"`/daftar putih` atau `/wl`: melihat whitelist.\n"
+"`/whitelistl -` atau `/wl -`: mengosongkan putih.\n\n"
+"Jika invite link  grup pernah digunakan dengan `/setlink`,maka otomatis ditambahkan ke whitelist.\n\n"
+"*Mengapa link yang disimpan tanpa* _https://_ *dan* _www_*?*\n"
+"Bot auto-menghilangkan _https://, http:// dan www_ dari setiap link untuk mengurangi kemungkinan memiliki link yang sama disimpan dua kali.\n"
+
+#: lua/plugins/help.lua:164
+msgid "\n"
 "*Extra commands*\n"
-"#extra commands are a smart way to save your own custom commands.\n"
-"\n"
-"• `/extra [#trigger] [reply]`: set a reply to be sent when someone writes "
-"the trigger.\n"
-"_Example_ : with \"`/extra #hello Good morning!`\", the bot will reply "
-"\"Good morning!\" each time someone writes #hello.\n"
-"You can reply to a media (_photo, file, vocal, video, gif, audio_) with `/"
-"extra #yourtrigger` to save the #extra and receive that media each time you "
-"use # command\n"
+"#extra commands are a smart way to save your own custom commands.\n\n"
+"• `/extra [#trigger] [reply]`: set a reply to be sent when someone writes the trigger.\n"
+"_Example_ : with \"`/extra #hello Good morning!`\", the bot will reply \"Good morning!\" each time someone writes #hello.\n"
+"You can reply to a media (_photo, file, vocal, video, gif, audio_) with `/extra #yourtrigger` to save the #extra and receive that media each time you use # command\n"
 "• `/extra list`: get the list of your custom commands.\n"
-"• `/extra del [#trigger]`: delete the trigger and its message.\n"
-"\n"
-"*Note:* the markdown is supported. If the text sent breaks the markdown, the "
-"bot will notify that something is wrong.\n"
-"For a correct use of the markdown, check [this post](https://telegram.me/"
-"GroupButler_ch/46) in the channel.\n"
-"Now supports placeholders. Check the \"welcome\" tab for the list of the "
-"available placeholders\n"
-msgstr ""
-"\n"
+"• `/extra del [#trigger]`: delete the trigger and its message.\n\n"
+"*Note:* the markdown is supported. If the text sent breaks the markdown, the bot will notify that something is wrong.\n"
+"For a correct use of the markdown, check [this post](https://telegram.me/GroupButler_ch/46) in the channel.\n"
+"Now supports placeholders. Check the \"welcome\" tab for the list of the available placeholders\n"
+msgstr "\n"
 "*Perintah ekstra*\n"
-"#extra adalah cara untuk menyimpan perintah-perintah kustom Anda.\n"
-"\n"
-"• `/extra [#pemicu] [balasan]`: membuat balasan yang akan dikirim jika "
-"seseorang mengirim pemicu \n"
-"_Contoh_ : dengan \"`/extra #halo Selamat pagi!`\", bot akan mengirim "
-"balasan \"Selamat pagi!\"setiap kali seseorang mengirim #hello.\n"
-"Anda dapat me-reply  (_phto, file, pesan suara, video, gif, suara_) dengan `/"
-"extra #pemicu` untuk menyimpan media tersebut, dan bot akan mengirimkannya "
-"kembali jika Anda mengggunakan perintah #pemicu\n"
+"#extra adalah cara untuk menyimpan perintah-perintah kustom Anda.\n\n"
+"• `/extra [#pemicu] [balasan]`: membuat balasan yang akan dikirim jika seseorang mengirim pemicu \n"
+"_Contoh_ : dengan \"`/extra #halo Selamat pagi!`\", bot akan mengirim balasan \"Selamat pagi!\"setiap kali seseorang mengirim #hello.\n"
+"Anda dapat me-reply  (_phto, file, pesan suara, video, gif, suara_) dengan `/extra #pemicu` untuk menyimpan media tersebut, dan bot akan mengirimkannya kembali jika Anda mengggunakan perintah #pemicu\n"
 "• `/extra list`: menampilkan daftar perintah ekstra yang telah dibuat.\n"
-"• `/extra del [#pemicu]`: menghapus pemicu dan isi pesannya.\n"
-"\n"
-"*Catatan:* perintah diatas mendukung format markdown. Jika penggunaan "
-"markdown salah, bot akan memberi pesan kesalahan\n"
-"Untuk penggunaan markdown yang benar, baca [postingan ini](https://telegram."
-"me/GroupButler_ch/46) di channel.\n"
-"Sekarang mendukung placeholder. Lihat tab \"pesan selamat datang\" untuk "
-"daftar placeholder yang tersedia.\n"
+"• `/extra del [#pemicu]`: menghapus pemicu dan isi pesannya.\n\n"
+"*Catatan:* perintah diatas mendukung format markdown. Jika penggunaan markdown salah, bot akan memberi pesan kesalahan\n"
+"Untuk penggunaan markdown yang benar, baca [postingan ini](https://telegram.me/GroupButler_ch/46) di channel.\n"
+"Sekarang mendukung placeholder. Lihat tab \"pesan selamat datang\" untuk daftar placeholder yang tersedia.\n"
 
-#: plugins/help.lua:179
-msgid ""
-"\n"
+#: lua/plugins/help.lua:179
+msgid "\n"
 "*Warns*\n"
-"Warn are made to keep the count of the admonitions received by an user. Once "
-"an user has been warned for the defined number of times, he is kicked/banned "
-"by the bot.\n"
+"Warn are made to keep the count of the admonitions received by an user. Once an user has been warned for the defined number of times, he is kicked/banned by the bot.\n"
 "There are two different type of warns:\n"
 "- _normal warns_, given by an admin with the `/warn` command\n"
-"- _automatic warns_ (read: media warns and spam warns), given by the bot "
-"when someone sends a media that is not allowed in the chat, or spams other "
-"channels or telegram.me links.\n"
-"\n"
+"- _automatic warns_ (read: media warns and spam warns), given by the bot when someone sends a media that is not allowed in the chat, or spams other channels or telegram.me links.\n\n"
 "• `/warn [by reply]`: warn a user\n"
-"• `/sw`: you can place a `/sw` (_\"silent warn\"_) everywhere you want in "
-"your message. The bot will silently count the warn, but won't answer in the "
-"group unless the user reached the max. number of warnings.\n"
-"• `/nowarns [by reply]`: reset the warns received by an user (both normal "
-"and automatic warns).\n"
+"• `/sw`: you can place a `/sw` (_\"silent warn\"_) everywhere you want in your message. The bot will silently count the warn, but won't answer in the group unless the user reached the max. number of warnings.\n"
+"• `/nowarns [by reply]`: reset the warns received by an user (both normal and automatic warns).\n"
 "• `/warnmax [number]`: set the max number of the warns before the kick/ban.\n"
-"• `/warnmax media [number]`: set the max number of the warns before kick/ban "
-"when an unallowed media is sent.\n"
-"\n"
-"How to see how many warns a user has received (or to reset them): `/user` "
-"command.\n"
-"How to change the max. number of warnings allowed: `/config` command, then "
-"`menu` button.\n"
-"How to change the max. number of warnings allowed for medias: `/config` "
-"command, then `media` button.\n"
-"How to change the max. number of warnings allowed for spam: `/config` "
-"command, then `antispam` button.\n"
-msgstr ""
-"\n"
+"• `/warnmax media [number]`: set the max number of the warns before kick/ban when an unallowed media is sent.\n\n"
+"How to see how many warns a user has received (or to reset them): `/user` command.\n"
+"How to change the max. number of warnings allowed: `/config` command, then `menu` button.\n"
+"How to change the max. number of warnings allowed for medias: `/config` command, then `media` button.\n"
+"How to change the max. number of warnings allowed for spam: `/config` command, then `antispam` button.\n"
+msgstr "\n"
 "*Peringatan*\n"
-"Dibuat untuk menghitung berapa kali peringatan yang diperoleh oleh pengguna. "
-"Suatu saat pengguna diberi peringatan dan mencapai jumlah tertentu yang "
-"ditetapkan, dia akan ditendang/diblokir oleh bot.\n"
+"Dibuat untuk menghitung berapa kali peringatan yang diperoleh oleh pengguna. Suatu saat pengguna diberi peringatan dan mencapai jumlah tertentu yang ditetapkan, dia akan ditendang/diblokir oleh bot.\n"
 "Terdapat 2 jenis peringatan:\n"
 "- _peringatan normal_, diberikan oleh admin dengan perintah`/warn`\n"
-"- _peringatan otomatis_ (baca: peringatan media dan spam), diberikan secara "
-"otomatis oleh bot ketika seseorang mengirim media yang dianulir, mengirim "
-"spam dari channel atau tautan telegram.me.\n"
-"\n"
+"- _peringatan otomatis_ (baca: peringatan media dan spam), diberikan secara otomatis oleh bot ketika seseorang mengirim media yang dianulir, mengirim spam dari channel atau tautan telegram.me.\n\n"
 "• `/warn [dengan reply]`: memberi peringatan ke pengguna\n"
-"• `/sw`: anda dapat menempatkan perintah `/sw` (_\"silent warn\"_) dimanapun "
-"diantara pesan Anda. Bot akan menghitung jumlah peringatan tanpa memberi "
-"pesan balasan kecuali jumlah peringatan tersebut sudah mencapai maksimal.\n"
-"• `/nowarns [dengan reply]`: mereset jumlah peringatan yang diterima oleh "
-"pengguna (baik peringatan normal atau otomatis).\n"
-"• `/warnmax [angka]`: menentukan jumlah peringatan maksimal sebelum bot "
-"menendang/memblokir.\n"
-"• `/warnmax media [angka]`: menentukan jumlah peringatan maksimal sebelum "
-"bot menendang/memblokir pengguna yang mengirim media yang dianulir.\n"
-"\n"
-"Melihat jumlah peringatan yang diterima oleh pengguna (atau meresetnya): "
-"gunakan perintah `/user`.\n"
-"Mengubah jumlah peringatan maksimal: gunakan perintah `/config` dan pilih "
-"tombol `menu`.\n"
-"Mengubah jumlah peringatan maksimal untuk pengiriman media yang dianulir:  "
-"gunakan perintah `/config` dan pilih tombol `media`.\n"
-"Mengubah jumlah peringatan maksimal untuk  pengiriman spam : gunakan "
-"perintah `/config`dan pilih tombol `antispam`.\n"
+"• `/sw`: anda dapat menempatkan perintah `/sw` (_\"silent warn\"_) dimanapun diantara pesan Anda. Bot akan menghitung jumlah peringatan tanpa memberi pesan balasan kecuali jumlah peringatan tersebut sudah mencapai maksimal.\n"
+"• `/nowarns [dengan reply]`: mereset jumlah peringatan yang diterima oleh pengguna (baik peringatan normal atau otomatis).\n"
+"• `/warnmax [angka]`: menentukan jumlah peringatan maksimal sebelum bot menendang/memblokir.\n"
+"• `/warnmax media [angka]`: menentukan jumlah peringatan maksimal sebelum bot menendang/memblokir pengguna yang mengirim media yang dianulir.\n\n"
+"Melihat jumlah peringatan yang diterima oleh pengguna (atau meresetnya): gunakan perintah `/user`.\n"
+"Mengubah jumlah peringatan maksimal: gunakan perintah `/config` dan pilih tombol `menu`.\n"
+"Mengubah jumlah peringatan maksimal untuk pengiriman media yang dianulir:  gunakan perintah `/config` dan pilih tombol `media`.\n"
+"Mengubah jumlah peringatan maksimal untuk  pengiriman spam : gunakan perintah `/config`dan pilih tombol `antispam`.\n"
 
-#: plugins/help.lua:198
-msgid ""
-"\n"
+#: lua/plugins/help.lua:198
+msgid "\n"
 "*Pinning messages*\n"
 "The \"48 hours limit\" to edit your own messages doesn't apply to bots.\n"
-"This command was born from the necessity of editing the pinned message "
-"without sending it again, maybe just to change few things.\n"
-"So with `/pin` you can generate a message to pin, and edit it how many times "
-"you want.\n"
-"\n"
-"• `/pin [text]`: the bot will send you back the text you used as argument, "
-"with markdown. You can pin the message and use `/pin [text]` again to edit "
-"it\n"
-"• `/pin`: the bot will find the latest message generate by `/pin`, if it "
-"still exists\n"
-"\n"
-"*Note*: `/pin` supports markdown, but only `$rules` and `$title` "
-"placeholders\n"
-msgstr ""
-"\n"
-"*Pesan pin*\n"
-"Batasan \"48 jam\" untuk mengedit pesan Anda, tidak berlaku untuk bot.\n"
-"Perintah ini dibuat untuk kemudahan mengedit pesan pin, walaupun ingin "
-"mengubah sedikit saja.\n"
-"Jadi, dengan perintah `/pin` Anda dapat menghasilkan pesan untuk disematkan "
-"di grup, dan mengeditnya berapa kali Anda mau.\n"
-"\n"
-"• `/pin [teks]`: bot Akan mengirimkan teks kembali. Anda bisa menyematkan "
-"pesan tersebut dan gunakan perintah `/pin [teks]` lagi untuk menggantinya\n"
-"• `/pin`: bot akan menunjukkan pesan terakhir yang dihasilkan dengan `/pin`, "
-"jika masih ada\n"
-"\n"
-"*Catatan*: `/pin` mendukung markdown. Namun untuk placeholder, hanya `"
-"$rules` dan `$title`\n"
+"This command was born from the necessity of editing the pinned message without sending it again, maybe just to change few things.\n"
+"So with `/pin` you can generate a message to pin, and edit it how many times you want.\n\n"
+"• `/pin [text]`: the bot will send you back the text you used as argument, with markdown. You can pin the message and use `/pin [text]` again to edit it\n"
+"• `/pin`: the bot will find the latest message generate by `/pin`, if it still exists\n"
+"• `/newpin [text]`: forces the bot to send another message that will be saved as new target for `/pin`\n\n"
+"*Note*: `/pin` supports markdown, but only `$rules` and `$title` placeholders\n"
+msgstr "*Pesan pin*\n"
+"Ada batasan mengedit pesan, selama 24 jam. Tapi ini tidak berlaku untuk bot.\n"
+"Fitur ini untuk membantu kamu mengatur pinned message tanpa harus berulang kali mengirimnya yang kadang kelihatan spammy.\n"
+"Jadi, gunakan perintah `/pin` untuk men-generate pesan yang akan dipinned, dan kamu bisa mengeditnya berapa kali pun kamu mau.\n\n"
+"• `/pin [text]`: bot akan mengirimkan kembali pesan tersebut dengan format markdown. Selanjutnya kamu bisa pinned pesan tersebut dan gunakan kembali `/pin [text]` untuk mengeditnya.\n"
+"• `/pin`: bot akan menunjukkan pesan terakhir yang digenerate dengan `/pin`, jika masih ada\n"
+"• `/newpin [text]`: force bot untuk men-generate pesan baru dari`/pin`. Karena bisa saja pesan tersebut terhapus atau ter-archive oleh telegram sehingga bot tidak menemukannya.\n\n"
+"*Catatan*: `/pin` mendukung markdown, tapi untuk placeholder hanya `$rules` dan `$title` saja."
 
-#. TRANSLATORS: leave your contact information for reports mistakes in translation
-#: plugins/help.lua:211
-msgid ""
-"\n"
+#. TRANSLATORS: leave your contact information to reports mistakes in translation
+#: lua/plugins/help.lua:212
+msgid "\n"
 "*Group language*\"\n"
-"• `/lang`: choose the group language (can be changed in private too).\n"
-"\n"
-"*Note*: translators are volunteers, so I can't ensure the correctness of all "
-"the translations. And I can't force them to translate the new strings after "
-"each update (not translated strings are in english).\n"
-"\n"
-"Anyway, translations are open to everyone. If you want to translate the bot, "
-"see an [information](https://github.com/RememberTheAir/"
-"GroupButler#translators) on GitHub.\n"
-"Ask in the English /group for the `.po` file of your language.\n"
-"\n"
-"*Special characters*\n"
-"\n"
-"• `/config` command, then `menu` button: you will receive in private the "
-"menu keyboard.\n"
-"Here you will find two particular options: _Arab and RTL_.\n"
-"\n"
-"*Arab*: when Arab it's not allowed (🚫), everyone who will write an arab "
-"character will be kicked from the group.\n"
-"*Rtl*: it stands for 'Righ To Left' character, and it's the responsible of "
-"the weird service messages that are written in the opposite sense.\n"
-"When Rtl is not allowed (🚫), everyone that writes this character (or that "
-"has it in his name) will be kicked.\n"
-msgstr ""
-"\n"
+"• `/lang`: choose the group language (can be changed in private too).\n\n"
+"*Note*: translators are volunteers, so I can't ensure the correctness of all the translations. And I can't force them to translate the new strings after each update (not translated strings are in english).\n\n"
+"Anyway, translations are open to everyone. If you want to translate the bot, see an [information](https://github.com/RememberTheAir/GroupButler#translators) on GitHub.\n"
+"Ask in the English /group for the `.po` file of your language.\n\n"
+"*Special characters*\n\n"
+"• `/config` command, then `menu` button: you will receive in private the menu keyboard.\n"
+"Here you will find two particular options: _Arab and RTL_.\n\n"
+"*Arab*: when Arab it's not allowed (🚫), everyone who will write an arab character will be kicked from the group.\n"
+"*Rtl*: it stands for 'Righ To Left' character, and it's the responsible of the weird service messages that are written in the opposite sense.\n"
+"When Rtl is not allowed (🚫), everyone that writes this character (or that has it in his name) will be kicked.\n"
+msgstr "\n"
 "*Bahasa grup*\"\n"
-"• `/lang`: memilih bahasa grup Anda (dapat diganti di pesan pribadi juga).\n"
-"\n"
-"*Catatan*: penerjemah bersifat relawan, sehingga owner bot tidak dapat "
-"mengoreksi seluruh terjemahan, juga tidak bisa memaksa mereka jika terdapat "
-"pembaruan string :) (string yang belum diterjemahkan akan tampil dalam "
-"Bahasa Inggris).\n"
-"\n"
-"Bagaimanapun, terjemahan terbuka untuk siapapun. Jika anda ingin "
-"menerjemahkan bot, lihat [informasi berikut](https://github.com/"
-"RememberTheAir/GroupButler#translators) di GitHub.\n"
-"Tanyakan file `.po` bahasa Anda di /group diskusi butler  English.\n"
-"\n"
-"*Karakter spesial*\n"
-"\n"
-"• `/config`: kemudian tombol `menu`: Anda akan menerima keyboard di pesan "
-"pribadi.\n"
-"Disini Anda akan menemukan dua opsi tertentu: _Arab dan RTL_.\n"
-"\n"
-"*Arab*: jika karakter Arab dianulir (🚫), setiap orang yang mengirim karakter "
-"arab akan ditendang dari grup.\n"
-"*Rtl*: singkatan dari 'Righ To Left' , karakter ini akan membuat service "
-"message tampil secara berlawanan.\n"
-"Jika karakter Rtl dianulir (🚫), setiap orang yang menulis karakter ini (juga "
-"di namanya) akan ditendang dari grup.\n"
+"• `/lang`: memilih bahasa grup Anda (dapat diganti di pesan pribadi juga).\n\n"
+"*Catatan*: penerjemah bersifat relawan, sehingga owner bot tidak dapat mengoreksi seluruh terjemahan, juga tidak bisa memaksa mereka jika terdapat pembaruan string :) (string yang belum diterjemahkan akan tampil dalam Bahasa Inggris).\n\n"
+"Bagaimanapun, terjemahan terbuka untuk siapapun. Jika anda ingin menerjemahkan bot, lihat [informasi berikut](https://github.com/RememberTheAir/GroupButler#translators) di GitHub.\n"
+"Tanyakan file `.po` bahasa Anda di /group diskusi butler  English.\n\n"
+"*Karakter spesial*\n\n"
+"• `/config`: kemudian tombol `menu`: Anda akan menerima keyboard di pesan pribadi.\n"
+"Disini Anda akan menemukan dua opsi tertentu: _Arab dan RTL_.\n\n"
+"*Arab*: jika karakter Arab dianulir (🚫), setiap orang yang mengirim karakter arab akan ditendang dari grup.\n"
+"*Rtl*: singkatan dari 'Righ To Left' , karakter ini akan membuat service message tampil secara berlawanan.\n"
+"Jika karakter Rtl dianulir (🚫), setiap orang yang menulis karakter ini (juga di namanya) akan ditendang dari grup.\n"
 
-#: plugins/help.lua:230
-msgid ""
-"\n"
-"*General group settings*\n"
-"\n"
-"`/config` or  `/settings`: manage the group settings in private from an "
-"inline keyboard.\n"
-"The inline keyboard has three sub-menus:\n"
-"\n"
+#: lua/plugins/help.lua:231
+msgid "\n"
+"*General group settings*\n\n"
+"`/config` or  `/settings`: manage the group settings in private from an inline keyboard.\n"
+"The inline keyboard has six sub-menus:\n\n"
 "*Menu*: manage the most important group settings\n"
-"*Antiflood*: turn on or off the antiflood, set its sensitivity and choose "
-"some media to ignore, if you want\n"
-"*Media*: choose which media to forbid in your group, and set the number of "
-"times that an user will be warned before being kicked/banned\n"
-"*Antispam*: choose which kind of spam you want to forbid (example: telegram."
-"me links, forwarded messages from channels)\n"
-msgstr ""
-"\n"
-"*Pengaturan grup umum*\n"
-"\n"
-"`/config` atau  `/settings`: mengelola grup Anda di pesan pribadi dengan "
-"inline keyboard.\n"
-"Inline keyboard tersebut memiliki tiga buah sub menu:\n"
-"\n"
-"*Menu*: mengelola pengaturan penting grup\n"
-"*Antiflood*: mengaktifkan/menonaktifkan antiflood, menentukan sensitifitas "
-"dan media yang diabaikan, jika Anda mau.\n"
-"*Media*: memilih jenis media yang akan dianulir di grup Anda, dan menentukan "
-"jumlah peringatan maksimal sebelum pengguna ditendang/diblokir\n"
-"*Antispam*: memilih jenis spam yang ingin Anda larang di grup (seperti: "
-"tautan telegram.me , forward pesan dari channel)\n"
+"*Antiflood*: turn on or off the antiflood, set its sensitivity and choose some media to ignore, if you want\n"
+"*Media*: choose which media to forbid in your group, and set the number of times that an user will be warned before being kicked/banned\n"
+"*Antispam*: choose which kind of spam you want to forbid (example: telegram.me links, forwarded messages from channels)\n"
+"*Log channel*: choose which updates should be logged\n\n"
+"*Bonus commands*:\n"
+"`/reportflood [number of messages]/[timeframe]`: set how many times users can use the @admin command within a certain timeframe.\n"
+"`/leave`: the bot will leave the group without deleting its data. Use this command only if you are going to add the bot to the group again\n"
+"`/snap`: generate a backup file that can be restored with `/import` (send the file in the group and reply to it). `/snap` can be used once every three days\n"
+msgstr "\n"
+"*General Group Settings*\n\n"
+"`/config` atau `/settings`: mengelola pengaturan group (bot akan membalas melalui private message)\n\n"
+"Sub-menu yang dapat digunakan:\n"
+"*Menu*: mengelola peraturan - peraturan dasar group \n"
+"*Antiflood*: mengaktifkan atau menonaktifkan antiflood, mengatur tingkat sensitivitas antiflood, dan memilih jenis - jenis media yang tidak dihitung (diabaikan) sebagai flood. \n"
+"*Media*: memilah jenis media yang dilarang dalam group dan mengatur jumlah peringatan (warn), sebelum user dikeluarkan (kick atau ban)\n"
+"*Antispam*: menentukan jenis spam yang dilarang dalam group (contoh: link telegram.me dan forwarded message dari channel) \n"
+"*Log channel*: mengatur jenis aktivitas yang harus di-log\n\n"
+"*Command Tambahan*: \n"
+"`/reportflood [jumlah pesan]/[rentang waktu]`: menentukan batas jumlah penggunaan @admin command (fungsi report) dalam rentang waktu tertentu \n"
+"`/leave`: memerintahkan bot untuk meninggalkan group, tanpa menghapus data - data yang tersimpan. Gunakan command ini jika anda berencana untuk menggunakan bot ini kembali \n"
+"`/snap`: membuat backup file yang dapat di-restore menggunakan command`/import` (dengan mengirimkan the file dalam group lalu me-reply-nya dengan command `/snap`). \n"
+"`/snap` dapat digunakan satu kali dalam setiap tiga hari."
 
-#: plugins/help.lua:242
-msgid ""
-"*Log channel iformations*\n"
-"\t\t\t\n"
-"A log channel is a _(private)_ channel where the bot will record all the "
-"important events that will happen in your group.\n"
-"If you want to use this feature, you need to pair your group with a channel "
-"with the commands described below.\n"
-"All the events, by default, are *not logged*. Admins can choose which events "
-"to log from the `/config` menu -> `log channel` button.\n"
-"\n"
-"To pair a channel with a group, the *channel creator* must [add the bot to "
-"the channel administrators](telegram.me/gb_tutorials/4) (otherwise it won't "
-"be able to post), and send in the channel this command:\n"
+#: lua/plugins/help.lua:249
+msgid "*Log channel informations*\n\n"
+"A log channel is a _(private)_ channel where the bot will record all the important events that will happen in your group.\n"
+"If you want to use this feature, you need to pair your group with a channel with the commands described below.\n"
+"All the events, by default, are *not logged*. Admins can choose which events to log from the `/config` menu -> `log channel` button.\n\n"
+"To pair a channel with a group, the *channel creator* must [add the bot to the channel administrators](telegram.me/gb_tutorials/4) (otherwise it won't be able to post), and send in the channel this command:\n"
 "`/setlog`\n"
-"Then, an admin of the group must forward in the group the message (\"`/"
-"setlog`\") sent in the channel. *Done*!\n"
-"\n"
+"Then, an admin of the group must forward in the group the message (\"`/setlog`\") sent in the channel. *Done*!\n"
+"(you can find a video-tutorial [here](https://telegram.me/GB_tutorials/8))\n\n"
 "A channel can be used as log by different groups.\n"
-"To change your log channel, simply repeat this process with another "
-"channel.\n"
-"\t\n"
+"To change your log channel, simply repeat this process with another channel.\n\n"
 "`/unsetlog`: remove your current log channel\n"
 "`/logchannel`: get some informations about your log channel, if paired"
-msgstr ""
-"*Channel log informasi*\n"
-"\t\t\t\n"
-"Channel log bersifat_(private)_ dimana bot akan merekam kejadian penting "
-"yang terjadi di grup Anda\n"
-"Jika ingin menggunakan fitur ini, Anda perlu memasangkan grup Anda ke "
-"channel dengan perintah yang akan dijelaskan dibawah.\n"
-"Secara default, setiap kejadian *tidak akan di log*. Admin dapat menentukan "
-"kejadian apa yang akan di log, menggunakan `/config` menu ->  tombol `log "
-"channel`.\n"
-"\n"
-"Untuk memasangkan channel dengan grup,  *creator channel* harus [menambahkan "
-"bot sebagai admin channel](telegram.me/gb_tutorials/4) (sehingga bot bisa "
-"mengirim pesan di channel), kemudian kirim perintah berikut di channel:\n"
+msgstr "*Informasi Log Channel*\n\n"
+"Log Channel adalah channel _(private)_  yang digunakan bot untuk mencatat kejadian tertentu dalam sebuah group (Contoh: New member, warn, ban, dll).\n"
+"Semua kejadian secara default *not logged / tidak di-log*. Admin dapat memilih kejadian yang dapat di-log menggunakan `/config` menu > `log channel`.\n"
+"Untuk menggunakan fitur ini, anda harus memasangkan group dengan channel (private), menggunakan langkah - langkah berikut ini:\n\n"
+"Untuk memasangkan sebuah channel dengan sebuah group, *creator channel* harus [menjadikan Group Butler sebagai admin channel](telegram.me/gb_tutorials/4) (jika tidak, maka Group Butler tidak dapat mem-post). \n\n"
+"Kemudian kirim command berikut kedalam channel:\n"
 "`/setlog`\n"
-"Kemudian, forward perintah yang sudah terkirim tersebut (\"`/setlog`\") ke "
-"grup yang akan dipasangkan. *Selesai*!\n"
-"\n"
-"Channel log dapat digunakan oleh grup yang berbeda.\n"
-"Untuk mengubah channel log Anda, cukup ulang cara diatas ke channel yang "
-"lain.\n"
-"\t\n"
-"`/unsetlog`: membatalkan channel logl\n"
-"`/logchannel`: menampilkan beberapa informasi tentang channel log Anda, jika "
-"sudah dipasangkan"
+"Lalu, administrator group harus mem-forward pesan (\"`/setlog`\") dari channel tersebut, kedalam group. \n"
+"*Done*!\n"
+"(anda dapat menonton video tutorial [di sini](https://telegram.me/GB_tutorials/8))\n\n"
+"Satu channel log dapat digunakan oleh beberapa grup. \n"
+"Untuk mengganti log channel, ulangi langkah -langkah diatas dengan menggunakan channel lain.\n\n"
+"`/unsetlog`: menghapus log channel\n"
+"`/logchannel`: melihat informasi mengenai log channel, bila dipasangkan."
 
-#: plugins/help.lua:265
+#: lua/plugins/help.lua:273
 msgid "Banhammer"
 msgstr "Banhammer"
 
-#: plugins/help.lua:266
+#: lua/plugins/help.lua:274
 msgid "Group info"
 msgstr "Informasi grup"
 
-#: plugins/help.lua:269
+#: lua/plugins/help.lua:277
 msgid "Report system"
 msgstr "Sistem laporan"
 
-#: plugins/help.lua:270
+#: lua/plugins/help.lua:278
 msgid "Pin"
 msgstr "Pin"
 
-#: plugins/help.lua:273
+#: lua/plugins/help.lua:281
 msgid "Languages"
 msgstr "Bahasa"
 
-#: plugins/help.lua:274
+#: lua/plugins/help.lua:282
 msgid "Group configuration"
 msgstr "Konfigurasi grup"
 
-#: plugins/help.lua:278 plugins/logchannel.lua:53
+#: lua/plugins/help.lua:286 lua/plugins/logchannel.lua:62
 msgid "Warns"
 msgstr "Peringatan"
 
-#: plugins/help.lua:281
+#: lua/plugins/help.lua:289
 msgid "Welcome settings"
 msgstr "Pengaturan welcome"
 
-#: plugins/help.lua:301
+#: lua/plugins/help.lua:290
+msgid "Links whitelist"
+msgstr "Link telah diwhitelist"
+
+#: lua/plugins/help.lua:309
 msgid "📢 Bot channel"
 msgstr "📢 Channel bot"
 
-#: plugins/help.lua:302
+#: lua/plugins/help.lua:310
 msgid "🌍 Select your language"
 msgstr "🌍 Pilih bahasa"
 
-#: plugins/help.lua:305
+#: lua/plugins/help.lua:313
 msgid "📕 All the commands"
 msgstr "📕 Semua perintah"
 
-#: plugins/help.lua:314
+#: lua/plugins/help.lua:322
 msgid "Basics"
 msgstr "Dasar"
 
-#: plugins/help.lua:315
+#: lua/plugins/help.lua:323
 msgid "Admin commands"
 msgstr "Perintah admin"
 
-#: plugins/help.lua:316
+#: lua/plugins/help.lua:324
 msgid "Normal users commands"
 msgstr "Perintah pengguna "
 
-#: plugins/help.lua:317
+#: lua/plugins/help.lua:325
 msgid "Commands in private"
 msgstr "Perintah di pesan pribadi"
 
-#: plugins/help.lua:319
+#: lua/plugins/help.lua:326
 msgid "Log channel"
 msgstr "Channel log"
 
-#: plugins/help.lua:334
+#: lua/plugins/help.lua:341
 msgid "Back"
 msgstr "Kembali"
 
-#: plugins/help.lua:353
+#: lua/plugins/help.lua:364
 #, lua-format
 msgid "[Start me](%s) _to get the list of commands_"
 msgstr "[Mulai bot](%s) _untuk mendapatkan daftar perintah_"
 
-#: plugins/help.lua:365
+#: lua/plugins/help.lua:377
 msgid "Main menu"
 msgstr "Menu utama"
 
-#: plugins/help.lua:368
+#: lua/plugins/help.lua:380
 msgid "Basic usage"
 msgstr "Dasar penggunaan"
 
-#: plugins/help.lua:371
+#: lua/plugins/help.lua:383
 msgid "Commands for users (group)"
 msgstr "Perintah untuk pengguna (grup)"
 
-#: plugins/help.lua:374
+#: lua/plugins/help.lua:386
 msgid "Available commands in private"
 msgstr "Perintah di pesan pribadi"
 
-#: plugins/help.lua:377
-msgid "Available commands in a realm"
-msgstr "Perintah di grup induk"
-
-#: plugins/help.lua:380
+#: lua/plugins/help.lua:389
 msgid "Log channel informations"
 msgstr "Informasi channel log"
 
-#: plugins/help.lua:384
+#: lua/plugins/help.lua:393
 msgid "Available commands for admins"
 msgstr "Perintah untuk admin"
 
-#: plugins/help.lua:388
+#: lua/plugins/help.lua:397
 msgid "Deprecated message, send /help again"
 msgstr "Pesan telah usang, coba kirim perintah /help lagi"
 
-#: plugins/help.lua:393
+#: lua/plugins/help.lua:402
 msgid "❗️ Already there"
 msgstr "❗️ Sudah di tab ini"
 
-#: plugins/links.lua:22
-msgid "*No link* for this group. Ask the owner to generate one"
-msgstr ""
-"*Tidak ada tautan* untuk grup ini. Tanyakan creator grup untuk membuatnya"
+#: lua/plugins/links.lua:25
+msgid "*No link* for this group. Ask the owner to save it with `/setlink [group link]`"
+msgstr "*Tidak ada invite link* untuk grup ini. Tanyakan creator mengenai link nya kemudian admin bisa menggunakan perintah `/setlink [invite link]`"
 
-#: plugins/links.lua:36
-msgid ""
-"This is not a *public supergroup*, so you need to write the link near /"
-"setlink"
-msgstr ""
-"Ini bukan *public supergrup* , Anda tidak perlu memberi teks setelah /setlink"
+#: lua/plugins/links.lua:36
+msgid "Link *unset*"
+msgstr "Link *unset*"
 
-#: plugins/links.lua:42
+#: lua/plugins/links.lua:42 lua/plugins/links.lua:59
+#, lua-format
+msgid "The link has been set.\n"
+"*Here's the link*: %s"
+msgstr "Tautan telah dibuat.\n"
+"*Berikut*: %s"
+
+#: lua/plugins/links.lua:45
+msgid "This is not a *public supergroup*, so you need to write the link near `/setlink`"
+msgstr "Ini bukan *public supergroup*, jadi kamu perlu menambahkan link grup setelah `/setlink`"
+
+#: lua/plugins/links.lua:48
 msgid "This link is *not valid!*"
 msgstr "Tautan ini *tidak valid!*"
 
-#: plugins/links.lua:53
-msgid "Link *unsetted*"
-msgstr "Tautan *unsetted*"
-
-#: plugins/links.lua:59
+#: lua/plugins/links.lua:57
 #, lua-format
-msgid ""
-"The link has been updated.\n"
+msgid "The link has been updated.\n"
 "*Here's the new link*: %s"
-msgstr ""
-"Tautan grup telah diperbarui.\n"
+msgstr "Tautan grup telah diperbarui.\n"
 "*Ini tautan yang baru*: %s"
 
-#: plugins/links.lua:61
-#, lua-format
-msgid ""
-"The link has been set.\n"
-"*Here's the link*: %s"
-msgstr ""
-"Tautan telah dibuat.\n"
-"*Berikut*: %s"
-
-#: plugins/logchannel.lua:10
+#: lua/plugins/logchannel.lua:12
 msgid "Log every time an user join the group"
 msgstr "Log setiap pengguna yang baru bergabung ke obrolan"
 
-#: plugins/logchannel.lua:12
+#: lua/plugins/logchannel.lua:14
 msgid "Bans will be logged. I can't log manual bans"
 msgstr "Banned akan di-log. Kecuali manual"
 
-#: plugins/logchannel.lua:14
+#: lua/plugins/logchannel.lua:16
 msgid "Kicks will be logged. I can't log manual kicks"
 msgstr "Kick akan di-log. Kecuali manual"
 
-#: plugins/logchannel.lua:16
+#: lua/plugins/logchannel.lua:18
 msgid "Manual warns will be logged"
 msgstr "Peringatan akan di log"
 
-#: plugins/logchannel.lua:18
+#: lua/plugins/logchannel.lua:20
 msgid "Forbidden media will be logged in the channel"
 msgstr "Media teranulir akan di-log di channel"
 
-#: plugins/logchannel.lua:20
-msgid ""
-"Spam links/forwards from channels will be logged in the channel, only if "
-"forbidden"
+#: lua/plugins/logchannel.lua:22
+msgid "Spam links/forwards from channels will be logged in the channel, only if forbidden"
 msgstr "Spam tautan/forward dari channel akan di-log di channel, jika dianulir"
 
-#: plugins/logchannel.lua:22
+#: lua/plugins/logchannel.lua:24
 msgid "Log when an user is flooding (new log message every 5 flood messages)"
-msgstr ""
-"Log jika pengguna melakukan flood (pesan log baru setiap 5 pesan flood)"
+msgstr "Log jika pengguna melakukan flood (pesan log baru setiap 5 pesan flood)"
 
-#: plugins/logchannel.lua:24
+#: lua/plugins/logchannel.lua:26
 msgid "Log when an admin changes the group icon"
 msgstr "Log ketika admin mengganti icon grup"
 
-#: plugins/logchannel.lua:26
+#: lua/plugins/logchannel.lua:28
 msgid "Log when an admin deletes the group icon"
 msgstr "Log ketika admin menghapus icon grup"
 
-#: plugins/logchannel.lua:28
+#: lua/plugins/logchannel.lua:30
 msgid "Log when an admin change the group title"
 msgstr "Log ketika admin mengganti judul grup"
 
-#: plugins/logchannel.lua:30
+#: lua/plugins/logchannel.lua:32
 msgid "Log pinned messages"
 msgstr "Log pesan pin"
 
-#: plugins/logchannel.lua:49
+#: lua/plugins/logchannel.lua:34
+msgid "Log when an user who has been blocked is banned from the group (when he join)"
+msgstr "Log ketika seorang yang diblock terbanned dari grup  (ketika ia bergabung)"
+
+#: lua/plugins/logchannel.lua:36
+msgid "Log when an admin removes the warning received by an user"
+msgstr "Log ketika admin menghapus peringatan yang diterima oleh pengguna"
+
+#: lua/plugins/logchannel.lua:38
+msgid "Log when an user reports a message with the @admin command"
+msgstr "Log ketika pengguna melaporkan pesan dengan perintah @admin"
+
+#: lua/plugins/logchannel.lua:57
 msgid "Ban"
 msgstr "Blokir"
 
-#: plugins/logchannel.lua:50
+#: lua/plugins/logchannel.lua:58
 msgid "Kick"
 msgstr "Tendang"
 
-#: plugins/logchannel.lua:51
+#: lua/plugins/logchannel.lua:59 lua/utilities.lua:939
+msgid "Unban"
+msgstr "Unblokir"
+
+#: lua/plugins/logchannel.lua:60
 msgid "Tempban"
 msgstr "Blokir sementara"
 
-#: plugins/logchannel.lua:52
-#, fuzzy
+#: lua/plugins/logchannel.lua:61
 msgid "Report"
-msgstr "Laporan"
+msgstr "Report"
 
-#: plugins/logchannel.lua:54
+#: lua/plugins/logchannel.lua:63
 msgid "Warns resets"
 msgstr "Reset peringatan"
 
-#: plugins/logchannel.lua:55
+#: lua/plugins/logchannel.lua:64
 msgid "New members"
 msgstr "Anggota baru"
 
-#: plugins/logchannel.lua:56
+#: lua/plugins/logchannel.lua:65
 msgid "Media warns"
 msgstr "Peringatan media"
 
-#: plugins/logchannel.lua:57
+#: lua/plugins/logchannel.lua:66
 msgid "Spam warns"
 msgstr "Peringatan spam"
 
-#: plugins/logchannel.lua:58
+#: lua/plugins/logchannel.lua:67
 msgid "Flood"
 msgstr "Flood"
 
-#: plugins/logchannel.lua:59
+#: lua/plugins/logchannel.lua:68
 msgid "New group icon"
 msgstr "Icon grup baru"
 
-#: plugins/logchannel.lua:60
+#: lua/plugins/logchannel.lua:69
 msgid "Group icon removed"
 msgstr "Icon grup dihapus"
 
-#: plugins/logchannel.lua:61
+#: lua/plugins/logchannel.lua:70
 msgid "New group title"
 msgstr "Judul grup baru"
 
-#: plugins/logchannel.lua:62
+#: lua/plugins/logchannel.lua:71
 msgid "Pinned messages"
 msgstr "Pin pesan"
 
-#: plugins/logchannel.lua:86
+#: lua/plugins/logchannel.lua:72
+msgid "Users blocked and banned"
+msgstr "Users blocked and banned"
+
+#: lua/plugins/logchannel.lua:73
+msgid "Users blocked"
+msgstr "Users blocked"
+
+#: lua/plugins/logchannel.lua:74
+msgid "Users unblocked"
+msgstr "Users unblocked"
+
+#: lua/plugins/logchannel.lua:101
 msgid "You are not admin of this group"
 msgstr "Anda bukan admin di grup ini"
 
-#: plugins/logchannel.lua:91
+#: lua/plugins/logchannel.lua:106
 msgid "User unbanned!"
 msgstr "Pengguna diunblokir!"
 
-#: plugins/logchannel.lua:112
-msgid ""
-"*Select the events the will be logged in the channel*\n"
+#: lua/plugins/logchannel.lua:130
+msgid "*Select the events the will be logged in the channel*\n"
 "✅ = will be logged\n"
-"☑️ = won't be logged"
-msgstr ""
-"*Pilih kejadian yang akan di-log di channel*\n"
-"✅ = akan di-log\n"
-"☑️ = tidak akan di-log"
+"☑️ = won't be logged\n\n"
+"Tap on a voice to get further informations"
+msgstr "*Pilih peristiwa yang akan dicatat dalam channel*\n"
+"✅ = akan dilog\n"
+"☑ lain-lain = tidak akan dilog\n\n"
+"Tap pada tombol untuk melihat keterangan"
 
-#: plugins/logchannel.lua:136 plugins/realms.lua:592
+#: lua/plugins/logchannel.lua:157
 msgid "_Too many requests. Retry later_"
 msgstr "_Too many requests. Coba lagi nanti_"
 
-#: plugins/logchannel.lua:138 plugins/realms.lua:594
+#: lua/plugins/logchannel.lua:159
 msgid "_I need to be admin in the channel_"
 msgstr "_Saya harus menjadi admin di channel_"
 
-#: plugins/logchannel.lua:145
+#: lua/plugins/logchannel.lua:166
 msgid "_Already using this channel_"
 msgstr "_Channel ini sudah digunakan_"
 
-#: plugins/logchannel.lua:148
+#: lua/plugins/logchannel.lua:169
 msgid "*Log channel added!*"
 msgstr "*Channel log ditambahkan!*"
 
-#: plugins/logchannel.lua:150
+#: lua/plugins/logchannel.lua:172
 #, lua-format
 msgid "<i>%s</i> changed its log channel"
 msgstr "<i>%s</i> mengganti channel lognya"
 
-#: plugins/logchannel.lua:152
+#: lua/plugins/logchannel.lua:175
 #, lua-format
 msgid "Logs of <i>%s</i> will be posted here"
 msgstr "Log dari <i>%s</i> akan ditampilkan disini"
 
-#: plugins/logchannel.lua:156
+#: lua/plugins/logchannel.lua:179
 msgid "_Only the channel creator can pair the chat with a channel_"
 msgstr "_Hanya creator channel yang dapat memasangkan grup dengan channel_"
 
-#: plugins/logchannel.lua:160 plugins/realms.lua:605
+#: lua/plugins/logchannel.lua:183
 msgid "_I'm sorry, only private channels are supported for now_"
 msgstr "_Maaf, saat ini hanya mendukung private channel_"
 
-#: plugins/logchannel.lua:165
+#: lua/plugins/logchannel.lua:187
 msgid "You have to *forward* the message from the channel"
 msgstr "Anda harus *memforward* pesan dari channel"
 
-#: plugins/logchannel.lua:172 plugins/logchannel.lua:183
+#: lua/plugins/logchannel.lua:193 lua/plugins/logchannel.lua:202
 msgid "_This groups is not using a log channel_"
 msgstr "_Grup ini sedang tidak menggunakan channel log_"
 
-#: plugins/logchannel.lua:175
+#: lua/plugins/logchannel.lua:196
 msgid "*Log channel removed*"
 msgstr "*Channel log dihapus*"
 
-#: plugins/logchannel.lua:187
-msgid ""
-"_This group has a log channel saved, but I'm not a member there, so I can't "
-"post/retrieve its info_"
-msgstr ""
-"_Grup ini telah memiliki channel log, namun saya bukan member disana, "
-"sehingga saya tidak bisa memposting/menemukan informasinya_"
+#: lua/plugins/logchannel.lua:207
+msgid "_This group has a log channel saved, but I'm not a member there, so I can't post/retrieve its info_"
+msgstr "_Grup ini telah memiliki channel log, namun saya bukan member disana, sehingga saya tidak bisa memposting/menemukan informasinya_"
 
-#: plugins/logchannel.lua:193
+#: lua/plugins/logchannel.lua:214
 #, lua-format
-msgid ""
-"<b>This group has a log channel</b>\n"
+msgid "<b>This group has a log channel</b>\n"
 "Channel: <code>%s</code>"
-msgstr ""
-"<b>Grup ini memiliki log channel</b>\n"
+msgstr "<b>Grup ini memiliki log channel</b>\n"
 "Channel: <code>%s</code>"
 
-#: plugins/mediasettings.lua:48
+#: lua/plugins/mediasettings.lua:27
+msgid "Video messages"
+msgstr "Pesan video"
+
+#: lua/plugins/mediasettings.lua:54
 #, lua-format
-msgid "Warns (media) 📍 %d | kick"
-msgstr "Peringatan (media) 📍 %d | tendang"
+msgid "Warnings | %d | kick"
+msgstr "Peringatan | %d | tendang"
 
-#: plugins/mediasettings.lua:50
+#: lua/plugins/mediasettings.lua:56
 #, lua-format
-msgid "Warns (media) 📍 %d | ban"
-msgstr "Peringatan (media) 📍 %d | blokir"
+msgid "Warnings | %d | mute"
+msgstr "Peringatan | %d | tendang"
 
-#: plugins/mediasettings.lua:75
-msgid ""
-"\n"
-"Tap on a voice in the right colon to *change the setting*\n"
-"You can use the last line to change how many warnings should the bot give "
-"before kick / ban someone for a forbidden media\n"
-"The number is not related the the normal `/warn` command\n"
-msgstr ""
-"\n"
-"Tap pada tombol sebelah kanan untuk *mengubah pengaturan*\n"
-"Pada baris terakhir Anda dapat menentukan berapa banyak peringatan maksimal "
-"sebelum pengguna ditendang/diblokir karena mengirim media yang dianulir.\n"
-"Angka tidak berhubungan dengan `/warn` biasa\n"
+#: lua/plugins/mediasettings.lua:58
+#, lua-format
+msgid "Warnings | %d | ban"
+msgstr "Peringatan | %d | block"
 
-#: plugins/mediasettings.lua:86
+#: lua/plugins/mediasettings.lua:80
+msgid "❌ warning"
+msgstr "❌ beri peringatan"
+
+#: lua/plugins/mediasettings.lua:83
+msgid "🗑 delete"
+msgstr "🗑 hapus"
+
+#: lua/plugins/mediasettings.lua:89
+msgid "✅ allowed"
+msgstr "✅ diperbolehkan"
+
+#: lua/plugins/mediasettings.lua:98
+msgid "\n"
+"Tap on a voice in the right to *change the setting*\n"
+"You can use the last lines to change how many warnings should the bot give before kicking/banning/muting someone.\n"
+"The number is not related the the normal `/warn` command.\n\n"
+"Medias possible statuses: ✅ allowed, ❌ warning, 🗑 delete.\n"
+"When a media is set on delete, the bot will give a warning *only* when the user is at one media from being punished\n"
+msgstr "\n"
+"Tap pada tombol kanan untuk *mengubah pengaturan*\n"
+"Anda dapat menggunakan baris terakhir untuk mengubah berapa banyak peringatan yang harus bot berikan sebelum menendang/melarang/memblokir seseorang.\n"
+"Jumlah peringatan ini berbeda dari (tidak terkait) dari jumlah`/warn` biasa.\n\n"
+"Status: ✅ diperbolehkan, ❌ peringatan, 🗑 hapus.\n"
+
+#: lua/plugins/mediasettings.lua:115
 msgid "⚠️ Tap on the right column"
 msgstr "⚠️ Tap pada kolom sebelah kanan"
 
-#: plugins/mediasettings.lua:94
+#: lua/plugins/mediasettings.lua:124
 msgid "⚙ The new value is too low ( < 1)"
 msgstr "⚙ Nilai terlalu kecil ( < 1)"
 
-#: plugins/mediasettings.lua:101
+#: lua/plugins/mediasettings.lua:131
 msgid "⚙ The new value is too high ( > 12)"
 msgstr "⚙ Nilai terlalu besar ( > 12)"
 
-#: plugins/mediasettings.lua:113
-msgid "🔨 New status is kick"
-msgstr "🔨 Status baru: tendang"
+#: lua/plugins/mediasettings.lua:143
+msgid "👞 New status is kick"
+msgstr "👞 Status baru: tendang"
 
-#: plugins/mediasettings.lua:116
+#: lua/plugins/mediasettings.lua:146
+msgid "👁 New status is mute"
+msgstr "👁 Status baru: mute"
+
+#: lua/plugins/mediasettings.lua:149
 msgid "🔨 New status is ban"
 msgstr "🔨 Status baru: blokir"
 
 #. TRANSLATORS: these strings should be shorter than 200 characters
-#: plugins/menu.lua:11
-msgid ""
-"When enabled, users will be able to report messages with the @admin command"
+#: lua/plugins/menu.lua:13
+msgid "When enabled, users will be able to report messages with the @admin command"
 msgstr "Jika aktif, pengguna dapat melaporkan pesan dengan perintah @admin"
 
-#: plugins/menu.lua:13
+#: lua/plugins/menu.lua:15
 msgid "Enable or disable the goodbye message. Can't be sent in large groups"
-msgstr ""
-"Aktif/nonaktifkan pesan goodbye. Tidak dapat dikirim di grup dengan lebih "
-"sekitar 50 anggota"
+msgstr "Aktif/nonaktifkan pesan goodbye. Tidak dapat dikirim di grup dengan lebih sekitar 50 anggota"
 
-#: plugins/menu.lua:15
+#: lua/plugins/menu.lua:17
 msgid "Enable or disable the welcome message"
 msgstr "Aktif/nonaktifkan pesan selamat datang"
 
-#: plugins/menu.lua:17
-msgid ""
-"When enabled, the bot doesn't answer in the group to /dashboard, /config "
-"and /help commands (it will just answer in private)"
-msgstr ""
-"Jika aktif, bot tidak akan memberi konfirmasi di grup untuk perintah /"
-"dashboard, /config, dan /help (hanya dijawab ke pesan pribadi)"
+#: lua/plugins/menu.lua:19
+msgid "When enabled, every time a new welcome message is sent, the previously sent welcome message is removed"
+msgstr "Jika aktif, tiap kali pesan selamat datang yang baru telah terkirim, maka pesan selamat datang sebelumnya akan dihapus"
 
-#: plugins/menu.lua:19
-msgid ""
-"Enable and disable the anti-flood system (more info in the /help message)"
-msgstr ""
-"Aktifkan dan nonaktifkan sistem anti-flood (info lengkap di pesan /help)"
+#: lua/plugins/menu.lua:22
+msgid "When enabled, the bot doesn't answer in the group to /dashboard, /config and /help commands (it will just answer in private)\n"
+"\t\t\t"
+msgstr "Ketika diaktifkan, bot tidak mengirim pesan konfirmasi dari balasan perintah /dashboard /config dan /bantuan  (balasan langsung dikirim ke private message). Pastikan pengirim perintah sudah men-start bot.\n"
+"\t\t\t\n"
+"\t\t\t"
 
-#: plugins/menu.lua:21
-msgid ""
-"If the welcome message is enabled, it will include an inline button that "
-"will send to the user the rules in private"
-msgstr ""
-"Jika pesan selamat datang aktif, akan terdapat tombol yang akan mengirim "
-"rules ke pesan pribadi pengguna"
+#: lua/plugins/menu.lua:25
+msgid "Enable and disable the anti-flood system (more info in the /help message)"
+msgstr "Aktifkan dan nonaktifkan sistem anti-flood (info lengkap di pesan /help)"
 
-#: plugins/menu.lua:23
-msgid ""
-"Show or hide the preview for links. Affects the rules and every custom "
-"command set with /extra"
-msgstr ""
+#: lua/plugins/menu.lua:28
+msgid "If the welcome message is enabled, it will include an inline button that will send to the user the rules in private\n"
+"\t\t\t"
+msgstr "Jika pesan selamat datang diaktifkan, ini menyertakan sebuah tombol yang berfungsi untuk memberi aturan grup kepada pengguna (di private message)\n"
+"\t\t\t\n"
+"\t\t\t"
 
-#: plugins/menu.lua:25
-msgid ""
-"When someone uses /rules\n"
+#: lua/plugins/menu.lua:31
+msgid "When someone uses /rules\n"
 "👥: the bot will answer in the group (always, with admins)\n"
 "👤: the bot will answer in private"
-msgstr ""
-"Jika seseorang mengirim perintah /rules\n"
+msgstr "Jika seseorang mengirim perintah /rules\n"
 "👥: bot akan membalas di grup (untuk admin, selalu dibalas di grup)\n"
 "👤: bot akan membalas di pesan pribadi"
 
-#: plugins/menu.lua:29
-msgid ""
-"When someone uses an #extra\n"
+#: lua/plugins/menu.lua:35
+msgid "When someone uses an #extra\n"
 "👥: the bot will answer in the group (always, with admins)\n"
 "👤: the bot will answer in private"
-msgstr ""
-"Jika seseorang mengirim perintah #ekstra\n"
+msgstr "Jika seseorang mengirim perintah #ekstra\n"
 "👥: bot akan membalas di grup (untuk admin, selalu dibalas di grup)\n"
 "👤: bot akan membalas di pesan pribadi"
 
-#: plugins/menu.lua:33
-msgid ""
-"Select what the bot should do when someone sends a message with arab "
-"characters"
+#: lua/plugins/menu.lua:39
+msgid "Select what the bot should do when someone sends a message with arab characters"
 msgstr "Tentukan aksi yang dilakukan bot jika pengguna mengirim karakter arab"
 
-#: plugins/menu.lua:35
-msgid ""
-"Select what the bot should do when someone sends a message with the RTL "
-"character, or has it in his name"
-msgstr ""
-"Tentukan aksi yang dilakukan bot jika pengguna mengirim karakter RTL, atau "
-"menggunakannya pada nama"
+#: lua/plugins/menu.lua:41
+msgid "Bots will be banned when added by normal users"
+msgstr "Bot akan diblokir jika dia ditambahkan oleh member biasa"
 
-#: plugins/menu.lua:37
-msgid ""
-"Change how many times an user has to be warned before being kicked/banned"
-msgstr ""
-"Ubah berapa kali pengguna akan diperingatkan sebelum ditendang/diblokir"
+#: lua/plugins/menu.lua:44
+msgid "Select what the bot should do when someone sends a message with the RTL character, or has it in his name"
+msgstr "Tentukan aksi yang dilakukan bot jika pengguna mengirim karakter RTL, atau menggunakannya pada nama"
 
-#: plugins/menu.lua:39
-msgid ""
-"Change the action to perform when an user reaches the max. number of warnings"
-msgstr ""
-"Ubah aksi yang dilakukan jika jumlah peringatan pengguna sudah maksimal"
+#: lua/plugins/menu.lua:46
+msgid "Change how many times an user has to be warned before being kicked/banned"
+msgstr "Ubah berapa kali pengguna akan diperingatkan sebelum ditendang/diblokir"
 
-#: plugins/menu.lua:50
+#: lua/plugins/menu.lua:48
+msgid "Change the action to perform when an user reaches the max. number of warnings"
+msgstr "Ubah aksi yang dilakukan jika jumlah peringatan pengguna sudah maksimal"
+
+#: lua/plugins/menu.lua:59
 msgid "The new value is too high ( > 12)"
 msgstr "Nilai yang baru terlalu besar ( > 12)"
 
-#: plugins/menu.lua:57
+#: lua/plugins/menu.lua:66
 msgid "The new value is too low ( < 1)"
 msgstr "Nilai yang baru terlalu kecil ( < 1)"
 
-#: plugins/menu.lua:66
+#: lua/plugins/menu.lua:75
 msgid "New action on max number of warns received: ban"
 msgstr "Aksi baru jika menerima jumlah peringatan maksimal: blokir"
 
-#: plugins/menu.lua:69
+#: lua/plugins/menu.lua:78
+msgid "New action on max number of warns received: mute"
+msgstr "Aksi baru jika menerima jumlah peringatan maksimal: mute"
+
+#: lua/plugins/menu.lua:81
 msgid "New action on max number of warns received: kick"
 msgstr "Aksi baru jika menerima jumlah peringatan maksimal: tendang"
 
-#: plugins/menu.lua:76
-msgid "Senders of arab messages will be kicked"
-msgstr "Pengirim karakter arab akan ditendang"
+#: lua/plugins/menu.lua:88
+msgid "Action -> kick"
+msgstr "Tindakan -> tendang"
 
-#: plugins/menu.lua:77
-msgid "Senders of arab messages will be banned"
-msgstr "Pengirim karakter arab akan diblokir"
+#: lua/plugins/menu.lua:89
+msgid "Action -> ban"
+msgstr "Tindakan -> blokir"
 
-#: plugins/menu.lua:78
-msgid "Arab language allowed"
-msgstr "Karakter arab diizinkan"
+#: lua/plugins/menu.lua:90
+msgid "Action -> mute"
+msgstr "Tindakan -> mute"
 
-#: plugins/menu.lua:79
-msgid "The use of the RTL character will lead to a kick"
-msgstr "Penggunaan karakter RTL : *tendang*"
+#: lua/plugins/menu.lua:91
+msgid "Allowed ✅"
+msgstr "Diperbolehkan ✅"
 
-#: plugins/menu.lua:80
-msgid "The use of the RTL character will lead to a ban"
-msgstr "Penggunaan karakter RTL : *blokir*"
+#: lua/plugins/menu.lua:155
+msgid "🔨 ban"
+msgstr "🔨 blokir"
 
-#: plugins/menu.lua:81
-msgid "RTL character allowed"
-msgstr "Karakter RTL diizinkan"
+#: lua/plugins/menu.lua:159
+msgid "✅"
+msgstr "✅"
 
-#: plugins/menu.lua:156
+#: lua/plugins/menu.lua:168
 msgid "Welcome"
-msgstr "Welcome"
+msgstr "Selamat Datang"
 
-#: plugins/menu.lua:157
+#: lua/plugins/menu.lua:169
 msgid "Goodbye"
-msgstr "Goodbye"
+msgstr "Selamat tinggal"
 
-#: plugins/menu.lua:158 utilities.lua:483
+#: lua/plugins/menu.lua:170 lua/utilities.lua:602
 msgid "Extra"
 msgstr "Ekstra"
 
-#: plugins/menu.lua:159 utilities.lua:484
+#: lua/plugins/menu.lua:171 lua/utilities.lua:603
 msgid "Anti-flood"
 msgstr "Anti-flood"
 
-#: plugins/menu.lua:160 utilities.lua:486
+#: lua/plugins/menu.lua:172 lua/utilities.lua:605
 msgid "Silent mode"
 msgstr "Mode hening"
 
-#: plugins/menu.lua:162
-msgid "Link preview"
-msgstr ""
-
-#: plugins/menu.lua:163 utilities.lua:488
+#: lua/plugins/menu.lua:174 lua/utilities.lua:607
 msgid "Arab"
-msgstr "Arab"
+msgstr "Teks Arab"
 
-#: plugins/menu.lua:164 utilities.lua:489
+#: lua/plugins/menu.lua:175 lua/utilities.lua:608
 msgid "RTL"
 msgstr "RTL"
 
-#: plugins/menu.lua:165 utilities.lua:485
+#: lua/plugins/menu.lua:176 lua/utilities.lua:604
 msgid "Ban bots"
 msgstr "Anti bot"
 
-#: plugins/menu.lua:166 utilities.lua:490
+#: lua/plugins/menu.lua:177 lua/utilities.lua:609
 msgid "Reports"
 msgstr "Laporan"
 
-#: plugins/menu.lua:167
+#: lua/plugins/menu.lua:178
+msgid "Delete last welcome message"
+msgstr "Hapus pesan selamat datang terakhir"
+
+#: lua/plugins/menu.lua:179
 msgid "Welcome + rules button"
 msgstr "Welcome + tombol rules"
 
-#: plugins/menu.lua:199
+#: lua/plugins/menu.lua:211
 msgid "🔨️ ban"
 msgstr "🔨️ blokir"
 
-#: plugins/menu.lua:203
+#: lua/plugins/menu.lua:217
 msgid "Warns: "
 msgstr "Peringatan: "
 
-#: plugins/menu.lua:208
+#: lua/plugins/menu.lua:222
 msgid "Action:"
 msgstr "Aksi:"
 
-#: plugins/menu.lua:231
-msgid "Manage the settings of the group"
-msgstr "Kelola pengaturan grup"
+#: lua/plugins/menu.lua:241
+msgid "Manage the settings of the group. Click on the left column to get a small hint"
+msgstr "Kelola pengaturan grup. Klik pada kolom kiri untuk mendapatkan petunjuk kecil"
 
-#: plugins/onmessage.lua:81
+#: lua/plugins/onmessage.lua:112
 #, lua-format
 msgid "%s <b>banned</b> for flood!"
 msgstr "%s <b>diblokir</b> karena membanjiri obrolan!"
 
-#: plugins/onmessage.lua:83
+#: lua/plugins/onmessage.lua:114
 #, lua-format
 msgid "%s <b>kicked</b> for flood!"
 msgstr "%s <b>diblokir</b> karena membanjiri obrolan!"
 
-#: plugins/onmessage.lua:92
-msgid "‼️ Please don't abuse the keyboard, requests will be ignored"
-msgstr "‼️ Tolong jangan membanjiri keyboard, request Anda akan saya abaikan"
-
-#: plugins/onmessage.lua:121
+#: lua/plugins/onmessage.lua:116
 #, lua-format
-msgid ""
-"%s <b>banned</b>: media sent not allowed!\n"
-"❗️ <code>%d/%d</code>"
-msgstr ""
-"%s <b>terblokir</b>: media yang terkirim dianulir!\n"
-"❗️ <code>%d/%d</code>"
+msgid "%s <b>muted</b> for flood!"
+msgstr "%s <b>dimute</b> karena membanjiri obrolan!"
 
-#: plugins/onmessage.lua:123
+#: lua/plugins/onmessage.lua:165
 #, lua-format
-msgid ""
-"%s <b>kicked</b>: media sent not allowed!\n"
+msgid "%s <b>%s</b>: media sent not allowed!\n"
 "❗️ <code>%d/%d</code>"
-msgstr ""
-"%s <b>ditendang</b>: media terkirim dianulir!\n"
-"❗️ <code>%d/%d</code>"
+msgstr "%s <b>%s</b>: media yang dikirim dianulir\n"
+"❗ <code>%d/%d</code>"
 
-#: plugins/onmessage.lua:128
+#: lua/plugins/onmessage.lua:175
 #, lua-format
-msgid ""
-"%s, this type of media is <b>not allowed</b> in this chat.\n"
+msgid "%s, this type of media is <b>not allowed</b> in this chat.\n"
 "(<code>%d/%d</code>)"
-msgstr ""
-"%s, jenis media ini <b>dianulir</b> di obrolan ini.\n"
+msgstr "%s, jenis media ini <b>dianulir</b> di obrolan ini.\n"
 "(<code>%d/%d</code>)"
 
-#: plugins/onmessage.lua:152
+#: lua/plugins/onmessage.lua:180
 #, lua-format
-msgid "%s <b>kicked</b>: RTL character in names / messages not allowed!"
-msgstr "%s <b>ditendang</b>: karakter RTL pada nama / pesan dianulir!"
+msgid "%s, this type of media is <b>not allowed</b> in this chat.\\n<i>The next time you will be banned/kicked/muted</i>\n"
+"\t\t\t\t\t\t\t\t"
+msgstr "%s, media jenis ini <b>dianulir</b> di grup ini.\\n<i>selanjutnya kamu akan diblokir/ditendang/dimute</i>\n"
+"\t\t\t\t\t\t\t\t"
 
-#: plugins/onmessage.lua:154
+#: lua/plugins/onmessage.lua:203
 #, lua-format
-msgid "%s <b>banned</b>: RTL character in names / messages not allowed!"
-msgstr "%s <b>diblokir</b>: karakter RTL pada nama / pesan dianulir!"
+msgid "%s <b>kicked</b>: RTL character in names/messages are not allowed!"
+msgstr "%s <b>ditendang</b>: karakter RTL dalam nama/pesan dianulir!"
 
-#: plugins/onmessage.lua:175
+#: lua/plugins/onmessage.lua:206
+#, lua-format
+msgid "%s <b>banned</b>: RTL character in names/messages are not allowed!"
+msgstr "%s <b>diblokir</b>: karakter RTL dalam nama/pesan dianulir!"
+
+#: lua/plugins/onmessage.lua:209
+#, lua-format
+msgid "%s <b>muted</b>: RTL character in names/messages are not allowed!"
+msgstr "%s <b>dimute</b>: karakter RTL dalam nama/pesan dianulir!"
+
+#: lua/plugins/onmessage.lua:225
 #, lua-format
 msgid "%s <b>kicked</b>: arab/persian message detected!"
 msgstr "%s <b>ditendang</b>: pesan arab/persia terdeteksi!"
 
-#: plugins/onmessage.lua:177
+#: lua/plugins/onmessage.lua:228
 #, lua-format
 msgid "%s <b>banned</b>: arab/persian message detected!"
 msgstr "%s <b>diblokir</b>: pesan arab/persia terdeteksi!"
 
-#: plugins/pin.lua:15
+#: lua/plugins/onmessage.lua:231
+#, lua-format
+msgid "%s <b>muted</b>: arab/persian message detected!"
+msgstr "%s <b>dimute</b>: karakter arab/persia terdeteksi!"
+
+#: lua/plugins/pin.lua:17
 msgid "Last message generated by `/pin` ^"
 msgstr "Pesan terakhir yang dihasilkan dengan `/pin` ^"
 
-#: plugins/pin.lua:26
-msgid "This text is too long, I can't send it"
-msgstr "Pesan terlalu panjang. Saya tidak bisa mengirimkannya"
-
-#: plugins/pin.lua:28
-msgid "The text is not modified"
-msgstr "Teks tidak diubah"
-
-#: plugins/pin.lua:34 utilities.lua:259
-msgid ""
-"This text breaks the markdown.\n"
-"More info about a proper use of markdown [here](https://telegram.me/"
-"GroupButler_ch/46)."
-msgstr ""
-"Format (markdown) pesan salah.\n"
-"Baca [disini](https://telegram.me/GroupButler_ch/46) untuk penggunaan format "
-"yang benar."
-
-#: plugins/pin.lua:40
+#: lua/plugins/pin.lua:38
 msgid "Message edited. Check it here"
 msgstr "Pesan diubah. Lihat disini"
 
-#: plugins/pin.lua:51
-msgid ""
-"The old message generated with `/pin` does not exist anymore, so I can't "
-"edit it. This is the new message that can be now pinned"
-msgstr ""
-"Pesan terakhir yang dibuat dengan `/pin` tidak ditemukan, sehingga saya "
-"tidak bisa mengubahnya. Ini pesan baru yang bisa Anda sematkan"
+#: lua/plugins/pin.lua:51
+msgid "The old message generated with `/pin` does not exist anymore, so I can't edit it. This is the new message that can be now pinned\n"
+"\t\t\t\t\t\t"
+msgstr "Pesan lama yang dihasilkan dengan `/pin` tidak ada lagi, jadi saya tidak bisa mengeditnya. Ini adalah pesan baru yang bisa kamu pinned\n"
+"\t\t\t\t\t\t\n"
+"\t\t\t\t\t\t"
 
-#: plugins/pin.lua:53
-msgid ""
-"This message can now be pinned. Use `/pin [new text]` to edit it without "
-"having to send it again"
-msgstr ""
-"Sekarang Anda bisa menyematkan pesan ini. Gunakan `/pin [teks baru]` untuk "
-"mengubahnya "
+#: lua/plugins/pin.lua:54
+msgid "This message can now be pinned. Use `/pin [new text]` to edit it without having to send it again"
+msgstr "Sekarang Anda bisa menyematkan pesan ini. Gunakan `/pin [teks baru]` untuk mengubahnya "
 
-#: plugins/private.lua:11 plugins/users.lua:12
+#: lua/plugins/private.lua:13
 msgid "Channel"
 msgstr "Channel"
 
-#: plugins/private.lua:12 plugins/users.lua:13
+#: lua/plugins/private.lua:14
 msgid "GitHub"
 msgstr "GitHub"
 
-#: plugins/private.lua:13 plugins/users.lua:14
+#: lua/plugins/private.lua:15
 msgid "Rate me!"
 msgstr "Beri rate!"
 
-#: plugins/private.lua:16
+#: lua/plugins/private.lua:18
 msgid "👥 Groups"
 msgstr "👥 Grup"
 
-#: plugins/private.lua:26
+#: lua/plugins/private.lua:28
 msgid "Pong!"
 msgstr "Pong!"
 
-#: plugins/private.lua:39 plugins/private.lua:52
+#: lua/plugins/private.lua:42 lua/plugins/private.lua:58
 #, lua-format
-msgid ""
-"This bot is based on [otouto](https://github.com/topkecleon/otouto) (AKA "
-"@mokubot, channel: @otouto), a multipurpose Lua bot.\n"
-"Group Butler wouldn't exist without it.\n"
-"\n"
-"The owner of this bot is @bac0nnn, do not pm him: use /groups command "
-"instead.\n"
-"\n"
-"Bot version: `%s`\n"
-"*Some useful links:*"
-msgstr ""
-"Bot ini berbasis [otouto](https://github.com/topkecleon/otouto) (alias "
-"@mokubot, channel: @otouto), sebuah bot Lua multipurpose.\n"
-"Group Butler wouldn't exist without it.\n"
-"\n"
-"Pemilik bot ini adalah @bac0nnn, jangan mengirimnya pesan pribadi: gunakan "
-"perintah /groups.\n"
-"\n"
-"Versi bot: `%s`\n"
-"*Beberapa tautan informasi:*"
+msgid "\n"
+"This bot is based on [otouto](https://github.com/topkecleon/otouto) (AKA @mokubot, channel: @otouto), a multipurpose Lua bot.\\nGroup Butler wouldn't exist without it.\\n\\nThe owner of this bot is @baconn, do not pm him: use /groups command instead.\\n\\nBot version: `%s`\\n*Some useful links:*\n"
+msgstr "\n"
+"Bot ini berbasis [otouto](https://github.com/topkecleon/otouto) (alias @mokubot, channel: @otouto), bot LUA multifungsi.\\nGroup Butler tidak akan ada tanpa itu.\\n\\nPemilik bot ini adalah @baconn, jangan pm dia: gunakan perintah /groups untuk bergabung ke support group.\\n\\nBot versi: `%s`\\n*Beberapa link yang berguna:*\n"
 
-#: plugins/private.lua:44 plugins/private.lua:57
+#: lua/plugins/private.lua:50 lua/plugins/private.lua:67
 #, lua-format
 msgid "You can find the list of our support groups in [this channel](%s)"
-msgstr ""
+msgstr "Anda dapat menemukan daftar support group di [channel ini](%s)"
 
-#: plugins/private_settings.lua:10
-msgid ""
-"When you join a group moderated by this bot, you will receive the group "
-"rules in private"
-msgstr ""
-"Jika Anda baru bergabung dengan grup yang dimoderasi oleh bot ini, Anda akan "
-"menerima rules grup di pesan pribadi"
+#: lua/plugins/private.lua:65
+msgid "🔙 back"
+msgstr "🔙 kembali"
 
-#: plugins/private_settings.lua:12
-msgid ""
-"If enabled, you will receive all the messages reported with the @admin "
-"command in the groups you are moderating"
-msgstr ""
-"Jika aktif, anda akan menerima semua pesan yang dilaporkan dengan perintah "
-"@admin dari grup yang Anda moderasi"
+#: lua/plugins/private_settings.lua:11
+msgid "When you join a group moderated by this bot, you will receive the group rules in private"
+msgstr "Jika Anda baru bergabung dengan grup yang dimoderasi oleh bot ini, Anda akan menerima rules grup di pesan pribadi"
 
-#: plugins/private_settings.lua:43
+#: lua/plugins/private_settings.lua:14
+msgid "If enabled, you will receive all the messages reported with the @admin command in the groups you are moderating"
+msgstr "Jika aktif, anda akan menerima semua pesan yang dilaporkan dengan perintah @admin dari grup yang Anda moderasi"
+
+#: lua/plugins/private_settings.lua:46
 msgid "Rules on join"
 msgstr "Terima rules "
 
-#: plugins/private_settings.lua:44
+#: lua/plugins/private_settings.lua:47
 msgid "Users reports"
 msgstr "Terima laporan"
 
-#: plugins/private_settings.lua:58
+#: lua/plugins/private_settings.lua:65
 msgid "Change your private settings"
 msgstr "Ubah pengaturan privasimu"
 
-#: plugins/private_settings.lua:69
+#: lua/plugins/private_settings.lua:76
 msgid "⚙ Setting applied"
 msgstr "⚙ Pengaturan sudah diterapkan"
 
-#: plugins/realms.lua:185 plugins/realms.lua:194
-msgid ""
-"I've never seen this user before.\n"
-"If you want to teach me who is he, forward me a message from him"
-msgstr ""
-"Saya tidak mengenali pengguna ini.\n"
-"Forward salah satu pesannya ke saya."
-
-#: plugins/realms.lua:276
-msgid "Cancel"
-msgstr "Batal"
-
-#: plugins/realms.lua:283 plugins/realms.lua:368
-msgid "_Action aborted_"
-msgstr "_Aksi dibatalkan_"
-
-#: plugins/realms.lua:288 plugins/realms.lua:328 plugins/realms.lua:379
-msgid "_Expired_"
-msgstr "_Kadaluwarsa_"
-
-#: plugins/realms.lua:294 plugins/realms.lua:397 plugins/realms.lua:424
+#: lua/plugins/report.lua:19
 #, lua-format
-msgid ""
-"%s\n"
-"<b>Applied to</b>: %s"
-msgstr ""
-"%s\n"
-"<b>Diterapkan untuk</b>: %s"
+msgid "• <b>Message reported by</b>: %s (<code>%d</code>)"
+msgstr "• <b>Pesan dilaporkan oleh</b>: %s (<code>%d</code>)"
 
-#: plugins/realms.lua:296 plugins/realms.lua:399
-msgid "Applied"
-msgstr "Diterapkan"
-
-#: plugins/realms.lua:299
-msgid "Rules applied to every group"
-msgstr "Rules telah diterapkan ke semua grup"
-
-#: plugins/realms.lua:309
-msgid ""
-"Too many requests. Please wait some minutes and try again. Note that if you "
-"flood this command, I'll leave the group and block you"
-msgstr ""
-"Terlalu banyak request. Mohon tunggu beberapa menit dan coba lagi. Jangan "
-"membanjiri perintah, atau saya akan meninggalkan obrolan ini dan memblokir "
-"Anda"
-
-#: plugins/realms.lua:311
-msgid "An unexpected error with the api occurred. Please try again later"
-msgstr "Sebuah kesalahan tidak terduga dari API. Coba lagi nanti"
-
-#: plugins/realms.lua:321
+#: lua/plugins/report.lua:23
 #, lua-format
-msgid "ID of %s:"
-msgstr "ID dari %s:"
+msgid "\n"
+"• <b>Reported message sent by</b>: %s (<code>%d</code>)"
+msgstr "\n"
+"• <b>Pesan terlapor dikirim oleh</b>: %s (<code>%d</code>)"
 
-#: plugins/realms.lua:333
-msgid "*Message sent*"
-msgstr "*Pesan terkirim*"
-
-#: plugins/realms.lua:335
+#: lua/plugins/report.lua:27
 #, lua-format
-msgid ""
-"I can't send the text\n"
-"Motivation: %s"
-msgstr ""
-"Saya tidak bisa mengirim teks\n"
-"Alasan: %s"
+msgid "\n"
+"• <b>Group</b>: <a href=\"%s\">%s</a>"
+msgstr "\n"
+"• <b>Grup</b>: <a href=\"%s\">%s</a>"
 
-#: plugins/realms.lua:339
+#: lua/plugins/report.lua:29
 #, lua-format
-msgid "Message sent in *%d* groups"
-msgstr "Pesan terkirim ke *%d* grup"
-
-#: plugins/realms.lua:345
-msgid "_Only the realm owner can remove a group_"
-msgstr "_Hanya pemilik induk grup yang dapat menghapus grup_"
-
-#: plugins/realms.lua:355
-#, lua-format
-msgid "%s removed from your subgroups"
-msgstr "%s telah dihapus dari subgrup Anda"
-
-#: plugins/realms.lua:362
-msgid "As you wish. This group is no longer a realm."
-msgstr "Seperti yang Anda inginkan. Grup ini tidak lagi menjadi realm"
-
-#: plugins/realms.lua:364
-#, lua-format
-msgid ""
-"\n"
-"_%d associations with subgroups have been deleted_"
-msgstr ""
-"\n"
-"_%d keterkaitan dengan subgrup telah dihapus_"
-
-#: plugins/realms.lua:374
-msgid "Manage your group settings from this keyboard"
-msgstr "Kelola pengaturan grup Anda dengan keyboard berikut"
-
-#: plugins/realms.lua:385
-msgid "I'm sorry, this group doesn't have any message generated by /pin"
-msgstr "Maaf, grup ini belum memiliki pesan yang dihasilkan dengan /pin"
-
-#: plugins/realms.lua:389
-msgid ""
-"_I'm sorry, the last message genereted with /pin does not exists anymore_"
-msgstr ""
-"_Maaf, sepertinya pesan terakhir yang dihasilkan dengan /pin sudah tidak ada_"
-
-#: plugins/realms.lua:391
-msgid "_The text you sent me is the same of the old pinned message_"
-msgstr "_Teks yang Anda kirimkan tampaknya sama dengan yang sebelumnya_"
-
-#: plugins/realms.lua:404
-#, lua-format
-msgid ""
-"Pinned message edited in %d groups. If this number is lower than expected, "
-"it means that in some subgroups the last message generated with /pin has "
-"been deleted"
-msgstr ""
-"Pesan pin telah diubah untuk %d group. Jika angka lebih kecil dari "
-"seharusnya, artinya pesan terakhir yang dihasilkan dengan /pin di salah satu "
-"subgrup telah dihapus"
-
-#: plugins/realms.lua:416
-msgid "This group is already using this channel"
-msgstr "Grup ini sudah menggunakan channel ini"
-
-#: plugins/realms.lua:419
-msgid "Log channel added!"
-msgstr "Channel log ditambahkan!"
-
-#: plugins/realms.lua:421
-#, lua-format
-msgid ""
-"<i>%s</i> changed its log channel.\n"
-"<i>From a realm, by %s</i>"
-msgstr ""
-"<i>%s</i> mengganti channel log nya.\n"
-"<i>Dari induk grup, oleh %s</i>"
-
-#: plugins/realms.lua:423
-#, lua-format
-msgid ""
-"Logs of <i>%s</i> will be posted here.\n"
-"<i>From a realm, by %s</i>"
-msgstr ""
-"Log dari <i>%s</i> akan ditampilkan disini\n"
-"<i>Dari induk grup, oleh %s</i>"
-
-#: plugins/realms.lua:424
-msgid "<i>undefined</i>"
-msgstr "<i>undefined</i>"
-
-#: plugins/realms.lua:431
-#, lua-format
-msgid ""
-"The channel will be used by %d more subgroups.\n"
-"<i>If this number is lower than expected, it means that all the other "
-"subgroups were already using that channel as log</i>"
-msgstr ""
-"Channel akan digunakan oleh %d lebih subgrup.\n"
-"<i>Jika angka lebih kecil, artinya semua subgrup yang lain sudah menggunakan "
-"channel sebagai log</i>"
-
-#: plugins/realms.lua:440
-msgid "_This group is a realm, you can set a realm for a realm_"
-msgstr "_This group is a realm, you can set a realm for a realm_"
-
-#: plugins/realms.lua:444
-msgid "<i>The id you sent doesn't belong to a realm</i>"
-msgstr "<i>ID yang Anda kirimkan belum terkait ke induk grup</i>"
-
-#: plugins/realms.lua:450
-#, lua-format
-msgid ""
-"This realm [<code>%s</code>] already reached the max [<code>%d</code>] "
-"number of subgroups"
-msgstr ""
-"Induk grup ini [<code>%s</code>] sudah mencapai batas maksimal [<code>%d</"
-"code>] dari subgrup"
-
-#: plugins/realms.lua:456
-#, lua-format
-msgid ""
-"<b>New subgroup added</b>: %s [<code>%d</code>]\n"
-"<b>By</b>: %s [@%s][#id%d]"
-msgstr ""
-"<b>Subgrup baru telah ditambahkan</b>: %s [<code>%d</code>]\n"
-"<b>Oleh</b>: %s [@%s][#id%d]"
-
-#: plugins/realms.lua:459
-#, lua-format
-msgid "The realm of this group changed: <code>%s</code>`"
-msgstr " Induk untuk grup ini telah diganti: <code>%s</code>`"
-
-#: plugins/realms.lua:463
-#, lua-format
-msgid "<i>Already a sub-group of:</i> <code>%s</code>"
-msgstr "<i>Sudah sebagai subgrup:</i> <code>%s</code>"
-
-#: plugins/realms.lua:465
-#, lua-format
-msgid "<b>Group added to the sub-groups of</b>: <code>%s</code>"
-msgstr "<b>Grup telah ditambahkan sebagai subgrup dari</b>: <code>%s</code>"
-
-#: plugins/realms.lua:478
-#, lua-format
-msgid ""
-"This group is already a realm.\n"
-"*Realm id*: `%s`"
-msgstr ""
-"Grup ini sudah menjadi induk grup.\n"
-"*ID induk grup*: `%s`"
-
-#: plugins/realms.lua:481
-msgid "_Only the owner can decide to use this group as a realm_"
-msgstr "_Hanya creator grup yang dapat menjadikan grup ini sebagai induk grup_"
-
-#: plugins/realms.lua:484
-msgid "_I'm sorry, a public group can't be used as realms_"
-msgstr "_Maaf, grup publik tidak dapat digunakan sebagai induk grup_"
-
-#: plugins/realms.lua:488
-msgid ""
-"_I'm sorry, I can't get the number of the members of this group now. Try "
-"again later_"
-msgstr ""
-"_Maaf, saya tidak dapat mengetahui jumlah anggota grup ini. Coba lagi nanti_"
-
-#: plugins/realms.lua:492
-#, lua-format
-msgid "_You can't use as realm a group with more than %d members_"
-msgstr ""
-"_Anda tidak dapat menggunakan grup dengan jumlah %d anggota sebagai induk "
-"grup_"
-
-#: plugins/realms.lua:496
-#, lua-format
-msgid ""
-"This group can now be used as realm: the members of this group can now "
-"manage multiple groups from here. To add a sub-group, the group owner must "
-"write in the chat:\n"
-"\"/setrealm %s\". He can copy-paste in the group the following text:"
-msgstr ""
-"Sekarang grup ini dapat digunakan sebagai induk grup: anggota grup disini "
-"dapat mengelola beberapa grup sekaligus darisini. Untuk menambahkan subgrup, "
-"creator harus melakukannya di grup:\n"
-"\"/setrealm %s\". Dia dapat menyalin perintah berikut"
-
-#: plugins/realms.lua:508
-msgid "_This command can be used only by the group owner_"
-msgstr "_Perintah ini hanya dapat digunakan oleh creator grup_"
-
-#: plugins/realms.lua:510
-msgid ""
-"_This group is no longer going to be used as a realm, and you will lose all "
-"the associations with your subgroups._\n"
-"*Do you want to continue?*"
-msgstr ""
-"_Grup ini tidak lagi ditetapkan sebagai induk grup, dan Anda akan kehilangan "
-"kaitan dengan seluruh subgrup_\n"
-"*Apakah Anda ingin melanjutkan?*"
-
-#: plugins/realms.lua:520
-msgid ""
-"<i>This group is a realm, you can use this command only in one subgroup</i>"
-msgstr ""
-"<i>Ini sebuah induk grup, perintah ini hanya bisa Anda gunakan di salah satu "
-"subgrup</i>"
-
-#: plugins/realms.lua:526
-#, lua-format
-msgid "Done. This group does no longer belong to <code>%s</code>"
-msgstr "Selesai. Grup ini tidak lagi terkait dengan <code>%s</code>"
-
-#: plugins/realms.lua:527
-#, lua-format
-msgid ""
-"<i>A group has been removed from your subgroups</i>\r\n"
-"<b>Title</b>: %s\r\n"
-"<b>ID</b>: <code>%d</code>\r\n"
-"<b>By</b>: %s [@%s] [#id%d] "
-msgstr ""
-"<i>Sebuah grup telah dihapus dari subgrup Anda</i>\r\n"
-"<b>Nama</b>: %s\r\n"
-"<b>ID</b>: <code>%d</code>\r\n"
-"<b>Oleh</b>: %s [@%s] [#id%d] "
-
-#: plugins/realms.lua:533
-msgid "<i>You are not associated with any realm</i>"
-msgstr "<i>Anda belum terkait dengan induk grup manapun</i>"
-
-#: plugins/realms.lua:551
-msgid "This group is not paired with any realm"
-msgstr "Grup ini belum dipasangkan ke induk grup"
-
-#: plugins/realms.lua:555
-#, lua-format
-msgid ""
-"<b>Paired with</b>: %s\n"
-"<b>Saved as</b>: %s\n"
-"<b>Realm in the global list</b>: %s"
-msgstr ""
-"<b>Telah dipasangkan dengan</b>: %s\n"
-"<b>Disimpan sebagai</b>: %s\n"
-"<b>Daftar grup di realm</b>: %s"
-
-#: plugins/realms.lua:562
-msgid ""
-"To add a group to the administrated group of this chat, the *owner of the "
-"group* have to copy-paste the following message in the group you want to add:"
-msgstr ""
-"Untuk menambahkan grup yang diadministrasi oleh grup ini,  *creator grup* "
-"harus melakukan hal berikut di grup yang ingin Anda tambahkan:"
-
-#: plugins/realms.lua:571
-msgid "_I'm sorry, this realm doesn't have subgroups paired with it_"
-msgstr "_Maaf, belum ada grup yang dipasangkan ke induk grup ini_"
-
-#: plugins/realms.lua:599
-msgid "Select one or more groups that will use that channel as log channel"
-msgstr ""
-"Pilih satu atau lebih grup yang akan menggunakan channel tersebut sebagai log"
-
-#: plugins/realms.lua:601
-msgid "_Only the channel creator can pair a chat with a channel_"
-msgstr "_Hanya creator channel yang dapat memasangkan grup dengan channel_"
-
-#: plugins/realms.lua:609
-msgid "You must *forward* the message from the channel you want to use"
-msgstr "Anda harus *memforward* pesan dari channel yang ingin Anda gunakan"
-
-#: plugins/realms.lua:614
-msgid "Select a group to manage its settings"
-msgstr "Pilih grup yang ingin dikelola"
-
-#: plugins/realms.lua:623
-msgid ""
-"<b>Your subgroups</b>:\n"
-"\n"
-msgstr ""
-"<b>Subgrup Anda</b>:\n"
-"\n"
-
-#: plugins/realms.lua:628
-msgid "Choose the subgroup you want to un-pair:"
-msgstr "Pilih subgrup yang ingin Anda pisahkan:"
-
-#: plugins/realms.lua:639
-#, lua-format
-msgid ""
-"<b>Title</b>: %s\n"
-"<b>ID</b>: %d\n"
-"<b>Subgroups n°</b>: %d\n"
-"<b>Total members</b>: %d"
-msgstr ""
-"<b>Nama grup</b>: %s\n"
-"<b>ID</b>: %d\n"
-"<b>Subgrup n°</b>: %d\n"
-"<b>Total anggota</b>: %d"
-
-#: plugins/realms.lua:650
-msgid ""
-"Choose the group where apply the rules (choose <b>within 30 minutes from "
-"now</b>)"
-msgstr ""
-"Pilih grup yang akan ditetapkan rulesnya (pilih <b>dalam 30 menit dari "
-"sekarang</b>)"
-
-#: plugins/realms.lua:660
-msgid "_Answer to a forwarded message_"
-msgstr "_Balas ke pesan yang diforward_"
-
-#: plugins/realms.lua:691
-#, lua-format
-msgid ""
-"Executed.\r\n"
-"\r\n"
-"<b>Success</b>: <code>%d</code>\r\n"
-"<b>The bot is not admin</b>: <code>%d</code>\r\n"
-"<b>The user is admin</b>: <code>%d</code>\r\n"
-"<b>Failed because of limits</b>: <code>%d</code>\r\n"
-"<b>Failed because of other reasons</b>: <code>%d</code>\r\n"
-"<b>Failed to ban from</b>:\r\n"
-"%s"
-msgstr ""
-"Telah dieksekusi.\r\n"
-"\r\n"
-"<b>Sukses</b>: <code>%d</code>\r\n"
-"<b>Bot tidak sebagai admin</b>: <code>%d</code>\r\n"
-"<b>Pengguna sebagai admin</b>: <code>%d</code>\r\n"
-"<b>Gagal karena limits</b>: <code>%d</code>\r\n"
-"<b>Gagal karena hal lain</b>: <code>%d</code>\r\n"
-"<b>Gagal blokir dari</b>:\r\n"
-"%s"
-
-#: plugins/realms.lua:723
-msgid ""
-"<i>Log channels used by your subgroups</i>:\n"
-"\n"
-msgstr ""
-"<i>Channel log yang digunakan oleh subgrup Anda</i>:\n"
-"\n"
-
-#: plugins/report.lua:9
-#, lua-format
-msgid ""
-"• <b>Message reported by</b>: %s (<code>%d</code>)\n"
+msgid "\n"
 "• <b>Group</b>: %s"
-msgstr ""
-"• <b>Pesan dilaporkan oleh</b>: %s (<code>%d</code>)\n"
+msgstr "\n"
 "• <b>Grup</b>: %s"
 
-#: plugins/report.lua:11
+#: lua/plugins/report.lua:33
 #, lua-format
-msgid ""
-"\n"
-"• <b>Sticker sent by</b>: %s [<code>%d</code>]"
-msgstr ""
-"\n"
-"• <b>Stiker dikirim oleh</b>: %s [<code>%d</code>]"
-
-#: plugins/report.lua:14
-#, lua-format
-msgid ""
-"\n"
+msgid "\n"
 "• <a href=\"%s\">Go to the message</a>"
-msgstr ""
-"\n"
+msgstr "\n"
 "• <a href=\"%s\">Lihat pesan</a>"
 
-#: plugins/report.lua:17
+#: lua/plugins/report.lua:37
 #, lua-format
-msgid ""
-"\n"
+msgid "\n"
 "• <b>Description</b>: <i>%s</i>"
-msgstr ""
-"\n"
+msgstr "\n"
 "• <b>Deskripsi</b>: <i>%s</i>"
 
-#: plugins/report.lua:52
+#: lua/plugins/report.lua:46
+msgid "Address this report"
+msgstr "Temukan laporan ini"
+
+#: lua/plugins/report.lua:91
+#, lua-format
+msgid "_Invalid value:_ number of times allowed (`input: %d`)"
+msgstr "_Nilai tidak valid:_ jumlah waktu yang diperbolehkan (`input: %d`)"
+
+#: lua/plugins/report.lua:93
+#, lua-format
+msgid "_Invalid value:_ time (`input: %d`)"
+msgstr "_Nilai tidak valid:_ (`input: %d`)"
+
+#: lua/plugins/report.lua:99
+#, lua-format
+msgid "*New parameters saved*.\n"
+"Users will be able to use @admin %d times/%d minutes"
+msgstr "*Parameter baru tersimpan*.\n"
+"Pengguna akan dapat menggunakan @admin %d kali/%d menit."
+
+#: lua/plugins/report.lua:118
+#, lua-format
+msgid "_Please, do not abuse this command. It can be used %d times every %d minutes_.\n"
+"Wait other %d minutes, %d seconds."
+msgstr "_Ow ow ow, tolong jangan abuse perintah ini. Cuma bisa digunakan %d kali setiap %d menit_.\n"
+"Tunggu %d menit, %d detik."
+
+#: lua/plugins/report.lua:129
 #, lua-format
 msgid "_Reported to %d admin(s)_"
 msgstr "_Telah dilaporkan ke %d admin_"
 
-#: plugins/rules.lua:24
+#: lua/plugins/report.lua:140
+msgid "You closed this issue and deleted all the other reports sent to the admins"
+msgstr "Anda menutup masalah ini dan menghapus semua laporan-laporan lain yang dikirim ke admin"
+
+#: lua/plugins/report.lua:149
+msgid "This message is too old (>2 days)"
+msgstr "Pesan ini terlalu tua (>2 hari)"
+
+#: lua/plugins/report.lua:160
+msgid "❕ Already (being) adressed"
+msgstr "❕ Sudah ditemukan"
+
+#: lua/plugins/report.lua:162
+msgid "Close issue"
+msgstr "Close issue"
+
+#: lua/plugins/report.lua:172
+#, lua-format
+msgid "%s has/will address this report"
+msgstr "%s telah/akan membahas laporan ini"
+
+#: lua/plugins/report.lua:180
+msgid "This button will delete all the reports sent to the other admins. Tap it again to confirm"
+msgstr "Tombol ini akan menghapus semua laporan yang dikirim ke admin lain. Ketuk lagi untuk konfirmasi"
+
+#: lua/plugins/report.lua:188
+msgid "(issue closed by you)"
+msgstr "(masalah diselesaikan oleh Anda)"
+
+#: lua/plugins/rules.lua:26
 msgid "🚫 Unknown or non-existent group"
 msgstr "🚫 Grup tidak ada atau tidak dikenali"
 
-#: plugins/rules.lua:32
-msgid ""
-"🚷 You are not a member of this chat. You can't read the rules of a private "
-"group."
-msgstr ""
-"🚷 Anda bukan anggota dari obrolan ini. Anda tidak dapat melihat rules grup "
-"private."
+#: lua/plugins/rules.lua:34
+msgid "🚷 You are not a member of this chat. You can't read the rules of a private group."
+msgstr "🚷 Anda bukan anggota dari obrolan ini. Anda tidak dapat melihat rules grup private."
 
-#: plugins/rules.lua:59
-msgid "Please write something next this poor `/setrules`"
-msgstr "Tulis sesuatu setelah perintah `/setrules`"
+#: lua/plugins/rules.lua:64
+msgid "Please write something next `/setrules`"
+msgstr "Silakan tulis sesuatu setelah `/setrules`"
 
-#: plugins/rules.lua:65
+#: lua/plugins/rules.lua:69
 msgid "Rules has been deleted."
 msgstr "Rules telah dihapus."
 
-#: plugins/rules.lua:76
+#: lua/plugins/rules.lua:82
 msgid "New rules *saved successfully*!"
 msgstr "Rules baru *berhasil disimpan*!"
 
-#: plugins/service.lua:20
+#: lua/plugins/service.lua:21
 #, lua-format
 msgid "_You (user ID: %d) are in the blocked list_"
 msgstr "_Anda (ID pegguna: %d) ada di daftar blokir_"
 
-#: plugins/service.lua:25
+#: lua/plugins/service.lua:26
 msgid "_Admin mode is on: only the bot admin can add me to a new group_"
-msgstr ""
-"_Mode admin aktif: hanya admin bot yang dapat menambahkan saya ke grup_"
+msgstr "_Mode admin aktif: hanya admin bot yang dapat menambahkan saya ke grup_"
 
-#: plugins/service.lua:39
+#: lua/plugins/service.lua:40
 #, lua-format
-msgid ""
-"Hello everyone!\n"
-"My name is %s, and I'm a bot made to help administrators in their hard "
-"work.\n"
-msgstr ""
-"Halo semuanya!\n"
-"Saya adalah %s, sebuah bot yang dibuat untuk membantu admin mengelola grup "
-"mereka.\n"
+msgid "Hello everyone!\n"
+"My name is %s, and I'm a bot made to help administrators in their hard work.\n"
+msgstr "Halo semuanya!\n"
+"Saya adalah %s, sebuah bot yang dibuat untuk membantu admin mengelola grup mereka.\n"
 
-#: plugins/service.lua:43
-msgid ""
-"Yay! This group has been upgraded. You are great! Now I can work "
-"properly :)\n"
-msgstr ""
-"Yay! Grup ini telah di-upgrade. Anda luar biasa! Sekarang saya dapat "
-"berfungsi dengan maksimal :)\n"
+#: lua/plugins/service.lua:44
+msgid "Yay! This group has been upgraded. You are great! Now I can work properly :)\n"
+msgstr "Yay! Grup ini telah di-upgrade. Anda luar biasa! Sekarang saya dapat berfungsi dengan maksimal :)\n"
 
-#: plugins/service.lua:65
-#, lua-format
-msgid "I've been removed from %s [<code>%d</code>], one of your subgroups"
-msgstr ""
-"Saya telah dikeluarkan dari  %s [<code>%d</code>], salah satu subgrup Anda"
-
-#: plugins/setlang.lua:21 plugins/setlang.lua:31
+#: lua/plugins/setlang.lua:24 lua/plugins/setlang.lua:34
 msgid "*List of available languages*:"
 msgstr "*Daftar bahasa yang tersedia*:"
 
-#: plugins/setlang.lua:27 plugins/users.lua:259 plugins/warn.lua:122
+#: lua/plugins/setlang.lua:30
 msgid "You are not an admin"
 msgstr "Anda bukan admin"
 
 #. TRANSLATORS: replace 'English' with the name of your language
-#: plugins/setlang.lua:40
+#: lua/plugins/setlang.lua:43
 msgid "English language is *set*"
 msgstr "Bahasa Indonesia *telah digunakan*"
 
-#: plugins/setlang.lua:40
-msgid ""
-".\n"
-"Please note that translators are volunteers, and some strings of the "
-"translation you selected _could not have been translated yet_"
-msgstr ""
-".\n"
-"Mohon dicatat bahwa penerjemah bersifat sukarelawan, dan sebagian string "
-"yang Anda pilih bisa saja belum diterjemahkan"
+#: lua/plugins/setlang.lua:44
+msgid ".\n"
+"Please note that translators are volunteers, and some strings of the translation you selected _could not have been translated yet_\n"
+msgstr ".\n"
+"Harap dicatat bahwa penerjemah adalah relawan dan beberapa string dari terjemahan yang anda pilih _bisa saja belum diterjemahkan_\n"
 
-#: plugins/users.lua:21
+#: lua/plugins/users.lua:11
+msgid "can't change the chat title/description/icon"
+msgstr "tidak dapat mengubah judul/deskripsi/icon obrolan"
+
+#: lua/plugins/users.lua:12
+msgid "can't send messages"
+msgstr "tidak dapat mengirim pesan"
+
+#: lua/plugins/users.lua:13
+msgid "can't delete messages"
+msgstr "tidak dapat menghapus pesan"
+
+#: lua/plugins/users.lua:14
+msgid "can't invite users/generate a link"
+msgstr "tidak dapat mengundang pengguna/menghasilkan link"
+
+#: lua/plugins/users.lua:15
+msgid "can't restrict members"
+msgstr "tidak bisa merestrict member"
+
+#: lua/plugins/users.lua:16
+msgid "can't pin messages"
+msgstr "tidak bisa menyematkan pesan"
+
+#: lua/plugins/users.lua:17
+msgid "can't promote new admins"
+msgstr "tidak dapat mempromosikan admin baru"
+
+#: lua/plugins/users.lua:18
+msgid "can't send photos/videos/documents/audios/voice messages/video messages"
+msgstr "tidak bisa mengirim foto/video/dokumen/audio/pesan suara/pesan video"
+
+#: lua/plugins/users.lua:19
+msgid "can't send stickers/GIFs/games/use inline bots"
+msgstr "tidak dapat mengirim stiker/Gif/permainan/menggunakan inline bot"
+
+#: lua/plugins/users.lua:20
+msgid "can't show link previews"
+msgstr "tidak bisa menampilkan link preview"
+
+#: lua/plugins/users.lua:24
 msgid "🔄️ Refresh cache"
 msgstr "🔄️ Segarkan cache"
 
-#: plugins/users.lua:84
-msgid "Nothing to display\n"
-msgstr "Nothing to display\n"
-
-#: plugins/users.lua:87
-#, lua-format
-msgid "Kicked: *%d*"
-msgstr "Ditendang: *%d*"
-
-#: plugins/users.lua:88
-#, lua-format
-msgid "Banned: *%d*"
-msgstr "Diblokir: *%d*"
-
-#: plugins/users.lua:89
-#, lua-format
-msgid "Temporarily banned: *%d*"
-msgstr "Blokir sementara: *%d*"
-
-#: plugins/users.lua:90
-#, lua-format
-msgid "Removed for flooding chat: *%d*"
-msgstr "Mebanjiri obrolan: *%d*"
-
-#: plugins/users.lua:91
-#, lua-format
-msgid "Removed for forbidden media: *%d*"
-msgstr "Mengirim media terlarang: *%d*"
-
-#: plugins/users.lua:92
-#, lua-format
-msgid "Removed for max warnings: *%d*"
-msgstr "Peringatan maksimal: *%d*"
-
-#: plugins/users.lua:93
-#, lua-format
-msgid "Removed for arab chars: *%d*"
-msgstr "Mengirim karakter arab: *%d*"
-
-#: plugins/users.lua:94
-#, lua-format
-msgid "Removed for RTL char: *%d*"
-msgstr "Mengirim karakter RTL: *%d*"
-
-#: plugins/users.lua:101
-msgid "Nothing to display"
-msgstr "Nothing to display"
-
-#: plugins/users.lua:114
+#: lua/plugins/users.lua:76
 msgid "Remove warnings"
 msgstr "Hapus peringatan"
 
-#: plugins/users.lua:115
-msgid "🔨 Ban"
-msgstr "🔨 Blokir"
+#: lua/plugins/users.lua:84
+#, lua-format
+msgid "*User ID*: `%d`\n"
+"`Warnings`: *%d*\n"
+"`Media warnings`: *%d*\n"
+"`Spam warnings`: *%d*\n"
+msgstr "*User ID*: `%d`\n"
+"`Peringatan`: *%d*\n"
+"`Peringatan media`: *%d*\n"
+"`Peringatan spam`: *%d*\n"
 
-#: plugins/users.lua:123
-msgid "*Ban info* (globals):\n"
-msgstr "*Informasi blokir* (globals):\n"
-
-#: plugins/users.lua:133
-msgid "That's your ID. Copy it"
-msgstr "Berikut ID Anda."
-
-#: plugins/users.lua:136
-msgid "That's my ID. Copy it"
-msgstr "Berikut ID saya."
-
-#: plugins/users.lua:139
-msgid "That's the ID of this group. Copy it"
-msgstr "Berikut ID grup ini. "
-
-#: plugins/users.lua:142
-msgid "That's his (her) ID. Copy it"
-msgstr "Berikut ID nya. "
-
-#: plugins/users.lua:181
+#: lua/plugins/users.lua:122
 msgid "That user has nothing to do with this chat"
 msgstr "Pengguna tersebut tidak memiliki aktifitas di obrolan ini"
 
-#: plugins/users.lua:187
+#: lua/plugins/users.lua:128
 #, lua-format
 msgid "%s is banned from this group"
 msgstr "%s terblokir dari grup ini"
 
-#: plugins/users.lua:188
+#: lua/plugins/users.lua:129
 #, lua-format
 msgid "%s left the group or has been kicked and unbanned"
-msgstr ""
-"%s saat ini meninggalkan obrolan, atau telah ditendang (tidak terblokir)"
+msgstr "%s saat ini meninggalkan obrolan, atau telah ditendang (tidak terblokir)"
 
-#: plugins/users.lua:189
+#: lua/plugins/users.lua:130
 #, lua-format
 msgid "%s is an admin"
 msgstr "%s adalah admin grup"
 
-#: plugins/users.lua:190
+#: lua/plugins/users.lua:131
 #, lua-format
 msgid "%s is the group creator"
 msgstr "%s adalah pendiri grup"
 
-#: plugins/users.lua:191
+#: lua/plugins/users.lua:132
 #, lua-format
 msgid "%s has nothing to do with this chat"
 msgstr "%s tidak memiliki aktifitas di obrolan ini"
 
-#: plugins/users.lua:192
+#: lua/plugins/users.lua:133
 #, lua-format
 msgid "%s is a chat member"
 msgstr "%s ada di anggota obrolan"
 
-#: plugins/users.lua:202
-msgid "Reply to an user or mention them by username or numerical ID"
-msgstr ""
-"Balas ke pesan pengguna atau mention mereka dengan nama, username, atau ID"
-
-#: plugins/users.lua:216
-msgid ""
-"I've never seen this user before.\n"
-"If you want to teach me who they are, forward a message from them to me"
-msgstr ""
-"Saya tidak mengenali user ini.\n"
-"Forward salah satu pesannya ke saya."
-
-#: plugins/users.lua:233 plugins/users.lua:291
+#: lua/plugins/users.lua:134
 #, lua-format
-msgid ""
-"📌 Status: `CACHED`\n"
-"⌛ ️Remaining: `%s`\n"
-"👥 Admins cached: `%d`"
-msgstr ""
-"📌 Status: `CACHED`\n"
-"⌛ ️Remaining: `%s`\n"
-"👥 Admins cached: `%d`"
+msgid "%s is a restricted"
+msgstr "%s is a restricted"
 
-#: plugins/users.lua:242
+#: lua/plugins/users.lua:145
+#, lua-format
+msgid "\n"
+"Restrictions: <i>%s</i>"
+msgstr "Restrictions: <i>%s</i>"
+
+#: lua/plugins/users.lua:158
+msgid "Reply to an user or mention them by username or numerical ID"
+msgstr "Balas ke pesan pengguna atau mention mereka dengan nama, username, atau ID"
+
+#: lua/plugins/users.lua:166
+msgid "I've never seen this user before.\n"
+"This command works by reply, username, user ID or text mention.\n"
+"If you're using it by username and want to teach me who the user is, forward me one of his messages"
+msgstr "Aku belum mengenali pengguna ini sebelumnya.\n"
+"Perintah ini cuma bekerja dengan reply, username, ID pengguna atau teks mention.\n"
+"Jika anda menggunakannya dengan username dan ingin memberitahu siapa user tersebut, forward salah satu pesannya ke private message ku."
+
+#: lua/plugins/users.lua:184 lua/plugins/users.lua:239
+#, lua-format
+msgid "📌 Status: `CACHED`\n"
+"⌛ ️Remaining: `%s`\n"
+"👥 Admins cached: `%d`"
+msgstr "📌 Status: `CACHE`\n"
+"⌛ Remaining: `%s`\n"
+"👥 Admin cache: `%d`"
+
+#: lua/plugins/users.lua:193
 #, lua-format
 msgid "Message N° %d"
 msgstr "Pesan ke° %d"
 
-#: plugins/users.lua:269
-msgid "Ban from the /user command"
-msgstr "Diblokir dari perintah /user"
+#: lua/plugins/users.lua:210 lua/plugins/warn.lua:152
+msgid "You are not allowed to use this button"
+msgstr "Anda tidak diizinkan menggunakan tombol ini"
 
-#: plugins/users.lua:270
+#: lua/plugins/users.lua:221
 #, lua-format
-msgid ""
-"<i>Banned!</i>\n"
-"Banned by: %s"
-msgstr ""
-"<i>Terblokir!</i>\n"
-"Diblokir oleh: %s"
+msgid "The number of warnings received by this user has been <b>reset</b>, by %s"
+msgstr "Jumlah peringatan yang diterima pengguna ini telah <b>direset</b>, oleh %s"
 
-#: plugins/users.lua:280
+#: lua/plugins/users.lua:232
 #, lua-format
-msgid ""
-"The number of warnings received by this user has been <b>reset</b>, by %s"
-msgstr ""
-"Jumlah peringatan yang diterima pengguna ini telah <b>direset</b>, oleh %s"
+msgid "The adminlist has just been updated. You must wait 10 minutes from the last refresh (wait  %d seconds)"
+msgstr "Daftar admin telah diperbarui. Anda harus menunggu 10 menit dari refresh terakhir (waktu tunggu  %d detik)"
 
-#: plugins/users.lua:287
-msgid ""
-"The adminlist has just been updated. You must wait 3 minutes from the last "
-"refresh"
-msgstr ""
-"Daftar admin baru diperbarui. Anda harus menunggu 3 menit dari refresh "
-"terakhir"
-
-#: plugins/users.lua:293
+#: lua/plugins/users.lua:241
 #, lua-format
 msgid "✅ Updated. Next update in %s"
 msgstr "✅ Diperbarui. Pembaruan selanjutnya dalam %s"
 
-#: plugins/warn.lua:12
-msgid "Reset warns"
-msgstr "Reset peringatan"
-
-#: plugins/warn.lua:13
+#: lua/plugins/warn.lua:12
 msgid "Remove warn"
 msgstr "Hapus peringatan"
 
-#: plugins/warn.lua:30
+#: lua/plugins/warn.lua:40
 msgid "Max number of warnings changed (media).\n"
 msgstr "Jumlah peringatan maksimal (media) telah diubah.\n"
 
-#: plugins/warn.lua:35
+#: lua/plugins/warn.lua:45
 msgid "Max number of warnings changed.\n"
 msgstr "Jumlah maksimal peringatan telah diubah.\n"
 
-#: plugins/warn.lua:39
+#: lua/plugins/warn.lua:49
 #, lua-format
-msgid ""
-"*Old* value was %d\n"
+msgid "*Old* value was %d\n"
 "*New* max is %d"
-msgstr ""
-"Nilai *sebelumnya*: %d\n"
+msgstr "Nilai *sebelumnya*: %d\n"
 "Nilai *sekarang*: %d"
 
-#: plugins/warn.lua:53
+#: lua/plugins/warn.lua:58
+msgid "Yes"
+msgstr "Ya"
+
+#: lua/plugins/warn.lua:58
+msgid "No"
+msgstr "Tidak"
+
+#: lua/plugins/warn.lua:62
+msgid "Do you want to continue and reset *all* the warnings received by *all* the users of the group?"
+msgstr "Apakah anda ingin melanjutkan dan me-reset *semua* peringatan yang diterima oleh *semua* pengguna di grup?"
+
+#: lua/plugins/warn.lua:80
 #, lua-format
-msgid "Done! %s has been forgiven"
-msgstr "Selesai! %s sudah dimaafkan"
+msgid "Done! %s has been forgiven.\n"
+"<b>Warns found</b>: <i>normal warns %s, for media %s, spamwarns %s</i>"
+msgstr "Selesai! %s telah dimaafkan\n"
+"<b>Peringatan yang ditemukan</b>: <i> normal %s, media %s, spam %s</i>"
 
-#: plugins/warn.lua:70
+#: lua/plugins/warn.lua:98
 #, lua-format
-msgid ""
-"%s <b>banned</b>: reached the max number of warnings (<code>%d/%d</code>)"
-msgstr ""
-"%s <b>diblokir</b>: jumlah peringatan sudah maksimal (<code>%d/%d</code>)"
+msgid "%s <b>%s</b>: reached the max number of warnings (<code>%d/%d</code>)"
+msgstr "%s <b>%s</b>: mencapai jumlah peringatan maksimal (<code>%d/%d</code>)"
 
-#: plugins/warn.lua:71
-msgid "banned"
-msgstr "diblokir"
-
-#: plugins/warn.lua:74
-#, lua-format
-msgid ""
-"%s <b>kicked</b>: reached the max number of warnings (<code>%d/%d</code>)"
-msgstr ""
-"%s <b>ditendang</b>: jumlah peringatan sudah maksimal (<code>%d/%d</code>)"
-
-#: plugins/warn.lua:75
-msgid "kicked"
-msgstr "ditendang"
-
-#: plugins/warn.lua:81
-msgid ""
-"I can't kick this user.\n"
+#: lua/plugins/warn.lua:115
+msgid "I can't kick this user.\n"
 "Probably I'm not an Admin, or the user is an Admin iself"
-msgstr ""
-"Saya tidak dapat menendang pengguna ini.\n"
+msgstr "Saya tidak dapat menendang pengguna ini.\n"
 "Mungkin saya bukan Admin, atau pengguna tersebut adalah Admin"
 
-#: plugins/warn.lua:103
+#: lua/plugins/warn.lua:135
 #, lua-format
 msgid "%s <b>has been warned</b> (<code>%d/%d</code>)"
 msgstr "%s <b>telah diberi peringatan</b> (<code>%d/%d</code>)"
 
-#: plugins/warn.lua:132
-#, lua-format
-msgid "Warns <b>reset</b> by %s"
-msgstr "Peringatan <b>direset</b> oleh %s"
-
-#: plugins/warn.lua:141
+#: lua/plugins/warn.lua:160
 msgid "The number of warnings received by this user is already <i>zero</i>"
 msgstr "Jumlah peringatan yang diterima pengguna ini sudah <i>nol</i>"
 
-#: plugins/warn.lua:146
+#: lua/plugins/warn.lua:164
 #, lua-format
 msgid "<b>Warn removed!</b> (%d/%d)"
 msgstr "<b>Warn dihapus!</b> (%d/%d)"
 
-#: plugins/warn.lua:149
+#: lua/plugins/warn.lua:167
 #, lua-format
-msgid ""
-"\n"
+msgid "\n"
 "(Admin: %s)"
-msgstr ""
-"\n"
+msgstr "\n"
 "(Admin: %s)"
 
-#: plugins/welcome.lua:35
+#: lua/plugins/warn.lua:176
 #, lua-format
-msgid "Hi %s, and welcome to *%s*!"
-msgstr "Hai %s, selamat datang di *%s*!"
+msgid "Done. All the warnings of this group have been erased by %s"
+msgstr "Selesai. Semua peringatan dari grup ini telah dihapus oleh %s"
 
-#: plugins/welcome.lua:58
+#: lua/plugins/warn.lua:178
+msgid "_Action aborted_"
+msgstr "_Aksi dibatalkan_"
+
+#: lua/plugins/welcome.lua:84 lua/plugins/welcome.lua:179
+msgid "Read the rules"
+msgstr "Baca rules"
+
+#: lua/plugins/welcome.lua:102
 #, lua-format
-msgid "Goodbye, %s!"
-msgstr "Sampai bertemu lagi, %s!"
+msgid "Hi %s!"
+msgstr "Hai %s!"
 
-#: plugins/welcome.lua:72
+#: lua/plugins/welcome.lua:114
 msgid "Welcome and...?"
 msgstr "Welcome dan...?"
 
-#: plugins/welcome.lua:93
+#: lua/plugins/welcome.lua:137
 #, lua-format
 msgid "A form of media has been set as the welcome message: `%s`"
 msgstr "Media telah di set sebagai welcome message: `%s`"
 
-#: plugins/welcome.lua:95
+#: lua/plugins/welcome.lua:139
 msgid "Reply to a `sticker` or a `gif` to set them as the *welcome message*"
-msgstr ""
-"Balas ke `stiker` atau `gif` untuk membuatnya sebagai *pesan selamat datang*"
+msgstr "Balas ke `stiker` atau `gif` untuk membuatnya sebagai *pesan selamat datang*"
 
-#: plugins/welcome.lua:107
+#: lua/plugins/welcome.lua:157
 msgid "*Custom welcome message saved!*"
 msgstr "*Pesan selamat datang kustom telah disimpan*"
 
-#: plugins/welcome.lua:119
-msgid "No goodbye message"
-msgstr "Tidak ada pesan goodbye"
+#: lua/utilities.lua:366
+msgid "More info [here](https://telegram.me/GB_tutorials/12)"
+msgstr "Info lebih lanjut [disini](https://telegram.me/GB_tutorials/12)"
 
-#: plugins/welcome.lua:140
+#: lua/utilities.lua:369 lua/utilities.lua:371 lua/utilities.lua:373
 #, lua-format
-msgid "New media setted as goodbye message: `%s`"
-msgstr "Media baru telah ditetapkan sebagai pesan goodbye: `%s`"
+msgid "Inline link formatted incorrectly. Check the text between brackets -> \\[]()\n"
+"%s"
+msgstr "Format inline link salah. Periksa kembali teks, kurung, dan kurung siku -> \\[]()\n"
+"%s"
 
-#: plugins/welcome.lua:142
-msgid "Reply to a `sticker` or a `gif` to set them as *goodbye message*"
-msgstr "Balas ke `stiker` atau `gif` untuk membuatnya sebagai *pesan goodbye*"
+#: lua/utilities.lua:374
+msgid "This text breaks the markdown.\n"
+"More info about a proper use of markdown [here](https://telegram.me/GB_tutorials/10) and [here](https://telegram.me/GB_tutorials/12)."
+msgstr "Format markdown salah.\n"
+"Info lebih lanjut tentang penggunaan markdown yang tepat [disini](https://telegram.me/GB_tutorials/10) dan [disini](https://telegram.me/GB_tutorials/12)."
 
-#: plugins/welcome.lua:157
-msgid "*Custom goodbye message saved!*"
-msgstr "*Pesan goodbye kustom telah disimpan*"
+#: lua/utilities.lua:377
+msgid "This message is too long. Max lenght allowed by Telegram: 4000 characters"
+msgstr "Pesan terlalu panjang. Maksimal yang diperbolehkan oleh Telegram: 4000 karakter"
 
-#: plugins/welcome.lua:179
-msgid "Read the rules"
-msgstr "Baca rules"
+#: lua/utilities.lua:379
+msgid "One of the URLs that should be placed in an inline button seems to be invalid (not an URL). Please check it"
+msgstr "Salah satu Url yang harus ditempatkan dalam sebuah tombol inline tampaknya tidak valid (bukan URL). Silakan cek"
 
-#: utilities.lua:256 utilities.lua:257 utilities.lua:258
-msgid ""
-"Inline link formatted incorrectly. Check the text between brackets -> \\[]()"
-msgstr "Format link tidak tepat. Periksa teks diantar kurung siku -> \\[]()"
+#: lua/utilities.lua:380
+msgid "One of the inline buttons you are trying to set is missing the URL"
+msgstr "Salah satu tombol inline yang mau ditetapkan tidak memiliki URL"
 
-#: utilities.lua:262
-msgid ""
-"This message is too long. Max lenght allowed by Telegram: 4000 characters"
-msgstr ""
-"Pesan terlalu panjang. Maksimal yang diperbolehkan oleh Telegram: 4000 "
-"karakter"
+#: lua/utilities.lua:381
+msgid "One of the inline buttons you are trying to set doesn't have a name"
+msgstr "Salah satu tombol inline yang mau ditetapkan tidak memiliki nama"
 
-#: utilities.lua:265
-msgid "Unknown markdown error"
-msgstr "Error markdown tidak diketahui"
+#: lua/utilities.lua:382
+msgid "Please input a text"
+msgstr "Silakan masukkan teks"
 
-#: utilities.lua:419
+#: lua/utilities.lua:385
+msgid "Text not valid: unknown formatting error"
+msgstr "Teks tidak valid: kesalahan format tidak diketahui"
+
+#: lua/utilities.lua:538
 msgid "-*empty*-"
 msgstr "-*kosong*-"
 
-#: utilities.lua:462
+#: lua/utilities.lua:577
+#, lua-format
+msgid "<b>👤 Creator</b>\n"
+"└ %s\n\n"
+"<b>👥 Admins</b> (%d)\n"
+"%s"
+msgstr "<b>👤 Creator</b>\n"
+"└ %s\n\n"
+"<b>👥 Admin</b> (%d)\n"
+"%s"
+
+#: lua/utilities.lua:584
 msgid "No commands set"
 msgstr "Belum ada perintah yang dibuat"
 
-#: utilities.lua:468
-msgid "List of *custom commands*:\n"
-msgstr "Daftar *perintah kustom*:\n"
+#: lua/utilities.lua:587
+msgid "List of custom commands:\n"
+msgstr "Daftar custom commands:\n"
 
-#: utilities.lua:476
-msgid ""
-"Current settings for *the group*:\n"
-"\n"
-msgstr ""
-"*Pengaturan grup* saat ini:\n"
-"\n"
+#: lua/utilities.lua:595
+msgid "Current settings for *the group*:\n\n"
+msgstr "*Pengaturan grup* saat ini:\n\n"
 
-#: utilities.lua:477
+#: lua/utilities.lua:596
 #, lua-format
 msgid "*Language*: %s\n"
 msgstr "*Bahasa*: %s\n"
 
-#: utilities.lua:481
+#: lua/utilities.lua:600
 msgid "Welcome message"
 msgstr "Pesan selamat datang"
 
-#: utilities.lua:482
+#: lua/utilities.lua:601
 msgid "Goodbye message"
 msgstr "Pesan goodbye"
 
-#: utilities.lua:491
+#: lua/utilities.lua:610
 msgid "Welcome button"
 msgstr "Tombol welcome"
 
-#: utilities.lua:527
+#: lua/utilities.lua:646
 msgid "*Welcome type*: `GIF / sticker`\n"
 msgstr "*Jenis pesan selamat datang*: `Gif / stiker`\n"
 
-#: utilities.lua:529
+#: lua/utilities.lua:648
 msgid "*Welcome type*: `custom message`\n"
 msgstr "*Jenis pesan selamat datang*: `kustom`\n"
 
-#: utilities.lua:531
+#: lua/utilities.lua:650
 msgid "*Welcome type*: `default message`\n"
 msgstr "*Jenis pesan selamat datang*: `pesan default`\n"
 
-#: utilities.lua:537
+#: lua/utilities.lua:657
 #, lua-format
 msgid "Warns (`standard`): *%s*\n"
 msgstr "Peringatan (`standard`): *%s*\n"
 
-#: utilities.lua:538
+#: lua/utilities.lua:658
 #, lua-format
-msgid ""
-"Warns (`media`): *%s*\n"
-"\n"
-msgstr ""
-"Peringatan (`media`): *%s*\n"
-"\n"
+msgid "Warns (`media`): *%s*\n\n"
+msgstr "Peringatan (`media`): *%s*\n\n"
 
-#: utilities.lua:539
+#: lua/utilities.lua:659
 msgid "✅ = _enabled / allowed_\n"
 msgstr "✅ = _aktif / (tidak terdeteksi: untuk antiflood)_\n"
 
-#: utilities.lua:540
+#: lua/utilities.lua:660
 msgid "🚫 = _disabled / not allowed_\n"
 msgstr "🚫 = _tidak aktif / (terdeteksi: untuk antiflood)_\n"
 
-#: utilities.lua:541
+#: lua/utilities.lua:661
 msgid "👥 = _sent in group (always for admins)_\n"
 msgstr "👥 = _dikirim di grup (selalu jika admin)_\n"
 
-#: utilities.lua:542
+#: lua/utilities.lua:662
 msgid "👤 = _sent in private_"
 msgstr "👤 = _dikirim melalui pm_"
 
-#: utilities.lua:548
+#: lua/utilities.lua:668
 msgid "@admin command disabled"
 msgstr "Perintah @admin dinonaktifkan"
 
-#: utilities.lua:549
+#: lua/utilities.lua:669
 msgid "Welcome message won't be displayed from now"
 msgstr "Pesan selamat datang tidak akan ditampilkan mulai sekarang"
 
-#: utilities.lua:550
+#: lua/utilities.lua:670
 msgid "Goodbye message won't be displayed from now"
 msgstr "Pesan goodbye tidak akan ditampilkan mulai sekarang"
 
-#: utilities.lua:551
-msgid "#extra commands are now available only for moderator"
-msgstr "Sekarang perintah #extra hanya tersedia untuk admin"
+#: lua/utilities.lua:671
+msgid "#extra commands are now available only for administrators"
+msgstr "#extra command untuk saat ini hanya dapat digunakan oleh administrator"
 
-#: utilities.lua:552
+#: lua/utilities.lua:672
 msgid "Anti-flood is now off"
 msgstr "Anti-flood tidak aktif"
 
-#: utilities.lua:553
+#: lua/utilities.lua:673
 msgid "/rules will reply in private (for users)"
 msgstr "/rules akan dibalas ke pesan pribadi (untuk pengguna)"
 
-#: utilities.lua:554
-msgid "Bots won't be kicked if added by an user"
-msgstr "Bot tidak akan dikeluarkan jika ditambahkan oleh pengguna"
+#: lua/utilities.lua:674
+msgid "Silent mode is now off"
+msgstr "Silent mode sekarang off"
 
-#: utilities.lua:555
+#: lua/utilities.lua:675
+msgid "Links preview disabled"
+msgstr "Link preview dinonaktifkan"
+
+#: lua/utilities.lua:676
 msgid "Welcome message without a button for the rules"
 msgstr "Pesan selamat datang tanpa tombol rules"
 
-#: utilities.lua:558
+#: lua/utilities.lua:679
 msgid "@admin command enabled"
 msgstr "Perintah @admin diaktifkan"
 
-#: utilities.lua:559
+#: lua/utilities.lua:680
 msgid "Welcome message will be displayed"
 msgstr "Pesan selamat datang akan ditampilkan"
 
-#: utilities.lua:560
+#: lua/utilities.lua:681
 msgid "Goodbye message will be displayed"
 msgstr "Pesan goodbye akan ditampilkan"
 
-#: utilities.lua:561
+#: lua/utilities.lua:682
 msgid "#extra commands are now available for all"
 msgstr "Sekarang perintah #extra dapat digunakan oleh semua anggota grup"
 
-#: utilities.lua:562
+#: lua/utilities.lua:683
 msgid "Anti-flood is now on"
 msgstr "Anti-flood sekarang aktif"
 
-#: utilities.lua:563
+#: lua/utilities.lua:684
 msgid "/rules will reply in the group (with everyone)"
 msgstr "/rules akan dibalas di grup (untuk semua)"
 
-#: utilities.lua:564
-msgid "Bots will be kicked if added by an user"
-msgstr "Bot akan dikeluarkan jika ditambahkan oleh pengguna"
+#: lua/utilities.lua:685
+msgid "Silent mode is now on"
+msgstr "Silent mode sekarang on"
 
-#: utilities.lua:565
+#: lua/utilities.lua:686
+msgid "Links preview enabled"
+msgstr "Link preview diaktifkan"
+
+#: lua/utilities.lua:687
 msgid "The welcome message will have a button for the rules"
 msgstr "Pesan selamat datang akan memiliki tombol rules"
 
-#: utilities.lua:578
-msgid ""
-"This setting is enabled, but the goodbye message won't be displayed in large "
-"groups, because I can't see service messages about left members"
-msgstr ""
-"Pengaturan ini telah aktif, namun pesan goodbye tidak akan tampil di grup "
-"yang besar, karena saya tidak dapat melihat pesan anggota yang meninggalkan "
-"obrolan"
+#: lua/utilities.lua:700
+msgid "This setting is enabled, but the goodbye message won't be displayed in large groups, because I can't see service messages about left members"
+msgstr "Pengaturan ini telah aktif, namun pesan goodbye tidak akan tampil di grup yang besar, karena saya tidak dapat melihat pesan anggota yang meninggalkan obrolan"
 
-#: utilities.lua:602
-#, lua-format
-msgid "New status = %s"
-msgstr "Status baru = %s"
-
-#: utilities.lua:606
+#: lua/utilities.lua:709
 msgid "Start me"
 msgstr "Mulai bot"
 
-#: utilities.lua:607
+#: lua/utilities.lua:710
 msgid "_Please message me first so I can message you_"
-msgstr ""
-"_Kirimkan saya pesan terlebih dahulu agar saya bisa mengirimkan pesan ke "
-"Anda_"
+msgstr "_Kirimkan saya pesan terlebih dahulu agar saya bisa mengirimkan pesan ke Anda_"
 
-#: utilities.lua:741
+#: lua/utilities.lua:792
+msgid "Reply to an user or mention him"
+msgstr "Reply ke user atau mention dia"
+
+#: lua/utilities.lua:803 lua/utilities.lua:813
+msgid "Unknown user.\n"
+"Please forward a message from them to me"
+msgstr "Pengguna yang tidak diketahui.\n"
+"Coba forward salah satu pesannya ke private message saya."
+
+#: lua/utilities.lua:828
 #, lua-format
 msgid "<b>Chat</b>: %s [#chat%d]"
 msgstr "<b>Obrolan</b>: %s [#chat%d]"
 
-#: utilities.lua:764 utilities.lua:767 utilities.lua:769 utilities.lua:771
-#, fuzzy, lua-format
-msgid ""
-"%s\n"
+#: lua/utilities.lua:853 lua/utilities.lua:860 lua/utilities.lua:862
+#: lua/utilities.lua:864
+#, lua-format
+msgid "%s\n"
 "• %s\n"
 "• <b>By</b>: %s"
-msgstr ""
-"#FOTOBARU\n"
-"%s\n"
-"<b>Oleh</b>: %s"
+msgstr "%s\n"
+"• %s\n"
+"• <b>Oleh</b>: %s"
 
-#: utilities.lua:765
+#: lua/utilities.lua:856
 msgid "Get the new photo"
 msgstr "Memperoleh foto baru"
 
-#: utilities.lua:774
+#: lua/utilities.lua:867
 #, lua-format
-msgid ""
-"%s\n"
+msgid "%s\n"
 "• %s\n"
 "• <b>By</b>: %s\n"
 "• <i>Reported to %d admin(s)</i>"
-msgstr ""
+msgstr "%s\n"
+"• %s\n"
+"• <b>Oleh</b>: %s\n"
+"• <i>Dilaporkan ke %d admin(s)</i>"
 
-#: utilities.lua:777
-#, fuzzy, lua-format
-msgid ""
-"%s\n"
+#: lua/utilities.lua:870
+#, lua-format
+msgid "#BLOCKBAN\n"
+"• %s\n"
+"• <b>User</b>: %s [#id%d]"
+msgstr "#BLOCKBAN\n"
+"• %s\n"
+"• <b>Pengguna</b>: %s [#id%d]"
+
+#: lua/utilities.lua:874
+#, lua-format
+msgid "%s\n"
 "• %s\n"
 "• <b>User</b>: %s"
-msgstr ""
-"#ANGGOTA_BARU\n"
-"%s\n"
-"<b>Pengguna</b>: %s"
+msgstr "%s\n"
+"• %s\n"
+"• <b>Pengguna</b>: %s"
 
-#: utilities.lua:779
-#, fuzzy, lua-format
-msgid ""
-"\n"
+#: lua/utilities.lua:876
+#, lua-format
+msgid "\n"
 "• <b>Added by</b>: %s [#id%d]"
-msgstr ""
-"\n"
-"<b>Ditambahkan oleh</b>: %s [#id%d]"
+msgstr "\n"
+"• <b>Ditambahkan oleh</b>: %s [#id%d]"
 
-#: utilities.lua:791
-#, fuzzy, lua-format
-msgid ""
-"#%s\n"
+#: lua/utilities.lua:889
+#, lua-format
+msgid "#%s\n"
 "• <b>Admin</b>: %s [#id%d]\n"
 "• %s\n"
 "• <b>User</b>: %s [#id%d]\n"
 "• <b>Count</b>: <code>%d/%d</code>"
-msgstr ""
-"#%s\n"
-"<b>Admin</b>: %s [#id%d]\n"
-"%s\n"
-"<b>Pengguna</b>: %s [#id%d]\n"
-"<b>Count</b>: <code>%d/%d</code>"
+msgstr "#%s\n"
+"• <b>Admin</b>: %s [#id%d]\n"
+"• %s\n"
+"• <b>Pengguna</b>: %s [#id%d]\n"
+"• <b>Count</b>: <code>%d/%d</code>"
 
-#: utilities.lua:793
+#: lua/utilities.lua:892
 #, lua-format
-msgid ""
-"\n"
+msgid "\n"
 "<b>Action</b>: <i>%s</i>"
-msgstr ""
-"\n"
+msgstr "\n"
 "<b>Aksi</b>: <i>%s</i>"
 
-#: utilities.lua:800
-msgid "WARNS_RESET"
-msgstr "RESET_PERINGATAN"
-
-#: utilities.lua:801 utilities.lua:817
-#, fuzzy, lua-format
-msgid ""
-"#%s\n"
+#: lua/utilities.lua:900
+#, lua-format
+msgid "#%s\n"
 "• <b>Admin</b>: %s [#id%s]\n"
 "• %s\n"
-"• <b>User</b>: %s [#id%s]"
-msgstr ""
-"#%s\n"
-"<b>Admin</b>: %s [#id%s]\n"
-"%s\n"
-"<b>Pengguna</b>: %s [#id%s]"
+"• <b>User</b>: %s [#id%s]\n"
+"• <b>Warns found</b>: <i>normal: %s, for media: %s, spamwarns: %s</i>"
+msgstr "#%s\n"
+"• <b>Admin</b>: %s [#id%s]\n"
+"• %s\n"
+"• <b>Pengguna</b>: %s [#id%s]\n"
+"• <b>Peringatan ditemukan</b>: <i>normal: %s, media: %s, spamwarns: %s</i>"
 
-#: utilities.lua:810
-#, fuzzy, lua-format
-msgid ""
-"#%s\n"
+#: lua/utilities.lua:906
+#, lua-format
+msgid "#%s\n"
+"• <b>Admin</b>: %s [#id%s]\n"
+"• %s\n"
+msgstr "#%s\n"
+"• <b>Admin</b>: %s [#id%s]\n"
+"• %s\n"
+
+#: lua/utilities.lua:909
+#, lua-format
+msgid "• <i>Users involved: %d</i>"
+msgstr "• <i>Pengguna yang terlibat: %d</i>"
+
+#: lua/utilities.lua:911
+#, lua-format
+msgid "• <b>User</b>: %s [#id%d]"
+msgstr "• <b>Pengguna</b>: %s [#id%d]"
+
+#: lua/utilities.lua:922
+#, lua-format
+msgid "#%s\n"
 "• <b>Admin</b>: %s [#id%s]\n"
 "• %s\n"
 "• <b>User</b>: %s [#id%s]\n"
 "• <b>Duration</b>: %d days, %d hours"
-msgstr ""
-"#%s\n"
-"<b>Admin</b>: %s [#id%s]\n"
-"%s\n"
-"<b>Pengguna</b>: %s [#id%s]\n"
-"<b>Durasi</b>: %d days, %d hours"
+msgstr "#%s\n"
+"• <b>Admin</b>: %s [#id%s]\n"
+"• %s\n"
+"• <b>Pengguna</b>: %s [#id%s]\n"
+"• <b>Durasi</b>: %d hari, %d jam"
 
-#: utilities.lua:821
-msgid "Unban"
-msgstr "Unblokir"
+#: lua/utilities.lua:931
+#, lua-format
+msgid "#%s\n"
+"• <b>Admin</b>: %s [#id%s]\n"
+"• %s\n"
+"• <b>User</b>: %s [#id%s]"
+msgstr "#%s\n"
+"• <b>Admin</b>: %s [#id%s]\n"
+"• %s\n"
+"• <b>Pengguna</b>: %s [#id%s]"
 
-#: utilities.lua:828
-#, fuzzy
+#: lua/utilities.lua:950
 msgid "Go to the message"
-msgstr "Ke pesan pin"
+msgstr "Lihat pesan"
 
-#~ msgid "Realms"
-#~ msgstr "Realms"
+#: lua/utilities.lua:994
+#, lua-format
+msgid "This command has been removed \\[[read more](%s)]"
+msgstr "Perintah ini telah dihapus \\[[baca lebih lanjut](%s)]"
 
-#~ msgid "Select a group:"
-#~ msgstr "Pilih grup:"
-
-#~ msgid "_Reported in the admins group_"
-#~ msgstr "_Telah dilaporkan ke grup admin_"
-
-#~ msgid ""
-#~ "#PHOTOREMOVED\n"
-#~ "%s\n"
-#~ "<b>By</b>: %s"
-#~ msgstr ""
-#~ "#FOTODIHAPUS\n"
-#~ "%s\n"
-#~ "<b>Oleh</b>: %s"
-
-#~ msgid ""
-#~ "#NEWTITLE\n"
-#~ "%s\n"
-#~ "<b>By</b>: %s"
-#~ msgstr ""
-#~ "#JUDULBARU\n"
-#~ "%s\n"
-#~ "<b>Oleh</b>: %s"
-
-#~ msgid ""
-#~ "#PINNEDMSG\n"
-#~ "%s\n"
-#~ "<b>By</b>: %s"
-#~ msgstr ""
-#~ "#PESANPIN\n"
-#~ "%s\n"
-#~ "<b>Oleh</b>: %s"
-
-#~ msgid ""
-#~ "\n"
-#~ "\n"
-#~ "<i>%s</i>"
-#~ msgstr ""
-#~ "\n"
-#~ "\n"
-#~ "<i>%s</i>"
-
-#~ msgid "Sorry, a *bug* occurred"
-#~ msgstr "Maaf, terjadi *bug*"
-
-#, fuzzy
-#~ msgid "You're no longer admin"
-#~ msgstr "Kamu bukan admin"
-
-#~ msgid "Instructions"
-#~ msgstr "Instruksi"
-
-#~ msgid "Sending `%s.po` file..."
-#~ msgstr "Sedang mengirim file `%s.po`..."
-
-#~ msgid "No commands set!"
-#~ msgstr "Belum ada command yang dibuat!"
-
-#~ msgid "That message is too long, I can't send it"
-#~ msgstr "Gagal. Pesan terlalu panjang"
-
-#~ msgid ""
-#~ "\n"
-#~ "You can manage the group flood settings from here.\n"
-#~ "\n"
-#~ "*1st row*\n"
-#~ "• *ON/OFF*: the current status of the anti-flood\n"
-#~ "• *Kick/Ban*: what to do when someone is flooding\n"
-#~ "\n"
-#~ "*2nd row*\n"
-#~ "• you can use *+/-* to change the current sensitivity of the antiflood "
-#~ "system\n"
-#~ "• the number it's the max number of messages that can be sent in _5 "
-#~ "seconds_\n"
-#~ "• max value: _25_, min value: _4_\n"
-#~ "\n"
-#~ "*3rd row* and below\n"
-#~ "You can set some exceptions for the antiflood:\n"
-#~ "• ✅: the media will be ignored by the anti-flood\n"
-#~ "• ❌: the media won\\'t be ignored by the anti-flood\n"
-#~ "• *Note*: in \"_texts_\" are included all the other types of media (file, "
-#~ "audio...)\n"
-#~ msgstr ""
-#~ "\n"
-#~ "Kamu dapat mengatur aksi anti-flood grup dibawah ini.\n"
-#~ "\n"
-#~ "*Baris pertama*\n"
-#~ "• *Aktif/Tidak Aktif*:  pengaturan anti-flood saat ini\n"
-#~ "• *Kick/Ban*: aksi jika user melakukan flood\n"
-#~ "\n"
-#~ "*Baris kedua*\n"
-#~ "• Gunakan *+/-* untuk mengubah nilai sensitifitas anti-flood\n"
-#~ "• Angka tersebut adalah: jumlah maksimal pesan yang boleh dikirim selama "
-#~ "_5 detik_\n"
-#~ "• Nilai maksimal: _25_, Nilai minimal: _4_\n"
-#~ "\n"
-#~ "*Baris ketiga* dan seterusnya\n"
-#~ "Kamu dapat membuat beberapa exception untuk anti-flood :\n"
-#~ "• ✅: media akan diabaikan (dibolehkan) oleh anti-flood\n"
-#~ "• ❌: media akan dideteksi (dianulir) anti-flood\n"
-#~ "• *Catatan*: pada \"_texts_\" sudah ditampilkan semua jenis media (file, "
-#~ "suara...)\n"
-
-#~ msgid "⚠️ Tap on an icon!"
-#~ msgstr "⚠️ Tap pada icon!"
-
-#~ msgid ""
-#~ "\n"
-#~ "*Admins: flood settings*\n"
-#~ "\n"
-#~ "`/config` command, then `antiflood` button: manage the flood settings in "
-#~ "private, with an inline keyboard. You can change the sensitivity, the "
-#~ "action (kick/ban), and even set some exceptions.\n"
-#~ "`/antiflood [number]` = set how many messages a user can write in 5 "
-#~ "seconds.\n"
-#~ "_Note_ : the number must be higher than 3 and lower than 26.\n"
-#~ msgstr ""
-#~ "\n"
-#~ "*Admins: pengaturan flood*\n"
-#~ "\n"
-#~ "`/config, kemudian pilih tombol `antiflood`: pengaturan dilakukan di pm "
-#~ "dengan inline keyboard. Kamu dapat mengubah sensitifitas antiflood, aksi "
-#~ "(kick/ban), bahkan membuat beberapa exception.\n"
-#~ "`/antiflood [angka]` = menentukan berapa banyak pesan yang boleh dikirim "
-#~ "oleh user selama 5 detik.\n"
-#~ "_Catatan_ : angka harus lebih besar dari 3 dan lebih kecil dari 26.\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "*Admins: media settings*\n"
-#~ "\n"
-#~ "`/config` command, then `media` button = receive via private message an "
-#~ "inline keyboard to change all the media settings.\n"
-#~ "`/warnmax media [number]` = set the max number of warnings before be "
-#~ "kicked/banned for have sent a forbidden media.\n"
-#~ "`/nowarns (by reply)` = reset the number of warnings for the users "
-#~ "(*NOTE: both regular warnings and media warnings*).\n"
-#~ "\n"
-#~ "*List of supported media*: _image, audio, video, sticker, gif, voice, "
-#~ "contact, file, link, telegram.me links_\n"
-#~ msgstr ""
-#~ "\n"
-#~ "*Admin: pengaturan media*\n"
-#~ "\n"
-#~ "`/config` kemudian pilih tombol `media` = kamu akan menerima inline "
-#~ "keyboard (pm)  untuk mengubah pengaturan media.\n"
-#~ "`/warnmax media [angka]` = menentukan jumlah warn maksimal sebelum user "
-#~ "di kick/ban dari grup karena mengirim media yang dianulir.\n"
-#~ "\n"
-#~ "*Daftar media yang dikenali*: _gambar, suara, video, stiker, gif, kontak, "
-#~ "file, link, link telegram.me_\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "*Admins: special characters*\n"
-#~ "\n"
-#~ "`/config` command, then `menu` button = you will receive in private the "
-#~ "menu keyboard.\n"
-#~ "Here you will find two particular options: _Arab and RTL_.\n"
-#~ "\n"
-#~ "*Arab*: when Arab it's not allowed (🚫), everyone who will write an arab "
-#~ "character will be kicked from the group.\n"
-#~ "*Rtl*: it stands for 'Righ To Left' character, and it's the responsible "
-#~ "of the weird service messages that are written in the opposite sense.\n"
-#~ "When Rtl is not allowed (🚫), everyone that writes this character (or that "
-#~ "has it in his name) will be kicked.\n"
-#~ msgstr ""
-#~ "\n"
-#~ "*Admin: karakter spesial*\n"
-#~ "\n"
-#~ "`/config` , kemudian pilih tombol `menu` = kamu akan menerima inline "
-#~ "keyboard.\n"
-#~ "Ada 2 pengaturan karakter tertentu: _Arab dan RTL_.\n"
-#~ "\n"
-#~ "*Arab*: jika karakter arab dianulir (🚫), user yang mengirimnya akan "
-#~ "dikeluarkan dari grup\n"
-#~ "*Rtl*: (righ to left) karakter, menyebabkan service message (contoh: "
-#~ "joined grup) menjadi aneh dan berlawanan.\n"
-#~ "Jika karakter RTL dianulir (🚫), user yang menggunakannya (di nama/pesan) "
-#~ "akan dikeluarkan dari grup.\n"
-
-#~ msgid "Flood manager"
-#~ msgstr "Pengaturan flood"
-
-#~ msgid "General settings"
-#~ msgstr "Pengaturan umum"
-
-#~ msgid "Characters"
-#~ msgstr "Karakter"
-
-#~ msgid "Info"
-#~ msgstr "Informasi"
-
-#~ msgid "Tap on a button to see the *related commands*"
-#~ msgstr "Tap pada tombol untuk *menampilkan command*"
-
-#~ msgid ""
-#~ "\n"
-#~ "Manage the settings of the group.\n"
-#~ "📘 _Short legenda_:\n"
-#~ "\n"
-#~ "*Extra*:\n"
-#~ "• 👥: the bot will reply *in the group*, with everyone\n"
-#~ "• 👤: the bot will reply *in private* with normal users and in the group "
-#~ "with admins\n"
-#~ "\n"
-#~ "*Silent mode*:\n"
-#~ "If enabled, the bot won't send a confirmation message in the group when "
-#~ "someone use /config or /dashboard.\n"
-#~ "It will just send the message in private.\n"
-#~ msgstr ""
-#~ "\n"
-#~ "Menentukan pengaturan grup.\n"
-#~ "📘 _Penjelasan singkat_:\n"
-#~ "\n"
-#~ "*Extra*:\n"
-#~ "• 👥: semua user dapat menggunakan extra command balasan  akan *tampil di "
-#~ "grup*\n"
-#~ "• 👤: jika user bukan admin, bot akan membalas *melalui pm*. (Jika admin, "
-#~ "balasan akan tampil di grup)\n"
-#~ "\n"
-#~ "*Silent mode*:\n"
-#~ "Jika aktif, bot tidak akan mengirim pesan konfirmasi jika seseorang "
-#~ "mengirim command /config, /dashboard atau /help .\n"
-#~ "Balasan akan diterima melalui pm\n"
-
-#~ msgid "Tap on the icons"
-#~ msgstr "Tap pada icon"
-
-#~ msgid "This message is too long, I can't send it"
-#~ msgstr "Gagal. Pesan terlalu panjang"
-
-#~ msgid ""
-#~ "This text breaks the markdown.\n"
-#~ "More info about proper markdown usage can be found [here](https://"
-#~ "telegram.me/GroupButler_ch/46)."
-#~ msgstr ""
-#~ "Format (markdown) pesan salah.\n"
-#~ "Baca [disini](https://telegram.me/GroupButler_ch/46) untuk penggunaan "
-#~ "format yang benar."
-
-#~ msgid "👥 Add me to a group"
-#~ msgstr "👥 Tambahkan saya ke grup"
-
-#~ msgid ""
-#~ "I'm not an admin in this group.\n"
-#~ "*Only an admin can see a list of admins.*"
-#~ msgstr ""
-#~ "Saya bukan admin grup\n"
-#~ "*Hanya admin yg dapat melihat daftar admin*"
-
-#~ msgid "Some useful *links*:"
-#~ msgstr "Link informasi *links*:"
-
-#~ msgid "You don't have any pinned message sent with `/pin [text to pin]`"
-#~ msgstr ""
-#~ "Anda belum memiliki pin message, gunakan `/pin [text yang akan di pin]`"
-
-#~ msgid ""
-#~ "The preview pinned message I sent *does no longer exist*. I can't edit it"
-#~ msgstr "Gagal. Pin message sebelumnya *tidak tersedia*"
