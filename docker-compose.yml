@@ -6,7 +6,8 @@ services:
       - GB_ADMIN_MODE
       - GB_CACHE_ADMIN
       - GB_OLD_UPDATE
-      - CHANNEL
+      - GB_CHANNEL
+      - GB_SOURCE
       - DEFAULT_LANG
       - HELP_GROUP
       - LOG_CHAT
@@ -21,7 +22,6 @@ services:
       - REDIS_HOST
       - REDIS_PORT
       - REDIS_DB
-      - SOURCE
       - SUPERADMINS
       - TG_TOKEN
       - TG_UPDATES
