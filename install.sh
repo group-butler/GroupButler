@@ -58,7 +58,7 @@ case $REPLY in [yY])
 		read REPLY
 		if [[ $REPLY == [yY] ]]; then
 			echo -en "${Orange}Fetching latest Group Butler source code\n${Default}"
-			git clone -b master https://github.com/RememberTheAir/GroupButler.git && cd GroupButler
+			git clone -b master https://github.com/group-butler/GroupButler.git && cd GroupButler
 		fi
 	fi
 

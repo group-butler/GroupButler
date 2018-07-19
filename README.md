@@ -111,7 +111,7 @@ You can easily install Group Butler by running the following commands:
 ```bash
 # Tested on Ubuntu 16.04
 
-$ wget https://raw.githubusercontent.com/RememberTheAir/GroupButler/master/install.sh
+$ wget https://raw.githubusercontent.com/group-butler/GroupButler/master/install.sh
 $ bash install.sh
 ```
 
@@ -142,7 +142,7 @@ $ cd ..
 # Clone the repository and give the launch script permissions to be executed
 # If you want to clone the beta branch, use git clone with the [-b beta] option
 
-$ git clone https://github.com/RememberTheAir/GroupButler.git
+$ git clone https://github.com/group-butler/GroupButler.git
 $ cd GroupButler
 $ sudo chmod +x launch.sh
 ```
