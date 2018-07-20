@@ -135,7 +135,7 @@ function _M:onTextMessage(msg, blocks)
 
 				local file_id = text:match('^###.+###:(.*)')
 		local special_method = text:match('^###file_id!(.*)###') -- photo, voices, video need their method to be sent by file_id
-			local link_preview = text:find('telegra%.ph/') ~= nil
+		local link_preview = text:find('telegra%.ph/') == nil
 		local _, err
 
 		if msg.chat.id > 0 or (is_locked(self, msg.chat.id) and not msg.from.admin) then -- send it in private

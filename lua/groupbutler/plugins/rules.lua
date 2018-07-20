@@ -64,7 +64,7 @@ function _M:onTextMessage(msg, blocks)
 
 		reply_markup, rules = u:reply_markup_from_text(rules)
 
-		local link_preview = rules:find('telegra%.ph/') ~= nil
+		local link_preview = rules:find('telegra%.ph/') == nil
 		if msg.chat.type == 'private' or (not msg.from.admin and not send_in_group(self, msg.chat.id)) then
 			api.sendMessage(msg.from.id, rules, "Markdown", link_preview, nil, nil, reply_markup)
 		else

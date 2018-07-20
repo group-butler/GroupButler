@@ -217,7 +217,7 @@ function _M:onTextMessage(msg, blocks)
 				local line = {{text = i18n('Read the rules'), url = u:deeplink_constructor(msg.chat.id, 'rules')}}
 				table.insert(reply_markup.inline_keyboard, line)
 			end
-			local link_preview = text:find('telegra%.ph/') ~= nil
+			local link_preview = text:find('telegra%.ph/') == nil
 			local res, code = api.sendMessage(msg.chat.id, text, "Markdown", link_preview, nil, nil, reply_markup)
 			if not res and code == 160 then -- if bot can't send message
 				u:remGroup(msg.chat.id, true)
