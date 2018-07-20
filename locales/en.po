@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GroupButler 4.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-17 13:29-0300\n"
+"POT-Creation-Date: 2018-07-20 13:36-0300\n"
 "PO-Revision-Date: 2016-08-27 17:50+0300\n"
 "Last-Translator: Nicholas Guriev <guriev-ns@ya.ru>\n"
 "Language-Team: English\n"
@@ -620,7 +620,7 @@ msgstr ""
 
 #: lua/plugins/defaultpermissions.lua:112
 msgid ""
-"*Deafult permissions*\n"
+"*Default permissions*\n"
 "From this menu you can change the default permissions that will be granted "
 "when a new member join.\n"
 "_Only the administrators with the permission to restrict a member can access "
@@ -1037,9 +1037,9 @@ msgid ""
 "\n"
 "*Arab*: when Arab is not allowed (🚫), people who write Arab characters will "
 "be kicked from the group.\n"
-"*Rtl*: stands for 'Righ To Left' character, is the cause of weird service "
+"*Rtl*: stands for 'Right To Left' character, is the cause of weird service "
 "messages written in the opposite direction.\n"
-"When Rtl is not allowed (🚫), people who write Rtl characters (or has it in "
+"When Rtl is not allowed (🚫), people who write Rtl characters (or have it in "
 "their names) will be kicked.\n"
 msgstr ""
 
@@ -1306,7 +1306,7 @@ msgstr ""
 msgid "Kick"
 msgstr ""
 
-#: lua/plugins/logchannel.lua:59 lua/utilities.lua:942
+#: lua/plugins/logchannel.lua:59 lua/utilities.lua:944
 msgid "Unban"
 msgstr ""
 
@@ -1574,7 +1574,7 @@ msgstr ""
 #: lua/plugins/menu.lua:42
 msgid ""
 "Select what the bot should do when someone sends a message with the RTL "
-"character, or has it in his name"
+"character, or has it in their name"
 msgstr ""
 
 #: lua/plugins/menu.lua:44
@@ -2133,7 +2133,7 @@ msgid ""
 "I've never seen this user before.\n"
 "This command works by reply, username, user ID or text mention.\n"
 "If you're using it by username and want to teach me who the user is, forward "
-"me one of his messages"
+"me one of their messages"
 msgstr ""
 
 #: lua/plugins/users.lua:184 lua/plugins/users.lua:240
@@ -2495,23 +2495,27 @@ msgstr ""
 msgid "_Please message me first so I can message you_"
 msgstr ""
 
-#: lua/utilities.lua:795
+#: lua/utilities.lua:788 lua/utilities.lua:789
+msgid "Someone"
+msgstr ""
+
+#: lua/utilities.lua:797
 msgid "Reply to an user or mention them"
 msgstr ""
 
-#: lua/utilities.lua:806 lua/utilities.lua:816
+#: lua/utilities.lua:808 lua/utilities.lua:818
 msgid ""
 "Unknown user.\n"
 "Please forward a message from them to me"
 msgstr ""
 
-#: lua/utilities.lua:831
+#: lua/utilities.lua:833
 #, lua-format
 msgid "<b>Chat</b>: %s [#chat%d]"
 msgstr ""
 
-#: lua/utilities.lua:856 lua/utilities.lua:863 lua/utilities.lua:865
-#: lua/utilities.lua:867
+#: lua/utilities.lua:858 lua/utilities.lua:865 lua/utilities.lua:867
+#: lua/utilities.lua:869
 #, lua-format
 msgid ""
 "%s\n"
@@ -2519,11 +2523,11 @@ msgid ""
 "• <b>By</b>: %s"
 msgstr ""
 
-#: lua/utilities.lua:859
+#: lua/utilities.lua:861
 msgid "Get the new photo"
 msgstr ""
 
-#: lua/utilities.lua:870
+#: lua/utilities.lua:872
 #, lua-format
 msgid ""
 "%s\n"
@@ -2532,7 +2536,7 @@ msgid ""
 "• <i>Reported to %d admin(s)</i>"
 msgstr ""
 
-#: lua/utilities.lua:873
+#: lua/utilities.lua:875
 #, lua-format
 msgid ""
 "#BLOCKBAN\n"
@@ -2540,7 +2544,7 @@ msgid ""
 "• <b>User</b>: %s [#id%d]"
 msgstr ""
 
-#: lua/utilities.lua:877
+#: lua/utilities.lua:879
 #, lua-format
 msgid ""
 "%s\n"
@@ -2548,14 +2552,14 @@ msgid ""
 "• <b>User</b>: %s"
 msgstr ""
 
-#: lua/utilities.lua:879
+#: lua/utilities.lua:881
 #, lua-format
 msgid ""
 "\n"
 "• <b>Added by</b>: %s [#id%d]"
 msgstr ""
 
-#: lua/utilities.lua:892
+#: lua/utilities.lua:894
 #, lua-format
 msgid ""
 "#%s\n"
@@ -2565,14 +2569,14 @@ msgid ""
 "• <b>Count</b>: <code>%d/%d</code>"
 msgstr ""
 
-#: lua/utilities.lua:895
+#: lua/utilities.lua:897
 #, lua-format
 msgid ""
 "\n"
 "<b>Action</b>: <i>%s</i>"
 msgstr ""
 
-#: lua/utilities.lua:903
+#: lua/utilities.lua:905
 #, lua-format
 msgid ""
 "#%s\n"
@@ -2582,7 +2586,7 @@ msgid ""
 "• <b>Warns found</b>: <i>normal: %s, for media: %s, spamwarns: %s</i>"
 msgstr ""
 
-#: lua/utilities.lua:909
+#: lua/utilities.lua:911
 #, lua-format
 msgid ""
 "#%s\n"
@@ -2590,17 +2594,17 @@ msgid ""
 "• %s\n"
 msgstr ""
 
-#: lua/utilities.lua:912
+#: lua/utilities.lua:914
 #, lua-format
 msgid "• <i>Users involved: %d</i>"
 msgstr ""
 
-#: lua/utilities.lua:914
+#: lua/utilities.lua:916
 #, lua-format
 msgid "• <b>User</b>: %s [#id%d]"
 msgstr ""
 
-#: lua/utilities.lua:925
+#: lua/utilities.lua:927
 #, lua-format
 msgid ""
 "#%s\n"
@@ -2610,7 +2614,7 @@ msgid ""
 "• <b>Duration</b>: %d days, %d hours"
 msgstr ""
 
-#: lua/utilities.lua:934
+#: lua/utilities.lua:936
 #, lua-format
 msgid ""
 "#%s\n"
@@ -2619,11 +2623,11 @@ msgid ""
 "• <b>User</b>: %s [#id%s]"
 msgstr ""
 
-#: lua/utilities.lua:953
+#: lua/utilities.lua:955
 msgid "Go to the message"
 msgstr ""
 
-#: lua/utilities.lua:997
+#: lua/utilities.lua:999
 #, lua-format
 msgid "This command has been removed \\[[read more](%s)]"
 msgstr ""

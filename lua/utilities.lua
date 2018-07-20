@@ -784,8 +784,10 @@ function utilities.getnames_complete(msg)
 		end
 	end
 
-	assert(kicked, "kicked is false/nil")
-	assert(admin, "admin is false/nil")
+	-- TODO: Actually fix this
+	if not kicked then kicked = i18n("Someone") end
+	if not admin then admin = i18n("Someone") end
+
 	return admin, kicked
 end
 
