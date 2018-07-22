@@ -107,7 +107,7 @@ If on, the antiflood system will kick/ban flooders.
 `@admin` is an useful command to let users report some messages to the group admins.
 A reported message will be forwarded to the available admins.
 
-• `/config` command, then `menu` button: here you can find a voice, "Report". If turned on, users will be able to use `@admin` command.
+• `/config` command, then `menu` button: here you can find an option, "Report". If turned on, users will be able to use the `@admin` command.
 Only admins who accepted to receive reports (with `/mysettings` command) will be notified
 • `/mysettings` (in private): from here, you can choose if receive reports or not
 
