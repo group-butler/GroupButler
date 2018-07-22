@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-07-22 18:04+0200\n"
-"PO-Revision-Date: 2018-07-22 16:07\n"
+"PO-Revision-Date: 2018-07-22 16:31\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh\n"
@@ -850,7 +850,13 @@ msgid "*Reports settings*\n"
 "Only admins who accepted to receive reports (with `/mysettings` command) will be notified\n"
 "• `/mysettings` (in private): from here, you can choose if receive reports or not\n\n"
 "*Note*: admins can't use the `@admin` command, and users can't report admins with it."
-msgstr ""
+msgstr "*举报设置*\n"
+"`@admin`是一个很有用的命令，让用户向管理员举报消息\n"
+"举报的信息将转交给管理员。\n\n"
+"•使用`/config` 命令，然后在\"菜单\"按钮在这里你可以找到一个\"报告\"开关。 当开启时，用户将能够使用`@admin`命令。\n"
+"只有管理员接受了收到的报告(`/mysettings`的命令) 将通知\n"
+"•`/mysettings`(私聊消息)：从这里你可以选择是否接收举报消息\n\n"
+"*注意：管理员不能使用的`@admin`的命令，并且用户不能举报管理员。"
 
 #: lua/plugins/help.lua:116
 msgid "*Welcome/goodbye settings*\n\n"
@@ -1323,7 +1329,10 @@ msgid "*Select the events the will be logged in the channel*\n"
 "✅ = will be logged\n"
 "☑️ = won't be logged\n\n"
 "Tap on an option to get further information"
-msgstr ""
+msgstr "*选择将在频道中记录的事件*\n"
+"✅ = 将会被记录\n"
+"☑️ = 不会被记录\n\n"
+"点击选项即可获得更多信息"
 
 #: lua/plugins/logchannel.lua:157
 msgid "_Too many requests. Retry later_"
@@ -1420,7 +1429,12 @@ msgid "\n"
 "The number is not related the the normal `/warn` command.\n\n"
 "Possible statuses: ✅ allowed, ❌ warning, 🗑 delete.\n"
 "When a media is set to delete, the bot will give a warning *only* when this is the users last warning\n"
-msgstr ""
+msgstr "\n"
+"点击右侧的按钮来*更改设置*\n"
+"您可以使用底部按钮来更改机器人在执行 踢出/封禁/禁言 动作之前发出的警告数量。\n"
+"该数字与正常的`/ warn`命令无关。\n\n"
+"媒体设置：✅允许，❌警告，🗑删除。\n"
+"当媒体设置为删除时，机器人将*仅*在用户上次被警告时发出警告\n"
 
 #: lua/plugins/mediasettings.lua:115
 msgid "⚠️ Tap on the right column"
@@ -1449,27 +1463,27 @@ msgstr "🔨 新状态已设置为封禁"
 #. TRANSLATORS: these strings should be shorter than 200 characters
 #: lua/plugins/menu.lua:13
 msgid "When enabled, users will be able to report messages with the @admin command"
-msgstr ""
+msgstr "启用后，用户将能够使用 @admin 命令举报消息"
 
 #: lua/plugins/menu.lua:15
 msgid "Enable or disable the goodbye message. Can't be sent in large groups"
-msgstr ""
+msgstr "启用或禁用用户退群消息。 可能无法在大型群组中正常工作"
 
 #: lua/plugins/menu.lua:17
 msgid "Enable or disable the welcome message"
-msgstr ""
+msgstr "启用或禁用欢迎消息"
 
 #: lua/plugins/menu.lua:19
 msgid "When enabled, every time a new welcome message is sent, the previously sent welcome message is removed"
-msgstr ""
+msgstr "启用后，每次发送新的欢迎消息时，都会删除先前发送的欢迎消息"
 
 #: lua/plugins/menu.lua:21
 msgid "When enabled, the bot doesn't answer in the group to /dashboard, /config and /help commands (it will just answer in private)\n"
-msgstr ""
+msgstr "启用后，机器人不会在组中发送 /dashboard ，/config 和 /help命令（它只会向你私聊发送）\n"
 
 #: lua/plugins/menu.lua:24
 msgid "Enable and disable the anti-flood system (more info in the /help message)"
-msgstr ""
+msgstr "启用和禁用防刷屏系统（使用/help 获取更多信息）"
 
 #: lua/plugins/menu.lua:26
 msgid "If the welcome message is enabled, it will include an inline button that will send to the user the rules in private\n"
