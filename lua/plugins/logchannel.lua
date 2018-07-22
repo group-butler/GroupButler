@@ -131,7 +131,7 @@ function plugin.onCallbackQuery(msg, blocks)
 ✅ = will be logged
 ☑️ = won't be logged
 
-Tap on a voice to get further informations]])
+Tap on an option to get further information]])
 					api.editMessageText(msg.chat.id, msg.message_id, logchannel_first, true, reply_markup)
 				else
 					api.editMessageReplyMarkup(msg.chat.id, msg.message_id, reply_markup)
