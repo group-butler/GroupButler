@@ -1779,27 +1779,11 @@ msgid ""
 "having to send it again"
 msgstr ""
 
-#: lua/plugins/private.lua:13
-msgid "Channel"
+#: lua/plugins/private.lua:11
+msgid "unknown"
 msgstr ""
 
-#: lua/plugins/private.lua:14
-msgid "GitHub"
-msgstr ""
-
-#: lua/plugins/private.lua:15
-msgid "Rate me!"
-msgstr ""
-
-#: lua/plugins/private.lua:18
-msgid "👥 Groups"
-msgstr ""
-
-#: lua/plugins/private.lua:28
-msgid "Pong!"
-msgstr ""
-
-#: lua/plugins/private.lua:42 lua/plugins/private.lua:62
+#: lua/plugins/private.lua:17
 #, lua-format
 msgid ""
 "This bot is based on [otouto](https://github.com/topkecleon/otouto) (AKA "
@@ -1808,16 +1792,36 @@ msgid ""
 "\n"
 "You can contact the owners of this bot using the /groups command.\n"
 "\n"
-"Bot version: `%s`\n"
+"Bot version: %s\n"
 "*Some useful links:*"
 msgstr ""
 
-#: lua/plugins/private.lua:54 lua/plugins/private.lua:75
+#: lua/plugins/private.lua:30
+msgid "Channel"
+msgstr ""
+
+#: lua/plugins/private.lua:31
+msgid "GitHub"
+msgstr ""
+
+#: lua/plugins/private.lua:32
+msgid "Rate me!"
+msgstr ""
+
+#: lua/plugins/private.lua:35
+msgid "👥 Groups"
+msgstr ""
+
+#: lua/plugins/private.lua:45
+msgid "Pong!"
+msgstr ""
+
+#: lua/plugins/private.lua:64 lua/plugins/private.lua:78
 #, lua-format
 msgid "You can find the list of our support groups in [this channel](%s)"
 msgstr ""
 
-#: lua/plugins/private.lua:73
+#: lua/plugins/private.lua:76
 msgid "🔙 back"
 msgstr ""
 

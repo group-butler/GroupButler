@@ -6,6 +6,23 @@ local i18n = locale.translate
 
 local plugin = {}
 
+local function bot_version()
+	if not config.commit then
+		return i18n("unknown")
+	end
+	return ("[%s](%s/commit/%s)"):format(string.sub(config.commit, 1, 7), config.source_code, config.commit)
+end
+
+local strings = {
+	about = i18n([[This bot is based on [otouto](https://github.com/topkecleon/otouto) (AKA @mokubot, channel: @otouto), a multipurpose Lua bot.
+Group Butler wouldn't exist without it.
+
+You can contact the owners of this bot using the /groups command.
+
+Bot version: %s
+*Some useful links:*]]):format(bot_version())
+}
+
 local function do_keyboard_credits()
 	local keyboard = {}
 	keyboard.inline_keyboard = {
@@ -39,14 +56,7 @@ function plugin.onTextMessage(msg, blocks)
 	end
 	if blocks[1] == 'about' then
 		local keyboard = do_keyboard_credits()
-		local text = i18n([[This bot is based on [otouto](https://github.com/topkecleon/otouto) (AKA @mokubot, channel: @otouto), a multipurpose Lua bot.
-Group Butler wouldn't exist without it.
-
-You can contact the owners of this bot using the /groups command.
-
-Bot version: `%s`
-*Some useful links:*]]):format(config.human_readable_version)
-		api.sendMessage(msg.chat.id, text, true, keyboard)
+		api.sendMessage(msg.chat.id, strings.about, true, keyboard)
 	end
 	if blocks[1] == 'group' then
 		if config.help_group and config.help_group ~= '' then
@@ -59,14 +69,7 @@ end
 function plugin.onCallbackQuery(msg, blocks)
 	if blocks[1] == 'about' then
 		local keyboard = do_keyboard_credits()
-		local text = i18n([[This bot is based on [otouto](https://github.com/topkecleon/otouto) (AKA @mokubot, channel: @otouto), a multipurpose Lua bot.
-Group Butler wouldn't exist without it.
-
-You can contact the owners of this bot using the /groups command.
-
-Bot version: `%s`
-*Some useful links:*]]):format(config.human_readable_version)
-		api.editMessageText(msg.chat.id, msg.message_id, text, true, keyboard)
+		api.editMessageText(msg.chat.id, msg.message_id, strings.about, true, keyboard)
 	end
 	if blocks[1] == 'group' then
 		if config.help_group and config.help_group ~= '' then

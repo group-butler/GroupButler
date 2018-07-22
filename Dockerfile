@@ -14,3 +14,6 @@ RUN apk add --no-cache $DEPS_NATIVE && \
 COPY locales locales
 COPY lua lua
 COPY polling.lua .
+
+ARG GB_COMMIT
+ENV GB_COMMIT=$GB_COMMIT
