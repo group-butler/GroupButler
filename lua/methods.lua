@@ -199,9 +199,13 @@ function api.kickUser(chat_id, user_id)
 	end
 end
 
-function api.muteUser(chat_id, user_id)
+function api.muteUser(chat_id, user_id, until_date)
 
 	local url = BASE_URL..'/restrictChatMember?chat_id='..chat_id..'&user_id='..user_id ..'&can_post_messages=false'
+
+	if until_date then
+		url = url .. '&until_date=' .. until_date
+	end
 
 	return sendRequest(url)
 
