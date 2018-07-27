@@ -21,6 +21,33 @@ local function markup_tempban(chat_id, user_id, time_value)
 			{text = 'minutes', callback_data = ('tempban:ban:m:%s:%s'):format(user_id, chat_id)},
 			{text = 'hours', callback_data = ('tempban:ban:h:%s:%s'):format(user_id, chat_id)},
 			{text = 'days', callback_data = ('tempban:ban:d:%s:%s'):format(user_id, chat_id)},
+		},
+		{
+			{text = i18n('Cancel'), callback_data = ('tempban:cancel:%s'):format(user_id)},
+		}
+	}}
+
+	return markup
+end
+
+local function markup_mute(chat_id, user_id, time_value)
+	local key = ('chat:%s:%s:mutevalue'):format(chat_id, user_id)
+
+	time_value = time_value or (db:get(key) or 30)
+
+	local markup = {inline_keyboard={
+		{--first line
+			{text = '-', callback_data = ('mute:val:m:%s:%s'):format(user_id, chat_id)},
+			{text = '🕑'..time_value, callback_data = 'mute:nil'},
+			{text = '+', callback_data = ('mute:val:p:%s:%s'):format(user_id, chat_id)}
+			},
+		{--second line
+			{text = 'minutes', callback_data = ('mute:ban:m:%s:%s'):format(user_id, chat_id)},
+			{text = 'hours', callback_data = ('mute:ban:h:%s:%s'):format(user_id, chat_id)},
+			{text = 'days', callback_data = ('mute:ban:d:%s:%s'):format(user_id, chat_id)},
+		},
+		{
+			{text = i18n('Cancel'), callback_data = ('mute:cancel:%s'):format(user_id)},
 		}
 	}}
 
@@ -60,7 +87,7 @@ function plugin.onTextMessage(msg, blocks)
 			--print(get_motivation(msg))
 
 			if blocks[1] == 'tempban' then
-				local time_value = msg.text:match(("%stempban.*\n"):format(config.cmd).."(%d+)")
+				local time_value = msg.text:match(("%stempban.*"):format(config.cmd).."(.%d+)")
 				if time_value then --save the time value passed by the user
 					if tonumber(time_value) > 100 then
 						time_value = 100
@@ -71,6 +98,20 @@ function plugin.onTextMessage(msg, blocks)
 
 				local markup = markup_tempban(msg.chat.id, user_id)
 				api.sendReply(msg, i18n('Use -/+ to edit the value, then select a timeframe to temporary ban the user'), nil,
+					markup)
+			end
+			if blocks[1] == 'mute' then
+				local time_value = msg.text:match(("%smute.*"):format(config.cmd).."(.%d+)")
+				if time_value then --save the time value passed by the user
+					if tonumber(time_value) > 100 then
+						time_value = 100
+					end
+					local key = ('chat:%s:%s:mutevalue'):format(msg.chat.id, user_id)
+					db:setex(key, 3600, time_value)
+				end
+
+				local markup = markup_mute(msg.chat.id, user_id)
+				api.sendReply(msg, i18n('Use -/+ to edit the value, then select a timeframe to mute the user'), nil,
 					markup)
 			end
 			if blocks[1] == 'kick' then
@@ -138,18 +179,37 @@ function plugin.onTextMessage(msg, blocks)
 end
 
 function plugin.onCallbackQuery(msg, matches)
-	if not u.can(msg.chat.id, msg.from.id, 'can_restrict_members') then
+	if not u.is_allowed('hammer', msg.chat.id, msg.from) then
 		api.answerCallbackQuery(msg.cb_id, i18n("You don't have the permissions to restrict members"), true)
+
 	else
-		if matches[1] == 'nil' then
+		if matches[2] == 'nil' then
 			api.answerCallbackQuery(msg.cb_id,
-				i18n("Tap on the -/+ buttons to change this value. Then select a timeframe to execute the ban"), true)
-		elseif matches[1] == 'val' then
+				i18n("Tap on the -/+ buttons to change this value. Then select a timeframe to execute the ban/mute"), true)
+		elseif matches[2] == 'cancel' then
 			local user_id = matches[3]
-			local key = ('chat:%d:%s:tbanvalue'):format(msg.chat.id, user_id)
+			local key
+			if matches[1] == 'tempban' then
+				key = ('chat:%d:%s:tbanvalue'):format(msg.chat.id, user_id)
+			elseif matches[1] == 'mute' then
+				key = ('chat:%d:%s:mutevalue'):format(msg.chat.id, user_id)
+			end
+			local text = i18n('Canceled')
+			api.editMessageText(msg.chat.id, msg.message_id, text)
+			db:del(key)
+		elseif matches[2] == 'val' then
+			local user_id = matches[4]
+			local key, def
+			if matches[1] == 'tempban' then
+				key = ('chat:%d:%s:tbanvalue'):format(msg.chat.id, user_id)
+				def = 3
+			elseif matches[1] == 'mute' then
+				key = ('chat:%d:%s:mutevalue'):format(msg.chat.id, user_id)
+				def = 30
+			end
 			local current_value, new_value
-			current_value = tonumber(db:get(key) or 3)
-			if matches[2] == 'm' then
+			current_value = tonumber(db:get(key) or def)
+			if matches[3] == 'm' then
 				new_value = current_value - 1
 				if new_value < 1 then
 					api.answerCallbackQuery(msg.cb_id, i18n("You can't set a lower value"))
@@ -157,7 +217,7 @@ function plugin.onCallbackQuery(msg, matches)
 				else
 					db:setex(key, 3600, new_value)
 				end
-			elseif matches[2] == 'p' then
+			elseif matches[3] == 'p' then
 				new_value = current_value + 1
 				if new_value > 100 then
 					api.answerCallbackQuery(msg.cb_id, i18n("Stop!!!"), true)
@@ -167,33 +227,55 @@ function plugin.onCallbackQuery(msg, matches)
 				end
 			end
 
-			local markup = markup_tempban(msg.chat.id, user_id, new_value)
+			local markup
+			if matches[1] == 'tempban' then
+				markup = markup_tempban(msg.chat.id, user_id, new_value)
+			elseif matches[1] == 'mute' then
+				markup = markup_mute(msg.chat.id, user_id, new_value)
+			end
 			api.editMessageReplyMarkup(msg.chat.id, msg.message_id, markup)
-		elseif matches[1] == 'ban' then
-			local user_id = matches[3]
-			local key = ('chat:%d:%s:tbanvalue'):format(msg.chat.id, user_id)
-			local time_value = tonumber(db:get(key) or 3)
+		elseif matches[2] == 'ban' then
+			local user_id = matches[4]
+			local key, def
+			if matches[1] == 'tempban' then
+				key = ('chat:%d:%s:tbanvalue'):format(msg.chat.id, user_id)
+				def = 3
+			elseif matches[1] == 'mute' then
+				key = ('chat:%d:%s:mutevalue'):format(msg.chat.id, user_id)
+				def = 30
+			end
+			local time_value = tonumber(db:get(key) or def)
 			local timeframe_string, until_date
-			if matches[2] == 'h' then
+			if matches[3] == 'h' then
 				time_value = time_value <= 24 and time_value or 24
 				timeframe_string = i18n('hours')
 				until_date = msg.date + (time_value * 3600)
-			elseif matches[2] == 'd' then
+			elseif matches[3] == 'd' then
 				time_value = time_value <= 30 and time_value or 30
 				timeframe_string = i18n('days')
 				until_date = msg.date + (time_value * 3600 * 24)
-			elseif matches[2] == 'm' then
+			elseif matches[3] == 'm' then
 				time_value = time_value <= 60 and time_value or 60
 				timeframe_string = i18n('minutes')
 				until_date = msg.date + (time_value * 60)
 			end
-			local res, _, motivation = api.banUser(msg.chat.id, user_id, until_date)
+			local res, motivation
+			if matches[1] == 'tempban' then
+				res = api.banUser(msg.chat.id, user_id, until_date)
+			elseif matches[1] == 'mute' then
+				res = api.muteUser(msg.chat.id, user_id, until_date)
+			end
 			if not res then
-				motivation = motivation or i18n("I can't kick this user.\n"
+				motivation = i18n("I can't kick this user.\n"
 					.. "I am not allowed to ban or the target user is an admin")
 				api.editMessageText(msg.chat.id, msg.message_id, motivation)
 			else
-				local text = i18n("User banned for %d %s"):format(time_value, timeframe_string)
+				local text
+				if matches[1] == 'tempban' then
+					text = i18n("User banned for %d %s"):format(time_value, timeframe_string)
+				elseif matches[1] == 'mute' then
+					text = i18n("User muted for %d %s"):format(time_value, timeframe_string)
+				end
 				api.editMessageText(msg.chat.id, msg.message_id, text)
 				db:del(key)
 			end
@@ -208,15 +290,22 @@ plugin.triggers = {
 		config.cmd..'(ban) (.+)',
 		config.cmd..'(ban)$',
 		config.cmd..'(fwdban)$',
+		config.cmd..'(mute)$',
+		config.cmd..'(mute) (.+)',
 		config.cmd..'(tempban)$',
 		config.cmd..'(tempban) (.+)',
 		config.cmd..'(unban) (.+)',
 		config.cmd..'(unban)$'
 	},
 	onCallbackQuery = {
-		'^###cb:tempban:(val):(%a):(%d+):(-%d+)',
-		'^###cb:tempban:(ban):(%a):(%d+):(-%d+)',
-		'^###cb:tempban:(nil)$'
+		'^###cb:(tempban):(val):(%a):(%d+):(-%d+)',
+		'^###cb:(tempban):(ban):(%a):(%d+):(-%d+)',
+		'^###cb:(tempban):(nil)$',
+		'^###cb:(tempban):(cancel):(%d+)$',
+		'^###cb:(mute):(val):(%a):(%d+):(-%d+)',
+		'^###cb:(mute):(ban):(%a):(%d+):(-%d+)',
+		'^###cb:(mute):(nil)$',
+		'^###cb:(mute):(cancel):(%d+)$'
 	}
 }
 
