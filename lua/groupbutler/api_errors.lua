@@ -1,4 +1,9 @@
-return {
+local _M = {}
+
+local locale = require "groupbutler.languages"
+local i18n = locale.translate
+
+_M.errors = {
 	[101] = 'not enough rights to kick/unban chat member', --SUPERGROUP: bot is not admin
 	[102] = 'user_admin_invalid', --SUPERGROUP: trying to kick an admin
 	[103] = 'method is available for supergroup chats only', --NORMAL: trying to unban
@@ -64,3 +69,28 @@ return {
 	--[429] = 'Too many requests: retry later', --the bot is hitting api limits
 	--[430] = 'Too big total timeout', --too many callback_data requests
 }
+
+function _M.trans(err) -- Translate API errors to text
+	local code
+	err = err.description:lower()
+	for k,v in pairs(_M.errors) do
+		if err:match(v) then
+			code = k
+		end
+	end
+	if code == 159 then
+		return i18n("I don't have enough permissions to restrict users")
+	elseif code == 101 or code == 105 or code == 107 then
+		return i18n("I'm not an admin, I can't kick people")
+	elseif code == 102 or code == 104 then
+		return i18n("I can't kick or ban an admin")
+	elseif code == 103 then
+		return i18n("There is no need to unban in a normal group")
+	elseif code == 106 or code == 134 then
+		return i18n("This user is not a chat member")
+	else
+		return i18n("An unknown error has ocurred")
+	end
+end
+
+return _M

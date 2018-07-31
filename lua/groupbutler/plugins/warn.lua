@@ -47,7 +47,7 @@ function plugin.onTextMessage(msg, blocks)
 		local old = (db:hget(hash, key)) or default
 		db:hset(hash, key, new)
 		text = text .. i18n("*Old* value was %d\n*New* max is %d"):format(tonumber(old), tonumber(new))
-		api.sendReply(msg, text, true)
+		u.sendReply(msg, text, "Markdown")
 		return
 	end
 
@@ -60,7 +60,7 @@ function plugin.onTextMessage(msg, blocks)
 
 		api.sendMessage(msg.chat.id,
 			i18n('Do you want to continue and reset *all* the warnings received by *all* the users of the group?'),
-			true, reply_markup)
+			"Markdown", nil, nil, nil, reply_markup)
 
 		return
 	end
@@ -79,7 +79,7 @@ function plugin.onTextMessage(msg, blocks)
 		local text = i18n(
 			'Done! %s has been forgiven.\n<b>Warns found</b>: <i>normal warns %s, for media %s, spamwarns %s</i>'
 			):format(user, removed.normal or 0, removed.media or 0, removed.spam or 0)
-		api.sendReply(msg, text, 'html')
+		u.sendReply(msg, text, 'html')
 		u.logEvent('nowarn', msg, {admin = admin, user = user, user_id = msg.reply.from.id, rem = removed})
 	end
 
@@ -89,7 +89,7 @@ function plugin.onTextMessage(msg, blocks)
 		local hash = 'chat:'..msg.chat.id..':warns'
 		local num = db:hincrby(hash, msg.reply.from.id, 1) --add one warn
 		local nmax = (db:hget('chat:'..msg.chat.id..':warnsettings', 'max')) or 3 --get the max num of warnings
-		local text, res, _, motivation, hammer_log
+		local text, res, err, hammer_log
 		num, nmax = tonumber(num), tonumber(nmax)
 
 		if num >= nmax then
@@ -99,29 +99,25 @@ function plugin.onTextMessage(msg, blocks)
 			if type == 'ban' then
 				hammer_log = i18n('banned')
 				text = text:format(name, hammer_log, num, nmax)
-				res, _, motivation = api.banUser(msg.chat.id, msg.reply.from.id)
+				res, err = u.banUser(msg.chat.id, msg.reply.from.id)
 			elseif type == 'kick' then --kick
 				hammer_log = i18n('kicked')
 				text = text:format(name, hammer_log, num, nmax)
-				res, _, motivation = api.kickUser(msg.chat.id, msg.reply.from.id)
+				res, err = u.kickUser(msg.chat.id, msg.reply.from.id)
 			elseif type == 'mute' then --kick
 				hammer_log = i18n('muted')
 				text = text:format(name, hammer_log, num, nmax)
-				res, _, motivation = api.muteUser(msg.chat.id, msg.reply.from.id)
+				res, err = u.muteUser(msg.chat.id, msg.reply.from.id)
 			end
 			--if kick/ban fails, send the motivation
 			if not res then
-				if not motivation then
-					motivation = i18n("I can't kick this user.\n"
-						.. "Probably I'm not an Admin, or the user is an Admin iself")
-				end
 				if num > nmax then db:hset(hash, msg.reply.from.id, nmax) end --avoid to have a number of warnings bigger than the max
-				text = motivation
+				text = err
 			else
 				forget_user_warns(msg.chat.id, msg.reply.from.id)
 			end
 			--if the user reached the max num of warns, kick and send message
-			api.sendReply(msg, text, 'html')
+			u.sendReply(msg, text, 'html')
 			u.logEvent('warn', msg, {
 				motivation = blocks[2],
 				admin = u.getname_final(msg.from),
@@ -134,7 +130,7 @@ function plugin.onTextMessage(msg, blocks)
 		else
 			text = i18n("%s <b>has been warned</b> (<code>%d/%d</code>)"):format(name, num, nmax)
 			local keyboard = doKeyboard_warn(msg.reply.from.id)
-			if blocks[1] ~= 'sw' then api.sendMessage(msg.chat.id, text, 'html', keyboard) end
+			if blocks[1] ~= 'sw' then api.sendMessage(msg.chat.id, text, 'html', true, nil, nil, keyboard) end
 			u.logEvent('warn', msg, {
 				motivation = blocks[2],
 				warns = num,

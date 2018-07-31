@@ -4,6 +4,7 @@ local serpent = require 'serpent'
 local ltn12 = require 'ltn12'
 local HTTPS = require 'ssl.https'
 local db = require "groupbutler.database"
+local api_err = require "groupbutler.api_errors"
 local locale = require "groupbutler.languages"
 local socket = require 'socket'
 local i18n = locale.translate
