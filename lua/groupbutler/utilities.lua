@@ -914,7 +914,7 @@ function _M:getnames_complete(msg)
 		local id = msg.text:match(config.cmd..'%w%w%w%w?%w?%s(%d+)')
 		local res = api.getChatMember(msg.chat.id, id)
 		if res then
-			kicked = _M:getname_final(res.result.user)
+			kicked = _M:getname_final(res.user)
 		end
 	end
 

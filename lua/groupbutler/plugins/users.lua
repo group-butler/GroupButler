@@ -245,7 +245,7 @@ function _M:onCallbackQuery(msg, blocks)
 		local text = i18n("The number of warnings received by this user has been <b>reset</b>, by %s"):format(name)
 		api.editMessageText(msg.chat.id, msg.message_id, nil, text:format(name), 'html')
 		u:logEvent('nowarn', msg,
-               {admin = name, user = u:getname_final(res.result.user), user_id = blocks[2], rem = removed})
+               {admin = name, user = u:getname_final(res.user), user_id = blocks[2], rem = removed})
 	end
 	if blocks[1] == 'recache' and msg.from.admin then
 		local missing_sec = tonumber(db:ttl('cache:chat:'..msg.target_id..':admins') or 0)
