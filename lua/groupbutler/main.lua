@@ -108,8 +108,7 @@ local function on_msg_receive(self, msg, callback) -- The fn run whenever a mess
 	end
 
 	-- Do not process messages from normal groups
-	if msg.chat.type == 'group'
-		and msg.group_chat_created or (msg.new_chat_member and msg.new_chat_member.id == bot.id) then
+	if msg.chat.type == 'group' then
 		api.sendMessage(msg.chat.id, i18n([[Hello everyone!
 My name is %s, and I'm a bot made to help administrators in their hard work.
 Unfortunately I can't work in normal groups. If you need me, please ask the creator to convert this group to a supergroup and then add me again.
