@@ -40,10 +40,13 @@ end
 
 local function collect_stats(msg)
 	extract_usernames(msg)
+	local now = os.time(os.date("*t"))
 	if msg.chat.type ~= 'private' and msg.chat.type ~= 'inline' and msg.from then
-		db:hset('chat:'..msg.chat.id..':userlast', msg.from.id, os.time()) --last message for each user
-		db:hset('bot:chats:latsmsg', msg.chat.id, os.time()) --last message in the group
+		db:hset('chat:'..msg.chat.id..':userlast', msg.from.id, now) --last message for each user
+		db:hset('bot:chats:latsmsg', msg.chat.id, now) --last message in the group
 	end
+	u.metric_incr("messages_processed_count")
+	u.metric_set("message_timestamp_distance_sec", now - msg.date)
 end
 
 local function match_triggers(triggers, text)
