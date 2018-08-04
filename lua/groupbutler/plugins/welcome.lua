@@ -66,11 +66,19 @@ end
 -- local permissions =
 -- {'can_send_messages', 'can_send_media_messages', 'can_send_other_messages', 'can_add_web_page_previews'}
 
+local function list_to_kv(list)
+	local copy = {}
+	for i = 1, #list, 2 do
+		copy[list[i]] = list[i + 1]
+	end
+	return copy
+end
+
 local function apply_default_permissions(self, chat_id, users)
 	local db = self.db
 
 	local hash = ('chat:%d:defpermissions'):format(chat_id)
-	local def_permissions = db:hgetall(hash)
+	local def_permissions = list_to_kv(db:hgetall(hash))
 
 	if next(def_permissions) then
 		--for i=1, #permissions do
@@ -82,7 +90,9 @@ local function apply_default_permissions(self, chat_id, users)
 		for i=1, #users do
 			local res = api.getChatMember(chat_id, users[i].id)
 			if res.status ~= 'restricted' then
-				api.restrictChatMember(chat_id, users[i].id, def_permissions)
+				def_permissions.chat_id = chat_id
+				def_permissions.user_id = users[i].id
+				api.restrictChatMember(def_permissions)
 			end
 		end
 	end
