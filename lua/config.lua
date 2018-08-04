@@ -130,6 +130,7 @@ local _M =
 		['it_IT'] = 'Italian 🇮🇹',
 		-- ['ja_JP'] = 'Japanese 🇯🇵',
 		-- ['ko_KR'] = 'Korean 🇰🇷',
+		-- ['ml_IN'] = 'Malayalam 🇮🇳',
 		-- ['no_NO'] = 'Norwegian 🇳🇴',
 		['fa_IR'] = 'Persian 🇮🇷',
 		['pl_PL'] = 'Polish 🇵🇱',

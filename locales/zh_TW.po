@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-13 22:05-0300\n"
-"PO-Revision-Date: 2018-07-14 17:08\n"
+"POT-Creation-Date: 2018-07-22 18:04+0200\n"
+"PO-Revision-Date: 2018-08-04 04:41\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Chinese Traditional\n"
 "Language: zh\n"
@@ -16,11 +16,11 @@ msgstr ""
 "X-Crowdin-Language: zh-TW\n"
 "X-Crowdin-File: /master/locales/en.po\n"
 
-#: lua/main.lua:117
+#: lua/main.lua:127
 msgid "🐞 Sorry, a *bug* occurred"
 msgstr "🐞 對不起，發生了 *錯誤*"
 
-#: lua/main.lua:139
+#: lua/main.lua:149
 #, lua-format
 msgid "\n"
 "Hello everyone!\n"
@@ -143,12 +143,12 @@ msgid "Allow/forbid forwarded messages from channels"
 msgstr "允許/禁止轉發來自頻道的訊息"
 
 #: lua/plugins/antispam.lua:174
-msgid "Set how many times the bot should warn the user before kick/ban him"
-msgstr "設置機器人在踢除/禁止用戶之前警告的次數"
+msgid "Set how many times the bot should warn users before kicking/banning them"
+msgstr ""
 
-#: lua/plugins/antispam.lua:176 lua/plugins/defaultpermissions.lua:58
+#: lua/plugins/antispam.lua:176 lua/plugins/defaultpermissions.lua:56
 #: lua/plugins/floodmanager.lua:18 lua/plugins/logchannel.lua:40
-#: lua/plugins/menu.lua:50 lua/plugins/private_settings.lua:17
+#: lua/plugins/menu.lua:48 lua/plugins/private_settings.lua:17
 msgid "Description not available"
 msgstr "描述不可用"
 
@@ -166,7 +166,7 @@ msgstr "禁言 👁"
 
 #: lua/plugins/antispam.lua:252 lua/plugins/floodmanager.lua:124
 #: lua/plugins/logchannel.lua:119 lua/plugins/mediasettings.lua:96
-#: lua/plugins/menu.lua:239
+#: lua/plugins/menu.lua:237
 msgid "You're no longer an admin"
 msgstr "你不再是一個管理員"
 
@@ -184,69 +184,70 @@ msgstr "* 防垃圾訊息設定 *\n"
 "• 🗑 = * 刪除 *\n"
 "當設定為「刪除」，機器人將不會警告使用者，直到被踢出、封鎖或靜音（倒數第二個警告）為止。\n"
 
-#: lua/plugins/antispam.lua:316
+#: lua/plugins/antispam.lua:317
 msgid "_The whitelist was already empty_"
 msgstr "_白名單已為空白_"
 
-#: lua/plugins/antispam.lua:319
+#: lua/plugins/antispam.lua:320
 #, lua-format
 msgid "*Whitelist cleaned*\n"
 "%d links have been removed"
 msgstr "*白名單清理*\n"
 "%d個鏈接已被刪除"
 
-#: lua/plugins/antispam.lua:327 lua/plugins/antispam.lua:336
-#: lua/plugins/antispam.lua:358 lua/plugins/antispam.lua:367
+#: lua/plugins/antispam.lua:328 lua/plugins/antispam.lua:337
+#: lua/plugins/antispam.lua:359 lua/plugins/antispam.lua:368
 msgid "_I can't find any url in this message_"
 msgstr "_我在此訊息中找不到任何網址_"
 
-#: lua/plugins/antispam.lua:330
+#: lua/plugins/antispam.lua:331
 #, lua-format
 msgid "%d link(s) will be whitelisted"
 msgstr "%d個鏈接將被列入白名單"
 
-#: lua/plugins/antispam.lua:332 lua/plugins/antispam.lua:363
+#: lua/plugins/antispam.lua:333 lua/plugins/antispam.lua:364
 #, lua-format
 msgid "\n"
 "%d links were already in the list"
 msgstr "\n"
 "%d個鏈接已在列表中"
 
-#: lua/plugins/antispam.lua:344
+#: lua/plugins/antispam.lua:345
 msgid "_The whitelist is empty_.\n"
 "Use `/wl [links]` to add some links to the whitelist"
 msgstr "_白名單是空白的。_\n"
 "請 `/wl [links]` 添加一些鏈接到白名單"
 
-#: lua/plugins/antispam.lua:346
+#: lua/plugins/antispam.lua:347
 msgid "Whitelisted links:\n\n"
 msgstr "白名單鏈接：\n\n"
 
-#: lua/plugins/antispam.lua:361
+#: lua/plugins/antispam.lua:362
 #, lua-format
 msgid "%d link(s) removed from the whitelist"
 msgstr "%d個鏈接已從白名單中移除"
 
-#: lua/plugins/antispam.lua:378
+#: lua/plugins/antispam.lua:379
 msgid "_Whitelist of channels empty_"
 msgstr "_頻道白名單為空白_"
 
-#: lua/plugins/antispam.lua:380
+#: lua/plugins/antispam.lua:381
 #, lua-format
 msgid "*Whitelisted channels:*\n"
 "%s"
 msgstr "*白名單頻道：*\n"
 "%s"
 
-#: lua/plugins/antispam.lua:387 lua/plugins/antispam.lua:404
+#: lua/plugins/antispam.lua:388 lua/plugins/antispam.lua:405
 msgid "_I can't find a channel ID in your message_"
 msgstr "_我在此訊息中找不到任何頻道 ID_"
 
-#: lua/plugins/backup.lua:96
+#: lua/plugins/backup.lua:95
 #, lua-format
-msgid "<i>I'm sorry, this command has been used for the last time less then 3 hours ago by</i> %s (ask him for the file).\\nWait [<code>%s</code>] to use it again\n"
-"\t\t\t\t\t"
-msgstr "<i>十分抱歉，這指令已經在不到三個小時前，由 </i>%s（請詢問他檔案）使用。\\n等待 [<code>%s</code>] 後再使用指令。"
+msgid "<i>I'm sorry, this command has been used for the last time less then 3 hours ago by</i> %s (ask them for the file).\n"
+"Wait [<code>%s</code>] to use it again\n"
+msgstr "<i>這指令已經在不到一個小時前，由 </i>1h（請詢問他檔案）使用。\n"
+"教官說要再等 [<code>15m</code>] 後才能再使用指令。"
 
 #: lua/plugins/backup.lua:103
 msgid "*Sent in private*"
@@ -309,7 +310,7 @@ msgstr "我無法踢出這個用戶。\n"
 
 #: lua/plugins/banhammer.lua:122
 msgid "_An admin can't be unbanned_"
-msgstr ""
+msgstr "管理員不能被解禁"
 
 #: lua/plugins/banhammer.lua:127
 msgid "This user is not banned!"
@@ -326,15 +327,15 @@ msgstr "您沒有權限限制成員"
 
 #: lua/plugins/banhammer.lua:146
 msgid "Tap on the -/+ buttons to change this value. Then select a timeframe to execute the ban"
-msgstr ""
+msgstr "點擊 -/+ 按鈕來改變設定, 然後選擇一個時間來執行封禁"
 
 #: lua/plugins/banhammer.lua:155
 msgid "You can't set a lower value"
-msgstr ""
+msgstr "你不能設定更低的數值"
 
 #: lua/plugins/banhammer.lua:163
 msgid "Stop!!!"
-msgstr ""
+msgstr "Stop!!!"
 
 #: lua/plugins/banhammer.lua:179
 msgid "hours"
@@ -351,7 +352,7 @@ msgstr "分鐘"
 #: lua/plugins/banhammer.lua:196
 #, lua-format
 msgid "User banned for %d %s"
-msgstr ""
+msgstr "使用者已被封禁至 %d %s"
 
 #: lua/plugins/configure.lua:34
 msgid "🛠 Menu"
@@ -400,8 +401,8 @@ msgstr "✅ | 開啟"
 msgid "❌ | OFF"
 msgstr "❌ | 關閉"
 
-#: lua/plugins/dashboard.lua:20 lua/plugins/menu.lua:153
-#: lua/plugins/menu.lua:209
+#: lua/plugins/dashboard.lua:20 lua/plugins/menu.lua:151
+#: lua/plugins/menu.lua:207
 msgid "👞 kick"
 msgstr "👞 踢除"
 
@@ -410,7 +411,7 @@ msgid "🔨️ ️ban"
 msgstr "🔨 封鎖"
 
 #: lua/plugins/dashboard.lua:24 lua/plugins/floodmanager.lua:38
-#: lua/plugins/menu.lua:157 lua/plugins/menu.lua:213
+#: lua/plugins/menu.lua:155 lua/plugins/menu.lua:211
 msgid "👁 mute"
 msgstr "👁 禁言"
 
@@ -472,11 +473,11 @@ msgstr "設定"
 msgid "Admins"
 msgstr "管理員"
 
-#: lua/plugins/dashboard.lua:61 lua/plugins/menu.lua:173 lua/utilities.lua:606
+#: lua/plugins/dashboard.lua:61 lua/plugins/menu.lua:171 lua/utilities.lua:606
 msgid "Rules"
 msgstr "規則"
 
-#: lua/plugins/dashboard.lua:62 lua/plugins/help.lua:285
+#: lua/plugins/dashboard.lua:62 lua/plugins/help.lua:270
 msgid "Extra commands"
 msgstr "自訂指令"
 
@@ -568,54 +569,49 @@ msgstr "ℹ️ 群組 ► 媒體"
 msgid "Permission to send messages. If disabled, the user won't be able to send any kind of message"
 msgstr "允許發送訊息。如果關閉，使用者將不能發送任何訊息。"
 
-#: lua/plugins/defaultpermissions.lua:49
+#: lua/plugins/defaultpermissions.lua:48
 msgid "Permission to send media (audios, documents, photos, videos, video notes and voice notes). Implies the permission to send messages\n"
-"\t\t\t"
-msgstr "允許發送媒體(音訊、檔案、照片、影片)。"
+msgstr ""
 
-#: lua/plugins/defaultpermissions.lua:53
+#: lua/plugins/defaultpermissions.lua:51
 msgid "Permission to send other types of messages (GIFs, games, stickers and use inline bots). Implies the permission to send medias\n"
-"\t\t\t"
-msgstr "允許發送其他訊息(GIF、game bot、貼圖、內聯機器人)。"
+msgstr ""
 
-#: lua/plugins/defaultpermissions.lua:56
+#: lua/plugins/defaultpermissions.lua:54
 msgid "When disabled, user's messages with a link won't show the web page preview"
 msgstr "如果關閉，使用者訊息中的連結將不會顯示預覽"
 
-#: lua/plugins/defaultpermissions.lua:63
+#: lua/plugins/defaultpermissions.lua:61
 msgid "Send messages"
 msgstr "傳送訊息"
 
-#: lua/plugins/defaultpermissions.lua:64
+#: lua/plugins/defaultpermissions.lua:62
 msgid "Send media"
 msgstr "傳送媒體"
 
-#: lua/plugins/defaultpermissions.lua:65
+#: lua/plugins/defaultpermissions.lua:63
 msgid "Send other types of media"
 msgstr "傳送其他媒體"
 
-#: lua/plugins/defaultpermissions.lua:66
+#: lua/plugins/defaultpermissions.lua:64
 msgid "Show web page preview"
 msgstr "顯示網頁預覽"
 
-#: lua/plugins/defaultpermissions.lua:112
+#: lua/plugins/defaultpermissions.lua:110
 msgid "You don't have the permission to restrict members"
 msgstr "你沒有權限限制成員"
 
-#: lua/plugins/defaultpermissions.lua:114
-msgid "*Deafult permissions*\n"
+#: lua/plugins/defaultpermissions.lua:112
+msgid "*Default permissions*\n"
 "From this menu you can change the default permissions that will be granted when a new member join.\n"
 "_Only the administrators with the permission to restrict a member can access this menu._\n"
 "Tap on the name of a permission for a description of what kind of messages it will influence.\n"
-msgstr "*預設權限*\n"
-"在此目錄中您可以更改新成員的預設權限。\n"
-"_只有擁有限制成員權限的管理員能夠訪問此目錄。_\n"
-"點擊權限名稱來顯示它將影響甚麼類型的訊息。\n"
+msgstr ""
 
-#: lua/plugins/defaultpermissions.lua:136
+#: lua/plugins/defaultpermissions.lua:134
 #, lua-format
 msgid "Setting saved, but I can't edit the buttons because you are too fast! Wait other %d seconds"
-msgstr ""
+msgstr "設定已保存, 但我不能改變按鈕上的數值因為你按太快了! 請等待 %d 秒"
 
 #: lua/plugins/extra.lua:41
 #, lua-format
@@ -630,18 +626,19 @@ msgstr "%s 指令已更新！"
 #: lua/plugins/extra.lua:78
 #, lua-format
 msgid "Commands deleted: `%s`"
-msgstr ""
+msgstr "指令已經被刪除: `%s`"
 
 #: lua/plugins/extra.lua:80
 #, lua-format
 msgid "\n"
 "Commands not found: `%s`"
-msgstr ""
+msgstr "\n"
+"找不到指令: `%s`"
 
 #: lua/plugins/extra.lua:132
 #, lua-format
 msgid "_Please_ [start me](%s) _so I can send you the answer_"
-msgstr ""
+msgstr "_請_ [開始 (start) 我](%s) _以讓我能傳送你回應_"
 
 #: lua/plugins/floodmanager.lua:12
 msgid "⚖ Current sensitivity. Tap on the + or the - to change it"
@@ -680,29 +677,27 @@ msgstr "洗版者將會被禁言"
 msgid "%d is not a valid value!\n"
 msgstr "%d 不是一個有效的值！\n"
 
-#: lua/plugins/floodmanager.lua:127
+#: lua/plugins/floodmanager.lua:126
 msgid "You can manage the antiflood settings from here.\\n\\nIt is also possible to choose which type of messages the antiflood will ignore (✅)\n"
-"\t\t\t"
-msgstr "您可以管理的反洗版設定在這裡。\\n\\n也可以選擇哪種類型的訊息要被反洗版忽略(✅)"
+msgstr ""
 
-#: lua/plugins/floodmanager.lua:133
+#: lua/plugins/floodmanager.lua:132
 msgid "Antiflood settings"
 msgstr "防洗版設定"
 
-#: lua/plugins/floodmanager.lua:151
+#: lua/plugins/floodmanager.lua:150
 #, lua-format
 msgid "❎ [%s] will be ignored by the anti-flood"
 msgstr "❎ [%s] 洗版將被無視"
 
-#: lua/plugins/floodmanager.lua:154
+#: lua/plugins/floodmanager.lua:153
 #, lua-format
 msgid "🚫 [%s] won't be ignored by the anti-flood"
 msgstr "🚫 [%s] 會被視作洗版"
 
 #: lua/plugins/help.lua:12
 #, lua-format
-msgid "\n"
-"Hello %s 👋🏼, nice to meet you!\n"
+msgid "Hello %s 👋🏼, nice to meet you!\n"
 "I'm Group Butler, the first administration bot using the official Bot API.\n\n"
 "*I can do a lot of cool stuffs*, here's a short list:\n"
 "• I can *kick or ban* users\n"
@@ -714,21 +709,10 @@ msgid "\n"
 "…and more, below you can find the \"all commands\" button to get the whole list!\n\n"
 "I work better if you add me to the group administrators (otherwise I won't be able to kick or ban)!\n"
 msgstr "\n"
-"你好 *%s* 👋🏼，很高興能為你服務！\n"
-"我是群組管家，第一個使用官方API的管理類型機器人。\n\n"
-"*我可以做很多有趣的事情*，以下簡短的列舉出來：\n"
-"• 我可以*踢出或封鎖*成員。\n"
-"• 你可以使用我來設定群組規則。\n"
-"• 我有一個靈活的*防洗版*系統。\n"
-"• 我能夠*歡迎新成員*透過客製化的訊息，或者你想要伴隨著使用一個動圖或者一個貼圖。\n"
-"• 我能夠*警告*成員，並且封鎖他們當他們達到最大的警告上限。\n"
-"• 我也能夠警告、踢出或封鎖那些傳送特殊的媒體。\n"
-"…以及更多功能，你可以在下面的\"全部訊息\"的按鈕來取得全部訊息的清單。\n\n"
-"我在成為群組管理員的情況下會表現的更好。(否則我將不能踢出或封鎖成員)！\n"
+"*%s* 👋🏼，安安你好幾歲住哪給虧嗎？\n"
 
-#: lua/plugins/help.lua:28
-msgid "\n"
-"This bot works only in supergroups.\n\n"
+#: lua/plugins/help.lua:27
+msgid "This bot works only in supergroups.\n\n"
 "To work properly, [it needs to be admin in your group](https://telegram.me/GroupButler_ch/104), so it can kick or ban people if needed.\n"
 "Only the group owner can promote it :)\n\n"
 "You can use `/, ! or #` to trigger a command.\n\n"
@@ -738,13 +722,12 @@ msgid "\n"
 "Remember: you have to use commands  *in the group*, unless they are specifically designed for private chats (see \"private\" tab).\n"
 msgstr ""
 
-#: lua/plugins/help.lua:43
+#: lua/plugins/help.lua:41
 msgid "In this menu you will find all the available commands"
 msgstr "在此選單中，你可以找到所有可用的命令"
 
-#: lua/plugins/help.lua:45
-msgid "\n"
-"*Commands that work in private*:\n\n"
+#: lua/plugins/help.lua:43
+msgid "*Commands that work in private*:\n\n"
 "• `/mysettings`: show a keyboard that allows you to change your personal settings, such as choosing if receive the rules in private when you join a group or if receive reports made with the `@admin` command\n"
 "• `/echo [text]` : the bot will send the text back, formatted with markdown\n"
 "• `/about` : show some useful informations about the bot\n"
@@ -752,33 +735,23 @@ msgid "\n"
 "• `/id`: get your id\n"
 "• `/start` : show the initial message\n"
 "• `/help` : show this message\n"
-msgstr "\n"
-"*在私人對話中使用的指令*\n\n"
-"•`/ mysettings`：顯示一個鍵盤，允許您更改個人設置，例如選擇是否在加入群組時私訊收到規則，或者是否接收使用“@admin”指令進行的回報\n"
-"•`/ echo [text]`：機器人將轉換並發回格式為markdown的訊息\n"
-"•`/ about`：顯示有關機器人的有用訊息\n"
-"•`/ groups`：顯示討論群組的列表\n"
-"•`/ id`：取得你的ID\n"
-"•`/ start`：顯示初始訊息\n"
-"•`/ help`：顯示此訊息\n"
+msgstr ""
 
-#: lua/plugins/help.lua:57
-msgid "\n"
-"*Commands available for every user in a group*:\n\n"
+#: lua/plugins/help.lua:54
+msgid "*Commands available for every user in a group*:\n\n"
 "• `/dashboard`: see all the informations about the group\n"
 "• `/rules`: show the group rules\n"
 "• `/adminlist`: show the administrators of the group\n"
 "• `/help`: receive the help message\n"
 "• `!kickme`: the bot will kick you\n"
-"*Note*: `/dashboard`, `/adminlist` and `/staff` always reply in private. If the bot is unable to reach an user, he will ask in the group to that user to be started, but just if _silent mode_ is off.\n"
+"*Note*: `/dashboard`, `/adminlist` and `/staff` always reply in private. If the bot is unable to reach an user, it will ask in the group to that user to be started, but just if _silent mode_ is off.\n"
 "With `/rules`, the bot always answer in the group for admins, but with normal users the message is sent in the group or in private according to the group settings.\n\n"
 "• `@admin` (by reply): report a message to the admins of the group (the bot will forward it in prvate). This ability could be turned off from the group settings. A description of the report can be added.\n"
 "Admins need to give their consense to receive reports from users, with `/mysettings` command\n"
 msgstr ""
 
-#: lua/plugins/help.lua:72
-msgid "\n"
-"*Admins: info about the group*\n\n"
+#: lua/plugins/help.lua:68
+msgid "*Admins: info about the group*\n\n"
 "• `/setrules [group rules]`: set the new regulation for the group (the old will be overwritten).\n"
 "• `/setrules -`: delete the current rules.\n\n"
 "*Note*: the markdown is supported. If the text sent breaks the markdown, the bot will notify that something is wrong.\n"
@@ -788,21 +761,10 @@ msgid "\n"
 "• `/link`: get the group link, if already set.\n"
 "• `/msglink`: get the link to a message. Works only in public supergroups\n\n"
 "*Note*: the bot can recognize valid group links. If a link is not valid, you won't receive a reply.\n"
-msgstr "\n"
-"*管理員：有關群組的資訊*\n\n"
-"`/setrules [群組規則]`：設定新的群組規則 (舊的將會被取代)。\n"
-"`/setrules -`：清空現有規則。\n\n"
-"*備註*:允許使用標記符號(Markdown)。如果你傳送的訊息違反標記符號的規則，我將會提醒你有些地方有錯誤。\n"
-"如何正確的使用標記符號(Markdown)，請點擊[這裡](https://telegram.me/GroupButler_ch/46)(英文訊息)\n\n"
-"`/setlink [網址|-]`：設定群組鏈接，如此它就能夠被其他管理員重新調用，或者是重置它。\n"
-"如果你想要使用這個指令在一個公開的超級群組(supergroup)，你不需要輸入群組鏈接。直接輸入`/setlink`\n"
-"`/link`：取得群組鏈接，如果已經設定好的話。\n"
-"`/msglink`：取得一個訊息的鏈接。只運作在公開的超級群組:\n\n"
-"*備註*:我能夠辨識無效的群組鏈接。如果那個鏈接是無效的，你將不會收到回覆。\n"
+msgstr ""
 
-#: lua/plugins/help.lua:89
-msgid "\n"
-"*Banhammer powers*\n"
+#: lua/plugins/help.lua:84
+msgid "*Banhammer powers*\n"
 "A set of commands that let admins kick and ban people from a group, and get some information about an user.\n"
 "Kicked people can join back, banned people can't. Banned users are added to the group's blacklist. It's possible to blacklist users even if they are not part of the group.\n"
 "Only the administrators who have the permission to restrict users can use these commands, but `/status` can be used by all the admins.\n\n"
@@ -821,20 +783,18 @@ msgid "\n"
 "• `/config` command, then `antiflood` button: manage the flood settings in private, with an inline keyboard. You can change the sensitivity, the action (kick/ban) to perform, and even set some exceptions.\n"
 msgstr ""
 
-#: lua/plugins/help.lua:112
-msgid "\n"
-"*Reports settings*\n"
+#: lua/plugins/help.lua:106
+msgid "*Reports settings*\n"
 "`@admin` is an useful command to let users report some messages to the group admins.\n"
 "A reported message will be forwarded to the available admins.\n\n"
-"• `/config` command, then `menu` button: here you can find a voice, \"Report\". If turned on, users will be able to use `@admin` command.\n"
+"• `/config` command, then `menu` button: here you can find an option, \"Report\". If turned on, users will be able to use the `@admin` command.\n"
 "Only admins who accepted to receive reports (with `/mysettings` command) will be notified\n"
 "• `/mysettings` (in private): from here, you can choose if receive reports or not\n\n"
 "*Note*: admins can't use the `@admin` command, and users can't report admins with it."
 msgstr ""
 
-#: lua/plugins/help.lua:123
-msgid "\n"
-"*Welcome/goodbye settings*\n\n"
+#: lua/plugins/help.lua:116
+msgid "*Welcome/goodbye settings*\n\n"
 "• `/config`, then `menu` tab: receive in private the menu keyboard. You will find an option to enable/disable welcome/goodbye messages.\n"
 "*Note*: goodbye messages don't work in large groups. This is a Telegram limitation that can't be avoided.\n\n"
 "*Custom welcome message*:\n"
@@ -853,11 +813,11 @@ msgid "\n"
 "You can use a particular gif/sticker as welcome message. To set it, reply to the gif/sticker you want to set as welcome message with `/welcome`. Same goes for `/goodbye`\n"
 msgstr ""
 
-#: lua/plugins/help.lua:147
+#: lua/plugins/help.lua:139
 msgid "*Whitelist settings*\n\n"
 "As you may know, the bot can warn/kick/ban who sends a telegram.me link (antispam settings) or any other link (media settings).\n"
 "The whitelist is a list of links that will be ignored by the bot.\n"
-"If an user sends a whitelisted link, he won't be warned or kicked.\n\n"
+"If users send a whitelisted link, they won't be warned or kicked.\n\n"
 "`/whitelist [link(s)]` or `/wl [link(s)]`: add one or more links to the whitelist.\n"
 "`/unwhitelist [link(s)]` or `/unwl [link(s)]`: remove one or more links from the whitelist.\n"
 "`/whitelist` or `/wl`: get the whitelist.\n"
@@ -867,9 +827,8 @@ msgid "*Whitelist settings*\n\n"
 "The bot auto-removes _https://, http:// and www_ from every link to reduce the possibility of having the same link saved twice.\n"
 msgstr ""
 
-#: lua/plugins/help.lua:164
-msgid "\n"
-"*Extra commands*\n"
+#: lua/plugins/help.lua:156
+msgid "*Extra commands*\n"
 "#extra commands are a smart way to save your own custom commands.\n\n"
 "• `/extra [#trigger] [reply]`: set a reply to be sent when someone writes the trigger.\n"
 "_Example_ : with \"`/extra #hello Good morning!`\", the bot will reply \"Good morning!\" each time someone writes #hello.\n"
@@ -879,22 +838,13 @@ msgid "\n"
 "*Note:* the markdown is supported. If the text sent breaks the markdown, the bot will notify that something is wrong.\n"
 "For a correct use of the markdown, check [this post](https://telegram.me/GroupButler_ch/46) in the channel.\n"
 "Now supports placeholders. Check the \"welcome\" tab for the list of the available placeholders\n"
-msgstr "\n"
-"*自訂指令*\n"
-"#extra commands are a smart way to save your own custom commands.\n\n"
-"`/extra [#發動訊息] [回覆訊息]`：設定當某人傳出某特定訊息的回覆。\n"
-"_範例_：透過\"`/extra #hello Good morning!`\"，每當某人說 #hello，機器人便會回覆 \"Good morning!\"。\n"
-"你可以設定針對特定多媒體檔案的回覆 (_照片，附加檔案，錄音檔，影片，動圖，聲音檔_)透過`/extra #發動訊息` 會把該指定訊息存入 #extra 並在某人使用#指令時收到預設的訊息。\n"
-"`/extra list`：列出所有自訂指令。\n"
-"`/extra del [#發動訊息]`：刪除該#指令相關的數據。\n\n"
-"*註：*支援標記語法。假如送出的訊息因為標記語法出了問題，機器人會出現警示。\n"
-"要更進一步了解標記語法的話， 請參考[這篇文章](https://telegram.me/GroupButler_ch/46)(僅限英文) \n"
-"現在已經支持標記語法。查看\"歡迎訊息\"來了解有哪些能用的標記語法。\n"
+msgstr "`/extra #安安 安什麼安？`\n"
+"`/extra #大家好 你是男生還是女生？`\n"
+"`/extra #想要 我可以給你全部`\n"
 
-#: lua/plugins/help.lua:179
-msgid "\n"
-"*Warns*\n"
-"Warn are made to keep the count of the admonitions received by an user. Once an user has been warned for the defined number of times, he is kicked/banned by the bot.\n"
+#: lua/plugins/help.lua:170
+msgid "*Warns*\n"
+"Warn are made to keep the count of the admonitions received by an user. Once users have been warned for the defined number of times, they are kicked/banned by the bot.\n"
 "There are two different type of warns:\n"
 "- _normal warns_, given by an admin with the `/warn` command\n"
 "- _automatic warns_ (read: media warns and spam warns), given by the bot when someone sends a media that is not allowed in the chat, or spams other channels or telegram.me links.\n\n"
@@ -907,19 +857,10 @@ msgid "\n"
 "How to change the max. number of warnings allowed: `/config` command, then `menu` button.\n"
 "How to change the max. number of warnings allowed for medias: `/config` command, then `media` button.\n"
 "How to change the max. number of warnings allowed for spam: `/config` command, then `antispam` button.\n"
-msgstr "\n"
-"*警告管理*\n\n"
-"`/warn [透過回覆]` = 警告一個成員，一旦次數達到上限，他將會被踢出/封鎖。\n"
-"`/nowarns [透過回覆]` = 重設一個成員收到的警告次數(包括一般警告跟不符合規定的媒體訊息警告)。\n"
-"`/warnmax [數字]` = 設定累積多少警告次數後被踢出/封鎖。\n"
-"`/warnmax media [數字]` = 設定最多傳送幾條不合規定的媒體訊息後被踢出/封鎖。\n\n"
-"如何看見成員累積了多少警告(或者重設他們)： 使用`/user`指令。\n"
-"如何更改最大的警告次數：`/config`指令，然後`menu`按鈕。\n"
-"如何更改最多允許的媒體訊息上限: `/config` 指令，然後`media`按鈕。\n"
+msgstr ""
 
-#: lua/plugins/help.lua:198
-msgid "\n"
-"*Pinning messages*\n"
+#: lua/plugins/help.lua:188
+msgid "*Pinning messages*\n"
 "The \"48 hours limit\" to edit your own messages doesn't apply to bots.\n"
 "This command was born from the necessity of editing the pinned message without sending it again, maybe just to change few things.\n"
 "So with `/pin` you can generate a message to pin, and edit it how many times you want.\n\n"
@@ -927,40 +868,23 @@ msgid "\n"
 "• `/pin`: the bot will find the latest message generate by `/pin`, if it still exists\n"
 "• `/newpin [text]`: forces the bot to send another message that will be saved as new target for `/pin`\n\n"
 "*Note*: `/pin` supports markdown, but only `$rules` and `$title` placeholders\n"
-msgstr "\n"
-"*置頂訊息*\n"
-"The \"48 hours limit\" to edit your own messages doesn't apply to bots.\n"
-"This command was born from the necessity of editing the pinned message without sending it again, maybe just to change few things.\n"
-"So with `/pin` you can generate a message to pin, and edit it how many times you want.\n\n"
-"• `/pin [訊息]`: 我會把輸入的訊息以含標記語法的參數形式回傳，你可以置頂該訊息並使用 `/pin [text]` 編輯該訊息它\n"
-"• `/pin`: 我會去找最近一個由 `/pin` 產生的訊息，當然如果有的話啦XD \n"
-"• `/newpin [訊息]`: 強制我發送另一個訊息，此訊息將會是  /pin` 的新目標\n\n"
-"*備註*: `/pin` 支援標記語法和佔位符 `$rules` 及 `$title`\n"
+msgstr ""
 
-#. TRANSLATORS: leave your contact information to reports mistakes in translation
-#: lua/plugins/help.lua:212
-msgid "\n"
-"*Group language*\"\n"
-"• `/lang`: choose the group language (can be changed in private too).\n\n"
-"*Note*: translators are volunteers, so I can't ensure the correctness of all the translations. And I can't force them to translate the new strings after each update (not translated strings are in english).\n\n"
-"Anyway, translations are open to everyone. If you want to translate the bot, see an [information](https://github.com/group-butler/GroupButler#translators) on GitHub.\n"
-"Ask in the English /group for the `.po` file of your language.\n\n"
+#: lua/plugins/help.lua:200
+msgid "*Group language*\n"
+"• `/lang`: change the bot language (works on groups and private chats)\n\n"
+"*Note*: the translators are volunteers, so neither the correctness nor completeness of localizations can be guaranteed.\n\n"
+"You can help improve translations on our [Crowdin Project](https://crowdin.com/project/group-butler).\n\n"
 "*Special characters*\n\n"
 "• `/config` command, then `menu` button: you will receive in private the menu keyboard.\n"
 "Here you will find two particular options: _Arab and RTL_.\n\n"
-"*Arab*: when Arab it's not allowed (🚫), everyone who will write an arab character will be kicked from the group.\n"
-"*Rtl*: it stands for 'Righ To Left' character, and it's the responsible of the weird service messages that are written in the opposite sense.\n"
-"When Rtl is not allowed (🚫), everyone that writes this character (or that has it in his name) will be kicked.\n"
-msgstr "\n"
-"*群組語言*\"\n"
-"`/lang` = 選擇該群組使用的語言(也可以在私訊中更改)。\n\n"
-"*註*: 翻譯者均為自願者，所以我無法保證所有翻譯的正確性，還有我也沒辦法強迫他們在每次更新時去翻譯新的語句(未翻譯的語句皆為英語)。\n\n"
-"總而言之，翻譯的部分是開放給所有人。如果你想翻譯機器人，請到 GitHub 參考[資訊](https://github.com/group-butler/GroupButler#translators)。\n"
-"你可以使用`/strings` 指令以存取 `.po` 為副檔名的語言翻譯檔案，並翻譯之。\n"
+"*Arab*: when Arab is not allowed (🚫), people who write Arab characters will be kicked from the group.\n"
+"*Rtl*: stands for 'Right To Left' character, is the cause of weird service messages written in the opposite direction.\n"
+"When Rtl is not allowed (🚫), people who write Rtl characters (or have it in their names) will be kicked.\n"
+msgstr ""
 
-#: lua/plugins/help.lua:231
-msgid "\n"
-"*General group settings*\n\n"
+#: lua/plugins/help.lua:217
+msgid "*General group settings*\n\n"
 "`/config` or  `/settings`: manage the group settings in private from an inline keyboard.\n"
 "The inline keyboard has six sub-menus:\n\n"
 "*Menu*: manage the most important group settings\n"
@@ -974,7 +898,7 @@ msgid "\n"
 "`/snap`: generate a backup file that can be restored with `/import` (send the file in the group and reply to it). `/snap` can be used once every three days\n"
 msgstr ""
 
-#: lua/plugins/help.lua:249
+#: lua/plugins/help.lua:234
 msgid "*Log channel informations*\n\n"
 "A log channel is a _(private)_ channel where the bot will record all the important events that will happen in your group.\n"
 "If you want to use this feature, you need to pair your group with a channel with the commands described below.\n"
@@ -989,112 +913,112 @@ msgid "*Log channel informations*\n\n"
 "`/logchannel`: get some informations about your log channel, if paired"
 msgstr ""
 
-#: lua/plugins/help.lua:273
+#: lua/plugins/help.lua:258
 msgid "Banhammer"
 msgstr "封鎖之槌"
 
-#: lua/plugins/help.lua:274
+#: lua/plugins/help.lua:259
 msgid "Group info"
 msgstr "群組資訊"
 
-#: lua/plugins/help.lua:277
+#: lua/plugins/help.lua:262
 msgid "Report system"
 msgstr "回報系統"
 
-#: lua/plugins/help.lua:278
+#: lua/plugins/help.lua:263
 msgid "Pin"
 msgstr "置頂"
 
-#: lua/plugins/help.lua:281
+#: lua/plugins/help.lua:266
 msgid "Languages"
 msgstr "語言"
 
-#: lua/plugins/help.lua:282
+#: lua/plugins/help.lua:267
 msgid "Group configuration"
 msgstr "群組配置"
 
-#: lua/plugins/help.lua:286 lua/plugins/logchannel.lua:62
+#: lua/plugins/help.lua:271 lua/plugins/logchannel.lua:62
 msgid "Warns"
 msgstr "警告"
 
-#: lua/plugins/help.lua:289
+#: lua/plugins/help.lua:274
 msgid "Welcome settings"
 msgstr "歡迎訊息設定"
 
-#: lua/plugins/help.lua:290
+#: lua/plugins/help.lua:275
 msgid "Links whitelist"
 msgstr "鏈接白名單"
 
-#: lua/plugins/help.lua:309
+#: lua/plugins/help.lua:294
 msgid "📢 Bot channel"
 msgstr "📢 機器人頻道"
 
-#: lua/plugins/help.lua:310
+#: lua/plugins/help.lua:295
 msgid "🌍 Select your language"
 msgstr "🌍 選擇你的語言"
 
-#: lua/plugins/help.lua:313
+#: lua/plugins/help.lua:298
 msgid "📕 All the commands"
 msgstr "📕 所有指令"
 
-#: lua/plugins/help.lua:322
+#: lua/plugins/help.lua:307
 msgid "Basics"
 msgstr "基本"
 
-#: lua/plugins/help.lua:323
+#: lua/plugins/help.lua:308
 msgid "Admin commands"
 msgstr "管理員指令"
 
-#: lua/plugins/help.lua:324
+#: lua/plugins/help.lua:309
 msgid "Normal users commands"
 msgstr "用戶指令"
 
-#: lua/plugins/help.lua:325
+#: lua/plugins/help.lua:310
 msgid "Commands in private"
 msgstr "私聊指令"
 
-#: lua/plugins/help.lua:326
+#: lua/plugins/help.lua:311
 msgid "Log channel"
 msgstr "記錄頻道"
 
-#: lua/plugins/help.lua:341
+#: lua/plugins/help.lua:326
 msgid "Back"
 msgstr "返回"
 
-#: lua/plugins/help.lua:364
+#: lua/plugins/help.lua:349
 #, lua-format
 msgid "[Start me](%s) _to get the list of commands_"
 msgstr "[啟動我](%s) _來取得指令列表_"
 
-#: lua/plugins/help.lua:377
+#: lua/plugins/help.lua:362
 msgid "Main menu"
 msgstr "主目錄"
 
-#: lua/plugins/help.lua:380
+#: lua/plugins/help.lua:365
 msgid "Basic usage"
 msgstr "基本用法"
 
-#: lua/plugins/help.lua:383
+#: lua/plugins/help.lua:368
 msgid "Commands for users (group)"
 msgstr "用戶指令（群組）"
 
-#: lua/plugins/help.lua:386
+#: lua/plugins/help.lua:371
 msgid "Available commands in private"
 msgstr "私訊可用的指令"
 
-#: lua/plugins/help.lua:389
+#: lua/plugins/help.lua:374
 msgid "Log channel informations"
 msgstr "記錄頻道資訊"
 
-#: lua/plugins/help.lua:393
+#: lua/plugins/help.lua:378
 msgid "Available commands for admins"
 msgstr "管理員可用的指令"
 
-#: lua/plugins/help.lua:397
+#: lua/plugins/help.lua:382
 msgid "Deprecated message, send /help again"
-msgstr ""
+msgstr "此訊息已廢棄，請重新傳送 /help"
 
-#: lua/plugins/help.lua:402
+#: lua/plugins/help.lua:387
 msgid "❗️ Already there"
 msgstr "❗️ 已經在這個頁面上了"
 
@@ -1130,23 +1054,23 @@ msgstr "鏈結已被更新。\n"
 
 #: lua/plugins/logchannel.lua:12
 msgid "Log every time an user join the group"
-msgstr ""
+msgstr "當每一個使用者加入此群組時記錄"
 
 #: lua/plugins/logchannel.lua:14
 msgid "Bans will be logged. I can't log manual bans"
-msgstr ""
+msgstr "將會記錄封鎖。我無法記錄手動封鎖"
 
 #: lua/plugins/logchannel.lua:16
 msgid "Kicks will be logged. I can't log manual kicks"
-msgstr ""
+msgstr "將會記錄踢除。我無法記錄手動踢除。"
 
 #: lua/plugins/logchannel.lua:18
 msgid "Manual warns will be logged"
-msgstr ""
+msgstr "將會記錄手動警告"
 
 #: lua/plugins/logchannel.lua:20
 msgid "Forbidden media will be logged in the channel"
-msgstr ""
+msgstr "被禁止的媒體將會在這頻道中被記錄"
 
 #: lua/plugins/logchannel.lua:22
 msgid "Spam links/forwards from channels will be logged in the channel, only if forbidden"
@@ -1158,22 +1082,22 @@ msgstr ""
 
 #: lua/plugins/logchannel.lua:26
 msgid "Log when an admin changes the group icon"
-msgstr ""
+msgstr "當管理員變更群組圖示時記錄"
 
 #: lua/plugins/logchannel.lua:28
 msgid "Log when an admin deletes the group icon"
-msgstr ""
+msgstr "當使用者刪除群組圖示時記錄"
 
 #: lua/plugins/logchannel.lua:30
 msgid "Log when an admin change the group title"
-msgstr ""
+msgstr "當使用者變更群組標題時記錄"
 
 #: lua/plugins/logchannel.lua:32
 msgid "Log pinned messages"
 msgstr "記錄置頂訊息"
 
 #: lua/plugins/logchannel.lua:34
-msgid "Log when an user who has been blocked is banned from the group (when he join)"
+msgid "Log when an user who has been blocked is banned from the group on join"
 msgstr ""
 
 #: lua/plugins/logchannel.lua:36
@@ -1192,7 +1116,7 @@ msgstr "封鎖"
 msgid "Kick"
 msgstr "踢除"
 
-#: lua/plugins/logchannel.lua:59 lua/utilities.lua:939
+#: lua/plugins/logchannel.lua:59 lua/utilities.lua:944
 msgid "Unban"
 msgstr "解除封鎖"
 
@@ -1218,7 +1142,7 @@ msgstr "媒體警告"
 
 #: lua/plugins/logchannel.lua:66
 msgid "Spam warns"
-msgstr ""
+msgstr "垃圾訊息警告"
 
 #: lua/plugins/logchannel.lua:67
 msgid "Flood"
@@ -1242,15 +1166,15 @@ msgstr "置頂訊息"
 
 #: lua/plugins/logchannel.lua:72
 msgid "Users blocked and banned"
-msgstr ""
+msgstr "已封鎖使用者"
 
 #: lua/plugins/logchannel.lua:73
 msgid "Users blocked"
-msgstr ""
+msgstr "已封鎖使用者"
 
 #: lua/plugins/logchannel.lua:74
 msgid "Users unblocked"
-msgstr ""
+msgstr "已解除封鎖使用者"
 
 #: lua/plugins/logchannel.lua:101
 msgid "You are not admin of this group"
@@ -1264,20 +1188,20 @@ msgstr "此用戶已被解除封鎖！"
 msgid "*Select the events the will be logged in the channel*\n"
 "✅ = will be logged\n"
 "☑️ = won't be logged\n\n"
-"Tap on a voice to get further informations"
+"Tap on an option to get further information"
 msgstr ""
 
 #: lua/plugins/logchannel.lua:157
 msgid "_Too many requests. Retry later_"
-msgstr ""
+msgstr "_太多請求。請稍候重試_"
 
 #: lua/plugins/logchannel.lua:159
 msgid "_I need to be admin in the channel_"
-msgstr ""
+msgstr "_我需要成為這個頻道的管理員_"
 
 #: lua/plugins/logchannel.lua:166
 msgid "_Already using this channel_"
-msgstr ""
+msgstr "_已經使用這個頻道_"
 
 #: lua/plugins/logchannel.lua:169
 msgid "*Log channel added!*"
@@ -1286,12 +1210,12 @@ msgstr "*記錄頻道已加入！*"
 #: lua/plugins/logchannel.lua:172
 #, lua-format
 msgid "<i>%s</i> changed its log channel"
-msgstr ""
+msgstr "<i>%s</i> 變更了其記錄頻道"
 
 #: lua/plugins/logchannel.lua:175
 #, lua-format
 msgid "Logs of <i>%s</i> will be posted here"
-msgstr ""
+msgstr "<i>%s</i> 的日誌將會公佈於此"
 
 #: lua/plugins/logchannel.lua:179
 msgid "_Only the channel creator can pair the chat with a channel_"
@@ -1299,19 +1223,19 @@ msgstr ""
 
 #: lua/plugins/logchannel.lua:183
 msgid "_I'm sorry, only private channels are supported for now_"
-msgstr ""
+msgstr "_我很抱歉，現在只支援私人頻道_"
 
 #: lua/plugins/logchannel.lua:187
 msgid "You have to *forward* the message from the channel"
-msgstr ""
+msgstr "您必須從頻道中 *轉傳* 訊息"
 
 #: lua/plugins/logchannel.lua:193 lua/plugins/logchannel.lua:202
 msgid "_This groups is not using a log channel_"
-msgstr ""
+msgstr "_這群組未使用記錄頻道_"
 
 #: lua/plugins/logchannel.lua:196
 msgid "*Log channel removed*"
-msgstr ""
+msgstr "* 已移除記錄頻道 *"
 
 #: lua/plugins/logchannel.lua:207
 msgid "_This group has a log channel saved, but I'm not a member there, so I can't post/retrieve its info_"
@@ -1325,7 +1249,7 @@ msgstr ""
 
 #: lua/plugins/mediasettings.lua:27
 msgid "Video messages"
-msgstr ""
+msgstr "影音訊息"
 
 #: lua/plugins/mediasettings.lua:54
 #, lua-format
@@ -1335,7 +1259,7 @@ msgstr "警告 | %d | 踢除"
 #: lua/plugins/mediasettings.lua:56
 #, lua-format
 msgid "Warnings | %d | mute"
-msgstr ""
+msgstr "警告 | %d | 禁言"
 
 #: lua/plugins/mediasettings.lua:58
 #, lua-format
@@ -1356,11 +1280,11 @@ msgstr "✅ 允許"
 
 #: lua/plugins/mediasettings.lua:98
 msgid "\n"
-"Tap on a voice in the right to *change the setting*\n"
-"You can use the last lines to change how many warnings should the bot give before kicking/banning/muting someone.\n"
+"Tap on an option on the right to *change the setting*\n"
+"You can use the last lines to change how many warnings the bot should give before kicking/banning/muting someone.\n"
 "The number is not related the the normal `/warn` command.\n\n"
-"Medias possible statuses: ✅ allowed, ❌ warning, 🗑 delete.\n"
-"When a media is set on delete, the bot will give a warning *only* when the user is at one media from being punished\n"
+"Possible statuses: ✅ allowed, ❌ warning, 🗑 delete.\n"
+"When a media is set to delete, the bot will give a warning *only* when this is the users last warning\n"
 msgstr ""
 
 #: lua/plugins/mediasettings.lua:115
@@ -1398,159 +1322,157 @@ msgstr ""
 
 #: lua/plugins/menu.lua:17
 msgid "Enable or disable the welcome message"
-msgstr ""
+msgstr "啟用或停用歡迎訊息"
 
 #: lua/plugins/menu.lua:19
 msgid "When enabled, every time a new welcome message is sent, the previously sent welcome message is removed"
 msgstr ""
 
-#: lua/plugins/menu.lua:22
+#: lua/plugins/menu.lua:21
 msgid "When enabled, the bot doesn't answer in the group to /dashboard, /config and /help commands (it will just answer in private)\n"
-"\t\t\t"
 msgstr ""
 
-#: lua/plugins/menu.lua:25
+#: lua/plugins/menu.lua:24
 msgid "Enable and disable the anti-flood system (more info in the /help message)"
 msgstr ""
 
-#: lua/plugins/menu.lua:28
+#: lua/plugins/menu.lua:26
 msgid "If the welcome message is enabled, it will include an inline button that will send to the user the rules in private\n"
-"\t\t\t"
 msgstr ""
 
-#: lua/plugins/menu.lua:31
+#: lua/plugins/menu.lua:29
 msgid "When someone uses /rules\n"
 "👥: the bot will answer in the group (always, with admins)\n"
 "👤: the bot will answer in private"
 msgstr ""
 
-#: lua/plugins/menu.lua:35
+#: lua/plugins/menu.lua:33
 msgid "When someone uses an #extra\n"
 "👥: the bot will answer in the group (always, with admins)\n"
 "👤: the bot will answer in private"
 msgstr ""
 
-#: lua/plugins/menu.lua:39
+#: lua/plugins/menu.lua:37
 msgid "Select what the bot should do when someone sends a message with arab characters"
 msgstr ""
 
-#: lua/plugins/menu.lua:41
+#: lua/plugins/menu.lua:39
 msgid "Bots will be banned when added by normal users"
+msgstr "當透過普通使用者加入時，將會封鎖機器人。"
+
+#: lua/plugins/menu.lua:42
+msgid "Select what the bot should do when someone sends a message with the RTL character, or has it in their name"
 msgstr ""
 
 #: lua/plugins/menu.lua:44
-msgid "Select what the bot should do when someone sends a message with the RTL character, or has it in his name"
-msgstr ""
-
-#: lua/plugins/menu.lua:46
 msgid "Change how many times an user has to be warned before being kicked/banned"
 msgstr ""
 
-#: lua/plugins/menu.lua:48
+#: lua/plugins/menu.lua:46
 msgid "Change the action to perform when an user reaches the max. number of warnings"
 msgstr ""
 
-#: lua/plugins/menu.lua:59
+#: lua/plugins/menu.lua:57
 msgid "The new value is too high ( > 12)"
 msgstr "新的數值太高 ( > 12)"
 
-#: lua/plugins/menu.lua:66
+#: lua/plugins/menu.lua:64
 msgid "The new value is too low ( < 1)"
 msgstr "新的數值太低 ( < 1)"
 
-#: lua/plugins/menu.lua:75
+#: lua/plugins/menu.lua:73
 msgid "New action on max number of warns received: ban"
 msgstr "新行為達到警告上限執行：封鎖"
 
-#: lua/plugins/menu.lua:78
+#: lua/plugins/menu.lua:76
 msgid "New action on max number of warns received: mute"
 msgstr "新行為達到警告上限執行：禁言"
 
-#: lua/plugins/menu.lua:81
+#: lua/plugins/menu.lua:79
 msgid "New action on max number of warns received: kick"
 msgstr "新行為達到警告上限執行：踢除"
 
-#: lua/plugins/menu.lua:88
+#: lua/plugins/menu.lua:86
 msgid "Action -> kick"
 msgstr "操作 -> 踢除"
 
-#: lua/plugins/menu.lua:89
+#: lua/plugins/menu.lua:87
 msgid "Action -> ban"
 msgstr "操作 -> 封鎖"
 
-#: lua/plugins/menu.lua:90
+#: lua/plugins/menu.lua:88
 msgid "Action -> mute"
 msgstr "操作 -> 禁言"
 
-#: lua/plugins/menu.lua:91
+#: lua/plugins/menu.lua:89
 msgid "Allowed ✅"
 msgstr "允許 ✅"
 
-#: lua/plugins/menu.lua:155
+#: lua/plugins/menu.lua:153
 msgid "🔨 ban"
 msgstr "🔨️ 封鎖"
 
-#: lua/plugins/menu.lua:159
+#: lua/plugins/menu.lua:157
 msgid "✅"
-msgstr ""
+msgstr "✅"
 
-#: lua/plugins/menu.lua:168
+#: lua/plugins/menu.lua:166
 msgid "Welcome"
 msgstr "歡迎訊息"
 
-#: lua/plugins/menu.lua:169
+#: lua/plugins/menu.lua:167
 msgid "Goodbye"
 msgstr "再見訊息"
 
-#: lua/plugins/menu.lua:170 lua/utilities.lua:602
+#: lua/plugins/menu.lua:168 lua/utilities.lua:602
 msgid "Extra"
 msgstr "自訂指令"
 
-#: lua/plugins/menu.lua:171 lua/utilities.lua:603
+#: lua/plugins/menu.lua:169 lua/utilities.lua:603
 msgid "Anti-flood"
 msgstr "防洗版"
 
-#: lua/plugins/menu.lua:172 lua/utilities.lua:605
+#: lua/plugins/menu.lua:170 lua/utilities.lua:605
 msgid "Silent mode"
 msgstr "安靜模式"
 
-#: lua/plugins/menu.lua:174 lua/utilities.lua:607
+#: lua/plugins/menu.lua:172 lua/utilities.lua:607
 msgid "Arab"
 msgstr "阿拉伯文字"
 
-#: lua/plugins/menu.lua:175 lua/utilities.lua:608
+#: lua/plugins/menu.lua:173 lua/utilities.lua:608
 msgid "RTL"
 msgstr "右至左文字"
 
-#: lua/plugins/menu.lua:176 lua/utilities.lua:604
+#: lua/plugins/menu.lua:174 lua/utilities.lua:604
 msgid "Ban bots"
 msgstr "封鎖機器人"
 
-#: lua/plugins/menu.lua:177 lua/utilities.lua:609
+#: lua/plugins/menu.lua:175 lua/utilities.lua:609
 msgid "Reports"
 msgstr "回報"
 
-#: lua/plugins/menu.lua:178
+#: lua/plugins/menu.lua:176 lua/utilities.lua:610
 msgid "Delete last welcome message"
 msgstr "刪除最後的歡迎訊息"
 
-#: lua/plugins/menu.lua:179
+#: lua/plugins/menu.lua:177
 msgid "Welcome + rules button"
 msgstr "歡迎訊息+規則按鈕"
 
-#: lua/plugins/menu.lua:211
+#: lua/plugins/menu.lua:209
 msgid "🔨️ ban"
 msgstr "🔨️ 封鎖"
 
-#: lua/plugins/menu.lua:217
+#: lua/plugins/menu.lua:215
 msgid "Warns: "
 msgstr "警告："
 
-#: lua/plugins/menu.lua:222
+#: lua/plugins/menu.lua:220
 msgid "Action:"
 msgstr "動作："
 
-#: lua/plugins/menu.lua:241
+#: lua/plugins/menu.lua:239
 msgid "Manage the settings of the group. Click on the left column to get a small hint"
 msgstr ""
 
@@ -1585,36 +1507,36 @@ msgstr "%s，這種類型的訊息<b>不允許</b>在這個對話裡面。\n"
 
 #: lua/plugins/onmessage.lua:180
 #, lua-format
-msgid "%s, this type of media is <b>not allowed</b> in this chat.\\n<i>The next time you will be banned/kicked/muted</i>\n"
-"\t\t\t\t\t\t\t\t"
+msgid "%s, this type of media is <b>not allowed</b> in this chat.\n"
+"<i>The next time you will be banned/kicked/muted</i>\n"
 msgstr ""
 
-#: lua/plugins/onmessage.lua:203
+#: lua/plugins/onmessage.lua:204
 #, lua-format
 msgid "%s <b>kicked</b>: RTL character in names/messages are not allowed!"
 msgstr "%s <b>已被踢除</b>：RTL字元在名字/訊息裡是不被允許的！"
 
-#: lua/plugins/onmessage.lua:206
+#: lua/plugins/onmessage.lua:207
 #, lua-format
 msgid "%s <b>banned</b>: RTL character in names/messages are not allowed!"
 msgstr "%s <b>已被封鎖</b>：RTL字元在名字/訊息裡是不被允許的！"
 
-#: lua/plugins/onmessage.lua:209
+#: lua/plugins/onmessage.lua:210
 #, lua-format
 msgid "%s <b>muted</b>: RTL character in names/messages are not allowed!"
 msgstr "%s <b>已被禁言</b>：RTL字元在名字/訊息裡是不被允許的！"
 
-#: lua/plugins/onmessage.lua:225
+#: lua/plugins/onmessage.lua:226
 #, lua-format
 msgid "%s <b>kicked</b>: arab/persian message detected!"
 msgstr "%s <b>已被踢除</b>：偵測到阿拉伯文字！"
 
-#: lua/plugins/onmessage.lua:228
+#: lua/plugins/onmessage.lua:229
 #, lua-format
 msgid "%s <b>banned</b>: arab/persian message detected!"
 msgstr "%s <b>已被封鎖</b>：偵測到阿拉伯文字！"
 
-#: lua/plugins/onmessage.lua:231
+#: lua/plugins/onmessage.lua:232
 #, lua-format
 msgid "%s <b>muted</b>: arab/persian message detected!"
 msgstr "%s <b>已被禁言</b>：偵測到阿拉伯文字！"
@@ -1627,49 +1549,55 @@ msgstr "最後的訊息由 `/pin` 產生 ^"
 msgid "Message edited. Check it here"
 msgstr "信息已被編輯。在這裡查看"
 
-#: lua/plugins/pin.lua:51
+#: lua/plugins/pin.lua:50
 msgid "The old message generated with `/pin` does not exist anymore, so I can't edit it. This is the new message that can be now pinned\n"
-"\t\t\t\t\t\t"
 msgstr ""
 
-#: lua/plugins/pin.lua:54
+#: lua/plugins/pin.lua:53
 msgid "This message can now be pinned. Use `/pin [new text]` to edit it without having to send it again"
 msgstr "這個訊息現在已被置頂，請使用 `/pin [new text]` 來編輯它"
 
-#: lua/plugins/private.lua:13
+#: lua/plugins/private.lua:11
+msgid "unknown"
+msgstr ""
+
+#: lua/plugins/private.lua:17
+#, lua-format
+msgid "This bot is based on [otouto](https://github.com/topkecleon/otouto) (AKA @mokubot, channel: @otouto), a multipurpose Lua bot.\n"
+"Group Butler wouldn't exist without it.\n\n"
+"You can contact the owners of this bot using the /groups command.\n\n"
+"Bot version: %s\n"
+"*Some useful links:*"
+msgstr ""
+
+#: lua/plugins/private.lua:30
 msgid "Channel"
 msgstr "頻道"
 
-#: lua/plugins/private.lua:14
+#: lua/plugins/private.lua:31
 msgid "GitHub"
-msgstr ""
+msgstr "GitHub"
 
-#: lua/plugins/private.lua:15
+#: lua/plugins/private.lua:32
 msgid "Rate me!"
 msgstr "評價我！"
 
-#: lua/plugins/private.lua:18
+#: lua/plugins/private.lua:35
 msgid "👥 Groups"
 msgstr "👥 群組"
 
-#: lua/plugins/private.lua:28
+#: lua/plugins/private.lua:45
 msgid "Pong!"
-msgstr ""
+msgstr "啪！"
 
-#: lua/plugins/private.lua:42 lua/plugins/private.lua:58
-#, lua-format
-msgid "\n"
-"This bot is based on [otouto](https://github.com/topkecleon/otouto) (AKA @mokubot, channel: @otouto), a multipurpose Lua bot.\\nGroup Butler wouldn't exist without it.\\n\\nThe owner of this bot is @baconn, do not pm him: use /groups command instead.\\n\\nBot version: `%s`\\n*Some useful links:*\n"
-msgstr ""
-
-#: lua/plugins/private.lua:50 lua/plugins/private.lua:67
+#: lua/plugins/private.lua:64 lua/plugins/private.lua:78
 #, lua-format
 msgid "You can find the list of our support groups in [this channel](%s)"
 msgstr ""
 
-#: lua/plugins/private.lua:65
+#: lua/plugins/private.lua:76
 msgid "🔙 back"
-msgstr ""
+msgstr "🔙 返回"
 
 #: lua/plugins/private_settings.lua:11
 msgid "When you join a group moderated by this bot, you will receive the group rules in private"
@@ -1698,13 +1626,14 @@ msgstr "⚙ 設定已變更"
 #: lua/plugins/report.lua:19
 #, lua-format
 msgid "• <b>Message reported by</b>: %s (<code>%d</code>)"
-msgstr ""
+msgstr "• <b>訊息回報者</b>：%s (<code>%d</code>)"
 
 #: lua/plugins/report.lua:23
 #, lua-format
 msgid "\n"
 "• <b>Reported message sent by</b>: %s (<code>%d</code>)"
-msgstr ""
+msgstr "\n"
+"• <b>傳送回報訊息者</b>：%s (<code>%d</code>)"
 
 #: lua/plugins/report.lua:27
 #, lua-format
@@ -1736,17 +1665,17 @@ msgstr "\n"
 
 #: lua/plugins/report.lua:46
 msgid "Address this report"
-msgstr ""
+msgstr "解決這個回報"
 
 #: lua/plugins/report.lua:91
 #, lua-format
 msgid "_Invalid value:_ number of times allowed (`input: %d`)"
-msgstr ""
+msgstr "_無效值：_ 允許次數 (`輸入：%d`)"
 
 #: lua/plugins/report.lua:93
 #, lua-format
 msgid "_Invalid value:_ time (`input: %d`)"
-msgstr ""
+msgstr "_無效值：_ time (`input: %d`)"
 
 #: lua/plugins/report.lua:99
 #, lua-format
@@ -1775,16 +1704,16 @@ msgstr "此訊息太舊了 (超過兩天)"
 
 #: lua/plugins/report.lua:160
 msgid "❕ Already (being) adressed"
-msgstr ""
+msgstr "❕ 已經（正在）解決"
 
 #: lua/plugins/report.lua:162
 msgid "Close issue"
-msgstr ""
+msgstr "關閉問題"
 
 #: lua/plugins/report.lua:172
 #, lua-format
 msgid "%s has/will address this report"
-msgstr ""
+msgstr "%s 已經 / 將會解決這個回報"
 
 #: lua/plugins/report.lua:180
 msgid "This button will delete all the reports sent to the other admins. Tap it again to confirm"
@@ -1792,7 +1721,7 @@ msgstr ""
 
 #: lua/plugins/report.lua:188
 msgid "(issue closed by you)"
-msgstr ""
+msgstr "（您關閉了問題）"
 
 #: lua/plugins/rules.lua:26
 msgid "🚫 Unknown or non-existent group"
@@ -1817,7 +1746,7 @@ msgstr "新規則*已成功儲存*！"
 #: lua/plugins/service.lua:21
 #, lua-format
 msgid "_You (user ID: %d) are in the blocked list_"
-msgstr ""
+msgstr "_您 (使用者 ID: %d) 在封鎖列表之中_"
 
 #: lua/plugins/service.lua:26
 msgid "_Admin mode is on: only the bot admin can add me to a new group_"
@@ -1827,11 +1756,11 @@ msgstr ""
 #, lua-format
 msgid "Hello everyone!\n"
 "My name is %s, and I'm a bot made to help administrators in their hard work.\n"
-msgstr ""
+msgstr "大家好！我是人事主任，我是一個協助校長努力工作的機器人。"
 
 #: lua/plugins/service.lua:44
 msgid "Yay! This group has been upgraded. You are great! Now I can work properly :)\n"
-msgstr ""
+msgstr "恭喜！這個群組已經升級！你真棒！現在我可以正常運作囉！ :)\n"
 
 #: lua/plugins/setlang.lua:24 lua/plugins/setlang.lua:34
 msgid "*List of available languages*:"
@@ -1848,36 +1777,36 @@ msgstr "繁體中文已*被設定*"
 
 #: lua/plugins/setlang.lua:44
 msgid ".\n"
-"Please note that translators are volunteers, and some strings of the translation you selected _could not have been translated yet_\n"
+"Please note that translators are volunteers, and this localization _may be incomplete_. You can help improve translations on our [Crowdin Project](https://crowdin.com/project/group-butler).\n"
 msgstr ""
 
 #: lua/plugins/users.lua:11
 msgid "can't change the chat title/description/icon"
-msgstr ""
+msgstr "無法變更對話標題、說明與圖示"
 
 #: lua/plugins/users.lua:12
 msgid "can't send messages"
-msgstr ""
+msgstr "無法傳送訊息"
 
 #: lua/plugins/users.lua:13
 msgid "can't delete messages"
-msgstr ""
+msgstr "無法刪除訊息"
 
 #: lua/plugins/users.lua:14
 msgid "can't invite users/generate a link"
-msgstr ""
+msgstr "無法邀請使用者或產生連結"
 
 #: lua/plugins/users.lua:15
 msgid "can't restrict members"
-msgstr ""
+msgstr "無法限制成員"
 
 #: lua/plugins/users.lua:16
 msgid "can't pin messages"
-msgstr ""
+msgstr "無法釘選訊息"
 
 #: lua/plugins/users.lua:17
 msgid "can't promote new admins"
-msgstr ""
+msgstr "無法增加新的管理員"
 
 #: lua/plugins/users.lua:18
 msgid "can't send photos/videos/documents/audios/voice messages/video messages"
@@ -1885,11 +1814,11 @@ msgstr ""
 
 #: lua/plugins/users.lua:19
 msgid "can't send stickers/GIFs/games/use inline bots"
-msgstr ""
+msgstr "無法傳送貼圖、GIF、遊戲或使用嵌入型機器人"
 
 #: lua/plugins/users.lua:20
 msgid "can't show link previews"
-msgstr ""
+msgstr "無法顯示連結預覽"
 
 #: lua/plugins/users.lua:24
 msgid "🔄️ Refresh cache"
@@ -1909,17 +1838,17 @@ msgstr ""
 
 #: lua/plugins/users.lua:122
 msgid "That user has nothing to do with this chat"
-msgstr ""
+msgstr "那位使用者與此對話無關"
 
 #: lua/plugins/users.lua:128
 #, lua-format
 msgid "%s is banned from this group"
-msgstr ""
+msgstr "%s 已經從群組中封鎖"
 
 #: lua/plugins/users.lua:129
 #, lua-format
 msgid "%s left the group or has been kicked and unbanned"
-msgstr ""
+msgstr "%s 離開的群組，或被踢出、取消封鎖"
 
 #: lua/plugins/users.lua:130
 #, lua-format
@@ -1934,7 +1863,7 @@ msgstr "%s 是創群者"
 #: lua/plugins/users.lua:132
 #, lua-format
 msgid "%s has nothing to do with this chat"
-msgstr ""
+msgstr "%s 與此對話無關"
 
 #: lua/plugins/users.lua:133
 #, lua-format
@@ -1944,13 +1873,14 @@ msgstr "%s 是一個群組成員"
 #: lua/plugins/users.lua:134
 #, lua-format
 msgid "%s is a restricted"
-msgstr ""
+msgstr "%s 是被受限制的"
 
 #: lua/plugins/users.lua:145
 #, lua-format
 msgid "\n"
 "Restrictions: <i>%s</i>"
-msgstr ""
+msgstr "\n"
+"限制：<i>%s</i>"
 
 #: lua/plugins/users.lua:158
 msgid "Reply to an user or mention them by username or numerical ID"
@@ -1959,10 +1889,10 @@ msgstr "回覆一個使用者或透過標註使用者名稱或數字ID"
 #: lua/plugins/users.lua:166
 msgid "I've never seen this user before.\n"
 "This command works by reply, username, user ID or text mention.\n"
-"If you're using it by username and want to teach me who the user is, forward me one of his messages"
+"If you're using it by username and want to teach me who the user is, forward me one of their messages"
 msgstr ""
 
-#: lua/plugins/users.lua:184 lua/plugins/users.lua:239
+#: lua/plugins/users.lua:184 lua/plugins/users.lua:240
 #, lua-format
 msgid "📌 Status: `CACHED`\n"
 "⌛ ️Remaining: `%s`\n"
@@ -1980,17 +1910,17 @@ msgstr "訊息 N° %d"
 msgid "You are not allowed to use this button"
 msgstr "您不允許使用這個按鈕"
 
-#: lua/plugins/users.lua:221
+#: lua/plugins/users.lua:222
 #, lua-format
 msgid "The number of warnings received by this user has been <b>reset</b>, by %s"
 msgstr "這個使用者的警告次數已經被管理員 %s <b>重設</b>"
 
-#: lua/plugins/users.lua:232
+#: lua/plugins/users.lua:233
 #, lua-format
 msgid "The adminlist has just been updated. You must wait 10 minutes from the last refresh (wait  %d seconds)"
 msgstr ""
 
-#: lua/plugins/users.lua:241
+#: lua/plugins/users.lua:242
 #, lua-format
 msgid "✅ Updated. Next update in %s"
 msgstr "✅ 已更新。下次更新將在 %s"
@@ -2030,7 +1960,8 @@ msgstr ""
 #, lua-format
 msgid "Done! %s has been forgiven.\n"
 "<b>Warns found</b>: <i>normal warns %s, for media %s, spamwarns %s</i>"
-msgstr ""
+msgstr "沒事了！％s已寫好悔過書。\n"
+"<b>警告發現</ b>：<i>正常警告％s，媒體 ％s，垃圾郵件警告％s </ i>"
 
 #: lua/plugins/warn.lua:98
 #, lua-format
@@ -2099,45 +2030,45 @@ msgstr "回覆一個`貼圖`或一個`動圖`來設置它們成為*歡迎訊息*
 msgid "*Custom welcome message saved!*"
 msgstr "*自訂歡迎訊息已儲存！*"
 
-#: lua/utilities.lua:366
+#: lua/utilities.lua:368
 msgid "More info [here](https://telegram.me/GB_tutorials/12)"
-msgstr ""
+msgstr "若要得知更多資訊， [請點此](https://telegram.me/GB_tutorials/12)"
 
-#: lua/utilities.lua:369 lua/utilities.lua:371 lua/utilities.lua:373
+#: lua/utilities.lua:371 lua/utilities.lua:373 lua/utilities.lua:375
 #, lua-format
 msgid "Inline link formatted incorrectly. Check the text between brackets -> \\[]()\n"
 "%s"
 msgstr ""
 
-#: lua/utilities.lua:374
+#: lua/utilities.lua:376
 msgid "This text breaks the markdown.\n"
 "More info about a proper use of markdown [here](https://telegram.me/GB_tutorials/10) and [here](https://telegram.me/GB_tutorials/12)."
 msgstr "字型符號（Markdown）使用不當。\n"
 "關於字型符號的詳細解說請點擊[這裏](https://telegram.me/GB_tutorials/10)及[這裏](https://telegram.me/GB_tutorials/12)。"
 
-#: lua/utilities.lua:377
+#: lua/utilities.lua:379
 msgid "This message is too long. Max lenght allowed by Telegram: 4000 characters"
 msgstr ""
 
-#: lua/utilities.lua:379
+#: lua/utilities.lua:381
 msgid "One of the URLs that should be placed in an inline button seems to be invalid (not an URL). Please check it"
 msgstr ""
 
-#: lua/utilities.lua:380
+#: lua/utilities.lua:382
 msgid "One of the inline buttons you are trying to set is missing the URL"
 msgstr ""
 
-#: lua/utilities.lua:381
+#: lua/utilities.lua:383
 msgid "One of the inline buttons you are trying to set doesn't have a name"
 msgstr ""
 
-#: lua/utilities.lua:382
+#: lua/utilities.lua:384
 msgid "Please input a text"
 msgstr "請輸入文字"
 
-#: lua/utilities.lua:385
+#: lua/utilities.lua:387
 msgid "Text not valid: unknown formatting error"
-msgstr ""
+msgstr "無效文字：未知的格式化錯誤"
 
 #: lua/utilities.lua:538
 msgid "-*empty*-"
@@ -2160,7 +2091,7 @@ msgstr "不存在自訂指令"
 
 #: lua/utilities.lua:587
 msgid "List of custom commands:\n"
-msgstr ""
+msgstr "自訂指令列表：\n"
 
 #: lua/utilities.lua:595
 msgid "Current settings for *the group*:\n\n"
@@ -2179,7 +2110,7 @@ msgstr "歡迎訊息"
 msgid "Goodbye message"
 msgstr "再見訊息"
 
-#: lua/utilities.lua:610
+#: lua/utilities.lua:611
 msgid "Welcome button"
 msgstr "歡迎按鈕"
 
@@ -2255,7 +2186,7 @@ msgstr "鏈接預覽已禁用"
 
 #: lua/utilities.lua:676
 msgid "Welcome message without a button for the rules"
-msgstr ""
+msgstr "不包含規則按鈕的歡迎訊息"
 
 #: lua/utilities.lua:679
 msgid "@admin command enabled"
@@ -2305,33 +2236,40 @@ msgstr "啟動我"
 msgid "_Please message me first so I can message you_"
 msgstr "_請先私訊我我才能夠跟你談話_"
 
-#: lua/utilities.lua:792
-msgid "Reply to an user or mention him"
-msgstr ""
+#: lua/utilities.lua:788 lua/utilities.lua:789
+msgid "Someone"
+msgstr "某個人"
 
-#: lua/utilities.lua:803 lua/utilities.lua:813
+#: lua/utilities.lua:797
+msgid "Reply to an user or mention them"
+msgstr "回覆使用者或提及他們"
+
+#: lua/utilities.lua:808 lua/utilities.lua:818
 msgid "Unknown user.\n"
 "Please forward a message from them to me"
-msgstr ""
+msgstr "未知的使用者。\n"
+"請轉傳他們的訊息給我"
 
-#: lua/utilities.lua:828
+#: lua/utilities.lua:833
 #, lua-format
 msgid "<b>Chat</b>: %s [#chat%d]"
-msgstr ""
+msgstr "<b>對話</b>：%s [#chat%d]"
 
-#: lua/utilities.lua:853 lua/utilities.lua:860 lua/utilities.lua:862
-#: lua/utilities.lua:864
+#: lua/utilities.lua:858 lua/utilities.lua:865 lua/utilities.lua:867
+#: lua/utilities.lua:869
 #, lua-format
 msgid "%s\n"
 "• %s\n"
 "• <b>By</b>: %s"
-msgstr ""
+msgstr "%s\n"
+"• %s\n"
+"• <b>由</b>：%s"
 
-#: lua/utilities.lua:856
+#: lua/utilities.lua:861
 msgid "Get the new photo"
 msgstr "取得新的照片"
 
-#: lua/utilities.lua:867
+#: lua/utilities.lua:872
 #, lua-format
 msgid "%s\n"
 "• %s\n"
@@ -2339,27 +2277,32 @@ msgid "%s\n"
 "• <i>Reported to %d admin(s)</i>"
 msgstr ""
 
-#: lua/utilities.lua:870
+#: lua/utilities.lua:875
 #, lua-format
 msgid "#BLOCKBAN\n"
 "• %s\n"
 "• <b>User</b>: %s [#id%d]"
-msgstr ""
+msgstr "#BLOCKBAN\n"
+"• %s\n"
+"• <b>使用者</b>：%s [#id%d]"
 
-#: lua/utilities.lua:874
+#: lua/utilities.lua:879
 #, lua-format
 msgid "%s\n"
 "• %s\n"
 "• <b>User</b>: %s"
-msgstr ""
+msgstr "%s\n"
+"• %s\n"
+"• <b>使用者</b>：%s"
 
-#: lua/utilities.lua:876
+#: lua/utilities.lua:881
 #, lua-format
 msgid "\n"
 "• <b>Added by</b>: %s [#id%d]"
-msgstr ""
+msgstr "\n"
+"• <b>增加者</b>：%s [#id%d]"
 
-#: lua/utilities.lua:889
+#: lua/utilities.lua:894
 #, lua-format
 msgid "#%s\n"
 "• <b>Admin</b>: %s [#id%d]\n"
@@ -2368,13 +2311,14 @@ msgid "#%s\n"
 "• <b>Count</b>: <code>%d/%d</code>"
 msgstr ""
 
-#: lua/utilities.lua:892
+#: lua/utilities.lua:897
 #, lua-format
 msgid "\n"
 "<b>Action</b>: <i>%s</i>"
-msgstr ""
+msgstr "\n"
+"<b>動作</b>：<i>%s</i>"
 
-#: lua/utilities.lua:900
+#: lua/utilities.lua:905
 #, lua-format
 msgid "#%s\n"
 "• <b>Admin</b>: %s [#id%s]\n"
@@ -2383,24 +2327,26 @@ msgid "#%s\n"
 "• <b>Warns found</b>: <i>normal: %s, for media: %s, spamwarns: %s</i>"
 msgstr ""
 
-#: lua/utilities.lua:906
+#: lua/utilities.lua:911
 #, lua-format
 msgid "#%s\n"
 "• <b>Admin</b>: %s [#id%s]\n"
 "• %s\n"
-msgstr ""
+msgstr "#%s\n"
+"• <b>管理員</b>：%s [#id%s]\n"
+"• %s\n"
 
-#: lua/utilities.lua:909
+#: lua/utilities.lua:914
 #, lua-format
 msgid "• <i>Users involved: %d</i>"
-msgstr ""
+msgstr "• <i>參與的使用者：%d</i>"
 
-#: lua/utilities.lua:911
+#: lua/utilities.lua:916
 #, lua-format
 msgid "• <b>User</b>: %s [#id%d]"
-msgstr ""
+msgstr "• <b>使用者</b>：%s [#id%d]"
 
-#: lua/utilities.lua:922
+#: lua/utilities.lua:927
 #, lua-format
 msgid "#%s\n"
 "• <b>Admin</b>: %s [#id%s]\n"
@@ -2409,7 +2355,7 @@ msgid "#%s\n"
 "• <b>Duration</b>: %d days, %d hours"
 msgstr ""
 
-#: lua/utilities.lua:931
+#: lua/utilities.lua:936
 #, lua-format
 msgid "#%s\n"
 "• <b>Admin</b>: %s [#id%s]\n"
@@ -2417,11 +2363,11 @@ msgid "#%s\n"
 "• <b>User</b>: %s [#id%s]"
 msgstr ""
 
-#: lua/utilities.lua:950
+#: lua/utilities.lua:955
 msgid "Go to the message"
 msgstr "前往訊息"
 
-#: lua/utilities.lua:994
+#: lua/utilities.lua:999
 #, lua-format
 msgid "This command has been removed \\[[read more](%s)]"
 msgstr "此命令已被刪除 \\[[閱讀更多](%s)]"

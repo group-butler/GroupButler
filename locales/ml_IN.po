@@ -5,20 +5,20 @@ msgstr ""
 "POT-Creation-Date: 2018-07-22 18:04+0200\n"
 "PO-Revision-Date: 2018-08-04 04:41\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
-"Language-Team: Hungarian\n"
-"Language: hu\n"
+"Language-Team: Malayalam\n"
+"Language: ml\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: crowdin.com\n"
 "X-Crowdin-Project: group-butler\n"
-"X-Crowdin-Language: hu\n"
+"X-Crowdin-Language: ml-IN\n"
 "X-Crowdin-File: /master/locales/en.po\n"
 
 #: lua/main.lua:127
 msgid "🐞 Sorry, a *bug* occurred"
-msgstr ""
+msgstr "ക്ഷമിക്കണം, ഒരു *വൈകല്യം* സംഭവിച്ചിരിക്കുന്നു"
 
 #: lua/main.lua:149
 #, lua-format
@@ -26,146 +26,147 @@ msgid "\n"
 "Hello everyone!\n"
 "My name is %s, and I'm a bot made to help administrators in their hard work.\n"
 "Unfortunately I can't work in normal groups. If you need me, please ask the creator to convert this group to a supergroup and then add me again.\n"
-msgstr ""
+msgstr "Hai everyone \n"
+"എന്റെ പേര് %s, എന്നെ ഉപയോഗിക്കേണ്ടത് എങ്ങനെ ആണെന്നുള്ളതിൽ എന്തേലും സംശയം ഉണ്ടെങ്കിൽ /config കൊടുത്താൽ മതിയാകും... "
 
 #: lua/methods.lua:159
 msgid "I don't have enough permissions to restrict users"
-msgstr ""
+msgstr "എനിക്ക് ആരെയും നിയന്ത്രിക്കാനുള്ള അധികാരമില്ല"
 
 #: lua/methods.lua:161
 msgid "I'm not an admin, I can't kick people"
-msgstr ""
+msgstr "എനിക്കാരെയും പുറത്താക്കൻ കഴിയില്ല കാരണം ഞാൻ അഡ്മിൻ അല്ല"
 
 #: lua/methods.lua:163
 msgid "I can't kick or ban an admin"
-msgstr ""
+msgstr "എനിക്ക് അഡ്മിനെ പുറത്താക്കാനോ തടയാനോ സാധിക്കില്ല"
 
 #: lua/methods.lua:165
 msgid "There is no need to unban in a normal group"
-msgstr ""
+msgstr "സാധാരണ ഗ്രൂപ്പിൽ നിന്നും വിലക്ക് മാറ്റേണ്ടതില്ല"
 
 #: lua/methods.lua:167
 msgid "This user is not a chat member"
-msgstr ""
+msgstr "ഇയാൾ സല്ലപിക്കുന്ന ആളല്ല"
 
 #: lua/plugins/antispam.lua:32 lua/plugins/onmessage.lua:157
 #: lua/plugins/warn.lua:100
 msgid "banned"
-msgstr ""
+msgstr "തടഞ്ഞു"
 
 #: lua/plugins/antispam.lua:33 lua/plugins/onmessage.lua:154
 #: lua/plugins/warn.lua:104
 msgid "kicked"
-msgstr ""
+msgstr "പുറത്താക്കി"
 
 #: lua/plugins/antispam.lua:34 lua/plugins/onmessage.lua:160
 #: lua/plugins/warn.lua:108
 msgid "muted"
-msgstr ""
+msgstr "നിശബ്ദമാക്കി"
 
 #: lua/plugins/antispam.lua:35 lua/plugins/dashboard.lua:140
 msgid "telegram.me links"
-msgstr ""
+msgstr "telegram.me ലിങ്കുകൾ"
 
 #: lua/plugins/antispam.lua:36
 msgid "Channels messages"
-msgstr ""
+msgstr "ചാനലിലെ സന്ദേശങ്ങൾ"
 
 #: lua/plugins/antispam.lua:75
 #, lua-format
 msgid "%s %s for <b>spam</b>! (%d/%d)"
-msgstr ""
+msgstr "%s %s for <b>അനാവശ്യമായവ</b>! (%d/%d)"
 
 #: lua/plugins/antispam.lua:80
 #, lua-format
 msgid "%s, spam is not allowed here. The next time you will be restricted"
-msgstr ""
+msgstr "%s, അനാവശ്യമായവ ഇവിടെ അനുവദനീയമല്ല. ഇനി ആവർത്തിച്ചാൽ നിങ്ങളിൽ നിയന്ത്രണം ഏർപെടുത്തും"
 
 #: lua/plugins/antispam.lua:86
 #, lua-format
 msgid "%s, this kind of spam is not allowed in this chat (<b>%d/%d</b>)"
-msgstr ""
+msgstr "%s, ഇത്തരം അനാവശ്യമായവ സന്ദേശത്തിന്റെ കൂടെ അനുവദിക്കുന്നതല്ല (<b>%d/%d</b>)"
 
 #: lua/plugins/antispam.lua:90
 msgid "telegram.me link"
-msgstr ""
+msgstr "telegram.me ലിങ്ക്"
 
 #: lua/plugins/antispam.lua:90
 msgid "message from a channel"
-msgstr ""
+msgstr "ചാനലിൽ നിന്നുള്ള സന്ദേശം"
 
 #: lua/plugins/antispam.lua:111
 msgid "forwards are allowed"
-msgstr ""
+msgstr "കൈമാറ്റം അനുവദിക്കുനു"
 
 #: lua/plugins/antispam.lua:113
 msgid "warn for forwards"
-msgstr ""
+msgstr "കൈമാറ്റം ചെയ്തതിന്നുള്ള താക്കിത്"
 
 #: lua/plugins/antispam.lua:115
 msgid "forwards will be deleted"
-msgstr ""
+msgstr "കൈമാറ്റം ഒഴിവാക്കും"
 
 #: lua/plugins/antispam.lua:119
 msgid "links are allowed"
-msgstr ""
+msgstr "ലിങ്കുകള്‍ അനുവദനീയമല്ല"
 
 #: lua/plugins/antispam.lua:121
 msgid "warn for links"
-msgstr ""
+msgstr "ലിങ്കിനുള്ള താക്കീത്"
 
 #: lua/plugins/antispam.lua:123
 msgid "links will be deleted"
-msgstr ""
+msgstr "ലിങ്ക് എടുത്ത് കളയും"
 
 #: lua/plugins/antispam.lua:139
 msgid "You can't go lower"
-msgstr ""
+msgstr "നിങ്ങൾക്ക് ഇതിലും താഴെ പോകാൻ പറ്റില്ല"
 
 #: lua/plugins/antispam.lua:141
 msgid "You can't go higher"
-msgstr ""
+msgstr "നിങ്ങൾക്ക് ഇതിലും മുകളിൽ പോകാൻ പറ്റില്ല"
 
 #: lua/plugins/antispam.lua:149
 #, lua-format
 msgid "New value: %d"
-msgstr ""
+msgstr "പുതിയ വില: %d"
 
 #: lua/plugins/antispam.lua:170
 msgid "Allow/forbid telegram.me links"
-msgstr ""
+msgstr "അനുവദിക്കുക/തടയുക telegram.me ലിങ്കുകൾ"
 
 #: lua/plugins/antispam.lua:172
 msgid "Allow/forbid forwarded messages from channels"
-msgstr ""
+msgstr "അനുവദിക്കുക/തടയുക ചാനലിൽ നിന്നും കൈമാറുന്ന സന്ദേശങ്ങൾ"
 
 #: lua/plugins/antispam.lua:174
 msgid "Set how many times the bot should warn users before kicking/banning them"
-msgstr ""
+msgstr "പുറത്താക്കുന്നതിന്നും/തടയുന്നതിന്നും മുന്നേ എത്ര തവണ ബോട്ട് താക്കീത് നൽകണം"
 
 #: lua/plugins/antispam.lua:176 lua/plugins/defaultpermissions.lua:56
 #: lua/plugins/floodmanager.lua:18 lua/plugins/logchannel.lua:40
 #: lua/plugins/menu.lua:48 lua/plugins/private_settings.lua:17
 msgid "Description not available"
-msgstr ""
+msgstr "വിശദീകരണം ലഭ്യമല്ല"
 
 #: lua/plugins/antispam.lua:202
 msgid "Kick 👞"
-msgstr ""
+msgstr "പുറത്താക്കുക"
 
 #: lua/plugins/antispam.lua:204
 msgid "Ban 🔨"
-msgstr ""
+msgstr "തടയുക"
 
 #: lua/plugins/antispam.lua:206
 msgid "Mute 👁"
-msgstr ""
+msgstr "നിശബ്ദമാക്കുക"
 
 #: lua/plugins/antispam.lua:252 lua/plugins/floodmanager.lua:124
 #: lua/plugins/logchannel.lua:119 lua/plugins/mediasettings.lua:96
 #: lua/plugins/menu.lua:237
 msgid "You're no longer an admin"
-msgstr ""
+msgstr "നിങ്ങൾ ഇനിമുതൽ അഡ്മിൻ അല്ല"
 
 #: lua/plugins/antispam.lua:254
 msgid "*Anti-spam settings*\n"
@@ -174,38 +175,45 @@ msgid "*Anti-spam settings*\n"
 "• ❌ = *Not allowed*\n"
 "• 🗑 = *Delete*\n"
 "When set on `delete`, the bot doesn't warn users until they are about to be kicked/banned/muted (at the second-to-last warning)\n"
-msgstr ""
+msgstr "Anti spam settings \n"
+"ഏത് തരത്തിലുള്ള സ്പാമാണ് നിങ്ങൾ വിലക്കിയത് തിരഞ്ഞെടുക്കുക\n"
+" •✅ = * അനുവദനീയമല്ല \n"
+"• ❌ = * അനുവദനീയമല്ല \n"
+"• 🗑 = * ഇല്ലാതാക്കുക \n"
+"delete- ൽ സജ്ജമാക്കുമ്പോൾ, ബോട്ട് ഉപയോക്താക്കൾക്ക് മുന്നറിയിപ്പ് നൽകുന്നത് വരെ / നിരോധിച്ച / നിശബ്ദമാക്കി (രണ്ടാമത്തെ മുതൽ അവസാനം വരെ മുന്നറിയിപ്പ്)"
 
 #: lua/plugins/antispam.lua:317
 msgid "_The whitelist was already empty_"
-msgstr ""
+msgstr "_ വൈറ്റ്ലിസ്റ്റ് ഇതിനകം ശൂന്യമായിരുന്നു"
 
 #: lua/plugins/antispam.lua:320
 #, lua-format
 msgid "*Whitelist cleaned*\n"
 "%d links have been removed"
-msgstr ""
+msgstr "*Whitelist വൃത്തിയാക്കി*\n"
+"%d links have been removed"
 
 #: lua/plugins/antispam.lua:328 lua/plugins/antispam.lua:337
 #: lua/plugins/antispam.lua:359 lua/plugins/antispam.lua:368
 msgid "_I can't find any url in this message_"
-msgstr ""
+msgstr "_എനിക്കിതിൽ നിന്നും ലിങ്ക് കണ്ടെത്താൻ പറ്റുന്നില്ല_"
 
 #: lua/plugins/antispam.lua:331
 #, lua-format
 msgid "%d link(s) will be whitelisted"
-msgstr ""
+msgstr "%d link(s) will be whitelisted"
 
 #: lua/plugins/antispam.lua:333 lua/plugins/antispam.lua:364
 #, lua-format
 msgid "\n"
 "%d links were already in the list"
-msgstr ""
+msgstr "\n"
+"%d ഇതിൽ ആദ്യമേ ലിങ്കുകൾ ഉണ്ട് "
 
 #: lua/plugins/antispam.lua:345
 msgid "_The whitelist is empty_.\n"
 "Use `/wl [links]` to add some links to the whitelist"
-msgstr ""
+msgstr "Dog - പട്ടി"
 
 #: lua/plugins/antispam.lua:347
 msgid "Whitelisted links:\n\n"
@@ -228,7 +236,7 @@ msgstr ""
 
 #: lua/plugins/antispam.lua:388 lua/plugins/antispam.lua:405
 msgid "_I can't find a channel ID in your message_"
-msgstr ""
+msgstr "‌_എനിക്കിതിൽ നിന്നും ചാനൽ ID കണ്ടെത്താൻ പറ്റുന്നില്ല_"
 
 #: lua/plugins/backup.lua:95
 #, lua-format
@@ -238,7 +246,7 @@ msgstr ""
 
 #: lua/plugins/backup.lua:103
 msgid "*Sent in private*"
-msgstr ""
+msgstr "സ്വകാര്യ സന്ദേശം അയച്ചു"
 
 #: lua/plugins/backup.lua:116
 #, lua-format
@@ -248,7 +256,7 @@ msgstr ""
 #: lua/plugins/backup.lua:122
 #, lua-format
 msgid "Chat IDs don't match (%s and %s)"
-msgstr ""
+msgstr "ചാനൽ IDs (%s യും  %s യും തമ്മിൽ) ചേർച്ചയില്ല "
 
 #: lua/plugins/backup.lua:148
 #, lua-format
@@ -271,17 +279,18 @@ msgstr ""
 #: lua/plugins/banhammer.lua:80 lua/plugins/banhammer.lua:93
 msgid "I can't kick this user.\n"
 "Either I'm not an admin, or the targeted user is!"
-msgstr ""
+msgstr "എനിക്കിയാളെ പുറത്താക്കാൻ കഴിയില്ല.\n"
+"ഞാൻ അഡ്മിനല്ല, അല്ലെങ്കിൽ ലക്ഷ്യമിടുന്ന ആൾ!"
 
 #: lua/plugins/banhammer.lua:86
 #, lua-format
 msgid "%s kicked %s!"
-msgstr ""
+msgstr "%s പുറത്താക്കി %s!"
 
 #: lua/plugins/banhammer.lua:99 lua/plugins/banhammer.lua:116
 #, lua-format
 msgid "%s banned %s!"
-msgstr ""
+msgstr "%s വിലക്കി %s!"
 
 #: lua/plugins/banhammer.lua:104
 msgid "_Use this command in reply to a forwarded message_"
@@ -294,20 +303,20 @@ msgstr ""
 
 #: lua/plugins/banhammer.lua:122
 msgid "_An admin can't be unbanned_"
-msgstr ""
+msgstr "_ഒരു അഡ്മിൻ വിലക്ക് നീക്കാൻ കഴിയില്ല_"
 
 #: lua/plugins/banhammer.lua:127
 msgid "This user is not banned!"
-msgstr ""
+msgstr "ഇയാളെ വിലക്കിയിട്ടില്ല!"
 
 #: lua/plugins/banhammer.lua:131
 #, lua-format
 msgid "%s unbanned by %s!"
-msgstr ""
+msgstr "%s വിലക്ക് മാറ്റിയത് %s!"
 
 #: lua/plugins/banhammer.lua:142
 msgid "You don't have the permissions to restrict members"
-msgstr ""
+msgstr "നിങ്ങൾക്ക് അംഗങ്ങളെ നിയന്ത്രിക്കാനുള്ള അധികാരമില്ല "
 
 #: lua/plugins/banhammer.lua:146
 msgid "Tap on the -/+ buttons to change this value. Then select a timeframe to execute the ban"
@@ -319,40 +328,40 @@ msgstr ""
 
 #: lua/plugins/banhammer.lua:163
 msgid "Stop!!!"
-msgstr ""
+msgstr "നിർത്തൂ!!!"
 
 #: lua/plugins/banhammer.lua:179
 msgid "hours"
-msgstr ""
+msgstr "മണിക്കൂറുകൾ"
 
 #: lua/plugins/banhammer.lua:183
 msgid "days"
-msgstr ""
+msgstr "ദിവസങ്ങൾ"
 
 #: lua/plugins/banhammer.lua:187
 msgid "minutes"
-msgstr ""
+msgstr "നിമിഷങ്ങൾ"
 
 #: lua/plugins/banhammer.lua:196
 #, lua-format
 msgid "User banned for %d %s"
-msgstr ""
+msgstr "ആളെ ഇതിനാൽ %d %s തടഞ്ഞിരിക്കുന്നു"
 
 #: lua/plugins/configure.lua:34
 msgid "🛠 Menu"
-msgstr ""
+msgstr "പട്ടിക"
 
 #: lua/plugins/configure.lua:35
 msgid "⚡️ Antiflood"
-msgstr ""
+msgstr "⚡️ ശല്ല്യം തടയുക"
 
 #: lua/plugins/configure.lua:36
 msgid "🌈 Media"
-msgstr ""
+msgstr "🌈 മാധ്യമം"
 
 #: lua/plugins/configure.lua:37
 msgid "🚫 Antispam"
-msgstr ""
+msgstr "🚫 അനാവശ്യമായവ തടയൽ"
 
 #: lua/plugins/configure.lua:38
 msgid "📥 Log channel"
@@ -360,13 +369,14 @@ msgstr ""
 
 #: lua/plugins/configure.lua:44
 msgid "⛔️ Default permissions"
-msgstr ""
+msgstr "⛔️ പൊതുവായുള്ള അനുമതികൾ"
 
 #: lua/plugins/configure.lua:57
 #, lua-format
 msgid "<b>%s</b>\n"
 "<i>Change the settings of your group</i>"
-msgstr ""
+msgstr "<b>%s</b>\n"
+"<i>നിങ്ങളുടെ ഗ്രൂപ്പിലെ ക്രമീകരണങ്ങൾ മാറ്റുക</i>"
 
 #: lua/plugins/configure.lua:60
 msgid "_I've sent you the keyboard via private message_"
@@ -387,24 +397,24 @@ msgstr ""
 #: lua/plugins/dashboard.lua:20 lua/plugins/menu.lua:151
 #: lua/plugins/menu.lua:207
 msgid "👞 kick"
-msgstr ""
+msgstr "പുറത്തക്കുക"
 
 #: lua/plugins/dashboard.lua:22
 msgid "🔨️ ️ban"
-msgstr ""
+msgstr "തടയുക"
 
 #: lua/plugins/dashboard.lua:24 lua/plugins/floodmanager.lua:38
 #: lua/plugins/menu.lua:155 lua/plugins/menu.lua:211
 msgid "👁 mute"
-msgstr ""
+msgstr "നിശബ്ദമാക്കുക"
 
 #: lua/plugins/dashboard.lua:28 lua/plugins/floodmanager.lua:56
 msgid "Texts"
-msgstr ""
+msgstr "അക്ഷരങ്ങൾ"
 
 #: lua/plugins/dashboard.lua:29 lua/plugins/floodmanager.lua:57
 msgid "Forwards"
-msgstr ""
+msgstr "കൈമാറിയവ"
 
 #: lua/plugins/dashboard.lua:30 lua/plugins/dashboard.lua:144
 #: lua/plugins/floodmanager.lua:58 lua/plugins/mediasettings.lua:33
@@ -414,17 +424,17 @@ msgstr ""
 #: lua/plugins/dashboard.lua:31 lua/plugins/dashboard.lua:136
 #: lua/plugins/floodmanager.lua:59 lua/plugins/mediasettings.lua:24
 msgid "Images"
-msgstr ""
+msgstr "ചിത്രങ്ങൾ"
 
 #: lua/plugins/dashboard.lua:32 lua/plugins/dashboard.lua:137
 #: lua/plugins/floodmanager.lua:60 lua/plugins/mediasettings.lua:25
 msgid "GIFs"
-msgstr ""
+msgstr "ജിഫുകൾ"
 
 #: lua/plugins/dashboard.lua:33 lua/plugins/dashboard.lua:138
 #: lua/plugins/floodmanager.lua:61 lua/plugins/mediasettings.lua:26
 msgid "Videos"
-msgstr ""
+msgstr "വീഡിയോകൾ"
 
 #: lua/plugins/dashboard.lua:47
 #, lua-format
@@ -449,27 +459,27 @@ msgstr ""
 
 #: lua/plugins/dashboard.lua:57
 msgid "Settings"
-msgstr ""
+msgstr "ക്രമീകരണങ്ങൾ"
 
 #: lua/plugins/dashboard.lua:58
 msgid "Admins"
-msgstr ""
+msgstr "അഡ്മിന്മാർ"
 
 #: lua/plugins/dashboard.lua:61 lua/plugins/menu.lua:171 lua/utilities.lua:606
 msgid "Rules"
-msgstr ""
+msgstr "നിയമങ്ങൾ"
 
 #: lua/plugins/dashboard.lua:62 lua/plugins/help.lua:270
 msgid "Extra commands"
-msgstr ""
+msgstr "കൂടുതൽ കമാൻഡുകൾ"
 
 #: lua/plugins/dashboard.lua:65
 msgid "Flood settings"
-msgstr ""
+msgstr "ശല്ല്യത്തിന്റെ ക്രമീകരണങ്ങൾ"
 
 #: lua/plugins/dashboard.lua:66
 msgid "Media settings"
-msgstr ""
+msgstr "മീഡിയ ക്രമീകരണങ്ങൾ"
 
 #: lua/plugins/dashboard.lua:77
 msgid "Navigate this message to see *all the info* about this group!"
@@ -489,19 +499,19 @@ msgstr ""
 
 #: lua/plugins/dashboard.lua:110
 msgid "ℹ️ Group ► Settings"
-msgstr ""
+msgstr "ℹ️ ഗ്രൂപ്പ് ► ക്രമീകരണങ്ങൾ"
 
 #: lua/plugins/dashboard.lua:114
 msgid "ℹ️ Group ► Rules"
-msgstr ""
+msgstr "ℹ️ ഗ്രൂപ്പ് ► നിയമങ്ങൾ"
 
 #: lua/plugins/dashboard.lua:122
 msgid "I got kicked out of this group 😓"
-msgstr ""
+msgstr "എന്നെ ഗ്രൂപ്പിൽ നിന്നും പുറത്താക്കി 😓"
 
 #: lua/plugins/dashboard.lua:124
 msgid "ℹ️ Group ► Admin list"
-msgstr ""
+msgstr "ℹ️ ഗ്രൂപ്പ് ► അഡ്മിന്മാരുടെ പട്ടിക"
 
 #: lua/plugins/dashboard.lua:128
 msgid "ℹ️ Group ► Extra"
@@ -509,23 +519,23 @@ msgstr ""
 
 #: lua/plugins/dashboard.lua:132
 msgid "ℹ️ Group ► Flood"
-msgstr ""
+msgstr "ℹ️ ഗ്രൂപ്പ് ► ശല്ല്യം"
 
 #: lua/plugins/dashboard.lua:139 lua/plugins/mediasettings.lua:28
 msgid "Documents"
-msgstr ""
+msgstr "പ്രമാണങ്ങൾ"
 
 #: lua/plugins/dashboard.lua:141 lua/plugins/mediasettings.lua:30
 msgid "Vocal messages"
-msgstr ""
+msgstr "വാചികമായ സന്ദേശങ്ങൾ"
 
 #: lua/plugins/dashboard.lua:142 lua/plugins/mediasettings.lua:31
 msgid "Links"
-msgstr ""
+msgstr "ലിങ്കുകൾ"
 
 #: lua/plugins/dashboard.lua:143 lua/plugins/mediasettings.lua:32
 msgid "Music"
-msgstr ""
+msgstr "സംഗീതം"
 
 #: lua/plugins/dashboard.lua:145 lua/plugins/mediasettings.lua:34
 msgid "Contacts"
@@ -533,11 +543,11 @@ msgstr ""
 
 #: lua/plugins/dashboard.lua:146 lua/plugins/mediasettings.lua:35
 msgid "Games"
-msgstr ""
+msgstr "കളികൾ"
 
 #: lua/plugins/dashboard.lua:147 lua/plugins/mediasettings.lua:36
 msgid "Locations"
-msgstr ""
+msgstr "സ്ഥലങ്ങൾ"
 
 #: lua/plugins/dashboard.lua:149
 msgid "*Current media settings*:\n\n"
@@ -565,23 +575,23 @@ msgstr ""
 
 #: lua/plugins/defaultpermissions.lua:61
 msgid "Send messages"
-msgstr ""
+msgstr "സന്ദേശം അയക്കുക"
 
 #: lua/plugins/defaultpermissions.lua:62
 msgid "Send media"
-msgstr ""
+msgstr "മാധ്യമങ്ങൾ അയക്കുക"
 
 #: lua/plugins/defaultpermissions.lua:63
 msgid "Send other types of media"
-msgstr ""
+msgstr "മറ്റു തരത്തിലുള്ള മാധ്യമങ്ങൾ അയക്കുക"
 
 #: lua/plugins/defaultpermissions.lua:64
 msgid "Show web page preview"
-msgstr ""
+msgstr "വെബ് പേജ് കാണിക്കുക"
 
 #: lua/plugins/defaultpermissions.lua:110
 msgid "You don't have the permission to restrict members"
-msgstr ""
+msgstr "നിങ്ങൾക്ക് ആരെയും നിയന്ത്രിക്കാനുള്ള അധിക്കരമില്ല"
 
 #: lua/plugins/defaultpermissions.lua:112
 msgid "*Default permissions*\n"
@@ -633,23 +643,23 @@ msgstr ""
 
 #: lua/plugins/floodmanager.lua:34
 msgid "👞️ kick"
-msgstr ""
+msgstr "പുറത്താക്കുക"
 
 #: lua/plugins/floodmanager.lua:36
 msgid "🔨 ️ban"
-msgstr ""
+msgstr "തടയുക"
 
 #: lua/plugins/floodmanager.lua:91
 msgid "Flooders will be banned"
-msgstr ""
+msgstr "ശല്ല്യപ്പെടുത്തുന്നവരെ തടയും"
 
 #: lua/plugins/floodmanager.lua:94
 msgid "Flooders will be kicked"
-msgstr ""
+msgstr "ശല്ല്യപ്പെടുത്തുന്നവരെ പുറത്താക്കും"
 
 #: lua/plugins/floodmanager.lua:97
 msgid "Flooders will be muted"
-msgstr ""
+msgstr "ശല്ല്യപ്പെടുത്തുന്നവരെ നിശബ്ദമാക്കും"
 
 #: lua/plugins/floodmanager.lua:106 lua/plugins/floodmanager.lua:113
 #, lua-format
@@ -662,7 +672,7 @@ msgstr ""
 
 #: lua/plugins/floodmanager.lua:132
 msgid "Antiflood settings"
-msgstr ""
+msgstr "ശല്ല്യം ക്രമീകരണങ്ങൾ"
 
 #: lua/plugins/floodmanager.lua:150
 #, lua-format
@@ -903,23 +913,23 @@ msgstr ""
 
 #: lua/plugins/help.lua:263
 msgid "Pin"
-msgstr ""
+msgstr "തൂക്കി ഇടുക"
 
 #: lua/plugins/help.lua:266
 msgid "Languages"
-msgstr ""
+msgstr "ഭാഷകൾ"
 
 #: lua/plugins/help.lua:267
 msgid "Group configuration"
-msgstr ""
+msgstr "ഗ്രൂപ്പിന്റെ ക്രമീകരണങ്ങൾ"
 
 #: lua/plugins/help.lua:271 lua/plugins/logchannel.lua:62
 msgid "Warns"
-msgstr ""
+msgstr "താക്കീതുകൾ"
 
 #: lua/plugins/help.lua:274
 msgid "Welcome settings"
-msgstr ""
+msgstr "സ്വാഗത ക്രമീകരണങ്ങൾ"
 
 #: lua/plugins/help.lua:275
 msgid "Links whitelist"
@@ -931,7 +941,7 @@ msgstr ""
 
 #: lua/plugins/help.lua:295
 msgid "🌍 Select your language"
-msgstr ""
+msgstr "നിങ്ങളുടെ ഭാഷ തിരഞ്ഞെടുക്കുക"
 
 #: lua/plugins/help.lua:298
 msgid "📕 All the commands"
@@ -939,7 +949,7 @@ msgstr ""
 
 #: lua/plugins/help.lua:307
 msgid "Basics"
-msgstr ""
+msgstr "അടിസ്ഥാനമായവ"
 
 #: lua/plugins/help.lua:308
 msgid "Admin commands"
@@ -959,7 +969,7 @@ msgstr ""
 
 #: lua/plugins/help.lua:326
 msgid "Back"
-msgstr ""
+msgstr "പിന്നിലേക്ക്"
 
 #: lua/plugins/help.lua:349
 #, lua-format
@@ -968,11 +978,11 @@ msgstr ""
 
 #: lua/plugins/help.lua:362
 msgid "Main menu"
-msgstr ""
+msgstr "പ്രധാന പട്ടിക"
 
 #: lua/plugins/help.lua:365
 msgid "Basic usage"
-msgstr ""
+msgstr "അടിസ്ഥാന ഉപയോഗം"
 
 #: lua/plugins/help.lua:368
 msgid "Commands for users (group)"
@@ -996,7 +1006,7 @@ msgstr ""
 
 #: lua/plugins/help.lua:387
 msgid "❗️ Already there"
-msgstr ""
+msgstr "❗️ആദ്യമേ ഉണ്ട്"
 
 #: lua/plugins/links.lua:25
 msgid "*No link* for this group. Ask the owner to save it with `/setlink [group link]`"
@@ -1084,19 +1094,19 @@ msgstr ""
 
 #: lua/plugins/logchannel.lua:57
 msgid "Ban"
-msgstr ""
+msgstr "തടയുക"
 
 #: lua/plugins/logchannel.lua:58
 msgid "Kick"
-msgstr ""
+msgstr "പുറത്താക്കുക"
 
 #: lua/plugins/logchannel.lua:59 lua/utilities.lua:944
 msgid "Unban"
-msgstr ""
+msgstr "വിലക്ക് ഒഴിവാകുക"
 
 #: lua/plugins/logchannel.lua:60
 msgid "Tempban"
-msgstr ""
+msgstr "താത്കാലികമായി വിലക്കുക"
 
 #: lua/plugins/logchannel.lua:61
 msgid "Report"
@@ -1108,7 +1118,7 @@ msgstr ""
 
 #: lua/plugins/logchannel.lua:64
 msgid "New members"
-msgstr ""
+msgstr "പുതിയ അംഗങ്ങൾ"
 
 #: lua/plugins/logchannel.lua:65
 msgid "Media warns"
@@ -1116,11 +1126,11 @@ msgstr ""
 
 #: lua/plugins/logchannel.lua:66
 msgid "Spam warns"
-msgstr ""
+msgstr "ശല്ല്യത്തിന്നുള്ള മുന്നറിയിപ്പ്"
 
 #: lua/plugins/logchannel.lua:67
 msgid "Flood"
-msgstr ""
+msgstr "ശല്യപ്പെടുത്തുക"
 
 #: lua/plugins/logchannel.lua:68
 msgid "New group icon"
@@ -1132,23 +1142,23 @@ msgstr ""
 
 #: lua/plugins/logchannel.lua:70
 msgid "New group title"
-msgstr ""
+msgstr "പുതിയ ഗ്രൂപ്പിന്റെ ശീർഷകം"
 
 #: lua/plugins/logchannel.lua:71
 msgid "Pinned messages"
-msgstr ""
+msgstr "തൂക്കിയിട്ട സന്ദേശങ്ങൾ"
 
 #: lua/plugins/logchannel.lua:72
 msgid "Users blocked and banned"
-msgstr ""
+msgstr "ആളെ തടയുകയും പുറത്താക്കുകയും ചെയ്തു"
 
 #: lua/plugins/logchannel.lua:73
 msgid "Users blocked"
-msgstr ""
+msgstr "ഇയാളെ തടഞ്ഞു"
 
 #: lua/plugins/logchannel.lua:74
 msgid "Users unblocked"
-msgstr ""
+msgstr "ഇയാളുടെ വിലക്ക് മാറ്റി"
 
 #: lua/plugins/logchannel.lua:101
 msgid "You are not admin of this group"
@@ -1242,15 +1252,15 @@ msgstr ""
 
 #: lua/plugins/mediasettings.lua:80
 msgid "❌ warning"
-msgstr ""
+msgstr "❌ താക്കീത്"
 
 #: lua/plugins/mediasettings.lua:83
 msgid "🗑 delete"
-msgstr ""
+msgstr "🗑 ഒഴിവാക്കുക"
 
 #: lua/plugins/mediasettings.lua:89
 msgid "✅ allowed"
-msgstr ""
+msgstr "✅ അനിവദിച്ചു"
 
 #: lua/plugins/mediasettings.lua:98
 msgid "\n"
@@ -1384,7 +1394,7 @@ msgstr ""
 
 #: lua/plugins/menu.lua:153
 msgid "🔨 ban"
-msgstr ""
+msgstr "🔨 തടയുക"
 
 #: lua/plugins/menu.lua:157
 msgid "✅"
@@ -1392,15 +1402,15 @@ msgstr ""
 
 #: lua/plugins/menu.lua:166
 msgid "Welcome"
-msgstr ""
+msgstr "സ്വാഗതം"
 
 #: lua/plugins/menu.lua:167
 msgid "Goodbye"
-msgstr ""
+msgstr "ശുഭം"
 
 #: lua/plugins/menu.lua:168 lua/utilities.lua:602
 msgid "Extra"
-msgstr ""
+msgstr "കൂടുതൽ"
 
 #: lua/plugins/menu.lua:169 lua/utilities.lua:603
 msgid "Anti-flood"
@@ -1412,7 +1422,7 @@ msgstr ""
 
 #: lua/plugins/menu.lua:172 lua/utilities.lua:607
 msgid "Arab"
-msgstr ""
+msgstr "അറബി"
 
 #: lua/plugins/menu.lua:173 lua/utilities.lua:608
 msgid "RTL"
@@ -1436,15 +1446,15 @@ msgstr ""
 
 #: lua/plugins/menu.lua:209
 msgid "🔨️ ban"
-msgstr ""
+msgstr "🔨️ തടയുക"
 
 #: lua/plugins/menu.lua:215
 msgid "Warns: "
-msgstr ""
+msgstr "താക്കീതുകൾ: "
 
 #: lua/plugins/menu.lua:220
 msgid "Action:"
-msgstr ""
+msgstr "നടപടി:"
 
 #: lua/plugins/menu.lua:239
 msgid "Manage the settings of the group. Click on the left column to get a small hint"
@@ -1675,7 +1685,7 @@ msgstr ""
 
 #: lua/plugins/report.lua:162
 msgid "Close issue"
-msgstr ""
+msgstr "പ്രശ്നം തീർക്കുക"
 
 #: lua/plugins/report.lua:172
 #, lua-format
@@ -1909,11 +1919,11 @@ msgstr ""
 
 #: lua/plugins/warn.lua:58
 msgid "Yes"
-msgstr ""
+msgstr "അതെ"
 
 #: lua/plugins/warn.lua:58
 msgid "No"
-msgstr ""
+msgstr "അല്ല"
 
 #: lua/plugins/warn.lua:62
 msgid "Do you want to continue and reset *all* the warnings received by *all* the users of the group?"
@@ -1966,16 +1976,16 @@ msgstr ""
 
 #: lua/plugins/welcome.lua:84 lua/plugins/welcome.lua:179
 msgid "Read the rules"
-msgstr ""
+msgstr "നിയമാവലികൾ വായിക്കുക"
 
 #: lua/plugins/welcome.lua:102
 #, lua-format
 msgid "Hi %s!"
-msgstr ""
+msgstr "നമസ്കാരം %s!"
 
 #: lua/plugins/welcome.lua:114
 msgid "Welcome and...?"
-msgstr ""
+msgstr "സ്വാഗതം ..?"
 
 #: lua/plugins/welcome.lua:137
 #, lua-format
@@ -2031,7 +2041,7 @@ msgstr ""
 
 #: lua/utilities.lua:538
 msgid "-*empty*-"
-msgstr ""
+msgstr "-*ശൂന്യം*-"
 
 #: lua/utilities.lua:577
 #, lua-format
@@ -2060,11 +2070,11 @@ msgstr ""
 
 #: lua/utilities.lua:600
 msgid "Welcome message"
-msgstr ""
+msgstr "സ്വാഗത സന്ദേശം"
 
 #: lua/utilities.lua:601
 msgid "Goodbye message"
-msgstr ""
+msgstr "യാത്ര അയപ്പ് സന്ദേശം"
 
 #: lua/utilities.lua:611
 msgid "Welcome button"
@@ -2310,7 +2320,7 @@ msgstr ""
 
 #: lua/utilities.lua:955
 msgid "Go to the message"
-msgstr ""
+msgstr "സനേശത്തിലേക്ക് പോകുക"
 
 #: lua/utilities.lua:999
 #, lua-format
