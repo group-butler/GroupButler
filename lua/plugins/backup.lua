@@ -79,10 +79,11 @@ local function get_time_remaining(seconds)
 	return final
 end
 
-local imported_text = [['Done.
-*Important*:
+local imported_text = i18n([[Import was <b>successful</b>.
+
+<b>Important</b>:
 - #extra commands which are associated with a media must be set again if the bot you are using now is different from the bot that originated the backup.
-]]
+]])
 
 function plugin.onTextMessage(msg, blocks)
 	if not msg.from.admin then
@@ -163,7 +164,7 @@ Wait [<code>%s</code>] to use it again
 					end
 				end
 			end
-			api.sendMessage(msg.chat.id, i18n(imported_text))
+			api.sendMessage(msg.chat.id, imported_text, "html")
 		end
 	end
 end
