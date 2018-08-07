@@ -1,6 +1,7 @@
 local config = require 'config'
 local u = require 'utilities'
 local api = require 'methods'
+local db = require 'database'
 local locale = require 'languages'
 local i18n = locale.translate
 
