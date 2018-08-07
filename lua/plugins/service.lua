@@ -10,7 +10,7 @@ local plugin = {}
 function plugin.onTextMessage(msg, blocks)
 
 		if blocks[1] == 'new_chat_member' then
-    local status = db:hget(('chat:%d:settings'):format(msg.chat.id), 'clean_service_msg') or config.chat_settings.settings.Clean_Msg_Service
+    local status = db:hget(('chat:%d:settings'):format(msg.chat.id), 'clean_service_msg') or config.chat_settings.settings.Clean_service_msg
     if status == 'on' then
 		if msg.service then
 			api.deleteMessage(msg.chat.id, msg.message_id)
@@ -18,7 +18,7 @@ function plugin.onTextMessage(msg, blocks)
 		end
 	end
 	if blocks[1] == 'left_chat_member' then
-    local status = db:hget(('chat:%d:settings'):format(msg.chat.id), 'clean_service_msg') or config.chat_settings.settings.Clean_Msg_Service
+    local status = db:hget(('chat:%d:settings'):format(msg.chat.id), 'clean_service_msg') or config.chat_settings.settings.Clean_service_msg
     if status == 'on' then
 		if msg.service then
 			api.deleteMessage(msg.chat.id, msg.message_id)
