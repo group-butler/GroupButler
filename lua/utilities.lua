@@ -407,6 +407,10 @@ function utilities.reply_markup_from_text(text)
 	return reply_markup, clean_text
 end
 
+function utilities.reply_from_msg(msg)
+	return (msg.reply_to_message and #msg.reply_to_message.text > 0 and msg.reply_to_message.text) or false
+end
+
 function utilities.demote(chat_id, user_id)
 	chat_id, user_id = tonumber(chat_id), tonumber(user_id)
 
