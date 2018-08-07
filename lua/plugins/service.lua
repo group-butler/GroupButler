@@ -8,6 +8,23 @@ local plugin = {}
 
 function plugin.onTextMessage(msg, blocks)
 
+		if blocks[1] == 'new_chat_member' then
+    local status = db:hget(('chat:%d:settings'):format(msg.chat.id), 'Clean_Msg_Service') or config.chat_settings.settings.Clean_Msg_Service
+    if status == 'on' then
+		if msg.service then
+			api.deleteMessage(msg.chat.id, msg.message_id)
+			end
+		end
+	end
+	if blocks[1] == 'left_chat_member' then
+    local status = db:hget(('chat:%d:settings'):format(msg.chat.id), 'Clean_Msg_Service') or config.chat_settings.settings.Clean_Msg_Service
+    if status == 'on' then
+		if msg.service then
+			api.deleteMessage(msg.chat.id, msg.message_id)
+			end
+		end
+	end
+	
 	if not msg.service then return end
 
 	if blocks[1] == 'new_chat_member:bot' or blocks[1] == 'migrate_from_chat_id' then
@@ -67,6 +84,8 @@ end
 
 plugin.triggers = {
 	onTextMessage = {
+		'^###(new_chat_member)$',
+		'^###(left_chat_member)$',
 		'^###(new_chat_member:bot)',
 		'^###(migrate_from_chat_id)',
 		'^###(left_chat_member:bot)',
