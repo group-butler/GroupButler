@@ -29,7 +29,19 @@ function plugin.onTextMessage(msg, blocks)
 			if msg.reply and not blocks[3] then
 				local file_id, media_with_special_method = u.get_media_id(msg.reply)
 				if not file_id then
-					return
+	    		local hash = 'chat:'..msg.chat.id..':extra'
+				  local new_extra = u.reply_from_msg(msg)
+				  local reply_markup, test_text = u.reply_markup_from_text(new_extra)
+				  test_text = test_text:gsub('\n', '')
+
+		    	local res, code = api.sendReply(msg, test_text:replaceholders(msg), true, reply_markup)
+		    	if not res then
+		    		api.sendMessage(msg.chat.id, u.get_sm_error_string(code), true)
+	  		else
+		    		db:hset(hash, blocks[2]:lower(), new_extra)
+		    		local msg_id = res.result.message_id
+					api.editMessageText(msg.chat.id, msg_id, i18n("Command '%s' saved!"):format(blocks[2]))
+	    		end
 				else
 					local to_save
 					if media_with_special_method then --photo, voices, video need their method to be sent by file_id
