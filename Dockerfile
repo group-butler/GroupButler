@@ -4,12 +4,9 @@ WORKDIR /srv/app
 
 CMD ["polling.lua"]
 
-ARG DEPS_NATIVE="curl-dev"
+ARG DEPS_ROCKS="telegram-bot-api lua-resty-socket"
 
-ARG DEPS_ROCKS="redis-lua serpent lua-cjson Lua-cURL telegram-bot-api"
-
-RUN apk add --no-cache $DEPS_NATIVE && \
-    for ROCK in $DEPS_ROCKS; do luarocks install $ROCK; done
+RUN for ROCK in $DEPS_ROCKS; do luarocks install $ROCK; done
 
 COPY locales locales
 COPY lua lua
