@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-22 18:04+0200\n"
-"PO-Revision-Date: 2018-08-04 04:41\n"
+"POT-Creation-Date: 2018-08-04 22:21-0300\n"
+"PO-Revision-Date: 2018-08-08 20:56\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Italian\n"
 "Language: it\n"
@@ -16,11 +16,11 @@ msgstr ""
 "X-Crowdin-Language: it\n"
 "X-Crowdin-File: /master/locales/en.po\n"
 
-#: lua/main.lua:127
+#: lua/main.lua:120
 msgid "🐞 Sorry, a *bug* occurred"
 msgstr "🐞 Scusa, si è verificato un *errore*"
 
-#: lua/main.lua:149
+#: lua/main.lua:142
 #, lua-format
 msgid "\n"
 "Hello everyone!\n"
@@ -144,7 +144,7 @@ msgstr "Permetti/vieta l'inoltro dei messaggi dai canali"
 
 #: lua/plugins/antispam.lua:174
 msgid "Set how many times the bot should warn users before kicking/banning them"
-msgstr ""
+msgstr "Imposta il limite massimo di ammonizioni che il bot può dare agli utenti prima di kickarli/bannarli"
 
 #: lua/plugins/antispam.lua:176 lua/plugins/defaultpermissions.lua:56
 #: lua/plugins/floodmanager.lua:18 lua/plugins/logchannel.lua:40
@@ -242,40 +242,50 @@ msgstr "*Whitelist per i canali:*\n"
 msgid "_I can't find a channel ID in your message_"
 msgstr "_Non riesco a trovare un ID del canale nel messaggio_"
 
-#: lua/plugins/backup.lua:95
+#: lua/plugins/backup.lua:82
+msgid "Import was <b>successful</b>.\n\n"
+"<b>Important</b>:\n"
+"- #extra commands which are associated with a media must be set again if the bot you are using now is different from the bot that originated the backup.\n"
+msgstr "L'importazione è avvenuta <b> con successo</b>.\n\n"
+"<b>Importante</b>:\n"
+"- I comandi aggiuntivi #extra, che sono associati a una media dovranno essere impostati di nuovo se il bot che si sta utilizzando ora è diverso dal bot che ha creato il backup.\n"
+
+#: lua/plugins/backup.lua:99
 #, lua-format
 msgid "<i>I'm sorry, this command has been used for the last time less then 3 hours ago by</i> %s (ask them for the file).\n"
 "Wait [<code>%s</code>] to use it again\n"
-msgstr ""
+msgstr "<i>mi spiace, questo comando è stato utilizzato per l'ultima volta meno di 3 ore fa da</i> %s (chiedi a lui per il file).\n"
+"Attendi [<code>%s</code>] per utilizzarlo di nuovo\n\n"
+"\t\t\t\t\t\n"
 
-#: lua/plugins/backup.lua:103
+#: lua/plugins/backup.lua:108
 msgid "*Sent in private*"
 msgstr "*Inviato in privato*"
 
-#: lua/plugins/backup.lua:116
-#, lua-format
-msgid "Download of the file failed with code %s"
-msgstr "Download fallito. Codice: %s"
+#: lua/plugins/backup.lua:115
+msgid "Invalid input. Please reply to the backup file (/snap command to get it)"
+msgstr "Input non valido. Per favore, rispondi ad un documento (usa /snap per ottenerlo)"
 
-#: lua/plugins/backup.lua:122
-#, lua-format
-msgid "Chat IDs don't match (%s and %s)"
-msgstr "Gli ID delle chat non sono uguali (%s e %s)"
+#: lua/plugins/backup.lua:120
+msgid "Invalid input. Please reply to a document"
+msgstr "Input non valido. Per favore, rispondi ad un documento"
 
-#: lua/plugins/backup.lua:148
+#: lua/plugins/backup.lua:125
 #, lua-format
 msgid "This is not a valid backup file.\n"
 "Reason: invalid name (%s)"
 msgstr "Questo file non è valido.\n"
 "Ragione: nome non valido (%s)"
 
-#: lua/plugins/backup.lua:152
-msgid "Invalid input. Please reply to a document"
-msgstr "Input non valido. Per favore, rispondi ad un documento"
+#: lua/plugins/backup.lua:135
+#, lua-format
+msgid "Download of the file failed with code %s"
+msgstr "Download fallito. Codice: %s"
 
-#: lua/plugins/backup.lua:155
-msgid "Invalid input. Please reply to the backup file (/snap command to get it)"
-msgstr "Input non valido. Per favore, rispondi ad un documento (usa /snap per ottenerlo)"
+#: lua/plugins/backup.lua:144
+#, lua-format
+msgid "Chat IDs don't match (%s and %s)"
+msgstr "Gli ID delle chat non sono uguali (%s e %s)"
 
 #: lua/plugins/banhammer.lua:73
 msgid "Use -/+ to edit the value, then select a timeframe to temporary ban the user"
@@ -607,7 +617,10 @@ msgid "*Default permissions*\n"
 "From this menu you can change the default permissions that will be granted when a new member join.\n"
 "_Only the administrators with the permission to restrict a member can access this menu._\n"
 "Tap on the name of a permission for a description of what kind of messages it will influence.\n"
-msgstr ""
+msgstr "*Permessi predefiniti*\n"
+"Da questo menu è possibile modificare i permessi predefiniti che saranno concessi ai nuovi membri.\n"
+"_Soltanto gli amministratori col permesso di limitare i membri possono accedere a questo menu._\n"
+"Tocca il nome di un permesso per una descrizione del tipo di messaggi che andrà ad influenzare.\n"
 
 #: lua/plugins/defaultpermissions.lua:134
 #, lua-format
@@ -710,7 +723,17 @@ msgid "Hello %s 👋🏼, nice to meet you!\n"
 "• I can also warn, kick or ban users when they post a specific media\n"
 "…and more, below you can find the \"all commands\" button to get the whole list!\n\n"
 "I work better if you add me to the group administrators (otherwise I won't be able to kick or ban)!\n"
-msgstr ""
+msgstr "Ciao %s, piacere di conoscerti!\n"
+"Sono Group Butler, il primo bot per amministrare gruppi che utilizza la Bot API ufficiale.\n\n"
+"*Posso fare un sacco di cose interessanti*, di seguito una breve lista:\n"
+"• Posso *kickare o bannare* gli utenti\n"
+"• Puoi usarmi per impostare le regole del gruppo\n"
+"• Ho un flessibile sistema di *anti-flood*\n"
+"• Posso *dare il benvenuto* ai nuovi utenti con un messaggio personalizzato, oppure con unagif od uno sticker\n"
+"• Posso *warnare* (ammonire) gli utenti, e bannarli quando raggiungono un determinato numero di warns (ammonizioni)\n"
+"• posso anche ammonire, kickare o bannare gli utenti che postano un media specifico\n"
+"... ed altro ancora, qui sotto puoi trovare il tasto \"tutti i comandi\" per consultare la lista completa!\n\n"
+"Funziono meglio se mi aggiungi agli amministratori del gruppo (altrimenti non potrò bannare/kickare)!\n"
 
 #: lua/plugins/help.lua:27
 msgid "This bot works only in supergroups.\n\n"
@@ -721,7 +744,14 @@ msgid "This bot works only in supergroups.\n\n"
 "This list is updated every 5 hours, so there could be some differences between who the bot thinks are the admins and who the admins actually are, if during the 5 hours timeframe some users have been promoted/demoted.\n"
 "It's possible to force the bot to update its adminlist with `/cache`.\n\n"
 "Remember: you have to use commands  *in the group*, unless they are specifically designed for private chats (see \"private\" tab).\n"
-msgstr ""
+msgstr "Questo bot funziona solo nei supergruppi.\n\n"
+"Per funzionare correttamente, [ha bisogno di essere amministratore nel gruppo](https://telegram.me/GroupButler_ch/104) così potrà eseguire il kick o il ban delle persone quando necessario.\n"
+"Solo il creatore del gruppo può promuoverlo :)\n\n"
+"Puoi usare `/, ! o #` per eseguire un comando.\n\n"
+"Group Butler salva la lista degli amministratori di un gruppo nel suo database per evitare di inviare troppe richieste a Telegram.\n"
+"Questa lista è aggiornata ogni 5 ore, quindi potrebbero esserci alcune differenze tra chi il bot pensa che sia amministratore e chi lo è realmente. Questo può accadere se nell'arco delle 5 ore sono stati promossi o eliminati degli amministratori.\n"
+"È possibile forzare la sincronizzazione della lista degli amministratori con il comando `/cache`.\n\n"
+"Ricorda: i comandi devono essere scritti *nel gruppo*, eccetto quelli per cui è specificato di scrivere in chat privata con il bot (vedi la scheda \"privato\").\n"
 
 #: lua/plugins/help.lua:41
 msgid "In this menu you will find all the available commands"
@@ -736,7 +766,14 @@ msgid "*Commands that work in private*:\n\n"
 "• `/id`: get your id\n"
 "• `/start` : show the initial message\n"
 "• `/help` : show this message\n"
-msgstr ""
+msgstr "*Commandi da usare nella chat privata col bot*:\n\n"
+"• `/mysettings`: mostra una tastiera che permette di cambiare le proprie preferenze personali, come scegliere se ricevere le regole in privato quando entri in un gruppo amministrato da questo bot, oppure se ricevere le segnalazioni degli utenti quando usano il comando `@admin`\n"
+"• `/echo [testo]`: testa il markdown. Il bot ti risponderà con il testo inviato, ma formattato\n"
+"• `/about` : informazioni di base sul bot\n"
+"• `/groups` : mostra la lista dei gruppi ufficiali dedicati a questo bot\n"
+"• `/id`: ricevi il tuo id\n"
+"• `/start` : mostra il messaggio d'avvio del bot\n"
+"• `/help` : mostra questo messaggio\n"
 
 #: lua/plugins/help.lua:54
 msgid "*Commands available for every user in a group*:\n\n"
@@ -749,7 +786,16 @@ msgid "*Commands available for every user in a group*:\n\n"
 "With `/rules`, the bot always answer in the group for admins, but with normal users the message is sent in the group or in private according to the group settings.\n\n"
 "• `@admin` (by reply): report a message to the admins of the group (the bot will forward it in prvate). This ability could be turned off from the group settings. A description of the report can be added.\n"
 "Admins need to give their consense to receive reports from users, with `/mysettings` command\n"
-msgstr ""
+msgstr "*Comandi disponibili per tutti gli utenti in un gruppo*:\n\n"
+"• `/dashboard`: mostra tutte le informazioni del gruppo\n"
+"• `/regole`: mostra le regole del gruppo\n"
+"• `/adminlist`: mostra gli amministratori del gruppo\n"
+"• `/aiuto: ricevi il messaggio di aiuto\n"
+"• `!kickme`: il bot ti kickerà\n"
+"*Nota*: `/dashboard`, `/adminlist`, `/modlist` e `/staff' risponderanno sempre in privato. Se il bot non è in grado di raggiungere un utente, gli chiederà nel gruppo di avviarlo in privato se non è stata attivata la _modalità silenziosa_.\n"
+"Con `/rules`, il bot risponde sempre nel gruppo agli amministratori, ma agli utenti può inviare il messaggio nel gruppo o o in privato, a seconda delle impostazioni del gruppo.\n\n"
+"• `@admin` (in risposta): segnala un messaggio agli amministratori del gruppo (il bot inoltra il messaggio in privato). Questa opzione può essere disabilitata nelle impostazioni del gruppo. Può essere aggiunta una descrizione alla segnalazione.\n"
+"Gli amministratori devono attivare l'opzione in privato con il comando `/mysettings` per ricevere segnalazioni dagli utenti\n"
 
 #: lua/plugins/help.lua:68
 msgid "*Admins: info about the group*\n\n"
@@ -762,7 +808,16 @@ msgid "*Admins: info about the group*\n\n"
 "• `/link`: get the group link, if already set.\n"
 "• `/msglink`: get the link to a message. Works only in public supergroups\n\n"
 "*Note*: the bot can recognize valid group links. If a link is not valid, you won't receive a reply.\n"
-msgstr ""
+msgstr "*Informazioni sul gruppo*\n\n"
+"• `/setrules [regole]`: imposta le nuove regole del gruppo (quelle impostate precedentemente verranno sovrascritte).\n"
+"• `/setrules -`: elimina le regole.\n\n"
+"*Nota*: il markdown è supportato. Se il testo inserito non permette il markdown, il bot notificherà che qualcosa è andato storto.\n"
+"Per un uso corretto del markdown, dà un occhio a [questo post](https://telegram.me/GroupButler_ch/46) nel canale del bot\n\n"
+"• `/setlink [link|-]`: imposta il link del gruppo, in modo che possa essere richiesto da altri admin. Oppure rimuovilo con -.\n"
+"Se devi impostare il link di un gruppo pubblico, non è necessario specificare il link del gruppo. Basta scrivere solo `/setlink`\n"
+"• `/link`: ricevi il link del gruppo, se impostato.\n"
+"• `/msglink`: ottieni il link ad un messaggio. Funziona solo nei *supergruppi pubblici*\n\n"
+"*Nota*: il bot sa riconoscere i link validi. Se il link inviato non lo è, non riceverai una risposta.\n"
 
 #: lua/plugins/help.lua:84
 msgid "*Banhammer powers*\n"
@@ -782,7 +837,24 @@ msgid "*Banhammer powers*\n"
 "The \"antiflood\" is a system that auto-removes people that send many consecutive messages in a group.\n"
 "If on, the antiflood system will kick/ban flooders.\n\n"
 "• `/config` command, then `antiflood` button: manage the flood settings in private, with an inline keyboard. You can change the sensitivity, the action (kick/ban) to perform, and even set some exceptions.\n"
-msgstr ""
+msgstr "*Poteri del Banhammer*\n"
+"Una serie di comandi che consentono agli amministratori di kickare e bannare persone da un gruppo, e ottenere alcune informazioni su un utente.\n"
+"Chi verrà kickato potrà rientrare nel gruppo, chi verrà bannato non potrà. Gli utenti bannati dal gruppo saranno automaticamente aggiunti alla blacklist del gruppo. È possibile aggiungere\n"
+"un utente nella blacklist anche se non fa parte del gruppo.\n"
+"Solo gli amministratori che hanno il permesso di limitare gli utenti possono utilizzare questi comandi, ma `/status` può essere utilizzato da tutti gli amministratori.\n\n"
+"• `/kick [in risposta|nome utente|id|citare testo]`: kicka un utente dal gruppo.\n"
+"• `/ban [in risposta|nome utente|id|citare testo]`: banna un utente dal gruppo.\n"
+"• `/tempban [in risposta|nome utente|id|citare testo]`: banna un utente per un determinato periodo di tempo. Utilizza la tastiera restituita per bannare l'utente.\n"
+"Passa un valore su una nuova riga da utilizzare come valore di partenza. Quando il periodo di tempo sarà terminato l'utente non sarà aggiunto automaticamente. Controllare la lista degli utenti bloccati.\n"
+"• `/fwdban [reply]`: banna il mittente originario di un messaggio inoltrato.\n"
+"• `/unban [reply|nome utente|id|citare testo]`: sbanna l'utente dal gruppo.\n"
+"• `/user [reply|nome utente|id|citare testo]`: mostra il numero di volte che l'utente è stato bannato *in tutti i gruppi, e il numero di ammonizioni ricevute\n"
+"• `/status [nome utente|id]`: mostra lo stato corrente dell'utente(membro|limitato|kick/ha lasciato la chat|bannato|admin/creatore|mai visto)`.\n"
+"mostrerà anche le autorizzazioni dell'utente *non* ha\n\n"
+"*Antiflood*\n"
+"\"antiflood\" è un sistema che auto-elimina le persone che inviano molti messaggi consecutivi in un gruppo.\n"
+"Se l'antiflood è attivo kickerà/bannerà i flooder.\n\n"
+"• `/config` dopo aver attivato l'antiflood, puoi gestire le impostazioni di flood in privato, con una tastiera inline. È possibile modificare la sensibilità, l'azione (kick/ban) da eseguire, e anche impostare alcune eccezioni.\n"
 
 #: lua/plugins/help.lua:106
 msgid "*Reports settings*\n"
@@ -792,7 +864,13 @@ msgid "*Reports settings*\n"
 "Only admins who accepted to receive reports (with `/mysettings` command) will be notified\n"
 "• `/mysettings` (in private): from here, you can choose if receive reports or not\n\n"
 "*Note*: admins can't use the `@admin` command, and users can't report admins with it."
-msgstr ""
+msgstr "*Impostazioni delle segnalazioni*\n"
+"`@admin` è un comando molto utile che permette agli utenti del gruppo di segnalare determinati messaggi, nel caso in cui gli admin non siano online.\n"
+"I messaggi segnalati verranno inoltrati agli admin che hanno dato il consenso a riceverli.\n\n"
+"• comando `/config`, poi tasto `menu`: qui potrai una voce, \"Report\". Se attiva, gli utenti del gruppo potranno usare il comando `@admin`.\n"
+"Solo gli admin che accetteranno di ricevere le segnalazioni (col comando `/mysettings`) verranno notificati\n"
+"• `/mysettings` (in privato): da qui potrai scegliere se ricevere le segnalazioni o no\n"
+"*Nota*: gli admin non possono usare il comando `@admin`, mentre gli utenti non possono segnalare messaggi inviati da moderatori."
 
 #: lua/plugins/help.lua:116
 msgid "*Welcome/goodbye settings*\n\n"

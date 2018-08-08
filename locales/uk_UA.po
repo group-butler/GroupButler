@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-22 18:04+0200\n"
-"PO-Revision-Date: 2018-08-04 04:41\n"
+"POT-Creation-Date: 2018-08-04 22:21-0300\n"
+"PO-Revision-Date: 2018-08-08 20:57\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Ukrainian\n"
 "Language: uk\n"
@@ -16,156 +16,159 @@ msgstr ""
 "X-Crowdin-Language: uk\n"
 "X-Crowdin-File: /master/locales/en.po\n"
 
-#: lua/main.lua:127
+#: lua/main.lua:120
 msgid "🐞 Sorry, a *bug* occurred"
-msgstr ""
+msgstr "Вибачте, сталася помилка"
 
-#: lua/main.lua:149
+#: lua/main.lua:142
 #, lua-format
 msgid "\n"
 "Hello everyone!\n"
 "My name is %s, and I'm a bot made to help administrators in their hard work.\n"
 "Unfortunately I can't work in normal groups. If you need me, please ask the creator to convert this group to a supergroup and then add me again.\n"
-msgstr ""
+msgstr "\n"
+"Привіт всім!\n"
+"Мене звуть %s, я створив бота, щоб допомогти адміністрації у їх складній роботі.\n"
+"Нажаль я не можу працювати в звичайній групі. Якщо вам потрібен я, попросіть творця групи, щоб він переробив її в супер групу, та додав мене знову.\n"
 
 #: lua/methods.lua:159
 msgid "I don't have enough permissions to restrict users"
-msgstr ""
+msgstr "У мене немає прав, для того щоб обмежити доступ користувачів"
 
 #: lua/methods.lua:161
 msgid "I'm not an admin, I can't kick people"
-msgstr ""
+msgstr "Я не адмін, я не можу блокувати людей"
 
 #: lua/methods.lua:163
 msgid "I can't kick or ban an admin"
-msgstr ""
+msgstr "Я не можу блокувати адмінів"
 
 #: lua/methods.lua:165
 msgid "There is no need to unban in a normal group"
-msgstr ""
+msgstr "Немає необхідності в розблокуванні"
 
 #: lua/methods.lua:167
 msgid "This user is not a chat member"
-msgstr ""
+msgstr "Цієї людини user немає в чаті"
 
 #: lua/plugins/antispam.lua:32 lua/plugins/onmessage.lua:157
 #: lua/plugins/warn.lua:100
 msgid "banned"
-msgstr ""
+msgstr "заблокований"
 
 #: lua/plugins/antispam.lua:33 lua/plugins/onmessage.lua:154
 #: lua/plugins/warn.lua:104
 msgid "kicked"
-msgstr ""
+msgstr "заблокований"
 
 #: lua/plugins/antispam.lua:34 lua/plugins/onmessage.lua:160
 #: lua/plugins/warn.lua:108
 msgid "muted"
-msgstr ""
+msgstr "muted"
 
 #: lua/plugins/antispam.lua:35 lua/plugins/dashboard.lua:140
 msgid "telegram.me links"
-msgstr ""
+msgstr "telegram.me адреси"
 
 #: lua/plugins/antispam.lua:36
 msgid "Channels messages"
-msgstr ""
+msgstr "Канальні повідомлення"
 
 #: lua/plugins/antispam.lua:75
 #, lua-format
 msgid "%s %s for <b>spam</b>! (%d/%d)"
-msgstr ""
+msgstr "%s %s для <b>спам</b>! (%d/%d)"
 
 #: lua/plugins/antispam.lua:80
 #, lua-format
 msgid "%s, spam is not allowed here. The next time you will be restricted"
-msgstr ""
+msgstr "%s, спам тут заборонений. Наступного разу, коли вас буде обмежено"
 
 #: lua/plugins/antispam.lua:86
 #, lua-format
 msgid "%s, this kind of spam is not allowed in this chat (<b>%d/%d</b>)"
-msgstr ""
+msgstr "%s, цей вид спаму не допускається у цьому чаті (<b>%d/%d</b>)"
 
 #: lua/plugins/antispam.lua:90
 msgid "telegram.me link"
-msgstr ""
+msgstr "telegram.me адреса"
 
 #: lua/plugins/antispam.lua:90
 msgid "message from a channel"
-msgstr ""
+msgstr "повідомлення від каналу"
 
 #: lua/plugins/antispam.lua:111
 msgid "forwards are allowed"
-msgstr ""
+msgstr "вперед не пускають"
 
 #: lua/plugins/antispam.lua:113
 msgid "warn for forwards"
-msgstr ""
+msgstr "попередження для нападників"
 
 #: lua/plugins/antispam.lua:115
 msgid "forwards will be deleted"
-msgstr ""
+msgstr "нападники будуть заблоковані"
 
 #: lua/plugins/antispam.lua:119
 msgid "links are allowed"
-msgstr ""
+msgstr "посилання дозволено"
 
 #: lua/plugins/antispam.lua:121
 msgid "warn for links"
-msgstr ""
+msgstr "заблоковане посилання"
 
 #: lua/plugins/antispam.lua:123
 msgid "links will be deleted"
-msgstr ""
+msgstr "посилання буде видалено"
 
 #: lua/plugins/antispam.lua:139
 msgid "You can't go lower"
-msgstr ""
+msgstr "Ви не можете піти нижче"
 
 #: lua/plugins/antispam.lua:141
 msgid "You can't go higher"
-msgstr ""
+msgstr "Ви не можете піти вище"
 
 #: lua/plugins/antispam.lua:149
 #, lua-format
 msgid "New value: %d"
-msgstr ""
+msgstr "Нове значення: %d"
 
 #: lua/plugins/antispam.lua:170
 msgid "Allow/forbid telegram.me links"
-msgstr ""
+msgstr "Дозволити/заборонити telegram.me посилання"
 
 #: lua/plugins/antispam.lua:172
 msgid "Allow/forbid forwarded messages from channels"
-msgstr ""
+msgstr "Дозволити/заборонити повідомлення від каналів"
 
 #: lua/plugins/antispam.lua:174
 msgid "Set how many times the bot should warn users before kicking/banning them"
-msgstr ""
+msgstr "Встановити, скільки разів бот повинен попередити користувачів перед блокуванням"
 
 #: lua/plugins/antispam.lua:176 lua/plugins/defaultpermissions.lua:56
 #: lua/plugins/floodmanager.lua:18 lua/plugins/logchannel.lua:40
 #: lua/plugins/menu.lua:48 lua/plugins/private_settings.lua:17
 msgid "Description not available"
-msgstr ""
+msgstr "Опис не доступний"
 
 #: lua/plugins/antispam.lua:202
 msgid "Kick 👞"
-msgstr ""
+msgstr "Kick 👞"
 
 #: lua/plugins/antispam.lua:204
 msgid "Ban 🔨"
-msgstr ""
+msgstr "Ban 🔨"
 
 #: lua/plugins/antispam.lua:206
 msgid "Mute 👁"
-msgstr ""
+msgstr "Mute 👁"
 
 #: lua/plugins/antispam.lua:252 lua/plugins/floodmanager.lua:124
 #: lua/plugins/logchannel.lua:119 lua/plugins/mediasettings.lua:96
 #: lua/plugins/menu.lua:237
 msgid "You're no longer an admin"
-msgstr ""
+msgstr "Ти більше не адмін"
 
 #: lua/plugins/antispam.lua:254
 msgid "*Anti-spam settings*\n"
@@ -174,7 +177,12 @@ msgid "*Anti-spam settings*\n"
 "• ❌ = *Not allowed*\n"
 "• 🗑 = *Delete*\n"
 "When set on `delete`, the bot doesn't warn users until they are about to be kicked/banned/muted (at the second-to-last warning)\n"
-msgstr ""
+msgstr "*Антиспам*\n"
+"виберіть, який спам ви хочете заборонити\n"
+"• ✅ = *дозволено*\n"
+"• ❌ = *не допускається*\n"
+"• 🗑 = *видалити*\n"
+"при установці на \"видалити\", бот не попередить користувачів, поки вони будуть кикнуты/забанені/відключений (в передостанній попередження)\n"
 
 #: lua/plugins/antispam.lua:317
 msgid "_The whitelist was already empty_"
@@ -230,38 +238,44 @@ msgstr ""
 msgid "_I can't find a channel ID in your message_"
 msgstr ""
 
-#: lua/plugins/backup.lua:95
+#: lua/plugins/backup.lua:82
+msgid "Import was <b>successful</b>.\n\n"
+"<b>Important</b>:\n"
+"- #extra commands which are associated with a media must be set again if the bot you are using now is different from the bot that originated the backup.\n"
+msgstr ""
+
+#: lua/plugins/backup.lua:99
 #, lua-format
 msgid "<i>I'm sorry, this command has been used for the last time less then 3 hours ago by</i> %s (ask them for the file).\n"
 "Wait [<code>%s</code>] to use it again\n"
 msgstr ""
 
-#: lua/plugins/backup.lua:103
+#: lua/plugins/backup.lua:108
 msgid "*Sent in private*"
 msgstr ""
 
-#: lua/plugins/backup.lua:116
-#, lua-format
-msgid "Download of the file failed with code %s"
+#: lua/plugins/backup.lua:115
+msgid "Invalid input. Please reply to the backup file (/snap command to get it)"
 msgstr ""
 
-#: lua/plugins/backup.lua:122
-#, lua-format
-msgid "Chat IDs don't match (%s and %s)"
+#: lua/plugins/backup.lua:120
+msgid "Invalid input. Please reply to a document"
 msgstr ""
 
-#: lua/plugins/backup.lua:148
+#: lua/plugins/backup.lua:125
 #, lua-format
 msgid "This is not a valid backup file.\n"
 "Reason: invalid name (%s)"
 msgstr ""
 
-#: lua/plugins/backup.lua:152
-msgid "Invalid input. Please reply to a document"
+#: lua/plugins/backup.lua:135
+#, lua-format
+msgid "Download of the file failed with code %s"
 msgstr ""
 
-#: lua/plugins/backup.lua:155
-msgid "Invalid input. Please reply to the backup file (/snap command to get it)"
+#: lua/plugins/backup.lua:144
+#, lua-format
+msgid "Chat IDs don't match (%s and %s)"
 msgstr ""
 
 #: lua/plugins/banhammer.lua:73

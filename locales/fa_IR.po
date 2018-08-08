@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-22 18:04+0200\n"
-"PO-Revision-Date: 2018-08-04 16:52\n"
+"POT-Creation-Date: 2018-08-04 22:21-0300\n"
+"PO-Revision-Date: 2018-08-08 20:56\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Persian\n"
 "Language: fa\n"
@@ -16,11 +16,11 @@ msgstr ""
 "X-Crowdin-Language: fa\n"
 "X-Crowdin-File: /master/locales/en.po\n"
 
-#: lua/main.lua:127
+#: lua/main.lua:120
 msgid "🐞 Sorry, a *bug* occurred"
 msgstr "🐞 متاسفانه یک خطا رخ داده است"
 
-#: lua/main.lua:149
+#: lua/main.lua:142
 #, lua-format
 msgid "\n"
 "Hello everyone!\n"
@@ -242,41 +242,47 @@ msgstr "*کانال های لیست سفید شده:*\n"
 msgid "_I can't find a channel ID in your message_"
 msgstr "_من نمیتوانم شناسه (ID) کانالی را در پیام شما پیدا کنم_"
 
-#: lua/plugins/backup.lua:95
+#: lua/plugins/backup.lua:82
+msgid "Import was <b>successful</b>.\n\n"
+"<b>Important</b>:\n"
+"- #extra commands which are associated with a media must be set again if the bot you are using now is different from the bot that originated the backup.\n"
+msgstr ""
+
+#: lua/plugins/backup.lua:99
 #, lua-format
 msgid "<i>I'm sorry, this command has been used for the last time less then 3 hours ago by</i> %s (ask them for the file).\n"
 "Wait [<code>%s</code>] to use it again\n"
 msgstr "<i>I'm sorry, this command has been used for the last time less then 3 hours ago by</i> %s (ask them for the file).\n"
 "Wait [<code>%s</code>] to use it again\n"
 
-#: lua/plugins/backup.lua:103
+#: lua/plugins/backup.lua:108
 msgid "*Sent in private*"
 msgstr "به خصوصی شما ارسال شد"
 
-#: lua/plugins/backup.lua:116
-#, lua-format
-msgid "Download of the file failed with code %s"
-msgstr "دانلود فایل مورد نظر با مشکل مواجه شد با کد %s"
+#: lua/plugins/backup.lua:115
+msgid "Invalid input. Please reply to the backup file (/snap command to get it)"
+msgstr "ورودی نامعتبر. لطفا به فایل پشتیبان پاسخ دهید (snap/ برای گرفتن فایل پشتیبانی)"
 
-#: lua/plugins/backup.lua:122
-#, lua-format
-msgid "Chat IDs don't match (%s and %s)"
-msgstr "آیدی چت همخوانی ندارد (%s و %s)"
+#: lua/plugins/backup.lua:120
+msgid "Invalid input. Please reply to a document"
+msgstr "ورودی نامعتبر. لطفا به یک سند پاسخ دهید"
 
-#: lua/plugins/backup.lua:148
+#: lua/plugins/backup.lua:125
 #, lua-format
 msgid "This is not a valid backup file.\n"
 "Reason: invalid name (%s)"
 msgstr "این فایل پشتیبانی قابل قبول نیست.\n"
 "دلیل: نام نامعتبر (%s)"
 
-#: lua/plugins/backup.lua:152
-msgid "Invalid input. Please reply to a document"
-msgstr "ورودی نامعتبر. لطفا به یک سند پاسخ دهید"
+#: lua/plugins/backup.lua:135
+#, lua-format
+msgid "Download of the file failed with code %s"
+msgstr "دانلود فایل مورد نظر با مشکل مواجه شد با کد %s"
 
-#: lua/plugins/backup.lua:155
-msgid "Invalid input. Please reply to the backup file (/snap command to get it)"
-msgstr "ورودی نامعتبر. لطفا به فایل پشتیبان پاسخ دهید (snap/ برای گرفتن فایل پشتیبانی)"
+#: lua/plugins/backup.lua:144
+#, lua-format
+msgid "Chat IDs don't match (%s and %s)"
+msgstr "آیدی چت همخوانی ندارد (%s و %s)"
 
 #: lua/plugins/banhammer.lua:73
 msgid "Use -/+ to edit the value, then select a timeframe to temporary ban the user"

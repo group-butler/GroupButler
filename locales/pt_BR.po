@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-22 18:04+0200\n"
-"PO-Revision-Date: 2018-08-04 04:41\n"
+"POT-Creation-Date: 2018-08-04 22:21-0300\n"
+"PO-Revision-Date: 2018-08-08 20:57\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Portuguese, Brazilian\n"
 "Language: pt_BR\n"
@@ -16,11 +16,11 @@ msgstr ""
 "X-Crowdin-Language: pt-BR\n"
 "X-Crowdin-File: /master/locales/en.po\n"
 
-#: lua/main.lua:127
+#: lua/main.lua:120
 msgid "🐞 Sorry, a *bug* occurred"
 msgstr "🐞 Desculpe, ocorreu um *bug*"
 
-#: lua/main.lua:149
+#: lua/main.lua:142
 #, lua-format
 msgid "\n"
 "Hello everyone!\n"
@@ -144,7 +144,7 @@ msgstr "Permitir/proibir mensagens encaminhadas de canais"
 
 #: lua/plugins/antispam.lua:174
 msgid "Set how many times the bot should warn users before kicking/banning them"
-msgstr "Definir quantas vezes o bot deve avisar o usuário antes de expulsar/banir ele"
+msgstr "Definir quantas vezes o bot deve advertir o usuário antes de expulsar/banir ele"
 
 #: lua/plugins/antispam.lua:176 lua/plugins/defaultpermissions.lua:56
 #: lua/plugins/floodmanager.lua:18 lua/plugins/logchannel.lua:40
@@ -242,41 +242,49 @@ msgstr "*Canais permitidos*:\n"
 msgid "_I can't find a channel ID in your message_"
 msgstr "_Eu não consigo encontrar nenhum id de canal em sua mensagem_"
 
-#: lua/plugins/backup.lua:95
+#: lua/plugins/backup.lua:82
+msgid "Import was <b>successful</b>.\n\n"
+"<b>Important</b>:\n"
+"- #extra commands which are associated with a media must be set again if the bot you are using now is different from the bot that originated the backup.\n"
+msgstr "Importado com <b>sucesso</b>.\n\n"
+"<b>Importante</b>:\n"
+"- Comandos #extra que foram associados com alguma mídia devem ser configurados novamente, caso o bot que você está usando agora seja diferente do bot que originou o backup.\n"
+
+#: lua/plugins/backup.lua:99
 #, lua-format
 msgid "<i>I'm sorry, this command has been used for the last time less then 3 hours ago by</i> %s (ask them for the file).\n"
 "Wait [<code>%s</code>] to use it again\n"
 msgstr "<i>Desculpe, esse comando foi usado pela última vez menos de 3 horas atrás por</i> %s (peça-lhe o arquivo).\n"
 "Espere [<code>%s</code>] para usar novamente\n"
 
-#: lua/plugins/backup.lua:103
+#: lua/plugins/backup.lua:108
 msgid "*Sent in private*"
 msgstr "*Enviado no privado*"
 
-#: lua/plugins/backup.lua:116
-#, lua-format
-msgid "Download of the file failed with code %s"
-msgstr "O download do arquivo falhou. \\v[Código de erro: %s]"
+#: lua/plugins/backup.lua:115
+msgid "Invalid input. Please reply to the backup file (/snap command to get it)"
+msgstr "Entrada invalida. Por favor responda ao arquivo de backup (use o comando /snap para adquiri-lo)"
 
-#: lua/plugins/backup.lua:122
-#, lua-format
-msgid "Chat IDs don't match (%s and %s)"
-msgstr "O ID do grupo não bate (%s e %s)"
+#: lua/plugins/backup.lua:120
+msgid "Invalid input. Please reply to a document"
+msgstr "Entrada invalida. Por favor responda a um documento"
 
-#: lua/plugins/backup.lua:148
+#: lua/plugins/backup.lua:125
 #, lua-format
 msgid "This is not a valid backup file.\n"
 "Reason: invalid name (%s)"
 msgstr "Esse não é um arquivo válido do backup.\n"
 "Motivo: nome invalido (%s)"
 
-#: lua/plugins/backup.lua:152
-msgid "Invalid input. Please reply to a document"
-msgstr "Entrada invalida. Por favor responda a um documento"
+#: lua/plugins/backup.lua:135
+#, lua-format
+msgid "Download of the file failed with code %s"
+msgstr "O download do arquivo falhou. \\v[Código de erro: %s]"
 
-#: lua/plugins/backup.lua:155
-msgid "Invalid input. Please reply to the backup file (/snap command to get it)"
-msgstr "Entrada invalida. Por favor responda ao arquivo de backup (use o comando /snap para adquiri-lo)"
+#: lua/plugins/backup.lua:144
+#, lua-format
+msgid "Chat IDs don't match (%s and %s)"
+msgstr "O ID do grupo não bate (%s e %s)"
 
 #: lua/plugins/banhammer.lua:73
 msgid "Use -/+ to edit the value, then select a timeframe to temporary ban the user"
@@ -296,7 +304,7 @@ msgstr "%s expulso %s!"
 #: lua/plugins/banhammer.lua:99 lua/plugins/banhammer.lua:116
 #, lua-format
 msgid "%s banned %s!"
-msgstr "%s banido %s!"
+msgstr "%s baniu %s!"
 
 #: lua/plugins/banhammer.lua:104
 msgid "_Use this command in reply to a forwarded message_"
@@ -607,7 +615,7 @@ msgid "*Default permissions*\n"
 "_Only the administrators with the permission to restrict a member can access this menu._\n"
 "Tap on the name of a permission for a description of what kind of messages it will influence.\n"
 msgstr "*Permissões padrão*\n"
-"A partir deste menu, você pode alterar as permissões padrão que serão concedida quando um novo membro se juntar.\n"
+"A partir deste menu, você pode alterar as permissões padrão que serão concedidas quando um novo membro entrar.\n"
 "_Somente administradores com a permissão para restringir o acesso de um membro podem acessar este menu._\n"
 "Toque no nome de uma permissão para uma descrição de que tipo de mensagens ela irá influenciar.\n"
 
@@ -720,8 +728,8 @@ msgstr "Olá, %s 👋🏼, prazer em conhecê-lo!\n"
 "• Posso *receber novos usuários* com uma mensagem personalizável, ou se você quiser, com um gif ou um sticker\n"
 "• Posso *advertir* os usuários e bani-los quando atingirem o número máximo de avisos\n"
 "• Eu também posso advertir, expulsar ou banir os usuários quando eles postam uma mídia específica\n"
-"... e mais, abaixo você pode encontrar o botão \"todos os comandos\" para obter toda a lista!\n\n"
-"Eu trabalho melhor se você me adicionar aos administradores do grupo (caso contrário, eu não serei capaz de expulsar ou banir)!\n"
+"…e mais, abaixo você pode encontrar o botão \"todos os comandos\" para obter toda a lista!\n\n"
+"Eu funciono melhor se você me adicionar aos administradores do grupo (caso contrário, eu não serei capaz de expulsar ou banir)!\n"
 
 #: lua/plugins/help.lua:27
 msgid "This bot works only in supergroups.\n\n"
@@ -933,7 +941,7 @@ msgid "*Extra commands*\n"
 msgstr "*Comandos extra*\n"
 "Os comandos #extra são uma maneira inteligente de salvar seus próprios comandos personalizados.\n\n"
 "• `/extra [#comando] [resposta]`: define uma resposta a ser enviada quando alguém digitar o comando.\n"
-"_Exemplo_: com \"`/extra #olá Bom dia!`\", O bot responderá \"Bom dia!\" cada vez que alguém escrever #olá.\n"
+"_Exemplo_: com \"`/extra #oi Bom dia!`\", O bot responderá \"Bom dia!\" cada vez que alguém escrever #oi.\n"
 "Você pode responder a uma mídia (_imagem, arquivo, mensagem de voz, vídeo, gif, áudio_) com `/extra #seucomando` para salvar o #extra e receber essa mídia toda vez que você usar comando\n"
 "• `/extra list`: obtém a lista de seus comandos personalizados.\n"
 "• `/extra del [#comando]`: apaga o comando personalizado e sua mensagem.\n\n"
@@ -1247,7 +1255,7 @@ msgstr "Registrar mensagens fixadas"
 
 #: lua/plugins/logchannel.lua:34
 msgid "Log when an user who has been blocked is banned from the group on join"
-msgstr "Registrar quando um usuário bloqueado for banido do grupo quando ele entrar"
+msgstr "Registrar quando um usuário bloqueado for banido do grupo ao entrar"
 
 #: lua/plugins/logchannel.lua:36
 msgid "Log when an admin removes the warning received by an user"
@@ -1442,8 +1450,8 @@ msgstr "\n"
 "Clique em uma opção à sua direita para *mudar a configuração*\n"
 "Você pode usar as últimas linhas para mudar a quantidade de alertas que o bot deve enviar antes de expulsar/banir/silenciar alguém.\n"
 "O número não é vinculado ao comando normal `/warn`.\n\n"
-"Status possíveis: ✅ permitido, ❌ aviso, 🗑 remove.\n"
-"Quando uma mídia é definida para ser removida, o bot dará um alerta *apenas* quando este é o último alerta do usuário\n"
+"Status possíveis: ✅ permitido, ❌ advertir, 🗑 apagar.\n"
+"Quando uma mídia é definida para ser removida, o bot dará um alerta *apenas* quando esta for a última advertência do usuário\n"
 
 #: lua/plugins/mediasettings.lua:115
 msgid "⚠️ Tap on the right column"
@@ -1524,7 +1532,7 @@ msgstr "Bots serão banidos quando adicionados por usuários normais"
 
 #: lua/plugins/menu.lua:42
 msgid "Select what the bot should do when someone sends a message with the RTL character, or has it in their name"
-msgstr "Selecione o que o bot deve fazer quando alguém envia uma mensagem com o caractere DPE ou possuir caracteres DPE em seu nome"
+msgstr "Selecione o que o bot deve fazer quando alguém envia uma mensagem com um caractere DPE ou possuir em seu nome"
 
 #: lua/plugins/menu.lua:44
 msgid "Change how many times an user has to be warned before being kicked/banned"
@@ -2064,7 +2072,7 @@ msgid "I've never seen this user before.\n"
 "If you're using it by username and want to teach me who the user is, forward me one of their messages"
 msgstr "Eu nunca vi esse usuário antes.\n"
 "Esse comando funciona por resposta, nome de usuário, ID do usuário ou menção por texto.\n"
-"Se você estiver usando por nome de usuário e quer me ensinar quem é o usuário, me encaminhe uma de suas mensagem"
+"Se você estiver usando por nome de usuário e quer me ensinar quem é o usuário, me encaminhe uma de suas mensagens"
 
 #: lua/plugins/users.lua:184 lua/plugins/users.lua:240
 #, lua-format
@@ -2341,7 +2349,7 @@ msgstr "A mensagem de despedida não será mostrada a partir de agora"
 
 #: lua/utilities.lua:671
 msgid "#extra commands are now available only for administrators"
-msgstr "O comando #extra está disponível apenas para administradores"
+msgstr "Os comandos #extra estarão disponíveis apenas para administradores"
 
 #: lua/utilities.lua:672
 msgid "Anti-flood is now off"

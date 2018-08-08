@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-22 18:04+0200\n"
-"PO-Revision-Date: 2018-08-04 04:41\n"
+"POT-Creation-Date: 2018-08-04 22:21-0300\n"
+"PO-Revision-Date: 2018-08-08 20:56\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh\n"
@@ -16,11 +16,11 @@ msgstr ""
 "X-Crowdin-Language: zh-CN\n"
 "X-Crowdin-File: /master/locales/en.po\n"
 
-#: lua/main.lua:127
+#: lua/main.lua:120
 msgid "🐞 Sorry, a *bug* occurred"
 msgstr "🐞 抱歉，发生错误。"
 
-#: lua/main.lua:149
+#: lua/main.lua:142
 #, lua-format
 msgid "\n"
 "Hello everyone!\n"
@@ -241,41 +241,47 @@ msgstr "*白名单频道：*\n"
 msgid "_I can't find a channel ID in your message_"
 msgstr "_该消息中未发现频道_"
 
-#: lua/plugins/backup.lua:95
+#: lua/plugins/backup.lua:82
+msgid "Import was <b>successful</b>.\n\n"
+"<b>Important</b>:\n"
+"- #extra commands which are associated with a media must be set again if the bot you are using now is different from the bot that originated the backup.\n"
+msgstr ""
+
+#: lua/plugins/backup.lua:99
 #, lua-format
 msgid "<i>I'm sorry, this command has been used for the last time less then 3 hours ago by</i> %s (ask them for the file).\n"
 "Wait [<code>%s</code>] to use it again\n"
 msgstr "<i>抱歉，该命令三小时内限用一次。已被「%s」使用。</i>（ 您可向他/她索要结果。）\n"
 "请在[<code>%s</code>] 后再重试。\n"
 
-#: lua/plugins/backup.lua:103
+#: lua/plugins/backup.lua:108
 msgid "*Sent in private*"
 msgstr "*已私聊发送给您*"
 
-#: lua/plugins/backup.lua:116
-#, lua-format
-msgid "Download of the file failed with code %s"
-msgstr "文件下载失败，错误代码为%s。"
+#: lua/plugins/backup.lua:115
+msgid "Invalid input. Please reply to the backup file (/snap command to get it)"
+msgstr "输入无效。请通过回复「备份文件」消息使用。（/snap 命令可获取备份文件。）"
 
-#: lua/plugins/backup.lua:122
-#, lua-format
-msgid "Chat IDs don't match (%s and %s)"
-msgstr "会话ID不匹配（%s与%s）"
+#: lua/plugins/backup.lua:120
+msgid "Invalid input. Please reply to a document"
+msgstr "输入无效。请通过回复文件消息使用。"
 
-#: lua/plugins/backup.lua:148
+#: lua/plugins/backup.lua:125
 #, lua-format
 msgid "This is not a valid backup file.\n"
 "Reason: invalid name (%s)"
 msgstr "备份文件无效。\n"
 "原因：无效名称（%s）。"
 
-#: lua/plugins/backup.lua:152
-msgid "Invalid input. Please reply to a document"
-msgstr "输入无效。请通过回复文件消息使用。"
+#: lua/plugins/backup.lua:135
+#, lua-format
+msgid "Download of the file failed with code %s"
+msgstr "文件下载失败，错误代码为%s。"
 
-#: lua/plugins/backup.lua:155
-msgid "Invalid input. Please reply to the backup file (/snap command to get it)"
-msgstr "输入无效。请通过回复「备份文件」消息使用。（/snap 命令可获取备份文件。）"
+#: lua/plugins/backup.lua:144
+#, lua-format
+msgid "Chat IDs don't match (%s and %s)"
+msgstr "会话ID不匹配（%s与%s）"
 
 #: lua/plugins/banhammer.lua:73
 msgid "Use -/+ to edit the value, then select a timeframe to temporary ban the user"
