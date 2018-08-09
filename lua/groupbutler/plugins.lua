@@ -1,6 +1,6 @@
 local config = require "groupbutler.config"
 
-local plugins = {}
+local _M = {}
 
 for _, v in ipairs(config.plugins) do
 	local p = require("groupbutler.plugins."..v)
@@ -17,7 +17,7 @@ for _, v in ipairs(config.plugins) do
 			end
 		end
 	end
-	table.insert(plugins, p)
+	table.insert(_M, p)
 end
 
-return plugins
+return _M

@@ -1,11 +1,26 @@
 local config = require "groupbutler.config"
-local u = require "groupbutler.utilities"
+local utilities = require "groupbutler.utilities"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
-local db = require "groupbutler.database"
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
 
-local plugin = {}
+local _M = {}
+
+_M.__index = _M
+
+setmetatable(_M, {
+	__call = function (cls, ...)
+		return cls.new(...)
+	end,
+})
+
+function _M.new(main)
+	local self = setmetatable({}, _M)
+	self.update = main.update
+	self.u = utilities:new()
+	self.db = main.db
+	return self
+end
 
 local permissions = {
 	can_change_info = i18n("can't change the chat title/description/icon"),
@@ -45,12 +60,14 @@ local function get_time_remaining(seconds)
 	return final
 end
 
-local function get_user_id(msg, blocks)
+local function get_user_id(self, msg, blocks)
+	local u = self.u
+
 	if msg.reply then
 		return msg.reply.from.id
 	elseif blocks[2] then
 		if blocks[2]:match('@[%w_]+$') then --by username
-			local user_id = u.resolve_user(blocks[2])
+			local user_id = u:resolve_user(blocks[2])
 			if not user_id then
 				print('username (not found)')
 				return false
@@ -79,7 +96,9 @@ local function do_keyboard_userinfo(user_id)
 	return keyboard
 end
 
-local function get_userinfo(user_id, chat_id)
+local function get_userinfo(self, user_id, chat_id)
+	local db = self.db
+
 	local text = i18n([[*User ID*: `%d`
 `Warnings`: *%d*
 `Media warnings`: *%d*
@@ -90,8 +109,10 @@ local function get_userinfo(user_id, chat_id)
 	local spam_warns = (db:hget('chat:'..chat_id..':spamwarns', user_id)) or 0
 	return text:format(tonumber(user_id), warns, media_warns, spam_warns)
 end
+function _M:onTextMessage(msg, blocks)
 
-function plugin.onTextMessage(msg, blocks)
+	local db = self.db
+	local u = self.u
 	if blocks[1] == 'id' then --just for debug
 		if msg.chat.id < 0 and msg.from.admin then
 			api.sendMessage(msg.chat.id, string.format('`%d`', msg.chat.id), "Markdown")
@@ -101,28 +122,28 @@ function plugin.onTextMessage(msg, blocks)
 	if msg.chat.type == 'private' then return end
 
 	if blocks[1] == 'adminlist' then
-		local adminlist = u.getAdminlist(msg.chat.id)
+		local adminlist = u:getAdminlist(msg.chat.id)
 		if not msg.from.admin then
 			api.sendMessage(msg.from.id, adminlist, 'html', true)
 		else
-			u.sendReply(msg, adminlist, 'html', true)
+			u:sendReply(msg, adminlist, 'html', true)
 		end
 	end
 	if blocks[1] == 'status' then
 		if msg.from.admin then
 			if not blocks[2] and not msg.reply then return end
-			local user_id, error_tr_id = u.get_user_id(msg, blocks)
+			local user_id, error_tr_id = u:get_user_id(self, msg, blocks)
 			if not user_id then
-				u.sendReply(msg, i18n(error_tr_id), "Markdown")
+				u:sendReply(msg, i18n(error_tr_id), "Markdown")
 			else
 				local res = api.getChatMember(msg.chat.id, user_id)
 
 				if not res then
-					u.sendReply(msg, i18n("That user has nothing to do with this chat"))
+					u:sendReply(msg, i18n("That user has nothing to do with this chat"))
 					return
 				end
 				local status = res.status
-				local name = u.getname_final(res.user)
+				local name = u:getname_final(res.user)
 				local statuses = {
 					kicked = i18n("%s is banned from this group"),
 					left = i18n("%s left the group or has been kicked and unbanned"),
@@ -144,7 +165,7 @@ function plugin.onTextMessage(msg, blocks)
 					text = text..i18n('\nRestrictions: <i>%s</i>'):format(table.concat(denied_permissions, ', '))
 				end
 
-				u.sendReply(msg, text, 'html')
+				u:sendReply(msg, text, 'html')
 			end
 		end
 	end
@@ -154,15 +175,15 @@ function plugin.onTextMessage(msg, blocks)
 		if not msg.reply
 			and (not blocks[2] or (not blocks[2]:match('@[%w_]+$') and not blocks[2]:match('%d+$')
 			and not msg.mention_id)) then
-			u.sendReply(msg, i18n("Reply to an user or mention them by username or numerical ID"))
+			u:sendReply(msg, i18n("Reply to an user or mention them by username or numerical ID"))
 			return
 		end
 
 		------------------ get user_id --------------------------
-		local user_id = get_user_id(msg, blocks)
+		local user_id = get_user_id(self, msg, blocks)
 
 		if not user_id then
-			u.sendReply(msg, i18n([[I've never seen this user before.
+			u:sendReply(msg, i18n([[I've never seen this user before.
 This command works by reply, username, user ID or text mention.
 If you're using it by username and want to teach me who the user is, forward me one of their messages]]), "Markdown")
 			return
@@ -171,7 +192,7 @@ If you're using it by username and want to teach me who the user is, forward me 
 
 		local keyboard = do_keyboard_userinfo(user_id)
 
-		local text = get_userinfo(user_id, msg.chat.id)
+		local text = get_userinfo(self, user_id, msg.chat.id)
 
 		api.sendMessage(msg.chat.id, text, "Markdown", nil, nil, nil, keyboard)
 	end
@@ -190,21 +211,24 @@ If you're using it by username and want to teach me who the user is, forward me 
 
 		local text = string.format('[%s](https://telegram.me/%s/%d)',
 			i18n("Message N° %d"):format(msg.reply.message_id), msg.chat.username, msg.reply.message_id)
-		if msg.from.admin or not u.is_silentmode_on(msg.chat.id) then
-			u.sendReply(msg.reply, text, "Markdown")
+		if msg.from.admin or not u:is_silentmode_on(msg.chat.id) then
+			u:sendReply(msg.reply, text, "Markdown")
 		else
 			api.sendMessage(msg.from.id, text, "Markdown")
 		end
 	end
 	if blocks[1] == 'leave' then
 		if msg.from.admin then
-			u.remGroup(msg.chat.id)
+			u:remGroup(msg.chat.id)
 			api.leaveChat(msg.chat.id)
 		end
 	end
 end
 
-function plugin.onCallbackQuery(msg, blocks)
+function _M:onCallbackQuery(msg, blocks)
+	local db = self.db
+	local u = self.u
+
 	if not msg.from.admin then
 		api.answerCallbackQuery(msg.cb_id, i18n("You are not allowed to use this button"))
 		return
@@ -217,12 +241,12 @@ function plugin.onCallbackQuery(msg, blocks)
 			spam = db:hdel('chat:'..msg.chat.id..':spamwarns', blocks[2])
 		}
 
-		local name = u.getname_final(msg.from)
+		local name = u:getname_final(msg.from)
 		local res = api.getChatMember(msg.chat.id, blocks[2])
 		local text = i18n("The number of warnings received by this user has been <b>reset</b>, by %s"):format(name)
 		api.editMessageText(msg.chat.id, msg.message_id, nil, text:format(name), 'html')
-		u.logEvent('nowarn', msg,
-               {admin = name, user = u.getname_final(res.result.user), user_id = blocks[2], rem = removed})
+		u:logEvent('nowarn', msg,
+               {admin = name, user = u:getname_final(res.result.user), user_id = blocks[2], rem = removed})
 	end
 	if blocks[1] == 'recache' and msg.from.admin then
 		local missing_sec = tonumber(db:ttl('cache:chat:'..msg.target_id..':admins') or 0)
@@ -234,7 +258,7 @@ function plugin.onCallbackQuery(msg, blocks)
 				):format(seconds_to_wait), true)
 		else
 			db:del('cache:chat:'..msg.target_id..':admins')
-			u.cache_adminlist(msg.target_id)
+			u:cache_adminlist(msg.target_id)
 			local cached_admins = db:smembers('cache:chat:'..msg.target_id..':admins')
 			local time = get_time_remaining(config.bot_settings.cache_time.adminlist)
 			local text = i18n("📌 Status: `CACHED`\n⌛ ️Remaining: `%s`\n👥 Admins cached: `%d`")
@@ -245,7 +269,7 @@ function plugin.onCallbackQuery(msg, blocks)
 	end
 end
 
-plugin.triggers = {
+_M.triggers = {
 	onTextMessage = {
 		config.cmd..'(id)$',
 		config.cmd..'(adminlist)$',
@@ -263,4 +287,4 @@ plugin.triggers = {
 	}
 }
 
-return plugin
+return _M

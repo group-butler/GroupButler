@@ -1,22 +1,40 @@
 local config = require "groupbutler.config"
-local u = require "groupbutler.utilities"
+local utilities = require "groupbutler.utilities"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
-local db = require "groupbutler.database"
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
 
-local plugin = {}
+local _M = {}
 
-local function send_in_group(chat_id)
+_M.__index = _M
+
+setmetatable(_M, {
+	__call = function (cls, ...)
+		return cls.new(...)
+	end,
+})
+
+function _M.new(main)
+	local self = setmetatable({}, _M)
+	self.update = main.update
+	self.u = utilities:new()
+	self.db = main.db
+	return self
+end
+
+local function send_in_group(self, chat_id)
+	local db = self.db
 	local res = db:hget('chat:'..chat_id..':settings', 'Rules')
 	if res == 'on' then
 		return true
-	else
-		return false
 	end
+	return false
 end
 
-function plugin.onTextMessage(msg, blocks)
+function _M:onTextMessage(msg, blocks)
+	local db = self.db
+	local u = self.u
+
 	if msg.chat.type == 'private' then
 		if blocks[1] == 'start' then
 			msg.chat.id = tonumber(blocks[2])
@@ -42,41 +60,41 @@ function plugin.onTextMessage(msg, blocks)
 
 	local hash = 'chat:'..msg.chat.id..':info'
 	if blocks[1] == 'rules' or blocks[1] == 'start' then
-		local rules = u.getRules(msg.chat.id)
+		local rules = u:getRules(msg.chat.id)
 		local reply_markup
 
-		reply_markup, rules = u.reply_markup_from_text(rules)
+		reply_markup, rules = u:reply_markup_from_text(rules)
 
 		local link_preview = rules:find('telegra%.ph/') ~= nil
-		if msg.chat.type == 'private' or (not msg.from.admin and not send_in_group(msg.chat.id)) then
-			u.sendMessage(msg.from.id, rules, "Markdown", link_preview, nil, nil, reply_markup)
+		if msg.chat.type == 'private' or (not msg.from.admin and not send_in_group(self, msg.chat.id)) then
+			u:sendMessage(msg.from.id, rules, "Markdown", link_preview, nil, nil, reply_markup)
 		else
-			u.sendReply(msg, rules, "Markdown", link_preview, nil, reply_markup)
+			u:sendReply(msg, rules, "Markdown", link_preview, nil, reply_markup)
 		end
 	end
 
-	if not u.is_allowed('texts', msg.chat.id, msg.from) then return end
+	if not u:is_allowed('texts', msg.chat.id, msg.from) then return end
 
 	if blocks[1] == 'setrules' then
 		local rules = blocks[2]
 		--ignore if not input text
 		if not rules then
-			u.sendReply(msg, i18n("Please write something next `/setrules`"), "Markdown")
+			u:sendReply(msg, i18n("Please write something next `/setrules`"), "Markdown")
 			return
 		end
 		--check if an admin want to clean the rules
 		if rules == '-' then
 			db:hdel(hash, 'rules')
-			u.sendReply(msg, i18n("Rules has been deleted."))
+			u:sendReply(msg, i18n("Rules has been deleted."))
 			return
 		end
 
-		local reply_markup, test_text = u.reply_markup_from_text(rules)
+		local reply_markup, test_text = u:reply_markup_from_text(rules)
 
 		--set the new rules
-		local res, code = u.sendReply(msg, test_text, "Markdown", nil, nil, reply_markup)
+		local res, code = u:sendReply(msg, test_text, "Markdown", nil, nil, reply_markup)
 		if not res then
-			api.sendMessage(msg.chat.id, u.get_sm_error_string(code), "Markdown")
+			api.sendMessage(msg.chat.id, u:get_sm_error_string(code), "Markdown")
 		else
 			db:hset(hash, 'rules', rules)
 			local id = res.message_id
@@ -85,7 +103,7 @@ function plugin.onTextMessage(msg, blocks)
 	end
 end
 
-plugin.triggers = {
+_M.triggers = {
 	onTextMessage = {
 		config.cmd..'(setrules)$',
 		config.cmd..'(setrules) (.*)',
@@ -94,4 +112,4 @@ plugin.triggers = {
 	}
 }
 
-return plugin
+return _M

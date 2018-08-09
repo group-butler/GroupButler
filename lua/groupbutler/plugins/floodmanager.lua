@@ -1,11 +1,26 @@
 local config = require "groupbutler.config"
-local u = require "groupbutler.utilities"
+local utilities = require "groupbutler.utilities"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
-local db = require "groupbutler.database"
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
 
-local plugin = {}
+local _M = {}
+
+_M.__index = _M
+
+setmetatable(_M, {
+	__call = function (cls, ...)
+		return cls.new(...)
+	end,
+})
+
+function _M.new(main)
+	local self = setmetatable({}, _M)
+	self.update = main.update
+	self.u = utilities:new()
+	self.db = main.db
+	return self
+end
 
 local function get_button_description(key)
 	if key == 'num' then
@@ -19,7 +34,8 @@ local function get_button_description(key)
 	end
 end
 
-local function do_keyboard_flood(chat_id)
+local function do_keyboard_flood(self, chat_id)
+	local db = self.db
 	--no: enabled, yes: disabled
 	local status = db:hget('chat:'..chat_id..':settings', 'Flood') or config.chat_settings['settings']['Flood'] --check (default: disabled)
 	if status == 'on' then
@@ -83,7 +99,8 @@ local function do_keyboard_flood(chat_id)
 	return keyboard
 end
 
-local function changeFloodSettings(chat_id, screm)
+local function changeFloodSettings(self, chat_id, screm)
+	local db = self.db
 	local hash = 'chat:'..chat_id..':flood'
 	if type(screm) == 'string' then
 		if screm == 'mute' then
@@ -118,9 +135,11 @@ local function changeFloodSettings(chat_id, screm)
 	end
 end
 
-function plugin.onCallbackQuery(msg, blocks)
+function _M:onCallbackQuery(msg, blocks)
+	local u = self.u
+	local db = self.db
 	local chat_id = msg.target_id
-	if chat_id and not u.is_allowed('config', chat_id, msg.from) then
+	if chat_id and not u:is_allowed('config', chat_id, msg.from) then
 		api.answerCallbackQuery(msg.cb_id, i18n("You're no longer an admin"))
 	else
 		local header = i18n([[You can manage the antiflood settings from here.\n\nIt is also possible to choose which type of messages the antiflood will ignore (✅)
@@ -163,20 +182,20 @@ function plugin.onCallbackQuery(msg, blocks)
 			elseif blocks[1] == 'raise' then
 				action = 1
 			end
-			text = changeFloodSettings(chat_id, action)
+			text = changeFloodSettings(self, chat_id, action)
 		end
 
 		if blocks[1] == 'status' then
-			text = u.changeSettingStatus(chat_id, 'Flood')
+			text = u:changeSettingStatus(chat_id, 'Flood')
 		end
 
-		local keyboard = do_keyboard_flood(chat_id)
+		local keyboard = do_keyboard_flood(self, chat_id)
 		api.editMessageText(msg.chat.id, msg.message_id, nil, header, "Markdown", nil, keyboard)
 		api.answerCallbackQuery(msg.cb_id, text)
 	end
 end
 
-plugin.triggers = {
+_M.triggers = {
 	onCallbackQuery = {
 		'^###cb:flood:(alert):([%w_]+):([%w_]+)$',
 		'^###cb:flood:(status):(-?%d+)$',
@@ -189,4 +208,4 @@ plugin.triggers = {
 	}
 }
 
-return plugin
+return _M

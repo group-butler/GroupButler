@@ -1,15 +1,22 @@
 #!/usr/bin/env lua
+
+-- local ZBS="/Applications/ZeroBraneStudio.app/Contents/ZeroBraneStudio"
+-- local LUA_PATH=ZBS.."/lualibs/?/?.lua;"..ZBS.."/lualibs/?.lua;"
+-- local LUA_CPATH=ZBS.."/bin/?.dylib;"..ZBS.."/bin/clibs/?.dylib;"
+
+-- package.path=LUA_PATH.."./lua/?.lua;./lua/vendor/?.lua;"..package.path
+-- package.cpath=LUA_CPATH..package.cpath
+-- require('mobdebug').start()
+
 package.path="./lua/?.lua;./lua/vendor/?.lua;"..package.path
 io.stdout:setvbuf "no" -- switch off buffering for stdout
 
 local plugins = require "groupbutler.plugins"
 local main = require "groupbutler.main"
 local config = require "groupbutler.config"
-local u = require "groupbutler.utilities"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
 
-u.assert_startup()
-bot = api.getMe()
+local bot = api.getMe()
 local last_update, last_cron, current
 
 function bot.init(on_reload) -- The function run when the bot is started or reloaded

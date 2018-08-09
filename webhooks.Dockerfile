@@ -9,13 +9,10 @@ WORKDIR /srv/app
 HEALTHCHECK --interval=3s --timeout=3s CMD ["healthchecker"] || exit 1
 ENTRYPOINT nginx -p `pwd` -c conf/conf.conf
 
-ARG DEPS_NATIVE="curl-dev openssl-dev git"
 ARG DEPS_OPM="yangm97/lua-telegram-bot-api"
-# Added luasocket because openresty/lua-nginx-module#1020
-ARG DEPS_ROCKS="redis-lua serpent Lua-cURL luasocket luasec"
+ARG DEPS_ROCKS="redis-lua"
 
 RUN mkdir logs && \
-    apk add --no-cache $DEPS_NATIVE && \
     opm install $DEPS_OPM && \
     for ROCK in $DEPS_ROCKS; do luarocks install $ROCK; done
 

@@ -1,11 +1,30 @@
 local config = require "groupbutler.config"
-local u = require "groupbutler.utilities"
+local utilities = require "groupbutler.utilities"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
-local db = require "groupbutler.database"
+local get_bot = require "groupbutler.bot"
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
 
-local plugin = {}
+local _M = {}
+
+local bot
+
+_M.__index = _M
+
+setmetatable(_M, {
+	__call = function (cls, ...)
+		return cls.new(...)
+	end,
+})
+
+function _M.new(main)
+	local self = setmetatable({}, _M)
+	self.update = main.update
+	self.u = utilities:new()
+	self.db = main.db
+	bot = get_bot.init()
+	return self
+end
 
 local function doKeyboard_warn(user_id)
 	local keyboard = {}
@@ -14,7 +33,9 @@ local function doKeyboard_warn(user_id)
 	return keyboard
 end
 
-local function forget_user_warns(chat_id, user_id)
+local function forget_user_warns(self, chat_id, user_id)
+	local db = self.db
+
 	local removed = {
 		normal = db:hdel('chat:'..chat_id..':warns', user_id) == 1 and 'v' or '⨯',
 		media = db:hdel('chat:'..chat_id..':mediawarn', user_id) == 1 and 'v' or '⨯',
@@ -24,9 +45,12 @@ local function forget_user_warns(chat_id, user_id)
 	return removed
 end
 
-function plugin.onTextMessage(msg, blocks)
+function _M:onTextMessage(msg, blocks)
+	local db = self.db
+	local u = self.u
+
 	if msg.chat.type == 'private'
-	or (msg.chat.type ~= 'private' and not u.is_allowed('hammer', msg.chat.id, msg.from)) then
+	or (msg.chat.type ~= 'private' and not u:is_allowed('hammer', msg.chat.id, msg.from)) then
 		return
 	end
 
@@ -47,7 +71,7 @@ function plugin.onTextMessage(msg, blocks)
 		local old = (db:hget(hash, key)) or default
 		db:hset(hash, key, new)
 		text = text .. i18n("*Old* value was %d\n*New* max is %d"):format(tonumber(old), tonumber(new))
-		u.sendReply(msg, text, "Markdown")
+		u:sendReply(msg, text, "Markdown")
 		return
 	end
 
@@ -67,25 +91,25 @@ function plugin.onTextMessage(msg, blocks)
 
 	--do not reply when...
 	if not msg.reply
-		or u.is_admin(msg.chat.id, msg.reply.from.id)
+		or u:is_admin(msg.chat.id, msg.reply.from.id)
 		or msg.reply.from.id == bot.id then
 		return
 	end
 
 	if blocks[1] == 'nowarn' then
-		local removed = forget_user_warns(msg.chat.id, msg.reply.from.id)
-		local admin = u.getname_final(msg.from)
-		local user = u.getname_final(msg.reply.from)
+		local removed = forget_user_warns(self, msg.chat.id, msg.reply.from.id)
+		local admin = u:getname_final(msg.from)
+		local user = u:getname_final(msg.reply.from)
 		local text = i18n(
 			'Done! %s has been forgiven.\n<b>Warns found</b>: <i>normal warns %s, for media %s, spamwarns %s</i>'
 			):format(user, removed.normal or 0, removed.media or 0, removed.spam or 0)
-		u.sendReply(msg, text, 'html')
-		u.logEvent('nowarn', msg, {admin = admin, user = user, user_id = msg.reply.from.id, rem = removed})
+		u:sendReply(msg, text, 'html')
+		u:logEvent('nowarn', msg, {admin = admin, user = user, user_id = msg.reply.from.id, rem = removed})
 	end
 
 	if blocks[1] == 'warn'  or blocks[1] == 'sw' then
 
-		local name = u.getname_final(msg.reply.from)
+		local name = u:getname_final(msg.reply.from)
 		local hash = 'chat:'..msg.chat.id..':warns'
 		local num = db:hincrby(hash, msg.reply.from.id, 1) --add one warn
 		local nmax = (db:hget('chat:'..msg.chat.id..':warnsettings', 'max')) or 3 --get the max num of warnings
@@ -99,29 +123,29 @@ function plugin.onTextMessage(msg, blocks)
 			if type == 'ban' then
 				hammer_log = i18n('banned')
 				text = text:format(name, hammer_log, num, nmax)
-				res, err = u.banUser(msg.chat.id, msg.reply.from.id)
+				res, err = u:banUser(msg.chat.id, msg.reply.from.id)
 			elseif type == 'kick' then --kick
 				hammer_log = i18n('kicked')
 				text = text:format(name, hammer_log, num, nmax)
-				res, err = u.kickUser(msg.chat.id, msg.reply.from.id)
+				res, err = u:kickUser(msg.chat.id, msg.reply.from.id)
 			elseif type == 'mute' then --kick
 				hammer_log = i18n('muted')
 				text = text:format(name, hammer_log, num, nmax)
-				res, err = u.muteUser(msg.chat.id, msg.reply.from.id)
+				res, err = u:muteUser(msg.chat.id, msg.reply.from.id)
 			end
 			--if kick/ban fails, send the motivation
 			if not res then
 				if num > nmax then db:hset(hash, msg.reply.from.id, nmax) end --avoid to have a number of warnings bigger than the max
 				text = err
 			else
-				forget_user_warns(msg.chat.id, msg.reply.from.id)
+				forget_user_warns(self, msg.chat.id, msg.reply.from.id)
 			end
 			--if the user reached the max num of warns, kick and send message
-			u.sendReply(msg, text, 'html')
-			u.logEvent('warn', msg, {
+			u:sendReply(msg, text, 'html')
+			u:logEvent('warn', msg, {
 				motivation = blocks[2],
-				admin = u.getname_final(msg.from),
-				user = u.getname_final(msg.reply.from),
+				admin = u:getname_final(msg.from),
+				user = u:getname_final(msg.reply.from),
 				user_id = msg.reply.from.id,
 				hammered = hammer_log,
 				warns = num,
@@ -131,20 +155,23 @@ function plugin.onTextMessage(msg, blocks)
 			text = i18n("%s <b>has been warned</b> (<code>%d/%d</code>)"):format(name, num, nmax)
 			local keyboard = doKeyboard_warn(msg.reply.from.id)
 			if blocks[1] ~= 'sw' then api.sendMessage(msg.chat.id, text, 'html', true, nil, nil, keyboard) end
-			u.logEvent('warn', msg, {
+			u:logEvent('warn', msg, {
 				motivation = blocks[2],
 				warns = num,
 				warnmax = nmax,
-				admin = u.getname_final(msg.from),
-				user = u.getname_final(msg.reply.from),
+				admin = u:getname_final(msg.from),
+				user = u:getname_final(msg.reply.from),
 				user_id = msg.reply.from.id
 			})
 		end
 	end
 end
 
-function plugin.onCallbackQuery(msg, blocks)
-	if not u.is_allowed('hammer', msg.chat.id, msg.from) then
+function _M:onCallbackQuery(msg, blocks)
+	local db = self.db
+	local u = self.u
+
+	if not u:is_allowed('hammer', msg.chat.id, msg.from) then
 		api.answerCallbackQuery(msg.cb_id, i18n("You are not allowed to use this button")) return
 	end
 
@@ -160,7 +187,7 @@ function plugin.onCallbackQuery(msg, blocks)
 			text = i18n("<b>Warn removed!</b> (%d/%d)"):format(tonumber(num), tonumber(nmax))
 		end
 
-		text = text .. i18n("\n(Admin: %s)"):format(u.getname_final(msg.from))
+		text = text .. i18n("\n(Admin: %s)"):format(u:getname_final(msg.from))
 		api.editMessageText(msg.chat.id, msg.message_id, nil, text, 'html')
 	end
 	if blocks[1] == 'cleanwarns' then
@@ -169,14 +196,14 @@ function plugin.onCallbackQuery(msg, blocks)
 			db:del('chat:'..msg.chat.id..':mediawarn')
 			db:del('chat:'..msg.chat.id..':spamwarns')
 			api.editMessageText(msg.chat.id, msg.message_id, nil,
-				i18n('Done. All the warnings of this group have been erased by %s'):format(u.getname_final(msg.from)), 'html')
+				i18n('Done. All the warnings of this group have been erased by %s'):format(u:getname_final(msg.from)), 'html')
 		else
 			api.editMessageText(msg.chat.id, msg.message_id, nil, i18n('_Action aborted_'), "Markdown")
 		end
 	end
 end
 
-plugin.triggers = {
+_M.triggers = {
 	onTextMessage = {
 		config.cmd..'(warnmax) (%d%d?)$',
 		config.cmd..'(warnmax) (media) (%d%d?)$',
@@ -194,4 +221,4 @@ plugin.triggers = {
 	}
 }
 
-return plugin
+return _M

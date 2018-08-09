@@ -1,14 +1,31 @@
 local config = require "groupbutler.config"
-local u = require "groupbutler.utilities"
-local db = require "groupbutler.database"
+local utilities = require "groupbutler.utilities"
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
 
-local plugin = {}
+local _M = {}
 
-function plugin.onTextMessage(msg, blocks)
+_M.__index = _M
+
+setmetatable(_M, {
+	__call = function (cls, ...)
+		return cls.new(...)
+	end,
+})
+
+function _M.new(main)
+	local self = setmetatable({}, _M)
+	self.update = main.update
+	self.u = utilities:new()
+	self.db = main.db
+	return self
+end
+
+function _M:onTextMessage(msg, blocks)
+	local u = self.u
+	local db = self.db
 	if msg.chat.type == 'private' then return end
-	if not u.is_allowed('texts', msg.chat.id, msg.from) then return end
+	if not u:is_allowed('texts', msg.chat.id, msg.from) then return end
 
 	local hash = 'chat:'..msg.chat.id..':links'
 	local text
@@ -17,7 +34,7 @@ function plugin.onTextMessage(msg, blocks)
 		if msg.chat.username then
 			db:sadd('chat:'..msg.chat.id..':whitelist', 'telegram.me/'..msg.chat.username)
 			local title = msg.chat.title:escape_hard('link')
-			u.sendReply(msg, string.format('[%s](telegram.me/%s)', title, msg.chat.username), "Markdown")
+			u:sendReply(msg, string.format('[%s](telegram.me/%s)', title, msg.chat.username), "Markdown")
 		else
 			local link = db:hget(hash, 'link')
 			if not link then
@@ -26,7 +43,7 @@ function plugin.onTextMessage(msg, blocks)
 				local title = msg.chat.title:escape_hard('link')
 				text = string.format('[%s](%s)', title, link)
 			end
-			u.sendReply(msg, text, "Markdown")
+			u:sendReply(msg, text, "Markdown")
 		end
 	end
 	if blocks[1] == 'setlink' then
@@ -61,11 +78,11 @@ function plugin.onTextMessage(msg, blocks)
 				end
 			end
 		end
-		u.sendReply(msg, text, "Markdown")
+		u:sendReply(msg, text, "Markdown")
 	end
 end
 
-plugin.triggers = {
+_M.triggers = {
 	onTextMessage = {
 		config.cmd..'(link)$',
 		config.cmd..'(setlink)$',
@@ -75,4 +92,4 @@ plugin.triggers = {
 	}
 }
 
-return plugin
+return _M

@@ -1,10 +1,24 @@
 local config = require "groupbutler.config"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
-local db = require "groupbutler.database"
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
 
-local plugin = {}
+local _M = {}
+
+_M.__index = _M
+
+setmetatable(_M, {
+	__call = function (cls, ...)
+		return cls.new(...)
+	end,
+})
+
+function _M.new(main)
+	local self = setmetatable({}, _M)
+	self.update = main.update
+	self.db = main.db
+	return self
+end
 
 local function get_button_description(key)
 	if key == 'rules_on_join' then
@@ -18,7 +32,8 @@ local function get_button_description(key)
 	end
 end
 
-local function change_private_setting(user_id, key)
+local function change_private_setting(self, user_id, key)
+	local db = self.db
 	local hash = 'user:'..user_id..':settings'
 	local val = 'off'
 	local current_status = (db:hget(hash, key)) or config.private_settings[key]
@@ -28,7 +43,8 @@ local function change_private_setting(user_id, key)
 	db:hset(hash, key, val)
 end
 
-local function doKeyboard_privsett(user_id)
+local function doKeyboard_privsett(self, user_id)
+	local db = self.db
 	local hash = 'user:'..user_id..':settings'
 	local user_settings = db:hgetall(hash)
 	if not next(user_settings) then
@@ -59,25 +75,25 @@ local function doKeyboard_privsett(user_id)
 	return keyboard
 end
 
-function plugin.onTextMessage(msg)
+function _M:onTextMessage(msg)
 	if msg.chat.type == 'private' then
-		local keyboard = doKeyboard_privsett(msg.from.id)
+		local keyboard = doKeyboard_privsett(self, msg.from.id)
 		api.sendMessage(msg.from.id, i18n('Change your private settings'), "Markdown", nil, nil, nil, keyboard)
 	end
 end
 
-function plugin.onCallbackQuery(msg, blocks)
+function _M:onCallbackQuery(msg, blocks)
 	if blocks[1] == 'alert' then
 		api.answerCallbackQuery(msg.cb_id, get_button_description(blocks[2]), true)
 	else
-		change_private_setting(msg.from.id, blocks[2])
-		local keyboard = doKeyboard_privsett(msg.from.id)
+		change_private_setting(self, msg.from.id, blocks[2])
+		local keyboard = doKeyboard_privsett(self, msg.from.id)
 		api.editMessageReplyMarkup(msg.from.id, msg.message_id, nil, keyboard)
 		api.answerCallbackQuery(msg.cb_id, i18n('⚙ Setting applied'))
 	end
 end
 
-plugin.triggers = {
+_M.triggers = {
 	onTextMessage = {config.cmd..'(mysettings)$'},
 	onCallbackQuery = {
 		'^###cb:myset:(alert):(.*)$',
@@ -85,4 +101,4 @@ plugin.triggers = {
 		}
 }
 
-return plugin
+return _M

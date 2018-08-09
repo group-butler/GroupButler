@@ -3,9 +3,10 @@ local _M = {}
 local json = require "cjson"
 local main = require "groupbutler.main"
 
-local function process_update(_, u)
-	main.parseMessageFunction(u)
-end
+-- local function process_update(_, update)
+-- 	local bot = main.new(update)
+-- 	bot:parseMessageFunction()
+-- end
 
 function _M.run()
 	local ok, update
@@ -22,10 +23,15 @@ function _M.run()
 	-- Process update on another thread. Returns HTTP_OK instantly, regardless of sucess processing the update.
 	-- Prevents showing API token on log since nginx error_log is not customizable.
 	-- Prevents trying to process troublesome updates more than once.
-	ngx.timer.at(0, process_update, update)
+	-- ngx.timer.at(0, process_update, update)
 
 	ngx.status = ngx.HTTP_OK
 	ngx.say("{}")
+	ngx.eof()
+
+	local bot = main.new(update)
+	bot:parseMessageFunction()
+
 	return ngx.exit(ngx.HTTP_OK)
 end
 

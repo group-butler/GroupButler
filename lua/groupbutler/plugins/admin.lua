@@ -1,9 +1,28 @@
 local config = require "groupbutler.config"
-local u = require "groupbutler.utilities"
+local utilities = require "groupbutler.utilities"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
-local db = require "groupbutler.database"
+local get_bot = require "groupbutler.bot"
 
-local plugin = {}
+local _M = {}
+
+local bot
+
+_M.__index = _M
+
+setmetatable(_M, {
+	__call = function (cls, ...)
+		return cls.new(...)
+	end,
+})
+
+function _M.new(main)
+	local self = setmetatable({}, _M)
+	self.update = main.update
+	self.u = utilities:new()
+	self.db = main.db
+	bot = get_bot.init()
+	return self
+end
 
 local triggers2 = {
 	'^%$(init)$',
@@ -39,34 +58,34 @@ local triggers2 = {
 	'^%$(permission)s?'
 }
 
-local function bot_leave(chat_id)
+local function bot_leave(self, chat_id)
+	local db = self.db
 	local res = api.leaveChat(chat_id)
 	if not res then
 		return 'Check the id, it could be wrong'
-	else
-		db:srem('bot:groupsid', chat_id)
-		db:sadd('bot:groupsid:removed', chat_id)
-		return 'Chat leaved!'
 	end
+	db:srem('bot:groupsid', chat_id)
+	db:sadd('bot:groupsid:removed', chat_id)
+	return 'Chat left!'
 end
 
-local function round(num, decimals)
-  local mult = 10^(decimals or 0)
-  return math.floor(num * mult + 0.5) / mult
-end
+-- local function round(num, decimals)
+--   local mult = 10^(decimals or 0)
+--   return math.floor(num * mult + 0.5) / mult
+-- end
 
-local function load_lua(code, msg)
-	local output = loadstring('local msg = '..u.vtext(msg)..'\n'..code)()
-	if not output then
-		output = '`Done! (no output)`'
-	else
-		if type(output) == 'table' then
-			output = u.vtext(output)
-		end
-		output = '```\n' .. output .. '\n```'
-	end
-	return output
-end
+-- local function load_lua(code, msg)
+-- 	local output = loadstring('local msg = '..u:vtext(msg)..'\n'..code)()
+-- 	if not output then
+-- 		output = '`Done! (no output)`'
+-- 	else
+-- 		if type(output) == 'table' then
+-- 			output = u:vtext(output)
+-- 		end
+-- 		output = '```\n' .. output .. '\n```'
+-- 	end
+-- 	return output
+-- end
 
 local function match_pattern(pattern, text)
   if text then
@@ -92,8 +111,10 @@ local function get_chat_id(msg)
 	end
 end
 
-function plugin.onTextMessage(msg, blocks)
-	if not u.is_superadmin(msg.from.id) then return end
+function _M:onTextMessage(msg, blocks)
+	local u = self.u
+	local db = self.db
+	if not u:is_superadmin(msg.from.id) then return end
 
 	for i=1, #triggers2 do
 		blocks = match_pattern(triggers2[i], msg.text)
@@ -103,13 +124,13 @@ function plugin.onTextMessage(msg, blocks)
 	if not blocks or not next(blocks) then return true end --leave this plugin and continue to match the others
 
 	if blocks[1] == 'admin' then
-		api.sendMessage(msg.from.id, u.vtext(triggers2))
+		api.sendMessage(msg.from.id, u:vtext(triggers2))
 	end
 	-- if blocks[1] == 'init' then
 	-- 	local n_plugins = bot.init(true)
 	-- 	local reply = '*Bot reloaded!*'
 	-- 	if n_plugins then reply = reply..'\n_'..n_plugins..' plugins enabled_' end
-	-- 	u.sendReply(msg, reply, "Markdown")
+	-- 	u:sendReply(msg, reply, "Markdown")
 	-- end
 	if blocks[1] == 'backup' then
 		db:bgsave()
@@ -123,14 +144,14 @@ function plugin.onTextMessage(msg, blocks)
 		api.sendMessage(msg.chat.id, 'res: '..tostring(res))
 	end
 	if blocks[1] == 'stats' then
-		local text = '#stats `['..u.get_date()..']`:\n'
+		local text = '#stats `['..u:get_date()..']`:\n'
 		local hash = 'bot:general'  -- Todo: update this for the new metrics
 		local names = db:hkeys(hash)
 		local num = db:hvals(hash)
 		for i=1, #names do
 			text = text..'- *'..names[i]..'*: `'..num[i]..'`\n'
 		end
-		text = text..'- *total msg*: '..(u.metric_get("messages_count") or "No Data")..' \n'
+		text = text..'- *total msg*: '..(u:metric_get("messages_count") or "No Data")..' \n'
 		-- text = text..'- *uptime*: `from '..(os.date("%c", bot.start_timestamp))..' (GMT+2)`\n'
 		-- text = text..'- *last hour msgs*: `'..bot.last.h..'`\n'
 		-- text = text..'   • *average msgs/minute*: `'..round((bot.last.h/60), 3)..'`\n'
@@ -153,10 +174,10 @@ function plugin.onTextMessage(msg, blocks)
 
 		api.sendMessage(msg.chat.id, text, "Markdown")
 	end
-	if blocks[1] == 'lua' then
-		local output = load_lua(blocks[2], msg)
-		api.sendMessage(msg.chat.id, output, "Markdown")
-	end
+	-- if blocks[1] == 'lua' then
+	-- 	local output = load_lua(blocks[2], msg)
+	-- 	api.sendMessage(msg.chat.id, output, "Markdown")
+	-- end
 	if blocks[1] == 'run' then
 		--read the output
 		local output = io.popen(blocks[2]):read('*all')
@@ -166,7 +187,7 @@ function plugin.onTextMessage(msg, blocks)
 		else
 			output = '```\n'..output..'\n```'
 		end
-		u.sendReply(msg, output, "Markdown")
+		u:sendReply(msg, output, "Markdown")
 	end
 	if blocks[1] == 'block' then
 		local id
@@ -196,7 +217,7 @@ function plugin.onTextMessage(msg, blocks)
 		api.sendReply(msg, text)
 	end
 	if blocks[1] == 'blocked' then
-		api.sendMessage(msg.chat.id, u.vtext(db:smembers('bot:blocked')))
+		api.sendMessage(msg.chat.id, u:vtext(db:smembers('bot:blocked')))
 	end
 	if blocks[1] == 'leave' then
 		local text
@@ -204,26 +225,26 @@ function plugin.onTextMessage(msg, blocks)
 			if msg.chat.type == 'private' then
 				text = 'ID missing'
 			else
-				text = bot_leave(msg.chat.id)
+				text = bot_leave(self, msg.chat.id)
 			end
 		else
-			text = bot_leave(blocks[2])
+			text = bot_leave(self, blocks[2])
 		end
 		api.sendMessage(msg.from.id, text)
 	end
 	if blocks[1] == 'api errors' then
 		local t = db:hgetall('bot:errors')
-		api.sendMessage(msg.chat.id, u.vtext(t))
+		api.sendMessage(msg.chat.id, u:vtext(t))
 	end
-	if blocks[1] == 'rediscli' then
-		local redis_f = blocks[2]:gsub(' ', '(\'', 1)
-		redis_f = redis_f:gsub(' ', '\',\'')
-		redis_f = 'return db:'..redis_f..'\')'
-		redis_f = redis_f:gsub('$chat', msg.chat.id)
-		redis_f = redis_f:gsub('$from', msg.from.id)
-		local output = load_lua(redis_f)
-		u.sendReply(msg, output, "Markdown")
-	end
+	-- if blocks[1] == 'rediscli' then
+	-- 	local redis_f = blocks[2]:gsub(' ', '(\'', 1)
+	-- 	redis_f = redis_f:gsub(' ', '\',\'')
+	-- 	redis_f = 'return db:'..redis_f..'\')'
+	-- 	redis_f = redis_f:gsub('$chat', msg.chat.id)
+	-- 	redis_f = redis_f:gsub('$from', msg.from.id)
+	-- 	local output = load_lua(redis_f)
+	-- 	u:sendReply(msg, output, "Markdown")
+	-- end
 	if blocks[1] == 'sendfile' then
 		local path = blocks[2]
 		api.sendDocument(msg.from.id, path)
@@ -231,22 +252,22 @@ function plugin.onTextMessage(msg, blocks)
 	if blocks[1] == 'res' then
 		local username = blocks[2]
 		local user_id = {
-			normal = u.resolve_user(username),
-			lower = u.resolve_user(username:lower())
+			normal = u:resolve_user(username),
+			lower = u:resolve_user(username:lower())
 		}
-		api.sendMessage(msg.chat.id, u.vtext(user_id))
+		api.sendMessage(msg.chat.id, u:vtext(user_id))
 	end
 	if blocks[1] == 'tban' then
 		if blocks[2] == 'flush' then
 			db:del('tempbanned')
-			u.sendReply(msg, 'Flushed!')
+			u:sendReply(msg, 'Flushed!')
 		end
 		if blocks[2] == 'get' then
-			api.sendMessage(msg.chat.id, u.vtext(db:hgetall('tempbanned')))
+			api.sendMessage(msg.chat.id, u:vtext(db:hgetall('tempbanned')))
 		end
 	end
 	if blocks[1] == 'remban' then
-		local user_id = u.resolve_user(blocks[2])
+		local user_id = u:resolve_user(blocks[2])
 		local text
 		if user_id then
 			db:del('ban:'..user_id)
@@ -254,7 +275,7 @@ function plugin.onTextMessage(msg, blocks)
 		else
 			text = 'Username not stored'
 		end
-		u.sendReply(msg, text)
+		u:sendReply(msg, text)
 	end
 	if blocks[1] == 'rawinfo' then
 		local chat_id = blocks[2]
@@ -263,7 +284,7 @@ function plugin.onTextMessage(msg, blocks)
 		end
 		local text = '<code>'..chat_id..'\n'
 		for set, _ in pairs(config.chat_settings) do
-			text = text..u.vtext(db:hgetall('chat:'..chat_id..':'..set))
+			text = text..u:vtext(db:hgetall('chat:'..chat_id..':'..set))
 		end
 
 		local log_channel = db:hget('bot:chatlogs', chat_id)
@@ -284,11 +305,11 @@ function plugin.onTextMessage(msg, blocks)
 
 		local section
 		for i=1, #config.chat_hashes do
-			section = u.vtext(db:hgetall(('chat:%s:%s'):format(tostring(chat_id), config.chat_hashes[i]))) or '{}'
+			section = u:vtext(db:hgetall(('chat:%s:%s'):format(tostring(chat_id), config.chat_hashes[i]))) or '{}'
 			text = text..config.chat_hashes[i]..'(hash)>'..section
 		end
 		for i=1, #config.chat_sets do
-			section = u.vtext(db:smembers(('chat:%s:%s'):format(tostring(chat_id), config.chat_sets[i]))) or '{}'
+			section = u:vtext(db:smembers(('chat:%s:%s'):format(tostring(chat_id), config.chat_sets[i]))) or '{}'
 			text = text..config.chat_sets[i]..'(set)>'..section
 		end
 		local res, code = api.sendMessage(msg.chat.id, text)
@@ -301,7 +322,7 @@ function plugin.onTextMessage(msg, blocks)
 		end
 	end
 	if blocks[1] == 'initgroup' then
-		u.initGroup(blocks[2])
+		u:initGroup(blocks[2])
 		api.sendMessage(msg.chat.id, 'Done')
 	end
 	if blocks[1] == 'remgroup' then
@@ -311,7 +332,7 @@ function plugin.onTextMessage(msg, blocks)
 			full = true
 			chat_id = blocks[3]
 		end
-		u.remGroup(chat_id, full)
+		u:remGroup(chat_id, full)
 		api.sendMessage(msg.chat.id, 'Removed (heavy: '..tostring(full)..')')
 	end
 	if blocks[1] == 'cache' then
@@ -321,12 +342,12 @@ function plugin.onTextMessage(msg, blocks)
 			local permissions = db:smembers("cache:chat:"..chat_id..":"..members[i]..":permissions")
 			members[members[i]] = permissions
 		end
-		api.sendMessage(msg.chat.id, chat_id..' ➤ '..tostring(#members)..'\n'..u.vtext(members))
+		api.sendMessage(msg.chat.id, chat_id..' ➤ '..tostring(#members)..'\n'..u:vtext(members))
 	end
 	if blocks[1] == 'initcache' then
 		local chat_id, text
 		chat_id = get_chat_id(msg)
-		local res, code = u.cache_adminlist(chat_id)
+		local res, code = u:cache_adminlist(chat_id)
 		if res then
 			text = 'Cached ➤ '..code..' admins stored'
 		else
@@ -358,13 +379,13 @@ function plugin.onTextMessage(msg, blocks)
 			api.sendMessage(msg, "Can't find a chat_id")
 		else
 			local res = api.getChatMember(chat_id, bot.id)
-			api.sendMessage(msg.chat.id, ('%s\n%s'):format(chat_id, u.vtext(res)))
+			api.sendMessage(msg.chat.id, ('%s\n%s'):format(chat_id, u:vtext(res)))
 		end
 	end
 end
 
-plugin.triggers = {
+_M.triggers = {
 	onTextMessage = {'^%$'}
 }
 
-return plugin
+return _M

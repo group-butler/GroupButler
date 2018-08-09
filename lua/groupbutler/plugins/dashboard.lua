@@ -1,13 +1,29 @@
 local config = require "groupbutler.config"
-local u = require "groupbutler.utilities"
+local utilities = require "groupbutler.utilities"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
-local db = require "groupbutler.database"
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
 
-local plugin = {}
+local _M = {}
 
-local function getFloodSettings_text(chat_id)
+_M.__index = _M
+
+setmetatable(_M, {
+	__call = function (cls, ...)
+		return cls.new(...)
+	end,
+})
+
+function _M.new(main)
+	local self = setmetatable({}, _M)
+	self.update = main.update
+	self.u = utilities:new()
+	self.db = main.db
+	return self
+end
+
+local function getFloodSettings_text(self, chat_id)
+	local db = self.db
 	local status = db:hget('chat:'..chat_id..':settings', 'Flood') or 'yes' --check (default: disabled)
 	if status == 'no' or status == 'on' then
 		status = i18n("✅ | ON")
@@ -70,23 +86,26 @@ local function doKeyboard_dashboard(chat_id)
 	return keyboard
 end
 
-function plugin.onTextMessage(msg)
+function _M:onTextMessage(msg)
+	local u = self.u
 	if msg.chat.type ~= 'private' then
 		local chat_id = msg.chat.id
 		local keyboard = doKeyboard_dashboard(chat_id)
 		local res = api.sendMessage(msg.from.id, i18n("Navigate this message to see *all the info* about this group!"),
 			"Markdown", keyboard)
-		if not u.is_silentmode_on(msg.chat.id) then --send the responde in the group only if the silent mode is off
+		if not u:is_silentmode_on(msg.chat.id) then --send the responde in the group only if the silent mode is off
 			if res then
 				api.sendMessage(msg.chat.id, i18n("_I've sent you the group dashboard via private message_"), "Markdown")
 			else
-				u.sendStartMe(msg)
+				u:sendStartMe(msg)
 			end
 		end
 	end
 end
 
-function plugin.onCallbackQuery(msg, blocks)
+function _M:onCallbackQuery(msg, blocks)
+	local u = self.u
+	local db = self.db
 	local chat_id = msg.target_id
 	local request = blocks[2]
 	local text, notification
@@ -106,16 +125,16 @@ function plugin.onCallbackQuery(msg, blocks)
 	end
 	local keyboard = doKeyboard_dashboard(chat_id)
 	if request == 'settings' then
-		text = u.getSettings(chat_id)
+		text = u:getSettings(chat_id)
 		notification = i18n("ℹ️ Group ► Settings")
 	end
 	if request == 'rules' then
-		text = u.getRules(chat_id)
+		text = u:getRules(chat_id)
 		notification = i18n("ℹ️ Group ► Rules")
 	end
 	if request == 'adminlist' then
 		parse_mode = 'html'
-		local adminlist = u.getAdminlist(chat_id)
+		local adminlist = u:getAdminlist(chat_id)
 		if adminlist then
 			text = adminlist
 		else
@@ -124,11 +143,11 @@ function plugin.onCallbackQuery(msg, blocks)
 		notification = i18n("ℹ️ Group ► Admin list")
 	end
 	if request == 'extra' then
-		text = u.getExtraList(chat_id)
+		text = u:getExtraList(chat_id)
 		notification = i18n("ℹ️ Group ► Extra")
 	end
 	if request == 'flood' then
-		text = getFloodSettings_text(chat_id)
+		text = getFloodSettings_text(self, chat_id)
 		notification = i18n("ℹ️ Group ► Flood")
 	end
 	if request == 'media' then
@@ -163,9 +182,9 @@ function plugin.onCallbackQuery(msg, blocks)
 	api.answerCallbackQuery(msg.cb_id, notification)
 end
 
-plugin.triggers = {
+_M.triggers = {
 	onTextMessage = {config.cmd..'(dashboard)$'},
 	onCallbackQuery = {'^###cb:(dashboard):(%a+):(-%d+)'}
 }
 
-return plugin
+return _M

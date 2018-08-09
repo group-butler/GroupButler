@@ -1,11 +1,26 @@
 local config = require "groupbutler.config"
-local u = require "groupbutler.utilities"
+local utilities = require "groupbutler.utilities"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
-local db = require "groupbutler.database"
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
 
-local plugin = {}
+local _M = {}
+
+_M.__index = _M
+
+setmetatable(_M, {
+	__call = function (cls, ...)
+		return cls.new(...)
+	end,
+})
+
+function _M.new(main)
+	local self = setmetatable({}, _M)
+	self.update = main.update
+	self.u = utilities:new()
+	self.db = main.db
+	return self
+end
 
 local function get_alert_text(key)
 	if key == 'new_chat_member' then
@@ -41,7 +56,8 @@ local function get_alert_text(key)
 	end
 end
 
-local function toggle_event(chat_id, event)
+local function toggle_event(self, chat_id, event)
+	local db = self.db
 	local hash = ('chat:%s:tolog'):format(chat_id)
 	local current_status = db:hget(hash, event) or config.chat_settings['tolog'][event]
 
@@ -52,7 +68,8 @@ local function toggle_event(chat_id, event)
 	end
 end
 
-local function doKeyboard_logchannel(chat_id)
+local function doKeyboard_logchannel(self, chat_id)
+	local db = self.db
 	local event_pretty = {
 		['ban'] = i18n('Ban'),
 		['kick'] = i18n('Kick'),
@@ -94,7 +111,9 @@ local function doKeyboard_logchannel(chat_id)
 	return keyboard
 end
 
-function plugin.onCallbackQuery(msg, blocks)
+function _M:onCallbackQuery(msg, blocks)
+	local u = self.u
+
 	if blocks[1] == 'logcb' then
 		local chat_id = msg.target_id
 		if not msg.from.admin then
@@ -115,17 +134,17 @@ function plugin.onCallbackQuery(msg, blocks)
 			api.answerCallbackQuery(msg.cb_id, text, true, config.bot_settings.cache_time.alert_help)
 		else
 			local chat_id = msg.target_id
-			if not u.is_allowed('config', chat_id, msg.from) then
+			if not u:is_allowed('config', chat_id, msg.from) then
 				api.answerCallbackQuery(msg.cb_id, i18n("You're no longer an admin"))
 			else
 				local text
 
 				if blocks[1] == 'toggle' then
-					toggle_event(chat_id, blocks[2])
+					toggle_event(self, chat_id, blocks[2])
 					text = '👌🏼'
 				end
 
-				local reply_markup = doKeyboard_logchannel(chat_id)
+				local reply_markup = doKeyboard_logchannel(self, chat_id)
 				if blocks[1] == 'config' then
 					local logchannel_first = i18n([[*Select the events the will be logged in the channel*
 ✅ = will be logged
@@ -143,7 +162,10 @@ Tap on an option to get further information]])
 	end
 end
 
-function plugin.onTextMessage(msg, blocks)
+function _M:onTextMessage(msg, blocks)
+	local db = self.db
+	local u = self.u
+
 	if msg.chat.type ~= 'private' then
 		if not msg.from.admin then return end
 
@@ -154,9 +176,9 @@ function plugin.onTextMessage(msg, blocks)
 						local res, code = api.getChatMember(msg.forward_from_chat.id, msg.from.id)
 						if not res then
 							if code == 429 then
-								u.sendReply(msg, i18n('_Too many requests. Retry later_'), "Markdown")
+								u:sendReply(msg, i18n('_Too many requests. Retry later_'), "Markdown")
 							else
-								u.sendReply(msg, i18n('_I need to be admin in the channel_'), "Markdown")
+								u:sendReply(msg, i18n('_I need to be admin in the channel_'), "Markdown")
 							end
 						else
 							if res.status == 'creator' then
@@ -174,34 +196,34 @@ function plugin.onTextMessage(msg, blocks)
 									api.sendMessage(msg.forward_from_chat.id,
 										i18n("Logs of <i>%s</i> will be posted here"):format(msg.chat.title:escape_html()), 'html')
 								end
-								u.sendReply(msg, text, "Markdown")
+								u:sendReply(msg, text, "Markdown")
 							else
-								u.sendReply(msg, i18n('_Only the channel creator can pair the chat with a channel_'), "Markdown")
+								u:sendReply(msg, i18n('_Only the channel creator can pair the chat with a channel_'), "Markdown")
 							end
 						end
 					else
-						u.sendReply(msg, i18n('_I\'m sorry, only private channels are supported for now_'), "Markdown")
+						u:sendReply(msg, i18n('_I\'m sorry, only private channels are supported for now_'), "Markdown")
 					end
 				end
 			else
-				u.sendReply(msg, i18n("You have to *forward* the message from the channel"), "Markdown")
+				u:sendReply(msg, i18n("You have to *forward* the message from the channel"), "Markdown")
 			end
 		elseif blocks[1] == 'unsetlog' then
 			local log_channel = db:hget('bot:chatlogs', msg.chat.id)
 			if not log_channel then
-				u.sendReply(msg, i18n("_This groups is not using a log channel_"), "Markdown")
+				u:sendReply(msg, i18n("_This groups is not using a log channel_"), "Markdown")
 			else
 				db:hdel('bot:chatlogs', msg.chat.id)
-				u.sendReply(msg, i18n("*Log channel removed*"), "Markdown")
+				u:sendReply(msg, i18n("*Log channel removed*"), "Markdown")
 			end
 		elseif blocks[1] == 'logchannel' then
 			local log_channel = db:hget('bot:chatlogs', msg.chat.id)
 			if not log_channel then
-				u.sendReply(msg, i18n("_This groups is not using a log channel_"), "Markdown")
+				u:sendReply(msg, i18n("_This groups is not using a log channel_"), "Markdown")
 			else
 				local channel_info, code = api.getChat(log_channel)
 				if not channel_info and code == 403 then
-					u.sendReply(msg,
+					u:sendReply(msg,
 						i18n("_This group has a log channel saved, but I'm not a member there, so I can't post/retrieve its info_"),
 							"Markdown")
 				else
@@ -209,7 +231,7 @@ function plugin.onTextMessage(msg, blocks)
 					if channel_info and channel_info then
 						channel_identifier = channel_info.title
 					end
-					u.sendReply(msg, i18n('<b>This group has a log channel</b>\nChannel: <code>%s</code>')
+					u:sendReply(msg, i18n('<b>This group has a log channel</b>\nChannel: <code>%s</code>')
 						:format(channel_identifier:escape_html()), 'html')
 				end
 			end
@@ -219,7 +241,7 @@ function plugin.onTextMessage(msg, blocks)
 	end
 end
 
-plugin.triggers = {
+_M.triggers = {
 	onTextMessage = {
 		config.cmd..'(setlog)$',
 		config.cmd..'(unsetlog)$',
@@ -239,4 +261,4 @@ plugin.triggers = {
 	}
 }
 
-return plugin
+return _M

@@ -1,34 +1,44 @@
 local config = require "groupbutler.config"
-local u = require "groupbutler.utilities"
+local utilities = require "groupbutler.utilities"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
-local db = require "groupbutler.database"
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
 
-local plugin = {}
+local _M = {}
 
-local function cache_chat_title(chat_id, title)
+_M.__index = _M
+
+setmetatable(_M, {
+	__call = function (cls, ...)
+		return cls.new(...)
+	end,
+})
+
+function _M.new(main)
+	local self = setmetatable({}, _M)
+	self.update = main.update
+	self.u = utilities:new()
+	self.db = main.db
+	return self
+end
+
+local function cache_chat_title(self, chat_id)
+	local db = self.db
 	print('caching title...')
 	local key = 'chat:'..chat_id..':title'
+	local title = api.getChat(chat_id).title
 	db:set(key, title)
 	db:expire(key, config.bot_settings.cache_time.chat_titles)
-
 	return title
 end
 
-local function get_chat_title(chat_id)
-	local cached_title = db:get('chat:'..chat_id..':title')
-	if not cached_title then
-		local chat_object = api.getChat(chat_id)
-		if chat_object then
-			return cache_chat_title(chat_id, chat_object.title)
-		end
-	else
-		return cached_title
-	end
+local function get_chat_title(self, chat_id)
+	local db = self.db
+	return db:get('chat:'..chat_id..':title') or cache_chat_title(self, chat_id)
 end
 
-local function do_keyboard_config(chat_id, user_id) -- is_admin
+local function do_keyboard_config(self, chat_id, user_id) -- is_admin
+	local u = self.u
 	local keyboard = {
 		inline_keyboard = {
 			{{text = i18n("🛠 Menu"), callback_data = 'config:menu:'..chat_id}},
@@ -39,7 +49,7 @@ local function do_keyboard_config(chat_id, user_id) -- is_admin
 		}
 	}
 
-	if u.can(chat_id, user_id, "can_restrict_members") then
+	if u:can(chat_id, user_id, "can_restrict_members") then
 		table.insert(keyboard.inline_keyboard,
 			{{text = i18n("⛔️ Default permissions"), callback_data = 'config:defpermissions:'..chat_id}})
 	end
@@ -47,38 +57,40 @@ local function do_keyboard_config(chat_id, user_id) -- is_admin
 	return keyboard
 end
 
-function plugin.onTextMessage(msg)
+function _M:onTextMessage(msg)
+	local u = self.u
+	local db = self.db
 	if msg.chat.type ~= 'private' then
-		if u.is_allowed('config', msg.chat.id, msg.from) then
+		if u:is_allowed('config', msg.chat.id, msg.from) then
 			local chat_id = msg.chat.id
-			local keyboard = do_keyboard_config(chat_id, msg.from.id)
-			if not db:get('chat:'..chat_id..':title') then cache_chat_title(chat_id, msg.chat.title) end
+			local keyboard = do_keyboard_config(self, chat_id, msg.from.id)
+			if not db:get('chat:'..chat_id..':title') then cache_chat_title(self, chat_id, msg.chat.title) end
 			local res = api.sendMessage(msg.from.id,
 				i18n("<b>%s</b>\n<i>Change the settings of your group</i>"):format(msg.chat.title:escape_html()), 'html',
 					nil, nil, nil, keyboard)
-			if not u.is_silentmode_on(msg.chat.id) then --send the responde in the group only if the silent mode is off
+			if not u:is_silentmode_on(msg.chat.id) then --send the responde in the group only if the silent mode is off
 				if res then
 					api.sendMessage(msg.chat.id, i18n("_I've sent you the keyboard via private message_"), "Markdown")
 				else
-					u.sendStartMe(msg)
+					u:sendStartMe(msg)
 				end
 			end
 		end
 	end
 end
 
-function plugin.onCallbackQuery(msg)
+function _M:onCallbackQuery(msg)
 	local chat_id = msg.target_id
-	local keyboard = do_keyboard_config(chat_id, msg.from.id, msg.from.admin)
+	local keyboard = do_keyboard_config(self, chat_id, msg.from.id, msg.from.admin)
 	local text = i18n("<i>Change the settings of your group</i>")
-	local chat_title = get_chat_title(chat_id)
+	local chat_title = get_chat_title(self, chat_id)
 	if chat_title then
 		text = ("<b>%s</b>\n"):format(chat_title:escape_html())..text
 	end
 	api.editMessageText(msg.chat.id, msg.message_id, nil, text, 'html', nil, keyboard)
 end
 
-plugin.triggers = {
+_M.triggers = {
 	onTextMessage = {
 		config.cmd..'config$',
 		config.cmd..'settings$',
@@ -88,4 +100,4 @@ plugin.triggers = {
 	}
 }
 
-return plugin
+return _M

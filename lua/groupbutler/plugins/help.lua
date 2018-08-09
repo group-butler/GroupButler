@@ -1,11 +1,25 @@
 local config = require "groupbutler.config"
-local u = require "groupbutler.utilities"
+local utilities = require "groupbutler.utilities"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
-local db = require "groupbutler.database"
-local locale = require "groupbutler.languages"
-local i18n = locale.translate
+local i18n = require "groupbutler.languages".translate
 
-local plugin = {}
+local _M = {}
+
+_M.__index = _M
+
+setmetatable(_M, {
+	__call = function (cls, ...)
+		return cls.new(...)
+	end,
+})
+
+function _M.new(main)
+	local self = setmetatable({}, _M)
+	self.update = main.update
+	self.u = utilities:new()
+	self.db = main.db
+	return self
+end
 
 local function get_helped_string(key)
 	if key == 'start' then
@@ -329,7 +343,9 @@ local function do_keyboard(keyboard_type)
 	return keyboard
 end
 
-function plugin.onTextMessage(msg, blocks)
+function _M:onTextMessage(msg, blocks)
+	local u = self.u
+	local db = self.db
 	if blocks[1] == 'start' then
 		if msg.chat.type == 'private' then
 			local message = get_helped_string('start'):format(msg.from.first_name:escape())
@@ -346,13 +362,13 @@ function plugin.onTextMessage(msg, blocks)
 			local res = api.sendMessage(msg.from.id, text, "Markdown", nil, nil, nil, keyboard)
 			if not res and msg.chat.type ~= 'private' and db:hget('chat:'..msg.chat.id..':settings', 'Silent') ~= 'on' then
 				api.sendMessage(msg.chat.id,
-					i18n('[Start me](%s) _to get the list of commands_'):format(u.deeplink_constructor('', 'help')), "Markdown")
+					i18n('[Start me](%s) _to get the list of commands_'):format(u:deeplink_constructor('', 'help')), "Markdown")
 			end
 		end
 	end
 end
 
-function plugin.onCallbackQuery(msg, blocks)
+function _M.onCallbackQuery(_, msg, blocks)
 	local query = blocks[1]
 	local text, keyboard_type, answerCallbackQuery_text
 
@@ -391,7 +407,7 @@ function plugin.onCallbackQuery(msg, blocks)
 	end
 end
 
-plugin.triggers = {
+_M.triggers = {
 	onTextMessage = {
 		config.cmd..'(start)$',
 		config.cmd..'(help)$',
@@ -404,4 +420,4 @@ plugin.triggers = {
 	}
 }
 
-return plugin
+return _M

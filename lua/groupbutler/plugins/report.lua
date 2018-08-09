@@ -1,11 +1,26 @@
 local config = require "groupbutler.config"
-local u = require "groupbutler.utilities"
+local utilities = require "groupbutler.utilities"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
-local db = require "groupbutler.database"
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
 
-local plugin = {}
+local _M = {}
+
+_M.__index = _M
+
+setmetatable(_M, {
+	__call = function (cls, ...)
+		return cls.new(...)
+	end,
+})
+
+function _M.new(main)
+	local self = setmetatable({}, _M)
+	self.update = main.update
+	self.u = utilities:new()
+	self.db = main.db
+	return self
+end
 
 local function seconds2minutes(seconds)
 	seconds = tonumber(seconds)
@@ -14,14 +29,17 @@ local function seconds2minutes(seconds)
 	return minutes, seconds
 end
 
-local function report(msg, description)
+local function report(self, msg, description)
+	local db = self.db
+	local u = self.u
+
 	local text = i18n(
-		'• <b>Message reported by</b>: %s (<code>%d</code>)'):format(u.getname_final(msg.from), msg.from.id)
+		'• <b>Message reported by</b>: %s (<code>%d</code>)'):format(u:getname_final(msg.from), msg.from.id)
 	local chat_link = db:hget('chat:'..msg.chat.id..':links', 'link')
 	if msg.reply.forward_from or msg.reply.forward_from_chat or msg.reply.sticker then
 		text = text..i18n(
 			'\n• <b>Reported message sent by</b>: %s (<code>%d</code>)'
-			):format(u.getname_final(msg.reply.from), msg.reply.from.id)
+			):format(u:getname_final(msg.reply.from), msg.reply.from.id)
 	end
 	if chat_link then
 		text = text..i18n('\n• <b>Group</b>: <a href="%s">%s</a>'):format(chat_link, msg.chat.title:escape_html())
@@ -39,7 +57,7 @@ local function report(msg, description)
 
 	local n = 0
 
-	local admins_list = u.get_cached_admins_list(msg.chat.id)
+	local admins_list = u:get_cached_admins_list(msg.chat.id)
 	if not admins_list then return false end
 
 	local desc_msg
@@ -66,7 +84,9 @@ local function report(msg, description)
 	return n
 end
 
-local function user_is_abusing(chat_id, user_id)
+local function user_is_abusing(self, chat_id, user_id)
+	local db = self.db
+
 	local hash = 'chat:'..chat_id..':report'
 	local user_key = hash..':'..user_id
 	local times = tonumber(db:get(user_key)) or 1
@@ -82,9 +102,12 @@ local function user_is_abusing(chat_id, user_id)
 	end
 end
 
-function plugin.onTextMessage(msg, blocks)
+function _M:onTextMessage(msg, blocks)
+	local db = self.db
+	local u = self.u
+
 	if msg.chat.id < 0 then
-		if #blocks > 1 and u.is_allowed('config', msg.chat.id, msg.from) then
+		if #blocks > 1 and u:is_allowed('config', msg.chat.id, msg.from) then
 			local times_allowed, duration = tonumber(blocks[2]), tonumber(blocks[3])
 			local text
 			if times_allowed < 1 or times_allowed > 1000 then
@@ -99,7 +122,7 @@ function plugin.onTextMessage(msg, blocks)
 					'*New parameters saved*.\nUsers will be able to use @admin %d times/%d minutes'
 					):format(times_allowed, duration)
 			end
-			u.sendReply(msg, text, "Markdown")
+			u:sendReply(msg, text, "Markdown")
 		else
 			if msg.from.admin or not msg.reply then
 				return
@@ -109,7 +132,7 @@ function plugin.onTextMessage(msg, blocks)
 			if not status or status == 'off' then return end
 
 			local text
-			if user_is_abusing(msg.chat.id, msg.from.id) then
+			if user_is_abusing(self, msg.chat.id, msg.from.id) then
 				local hash = 'chat:'..msg.chat.id..':report'
 				local duration = tonumber(db:hget(hash, 'duration')) or config.bot_settings.report.duration
 				local times_allowed = tonumber(db:hget(hash, 'times_allowed')) or config.bot_settings.report.times_allowed
@@ -117,25 +140,27 @@ function plugin.onTextMessage(msg, blocks)
 				local minutes, seconds = seconds2minutes(ttl)
 				text = i18n([[_Please, do not abuse this command. It can be used %d times every %d minutes_.
 Wait other %d minutes, %d seconds.]]):format(times_allowed, (duration / 60), minutes, seconds)
-				u.sendReply(msg, text, "Markdown")
+				u:sendReply(msg, text, "Markdown")
 			else
 				local description
 				if blocks[1] and blocks[1] ~= '@admin' and blocks[1] ~= config.cmd..'report' then
 					description = blocks[1]
 				end
 
-				local n_sent = report(msg, description) or 0
+				local n_sent = report(self, msg, description) or 0
 
 				text = i18n('_Reported to %d admin(s)_'):format(n_sent)
 
-				u.logEvent('report', msg, {n_admins = n_sent})
-				u.sendReply(msg, text, "Markdown")
+				u:logEvent('report', msg, {n_admins = n_sent})
+				u:sendReply(msg, text, "Markdown")
 			end
 		end
 	end
 end
 
-function plugin.onCallbackQuery(msg, blocks)
+function _M:onCallbackQuery(msg, blocks)
+	local db = self.db
+
 	if not blocks[2] then --###cb:issueclosed
 		api.answerCallbackQuery(msg.cb_id, i18n('You closed this issue and deleted all the other reports sent to the admins'),
 			true, 48 * 3600)
@@ -192,7 +217,7 @@ function plugin.onCallbackQuery(msg, blocks)
 	end
 end
 
-plugin.triggers = {
+_M.triggers = {
 	onTextMessage = {
 		'^@admin$',
 		'^@admin (.+)',
@@ -207,4 +232,4 @@ plugin.triggers = {
 	}
 }
 
-return plugin
+return _M

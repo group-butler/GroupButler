@@ -1,40 +1,58 @@
 local config = require "groupbutler.config"
-local u = require "groupbutler.utilities"
+local utilities = require "groupbutler.utilities"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
-local db = require "groupbutler.database"
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
 
-local plugin = {}
+local _M = {}
 
-local function toggle_permissions_setting(chat_id, key)
+_M.__index = _M
+
+setmetatable(_M, {
+	__call = function (cls, ...)
+		return cls.new(...)
+	end,
+})
+
+function _M.new(main)
+	local self = setmetatable({}, _M)
+	self.update = main.update
+	self.u = utilities:new()
+	self.db = main.db
+	return self
+end
+
+local function toggle_permissions_setting(self, chat_id, key)
+	local db = self.db
 	local hash = 'chat:'..chat_id..':defpermissions'
 	local current = (db:hget(hash, key)) or config.chat_settings['defpermissions'][key]
-	local new
-	if current == 'true' then new = 'false' else new = 'true' end
+	local new = "true"
+	if current == 'true' then
+		new = 'false'
+	end
 
-		local new_perm = {[key] = new}
+	local new_perm = {[key] = new}
 
-		if new == 'true' then
-				if key == 'can_send_media_messages' then
-						new_perm['can_send_messages'] = 'true'
-				elseif key == 'can_send_other_messages' then
-						new_perm['can_send_messages'] = 'true'
-						new_perm['can_send_media_messages'] = 'true'
-				elseif key == 'can_add_web_page_previews' then
-						new_perm['can_send_messages'] = 'true'
-						new_perm['can_send_media_messages'] = 'true'
-				end
-		elseif new == 'false' then
-				if key == 'can_send_messages' then
-						new_perm['can_send_other_messages'] = 'false'
-						new_perm['can_send_media_messages'] = 'false'
-						new_perm['can_add_web_page_previews'] = 'false'
-				elseif key == 'can_send_media_messages' then
-						new_perm['can_send_other_messages'] = 'false'
-						new_perm['can_add_web_page_previews'] = 'false'
-				end
+	if new == 'true' then
+		if key == 'can_send_media_messages' then
+			new_perm['can_send_messages'] = 'true'
+		elseif key == 'can_send_other_messages' then
+			new_perm['can_send_messages'] = 'true'
+			new_perm['can_send_media_messages'] = 'true'
+		elseif key == 'can_add_web_page_previews' then
+			new_perm['can_send_messages'] = 'true'
+			new_perm['can_send_media_messages'] = 'true'
 		end
+	elseif new == 'false' then
+		if key == 'can_send_messages' then
+			new_perm['can_send_other_messages'] = 'false'
+			new_perm['can_send_media_messages'] = 'false'
+			new_perm['can_add_web_page_previews'] = 'false'
+		elseif key == 'can_send_media_messages' then
+			new_perm['can_send_other_messages'] = 'false'
+			new_perm['can_add_web_page_previews'] = 'false'
+		end
+	end
 
 	db:hmset(hash, new_perm)
 
@@ -67,13 +85,14 @@ local humanizations = {
 local permissions =
 {'can_send_messages', 'can_send_media_messages', 'can_send_other_messages', 'can_add_web_page_previews'}
 
-local function doKeyboard_permissions(chat_id)
+local function doKeyboard_permissions(self, chat_id)
+	local db = self.db
 	local keyboard = {inline_keyboard = {}}
 
 	local line, status, icon, permission
 	--for field, value in pairs(config.chat_settings['defpermissions']) do
-		for i=1, #permissions do --pairs() doesn't keep the order of the keys
-				permission = permissions[i]
+	for i=1, #permissions do --pairs() doesn't keep the order of the keys
+		permission = permissions[i]
 		icon = '✅'
 		status = (db:hget('chat:'..chat_id..':defpermissions', permission))
 			or config.chat_settings['defpermissions'][permission]
@@ -97,7 +116,8 @@ local function doKeyboard_permissions(chat_id)
 	return keyboard
 end
 
-function plugin.onCallbackQuery(msg, blocks)
+function _M:onCallbackQuery(msg, blocks)
+	local u = self.u
 	if blocks[1] == 'alert' then
 		if config.available_languages[blocks[3]] then
 			locale.language = blocks[3]
@@ -106,7 +126,7 @@ function plugin.onCallbackQuery(msg, blocks)
 		api.answerCallbackQuery(msg.cb_id, text, true, config.bot_settings.cache_time.alert_help)
 	else
 		local chat_id = msg.target_id
-		if not u.can(chat_id, msg.from.id, 'can_restrict_members') then
+		if not u:can(chat_id, msg.from.id, 'can_restrict_members') then
 			api.answerCallbackQuery(msg.cb_id, i18n("You don't have the permission to restrict members"))
 		else
 			local msg_text = i18n([[*Default permissions*
@@ -118,10 +138,10 @@ Tap on the name of a permission for a description of what kind of messages it wi
 			local reply_markup, popup_text, show_alert
 
 			if blocks[1] == 'toggle' then
-				popup_text = toggle_permissions_setting(chat_id, blocks[2])
+				popup_text = toggle_permissions_setting(self, chat_id, blocks[2])
 			end
 
-			reply_markup = doKeyboard_permissions(chat_id)
+			reply_markup = doKeyboard_permissions(self, chat_id)
 			local ok, err
 			if blocks[2] then
 				--if the user tapped on a keybord button, just edit the markup and not the whole message
@@ -140,7 +160,7 @@ Tap on the name of a permission for a description of what kind of messages it wi
 	end
 end
 
-plugin.triggers = {
+_M.triggers = {
 	onCallbackQuery = {
 		'^###cb:config:defpermissions:(-%d+)$',
 		'^###cb:defpermissions:(toggle):([%w_]+):(-%d+)$',
@@ -148,4 +168,4 @@ plugin.triggers = {
 	}
 }
 
-return plugin
+return _M

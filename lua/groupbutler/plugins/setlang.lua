@@ -1,11 +1,26 @@
 local config = require "groupbutler.config"
-local u = require "groupbutler.utilities"
+local utilities = require "groupbutler.utilities"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
-local db = require "groupbutler.database"
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
 
-local plugin = {}
+local _M = {}
+
+_M.__index = _M
+
+setmetatable(_M, {
+	__call = function (cls, ...)
+		return cls.new(...)
+	end,
+})
+
+function _M.new(main)
+	local self = setmetatable({}, _M)
+	self.update = main.update
+	self.u = utilities:new()
+	self.db = main.db
+	return self
+end
 
 local function doKeyboard_lang()
 	local keyboard = {
@@ -18,14 +33,18 @@ local function doKeyboard_lang()
 	return keyboard
 end
 
-function plugin.onTextMessage(msg)
-	if msg.chat.type == 'private' or (msg.chat.id < 0 and u.is_allowed('config', msg.chat.id, msg.from)) then
+function _M:onTextMessage(msg)
+	local u = self.u
+
+	if msg.chat.type == 'private' or (msg.chat.id < 0 and u:is_allowed('config', msg.chat.id, msg.from)) then
 		local keyboard = doKeyboard_lang()
 		api.sendMessage(msg.chat.id, i18n("*List of available languages*:"), "Markdown", nil, nil, nil, keyboard)
 	end
 end
 
-function plugin.onCallbackQuery(msg, blocks)
+function _M:onCallbackQuery(msg, blocks)
+	local db = self.db
+
 	if msg.chat.type ~= 'private' and not msg.from.admin then
 		api.answerCallbackQuery(msg.cb_id, i18n("You are not an admin"))
 	else
@@ -49,7 +68,7 @@ Please note that translators are volunteers, and this localization _may be incom
 	end
 end
 
-plugin.triggers = {
+_M.triggers = {
 	onTextMessage = {config.cmd..'(lang)$'},
 	onCallbackQuery = {
 		'^###cb:(selectlang)',
@@ -58,4 +77,4 @@ plugin.triggers = {
 	}
 }
 
-return plugin
+return _M

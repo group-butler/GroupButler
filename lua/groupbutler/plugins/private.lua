@@ -1,10 +1,28 @@
 local config = require "groupbutler.config"
-local u = require "groupbutler.utilities"
+local utilities = require "groupbutler.utilities"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
+local get_bot = require "groupbutler.bot"
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
 
-local plugin = {}
+local _M = {}
+
+local bot
+
+_M.__index = _M
+
+setmetatable(_M, {
+	__call = function (cls, ...)
+		return cls.new(...)
+	end,
+})
+
+function _M.new()
+	local self = setmetatable({}, _M)
+	self.u = utilities:new()
+	bot = get_bot.init()
+	return self
+end
 
 local function bot_version()
 	if not config.commit then
@@ -38,7 +56,9 @@ local function do_keyboard_credits()
 	return keyboard
 end
 
-function plugin.onTextMessage(msg, blocks)
+function _M:onTextMessage(msg, blocks)
+	local u = self.u
+
 	if msg.chat.type ~= 'private' then return end
 
 	if blocks[1] == 'ping' then
@@ -47,7 +67,7 @@ function plugin.onTextMessage(msg, blocks)
 	if blocks[1] == 'echo' then
 		local res, code = api.sendMessage(msg.chat.id, blocks[2], "Markdown")
 		if not res then
-			api.sendMessage(msg.chat.id, u.get_sm_error_string(code), "Markdown")
+			api.sendMessage(msg.chat.id, u:get_sm_error_string(code), "Markdown")
 		end
 	end
 	if blocks[1] == 'about' then
@@ -62,7 +82,8 @@ function plugin.onTextMessage(msg, blocks)
 	end
 end
 
-function plugin.onCallbackQuery(msg, blocks)
+function _M:onCallbackQuery(msg, blocks)
+	local _ = self
 	if blocks[1] == 'about' then
 		local keyboard = do_keyboard_credits()
 		api.editMessageText(msg.chat.id, msg.message_id, nil, strings.about, "Markdown", true, keyboard)
@@ -77,7 +98,7 @@ function plugin.onCallbackQuery(msg, blocks)
 	end
 end
 
-plugin.triggers = {
+_M.triggers = {
 	onTextMessage = {
 		config.cmd..'(ping)$',
 		config.cmd..'(echo) (.*)$',
@@ -91,4 +112,4 @@ plugin.triggers = {
 	}
 }
 
-return plugin
+return _M

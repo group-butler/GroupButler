@@ -1,11 +1,26 @@
 local config = require "groupbutler.config"
-local u = require "groupbutler.utilities"
+local utilities = require "groupbutler.utilities"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
-local db = require "groupbutler.database"
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
 
-local plugin = {}
+local _M = {}
+
+_M.__index = _M
+
+setmetatable(_M, {
+	__call = function (cls, ...)
+		return cls.new(...)
+	end,
+})
+
+function _M.new(main)
+	local self = setmetatable({}, _M)
+	self.update = main.update
+	self.u = utilities:new()
+	self.db = main.db
+	return self
+end
 
 local function get_button_description(key)
 	if key == 'Reports' then
@@ -49,7 +64,8 @@ local function get_button_description(key)
 	end
 end
 
-local function changeWarnSettings(chat_id, action)
+local function changeWarnSettings(self, chat_id, action)
+	local db = self.db
 	local current = tonumber(db:hget('chat:'..chat_id..':warnsettings', 'max')) or 3
 	local new_val
 	if action == 1 then
@@ -81,7 +97,8 @@ local function changeWarnSettings(chat_id, action)
 	end
 end
 
-local function changeCharSettings(chat_id, field)
+local function changeCharSettings(self, chat_id, field)
+	local db = self.db
 	local humanizations = {
 		kick = i18n("Action -> kick"),
 		ban = i18n("Action -> ban"),
@@ -109,7 +126,8 @@ local function changeCharSettings(chat_id, field)
 	return text
 end
 
-local function usersettings_table(settings, chat_id)
+local function usersettings_table(self, settings, chat_id)
+	local db = self.db
 	local return_table = {}
 	local icon_off, icon_on = '👤', '👥'
 	for field, default in pairs(settings) do
@@ -126,7 +144,8 @@ local function usersettings_table(settings, chat_id)
 	return return_table
 end
 
-local function adminsettings_table(settings, chat_id)
+local function adminsettings_table(self, settings, chat_id)
+	local db = self.db
 	local return_table = {}
 	local icon_off, icon_on = '☑️', '✅'
 	for field, default in pairs(settings) do
@@ -143,7 +162,8 @@ local function adminsettings_table(settings, chat_id)
 	return return_table
 end
 
-local function charsettings_table(settings, chat_id)
+local function charsettings_table(self, settings, chat_id)
+	local db = self.db
 	local return_table = {}
 	for field, default in pairs(settings) do
 		local status = (db:hget('chat:'..chat_id..':char', field)) or default
@@ -188,16 +208,17 @@ local function insert_settings_section(keyboard, settings_section, chat_id)
 	return keyboard
 end
 
-local function doKeyboard_menu(chat_id)
+local function doKeyboard_menu(self, chat_id)
+	local db = self.db
 	local keyboard = {inline_keyboard = {}}
 
-	local settings_section = adminsettings_table(config.chat_settings['settings'], chat_id)
+	local settings_section = adminsettings_table(self, config.chat_settings['settings'], chat_id)
 	keyboard = insert_settings_section(keyboard, settings_section, chat_id)
 
-	settings_section = usersettings_table(config.chat_settings['settings'], chat_id)
+	settings_section = usersettings_table(self, config.chat_settings['settings'], chat_id)
 	keyboard = insert_settings_section(keyboard, settings_section, chat_id)
 
-	settings_section = charsettings_table(config.chat_settings['char'], chat_id)
+	settings_section = charsettings_table(self, config.chat_settings['char'], chat_id)
 	keyboard = insert_settings_section(keyboard, settings_section, chat_id)
 
 	--warn
@@ -231,9 +252,10 @@ local function doKeyboard_menu(chat_id)
 	return keyboard
 end
 
-function plugin.onCallbackQuery(msg, blocks)
+function _M:onCallbackQuery(msg, blocks)
+	local u = self.u
 	local chat_id = msg.target_id
-	if chat_id and not u.is_allowed('config', chat_id, msg.from) then
+	if chat_id and not u:is_allowed('config', chat_id, msg.from) then
 		api.answerCallbackQuery(msg.cb_id, i18n("You're no longer an admin"))
 	else
 		local menu_first = i18n("Manage the settings of the group. Click on the left column to get a small hint")
@@ -241,7 +263,7 @@ function plugin.onCallbackQuery(msg, blocks)
 		local keyboard, text, show_alert
 
 		if blocks[1] == 'config' then
-			keyboard = doKeyboard_menu(chat_id)
+			keyboard = doKeyboard_menu(self, chat_id)
 			api.editMessageText(msg.chat.id, msg.message_id, nil, menu_first, "Markdown", nil, keyboard)
 		else
 			if blocks[2] == 'alert' then
@@ -254,18 +276,18 @@ function plugin.onCallbackQuery(msg, blocks)
 			end
 			if blocks[2] == 'DimWarn' or blocks[2] == 'RaiseWarn' or blocks[2] == 'ActionWarn' then
 				if blocks[2] == 'DimWarn' then
-					text = changeWarnSettings(chat_id, -1)
+					text = changeWarnSettings(self, chat_id, -1)
 				elseif blocks[2] == 'RaiseWarn' then
-					text = changeWarnSettings(chat_id, 1)
+					text = changeWarnSettings(self, chat_id, 1)
 				elseif blocks[2] == 'ActionWarn' then
-					text = changeWarnSettings(chat_id, 'status')
+					text = changeWarnSettings(self, chat_id, 'status')
 				end
 			elseif blocks[2] == 'Rtl' or blocks[2] == 'Arab' then
-				text = changeCharSettings(chat_id, blocks[2])
+				text = changeCharSettings(self, chat_id, blocks[2])
 			else
-				text, show_alert = u.changeSettingStatus(chat_id, blocks[2])
+				text, show_alert = u:changeSettingStatus(chat_id, blocks[2])
 			end
-			keyboard = doKeyboard_menu(chat_id)
+			keyboard = doKeyboard_menu(self, chat_id)
 			api.editMessageText(msg.chat.id, msg.message_id, nil, menu_first, "Markdown", nil, keyboard)
 			if text then
 				--workaround to avoid to send an error to users who are using an old inline keyboard
@@ -275,7 +297,7 @@ function plugin.onCallbackQuery(msg, blocks)
 	end
 end
 
-plugin.triggers = {
+_M.triggers = {
 	onCallbackQuery = {
 		'^###cb:(menu):(alert):settings:([%w_]+):([%w_]+)$',
 
@@ -285,4 +307,4 @@ plugin.triggers = {
 	}
 }
 
-return plugin
+return _M

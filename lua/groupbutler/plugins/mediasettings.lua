@@ -1,13 +1,29 @@
 local config = require "groupbutler.config"
-local u = require "groupbutler.utilities"
+local utilities = require "groupbutler.utilities"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
-local db = require "groupbutler.database"
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
 
-local plugin = {}
+local _M = {}
 
-local function doKeyboard_media(chat_id)
+_M.__index = _M
+
+setmetatable(_M, {
+	__call = function (cls, ...)
+		return cls.new(...)
+	end,
+})
+
+function _M.new(main)
+	local self = setmetatable({}, _M)
+	self.update = main.update
+	self.u = utilities:new()
+	self.db = main.db
+	return self
+end
+
+local function doKeyboard_media(self, chat_id)
+	local db = self.db
 	local keyboard = {}
 	keyboard.inline_keyboard = {}
 	for media, default_status in pairs(config.chat_settings['media']) do
@@ -71,7 +87,8 @@ local function doKeyboard_media(chat_id)
 	return keyboard
 end
 
-local function change_media_status(chat_id, media)
+local function change_media_status(self, chat_id, media)
+	local db = self.db
 	local hash = ('chat:%s:media'):format(chat_id)
 	local status = db:hget(hash, media) or config.chat_settings.media[media]
 
@@ -90,9 +107,11 @@ local function change_media_status(chat_id, media)
 	end
 end
 
-function plugin.onCallbackQuery(msg, blocks)
+function _M:onCallbackQuery(msg, blocks)
+	local db = self.db
+	local u = self.u
 	local chat_id = msg.target_id
-	if chat_id and not u.is_allowed('config', chat_id, msg.from) then
+	if chat_id and not u:is_allowed('config', chat_id, msg.from) then
 		api.answerCallbackQuery(msg.cb_id, i18n("You're no longer an admin"))
 	else
 		local media_first = i18n([[
@@ -105,7 +124,7 @@ When a media is set to delete, the bot will give a warning *only* when this is t
 ]])
 
 		if blocks[1] == 'config' then
-			local keyboard = doKeyboard_media(chat_id)
+			local keyboard = doKeyboard_media(self, chat_id)
 			api.editMessageText(msg.chat.id, msg.message_id, nil, media_first, "Markdown", nil, keyboard)
 		else
 			if blocks[1] == 'mediallert' then
@@ -151,16 +170,16 @@ When a media is set to delete, the bot will give a warning *only* when this is t
 			end
 			if blocks[1] == 'media' then
 				local media = blocks[2]
-				cb_text = change_media_status(chat_id, media)
+				cb_text = change_media_status(self, chat_id, media)
 			end
-			local keyboard = doKeyboard_media(chat_id)
+			local keyboard = doKeyboard_media(self, chat_id)
 			api.editMessageText(msg.chat.id, msg.message_id, nil, media_first, "Markdown", nil, keyboard)
 			api.answerCallbackQuery(msg.cb_id, cb_text)
 		end
 	end
 end
 
-plugin.triggers = {
+_M.triggers = {
 	onCallbackQuery = {
 		'^###cb:(media):([%a_]+):(-?%d+)',
 		'^###cb:(mediatype):(-?%d+)',
@@ -171,4 +190,4 @@ plugin.triggers = {
 	}
 }
 
-return plugin
+return _M

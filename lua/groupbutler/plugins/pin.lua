@@ -1,16 +1,34 @@
 local config = require "groupbutler.config"
-local u = require "groupbutler.utilities"
+local utilities = require "groupbutler.utilities"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
-local db = require "groupbutler.database"
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
 
-local plugin = {}
+local _M = {}
 
-function plugin.onTextMessage(msg, blocks)
+_M.__index = _M
+
+setmetatable(_M, {
+	__call = function (cls, ...)
+		return cls.new(...)
+	end,
+})
+
+function _M.new(main)
+	local self = setmetatable({}, _M)
+	self.update = main.update
+	self.u = utilities:new()
+	self.db = main.db
+	return self
+end
+
+function _M:onTextMessage(msg, blocks)
+	local u = self.u
+	local db = self.db
+
 	if msg.chat.type == 'private' then return end
 
-	if u.is_allowed('texts', msg.chat.id, msg.from) then
+	if u:is_allowed('texts', msg.chat.id, msg.from) then
 		if not blocks[2] then
 			local pin_id = db:get('chat:'..msg.chat.id..':pin')
 			if pin_id then
@@ -22,7 +40,7 @@ function plugin.onTextMessage(msg, blocks)
 		local pin_id = db:get('chat:'..msg.chat.id..':pin')
 		local was_deleted
 		if pin_id and blocks[1] ~= "newpin" then --try to edit the old message
-			local reply_markup, new_text = u.reply_markup_from_text(blocks[2])
+			local reply_markup, new_text = u:reply_markup_from_text(blocks[2])
 			local res, code = api.editMessageText(msg.chat.id, pin_id, nil, new_text:replaceholders(msg, 'rules', 'title'),
 				"Markdown", nil, reply_markup)
 			if not res then
@@ -30,7 +48,7 @@ function plugin.onTextMessage(msg, blocks)
 					was_deleted = true
 					pin_id = nil
 				else
-					api.sendMessage(msg.chat.id, u.get_sm_error_string(code), "Markdown")
+					api.sendMessage(msg.chat.id, u:get_sm_error_string(code), "Markdown")
 				end
 			else
 				db:set('chat:'..msg.chat.id..':pin', res.message_id)
@@ -38,11 +56,11 @@ function plugin.onTextMessage(msg, blocks)
 			end
 		end
 		if not pin_id or blocks[1] == "newpin" then
-			local reply_markup, new_text = u.reply_markup_from_text(blocks[2])
+			local reply_markup, new_text = u:reply_markup_from_text(blocks[2])
 			local res, code = api.sendMessage(msg.chat.id, new_text:replaceholders(msg, 'rules', 'title'), "Markdown",
 				reply_markup)
 			if not res then
-				api.sendMessage(msg.chat.id, u.get_sm_error_string(code), "Markdown")
+				api.sendMessage(msg.chat.id, u:get_sm_error_string(code), "Markdown")
 			else --if the message has been sent, then set its ID as new pinned message
 				db:set('chat:'..msg.chat.id..':pin', res.message_id)
 				local text
@@ -58,7 +76,7 @@ function plugin.onTextMessage(msg, blocks)
 	end
 end
 
-plugin.triggers = {
+_M.triggers = {
 	onTextMessage = {
 		config.cmd..'(pin)$',
 		config.cmd..'(pin) (.*)$',
@@ -66,4 +84,4 @@ plugin.triggers = {
 	}
 }
 
-return plugin
+return _M

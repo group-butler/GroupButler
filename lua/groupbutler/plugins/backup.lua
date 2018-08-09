@@ -1,13 +1,28 @@
 local config = require "groupbutler.config"
-local u = require "groupbutler.utilities"
+local utilities = require "groupbutler.utilities"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local api_old = require "groupbutler.methods"
 local json = require "cjson"
-local db = require "groupbutler.database"
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
 
-local plugin = {}
+local _M = {}
+
+_M.__index = _M
+
+setmetatable(_M, {
+	__call = function (cls, ...)
+		return cls.new(...)
+	end,
+})
+
+function _M.new(main)
+	local self = setmetatable({}, _M)
+	self.update = main.update
+	self.u = utilities:new()
+	self.db = main.db
+	return self
+end
 
 local function save_data(filename, data)
 	local s = json.encode(data)
@@ -27,7 +42,8 @@ local function load_data(filename)
 	end
 end
 
-local function gen_backup(chat_id)
+local function gen_backup(self, chat_id)
+	local db = self.db
 	chat_id = tostring(chat_id)
 	local file_path = '/tmp/snap'..chat_id..'.gbb'
 	local t = {
@@ -54,7 +70,7 @@ local function gen_backup(chat_id)
 			t[chat_id].sets[config.chat_sets[i]] = content
 		end
 	end
-	u.dump(t)
+	-- u:dump(t)
 	save_data(file_path, t)
 
 	return file_path
@@ -86,7 +102,10 @@ local imported_text = i18n([[Import was <b>successful</b>.
 - #extra commands which are associated with a media must be set again if the bot you are using now is different from the bot that originated the backup.
 ]])
 
-function plugin.onTextMessage(msg, blocks)
+function _M:onTextMessage(msg, blocks)
+	local db = self.db
+	local u = self.u
+
 	if not msg.from.admin then
 		return
 	end
@@ -100,13 +119,13 @@ function plugin.onTextMessage(msg, blocks)
 			local text = i18n([[<i>I'm sorry, this command has been used for the last time less then 3 hours ago by</i> %s (ask them for the file).
 Wait [<code>%s</code>] to use it again
 ]]):format(last_user, time_remaining)
-				u.sendReply(msg, text, 'html')
+				u:sendReply(msg, text, 'html')
 		else
 			-- no snapshot has been done recently
-			local name = u.getname_final(msg.from)
+				local name = u:getname_final(msg.from)
 			db:setex(key, 10800, name) --3 hours
-			local file_path = gen_backup(msg.chat.id)
-				u.sendReply(msg, i18n('*Sent in private*'), "Markdown")
+				local file_path = gen_backup(self, msg.chat.id)
+				u:sendReply(msg, i18n('*Sent in private*'), "Markdown")
 				api_old.sendDocument(msg.from.id, file_path, nil, ('#snap\n%s'):format(msg.chat.title))
 		end
 	end
@@ -129,8 +148,8 @@ Wait [<code>%s</code>] to use it again
 			return
 		end
 		local res = api.getFile(msg.reply.document.file_id)
-		local download_link = u.telegram_file_link(res)
-		local file_path, code = u.download_to_file(download_link, '/tmp/'..msg.chat.id..'.json')
+						local download_link = u:telegram_file_link(res)
+						local file_path, code = u:download_to_file(download_link, '/tmp/'..msg.chat.id..'.json')
 
 		if not file_path then
 			text = i18n('Download of the file failed with code %s'):format(tostring(code))
@@ -170,11 +189,11 @@ Wait [<code>%s</code>] to use it again
 	end
 end
 
-plugin.triggers = {
+_M.triggers = {
 	onTextMessage = {
 		config.cmd..'(snap)$',
 		config.cmd..'(import)$'
 	}
 }
 
-return plugin
+return _M
