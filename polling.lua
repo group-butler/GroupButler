@@ -7,7 +7,8 @@ local main = require "groupbutler.main"
 local config = require "groupbutler.config"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
 
-local bot = api.getMe()
+api.setWebhook("") -- Clean Webhook if there's one
+bot = api.getMe()
 local last_update, last_cron, current
 
 function bot.init(on_reload) -- The function run when the bot is started or reloaded

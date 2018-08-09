@@ -23,9 +23,10 @@ local _M =
 			limit = os.getenv('TG_POLLING_LIMIT'), -- Not implemented
 			timeout = os.getenv('TG_POLLING_TIMEOUT') -- Not implemented
 		},
-		webhook = -- Not implemented
+		webhook =
 		{
-			url = os.getenv('TG_WEBHOOK_URL'),
+			domain = os.getenv('TG_WEBHOOK_DOMAIN'), -- Express setup, checks token to increase security
+			url = os.getenv('TG_WEBHOOK_URL'), -- Manual setup
 			certificate = read_secret('telegram/webhook/certificate') or os.getenv('TG_WEBHOOK_CERT'),
 			max_connections = os.getenv('TG_WEBHOOK_MAX_CON')
 		}
