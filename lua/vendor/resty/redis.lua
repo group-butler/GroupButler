@@ -3,7 +3,6 @@
 
 local sub = string.sub
 local byte = string.byte
-local socket = require 'resty.socket'
 local type = type
 local pairs = pairs
 local unpack = unpack
@@ -15,13 +14,24 @@ local select = select
 --local error = error
 
 
-local ok, new_tab = pcall(require, "table.new")
-if not ok or type(new_tab) ~= "function" then
-	new_tab = function (narr, nrec) return {} end
-end
+local new_tab = (function()
+	local ok, new_tab = pcall(require, "table.new")
+	if not ok or type(new_tab) ~= "function" then
+		new_tab = function (narr, nrec) return {} end
+	end
+	return new_tab
+end)()
 
-
-local null = require "groupbutler.null"
+local socket, null = (function()
+	if not ngx then
+		local ok, null = pcall(require, "cjson")
+		if not ok then
+			null = require "null"
+		end
+		return require "resty.socket", null.null
+	end
+	return ngx.socket, ngx.null
+end)()
 
 
 local _M = new_tab(0, 54)
