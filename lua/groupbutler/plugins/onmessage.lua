@@ -1,7 +1,7 @@
 local config = require "groupbutler.config"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local i18n = require "groupbutler.languages".translate
-local null = ngx.null
+local null = require "groupbutler.null"
 
 local _M = {}
 

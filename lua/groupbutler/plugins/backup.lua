@@ -1,10 +1,9 @@
 local config = require "groupbutler.config"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
-local api_old = require "groupbutler.methods"
 local json = require "cjson"
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
-local null = ngx.null
+local null = require "groupbutler.null"
 
 local _M = {}
 
@@ -126,7 +125,7 @@ Wait [<code>%s</code>] to use it again
 			db:setex(key, 10800, name) --3 hours
 				local file_path = gen_backup(self, msg.chat.id)
 				u:sendReply(msg, i18n('*Sent in private*'), "Markdown")
-				api_old.sendDocument(msg.from.id, file_path, nil, ('#snap\n%s'):format(msg.chat.title))
+				api.sendDocument(msg.from.id, {path = file_path}, ('#snap\n%s'):format(msg.chat.title))
 		end
 	end
 	if blocks[1] == 'import' then

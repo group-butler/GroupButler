@@ -4,15 +4,16 @@ local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local api_err = require "groupbutler.api_errors"
 local get_bot = require "groupbutler.bot"
 local locale = require "groupbutler.languages"
-local socket = require 'socket'
+local null = require "groupbutler.null"
 local i18n = locale.translate
-local null = ngx.null
-local http, HTTPS, ltn12
+local http, HTTPS, ltn12, time_hires
 if ngx then
 	http = require "resty.http"
+	time_hires = ngx.now
 else
 	HTTPS = require "ssl.https"
 	ltn12 = require "ltn12"
+	time_hires = require 'socket'.gettime
 end
 
 local _M = {} -- Functions shared among plugins
@@ -1153,7 +1154,7 @@ end
 
 function _M:time_hires()
 	local _ = self
-	return socket.gettime()
+	return time_hires()
 end
 
 return _M

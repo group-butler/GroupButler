@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	resp, err := http.Get("http://localhost/health")
+	resp, err := http.Get("http://localhost:8000/health")
 
 	if err != nil || resp.StatusCode != 200 {
 		os.Exit(1)

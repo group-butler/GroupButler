@@ -18,8 +18,8 @@ setmetatable(_M, {
 		return cls.new(...)
 	end,
 })
-function _M.new(update)
 
+function _M.new(update)
 	local self = setmetatable({}, _M)
 	self.update = update
 	self.db = redis:new()
@@ -62,14 +62,15 @@ end
 
 local function collect_stats(self, msg)
 	local db = self.db
+	local u = self.u
 	extract_usernames(self, msg)
 	local now = os.time(os.date("*t"))
 	if msg.chat.type ~= 'private' and msg.chat.type ~= 'inline' and msg.from then
 		db:hset('chat:'..msg.chat.id..':userlast', msg.from.id, now) --last message for each user
 		db:hset('bot:chats:latsmsg', msg.chat.id, now) --last message in the group
 	end
-	u.metric_incr("messages_processed_count")
-	u.metric_set("message_timestamp_distance_sec", now - msg.date)
+	u:metric_incr("messages_processed_count")
+	u:metric_set("message_timestamp_distance_sec", now - msg.date)
 end
 
 local function match_triggers(triggers, text)
@@ -133,21 +134,21 @@ Unfortunately I can't work in normal groups. If you need me, please ask the crea
 	local continue, onm_success, plugin_obj
 	for i=1, #plugins do
 		if plugins[i].onEveryMessage then
-		plugin_obj = plugins[i].new(self)
-		onm_success, continue = pcall(plugin_obj.onEveryMessage, plugin_obj, msg)
+			plugin_obj = plugins[i].new(self)
+			onm_success, continue = pcall(plugin_obj.onEveryMessage, plugin_obj, msg)
 			if not onm_success then
 				print('An #error occurred (preprocess).\n'..tostring(continue)..'\n'..locale.language..'\n'..msg.text)
 			end
-		if not continue then
-			return
+			if not continue then
+				return
 			end
 		end
 	end
 
 	for i=1, #plugins do
 		if plugins[i].triggers then
-		plugin_obj = plugins[i].new(self)
-		local blocks, trigger = match_triggers(plugin_obj.triggers[callback], msg.text)
+			plugin_obj = plugins[i].new(self)
+			local blocks, trigger = match_triggers(plugin_obj.triggers[callback], msg.text)
 			if blocks then
 				if msg.chat.id < 0 and msg.chat.type ~= 'inline'and db:exists('chat:'..msg.chat.id..':settings') == 0 and not msg.service then --init agroup if the bot wasn't aware to be in
 				u:initGroup(msg.chat.id)

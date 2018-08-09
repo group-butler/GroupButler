@@ -7,3 +7,7 @@ services:
       dockerfile: webhooks.Dockerfile
     ports:
       - "80:80"
+    volumes:
+      - ./conf:/usr/local/openresty/nginx/conf
+      - ./locales:/usr/local/openresty/nginx/locales
+      - ./lua:/usr/local/openresty/nginx/lua
