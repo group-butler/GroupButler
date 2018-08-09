@@ -1,10 +1,10 @@
 #!/usr/bin/env lua
-package.path=package.path .. ';./lua/?.lua'
+package.path="./lua/?.lua;./lua/vendor/?.lua;"..package.path
 io.stdout:setvbuf "no" -- switch off buffering for stdout
 
-local plugins = require 'plugins'
-local main = require 'main'
-local config = require 'config'
+local plugins = require "groupbutler.plugins"
+local main = require "groupbutler.main"
+local config = require "groupbutler.config"
 local api = require ('telegram-bot-api.methods').init(config.telegram.token)
 
 bot = api.getMe().result

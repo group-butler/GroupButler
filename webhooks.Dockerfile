@@ -13,6 +13,6 @@ RUN mkdir logs && \
     opm install $DEPS_OPM && \
     for ROCK in $DEPS_ROCKS; do luarocks install $ROCK; done
 
-ENTRYPOINT nginx -g 'daemon off;' -p `pwd` -c conf/conf.conf
+ENTRYPOINT nginx -p `pwd` -c conf/conf.conf
 
 COPY . .
