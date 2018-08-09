@@ -2,11 +2,15 @@ version: '3.6'
 
 services:
   groupbutler:
-    build: .
-    depends_on:
-      - redis
+    build:
+      context: .
+      dockerfile: docker/polling.Dockerfile
+      args:
+        # DEPS_NATIVE: $DEPS_NATIVE
+        # DEPS_ROCKS: $DEPS_ROCKS
+        GB_COMMIT: $GB_COMMIT
     environment:
-      - REDIS_HOST=redis
+      REDIS_HOST: redis
     volumes:
       - ./conf:/srv/app/conf
       - ./locales:/srv/app/locales

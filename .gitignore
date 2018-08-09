@@ -4,8 +4,5 @@ docker-compose.*.yml
 *.json
 *.tar
 
-!docker-compose.override.yml
-!docker-compose.webhooks.yml
-!docker-compose.webhooks.override.yml
 !install.sh
 !launch.sh

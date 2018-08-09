@@ -24,7 +24,7 @@ function _M.new(main)
 end
 
 local function bot_version()
-	if not config.commit then
+	if not config.commit or (config.commit):len() ~= 40 then
 		return i18n("unknown")
 	end
 	return ("[%s](%s/commit/%s)"):format(string.sub(config.commit, 1, 7), config.source_code, config.commit)

@@ -15,3 +15,6 @@ COPY --from=healthchecker-builder /go/bin/healthchecker /usr/local/bin
 COPY conf conf
 COPY locales locales
 COPY lua lua
+
+ARG GB_COMMIT
+ENV GB_COMMIT=$GB_COMMIT
