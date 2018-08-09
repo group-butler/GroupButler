@@ -19,7 +19,8 @@ build:
     - pip install docker-compose
   script:
     - docker login -u "gitlab-ci-token" -p "$CI_JOB_TOKEN" $CI_REGISTRY
-    - docker-compose build
+    # - docker-compose build
+    - docker-compose -f docker-compose.webhooks.yml -f docker-compose.webhooks.override.yml build
     - docker-compose push
   only:
     - staging
@@ -36,7 +37,8 @@ deploy:
     TAG: $CI_COMMIT_REF_SLUG
   script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
-    - docker stack deploy --with-registry-auth $CI_COMMIT_REF_SLUG -c docker-compose.yml
+    # - docker stack deploy --with-registry-auth $CI_COMMIT_REF_SLUG -c docker-compose.yml
+    - docker stack deploy --with-registry-auth $CI_COMMIT_REF_SLUG -c docker-compose.webhooks.yml
   only:
     - staging
     - production

@@ -1,0 +1,9 @@
+version: '3.3'
+
+services:
+  groupbutler:
+    build:
+      context: .
+      dockerfile: webhooks.Dockerfile
+    ports:
+      - "80:80"

@@ -13,9 +13,6 @@ RUN mkdir logs && \
     opm install $DEPS_OPM && \
     for ROCK in $DEPS_ROCKS; do luarocks install $ROCK; done
 
-ARG ENV=dev
-ENV ENV=$ENV
+ENTRYPOINT nginx -g 'daemon off;' -p `pwd` -c conf/conf.conf
 
-ENTRYPOINT nginx -g 'daemon off;' -p `pwd` -c conf/"$ENV".conf
-
-COPY lua conf locales ./
+COPY . .

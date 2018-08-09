@@ -6,5 +6,6 @@ docker-compose.*.yml
 
 !docker-compose.override.yml
 !docker-compose.webhooks.yml
+!docker-compose.webhooks.override.yml
 !install.sh
 !launch.sh
