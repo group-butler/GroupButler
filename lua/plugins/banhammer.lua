@@ -74,16 +74,18 @@ function plugin.onTextMessage(msg, blocks)
 					markup)
 			end
 			if blocks[1] == 'kick' then
-				local res, _, motivation = api.kickUser(chat_id, user_id)
-				if not res then
-					if not motivation then
-						motivation = i18n("I can't kick this user.\n"
-								.. "Either I'm not an admin, or the targeted user is!")
-					end
-					api.sendReply(msg, motivation, true)
+				if u.is_admin(chat_id, user_id) then
+					api.sendReply(msg, i18n("**Admins cannot be kicked**"), true)
 				else
-					u.logEvent('kick', msg, {motivation = get_motivation(msg), admin = admin, user = kicked, user_id = user_id})
-					api.sendMessage(msg.chat.id, i18n("%s kicked %s!"):format(admin, kicked), 'html')
+					local result = api.getChatMember(chat_id, user_id).result
+					local text
+					if result.status ~= 'kicked' or 'left' then
+						api.unbanUser(chat_id, user_id)
+						u.logEvent('kick', msg, {motivation = get_motivation(msg), admin = admin, user = kicked, user_id = user_id})
+						api.sendMessage(msg.chat.id, i18n("%s kicked %s!"):format(admin, kicked), 'html')
+					else
+						text = i18n("This user is not in the group!")
+					end
 				end
 			end
 			if blocks[1] == 'ban' then
