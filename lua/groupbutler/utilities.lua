@@ -1091,8 +1091,14 @@ function _M:logEvent(event, msg, extra)
 	end
 
 	if text then
-		local res, code = api.sendMessage(log_id, text, 'html', reply_markup)
-		if not res and code == 117 then
+		local ok, err = api.send_message{
+			chat_id = log_id,
+			text = text,
+			parse_mode = "html",
+			disable_web_page_preview = true,
+			reply_markup = reply_markup
+		}
+		if not ok and err.error_code == 117 then
 			db:hdel('bot:chatlogs', msg.chat.id)
 		end
 	end
