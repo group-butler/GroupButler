@@ -78,7 +78,6 @@ function plugin.onTextMessage(msg, blocks)
 					api.sendReply(msg, i18n("**Admins cannot be kicked**"), true)
 				else
 					local result = api.getChatMember(chat_id, user_id).result
-					local text
 					if result.status ~= 'kicked' or 'left' then
 						api.unbanUser(chat_id, user_id)
 						u.logEvent('kick', msg, {motivation = get_motivation(msg), admin = admin, user = kicked, user_id = user_id})
