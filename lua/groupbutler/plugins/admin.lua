@@ -158,19 +158,19 @@ function _M:onTextMessage(msg, blocks)
 		-- text = text..'   • *average msgs/second*: `'..round((bot.last.h/(60*60)), 3)..'`\n'
 
 		--db info
-		text = text.. '\n*DB stats*\n'
-		local dbinfo = db:info()
-		text = text..'- *uptime days*: `'..dbinfo.server.uptime_in_days..'('..dbinfo.server.uptime_in_seconds..' seconds)`\n'
-		text = text..'- *keyspace*:\n'
-		for dbase,info in pairs(dbinfo.keyspace) do
-			for real, _ in pairs(info) do
-				local keys = real:match('keys=(%d+),.*')
-				if keys then
-					text = text..'  '..dbase..': `'..keys..'`\n'
-				end
-			end
-		end
-		text = text..'- *ops/sec*: `'..dbinfo.stats.instantaneous_ops_per_sec..'`\n'
+		-- text = text.. '\n*DB stats*\n'
+		-- local dbinfo = db:info()
+		-- text = text..'- *uptime days*: `'..dbinfo.server.uptime_in_days..'('..dbinfo.server.uptime_in_seconds..' seconds)`\n'
+		-- text = text..'- *keyspace*:\n'
+		-- for dbase,info in pairs(dbinfo.keyspace) do
+		-- 	for real, _ in pairs(info) do
+		-- 		local keys = real:match('keys=(%d+),.*')
+		-- 		if keys then
+		-- 			text = text..'  '..dbase..': `'..keys..'`\n'
+		-- 		end
+		-- 	end
+		-- end
+		-- text = text..'- *ops/sec*: `'..dbinfo.stats.instantaneous_ops_per_sec..'`\n'
 
 		api.sendMessage(msg.chat.id, text, "Markdown")
 	end
