@@ -4,6 +4,5 @@ docker-compose.*.yml
 *.json
 *.tar
 
-!docker-compose.override.yml
 !install.sh
 !launch.sh

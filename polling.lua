@@ -1,13 +1,22 @@
 #!/usr/bin/env lua
-package.path=package.path .. ';./lua/?.lua'
+
+-- local ZBS="/Applications/ZeroBraneStudio.app/Contents/ZeroBraneStudio"
+-- local LUA_PATH=ZBS.."/lualibs/?/?.lua;"..ZBS.."/lualibs/?.lua;"
+-- local LUA_CPATH=ZBS.."/bin/?.dylib;"..ZBS.."/bin/clibs/?.dylib;"
+
+-- package.path=LUA_PATH.."./lua/?.lua;./lua/vendor/?.lua;"..package.path
+-- package.cpath=LUA_CPATH..package.cpath
+-- require('mobdebug').start()
+
+package.path="./lua/?.lua;./lua/vendor/?.lua;"..package.path
 io.stdout:setvbuf "no" -- switch off buffering for stdout
 
-local api = require 'methods'
-local clr = require 'term.colors'
-local plugins = require 'plugins'
-local main = require 'main'
+local plugins = require "groupbutler.plugins"
+local main = require "groupbutler.main"
+local config = require "groupbutler.config"
+local api = require "telegram-bot-api.methods".init(config.telegram.token)
 
-bot = api.getMe().result
+local bot = api.getMe()
 local last_update, last_cron, current
 
 function bot.init(on_reload) -- The function run when the bot is started or reloaded
@@ -17,8 +26,7 @@ function bot.init(on_reload) -- The function run when the bot is started or relo
 		package.loaded.utilities = nil
 	end
 
-	print('\n'..clr.blue..'BOT RUNNING:'..clr.reset,
-		clr.red..'[@'..bot.username .. '] [' .. bot.first_name ..'] ['..bot.id..']'..clr.reset..'\n')
+	print('\n'..'BOT RUNNING:', '[@'..bot.username .. '] [' .. bot.first_name ..'] ['..bot.id..']'..'\n')
 
 	last_update = last_update or -2 -- skip pending updates
 	last_cron = last_cron or os.time() -- the time of the last cron job
@@ -26,7 +34,6 @@ function bot.init(on_reload) -- The function run when the bot is started or relo
 	if on_reload then
 		return #plugins
 	else
-		api.sendAdmin('Bot started!\n'..os.date('On %A, %d %B %Y\nAt %X')..'\n'..#plugins..' plugins loaded', true)
 		bot.start_timestamp = os.time()
 		current = {h = 0}
 		bot.last = {h = 0}
@@ -35,16 +42,18 @@ end
 
 bot.init()
 
-api.firstUpdate()
+api.getUpdates(nil, 1, 3600, config.telegram.allowed_updates) -- First update
+
 while true do -- Start a loop while the bot should be running.
 	local res = api.getUpdates(last_update+1) -- Get the latest updates
 	if res then
 		-- clocktime_last_update = os.clock()
-		for i=1, #res.result do -- Go through every new message.
-			last_update = res.result[i].update_id
+		for i=1, #res do -- Go through every new message.
+			last_update = res[i].update_id
 			--print(last_update)
 			current.h = current.h + 1
-			main.parseMessageFunction(res.result[i])
+			local update_obj = main.new(res[i])
+			update_obj:parseMessageFunction()
 		end
 	else
 		print('Connection error')
@@ -53,12 +62,12 @@ while true do -- Start a loop while the bot should be running.
 		last_cron = os.date('%H')
 		bot.last.h = current.h
 		current.h = 0
-		print(clr.yellow..'Cron...'..clr.reset)
+		print('Cron...')
 		for i=1, #plugins do
 			if plugins[i].cron then -- Call each plugin's cron function, if it has one.
 				local res2, err = pcall(plugins[i].cron)
 				if not res2 then
-					api.sendLog('An #error occurred (cron).\n'..err)
+					print('An #error occurred (cron).\n'..err)
 					return
 				end
 			end

@@ -1,4 +1,4 @@
-version: '3.3'
+version: '3.6'
 
 services:
   groupbutler:
@@ -28,6 +28,7 @@ services:
       - TG_POLLING_LIMIT
       - TG_POLLING_TIMEOUT
       - TG_WEBHOOK_URL
+      - TG_WEBHOOK_DOMAIN
       - TG_WEBHOOK_CERT
       - TG_WEBHOOK_MAX_CON
     image: ${IMAGE:-groupbutler/groupbutler}:${TAG:-latest}

@@ -1,0 +1,19 @@
+version: '3.6'
+
+services:
+  groupbutler:
+    environment:
+      REDIS_HOST: redis
+    restart: always
+
+  redis:
+    image: redis:alpine
+    restart: always
+    # Optional. Map redis port to the host if you want to explore the db
+    # ports:
+    #   - "127.0.0.1:6379:6379"
+    volumes:
+      - redis:/data
+
+volumes:
+  redis:
