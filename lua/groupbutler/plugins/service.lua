@@ -26,7 +26,6 @@ function _M.new(main)
 end
 
 function _M:onTextMessage(msg, blocks)
-	local db = self.db
 	local u = self.u
 
 	if not msg.service then return end
