@@ -23,7 +23,11 @@ function _M.new(update)
 	local self = setmetatable({}, _M)
 	self.update = update
 	self.db = redis:new()
-	self.db:connect(config.redis.host, config.redis.port)
+	local ok, err = self.db:connect(config.redis.host, config.redis.port)
+	if not ok then
+		print("Redis connection failed: ", err)
+		return nil, err
+	end
 	self.db:select(config.redis.db)
 	self.u = utilities.new(self)
 	bot = get_bot.init()
