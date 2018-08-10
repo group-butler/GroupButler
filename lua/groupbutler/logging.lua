@@ -53,7 +53,6 @@ end
 
 function logging.log(level, message, data)
 	if level < logging.loglevel then
-		print("skip")
 		return
 	end
 
