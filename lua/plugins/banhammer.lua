@@ -83,7 +83,7 @@ function plugin.onTextMessage(msg, blocks)
 						u.logEvent('kick', msg, {motivation = get_motivation(msg), admin = admin, user = kicked, user_id = user_id})
 						api.sendMessage(msg.chat.id, i18n("%s kicked %s!"):format(admin, kicked), 'html')
 					else
-						text = i18n("This user is not in the group!")
+						api.sendReply(msg, i18n("This user is not in the group!"))
 					end
 				end
 			end
