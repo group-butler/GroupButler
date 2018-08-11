@@ -124,7 +124,7 @@ function _M:onCallbackQuery(msg, blocks)
 		else
 			if blocks[2] == 'unban' or blocks[2] == 'untempban' then
 				local user_id = blocks[3]
-				api.unbanUser(chat_id, user_id)
+				api.unban_chat_member(chat_id, user_id)
 				api.answerCallbackQuery(msg.cb_id, i18n("User unbanned!"), true)
 			end
 		end
