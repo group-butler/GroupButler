@@ -933,29 +933,34 @@ function _M:get_user_id(msg, blocks)
 	--if no user id: returns false and the msg id of the translation for the problem
 	if not msg.reply and not blocks[2] then
 		return false, i18n("Reply to an user or mention them")
-	else
-		if msg.reply then
-			if msg.reply.new_chat_member then
-				msg.reply.from = msg.reply.new_chat_member
-			end
-			return msg.reply.from.id
-		elseif msg.text:match(config.cmd..'%w%w%w%w?%w?%w?%w?%s(@[%w_]+)%s?') then
-			local username = msg.text:match('%s(@[%w_]+)')
-			local id = _M.resolve_user(self, username)
-			if not id then
-				return false, i18n("Unknown user.\nPlease forward a message from them to me")
-			else
-				return id
-			end
-		elseif msg.mention_id then
-			return msg.mention_id
-		elseif msg.text:match(config.cmd..'%w%w%w%w?%w?%w?%w?%s(%d+)') then
-			local id = msg.text:match(config.cmd..'%w%w%w?%w%w?%w?%w?%s(%d+)')
+	end
+
+	if msg.reply then
+		if msg.reply.new_chat_member then
+			msg.reply.from = msg.reply.new_chat_member
+		end
+		return msg.reply.from.id
+	end
+
+	if msg.text:match(config.cmd..'%w%w%w%w?%w?%w?%w?%s(@[%w_]+)%s?') then
+		local username = msg.text:match('%s(@[%w_]+)')
+		local id = _M.resolve_user(self, username)
+		if id then
 			return id
-		else
-			return false, i18n("Unknown user.\nPlease forward a message from them to me")
 		end
 	end
+
+	if msg.mention_id then
+		return msg.mention_id
+	end
+
+	local id = msg.text:match(config.cmd..'%w%w%w%w?%w?%w?%w?%s(%d+)')
+	if id then
+		return id
+	end
+
+	return false, i18n([[Unknown user.
+Please forward a message from them to me.]])
 end
 
 function _M:logEvent(event, msg, extra)

@@ -129,44 +129,47 @@ function _M:onTextMessage(msg, blocks)
 		end
 	end
 	if blocks[1] == 'status' then
-		if msg.from.admin then
-			if not blocks[2] and not msg.reply then return end
-			local user_id, error_tr_id = u:get_user_id(self, msg, blocks)
-			if not user_id then
-				u:sendReply(msg, i18n(error_tr_id), "Markdown")
-			else
-				local res = api.getChatMember(msg.chat.id, user_id)
+		if (not msg.from.admin)
+		or (not blocks[2] and not msg.reply) then
+			return
+		end
 
-				if not res then
-					u:sendReply(msg, i18n("That user has nothing to do with this chat"))
-					return
-				end
-				local status = res.status
-				local name = u:getname_final(res.user)
-				local statuses = {
-					kicked = i18n("%s is banned from this group"),
-					left = i18n("%s left the group or has been kicked and unbanned"),
-					administrator = i18n("%s is an admin"),
-					creator = i18n("%s is the group creator"),
-					unknown = i18n("%s has nothing to do with this chat"),
-					member = i18n("%s is a chat member"),
-					restricted = i18n("%s is a restricted")
-				}
-				local denied_permissions = {}
-				for permission, str in pairs(permissions) do
-					if res[permission] ~= nil and res[permission] == false then
-						table.insert(denied_permissions, str)
-					end
-				end
+		local user_id, error_tr_id = u:get_user_id(msg, blocks)
+		if not user_id then
+			u:sendReply(msg, error_tr_id, "Markdown")
+			return
+		end
+		local res = api.getChatMember(msg.chat.id, user_id)
 
-				local text = statuses[status]:format(name)
-				if next(denied_permissions) then
-					text = text..i18n('\nRestrictions: <i>%s</i>'):format(table.concat(denied_permissions, ', '))
-				end
+		if not res then
+			u:sendReply(msg, i18n("That user has nothing to do with this chat"))
+			return
+		end
 
-				u:sendReply(msg, text, 'html')
+		local status = res.status
+		local name = u:getname_final(res.user)
+		local statuses = {
+			kicked = i18n("%s is banned from this group"),
+			left = i18n("%s left the group or has been kicked and unbanned"),
+			administrator = i18n("%s is an admin"),
+			creator = i18n("%s is the group creator"),
+			unknown = i18n("%s has nothing to do with this chat"),
+			member = i18n("%s is a chat member"),
+			restricted = i18n("%s is a restricted")
+		}
+		local denied_permissions = {}
+		for permission, str in pairs(permissions) do
+			if res[permission] ~= nil and res[permission] == false then
+				table.insert(denied_permissions, str)
 			end
 		end
+
+		local text = statuses[status]:format(name)
+		if next(denied_permissions) then
+			text = text..i18n('\nRestrictions: <i>%s</i>'):format(table.concat(denied_permissions, ', '))
+		end
+
+		u:sendReply(msg, text, 'html')
 	end
 	if blocks[1] == 'user' then
 		if not msg.from.admin then return end

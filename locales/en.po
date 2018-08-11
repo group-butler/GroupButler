@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GroupButler 4.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-11 18:42-0300\n"
+"POT-Creation-Date: 2018-08-11 20:21-0300\n"
 "PO-Revision-Date: 2016-08-27 17:50+0300\n"
 "Last-Translator: Nicholas Guriev <guriev-ns@ya.ru>\n"
 "Language-Team: English\n"
@@ -1347,7 +1347,7 @@ msgstr ""
 msgid "Kick"
 msgstr ""
 
-#: lua/groupbutler/plugins/logchannel.lua:77 lua/groupbutler/utilities.lua:1084
+#: lua/groupbutler/plugins/logchannel.lua:77 lua/groupbutler/utilities.lua:1089
 msgid "Unban"
 msgstr ""
 
@@ -2126,57 +2126,57 @@ msgid ""
 "`Spam warnings`: *%d*\n"
 msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:141
+#: lua/groupbutler/plugins/users.lua:145
 msgid "That user has nothing to do with this chat"
-msgstr ""
-
-#: lua/groupbutler/plugins/users.lua:147
-#, lua-format
-msgid "%s is banned from this group"
-msgstr ""
-
-#: lua/groupbutler/plugins/users.lua:148
-#, lua-format
-msgid "%s left the group or has been kicked and unbanned"
-msgstr ""
-
-#: lua/groupbutler/plugins/users.lua:149
-#, lua-format
-msgid "%s is an admin"
-msgstr ""
-
-#: lua/groupbutler/plugins/users.lua:150
-#, lua-format
-msgid "%s is the group creator"
-msgstr ""
-
-#: lua/groupbutler/plugins/users.lua:151
-#, lua-format
-msgid "%s has nothing to do with this chat"
 msgstr ""
 
 #: lua/groupbutler/plugins/users.lua:152
 #, lua-format
-msgid "%s is a chat member"
+msgid "%s is banned from this group"
 msgstr ""
 
 #: lua/groupbutler/plugins/users.lua:153
 #, lua-format
+msgid "%s left the group or has been kicked and unbanned"
+msgstr ""
+
+#: lua/groupbutler/plugins/users.lua:154
+#, lua-format
+msgid "%s is an admin"
+msgstr ""
+
+#: lua/groupbutler/plugins/users.lua:155
+#, lua-format
+msgid "%s is the group creator"
+msgstr ""
+
+#: lua/groupbutler/plugins/users.lua:156
+#, lua-format
+msgid "%s has nothing to do with this chat"
+msgstr ""
+
+#: lua/groupbutler/plugins/users.lua:157
+#, lua-format
+msgid "%s is a chat member"
+msgstr ""
+
+#: lua/groupbutler/plugins/users.lua:158
+#, lua-format
 msgid "%s is a restricted"
 msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:164
+#: lua/groupbutler/plugins/users.lua:169
 #, lua-format
 msgid ""
 "\n"
 "Restrictions: <i>%s</i>"
 msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:177
+#: lua/groupbutler/plugins/users.lua:180
 msgid "Reply to an user or mention them by username or numerical ID"
 msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:185
+#: lua/groupbutler/plugins/users.lua:188
 msgid ""
 "I've never seen this user before.\n"
 "This command works by reply, username, user ID or text mention.\n"
@@ -2184,7 +2184,7 @@ msgid ""
 "me one of their messages"
 msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:203 lua/groupbutler/plugins/users.lua:263
+#: lua/groupbutler/plugins/users.lua:206 lua/groupbutler/plugins/users.lua:266
 #, lua-format
 msgid ""
 "📌 Status: `CACHED`\n"
@@ -2192,29 +2192,29 @@ msgid ""
 "👥 Admins cached: `%d`"
 msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:212
+#: lua/groupbutler/plugins/users.lua:215
 #, lua-format
 msgid "Message N° %d"
 msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:232 lua/groupbutler/plugins/warn.lua:178
+#: lua/groupbutler/plugins/users.lua:235 lua/groupbutler/plugins/warn.lua:178
 msgid "You are not allowed to use this button"
 msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:245
+#: lua/groupbutler/plugins/users.lua:248
 #, lua-format
 msgid ""
 "The number of warnings received by this user has been <b>reset</b>, by %s"
 msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:256
+#: lua/groupbutler/plugins/users.lua:259
 #, lua-format
 msgid ""
 "The adminlist has just been updated. You must wait 10 minutes from the last "
 "refresh (wait  %d seconds)"
 msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:265
+#: lua/groupbutler/plugins/users.lua:268
 #, lua-format
 msgid "✅ Updated. Next update in %s"
 msgstr ""
@@ -2547,19 +2547,19 @@ msgstr ""
 msgid "Reply to an user or mention them"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:946 lua/groupbutler/utilities.lua:956
+#: lua/groupbutler/utilities.lua:962
 msgid ""
 "Unknown user.\n"
-"Please forward a message from them to me"
+"Please forward a message from them to me."
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:972
+#: lua/groupbutler/utilities.lua:977
 #, lua-format
 msgid "<b>Chat</b>: %s [#chat%d]"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:997 lua/groupbutler/utilities.lua:1005
-#: lua/groupbutler/utilities.lua:1007 lua/groupbutler/utilities.lua:1009
+#: lua/groupbutler/utilities.lua:1002 lua/groupbutler/utilities.lua:1010
+#: lua/groupbutler/utilities.lua:1012 lua/groupbutler/utilities.lua:1014
 #, lua-format
 msgid ""
 "%s\n"
@@ -2567,11 +2567,11 @@ msgid ""
 "• <b>By</b>: %s"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:1000
+#: lua/groupbutler/utilities.lua:1005
 msgid "Get the new photo"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:1012
+#: lua/groupbutler/utilities.lua:1017
 #, lua-format
 msgid ""
 "%s\n"
@@ -2580,7 +2580,7 @@ msgid ""
 "• <i>Reported to %d admin(s)</i>"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:1015
+#: lua/groupbutler/utilities.lua:1020
 #, lua-format
 msgid ""
 "#BLOCKBAN\n"
@@ -2588,7 +2588,7 @@ msgid ""
 "• <b>User</b>: %s [#id%d]"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:1019
+#: lua/groupbutler/utilities.lua:1024
 #, lua-format
 msgid ""
 "%s\n"
@@ -2596,14 +2596,14 @@ msgid ""
 "• <b>User</b>: %s"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:1021
+#: lua/groupbutler/utilities.lua:1026
 #, lua-format
 msgid ""
 "\n"
 "• <b>Added by</b>: %s [#id%d]"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:1034
+#: lua/groupbutler/utilities.lua:1039
 #, lua-format
 msgid ""
 "#%s\n"
@@ -2613,14 +2613,14 @@ msgid ""
 "• <b>Count</b>: <code>%d/%d</code>"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:1037
+#: lua/groupbutler/utilities.lua:1042
 #, lua-format
 msgid ""
 "\n"
 "<b>Action</b>: <i>%s</i>"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:1045
+#: lua/groupbutler/utilities.lua:1050
 #, lua-format
 msgid ""
 "#%s\n"
@@ -2630,7 +2630,7 @@ msgid ""
 "• <b>Warns found</b>: <i>normal: %s, for media: %s, spamwarns: %s</i>"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:1051
+#: lua/groupbutler/utilities.lua:1056
 #, lua-format
 msgid ""
 "#%s\n"
@@ -2638,17 +2638,17 @@ msgid ""
 "• %s\n"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:1054
+#: lua/groupbutler/utilities.lua:1059
 #, lua-format
 msgid "• <i>Users involved: %d</i>"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:1056
+#: lua/groupbutler/utilities.lua:1061
 #, lua-format
 msgid "• <b>User</b>: %s [#id%d]"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:1067
+#: lua/groupbutler/utilities.lua:1072
 #, lua-format
 msgid ""
 "#%s\n"
@@ -2658,7 +2658,7 @@ msgid ""
 "• <b>Duration</b>: %d days, %d hours"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:1076
+#: lua/groupbutler/utilities.lua:1081
 #, lua-format
 msgid ""
 "#%s\n"
@@ -2667,11 +2667,11 @@ msgid ""
 "• <b>User</b>: %s [#id%s]"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:1095
+#: lua/groupbutler/utilities.lua:1100
 msgid "Go to the message"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:1146
+#: lua/groupbutler/utilities.lua:1151
 #, lua-format
 msgid "This command has been removed \\[[read more](%s)]"
 msgstr ""
