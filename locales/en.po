@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GroupButler 4.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-11 17:03-0300\n"
+"POT-Creation-Date: 2018-08-11 18:42-0300\n"
 "PO-Revision-Date: 2016-08-27 17:50+0300\n"
 "Last-Translator: Nicholas Guriev <guriev-ns@ya.ru>\n"
 "Language-Team: English\n"
@@ -180,7 +180,7 @@ msgstr ""
 #: lua/groupbutler/plugins/floodmanager.lua:148
 #: lua/groupbutler/plugins/logchannel.lua:141
 #: lua/groupbutler/plugins/mediasettings.lua:119
-#: lua/groupbutler/plugins/menu.lua:268
+#: lua/groupbutler/plugins/menu.lua:269
 msgid "You're no longer an admin"
 msgstr ""
 
@@ -424,7 +424,7 @@ msgid "❌ | OFF"
 msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:36
-#: lua/groupbutler/plugins/menu.lua:176 lua/groupbutler/plugins/menu.lua:237
+#: lua/groupbutler/plugins/menu.lua:176 lua/groupbutler/plugins/menu.lua:238
 msgid "👞 kick"
 msgstr ""
 
@@ -435,7 +435,7 @@ msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:40
 #: lua/groupbutler/plugins/floodmanager.lua:57
-#: lua/groupbutler/plugins/menu.lua:180 lua/groupbutler/plugins/menu.lua:241
+#: lua/groupbutler/plugins/menu.lua:180 lua/groupbutler/plugins/menu.lua:242
 msgid "👁 mute"
 msgstr ""
 
@@ -1713,19 +1713,23 @@ msgstr ""
 msgid "Welcome + rules button"
 msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:239
+#: lua/groupbutler/plugins/menu.lua:203
+msgid "Clean Service Messages"
+msgstr ""
+
+#: lua/groupbutler/plugins/menu.lua:240
 msgid "🔨️ ban"
 msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:245
+#: lua/groupbutler/plugins/menu.lua:246
 msgid "Warns: "
 msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:250
+#: lua/groupbutler/plugins/menu.lua:251
 msgid "Action:"
 msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:270
+#: lua/groupbutler/plugins/menu.lua:271
 msgid ""
 "Manage the settings of the group. Click on the left column to get a small "
 "hint"
@@ -2020,16 +2024,16 @@ msgstr ""
 msgid "New rules *saved successfully*!"
 msgstr ""
 
-#: lua/groupbutler/plugins/service.lua:39
+#: lua/groupbutler/plugins/service.lua:52
 #, lua-format
 msgid "_You (user ID: %d) are in the blocked list_"
 msgstr ""
 
-#: lua/groupbutler/plugins/service.lua:44
+#: lua/groupbutler/plugins/service.lua:57
 msgid "_Admin mode is on: only the bot admin can add me to a new group_"
 msgstr ""
 
-#: lua/groupbutler/plugins/service.lua:56
+#: lua/groupbutler/plugins/service.lua:69
 #, lua-format
 msgid ""
 "Hello everyone!\n"
@@ -2037,7 +2041,7 @@ msgid ""
 "work.\n"
 msgstr ""
 
-#: lua/groupbutler/plugins/service.lua:60
+#: lua/groupbutler/plugins/service.lua:73
 msgid ""
 "Yay! This group has been upgraded. You are great! Now I can work "
 "properly :)\n"
