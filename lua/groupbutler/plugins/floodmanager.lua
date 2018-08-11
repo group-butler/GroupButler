@@ -147,8 +147,9 @@ function _M:onCallbackQuery(msg, blocks)
 	if chat_id and not u:is_allowed('config', chat_id, msg.from) then
 		api.answerCallbackQuery(msg.cb_id, i18n("You're no longer an admin"))
 	else
-		local header = i18n([[You can manage the antiflood settings from here.\n\nIt is also possible to choose which type of messages the antiflood will ignore (✅)
-]])
+		local header = i18n([[You can manage the antiflood settings from here.
+
+It is also possible to choose which type of messages the antiflood will ignore (✅)]])
 
 		local text
 
