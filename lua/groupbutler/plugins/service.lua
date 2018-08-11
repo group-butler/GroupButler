@@ -1,6 +1,7 @@
 local config = require "groupbutler.config"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local get_bot = require "groupbutler.bot"
+local null = require "groupbutler.null"
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
 
@@ -27,8 +28,20 @@ end
 
 function _M:onTextMessage(msg, blocks)
 	local u = self.u
+	local db = self.db
 
 	if not msg.service then return end
+
+	if blocks[1] == 'new_chat_member'
+	or blocks[1] == 'left_chat_member' then
+		local status = db:hget(('chat:%d:settings'):format(msg.chat.id), 'Clean_service_msg')
+		if status == null then status = config.chat_settings.settings.Clean_service_msg end
+
+		if status == 'on' then
+			api.deleteMessage(msg.chat.id, msg.message_id)
+		end
+	end
+
 	if blocks[1] == 'new_chat_member:bot' or blocks[1] == 'migrate_from_chat_id' then
 		-- set the language
 		--[[locale.language = db:get(string.format('lang:%d', msg.from.id)) or config.lang
@@ -83,6 +96,8 @@ end
 
 _M.triggers = {
 	onTextMessage = {
+		'^###(new_chat_member)$',
+		'^###(left_chat_member)$',
 		'^###(new_chat_member:bot)',
 		'^###(migrate_from_chat_id)',
 		'^###(left_chat_member:bot)',

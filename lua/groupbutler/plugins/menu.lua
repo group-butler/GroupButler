@@ -199,7 +199,8 @@ local function insert_settings_section(keyboard, settings_section, chat_id)
 		Antibot = i18n("Ban bots"),
 		Reports = i18n("Reports"),
 		Weldelchain = i18n("Delete last welcome message"),
-		Welbut = i18n("Welcome + rules button")
+		Welbut = i18n("Welcome + rules button"),
+		Clean_service_msg = i18n("Clean Service Messages")
 	}
 
 	for key, icon in pairs(settings_section) do
