@@ -91,12 +91,12 @@ function _M:onTextMessage(msg, blocks)
 		local reply_markup, test_text = u:reply_markup_from_text(rules)
 
 		--set the new rules
-		local res, code = u:sendReply(msg, test_text, "Markdown", nil, nil, reply_markup)
-		if not res then
-			api.sendMessage(msg.chat.id, u:get_sm_error_string(code), "Markdown")
+		local ok, err = u:sendReply(msg, test_text, "Markdown", nil, nil, reply_markup)
+		if not ok then
+			api.sendMessage(msg.chat.id, u:get_sm_error_string(err), "Markdown")
 		else
 			db:hset(hash, 'rules', rules)
-			local id = res.message_id
+			local id = ok.message_id
 			api.editMessageText(msg.chat.id, id, nil, i18n("New rules *saved successfully*!"), "Markdown")
 		end
 	end

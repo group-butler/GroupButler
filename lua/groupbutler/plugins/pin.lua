@@ -41,28 +41,28 @@ function _M:onTextMessage(msg, blocks)
 		local was_deleted
 		if pin_id ~= null and blocks[1] ~= "newpin" then --try to edit the old message
 			local reply_markup, new_text = u:reply_markup_from_text(blocks[2])
-			local res, code = api.editMessageText(msg.chat.id, pin_id, nil, new_text:replaceholders(msg, 'rules', 'title'),
+			local ok, err = api.editMessageText(msg.chat.id, pin_id, nil, new_text:replaceholders(msg, 'rules', 'title'),
 				"Markdown", nil, reply_markup)
-			if not res then
-				if code == 155 then -- the old message doesn't exist. Send a new one in the chat --> set pin_id to false, so the code will enter the next if
+			if not ok then
+				if err.error_code == 155 then -- the old message doesn't exist. Send a new one in the chat --> set pin_id to false, so the code will enter the next if
 					was_deleted = true
 					pin_id = nil
 				else
-					api.sendMessage(msg.chat.id, u:get_sm_error_string(code), "Markdown")
+					api.sendMessage(msg.chat.id, u:get_sm_error_string(err), "Markdown")
 				end
 			else
-				db:set('chat:'..msg.chat.id..':pin', res.message_id)
+				db:set('chat:'..msg.chat.id..':pin', ok.message_id)
 				api.sendMessage(msg.chat.id, i18n("Message edited. Check it here"), "Markdown", nil, nil, pin_id)
 			end
 		end
 		if not pin_id or blocks[1] == "newpin" then
 			local reply_markup, new_text = u:reply_markup_from_text(blocks[2])
-			local res, code = api.sendMessage(msg.chat.id, new_text:replaceholders(msg, 'rules', 'title'), "Markdown",
+			local ok, err = api.sendMessage(msg.chat.id, new_text:replaceholders(msg, 'rules', 'title'), "Markdown",
 				reply_markup)
-			if not res then
-				api.sendMessage(msg.chat.id, u:get_sm_error_string(code), "Markdown")
+			if not ok then
+				api.sendMessage(msg.chat.id, u:get_sm_error_string(err), "Markdown")
 			else --if the message has been sent, then set its ID as new pinned message
-				db:set('chat:'..msg.chat.id..':pin', res.message_id)
+				db:set('chat:'..msg.chat.id..':pin', ok.message_id)
 				local text
 				if was_deleted then
 					text = i18n([[The old message generated with `/pin` does not exist anymore, so I can't edit it. This is the new message that can be now pinned
@@ -70,7 +70,7 @@ function _M:onTextMessage(msg, blocks)
 				else
 					text = i18n("This message can now be pinned. Use `/pin [new text]` to edit it without having to send it again")
 				end
-				api.sendMessage(msg.chat.id, text, "Markdown", nil, nil, res.message_id)
+				api.sendMessage(msg.chat.id, text, "Markdown", nil, nil, ok.message_id)
 			end
 		end
 	end

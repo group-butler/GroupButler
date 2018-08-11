@@ -64,9 +64,9 @@ function _M:onTextMessage(msg, blocks)
 		api.sendMessage(msg.from.id, i18n("Pong!"), "Markdown")
 	end
 	if blocks[1] == 'echo' then
-		local res, code = api.sendMessage(msg.chat.id, blocks[2], "Markdown")
-		if not res then
-			api.sendMessage(msg.chat.id, u:get_sm_error_string(code), "Markdown")
+		local ok, err = api.sendMessage(msg.chat.id, blocks[2], "Markdown")
+		if not ok then
+			api.sendMessage(msg.chat.id, u:get_sm_error_string(err), "Markdown")
 		end
 	end
 	if blocks[1] == 'about' then

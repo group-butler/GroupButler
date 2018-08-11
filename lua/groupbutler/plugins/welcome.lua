@@ -191,16 +191,16 @@ function _M:onTextMessage(msg, blocks)
 
 			local reply_markup, new_text = u:reply_markup_from_text(input)
 
-			local res, code = u:sendReply(msg, new_text:gsub('$rules', u:deeplink_constructor(msg.chat.id, 'rules')), "Markdown",
+			local ok, err = u:sendReply(msg, new_text:gsub('$rules', u:deeplink_constructor(msg.chat.id, 'rules')), "Markdown",
 				reply_markup)
-			if not res then
+			if not ok then
 				db:hset(hash, 'type', 'no') --if wrong markdown, remove 'custom' again
 				db:hset(hash, 'content', 'no')
-				api.sendMessage(msg.chat.id, u:get_sm_error_string(code), "Markdown")
+				api.sendMessage(msg.chat.id, u:get_sm_error_string(err), "Markdown")
 			else
 				-- turn on the welcome message in the group settings
 				db:hset(('chat:%d:settings'):format(msg.chat.id), 'Welcome', 'on')
-				local id = res.message_id
+				local id = ok.message_id
 				api.editMessageText(msg.chat.id, id, nil, i18n("*Custom welcome message saved!*"), "Markdown")
 			end
 		end

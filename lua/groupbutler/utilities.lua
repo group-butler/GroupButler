@@ -455,8 +455,13 @@ function _M:resolve_user(username)
 	return user_obj.id
 end
 
-function _M:get_sm_error_string(code)
+function _M:get_sm_error_string(err)
 	local _ = self
+	local unknown_error = i18n("Text not valid: unknown formatting error")
+	if not err or not err.error_code then
+		return unknown_error
+	end
+	local code = err.error_code
 	local hyperlinks_text = i18n('More info [here](https://telegram.me/GB_tutorials/12)')
 	local descriptions = {
 		[109] =
@@ -470,13 +475,13 @@ function _M:get_sm_error_string(code)
 					.. "[here](https://telegram.me/GB_tutorials/10) and [here](https://telegram.me/GB_tutorials/12)."),
 		[118] = i18n('This message is too long. Max lenght allowed by Telegram: 4000 characters'),
 		[146] =
-		i18n('One of the URLs that should be placed in an inline button seems to be invalid (not an URL). Please check it'),
+		i18n('One of the URLs that sh0ould be placed in an inline button seems to be invalid (not an URL). Please check it'),
 		[137] = i18n("One of the inline buttons you are trying to set is missing the URL"),
 		[149] = i18n("One of the inline buttons you are trying to set doesn't have a name"),
 		[115] = i18n("Please input a text")
 	}
 
-	return descriptions[code] or i18n("Text not valid: unknown formatting error")
+	return descriptions[code] or unknown_error
 end
 
 function _M:reply_markup_from_text(text)

@@ -89,12 +89,12 @@ function _M:onTextMessage(msg, blocks)
 			local reply_markup, test_text = u:reply_markup_from_text(new_extra)
 				test_text = test_text:gsub('\n', '')
 
-			local res, code = u:sendReply(msg, test_text:replaceholders(msg), "Markdown", reply_markup)
-				if not res then
-				api.sendMessage(msg.chat.id, u:get_sm_error_string(code), "Markdown")
+			local ok, err = u:sendReply(msg, test_text:replaceholders(msg), "Markdown", reply_markup)
+				if not ok then
+				api.sendMessage(msg.chat.id, u:get_sm_error_string(err), "Markdown")
 				else
 					db:hset(hash, blocks[2]:lower(), new_extra)
-				local msg_id = res.message_id
+				local msg_id = ok.message_id
 				api.editMessageText(msg.chat.id, msg_id, nil, i18n("Command '%s' saved!"):format(blocks[2]))
 				end
 			end
