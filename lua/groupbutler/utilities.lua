@@ -475,7 +475,7 @@ function _M:get_sm_error_string(err)
 					.. "[here](https://telegram.me/GB_tutorials/10) and [here](https://telegram.me/GB_tutorials/12)."),
 		[118] = i18n('This message is too long. Max lenght allowed by Telegram: 4000 characters'),
 		[146] =
-		i18n('One of the URLs that sh0ould be placed in an inline button seems to be invalid (not an URL). Please check it'),
+		i18n('One of the URLs that should be placed in an inline button seems to be invalid (not an URL). Please check it'),
 		[137] = i18n("One of the inline buttons you are trying to set is missing the URL"),
 		[149] = i18n("One of the inline buttons you are trying to set doesn't have a name"),
 		[115] = i18n("Please input a text")
