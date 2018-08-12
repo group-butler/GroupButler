@@ -33,8 +33,8 @@ local function is_locked(self, chat_id)
 		end
 
 local function set_default(t, d)
-  local mt = {__index = function() return d end}
-  setmetatable(t, mt)
+	local mt = {__index = function() return d end}
+	setmetatable(t, mt)
 end
 
 local function sendMedia(chat_id, file_id, media, reply_to_message_id, caption)
