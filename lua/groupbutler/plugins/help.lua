@@ -27,6 +27,7 @@ end
 
 local function get_helped_string(key)
 	local helped_string = {
+		main_menu = i18n("In this menu you will find all the available commands"),
 		start = i18n([[Hello %s 👋🏼, nice to meet you!
 I'm Group Butler, the first administration bot using the official Bot API.
 
@@ -39,8 +40,7 @@ I'm Group Butler, the first administration bot using the official Bot API.
 • I can also warn, kick or ban users when they post a specific media
 …and more, below you can find the "all commands" button to get the whole list!
 
-I work better if you add me to the group administrators (otherwise I won't be able to kick or ban)!
-]]),
+I work better if you add me to the group administrators (otherwise I won't be able to kick or ban)!]]),
 		basics = i18n([[This bot works only in supergroups.
 
 To work properly, [it needs to be admin in your group](https://telegram.me/GroupButler_ch/104), so it can kick or ban people if needed.
@@ -52,8 +52,7 @@ Group Butler saves the adminlist of a group in its databse to avoid to send too 
 This list is updated every 5 hours, so there could be some differences between who the bot thinks are the admins and who the admins actually are, if during the 5 hours timeframe some users have been promoted/demoted.
 It's possible to force the bot to update its adminlist with `/cache`.
 
-Remember: you have to use commands  *in the group*, unless they are specifically designed for private chats (see "private" tab).
-]]),
+Remember: you have to use commands  *in the group*, unless they are specifically designed for private chats (see "private" tab).]]), -- luacheck: ignore 631
 		private = i18n([[*Commands that work in private*:
 
 • `/mysettings`: show a keyboard that allows you to change your personal settings, such as choosing if receive the rules in private when you join a group or if receive reports made with the `@admin` command
@@ -62,8 +61,7 @@ Remember: you have to use commands  *in the group*, unless they are specifically
 • `/groups` : show the list of the discussion groups
 • `/id`: get your id
 • `/start` : show the initial message
-• `/help` : show this message
-]]),
+• `/help` : show this message]]),
 		users_group = i18n([[*Commands available for every user in a group*:
 
 • `/dashboard`: see all the informations about the group
@@ -75,8 +73,7 @@ Remember: you have to use commands  *in the group*, unless they are specifically
 With `/rules`, the bot always answer in the group for admins, but with normal users the message is sent in the group or in private according to the group settings.
 
 • `@admin` (by reply): report a message to the admins of the group (the bot will forward it in prvate). This ability could be turned off from the group settings. A description of the report can be added.
-Admins need to give their consense to receive reports from users, with `/mysettings` command
-]]),
+Admins need to give their consense to receive reports from users, with `/mysettings` command]]),
 		info = i18n([[*Admins: info about the group*
 
 • `/setrules [group rules]`: set the new regulation for the group (the old will be overwritten).
@@ -90,8 +87,7 @@ If you are going to use it in a public supergroup, you do not need to append the
 • `/link`: get the group link, if already set.
 • `/msglink`: get the link to a message. Works only in public supergroups
 
-*Note*: the bot can recognize valid group links. If a link is not valid, you won't receive a reply.
-]]),
+*Note*: the bot can recognize valid group links. If a link is not valid, you won't receive a reply.]]),
 		banhammer = i18n([[*Banhammer powers*
 A set of commands that let admins kick and ban people from a group, and get some information about a user.
 Kicked people can join back, banned people can't. Banned users are added to the group's blacklist. It's possible to blacklist users even if they are not part of the group.
@@ -111,8 +107,7 @@ Will also show the permissions the user *doesn't* have.
 The "antiflood" is a system that auto-removes people that send many consecutive messages in a group.
 If on, the antiflood system will kick/ban flooders.
 
-• `/config` command, then `antiflood` button: manage the flood settings in private, with an inline keyboard. You can change the sensitivity, the action (kick/ban) to perform, and even set some exceptions.
-]]),
+• `/config` command, then `antiflood` button: manage the flood settings in private, with an inline keyboard. You can change the sensitivity, the action (kick/ban) to perform, and even set some exceptions.]]), -- luacheck: ignore 631
 		report = i18n([[*Reports settings*
 `@admin` is an useful command to let users report some messages to the group admins.
 A reported message will be forwarded to the available admins.
@@ -142,8 +137,7 @@ Placeholders:
 *Note*: `$name`, `$surname`, and `$title` may not work properly within markdown markup.
 
 *GIF/sticker as welcome message*
-You can use a particular gif/sticker as welcome message. To set it, reply to the gif/sticker you want to set as welcome message with `/welcome`. Same goes for `/goodbye`
-]]),
+You can use a particular gif/sticker as welcome message. To set it, reply to the gif/sticker you want to set as welcome message with `/welcome`. Same goes for `/goodbye`]]), -- luacheck: ignore 631
 		whitelist = i18n([[*Whitelist settings*
 
 As you may know, the bot can warn/kick/ban who sends a telegram.me link (antispam settings) or any other link (media settings).
@@ -158,8 +152,7 @@ If users send a whitelisted link, they won't be warned or kicked.
 When the group link is saved with `/setlink`, it gets automatically added to the whitelist.
 
 *Why links are saved without* _https://_ *and* _www_*?*
-The bot auto-removes _https://, http:// and www_ from every link to reduce the possibility of having the same link saved twice.
-]]),
+The bot auto-removes _https://, http:// and www_ from every link to reduce the possibility of having the same link saved twice.]]), -- luacheck: ignore 631
 		extra = i18n([[*Extra commands*
 #extra commands are a smart way to save your own custom commands.
 
@@ -171,8 +164,7 @@ You can reply to a media (_photo, file, vocal, video, gif, audio_) with `/extra 
 
 *Note:* the markdown is supported. If the text sent breaks the markdown, the bot will notify that something is wrong.
 For a correct use of the markdown, check [this post](https://telegram.me/GroupButler_ch/46) in the channel.
-Now supports placeholders. Check the "welcome" tab for the list of the available placeholders
-]]),
+Now supports placeholders. Check the "welcome" tab for the list of the available placeholders]]),
 		warns = i18n([[*Warns*
 Warn are made to keep the count of the admonitions received by a user. Once users have been warned for the defined number of times, they are kicked/banned by the bot.
 There are two different type of warns:
@@ -188,8 +180,7 @@ There are two different type of warns:
 How to see how many warns a user has received (or to reset them): `/user` command.
 How to change the max. number of warnings allowed: `/config` command, then `menu` button.
 How to change the max. number of warnings allowed for medias: `/config` command, then `media` button.
-How to change the max. number of warnings allowed for spam: `/config` command, then `antispam` button.
-]]),
+How to change the max. number of warnings allowed for spam: `/config` command, then `antispam` button.]]),
 		pin = i18n([[*Pinning messages*
 The "48 hours limit" to edit your own messages doesn't apply to bots.
 This command was born from the necessity of editing the pinned message without sending it again, maybe just to change few things.
@@ -199,8 +190,7 @@ So with `/pin` you can generate a message to pin, and edit it how many times you
 • `/pin`: the bot will find the latest message generate by `/pin`, if it still exists
 • `/newpin [text]`: forces the bot to send another message that will be saved as new target for `/pin`
 
-*Note*: `/pin` supports markdown, but only `$rules` and `$title` placeholders
-]]),
+*Note*: `/pin` supports markdown, but only `$rules` and `$title` placeholders]]),
 		lang = i18n([[*Group language*
 • `/lang`: change the bot language (works on groups and private chats)
 
@@ -215,8 +205,7 @@ Here you will find two particular options: _Arab and RTL_.
 
 *Arab*: when Arab is not allowed (🚫), people who write Arab characters will be kicked from the group.
 *Rtl*: stands for 'Right To Left' character, is the cause of weird service messages written in the opposite direction.
-When Rtl is not allowed (🚫), people who write Rtl characters (or have it in their names) will be kicked.
-]]),
+When Rtl is not allowed (🚫), people who write Rtl characters (or have it in their names) will be kicked.]]),
 		config = i18n([[*General group settings*
 
 `/config` or  `/settings`: manage the group settings in private from an inline keyboard.
@@ -231,8 +220,7 @@ The inline keyboard has six sub-menus:
 *Bonus commands*:
 `/reportflood [number of messages]/[timeframe]`: set how many times users can use the @admin command within a certain timeframe.
 `/leave`: the bot will leave the group without deleting its data. Use this command only if you are going to add the bot to the group again
-`/snap`: generate a backup file that can be restored with `/import` (send the file in the group and reply to it). `/snap` can be used once every three days
-]]),
+`/snap`: generate a backup file that can be restored with `/import` (send the file in the group and reply to it). `/snap` can be used once every three days]]), -- luacheck: ignore 631
 		logchannel = i18n([[*Log channel informations*
 
 A log channel is a _(private)_ channel where the bot will record all the important events that will happen in your group.
@@ -249,7 +237,7 @@ To change your log channel, simply repeat this process with another channel.
 
 `/unsetlog`: remove your current log channel
 `/logchannel`: get some informations about your log channel, if paired]]),
-	} set_default(helped_string, i18n("In this menu you will find all the available commands"))
+	} set_default(helped_string, i18n("*Missing help information!*"))
 	return helped_string[key]
 end
 
