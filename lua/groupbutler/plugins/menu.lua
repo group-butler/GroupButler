@@ -46,8 +46,8 @@ local function get_button_description(key)
 		Arab = i18n("Select what the bot should do when someone sends a message with arab characters"),
 		Antibot = i18n("Bots will be banned when added by normal users"),
 		Rtl = i18n("Select what the bot should do when someone sends a message with the RTL character, or has it in their name"), -- luacheck: ignore 631
-		warnsnum = i18n("Change how many times an user has to be warned before being kicked/banned"),
-		warnsact = i18n("Change the action to perform when an user reaches the max. number of warnings"),
+		warnsnum = i18n("Change how many times a user has to be warned before being kicked/banned"),
+		warnsact = i18n("Change the action to perform when a user reaches the max. number of warnings"),
 	} set_default(button_description, i18n("Description not available"))
 
 	return button_description[key]

@@ -71,7 +71,7 @@ Remember: you have to use commands  *in the group*, unless they are specifically
 • `/adminlist`: show the administrators of the group
 • `/help`: receive the help message
 • `!kickme`: the bot will kick you
-*Note*: `/dashboard`, `/adminlist` and `/staff` always reply in private. If the bot is unable to reach an user, it will ask in the group to that user to be started, but just if _silent mode_ is off.
+*Note*: `/dashboard`, `/adminlist` and `/staff` always reply in private. If the bot is unable to reach a user, it will ask in the group to that user to be started, but just if _silent mode_ is off.
 With `/rules`, the bot always answer in the group for admins, but with normal users the message is sent in the group or in private according to the group settings.
 
 • `@admin` (by reply): report a message to the admins of the group (the bot will forward it in prvate). This ability could be turned off from the group settings. A description of the report can be added.
@@ -93,13 +93,13 @@ If you are going to use it in a public supergroup, you do not need to append the
 *Note*: the bot can recognize valid group links. If a link is not valid, you won't receive a reply.
 ]]),
 		banhammer = i18n([[*Banhammer powers*
-A set of commands that let admins kick and ban people from a group, and get some information about an user.
+A set of commands that let admins kick and ban people from a group, and get some information about a user.
 Kicked people can join back, banned people can't. Banned users are added to the group's blacklist. It's possible to blacklist users even if they are not part of the group.
 Only the administrators who have the permission to restrict users can use these commands, but `/status` can be used by all the admins.
 
 • `/kick [by reply|username|id|text mention]`: kick a user from the group.
 • `/ban [by reply|username|id|text mention]`: ban a user from the group.
-• `/tempban [by reply|username|id|text mention]`: ban an user for a specific amount of time. Use the returned keyboard to ban the user.
+• `/tempban [by reply|username|id|text mention]`: ban a user for a specific amount of time. Use the returned keyboard to ban the user.
 Pass a value on a new line to use it as starting value. When a ban expires, the user won't be added back. Check the Telegram's restricted users list for pending unbans.
 • `/fwdban [by reply]`: ban the original sender of a forwarded message.
 • `/unban [by reply|username|id|text mention]`: unban the user from the group.
@@ -174,14 +174,14 @@ For a correct use of the markdown, check [this post](https://telegram.me/GroupBu
 Now supports placeholders. Check the "welcome" tab for the list of the available placeholders
 ]]),
 		warns = i18n([[*Warns*
-Warn are made to keep the count of the admonitions received by an user. Once users have been warned for the defined number of times, they are kicked/banned by the bot.
+Warn are made to keep the count of the admonitions received by a user. Once users have been warned for the defined number of times, they are kicked/banned by the bot.
 There are two different type of warns:
 - _normal warns_, given by an admin with the `/warn` command
 - _automatic warns_ (read: media warns and spam warns), given by the bot when someone sends a media that is not allowed in the chat, or spams other channels or telegram.me links.
 
 • `/warn [by reply]`: warn a user
 • `/sw`: you can place a `/sw` (_"silent warn"_) everywhere you want in your message. The bot will silently count the warn, but won't answer in the group unless the user reached the max. number of warnings.
-• `/nowarns [by reply]`: reset the warns received by an user (both normal and automatic warns).
+• `/nowarns [by reply]`: reset the warns received by a user (both normal and automatic warns).
 • `/warnmax [number]`: set the max number of the warns before the kick/ban.
 • `/warnmax media [number]`: set the max number of the warns before kick/ban when an unallowed media is sent.
 
@@ -224,7 +224,7 @@ The inline keyboard has six sub-menus:
 
 *Menu*: manage the most important group settings
 *Antiflood*: turn on or off the antiflood, set its sensitivity and choose some media to ignore, if you want
-*Media*: choose which media to forbid in your group, and set the number of times that an user will be warned before being kicked/banned
+*Media*: choose which media to forbid in your group, and set the number of times that a user will be warned before being kicked/banned
 *Antispam*: choose which kind of spam you want to forbid (example: telegram.me links, forwarded messages from channels)
 *Log channel*: choose which updates should be logged
 

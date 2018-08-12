@@ -80,7 +80,7 @@ local _M =
 		admin_mode = os.getenv('GB_ADMIN_MODE') == 'true' or false
 	},
 	plugins = {
-		'onmessage', --THIS MUST BE THE FIRST: IF AN USER IS FLOODING/IS BLOCKED, THE BOT WON'T GO THROUGH PLUGINS
+		'onmessage', --THIS MUST BE THE FIRST: IF a user IS FLOODING/IS BLOCKED, THE BOT WON'T GO THROUGH PLUGINS
 		'antispam', --SAME OF onmessage.lua
 		'backup',
 		'banhammer',

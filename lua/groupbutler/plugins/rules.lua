@@ -43,7 +43,7 @@ function _M:onTextMessage(msg, blocks)
 				api.sendMessage(msg.from.id, i18n("🚫 Unknown or non-existent group"))
 				return
 			end
-			-- Private chats have no an username
+			-- Private chats have no username
 			local private = not res.username
 
 			res = api.getChatMember(msg.chat.id, msg.from.id)

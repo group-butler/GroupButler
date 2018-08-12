@@ -937,7 +937,7 @@ end
 function _M:get_user_id(msg, blocks)
 	--if no user id: returns false and the msg id of the translation for the problem
 	if not msg.reply and not blocks[2] then
-		return false, i18n("Reply to an user or mention them")
+		return false, i18n("Reply to a user or mention them")
 	end
 
 	if msg.reply then

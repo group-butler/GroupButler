@@ -64,7 +64,7 @@ local function getFloodSettings_text(self, chat_id)
 		list_exc = list_exc..'• `'..translation..'`: '..exc_status..'\n'
 	end
 	return i18n("- *Status*: `%s`\n"):format(status)
-			.. i18n("- *Action* to perform when an user floods: `%s`\n"):format(action)
+			.. i18n("- *Action* to perform when a user floods: `%s`\n"):format(action)
 			.. i18n("- Number of messages allowed *every 5 seconds*: `%d`\n"):format(num)
 			.. i18n("- *Ignored media*:\n%s"):format(list_exc)
 end
@@ -118,7 +118,7 @@ function _M:onCallbackQuery(msg, blocks)
 		api.answerCallbackQuery(msg.cb_id, i18n("🚫 This group does not exist"))
 		return
 	end
-	-- Private chats don't have an username
+	-- Private chats don't have a username
 	local private = not res.username
 	res = api.getChatMember(chat_id, msg.from.id)
 	if not res or (res.status == 'left' or res.status == 'kicked') and private then

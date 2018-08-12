@@ -163,7 +163,7 @@ function _M:onTextMessage(msg, blocks)
 						end
 				else
 				local reply_markup, clean_text = u:reply_markup_from_text(text)
-				api.sendMessage(msg.chat.id, clean_text:replaceholders(msg.reply or msg), "Markdown", link_preview, nil, msg_to_reply, reply_markup) -- if the admin replies to an user, the bot will reply to the user too
+				api.sendMessage(msg.chat.id, clean_text:replaceholders(msg.reply or msg), "Markdown", link_preview, nil, msg_to_reply, reply_markup) -- if the admin replies to a user, the bot will reply to the user too
 					end
 			end
 

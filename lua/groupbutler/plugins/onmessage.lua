@@ -134,7 +134,7 @@ function _M:onEveryMessage(msg)
 			-- if msg.cb then
 			-- 	api.answerCallbackQuery(msg.cb_id, i18n("‼️ Please don't abuse the keyboard, requests will be ignored")) -- avoid to hit the limits with answerCallbackQuery
 			-- end
-			return false --if an user is spamming, don't go through plugins
+			return false --if a user is spamming, don't go through plugins
 		end
 	end
 
@@ -257,7 +257,7 @@ function _M:onEveryMessage(msg)
 	end
 
 	if u:is_blocked_global(msg.from.id) then --ignore blocked users
-		return false -- if an user is blocked, don't go through plugins
+		return false -- if a user is blocked, don't go through plugins
 	else
 		return true -- don't return false for edited messages: the antispam needs to process them
 	end

@@ -150,7 +150,7 @@ function _M:onTextMessage(msg, blocks)
 		if not msg.reply
 			and (not blocks[2] or (not blocks[2]:match('@[%w_]+$') and not blocks[2]:match('%d+$')
 			and not msg.mention_id)) then
-			u:sendReply(msg, i18n("Reply to an user or mention them by username or numerical ID"))
+			u:sendReply(msg, i18n("Reply to a user or mention them by username or numerical ID"))
 			return
 		end
 

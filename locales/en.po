@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GroupButler 4.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-12 05:24-0300\n"
+"POT-Creation-Date: 2018-08-12 05:47-0300\n"
 "PO-Revision-Date: 2016-08-27 17:50+0300\n"
 "Last-Translator: Nicholas Guriev <guriev-ns@ya.ru>\n"
 "Language-Team: English\n"
@@ -484,7 +484,7 @@ msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:67
 #, lua-format
-msgid "- *Action* to perform when an user floods: `%s`\n"
+msgid "- *Action* to perform when a user floods: `%s`\n"
 msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:68
@@ -828,7 +828,7 @@ msgid ""
 "• `/help`: receive the help message\n"
 "• `!kickme`: the bot will kick you\n"
 "*Note*: `/dashboard`, `/adminlist` and `/staff` always reply in private. If "
-"the bot is unable to reach an user, it will ask in the group to that user to "
+"the bot is unable to reach a user, it will ask in the group to that user to "
 "be started, but just if _silent mode_ is off.\n"
 "With `/rules`, the bot always answer in the group for admins, but with "
 "normal users the message is sent in the group or in private according to the "
@@ -869,7 +869,7 @@ msgstr ""
 msgid ""
 "*Banhammer powers*\n"
 "A set of commands that let admins kick and ban people from a group, and get "
-"some information about an user.\n"
+"some information about a user.\n"
 "Kicked people can join back, banned people can't. Banned users are added to "
 "the group's blacklist. It's possible to blacklist users even if they are not "
 "part of the group.\n"
@@ -878,7 +878,7 @@ msgid ""
 "\n"
 "• `/kick [by reply|username|id|text mention]`: kick a user from the group.\n"
 "• `/ban [by reply|username|id|text mention]`: ban a user from the group.\n"
-"• `/tempban [by reply|username|id|text mention]`: ban an user for a specific "
+"• `/tempban [by reply|username|id|text mention]`: ban a user for a specific "
 "amount of time. Use the returned keyboard to ban the user.\n"
 "Pass a value on a new line to use it as starting value. When a ban expires, "
 "the user won't be added back. Check the Telegram's restricted users list for "
@@ -1004,7 +1004,7 @@ msgstr ""
 #: lua/groupbutler/plugins/help.lua:176
 msgid ""
 "*Warns*\n"
-"Warn are made to keep the count of the admonitions received by an user. Once "
+"Warn are made to keep the count of the admonitions received by a user. Once "
 "users have been warned for the defined number of times, they are kicked/"
 "banned by the bot.\n"
 "There are two different type of warns:\n"
@@ -1017,8 +1017,8 @@ msgid ""
 "• `/sw`: you can place a `/sw` (_\"silent warn\"_) everywhere you want in "
 "your message. The bot will silently count the warn, but won't answer in the "
 "group unless the user reached the max. number of warnings.\n"
-"• `/nowarns [by reply]`: reset the warns received by an user (both normal "
-"and automatic warns).\n"
+"• `/nowarns [by reply]`: reset the warns received by a user (both normal and "
+"automatic warns).\n"
 "• `/warnmax [number]`: set the max number of the warns before the kick/ban.\n"
 "• `/warnmax media [number]`: set the max number of the warns before kick/ban "
 "when an unallowed media is sent.\n"
@@ -1091,7 +1091,7 @@ msgid ""
 "*Antiflood*: turn on or off the antiflood, set its sensitivity and choose "
 "some media to ignore, if you want\n"
 "*Media*: choose which media to forbid in your group, and set the number of "
-"times that an user will be warned before being kicked/banned\n"
+"times that a user will be warned before being kicked/banned\n"
 "*Antispam*: choose which kind of spam you want to forbid (example: telegram."
 "me links, forwarded messages from channels)\n"
 "*Log channel*: choose which updates should be logged\n"
@@ -1278,7 +1278,7 @@ msgid ""
 msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:32
-msgid "Log every time an user join the group"
+msgid "Log every time a user join the group"
 msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:33
@@ -1304,7 +1304,7 @@ msgid ""
 msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:38
-msgid "Log when an user is flooding (new log message every 5 flood messages)"
+msgid "Log when a user is flooding (new log message every 5 flood messages)"
 msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:39
@@ -1324,15 +1324,15 @@ msgid "Log pinned messages"
 msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:43
-msgid "Log when an user who has been blocked is banned from the group on join"
+msgid "Log when a user who has been blocked is banned from the group on join"
 msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:44
-msgid "Log when an admin removes the warning received by an user"
+msgid "Log when an admin removes the warning received by a user"
 msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:45
-msgid "Log when an user reports a message with the @admin command"
+msgid "Log when a user reports a message with the @admin command"
 msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:67
@@ -1617,12 +1617,12 @@ msgstr ""
 
 #: lua/groupbutler/plugins/menu.lua:49
 msgid ""
-"Change how many times an user has to be warned before being kicked/banned"
+"Change how many times a user has to be warned before being kicked/banned"
 msgstr ""
 
 #: lua/groupbutler/plugins/menu.lua:50
 msgid ""
-"Change the action to perform when an user reaches the max. number of warnings"
+"Change the action to perform when a user reaches the max. number of warnings"
 msgstr ""
 
 #: lua/groupbutler/plugins/menu.lua:63
@@ -2169,7 +2169,7 @@ msgid ""
 msgstr ""
 
 #: lua/groupbutler/plugins/users.lua:153
-msgid "Reply to an user or mention them by username or numerical ID"
+msgid "Reply to a user or mention them by username or numerical ID"
 msgstr ""
 
 #: lua/groupbutler/plugins/users.lua:177 lua/groupbutler/plugins/users.lua:237
@@ -2532,7 +2532,7 @@ msgid "Someone"
 msgstr ""
 
 #: lua/groupbutler/utilities.lua:940
-msgid "Reply to an user or mention them"
+msgid "Reply to a user or mention them"
 msgstr ""
 
 #: lua/groupbutler/utilities.lua:966

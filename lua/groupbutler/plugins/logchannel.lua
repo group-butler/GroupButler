@@ -29,20 +29,20 @@ end
 
 local function get_alert_text(key)
 	local alert_text = {
-		new_chat_member = i18n("Log every time an user join the group"),
+		new_chat_member = i18n("Log every time a user join the group"),
 		ban = i18n("Bans will be logged. I can't log manual bans"),
 		kick = i18n("Kicks will be logged. I can't log manual kicks"),
 		warn = i18n("Manual warns will be logged"),
 		mediawarn = i18n("Forbidden media will be logged in the channel"),
 		spamwarn = i18n("Spam links/forwards from channels will be logged in the channel, only if forbidden"),
-		flood = i18n("Log when an user is flooding (new log message every 5 flood messages)"),
+		flood = i18n("Log when a user is flooding (new log message every 5 flood messages)"),
 		new_chat_photo = i18n("Log when an admin changes the group icon"),
 		delete_chat_photo = i18n("Log when an admin deletes the group icon"),
 		new_chat_title = i18n("Log when an admin change the group title"),
 		pinned_message = i18n("Log pinned messages"),
-		blockban = i18n("Log when an user who has been blocked is banned from the group on join"),
-		nowarn = i18n("Log when an admin removes the warning received by an user"),
-		report = i18n("Log when an user reports a message with the @admin command"),
+		blockban = i18n("Log when a user who has been blocked is banned from the group on join"),
+		nowarn = i18n("Log when an admin removes the warning received by a user"),
+		report = i18n("Log when a user reports a message with the @admin command"),
 	} set_default(alert_text, i18n("Description not available"))
 
 	return alert_text[key]
