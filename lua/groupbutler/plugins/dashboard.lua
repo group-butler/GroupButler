@@ -31,7 +31,9 @@ local function getFloodSettings_text(self, chat_id)
 		status = i18n("❌ | OFF")
 	end
 	local hash = 'chat:'..chat_id..':flood'
-	local action = (db:hget(hash, 'ActionFlood')) or 'kick'
+	local action = db:hget(hash, 'ActionFlood')
+	if action == null then action = config.chat_settings['flood']['ActionFlood'] end
+
 	if action == 'kick' then
 		action = i18n("👞 kick")
 	elseif action == 'ban' then
@@ -39,7 +41,8 @@ local function getFloodSettings_text(self, chat_id)
 	elseif action == 'mute' then
 		action = i18n("👁 mute")
 	end
-	local num = tonumber(db:hget(hash, 'MaxFlood')) or 5
+
+	local num = tonumber(db:hget(hash, 'MaxFlood')) or config.chat_settings['flood']['MaxFlood']
 	local exceptions = {
 		text = i18n("Texts"),
 		forward = i18n("Forwards"),

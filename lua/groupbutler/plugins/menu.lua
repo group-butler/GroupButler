@@ -66,7 +66,8 @@ end
 
 local function changeWarnSettings(self, chat_id, action)
 	local db = self.db
-	local current = tonumber(db:hget('chat:'..chat_id..':warnsettings', 'max')) or 3
+	local current = tonumber(db:hget('chat:'..chat_id..':warnsettings', 'max'))
+		or config.chat_settings['warnsettings']['max']
 	local new_val
 	if action == 1 then
 		if current > 12 then
