@@ -61,20 +61,20 @@ local function toggle_permissions_setting(self, chat_id, key)
 	return '✅'
 end
 
+local function set_default(t, d)
+	local mt = {__index = function() return d end}
+	setmetatable(t, mt)
+end
+
 local function get_alert_text(key)
-	if key == 'can_send_messages' then
-		return i18n("Permission to send messages. If disabled, the user won't be able to send any kind of message")
-	elseif key == 'can_send_media_messages' then
-		return i18n([[Permission to send media (audios, documents, photos, videos, video notes and voice notes). Implies the permission to send messages
-]])
-	elseif key == 'can_send_other_messages' then
-		return i18n([[Permission to send other types of messages (GIFs, games, stickers and use inline bots). Implies the permission to send medias
-]])
-	elseif key == 'can_add_web_page_previews' then
-		return i18n("When disabled, user's messages with a link won't show the web page preview")
-	else
-		return i18n("Description not available")
-	end
+	local alert_text = {
+		can_send_messages = i18n("Permission to send messages. If disabled, the user won't be able to send any kind of message"), -- luacheck: ignore 631
+		can_send_media_messages = i18n("Permission to send media (audios, documents, photos, videos, video notes and voice notes). Implies the permission to send messages"), -- luacheck: ignore 631
+		can_send_other_messages = i18n("Permission to send other types of messages (GIFs, games, stickers and use inline bots). Implies the permission to send medias"), -- luacheck: ignore 631
+		can_add_web_page_previews = i18n("When disabled, user's messages with a link won't show the web page preview"),
+	} set_default(alert_text, i18n("Description not available"))
+
+	return alert_text[key]
 end
 
 local humanizations = {

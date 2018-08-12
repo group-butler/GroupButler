@@ -22,46 +22,35 @@ function _M.new(main)
 	return self
 end
 
+local function set_default(t, d)
+	local mt = {__index = function() return d end}
+	setmetatable(t, mt)
+end
+
 local function get_button_description(key)
-	if key == 'Reports' then
+	local button_description = {
 		-- TRANSLATORS: these strings should be shorter than 200 characters
-		return i18n("When enabled, users will be able to report messages with the @admin command")
-	elseif key == 'Goodbye' then
-		return i18n("Enable or disable the goodbye message. Can't be sent in large groups")
-	elseif key == 'Welcome' then
-		return i18n("Enable or disable the welcome message")
-	elseif key == 'Weldelchain' then
-		return i18n("When enabled, every time a new welcome message is sent, the previously sent welcome message is removed")
-	elseif key == 'Silent' then
-		return i18n([[When enabled, the bot doesn't answer in the group to /dashboard, /config and /help commands (it will just answer in private)
-]])
-	elseif key == 'Flood' then
-		return i18n("Enable and disable the anti-flood system (more info in the /help message)")
-	elseif key == 'Welbut' then
-		return i18n([[If the welcome message is enabled, it will include an inline button that will send to the user the rules in private
-]])
-	elseif key == 'Rules' then
-		return i18n([[When someone uses /rules
+		Reports = i18n("When enabled, users will be able to report messages with the @admin command"),
+		Goodbye = i18n("Enable or disable the goodbye message. Can't be sent in large groups"),
+		Welcome = i18n("Enable or disable the welcome message"),
+		Weldelchain = i18n("When enabled, every time a new welcome message is sent, the previously sent welcome message is removed"), -- luacheck: ignore 631
+		Silent = i18n("When enabled, the bot doesn't answer in the group to /dashboard, /config and /help commands (it will just answer in private)"), -- luacheck: ignore 631
+		Flood = i18n("Enable and disable the anti-flood system (more info in the /help message)"),
+		Welbut = i18n("If the welcome message is enabled, it will include an inline button that will send to the user the rules in private"), -- luacheck: ignore 631
+		Rules = i18n([[When someone uses /rules
 👥: the bot will answer in the group (always, with admins)
-👤: the bot will answer in private]])
-	elseif key == 'Extra' then
-		return i18n([[When someone uses an #extra
+👤: the bot will answer in private]]),
+		Extra = i18n([[When someone uses an #extra
 👥: the bot will answer in the group (always, with admins)
-👤: the bot will answer in private]])
-	elseif key == 'Arab' then
-		return i18n("Select what the bot should do when someone sends a message with arab characters")
-	elseif key == 'Antibot' then
-		return i18n("Bots will be banned when added by normal users")
-	elseif key == 'Rtl' then
-		return i18n(
-			"Select what the bot should do when someone sends a message with the RTL character, or has it in their name")
-	elseif key == 'warnsnum' then
-		return i18n("Change how many times an user has to be warned before being kicked/banned")
-	elseif key == 'warnsact' then
-		return i18n("Change the action to perform when an user reaches the max. number of warnings")
-	else
-		return i18n("Description not available")
-	end
+👤: the bot will answer in private]]),
+		Arab = i18n("Select what the bot should do when someone sends a message with arab characters"),
+		Antibot = i18n("Bots will be banned when added by normal users"),
+		Rtl = i18n("Select what the bot should do when someone sends a message with the RTL character, or has it in their name"), -- luacheck: ignore 631
+		warnsnum = i18n("Change how many times an user has to be warned before being kicked/banned"),
+		warnsact = i18n("Change the action to perform when an user reaches the max. number of warnings"),
+	} set_default(button_description, i18n("Description not available"))
+
+	return button_description[key]
 end
 
 local function changeWarnSettings(self, chat_id, action)
@@ -311,9 +300,7 @@ end
 _M.triggers = {
 	onCallbackQuery = {
 		'^###cb:(menu):(alert):settings:([%w_]+):([%w_]+)$',
-
 		'^###cb:(menu):(.*):',
-
 		'^###cb:(config):menu:(-?%d+)$'
 	}
 }

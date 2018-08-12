@@ -22,38 +22,30 @@ function _M.new(main)
 	return self
 end
 
+local function set_default(t, d)
+	local mt = {__index = function() return d end}
+	setmetatable(t, mt)
+end
+
 local function get_alert_text(key)
-	if key == 'new_chat_member' then
-		return i18n("Log every time an user join the group")
-	elseif key == 'ban' then
-		return i18n("Bans will be logged. I can't log manual bans")
-	elseif key == 'kick' then
-		return i18n("Kicks will be logged. I can't log manual kicks")
-	elseif key == 'warn' then
-		return i18n("Manual warns will be logged")
-	elseif key == 'mediawarn' then
-		return i18n("Forbidden media will be logged in the channel")
-	elseif key == 'spamwarn' then
-		return i18n("Spam links/forwards from channels will be logged in the channel, only if forbidden")
-	elseif key == 'flood' then
-		return i18n("Log when an user is flooding (new log message every 5 flood messages)")
-	elseif key == 'new_chat_photo' then
-		return i18n("Log when an admin changes the group icon")
-	elseif key == 'delete_chat_photo' then
-		return i18n("Log when an admin deletes the group icon")
-	elseif key == 'new_chat_title' then
-		return i18n("Log when an admin change the group title")
-	elseif key == 'pinned_message' then
-		return i18n("Log pinned messages")
-	elseif key == 'blockban' then
-		return i18n("Log when an user who has been blocked is banned from the group on join")
-	elseif key == 'nowarn' then
-		return i18n("Log when an admin removes the warning received by an user")
-	elseif key == 'report' then
-		return i18n("Log when an user reports a message with the @admin command")
-	else
-		return i18n("Description not available")
-	end
+	local alert_text = {
+		new_chat_member = i18n("Log every time an user join the group"),
+		ban = i18n("Bans will be logged. I can't log manual bans"),
+		kick = i18n("Kicks will be logged. I can't log manual kicks"),
+		warn = i18n("Manual warns will be logged"),
+		mediawarn = i18n("Forbidden media will be logged in the channel"),
+		spamwarn = i18n("Spam links/forwards from channels will be logged in the channel, only if forbidden"),
+		flood = i18n("Log when an user is flooding (new log message every 5 flood messages)"),
+		new_chat_photo = i18n("Log when an admin changes the group icon"),
+		delete_chat_photo = i18n("Log when an admin deletes the group icon"),
+		new_chat_title = i18n("Log when an admin change the group title"),
+		pinned_message = i18n("Log pinned messages"),
+		blockban = i18n("Log when an user who has been blocked is banned from the group on join"),
+		nowarn = i18n("Log when an admin removes the warning received by an user"),
+		report = i18n("Log when an user reports a message with the @admin command"),
+	} set_default(alert_text, i18n("Description not available"))
+
+	return alert_text[key]
 end
 
 local function toggle_event(self, chat_id, event)
