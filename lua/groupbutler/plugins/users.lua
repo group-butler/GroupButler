@@ -59,33 +59,6 @@ local function get_time_remaining(seconds)
 	return final
 end
 
-local function get_user_id(self, msg, blocks)
-	local u = self.u
-
-	if msg.reply then
-		return msg.reply.from.id
-	elseif blocks[2] then
-		if blocks[2]:match('@[%w_]+$') then --by username
-			local user_id = u:resolve_user(blocks[2])
-			if not user_id then
-				print('username (not found)')
-				return false
-			else
-				print('username (found)')
-				return user_id
-			end
-		elseif blocks[2]:match('^%d+$') then --by id
-			print('id')
-			return blocks[2]
-		elseif msg.mention_id then --by text mention
-			print('text mention')
-			return msg.mention_id
-		else
-			return false
-		end
-	end
-end
-
 local function do_keyboard_userinfo(user_id)
 	local keyboard = {
 		inline_keyboard = {
@@ -182,12 +155,10 @@ function _M:onTextMessage(msg, blocks)
 		end
 
 		------------------ get user_id --------------------------
-		local user_id = get_user_id(self, msg, blocks)
+		local user_id, err = u:get_user_id(msg, blocks)
 
 		if not user_id then
-			u:sendReply(msg, i18n([[I've never seen this user before.
-This command works by reply, username, user ID or text mention.
-If you're using it by username and want to teach me who the user is, forward me one of their messages]]), "Markdown")
+			u:sendReply(msg, err, "Markdown")
 			return
 		end
 		-----------------------------------------------------------------------------

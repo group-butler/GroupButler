@@ -959,8 +959,9 @@ function _M:get_user_id(msg, blocks)
 		return id
 	end
 
-	return false, i18n([[Unknown user.
-Please forward a message from them to me.]])
+	return false, i18n([[I've never seen this user before.
+This command works by reply, username, user ID or text mention.
+If you're using it by username and want to teach me who the user is, forward me one of their messages]])
 end
 
 function _M:logEvent(event, msg, extra)
