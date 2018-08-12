@@ -942,9 +942,8 @@ function _M:get_user_id(msg, blocks)
 		return msg.reply.from.id
 	end
 
-	if msg.text:match(config.cmd..'%w%w%w%w?%w?%w?%w?%s(@[%w_]+)%s?') then
-		local username = msg.text:match('%s(@[%w_]+)')
-		local id = _M.resolve_user(self, username)
+	if blocks[2]:byte(1) == string.byte("@") then
+		local id = _M.resolve_user(self, blocks[2])
 		if id then
 			return id
 		end
@@ -954,7 +953,7 @@ function _M:get_user_id(msg, blocks)
 		return msg.mention_id
 	end
 
-	local id = msg.text:match(config.cmd..'%w%w%w%w?%w?%w?%w?%s(%d+)')
+	local id = blocks[2]:match("%d+")
 	if id then
 		return id
 	end
