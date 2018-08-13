@@ -1,5 +1,5 @@
 local config = require "groupbutler.config"
-local log = require "groupbutler.log"
+local log = require "groupbutler.logging"
 
 local _M = {}
 
