@@ -1119,7 +1119,7 @@ function _M:logEvent(event, msg, extra)
 		}
 	end
 
-	if extra.motivation then
+	if extra and extra.motivation then
 		text = text..i18n('\n• <b>Reason</b>: <i>%s</i>'):format(extra.motivation:escape_html())
 	end
 
