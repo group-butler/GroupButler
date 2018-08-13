@@ -988,24 +988,21 @@ function _M:logEvent(event, msg, extra)
 			--warns n°: warns
 			--warns max: warnmax
 			--media type: media
-			text = ('#MEDIAWARN (<code>%d/%d</code>), %s\n• %s\n• <b>User</b>: %s'):format(
-				extra.warns, extra.warnmax, extra.media, chat_info, member)
-			if extra.hammered then text = text..('\n#%s'):format(extra.hammered:upper()) end
+			text = ('#%s (<code>%d/%d</code>), %s\n• %s\n• <b>User</b>: %s'):format(
+				event:upper(), extra.warns, extra.warnmax, extra.media, chat_info, member)
 		end,
 		spamwarn = function()
 			--SPAM WARN
 			--warns n°: warns
 			--warns max: warnmax
 			--media type: spam_type
-			text = ('#SPAMWARN (<code>%d/%d</code>), <i>%s</i>\n• %s\n• <b>User</b>: %s'):format(
-				extra.warns, extra.warnmax, extra.spam_type, chat_info, member)
-			if extra.hammered then text = text..('\n#%s'):format(extra.hammered:upper()) end
+			text = ('#%s (<code>%d/%d</code>), <i>%s</i>\n• %s\n• <b>User</b>: %s'):format(
+				event:upper(), extra.warns, extra.warnmax, extra.spam_type, chat_info, member)
 		end,
 		flood = function()
 			--FLOOD
 			--hammered?: hammered
-			text = ('#FLOOD\n• %s\n• <b>User</b>: %s'):format(chat_info, member)
-			if extra.hammered then text = text..('\n#%s'):format(extra.hammered:upper()) end
+			text = ('#%s\n• %s\n• <b>User</b>: %s'):format(event:upper(), chat_info, member)
 		end,
 		new_chat_photo = function()
 			text = i18n('%s\n• %s\n• <b>By</b>: %s'):format('#NEWPHOTO', chat_info, member)
@@ -1029,10 +1026,10 @@ function _M:logEvent(event, msg, extra)
 		end,
 		report = function()
 			text = i18n('%s\n• %s\n• <b>By</b>: %s\n• <i>Reported to %d admin(s)</i>'):format(
-			'#REPORT', chat_info, member, extra.n_admins)
+			event:upper(), chat_info, member, extra.n_admins)
 		end,
 		blockban = function()
-			text = i18n('#BLOCKBAN\n• %s\n• <b>User</b>: %s [#id%d]'):format(chat_info, extra.name, extra.id)
+			text = i18n('#%s\n• %s\n• <b>User</b>: %s [#id%d]'):format(event:upper(), chat_info, extra.name, extra.id)
 		end,
 		new_chat_member = function()
 			local member2 = ("%s [@%s] [#id%d]"):format(msg.new_chat_member.first_name:escape_html(),
@@ -1054,9 +1051,6 @@ function _M:logEvent(event, msg, extra)
 			text = i18n(
 				'#%s\n• <b>Admin</b>: %s [#id%d]\n• %s\n• <b>User</b>: %s [#id%d]\n• <b>Count</b>: <code>%d/%d</code>'
 			):format(event:upper(), extra.admin, msg.from.id, chat_info, extra.user, extra.user_id, extra.warns, extra.warnmax)
-			if extra.hammered then
-				text = text..i18n('\n<b>Action</b>: <i>%s</i>'):format(extra.hammered)
-			end
 		end,
 		nowarn = function()
 			--WARNS REMOVED
@@ -1103,9 +1097,8 @@ function _M:logEvent(event, msg, extra)
 	end)
 
 	log_event.unblock = log_event.block
-
-	log_event.kick = log_event.ban
-	log_event.unban = log_event.ban
+	log_event.kick    = log_event.ban
+	log_event.unban   = log_event.ban
 
 	log_event[event]()
 
@@ -1119,8 +1112,13 @@ function _M:logEvent(event, msg, extra)
 		}
 	end
 
-	if extra and extra.motivation then
-		text = text..i18n('\n• <b>Reason</b>: <i>%s</i>'):format(extra.motivation:escape_html())
+	if extra then
+		if extra.hammered then
+			text = text..i18n("\n• <b>Action</b>: #%s"):format(extra.hammered:upper())
+		end
+		if extra.motivation then
+			text = text..i18n('\n• <b>Reason</b>: <i>%s</i>'):format(extra.motivation:escape_html())
+		end
 	end
 
 	if msg.chat.username then
