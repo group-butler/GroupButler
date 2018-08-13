@@ -206,7 +206,8 @@ local _M =
 			['document'] = 'ok', -- file
 			['link'] = 'ok',
 			['game'] = 'ok',
-			['location'] = 'ok'
+			['location'] = 'ok',
+			venue = "ok",
 		},
 		['tolog'] = {
 			['ban'] = 'no',

@@ -167,6 +167,7 @@ function _M:onCallbackQuery(msg, blocks)
 			contact = i18n("Contacts"),
 			game = i18n("Games"),
 			location = i18n("Locations"),
+			venue = i18n("Venues"),
 		}
 		text = i18n("*Current media settings*:\n\n")
 		for media, default_status in pairs(config.chat_settings['media']) do

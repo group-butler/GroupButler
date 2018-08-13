@@ -29,18 +29,18 @@ local function max_reached(self, chat_id, user_id)
 	if n >= max then
 		return true, n, max
 	end
-		return false, n, max
+	return false, n, max
 end
 
 local function is_ignored(self, chat_id, msg_type)
 	local db = self.db
 	local hash = 'chat:'..chat_id..':floodexceptions'
 	local status = db:hget(hash, msg_type)
-	if status == 'yes' then
-		return true
-	end
+	if not status == 'yes' then
 		return false
 	end
+	return true
+end
 
 local function is_flooding_funct(self, msg)
 	local db = self.db
@@ -142,10 +142,10 @@ function _M:onEveryMessage(msg)
 		if msg.media and msg.chat.type ~= 'private' and not msg.cb and not msg.edited then
 			local media = msg.media_type
 			local hash = 'chat:'..msg.chat.id..':media'
-				local media_status = (db:hget(hash, media))
-				if media_status == null then media_status = config.chat_settings.media[media] end
+			local media_status = db:hget(hash, media)
+			if media_status == null then media_status = config.chat_settings.media[media] end
 
-			if media_status ~= 'ok' then
+			if media_status == 'notok' then
 				local whitelisted
 				if media == 'link' then
 						whitelisted = is_whitelisted(self, msg.chat.id, msg.text)
@@ -153,14 +153,14 @@ function _M:onEveryMessage(msg)
 
 				if not whitelisted then
 					local status
-						local name = u:getname_final(msg.from)
-						local max_reached_var, n, max = max_reached(self, msg.chat.id, msg.from.id)
+					local name = u:getname_final(msg.from)
+					local max_reached_var, n, max = max_reached(self, msg.chat.id, msg.from.id)
 					if max_reached_var then --max num reached. Kick/ban the user
-							status = db:hget('chat:'..msg.chat.id..':warnsettings', 'mediatype')
-							if status == null then status = config.chat_settings['warnsettings']['mediatype'] end
+						status = db:hget('chat:'..msg.chat.id..':warnsettings', 'mediatype')
+						if status == null then status = config.chat_settings['warnsettings']['mediatype'] end
 
 						--try to kick/ban
-							local ok, punishment
+						local ok, punishment
 						if status == 'kick' then
 								ok = u:kickUser(msg.chat.id, msg.from.id)
 							punishment = i18n('kicked')
@@ -171,7 +171,7 @@ function _M:onEveryMessage(msg)
 								ok = u:muteUser(msg.chat.id, msg.from.id)
 							punishment = i18n('muted')
 						end
-							if ok then --kick worked
+						if ok then --kick worked
 							db:hdel('chat:'..msg.chat.id..':mediawarn', msg.from.id) --remove media warns
 							local message =
 								i18n('%s <b>%s</b>: media sent not allowed!\n❗️ <code>%d/%d</code>'):format(name, punishment, n, max)

@@ -51,7 +51,8 @@ local function doKeyboard_media(self, chat_id)
 			sticker = i18n("Stickers"),
 			contact = i18n("Contacts"),
 			game = i18n("Games"),
-			location = i18n("Locations")
+			location = i18n("Locations"),
+			venue = i18n("Venues"),
 		}
 		local media_text = media_texts[media] or media
 		local line = {
