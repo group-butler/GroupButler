@@ -988,7 +988,7 @@ function _M:logEvent(event, msg, extra)
 			--warns n°: warns
 			--warns max: warnmax
 			--media type: media
-			text = ('#%s (<code>%d/%d</code>), %s\n• %s\n• <b>User</b>: %s'):format(
+			text = i18n("#%s (<code>%d/%d</code>), <i>%s</i>\n• %s\n• <b>User</b>: %s"):format(
 				event:upper(), extra.warns, extra.warnmax, extra.media, chat_info, member)
 		end,
 		spamwarn = function()
@@ -996,13 +996,13 @@ function _M:logEvent(event, msg, extra)
 			--warns n°: warns
 			--warns max: warnmax
 			--media type: spam_type
-			text = ('#%s (<code>%d/%d</code>), <i>%s</i>\n• %s\n• <b>User</b>: %s'):format(
+			text = i18n("#%s (<code>%d/%d</code>), <i>%s</i>\n• %s\n• <b>User</b>: %s"):format(
 				event:upper(), extra.warns, extra.warnmax, extra.spam_type, chat_info, member)
 		end,
 		flood = function()
 			--FLOOD
 			--hammered?: hammered
-			text = ('#%s\n• %s\n• <b>User</b>: %s'):format(event:upper(), chat_info, member)
+			text = i18n("#%s\n• %s\n• <b>User</b>: %s"):format(event:upper(), chat_info, member)
 		end,
 		new_chat_photo = function()
 			text = i18n('%s\n• %s\n• <b>By</b>: %s'):format('#NEWPHOTO', chat_info, member)

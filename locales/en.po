@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GroupButler 4.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-12 05:47-0300\n"
+"POT-Creation-Date: 2018-08-13 01:18-0300\n"
 "PO-Revision-Date: 2016-08-27 17:50+0300\n"
 "Last-Translator: Nicholas Guriev <guriev-ns@ya.ru>\n"
 "Language-Team: English\n"
@@ -1343,7 +1343,7 @@ msgstr ""
 msgid "Kick"
 msgstr ""
 
-#: lua/groupbutler/plugins/logchannel.lua:69 lua/groupbutler/utilities.lua:1116
+#: lua/groupbutler/plugins/logchannel.lua:69 lua/groupbutler/utilities.lua:1109
 msgid "Unban"
 msgstr ""
 
@@ -2548,8 +2548,24 @@ msgstr ""
 msgid "<b>Chat</b>: %s [#chat%d]"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:1011 lua/groupbutler/utilities.lua:1021
-#: lua/groupbutler/utilities.lua:1024 lua/groupbutler/utilities.lua:1027
+#: lua/groupbutler/utilities.lua:991 lua/groupbutler/utilities.lua:999
+#, lua-format
+msgid ""
+"#%s (<code>%d/%d</code>), <i>%s</i>\n"
+"• %s\n"
+"• <b>User</b>: %s"
+msgstr ""
+
+#: lua/groupbutler/utilities.lua:1005
+#, lua-format
+msgid ""
+"#%s\n"
+"• %s\n"
+"• <b>User</b>: %s"
+msgstr ""
+
+#: lua/groupbutler/utilities.lua:1008 lua/groupbutler/utilities.lua:1018
+#: lua/groupbutler/utilities.lua:1021 lua/groupbutler/utilities.lua:1024
 #, lua-format
 msgid ""
 "%s\n"
@@ -2557,11 +2573,11 @@ msgid ""
 "• <b>By</b>: %s"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:1014
+#: lua/groupbutler/utilities.lua:1011
 msgid "Get the new photo"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:1031
+#: lua/groupbutler/utilities.lua:1028
 #, lua-format
 msgid ""
 "%s\n"
@@ -2570,15 +2586,15 @@ msgid ""
 "• <i>Reported to %d admin(s)</i>"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:1035
+#: lua/groupbutler/utilities.lua:1032
 #, lua-format
 msgid ""
-"#BLOCKBAN\n"
+"#%s\n"
 "• %s\n"
 "• <b>User</b>: %s [#id%d]"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:1040
+#: lua/groupbutler/utilities.lua:1037
 #, lua-format
 msgid ""
 "%s\n"
@@ -2586,14 +2602,14 @@ msgid ""
 "• <b>User</b>: %s"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:1042
+#: lua/groupbutler/utilities.lua:1039
 #, lua-format
 msgid ""
 "\n"
 "• <b>Added by</b>: %s [#id%d]"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:1055
+#: lua/groupbutler/utilities.lua:1052
 #, lua-format
 msgid ""
 "#%s\n"
@@ -2603,14 +2619,7 @@ msgid ""
 "• <b>Count</b>: <code>%d/%d</code>"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:1058
-#, lua-format
-msgid ""
-"\n"
-"<b>Action</b>: <i>%s</i>"
-msgstr ""
-
-#: lua/groupbutler/utilities.lua:1066
+#: lua/groupbutler/utilities.lua:1060
 #, lua-format
 msgid ""
 "#%s\n"
@@ -2620,7 +2629,7 @@ msgid ""
 "• <b>Warns found</b>: <i>normal: %s, for media: %s, spamwarns: %s</i>"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:1072
+#: lua/groupbutler/utilities.lua:1066
 #, lua-format
 msgid ""
 "#%s\n"
@@ -2628,17 +2637,17 @@ msgid ""
 "• %s\n"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:1075
+#: lua/groupbutler/utilities.lua:1069
 #, lua-format
 msgid "• <i>Users involved: %d</i>"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:1077
+#: lua/groupbutler/utilities.lua:1071
 #, lua-format
 msgid "• <b>User</b>: %s [#id%d]"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:1089
+#: lua/groupbutler/utilities.lua:1083
 #, lua-format
 msgid ""
 "#%s\n"
@@ -2648,7 +2657,7 @@ msgid ""
 "• <b>Duration</b>: %d days, %d hours"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:1098
+#: lua/groupbutler/utilities.lua:1092
 #, lua-format
 msgid ""
 "#%s\n"
@@ -2657,7 +2666,7 @@ msgid ""
 "• <b>User</b>: %s [#id%s]"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:1102
+#: lua/groupbutler/utilities.lua:1096
 #, lua-format
 msgid ""
 "#%s\n"
@@ -2665,18 +2674,25 @@ msgid ""
 "• <b>By</b>: %s"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:1123
+#: lua/groupbutler/utilities.lua:1117
+#, lua-format
+msgid ""
+"\n"
+"• <b>Action</b>: #%s"
+msgstr ""
+
+#: lua/groupbutler/utilities.lua:1120
 #, lua-format
 msgid ""
 "\n"
 "• <b>Reason</b>: <i>%s</i>"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:1128
+#: lua/groupbutler/utilities.lua:1126
 msgid "Go to the message"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:1177
+#: lua/groupbutler/utilities.lua:1175
 #, lua-format
 msgid "This command has been removed \\[[read more](%s)]"
 msgstr ""
