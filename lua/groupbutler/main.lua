@@ -1,6 +1,7 @@
 local config = require "groupbutler.config"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local utilities = require "groupbutler.utilities"
+local log = require "groupbutler.logging"
 local redis = require "resty.redis"
 local plugins = require "groupbutler.plugins"
 local get_bot = require "groupbutler.bot"
@@ -25,7 +26,7 @@ function _M.new(update)
 	self.db = redis:new()
 	local ok, err = self.db:connect(config.redis.host, config.redis.port)
 	if not ok then
-		print("Redis connection failed: ", err)
+		log.error("Redis connection failed: {err}", {err=err})
 		return nil, err
 	end
 	self.db:select(config.redis.db)
@@ -101,7 +102,7 @@ local function on_msg_receive(self, msg, callback) -- The fn run whenever a mess
 	-- Do not process old updates
 	local now = os.time(os.date("*t"))
 	if msg.date < now - config.bot_settings.old_update then
-			print(os.date('[%H:%M:%S]', now), 'Old update skipped: ', os.date('%H:%M:%S', msg.date), now-msg.date)
+			log.warn('Old update skipped: {time} {diff}', {time=os.date('%H:%M:%S', msg.date), diff=now-msg.date})
 			return
 	end
 
@@ -119,8 +120,12 @@ Unfortunately I can't work in normal groups. If you need me, please ask the crea
 ]]):format(bot.first_name))
 		api.leaveChat(msg.chat.id)
 		if config.bot_settings.stream_commands then
-			print('['..os.date('%X')..'] Bot was added to a normal group '..msg.from.first_name..
-				' ['..msg.from.id..'] -> ['..msg.chat.id..']')
+			log.info('Bot was added to a normal group {by_name} [{from_id}] -> [{chat_id}]',
+					{
+						by_name=msg.from.first_name,
+						from_id=msg.from.id,
+						chat_id=msg.chat.id,
+					})
 		end
 		return
 	end
@@ -140,7 +145,10 @@ Unfortunately I can't work in normal groups. If you need me, please ask the crea
 			plugin_obj = plugins[i].new(self)
 			onm_success, continue = pcall(plugin_obj.onEveryMessage, plugin_obj, msg)
 			if not onm_success then
-				print('An #error occurred (preprocess).\n'..tostring(continue)..'\n'..locale.language..'\n'..msg.text)
+				log.error('An #error occurred (preprocess).\n{err}\n{lang}\n{text}', {
+					cont=tostring(continue),
+					lang=locale.language,
+					text=msg.text})
 			end
 			if not continue then
 				return
@@ -157,7 +165,13 @@ Unfortunately I can't work in normal groups. If you need me, please ask the crea
 				u:initGroup(msg.chat.id)
 				end
 				if config.bot_settings.stream_commands then --print some info in the terminal
-					print(trigger..' '..msg.from.first_name..' ['..msg.from.id..'] -> ['..msg.chat.id..']')
+					log.info('{trigger} {from_name} [{from_id}] -> [{chat_id}]',
+						{
+							trigger=trigger,
+							from_name=msg.from.first_name,
+							from_id=msg.from.id,
+							chat_id=msg.chat.id,
+						})
 				end
 				--if not check_callback(msg, callback) then goto searchaction end
 				local success, result = xpcall((function() return plugin_obj[callback](plugin_obj, msg, blocks) end), debug.traceback) --execute the main function of the plugin triggered
@@ -165,7 +179,10 @@ Unfortunately I can't work in normal groups. If you need me, please ask the crea
 					if config.bot_settings.notify_bug then
 					u:sendReply(msg, i18n("🐞 Sorry, a *bug* occurred"), "Markdown")
 					end
-					print('An #error occurred.\n'..result..'\n'..locale.language..'\n'..msg.text)
+					log.error('An #error occurred.\n{result}\n{lang}\n{text}', {
+						cont=tostring(continue),
+						lang=locale.language,
+						text=msg.text})
 					return
 				end
 				if not result then --if the action returns true, then don't stop the loop of the plugin's actions
@@ -280,7 +297,7 @@ function _M:parseMessageFunction()
 			msg.text = '###pinned_message'
 		else
 			--callback = 'onUnknownType'
-			print('Unknown update type') return
+			log.warn('Unknown update type') return
 		end
 
 		if msg.forward_from_chat then
@@ -340,7 +357,7 @@ function _M:parseMessageFunction()
 		function_key = 'onCallbackQuery'
 	else
 		--function_key = 'onUnknownType'
-		print('Unknown update type') return
+		log.warn('Unknown update type') return
 	end
 
 	if (msg.chat.id < 0 or msg.target_id) and msg.from then

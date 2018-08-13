@@ -4,6 +4,7 @@ local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local api_err = require "groupbutler.api_errors"
 local get_bot = require "groupbutler.bot"
 local locale = require "groupbutler.languages"
+local log = require "groupbutler.logging"
 local null = require "groupbutler.null"
 local i18n = locale.translate
 local http, HTTPS, ltn12, time_hires
@@ -314,7 +315,7 @@ end
 
 function _M:cache_adminlist(chat_id)
 	local db = self.db
-	print('Saving the adminlist for:', chat_id)
+	log.info('Saving the adminlist for: {chat_id}', {chat_id=chat_id})
 	_M.metric_incr(self, "api_getchatadministrators_count")
 	local res, code = api.getChatAdministrators(chat_id)
 	if not res then
@@ -376,7 +377,7 @@ end
 
 function _M:download_to_file(url, file_path)
 	local _ = self
-	print("url to download: "..url)
+	log.info("url to download: {url}", {url=url})
 	if ngx then
 		local httpc = http.new()
 		local res, err = httpc:request_uri(url)
@@ -402,7 +403,7 @@ function _M:download_to_file(url, file_path)
 		-- local headers = response[3] -- unused variables
 		-- local status = response[4] -- unused variables
 		if code ~= 200 then return false, code end
-		print("Saved to: "..file_path)
+		log.info("Saved to: {path}", {path=file_path})
 		local file = io.open(file_path, "w+")
 		file:write(table.concat(respbody))
 		file:close()

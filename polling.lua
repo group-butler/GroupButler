@@ -14,6 +14,7 @@ io.stdout:setvbuf "no" -- switch off buffering for stdout
 local plugins = require "groupbutler.plugins"
 local main = require "groupbutler.main"
 local config = require "groupbutler.config"
+local log = require "groupbutler.logging"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
 
 local bot = api.getMe()
@@ -26,7 +27,12 @@ function bot.init(on_reload) -- The function run when the bot is started or relo
 		package.loaded.utilities = nil
 	end
 
-	print('\n'..'BOT RUNNING:', '[@'..bot.username .. '] [' .. bot.first_name ..'] ['..bot.id..']'..'\n')
+	log.info('BOT RUNNING: [@{username}] [{first_name}] [{bot_id}]',
+		{
+			username = bot.username,
+			first_name = bot.first_name,
+			bot_id = ("%d"):format(bot.id),
+		})
 
 	last_update = last_update or -2 -- skip pending updates
 	last_cron = last_cron or os.time() -- the time of the last cron job
@@ -56,18 +62,18 @@ while true do -- Start a loop while the bot should be running.
 			update_obj:parseMessageFunction()
 		end
 	else
-		print('Connection error')
+		log.error('Connection error')
 	end
 	if last_cron ~= os.date('%H') then -- Run cron jobs every hour.
 		last_cron = os.date('%H')
 		bot.last.h = current.h
 		current.h = 0
-		print('Cron...')
+		log.info('Cron...')
 		for i=1, #plugins do
 			if plugins[i].cron then -- Call each plugin's cron function, if it has one.
 				local res2, err = pcall(plugins[i].cron)
 				if not res2 then
-					print('An #error occurred (cron).\n'..err)
+					log.error('An #error occurred (cron).\n{err}', {err = err})
 					return
 				end
 			end

@@ -1,4 +1,5 @@
 local config = require "groupbutler.config"
+local log = require "groupbutler.log"
 
 local _M = {}
 
@@ -13,7 +14,7 @@ for _, v in ipairs(config.plugins) do
 			end
 			if not p[funct] then
 				p.trgs[funct] = nil
-				print(funct..' triggers ignored in '..v..': '..funct..' function not defined')
+				log.warn('triggers ignored in {v}: {funct} function not defined', {v=v, funct=funct})
 			end
 		end
 	end

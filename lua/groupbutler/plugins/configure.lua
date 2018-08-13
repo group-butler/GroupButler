@@ -1,6 +1,7 @@
 local config = require "groupbutler.config"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local locale = require "groupbutler.languages"
+local log = require "groupbutler.logging"
 local i18n = locale.translate
 local null = require "groupbutler.null"
 
@@ -24,7 +25,7 @@ end
 
 local function cache_chat_title(self, chat_id)
 	local db = self.db
-	print('caching title...')
+	log.info('caching title...')
 	local key = 'chat:'..chat_id..':title'
 	local title = api.getChat(chat_id).title
 	db:set(key, title)
