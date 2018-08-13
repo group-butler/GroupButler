@@ -228,19 +228,19 @@ function _M:onTextMessage(msg, blocks)
 				table.insert(reply_markup.inline_keyboard, line)
 			end
 			local link_preview = text:find('telegra%.ph/') == nil
-			local res, code = api.sendMessage(msg.chat.id, text, "Markdown", link_preview, nil, nil, reply_markup)
-			if not res and code == 160 then -- if bot can't send message
+			local ok, err = api.sendMessage(msg.chat.id, text, "Markdown", link_preview, nil, nil, reply_markup)
+			if not ok and err.error_code == 160 then -- if bot can't send message
 				u:remGroup(msg.chat.id, true)
 				api.leaveChat(msg.chat.id)
 				return
 			end
-			if res and is_on(self, msg.chat.id, 'Weldelchain') then
+			if is_on(self, msg.chat.id, 'Weldelchain') then
 				local key = ('chat:%d:lastwelcome'):format(msg.chat.id) -- get the id of the last sent welcome message
 				local message_id = db:get(key)
 				if message_id ~= null then
 					api.deleteMessage(msg.chat.id, message_id)
 				end
-				db:setex(key, 259200, res.message_id) --set the new message id to delete
+				db:setex(key, 259200, ok.message_id) --set the new message id to delete
 			end
 		end
 
