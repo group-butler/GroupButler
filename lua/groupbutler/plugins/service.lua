@@ -40,6 +40,7 @@ function _M:onTextMessage(msg, blocks)
 		if status == 'on' then
 			api.deleteMessage(msg.chat.id, msg.message_id)
 		end
+		return true
 	end
 
 	if blocks[1] == 'new_chat_member:bot' or blocks[1] == 'migrate_from_chat_id' then
@@ -89,9 +90,9 @@ function _M:onTextMessage(msg, blocks)
 		api.sendMessage(msg.chat.id, text, "Markdown")
 	elseif blocks[1] == 'left_chat_member:bot' then
 		u:remGroup(msg.chat.id, true)
-	else
-		u:logEvent(blocks[1], msg)
 	end
+
+	u:logEvent(blocks[1], msg)
 end
 
 _M.triggers = {
