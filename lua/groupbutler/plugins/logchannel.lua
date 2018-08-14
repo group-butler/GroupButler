@@ -146,7 +146,7 @@ function _M:onCallbackQuery(msg, blocks)
 ☑️ = won't be logged
 
 Tap on an option to get further information]])
-					api.editMessageText(msg.chat.id, msg.message_id, nil, logchannel_first, "Markdown", nil, true, reply_markup)
+					api.edit_message_text(msg.chat.id, msg.message_id, nil, logchannel_first, "Markdown", true, reply_markup)
 				else
 					api.editMessageReplyMarkup(msg.chat.id, msg.message_id, nil, reply_markup)
 				end
