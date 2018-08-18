@@ -59,6 +59,9 @@ while true do -- Start a loop while the bot should be running.
 			--print(last_update)
 			current.h = current.h + 1
 			local update_obj = main.new(res[i])
+			if not update_obj then
+				log.error("bot init failed")
+			end
 			update_obj:parseMessageFunction()
 		end
 	else

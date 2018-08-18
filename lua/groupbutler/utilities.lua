@@ -7,14 +7,17 @@ local locale = require "groupbutler.languages"
 local log = require "groupbutler.logging"
 local null = require "groupbutler.null"
 local i18n = locale.translate
-local http, HTTPS, ltn12, time_hires
+local http, HTTPS, ltn12, time_hires, sleep
 if ngx then
 	http = require "resty.http"
 	time_hires = ngx.now
+	sleep = ngx.sleep
 else
 	HTTPS = require "ssl.https"
 	ltn12 = require "ltn12"
-	time_hires = require 'socket'.gettime
+	local socket = require "socket"
+	time_hires = socket.gettime
+	sleep = socket.sleep
 end
 
 local _M = {} -- Functions shared among plugins
@@ -315,13 +318,22 @@ end
 
 function _M:cache_adminlist(chat_id)
 	local db = self.db
+
+	local lock_key = "cache:chat:"..chat_id..":getadmin_lock"
+	local set = 'cache:chat:'..chat_id..':admins'
+	if db:exists(lock_key) then
+		while db:exists(lock_key) and not db:exists(set) do
+			sleep(0.1)
+		end
+	end
+
+	db:setex("cache:chat:"..chat_id..":getadmin_lock", 1)
 	log.info('Saving the adminlist for: {chat_id}', {chat_id=chat_id})
 	_M.metric_incr(self, "api_getchatadministrators_count")
 	local res, code = api.getChatAdministrators(chat_id)
 	if not res then
 		return false, code
 	end
-	local set = 'cache:chat:'..chat_id..':admins'
 	local cache_time = config.bot_settings.cache_time.adminlist
 	local set_permissions
 	db:del(set)
@@ -1197,5 +1209,4 @@ function _M:time_hires()
 	local _ = self
 	return time_hires()
 end
-
 return _M
