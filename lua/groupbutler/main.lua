@@ -104,6 +104,7 @@ local function on_msg_receive(self, callback) -- The fn run whenever a message i
 	local now = os.time(os.date("*t"))
 	if msg.date < now - config.bot_settings.old_update then
 			log.warn('Old update skipped: {time} {diff}', {time=os.date('%H:%M:%S', msg.date), diff=now-msg.date})
+			u:metric_incr("messages_skipped")
 			return
 	end
 
