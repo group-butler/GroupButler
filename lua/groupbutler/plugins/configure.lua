@@ -78,7 +78,8 @@ function _M:onTextMessage()
 	end
 end
 
-function _M:onCallbackQuery(msg)
+function _M:onCallbackQuery()
+	local msg = self.message
 	local chat_id = msg.target_id
 	local keyboard = do_keyboard_config(self, chat_id, msg.from.id, msg:is_from_admin())
 	local text = i18n("<i>Change the settings of your group</i>")
