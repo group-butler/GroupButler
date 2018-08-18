@@ -1,26 +1,17 @@
 local config = require "groupbutler.config"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
-local get_bot = require "groupbutler.bot"
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
 
 local _M = {}
 
-local bot
-
-_M.__index = _M
-
-setmetatable(_M, {
-	__call = function (cls, ...)
-		return cls.new(...)
-	end,
-})
-
-function _M.new(main)
-	local self = setmetatable({}, _M)
-	self.u = main.u
-	bot = get_bot.init()
-	return self
+function _M:new(update_obj)
+	local plugin_obj = {}
+	setmetatable(plugin_obj, {__index = self})
+	for k, v in pairs(update_obj) do
+		plugin_obj[k] = v
+	end
+	return plugin_obj
 end
 
 local function bot_version()
@@ -40,7 +31,8 @@ Bot version: %s
 *Some useful links:*]]):format(bot_version())
 }
 
-local function do_keyboard_credits()
+local function do_keyboard_credits(self)
+	local bot = self.bot
 	local keyboard = {}
 	keyboard.inline_keyboard = {
 		{
@@ -55,7 +47,8 @@ local function do_keyboard_credits()
 	return keyboard
 end
 
-function _M:onTextMessage(msg, blocks)
+function _M:onTextMessage(blocks)
+	local msg = self.message
 	local u = self.u
 
 	if msg.chat.type ~= 'private' then return end
@@ -70,7 +63,7 @@ function _M:onTextMessage(msg, blocks)
 		end
 	end
 	if blocks[1] == 'about' then
-		local keyboard = do_keyboard_credits()
+		local keyboard = do_keyboard_credits(self)
 		api.sendMessage(msg.chat.id, strings.about, "Markdown", true, nil, nil, keyboard)
 	end
 	if blocks[1] == 'group' then
@@ -81,10 +74,11 @@ function _M:onTextMessage(msg, blocks)
 	end
 end
 
-function _M:onCallbackQuery(msg, blocks)
-	local _ = self
+function _M:onCallbackQuery(blocks)
+	local msg = self.message
+
 	if blocks[1] == 'about' then
-		local keyboard = do_keyboard_credits()
+		local keyboard = do_keyboard_credits(self)
 		api.editMessageText(msg.chat.id, msg.message_id, nil, strings.about, "Markdown", true, keyboard)
 	end
 	if blocks[1] == 'group' then

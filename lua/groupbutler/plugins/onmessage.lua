@@ -5,20 +5,13 @@ local null = require "groupbutler.null"
 
 local _M = {}
 
-_M.__index = _M
-
-setmetatable(_M, {
-	__call = function (cls, ...)
-		return cls.new(...)
-	end,
-})
-
-function _M.new(main)
-	local self = setmetatable({}, _M)
-	self.update = main.update
-	self.u = main.u
-	self.db = main.db
-	return self
+function _M:new(update_obj)
+	local plugin_obj = {}
+	setmetatable(plugin_obj, {__index = self})
+	for k, v in pairs(update_obj) do
+		plugin_obj[k] = v
+	end
+	return plugin_obj
 end
 
 local function max_reached(self, chat_id, user_id)
@@ -89,20 +82,22 @@ local function is_whitelisted(self, chat_id, text)
 	end
 end
 
-function _M:onEveryMessage(msg)
+function _M:on_message()
+	local msg = self.message
 	local u = self.u
 	local db = self.db
+
 	if not msg.inline then
-	local msg_type = 'text'
+	local msg_type = msg:type()
 	if msg.forward_from or msg.forward_from_chat then msg_type = 'forward' end
-	if msg.media_type then msg_type = msg.media_type end
+
 		if not is_ignored(self, msg.chat.id, msg_type) and not msg.edited then
 			local is_flooding, msgs_sent, msgs_max = is_flooding_funct(self, msg)
 		if is_flooding then
 				local status = db:hget('chat:'..msg.chat.id..':settings', 'Flood')
 				if status == null then status = config.chat_settings['settings']['Flood'] end
 
-			if status == 'on' and not msg.cb and not msg.from.admin then --if the status is on, and the user is not an admin, and the message is not a callback, then:
+			if status == 'on' and not msg.cb and not msg:is_from_admin() then --if the status is on, and the user is not an admin, and the message is not a callback, then:
 				local action = db:hget('chat:'..msg.chat.id..':flood', 'ActionFlood')
 					local name = u:getname_final(msg.from)
 					local ok, message
@@ -138,20 +133,18 @@ function _M:onEveryMessage(msg)
 		end
 	end
 
-	if not msg.from.admin then
-		if msg.media and msg.chat.type ~= 'private' and not msg.cb and not msg.edited then
-			local media = msg.media_type
+	if msg_type ~= "text" and not msg.cb and not msg.edited then
 			local hash = 'chat:'..msg.chat.id..':media'
-			local media_status = db:hget(hash, media)
-			if media_status == null then media_status = config.chat_settings.media[media] end
+		local media_status = (db:hget(hash, msg_type))
+		if media_status == null then media_status = config.chat_settings.media[msg_type] end
 
 			if media_status == 'notok' then
 				local whitelisted
-				if media == 'link' then
+			if msg_type == 'link' then
 						whitelisted = is_whitelisted(self, msg.chat.id, msg.text)
 				end
 
-				if not whitelisted then
+			if not whitelisted and not msg:is_from_admin() then -- Postpone admin check to avoid hitting API limits
 					local status
 					local name = u:getname_final(msg.from)
 					local max_reached_var, n, max = max_reached(self, msg.chat.id, msg.from.id)
@@ -197,7 +190,7 @@ function _M:onEveryMessage(msg)
 							api.deleteMessage(msg.chat.id, msg.message_id)
 						end
 					end
-						u:logEvent('mediawarn', msg, {warns = n, warnmax = max, media = i18n(media), hammered = status})
+					u:logEvent('mediawarn', msg, {warns = n, warnmax = max, media = msg_type, hammered = status})
 				end
 			end
 		end
@@ -254,13 +247,12 @@ function _M:onEveryMessage(msg)
 				end
 			end
 		end
-	end
 
 	if u:is_blocked_global(msg.from.id) then --ignore blocked users
 		return false -- if a user is blocked, don't go through plugins
-	else
-		return true -- don't return false for edited messages: the antispam needs to process them
 	end
+
+		return true -- don't return false for edited messages: the antispam needs to process them
 end
 
 return _M

@@ -2,7 +2,6 @@ local json = require "cjson"
 local config = require "groupbutler.config"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local api_err = require "groupbutler.api_errors"
-local get_bot = require "groupbutler.bot"
 local locale = require "groupbutler.languages"
 local log = require "groupbutler.logging"
 local null = require "groupbutler.null"
@@ -19,21 +18,13 @@ end
 
 local _M = {} -- Functions shared among plugins
 
-local bot
-
-_M.__index = _M
-
-setmetatable(_M, {
-	__call = function (cls, ...)
-		return cls.new(...)
-	end,
-})
-
-function _M.new(main)
-	local self = setmetatable({}, _M)
-	self.db = main.db
-	bot = get_bot.init()
-	return self
+function _M:new(update_obj)
+	local utilities_obj = {
+		db = update_obj.db,
+		bot = update_obj.bot
+	}
+	setmetatable(utilities_obj, {__index = self})
+	return utilities_obj
 end
 
 local function set_default(t, d)
@@ -43,14 +34,12 @@ end
 
 -- API helper functions
 
-function _M:sendReply(msg, text, parse_mode, disable_web_page_preview, disable_notification, reply_markup)
-	local _ = self
+function _M:sendReply(msg, text, parse_mode, disable_web_page_preview, disable_notification, reply_markup) -- luacheck: ignore 212
 	return api.sendMessage(msg.chat.id, text, parse_mode, disable_web_page_preview, disable_notification,
 		msg.message_id, reply_markup)
 end
 
-function _M:banUser(chat_id, user_id, until_date)
-	local _ = self
+function _M:banUser(chat_id, user_id, until_date) -- luacheck: ignore 212
 	local ok, err = api.kickChatMember(chat_id, user_id, until_date) --try to kick. "code" is already specific
 	if ok then --if the user has been kicked, then...
 		return ok --return res and not the text
@@ -59,8 +48,7 @@ function _M:banUser(chat_id, user_id, until_date)
 	end
 end
 
-function _M:kickUser(chat_id, user_id)
-	local _ = self
+function _M:kickUser(chat_id, user_id) -- luacheck: ignore 212
 	local ok, err = api.kickChatMember(chat_id, user_id) --try to kick
 	if ok then --if the user has been kicked, then unban...
 		api.unbanChatMember(chat_id, user_id)
@@ -70,8 +58,7 @@ function _M:kickUser(chat_id, user_id)
 	end
 end
 
-function _M:muteUser(chat_id, user_id)
-	local _ = self
+function _M:muteUser(chat_id, user_id) -- luacheck: ignore 212
 	local ok, err = api.restrictChatMember({
 		chat_id = chat_id,
 		user_id = user_id,
@@ -159,7 +146,7 @@ function string:replaceholders(msg, ...)
 			username = msg.from.username and '@'..msg.from.username or '-',
 			id = msg.from.id,
 			title = msg.chat.title,
-			rules = _M.deeplink_constructor(self, msg.chat.id, 'rules'),
+			rules = self:deeplink_constructor(msg.chat.id, 'rules'),
 		}
 		-- remove flag about escaping
 		table.remove(tail_arguments, 1)
@@ -171,7 +158,7 @@ function string:replaceholders(msg, ...)
 			userorname = msg.from.username and '@'..msg.from.username:escape() or msg.from.first_name:escape(),
 			id = msg.from.id,
 			title = msg.chat.title:escape(),
-			rules = _M.deeplink_constructor(self, msg.chat.id, 'rules'),
+			rules = self:deeplink_constructor(msg.chat.id, 'rules'),
 		}
 	end
 
@@ -184,7 +171,7 @@ function string:replaceholders(msg, ...)
 end
 
 function _M:is_allowed(_, chat_id, user_obj) -- action is not used anymore
-	return _M.is_admin(self, chat_id, user_obj.id)
+	return self:is_admin(chat_id, user_obj.id)
 end
 
 function _M:can(chat_id, user_id, permission)
@@ -193,18 +180,13 @@ function _M:can(chat_id, user_id, permission)
 
 	local set_admins = 'cache:chat:'..chat_id..':admins'
 	if db:exists(set_admins) == 0 then
-		_M.cache_adminlist(self, chat_id)
+		self:cache_adminlist(chat_id)
 	end
 
 	return db:sismember(set, permission) ~= 0
 end
 
-function _M:is_mod(chat_id, user_id)
-	return _M.is_admin(self, chat_id, user_id)
-end
-
-function _M:is_superadmin(user_id)
-	local _ = self
+function _M:is_superadmin(user_id) -- luacheck: ignore 212
 	for i=1, #config.superadmins do
 		if tonumber(user_id) == config.superadmins[i] then
 			return true
@@ -214,7 +196,7 @@ function _M:is_superadmin(user_id)
 end
 
 function _M:bot_is_admin(chat_id)
-	local _ = self
+	local bot = self.bot
 	local status = api.getChatMember(chat_id, bot.id).status
 	if not(status == 'administrator') then
 		return false
@@ -223,8 +205,7 @@ function _M:bot_is_admin(chat_id)
 	end
 end
 
-function _M:is_admin_request(msg)
-	local _ = self
+function _M:is_admin_request(msg) -- luacheck: ignore 212
 	local res = api.getChatMember(msg.chat.id, msg.from.id)
 	if not res then
 		return false, false
@@ -249,13 +230,12 @@ function _M:is_admin(chat_id, user_id)
 
 	local set = 'cache:chat:'..chat_id..':admins'
 	if db:exists(set) == 0 then
-		_M.cache_adminlist(self, chat_id)
+		self:cache_adminlist(chat_id)
 	end
 	return db:sismember(set, user_id) ~= 0
 end
 
-function _M:is_owner_request(msg)
-	local _ = self
+function _M:is_owner_request(msg) -- luacheck: ignore 212
 	local status = api.getChatMember(msg.chat.id, msg.from.id).status
 	if status == 'creator' then
 		return true
@@ -277,7 +257,7 @@ function _M:is_owner(chat_id, user_id)
 	repeat
 		owner_id = db:get(hash)
 		if owner_id == null then
-			res = _M.cache_adminlist(self, chat_id)
+			res = self:cache_adminlist(chat_id)
 		end
 	until owner_id ~= null or not res
 
@@ -288,12 +268,6 @@ function _M:is_owner(chat_id, user_id)
 	end
 
 	return false
-end
-
-function _M:add_role(chat_id, user_obj)
-	local _ = self
-	user_obj.admin = _M.is_admin(self, chat_id, user_obj.id)
-	return user_obj
 end
 
 local admins_permissions = {
@@ -316,7 +290,7 @@ end
 function _M:cache_adminlist(chat_id)
 	local db = self.db
 	log.info('Saving the adminlist for: {chat_id}', {chat_id=chat_id})
-	_M.metric_incr(self, "api_getchatadministrators_count")
+	self:metric_incr("api_getchatadministrators_count")
 	local res, code = api.getChatAdministrators(chat_id)
 	if not res then
 		return false, code
@@ -340,7 +314,7 @@ function _M:cache_adminlist(chat_id)
 
 		db:sadd(set, admin.user.id)
 
-		_M.demote(self, chat_id, admin.user.id)
+		self:demote(chat_id, admin.user.id)
 	end
 	db:expire(set, cache_time)
 
@@ -352,9 +326,9 @@ function _M:get_cached_admins_list(chat_id, second_try)
 	local hash = 'cache:chat:'..chat_id..':admins'
 	local list = db:smembers(hash)
 	if not list or not next(list) then
-		_M.cache_adminlist(self, chat_id)
+		self:cache_adminlist(chat_id)
 		if not second_try then
-			return _M.get_cached_admins_list(self, chat_id, true)
+			return self:get_cached_admins_list(chat_id, true)
 		else
 			return false
 		end
@@ -368,15 +342,13 @@ function _M:is_blocked_global(id)
 	return db:sismember('bot:blocked', id) ~= 0
 end
 
-function _M:dump(...)
-	local _ = self
+function _M:dump(...) -- luacheck: ignore 212
 	for _, value in pairs{...} do
 		print(json.encode(value))
 	end
 end
 
-function _M:download_to_file(url, file_path)
-	local _ = self
+function _M:download_to_file(url, file_path) -- luacheck: ignore 212
 	log.info("url to download: {url}", {url=url})
 	if ngx then
 		local httpc = http.new()
@@ -411,19 +383,17 @@ function _M:download_to_file(url, file_path)
 	end
 end
 
-function _M:telegram_file_link(res)
-	local _ = self
+function _M:telegram_file_link(res) -- luacheck: ignore 212
 	--res = table returned by getFile()
 	return "https://api.telegram.org/file/bot"..config.api_token.."/"..res.file_path
 end
 
 function _M:deeplink_constructor(chat_id, what)
-	local _ = self
+	local bot = self.bot
 	return 'https://telegram.me/'..bot.username..'?start='..chat_id..'_'..what
 end
 
-function _M:get_date(timestamp)
-	local _ = self
+function _M:get_date(timestamp) -- luacheck: ignore 212
 	if not timestamp then
 		timestamp = os.time()
 	end
@@ -461,8 +431,7 @@ function _M:resolve_user(username)
 	return user_obj.id
 end
 
-function _M:get_sm_error_string(err)
-	local _ = self
+function _M:get_sm_error_string(err) -- luacheck: ignore 212
 	local unknown_error = i18n("Text not valid: unknown formatting error")
 	if not err or not err.error_code then
 		return unknown_error
@@ -490,8 +459,7 @@ function _M:get_sm_error_string(err)
 	return descriptions[code] or unknown_error
 end
 
-function _M:reply_markup_from_text(text)
-	local _ = self
+function _M:reply_markup_from_text(text) -- luacheck: ignore 212
 	local clean_text = text
 	local n = 0
 	local reply_markup = {inline_keyboard={}}
@@ -516,58 +484,6 @@ function _M:demote(chat_id, user_id)
 	local removed = db:srem('chat:'..chat_id..':mods', user_id)
 
 	return removed == 1
-end
-
-function _M:get_media_type(msg)
-	local _ = self
-	if msg.photo then
-		return 'photo'
-	elseif msg.video then
-		return 'video'
-	elseif msg.video_note then
-		return 'video_note'
-	elseif msg.audio then
-		return 'audio'
-	elseif msg.voice then
-		return 'voice'
-	elseif msg.document then
-		if msg.document.mime_type == 'video/mp4' then
-			return 'gif'
-		else
-			return 'document'
-		end
-	elseif msg.sticker then
-		return 'sticker'
-	elseif msg.contact then
-		return 'contact'
-	elseif msg.location then
-		return 'location'
-	elseif msg.game then
-		return 'game'
-	elseif msg.venue then
-		return 'venue'
-	else
-		return false
-	end
-end
-
-function _M:get_media_id(msg)
-	local _ = self
-	if msg.photo then
-		return msg.photo[#msg.photo].file_id, 'photo'
-	elseif msg.document then
-		return msg.document.file_id
-	elseif msg.video then
-		return msg.video.file_id, 'video'
-	elseif msg.audio then
-		return msg.audio.file_id
-	elseif msg.voice then
-		return msg.voice.file_id, 'voice'
-	elseif msg.sticker then
-		return msg.sticker.file_id
-	else
-		return false, 'The message has not a media file_id'
-	end
 end
 
 function _M:migrate_chat_info(old, new, on_request)
@@ -602,41 +518,38 @@ function _M:migrate_chat_info(old, new, on_request)
 	end
 
 	if on_request then
-		_M.sendReply(self, 'Should be done')
+		api.send_message(new, "Should be done")
 	end
 end
 
 function _M:to_supergroup(msg)
 	local old = msg.chat.id
 	local new = msg.migrate_to_chat_id
-	local done = _M.migrate_chat_info(self, old, new, false)
+	local done = self:migrate_chat_info(old, new, false)
 	if done then
-		_M.remGroup(self, old, true, 'to supergroup')
+		self:remGroup(old, true, 'to supergroup')
 		api.sendMessage(new, '(_service notification: migration of the group executed_)', 'Markdown')
 	end
 end
 
 -- Return user mention for output a text
 function _M:getname_final(user)
-	return _M.getname_link(self, user) or '<code>'..user.first_name:escape_html()..'</code>'
+	return self:getname_link(user) or '<code>'..user.first_name:escape_html()..'</code>'
 end
 
 -- Return link to user profile or false, if they don't have login
-function _M:getname_link(user)
-	local _ = self
+function _M:getname_link(user) -- luacheck: ignore 212
 	return ('<a href="%s">%s</a>'):format('tg://user?id='..user.id, user.first_name:escape_html())
 end
 
-function _M:bash(str)
-	local _ = self
+function _M:bash(str) -- luacheck: ignore 212
 	local cmd = io.popen(str)
 	local result = cmd:read('*all')
 	cmd:close()
 	return result
 end
 
-function _M:telegram_file_link(res)
-	local _ = self
+function _M:telegram_file_link(res) -- luacheck: ignore 212
 	--res = table returned by getFile()
 	return "https://api.telegram.org/file/bot"..config.telegram.token.."/"..res.file_path
 end
@@ -656,8 +569,7 @@ function _M:getRules(chat_id)
 	return rules
 end
 
-function _M:getAdminlist(chat_id)
-	local _ = self
+function _M:getAdminlist(chat_id) -- luacheck: ignore 212
 	local list, code = api.getChatAdministrators(chat_id)
 	if not list then
 		return false, code
@@ -732,7 +644,7 @@ function _M:getSettings(chat_id)
 	for key, default in pairs(config.chat_settings['settings']) do
 
 		local off_icon, on_icon = '🚫', '✅'
-		if _M.is_info_message_key(self, key) then
+		if self:is_info_message_key(key) then
 			off_icon, on_icon = '👤', '👥'
 		end
 
@@ -829,7 +741,7 @@ function _M:changeSettingStatus(chat_id, field)
 end
 
 function _M:sendStartMe(msg)
-	local _ = self
+	local bot = self.bot
 	local keyboard = {
 		inline_keyboard = {{{text = i18n("Start me"), url = 'https://telegram.me/'..bot.username}}}
 		}
@@ -846,7 +758,7 @@ function _M:initGroup(chat_id)
 		end
 	end
 
-	_M.cache_adminlist(self, chat_id, api.getChatAdministrators(chat_id)) --init admin cache
+	self:cache_adminlist(chat_id, api.getChatAdministrators(chat_id)) --init admin cache
 
 	--save group id
 	db:sadd('bot:groupsid', chat_id)
@@ -905,27 +817,27 @@ function _M:remGroup(chat_id, full)
 end
 
 function _M:getnames_complete(msg)
-	local _ = self
+
 	local admin, kicked
 
-	admin = _M.getname_link(self, msg.from)
+	admin = self:getname_link(msg.from)
 
 	if msg.reply then
-		kicked = _M.getname_link(self, msg.reply.from)
+		kicked = self:getname_link(msg.reply.from)
 	elseif msg.text:match(config.cmd..'%w%w%w%w?%w?%s(@[%w_]+)%s?') then
 		local username = msg.text:match('%s(@[%w_]+)')
 		kicked = username
 	elseif msg.mention_id then
 		for _, entity in pairs(msg.entities) do
 			if entity.user then
-				kicked = _M.getname_link(self, entity.user)
+				kicked = self:getname_link(entity.user)
 			end
 		end
 	elseif msg.text:match(config.cmd..'%w%w%w%w?%w?%s(%d+)') then
 		local id = msg.text:match(config.cmd..'%w%w%w%w?%w?%s(%d+)')
 		local res = api.getChatMember(msg.chat.id, id)
 		if res then
-			kicked = _M.getname_final(self, res.user)
+			kicked = self:getname_final(res.user)
 		end
 	end
 
@@ -949,7 +861,7 @@ function _M:get_user_id(msg, blocks)
 	end
 
 	if blocks[2]:byte(1) == string.byte("@") then
-		local id = _M.resolve_user(self, blocks[2])
+		local id = self:resolve_user(blocks[2])
 		if id then
 			return id
 		end
@@ -970,9 +882,10 @@ If you're using it by username and want to teach me who the user is, forward me 
 end
 
 function _M:logEvent(event, msg, extra)
+	local bot = self.bot
 	local db = self.db
 	local log_id = db:hget('bot:chatlogs', msg.chat.id)
-	-- _M.dump(self, extra)
+	-- self:dump(extra)
 
 	if not log_id or log_id == null then return end
 	local is_loggable = db:hget('chat:'..msg.chat.id..':tolog', event)
@@ -1037,7 +950,7 @@ function _M:logEvent(event, msg, extra)
 				msg.new_chat_member.username or '-', msg.new_chat_member.id)
 			text = i18n('%s\n• %s\n• <b>User</b>: %s'):format('#NEW_MEMBER', chat_info, member2)
 			if extra then --extra == msg.from
-				text = text..i18n("\n• <b>Added by</b>: %s [#id%d]"):format(_M.getname_final(self, extra), extra.id)
+				text = text..i18n("\n• <b>Added by</b>: %s [#id%d]"):format(self:getname_final(extra), extra.id)
 			end
 		end,
 		-- events that requires user + admin
@@ -1065,7 +978,7 @@ function _M:logEvent(event, msg, extra)
 		end,
 		block = function() -- or unblock
 			text = i18n('#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n'
-			):format(event:upper(), _M.getname_final(self, msg.from), msg.from.id, chat_info)
+			):format(event:upper(), self:getname_final(msg.from), msg.from.id, chat_info)
 			if extra.n then
 				text = text..i18n('• <i>Users involved: %d</i>'):format(extra.n)
 			elseif extra.user then
@@ -1139,16 +1052,14 @@ function _M:logEvent(event, msg, extra)
 	end
 end
 
-function _M:is_info_message_key(key)
-	local _ = self
+function _M:is_info_message_key(key) -- luacheck: ignore 212
 	if key == 'Extra' or key == 'Rules' then
 		return true
 	end
 	return false
 end
 
-function _M:table2keyboard(t)
-	local _ = self
+function _M:table2keyboard(t) -- luacheck: ignore 212
 	local keyboard = {inline_keyboard = {}}
 	for _, line in pairs(t) do
 		if type(line) ~= 'table' then return false, 'Wrong structure (each line need to be a table, not a single value)' end
@@ -1166,18 +1077,6 @@ function _M:table2keyboard(t)
 	return keyboard
 end
 
--- This is a helper to display an information about obsolete features. It's
--- useful for show localized message without retranslate every time. It gets one
--- parameter, a link with more info, and returns a function to be assigned to
--- onEveryMessage property of a plugin.
-function _M:reportDeletedCommand(link)
-	return function(msg)
-		if msg.from.admin then
-			_M.sendReply(self, msg, i18n("This command has been removed \\[[read more](%s)]"):format(link), true)
-		end
-	end
-end
-
 function _M:metric_incr(name)
 	local db = self.db
 	db:incr("bot:metrics:" .. name)
@@ -1193,8 +1092,7 @@ function _M:metric_get(name)
 	return db:get("bot:metrics:" .. name)
 end
 
-function _M:time_hires()
-	local _ = self
+function _M:time_hires() -- luacheck: ignore 212
 	return time_hires()
 end
 

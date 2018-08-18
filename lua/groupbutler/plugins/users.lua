@@ -5,20 +5,13 @@ local i18n = locale.translate
 
 local _M = {}
 
-_M.__index = _M
-
-setmetatable(_M, {
-	__call = function (cls, ...)
-		return cls.new(...)
-	end,
-})
-
-function _M.new(main)
-	local self = setmetatable({}, _M)
-	self.update = main.update
-	self.u = main.u
-	self.db = main.db
-	return self
+function _M:new(update_obj)
+	local plugin_obj = {}
+	setmetatable(plugin_obj, {__index = self})
+	for k, v in pairs(update_obj) do
+		plugin_obj[k] = v
+	end
+	return plugin_obj
 end
 
 local permissions = {
@@ -81,29 +74,31 @@ local function get_userinfo(self, user_id, chat_id)
 	local spam_warns = tonumber(db:hget('chat:'..chat_id..':spamwarns', user_id)) or 0
 	return text:format(tonumber(user_id), warns, media_warns, spam_warns)
 end
-function _M:onTextMessage(msg, blocks)
 
+function _M:onTextMessage(blocks)
+	local msg = self.message
 	local db = self.db
 	local u = self.u
+
+	if msg.chat.type == 'private' then return end
+
 	if blocks[1] == 'id' then --just for debug
-		if msg.chat.id < 0 and msg.from.admin then
+		if msg.chat.id < 0 and msg:is_from_admin() then
 			api.sendMessage(msg.chat.id, string.format('`%d`', msg.chat.id), "Markdown")
 		end
 	end
 
-	if msg.chat.type == 'private' then return end
-
 	if blocks[1] == 'adminlist' then
 		local adminlist = u:getAdminlist(msg.chat.id)
-		if not msg.from.admin then
+		if not msg:is_from_admin() then
 			api.sendMessage(msg.from.id, adminlist, 'html', true)
 		else
 			u:sendReply(msg, adminlist, 'html', true)
 		end
 	end
+
 	if blocks[1] == 'status' then
-		if (not msg.from.admin)
-		or (not blocks[2] and not msg.reply) then
+		if (not blocks[2] and not msg.reply) or not msg:is_from_admin() then
 			return
 		end
 
@@ -145,7 +140,7 @@ function _M:onTextMessage(msg, blocks)
 		u:sendReply(msg, text, 'html')
 	end
 	if blocks[1] == 'user' then
-		if not msg.from.admin then return end
+		if not msg:is_from_admin() then return end
 
 		if not msg.reply
 			and (not blocks[2] or (not blocks[2]:match('@[%w_]+$') and not blocks[2]:match('%d+$')
@@ -170,7 +165,7 @@ function _M:onTextMessage(msg, blocks)
 		api.sendMessage(msg.chat.id, text, "Markdown", nil, nil, nil, keyboard)
 	end
 	if blocks[1] == 'cache' then
-		if not msg.from.admin then return end
+		if not msg:is_from_admin() then return end
 		local hash = 'cache:chat:'..msg.chat.id..':admins'
 		local seconds = db:ttl(hash)
 		local cached_admins = db:scard(hash)
@@ -184,25 +179,24 @@ function _M:onTextMessage(msg, blocks)
 
 		local text = string.format('[%s](https://telegram.me/%s/%d)',
 			i18n("Message N° %d"):format(msg.reply.message_id), msg.chat.username, msg.reply.message_id)
-		if msg.from.admin or not u:is_silentmode_on(msg.chat.id) then
+		if not u:is_silentmode_on(msg.chat.id) or msg:is_from_admin() then
 			u:sendReply(msg.reply, text, "Markdown")
 		else
 			api.sendMessage(msg.from.id, text, "Markdown")
 		end
 	end
-	if blocks[1] == 'leave' then
-		if msg.from.admin then
-			u:remGroup(msg.chat.id)
-			api.leaveChat(msg.chat.id)
-		end
+	if blocks[1] == 'leave' and msg:is_from_admin() then
+		u:remGroup(msg.chat.id)
+		api.leaveChat(msg.chat.id)
 	end
 end
 
-function _M:onCallbackQuery(msg, blocks)
+function _M:onCallbackQuery(blocks)
+	local msg = self.message
 	local db = self.db
 	local u = self.u
 
-	if not msg.from.admin then
+	if not msg:is_from_admin() then
 		api.answerCallbackQuery(msg.cb_id, i18n("You are not allowed to use this button"))
 		return
 	end
@@ -221,7 +215,7 @@ function _M:onCallbackQuery(msg, blocks)
 		u:logEvent('nowarn', msg,
                {admin = name, user = u:getname_final(res.user), user_id = blocks[2], rem = removed})
 	end
-	if blocks[1] == 'recache' and msg.from.admin then
+	if blocks[1] == 'recache' and msg:is_from_admin() then
 		local missing_sec = tonumber(db:ttl('cache:chat:'..msg.target_id..':admins') or 0)
 		local wait = 600
 		if config.bot_settings.cache_time.adminlist - missing_sec < wait then

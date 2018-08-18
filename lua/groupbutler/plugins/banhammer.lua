@@ -1,28 +1,17 @@
 local config = require "groupbutler.config"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
-local get_bot = require "groupbutler.bot"
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
 
 local _M = {}
 
-local bot
-
-_M.__index = _M
-
-setmetatable(_M, {
-	__call = function (cls, ...)
-		return cls.new(...)
-	end,
-})
-
-function _M.new(main)
-	local self = setmetatable({}, _M)
-	self.update = main.update
-	self.u = main.u
-	self.db = main.db
-	bot = get_bot.init()
-	return self
+function _M:new(update_obj)
+	local plugin_obj = {}
+	setmetatable(plugin_obj, {__index = self})
+	for k, v in pairs(update_obj) do
+		plugin_obj[k] = v
+	end
+	return plugin_obj
 end
 
 local function markup_tempban(self, chat_id, user_id, time_value)
@@ -62,7 +51,9 @@ local function get_motivation(msg)
 	end
 end
 
-function _M:onTextMessage(msg, blocks)
+function _M:onTextMessage(blocks)
+	local msg = self.message
+	local bot = self.bot
 	local db = self.db
 	local u = self.u
 

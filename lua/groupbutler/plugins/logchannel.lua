@@ -6,20 +6,13 @@ local null = require "groupbutler.null"
 
 local _M = {}
 
-_M.__index = _M
-
-setmetatable(_M, {
-	__call = function (cls, ...)
-		return cls.new(...)
-	end,
-})
-
-function _M.new(main)
-	local self = setmetatable({}, _M)
-	self.update = main.update
-	self.u = main.u
-	self.db = main.db
-	return self
+function _M:new(update_obj)
+	local plugin_obj = {}
+	setmetatable(plugin_obj, {__index = self})
+	for k, v in pairs(update_obj) do
+		plugin_obj[k] = v
+	end
+	return plugin_obj
 end
 
 local function set_default(t, d)
@@ -106,12 +99,13 @@ local function doKeyboard_logchannel(self, chat_id)
 	return keyboard
 end
 
-function _M:onCallbackQuery(msg, blocks)
+function _M:onCallbackQuery(blocks)
+	local msg = self.message
 	local u = self.u
 
 	if blocks[1] == 'logcb' then
 		local chat_id = msg.target_id
-		if not msg.from.admin then
+		if not msg:is_from_admin() then
 			api.answerCallbackQuery(msg.cb_id, i18n("You are not admin of this group"), true)
 		else
 			if blocks[2] == 'unban' or blocks[2] == 'untempban' then
@@ -157,12 +151,13 @@ Tap on an option to get further information]])
 	end
 end
 
-function _M:onTextMessage(msg, blocks)
+function _M:onTextMessage(blocks)
+	local msg = self.message
 	local db = self.db
 	local u = self.u
 
 	if msg.chat.type ~= 'private' then
-		if not msg.from.admin then return end
+		if not msg:is_from_admin() then return end
 
 		if blocks[1] == 'setlog' then
 			if msg.forward_from_chat then

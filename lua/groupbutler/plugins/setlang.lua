@@ -5,20 +5,13 @@ local i18n = locale.translate
 
 local _M = {}
 
-_M.__index = _M
-
-setmetatable(_M, {
-	__call = function (cls, ...)
-		return cls.new(...)
-	end,
-})
-
-function _M.new(main)
-	local self = setmetatable({}, _M)
-	self.update = main.update
-	self.u = main.u
-	self.db = main.db
-	return self
+function _M:new(update_obj)
+	local plugin_obj = {}
+	setmetatable(plugin_obj, {__index = self})
+	for k, v in pairs(update_obj) do
+		plugin_obj[k] = v
+	end
+	return plugin_obj
 end
 
 local function doKeyboard_lang()
@@ -32,7 +25,8 @@ local function doKeyboard_lang()
 	return keyboard
 end
 
-function _M:onTextMessage(msg)
+function _M:onTextMessage()
+	local msg = self.message
 	local u = self.u
 
 	if msg.chat.type == 'private' or (msg.chat.id < 0 and u:is_allowed('config', msg.chat.id, msg.from)) then
@@ -41,10 +35,11 @@ function _M:onTextMessage(msg)
 	end
 end
 
-function _M:onCallbackQuery(msg, blocks)
+function _M:onCallbackQuery(blocks)
+	local msg = self.message
 	local db = self.db
 
-	if msg.chat.type ~= 'private' and not msg.from.admin then
+	if msg.chat.type ~= 'private' and not msg:is_from_admin() then
 		api.answerCallbackQuery(msg.cb_id, i18n("You are not an admin"))
 	else
 		if blocks[1] == 'selectlang' then

@@ -6,20 +6,13 @@ local null = require "groupbutler.null"
 
 local _M = {}
 
-_M.__index = _M
-
-setmetatable(_M, {
-	__call = function (cls, ...)
-		return cls.new(...)
-	end,
-})
-
-function _M.new(main)
-	local self = setmetatable({}, _M)
-	self.update = main.update
-	self.u = main.u
-	self.db = main.db
-	return self
+function _M:new(update_obj)
+	local plugin_obj = {}
+	setmetatable(plugin_obj, {__index = self})
+	for k, v in pairs(update_obj) do
+		plugin_obj[k] = v
+	end
+	return plugin_obj
 end
 
 local function is_locked(self, chat_id)
@@ -59,30 +52,32 @@ local function sendMedia(chat_id, file_id, media, reply_to_message_id, caption)
 	return action[media](body)
 end
 
-function _M:onTextMessage(msg, blocks)
+function _M:onTextMessage(blocks)
+	local msg = self.message
 	local u = self.u
 	local db = self.db
 	if msg.chat.type == 'private' and not(blocks[1] == 'start') then return end
 
 	if blocks[1] == 'extra' then
-		if not msg.from.admin then return end
 		if not blocks[2] then return end
 		if not blocks[3] and not msg.reply then return end
+		if not msg:is_from_admin() then return end
 
-			if msg.reply and not blocks[3] then
-			local file_id, media_with_special_method = u:get_media_id(msg.reply)
-				if not file_id then
-					return
-				else
-					local to_save
-					if media_with_special_method then --photo, voices, video need their method to be sent by file_id
-						to_save = '###file_id!'..media_with_special_method..'###:'..file_id
-					else
-						to_save = '###file_id###:'..file_id
-					end
-					db:hset('chat:'..msg.chat.id..':extra', blocks[2], to_save)
-				u:sendReply(msg, i18n("This media has been saved as a response to %s"):format(blocks[2]))
+		if msg.reply and not blocks[3] then
+			local file_id = msg.reply:get_file_id()
+			if not file_id then
+				return
+			end
+			local to_save = "###file_id###:"..file_id
+			-- photos, voices, videos need their method to be sent by file_id
+			local media_with_special_method = {"photo", "video", "voice",}
+			for _, v in pairs(media_with_special_method) do
+				if msg.reply:type() == v then
+					to_save = '###file_id!'..media_with_special_method..'###:'..file_id
 				end
+			end
+			db:hset('chat:'..msg.chat.id..':extra', blocks[2], to_save)
+			u:sendReply(msg, i18n("This media has been saved as a response to %s"):format(blocks[2]))
 		else
 				local hash = 'chat:'..msg.chat.id..':extra'
 				local new_extra = blocks[3]
@@ -100,13 +95,13 @@ function _M:onTextMessage(msg, blocks)
 			end
 	elseif blocks[1] == 'extra list' then
 		local text = u:getExtraList(msg.chat.id)
-		if not msg.from.admin and not is_locked(self, msg.chat.id) then
+		if not is_locked(self, msg.chat.id) and not msg:is_from_admin() then
 			api.sendMessage(msg.from.id, text)
 		else
 			u:sendReply(msg, text)
 		end
 		elseif blocks[1] == 'extra del' then
-				if not msg.from.admin then return end
+			if not msg:is_from_admin() then return end
 			local deleted, not_found, found = {}, {}
 			local hash = 'chat:'..msg.chat.id..':extra'
 			for extra in blocks[2]:gmatch('(#[%w_]+)') do
@@ -138,7 +133,7 @@ function _M:onTextMessage(msg, blocks)
 		local link_preview = text:find('telegra%.ph/') == nil
 		local _, err
 
-		if msg.chat.id > 0 or (is_locked(self, msg.chat.id) and not msg.from.admin) then -- send it in private
+		if msg.chat.id > 0 or (is_locked(self, msg.chat.id) and not msg:is_from_admin()) then -- send it in private
 					if not file_id then
 				local reply_markup, clean_text = u:reply_markup_from_text(text)
 				_, err = api.sendMessage(msg.from.id, clean_text:replaceholders(msg.reply or msg), "Markdown",

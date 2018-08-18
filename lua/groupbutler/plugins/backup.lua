@@ -7,20 +7,13 @@ local null = require "groupbutler.null"
 
 local _M = {}
 
-_M.__index = _M
-
-setmetatable(_M, {
-	__call = function (cls, ...)
-		return cls.new(...)
-	end,
-})
-
-function _M.new(main)
-	local self = setmetatable({}, _M)
-	self.update = main.update
-	self.u = main.u
-	self.db = main.db
-	return self
+function _M:new(update_obj)
+	local plugin_obj = {}
+	setmetatable(plugin_obj, {__index = self})
+	for k, v in pairs(update_obj) do
+		plugin_obj[k] = v
+	end
+	return plugin_obj
 end
 
 local function save_data(filename, data)
@@ -101,11 +94,12 @@ local imported_text = i18n([[Import was <b>successful</b>.
 - #extra commands which are associated with a media must be set again if the bot you are using now is different from the bot that originated the backup.
 ]])
 
-function _M:onTextMessage(msg, blocks)
+function _M:onTextMessage(blocks)
+	local msg = self.message
 	local db = self.db
 	local u = self.u
 
-	if not msg.from.admin then
+	if not msg:is_from_admin() then
 		return
 	end
 	if blocks[1] == 'snap' then

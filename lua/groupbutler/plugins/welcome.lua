@@ -6,27 +6,20 @@ local null = require "groupbutler.null"
 
 local _M = {}
 
-_M.__index = _M
-
-setmetatable(_M, {
-	__call = function (cls, ...)
-		return cls.new(...)
-	end,
-})
-
-function _M.new(main)
-	local self = setmetatable({}, _M)
-	self.update = main.update
-	self.u = main.u
-	self.db = main.db
-	return self
+function _M:new(update_obj)
+	local plugin_obj = {}
+	setmetatable(plugin_obj, {__index = self})
+	for k, v in pairs(update_obj) do
+		plugin_obj[k] = v
+	end
+	return plugin_obj
 end
 
 local function ban_bots(self, msg)
 	local db = self.db
 	local u = self.u
 
-	if msg.from.admin or msg.from.id == msg.new_chat_member.id then
+	if msg.from.id == msg.new_chat_member.id or msg:is_from_admin() then
 		--ignore if added by an admin or new member joined by link
 		return
 	else
@@ -146,7 +139,8 @@ local function get_welcome(self, msg)
 	end
 end
 
-function _M:onTextMessage(msg, blocks)
+function _M:onTextMessage(blocks)
+	local msg = self.message
 	local db = self.db
 	local u = self.u
 
@@ -164,7 +158,7 @@ function _M:onTextMessage(msg, blocks)
 		local hash = 'chat:'..msg.chat.id..':welcome'
 
 		if not input and msg.reply then
-			local replied_to = u:get_media_type(msg.reply)
+			local replied_to = msg.reply:type()
 			if replied_to == 'sticker' or replied_to == 'gif' then
 				local file_id
 				if replied_to == 'sticker' then

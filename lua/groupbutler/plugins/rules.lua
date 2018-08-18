@@ -5,20 +5,13 @@ local i18n = locale.translate
 
 local _M = {}
 
-_M.__index = _M
-
-setmetatable(_M, {
-	__call = function (cls, ...)
-		return cls.new(...)
-	end,
-})
-
-function _M.new(main)
-	local self = setmetatable({}, _M)
-	self.update = main.update
-	self.u = main.u
-	self.db = main.db
-	return self
+function _M:new(update_obj)
+	local plugin_obj = {}
+	setmetatable(plugin_obj, {__index = self})
+	for k, v in pairs(update_obj) do
+		plugin_obj[k] = v
+	end
+	return plugin_obj
 end
 
 local function send_in_group(self, chat_id)
@@ -30,7 +23,8 @@ local function send_in_group(self, chat_id)
 	return false
 end
 
-function _M:onTextMessage(msg, blocks)
+function _M:onTextMessage(blocks)
+	local msg = self.message
 	local db = self.db
 	local u = self.u
 
@@ -65,7 +59,7 @@ function _M:onTextMessage(msg, blocks)
 		reply_markup, rules = u:reply_markup_from_text(rules)
 
 		local link_preview = rules:find('telegra%.ph/') == nil
-		if msg.chat.type == 'private' or (not msg.from.admin and not send_in_group(self, msg.chat.id)) then
+		if msg.chat.type == 'private' or (not send_in_group(self, msg.chat.id) and not msg:is_from_admin()) then
 			api.sendMessage(msg.from.id, rules, "Markdown", link_preview, nil, nil, reply_markup)
 		else
 			u:sendReply(msg, rules, "Markdown", link_preview, nil, nil, reply_markup)

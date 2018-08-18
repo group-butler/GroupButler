@@ -6,19 +6,13 @@ local null = require "groupbutler.null"
 
 local _M = {}
 
-_M.__index = _M
-
-setmetatable(_M, {
-	__call = function (cls, ...)
-		return cls.new(...)
-	end,
-})
-
-function _M.new(main)
-	local self = setmetatable({}, _M)
-	self.update = main.update
-	self.db = main.db
-	return self
+function _M:new(update_obj)
+	local plugin_obj = {}
+	setmetatable(plugin_obj, {__index = self})
+	for k, v in pairs(update_obj) do
+		plugin_obj[k] = v
+	end
+	return plugin_obj
 end
 
 local function get_button_description(key)
@@ -78,14 +72,16 @@ local function doKeyboard_privsett(self, user_id)
 	return keyboard
 end
 
-function _M:onTextMessage(msg)
+function _M:onTextMessage()
+	local msg = self.message
 	if msg.chat.type == 'private' then
 		local keyboard = doKeyboard_privsett(self, msg.from.id)
 		api.sendMessage(msg.from.id, i18n('Change your private settings'), "Markdown", nil, nil, nil, keyboard)
 	end
 end
 
-function _M:onCallbackQuery(msg, blocks)
+function _M:onCallbackQuery(blocks)
+	local msg = self.message
 	if blocks[1] == 'alert' then
 		api.answerCallbackQuery(msg.cb_id, get_button_description(blocks[2]), true)
 	else

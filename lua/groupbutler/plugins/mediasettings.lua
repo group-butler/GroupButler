@@ -6,20 +6,13 @@ local null = require "groupbutler.null"
 
 local _M = {}
 
-_M.__index = _M
-
-setmetatable(_M, {
-	__call = function (cls, ...)
-		return cls.new(...)
-	end,
-})
-
-function _M.new(main)
-	local self = setmetatable({}, _M)
-	self.update = main.update
-	self.u = main.u
-	self.db = main.db
-	return self
+function _M:new(update_obj)
+	local plugin_obj = {}
+	setmetatable(plugin_obj, {__index = self})
+	for k, v in pairs(update_obj) do
+		plugin_obj[k] = v
+	end
+	return plugin_obj
 end
 
 local function doKeyboard_media(self, chat_id)
@@ -112,7 +105,8 @@ local function change_media_status(self, chat_id, media)
 	end
 end
 
-function _M:onCallbackQuery(msg, blocks)
+function _M:onCallbackQuery(blocks)
+	local msg = self.message
 	local db = self.db
 	local u = self.u
 	local chat_id = msg.target_id

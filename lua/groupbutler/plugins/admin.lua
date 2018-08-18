@@ -1,27 +1,16 @@
 local config = require "groupbutler.config"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
-local get_bot = require "groupbutler.bot"
 local null = require "groupbutler.null"
 
 local _M = {}
 
-local bot
-
-_M.__index = _M
-
-setmetatable(_M, {
-	__call = function (cls, ...)
-		return cls.new(...)
-	end,
-})
-
-function _M.new(main)
-	local self = setmetatable({}, _M)
-	self.update = main.update
-	self.u = main.u
-	self.db = main.db
-	bot = get_bot.init()
-	return self
+function _M:new(update_obj)
+	local plugin_obj = {}
+	setmetatable(plugin_obj, {__index = self})
+	for k, v in pairs(update_obj) do
+		plugin_obj[k] = v
+	end
+	return plugin_obj
 end
 
 local triggers2 = {
@@ -87,7 +76,8 @@ end
 -- 	return output
 -- end
 
-local function match_pattern(pattern, text)
+local function match_pattern(self, pattern, text)
+	local bot = self.bot
   if text then
 		text = text:gsub('@'..bot.username, '')
 		local matches = { string.match(text, pattern) }
@@ -111,13 +101,15 @@ local function get_chat_id(msg)
 	end
 end
 
-function _M:onTextMessage(msg, blocks)
+function _M:onTextMessage(blocks)
+	local msg = self.message
+	local bot = self.bot
 	local u = self.u
 	local db = self.db
 	if not u:is_superadmin(msg.from.id) then return end
 
 	for i=1, #triggers2 do
-		blocks = match_pattern(triggers2[i], msg.text)
+		blocks = match_pattern(self, triggers2[i], msg.text)
 		if blocks then break end
 	end
 

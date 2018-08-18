@@ -58,8 +58,8 @@ while true do -- Start a loop while the bot should be running.
 			last_update = res[i].update_id
 			--print(last_update)
 			current.h = current.h + 1
-			local update_obj = main.new(res[i])
-			update_obj:parseMessageFunction()
+			local update_obj = main:new(res[i])
+			update_obj:process()
 		end
 	else
 		log.error('Connection error')

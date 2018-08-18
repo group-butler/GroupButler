@@ -4,20 +4,13 @@ local i18n = require "groupbutler.languages".translate
 
 local _M = {}
 
-_M.__index = _M
-
-setmetatable(_M, {
-	__call = function (cls, ...)
-		return cls.new(...)
-	end,
-})
-
-function _M.new(main)
-	local self = setmetatable({}, _M)
-	self.update = main.update
-	self.u = main.u
-	self.db = main.db
-	return self
+function _M:new(update_obj)
+	local plugin_obj = {}
+	setmetatable(plugin_obj, {__index = self})
+	for k, v in pairs(update_obj) do
+		plugin_obj[k] = v
+	end
+	return plugin_obj
 end
 
 local function set_default(t, d)
@@ -265,7 +258,6 @@ local function dk_admins()
 			[i18n("Welcome settings")] = 'welcome',
 			[i18n("Links whitelist")] = 'whitelist',
 		}
-
 	}
 	for _, line in pairs(list) do
 		local kb_line = {}
@@ -320,7 +312,8 @@ local function do_keyboard(keyboard_type)
 	return keyboard
 end
 
-function _M:onTextMessage(msg, blocks)
+function _M:onTextMessage(blocks)
+	local msg = self.message
 	local u = self.u
 	local db = self.db
 	if blocks[1] == 'start' then
@@ -345,7 +338,8 @@ function _M:onTextMessage(msg, blocks)
 	end
 end
 
-function _M.onCallbackQuery(_, msg, blocks)
+function _M:onCallbackQuery(blocks)
+	local msg = self.message
 	local text, keyboard_type, answerCallbackQuery_text
 
 	local query = {

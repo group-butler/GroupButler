@@ -6,20 +6,13 @@ local null = require "groupbutler.null"
 
 local _M = {}
 
-_M.__index = _M
-
-setmetatable(_M, {
-	__call = function (cls, ...)
-		return cls.new(...)
-	end,
-})
-
-function _M.new(main)
-	local self = setmetatable({}, _M)
-	self.update = main.update
-	self.u = main.u
-	self.db = main.db
-	return self
+function _M:new(update_obj)
+	local plugin_obj = {}
+	setmetatable(plugin_obj, {__index = self})
+	for k, v in pairs(update_obj) do
+		plugin_obj[k] = v
+	end
+	return plugin_obj
 end
 
 local function is_whitelisted(self, chat_id, text)
@@ -55,11 +48,12 @@ local humanizations = {
 	['forwards'] = i18n('Channels messages')
 }
 
-function _M:onEveryMessage(msg)
+function _M:on_message()
+	local msg = self.message
 	local u = self.u
 	local db = self.db
 
-	if not msg.inline and msg.spam and msg.chat.id < 0 and not msg.cb and not msg.from.admin then
+	if not msg.inline and msg.spam and msg.chat.id < 0 and not msg.cb and not msg:is_from_admin() then
 		local status = db:hget('chat:'..msg.chat.id..':antispam', msg.spam)
 		if status ~= null and status ~= 'alwd' then
 			local whitelisted
@@ -271,7 +265,8 @@ local function urls_table(entities, text)
 	return links
 end
 
-function _M:onCallbackQuery(msg, blocks)
+function _M:onCallbackQuery(blocks)
+	local msg = self.message
 	local u = self.u
 
 	if blocks[1] == 'alert' then
@@ -342,7 +337,8 @@ local function edit_channels_whitelist(self, chat_id, list, action)
 	return for_entered, channels
 end
 
-function _M:onTextMessage(msg, blocks)
+function _M:onTextMessage(blocks)
+	local msg = self.message
 	local u = self.u
 	local db = self.db
 

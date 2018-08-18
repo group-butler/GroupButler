@@ -7,20 +7,13 @@ local null = require "groupbutler.null"
 
 local _M = {}
 
-_M.__index = _M
-
-setmetatable(_M, {
-	__call = function (cls, ...)
-		return cls.new(...)
-	end,
-})
-
-function _M.new(main)
-	local self = setmetatable({}, _M)
-	self.update = main.update
-	self.u = main.u
-	self.db = main.db
-	return self
+function _M:new(update_obj)
+	local plugin_obj = {}
+	setmetatable(plugin_obj, {__index = self})
+	for k, v in pairs(update_obj) do
+		plugin_obj[k] = v
+	end
+	return plugin_obj
 end
 
 local function cache_chat_title(self, chat_id)
@@ -62,7 +55,8 @@ local function do_keyboard_config(self, chat_id, user_id) -- is_admin
 	return keyboard
 end
 
-function _M:onTextMessage(msg)
+function _M:onTextMessage()
+	local msg = self.message
 	local u = self.u
 	local db = self.db
 	if msg.chat.type ~= 'private' then
@@ -86,7 +80,7 @@ end
 
 function _M:onCallbackQuery(msg)
 	local chat_id = msg.target_id
-	local keyboard = do_keyboard_config(self, chat_id, msg.from.id, msg.from.admin)
+	local keyboard = do_keyboard_config(self, chat_id, msg.from.id, msg:is_from_admin())
 	local text = i18n("<i>Change the settings of your group</i>")
 	local chat_title = get_chat_title(self, chat_id)
 	if chat_title then

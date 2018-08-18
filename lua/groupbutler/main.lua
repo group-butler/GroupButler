@@ -4,43 +4,38 @@ local utilities = require "groupbutler.utilities"
 local log = require "groupbutler.logging"
 local redis = require "resty.redis"
 local plugins = require "groupbutler.plugins"
-local get_bot = require "groupbutler.bot"
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
 
 local _M = {}
 
-local bot
+local get_me = {}
 
-_M.__index = _M
+function _M:new(update_obj)
+	setmetatable(update_obj, {__index = self})
 
-setmetatable(_M, {
-	__call = function (cls, ...)
-		return cls.new(...)
-	end,
-})
+	if not get_me[config.telegram.token] then
+		get_me[config.telegram.token] = api.get_me()
+	end
+	update_obj.bot = get_me[config.telegram.token]
 
-function _M.new(update)
-	local self = setmetatable({}, _M)
-	self.update = update
-	self.db = redis:new()
-	local ok, err = self.db:connect(config.redis.host, config.redis.port)
+	update_obj.db = redis:new()
+	local ok, err = update_obj.db:connect(config.redis.host, config.redis.port)
 	if not ok then
 		log.error("Redis connection failed: {err}", {err=err})
 		return nil, err
 	end
-	self.db:select(config.redis.db)
-	self.u = utilities.new(self)
-	bot = get_bot.init()
-	return self
+	update_obj.db:select(config.redis.db)
+
+	update_obj.u = utilities:new(update_obj)
+
+	return update_obj
 end
 
 local function extract_usernames(self, msg)
 	local db = self.db
-	if msg.from then
-		if msg.from.username then
+	if msg.from and msg.from.username then
 			db:hset('bot:usernames', '@'..msg.from.username:lower(), msg.from.id)
-		end
 	end
 	if msg.forward_from and msg.forward_from.username then
 		db:hset('bot:usernames', '@'..msg.forward_from.username:lower(), msg.forward_from.id)
@@ -65,7 +60,8 @@ local function extract_usernames(self, msg)
 	end
 end
 
-local function collect_stats(self, msg)
+local function collect_stats(self)
+	local msg = self.message
 	local db = self.db
 	local u = self.u
 	extract_usernames(self, msg)
@@ -78,8 +74,11 @@ local function collect_stats(self, msg)
 	u:metric_set("message_timestamp_distance_sec", now - msg.date)
 end
 
-local function match_triggers(triggers, text)
-	if text and triggers then
+local function match_triggers(self, triggers)
+	local bot = self.bot
+	local text = self.message.text
+
+	if not text or not triggers then return nil end
 		text = text:gsub('^(/[%w_]+)@'..bot.username, '%1')
 		for _, trigger in pairs(triggers) do
 			local matches = { string.match(text, trigger) }
@@ -87,10 +86,12 @@ local function match_triggers(triggers, text)
 				return matches, trigger
 			end
 		end
-	end
+	return nil
 end
 
-local function on_msg_receive(self, msg, callback) -- The fn run whenever a message is received.
+local function on_msg_receive(self, callback) -- The fn run whenever a message is received.
+	local msg = self.message
+	local bot = self.bot
 	local u = self.u
 	local db = self.db
 	-- u:dump(msg)
@@ -130,20 +131,12 @@ Unfortunately I can't work in normal groups. If you need me, please ask the crea
 		return
 	end
 
-	if not msg.text then msg.text = msg.caption or '' end
+	collect_stats(self)
 
-	locale.language = db:get('lang:'..msg.chat.id) --group language
-	if not config.available_languages[locale.language] then
-		locale.language = config.lang
-	end
-
-	collect_stats(self, msg)
-
-	local continue, onm_success, plugin_obj
 	for i=1, #plugins do
-		if plugins[i].onEveryMessage then
-			plugin_obj = plugins[i].new(self)
-			onm_success, continue = pcall(plugin_obj.onEveryMessage, plugin_obj, msg)
+		if plugins[i].on_message then
+			local plugin_obj = plugins[i]:new(self)
+			local onm_success, continue = pcall(plugin_obj.on_message, plugin_obj)
 			if not onm_success then
 				log.error('An #error occurred (preprocess).\n{err}\n{lang}\n{text}', {
 					cont=tostring(continue),
@@ -158,13 +151,20 @@ Unfortunately I can't work in normal groups. If you need me, please ask the crea
 
 	for i=1, #plugins do
 		if plugins[i].triggers then
-			plugin_obj = plugins[i].new(self)
-			local blocks, trigger = match_triggers(plugin_obj.triggers[callback], msg.text)
+			local blocks, trigger = match_triggers(self, plugins[i].triggers[callback])
+			local plugin_obj = plugins[i]:new(self)
+
 			if blocks then
-				if msg.chat.id < 0 and msg.chat.type ~= 'inline'and db:exists('chat:'..msg.chat.id..':settings') == 0 and not msg.service then --init agroup if the bot wasn't aware to be in
+				-- init agroup if the bot wasn't aware to be in
+				if  msg.chat.id < 0
+				and msg.chat.type ~= 'inline'
+				and db:exists('chat:'..msg.chat.id..':settings') == 0
+				and not msg.service then
 				u:initGroup(msg.chat.id)
 				end
-				if config.bot_settings.stream_commands then --print some info in the terminal
+
+				-- print some info in the terminal
+				if config.bot_settings.stream_commands then
 					log.info('{trigger} {from_name} [{from_id}] -> [{chat_id}]',
 						{
 							trigger=trigger,
@@ -173,19 +173,24 @@ Unfortunately I can't work in normal groups. If you need me, please ask the crea
 							chat_id=msg.chat.id,
 						})
 				end
-				--if not check_callback(msg, callback) then goto searchaction end
-				local success, result = xpcall((function() return plugin_obj[callback](plugin_obj, msg, blocks) end), debug.traceback) --execute the main function of the plugin triggered
+
+				-- execute the main function of the plugin triggered
+				local success, result = xpcall(
+					(function()
+						return plugin_obj[callback](plugin_obj, blocks)
+					end), debug.traceback)
+
 				if not success then --if a bug happens
 					if config.bot_settings.notify_bug then
 					u:sendReply(msg, i18n("🐞 Sorry, a *bug* occurred"), "Markdown")
 					end
 					log.error('An #error occurred.\n{result}\n{lang}\n{text}', {
-						cont=tostring(continue),
+						cont=tostring(result),
 						lang=locale.language,
 						text=msg.text})
 					return
 				end
-				if not result then --if the action returns true, then don't stop the loop of the plugin's actions
+				if not result then -- Stop processing plugins when a triggered plugin does not return true
 					return
 				end
 			end
@@ -193,179 +198,156 @@ Unfortunately I can't work in normal groups. If you need me, please ask the crea
 	end
 end
 
-function _M:parseMessageFunction()
-	local update = self.update
+local message = {}
+
+function message:is_from_admin()
+	if self.chat.type == "private" then -- This should never happen but...
+		return false
+	end
+	if not (self.chat.id < 0 or self.target_id) or not self.from then
+		return false
+	end
+	return self.u:is_admin(self.target_id or self.chat.id, self.from.id)
+end
+
+function message:type()
+	-- TODO: update database to use "animation" instead of "gif"
+	if self.animation then
+		return "gif"
+	end
+	local media_types = {
+		"audio", --[["animation",]] "contact", "document", "game", "location", "photo", "sticker", "venue", "video",
+		"video_note", "voice",
+	}
+	for _, v in pairs(media_types) do
+		if self[v] then
+			return v
+		end
+	end
+	if self.entities then
+		for _, entity in pairs(self.entities) do
+			if entity.type == "url" or entity.type == "text_link" then
+				return "link"
+			end
+				end
+			end
+	return "text"
+		end
+
+function message:get_file_id()
+	if self[self:type()] and self[self:type()].file_id then
+		return self[self:type()].file_id
+	end
+	return false -- The message has no media file_id
+end
+
+function _M:process()
 	local u = self.u
 	local db = self.db
+	local bot = self.bot
 
+	local start_time = u:time_hires()
 	u:metric_incr("messages_count")
 
-	local msg, function_key
-	local start_time = u:time_hires()
+	local function_key
 
-	if update.message or update.edited_message then
+	if self.message or self.edited_message then
 
 		function_key = 'onTextMessage'
 
-		if update.edited_message then
-			update.edited_message.edited = true
-			update.edited_message.original_date = update.edited_message.date
-			update.edited_message.date = update.edited_message.edit_date
+		if self.edited_message then
+			self.edited_self.message.edited = true
+			self.edited_self.message.original_date = self.edited_self.message.date
+			self.edited_self.message.date = self.edited_self.message.edit_date
 			function_key = 'onEditedMessage'
 		end
 
-		msg = update.message or update.edited_message
+		self.message = self.message or self.edited_message
 
-		if msg.text then
-			msg.text = msg.text -- Just so that luacheck stops complaining about empty if branch
-		elseif msg.photo then
-			msg.media = true
-			msg.media_type = 'photo'
-		elseif msg.audio then
-			msg.media = true
-			msg.media_type = 'audio'
-		elseif msg.document then
-			msg.media = true
-			msg.media_type = 'document'
-			if msg.document.mime_type == 'video/mp4' then
-				msg.media_type = 'gif'
+		local service_messages = {
+			"left_chat_member", "new_chat_member", "new_chat_photo", "delete_chat_photo", "group_chat_created",
+			"supergroup_chat_created", "channel_chat_created", "migrate_to_chat_id", "migrate_from_chat_id",
+			"new_chat_title", "pinned_message",
+		}
+		for _, v in pairs(service_messages) do
+			if self.message[v] then
+				self.message.service = true
+				self.message.text = "###"..v
+				if self.message[v].id == bot.id then
+					self.message.text = self.message.text..":bot"
 			end
-		elseif msg.sticker then
-			msg.media = true
-			msg.media_type = 'sticker'
-		elseif msg.video then
-			msg.media = true
-			msg.media_type = 'video'
-		elseif msg.video_note then
-			msg.media = true
-			msg.media_type = 'video_note'
-		elseif msg.voice then
-			msg.media = true
-			msg.media_type = 'voice'
-		elseif msg.contact then
-			msg.media = true
-			msg.media_type = 'contact'
-		elseif msg.venue then
-			msg.media = true
-			msg.media_type = 'venue'
-		elseif msg.location then
-			msg.media = true
-			msg.media_type = 'location'
-		elseif msg.game then
-			msg.media = true
-			msg.media_type = 'game'
-		elseif msg.left_chat_member then
-			msg.service = true
-			if msg.left_chat_member.id == bot.id then
-				msg.text = '###left_chat_member:bot'
-			else
-				msg.text = '###left_chat_member'
 			end
-		elseif msg.new_chat_member then
-			msg.service = true
-			if msg.new_chat_member.id == bot.id then
-				msg.text = '###new_chat_member:bot'
-			else
-				msg.text = '###new_chat_member'
-			end
-		elseif msg.new_chat_photo then
-			msg.service = true
-			msg.text = '###new_chat_photo'
-		elseif msg.delete_chat_photo then
-			msg.service = true
-			msg.text = '###delete_chat_photo'
-		elseif msg.group_chat_created then
-			msg.service = true
-			msg.text = '###group_chat_created'
-		elseif msg.supergroup_chat_created then
-			msg.service = true
-			msg.text = '###supergroup_chat_created'
-		elseif msg.channel_chat_created then
-			msg.service = true
-			msg.text = '###channel_chat_created'
-		elseif msg.migrate_to_chat_id then
-			msg.service = true
-			msg.text = '###migrate_to_chat_id'
-		elseif msg.migrate_from_chat_id then
-			msg.service = true
-			msg.text = '###migrate_from_chat_id'
-		elseif msg.new_chat_title then
-			msg.service = true
-			msg.text = '###new_chat_title'
-		elseif msg.pinned_message then
-			msg.service = true
-			msg.text = '###pinned_message'
-		else
-			--callback = 'onUnknownType'
-			log.warn('Unknown update type') return
 		end
 
-		if msg.forward_from_chat then
-			if msg.forward_from_chat.type == 'channel' then
-				msg.spam = 'forwards'
+		if self.message.forward_from_chat then
+			if self.message.forward_from_chat.type == 'channel' then
+				self.message.spam = 'forwards'
 			end
 		end
-		if msg.caption then
-			local caption_lower = msg.caption:lower()
+		if self.message.caption then
+			local caption_lower = self.message.caption:lower()
 			if caption_lower:match('telegram%.me') or caption_lower:match('telegram%.dog') or caption_lower:match('t%.me') then
-				msg.spam = 'links'
+				self.message.spam = 'links'
 			end
 		end
-		if msg.entities then
-			for _, entity in pairs(msg.entities) do
+		if self.message.entities then
+			for _, entity in pairs(self.message.entities) do
 				if entity.type == 'text_mention' then
-					msg.mention_id = entity.user.id
+					self.message.mention_id = entity.user.id
 				end
 				if entity.type == 'url' or entity.type == 'text_link' then
-					local text_lower = msg.text or msg.caption
+					local text_lower = self.message.text or self.message.caption
 					text_lower = entity.url and text_lower..entity.url or text_lower
 					text_lower = text_lower:lower()
-					if text_lower:match('telegram%.me') or
-						text_lower:match('telegram%.dog') or
-						text_lower:match('t%.me') then
-						msg.spam = 'links'
-					else
-						msg.media_type = 'link'
-						msg.media = true
+					if text_lower:match('telegram%.me')
+					or text_lower:match('telegram%.dog')
+					or text_lower:match('t%.me') then
+						self.message.spam = 'links'
 					end
 				end
 			end
 		end
-		if msg.reply_to_message then
-			msg.reply = msg.reply_to_message
-			if msg.reply.caption then
-				msg.reply.text = msg.reply.caption
+		if self.message.reply_to_message then
+			-- Add message methods
+			self.message.reply_to_message.u = self.u
+			setmetatable(self.message.reply_to_message, {__index = message})
+
+			self.message.reply = self.message.reply_to_message
+			if self.message.reply.caption then
+				self.message.reply.text = self.message.reply.caption
 			end
 		end
-	elseif update.callback_query then
-		msg = update.callback_query
-		msg.cb = true
-		msg.text = '###cb:'..msg.data
-		if msg.message then
-			msg.original_text = msg.message.text
-			msg.original_date = msg.message.date
-			msg.message_id = msg.message.message_id
-			msg.chat = msg.message.chat
+	elseif self.callback_query then
+		self.message = self.callback_query
+		self.message.cb = true
+		self.message.text = '###cb:'..self.message.data
+		if self.message.message then
+			self.message.original_text = self.message.message.text
+			self.message.original_date = self.message.message.date
+			self.message.message_id = self.message.message.message_id
+			self.message.chat = self.message.message.chat
 		else --when the inline keyboard is sent via the inline mode
-			msg.chat = {type = 'inline', id = msg.from.id, title = msg.from.first_name}
-			msg.message_id = msg.inline_message_id
+			self.message.chat = {type = 'inline', id = self.message.from.id, title = self.message.from.first_name}
+			self.message.message_id = self.message.inline_message_id
 		end
-		msg.date = os.time()
-		msg.cb_id = msg.id
-		msg.message = nil
-		msg.target_id = msg.data:match('(-%d+)$') --callback datas often ship IDs
+		self.message.date = os.time()
+		self.message.cb_id = self.message.id
+		self.message.message = nil
+		self.message.target_id = self.message.data:match('(-%d+)$') --callback datas often ship IDs
 		function_key = 'onCallbackQuery'
 	else
 		--function_key = 'onUnknownType'
-		log.warn('Unknown update type') return
+		log.warn("Unknown update type")
+		return
 	end
 
-	if (msg.chat.id < 0 or msg.target_id) and msg.from then
-		msg.from.admin = u:is_admin(msg.target_id or msg.chat.id, msg.from.id)
-	end
+	if not self.message.text then self.message.text = self.message.caption or '' end
 
-	-- print('Admin:', msg.from.admin)
-	local retval = on_msg_receive(self, msg, function_key)
+	-- Add message methods
+	self.message.u = self.u
+	setmetatable(self.message, {__index = message})
+
+	local retval = on_msg_receive(self, function_key)
 	u:metric_set("msg_request_duration_sec", u:time_hires() - start_time)
 	-- print(db:get_reused_times())
 	db:set_keepalive()

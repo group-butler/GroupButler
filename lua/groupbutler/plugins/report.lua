@@ -6,20 +6,13 @@ local null = require "groupbutler.null"
 
 local _M = {}
 
-_M.__index = _M
-
-setmetatable(_M, {
-	__call = function (cls, ...)
-		return cls.new(...)
-	end,
-})
-
-function _M.new(main)
-	local self = setmetatable({}, _M)
-	self.update = main.update
-	self.u = main.u
-	self.db = main.db
-	return self
+function _M:new(update_obj)
+	local plugin_obj = {}
+	setmetatable(plugin_obj, {__index = self})
+	for k, v in pairs(update_obj) do
+		plugin_obj[k] = v
+	end
+	return plugin_obj
 end
 
 local function seconds2minutes(seconds)
@@ -102,7 +95,8 @@ local function user_is_abusing(self, chat_id, user_id)
 	end
 end
 
-function _M:onTextMessage(msg, blocks)
+function _M:onTextMessage(blocks)
+	local msg = self.message
 	local db = self.db
 	local u = self.u
 
@@ -124,7 +118,7 @@ function _M:onTextMessage(msg, blocks)
 			end
 			u:sendReply(msg, text, "Markdown")
 		else
-			if msg.from.admin or not msg.reply then
+			if not msg.reply or msg:is_from_admin() then
 				return
 			end
 
@@ -160,7 +154,8 @@ Wait other %d minutes, %d seconds.]]):format(times_allowed, (duration / 60), min
 	end
 end
 
-function _M:onCallbackQuery(msg, blocks)
+function _M:onCallbackQuery(blocks)
+	local msg = self.message
 	local db = self.db
 
 	if not blocks[2] then --###cb:issueclosed

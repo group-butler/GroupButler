@@ -4,8 +4,8 @@ local json = require "cjson"
 local main = require "groupbutler.main"
 
 local function process_update(update)
-	local bot = main.new(update)
-	bot:parseMessageFunction()
+	local update_obj = main:new(update)
+	update_obj:process()
 end
 
 function _M.run()
