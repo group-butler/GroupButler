@@ -295,17 +295,22 @@ function _M:cache_adminlist(chat_id)
 
 	local lock_key = "cache:chat:"..chat_id..":getadmin_lock"
 	local set = 'cache:chat:'..chat_id..':admins'
-	if db:exists(lock_key) then
-		while db:exists(lock_key) and not db:exists(set) do
+
+	if db:exists(lock_key) == 1 then
+		while db:exists(set) == 0 and db:exists(lock_key) == 1 do
 			sleep(0.1)
+		end
+		if db:exists(set) == 1 then
+			return true, 0 -- Another concurrent request has just updated the adminlist
 		end
 	end
 
-	db:setex("cache:chat:"..chat_id..":getadmin_lock", 1)
+	db:setex(lock_key, 1, "")
 	log.info('Saving the adminlist for: {chat_id}', {chat_id=chat_id})
 	self:metric_incr("api_getchatadministrators_count")
 	local res, code = api.getChatAdministrators(chat_id)
 	if not res then
+		self:metric_incr("api_getchatadministrators_error_count")
 		return false, code
 	end
 	local cache_time = config.bot_settings.cache_time.adminlist
