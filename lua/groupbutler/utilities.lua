@@ -149,7 +149,7 @@ function string:replaceholders(msg, ...)
 			username = msg.from.username and '@'..msg.from.username or '-',
 			id = msg.from.id,
 			title = msg.chat.title,
-			rules = self:deeplink_constructor(msg.chat.id, 'rules'),
+			-- rules = self:deeplink_constructor(msg.chat.id, 'rules'),
 		}
 		-- remove flag about escaping
 		table.remove(tail_arguments, 1)
@@ -161,7 +161,7 @@ function string:replaceholders(msg, ...)
 			userorname = msg.from.username and '@'..msg.from.username:escape() or msg.from.first_name:escape(),
 			id = msg.from.id,
 			title = msg.chat.title:escape(),
-			rules = self:deeplink_constructor(msg.chat.id, 'rules'),
+			-- rules = self:deeplink_constructor(msg.chat.id, 'rules'),
 		}
 	end
 
@@ -398,11 +398,6 @@ function _M:download_to_file(url, file_path) -- luacheck: ignore 212
 		file:close()
 		return file_path, code
 	end
-end
-
-function _M:telegram_file_link(res) -- luacheck: ignore 212
-	--res = table returned by getFile()
-	return "https://api.telegram.org/file/bot"..config.api_token.."/"..res.file_path
 end
 
 function _M:deeplink_constructor(chat_id, what)

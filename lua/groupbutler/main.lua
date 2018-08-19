@@ -230,10 +230,10 @@ function message:type()
 			if entity.type == "url" or entity.type == "text_link" then
 				return "link"
 			end
-				end
-			end
-	return "text"
 		end
+	end
+	return "text"
+end
 
 function message:get_file_id()
 	if self[self:type()] and self[self:type()].file_id then

@@ -48,7 +48,9 @@ local function is_on(self, chat_id, setting)
 
 	local hash = 'chat:'..chat_id..':settings'
 	local current = db:hget(hash, setting)
-	if current == null then current = config.chat_settings.settings[setting] end
+	if current == null then
+		current = config.chat_settings.settings[setting]
+	end
 
 	if current == 'on' then
 		return true
@@ -91,51 +93,72 @@ local function apply_default_permissions(self, chat_id, users)
 	end
 end
 
-local function get_welcome(self, msg)
+local function get_reply_markup(self, msg, text)
+	local u = self.u
+
+	local new_text, reply_markup
+	if text then
+		reply_markup, new_text = u:reply_markup_from_text(text)
+		text = new_text:replaceholders(msg)
+	end
+
+	if is_on(self, msg.chat.id, "Welbut") then
+		if not reply_markup then
+			reply_markup = {inline_keyboard={}}
+		end
+		local line = {{text = i18n("Read the rules"), url = u:deeplink_constructor(msg.chat.id, "rules")}}
+		table.insert(reply_markup.inline_keyboard, line)
+	end
+
+	return reply_markup, text
+end
+
+local function send_welcome(self, msg)
 	local db = self.db
 	local u = self.u
 
 	if not is_on(self, msg.chat.id, 'Welcome') then
-		return false
+		return
 	end
 
 	local hash = 'chat:'..msg.chat.id..':welcome'
-	local type = db:hget(hash, 'type')
-	if type == null then type = config.chat_settings['welcome']['type'] end
-
+	local welcome_type = db:hget(hash, "type")
 	local content = db:hget(hash, 'content')
-	if content == null then content = config.chat_settings['welcome']['content'] end
+	if welcome_type == "no" or content == "no" -- TODO: database migration no -> null
+	or welcome_type == null or content == null then
+		welcome_type = "text"
+		content = i18n("Hi $name!")
+	end
 
-	if type == 'media' then
-		local file_id = content
-		local caption = db:hget(hash, 'caption')
-		if caption ~= null then caption = caption:replaceholders(msg, true) else caption = nil end
-
-		local rules_button = db:hget('chat:'..msg.chat.id..':settings', 'Welbut')
-		if rules_button == null then rules_button = config.chat_settings['settings']['Welbut'] end
-
-		local reply_markup
-		if rules_button == 'on' then
-			reply_markup =
-			{
-				inline_keyboard={{{text = i18n('Read the rules'), url = u:deeplink_constructor(msg.chat.id, 'rules')}}}
-			}
+	local ok, err
+	if welcome_type == "custom" -- TODO: database migration custom -> text
+	or welcome_type == "text" then
+		local reply_markup, text = get_reply_markup(self, msg, content)
+		local link_preview = text:find('telegra%.ph/') == nil
+		ok, err = api.sendMessage(msg.chat.id, text, "Markdown", link_preview, nil, nil, reply_markup)
+	end
+	if welcome_type == "media" then
+		local caption = db:hget(hash, "caption")
+		if caption == null then
+			caption = nil
 		end
-		local res = api.sendDocument(msg.chat.id, file_id, caption, nil, nil, reply_markup)
-		if res and is_on(self, msg.chat.id, 'Weldelchain') then
-			local key = ('chat:%d:lastwelcome'):format(msg.chat.id) -- get the id of the last sent welcome message
-			local message_id = db:get(key)
-			if message_id ~= null then
-				api.deleteMessage(msg.chat.id, message_id)
-			end
-			db:setex(key, 259200, res.message_id) --set the new message id to delete
+		local reply_markup, text = get_reply_markup(self, msg, caption)
+		ok, err = api.sendDocument(msg.chat.id, content, text, nil, nil, reply_markup)
+	end
+
+	if not ok and err.error_code == 160 then -- if bot can't send message
+		u:remGroup(msg.chat.id, true)
+		api.leaveChat(msg.chat.id)
+		return
+	end
+
+	if is_on(self, msg.chat.id, "Weldelchain") then
+		local key = ('chat:%d:lastwelcome'):format(msg.chat.id) -- get the id of the last sent welcome message
+		local message_id = db:get(key)
+		if message_id ~= null then
+			api.deleteMessage(msg.chat.id, message_id)
 		end
-		return false
-	elseif type == 'custom' then
-		local reply_markup, new_text = u:reply_markup_from_text(content)
-		return new_text:replaceholders(msg), reply_markup
-	else
-		return i18n("Hi %s!"):format(msg.new_chat_member.first_name:escape())
+		db:setex(key, 259200, ok.message_id) --set the new message id to delete
 	end
 end
 
@@ -145,11 +168,9 @@ function _M:onTextMessage(blocks)
 	local u = self.u
 
 	if blocks[1] == 'welcome' then
-
 		if msg.chat.type == 'private' or not u:is_allowed('texts', msg.chat.id, msg.from) then return end
 
 		local input = blocks[2]
-
 		if not input and not msg.reply then
 			u:sendReply(msg, i18n("Welcome and...?"))
 			return
@@ -211,37 +232,12 @@ function _M:onTextMessage(blocks)
 
 		apply_default_permissions(self, msg.chat.id, msg.new_chat_members)
 
-		local text, reply_markup = get_welcome(self, msg)
-		if text then --if not text: welcome is locked or is a gif/sticker
-			local attach_button = (db:hget('chat:'..msg.chat.id..':settings', 'Welbut'))
-			if attach_button == null then attach_button = config.chat_settings['settings']['Welbut'] end
-
-			if attach_button == 'on' then
-				if not reply_markup then reply_markup = {inline_keyboard={}} end
-				local line = {{text = i18n('Read the rules'), url = u:deeplink_constructor(msg.chat.id, 'rules')}}
-				table.insert(reply_markup.inline_keyboard, line)
-			end
-			local link_preview = text:find('telegra%.ph/') == nil
-			local ok, err = api.sendMessage(msg.chat.id, text, "Markdown", link_preview, nil, nil, reply_markup)
-			if not ok and err.error_code == 160 then -- if bot can't send message
-				u:remGroup(msg.chat.id, true)
-				api.leaveChat(msg.chat.id)
-				return
-			end
-			if is_on(self, msg.chat.id, 'Weldelchain') then
-				local key = ('chat:%d:lastwelcome'):format(msg.chat.id) -- get the id of the last sent welcome message
-				local message_id = db:get(key)
-				if message_id ~= null then
-					api.deleteMessage(msg.chat.id, message_id)
-				end
-				db:setex(key, 259200, ok.message_id) --set the new message id to delete
-			end
-		end
+		send_welcome(self, msg)
 
 		local send_rules_private = db:hget('user:'..msg.new_chat_member.id..':settings', 'rules_on_join')
-		if send_rules_private ~= null and send_rules_private == 'on' then
+		if send_rules_private == "on" then
 			local rules = db:hget('chat:'..msg.chat.id..':info', 'rules')
-			if rules then
+			if rules ~= null then
 				api.sendMessage(msg.new_chat_member.id, rules, "Markdown")
 			end
 		end
