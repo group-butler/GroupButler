@@ -3,9 +3,8 @@ local config = require "groupbutler.config"
 local strings = {} -- internal array with translated strings
 
 -- String functions
-function string:trim() -- Trims whitespace from a string
-	local s = self:gsub('^%s*(.-)%s*$', '%1')
-	return s
+local function trim(str) -- Trims whitespace from a string
+	return str:gsub('^%s*(.-)%s*$', '%1')
 end
 
 -- Evaluates the Lua's expression
@@ -24,7 +23,7 @@ local function parse(filename)
 	local result = {}
 
 	for line in io.lines(filename) do
-		line = line:trim()
+		line = trim(line)
 		local input, argument = line:match('^(%w*)%s*(".*")$')
 		if line:match('^#,.*fuzzy') then
 			input = 'fuzzy'

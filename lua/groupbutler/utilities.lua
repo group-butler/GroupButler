@@ -109,11 +109,6 @@ function string:escape_hard(ft)
 	end
 end
 
-function string:trim() -- Trim whitespace from a string
-	local s = self:gsub('^%s*(.-)%s*$', '%1')
-	return s
-end
-
 function string:escape_magic()
 	self = self:gsub('%%', '%%%%')
 	self = self:gsub('%-', '%%-')
