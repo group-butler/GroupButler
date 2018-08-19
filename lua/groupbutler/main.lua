@@ -183,7 +183,7 @@ Unfortunately I can't work in normal groups. If you need me, please ask the crea
 
 				if not success then --if a bug happens
 					if config.bot_settings.notify_bug then
-					u:sendReply(msg, i18n("🐞 Sorry, a *bug* occurred"), "Markdown")
+					msg:send_reply(i18n("🐞 Sorry, a *bug* occurred"), "Markdown")
 					end
 					log.error('An #error occurred.\n{result}\n{lang}\n{text}', {
 						cont=tostring(result),
@@ -240,6 +240,11 @@ function message:get_file_id()
 		return self[self:type()].file_id
 	end
 	return false -- The message has no media file_id
+end
+
+function message:send_reply(text, parse_mode, disable_web_page_preview, disable_notification, reply_markup)
+	return api.send_message(self.chat.id, text, parse_mode, disable_web_page_preview, disable_notification,
+		self.message_id, reply_markup)
 end
 
 function _M:process()

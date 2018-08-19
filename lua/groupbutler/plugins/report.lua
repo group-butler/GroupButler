@@ -116,7 +116,7 @@ function _M:onTextMessage(blocks)
 					'*New parameters saved*.\nUsers will be able to use @admin %d times/%d minutes'
 					):format(times_allowed, duration)
 			end
-			u:sendReply(msg, text, "Markdown")
+			msg:send_reply(text, "Markdown")
 		else
 			if not msg.reply or msg:is_from_admin() then
 				return
@@ -136,7 +136,7 @@ function _M:onTextMessage(blocks)
 				local minutes, seconds = seconds2minutes(ttl)
 				text = i18n([[_Please, do not abuse this command. It can be used %d times every %d minutes_.
 Wait other %d minutes, %d seconds.]]):format(times_allowed, (duration / 60), minutes, seconds)
-				u:sendReply(msg, text, "Markdown")
+				msg:send_reply(text, "Markdown")
 			else
 				local description
 				if blocks[1] and blocks[1] ~= '@admin' and blocks[1] ~= config.cmd..'report' then
@@ -148,7 +148,7 @@ Wait other %d minutes, %d seconds.]]):format(times_allowed, (duration / 60), min
 				text = i18n('_Reported to %d admin(s)_'):format(n_sent)
 
 				u:logEvent('report', msg, {n_admins = n_sent})
-				u:sendReply(msg, text, "Markdown")
+				msg:send_reply(text, "Markdown")
 			end
 		end
 	end

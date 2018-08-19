@@ -93,7 +93,7 @@ function _M:onTextMessage(blocks)
 		if not msg:is_from_admin() then
 			api.sendMessage(msg.from.id, adminlist, 'html', true)
 		else
-			u:sendReply(msg, adminlist, 'html', true)
+			msg:send_reply(adminlist, 'html', true)
 		end
 	end
 
@@ -104,13 +104,13 @@ function _M:onTextMessage(blocks)
 
 		local user_id, error_tr_id = u:get_user_id(msg, blocks)
 		if not user_id then
-			u:sendReply(msg, error_tr_id, "Markdown")
+			msg:send_reply(error_tr_id, "Markdown")
 			return
 		end
 		local res = api.getChatMember(msg.chat.id, user_id)
 
 		if not res then
-			u:sendReply(msg, i18n("That user has nothing to do with this chat"))
+			msg:send_reply(i18n("That user has nothing to do with this chat"))
 			return
 		end
 
@@ -137,7 +137,7 @@ function _M:onTextMessage(blocks)
 			text = text..i18n('\nRestrictions: <i>%s</i>'):format(table.concat(denied_permissions, ', '))
 		end
 
-		u:sendReply(msg, text, 'html')
+		msg:send_reply(text, 'html')
 	end
 	if blocks[1] == 'user' then
 		if not msg:is_from_admin() then return end
@@ -145,7 +145,7 @@ function _M:onTextMessage(blocks)
 		if not msg.reply
 			and (not blocks[2] or (not blocks[2]:match('@[%w_]+$') and not blocks[2]:match('%d+$')
 			and not msg.mention_id)) then
-			u:sendReply(msg, i18n("Reply to a user or mention them by username or numerical ID"))
+			msg:send_reply(i18n("Reply to a user or mention them by username or numerical ID"))
 			return
 		end
 
@@ -153,7 +153,7 @@ function _M:onTextMessage(blocks)
 		local user_id, err = u:get_user_id(msg, blocks)
 
 		if not user_id then
-			u:sendReply(msg, err, "Markdown")
+			msg:send_reply(err, "Markdown")
 			return
 		end
 		-----------------------------------------------------------------------------
@@ -180,7 +180,7 @@ function _M:onTextMessage(blocks)
 		local text = string.format('[%s](https://telegram.me/%s/%d)',
 			i18n("Message N° %d"):format(msg.reply.message_id), msg.chat.username, msg.reply.message_id)
 		if not u:is_silentmode_on(msg.chat.id) or msg:is_from_admin() then
-			u:sendReply(msg.reply, text, "Markdown")
+			msg.reply:send_reply(text, "Markdown")
 		else
 			api.sendMessage(msg.from.id, text, "Markdown")
 		end

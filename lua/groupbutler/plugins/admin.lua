@@ -122,7 +122,7 @@ function _M:onTextMessage(blocks)
 	-- 	local n_plugins = bot.init(true)
 	-- 	local reply = '*Bot reloaded!*'
 	-- 	if n_plugins then reply = reply..'\n_'..n_plugins..' plugins enabled_' end
-	-- 	u:sendReply(msg, reply, "Markdown")
+	-- 	msg:send_reply(reply, "Markdown")
 	-- end
 	if blocks[1] == 'backup' then
 		db:bgsave()
@@ -179,7 +179,7 @@ function _M:onTextMessage(blocks)
 		else
 			output = '```\n'..output..'\n```'
 		end
-		u:sendReply(msg, output, "Markdown")
+		msg:send_reply(output, "Markdown")
 	end
 	if blocks[1] == 'block' then
 		local id
@@ -235,7 +235,7 @@ function _M:onTextMessage(blocks)
 	-- 	redis_f = redis_f:gsub('$chat', msg.chat.id)
 	-- 	redis_f = redis_f:gsub('$from', msg.from.id)
 	-- 	local output = load_lua(redis_f)
-	-- 	u:sendReply(msg, output, "Markdown")
+	-- 	msg:send_reply(output, "Markdown")
 	-- end
 	if blocks[1] == 'sendfile' then
 		local path = blocks[2]
@@ -252,7 +252,7 @@ function _M:onTextMessage(blocks)
 	if blocks[1] == 'tban' then
 		if blocks[2] == 'flush' then
 			db:del('tempbanned')
-			u:sendReply(msg, 'Flushed!')
+			msg:send_reply('Flushed!')
 		end
 		if blocks[2] == 'get' then
 			api.sendMessage(msg.chat.id, u:vtext(db:hgetall('tempbanned')))
@@ -267,7 +267,7 @@ function _M:onTextMessage(blocks)
 		else
 			text = 'Username not stored'
 		end
-		u:sendReply(msg, text)
+		msg:send_reply(text)
 	end
 	if blocks[1] == 'rawinfo' then
 		local chat_id = blocks[2]

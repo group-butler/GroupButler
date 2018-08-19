@@ -178,7 +178,7 @@ function _M:on_message()
 						if media_status ~= 'del' then
 							local message =
 							i18n('%s, this type of media is <b>not allowed</b> in this chat.\n(<code>%d/%d</code>)'):format(name, n, max)
-								u:sendReply(msg, message, 'html')
+								msg:send_reply(message, 'html')
 						elseif media_status == 'del' and n + 1 >= max then
 							api.deleteMessage(msg.chat.id, msg.message_id)
 							local message =

@@ -77,14 +77,14 @@ function _M:onTextMessage(blocks)
 				end
 			end
 			db:hset('chat:'..msg.chat.id..':extra', blocks[2], to_save)
-			u:sendReply(msg, i18n("This media has been saved as a response to %s"):format(blocks[2]))
+			msg:send_reply(i18n("This media has been saved as a response to %s"):format(blocks[2]))
 		else
 				local hash = 'chat:'..msg.chat.id..':extra'
 				local new_extra = blocks[3]
 			local reply_markup, test_text = u:reply_markup_from_text(new_extra)
 				test_text = test_text:gsub('\n', '')
 
-			local ok, err = u:sendReply(msg, test_text:replaceholders(msg), "Markdown", reply_markup)
+			local ok, err = msg:send_reply(test_text:replaceholders(msg), "Markdown", reply_markup)
 				if not ok then
 				api.sendMessage(msg.chat.id, u:get_sm_error_string(err), "Markdown")
 				else
@@ -98,7 +98,7 @@ function _M:onTextMessage(blocks)
 		if not is_locked(self, msg.chat.id) and not msg:is_from_admin() then
 			api.sendMessage(msg.from.id, text)
 		else
-			u:sendReply(msg, text)
+			msg:send_reply(text)
 		end
 		elseif blocks[1] == 'extra del' then
 			if not msg:is_from_admin() then return end
@@ -117,7 +117,7 @@ function _M:onTextMessage(blocks)
 			if next(not_found) then
 				text = text..i18n('\nCommands not found: `%s`'):format(table.concat(not_found, '`, `'))
 			end
-		u:sendReply(msg, text, "Markdown")
+		msg:send_reply(text, "Markdown")
 	else
 		local chat_id = blocks[1] == 'start' and tonumber(blocks[2]) or msg.chat.id
 		local extra = blocks[1] == 'start' and '#'..blocks[3] or blocks[1]
@@ -163,7 +163,7 @@ function _M:onTextMessage(blocks)
 			end
 
 		if err and err.error_code == 403 and msg.chat.id < 0 and not u:is_silentmode_on(msg.chat.id) then -- if the user haven't started the bot and silent mode is off
-			u:sendReply(msg, i18n("_Please_ [start me](%s) _so I can send you the answer_")
+			msg:send_reply(i18n("_Please_ [start me](%s) _so I can send you the answer_")
 				:format(u:deeplink_constructor(msg.chat.id, extra:sub(2, -1))), "Markdown")
 				end
 		end

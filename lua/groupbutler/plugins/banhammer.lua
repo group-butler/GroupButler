@@ -63,7 +63,7 @@ function _M:onTextMessage(blocks)
 			local user_id, error_translation_key = u:get_user_id(msg, blocks)
 
 			if not user_id and blocks[1] ~= 'kickme' and blocks[1] ~= 'fwdban' then
-				u:sendReply(msg, error_translation_key, "Markdown") return
+				msg:send_reply(error_translation_key, "Markdown") return
 			end
 			if tonumber(user_id) == bot.id then return end
 
@@ -83,7 +83,7 @@ function _M:onTextMessage(blocks)
 				end
 
 				local markup = markup_tempban(self, msg.chat.id, user_id)
-				u:sendReply(msg, i18n("Use -/+ to edit the value, then select a timeframe to temporary ban the user"),
+				msg:send_reply(i18n("Use -/+ to edit the value, then select a timeframe to temporary ban the user"),
 					"Markdown", nil, nil, markup)
 			end
 			if blocks[1] == 'kick' then
@@ -92,7 +92,7 @@ function _M:onTextMessage(blocks)
 					u:logEvent('kick', msg, {motivation = get_motivation(msg), admin = admin, user = kicked, user_id = user_id})
 					api.sendMessage(msg.chat.id, i18n("%s kicked %s!"):format(admin, kicked), 'html', true)
 				else
-					u:sendReply(msg, err, "Markdown")
+					msg:send_reply(err, "Markdown")
 				end
 			end
 			if blocks[1] == 'ban' then
@@ -101,12 +101,12 @@ function _M:onTextMessage(blocks)
 					u:logEvent('ban', msg, {motivation = get_motivation(msg), admin = admin, user = kicked, user_id = user_id})
 					api.sendMessage(msg.chat.id, i18n("%s banned %s!"):format(admin, kicked), 'html', true)
 				else
-					u:sendReply(msg, err, "Markdown")
+					msg:send_reply(err, "Markdown")
 				end
 			end
 			if blocks[1] == 'fwdban' then
 				if not msg.reply or not msg.reply.forward_from then
-					u:sendReply(msg, i18n("_Use this command in reply to a forwarded message_"), "Markdown")
+					msg:send_reply(i18n("_Use this command in reply to a forwarded message_"), "Markdown")
 				else
 					user_id = msg.reply.forward_from.id
 					local ok, err = u:banUser(chat_id, user_id)
@@ -114,13 +114,13 @@ function _M:onTextMessage(blocks)
 						u:logEvent('ban', msg, {motivation = get_motivation(msg), admin = admin, user = kicked, user_id = user_id})
 						api.sendMessage(msg.chat.id, i18n("%s banned %s!"):format(admin, u:getname_final(msg.reply.forward_from)), 'html')
 					else
-						u:sendReply(msg, err, "Markdown")
+						msg:send_reply(err, "Markdown")
 					end
 				end
 			end
 			if blocks[1] == 'unban' then
 				if u:is_admin(chat_id, user_id) then
-					u:sendReply(msg, i18n("_An admin can't be unbanned_"), "Markdown")
+					msg:send_reply(i18n("_An admin can't be unbanned_"), "Markdown")
 				else
 					local result = api.getChatMember(chat_id, user_id)
 					local text
@@ -131,7 +131,7 @@ function _M:onTextMessage(blocks)
 						u:logEvent('unban', msg, {motivation = get_motivation(msg), admin = admin, user = kicked, user_id = user_id})
 						text = i18n("%s unbanned by %s!"):format(kicked, admin)
 					end
-					u:sendReply(msg, text, 'html')
+					msg:send_reply(text, 'html')
 				end
 			end
 		end

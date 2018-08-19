@@ -28,7 +28,7 @@ function _M:onTextMessage(blocks)
 		if msg.chat.username then
 			db:sadd('chat:'..msg.chat.id..':whitelist', 'telegram.me/'..msg.chat.username)
 			local title = msg.chat.title:escape_hard('link')
-			u:sendReply(msg, string.format('[%s](telegram.me/%s)', title, msg.chat.username), "Markdown")
+			msg:send_reply(string.format('[%s](telegram.me/%s)', title, msg.chat.username), "Markdown")
 		else
 			local link = db:hget(hash, 'link')
 			if link == null then
@@ -37,7 +37,7 @@ function _M:onTextMessage(blocks)
 				local title = msg.chat.title:escape_hard('link')
 				text = string.format('[%s](%s)', title, link)
 			end
-			u:sendReply(msg, text, "Markdown")
+			msg:send_reply(text, "Markdown")
 		end
 	end
 	if blocks[1] == 'setlink' then
@@ -72,7 +72,7 @@ function _M:onTextMessage(blocks)
 				end
 			end
 		end
-		u:sendReply(msg, text, "Markdown")
+		msg:send_reply(text, "Markdown")
 	end
 end
 

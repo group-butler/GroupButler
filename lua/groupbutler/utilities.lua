@@ -35,13 +35,6 @@ local function set_default(t, d)
 	setmetatable(t, mt)
 end
 
--- API helper functions
-
-function _M:sendReply(msg, text, parse_mode, disable_web_page_preview, disable_notification, reply_markup) -- luacheck: ignore 212
-	return api.sendMessage(msg.chat.id, text, parse_mode, disable_web_page_preview, disable_notification,
-		msg.message_id, reply_markup)
-end
-
 function _M:banUser(chat_id, user_id, until_date) -- luacheck: ignore 212
 	local ok, err = api.kickChatMember(chat_id, user_id, until_date) --try to kick. "code" is already specific
 	if ok then --if the user has been kicked, then...

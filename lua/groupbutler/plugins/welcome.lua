@@ -172,7 +172,7 @@ function _M:onTextMessage(blocks)
 
 		local input = blocks[2]
 		if not input and not msg.reply then
-			u:sendReply(msg, i18n("Welcome and...?"))
+			msg:send_reply(i18n("Welcome and...?"))
 			return
 		end
 
@@ -196,9 +196,9 @@ function _M:onTextMessage(blocks)
 				end
 				-- turn on the welcome message in the group settings
 				db:hset(('chat:%d:settings'):format(msg.chat.id), 'Welcome', 'on')
-				u:sendReply(msg, i18n("A form of media has been set as the welcome message: `%s`"):format(replied_to), "Markdown")
+				msg:send_reply(i18n("A form of media has been set as the welcome message: `%s`"):format(replied_to), "Markdown")
 			else
-				u:sendReply(msg, i18n("Reply to a `sticker` or a `gif` to set them as the *welcome message*"), "Markdown")
+				msg:send_reply(i18n("Reply to a `sticker` or a `gif` to set them as the *welcome message*"), "Markdown")
 			end
 		else
 			db:hset(hash, 'type', 'custom')
@@ -206,7 +206,7 @@ function _M:onTextMessage(blocks)
 
 			local reply_markup, new_text = u:reply_markup_from_text(input)
 
-			local ok, err = u:sendReply(msg, new_text:gsub('$rules', u:deeplink_constructor(msg.chat.id, 'rules')), "Markdown",
+			local ok, err = msg:send_reply(new_text:gsub('$rules', u:deeplink_constructor(msg.chat.id, 'rules')), "Markdown",
 				reply_markup)
 			if not ok then
 				db:hset(hash, 'type', 'no') --if wrong markdown, remove 'custom' again

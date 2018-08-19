@@ -154,7 +154,6 @@ end
 function _M:onTextMessage(blocks)
 	local msg = self.message
 	local db = self.db
-	local u = self.u
 
 	if msg.chat.type ~= 'private' then
 		if not msg:is_from_admin() then return end
@@ -166,9 +165,9 @@ function _M:onTextMessage(blocks)
 						local res, code = api.getChatMember(msg.forward_from_chat.id, msg.from.id)
 						if not res then
 							if code == 429 then
-								u:sendReply(msg, i18n('_Too many requests. Retry later_'), "Markdown")
+								msg:send_reply(i18n('_Too many requests. Retry later_'), "Markdown")
 							else
-								u:sendReply(msg, i18n('_I need to be admin in the channel_'), "Markdown")
+								msg:send_reply(i18n('_I need to be admin in the channel_'), "Markdown")
 							end
 						else
 							if res.status == 'creator' then
@@ -186,34 +185,34 @@ function _M:onTextMessage(blocks)
 									api.sendMessage(msg.forward_from_chat.id,
 										i18n("Logs of <i>%s</i> will be posted here"):format(msg.chat.title:escape_html()), 'html')
 								end
-								u:sendReply(msg, text, "Markdown")
+								msg:send_reply(text, "Markdown")
 							else
-								u:sendReply(msg, i18n('_Only the channel creator can pair the chat with a channel_'), "Markdown")
+								msg:send_reply(i18n('_Only the channel creator can pair the chat with a channel_'), "Markdown")
 							end
 						end
 					else
-						u:sendReply(msg, i18n('_I\'m sorry, only private channels are supported for now_'), "Markdown")
+						msg:send_reply(i18n('_I\'m sorry, only private channels are supported for now_'), "Markdown")
 					end
 				end
 			else
-				u:sendReply(msg, i18n("You have to *forward* the message from the channel"), "Markdown")
+				msg:send_reply(i18n("You have to *forward* the message from the channel"), "Markdown")
 			end
 		elseif blocks[1] == 'unsetlog' then
 			local log_channel = db:hget('bot:chatlogs', msg.chat.id)
 			if log_channel == null then
-				u:sendReply(msg, i18n("_This groups is not using a log channel_"), "Markdown")
+				msg:send_reply(i18n("_This groups is not using a log channel_"), "Markdown")
 			else
 				db:hdel('bot:chatlogs', msg.chat.id)
-				u:sendReply(msg, i18n("*Log channel removed*"), "Markdown")
+				msg:send_reply(i18n("*Log channel removed*"), "Markdown")
 			end
 		elseif blocks[1] == 'logchannel' then
 			local log_channel = db:hget('bot:chatlogs', msg.chat.id)
 			if log_channel == null then
-				u:sendReply(msg, i18n("_This groups is not using a log channel_"), "Markdown")
+				msg:send_reply(i18n("_This groups is not using a log channel_"), "Markdown")
 			else
-				local channel_info, code = api.getChat(log_channel)
-				if not channel_info and code == 403 then
-					u:sendReply(msg,
+				local channel_info, err = api.getChat(log_channel)
+				if not channel_info and err.error_code == 403 then
+					msg:send_reply(
 						i18n("_This group has a log channel saved, but I'm not a member there, so I can't post/retrieve its info_"),
 							"Markdown")
 				else
@@ -221,7 +220,7 @@ function _M:onTextMessage(blocks)
 					if channel_info and channel_info then
 						channel_identifier = channel_info.title
 					end
-					u:sendReply(msg, i18n('<b>This group has a log channel</b>\nChannel: <code>%s</code>')
+					msg:send_reply(i18n('<b>This group has a log channel</b>\nChannel: <code>%s</code>')
 						:format(channel_identifier:escape_html()), 'html')
 				end
 			end

@@ -112,13 +112,13 @@ function _M:onTextMessage(blocks)
 			local text = i18n([[<i>I'm sorry, this command has been used for the last time less then 3 hours ago by</i> %s (ask them for the file).
 Wait [<code>%s</code>] to use it again
 ]]):format(last_user, time_remaining)
-				u:sendReply(msg, text, 'html')
+				msg:send_reply(text, 'html')
 		else
 			-- no snapshot has been done recently
 				local name = u:getname_final(msg.from)
 			db:setex(key, 10800, name) --3 hours
 				local file_path = gen_backup(self, msg.chat.id)
-				u:sendReply(msg, i18n('*Sent in private*'), "Markdown")
+				msg:send_reply(i18n('*Sent in private*'), "Markdown")
 				api.sendDocument(msg.from.id, {path = file_path}, ('#snap\n%s'):format(msg.chat.title))
 		end
 	end

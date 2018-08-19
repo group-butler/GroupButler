@@ -62,7 +62,7 @@ function _M:onTextMessage(blocks)
 		if msg.chat.type == 'private' or (not send_in_group(self, msg.chat.id) and not msg:is_from_admin()) then
 			api.sendMessage(msg.from.id, rules, "Markdown", link_preview, nil, nil, reply_markup)
 		else
-			u:sendReply(msg, rules, "Markdown", link_preview, nil, nil, reply_markup)
+			msg:send_reply(rules, "Markdown", link_preview, nil, nil, reply_markup)
 		end
 	end
 
@@ -72,20 +72,20 @@ function _M:onTextMessage(blocks)
 		local rules = blocks[2]
 		--ignore if not input text
 		if not rules then
-			u:sendReply(msg, i18n("Please write something next `/setrules`"), "Markdown")
+			msg:send_reply(i18n("Please write something next `/setrules`"), "Markdown")
 			return
 		end
 		--check if an admin want to clean the rules
 		if rules == '-' then
 			db:hdel(hash, 'rules')
-			u:sendReply(msg, i18n("Rules has been deleted."))
+			msg:send_reply(i18n("Rules has been deleted."))
 			return
 		end
 
 		local reply_markup, test_text = u:reply_markup_from_text(rules)
 
 		--set the new rules
-		local ok, err = u:sendReply(msg, test_text, "Markdown", nil, nil, reply_markup)
+		local ok, err = msg:send_reply(test_text, "Markdown", nil, nil, reply_markup)
 		if not ok then
 			api.sendMessage(msg.chat.id, u:get_sm_error_string(err), "Markdown")
 		else

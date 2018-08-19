@@ -64,7 +64,7 @@ function _M:onTextMessage(blocks)
 
 		db:hset(hash, key, new)
 		text = text .. i18n("*Old* value was %d\n*New* max is %d"):format(tonumber(old), tonumber(new))
-		u:sendReply(msg, text, "Markdown")
+		msg:send_reply(text, "Markdown")
 		return
 	end
 
@@ -96,7 +96,7 @@ function _M:onTextMessage(blocks)
 		local text = i18n(
 			'Done! %s has been forgiven.\n<b>Warns found</b>: <i>normal warns %s, for media %s, spamwarns %s</i>'
 			):format(user, removed.normal or 0, removed.media or 0, removed.spam or 0)
-		u:sendReply(msg, text, 'html')
+		msg:send_reply(text, 'html')
 		u:logEvent('nowarn', msg, {admin = admin, user = user, user_id = msg.reply.from.id, rem = removed})
 	end
 
@@ -135,7 +135,7 @@ function _M:onTextMessage(blocks)
 				forget_user_warns(self, msg.chat.id, msg.reply.from.id)
 			end
 			--if the user reached the max num of warns, kick and send message
-			u:sendReply(msg, text, 'html')
+			msg:send_reply(text, 'html')
 			u:logEvent('warn', msg, {
 				motivation = blocks[2],
 				admin = u:getname_final(msg.from),
