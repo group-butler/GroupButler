@@ -63,8 +63,7 @@ local function getFloodSettings_text(self, chat_id)
 end
 
 local function doKeyboard_dashboard(chat_id)
-	local keyboard = {}
-	keyboard.inline_keyboard = {
+	local reply_markup = { inline_keyboard = {
 		{
 			{text = i18n("Settings"), callback_data = 'dashboard:settings:'..chat_id},
 			{text = i18n("Admins"), callback_data = 'dashboard:adminlist:'..chat_id}
@@ -77,9 +76,9 @@ local function doKeyboard_dashboard(chat_id)
 			{text = i18n("Flood settings"), callback_data = 'dashboard:flood:'..chat_id},
 			{text = i18n("Media settings"), callback_data = 'dashboard:media:'..chat_id}
 		},
-	}
+	}}
 
-	return keyboard
+	return reply_markup
 end
 
 function _M:onTextMessage()
@@ -87,15 +86,19 @@ function _M:onTextMessage()
 	local u = self.u
 	if msg.chat.type ~= 'private' then
 		local chat_id = msg.chat.id
-		local keyboard = doKeyboard_dashboard(chat_id)
-		local res = api.sendMessage(msg.from.id, i18n("Navigate this message to see *all the info* about this group!"),
-			"Markdown", keyboard)
+		local reply_markup = doKeyboard_dashboard(chat_id)
+		local ok = api.send_message{
+			chat_id = msg.from.id,
+			text = i18n("Navigate this message to see *all the info* about this group!"),
+			parse_mode = "Markdown",
+			reply_markup = reply_markup
+		}
 		if not u:is_silentmode_on(msg.chat.id) then --send the responde in the group only if the silent mode is off
-			if res then
-				api.sendMessage(msg.chat.id, i18n("_I've sent you the group dashboard via private message_"), "Markdown")
-			else
+			if not ok then
 				u:sendStartMe(msg)
+				return
 			end
+			api.sendMessage(msg.chat.id, i18n("_I've sent you the group dashboard via private message_"), "Markdown")
 		end
 	end
 end
@@ -121,7 +124,7 @@ function _M:onCallbackQuery(blocks)
 			"You can't see the settings of a private group."))
 		return
 	end
-	local keyboard = doKeyboard_dashboard(chat_id)
+	local reply_markup = doKeyboard_dashboard(chat_id)
 	if request == 'settings' then
 		text = u:getSettings(chat_id)
 		notification = i18n("ℹ️ Group ► Settings")
@@ -178,7 +181,7 @@ function _M:onCallbackQuery(blocks)
 		end
 		notification = i18n("ℹ️ Group ► Media")
 	end
-	api.editMessageText(msg.from.id, msg.message_id, nil, text, parse_mode, keyboard)
+	api.edit_message_text(msg.from.id, msg.message_id, nil, text, parse_mode, true, reply_markup)
 	api.answerCallbackQuery(msg.cb_id, notification)
 end
 
