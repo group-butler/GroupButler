@@ -15,44 +15,64 @@ function _M:new(update_obj)
 	return plugin_obj
 end
 
-local function get_button_description(key)
-	if key == 'rules_on_join' then
-		return i18n("When you join a group moderated by this bot, you will receive the group rules in private")
-	elseif key == 'reports' then
-		return i18n(
-			'If enabled, you will receive all the messages reported with the @admin command in the groups you are moderating'
-			)
-	else
-		return i18n("Description not available")
+local function set_default(t, d)
+	local mt = {__index = function() return d end}
+	setmetatable(t, mt)
+end
+
+local function list_to_kv(list)
+	local copy = {}
+	for i = 1, #list, 2 do
+		copy[list[i]] = list[i + 1]
 	end
+	return copy
+end
+
+local function get_button_description(key)
+	local button_description = {
+		rules_on_join = i18n("When you join a group moderated by this bot, you will receive the group rules in private"),
+		reports = i18n("If enabled, you will receive all the messages reported with the @admin command in the groups you are moderating"), -- luacheck: ignore 631
+	} set_default(button_description, i18n("Description not available"))
+	return button_description[key]
 end
 
 local function change_private_setting(self, user_id, key)
 	local db = self.db
 	local hash = 'user:'..user_id..':settings'
-	local val = 'off'
-	local current_status = db:hget(hash, key)
-	if current_status == null then current_status = config.private_settings[key] end
-
-	if current_status == 'off' then
-		val = 'on'
+	local new_val = "off"
+	local old_val = db:hget(hash, key)
+	if old_val ~= "on" and old_val ~= "off" then
+		old_val = config.private_settings[key]
 	end
-	db:hset(hash, key, val)
+
+	if old_val ~= "on" then
+		new_val = "on"
+	end
+	db:hset(hash, key, new_val)
 end
 
-local function doKeyboard_privsett(self, user_id)
+local function get_user_settings(self, user_id)
 	local db = self.db
 	local hash = 'user:'..user_id..':settings'
 	local user_settings = db:hgetall(hash)
-	if not next(user_settings) then
-		user_settings = config.private_settings
-	else
-		for key, default_status in pairs(config.private_settings) do
-			if not user_settings[key] then
-				user_settings[key] = default_status
-			end
+
+	if user_settings == null then
+		return config.private_settings
+	end
+
+	user_settings = list_to_kv(user_settings)
+
+	for key, default_status in ipairs(config.private_settings) do
+		if not user_settings[key] then
+			user_settings[key] = default_status
 		end
 	end
+
+	return user_settings
+end
+
+local function doKeyboard_privsett(self, user_id)
+	local user_settings = get_user_settings(self, user_id)
 
 	local keyboard = {inline_keyboard = {}}
 	local button_names = {
@@ -60,8 +80,10 @@ local function doKeyboard_privsett(self, user_id)
 		['reports'] = i18n('Users reports')
 	}
 	for key, status in pairs(user_settings) do
-		local icon
-		if status == 'on' then icon = '✅' else icon = '☑️'end
+		local icon = "☑️"
+		if status == "on" then
+			icon = "✅"
+		end
 		table.insert(keyboard.inline_keyboard,
 			{
 				{text = button_names[key], callback_data = 'myset:alert:'..key},
@@ -75,8 +97,12 @@ end
 function _M:onTextMessage()
 	local msg = self.message
 	if msg.chat.type == 'private' then
-		local keyboard = doKeyboard_privsett(self, msg.from.id)
-		api.sendMessage(msg.from.id, i18n('Change your private settings'), "Markdown", nil, nil, nil, keyboard)
+		local reply_markup = doKeyboard_privsett(self, msg.from.id)
+		api.send_message{
+			chat_id = msg.from.id,
+			text = i18n("Change your private settings"),
+			reply_markup = reply_markup
+	}
 	end
 end
 
@@ -84,12 +110,16 @@ function _M:onCallbackQuery(blocks)
 	local msg = self.message
 	if blocks[1] == 'alert' then
 		api.answerCallbackQuery(msg.cb_id, get_button_description(blocks[2]), true)
-	else
-		change_private_setting(self, msg.from.id, blocks[2])
-		local keyboard = doKeyboard_privsett(self, msg.from.id)
-		api.editMessageReplyMarkup(msg.from.id, msg.message_id, nil, keyboard)
-		api.answerCallbackQuery(msg.cb_id, i18n('⚙ Setting applied'))
+		return
 	end
+	change_private_setting(self, msg.from.id, blocks[2])
+	local reply_markup = doKeyboard_privsett(self, msg.from.id)
+	api.edit_message_reply_markup{
+		chat_id = msg.from.id,
+		message_id = msg.message_id,
+		reply_markup = reply_markup
+	}
+	api.answer_callback_query(msg.cb_id, i18n('⚙ Setting applied'))
 end
 
 _M.triggers = {
