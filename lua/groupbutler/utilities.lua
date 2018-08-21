@@ -892,7 +892,7 @@ function _M:logEvent(event, msg, extra)
 			reply_markup = {
 				inline_keyboard = {{{
 					text = i18n("Get the new photo"),
-					url = ("telegram.me/%s?start=photo:%s"):format(bot.username,
+					url = ("telegram.me/%s?start=photo_%s"):format(bot.username,
 					msg.new_chat_photo[#msg.new_chat_photo].file_id)
 				}}}
 			}
