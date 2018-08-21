@@ -237,7 +237,7 @@ _M.triggers = {
 		config.cmd..'(logchannel)$',
 
 		--deeplinking from log buttons
-		'^/start (photo):(.*)$'
+		'^/start (photo)_(.*)$'
 	},
 	onCallbackQuery = {
 		--callbacks from the log channel
