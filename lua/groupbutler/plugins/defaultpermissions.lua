@@ -147,10 +147,10 @@ Tap on the name of a permission for a description of what kind of messages it wi
 				ok, err = api.editMessageText(msg.chat.id, msg.message_id, nil, msg_text, "Markdown", nil, reply_markup)
 			end
 
-			if not ok and err.error_code == 429 and err.retry_after then
-					popup_text = i18n("Setting saved, but I can't edit the buttons because you are too fast! Wait other %d seconds")
-						:format(err.retry_after)
-					show_alert = true
+			if not ok and err.retry_after then
+				popup_text = i18n("Setting saved, but I can't edit the buttons because you are too fast! Wait other %d seconds")
+					:format(err.retry_after)
+				show_alert = true
 			end
 			if popup_text then api.answerCallbackQuery(msg.cb_id, popup_text, show_alert) end
 		end

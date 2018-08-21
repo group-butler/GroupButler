@@ -2,6 +2,7 @@ local config = require "groupbutler.config"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
+local api_err = require "groupbutler.api_errors"
 
 local _M = {}
 
@@ -87,7 +88,7 @@ function _M:onTextMessage(blocks)
 		--set the new rules
 		local ok, err = msg:send_reply(test_text, "Markdown", nil, nil, reply_markup)
 		if not ok then
-			api.sendMessage(msg.chat.id, u:get_sm_error_string(err), "Markdown")
+			api.sendMessage(msg.chat.id, api_err.trans(err), "Markdown")
 		else
 			db:hset(hash, 'rules', rules)
 			local id = ok.message_id

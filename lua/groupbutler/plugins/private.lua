@@ -2,6 +2,7 @@ local config = require "groupbutler.config"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
+local api_err = require "groupbutler.api_errors"
 
 local _M = {}
 
@@ -49,7 +50,6 @@ end
 
 function _M:onTextMessage(blocks)
 	local msg = self.message
-	local u = self.u
 
 	if msg.chat.type ~= 'private' then return end
 
@@ -59,7 +59,7 @@ function _M:onTextMessage(blocks)
 	if blocks[1] == 'echo' then
 		local ok, err = api.sendMessage(msg.chat.id, blocks[2], "Markdown")
 		if not ok then
-			api.sendMessage(msg.chat.id, u:get_sm_error_string(err), "Markdown")
+			api.sendMessage(msg.chat.id, api_err.trans(err), "Markdown")
 		end
 	end
 	if blocks[1] == 'about' then

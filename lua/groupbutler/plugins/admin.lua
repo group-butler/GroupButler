@@ -304,8 +304,8 @@ function _M:onTextMessage(blocks)
 			section = u:vtext(db:smembers(('chat:%s:%s'):format(tostring(chat_id), config.chat_sets[i]))) or '{}'
 			text = text..config.chat_sets[i]..'(set)>'..section
 		end
-		local res, code = api.sendMessage(msg.chat.id, text)
-		if not res and code == 118 then
+		local ok, err = api.sendMessage(msg.chat.id, text)
+		if not ok and err.description:match("message is too long") then
 			local file_path = '/tmp/'..chat_id..'.txt'
 			local file = io.open(file_path, "w")
 			file:write(text)

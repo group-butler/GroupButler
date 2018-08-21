@@ -162,15 +162,15 @@ function _M:onTextMessage(blocks)
 			if msg.forward_from_chat then
 				if msg.forward_from_chat.type == 'channel' then
 					if not msg.forward_from_chat.username then
-						local res, code = api.getChatMember(msg.forward_from_chat.id, msg.from.id)
-						if not res then
-							if code == 429 then
+						local ok, err = api.getChatMember(msg.forward_from_chat.id, msg.from.id)
+						if not ok then
+							if err.error_code == 429 then
 								msg:send_reply(i18n('_Too many requests. Retry later_'), "Markdown")
 							else
 								msg:send_reply(i18n('_I need to be admin in the channel_'), "Markdown")
 							end
 						else
-							if res.status == 'creator' then
+							if ok.status == 'creator' then
 								local text
 								local old_log = db:hget('bot:chatlogs', msg.chat.id)
 								if old_log == tostring(msg.forward_from_chat.id) then

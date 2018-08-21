@@ -37,34 +37,31 @@ end
 
 function _M:banUser(chat_id, user_id, until_date) -- luacheck: ignore 212
 	local ok, err = api.kickChatMember(chat_id, user_id, until_date) --try to kick. "code" is already specific
-	if ok then --if the user has been kicked, then...
-		return ok --return res and not the text
-	else
+	if not ok then --if the user has been kicked, then...
 		return nil, api_err.trans(err)
 	end
+	return ok --return res and not the text
 end
 
 function _M:kickUser(chat_id, user_id) -- luacheck: ignore 212
 	local ok, err = api.kickChatMember(chat_id, user_id) --try to kick
-	if ok then --if the user has been kicked, then unban...
-		api.unbanChatMember(chat_id, user_id)
-		return ok
-	else
+	if not ok then --if the user has been kicked, then unban...
 		return nil, api_err.trans(err)
 	end
+	api.unbanChatMember(chat_id, user_id)
+	return ok
 end
 
 function _M:muteUser(chat_id, user_id) -- luacheck: ignore 212
-	local ok, err = api.restrictChatMember({
+	local ok, err = api.restrictChatMember{
 		chat_id = chat_id,
 		user_id = user_id,
 		can_send_messages = false
-	})
-	if ok then
-		return ok
-	else
+	}
+	if not ok then
 		return nil, api_err.trans(err)
 	end
+	return ok
 end
 
 -- Strings
@@ -296,15 +293,15 @@ function _M:cache_adminlist(chat_id)
 	db:setex(lock_key, 1, "")
 	log.info('Saving the adminlist for: {chat_id}', {chat_id=chat_id})
 	self:metric_incr("api_getchatadministrators_count")
-	local res, code = api.getChatAdministrators(chat_id)
-	if not res then
+	local ok, err = api.getChatAdministrators(chat_id)
+	if not ok then
 		self:metric_incr("api_getchatadministrators_error_count")
-		return false, code
+		return false, err
 	end
 	local cache_time = config.bot_settings.cache_time.adminlist
 	local set_permissions
 	db:del(set)
-	for _, admin in pairs(res) do
+	for _, admin in pairs(ok) do
 		if admin.status == 'creator' then
 			db:set('cache:chat:'..chat_id..':owner', admin.user.id)
 			set_creator_permissions(self, chat_id, admin.user.id)
@@ -323,7 +320,7 @@ function _M:cache_adminlist(chat_id)
 	end
 	db:expire(set, cache_time)
 
-	return true, #res or 0
+	return true, #ok or 0
 end
 
 function _M:get_cached_admins_list(chat_id, second_try)
@@ -429,34 +426,6 @@ function _M:resolve_user(username)
 
 	assert(stored_id == user_obj.id)
 	return user_obj.id
-end
-
-function _M:get_sm_error_string(err) -- luacheck: ignore 212
-	local unknown_error = i18n("Text not valid: unknown formatting error")
-	if not err or not err.error_code then
-		return unknown_error
-	end
-	local code = err.error_code
-	local hyperlinks_text = i18n('More info [here](https://telegram.me/GB_tutorials/12)')
-	local descriptions = {
-		[109] =
-		i18n("Inline link formatted incorrectly. Check the text between brackets -> \\[]()\n%s"):format(hyperlinks_text),
-		[141] =
-		i18n("Inline link formatted incorrectly. Check the text between brackets -> \\[]()\n%s"):format(hyperlinks_text),
-		[142] =
-		i18n("Inline link formatted incorrectly. Check the text between brackets -> \\[]()\n%s"):format(hyperlinks_text),
-		[112] = i18n("This text breaks the markdown.\n"
-					.. "More info about a proper use of markdown "
-					.. "[here](https://telegram.me/GB_tutorials/10) and [here](https://telegram.me/GB_tutorials/12)."),
-		[118] = i18n('This message is too long. Max lenght allowed by Telegram: 4000 characters'),
-		[146] =
-		i18n('One of the URLs that should be placed in an inline button seems to be invalid (not an URL). Please check it'),
-		[137] = i18n("One of the inline buttons you are trying to set is missing the URL"),
-		[149] = i18n("One of the inline buttons you are trying to set doesn't have a name"),
-		[115] = i18n("Please input a text")
-	}
-
-	return descriptions[code] or unknown_error
 end
 
 function _M:reply_markup_from_text(text) -- luacheck: ignore 212
@@ -1047,7 +1016,7 @@ function _M:logEvent(event, msg, extra)
 		disable_web_page_preview = true,
 		reply_markup = reply_markup
 	}
-	if not ok and err.error_code == 117 then
+	if not ok and err.description:match("chat not found") then
 		db:hdel('bot:chatlogs', msg.chat.id)
 	end
 end

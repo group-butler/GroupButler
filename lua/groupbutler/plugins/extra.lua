@@ -3,6 +3,7 @@ local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
 local null = require "groupbutler.null"
+local api_err = require "groupbutler.api_errors"
 
 local _M = {}
 
@@ -86,7 +87,7 @@ function _M:onTextMessage(blocks)
 
 			local ok, err = msg:send_reply(test_text:replaceholders(msg), "Markdown", reply_markup)
 				if not ok then
-				api.sendMessage(msg.chat.id, u:get_sm_error_string(err), "Markdown")
+					api.sendMessage(msg.chat.id, api_err.trans(err), "Markdown")
 				else
 					db:hset(hash, blocks[2]:lower(), new_extra)
 				local msg_id = ok.message_id

@@ -3,6 +3,7 @@ local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
 local null = require "groupbutler.null"
+local api_err = require "groupbutler.api_errors"
 
 local _M = {}
 
@@ -146,7 +147,7 @@ local function send_welcome(self, msg)
 		ok, err = api.sendDocument(msg.chat.id, content, text, nil, nil, reply_markup)
 	end
 
-	if not ok and err.error_code == 160 then -- if bot can't send message
+	if not ok and err.description:match("have no rights to send a message") then
 		u:remGroup(msg.chat.id, true)
 		api.leaveChat(msg.chat.id)
 		return
@@ -211,7 +212,7 @@ function _M:onTextMessage(blocks)
 			if not ok then
 				db:hset(hash, 'type', 'no') --if wrong markdown, remove 'custom' again
 				db:hset(hash, 'content', 'no')
-				api.sendMessage(msg.chat.id, u:get_sm_error_string(err), "Markdown")
+				api.sendMessage(msg.chat.id, api_err.trans(err), "Markdown")
 			else
 				-- turn on the welcome message in the group settings
 				db:hset(('chat:%d:settings'):format(msg.chat.id), 'Welcome', 'on')

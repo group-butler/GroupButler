@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GroupButler 4.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-20 17:27-0300\n"
+"POT-Creation-Date: 2018-08-21 04:39-0300\n"
 "PO-Revision-Date: 2016-08-27 17:50+0300\n"
 "Last-Translator: Nicholas Guriev <guriev-ns@ya.ru>\n"
 "Language-Team: English\n"
@@ -18,27 +18,69 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: lua/groupbutler/api_errors.lua:12
-msgid "I don't have enough permissions to restrict users"
+msgid "An unknown error has ocurred"
 msgstr ""
 
 #: lua/groupbutler/api_errors.lua:13
-msgid "I'm not an admin, I can't kick people"
+msgid "I don't have enough permissions to restrict users"
 msgstr ""
 
 #: lua/groupbutler/api_errors.lua:14
-msgid "I can't do that to admins!"
+msgid "I'm not an admin, I can't kick people"
 msgstr ""
 
 #: lua/groupbutler/api_errors.lua:15
-msgid "There is no need to unban in a normal group"
+msgid "I can't do that to admins!"
 msgstr ""
 
 #: lua/groupbutler/api_errors.lua:16
-msgid "This user is not a chat member"
+msgid "There is no need to unban in a normal group"
 msgstr ""
 
 #: lua/groupbutler/api_errors.lua:17
-msgid "An unknown error has ocurred"
+msgid "This user is not a chat member"
+msgstr ""
+
+#: lua/groupbutler/api_errors.lua:18
+msgid "Please input a text"
+msgstr ""
+
+#: lua/groupbutler/api_errors.lua:19
+msgid ""
+"This message is too long. Max lenght allowed by Telegram: 4000 characters"
+msgstr ""
+
+#: lua/groupbutler/api_errors.lua:20
+msgid "One of the inline buttons you are trying to set is missing the URL"
+msgstr ""
+
+#: lua/groupbutler/api_errors.lua:21
+#, lua-format
+msgid ""
+"Inline link formatted incorrectly. Check the text between brackets -> \\[]"
+"()\n"
+"%s"
+msgstr ""
+
+#: lua/groupbutler/api_errors.lua:21
+msgid "More info [here](https://telegram.me/GB_tutorials/12)"
+msgstr ""
+
+#: lua/groupbutler/api_errors.lua:22
+msgid ""
+"This text breaks the markdown.\n"
+"More info about a proper use of markdown [here](https://telegram.me/"
+"GB_tutorials/10) and [here](https://telegram.me/GB_tutorials/12)."
+msgstr ""
+
+#: lua/groupbutler/api_errors.lua:24
+msgid ""
+"One of the URLs that should be placed in an inline button seems to be "
+"invalid (not an URL). Please check it"
+msgstr ""
+
+#: lua/groupbutler/api_errors.lua:25
+msgid "One of the inline buttons you are trying to set doesn't have a name"
 msgstr ""
 
 #: lua/groupbutler/main.lua:119
@@ -508,7 +550,7 @@ msgid "Admins"
 msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:72
-#: lua/groupbutler/plugins/menu.lua:179 lua/groupbutler/utilities.lua:637
+#: lua/groupbutler/plugins/menu.lua:179 lua/groupbutler/utilities.lua:606
 msgid "Rules"
 msgstr ""
 
@@ -678,29 +720,29 @@ msgid ""
 "other %d seconds"
 msgstr ""
 
-#: lua/groupbutler/plugins/extra.lua:80
+#: lua/groupbutler/plugins/extra.lua:81
 #, lua-format
 msgid "This media has been saved as a response to %s"
 msgstr ""
 
-#: lua/groupbutler/plugins/extra.lua:93
+#: lua/groupbutler/plugins/extra.lua:94
 #, lua-format
 msgid "Command '%s' saved!"
 msgstr ""
 
-#: lua/groupbutler/plugins/extra.lua:116
+#: lua/groupbutler/plugins/extra.lua:117
 #, lua-format
 msgid "Commands deleted: `%s`"
 msgstr ""
 
-#: lua/groupbutler/plugins/extra.lua:118
+#: lua/groupbutler/plugins/extra.lua:119
 #, lua-format
 msgid ""
 "\n"
 "Commands not found: `%s`"
 msgstr ""
 
-#: lua/groupbutler/plugins/extra.lua:166
+#: lua/groupbutler/plugins/extra.lua:167
 #, lua-format
 msgid "_Please_ [start me](%s) _so I can send you the answer_"
 msgstr ""
@@ -1351,7 +1393,7 @@ msgstr ""
 msgid "Kick"
 msgstr ""
 
-#: lua/groupbutler/plugins/logchannel.lua:62 lua/groupbutler/utilities.lua:1023
+#: lua/groupbutler/plugins/logchannel.lua:62 lua/groupbutler/utilities.lua:992
 msgid "Unban"
 msgstr ""
 
@@ -1681,35 +1723,35 @@ msgstr ""
 msgid "Goodbye"
 msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:176 lua/groupbutler/utilities.lua:633
+#: lua/groupbutler/plugins/menu.lua:176 lua/groupbutler/utilities.lua:602
 msgid "Extra"
 msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:177 lua/groupbutler/utilities.lua:634
+#: lua/groupbutler/plugins/menu.lua:177 lua/groupbutler/utilities.lua:603
 msgid "Anti-flood"
 msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:178 lua/groupbutler/utilities.lua:636
+#: lua/groupbutler/plugins/menu.lua:178 lua/groupbutler/utilities.lua:605
 msgid "Silent mode"
 msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:180 lua/groupbutler/utilities.lua:638
+#: lua/groupbutler/plugins/menu.lua:180 lua/groupbutler/utilities.lua:607
 msgid "Arab"
 msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:181 lua/groupbutler/utilities.lua:639
+#: lua/groupbutler/plugins/menu.lua:181 lua/groupbutler/utilities.lua:608
 msgid "RTL"
 msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:182 lua/groupbutler/utilities.lua:635
+#: lua/groupbutler/plugins/menu.lua:182 lua/groupbutler/utilities.lua:604
 msgid "Ban bots"
 msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:183 lua/groupbutler/utilities.lua:640
+#: lua/groupbutler/plugins/menu.lua:183 lua/groupbutler/utilities.lua:609
 msgid "Reports"
 msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:184 lua/groupbutler/utilities.lua:641
+#: lua/groupbutler/plugins/menu.lua:184 lua/groupbutler/utilities.lua:610
 msgid "Delete last welcome message"
 msgstr ""
 
@@ -1805,24 +1847,24 @@ msgstr ""
 msgid "%s <b>muted</b>: arab/persian message detected!"
 msgstr ""
 
-#: lua/groupbutler/plugins/pin.lua:67
-msgid "I couldn't find any message generated by <code>/pin</code>"
+#: lua/groupbutler/plugins/pin.lua:78
+msgid "I couldn't find any message generated by <code>/pin</code>."
 msgstr ""
 
-#: lua/groupbutler/plugins/pin.lua:72
+#: lua/groupbutler/plugins/pin.lua:83
 msgid "Last message generated by <code>/pin</code> ^"
 msgstr ""
 
-#: lua/groupbutler/plugins/pin.lua:77
+#: lua/groupbutler/plugins/pin.lua:88
 msgid ""
 "The old message generated with <code>/pin</code> does not exist anymore."
 msgstr ""
 
-#: lua/groupbutler/plugins/private.lua:19
+#: lua/groupbutler/plugins/private.lua:20
 msgid "unknown"
 msgstr ""
 
-#: lua/groupbutler/plugins/private.lua:25
+#: lua/groupbutler/plugins/private.lua:26
 #, lua-format
 msgid ""
 "This bot is based on [otouto](https://github.com/topkecleon/otouto) (AKA "
@@ -1835,19 +1877,19 @@ msgid ""
 "*Some useful links:*"
 msgstr ""
 
-#: lua/groupbutler/plugins/private.lua:39
+#: lua/groupbutler/plugins/private.lua:40
 msgid "Channel"
 msgstr ""
 
-#: lua/groupbutler/plugins/private.lua:40
+#: lua/groupbutler/plugins/private.lua:41
 msgid "GitHub"
 msgstr ""
 
-#: lua/groupbutler/plugins/private.lua:41
+#: lua/groupbutler/plugins/private.lua:42
 msgid "Rate me!"
 msgstr ""
 
-#: lua/groupbutler/plugins/private.lua:44
+#: lua/groupbutler/plugins/private.lua:45
 msgid "👥 Groups"
 msgstr ""
 
@@ -1999,25 +2041,25 @@ msgstr ""
 msgid "(issue closed by you)"
 msgstr ""
 
-#: lua/groupbutler/plugins/rules.lua:37
+#: lua/groupbutler/plugins/rules.lua:38
 msgid "🚫 Unknown or non-existent group"
 msgstr ""
 
-#: lua/groupbutler/plugins/rules.lua:45
+#: lua/groupbutler/plugins/rules.lua:46
 msgid ""
 "🚷 You are not a member of this chat. You can't read the rules of a private "
 "group."
 msgstr ""
 
-#: lua/groupbutler/plugins/rules.lua:75
+#: lua/groupbutler/plugins/rules.lua:76
 msgid "Please write something next `/setrules`"
 msgstr ""
 
-#: lua/groupbutler/plugins/rules.lua:81
+#: lua/groupbutler/plugins/rules.lua:82
 msgid "Rules has been deleted."
 msgstr ""
 
-#: lua/groupbutler/plugins/rules.lua:94
+#: lua/groupbutler/plugins/rules.lua:95
 msgid "New rules *saved successfully*!"
 msgstr ""
 
@@ -2283,83 +2325,36 @@ msgstr ""
 msgid "_Action aborted_"
 msgstr ""
 
-#: lua/groupbutler/plugins/welcome.lua:109
+#: lua/groupbutler/plugins/welcome.lua:110
 msgid "Read the rules"
 msgstr ""
 
-#: lua/groupbutler/plugins/welcome.lua:130
+#: lua/groupbutler/plugins/welcome.lua:131
 msgid "Hi $name!"
 msgstr ""
 
-#: lua/groupbutler/plugins/welcome.lua:175
+#: lua/groupbutler/plugins/welcome.lua:176
 msgid "Welcome and...?"
 msgstr ""
 
-#: lua/groupbutler/plugins/welcome.lua:199
+#: lua/groupbutler/plugins/welcome.lua:200
 #, lua-format
 msgid "A form of media has been set as the welcome message: `%s`"
 msgstr ""
 
-#: lua/groupbutler/plugins/welcome.lua:201
+#: lua/groupbutler/plugins/welcome.lua:202
 msgid "Reply to a `sticker` or a `gif` to set them as the *welcome message*"
 msgstr ""
 
-#: lua/groupbutler/plugins/welcome.lua:219
+#: lua/groupbutler/plugins/welcome.lua:220
 msgid "*Custom welcome message saved!*"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:435
-msgid "Text not valid: unknown formatting error"
-msgstr ""
-
-#: lua/groupbutler/utilities.lua:440
-msgid "More info [here](https://telegram.me/GB_tutorials/12)"
-msgstr ""
-
-#: lua/groupbutler/utilities.lua:443 lua/groupbutler/utilities.lua:445
-#: lua/groupbutler/utilities.lua:447
-#, lua-format
-msgid ""
-"Inline link formatted incorrectly. Check the text between brackets -> \\[]"
-"()\n"
-"%s"
-msgstr ""
-
-#: lua/groupbutler/utilities.lua:448
-msgid ""
-"This text breaks the markdown.\n"
-"More info about a proper use of markdown [here](https://telegram.me/"
-"GB_tutorials/10) and [here](https://telegram.me/GB_tutorials/12)."
-msgstr ""
-
-#: lua/groupbutler/utilities.lua:451
-msgid ""
-"This message is too long. Max lenght allowed by Telegram: 4000 characters"
-msgstr ""
-
-#: lua/groupbutler/utilities.lua:453
-msgid ""
-"One of the URLs that should be placed in an inline button seems to be "
-"invalid (not an URL). Please check it"
-msgstr ""
-
-#: lua/groupbutler/utilities.lua:454
-msgid "One of the inline buttons you are trying to set is missing the URL"
-msgstr ""
-
-#: lua/groupbutler/utilities.lua:455
-msgid "One of the inline buttons you are trying to set doesn't have a name"
-msgstr ""
-
-#: lua/groupbutler/utilities.lua:456
-msgid "Please input a text"
-msgstr ""
-
-#: lua/groupbutler/utilities.lua:567
+#: lua/groupbutler/utilities.lua:536
 msgid "-*empty*-"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:605
+#: lua/groupbutler/utilities.lua:574
 #, lua-format
 msgid ""
 "<b>👤 Creator</b>\n"
@@ -2369,172 +2364,172 @@ msgid ""
 "%s"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:613
+#: lua/groupbutler/utilities.lua:582
 msgid "No commands set"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:616
+#: lua/groupbutler/utilities.lua:585
 msgid "List of custom commands:\n"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:626
+#: lua/groupbutler/utilities.lua:595
 msgid ""
 "Current settings for *the group*:\n"
 "\n"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:627
+#: lua/groupbutler/utilities.lua:596
 #, lua-format
 msgid "*Language*: %s\n"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:631
+#: lua/groupbutler/utilities.lua:600
 msgid "Welcome message"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:632
+#: lua/groupbutler/utilities.lua:601
 msgid "Goodbye message"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:642
+#: lua/groupbutler/utilities.lua:611
 msgid "Welcome button"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:678
+#: lua/groupbutler/utilities.lua:647
 msgid "*Welcome type*: `GIF / sticker`\n"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:680
+#: lua/groupbutler/utilities.lua:649
 msgid "*Welcome type*: `custom message`\n"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:682
+#: lua/groupbutler/utilities.lua:651
 msgid "*Welcome type*: `default message`\n"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:691
+#: lua/groupbutler/utilities.lua:660
 #, lua-format
 msgid "Warns (`standard`): *%s*\n"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:692
+#: lua/groupbutler/utilities.lua:661
 #, lua-format
 msgid ""
 "Warns (`media`): *%s*\n"
 "\n"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:693
+#: lua/groupbutler/utilities.lua:662
 msgid "✅ = _enabled / allowed_\n"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:694
+#: lua/groupbutler/utilities.lua:663
 msgid "🚫 = _disabled / not allowed_\n"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:695
+#: lua/groupbutler/utilities.lua:664
 msgid "👥 = _sent in group (always for admins)_\n"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:696
+#: lua/groupbutler/utilities.lua:665
 msgid "👤 = _sent in private_"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:703
+#: lua/groupbutler/utilities.lua:672
 msgid "@admin command disabled"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:704
+#: lua/groupbutler/utilities.lua:673
 msgid "Welcome message won't be displayed from now"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:705
+#: lua/groupbutler/utilities.lua:674
 msgid "Goodbye message won't be displayed from now"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:706
+#: lua/groupbutler/utilities.lua:675
 msgid "#extra commands are now available only for administrators"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:707
+#: lua/groupbutler/utilities.lua:676
 msgid "Anti-flood is now off"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:708
+#: lua/groupbutler/utilities.lua:677
 msgid "/rules will reply in private (for users)"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:709
+#: lua/groupbutler/utilities.lua:678
 msgid "Silent mode is now off"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:710
+#: lua/groupbutler/utilities.lua:679
 msgid "Links preview disabled"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:711
+#: lua/groupbutler/utilities.lua:680
 msgid "Welcome message without a button for the rules"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:714
+#: lua/groupbutler/utilities.lua:683
 msgid "@admin command enabled"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:715
+#: lua/groupbutler/utilities.lua:684
 msgid "Welcome message will be displayed"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:716
+#: lua/groupbutler/utilities.lua:685
 msgid "Goodbye message will be displayed"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:717
+#: lua/groupbutler/utilities.lua:686
 msgid "#extra commands are now available for all"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:718
+#: lua/groupbutler/utilities.lua:687
 msgid "Anti-flood is now on"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:719
+#: lua/groupbutler/utilities.lua:688
 msgid "/rules will reply in the group (with everyone)"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:720
+#: lua/groupbutler/utilities.lua:689
 msgid "Silent mode is now on"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:721
+#: lua/groupbutler/utilities.lua:690
 msgid "Links preview enabled"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:722
+#: lua/groupbutler/utilities.lua:691
 msgid "The welcome message will have a button for the rules"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:735
+#: lua/groupbutler/utilities.lua:704
 msgid ""
 "This setting is enabled, but the goodbye message won't be displayed in large "
 "groups, because I can't see service messages about left members"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:746
+#: lua/groupbutler/utilities.lua:715
 msgid "Start me"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:748
+#: lua/groupbutler/utilities.lua:717
 msgid "_Please message me first so I can message you_"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:845 lua/groupbutler/utilities.lua:846
+#: lua/groupbutler/utilities.lua:814 lua/groupbutler/utilities.lua:815
 msgid "Someone"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:853
+#: lua/groupbutler/utilities.lua:822
 msgid "Reply to a user or mention them"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:879
+#: lua/groupbutler/utilities.lua:848
 msgid ""
 "I've never seen this user before.\n"
 "This command works by reply, username, user ID or text mention.\n"
@@ -2542,12 +2537,12 @@ msgid ""
 "me one of their messages"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:896
+#: lua/groupbutler/utilities.lua:865
 #, lua-format
 msgid "<b>Chat</b>: %s [#chat%d]"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:905 lua/groupbutler/utilities.lua:913
+#: lua/groupbutler/utilities.lua:874 lua/groupbutler/utilities.lua:882
 #, lua-format
 msgid ""
 "#%s (<code>%d/%d</code>), <i>%s</i>\n"
@@ -2555,7 +2550,7 @@ msgid ""
 "• <b>User</b>: %s"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:919
+#: lua/groupbutler/utilities.lua:888
 #, lua-format
 msgid ""
 "#%s\n"
@@ -2563,8 +2558,8 @@ msgid ""
 "• <b>User</b>: %s"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:922 lua/groupbutler/utilities.lua:932
-#: lua/groupbutler/utilities.lua:935 lua/groupbutler/utilities.lua:938
+#: lua/groupbutler/utilities.lua:891 lua/groupbutler/utilities.lua:901
+#: lua/groupbutler/utilities.lua:904 lua/groupbutler/utilities.lua:907
 #, lua-format
 msgid ""
 "%s\n"
@@ -2572,11 +2567,11 @@ msgid ""
 "• <b>By</b>: %s"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:925
+#: lua/groupbutler/utilities.lua:894
 msgid "Get the new photo"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:942
+#: lua/groupbutler/utilities.lua:911
 #, lua-format
 msgid ""
 "%s\n"
@@ -2585,7 +2580,7 @@ msgid ""
 "• <i>Reported to %d admin(s)</i>"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:946
+#: lua/groupbutler/utilities.lua:915
 #, lua-format
 msgid ""
 "#%s\n"
@@ -2593,7 +2588,7 @@ msgid ""
 "• <b>User</b>: %s [#id%d]"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:951
+#: lua/groupbutler/utilities.lua:920
 #, lua-format
 msgid ""
 "%s\n"
@@ -2601,14 +2596,14 @@ msgid ""
 "• <b>User</b>: %s"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:953
+#: lua/groupbutler/utilities.lua:922
 #, lua-format
 msgid ""
 "\n"
 "• <b>Added by</b>: %s [#id%d]"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:966
+#: lua/groupbutler/utilities.lua:935
 #, lua-format
 msgid ""
 "#%s\n"
@@ -2618,7 +2613,7 @@ msgid ""
 "• <b>Count</b>: <code>%d/%d</code>"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:974
+#: lua/groupbutler/utilities.lua:943
 #, lua-format
 msgid ""
 "#%s\n"
@@ -2628,7 +2623,7 @@ msgid ""
 "• <b>Warns found</b>: <i>normal: %s, for media: %s, spamwarns: %s</i>"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:980
+#: lua/groupbutler/utilities.lua:949
 #, lua-format
 msgid ""
 "#%s\n"
@@ -2636,17 +2631,17 @@ msgid ""
 "• %s\n"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:983
+#: lua/groupbutler/utilities.lua:952
 #, lua-format
 msgid "• <i>Users involved: %d</i>"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:985
+#: lua/groupbutler/utilities.lua:954
 #, lua-format
 msgid "• <b>User</b>: %s [#id%d]"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:997
+#: lua/groupbutler/utilities.lua:966
 #, lua-format
 msgid ""
 "#%s\n"
@@ -2656,7 +2651,7 @@ msgid ""
 "• <b>Duration</b>: %d days, %d hours"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:1006
+#: lua/groupbutler/utilities.lua:975
 #, lua-format
 msgid ""
 "#%s\n"
@@ -2665,7 +2660,7 @@ msgid ""
 "• <b>User</b>: %s [#id%s]"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:1010
+#: lua/groupbutler/utilities.lua:979
 #, lua-format
 msgid ""
 "#%s\n"
@@ -2673,20 +2668,20 @@ msgid ""
 "• <b>By</b>: %s"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:1031
+#: lua/groupbutler/utilities.lua:1000
 #, lua-format
 msgid ""
 "\n"
 "• <b>Action</b>: #%s"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:1034
+#: lua/groupbutler/utilities.lua:1003
 #, lua-format
 msgid ""
 "\n"
 "• <b>Reason</b>: <i>%s</i>"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:1040
+#: lua/groupbutler/utilities.lua:1009
 msgid "Go to the message"
 msgstr ""
