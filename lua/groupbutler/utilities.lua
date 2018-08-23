@@ -193,19 +193,6 @@ function _M:bot_is_admin(chat_id)
 	end
 end
 
-function _M:is_admin_request(msg) -- luacheck: ignore 212
-	local res = api.getChatMember(msg.chat.id, msg.from.id)
-	if not res then
-		return false, false
-	end
-	local status = res.status
-	if status == 'creator' or status == 'administrator' then
-		return true, true
-	else
-		return false, true
-	end
-end
-
 -- Returns the admin status of the user. The first argument can be the message,
 -- then the function checks the rights of the sender in the incoming chat.
 function _M:is_admin(chat_id, user_id)
@@ -221,14 +208,6 @@ function _M:is_admin(chat_id, user_id)
 		self:cache_adminlist(chat_id)
 	end
 	return db:sismember(set, user_id) ~= 0
-end
-
-function _M:is_owner_request(msg) -- luacheck: ignore 212
-	local status = api.getChatMember(msg.chat.id, msg.from.id).status
-	if status == 'creator' then
-		return true
-	end
-		return false
 end
 
 function _M:is_owner(chat_id, user_id)
