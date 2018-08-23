@@ -31,7 +31,7 @@ local function ngx_request(method, body)
   local tab = json.decode(ok.body)
 
   if ok.status ~= 200 or not tab.ok then
-    ngx.log(ngx.INFO, method.."() failed: "..(tab.description or "unknown"))
+    ngx.log(ngx.WARN, method.."() failed: "..(tab.description or "unknown"))
     return nil, tab
   end
   return tab.result
