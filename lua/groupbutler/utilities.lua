@@ -310,12 +310,10 @@ function _M:get_cached_admins_list(chat_id, second_try)
 		self:cache_adminlist(chat_id)
 		if not second_try then
 			return self:get_cached_admins_list(chat_id, true)
-		else
-			return false
 		end
-	else
-		return list
+		return false
 	end
+	return list
 end
 
 function _M:is_blocked_global(id)
@@ -518,18 +516,19 @@ function _M:getRules(chat_id)
 end
 
 function _M:getAdminlist(chat_id) -- luacheck: ignore 212
-	local list, code = api.getChatAdministrators(chat_id)
+	local list, code = self:get_cached_admins_list(chat_id)
 	if not list then
 		return false, code
 	end
 	local creator = ''
 	local adminlist = ''
 	local count = 1
-	for _, admin in pairs(list) do
-		local name
+	for _, user_id in pairs(list) do
 		local s = ' ├ '
+		-- TODO: Cache admin names nad usernames
+		local admin = api.getChatMember(chat_id, user_id)
 		if admin.status == 'administrator' then
-			name = admin.user.first_name
+			local name = admin.user.first_name
 			if admin.user.username then
 				name = ('<a href="telegram.me/%s">%s</a>'):format(admin.user.username, name:escape_html())
 			else
@@ -706,7 +705,7 @@ function _M:initGroup(chat_id)
 		end
 	end
 
-	self:cache_adminlist(chat_id, api.getChatAdministrators(chat_id)) --init admin cache
+	self:cache_adminlist(chat_id) --init admin cache
 
 	--save group id
 	db:sadd('bot:groupsid', chat_id)
