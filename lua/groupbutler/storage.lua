@@ -51,8 +51,8 @@ function RedisStorage:get_chat_setting_truthy(chat_id, setting, default)
 	return _is_truthy(val)
 end
 
-function RedisStorage:get_chat_setting_truthy(chat_id, setting, default)
-	local val = self:get_chat_setting(chat_id, setting, default)
+function RedisStorage:get_user_setting_truthy(user_id, setting, default)
+	local val = self:get_user_setting(user_id, setting, default)
 	return _is_truthy(val)
 end
 
