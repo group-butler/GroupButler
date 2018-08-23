@@ -62,22 +62,22 @@ local function do_keyboard_userinfo(user_id)
 end
 
 local function get_userinfo(self, user_id, chat_id)
-	local db = self.db
+	local red = self.red
 
 	local text = i18n([[*User ID*: `%d`
 `Warnings`: *%d*
 `Media warnings`: *%d*
 `Spam warnings`: *%d*
 ]])
-	local warns = tonumber(db:hget('chat:'..chat_id..':warns', user_id)) or 0
-	local media_warns = tonumber(db:hget('chat:'..chat_id..':mediawarn', user_id)) or 0
-	local spam_warns = tonumber(db:hget('chat:'..chat_id..':spamwarns', user_id)) or 0
+	local warns = tonumber(red:hget('chat:'..chat_id..':warns', user_id)) or 0
+	local media_warns = tonumber(red:hget('chat:'..chat_id..':mediawarn', user_id)) or 0
+	local spam_warns = tonumber(red:hget('chat:'..chat_id..':spamwarns', user_id)) or 0
 	return text:format(tonumber(user_id), warns, media_warns, spam_warns)
 end
 
 function _M:onTextMessage(blocks)
 	local msg = self.message
-	local db = self.db
+	local red = self.red
 	local u = self.u
 
 	if msg.chat.type == 'private' then return end
@@ -167,8 +167,8 @@ function _M:onTextMessage(blocks)
 	if blocks[1] == 'cache' then
 		if not msg:is_from_admin() then return end
 		local hash = 'cache:chat:'..msg.chat.id..':admins'
-		local seconds = db:ttl(hash)
-		local cached_admins = db:scard(hash)
+		local seconds = red:ttl(hash)
+		local cached_admins = red:scard(hash)
 		local text = i18n("📌 Status: `CACHED`\n⌛ ️Remaining: `%s`\n👥 Admins cached: `%d`")
 			:format(get_time_remaining(tonumber(seconds)), cached_admins)
 		local keyboard = do_keyboard_cache(msg.chat.id)
@@ -193,7 +193,7 @@ end
 
 function _M:onCallbackQuery(blocks)
 	local msg = self.message
-	local db = self.db
+	local red = self.red
 	local u = self.u
 
 	if not msg:is_from_admin() then
@@ -203,9 +203,9 @@ function _M:onCallbackQuery(blocks)
 
 	if blocks[1] == 'remwarns' then
 		local removed = {
-			normal = db:hdel('chat:'..msg.chat.id..':warns', blocks[2]),
-			media = db:hdel('chat:'..msg.chat.id..':mediawarn', blocks[2]),
-			spam = db:hdel('chat:'..msg.chat.id..':spamwarns', blocks[2])
+			normal = red:hdel('chat:'..msg.chat.id..':warns', blocks[2]),
+			media = red:hdel('chat:'..msg.chat.id..':mediawarn', blocks[2]),
+			spam = red:hdel('chat:'..msg.chat.id..':spamwarns', blocks[2])
 		}
 
 		local name = u:getname_final(msg.from)
@@ -216,7 +216,7 @@ function _M:onCallbackQuery(blocks)
                {admin = name, user = u:getname_final(res.user), user_id = blocks[2], rem = removed})
 	end
 	if blocks[1] == 'recache' and msg:is_from_admin() then
-		local missing_sec = tonumber(db:ttl('cache:chat:'..msg.target_id..':admins') or 0)
+		local missing_sec = tonumber(red:ttl('cache:chat:'..msg.target_id..':admins') or 0)
 		local wait = 600
 		if config.bot_settings.cache_time.adminlist - missing_sec < wait then
 			local seconds_to_wait = wait - (config.bot_settings.cache_time.adminlist - missing_sec)
@@ -224,9 +224,9 @@ function _M:onCallbackQuery(blocks)
 					"The adminlist has just been updated. You must wait 10 minutes from the last refresh (wait  %d seconds)"
 				):format(seconds_to_wait), true)
 		else
-			db:del('cache:chat:'..msg.target_id..':admins')
+			red:del('cache:chat:'..msg.target_id..':admins')
 			u:cache_adminlist(msg.target_id)
-			local cached_admins = db:smembers('cache:chat:'..msg.target_id..':admins')
+			local cached_admins = red:smembers('cache:chat:'..msg.target_id..':admins')
 			local time = get_time_remaining(config.bot_settings.cache_time.adminlist)
 			local text = i18n("📌 Status: `CACHED`\n⌛ ️Remaining: `%s`\n👥 Admins cached: `%d`")
 				:format(time, #cached_admins)

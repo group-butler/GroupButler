@@ -48,13 +48,13 @@ local triggers2 = {
 }
 
 local function bot_leave(self, chat_id)
-	local db = self.db
+	local red = self.red
 	local res = api.leaveChat(chat_id)
 	if not res then
 		return 'Check the id, it could be wrong'
 	end
-	db:srem('bot:groupsid', chat_id)
-	db:sadd('bot:groupsid:removed', chat_id)
+	red:srem('bot:groupsid', chat_id)
+	red:sadd('bot:groupsid:removed', chat_id)
 	return 'Chat left!'
 end
 
@@ -105,7 +105,7 @@ function _M:onTextMessage(blocks)
 	local msg = self.message
 	local bot = self.bot
 	local u = self.u
-	local db = self.db
+	local red = self.red
 	if not u:is_superadmin(msg.from.id) then return end
 
 	for i=1, #triggers2 do
@@ -125,21 +125,21 @@ function _M:onTextMessage(blocks)
 	-- 	msg:send_reply(reply, "Markdown")
 	-- end
 	if blocks[1] == 'backup' then
-		db:bgsave()
+		red:bgsave()
 		local cmd = io.popen('sudo tar -cpf '..bot.first_name:gsub(' ', '_')..'.tar *')
 		cmd:read('*all')
 		cmd:close()
 		api.sendDocument(msg.from.id, './'..bot.first_name:gsub(' ', '_')..'.tar')
 	end
 	if blocks[1] == 'save' then
-		local res = db:save()
+		local res = red:save()
 		api.sendMessage(msg.chat.id, 'res: '..tostring(res))
 	end
 	if blocks[1] == 'stats' then
 		local text = '#stats `['..u:get_date()..']`:\n'
 		local hash = 'bot:general'  -- Todo: update this for the new metrics
-		local names = db:hkeys(hash)
-		local num = db:hvals(hash)
+		local names = red:hkeys(hash)
+		local num = red:hvals(hash)
 		for i=1, #names do
 			text = text..'- *'..names[i]..'*: `'..num[i]..'`\n'
 		end
@@ -151,7 +151,7 @@ function _M:onTextMessage(blocks)
 
 		--db info
 		-- text = text.. '\n*DB stats*\n'
-		-- local dbinfo = db:info()
+		-- local dbinfo = red:info()
 		-- text = text..'- *uptime days*: `'..dbinfo.server.uptime_in_days..'('..dbinfo.server.uptime_in_seconds..' seconds)`\n'
 		-- text = text..'- *keyspace*:\n'
 		-- for dbase,info in pairs(dbinfo.keyspace) do
@@ -188,7 +188,7 @@ function _M:onTextMessage(blocks)
 		else
 			id = msg.reply.forward_from.id
 		end
-		local response = db:sadd('bot:blocked', id)
+		local response = red:sadd('bot:blocked', id)
 		local text
 		if response == 1 then
 			text = id..' has been blocked'
@@ -199,7 +199,7 @@ function _M:onTextMessage(blocks)
 	end
 	if blocks[1] == 'unblock' then
 		local id = blocks[2]
-		local response = db:srem('bot:blocked', id)
+		local response = red:srem('bot:blocked', id)
 		local text
 		if response == 1 then
 			text = id..' has been unblocked'
@@ -209,7 +209,7 @@ function _M:onTextMessage(blocks)
 		api.sendReply(msg, text)
 	end
 	if blocks[1] == 'blocked' then
-		api.sendMessage(msg.chat.id, u:vtext(db:smembers('bot:blocked')))
+		api.sendMessage(msg.chat.id, u:vtext(red:smembers('bot:blocked')))
 	end
 	if blocks[1] == 'leave' then
 		local text
@@ -225,13 +225,13 @@ function _M:onTextMessage(blocks)
 		api.sendMessage(msg.from.id, text)
 	end
 	if blocks[1] == 'api errors' then
-		local t = db:hgetall('bot:errors')
+		local t = red:hgetall('bot:errors')
 		api.sendMessage(msg.chat.id, u:vtext(t))
 	end
 	-- if blocks[1] == 'rediscli' then
 	-- 	local redis_f = blocks[2]:gsub(' ', '(\'', 1)
 	-- 	redis_f = redis_f:gsub(' ', '\',\'')
-	-- 	redis_f = 'return db:'..redis_f..'\')'
+	-- 	redis_f = 'return red:'..redis_f..'\')'
 	-- 	redis_f = redis_f:gsub('$chat', msg.chat.id)
 	-- 	redis_f = redis_f:gsub('$from', msg.from.id)
 	-- 	local output = load_lua(redis_f)
@@ -251,18 +251,18 @@ function _M:onTextMessage(blocks)
 	end
 	if blocks[1] == 'tban' then
 		if blocks[2] == 'flush' then
-			db:del('tempbanned')
+			red:del('tempbanned')
 			msg:send_reply('Flushed!')
 		end
 		if blocks[2] == 'get' then
-			api.sendMessage(msg.chat.id, u:vtext(db:hgetall('tempbanned')))
+			api.sendMessage(msg.chat.id, u:vtext(red:hgetall('tempbanned')))
 		end
 	end
 	if blocks[1] == 'remban' then
 		local user_id = u:resolve_user(blocks[2])
 		local text
 		if user_id then
-			db:del('ban:'..user_id)
+			red:del('ban:'..user_id)
 			text = 'Done'
 		else
 			text = 'Username not stored'
@@ -276,10 +276,10 @@ function _M:onTextMessage(blocks)
 		end
 		local text = '<code>'..chat_id..'\n'
 		for set, _ in pairs(config.chat_settings) do
-			text = text..u:vtext(db:hgetall('chat:'..chat_id..':'..set))
+			text = text..u:vtext(red:hgetall('chat:'..chat_id..':'..set))
 		end
 
-		local log_channel = db:hget('bot:chatlogs', chat_id)
+		local log_channel = red:hget('bot:chatlogs', chat_id)
 		if log_channel ~= null then text = text..'\nLog channel: '..log_channel end
 
 		text = text..'</code>'
@@ -297,11 +297,11 @@ function _M:onTextMessage(blocks)
 
 		local section
 		for i=1, #config.chat_hashes do
-			section = u:vtext(db:hgetall(('chat:%s:%s'):format(tostring(chat_id), config.chat_hashes[i]))) or '{}'
+			section = u:vtext(red:hgetall(('chat:%s:%s'):format(tostring(chat_id), config.chat_hashes[i]))) or '{}'
 			text = text..config.chat_hashes[i]..'(hash)>'..section
 		end
 		for i=1, #config.chat_sets do
-			section = u:vtext(db:smembers(('chat:%s:%s'):format(tostring(chat_id), config.chat_sets[i]))) or '{}'
+			section = u:vtext(red:smembers(('chat:%s:%s'):format(tostring(chat_id), config.chat_sets[i]))) or '{}'
 			text = text..config.chat_sets[i]..'(set)>'..section
 		end
 		local ok, err = api.sendMessage(msg.chat.id, text)
@@ -329,9 +329,9 @@ function _M:onTextMessage(blocks)
 	end
 	if blocks[1] == 'cache' then
 		local chat_id = get_chat_id(msg)
-		local members = db:smembers('cache:chat:'..chat_id..':admins')
+		local members = red:smembers('cache:chat:'..chat_id..':admins')
 		for i=1, #members do
-			local permissions = db:smembers("cache:chat:"..chat_id..":"..members[i]..":permissions")
+			local permissions = red:smembers("cache:chat:"..chat_id..":"..members[i]..":permissions")
 			members[members[i]] = permissions
 		end
 		api.sendMessage(msg.chat.id, chat_id..' ➤ '..tostring(#members)..'\n'..u:vtext(members))
@@ -351,7 +351,7 @@ function _M:onTextMessage(blocks)
 		local days = tonumber(blocks[2]) or 7
 		local now = os.time()
 		local seconds_per_day = 60*60*24
-		local groups = db:hgetall('bot:chats:latsmsg')
+		local groups = red:hgetall('bot:chats:latsmsg')
 		local n = 0
 		for _, timestamp in pairs(groups) do
 			if tonumber(timestamp) > (now - (seconds_per_day * days)) then

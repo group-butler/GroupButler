@@ -17,7 +17,7 @@ end
 function _M:onTextMessage(blocks)
 	local msg = self.message
 	local u = self.u
-	local db = self.db
+	local red = self.red
 	if msg.chat.type == 'private' then return end
 	if not u:is_allowed('texts', msg.chat.id, msg.from) then return end
 
@@ -26,11 +26,11 @@ function _M:onTextMessage(blocks)
 
 	if blocks[1] == 'link' then
 		if msg.chat.username then
-			db:sadd('chat:'..msg.chat.id..':whitelist', 'telegram.me/'..msg.chat.username)
+			red:sadd('chat:'..msg.chat.id..':whitelist', 'telegram.me/'..msg.chat.username)
 			local title = msg.chat.title:escape_hard('link')
 			msg:send_reply(string.format('[%s](telegram.me/%s)', title, msg.chat.username), "Markdown")
 		else
-			local link = db:hget(hash, 'link')
+			local link = red:hget(hash, 'link')
 			if link == null then
 				text = i18n("*No link* for this group. Ask the owner to save it with `/setlink [group link]`")
 			else
@@ -42,7 +42,7 @@ function _M:onTextMessage(blocks)
 	end
 	if blocks[1] == 'setlink' then
 		if blocks[2] and blocks[2] == '-' then
-			db:hdel(hash, 'link')
+			red:hdel(hash, 'link')
 			text = i18n("Link *unset*")
 		else
 			local link
@@ -58,9 +58,9 @@ function _M:onTextMessage(blocks)
 						text = i18n("This link is *not valid!*")
 					else
 						link = 'https://telegram.me/joinchat/'..blocks[2]
-						db:sadd('chat:'..msg.chat.id..':whitelist', link:gsub('https://', '')) --save the link in the whitelist
+						red:sadd('chat:'..msg.chat.id..':whitelist', link:gsub('https://', '')) --save the link in the whitelist
 
-						local succ = db:hset(hash, 'link', link)
+						local succ = red:hset(hash, 'link', link)
 						local title = msg.chat.title:escape_hard('link')
 						local substitution = '['..title..']('..link..')'
 						if not succ then

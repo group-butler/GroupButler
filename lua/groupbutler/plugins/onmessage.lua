@@ -15,10 +15,10 @@ function _M:new(update_obj)
 end
 
 local function max_reached(self, chat_id, user_id)
-	local db = self.db
-	local max = tonumber(db:hget('chat:'..chat_id..':warnsettings', 'mediamax'))
+	local red = self.red
+	local max = tonumber(red:hget('chat:'..chat_id..':warnsettings', 'mediamax'))
 		or config.chat_settings.warnsettings.mediamax
-	local n = tonumber(db:hincrby('chat:'..chat_id..':mediawarn', user_id, 1))
+	local n = tonumber(red:hincrby('chat:'..chat_id..':mediawarn', user_id, 1))
 	if n >= max then
 		return true, n, max
 	end
@@ -26,9 +26,9 @@ local function max_reached(self, chat_id, user_id)
 end
 
 local function is_ignored(self, chat_id, msg_type)
-	local db = self.db
+	local red = self.red
 	local hash = 'chat:'..chat_id..':floodexceptions'
-	local status = db:hget(hash, msg_type)
+	local status = red:hget(hash, msg_type)
 	if not status == 'yes' then
 		return false
 	end
@@ -36,31 +36,31 @@ local function is_ignored(self, chat_id, msg_type)
 end
 
 local function is_flooding_funct(self, msg)
-	local db = self.db
+	local red = self.red
 	if msg.media_group_id then
 		-- albums should count as one message
 
 		local media_group_id_key = 'mediagroupidkey:'..msg.chat.id
-		if msg.media_group_id == db:get(media_group_id_key) then -- msg.media_group_id is a str
+		if msg.media_group_id == red:get(media_group_id_key) then -- msg.media_group_id is a str
 			-- photo/video is from an already processed sent album
 			return false
 		else
 			-- save the ID of the albums as last processed album,
 			-- so we can ignore all the following updates containing medias from that album
-			db:setex(media_group_id_key, 600, msg.media_group_id)
+			red:setex(media_group_id_key, 600, msg.media_group_id)
 		end
 	end
 
 	local spamkey = 'spam:'..msg.chat.id..':'..msg.from.id
 
-	local msgs = tonumber(db:get(spamkey)) or 1
+	local msgs = tonumber(red:get(spamkey)) or 1
 
-	local max_msgs = tonumber(db:hget('chat:'..msg.chat.id..':flood', 'MaxFlood')) or 5
+	local max_msgs = tonumber(red:hget('chat:'..msg.chat.id..':flood', 'MaxFlood')) or 5
 	if msg.cb then max_msgs = 15 end
 
 	local max_time = 5
-	db:incr(spamkey)
-	db:expire(spamkey, max_time)
+	red:incr(spamkey)
+	red:expire(spamkey, max_time)
 
 	if msgs > max_msgs then
 		return true, msgs, max_msgs
@@ -69,9 +69,9 @@ local function is_flooding_funct(self, msg)
 end
 
 local function is_whitelisted(self, chat_id, text)
-	local db = self.db
+	local red = self.red
 	local set = ('chat:%d:whitelist'):format(chat_id)
-	local links = db:smembers(set)
+	local links = red:smembers(set)
 	if links and next(links) then
 		for i=1, #links do
 			if text:match(links[i]:gsub('%-', '%%-')) then
@@ -85,7 +85,7 @@ end
 function _M:on_message()
 	local msg = self.message
 	local u = self.u
-	local db = self.db
+	local red = self.red
 
 	if not msg.inline then
 	local msg_type = msg:type()
@@ -94,11 +94,11 @@ function _M:on_message()
 		if not is_ignored(self, msg.chat.id, msg_type) and not msg.edited then
 			local is_flooding, msgs_sent, msgs_max = is_flooding_funct(self, msg)
 		if is_flooding then
-				local status = db:hget('chat:'..msg.chat.id..':settings', 'Flood')
+				local status = red:hget('chat:'..msg.chat.id..':settings', 'Flood')
 				if status == null then status = config.chat_settings['settings']['Flood'] end
 
 			if status == 'on' and not msg.cb and not msg:is_from_admin() then --if the status is on, and the user is not an admin, and the message is not a callback, then:
-				local action = db:hget('chat:'..msg.chat.id..':flood', 'ActionFlood')
+				local action = red:hget('chat:'..msg.chat.id..':flood', 'ActionFlood')
 					local name = u:getname_final(msg.from)
 					local ok, message
 				--try to kick or ban
@@ -135,7 +135,7 @@ function _M:on_message()
 
 	if msg_type ~= "text" and not msg.cb and not msg.edited then
 			local hash = 'chat:'..msg.chat.id..':media'
-		local media_status = (db:hget(hash, msg_type))
+		local media_status = (red:hget(hash, msg_type))
 		if media_status == null then media_status = config.chat_settings.media[msg_type] end
 
 			if media_status == 'notok' then
@@ -149,7 +149,7 @@ function _M:on_message()
 					local name = u:getname_final(msg.from)
 					local max_reached_var, n, max = max_reached(self, msg.chat.id, msg.from.id)
 					if max_reached_var then --max num reached. Kick/ban the user
-						status = db:hget('chat:'..msg.chat.id..':warnsettings', 'mediatype')
+						status = red:hget('chat:'..msg.chat.id..':warnsettings', 'mediatype')
 						if status == null then status = config.chat_settings['warnsettings']['mediatype'] end
 
 						--try to kick/ban
@@ -165,7 +165,7 @@ function _M:on_message()
 							punishment = i18n('muted')
 						end
 						if ok then --kick worked
-							db:hdel('chat:'..msg.chat.id..':mediawarn', msg.from.id) --remove media warns
+							red:hdel('chat:'..msg.chat.id..':mediawarn', msg.from.id) --remove media warns
 							local message =
 								i18n('%s <b>%s</b>: media sent not allowed!\n❗️ <code>%d/%d</code>'):format(name, punishment, n, max)
 							api.sendMessage(msg.chat.id, message, 'html')
@@ -195,7 +195,7 @@ function _M:on_message()
 			end
 		end
 
-			local rtl_status = db:hget('chat:'..msg.chat.id..':char', 'Rtl')
+			local rtl_status = red:hget('chat:'..msg.chat.id..':char', 'Rtl')
 			if rtl_status == null then rtl_status = config.chat_settings.char.Rtl end
 
 		if rtl_status ~= 'allowed' then
@@ -224,7 +224,7 @@ function _M:on_message()
 		end
 
 		if msg.text and msg.text:find('([\216-\219][\128-\191])') then
-				local arab_status = db:hget('chat:'..msg.chat.id..':char', 'Arab')
+				local arab_status = red:hget('chat:'..msg.chat.id..':char', 'Arab')
 				if arab_status == null then arab_status = config.chat_settings.char.Arab end
 
 			if arab_status ~= 'allowed' then

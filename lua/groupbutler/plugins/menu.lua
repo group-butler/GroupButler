@@ -47,43 +47,43 @@ local function get_button_description(key)
 end
 
 local function changeWarnSettings(self, chat_id, action)
-	local db = self.db
-	local current = tonumber(db:hget('chat:'..chat_id..':warnsettings', 'max'))
+	local red = self.red
+	local current = tonumber(red:hget('chat:'..chat_id..':warnsettings', 'max'))
 		or config.chat_settings['warnsettings']['max']
 	local new_val
 	if action == 1 then
 		if current > 12 then
 			return i18n("The new value is too high ( > 12)")
 		else
-			new_val = db:hincrby('chat:'..chat_id..':warnsettings', 'max', 1)
+			new_val = red:hincrby('chat:'..chat_id..':warnsettings', 'max', 1)
 			return current..'->'..new_val
 		end
 	elseif action == -1 then
 		if current < 2 then
 			return i18n("The new value is too low ( < 1)")
 		else
-			new_val = db:hincrby('chat:'..chat_id..':warnsettings', 'max', -1)
+			new_val = red:hincrby('chat:'..chat_id..':warnsettings', 'max', -1)
 			return current..'->'..new_val
 		end
 	elseif action == 'status' then
-		local status = db:hget('chat:'..chat_id..':warnsettings', 'type')
+		local status = red:hget('chat:'..chat_id..':warnsettings', 'type')
 		if status == null then status = config.chat_settings.warnsettings.type end
 
 		if status == 'kick' then
-			db:hset('chat:'..chat_id..':warnsettings', 'type', 'ban')
+			red:hset('chat:'..chat_id..':warnsettings', 'type', 'ban')
 			return i18n("New action on max number of warns received: ban")
 		elseif status == 'ban' then
-			db:hset('chat:'..chat_id..':warnsettings', 'type', 'mute')
+			red:hset('chat:'..chat_id..':warnsettings', 'type', 'mute')
 			return i18n("New action on max number of warns received: mute")
 		elseif status == 'mute' then
-			db:hset('chat:'..chat_id..':warnsettings', 'type', 'kick')
+			red:hset('chat:'..chat_id..':warnsettings', 'type', 'kick')
 			return i18n("New action on max number of warns received: kick")
 		end
 	end
 end
 
 local function changeCharSettings(self, chat_id, field)
-	local db = self.db
+	local red = self.red
 	local humanizations = {
 		kick = i18n("Action -> kick"),
 		ban = i18n("Action -> ban"),
@@ -92,30 +92,30 @@ local function changeCharSettings(self, chat_id, field)
 	}
 
 	local hash = 'chat:'..chat_id..':char'
-	local status = db:hget(hash, field)
+	local status = red:hget(hash, field)
 
 	if status == 'allowed' then
-		db:hset(hash, field, 'kick')
+		red:hset(hash, field, 'kick')
 		return humanizations['kick']
 	elseif status == 'kick' then
-		db:hset(hash, field, 'ban')
+		red:hset(hash, field, 'ban')
 		return humanizations['ban']
 	elseif status == 'ban' then
-		db:hset(hash, field, 'mute')
+		red:hset(hash, field, 'mute')
 		return humanizations['mute']
 	else
-		db:hset(hash, field, 'allowed')
+		red:hset(hash, field, 'allowed')
 		return humanizations['allow']
 	end
 end
 
 local function usersettings_table(self, settings, chat_id)
-	local db = self.db
+	local red = self.red
 	local return_table = {}
 	local icon_off, icon_on = '👤', '👥'
 	for field, default in pairs(settings) do
 		if field == 'Extra' or field == 'Rules' then
-			local status = db:hget('chat:'..chat_id..':settings', field)
+			local status = red:hget('chat:'..chat_id..':settings', field)
 			if status == null then status = default end
 			if status == 'off' then
 				return_table[field] = icon_off
@@ -129,12 +129,12 @@ local function usersettings_table(self, settings, chat_id)
 end
 
 local function adminsettings_table(self, settings, chat_id)
-	local db = self.db
+	local red = self.red
 	local return_table = {}
 	local icon_off, icon_on = '☑️', '✅'
 	for field, default in pairs(settings) do
 		if field ~= 'Extra' and field ~= 'Rules' then
-			local status = db:hget('chat:'..chat_id..':settings', field)
+			local status = red:hget('chat:'..chat_id..':settings', field)
 			if status == null then status = default end
 
 			if status == 'off' then
@@ -149,10 +149,10 @@ local function adminsettings_table(self, settings, chat_id)
 end
 
 local function charsettings_table(self, settings, chat_id)
-	local db = self.db
+	local red = self.red
 	local return_table = {}
 	for field, default in pairs(settings) do
-		local status = db:hget('chat:'..chat_id..':char', field)
+		local status = red:hget('chat:'..chat_id..':char', field)
 		if status == null then status = default end
 
 		if status == 'kick' then
@@ -198,7 +198,7 @@ local function insert_settings_section(keyboard, settings_section, chat_id)
 end
 
 local function doKeyboard_menu(self, chat_id)
-	local db = self.db
+	local red = self.red
 	local keyboard = {inline_keyboard = {}}
 
 	local settings_section = adminsettings_table(self, config.chat_settings['settings'], chat_id)
@@ -211,10 +211,10 @@ local function doKeyboard_menu(self, chat_id)
 	keyboard = insert_settings_section(keyboard, settings_section, chat_id)
 
 	--warn
-	local max = db:hget('chat:'..chat_id..':warnsettings', 'max')
+	local max = red:hget('chat:'..chat_id..':warnsettings', 'max')
 	if max == null then max = config.chat_settings['warnsettings']['max'] end
 
-	local action = db:hget('chat:'..chat_id..':warnsettings', 'type')
+	local action = red:hget('chat:'..chat_id..':warnsettings', 'type')
 	if action == null then action = config.chat_settings['warnsettings']['type'] end
 
 	if action == 'kick' then

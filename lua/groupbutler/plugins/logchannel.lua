@@ -42,20 +42,20 @@ local function get_alert_text(key)
 end
 
 local function toggle_event(self, chat_id, event)
-	local db = self.db
+	local red = self.red
 	local hash = ('chat:%s:tolog'):format(chat_id)
-	local current_status = db:hget(hash, event)
+	local current_status = red:hget(hash, event)
 	if current_status == null then current_status = config.chat_settings['tolog'][event] end
 
 	if current_status == 'yes' then
-		db:hset(hash, event, 'no')
+		red:hset(hash, event, 'no')
 	else
-		db:hset(hash, event, 'yes')
+		red:hset(hash, event, 'yes')
 	end
 end
 
 local function doKeyboard_logchannel(self, chat_id)
-	local db = self.db
+	local red = self.red
 	local event_pretty = {
 		['ban'] = i18n('Ban'),
 		['kick'] = i18n('Kick'),
@@ -81,7 +81,7 @@ local function doKeyboard_logchannel(self, chat_id)
 	local icon
 
 	for event, default_status in pairs(config.chat_settings['tolog']) do
-		local current_status = db:hget('chat:'..chat_id..':tolog', event)
+		local current_status = red:hget('chat:'..chat_id..':tolog', event)
 		if current_status == null then current_status = default_status end
 
 		icon = '✅'
@@ -153,7 +153,7 @@ end
 
 function _M:onTextMessage(blocks)
 	local msg = self.message
-	local db = self.db
+	local red = self.red
 
 	if msg.chat.type ~= 'private' then
 		if not msg:is_from_admin() then return end
@@ -172,11 +172,11 @@ function _M:onTextMessage(blocks)
 						else
 							if ok.status == 'creator' then
 								local text
-								local old_log = db:hget('bot:chatlogs', msg.chat.id)
+								local old_log = red:hget('bot:chatlogs', msg.chat.id)
 								if old_log == tostring(msg.forward_from_chat.id) then
 									text = i18n('_Already using this channel_')
 								else
-									db:hset('bot:chatlogs', msg.chat.id,  msg.forward_from_chat.id)
+									red:hset('bot:chatlogs', msg.chat.id,  msg.forward_from_chat.id)
 									text = i18n('*Log channel added!*')
 									if old_log then
 										api.sendMessage(old_log,
@@ -198,15 +198,15 @@ function _M:onTextMessage(blocks)
 				msg:send_reply(i18n("You have to *forward* the message from the channel"), "Markdown")
 			end
 		elseif blocks[1] == 'unsetlog' then
-			local log_channel = db:hget('bot:chatlogs', msg.chat.id)
+			local log_channel = red:hget('bot:chatlogs', msg.chat.id)
 			if log_channel == null then
 				msg:send_reply(i18n("_This groups is not using a log channel_"), "Markdown")
 			else
-				db:hdel('bot:chatlogs', msg.chat.id)
+				red:hdel('bot:chatlogs', msg.chat.id)
 				msg:send_reply(i18n("*Log channel removed*"), "Markdown")
 			end
 		elseif blocks[1] == 'logchannel' then
-			local log_channel = db:hget('bot:chatlogs', msg.chat.id)
+			local log_channel = red:hget('bot:chatlogs', msg.chat.id)
 			if log_channel == null then
 				msg:send_reply(i18n("_This groups is not using a log channel_"), "Markdown")
 			else

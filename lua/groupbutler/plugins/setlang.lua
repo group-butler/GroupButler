@@ -37,7 +37,7 @@ end
 
 function _M:onCallbackQuery(blocks)
 	local msg = self.message
-	local db = self.db
+	local red = self.red
 
 	if msg.chat.type ~= 'private' and not msg:is_from_admin() then
 		api.answerCallbackQuery(msg.cb_id, i18n("You are not an admin"))
@@ -48,10 +48,10 @@ function _M:onCallbackQuery(blocks)
 				keyboard)
 		else
 			locale.language = blocks[1]
-			db:set('lang:'..msg.chat.id, locale.language)
+			red:set('lang:'..msg.chat.id, locale.language)
 			if (blocks[1] == 'ar_SA' or blocks[1] == 'fa_IR') and msg.chat.type ~= 'private' then
-				db:hset('chat:'..msg.chat.id..':char', 'Arab', 'allowed')
-				db:hset('chat:'..msg.chat.id..':char', 'Rtl', 'allowed')
+				red:hset('chat:'..msg.chat.id..':char', 'Arab', 'allowed')
+				red:hset('chat:'..msg.chat.id..':char', 'Rtl', 'allowed')
 			end
 			-- TRANSLATORS: replace 'English' with the name of your language
 			api.editMessageText(msg.chat.id, msg.message_id, nil, i18n("English language is *set*") ..

@@ -17,18 +17,18 @@ function _M:new(update_obj)
 end
 
 local function cache_chat_title(self, chat_id)
-	local db = self.db
+	local red = self.red
 	log.info('caching title...')
 	local key = 'chat:'..chat_id..':title'
 	local title = api.getChat(chat_id).title
-	db:set(key, title)
-	db:expire(key, config.bot_settings.cache_time.chat_titles)
+	red:set(key, title)
+	red:expire(key, config.bot_settings.cache_time.chat_titles)
 	return title
 end
 
 local function get_chat_title(self, chat_id)
-	local db = self.db
-	local title = db:get('chat:'..chat_id..':title')
+	local red = self.red
+	local title = red:get('chat:'..chat_id..':title')
 	if title == null then
 		return cache_chat_title(self, chat_id)
 	end
@@ -58,12 +58,12 @@ end
 function _M:onTextMessage()
 	local msg = self.message
 	local u = self.u
-	local db = self.db
+	local red = self.red
 	if msg.chat.type ~= 'private' then
 		if u:is_allowed('config', msg.chat.id, msg.from) then
 			local chat_id = msg.chat.id
 			local keyboard = do_keyboard_config(self, chat_id, msg.from.id)
-			if db:get('chat:'..chat_id..':title') == null then cache_chat_title(self, chat_id, msg.chat.title) end
+			if red:get('chat:'..chat_id..':title') == null then cache_chat_title(self, chat_id, msg.chat.title) end
 			local res = api.sendMessage(msg.from.id,
 				i18n("<b>%s</b>\n<i>Change the settings of your group</i>"):format(msg.chat.title:escape_html()), 'html',
 					nil, nil, nil, keyboard)

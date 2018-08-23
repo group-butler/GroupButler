@@ -16,15 +16,15 @@ function _M:new(update_obj)
 end
 
 local function getFloodSettings_text(self, chat_id)
-	local db = self.db
-	local status = db:hget('chat:'..chat_id..':settings', 'Flood') -- (default: disabled)
+	local red = self.red
+	local status = red:hget('chat:'..chat_id..':settings', 'Flood') -- (default: disabled)
 	if status == 'no' or status == 'on' then
 		status = i18n("✅ | ON")
 	else
 		status = i18n("❌ | OFF")
 	end
 	local hash = 'chat:'..chat_id..':flood'
-	local action = db:hget(hash, 'ActionFlood')
+	local action = red:hget(hash, 'ActionFlood')
 	if action == null then action = config.chat_settings['flood']['ActionFlood'] end
 
 	if action == 'kick' then
@@ -35,7 +35,7 @@ local function getFloodSettings_text(self, chat_id)
 		action = i18n("👁 mute")
 	end
 
-	local num = tonumber(db:hget(hash, 'MaxFlood')) or config.chat_settings['flood']['MaxFlood']
+	local num = tonumber(red:hget(hash, 'MaxFlood')) or config.chat_settings['flood']['MaxFlood']
 	local exceptions = {
 		text = i18n("Texts"),
 		forward = i18n("Forwards"),
@@ -48,7 +48,7 @@ local function getFloodSettings_text(self, chat_id)
 	local list_exc = ''
 	for media, translation in pairs(exceptions) do
 		--ignored by the antiflood-> yes, no
-		local exc_status = db:hget(hash, media)
+		local exc_status = red:hget(hash, media)
 		if exc_status == 'yes' then
 			exc_status = '✅'
 		else
@@ -106,7 +106,7 @@ end
 function _M:onCallbackQuery(blocks)
 	local msg = self.message
 	local u = self.u
-	local db = self.db
+	local red = self.red
 	local chat_id = msg.target_id
 	local request = blocks[2]
 	local text, notification
@@ -169,7 +169,7 @@ function _M:onCallbackQuery(blocks)
 		}
 		text = i18n("*Current media settings*:\n\n")
 		for media, default_status in pairs(config.chat_settings['media']) do
-			local status = db:hget('chat:'..chat_id..':media', media)
+			local status = red:hget('chat:'..chat_id..':media', media)
 			if status == null then status = default_status end
 			if status == 'ok' then
 				status = '✅'

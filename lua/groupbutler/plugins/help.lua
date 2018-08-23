@@ -315,7 +315,7 @@ end
 function _M:onTextMessage(blocks)
 	local msg = self.message
 	local u = self.u
-	local db = self.db
+	local red = self.red
 	if blocks[1] == 'start' then
 		if msg.chat.type == 'private' then
 			local message = get_helped_string('start'):format(msg.from.first_name:escape())
@@ -330,7 +330,7 @@ function _M:onTextMessage(blocks)
 		else
 			local keyboard = do_keyboard('main')
 			local res = api.sendMessage(msg.from.id, text, "Markdown", nil, nil, nil, keyboard)
-			if not res and msg.chat.type ~= 'private' and db:hget('chat:'..msg.chat.id..':settings', 'Silent') ~= 'on' then
+			if not res and msg.chat.type ~= 'private' and red:hget('chat:'..msg.chat.id..':settings', 'Silent') ~= 'on' then
 				api.sendMessage(msg.chat.id,
 					i18n('[Start me](%s) _to get the list of commands_'):format(u:deeplink_constructor('', 'help')), "Markdown")
 			end

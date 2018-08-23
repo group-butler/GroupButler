@@ -17,14 +17,14 @@ function _M:new(update_obj)
 end
 
 local function ban_bots(self, msg)
-	local db = self.db
+	local red = self.red
 	local u = self.u
 
 	if msg.from.id == msg.new_chat_member.id or msg:is_from_admin() then
 		--ignore if added by an admin or new member joined by link
 		return
 	else
-		local status = db:hget(('chat:%d:settings'):format(msg.chat.id), 'Antibot')
+		local status = red:hget(('chat:%d:settings'):format(msg.chat.id), 'Antibot')
 		if status == null then status = config.chat_settings.settings.Antibot end
 
 		if status == 'on' then
@@ -45,10 +45,10 @@ local function ban_bots(self, msg)
 end
 
 local function is_on(self, chat_id, setting)
-	local db = self.db
+	local red = self.red
 
 	local hash = 'chat:'..chat_id..':settings'
-	local current = db:hget(hash, setting)
+	local current = red:hget(hash, setting)
 	if current == null then
 		current = config.chat_settings.settings[setting]
 	end
@@ -71,10 +71,10 @@ local function list_to_kv(list)
 end
 
 local function apply_default_permissions(self, chat_id, users)
-	local db = self.db
+	local red = self.red
 
 	local hash = ('chat:%d:defpermissions'):format(chat_id)
-	local def_permissions = list_to_kv(db:hgetall(hash))
+	local def_permissions = list_to_kv(red:hgetall(hash))
 
 	if next(def_permissions) then
 		--for i=1, #permissions do
@@ -115,7 +115,7 @@ local function get_reply_markup(self, msg, text)
 end
 
 local function send_welcome(self, msg)
-	local db = self.db
+	local red = self.red
 	local u = self.u
 
 	if not is_on(self, msg.chat.id, 'Welcome') then
@@ -123,8 +123,8 @@ local function send_welcome(self, msg)
 	end
 
 	local hash = 'chat:'..msg.chat.id..':welcome'
-	local welcome_type = db:hget(hash, "type")
-	local content = db:hget(hash, 'content')
+	local welcome_type = red:hget(hash, "type")
+	local content = red:hget(hash, 'content')
 	if welcome_type == "no" or content == "no" -- TODO: database migration no -> null
 	or welcome_type == null or content == null then
 		welcome_type = "text"
@@ -139,7 +139,7 @@ local function send_welcome(self, msg)
 		ok, err = api.sendMessage(msg.chat.id, text, "Markdown", link_preview, nil, nil, reply_markup)
 	end
 	if welcome_type == "media" then
-		local caption = db:hget(hash, "caption")
+		local caption = red:hget(hash, "caption")
 		if caption == null then
 			caption = nil
 		end
@@ -155,17 +155,17 @@ local function send_welcome(self, msg)
 
 	if is_on(self, msg.chat.id, "Weldelchain") then
 		local key = ('chat:%d:lastwelcome'):format(msg.chat.id) -- get the id of the last sent welcome message
-		local message_id = db:get(key)
+		local message_id = red:get(key)
 		if message_id ~= null then
 			api.deleteMessage(msg.chat.id, message_id)
 		end
-		db:setex(key, 259200, ok.message_id) --set the new message id to delete
+		red:setex(key, 259200, ok.message_id) --set the new message id to delete
 	end
 end
 
 function _M:onTextMessage(blocks)
 	local msg = self.message
-	local db = self.db
+	local red = self.red
 	local u = self.u
 
 	if blocks[1] == 'welcome' then
@@ -188,34 +188,34 @@ function _M:onTextMessage(blocks)
 				else
 					file_id = msg.reply.document.file_id
 				end
-				db:hset(hash, 'type', 'media')
-				db:hset(hash, 'content', file_id)
+				red:hset(hash, 'type', 'media')
+				red:hset(hash, 'content', file_id)
 				if msg.reply.caption then
-					db:hset(hash, 'caption', msg.reply.caption)
+					red:hset(hash, 'caption', msg.reply.caption)
 				else
-					db:hdel(hash, 'caption') --remove the caption key if the new media doesn't have a caption
+					red:hdel(hash, 'caption') --remove the caption key if the new media doesn't have a caption
 				end
 				-- turn on the welcome message in the group settings
-				db:hset(('chat:%d:settings'):format(msg.chat.id), 'Welcome', 'on')
+				red:hset(('chat:%d:settings'):format(msg.chat.id), 'Welcome', 'on')
 				msg:send_reply(i18n("A form of media has been set as the welcome message: `%s`"):format(replied_to), "Markdown")
 			else
 				msg:send_reply(i18n("Reply to a `sticker` or a `gif` to set them as the *welcome message*"), "Markdown")
 			end
 		else
-			db:hset(hash, 'type', 'custom')
-			db:hset(hash, 'content', input)
+			red:hset(hash, 'type', 'custom')
+			red:hset(hash, 'content', input)
 
 			local reply_markup, new_text = u:reply_markup_from_text(input)
 
 			local ok, err = msg:send_reply(new_text:gsub('$rules', u:deeplink_constructor(msg.chat.id, 'rules')), "Markdown",
 				reply_markup)
 			if not ok then
-				db:hset(hash, 'type', 'no') --if wrong markdown, remove 'custom' again
-				db:hset(hash, 'content', 'no')
+				red:hset(hash, 'type', 'no') --if wrong markdown, remove 'custom' again
+				red:hset(hash, 'content', 'no')
 				api.sendMessage(msg.chat.id, api_err.trans(err), "Markdown")
 			else
 				-- turn on the welcome message in the group settings
-				db:hset(('chat:%d:settings'):format(msg.chat.id), 'Welcome', 'on')
+				red:hset(('chat:%d:settings'):format(msg.chat.id), 'Welcome', 'on')
 				local id = ok.message_id
 				api.editMessageText(msg.chat.id, id, nil, i18n("*Custom welcome message saved!*"), "Markdown")
 			end
@@ -235,9 +235,9 @@ function _M:onTextMessage(blocks)
 
 		send_welcome(self, msg)
 
-		local send_rules_private = db:hget('user:'..msg.new_chat_member.id..':settings', 'rules_on_join')
+		local send_rules_private = red:hget('user:'..msg.new_chat_member.id..':settings', 'rules_on_join')
 		if send_rules_private == "on" then
-			local rules = db:hget('chat:'..msg.chat.id..':info', 'rules')
+			local rules = red:hget('chat:'..msg.chat.id..':info', 'rules')
 			if rules ~= null then
 				api.sendMessage(msg.new_chat_member.id, rules, "Markdown")
 			end

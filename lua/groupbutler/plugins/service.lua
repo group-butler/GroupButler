@@ -19,13 +19,13 @@ function _M:onTextMessage(blocks)
 	local msg = self.message
 	local bot = self.bot
 	local u = self.u
-	local db = self.db
+	local red = self.red
 
 	if not msg.service then return end
 
 	if blocks[1] == 'new_chat_member'
 	or blocks[1] == 'left_chat_member' then
-		local status = db:hget(('chat:%d:settings'):format(msg.chat.id), 'Clean_service_msg')
+		local status = red:hget(('chat:%d:settings'):format(msg.chat.id), 'Clean_service_msg')
 		if status == null then status = config.chat_settings.settings.Clean_service_msg end
 
 		if status == 'on' then
@@ -36,7 +36,7 @@ function _M:onTextMessage(blocks)
 
 	if blocks[1] == 'new_chat_member:bot' or blocks[1] == 'migrate_from_chat_id' then
 		-- set the language
-		--[[locale.language = db:get(string.format('lang:%d', msg.from.id)) or config.lang
+		--[[locale.language = red:get(string.format('lang:%d', msg.from.id)) or config.lang
 		if not config.available_languages[locale.language] then
 			locale.language = 'en'
 		end]]
@@ -52,7 +52,7 @@ function _M:onTextMessage(blocks)
 		end
 		-- save language
 		--[[if locale.language then
-			db:set(string.format('lang:%d', msg.chat.id), locale.language)
+			red:set(string.format('lang:%d', msg.chat.id), locale.language)
 		end]]
 		u:initGroup(msg.chat.id)
 		-- send manuals

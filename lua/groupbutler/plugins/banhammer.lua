@@ -15,9 +15,9 @@ function _M:new(update_obj)
 end
 
 local function markup_tempban(self, chat_id, user_id, time_value)
-	local db = self.db
+	local red = self.red
 	local key = ('chat:%s:%s:tbanvalue'):format(chat_id, user_id)
-	time_value = time_value or tonumber(db:get(key)) or 3
+	time_value = time_value or tonumber(red:get(key)) or 3
 
 	local markup = {inline_keyboard={
 		{--first line
@@ -54,7 +54,7 @@ end
 function _M:onTextMessage(blocks)
 	local msg = self.message
 	local bot = self.bot
-	local db = self.db
+	local red = self.red
 	local u = self.u
 
 	if msg.chat.type ~= 'private' then
@@ -79,7 +79,7 @@ function _M:onTextMessage(blocks)
 						time_value = 100
 					end
 					local key = ('chat:%s:%s:tbanvalue'):format(msg.chat.id, user_id)
-					db:setex(key, 3600, time_value)
+					red:setex(key, 3600, time_value)
 				end
 
 				local markup = markup_tempban(self, msg.chat.id, user_id)
@@ -139,7 +139,7 @@ function _M:onTextMessage(blocks)
 end
 
 function _M:onCallbackQuery(msg, matches)
-	local db = self.db
+	local red = self.red
 	local u = self.u
 
 	if not u:can(msg.chat.id, msg.from.id, 'can_restrict_members') then
@@ -152,14 +152,14 @@ function _M:onCallbackQuery(msg, matches)
 			local user_id = matches[3]
 			local key = ('chat:%d:%s:tbanvalue'):format(msg.chat.id, user_id)
 			local current_value, new_value
-			current_value = tonumber(db:get(key)) or 3
+			current_value = tonumber(red:get(key)) or 3
 			if matches[2] == 'm' then
 				new_value = current_value - 1
 				if new_value < 1 then
 					api.answerCallbackQuery(msg.cb_id, i18n("You can't set a lower value"))
 					return --don't proceed
 				else
-					db:setex(key, 3600, new_value)
+					red:setex(key, 3600, new_value)
 				end
 			elseif matches[2] == 'p' then
 				new_value = current_value + 1
@@ -167,7 +167,7 @@ function _M:onCallbackQuery(msg, matches)
 					api.answerCallbackQuery(msg.cb_id, i18n("Stop!!!"), true)
 					return --don't proceed
 				else
-					db:setex(key, 3600, new_value)
+					red:setex(key, 3600, new_value)
 				end
 			end
 
@@ -176,7 +176,7 @@ function _M:onCallbackQuery(msg, matches)
 		elseif matches[1] == 'ban' then
 			local user_id = matches[3]
 			local key = ('chat:%d:%s:tbanvalue'):format(msg.chat.id, user_id)
-			local time_value = tonumber(db:get(key)) or 3
+			local time_value = tonumber(red:get(key)) or 3
 			local timeframe_string, until_date
 			if matches[2] == 'h' then
 				time_value = time_value <= 24 and time_value or 24
@@ -196,7 +196,7 @@ function _M:onCallbackQuery(msg, matches)
 			if ok then
 				local text = i18n("User banned for %d %s"):format(time_value, timeframe_string)
 				api.editMessageText(msg.chat.id, msg.message_id, nil, text)
-				db:del(key)
+				red:del(key)
 			else
 				api.editMessageText(msg.chat.id, msg.message_id, nil, err)
 			end

@@ -19,13 +19,13 @@ function _M:new(update_obj)
 	end
 	update_obj.bot = get_me[config.telegram.token]
 
-	update_obj.db = redis:new()
-	local ok, err = update_obj.db:connect(config.redis.host, config.redis.port)
+	update_obj.red = redis:new()
+	local ok, err = update_obj.red:connect(config.redis.host, config.redis.port)
 	if not ok then
 		log.error("Redis connection failed: {err}", {err=err})
 		return nil, err
 	end
-	update_obj.db:select(config.redis.db)
+	update_obj.red:select(config.redis.db)
 
 	update_obj.u = utilities:new(update_obj)
 
@@ -33,24 +33,24 @@ function _M:new(update_obj)
 end
 
 local function extract_usernames(self, msg)
-	local db = self.db
+	local red = self.red
 	if msg.from and msg.from.username then
-			db:hset('bot:usernames', '@'..msg.from.username:lower(), msg.from.id)
+			red:hset('bot:usernames', '@'..msg.from.username:lower(), msg.from.id)
 	end
 	if msg.forward_from and msg.forward_from.username then
-		db:hset('bot:usernames', '@'..msg.forward_from.username:lower(), msg.forward_from.id)
+		red:hset('bot:usernames', '@'..msg.forward_from.username:lower(), msg.forward_from.id)
 	end
 	if msg.new_chat_member then
 		if msg.new_chat_member.username then
-			db:hset('bot:usernames', '@'..msg.new_chat_member.username:lower(), msg.new_chat_member.id)
+			red:hset('bot:usernames', '@'..msg.new_chat_member.username:lower(), msg.new_chat_member.id)
 		end
-		db:sadd(string.format('chat:%d:members', msg.chat.id), msg.new_chat_member.id)
+		red:sadd(string.format('chat:%d:members', msg.chat.id), msg.new_chat_member.id)
 	end
 	if msg.left_chat_member then
 		if msg.left_chat_member.username then
-			db:hset('bot:usernames', '@'..msg.left_chat_member.username:lower(), msg.left_chat_member.id)
+			red:hset('bot:usernames', '@'..msg.left_chat_member.username:lower(), msg.left_chat_member.id)
 		end
-		db:srem(string.format('chat:%d:members', msg.chat.id), msg.left_chat_member.id)
+		red:srem(string.format('chat:%d:members', msg.chat.id), msg.left_chat_member.id)
 	end
 	if msg.reply_to_message then
 		extract_usernames(self, msg.reply_to_message)
@@ -62,13 +62,13 @@ end
 
 local function collect_stats(self)
 	local msg = self.message
-	local db = self.db
+	local red = self.red
 	local u = self.u
 	extract_usernames(self, msg)
 	local now = os.time(os.date("*t"))
 	if msg.chat.type ~= 'private' and msg.chat.type ~= 'inline' and msg.from then
-		db:hset('chat:'..msg.chat.id..':userlast', msg.from.id, now) --last message for each user
-		db:hset('bot:chats:latsmsg', msg.chat.id, now) --last message in the group
+		red:hset('chat:'..msg.chat.id..':userlast', msg.from.id, now) --last message for each user
+		red:hset('bot:chats:latsmsg', msg.chat.id, now) --last message in the group
 	end
 	u:metric_incr("messages_processed_count")
 	u:metric_set("message_timestamp_distance_sec", now - msg.date)
@@ -93,7 +93,7 @@ local function on_msg_receive(self, callback) -- The fn run whenever a message i
 	local msg = self.message
 	local bot = self.bot
 	local u = self.u
-	local db = self.db
+	local red = self.red
 	-- u:dump(msg)
 
 	if not msg then
@@ -109,7 +109,7 @@ local function on_msg_receive(self, callback) -- The fn run whenever a message i
 	end
 
 	-- Set chat language
-	locale.language = db:get('lang:'..msg.chat.id) or config.lang
+	locale.language = red:get('lang:'..msg.chat.id) or config.lang
 	if not config.available_languages[locale.language] then
 		locale.language = config.lang
 	end
@@ -159,7 +159,7 @@ Unfortunately I can't work in normal groups. If you need me, please ask the crea
 				-- init agroup if the bot wasn't aware to be in
 				if  msg.chat.id < 0
 				and msg.chat.type ~= 'inline'
-				and db:exists('chat:'..msg.chat.id..':settings') == 0
+				and red:exists('chat:'..msg.chat.id..':settings') == 0
 				and not msg.service then
 				u:initGroup(msg.chat.id)
 				end
@@ -249,7 +249,7 @@ end
 
 function _M:process()
 	local u = self.u
-	local db = self.db
+	local red = self.red
 	local bot = self.bot
 
 	local start_time = u:time_hires()
@@ -355,8 +355,8 @@ function _M:process()
 
 	local retval = on_msg_receive(self, function_key)
 	u:metric_set("msg_request_duration_sec", u:time_hires() - start_time)
-	-- print(db:get_reused_times())
-	db:set_keepalive()
+	-- print(red:get_reused_times())
+	red:set_keepalive()
 	return retval
 end
 

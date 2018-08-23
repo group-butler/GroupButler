@@ -35,7 +35,7 @@ local function load_data(filename)
 end
 
 local function gen_backup(self, chat_id)
-	local db = self.db
+	local red = self.red
 	chat_id = tostring(chat_id)
 	local file_path = '/tmp/snap'..chat_id..'.gbb'
 	local t = {
@@ -47,7 +47,7 @@ local function gen_backup(self, chat_id)
 	local hash
 	for i=1, #config.chat_hashes do
 		hash = ('chat:%s:%s'):format(chat_id, config.chat_hashes[i])
-		local content = db:hgetall(hash)
+		local content = red:hgetall(hash)
 		if next(content) then
 			t[chat_id].hashes[config.chat_hashes[i]] = {}
 			for key, val in pairs(content) do
@@ -57,7 +57,7 @@ local function gen_backup(self, chat_id)
 	end
 	for i=1, #config.chat_sets do
 		local set = ('chat:%s:%s'):format(chat_id, config.chat_sets[i])
-		local content = db:smembers(set)
+		local content = red:smembers(set)
 		if next(content) then
 			t[chat_id].sets[config.chat_sets[i]] = content
 		end
@@ -96,7 +96,7 @@ local imported_text = i18n([[Import was <b>successful</b>.
 
 function _M:onTextMessage(blocks)
 	local msg = self.message
-	local db = self.db
+	local red = self.red
 	local u = self.u
 
 	if not msg:is_from_admin() then
@@ -104,10 +104,10 @@ function _M:onTextMessage(blocks)
 	end
 	if blocks[1] == 'snap' then
 		local key = 'chat:'..msg.chat.id..':lastsnap'
-		local last_user = db:get(key)
+		local last_user = red:get(key)
 			if last_user ~= null then
 			-- A snapshot has been done recently
-			local ttl = db:ttl(key)
+			local ttl = red:ttl(key)
 			local time_remaining = get_time_remaining(ttl)
 			local text = i18n([[<i>I'm sorry, this command has been used for the last time less then 3 hours ago by</i> %s (ask them for the file).
 Wait [<code>%s</code>] to use it again
@@ -116,7 +116,7 @@ Wait [<code>%s</code>] to use it again
 		else
 			-- no snapshot has been done recently
 				local name = u:getname_final(msg.from)
-			db:setex(key, 10800, name) --3 hours
+			red:setex(key, 10800, name) --3 hours
 				local file_path = gen_backup(self, msg.chat.id)
 				msg:send_reply(i18n('*Sent in private*'), "Markdown")
 				api.sendDocument(msg.from.id, {path = file_path}, ('#snap\n%s'):format(msg.chat.title))
@@ -161,7 +161,7 @@ Wait [<code>%s</code>] to use it again
 			--restoring sets
 			if group_data.sets and next(group_data.sets) then
 				for set, content in pairs(group_data.sets) do
-					db:sadd(('chat:%d:%s'):format(chat_id, set), unpack(content))
+					red:sadd(('chat:%d:%s'):format(chat_id, set), unpack(content))
 				end
 			end
 
@@ -171,9 +171,9 @@ Wait [<code>%s</code>] to use it again
 					if next(content) then
 						--[[for key, val in pairs(content) do
 							print('\tkey:', key)
-							db:hset(('chat:%d:%s'):format(chat_id, hash), key, val)
+							red:hset(('chat:%d:%s'):format(chat_id, hash), key, val)
 						end]]
-						db:hmset(('chat:%d:%s'):format(chat_id, hash), content)
+						red:hmset(('chat:%d:%s'):format(chat_id, hash), content)
 					end
 				end
 			end

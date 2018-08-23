@@ -23,12 +23,12 @@ local function doKeyboard_warn(user_id)
 end
 
 local function forget_user_warns(self, chat_id, user_id)
-	local db = self.db
+	local red = self.red
 
 	local removed = {
-		normal = db:hdel('chat:'..chat_id..':warns', user_id) == 1 and 'v' or '⨯',
-		media = db:hdel('chat:'..chat_id..':mediawarn', user_id) == 1 and 'v' or '⨯',
-		spam = db:hdel('chat:'..chat_id..':spamwarns', user_id) == 1 and 'v' or '⨯'
+		normal = red:hdel('chat:'..chat_id..':warns', user_id) == 1 and 'v' or '⨯',
+		media = red:hdel('chat:'..chat_id..':mediawarn', user_id) == 1 and 'v' or '⨯',
+		spam = red:hdel('chat:'..chat_id..':spamwarns', user_id) == 1 and 'v' or '⨯'
 	}
 
 	return removed
@@ -37,7 +37,7 @@ end
 function _M:onTextMessage(blocks)
 	local msg = self.message
 	local bot = self.bot
-	local db = self.db
+	local red = self.red
 	local u = self.u
 
 	if msg.chat.type == 'private'
@@ -59,10 +59,10 @@ function _M:onTextMessage(blocks)
 			default = 3
 			text = i18n("Max number of warnings changed.\n")
 		end
-		local old = db:hget(hash, key)
+		local old = red:hget(hash, key)
 		if old == null then old = default end
 
-		db:hset(hash, key, new)
+		red:hset(hash, key, new)
 		text = text .. i18n("*Old* value was %d\n*New* max is %d"):format(tonumber(old), tonumber(new))
 		msg:send_reply(text, "Markdown")
 		return
@@ -104,12 +104,12 @@ function _M:onTextMessage(blocks)
 
 		local name = u:getname_final(msg.reply.from)
 		local hash = 'chat:'..msg.chat.id..':warns'
-		local num = tonumber(db:hincrby(hash, msg.reply.from.id, 1)) --add one warn
-		local nmax = tonumber(db:hget('chat:'..msg.chat.id..':warnsettings', 'max')) or 3 --get the max num of warnings
+		local num = tonumber(red:hincrby(hash, msg.reply.from.id, 1)) --add one warn
+		local nmax = tonumber(red:hget('chat:'..msg.chat.id..':warnsettings', 'max')) or 3 --get the max num of warnings
 		local text, res, err, hammer_log
 
 		if num >= nmax then
-			local type = db:hget('chat:'..msg.chat.id..':warnsettings', 'type')
+			local type = red:hget('chat:'..msg.chat.id..':warnsettings', 'type')
 			if type == null then type = 'kick' end
 
 			--try to kick/ban
@@ -129,7 +129,7 @@ function _M:onTextMessage(blocks)
 			end
 			--if kick/ban fails, send the motivation
 			if not res then
-				if num > nmax then db:hset(hash, msg.reply.from.id, nmax) end --avoid to have a number of warnings bigger than the max
+				if num > nmax then red:hset(hash, msg.reply.from.id, nmax) end --avoid to have a number of warnings bigger than the max
 				text = err
 			else
 				forget_user_warns(self, msg.chat.id, msg.reply.from.id)
@@ -163,7 +163,7 @@ end
 
 function _M:onCallbackQuery(blocks)
 	local msg = self.message
-	local db = self.db
+	local red = self.red
 	local u = self.u
 
 	if not u:is_allowed('hammer', msg.chat.id, msg.from) then
@@ -172,13 +172,13 @@ function _M:onCallbackQuery(blocks)
 
 	if blocks[1] == 'removewarn' then
 		local user_id = blocks[2]
-		local num = tonumber(db:hincrby('chat:'..msg.chat.id..':warns', user_id, -1)) --add one warn
+		local num = tonumber(red:hincrby('chat:'..msg.chat.id..':warns', user_id, -1)) --add one warn
 		local text, nmax
 		if num < 0 then
 			text = i18n("The number of warnings received by this user is already <i>zero</i>")
-			db:hincrby('chat:'..msg.chat.id..':warns', user_id, 1) --restore the previouvs number
+			red:hincrby('chat:'..msg.chat.id..':warns', user_id, 1) --restore the previouvs number
 		else
-			nmax = tonumber(db:hget('chat:'..msg.chat.id..':warnsettings', 'max')) or 3 --get the max num of warnings
+			nmax = tonumber(red:hget('chat:'..msg.chat.id..':warnsettings', 'max')) or 3 --get the max num of warnings
 			text = i18n("<b>Warn removed!</b> (%d/%d)"):format(num, nmax)
 		end
 
@@ -187,9 +187,9 @@ function _M:onCallbackQuery(blocks)
 	end
 	if blocks[1] == 'cleanwarns' then
 		if blocks[2] == 'yes' then
-			db:del('chat:'..msg.chat.id..':warns')
-			db:del('chat:'..msg.chat.id..':mediawarn')
-			db:del('chat:'..msg.chat.id..':spamwarns')
+			red:del('chat:'..msg.chat.id..':warns')
+			red:del('chat:'..msg.chat.id..':mediawarn')
+			red:del('chat:'..msg.chat.id..':spamwarns')
 			api.editMessageText(msg.chat.id, msg.message_id, nil,
 				i18n('Done. All the warnings of this group have been erased by %s'):format(u:getname_final(msg.from)), 'html')
 		else

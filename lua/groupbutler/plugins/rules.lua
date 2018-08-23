@@ -16,8 +16,8 @@ function _M:new(update_obj)
 end
 
 local function send_in_group(self, chat_id)
-	local db = self.db
-	local res = db:hget('chat:'..chat_id..':settings', 'Rules')
+	local red = self.red
+	local res = red:hget('chat:'..chat_id..':settings', 'Rules')
 	if res == 'on' then
 		return true
 	end
@@ -26,7 +26,7 @@ end
 
 function _M:onTextMessage(blocks)
 	local msg = self.message
-	local db = self.db
+	local red = self.red
 	local u = self.u
 
 	if msg.chat.type == 'private' then
@@ -78,7 +78,7 @@ function _M:onTextMessage(blocks)
 		end
 		--check if an admin want to clean the rules
 		if rules == '-' then
-			db:hdel(hash, 'rules')
+			red:hdel(hash, 'rules')
 			msg:send_reply(i18n("Rules has been deleted."))
 			return
 		end
@@ -90,7 +90,7 @@ function _M:onTextMessage(blocks)
 		if not ok then
 			api.sendMessage(msg.chat.id, api_err.trans(err), "Markdown")
 		else
-			db:hset(hash, 'rules', rules)
+			red:hset(hash, 'rules', rules)
 			local id = ok.message_id
 			api.editMessageText(msg.chat.id, id, nil, i18n("New rules *saved successfully*!"), "Markdown")
 		end

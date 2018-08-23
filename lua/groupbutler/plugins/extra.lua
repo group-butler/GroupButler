@@ -17,9 +17,9 @@ function _M:new(update_obj)
 end
 
 local function is_locked(self, chat_id)
-	local db = self.db
+	local red = self.red
 		local hash = 'chat:'..chat_id..':settings'
-		local current = db:hget(hash, 'Extra')
+		local current = red:hget(hash, 'Extra')
 	if current == 'on' then
 			return true
 	end
@@ -56,7 +56,7 @@ end
 function _M:onTextMessage(blocks)
 	local msg = self.message
 	local u = self.u
-	local db = self.db
+	local red = self.red
 	if msg.chat.type == 'private' and not(blocks[1] == 'start') then return end
 
 	if blocks[1] == 'extra' then
@@ -77,7 +77,7 @@ function _M:onTextMessage(blocks)
 					to_save = '###file_id!'..media_with_special_method..'###:'..file_id
 				end
 			end
-			db:hset('chat:'..msg.chat.id..':extra', blocks[2], to_save)
+			red:hset('chat:'..msg.chat.id..':extra', blocks[2], to_save)
 			msg:send_reply(i18n("This media has been saved as a response to %s"):format(blocks[2]))
 		else
 				local hash = 'chat:'..msg.chat.id..':extra'
@@ -89,7 +89,7 @@ function _M:onTextMessage(blocks)
 				if not ok then
 					api.sendMessage(msg.chat.id, api_err.trans(err), "Markdown")
 				else
-					db:hset(hash, blocks[2]:lower(), new_extra)
+					red:hset(hash, blocks[2]:lower(), new_extra)
 				local msg_id = ok.message_id
 				api.editMessageText(msg.chat.id, msg_id, nil, i18n("Command '%s' saved!"):format(blocks[2]))
 				end
@@ -106,7 +106,7 @@ function _M:onTextMessage(blocks)
 			local deleted, not_found, found = {}, {}
 			local hash = 'chat:'..msg.chat.id..':extra'
 			for extra in blocks[2]:gmatch('(#[%w_]+)') do
-				found = db:hdel(hash, extra)
+				found = red:hdel(hash, extra)
 				if found == 1 then
 					deleted[#deleted + 1] = extra
 				else
@@ -124,8 +124,8 @@ function _M:onTextMessage(blocks)
 		local extra = blocks[1] == 'start' and '#'..blocks[3] or blocks[1]
 		--print(chat_id, extra)
 			local hash = 'chat:'..chat_id..':extra'
-		local text = db:hget(hash, extra:lower())
-		if text == null then text = db:hget(hash, extra) end
+		local text = red:hget(hash, extra:lower())
+		if text == null then text = red:hget(hash, extra) end
 
 		if text == null then return true end -- continue to match plugins
 

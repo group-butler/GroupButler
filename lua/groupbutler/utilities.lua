@@ -23,7 +23,7 @@ local _M = {} -- Functions shared among plugins
 
 function _M:new(update_obj)
 	local utilities_obj = {
-		db = update_obj.db,
+		red = update_obj.red,
 		bot = update_obj.bot
 	}
 	setmetatable(utilities_obj, {__index = self})
@@ -163,15 +163,15 @@ function _M:is_allowed(_, chat_id, user_obj) -- action is not used anymore
 end
 
 function _M:can(chat_id, user_id, permission)
-	local db = self.db
+	local red = self.red
 	local set = ("cache:chat:%s:%s:permissions"):format(chat_id, user_id)
 
 	local set_admins = 'cache:chat:'..chat_id..':admins'
-	if db:exists(set_admins) == 0 then
+	if red:exists(set_admins) == 0 then
 		self:cache_adminlist(chat_id)
 	end
 
-	return db:sismember(set, permission) ~= 0
+	return red:sismember(set, permission) ~= 0
 end
 
 function _M:is_superadmin(user_id) -- luacheck: ignore 212
@@ -196,7 +196,7 @@ end
 -- Returns the admin status of the user. The first argument can be the message,
 -- then the function checks the rights of the sender in the incoming chat.
 function _M:is_admin(chat_id, user_id)
-	local db = self.db
+	local red = self.red
 	if type(chat_id) == 'table' then
 		local msg = chat_id
 		chat_id = msg.chat.id
@@ -204,14 +204,14 @@ function _M:is_admin(chat_id, user_id)
 	end
 
 	local set = 'cache:chat:'..chat_id..':admins'
-	if db:exists(set) == 0 then
+	if red:exists(set) == 0 then
 		self:cache_adminlist(chat_id)
 	end
-	return db:sismember(set, user_id) ~= 0
+	return red:sismember(set, user_id) ~= 0
 end
 
 function _M:is_owner(chat_id, user_id)
-	local db = self.db
+	local red = self.red
 	if type(chat_id) == 'table' then
 		local msg = chat_id
 		chat_id = msg.chat.id
@@ -222,7 +222,7 @@ function _M:is_owner(chat_id, user_id)
 	local owner_id
 	local res = true
 	repeat
-		owner_id = db:get(hash)
+		owner_id = red:get(hash)
 		if owner_id == null then
 			res = self:cache_adminlist(chat_id)
 		end
@@ -247,29 +247,29 @@ local admins_permissions = {
 }
 
 local function set_creator_permissions(self, chat_id, user_id)
-	local db = self.db
+	local red = self.red
 	local set = ("cache:chat:%s:%s:permissions"):format(chat_id, user_id)
 	for k, _ in pairs(admins_permissions) do
-		db:sadd(set, k)
+		red:sadd(set, k)
 	end
 end
 
 function _M:cache_adminlist(chat_id)
-	local db = self.db
+	local red = self.red
 
 	local lock_key = "cache:chat:"..chat_id..":getadmin_lock"
 	local set = 'cache:chat:'..chat_id..':admins'
 
-	if db:exists(lock_key) == 1 then
-		while db:exists(set) == 0 and db:exists(lock_key) == 1 do
+	if red:exists(lock_key) == 1 then
+		while red:exists(set) == 0 and red:exists(lock_key) == 1 do
 			sleep(0.1)
 		end
-		if db:exists(set) == 1 then
+		if red:exists(set) == 1 then
 			return true, 0 -- Another concurrent request has just updated the adminlist
 		end
 	end
 
-	db:setex(lock_key, 1, "")
+	red:setex(lock_key, 1, "")
 	log.info('Saving the adminlist for: {chat_id}', {chat_id=chat_id})
 	self:metric_incr("api_getchatadministrators_count")
 	local ok, err = api.getChatAdministrators(chat_id)
@@ -279,33 +279,33 @@ function _M:cache_adminlist(chat_id)
 	end
 	local cache_time = config.bot_settings.cache_time.adminlist
 	local set_permissions
-	db:del(set)
+	red:del(set)
 	for _, admin in pairs(ok) do
 		if admin.status == 'creator' then
-			db:set('cache:chat:'..chat_id..':owner', admin.user.id)
+			red:set('cache:chat:'..chat_id..':owner', admin.user.id)
 			set_creator_permissions(self, chat_id, admin.user.id)
 		else
 			set_permissions = "cache:chat:"..chat_id..":"..admin.user.id..":permissions"
-			db:del(set_permissions)
+			red:del(set_permissions)
 			for k, v in pairs(admin) do
-				if v and admins_permissions[k] then db:sadd(set_permissions, k) end
+				if v and admins_permissions[k] then red:sadd(set_permissions, k) end
 			end
-			db:expire(set_permissions, cache_time)
+			red:expire(set_permissions, cache_time)
 		end
 
-		db:sadd(set, admin.user.id)
+		red:sadd(set, admin.user.id)
 
 		self:demote(chat_id, admin.user.id)
 	end
-	db:expire(set, cache_time)
+	red:expire(set, cache_time)
 
 	return true, #ok or 0
 end
 
 function _M:get_cached_admins_list(chat_id, second_try)
-	local db = self.db
+	local red = self.red
 	local hash = 'cache:chat:'..chat_id..':admins'
-	local list = db:smembers(hash)
+	local list = red:smembers(hash)
 	if not list or not next(list) then
 		self:cache_adminlist(chat_id)
 		if not second_try then
@@ -317,8 +317,8 @@ function _M:get_cached_admins_list(chat_id, second_try)
 end
 
 function _M:is_blocked_global(id)
-	local db = self.db
-	return db:sismember('bot:blocked', id) ~= 0
+	local red = self.red
+	return red:sismember('bot:blocked', id) ~= 0
 end
 
 function _M:dump(...) -- luacheck: ignore 212
@@ -377,11 +377,11 @@ end
 -- Resolves username. Returns ID of user if it was early stored in date base.
 -- Argument username must begin with symbol @ (commercial 'at')
 function _M:resolve_user(username)
-	local db = self.db
+	local red = self.red
 	assert(username:byte(1) == string.byte('@'))
 	username = username:lower()
 
-	local stored_id = tonumber(db:hget('bot:usernames', username))
+	local stored_id = tonumber(red:hget('bot:usernames', username))
 	if not stored_id then return false end
 
 	local user_obj = api.getChat(stored_id)
@@ -395,7 +395,7 @@ function _M:resolve_user(username)
 	if username ~= '@' .. user_obj.username:lower() then
 		if user_obj.username then
 			-- Update it if it exists
-			db:hset('bot:usernames', '@'..user_obj.username:lower(), user_obj.id)
+			red:hset('bot:usernames', '@'..user_obj.username:lower(), user_obj.id)
 		end
 		-- And return false because this user not the same that asked
 		return false
@@ -423,43 +423,43 @@ function _M:reply_markup_from_text(text) -- luacheck: ignore 212
 end
 
 function _M:demote(chat_id, user_id)
-	local db = self.db
+	local red = self.red
 	chat_id, user_id = tonumber(chat_id), tonumber(user_id)
 
-	db:del(('chat:%d:mod:%d'):format(chat_id, user_id))
-	local removed = db:srem('chat:'..chat_id..':mods', user_id)
+	red:del(('chat:%d:mod:%d'):format(chat_id, user_id))
+	local removed = red:srem('chat:'..chat_id..':mods', user_id)
 
 	return removed == 1
 end
 
 function _M:migrate_chat_info(old, new, on_request)
-	local db = self.db
+	local red = self.red
 	if not old or not new then
 		return false
 	end
 
 	for hash_name, _ in pairs(config.chat_settings) do
-		local old_t = db:hgetall('chat:'..old..':'..hash_name)
+		local old_t = red:hgetall('chat:'..old..':'..hash_name)
 		if next(old_t) then
 			for key, val in pairs(old_t) do
-				db:hset('chat:'..new..':'..hash_name, key, val)
+				red:hset('chat:'..new..':'..hash_name, key, val)
 			end
 		end
 	end
 
 	for _, hash_name in pairs(config.chat_hashes) do
-		local old_t = db:hgetall('chat:'..old..':'..hash_name)
+		local old_t = red:hgetall('chat:'..old..':'..hash_name)
 		if next(old_t) then
 			for key, val in pairs(old_t) do
-				db:hset('chat:'..new..':'..hash_name, key, val)
+				red:hset('chat:'..new..':'..hash_name, key, val)
 			end
 		end
 	end
 
 	for i=1, #config.chat_sets do
-		local old_t = db:smembers('chat:'..old..':'..config.chat_sets[i])
+		local old_t = red:smembers('chat:'..old..':'..config.chat_sets[i])
 		if next(old_t) then
-			db:sadd('chat:'..new..':'..config.chat_sets[i], unpack(old_t))
+			red:sadd('chat:'..new..':'..config.chat_sets[i], unpack(old_t))
 		end
 	end
 
@@ -501,14 +501,14 @@ function _M:telegram_file_link(res) -- luacheck: ignore 212
 end
 
 function _M:is_silentmode_on(chat_id)
-	local db = self.db
-	return db:hget("chat:"..chat_id..":settings", "Silent") == "on"
+	local red = self.red
+	return red:hget("chat:"..chat_id..":settings", "Silent") == "on"
 end
 
 function _M:getRules(chat_id)
-	local db = self.db
+	local red = self.red
 	local hash = 'chat:'..chat_id..':info'
-	local rules = db:hget(hash, 'rules')
+	local rules = red:hget(hash, 'rules')
 	if rules == null then
 		return i18n("-*empty*-")
 	end
@@ -553,9 +553,9 @@ function _M:getAdminlist(chat_id) -- luacheck: ignore 212
 end
 
 function _M:getExtraList(chat_id)
-	local db = self.db
+	local red = self.red
 	local hash = 'chat:'..chat_id..':extra'
-	local commands = db:hkeys(hash)
+	local commands = red:hkeys(hash)
 	if not next(commands) then
 		return i18n("No commands set")
 	end
@@ -564,10 +564,10 @@ function _M:getExtraList(chat_id)
 end
 
 function _M:getSettings(chat_id)
-	local db = self.db
+	local red = self.red
 	local hash = 'chat:'..chat_id..':settings'
 
-	local lang = db:get('lang:'..chat_id) -- group language
+	local lang = red:get('lang:'..chat_id) -- group language
 	if lang == null then lang = config.lang end
 
 	local message = i18n("Current settings for *the group*:\n\n")
@@ -595,7 +595,7 @@ function _M:getSettings(chat_id)
 			off_icon, on_icon = '👤', '👥'
 		end
 
-		local db_val = db:hget(hash, key)
+		local db_val = red:hget(hash, key)
 		if db_val == null then db_val = default end
 
 		if db_val == 'off' then
@@ -609,7 +609,7 @@ function _M:getSettings(chat_id)
 	hash = 'chat:'..chat_id..':char'
 	local off_icon, on_icon = '🚫', '✅'
 	for key, default in pairs(config.chat_settings['char']) do
-		local db_val = db:hget(hash, key)
+		local db_val = red:hget(hash, key)
 		if db_val == null then db_val = default end
 		if db_val == 'off' then
 			message = message .. string.format('%s: %s\n', strings[key], off_icon)
@@ -620,7 +620,7 @@ function _M:getSettings(chat_id)
 
 	--build the "welcome" line
 	hash = 'chat:'..chat_id..':welcome'
-	local type = db:hget(hash, 'type')
+	local type = red:hget(hash, 'type')
 	if type == 'media' then
 		message = message .. i18n("*Welcome type*: `GIF / sticker`\n")
 	elseif type == 'custom' then
@@ -629,10 +629,10 @@ function _M:getSettings(chat_id)
 		message = message .. i18n("*Welcome type*: `default message`\n")
 	end
 
-	local warnmax_std = db:hget('chat:'..chat_id..':warnsettings', 'max')
+	local warnmax_std = red:hget('chat:'..chat_id..':warnsettings', 'max')
 	if warnmax_std == null then warnmax_std = config.chat_settings['warnsettings']['max'] end
 
-	local warnmax_media = db:hget('chat:'..chat_id..':warnsettings', 'mediamax')
+	local warnmax_media = red:hget('chat:'..chat_id..':warnsettings', 'mediamax')
 	if warnmax_media == null then warnmax_media = config.chat_settings['warnsettings']['mediamax'] end
 
 	return message .. i18n("Warns (`standard`): *%s*\n"):format(warnmax_std)
@@ -645,7 +645,7 @@ function _M:getSettings(chat_id)
 end
 
 function _M:changeSettingStatus(chat_id, field)
-	local db = self.db
+	local red = self.red
 	local turned_off = {
 		reports = i18n("@admin command disabled"),
 		welcome = i18n("Welcome message won't be displayed from now"),
@@ -670,12 +670,12 @@ function _M:changeSettingStatus(chat_id, field)
 	}
 
 	local hash = 'chat:'..chat_id..':settings'
-	local now = db:hget(hash, field)
+	local now = red:hget(hash, field)
 	if now == 'on' then
-		db:hset(hash, field, 'off')
+		red:hset(hash, field, 'off')
 		return turned_off[field:lower()]
 	else
-		db:hset(hash, field, 'on')
+		red:hset(hash, field, 'on')
 		if field:lower() == 'goodbye' then
 			local r = api.getChatMembersCount(chat_id)
 			if r and r > 50 then
@@ -697,69 +697,69 @@ function _M:sendStartMe(msg)
 end
 
 function _M:initGroup(chat_id)
-	local db = self.db
+	local red = self.red
 	for set, setting in pairs(config.chat_settings) do
 		local hash = 'chat:'..chat_id..':'..set
 		for field, value in pairs(setting) do
-			db:hset(hash, field, value)
+			red:hset(hash, field, value)
 		end
 	end
 
 	self:cache_adminlist(chat_id) --init admin cache
 
 	--save group id
-	db:sadd('bot:groupsid', chat_id)
+	red:sadd('bot:groupsid', chat_id)
 	--remove the group id from the list of dead groups
-	db:srem('bot:groupsid:removed', chat_id)
+	red:srem('bot:groupsid:removed', chat_id)
 end
 
 local function empty_modlist(self, chat_id)
-	local db = self.db
+	local red = self.red
 	local set = 'chat:'..chat_id..':mods'
-	local mods = db:smembers(set)
+	local mods = red:smembers(set)
 	if next(mods) then
 		for i=1, #mods do
-			db:del(('chat:%d:mod:%d'):format(tonumber(chat_id), tonumber(mods[i])))
+			red:del(('chat:%d:mod:%d'):format(tonumber(chat_id), tonumber(mods[i])))
 		end
 	end
 
-	db:del(set)
+	red:del(set)
 end
 
 function _M:remGroup(chat_id, full)
-	local db = self.db
+	local red = self.red
 	--remove group id
-	db:srem('bot:groupsid', chat_id)
+	red:srem('bot:groupsid', chat_id)
 	--add to the removed groups list
-	db:sadd('bot:groupsid:removed', chat_id)
+	red:sadd('bot:groupsid:removed', chat_id)
 	--remove the owner cached
-	db:del('cache:chat:'..chat_id..':owner')
+	red:del('cache:chat:'..chat_id..':owner')
 
 	for set, _ in pairs(config.chat_settings) do
-		db:del('chat:'..chat_id..':'..set)
+		red:del('chat:'..chat_id..':'..set)
 	end
 
-	db:del('cache:chat:'..chat_id..':admins') --delete the cache
-	db:hdel('bot:logchats', chat_id) --delete the associated log chat
-	db:del('chat:'..chat_id..':pin') --delete the msg id of the (maybe) pinned message
-	db:del('chat:'..chat_id..':userlast')
-	db:del('chat:'..chat_id..':members')
-	db:hdel('bot:chats:latsmsg', chat_id)
-	db:hdel('bot:chatlogs', chat_id) --log channel
+	red:del('cache:chat:'..chat_id..':admins') --delete the cache
+	red:hdel('bot:logchats', chat_id) --delete the associated log chat
+	red:del('chat:'..chat_id..':pin') --delete the msg id of the (maybe) pinned message
+	red:del('chat:'..chat_id..':userlast')
+	red:del('chat:'..chat_id..':members')
+	red:hdel('bot:chats:latsmsg', chat_id)
+	red:hdel('bot:chatlogs', chat_id) --log channel
 
 	if full then
 		for i=1, #config.chat_hashes do
-			db:del('chat:'..chat_id..':'..config.chat_hashes[i])
+			red:del('chat:'..chat_id..':'..config.chat_hashes[i])
 		end
 		for i=1, #config.chat_sets do
-			db:del('chat:'..chat_id..':'..config.chat_sets[i])
+			red:del('chat:'..chat_id..':'..config.chat_sets[i])
 		end
 
-		if db:exists('chat:'..chat_id..':mods') == 1 then
+		if red:exists('chat:'..chat_id..':mods') == 1 then
 			empty_modlist(self, chat_id)
 		end
 
-		db:del('lang:'..chat_id)
+		red:del('lang:'..chat_id)
 	end
 end
 
@@ -830,12 +830,12 @@ end
 
 function _M:logEvent(event, msg, extra)
 	local bot = self.bot
-	local db = self.db
-	local log_id = db:hget('bot:chatlogs', msg.chat.id)
+	local red = self.red
+	local log_id = red:hget('bot:chatlogs', msg.chat.id)
 	-- self:dump(extra)
 
 	if not log_id or log_id == null then return end
-	local is_loggable = db:hget('chat:'..msg.chat.id..':tolog', event)
+	local is_loggable = red:hget('chat:'..msg.chat.id..':tolog', event)
 	if not is_loggable == 'yes' then return end
 
 	local text, reply_markup
@@ -995,7 +995,7 @@ function _M:logEvent(event, msg, extra)
 		reply_markup = reply_markup
 	}
 	if not ok and err.description:match("chat not found") then
-		db:hdel('bot:chatlogs', msg.chat.id)
+		red:hdel('bot:chatlogs', msg.chat.id)
 	end
 end
 
@@ -1025,18 +1025,18 @@ function _M:table2keyboard(t) -- luacheck: ignore 212
 end
 
 function _M:metric_incr(name)
-	local db = self.db
-	db:incr("bot:metrics:" .. name)
+	local red = self.red
+	red:incr("bot:metrics:" .. name)
 end
 
 function _M:metric_set(name, value)
-	local db = self.db
-	db:set("bot:metrics:" .. name, value)
+	local red = self.red
+	red:set("bot:metrics:" .. name, value)
 end
 
 function _M:metric_get(name)
-	local db = self.db
-	return db:get("bot:metrics:" .. name)
+	local red = self.red
+	return red:get("bot:metrics:" .. name)
 end
 
 function _M:time_hires() -- luacheck: ignore 212

@@ -16,11 +16,11 @@ function _M:new(update_obj)
 end
 
 local function doKeyboard_media(self, chat_id)
-	local db = self.db
+	local red = self.red
 	local keyboard = {}
 	keyboard.inline_keyboard = {}
 	for media, default_status in pairs(config.chat_settings['media']) do
-		local status = db:hget('chat:'..chat_id..':media', media)
+		local status = red:hget('chat:'..chat_id..':media', media)
 		if status == null then status = default_status end
 
 		if status == 'ok' then
@@ -57,9 +57,9 @@ local function doKeyboard_media(self, chat_id)
 
 	--MEDIA WARN
 	--action line
-	local max = db:hget('chat:'..chat_id..':warnsettings', 'mediamax')
+	local max = red:hget('chat:'..chat_id..':warnsettings', 'mediamax')
 	if max == null then max = config.chat_settings['warnsettings']['mediamax'] end
-	local action = db:hget('chat:'..chat_id..':warnsettings', 'mediatype')
+	local action = red:hget('chat:'..chat_id..':warnsettings', 'mediatype')
 	if action == null then action = config.chat_settings['warnsettings']['mediatype'] end
 
 	local caption
@@ -85,29 +85,29 @@ local function doKeyboard_media(self, chat_id)
 end
 
 local function change_media_status(self, chat_id, media)
-	local db = self.db
+	local red = self.red
 	local hash = ('chat:%s:media'):format(chat_id)
-	local status = db:hget(hash, media)
+	local status = red:hget(hash, media)
 	if status == null then status = config.chat_settings.media[media] end
 
 	if status == 'ok' then
-		db:hset(hash, media, 'notok')
+		red:hset(hash, media, 'notok')
 		return i18n('❌ warning')
 	elseif status == 'notok' then
-		db:hset(hash, media, 'del')
+		red:hset(hash, media, 'del')
 		return i18n('🗑 delete')
 	elseif status == 'del' then
-		db:hset(hash, media, 'ok')
+		red:hset(hash, media, 'ok')
 		return ''
 	else
-		db:hset(hash, media, 'ok')
+		red:hset(hash, media, 'ok')
 		return i18n('✅ allowed')
 	end
 end
 
 function _M:onCallbackQuery(blocks)
 	local msg = self.message
-	local db = self.db
+	local red = self.red
 	local u = self.u
 	local chat_id = msg.target_id
 	if chat_id and not u:is_allowed('config', chat_id, msg.from) then
@@ -136,36 +136,36 @@ When a media is set to delete, the bot will give a warning *only* when this is t
 			end
 			local cb_text
 			if blocks[1] == 'mediawarn' then
-				local current = tonumber(db:hget('chat:'..chat_id..':warnsettings', 'mediamax')) or 2
+				local current = tonumber(red:hget('chat:'..chat_id..':warnsettings', 'mediamax')) or 2
 				if blocks[2] == 'dim' then
 					if current < 2 then
 						cb_text = i18n("⚙ The new value is too low ( < 1)")
 					else
-						local new = db:hincrby('chat:'..chat_id..':warnsettings', 'mediamax', -1)
+						local new = red:hincrby('chat:'..chat_id..':warnsettings', 'mediamax', -1)
 						cb_text = string.format('⚙ %d → %d', current, new)
 					end
 				elseif blocks[2] == 'raise' then
 					if current > 11 then
 						cb_text = i18n("⚙ The new value is too high ( > 12)")
 					else
-						local new = db:hincrby('chat:'..chat_id..':warnsettings', 'mediamax', 1)
+						local new = red:hincrby('chat:'..chat_id..':warnsettings', 'mediamax', 1)
 						cb_text = string.format('⚙ %d → %d', current, new)
 					end
 				end
 			end
 			if blocks[1] == 'mediatype' then
 				local hash = 'chat:'..chat_id..':warnsettings'
-				local current = db:hget(hash, 'mediatype')
+				local current = red:hget(hash, 'mediatype')
 				if current == null then current = config.chat_settings['warnsettings']['mediatype'] end
 
 				if current == 'ban' then
-					db:hset(hash, 'mediatype', 'kick')
+					red:hset(hash, 'mediatype', 'kick')
 					cb_text = i18n("👞 New status is kick")
 				elseif current == 'kick' then
-					db:hset(hash, 'mediatype', 'mute')
+					red:hset(hash, 'mediatype', 'mute')
 					cb_text = i18n("👁 New status is mute")
 				elseif current == 'mute' then
-					db:hset(hash, 'mediatype', 'ban')
+					red:hset(hash, 'mediatype', 'ban')
 					cb_text = i18n("🔨 New status is ban")
 				end
 			end

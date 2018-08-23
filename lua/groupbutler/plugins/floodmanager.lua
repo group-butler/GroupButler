@@ -28,9 +28,9 @@ local function get_button_description(key)
 end
 
 local function do_keyboard_flood(self, chat_id)
-	local db = self.db
+	local red = self.red
 	--no: enabled, yes: disabled
-	local status = db:hget('chat:'..chat_id..':settings', 'Flood')
+	local status = red:hget('chat:'..chat_id..':settings', 'Flood')
 	if status == null then status = config.chat_settings['settings']['Flood'] end
 
 	if status == 'on' then
@@ -40,7 +40,7 @@ local function do_keyboard_flood(self, chat_id)
 	end
 
 	local hash = 'chat:'..chat_id..':flood'
-	local action = db:hget(hash, 'ActionFlood')
+	local action = red:hget(hash, 'ActionFlood')
 	if action == null then action = config.chat_settings['flood']['ActionFlood'] end
 	if action == 'kick' then
 		action = i18n("👞️ kick")
@@ -49,7 +49,7 @@ local function do_keyboard_flood(self, chat_id)
 	elseif action == 'mute' then
 		action = i18n("👁 mute")
 	end
-	local num = tonumber(db:hget(hash, 'MaxFlood')) or config.chat_settings['flood']['MaxFlood']
+	local num = tonumber(red:hget(hash, 'MaxFlood')) or config.chat_settings['flood']['MaxFlood']
 	local keyboard = {
 		inline_keyboard = {
 			{
@@ -76,7 +76,7 @@ local function do_keyboard_flood(self, chat_id)
 	hash = 'chat:'..chat_id..':floodexceptions'
 	for media, translation in pairs(exceptions) do
 		--ignored by the antiflood-> yes, no
-		local exc_status = db:hget(hash, media)
+		local exc_status = red:hget(hash, media)
 		if exc_status == null then exc_status = config.chat_settings['floodexceptions'][media] end
 
 		if exc_status == 'yes' then
@@ -98,33 +98,33 @@ local function do_keyboard_flood(self, chat_id)
 end
 
 local function changeFloodSettings(self, chat_id, screm)
-	local db = self.db
+	local red = self.red
 	local hash = 'chat:'..chat_id..':flood'
 	if type(screm) == 'string' then
 		if screm == 'mute' then
-			db:hset(hash, 'ActionFlood', 'ban')
+			red:hset(hash, 'ActionFlood', 'ban')
 			return i18n("Flooders will be banned")
 		elseif screm == 'ban' then
-			db:hset(hash, 'ActionFlood', 'kick')
+			red:hset(hash, 'ActionFlood', 'kick')
 			return i18n("Flooders will be kicked")
 		elseif screm == 'kick' then
-			db:hset(hash, 'ActionFlood', 'mute')
+			red:hset(hash, 'ActionFlood', 'mute')
 			return i18n("Flooders will be muted")
 		end
 	elseif type(screm) == 'number' then
-		local old = tonumber(db:hget(hash, 'MaxFlood')) or 5
+		local old = tonumber(red:hget(hash, 'MaxFlood')) or 5
 		local new
 		if screm > 0 then
-			new = db:hincrby(hash, 'MaxFlood', 1)
+			new = red:hincrby(hash, 'MaxFlood', 1)
 			if new > 25 then
-				db:hincrby(hash, 'MaxFlood', -1)
+				red:hincrby(hash, 'MaxFlood', -1)
 				return i18n("%d is not a valid value!\n"):format(new)
 					.. ("The value should be higher than 3 and lower then 26")
 			end
 		elseif screm < 0 then
-			new = db:hincrby(hash, 'MaxFlood', -1)
+			new = red:hincrby(hash, 'MaxFlood', -1)
 			if new < 3 then
-				db:hincrby(hash, 'MaxFlood', 1)
+				red:hincrby(hash, 'MaxFlood', 1)
 				return i18n("%d is not a valid value!\n"):format(new)
 					.. ("The value should be higher than 2 and lower then 26")
 			end
@@ -136,7 +136,7 @@ end
 function _M:onCallbackQuery(blocks)
 	local msg = self.message
 	local u = self.u
-	local db = self.db
+	local red = self.red
 	local chat_id = msg.target_id
 	if chat_id and not u:is_allowed('config', chat_id, msg.from) then
 		api.answerCallbackQuery(msg.cb_id, i18n("You're no longer an admin"))
@@ -163,12 +163,12 @@ It is also possible to choose which type of messages the antiflood will ignore (
 		if blocks[1] == 'exc' then
 			local media = blocks[2]
 			local hash = 'chat:'..chat_id..':floodexceptions'
-			local status = db:hget(hash, media)
+			local status = red:hget(hash, media)
 			if status == 'no' then
-				db:hset(hash, media, 'yes')
+				red:hset(hash, media, 'yes')
 				text = i18n("❎ [%s] will be ignored by the anti-flood"):format(media)
 			else
-				db:hset(hash, media, 'no')
+				red:hset(hash, media, 'no')
 				text = i18n("🚫 [%s] won't be ignored by the anti-flood"):format(media)
 			end
 		end
@@ -176,7 +176,7 @@ It is also possible to choose which type of messages the antiflood will ignore (
 		local action
 		if blocks[1] == 'action' or blocks[1] == 'dim' or blocks[1] == 'raise' then
 			if blocks[1] == 'action' then
-				action = db:hget('chat:'..chat_id..':flood', 'ActionFlood')
+				action = red:hget('chat:'..chat_id..':flood', 'ActionFlood')
 				if action == null then action = config.chat_settings.flood.ActionFlood end
 			elseif blocks[1] == 'dim' then
 				action = -1

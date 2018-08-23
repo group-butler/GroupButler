@@ -37,10 +37,10 @@ local function get_button_description(key)
 end
 
 local function change_private_setting(self, user_id, key)
-	local db = self.db
+	local red = self.red
 	local hash = 'user:'..user_id..':settings'
 	local new_val = "off"
-	local old_val = db:hget(hash, key)
+	local old_val = red:hget(hash, key)
 	if old_val ~= "on" and old_val ~= "off" then
 		old_val = config.private_settings[key]
 	end
@@ -48,13 +48,13 @@ local function change_private_setting(self, user_id, key)
 	if old_val ~= "on" then
 		new_val = "on"
 	end
-	db:hset(hash, key, new_val)
+	red:hset(hash, key, new_val)
 end
 
 local function get_user_settings(self, user_id)
-	local db = self.db
+	local red = self.red
 	local hash = 'user:'..user_id..':settings'
-	local user_settings = db:hgetall(hash)
+	local user_settings = red:hgetall(hash)
 
 	if user_settings == null then
 		return config.private_settings

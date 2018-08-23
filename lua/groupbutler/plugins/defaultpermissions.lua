@@ -16,9 +16,9 @@ function _M:new(update_obj)
 end
 
 local function toggle_permissions_setting(self, chat_id, key)
-	local db = self.db
+	local red = self.red
 	local hash = 'chat:'..chat_id..':defpermissions'
-	local current = db:hget(hash, key)
+	local current = red:hget(hash, key)
 	if current == null then current = config.chat_settings['defpermissions'][key] end
 
 	local new = "true"
@@ -49,7 +49,7 @@ local function toggle_permissions_setting(self, chat_id, key)
 		end
 	end
 
-	db:hmset(hash, new_perm)
+	red:hmset(hash, new_perm)
 
 	return '✅'
 end
@@ -81,7 +81,7 @@ local permissions =
 {'can_send_messages', 'can_send_media_messages', 'can_send_other_messages', 'can_add_web_page_previews'}
 
 local function doKeyboard_permissions(self, chat_id)
-	local db = self.db
+	local red = self.red
 	local keyboard = {inline_keyboard = {}}
 
 	local line, status, icon, permission
@@ -89,7 +89,7 @@ local function doKeyboard_permissions(self, chat_id)
 	for i=1, #permissions do --pairs() doesn't keep the order of the keys
 		permission = permissions[i]
 		icon = '✅'
-		status = db:hget('chat:'..chat_id..':defpermissions', permission)
+		status = red:hget('chat:'..chat_id..':defpermissions', permission)
 		if status == null then status = config.chat_settings['defpermissions'][permission] end
 
 		if status == 'false' then icon = '☑️' end
