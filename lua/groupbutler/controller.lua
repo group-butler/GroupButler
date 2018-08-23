@@ -3,7 +3,7 @@ local _M = {}
 local json = require "cjson"
 local main = require "groupbutler.main"
 
-local function process_update(update)
+local function process_update(_, update)
 	local update_obj = main:new(update)
 	update_obj:process()
 end
@@ -20,7 +20,7 @@ function _M.run()
 		return ngx.exit(ngx.HTTP_BAD_REQUEST)
 	end
 
-	pcall(process_update, update)
+	ngx.timer.at(0, process_update, update)
 
 	ngx.status = ngx.HTTP_OK
 	ngx.say("{}")
