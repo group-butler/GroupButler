@@ -1006,24 +1006,6 @@ function _M:is_info_message_key(key) -- luacheck: ignore 212
 	return false
 end
 
-function _M:table2keyboard(t) -- luacheck: ignore 212
-	local keyboard = {inline_keyboard = {}}
-	for _, line in pairs(t) do
-		if type(line) ~= 'table' then return false, 'Wrong structure (each line need to be a table, not a single value)' end
-		local new_line ={}
-		for k,v in pairs(line) do
-			if type(k) ~= 'string' then return false, 'Wrong structure (table of arrays)' end
-			local button = {}
-			button.text = k
-			button.callback_data = v
-			table.insert(new_line, button)
-		end
-		table.insert(keyboard.inline_keyboard, new_line)
-	end
-
-	return keyboard
-end
-
 function _M:metric_incr(name)
 	local red = self.red
 	red:incr("bot:metrics:" .. name)
