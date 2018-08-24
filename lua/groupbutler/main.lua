@@ -262,9 +262,9 @@ function _M:process()
 		function_key = 'onTextMessage'
 
 		if self.edited_message then
-			self.edited_self.message.edited = true
-			self.edited_self.message.original_date = self.edited_self.message.date
-			self.edited_self.message.date = self.edited_self.message.edit_date
+			self.edited_message.edited = true
+			self.edited_message.original_date = self.edited_message.date
+			self.edited_message.date = self.edited_message.edit_date
 			function_key = 'onEditedMessage'
 		end
 
