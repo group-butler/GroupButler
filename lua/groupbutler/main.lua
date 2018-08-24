@@ -186,7 +186,7 @@ Unfortunately I can't work in normal groups. If you need me, please ask the crea
 					msg:send_reply(i18n("🐞 Sorry, a *bug* occurred"), "Markdown")
 					end
 					log.error('An #error occurred.\n{result}\n{lang}\n{text}', {
-						cont=tostring(result),
+						result=tostring(result),
 						lang=locale.language,
 						text=msg.text})
 					return
