@@ -62,19 +62,11 @@ end
 -- local permissions =
 -- {'can_send_messages', 'can_send_media_messages', 'can_send_other_messages', 'can_add_web_page_previews'}
 
-local function list_to_kv(list)
-	local copy = {}
-	for i = 1, #list, 2 do
-		copy[list[i]] = list[i + 1]
-	end
-	return copy
-end
-
 local function apply_default_permissions(self, chat_id, users)
 	local red = self.red
 
 	local hash = ('chat:%d:defpermissions'):format(chat_id)
-	local def_permissions = list_to_kv(red:hgetall(hash))
+	local def_permissions = red:array_to_hash(red:hgetall(hash))
 
 	if next(def_permissions) then
 		--for i=1, #permissions do

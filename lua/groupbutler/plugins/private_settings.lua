@@ -1,8 +1,8 @@
 local config = require "groupbutler.config"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
+local api_u = require "telegram-bot-api.utilities"
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
-local null = require "groupbutler.null"
 
 local _M = {}
 
@@ -18,14 +18,6 @@ end
 local function set_default(t, d)
 	local mt = {__index = function() return d end}
 	setmetatable(t, mt)
-end
-
-local function list_to_kv(list)
-	local copy = {}
-	for i = 1, #list, 2 do
-		copy[list[i]] = list[i + 1]
-	end
-	return copy
 end
 
 local function get_button_description(key)
@@ -54,15 +46,9 @@ end
 local function get_user_settings(self, user_id)
 	local red = self.red
 	local hash = 'user:'..user_id..':settings'
-	local user_settings = red:hgetall(hash)
+	local user_settings = red:array_to_hash(red:hgetall(hash))
 
-	if user_settings == null then
-		return config.private_settings
-	end
-
-	user_settings = list_to_kv(user_settings)
-
-	for key, default_status in ipairs(config.private_settings) do
+	for key, default_status in pairs(config.private_settings) do
 		if not user_settings[key] then
 			user_settings[key] = default_status
 		end
@@ -74,21 +60,21 @@ end
 local function doKeyboard_privsett(self, user_id)
 	local user_settings = get_user_settings(self, user_id)
 
-	local keyboard = {inline_keyboard = {}}
+	local keyboard = api_u.InlineKeyboardMarkup:new()
 	local button_names = {
 		['rules_on_join'] = i18n('Rules on join'),
 		['reports'] = i18n('Users reports')
-	}
+	} set_default(button_names, i18n("Name not available"))
+
 	for key, status in pairs(user_settings) do
 		local icon = "☑️"
 		if status == "on" then
 			icon = "✅"
 		end
-		table.insert(keyboard.inline_keyboard,
-			{
-				{text = button_names[key], callback_data = 'myset:alert:'..key},
-				{text = icon, callback_data = 'myset:switch:'..key}
-			})
+		keyboard:row(
+			{text = button_names[key], callback_data = 'myset:alert:'..key},
+			{text = icon, callback_data = 'myset:switch:'..key}
+		)
 	end
 
 	return keyboard
