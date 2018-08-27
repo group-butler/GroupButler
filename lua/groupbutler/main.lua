@@ -238,6 +238,9 @@ function message:type()
 end
 
 function message:get_file_id()
+	if self.animation then -- TODO: remove this once db migration for gif messages has been completed
+		return self.animation.file_id
+	end
 	if self[self:type()] and self[self:type()].file_id then
 		return self[self:type()].file_id
 	end
