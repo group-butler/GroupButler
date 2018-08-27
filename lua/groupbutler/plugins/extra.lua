@@ -80,20 +80,20 @@ function _M:onTextMessage(blocks)
 			red:hset('chat:'..msg.chat.id..':extra', blocks[2], to_save)
 			msg:send_reply(i18n("This media has been saved as a response to %s"):format(blocks[2]))
 		else
-				local hash = 'chat:'..msg.chat.id..':extra'
-				local new_extra = blocks[3]
+			local hash = 'chat:'..msg.chat.id..':extra'
+			local new_extra = blocks[3]
 			local reply_markup, test_text = u:reply_markup_from_text(new_extra)
-				test_text = test_text:gsub('\n', '')
+			test_text = test_text:gsub('\n', '')
 
 			local ok, err = msg:send_reply(test_text:replaceholders(msg), "Markdown", reply_markup)
-				if not ok then
-					api.sendMessage(msg.chat.id, api_err.trans(err), "Markdown")
-				else
-					red:hset(hash, blocks[2]:lower(), new_extra)
+			if not ok then
+				api.sendMessage(msg.chat.id, api_err.trans(err), "Markdown")
+			else
+				red:hset(hash, blocks[2]:lower(), new_extra)
 				local msg_id = ok.message_id
 				api.editMessageText(msg.chat.id, msg_id, nil, i18n("Command '%s' saved!"):format(blocks[2]))
-				end
 			end
+		end
 	elseif blocks[1] == 'extra list' then
 		local text = u:getExtraList(msg.chat.id)
 		if not is_locked(self, msg.chat.id) and not msg:is_from_admin() then
@@ -123,7 +123,7 @@ function _M:onTextMessage(blocks)
 		local chat_id = blocks[1] == 'start' and tonumber(blocks[2]) or msg.chat.id
 		local extra = blocks[1] == 'start' and '#'..blocks[3] or blocks[1]
 		--print(chat_id, extra)
-			local hash = 'chat:'..chat_id..':extra'
+		local hash = 'chat:'..chat_id..':extra'
 		local text = red:hget(hash, extra:lower())
 		if text == null then text = red:hget(hash, extra) end
 
@@ -135,39 +135,39 @@ function _M:onTextMessage(blocks)
 		local _, err
 
 		if msg.chat.id > 0 or (is_locked(self, msg.chat.id) and not msg:is_from_admin()) then -- send it in private
-					if not file_id then
+			if not file_id then
 				local reply_markup, clean_text = u:reply_markup_from_text(text)
 				_, err = api.sendMessage(msg.from.id, clean_text:replaceholders(msg.reply or msg), "Markdown",
 					link_preview, nil, nil, reply_markup)
 			elseif special_method then
 				_, err = sendMedia(msg.from.id, file_id, special_method) -- photo, voices, video need their method to be sent by file_id
-						else
+			else
 				_, err = api.sendDocument(msg.from.id, file_id)
-					end
-				else
-					local msg_to_reply
-					if msg.reply then
-						msg_to_reply = msg.reply.message_id
-					else
-						msg_to_reply = msg.message_id
-					end
-					if file_id then
-						if special_method then
+			end
+		else
+			local msg_to_reply
+			if msg.reply then
+				msg_to_reply = msg.reply.message_id
+			else
+				msg_to_reply = msg.message_id
+			end
+			if file_id then
+				if special_method then
 					sendMedia(msg.chat.id, file_id, special_method, msg_to_reply) -- photo, voices, video need their method to be sent by file_id
-						else
-					api.sendDocument(msg.chat.id, file_id, nil, nil, msg_to_reply)
-						end
 				else
+					api.sendDocument(msg.chat.id, file_id, nil, nil, msg_to_reply)
+				end
+			else
 				local reply_markup, clean_text = u:reply_markup_from_text(text)
 				api.sendMessage(msg.chat.id, clean_text:replaceholders(msg.reply or msg), "Markdown", link_preview, nil, msg_to_reply, reply_markup) -- if the admin replies to a user, the bot will reply to the user too
-					end
 			end
+		end
 
 		if err and err.error_code == 403 and msg.chat.id < 0 and not u:is_silentmode_on(msg.chat.id) then -- if the user haven't started the bot and silent mode is off
 			msg:send_reply(i18n("_Please_ [start me](%s) _so I can send you the answer_")
 				:format(u:deeplink_constructor(msg.chat.id, extra:sub(2, -1))), "Markdown")
-				end
 		end
+	end
 end
 
 _M.triggers = {
