@@ -23,7 +23,10 @@ kill:
 down:
 	docker-compose -f docker-compose.yml -f docker/docker-compose.polling.yml down
 
-easy_deploy:
+pull:
+	docker-compose pull
+
+easy_deploy: pull
 	docker-compose -f docker-compose.yml -f docker/docker-compose.polling.yml up -d
 
 build_polling:
