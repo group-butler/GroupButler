@@ -51,6 +51,11 @@ function logging.print_log_handler(message)
 	print(message)
 end
 
+function logging.stderr_log_handler(message)
+	io.stderr:write(message, "\n")
+	io.stderr:flush()
+end
+
 function logging.log(level, message, data)
 	if level < logging.loglevel then
 		return
@@ -69,7 +74,7 @@ end
 
 logging.loglevel = logging.DEBUG
 logging.formatter = logging.text_log_formatter
-logging.handler = logging.print_log_handler
+logging.handler = logging.stderr_log_handler
 logging.text_format = "[{time}] {level}: {message}"
 
 -- export for tests
