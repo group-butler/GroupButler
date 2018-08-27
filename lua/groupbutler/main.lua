@@ -202,6 +202,7 @@ end
 local message = {}
 
 function message:is_from_admin()
+	-- TODO: Memoize return
 	if self.chat.type == "private" then -- This should never happen but...
 		return false
 	end
@@ -212,6 +213,7 @@ function message:is_from_admin()
 end
 
 function message:type()
+	-- TODO: Memoize return
 	-- TODO: update database to use "animation" instead of "gif"
 	if self.animation then
 		return "gif"
@@ -276,12 +278,12 @@ function _M:process()
 			"new_chat_title", "pinned_message",
 		}
 		for _, v in pairs(service_messages) do
-			if self.message[v] then
+			if type(self.message[v]) == "table" then
 				self.message.service = true
 				self.message.text = "###"..v
 				if self.message[v].id == bot.id then
 					self.message.text = self.message.text..":bot"
-			end
+				end
 			end
 		end
 
