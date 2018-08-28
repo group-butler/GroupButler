@@ -4,6 +4,7 @@ local utilities = require "groupbutler.utilities"
 local log = require "groupbutler.logging"
 local redis = require "resty.redis"
 local plugins = require "groupbutler.plugins"
+local message = require "groupbutler.message"
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
 
@@ -197,63 +198,6 @@ Unfortunately I can't work in normal groups. If you need me, please ask the crea
 			end
 		end
 	end
-end
-
-local message = {}
-
-function message:is_from_admin()
-	if self._is_from_admin ~= nil then
-		return self._is_from_admin
-	end
-	if self.chat.type == "private" then -- This should never happen but...
-		return false
-	end
-	if not (self.chat.id < 0 or self.target_id) or not self.from then
-		return false
-	end
-	local is_from_admin = self.u:is_admin(self.target_id or self.chat.id, self.from.id)
-	self._is_from_admin = is_from_admin
-	return is_from_admin
-end
-
-function message:type()
-	-- TODO: Memoize return
-	-- TODO: update database to use "animation" instead of "gif"
-	if self.animation then
-		return "gif"
-	end
-	local media_types = {
-		"audio", --[["animation",]] "contact", "document", "game", "location", "photo", "sticker", "venue", "video",
-		"video_note", "voice",
-	}
-	for _, v in pairs(media_types) do
-		if self[v] then
-			return v
-		end
-	end
-	if self.entities then
-		for _, entity in pairs(self.entities) do
-			if entity.type == "url" or entity.type == "text_link" then
-				return "link"
-			end
-		end
-	end
-	return "text"
-end
-
-function message:get_file_id()
-	if self.animation then -- TODO: remove this once db migration for gif messages has been completed
-		return self.animation.file_id
-	end
-	if self[self:type()] and self[self:type()].file_id then
-		return self[self:type()].file_id
-	end
-	return false -- The message has no media file_id
-end
-
-function message:send_reply(text, parse_mode, disable_web_page_preview, disable_notification, reply_markup)
-	return api.send_message(self.chat.id, text, parse_mode, disable_web_page_preview, disable_notification,
-		self.message_id, reply_markup)
 end
 
 function _M:process()
