@@ -202,8 +202,8 @@ end
 local message = {}
 
 function message:is_from_admin()
-	if self._from_admin_cached ~= nil then
-		return self._from_admin_cached
+	if self._is_from_admin ~= nil then
+		return self._is_from_admin
 	end
 	if self.chat.type == "private" then -- This should never happen but...
 		return false
@@ -211,9 +211,9 @@ function message:is_from_admin()
 	if not (self.chat.id < 0 or self.target_id) or not self.from then
 		return false
 	end
-	local is_admin = self.u:is_admin(self.target_id or self.chat.id, self.from.id)
-	self._from_admin_cached = is_admin
-	return is_admin
+	local is_from_admin = self.u:is_admin(self.target_id or self.chat.id, self.from.id)
+	self._is_from_admin = is_from_admin
+	return is_from_admin
 end
 
 function message:type()
