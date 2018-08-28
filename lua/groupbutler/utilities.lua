@@ -1,4 +1,3 @@
-local json = require "cjson"
 local config = require "groupbutler.config"
 local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local api_err = require "groupbutler.api_errors"
@@ -321,10 +320,21 @@ function _M:is_blocked_global(id)
 	return red:sismember('bot:blocked', id) ~= 0
 end
 
-function _M:dump(...) -- luacheck: ignore 212
-	for _, value in pairs{...} do
-		print(json.encode(value))
+local function dump(o)
+	local ot = type(o)
+	if ot == "table" then
+		local s = "{"
+		for k,v in pairs(o) do
+			if type(k) ~= "number" then k = '"'..k..'"' end
+			s = s .."["..k.."] = "..dump(v)..","
+		end
+		return s .."}"
 	end
+	return tostring(o)
+end
+
+function _M:dump(o) -- luacheck: ignore 212
+	print(dump(o))
 end
 
 function _M:download_to_file(url, file_path) -- luacheck: ignore 212
