@@ -202,14 +202,18 @@ end
 local message = {}
 
 function message:is_from_admin()
-	-- TODO: Memoize return
+	if self._is_from_admin ~= nil then
+		return self._is_from_admin
+	end
 	if self.chat.type == "private" then -- This should never happen but...
 		return false
 	end
 	if not (self.chat.id < 0 or self.target_id) or not self.from then
 		return false
 	end
-	return self.u:is_admin(self.target_id or self.chat.id, self.from.id)
+	local is_from_admin = self.u:is_admin(self.target_id or self.chat.id, self.from.id)
+	self._is_from_admin = is_from_admin
+	return is_from_admin
 end
 
 function message:type()
