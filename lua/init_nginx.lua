@@ -13,6 +13,7 @@ function _M.set_webhook()
 	local body = {
 		certificate = config.telegram.webhook.certificate,
 		max_connections = config.telegram.webhook.max_connections,
+		allowed_updates = config.telegram.allowed_updates,
 	}
 
 	if config.telegram.webhook.url then
