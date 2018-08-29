@@ -22,7 +22,7 @@ local function get_helped_string(key)
 	local helped_string = {
 		main_menu = i18n("In this menu you will find all the available commands"),
 		start = i18n([[Hello %s 👋🏼, nice to meet you!
-I'm Group Butler, the first administration bot using the official Bot api:
+I'm Group Butler, the first administration bot using the official Bot API.
 
 *I can do a lot of cool stuffs*, here's a short list:
 • I can *kick or ban* users
