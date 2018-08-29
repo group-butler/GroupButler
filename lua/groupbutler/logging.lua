@@ -31,7 +31,7 @@ function logging.text_log_formatter(level, message, data)
 	end
 	local entry = {
 		message=interpolate(message, data),
-		time=os.date("%x %X"),
+		time = os.date("%Y/%m/%d %X"), -- YYYY/MM/DD HH:MM:SS
 		level=loglevels[level],
 	}
 	return interpolate(logging.text_format, entry)
@@ -75,7 +75,7 @@ end
 logging.loglevel = logging.DEBUG
 logging.formatter = logging.text_log_formatter
 logging.handler = logging.stderr_log_handler
-logging.text_format = "[{time}] {level}: {message}"
+logging.text_format = "{time} [{level}]: {message}"
 
 -- export for tests
 
