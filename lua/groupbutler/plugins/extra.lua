@@ -50,7 +50,7 @@ local function sendMedia(self, chat_id, file_id, media, reply_to_message_id, cap
 	set_default(action, function()
 		return false, "Media passed is not voice/video/photo"
 	end)
-	return action[media](body)
+	return action[media](api, body)
 end
 
 function _M:onTextMessage(blocks)
@@ -75,7 +75,7 @@ function _M:onTextMessage(blocks)
 			local media_with_special_method = {"photo", "video", "voice",}
 			for _, v in pairs(media_with_special_method) do
 				if msg.reply:type() == v then
-					to_save = '###file_id!'..media_with_special_method..'###:'..file_id
+					to_save = '###file_id!'..v..'###:'..file_id
 				end
 			end
 			red:hset('chat:'..msg.chat.id..':extra', blocks[2], to_save)
