@@ -101,15 +101,16 @@ local function on_msg_receive(self, callback) -- The fn run whenever a message i
 	-- u:dump(msg)
 
 	if not msg then
+		log.error("Message missing")
 		return
 	end
 
 	-- Do not process old updates
 	local now = os.time(os.date("*t"))
 	if msg.date < now - config.bot_settings.old_update then
-			log.warn('Old update skipped: {time} {diff}', {time=os.date('%H:%M:%S', msg.date), diff=now-msg.date})
-			u:metric_incr("messages_skipped")
-			return
+		log.warn('Old update skipped: {time} {diff}', {time=os.date('%H:%M:%S', msg.date), diff=now-msg.date})
+		u:metric_incr("messages_skipped")
+		return true
 	end
 
 	-- Set chat language
@@ -133,7 +134,7 @@ Unfortunately I can't work in normal groups. If you need me, please ask the crea
 						chat_id=msg.chat.id,
 					})
 		end
-		return
+		return true
 	end
 
 	collect_stats(self)
@@ -149,7 +150,7 @@ Unfortunately I can't work in normal groups. If you need me, please ask the crea
 					text=msg.text})
 			end
 			if not continue then
-				return
+				return true
 			end
 		end
 	end
