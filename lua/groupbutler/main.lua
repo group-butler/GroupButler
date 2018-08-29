@@ -271,8 +271,7 @@ function _M:process()
 		end
 		if self.message.reply_to_message then
 			-- Add message methods
-			self.message.reply_to_message.u = self.u
-			setmetatable(self.message.reply_to_message, {__index = message})
+			message:new(self.message.reply_to_message, self)
 
 			self.message.reply = self.message.reply_to_message
 			if self.message.reply.caption then
@@ -306,8 +305,7 @@ function _M:process()
 	if not self.message.text then self.message.text = self.message.caption or '' end
 
 	-- Add message methods
-	self.message.u = self.u
-	setmetatable(self.message, {__index = message})
+	message:new(self.message, self)
 
 	local retval = on_msg_receive(self, function_key)
 	u:metric_set("msg_request_duration_sec", u:time_hires() - start_time)

@@ -1,5 +1,12 @@
 local message = {}
 
+function message:new(message_obj, update_obj)
+	message_obj.api = update_obj.api
+	message_obj.u = update_obj.u
+	setmetatable(message_obj, {__index = self})
+	return message_obj
+end
+
 local function is_from_admin(self)
 	if self.chat.type == "private" -- This should never happen but...
 	or not (self.chat.id < 0 or self.target_id)
