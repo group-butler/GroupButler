@@ -193,14 +193,15 @@ Unfortunately I can't work in normal groups. If you need me, please ask the crea
 						result=tostring(result),
 						lang=locale.language,
 						text=msg.text})
-					return
+					return false
 				end
 				if not result then -- Stop processing plugins when a triggered plugin does not return true
-					return
+					return true
 				end
 			end
 		end
 	end
+	return true
 end
 
 function _M:process()
@@ -299,7 +300,7 @@ function _M:process()
 	else
 		--function_key = 'onUnknownType'
 		log.warn("Unknown update type")
-		return
+		return false
 	end
 
 	if not self.message.text then self.message.text = self.message.caption or '' end

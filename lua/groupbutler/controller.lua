@@ -6,10 +6,9 @@ local log = require "groupbutler.logging"
 
 local function process_update(_, update, update_json)
 	local update_obj = main:new(update)
-	-- TODO: make :process() return true on good updates
-	local ok --[[, retval]] = pcall(function() return update_obj:process() end)
-	if not ok --[[or not retval]] then
-		log.critical("Error processing update: {update}", {update = update_json})
+	local ok, retval = pcall(function() return update_obj:process() end)
+	if not ok or not retval then
+		log.error("Error processing update: {update}", {update = update_json})
 	end
 end
 
