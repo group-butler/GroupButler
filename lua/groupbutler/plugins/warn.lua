@@ -83,11 +83,12 @@ function _M:onTextMessage(blocks)
 	end
 
 	--do not reply when...
-	if not msg.reply
-		or u:is_admin(msg.chat.id, msg.reply.from.id)
-		or msg.reply.from.id == bot.id then
+	local user_id, err_msg = u:get_user_id(msg, blocks)
+	if not user_id then
+		msg:send_reply(err_msg, "Markdown")
 		return
 	end
+	if tonumber(user_id) == bot.id then return end
 
 	if blocks[1] == 'nowarn' then
 		local removed = forget_user_warns(self, msg.chat.id, msg.reply.from.id)
@@ -101,16 +102,8 @@ function _M:onTextMessage(blocks)
 	end
 
 	if blocks[1] == 'warn'  or blocks[1] == 'sw' then
-
-		local user_id, err_msg = u:get_user_id(msg, blocks)
-		if not user_id then
-			api.sendReply(msg, err_msg, true)
-			return
-		end
-		if tonumber(user_id) == bot.id then return end
-
 		-- Get the user that was targeted, again, but get the name this time
-		local _, name = u.getnames_complete(msg)
+		local admin_name, target_name = u:getnames_complete(msg)
 
 		local hash = 'chat:'..msg.chat.id..':warns'
 		local num = tonumber(red:hincrby(hash, user_id, 1)) --add one warn
@@ -125,15 +118,15 @@ function _M:onTextMessage(blocks)
 			text = i18n("%s <b>%s</b>: reached the max number of warnings (<code>%d/%d</code>)")
 			if type == 'ban' then
 				hammer_log = i18n('banned')
-				text = text:format(name, hammer_log, num, nmax)
+				text = text:format(target_name, hammer_log, num, nmax)
 				res, err = u:banUser(msg.chat.id, user_id)
 			elseif type == 'kick' then --kick
 				hammer_log = i18n('kicked')
-				text = text:format(name, hammer_log, num, nmax)
+				text = text:format(target_name, hammer_log, num, nmax)
 				res, err = u:kickUser(msg.chat.id, user_id)
 			elseif type == 'mute' then --kick
 				hammer_log = i18n('muted')
-				text = text:format(name, hammer_log, num, nmax)
+				text = text:format(target_name, hammer_log, num, nmax)
 				res, err = u:muteUser(msg.chat.id, user_id)
 			end
 			--if kick/ban fails, send the motivation
@@ -147,23 +140,23 @@ function _M:onTextMessage(blocks)
 			msg:send_reply(text, 'html')
 			u:logEvent('warn', msg, {
 				motivation = blocks[2],
-				admin = u:getname_final(msg.from),
-				user = name,
+				admin = admin_name,
+				user = target_name,
 				user_id = user_id,
 				hammered = hammer_log,
 				warns = num,
 				warnmax = nmax
 			})
 		else
-			text = i18n("%s <b>has been warned</b> (<code>%d/%d</code>)"):format(name, num, nmax)
+			text = i18n("%s <b>has been warned</b> (<code>%d/%d</code>)"):format(target_name, num, nmax)
 			local keyboard = doKeyboard_warn(user_id)
 			if blocks[1] ~= 'sw' then api:sendMessage(msg.chat.id, text, 'html', true, nil, nil, keyboard) end
 			u:logEvent('warn', msg, {
 				motivation = blocks[2],
 				warns = num,
 				warnmax = nmax,
-				admin = u:getname_final(msg.from),
-				user = name,
+				admin = admin_name,
+				user = target_name,
 				user_id = user_id
 			})
 		end
