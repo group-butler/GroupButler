@@ -102,9 +102,18 @@ function _M:onTextMessage(blocks)
 
 	if blocks[1] == 'warn'  or blocks[1] == 'sw' then
 
-		local name = u:getname_final(msg.reply.from)
+		local user_id, err_msg = u:get_user_id(msg, blocks)
+		if not user_id then
+			api.sendReply(msg, err_msg, true)
+			return
+		end
+		if tonumber(user_id) == bot.id then return end
+
+		-- Get the user that was targeted, again, but get the name this time
+		local _, name = u.getnames_complete(msg)
+
 		local hash = 'chat:'..msg.chat.id..':warns'
-		local num = tonumber(red:hincrby(hash, msg.reply.from.id, 1)) --add one warn
+		local num = tonumber(red:hincrby(hash, user_id, 1)) --add one warn
 		local nmax = tonumber(red:hget('chat:'..msg.chat.id..':warnsettings', 'max')) or 3 --get the max num of warnings
 		local text, res, err, hammer_log
 
@@ -117,45 +126,45 @@ function _M:onTextMessage(blocks)
 			if type == 'ban' then
 				hammer_log = i18n('banned')
 				text = text:format(name, hammer_log, num, nmax)
-				res, err = u:banUser(msg.chat.id, msg.reply.from.id)
+				res, err = u:banUser(msg.chat.id, user_id)
 			elseif type == 'kick' then --kick
 				hammer_log = i18n('kicked')
 				text = text:format(name, hammer_log, num, nmax)
-				res, err = u:kickUser(msg.chat.id, msg.reply.from.id)
+				res, err = u:kickUser(msg.chat.id, user_id)
 			elseif type == 'mute' then --kick
 				hammer_log = i18n('muted')
 				text = text:format(name, hammer_log, num, nmax)
-				res, err = u:muteUser(msg.chat.id, msg.reply.from.id)
+				res, err = u:muteUser(msg.chat.id, user_id)
 			end
 			--if kick/ban fails, send the motivation
 			if not res then
-				if num > nmax then red:hset(hash, msg.reply.from.id, nmax) end --avoid to have a number of warnings bigger than the max
+				if num > nmax then red:hset(hash, user_id, nmax) end --avoid to have a number of warnings bigger than the max
 				text = err
 			else
-				forget_user_warns(self, msg.chat.id, msg.reply.from.id)
+				forget_user_warns(self, msg.chat.id, user_id)
 			end
 			--if the user reached the max num of warns, kick and send message
 			msg:send_reply(text, 'html')
 			u:logEvent('warn', msg, {
 				motivation = blocks[2],
 				admin = u:getname_final(msg.from),
-				user = u:getname_final(msg.reply.from),
-				user_id = msg.reply.from.id,
+				user = name,
+				user_id = user_id,
 				hammered = hammer_log,
 				warns = num,
 				warnmax = nmax
 			})
 		else
 			text = i18n("%s <b>has been warned</b> (<code>%d/%d</code>)"):format(name, num, nmax)
-			local keyboard = doKeyboard_warn(msg.reply.from.id)
+			local keyboard = doKeyboard_warn(user_id)
 			if blocks[1] ~= 'sw' then api:sendMessage(msg.chat.id, text, 'html', true, nil, nil, keyboard) end
 			u:logEvent('warn', msg, {
 				motivation = blocks[2],
 				warns = num,
 				warnmax = nmax,
 				admin = u:getname_final(msg.from),
-				user = u:getname_final(msg.reply.from),
-				user_id = msg.reply.from.id
+				user = name,
+				user_id = user_id
 			})
 		end
 	end
