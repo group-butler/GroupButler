@@ -1,5 +1,5 @@
 local config = require "groupbutler.config"
-local api = require "telegram-bot-api.methods".init(config.telegram.token)
+local methods = require "telegram-bot-api.methods"
 local utilities = require "groupbutler.utilities"
 local log = require "groupbutler.logging"
 local redis = require "resty.redis"
@@ -15,10 +15,12 @@ local get_me = {}
 function _M:new(update_obj)
 	setmetatable(update_obj, {__index = self})
 
-	if not get_me[config.telegram.token] then
-		get_me[config.telegram.token] = api.get_me()
+	local tg_token = config.telegram.token
+	update_obj.api = methods:new(tg_token)
+	if not get_me[tg_token] then
+		get_me[tg_token] = update_obj.api:get_me()
 	end
-	update_obj.bot = get_me[config.telegram.token]
+	update_obj.bot = get_me[tg_token]
 
 	update_obj.red = redis:new()
 	local ok, err = update_obj.red:connect(config.redis.host, config.redis.port)
@@ -36,7 +38,7 @@ end
 local function extract_usernames(self, msg)
 	local red = self.red
 	if msg.from and msg.from.username then
-			red:hset('bot:usernames', '@'..msg.from.username:lower(), msg.from.id)
+		red:hset('bot:usernames', '@'..msg.from.username:lower(), msg.from.id)
 	end
 	if msg.forward_from and msg.forward_from.username then
 		red:hset('bot:usernames', '@'..msg.forward_from.username:lower(), msg.forward_from.id)
@@ -95,6 +97,7 @@ local function on_msg_receive(self, callback) -- The fn run whenever a message i
 	local bot = self.bot
 	local u = self.u
 	local red = self.red
+	local api = self.api
 	-- u:dump(msg)
 
 	if not msg then
@@ -117,11 +120,11 @@ local function on_msg_receive(self, callback) -- The fn run whenever a message i
 
 	-- Do not process messages from normal groups
 	if msg.chat.type == 'group' then
-		api.sendMessage(msg.chat.id, i18n([[Hello everyone!
+		api:sendMessage(msg.chat.id, i18n([[Hello everyone!
 My name is %s, and I'm a bot made to help administrators in their hard work.
 Unfortunately I can't work in normal groups. If you need me, please ask the creator to convert this group to a supergroup and then add me again.
 ]]):format(bot.first_name))
-		api.leaveChat(msg.chat.id)
+		api:leaveChat(msg.chat.id)
 		if config.bot_settings.stream_commands then
 			log.info('Bot was added to a normal group {by_name} [{from_id}] -> [{chat_id}]',
 					{

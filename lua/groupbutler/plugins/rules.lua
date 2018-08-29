@@ -1,5 +1,4 @@
 local config = require "groupbutler.config"
-local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
 local api_err = require "groupbutler.api_errors"
@@ -25,6 +24,7 @@ local function send_in_group(self, chat_id)
 end
 
 function _M:onTextMessage(blocks)
+	local api = self.api
 	local msg = self.message
 	local red = self.red
 	local u = self.u
@@ -33,17 +33,17 @@ function _M:onTextMessage(blocks)
 		if blocks[1] == 'start' then
 			msg.chat.id = tonumber(blocks[2])
 
-			local res = api.getChat(msg.chat.id)
+			local res = api:getChat(msg.chat.id)
 			if not res then
-				api.sendMessage(msg.from.id, i18n("🚫 Unknown or non-existent group"))
+				api:sendMessage(msg.from.id, i18n("🚫 Unknown or non-existent group"))
 				return
 			end
 			-- Private chats have no username
 			local private = not res.username
 
-			res = api.getChatMember(msg.chat.id, msg.from.id)
+			res = api:getChatMember(msg.chat.id, msg.from.id)
 			if not res or (res.status == 'left' or res.status == 'kicked') and private then
-				api.sendMessage(msg.from.id, i18n("🚷 You are not a member of this chat. " ..
+				api:sendMessage(msg.from.id, i18n("🚷 You are not a member of this chat. " ..
 					"You can't read the rules of a private group."))
 				return
 			end
@@ -61,7 +61,7 @@ function _M:onTextMessage(blocks)
 
 		local link_preview = rules:find('telegra%.ph/') == nil
 		if msg.chat.type == 'private' or (not send_in_group(self, msg.chat.id) and not msg:is_from_admin()) then
-			api.sendMessage(msg.from.id, rules, "Markdown", link_preview, nil, nil, reply_markup)
+			api:sendMessage(msg.from.id, rules, "Markdown", link_preview, nil, nil, reply_markup)
 		else
 			msg:send_reply(rules, "Markdown", link_preview, nil, nil, reply_markup)
 		end
@@ -88,11 +88,11 @@ function _M:onTextMessage(blocks)
 		--set the new rules
 		local ok, err = msg:send_reply(test_text, "Markdown", nil, nil, reply_markup)
 		if not ok then
-			api.sendMessage(msg.chat.id, api_err.trans(err), "Markdown")
+			api:sendMessage(msg.chat.id, api_err.trans(err), "Markdown")
 		else
 			red:hset(hash, 'rules', rules)
 			local id = ok.message_id
-			api.editMessageText(msg.chat.id, id, nil, i18n("New rules *saved successfully*!"), "Markdown")
+			api:editMessageText(msg.chat.id, id, nil, i18n("New rules *saved successfully*!"), "Markdown")
 		end
 	end
 end

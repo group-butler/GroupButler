@@ -1,5 +1,4 @@
 local config = require "groupbutler.config"
-local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
 local null = require "groupbutler.null"
@@ -246,11 +245,12 @@ local function doKeyboard_menu(self, chat_id)
 end
 
 function _M:onCallbackQuery(blocks)
+	local api = self.api
 	local msg = self.message
 	local u = self.u
 	local chat_id = msg.target_id
 	if chat_id and not u:is_allowed('config', chat_id, msg.from) then
-		api.answerCallbackQuery(msg.cb_id, i18n("You're no longer an admin"))
+		api:answerCallbackQuery(msg.cb_id, i18n("You're no longer an admin"))
 	else
 		local menu_first = i18n("Manage the settings of the group. Click on the left column to get a small hint")
 
@@ -258,14 +258,14 @@ function _M:onCallbackQuery(blocks)
 
 		if blocks[1] == 'config' then
 			keyboard = doKeyboard_menu(self, chat_id)
-			api.editMessageText(msg.chat.id, msg.message_id, nil, menu_first, "Markdown", nil, keyboard)
+			api:editMessageText(msg.chat.id, msg.message_id, nil, menu_first, "Markdown", nil, keyboard)
 		else
 			if blocks[2] == 'alert' then
 				if config.available_languages[blocks[4]] then
 					locale.language = blocks[4]
 				end
 				text = get_button_description(blocks[3])
-				api.answerCallbackQuery(msg.cb_id, text, true, config.bot_settings.cache_time.alert_help)
+				api:answerCallbackQuery(msg.cb_id, text, true, config.bot_settings.cache_time.alert_help)
 				return
 			end
 			if blocks[2] == 'DimWarn' or blocks[2] == 'RaiseWarn' or blocks[2] == 'ActionWarn' then
@@ -282,10 +282,10 @@ function _M:onCallbackQuery(blocks)
 				text, show_alert = u:changeSettingStatus(chat_id, blocks[2])
 			end
 			keyboard = doKeyboard_menu(self, chat_id)
-			api.editMessageText(msg.chat.id, msg.message_id, nil, menu_first, "Markdown", nil, keyboard)
+			api:editMessageText(msg.chat.id, msg.message_id, nil, menu_first, "Markdown", nil, keyboard)
 			if text then
 				--workaround to avoid to send an error to users who are using an old inline keyboard
-				api.answerCallbackQuery(msg.cb_id, '⚙ '..text, show_alert)
+				api:answerCallbackQuery(msg.cb_id, '⚙ '..text, show_alert)
 			end
 		end
 	end

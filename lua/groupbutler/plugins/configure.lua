@@ -1,5 +1,5 @@
 local config = require "groupbutler.config"
-local api = require "telegram-bot-api.methods".init(config.telegram.token)
+
 local locale = require "groupbutler.languages"
 local log = require "groupbutler.logging"
 local i18n = locale.translate
@@ -17,10 +17,11 @@ function _M:new(update_obj)
 end
 
 local function cache_chat_title(self, chat_id)
+	local api = self.api
 	local red = self.red
 	log.info('caching title...')
 	local key = 'chat:'..chat_id..':title'
-	local title = api.getChat(chat_id).title
+	local title = api:getChat(chat_id).title
 	red:set(key, title)
 	red:expire(key, config.bot_settings.cache_time.chat_titles)
 	return title
@@ -56,6 +57,7 @@ local function do_keyboard_config(self, chat_id, user_id) -- is_admin
 end
 
 function _M:onTextMessage()
+	local api = self.api
 	local msg = self.message
 	local u = self.u
 	local red = self.red
@@ -64,12 +66,12 @@ function _M:onTextMessage()
 			local chat_id = msg.chat.id
 			local keyboard = do_keyboard_config(self, chat_id, msg.from.id)
 			if red:get('chat:'..chat_id..':title') == null then cache_chat_title(self, chat_id, msg.chat.title) end
-			local res = api.sendMessage(msg.from.id,
+			local res = api:sendMessage(msg.from.id,
 				i18n("<b>%s</b>\n<i>Change the settings of your group</i>"):format(msg.chat.title:escape_html()), 'html',
 					nil, nil, nil, keyboard)
 			if not u:is_silentmode_on(msg.chat.id) then --send the responde in the group only if the silent mode is off
 				if res then
-					api.sendMessage(msg.chat.id, i18n("_I've sent you the keyboard via private message_"), "Markdown")
+					api:sendMessage(msg.chat.id, i18n("_I've sent you the keyboard via private message_"), "Markdown")
 				else
 					u:sendStartMe(msg)
 				end
@@ -79,6 +81,7 @@ function _M:onTextMessage()
 end
 
 function _M:onCallbackQuery()
+	local api = self.api
 	local msg = self.message
 	local chat_id = msg.target_id
 	local keyboard = do_keyboard_config(self, chat_id, msg.from.id, msg:is_from_admin())
@@ -87,7 +90,7 @@ function _M:onCallbackQuery()
 	if chat_title then
 		text = ("<b>%s</b>\n"):format(chat_title:escape_html())..text
 	end
-	api.editMessageText(msg.chat.id, msg.message_id, nil, text, 'html', nil, keyboard)
+	api:editMessageText(msg.chat.id, msg.message_id, nil, text, 'html', nil, keyboard)
 end
 
 _M.triggers = {

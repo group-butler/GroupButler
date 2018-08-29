@@ -1,5 +1,4 @@
 local config = require "groupbutler.config"
-local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
 local null = require "groupbutler.null"
@@ -134,12 +133,13 @@ local function changeFloodSettings(self, chat_id, screm)
 end
 
 function _M:onCallbackQuery(blocks)
+	local api = self.api
 	local msg = self.message
 	local u = self.u
 	local red = self.red
 	local chat_id = msg.target_id
 	if chat_id and not u:is_allowed('config', chat_id, msg.from) then
-		api.answerCallbackQuery(msg.cb_id, i18n("You're no longer an admin"))
+		api:answerCallbackQuery(msg.cb_id, i18n("You're no longer an admin"))
 	else
 		local header = i18n([[You can manage the antiflood settings from here.
 
@@ -156,7 +156,7 @@ It is also possible to choose which type of messages the antiflood will ignore (
 				locale.language = blocks[3]
 			end
 			text = get_button_description(blocks[2])
-			api.answerCallbackQuery(msg.cb_id, text, true, config.bot_settings.cache_time.alert_help)
+			api:answerCallbackQuery(msg.cb_id, text, true, config.bot_settings.cache_time.alert_help)
 			return
 		end
 
@@ -191,8 +191,8 @@ It is also possible to choose which type of messages the antiflood will ignore (
 		end
 
 		local keyboard = do_keyboard_flood(self, chat_id)
-		api.editMessageText(msg.chat.id, msg.message_id, nil, header, "Markdown", nil, keyboard)
-		api.answerCallbackQuery(msg.cb_id, text)
+		api:editMessageText(msg.chat.id, msg.message_id, nil, header, "Markdown", nil, keyboard)
+		api:answerCallbackQuery(msg.cb_id, text)
 	end
 end
 

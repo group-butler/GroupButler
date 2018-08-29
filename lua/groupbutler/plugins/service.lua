@@ -1,5 +1,4 @@
 local config = require "groupbutler.config"
-local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local null = require "groupbutler.null"
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
@@ -16,6 +15,7 @@ function _M:new(update_obj)
 end
 
 function _M:onTextMessage(blocks)
+	local api = self.api
 	local msg = self.message
 	local bot = self.bot
 	local u = self.u
@@ -29,7 +29,7 @@ function _M:onTextMessage(blocks)
 		if status == null then status = config.chat_settings.settings.Clean_service_msg end
 
 		if status == 'on' then
-			api.deleteMessage(msg.chat.id, msg.message_id)
+			api:deleteMessage(msg.chat.id, msg.message_id)
 		end
 		return true
 	end
@@ -41,13 +41,13 @@ function _M:onTextMessage(blocks)
 			locale.language = 'en'
 		end]]
 		if u:is_blocked_global(msg.from.id) then
-			api.sendMessage(msg.chat.id, i18n("_You (user ID: %d) are in the blocked list_"):format(msg.from.id), "Markdown")
-			api.leaveChat(msg.chat.id)
+			api:sendMessage(msg.chat.id, i18n("_You (user ID: %d) are in the blocked list_"):format(msg.from.id), "Markdown")
+			api:leaveChat(msg.chat.id)
 			return
 		end
 		if config.bot_settings.admin_mode and not u:is_superadmin(msg.from.id) then
-			api.sendMessage(msg.chat.id, i18n("_Admin mode is on: only the bot admin can add me to a new group_"), "Markdown")
-			api.leaveChat(msg.chat.id)
+			api:sendMessage(msg.chat.id, i18n("_Admin mode is on: only the bot admin can add me to a new group_"), "Markdown")
+			api:leaveChat(msg.chat.id)
 			return
 		end
 		-- save language
@@ -78,7 +78,7 @@ function _M:onTextMessage(blocks)
 		text = text .. i18n("I can do a lot of cool things. To discover about them, "
 				-- TODO: old link, update it
 			.. "watch this [video-tutorial](https://youtu.be/uqNumbcUyzs).") ]]
-		api.sendMessage(msg.chat.id, text, "Markdown")
+		api:sendMessage(msg.chat.id, text, "Markdown")
 	elseif blocks[1] == 'left_chat_member:bot' then
 		u:remGroup(msg.chat.id, true)
 	end

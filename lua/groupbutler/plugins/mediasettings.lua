@@ -1,5 +1,4 @@
 local config = require "groupbutler.config"
-local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
 local null = require "groupbutler.null"
@@ -106,12 +105,13 @@ local function change_media_status(self, chat_id, media)
 end
 
 function _M:onCallbackQuery(blocks)
+	local api = self.api
 	local msg = self.message
 	local red = self.red
 	local u = self.u
 	local chat_id = msg.target_id
 	if chat_id and not u:is_allowed('config', chat_id, msg.from) then
-		api.answerCallbackQuery(msg.cb_id, i18n("You're no longer an admin"))
+		api:answerCallbackQuery(msg.cb_id, i18n("You're no longer an admin"))
 	else
 		local media_first = i18n([[
 Tap on an option on the right to *change the setting*
@@ -124,13 +124,13 @@ When a media is set to delete, the bot will give a warning *only* when this is t
 
 		if blocks[1] == 'config' then
 			local keyboard = doKeyboard_media(self, chat_id)
-			api.editMessageText(msg.chat.id, msg.message_id, nil, media_first, "Markdown", nil, keyboard)
+			api:editMessageText(msg.chat.id, msg.message_id, nil, media_first, "Markdown", nil, keyboard)
 		else
 			if blocks[1] == 'mediallert' then
 				if config.available_languages[blocks[2]] then
 					locale.language = blocks[2]
 				end
-				api.answerCallbackQuery(msg.cb_id, i18n("⚠️ Tap on the right column"), false,
+				api:answerCallbackQuery(msg.cb_id, i18n("⚠️ Tap on the right column"), false,
 					config.bot_settings.cache_time.alert_help)
 				return
 			end
@@ -174,8 +174,8 @@ When a media is set to delete, the bot will give a warning *only* when this is t
 				cb_text = change_media_status(self, chat_id, media)
 			end
 			local keyboard = doKeyboard_media(self, chat_id)
-			api.editMessageText(msg.chat.id, msg.message_id, nil, media_first, "Markdown", nil, keyboard)
-			api.answerCallbackQuery(msg.cb_id, cb_text)
+			api:editMessageText(msg.chat.id, msg.message_id, nil, media_first, "Markdown", nil, keyboard)
+			api:answerCallbackQuery(msg.cb_id, cb_text)
 		end
 	end
 end

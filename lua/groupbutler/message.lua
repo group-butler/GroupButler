@@ -1,6 +1,3 @@
-local config = require "groupbutler.config"
-local api = require "telegram-bot-api.methods".init(config.telegram.token)
-
 local message = {}
 
 local function is_from_admin(self)
@@ -68,7 +65,8 @@ function message:get_file_id()
 end
 
 function message:send_reply(text, parse_mode, disable_web_page_preview, disable_notification, reply_markup)
-	return api.send_message(self.chat.id, text, parse_mode, disable_web_page_preview, disable_notification,
+	local api = self.api
+	return api:send_message(self.chat.id, text, parse_mode, disable_web_page_preview, disable_notification,
 		self.message_id, reply_markup)
 end
 

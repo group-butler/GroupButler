@@ -1,5 +1,4 @@
 local config = require "groupbutler.config"
-local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local api_u = require "telegram-bot-api.utilities"
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
@@ -81,10 +80,11 @@ local function doKeyboard_privsett(self, user_id)
 end
 
 function _M:onTextMessage()
+	local api = self.api
 	local msg = self.message
 	if msg.chat.type == 'private' then
 		local reply_markup = doKeyboard_privsett(self, msg.from.id)
-		api.send_message{
+		api:send_message{
 			chat_id = msg.from.id,
 			text = i18n("Change your private settings"),
 			reply_markup = reply_markup
@@ -93,19 +93,20 @@ function _M:onTextMessage()
 end
 
 function _M:onCallbackQuery(blocks)
+	local api = self.api
 	local msg = self.message
 	if blocks[1] == 'alert' then
-		api.answerCallbackQuery(msg.cb_id, get_button_description(blocks[2]), true)
+		api:answerCallbackQuery(msg.cb_id, get_button_description(blocks[2]), true)
 		return
 	end
 	change_private_setting(self, msg.from.id, blocks[2])
 	local reply_markup = doKeyboard_privsett(self, msg.from.id)
-	api.edit_message_reply_markup{
+	api:edit_message_reply_markup{
 		chat_id = msg.from.id,
 		message_id = msg.message_id,
 		reply_markup = reply_markup
 	}
-	api.answer_callback_query(msg.cb_id, i18n('⚙ Setting applied'))
+	api:answer_callback_query(msg.cb_id, i18n('⚙ Setting applied'))
 end
 
 _M.triggers = {

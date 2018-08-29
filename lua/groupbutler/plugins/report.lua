@@ -1,5 +1,4 @@
 local config = require "groupbutler.config"
-local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
 local null = require "groupbutler.null"
@@ -23,6 +22,7 @@ local function seconds2minutes(seconds)
 end
 
 local function report(self, msg, description)
+	local api = self.api
 	local red = self.red
 	local u = self.u
 
@@ -60,10 +60,10 @@ local function report(self, msg, description)
 	for i=1, #admins_list do
 		local receive_reports = red:hget('user:'..admins_list[i]..':settings', 'reports')
 		if receive_reports ~= null and receive_reports == 'on' then
-			local res_fwd = api.forwardMessage(admins_list[i], msg.chat.id, msg.reply.message_id)
+			local res_fwd = api:forwardMessage(admins_list[i], msg.chat.id, msg.reply.message_id)
 			if res_fwd then
 				markup.inline_keyboard[1][1].callback_data = callback_data..(msg.message_id)
-				desc_msg = api.sendMessage(admins_list[i], text, 'html', true, nil, res_fwd.message_id, markup)
+				desc_msg = api:sendMessage(admins_list[i], text, 'html', true, nil, res_fwd.message_id, markup)
 				if desc_msg then
 					red:hset(hash, admins_list[i], desc_msg.message_id) --save the msg_id of the msg sent to the admin
 					n = n + 1
@@ -155,11 +155,12 @@ Wait other %d minutes, %d seconds.]]):format(times_allowed, (duration / 60), min
 end
 
 function _M:onCallbackQuery(blocks)
+	local api = self.api
 	local msg = self.message
 	local red = self.red
 
 	if not blocks[2] then --###cb:issueclosed
-		api.answerCallbackQuery(msg.cb_id, i18n('You closed this issue and deleted all the other reports sent to the admins'),
+		api:answerCallbackQuery(msg.cb_id, i18n('You closed this issue and deleted all the other reports sent to the admins'),
 			true, 48 * 3600)
 		return
 	end
@@ -168,7 +169,7 @@ function _M:onCallbackQuery(blocks)
 	local hash = 'chat:'..chat_id..':report:'..msg_id
 	if red:exists(hash) == 0 then
 		--if the hash doesn't exist, the message is too old
-		api.answerCallbackQuery(msg.cb_id, i18n("This message is too old (>2 days)"), true)
+		api:answerCallbackQuery(msg.cb_id, i18n("This message is too old (>2 days)"), true)
 	else
 		if blocks[1] == "report" then
 			local addressed_by = red:get(hash..':addressed')
@@ -183,32 +184,32 @@ function _M:onCallbackQuery(blocks)
 						}}
 						local close_issue_line = {{text = i18n("Close issue"), callback_data = ("close:%s:%s"):format(chat_id, msg_id)}}
 						for user_id, message_id in pairs(chats_reached) do
-							api.editMessageReplyMarkup(user_id, message_id, markup)
+							api:editMessageReplyMarkup(user_id, message_id, markup)
 						end
 						table.insert(markup.inline_keyboard, close_issue_line)
-						api.editMessageReplyMarkup(msg.from.id, msg.message_id, markup)
+						api:editMessageReplyMarkup(msg.from.id, msg.message_id, markup)
 					end
 					red:setex(hash..':addressed', 3600*24*2, name)
-					api.answerCallbackQuery(msg.cb_id, "✅")
+					api:answerCallbackQuery(msg.cb_id, "✅")
 			else
-				api.answerCallbackQuery(msg.cb_id, i18n("%s has/will address this report"):format(addressed_by), true, 48 * 3600)
+				api:answerCallbackQuery(msg.cb_id, i18n("%s has/will address this report"):format(addressed_by), true, 48 * 3600)
 			end
 		elseif blocks[1] == 'close' then
 			local key = hash .. (':close:%d'):format(msg.from.id)
 			local second_tap = red:get(key)
 			if second_tap == null then
 				red:setex(key, 3600*24, 'x')
-				api.answerCallbackQuery(msg.cb_id, i18n(
+				api:answerCallbackQuery(msg.cb_id, i18n(
 					'This button will delete all the reports sent to the other admins. Tap it again to confirm'), true)
 			else
 				local chats_reached = red:hgetall(hash)
 				for user_id, message_id in pairs(chats_reached) do
 					if tonumber(user_id) ~= msg.from.id then
-						api.deleteMessages(user_id, { [1] = message_id, [2] = (tonumber(message_id) - 1) })
+						api:deleteMessages(user_id, { [1] = message_id, [2] = (tonumber(message_id) - 1) })
 					end
 				end
 				local markup = {inline_keyboard={{{text = i18n("(issue closed by you)"), callback_data = "issueclosed"}}}}
-				api.editMessageReplyMarkup(msg.from.id, msg.message_id, nil, markup)
+				api:editMessageReplyMarkup(msg.from.id, msg.message_id, nil, markup)
 			end
 		end
 	end

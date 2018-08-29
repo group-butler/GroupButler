@@ -1,5 +1,4 @@
 local config = require "groupbutler.config"
-local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
 local null = require "groupbutler.null"
@@ -63,6 +62,7 @@ end
 -- {'can_send_messages', 'can_send_media_messages', 'can_send_other_messages', 'can_add_web_page_previews'}
 
 local function apply_default_permissions(self, chat_id, users)
+	local api = self.api
 	local red = self.red
 
 	local hash = ('chat:%d:defpermissions'):format(chat_id)
@@ -76,11 +76,11 @@ local function apply_default_permissions(self, chat_id, users)
 		--end
 
 		for i=1, #users do
-			local res = api.getChatMember(chat_id, users[i].id)
+			local res = api:getChatMember(chat_id, users[i].id)
 			if res.status ~= 'restricted' then
 				def_permissions.chat_id = chat_id
 				def_permissions.user_id = users[i].id
-				api.restrictChatMember(def_permissions)
+				api:restrictChatMember(def_permissions)
 			end
 		end
 	end
@@ -107,6 +107,7 @@ local function get_reply_markup(self, msg, text)
 end
 
 local function send_welcome(self, msg)
+	local api = self.api
 	local red = self.red
 	local u = self.u
 
@@ -128,7 +129,7 @@ local function send_welcome(self, msg)
 	or welcome_type == "text" then
 		local reply_markup, text = get_reply_markup(self, msg, content)
 		local link_preview = text:find('telegra%.ph/') == nil
-		ok, err = api.sendMessage(msg.chat.id, text, "Markdown", link_preview, nil, nil, reply_markup)
+		ok, err = api:sendMessage(msg.chat.id, text, "Markdown", link_preview, nil, nil, reply_markup)
 	end
 	if welcome_type == "media" then
 		local caption = red:hget(hash, "caption")
@@ -136,12 +137,12 @@ local function send_welcome(self, msg)
 			caption = nil
 		end
 		local reply_markup, text = get_reply_markup(self, msg, caption)
-		ok, err = api.sendDocument(msg.chat.id, content, text, nil, nil, reply_markup)
+		ok, err = api:sendDocument(msg.chat.id, content, text, nil, nil, reply_markup)
 	end
 
 	if not ok and err.description:match("have no rights to send a message") then
 		u:remGroup(msg.chat.id, true)
-		api.leaveChat(msg.chat.id)
+		api:leaveChat(msg.chat.id)
 		return
 	end
 
@@ -149,13 +150,14 @@ local function send_welcome(self, msg)
 		local key = ('chat:%d:lastwelcome'):format(msg.chat.id) -- get the id of the last sent welcome message
 		local message_id = red:get(key)
 		if message_id ~= null then
-			api.deleteMessage(msg.chat.id, message_id)
+			api:deleteMessage(msg.chat.id, message_id)
 		end
 		red:setex(key, 259200, ok.message_id) --set the new message id to delete
 	end
 end
 
 function _M:onTextMessage(blocks)
+	local api = self.api
 	local msg = self.message
 	local red = self.red
 	local u = self.u
@@ -204,12 +206,12 @@ function _M:onTextMessage(blocks)
 			if not ok then
 				red:hset(hash, 'type', 'no') --if wrong markdown, remove 'custom' again
 				red:hset(hash, 'content', 'no')
-				api.sendMessage(msg.chat.id, api_err.trans(err), "Markdown")
+				api:sendMessage(msg.chat.id, api_err.trans(err), "Markdown")
 			else
 				-- turn on the welcome message in the group settings
 				red:hset(('chat:%d:settings'):format(msg.chat.id), 'Welcome', 'on')
 				local id = ok.message_id
-				api.editMessageText(msg.chat.id, id, nil, i18n("*Custom welcome message saved!*"), "Markdown")
+				api:editMessageText(msg.chat.id, id, nil, i18n("*Custom welcome message saved!*"), "Markdown")
 			end
 		end
 	end
@@ -231,7 +233,7 @@ function _M:onTextMessage(blocks)
 		if send_rules_private == "on" then
 			local rules = red:hget('chat:'..msg.chat.id..':info', 'rules')
 			if rules ~= null then
-				api.sendMessage(msg.new_chat_member.id, rules, "Markdown")
+				api:sendMessage(msg.new_chat_member.id, rules, "Markdown")
 			end
 		end
 	end

@@ -1,5 +1,4 @@
 local config = require "groupbutler.config"
-local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
 local null = require "groupbutler.null"
@@ -113,6 +112,7 @@ local function doKeyboard_permissions(self, chat_id)
 end
 
 function _M:onCallbackQuery(blocks)
+	local api = self.api
 	local msg = self.message
 	local u = self.u
 	if blocks[1] == 'alert' then
@@ -120,11 +120,11 @@ function _M:onCallbackQuery(blocks)
 			locale.language = blocks[3]
 		end
 		local text = get_alert_text(blocks[2])
-		api.answerCallbackQuery(msg.cb_id, text, true, config.bot_settings.cache_time.alert_help)
+		api:answerCallbackQuery(msg.cb_id, text, true, config.bot_settings.cache_time.alert_help)
 	else
 		local chat_id = msg.target_id
 		if not u:can(chat_id, msg.from.id, 'can_restrict_members') then
-			api.answerCallbackQuery(msg.cb_id, i18n("You don't have the permission to restrict members"))
+			api:answerCallbackQuery(msg.cb_id, i18n("You don't have the permission to restrict members"))
 		else
 			local msg_text = i18n([[*Default permissions*
 From this menu you can change the default permissions that will be granted when a new member join.
@@ -142,9 +142,9 @@ Tap on the name of a permission for a description of what kind of messages it wi
 			local ok, err
 			if blocks[2] then
 				--if the user tapped on a keybord button, just edit the markup and not the whole message
-				ok, err = api.editMessageReplyMarkup(msg.chat.id, msg.message_id, nil, reply_markup)
+				ok, err = api:editMessageReplyMarkup(msg.chat.id, msg.message_id, nil, reply_markup)
 			else
-				ok, err = api.editMessageText(msg.chat.id, msg.message_id, nil, msg_text, "Markdown", nil, reply_markup)
+				ok, err = api:editMessageText(msg.chat.id, msg.message_id, nil, msg_text, "Markdown", nil, reply_markup)
 			end
 
 			if not ok and err.retry_after then
@@ -152,7 +152,7 @@ Tap on the name of a permission for a description of what kind of messages it wi
 					:format(err.retry_after)
 				show_alert = true
 			end
-			if popup_text then api.answerCallbackQuery(msg.cb_id, popup_text, show_alert) end
+			if popup_text then api:answerCallbackQuery(msg.cb_id, popup_text, show_alert) end
 		end
 	end
 end

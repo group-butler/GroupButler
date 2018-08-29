@@ -1,5 +1,4 @@
 local config = require "groupbutler.config"
-local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
 
@@ -52,6 +51,7 @@ local function get_motivation(msg)
 end
 
 function _M:onTextMessage(blocks)
+	local api = self.api
 	local msg = self.message
 	local bot = self.bot
 	local red = self.red
@@ -90,7 +90,7 @@ function _M:onTextMessage(blocks)
 				local ok, err = u:kickUser(chat_id, user_id)
 				if ok then
 					u:logEvent('kick', msg, {motivation = get_motivation(msg), admin = admin, user = kicked, user_id = user_id})
-					api.sendMessage(msg.chat.id, i18n("%s kicked %s!"):format(admin, kicked), 'html', true)
+					api:sendMessage(msg.chat.id, i18n("%s kicked %s!"):format(admin, kicked), 'html', true)
 				else
 					msg:send_reply(err, "Markdown")
 				end
@@ -99,7 +99,7 @@ function _M:onTextMessage(blocks)
 				local ok, err = u:banUser(chat_id, user_id)
 				if ok then
 					u:logEvent('ban', msg, {motivation = get_motivation(msg), admin = admin, user = kicked, user_id = user_id})
-					api.sendMessage(msg.chat.id, i18n("%s banned %s!"):format(admin, kicked), 'html', true)
+					api:sendMessage(msg.chat.id, i18n("%s banned %s!"):format(admin, kicked), 'html', true)
 				else
 					msg:send_reply(err, "Markdown")
 				end
@@ -112,7 +112,7 @@ function _M:onTextMessage(blocks)
 					local ok, err = u:banUser(chat_id, user_id)
 					if ok then
 						u:logEvent('ban', msg, {motivation = get_motivation(msg), admin = admin, user = kicked, user_id = user_id})
-						api.sendMessage(msg.chat.id, i18n("%s banned %s!"):format(admin, u:getname_final(msg.reply.forward_from)), 'html')
+						api:sendMessage(msg.chat.id, i18n("%s banned %s!"):format(admin, u:getname_final(msg.reply.forward_from)), 'html')
 					else
 						msg:send_reply(err, "Markdown")
 					end
@@ -122,12 +122,12 @@ function _M:onTextMessage(blocks)
 				if u:is_admin(chat_id, user_id) then
 					msg:send_reply(i18n("_An admin can't be unbanned_"), "Markdown")
 				else
-					local result = api.getChatMember(chat_id, user_id)
+					local result = api:getChatMember(chat_id, user_id)
 					local text
 					if result.status ~= 'kicked' then
 						text = i18n("This user is not banned!")
 					else
-						api.unbanChatMember(chat_id, user_id)
+						api:unbanChatMember(chat_id, user_id)
 						u:logEvent('unban', msg, {motivation = get_motivation(msg), admin = admin, user = kicked, user_id = user_id})
 						text = i18n("%s unbanned by %s!"):format(kicked, admin)
 					end
@@ -139,14 +139,15 @@ function _M:onTextMessage(blocks)
 end
 
 function _M:onCallbackQuery(msg, matches)
+	local api = self.api
 	local red = self.red
 	local u = self.u
 
 	if not u:can(msg.chat.id, msg.from.id, 'can_restrict_members') then
-		api.answerCallbackQuery(msg.cb_id, i18n("You don't have the permissions to restrict members"), true)
+		api:answerCallbackQuery(msg.cb_id, i18n("You don't have the permissions to restrict members"), true)
 	else
 		if matches[1] == 'nil' then
-			api.answerCallbackQuery(msg.cb_id,
+			api:answerCallbackQuery(msg.cb_id,
 				i18n("Tap on the -/+ buttons to change this value. Then select a timeframe to execute the ban"), true)
 		elseif matches[1] == 'val' then
 			local user_id = matches[3]
@@ -156,7 +157,7 @@ function _M:onCallbackQuery(msg, matches)
 			if matches[2] == 'm' then
 				new_value = current_value - 1
 				if new_value < 1 then
-					api.answerCallbackQuery(msg.cb_id, i18n("You can't set a lower value"))
+					api:answerCallbackQuery(msg.cb_id, i18n("You can't set a lower value"))
 					return --don't proceed
 				else
 					red:setex(key, 3600, new_value)
@@ -164,7 +165,7 @@ function _M:onCallbackQuery(msg, matches)
 			elseif matches[2] == 'p' then
 				new_value = current_value + 1
 				if new_value > 100 then
-					api.answerCallbackQuery(msg.cb_id, i18n("Stop!!!"), true)
+					api:answerCallbackQuery(msg.cb_id, i18n("Stop!!!"), true)
 					return --don't proceed
 				else
 					red:setex(key, 3600, new_value)
@@ -172,7 +173,7 @@ function _M:onCallbackQuery(msg, matches)
 			end
 
 			local markup = markup_tempban(self, msg.chat.id, user_id, new_value)
-			api.editMessageReplyMarkup(msg.chat.id, msg.message_id, nil, markup)
+			api:editMessageReplyMarkup(msg.chat.id, msg.message_id, nil, markup)
 		elseif matches[1] == 'ban' then
 			local user_id = matches[3]
 			local key = ('chat:%d:%s:tbanvalue'):format(msg.chat.id, user_id)
@@ -195,10 +196,10 @@ function _M:onCallbackQuery(msg, matches)
 			local ok, err = u:banUser(msg.chat.id, user_id, until_date)
 			if ok then
 				local text = i18n("User banned for %d %s"):format(time_value, timeframe_string)
-				api.editMessageText(msg.chat.id, msg.message_id, nil, text)
+				api:editMessageText(msg.chat.id, msg.message_id, nil, text)
 				red:del(key)
 			else
-				api.editMessageText(msg.chat.id, msg.message_id, nil, err)
+				api:editMessageText(msg.chat.id, msg.message_id, nil, err)
 			end
 		end
 	end

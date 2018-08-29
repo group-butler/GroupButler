@@ -1,5 +1,4 @@
 local config = require "groupbutler.config"
-local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
 local null = require "groupbutler.null"
@@ -18,20 +17,21 @@ end
 
 local function is_locked(self, chat_id)
 	local red = self.red
-		local hash = 'chat:'..chat_id..':settings'
-		local current = red:hget(hash, 'Extra')
+	local hash = 'chat:'..chat_id..':settings'
+	local current = red:hget(hash, 'Extra')
 	if current == 'on' then
-			return true
+		return true
 	end
-			return false
-		end
+	return false
+end
 
 local function set_default(t, d)
 	local mt = {__index = function() return d end}
 	setmetatable(t, mt)
 end
 
-local function sendMedia(chat_id, file_id, media, reply_to_message_id, caption)
+local function sendMedia(self, chat_id, file_id, media, reply_to_message_id, caption)
+	local api = self.api
 	if not media then
 		return false, "Media passed is not voice/video/photo"
 	end
@@ -54,6 +54,7 @@ local function sendMedia(chat_id, file_id, media, reply_to_message_id, caption)
 end
 
 function _M:onTextMessage(blocks)
+	local api = self.api
 	local msg = self.message
 	local u = self.u
 	local red = self.red
@@ -87,17 +88,17 @@ function _M:onTextMessage(blocks)
 
 			local ok, err = msg:send_reply(test_text:replaceholders(msg), "Markdown", reply_markup)
 			if not ok then
-				api.sendMessage(msg.chat.id, api_err.trans(err), "Markdown")
+				api:sendMessage(msg.chat.id, api_err.trans(err), "Markdown")
 			else
 				red:hset(hash, blocks[2]:lower(), new_extra)
 				local msg_id = ok.message_id
-				api.editMessageText(msg.chat.id, msg_id, nil, i18n("Command '%s' saved!"):format(blocks[2]))
+				api:editMessageText(msg.chat.id, msg_id, nil, i18n("Command '%s' saved!"):format(blocks[2]))
 			end
 		end
 	elseif blocks[1] == 'extra list' then
 		local text = u:getExtraList(msg.chat.id)
 		if not is_locked(self, msg.chat.id) and not msg:is_from_admin() then
-			api.sendMessage(msg.from.id, text)
+			api:sendMessage(msg.from.id, text)
 		else
 			msg:send_reply(text)
 		end
@@ -137,12 +138,12 @@ function _M:onTextMessage(blocks)
 		if msg.chat.id > 0 or (is_locked(self, msg.chat.id) and not msg:is_from_admin()) then -- send it in private
 			if not file_id then
 				local reply_markup, clean_text = u:reply_markup_from_text(text)
-				_, err = api.sendMessage(msg.from.id, clean_text:replaceholders(msg.reply or msg), "Markdown",
+				_, err = api:sendMessage(msg.from.id, clean_text:replaceholders(msg.reply or msg), "Markdown",
 					link_preview, nil, nil, reply_markup)
 			elseif special_method then
-				_, err = sendMedia(msg.from.id, file_id, special_method) -- photo, voices, video need their method to be sent by file_id
+				_, err = sendMedia(self, msg.from.id, file_id, special_method) -- photo, voices, video need their method to be sent by file_id
 			else
-				_, err = api.sendDocument(msg.from.id, file_id)
+				_, err = api:sendDocument(msg.from.id, file_id)
 			end
 		else
 			local msg_to_reply
@@ -153,13 +154,13 @@ function _M:onTextMessage(blocks)
 			end
 			if file_id then
 				if special_method then
-					sendMedia(msg.chat.id, file_id, special_method, msg_to_reply) -- photo, voices, video need their method to be sent by file_id
+					sendMedia(self, msg.chat.id, file_id, special_method, msg_to_reply) -- photo, voices, video need their method to be sent by file_id
 				else
-					api.sendDocument(msg.chat.id, file_id, nil, nil, msg_to_reply)
+					api:sendDocument(msg.chat.id, file_id, nil, nil, msg_to_reply)
 				end
 			else
 				local reply_markup, clean_text = u:reply_markup_from_text(text)
-				api.sendMessage(msg.chat.id, clean_text:replaceholders(msg.reply or msg), "Markdown", link_preview, nil, msg_to_reply, reply_markup) -- if the admin replies to a user, the bot will reply to the user too
+				api:sendMessage(msg.chat.id, clean_text:replaceholders(msg.reply or msg), "Markdown", link_preview, nil, msg_to_reply, reply_markup) -- if the admin replies to a user, the bot will reply to the user too
 			end
 		end
 

@@ -1,5 +1,4 @@
 local config = require "groupbutler.config"
-local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local api_err = require "groupbutler.api_errors"
 local locale = require "groupbutler.languages"
 local log = require "groupbutler.logging"
@@ -22,6 +21,7 @@ local _M = {} -- Functions shared among plugins
 
 function _M:new(update_obj)
 	local utilities_obj = {
+		api = update_obj.api,
 		red = update_obj.red,
 		bot = update_obj.bot
 	}
@@ -34,25 +34,28 @@ local function set_default(t, d)
 	setmetatable(t, mt)
 end
 
-function _M:banUser(chat_id, user_id, until_date) -- luacheck: ignore 212
-	local ok, err = api.kickChatMember(chat_id, user_id, until_date) --try to kick. "code" is already specific
+function _M:banUser(chat_id, user_id, until_date)
+	local api = self.api
+	local ok, err = api:kickChatMember(chat_id, user_id, until_date) --try to kick. "code" is already specific
 	if not ok then --if the user has been kicked, then...
 		return nil, api_err.trans(err)
 	end
 	return ok --return res and not the text
 end
 
-function _M:kickUser(chat_id, user_id) -- luacheck: ignore 212
-	local ok, err = api.kickChatMember(chat_id, user_id) --try to kick
+function _M:kickUser(chat_id, user_id)
+	local api = self.api
+	local ok, err = api:kickChatMember(chat_id, user_id) --try to kick
 	if not ok then --if the user has been kicked, then unban...
 		return nil, api_err.trans(err)
 	end
-	api.unbanChatMember(chat_id, user_id)
+	api:unbanChatMember(chat_id, user_id)
 	return ok
 end
 
-function _M:muteUser(chat_id, user_id) -- luacheck: ignore 212
-	local ok, err = api.restrictChatMember{
+function _M:muteUser(chat_id, user_id)
+	local api = self.api
+	local ok, err = api:restrictChatMember{
 		chat_id = chat_id,
 		user_id = user_id,
 		can_send_messages = false
@@ -183,8 +186,9 @@ function _M:is_superadmin(user_id) -- luacheck: ignore 212
 end
 
 function _M:bot_is_admin(chat_id)
+	local api = self.api
 	local bot = self.bot
-	local status = api.getChatMember(chat_id, bot.id).status
+	local status = api:getChatMember(chat_id, bot.id).status
 	if not(status == 'administrator') then
 		return false
 	else
@@ -254,6 +258,7 @@ local function set_creator_permissions(self, chat_id, user_id)
 end
 
 function _M:cache_adminlist(chat_id)
+	local api = self.api
 	local red = self.red
 
 	local lock_key = "cache:chat:"..chat_id..":getadmin_lock"
@@ -271,7 +276,7 @@ function _M:cache_adminlist(chat_id)
 	red:setex(lock_key, 1, "")
 	log.info('Saving the adminlist for: {chat_id}', {chat_id=chat_id})
 	self:metric_incr("api_getchatadministrators_count")
-	local ok, err = api.getChatAdministrators(chat_id)
+	local ok, err = api:getChatAdministrators(chat_id)
 	if not ok then
 		self:metric_incr("api_getchatadministrators_error_count")
 		return false, err
@@ -387,6 +392,7 @@ end
 -- Resolves username. Returns ID of user if it was early stored in date base.
 -- Argument username must begin with symbol @ (commercial 'at')
 function _M:resolve_user(username)
+	local api = self.api
 	local red = self.red
 	assert(username:byte(1) == string.byte('@'))
 	username = username:lower()
@@ -394,7 +400,7 @@ function _M:resolve_user(username)
 	local stored_id = tonumber(red:hget('bot:usernames', username))
 	if not stored_id then return false end
 
-	local user_obj = api.getChat(stored_id)
+	local user_obj = api:getChat(stored_id)
 	if not user_obj then
 		return stored_id
 	else
@@ -443,6 +449,7 @@ function _M:demote(chat_id, user_id)
 end
 
 function _M:migrate_chat_info(old, new, on_request)
+	local api = self.api
 	local red = self.red
 	if not old or not new then
 		return false
@@ -474,17 +481,18 @@ function _M:migrate_chat_info(old, new, on_request)
 	end
 
 	if on_request then
-		api.send_message(new, "Should be done")
+		api:send_message(new, "Should be done")
 	end
 end
 
 function _M:to_supergroup(msg)
+	local api = self.api
 	local old = msg.chat.id
 	local new = msg.migrate_to_chat_id
 	local done = self:migrate_chat_info(old, new, false)
 	if done then
 		self:remGroup(old, true, 'to supergroup')
-		api.sendMessage(new, '(_service notification: migration of the group executed_)', 'Markdown')
+		api:sendMessage(new, '(_service notification: migration of the group executed_)', 'Markdown')
 	end
 end
 
@@ -507,7 +515,7 @@ end
 
 function _M:telegram_file_link(res) -- luacheck: ignore 212
 	--res = table returned by getFile()
-	return "https://api.telegram.org/file/bot"..config.telegram.token.."/"..res.file_path
+	return "https://api:telegram.org/file/bot"..config.telegram.token.."/"..res.file_path
 end
 
 function _M:is_silentmode_on(chat_id)
@@ -525,7 +533,8 @@ function _M:getRules(chat_id)
 	return rules
 end
 
-function _M:getAdminlist(chat_id) -- luacheck: ignore 212
+function _M:getAdminlist(chat_id)
+	local api = self.api
 	local list, code = self:get_cached_admins_list(chat_id)
 	if not list then
 		return false, code
@@ -536,7 +545,7 @@ function _M:getAdminlist(chat_id) -- luacheck: ignore 212
 	for _, user_id in pairs(list) do
 		local s = ' ├ '
 		-- TODO: Cache admin names nad usernames
-		local admin = api.getChatMember(chat_id, user_id)
+		local admin = api:getChatMember(chat_id, user_id)
 		if admin.status == 'administrator' then
 			local name = admin.user.first_name
 			if admin.user.username then
@@ -655,6 +664,7 @@ function _M:getSettings(chat_id)
 end
 
 function _M:changeSettingStatus(chat_id, field)
+	local api = self.api
 	local red = self.red
 	local turned_off = {
 		reports = i18n("@admin command disabled"),
@@ -687,7 +697,7 @@ function _M:changeSettingStatus(chat_id, field)
 	else
 		red:hset(hash, field, 'on')
 		if field:lower() == 'goodbye' then
-			local r = api.getChatMembersCount(chat_id)
+			local r = api:getChatMembersCount(chat_id)
 			if r and r > 50 then
 				return i18n("This setting is enabled, but the goodbye message won't be displayed in large groups, "
 					.. "because I can't see service messages about left members"), true
@@ -698,11 +708,12 @@ function _M:changeSettingStatus(chat_id, field)
 end
 
 function _M:sendStartMe(msg)
+	local api = self.api
 	local bot = self.bot
 	local keyboard = {
 		inline_keyboard = {{{text = i18n("Start me"), url = 'https://telegram.me/'..bot.username}}}
 		}
-	api.sendMessage(msg.chat.id, i18n("_Please message me first so I can message you_"), 'Markdown', nil, nil, nil,
+	api:sendMessage(msg.chat.id, i18n("_Please message me first so I can message you_"), 'Markdown', nil, nil, nil,
 		keyboard)
 end
 
@@ -774,7 +785,7 @@ function _M:remGroup(chat_id, full)
 end
 
 function _M:getnames_complete(msg)
-
+	local api = self.api
 	local admin, kicked
 
 	admin = self:getname_link(msg.from)
@@ -792,7 +803,7 @@ function _M:getnames_complete(msg)
 		end
 	elseif msg.text:match(config.cmd..'%w%w%w%w?%w?%s(%d+)') then
 		local id = msg.text:match(config.cmd..'%w%w%w%w?%w?%s(%d+)')
-		local res = api.getChatMember(msg.chat.id, id)
+		local res = api:getChatMember(msg.chat.id, id)
 		if res then
 			kicked = self:getname_final(res.user)
 		end
@@ -839,6 +850,7 @@ If you're using it by username and want to teach me who the user is, forward me 
 end
 
 function _M:logEvent(event, msg, extra)
+	local api = self.api
 	local bot = self.bot
 	local red = self.red
 	local log_id = red:hget('bot:chatlogs', msg.chat.id)
@@ -997,7 +1009,7 @@ function _M:logEvent(event, msg, extra)
 			('\n• <a href="telegram.me/%s/%d">%s</a>'):format(msg.chat.username, msg.message_id, i18n('Go to the message'))
 	end
 
-	local ok, err = api.send_message{
+	local ok, err = api:send_message{
 		chat_id = log_id,
 		text = text,
 		parse_mode = "html",

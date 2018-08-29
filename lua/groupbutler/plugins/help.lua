@@ -1,5 +1,5 @@
 local config = require "groupbutler.config"
-local api = require "telegram-bot-api.methods".init(config.telegram.token)
+
 local i18n = require "groupbutler.languages".translate
 
 local _M = {}
@@ -22,7 +22,7 @@ local function get_helped_string(key)
 	local helped_string = {
 		main_menu = i18n("In this menu you will find all the available commands"),
 		start = i18n([[Hello %s 👋🏼, nice to meet you!
-I'm Group Butler, the first administration bot using the official Bot API.
+I'm Group Butler, the first administration bot using the official Bot api:
 
 *I can do a lot of cool stuffs*, here's a short list:
 • I can *kick or ban* users
@@ -313,6 +313,7 @@ local function do_keyboard(keyboard_type)
 end
 
 function _M:onTextMessage(blocks)
+	local api = self.api
 	local msg = self.message
 	local u = self.u
 	local red = self.red
@@ -320,18 +321,18 @@ function _M:onTextMessage(blocks)
 		if msg.chat.type == 'private' then
 			local message = get_helped_string('start'):format(msg.from.first_name:escape())
 			local keyboard = do_keyboard_private()
-			api.sendMessage(msg.from.id, message, "Markdown", nil, nil, nil, keyboard)
+			api:sendMessage(msg.from.id, message, "Markdown", nil, nil, nil, keyboard)
 		end
 	end
 	if blocks[1] == 'help' then
 		local text = get_helped_string(blocks[2] or 'main_menu')
 		if blocks[2] then
-			api.sendMessage(msg.from.id, text, "Markdown")
+			api:sendMessage(msg.from.id, text, "Markdown")
 		else
 			local keyboard = do_keyboard('main')
-			local res = api.sendMessage(msg.from.id, text, "Markdown", nil, nil, nil, keyboard)
+			local res = api:sendMessage(msg.from.id, text, "Markdown", nil, nil, nil, keyboard)
 			if not res and msg.chat.type ~= 'private' and red:hget('chat:'..msg.chat.id..':settings', 'Silent') ~= 'on' then
-				api.sendMessage(msg.chat.id,
+				api:sendMessage(msg.chat.id,
 					i18n('[Start me](%s) _to get the list of commands_'):format(u:deeplink_constructor('', 'help')), "Markdown")
 			end
 		end
@@ -339,6 +340,7 @@ function _M:onTextMessage(blocks)
 end
 
 function _M:onCallbackQuery(blocks)
+	local api = self.api
 	local msg = self.message
 	local text, keyboard_type, answerCallbackQuery_text
 
@@ -373,11 +375,11 @@ function _M:onCallbackQuery(blocks)
 	query[blocks[1]]()
 
 	local keyboard = do_keyboard(keyboard_type)
-	local ok, err = api.editMessageText(msg.chat.id, msg.message_id, nil, text, "Markdown", nil, keyboard)
+	local ok, err = api:editMessageText(msg.chat.id, msg.message_id, nil, text, "Markdown", nil, keyboard)
 	if not ok and err and err.error_code == 111 then
-		api.answerCallbackQuery(msg.cb_id, i18n("❗️ Already there"))
+		api:answerCallbackQuery(msg.cb_id, i18n("❗️ Already there"))
 	end
-	api.answerCallbackQuery(msg.cb_id, answerCallbackQuery_text)
+	api:answerCallbackQuery(msg.cb_id, answerCallbackQuery_text)
 end
 
 _M.triggers = {

@@ -1,5 +1,4 @@
 local config = require "groupbutler.config"
-local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local i18n = require "groupbutler.languages".translate
 local null = require "groupbutler.null"
 
@@ -83,6 +82,7 @@ local function is_whitelisted(self, chat_id, text)
 end
 
 function _M:on_message()
+	local api = self.api
 	local msg = self.message
 	local u = self.u
 	local red = self.red
@@ -120,14 +120,14 @@ function _M:on_message()
 						elseif action == 'mute' then
 							message = i18n("%s <b>muted</b> for flood!"):format(name)
 						end
-						api.sendMessage(msg.chat.id, message, 'html')
+						api:sendMessage(msg.chat.id, message, 'html')
 							u:logEvent('flood', msg, {hammered = log_hammered})
 					end
 				end
 			end
 
 			-- if msg.cb then
-			-- 	api.answerCallbackQuery(msg.cb_id, i18n("‼️ Please don't abuse the keyboard, requests will be ignored")) -- avoid to hit the limits with answerCallbackQuery
+			-- 	api:answerCallbackQuery(msg.cb_id, i18n("‼️ Please don't abuse the keyboard, requests will be ignored")) -- avoid to hit the limits with answerCallbackQuery
 			-- end
 			return false --if a user is spamming, don't go through plugins
 		end
@@ -168,11 +168,11 @@ function _M:on_message()
 							red:hdel('chat:'..msg.chat.id..':mediawarn', msg.from.id) --remove media warns
 							local message =
 								i18n('%s <b>%s</b>: media sent not allowed!\n❗️ <code>%d/%d</code>'):format(name, punishment, n, max)
-							api.sendMessage(msg.chat.id, message, 'html')
+							api:sendMessage(msg.chat.id, message, 'html')
 						end
 
 						if media_status == 'del' then --do not forget to delete the message
-							api.deleteMessage(msg.chat.id, msg.message_id)
+							api:deleteMessage(msg.chat.id, msg.message_id)
 						end
 					else --max num not reached -> warn or delete
 						if media_status ~= 'del' then
@@ -180,14 +180,14 @@ function _M:on_message()
 							i18n('%s, this type of media is <b>not allowed</b> in this chat.\n(<code>%d/%d</code>)'):format(name, n, max)
 								msg:send_reply(message, 'html')
 						elseif media_status == 'del' and n + 1 >= max then
-							api.deleteMessage(msg.chat.id, msg.message_id)
+							api:deleteMessage(msg.chat.id, msg.message_id)
 							local message =
 							i18n([[%s, this type of media is <b>not allowed</b> in this chat.
 <i>The next time you will be banned/kicked/muted</i>
 ]]):format(name)
-							api.sendMessage(msg.chat.id, message, 'html')
+							api:sendMessage(msg.chat.id, message, 'html')
 						elseif media_status == 'del' then
-							api.deleteMessage(msg.chat.id, msg.message_id)
+							api:deleteMessage(msg.chat.id, msg.message_id)
 						end
 					end
 					u:logEvent('mediawarn', msg, {warns = n, warnmax = max, media = msg_type, hammered = status})
@@ -217,7 +217,7 @@ function _M:on_message()
 				end
 					if ok then
 						local name = u:getname_final(msg.from)
-					api.sendMessage(msg.chat.id, message:format(name), 'html')
+					api:sendMessage(msg.chat.id, message:format(name), 'html')
 					return false
 				end
 			end
@@ -241,7 +241,7 @@ function _M:on_message()
 				end
 					if ok then
 						local name = u:getname_final(msg.from)
-					api.sendMessage(msg.chat.id, message:format(name), 'html')
+					api:sendMessage(msg.chat.id, message:format(name), 'html')
 					return false
 					end
 				end

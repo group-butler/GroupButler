@@ -1,5 +1,4 @@
 local config = require "groupbutler.config"
-local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
 local null = require "groupbutler.null"
@@ -82,12 +81,13 @@ local function doKeyboard_dashboard(chat_id)
 end
 
 function _M:onTextMessage()
+	local api = self.api
 	local msg = self.message
 	local u = self.u
 	if msg.chat.type ~= 'private' then
 		local chat_id = msg.chat.id
 		local reply_markup = doKeyboard_dashboard(chat_id)
-		local ok = api.send_message{
+		local ok = api:send_message{
 			chat_id = msg.from.id,
 			text = i18n("Navigate this message to see *all the info* about this group!"),
 			parse_mode = "Markdown",
@@ -98,12 +98,13 @@ function _M:onTextMessage()
 				u:sendStartMe(msg)
 				return
 			end
-			api.sendMessage(msg.chat.id, i18n("_I've sent you the group dashboard via private message_"), "Markdown")
+			api:sendMessage(msg.chat.id, i18n("_I've sent you the group dashboard via private message_"), "Markdown")
 		end
 	end
 end
 
 function _M:onCallbackQuery(blocks)
+	local api = self.api
 	local msg = self.message
 	local u = self.u
 	local red = self.red
@@ -111,16 +112,16 @@ function _M:onCallbackQuery(blocks)
 	local request = blocks[2]
 	local text, notification
 	local parse_mode = "Markdown"
-	local res = api.getChat(chat_id)
+	local res = api:getChat(chat_id)
 	if not res then
-		api.answerCallbackQuery(msg.cb_id, i18n("🚫 This group does not exist"))
+		api:answerCallbackQuery(msg.cb_id, i18n("🚫 This group does not exist"))
 		return
 	end
 	-- Private chats don't have a username
 	local private = not res.username
-	res = api.getChatMember(chat_id, msg.from.id)
+	res = api:getChatMember(chat_id, msg.from.id)
 	if not res or (res.status == 'left' or res.status == 'kicked') and private then
-		api.editMessageText(msg.from.id, msg.message_id, nil, i18n("🚷 You are not a member of the chat. " ..
+		api:editMessageText(msg.from.id, msg.message_id, nil, i18n("🚷 You are not a member of the chat. " ..
 			"You can't see the settings of a private group."))
 		return
 	end
@@ -181,8 +182,8 @@ function _M:onCallbackQuery(blocks)
 		end
 		notification = i18n("ℹ️ Group ► Media")
 	end
-	api.edit_message_text(msg.from.id, msg.message_id, nil, text, parse_mode, true, reply_markup)
-	api.answerCallbackQuery(msg.cb_id, notification)
+	api:edit_message_text(msg.from.id, msg.message_id, nil, text, parse_mode, true, reply_markup)
+	api:answerCallbackQuery(msg.cb_id, notification)
 end
 
 _M.triggers = {

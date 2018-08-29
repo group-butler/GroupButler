@@ -1,5 +1,4 @@
 local config = require "groupbutler.config"
-local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
 local null = require "groupbutler.null"
@@ -100,18 +99,19 @@ local function doKeyboard_logchannel(self, chat_id)
 end
 
 function _M:onCallbackQuery(blocks)
+	local api = self.api
 	local msg = self.message
 	local u = self.u
 
 	if blocks[1] == 'logcb' then
 		local chat_id = msg.target_id
 		if not msg:is_from_admin() then
-			api.answerCallbackQuery(msg.cb_id, i18n("You are not admin of this group"), true)
+			api:answerCallbackQuery(msg.cb_id, i18n("You are not admin of this group"), true)
 		else
 			if blocks[2] == 'unban' or blocks[2] == 'untempban' then
 				local user_id = blocks[3]
-				api.unban_chat_member(chat_id, user_id)
-				api.answerCallbackQuery(msg.cb_id, i18n("User unbanned!"), true)
+				api:unban_chat_member(chat_id, user_id)
+				api:answerCallbackQuery(msg.cb_id, i18n("User unbanned!"), true)
 			end
 		end
 	else
@@ -120,11 +120,11 @@ function _M:onCallbackQuery(blocks)
 				locale.language = blocks[3]
 			end
 			local text = get_alert_text(blocks[2])
-			api.answerCallbackQuery(msg.cb_id, text, true, config.bot_settings.cache_time.alert_help)
+			api:answerCallbackQuery(msg.cb_id, text, true, config.bot_settings.cache_time.alert_help)
 		else
 			local chat_id = msg.target_id
 			if not u:is_allowed('config', chat_id, msg.from) then
-				api.answerCallbackQuery(msg.cb_id, i18n("You're no longer an admin"))
+				api:answerCallbackQuery(msg.cb_id, i18n("You're no longer an admin"))
 			else
 				local text
 
@@ -140,18 +140,19 @@ function _M:onCallbackQuery(blocks)
 ☑️ = won't be logged
 
 Tap on an option to get further information]])
-					api.edit_message_text(msg.chat.id, msg.message_id, nil, logchannel_first, "Markdown", true, reply_markup)
+					api:edit_message_text(msg.chat.id, msg.message_id, nil, logchannel_first, "Markdown", true, reply_markup)
 				else
-					api.editMessageReplyMarkup(msg.chat.id, msg.message_id, nil, reply_markup)
+					api:editMessageReplyMarkup(msg.chat.id, msg.message_id, nil, reply_markup)
 				end
 
-				if text then api.answerCallbackQuery(msg.cb_id, text) end
+				if text then api:answerCallbackQuery(msg.cb_id, text) end
 			end
 		end
 	end
 end
 
 function _M:onTextMessage(blocks)
+	local api = self.api
 	local msg = self.message
 	local red = self.red
 
@@ -162,7 +163,7 @@ function _M:onTextMessage(blocks)
 			if msg.forward_from_chat then
 				if msg.forward_from_chat.type == 'channel' then
 					if not msg.forward_from_chat.username then
-						local ok, err = api.getChatMember(msg.forward_from_chat.id, msg.from.id)
+						local ok, err = api:getChatMember(msg.forward_from_chat.id, msg.from.id)
 						if not ok then
 							if err.error_code == 429 then
 								msg:send_reply(i18n('_Too many requests. Retry later_'), "Markdown")
@@ -179,10 +180,10 @@ function _M:onTextMessage(blocks)
 									red:hset('bot:chatlogs', msg.chat.id,  msg.forward_from_chat.id)
 									text = i18n('*Log channel added!*')
 									if old_log then
-										api.sendMessage(old_log,
+										api:sendMessage(old_log,
 											i18n("<i>%s</i> changed its log channel"):format(msg.chat.title:escape_html()), 'html')
 									end
-									api.sendMessage(msg.forward_from_chat.id,
+									api:sendMessage(msg.forward_from_chat.id,
 										i18n("Logs of <i>%s</i> will be posted here"):format(msg.chat.title:escape_html()), 'html')
 								end
 								msg:send_reply(text, "Markdown")
@@ -210,7 +211,7 @@ function _M:onTextMessage(blocks)
 			if log_channel == null then
 				msg:send_reply(i18n("_This groups is not using a log channel_"), "Markdown")
 			else
-				local channel_info, err = api.getChat(log_channel)
+				local channel_info, err = api:getChat(log_channel)
 				if not channel_info and err.error_code == 403 then
 					msg:send_reply(
 						i18n("_This group has a log channel saved, but I'm not a member there, so I can't post/retrieve its info_"),
@@ -226,7 +227,7 @@ function _M:onTextMessage(blocks)
 			end
 		end
 	elseif blocks[1] == 'photo' then
-		api.sendPhoto(msg.chat.id, blocks[2])
+		api:sendPhoto(msg.chat.id, blocks[2])
 	end
 end
 

@@ -1,5 +1,4 @@
 local config = require "groupbutler.config"
-local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local json = require "cjson"
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
@@ -95,6 +94,7 @@ local imported_text = i18n([[Import was <b>successful</b>.
 ]])
 
 function _M:onTextMessage(blocks)
+	local api = self.api
 	local msg = self.message
 	local red = self.red
 	local u = self.u
@@ -119,34 +119,34 @@ Wait [<code>%s</code>] to use it again
 			red:setex(key, 10800, name) --3 hours
 				local file_path = gen_backup(self, msg.chat.id)
 				msg:send_reply(i18n('*Sent in private*'), "Markdown")
-				api.sendDocument(msg.from.id, {path = file_path}, ('#snap\n%s'):format(msg.chat.title))
+				api:sendDocument(msg.from.id, {path = file_path}, ('#snap\n%s'):format(msg.chat.title))
 		end
 	end
 	if blocks[1] == 'import' then
 		local text
 		if not msg.reply then
 			text = i18n('Invalid input. Please reply to the backup file (/snap command to get it)')
-			api.sendMessage(msg.chat.id, text)
+			api:sendMessage(msg.chat.id, text)
 			return
 		end
 		if not msg.reply.document then
 			text = i18n('Invalid input. Please reply to a document')
-			api.sendMessage(msg.chat.id, text)
+			api:sendMessage(msg.chat.id, text)
 			return
 		end
 		if msg.reply.document.file_name ~= 'snap'..msg.chat.id..'.gbb' then
 			text = i18n('This is not a valid backup file.\nReason: invalid name (%s)')
 				:format(tostring(msg.reply_to_message.document.file_name))
-			api.sendMessage(msg.chat.id, text)
+			api:sendMessage(msg.chat.id, text)
 			return
 		end
-		local res = api.getFile(msg.reply.document.file_id)
+		local res = api:getFile(msg.reply.document.file_id)
 						local download_link = u:telegram_file_link(res)
 						local file_path, code = u:download_to_file(download_link, '/tmp/'..msg.chat.id..'.json')
 
 		if not file_path then
 			text = i18n('Download of the file failed with code %s'):format(tostring(code))
-			api.sendMessage(msg.chat.id, text)
+			api:sendMessage(msg.chat.id, text)
 			return
 		end
 
@@ -155,7 +155,7 @@ Wait [<code>%s</code>] to use it again
 			chat_id = tonumber(chat_id)
 			if tonumber(chat_id) ~= msg.chat.id then
 				text = i18n('Chat IDs don\'t match (%s and %s)'):format(tostring(chat_id), tostring(msg.chat.id))
-				api.sendMessage(msg.chat.id, text)
+				api:sendMessage(msg.chat.id, text)
 				return
 			end
 			--restoring sets
@@ -177,7 +177,7 @@ Wait [<code>%s</code>] to use it again
 					end
 				end
 			end
-			api.sendMessage(msg.chat.id, imported_text, "html")
+			api:sendMessage(msg.chat.id, imported_text, "html")
 		end
 	end
 end

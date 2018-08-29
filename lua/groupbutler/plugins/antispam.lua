@@ -1,5 +1,4 @@
 local config = require "groupbutler.config"
-local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
 local null = require "groupbutler.null"
@@ -49,6 +48,7 @@ local humanizations = {
 }
 
 function _M:on_message()
+	local api = self.api
 	local msg = self.message
 	local u = self.u
 	local red = self.red
@@ -72,7 +72,7 @@ function _M:on_message()
 
 				if warns_received >= max_allowed then
 					if status == 'del' then
-						api.deleteMessage(msg.chat.id, msg.message_id)
+						api:deleteMessage(msg.chat.id, msg.message_id)
 					end
 
 					local action = red:hget('chat:'..msg.chat.id..':antispam', 'action')
@@ -88,17 +88,17 @@ function _M:on_message()
 					end
 					if res then
 						red:hdel('chat:'..msg.chat.id..':spamwarns', msg.from.id) --remove spam warns
-						api.sendMessage(msg.chat.id,
+						api:sendMessage(msg.chat.id,
 							i18n('%s %s for <b>spam</b>! (%d/%d)'):format(name, humanizations[action], warns_received, max_allowed), 'html')
 					end
 				else
 					if status == 'del' and warns_received == max_allowed - 1 then
-						api.deleteMessage(msg.chat.id, msg.message_id)
+						api:deleteMessage(msg.chat.id, msg.message_id)
 						msg:send_reply(i18n('%s, spam is not allowed here. The next time you will be restricted'):format(name),
 							'html')
 					elseif status == 'del' then
 						--just delete
-						api.deleteMessage(msg.chat.id, msg.message_id)
+						api:deleteMessage(msg.chat.id, msg.message_id)
 					elseif status ~= 'del' then
 						msg:send_reply(i18n('%s, this kind of spam is not allowed in this chat (<b>%d/%d</b>)')
 							:format(name, warns_received, max_allowed), 'html')
@@ -266,6 +266,7 @@ local function urls_table(entities, text)
 end
 
 function _M:onCallbackQuery(blocks)
+	local api = self.api
 	local msg = self.message
 	local u = self.u
 
@@ -274,12 +275,12 @@ function _M:onCallbackQuery(blocks)
 			locale.language = blocks[3]
 		end
 		local text = get_alert_text(blocks[2])
-		api.answerCallbackQuery(msg.cb_id, text, true, config.bot_settings.cache_time.alert_help)
+		api:answerCallbackQuery(msg.cb_id, text, true, config.bot_settings.cache_time.alert_help)
 	else
 
 		local chat_id = msg.target_id
 		if not u:is_allowed('config', chat_id, msg.from) then
-			api.answerCallbackQuery(msg.cb_id, i18n("You're no longer an admin"))
+			api:answerCallbackQuery(msg.cb_id, i18n("You're no longer an admin"))
 		else
 			local antispam_first = i18n([[*Anti-spam settings*
 Choose which kind of spam you want to forbid
@@ -304,8 +305,8 @@ When set on `delete`, the bot doesn't warn users until they are about to be kick
 			end
 
 			keyboard = doKeyboard_antispam(self, chat_id)
-			api.editMessageText(msg.chat.id, msg.message_id, nil, antispam_first, "Markdown", nil, keyboard)
-			if text then api.answerCallbackQuery(msg.cb_id, text) end
+			api:editMessageText(msg.chat.id, msg.message_id, nil, antispam_first, "Markdown", nil, keyboard)
+			if text then api:answerCallbackQuery(msg.cb_id, text) end
 		end
 	end
 end

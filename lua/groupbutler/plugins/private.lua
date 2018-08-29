@@ -1,5 +1,4 @@
 local config = require "groupbutler.config"
-local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
 local api_err = require "groupbutler.api_errors"
@@ -49,42 +48,44 @@ local function do_keyboard_credits(self)
 end
 
 function _M:onTextMessage(blocks)
+	local api = self.api
 	local msg = self.message
 
 	if msg.chat.type ~= 'private' then return end
 
 	if blocks[1] == 'ping' then
-		api.sendMessage(msg.from.id, i18n("Pong!"), "Markdown")
+		api:sendMessage(msg.from.id, i18n("Pong!"), "Markdown")
 	end
 	if blocks[1] == 'echo' then
-		local ok, err = api.sendMessage(msg.chat.id, blocks[2], "Markdown")
+		local ok, err = api:sendMessage(msg.chat.id, blocks[2], "Markdown")
 		if not ok then
-			api.sendMessage(msg.chat.id, api_err.trans(err), "Markdown")
+			api:sendMessage(msg.chat.id, api_err.trans(err), "Markdown")
 		end
 	end
 	if blocks[1] == 'about' then
 		local keyboard = do_keyboard_credits(self)
-		api.sendMessage(msg.chat.id, strings.about, "Markdown", true, nil, nil, keyboard)
+		api:sendMessage(msg.chat.id, strings.about, "Markdown", true, nil, nil, keyboard)
 	end
 	if blocks[1] == 'group' then
 		if config.help_group and config.help_group ~= '' then
-			api.sendMessage(msg.chat.id,
+			api:sendMessage(msg.chat.id,
 				i18n('You can find the list of our support groups in [this channel](%s)'):format(config.help_group), "Markdown")
 		end
 	end
 end
 
 function _M:onCallbackQuery(blocks)
+	local api = self.api
 	local msg = self.message
 
 	if blocks[1] == 'about' then
 		local keyboard = do_keyboard_credits(self)
-		api.editMessageText(msg.chat.id, msg.message_id, nil, strings.about, "Markdown", true, keyboard)
+		api:editMessageText(msg.chat.id, msg.message_id, nil, strings.about, "Markdown", true, keyboard)
 	end
 	if blocks[1] == 'group' then
 		if config.help_group and config.help_group ~= '' then
 			local markup = {inline_keyboard={{{text = i18n('🔙 back'), callback_data = 'fromhelp:about'}}}}
-			api.editMessageText(msg.chat.id, msg.message_id, nil,
+			api:editMessageText(msg.chat.id, msg.message_id, nil,
 				i18n("You can find the list of our support groups in [this channel](%s)"):format(config.help_group),
 				"Markdown", nil, markup)
 		end

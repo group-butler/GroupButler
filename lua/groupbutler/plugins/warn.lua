@@ -1,5 +1,4 @@
 local config = require "groupbutler.config"
-local api = require "telegram-bot-api.methods".init(config.telegram.token)
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
 local null = require "groupbutler.null"
@@ -35,6 +34,7 @@ local function forget_user_warns(self, chat_id, user_id)
 end
 
 function _M:onTextMessage(blocks)
+	local api = self.api
 	local msg = self.message
 	local bot = self.bot
 	local red = self.red
@@ -75,7 +75,7 @@ function _M:onTextMessage(blocks)
 			{{{text = i18n('Yes'), callback_data = 'cleanwarns:yes'}, {text = i18n('No'), callback_data = 'cleanwarns:no'}}}
 		}
 
-		api.sendMessage(msg.chat.id,
+		api:sendMessage(msg.chat.id,
 			i18n('Do you want to continue and reset *all* the warnings received by *all* the users of the group?'),
 			"Markdown", nil, nil, nil, reply_markup)
 
@@ -148,7 +148,7 @@ function _M:onTextMessage(blocks)
 		else
 			text = i18n("%s <b>has been warned</b> (<code>%d/%d</code>)"):format(name, num, nmax)
 			local keyboard = doKeyboard_warn(msg.reply.from.id)
-			if blocks[1] ~= 'sw' then api.sendMessage(msg.chat.id, text, 'html', true, nil, nil, keyboard) end
+			if blocks[1] ~= 'sw' then api:sendMessage(msg.chat.id, text, 'html', true, nil, nil, keyboard) end
 			u:logEvent('warn', msg, {
 				motivation = blocks[2],
 				warns = num,
@@ -162,12 +162,13 @@ function _M:onTextMessage(blocks)
 end
 
 function _M:onCallbackQuery(blocks)
+	local api = self.api
 	local msg = self.message
 	local red = self.red
 	local u = self.u
 
 	if not u:is_allowed('hammer', msg.chat.id, msg.from) then
-		api.answerCallbackQuery(msg.cb_id, i18n("You are not allowed to use this button")) return
+		api:answerCallbackQuery(msg.cb_id, i18n("You are not allowed to use this button")) return
 	end
 
 	if blocks[1] == 'removewarn' then
@@ -183,17 +184,17 @@ function _M:onCallbackQuery(blocks)
 		end
 
 		text = text .. i18n("\n(Admin: %s)"):format(u:getname_final(msg.from))
-		api.editMessageText(msg.chat.id, msg.message_id, nil, text, 'html')
+		api:editMessageText(msg.chat.id, msg.message_id, nil, text, 'html')
 	end
 	if blocks[1] == 'cleanwarns' then
 		if blocks[2] == 'yes' then
 			red:del('chat:'..msg.chat.id..':warns')
 			red:del('chat:'..msg.chat.id..':mediawarn')
 			red:del('chat:'..msg.chat.id..':spamwarns')
-			api.editMessageText(msg.chat.id, msg.message_id, nil,
+			api:editMessageText(msg.chat.id, msg.message_id, nil,
 				i18n('Done. All the warnings of this group have been erased by %s'):format(u:getname_final(msg.from)), 'html')
 		else
-			api.editMessageText(msg.chat.id, msg.message_id, nil, i18n('_Action aborted_'), "Markdown")
+			api:editMessageText(msg.chat.id, msg.message_id, nil, i18n('_Action aborted_'), "Markdown")
 		end
 	end
 end

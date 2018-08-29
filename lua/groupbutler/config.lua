@@ -75,7 +75,7 @@ local _M =
 			times_allowed = 2
 		},
 		notify_bug = false, -- notify if a bug occurs!
-		log_api_errors = true, -- log errors, which happening whilst interacting with the bot api.
+		log_api_errors = true, -- log errors, which happening whilst interacting with the bot api:
 		stream_commands = true,
 		admin_mode = os.getenv('GB_ADMIN_MODE') == 'true' or false
 	},

@@ -1,5 +1,5 @@
 local config = require "groupbutler.config"
-local api = require "telegram-bot-api.methods".init(config.telegram.token)
+
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
 
@@ -76,6 +76,7 @@ local function get_userinfo(self, user_id, chat_id)
 end
 
 function _M:onTextMessage(blocks)
+	local api = self.api
 	local msg = self.message
 	local red = self.red
 	local u = self.u
@@ -84,14 +85,14 @@ function _M:onTextMessage(blocks)
 
 	if blocks[1] == 'id' then --just for debug
 		if msg.chat.id < 0 and msg:is_from_admin() then
-			api.sendMessage(msg.chat.id, string.format('`%d`', msg.chat.id), "Markdown")
+			api:sendMessage(msg.chat.id, string.format('`%d`', msg.chat.id), "Markdown")
 		end
 	end
 
 	if blocks[1] == 'adminlist' then
 		local adminlist = u:getAdminlist(msg.chat.id)
 		if not msg:is_from_admin() then
-			api.sendMessage(msg.from.id, adminlist, 'html', true)
+			api:sendMessage(msg.from.id, adminlist, 'html', true)
 		else
 			msg:send_reply(adminlist, 'html', true)
 		end
@@ -107,7 +108,7 @@ function _M:onTextMessage(blocks)
 			msg:send_reply(error_tr_id, "Markdown")
 			return
 		end
-		local res = api.getChatMember(msg.chat.id, user_id)
+		local res = api:getChatMember(msg.chat.id, user_id)
 
 		if not res then
 			msg:send_reply(i18n("That user has nothing to do with this chat"))
@@ -162,7 +163,7 @@ function _M:onTextMessage(blocks)
 
 		local text = get_userinfo(self, user_id, msg.chat.id)
 
-		api.sendMessage(msg.chat.id, text, "Markdown", nil, nil, nil, keyboard)
+		api:sendMessage(msg.chat.id, text, "Markdown", nil, nil, nil, keyboard)
 	end
 	if blocks[1] == 'cache' then
 		if not msg:is_from_admin() then return end
@@ -172,7 +173,7 @@ function _M:onTextMessage(blocks)
 		local text = i18n("📌 Status: `CACHED`\n⌛ ️Remaining: `%s`\n👥 Admins cached: `%d`")
 			:format(get_time_remaining(tonumber(seconds)), cached_admins)
 		local keyboard = do_keyboard_cache(msg.chat.id)
-		api.sendMessage(msg.chat.id, text, "Markdown", nil, nil, nil, keyboard)
+		api:sendMessage(msg.chat.id, text, "Markdown", nil, nil, nil, keyboard)
 	end
 	if blocks[1] == 'msglink' then
 		if not msg.reply or not msg.chat.username then return end
@@ -182,22 +183,23 @@ function _M:onTextMessage(blocks)
 		if not u:is_silentmode_on(msg.chat.id) or msg:is_from_admin() then
 			msg.reply:send_reply(text, "Markdown")
 		else
-			api.sendMessage(msg.from.id, text, "Markdown")
+			api:sendMessage(msg.from.id, text, "Markdown")
 		end
 	end
 	if blocks[1] == 'leave' and msg:is_from_admin() then
 		u:remGroup(msg.chat.id)
-		api.leaveChat(msg.chat.id)
+		api:leaveChat(msg.chat.id)
 	end
 end
 
 function _M:onCallbackQuery(blocks)
+	local api = self.api
 	local msg = self.message
 	local red = self.red
 	local u = self.u
 
 	if not msg:is_from_admin() then
-		api.answerCallbackQuery(msg.cb_id, i18n("You are not allowed to use this button"))
+		api:answerCallbackQuery(msg.cb_id, i18n("You are not allowed to use this button"))
 		return
 	end
 
@@ -209,9 +211,9 @@ function _M:onCallbackQuery(blocks)
 		}
 
 		local name = u:getname_final(msg.from)
-		local res = api.getChatMember(msg.chat.id, blocks[2])
+		local res = api:getChatMember(msg.chat.id, blocks[2])
 		local text = i18n("The number of warnings received by this user has been <b>reset</b>, by %s"):format(name)
-		api.editMessageText(msg.chat.id, msg.message_id, nil, text:format(name), 'html')
+		api:editMessageText(msg.chat.id, msg.message_id, nil, text:format(name), 'html')
 		u:logEvent('nowarn', msg,
                {admin = name, user = u:getname_final(res.user), user_id = blocks[2], rem = removed})
 	end
@@ -220,7 +222,7 @@ function _M:onCallbackQuery(blocks)
 		local wait = 600
 		if config.bot_settings.cache_time.adminlist - missing_sec < wait then
 			local seconds_to_wait = wait - (config.bot_settings.cache_time.adminlist - missing_sec)
-			api.answerCallbackQuery(msg.cb_id,i18n(
+			api:answerCallbackQuery(msg.cb_id,i18n(
 					"The adminlist has just been updated. You must wait 10 minutes from the last refresh (wait  %d seconds)"
 				):format(seconds_to_wait), true)
 		else
@@ -230,8 +232,8 @@ function _M:onCallbackQuery(blocks)
 			local time = get_time_remaining(config.bot_settings.cache_time.adminlist)
 			local text = i18n("📌 Status: `CACHED`\n⌛ ️Remaining: `%s`\n👥 Admins cached: `%d`")
 				:format(time, #cached_admins)
-			api.answerCallbackQuery(msg.cb_id, i18n("✅ Updated. Next update in %s"):format(time))
-			api.editMessageText(msg.chat.id, msg.message_id, nil, text, "Markdown", nil, do_keyboard_cache(msg.target_id))
+			api:answerCallbackQuery(msg.cb_id, i18n("✅ Updated. Next update in %s"):format(time))
+			api:editMessageText(msg.chat.id, msg.message_id, nil, text, "Markdown", nil, do_keyboard_cache(msg.target_id))
 		end
 	end
 end
