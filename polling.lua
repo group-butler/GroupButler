@@ -43,36 +43,50 @@ bot.init()
 
 api:getUpdates(nil, 1, 3600, config.telegram.allowed_updates) -- First update
 
-while true do -- Start a loop while the bot should be running.
-	local res = api:getUpdates(last_update+1) -- Get the latest updates
-	if res then
-		-- clocktime_last_update = os.clock()
-		for i=1, #res do -- Go through every new message.
-			last_update = res[i].update_id
-			--print(last_update)
-			current.h = current.h + 1
-			local update_obj = main:new(res[i])
-			if not update_obj then
-				log.error("update parser init failed")
-			end
-			update_obj:process()
-		end
-	else
-		log.error('Connection error')
+local function process_update()
+	local ok, err = api:getUpdates(last_update+1) -- Get the latest updates
+	if not ok then
+		log.error("Connection error: {description}", err)
+		return
 	end
+	-- clocktime_last_update = os.clock()
+	for i=1, #ok do -- Go through every new message.
+		last_update = ok[i].update_id
+		--print(last_update)
+		current.h = current.h + 1
+		local update_obj = main:new(ok[i])
+		if not update_obj then
+			log.error("update parser init failed")
+		end
+		update_obj:process()
+	end
+end
+
+local function do_cron()
 	if last_cron ~= os.date('%H') then -- Run cron jobs every hour.
 		last_cron = os.date('%H')
 		bot.last.h = current.h
 		current.h = 0
-		log.info('Cron...')
+		log.info("Cron...")
 		for i=1, #plugins do
 			if plugins[i].cron then -- Call each plugin's cron function, if it has one.
-				local res2, err = pcall(plugins[i].cron)
-				if not res2 then
-					log.error('An #error occurred (cron).\n{err}', {err = err})
-					return
-				end
+				plugins[i].cron()
 			end
+		end
+	end
+end
+
+while true do -- Start a loop while the bot should be running.
+	do
+		local ok, err = pcall(process_update)
+		if not ok then
+			log.error("An #error occurred (process_update).\n{err}", {err = err})
+		end
+	end
+	do
+		local ok, err = pcall(do_cron)
+		if not ok then
+			log.error("An #error occurred (cron).\n{err}", {err = err})
 		end
 	end
 end
