@@ -142,8 +142,9 @@ function _M:onTextMessage(blocks)
 	end
 end
 
-function _M:onCallbackQuery(msg, matches)
+function _M:onCallbackQuery(matches)
 	local api = self.api
+	local msg = self.message
 	local red = self.red
 	local u = self.u
 
