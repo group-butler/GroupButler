@@ -12,7 +12,7 @@ pot:
 		--output=/dev/stdout | msgmerge --backup=off --update locales/en.po /dev/stdin
 
 luacheck:
-	luacheck . --exclude-files lua/vendor
+	luacheck . --exclude-files lua/vendor src
 
 logs:
 	docker-compose logs -f --tail 20

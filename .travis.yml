@@ -20,7 +20,7 @@ install:
   # - luarocks install luacov-coveralls
 
 script:
-  - luacheck . --exclude-files lua/vendor lua_install
+  - luacheck . --exclude-files lua/vendor lua_install src
   # - busted --verbose --coverage
 
 # after_success:
