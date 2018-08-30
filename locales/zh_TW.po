@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-29 14:26-0300\n"
-"PO-Revision-Date: 2018-08-29 17:28\n"
+"POT-Creation-Date: 2018-08-29 14:41-0300\n"
+"PO-Revision-Date: 2018-08-30 04:01\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Chinese Traditional\n"
 "Language: zh\n"
@@ -785,7 +785,7 @@ msgstr "在此選單中，你可以找到所有可用的命令"
 #: lua/groupbutler/plugins/help.lua:24
 #, lua-format
 msgid "Hello %s 👋🏼, nice to meet you!\n"
-"I'm Group Butler, the first administration bot using the official Bot api:\n\n"
+"I'm Group Butler, the first administration bot using the official Bot API.\n\n"
 "*I can do a lot of cool stuffs*, here's a short list:\n"
 "• I can *kick or ban* users\n"
 "• You can use me to set the group rules\n"
@@ -795,7 +795,17 @@ msgid "Hello %s 👋🏼, nice to meet you!\n"
 "• I can also warn, kick or ban users when they post a specific media\n"
 "…and more, below you can find the \"all commands\" button to get the whole list!\n\n"
 "I work better if you add me to the group administrators (otherwise I won't be able to kick or ban)!"
-msgstr ""
+msgstr "你好 %s 👋🏼，很高興見到你！\n"
+"我是Group Butler，第一個使用官方Bot API的管理機器人。\n\n"
+"*我可以做很多很酷的東西* ，這裡有一個簡短的清單：\n"
+"•我可以*踢或禁止*用戶\n"
+"•您可以使用我來設置群組規定\n"
+"•我有一個靈活的*防洗版*系統\n"
+"•我可以*歡迎新用戶*並使用可自定義的消息，或者如果您想要帶有gif或貼圖\n"
+"•我可以*警告*用戶，並在達到最大警告次數時禁止他們\n"
+"•我還可以在用戶發布特定媒體時發出警告、踢除或禁止用戶\n"
+"......以及更多，下方你可以找到“所有命令”按鈕來獲取整個列表！\n\n"
+"如果你把我加到群組管理員那裡我會更好地工作（否則我將無法踢或禁止）！"
 
 #: lua/groupbutler/plugins/help.lua:37
 msgid "This bot works only in supergroups.\n\n"
@@ -806,7 +816,14 @@ msgid "This bot works only in supergroups.\n\n"
 "This list is updated every 5 hours, so there could be some differences between who the bot thinks are the admins and who the admins actually are, if during the 5 hours timeframe some users have been promoted/demoted.\n"
 "It's possible to force the bot to update its adminlist with `/cache`.\n\n"
 "Remember: you have to use commands  *in the group*, unless they are specifically designed for private chats (see \"private\" tab)."
-msgstr ""
+msgstr "這個機器人只能在超級群組中使用。\n\n"
+"要正常使用，[它必須是管理員](可參考 https://telegram.me/GroupButler_ch/104)，以便在需要時限制成員。\n"
+"只有群組管理者才可以啟用它 :)\n\n"
+"您可以使用 `/, ! 或 #` 當作開頭來觸發指令。\n\n"
+"Group Butler 會將群組管理員名單記錄在資料庫中，以避免向 Telegram 發送過多請求。\n"
+"此列表每 5 小時更新一次，因此，如果在這 5 小時的時間差內有成員被授予/移除管理員，可能會與機器人的資料從在差異。\n"
+"可以使用`/cache`更新管理員名單。\n\n"
+"請記得：您需要*在群組中*使用指令，除非它是在私人對話中使用(請參閱\"私訊\")"
 
 #: lua/groupbutler/plugins/help.lua:49
 msgid "*Commands that work in private*:\n\n"
@@ -913,7 +930,17 @@ msgid "*Whitelist settings*\n\n"
 "When the group link is saved with `/setlink`, it gets automatically added to the whitelist.\n\n"
 "*Why links are saved without* _https://_ *and* _www_*?*\n"
 "The bot auto-removes _https://, http:// and www_ from every link to reduce the possibility of having the same link saved twice."
-msgstr ""
+msgstr "*白名單設定*\n\n"
+"您可能知道，機器人可以警告、踢除或封禁發送Telegram.me連結（反垃圾訊息設定）或任何其他鏈接（媒體設定）的人。\n"
+"白名單是一個機器人將忽略的鏈接列表。\n"
+"如果使用者發送白名單鏈接，則不會收到警告或被踢除。\n\n"
+"`/whitelist [連結]`或`/wl [連結]`：將一個或多個鏈接添加到白名單。\n"
+"`/unwhitelist [連結]`或`/unwl [連結]`：從白名單中刪除一個或多個鏈接。\n"
+"`/whitelist`或`/wl`：獲取白名單。\n"
+"`/whitelistl -`或`/wl -`：清空白名單。\n\n"
+"當群組鏈接用`/setlink` 保存時，它會自動添加到白名單之中。\n\n"
+"*為什麼不保存 * _https://_ * 和 * _www _ * 呢？*\n"
+"機器人從每個鏈接自動刪除 _https:// 、 http://和www_ ，以減少將相同鏈接保存兩次的可能性。"
 
 #: lua/groupbutler/plugins/help.lua:149
 msgid "*Extra commands*\n"
@@ -1012,7 +1039,7 @@ msgstr "*記錄頻道資訊*\n\n"
 
 #: lua/groupbutler/plugins/help.lua:233
 msgid "*Missing help information!*"
-msgstr ""
+msgstr "*缺少說明資訊!*"
 
 #: lua/groupbutler/plugins/help.lua:242
 msgid "Banhammer"
@@ -1655,15 +1682,15 @@ msgstr "%s <b>已被禁言</b>：偵測到阿拉伯文字！"
 
 #: lua/groupbutler/plugins/pin.lua:77
 msgid "I couldn't find any message generated by <code>/pin</code>."
-msgstr ""
+msgstr "我找不到任何由 <code>/pin</code> 產生的訊息。"
 
 #: lua/groupbutler/plugins/pin.lua:82
 msgid "Last message generated by <code>/pin</code> ^"
-msgstr ""
+msgstr "最後的訊息由 <code>/pin</code> 產生 ^"
 
 #: lua/groupbutler/plugins/pin.lua:87
 msgid "The old message generated with <code>/pin</code> does not exist anymore."
-msgstr ""
+msgstr "使用 <code> /pin </code> 生成的舊消息不再存在。"
 
 #: lua/groupbutler/plugins/private.lua:19
 msgid "unknown"
@@ -1730,7 +1757,7 @@ msgstr "用戶回報"
 
 #: lua/groupbutler/plugins/private_settings.lua:66
 msgid "Name not available"
-msgstr ""
+msgstr "名稱無法使用"
 
 #: lua/groupbutler/plugins/private_settings.lua:89
 msgid "Change your private settings"
@@ -2122,7 +2149,7 @@ msgstr "請閱讀規則"
 
 #: lua/groupbutler/plugins/welcome.lua:124
 msgid "Hi $name!"
-msgstr ""
+msgstr "嗨 $name!"
 
 #: lua/groupbutler/plugins/welcome.lua:170
 msgid "Welcome and...?"
@@ -2333,14 +2360,18 @@ msgstr "<b>對話</b>：%s [#chat%d]"
 msgid "#%s (<code>%d/%d</code>), <i>%s</i>\n"
 "• %s\n"
 "• <b>User</b>: %s"
-msgstr ""
+msgstr "#%s (<code>%d/%d</code>), <i>%s</i>\n"
+"• %s\n"
+"• <b>使用者</b>： %s"
 
 #: lua/groupbutler/utilities.lua:888
 #, lua-format
 msgid "#%s\n"
 "• %s\n"
 "• <b>User</b>: %s"
-msgstr ""
+msgstr "#%s\n"
+"• %s\n"
+"• <b>使用者</b>：%s"
 
 #: lua/groupbutler/utilities.lua:891 lua/groupbutler/utilities.lua:901
 #: lua/groupbutler/utilities.lua:904 lua/groupbutler/utilities.lua:907
@@ -2372,7 +2403,9 @@ msgstr "%s\n"
 msgid "#%s\n"
 "• %s\n"
 "• <b>User</b>: %s [#id%d]"
-msgstr ""
+msgstr "#%s\n"
+"• %s\n"
+"• <b>使用者</b>： %s [#id%d]"
 
 #: lua/groupbutler/utilities.lua:920
 #, lua-format
@@ -2472,7 +2505,8 @@ msgstr "#%s\n"
 #, lua-format
 msgid "\n"
 "• <b>Action</b>: #%s"
-msgstr ""
+msgstr "\n"
+"• <b>動作</b>: #%s"
 
 #: lua/groupbutler/utilities.lua:1003
 #, lua-format
