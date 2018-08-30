@@ -79,6 +79,8 @@ logging.text_format = "{time} [{level}]: {message}"
 
 -- export for tests
 
-logging._interpolate = interpolate
+if _G.TEST then
+	logging._interpolate = interpolate
+end
 
 return logging
