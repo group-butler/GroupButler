@@ -27,37 +27,8 @@ local function get_button_description(key)
 	return button_description[key]
 end
 
-local function change_private_setting(self, user_id, key)
-	local red = self.red
-	local hash = 'user:'..user_id..':settings'
-	local new_val = "off"
-	local old_val = red:hget(hash, key)
-	if old_val ~= "on" and old_val ~= "off" then
-		old_val = config.private_settings[key]
-	end
-
-	if old_val ~= "on" then
-		new_val = "on"
-	end
-	red:hset(hash, key, new_val)
-end
-
-local function get_user_settings(self, user_id)
-	local red = self.red
-	local hash = 'user:'..user_id..':settings'
-	local user_settings = red:array_to_hash(red:hgetall(hash))
-
-	for key, default_status in pairs(config.private_settings) do
-		if not user_settings[key] then
-			user_settings[key] = default_status
-		end
-	end
-
-	return user_settings
-end
-
 local function doKeyboard_privsett(self, user_id)
-	local user_settings = get_user_settings(self, user_id)
+	local user_settings = self.db:get_all_user_settings(user_id)
 
 	local keyboard = api_u.InlineKeyboardMarkup:new()
 	local button_names = {
@@ -67,7 +38,7 @@ local function doKeyboard_privsett(self, user_id)
 
 	for key, status in pairs(user_settings) do
 		local icon = "☑️"
-		if status == "on" then
+		if status then
 			icon = "✅"
 		end
 		keyboard:row(
@@ -99,7 +70,7 @@ function _M:onCallbackQuery(blocks)
 		api:answerCallbackQuery(msg.cb_id, get_button_description(blocks[2]), true)
 		return
 	end
-	change_private_setting(self, msg.from.id, blocks[2])
+	self.db:toggle_user_setting(msg.from.id, blocks[2])
 	local reply_markup = doKeyboard_privsett(self, msg.from.id)
 	api:edit_message_reply_markup{
 		chat_id = msg.from.id,

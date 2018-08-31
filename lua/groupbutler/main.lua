@@ -5,6 +5,7 @@ local log = require "groupbutler.logging"
 local redis = require "resty.redis"
 local plugins = require "groupbutler.plugins"
 local message = require "groupbutler.message"
+local storage = require "groupbutler.storage"
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
 
@@ -29,6 +30,7 @@ function _M:new(update_obj)
 		return nil, err
 	end
 	update_obj.red:select(config.redis.db)
+	update_obj.db = storage:new(update_obj.red)
 
 	update_obj.u = utilities:new(update_obj)
 

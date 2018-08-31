@@ -1,67 +1,82 @@
 -- Generic storage backend
 local null = require "groupbutler.null"
+local config = require "groupbutler.config"
 
-local _M = {}
+-- local _M = {}
 
 local RedisStorage = {}
 
-RedisStorage.__index = RedisStorage
-
-setmetatable(RedisStorage, {
-	__call = function (cls, ...)
-		return cls.new(...)
-	end,
-})
-
 local function _is_truthy(val)
-	if val == true or val == "notok" or val == "off" or val == "no" then
+	if val == false or val == "notok" or val == "off" or val == "no" then
 		return false
-	elseif val == false or val == "ok" or val == "on" or val == "yes" then
+	end
+	if val == true or val == "ok" or val == "on" or val == "yes" then
 		return true
 	end
-
-	return false
+	return val
 end
 
-function RedisStorage.new(redis_db)
-	local self = setmetatable({}, _M)
-	self.redis = redis_db
-	return self
+function RedisStorage:new(redis_db)
+	local obj = setmetatable({}, {__index = self})
+	obj.redis = redis_db
+	return obj
 end
 
 function RedisStorage:_hget_default(hash, key, default)
 	local val = self.redis:hget(hash, key)
 	if val == null then
 		return default
-	else
-		return val
 	end
+	return val
 end
 
-function RedisStorage:get_chat_setting(chat_id, setting, default)
-	return self:_hget_default("chat:"..chat_id..":settings", setting, default)
-end
-
-function RedisStorage:get_user_setting(user_id, setting, default)
-	return self:_hget_default("user:"..user_id..":settings", setting, default)
-end
-
-function RedisStorage:get_chat_setting_truthy(chat_id, setting, default)
-	local val = self:get_chat_setting(chat_id, setting, default)
+function RedisStorage:get_chat_setting(chat_id, setting)
+	local default = config.chat_settings.settings[setting]
+	local val = self:_hget_default("chat:"..chat_id..":settings", setting, default)
 	return _is_truthy(val)
 end
 
-function RedisStorage:get_user_setting_truthy(user_id, setting, default)
-	local val = self:get_user_setting(user_id, setting, default)
+function RedisStorage:set_chat_setting(chat_id, setting, value)
+	self.redis:hset("chat:"..chat_id..":settings", setting, value)
+end
+
+function RedisStorage:get_user_setting(user_id, setting)
+	local default = config.private_settings[setting]
+	local val = self:_hget_default("user:"..user_id..":settings", setting, default)
 	return _is_truthy(val)
 end
 
-_M.storage = {
-	redis=RedisStorage
-}
+function RedisStorage:get_all_user_settings(user_id)
+	local settings = self.redis:array_to_hash(self.redis:hgetall("user:"..user_id..":settings"))
+	for setting, default in pairs(config.private_settings) do
+		if not settings[setting] then
+			settings[setting] = default
+		end
+		settings[setting] = _is_truthy(settings[setting])
+	end
+	return settings
+end
 
-_M.cache = {
-	-- None yet
-}
+function RedisStorage:set_user_setting(user_id, setting, value)
+	self.redis:hset("user:"..user_id..":settings", setting, value)
+end
 
-return _M
+function RedisStorage:toggle_user_setting(user_id, setting)
+	local old_val = self:get_user_setting(user_id, setting)
+	local new_val = "on"
+	if old_val then
+		new_val = "off"
+	end
+	self:set_user_setting(user_id, setting, new_val)
+end
+
+-- _M.storage = {
+-- 	redis=RedisStorage
+-- }
+
+-- _M.cache = {
+-- 	-- None yet
+-- }
+
+-- return _M
+return RedisStorage
