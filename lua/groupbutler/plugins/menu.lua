@@ -111,7 +111,7 @@ end
 local function usersettings_table(self, settings, chat_id)
 	local red = self.red
 	local return_table = {}
-	local icon_off, icon_on = '👤', '👥'
+	local icon_off, icon_on = '👥', '👤'
 	for field, default in pairs(settings) do
 		if field == 'Extra' or field == 'Rules' then
 			local status = red:hget('chat:'..chat_id..':settings', field)
