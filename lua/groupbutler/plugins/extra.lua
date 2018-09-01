@@ -136,8 +136,7 @@ function _M:onTextMessage(blocks)
 		local _, err
 
 		if msg.chat.id > 0
-		or not msg:is_from_admin()
-		or is_locked(self, msg.chat.id) then -- send it in private
+		or(is_locked(self, msg.chat.id) and not msg:is_from_admin()) then -- send it in private
 			if not file_id then
 				local reply_markup, clean_text = u:reply_markup_from_text(text)
 				_, err = api:sendMessage(msg.from.id, clean_text:replaceholders(msg.reply or msg), "Markdown",
