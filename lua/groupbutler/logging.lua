@@ -52,7 +52,7 @@ function logging.print_log_handler(message)
 end
 
 function logging.stderr_log_handler(message)
-	io.stderr:write(message, "\n")
+	io.stderr:write(message.."\n")
 	io.stderr:flush()
 end
 
