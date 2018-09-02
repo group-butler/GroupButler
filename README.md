@@ -1,7 +1,7 @@
 # Group Butler
 
 [![Build Status](https://travis-ci.com/group-butler/GroupButler.svg?branch=master)](https://travis-ci.com/group-butler/GroupButler)
-[![Crowdin](https://d322cqt584bo4o.cloudfront.net/group-butler/localized.svg)](https://crowdin.com/project/group-butler)
+[![Coverage Status](https://coveralls.io/repos/github/group-butler/GroupButler/badge.svg?branch=master)](https://coveralls.io/github/group-butler/GroupButler?branch=master)
 
 ## Short introduction
 
