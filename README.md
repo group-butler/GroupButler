@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.com/group-butler/GroupButler.svg?branch=master)](https://travis-ci.com/group-butler/GroupButler)
 [![Coverage Status](https://coveralls.io/repos/github/group-butler/GroupButler/badge.svg?branch=master)](https://coveralls.io/github/group-butler/GroupButler?branch=master)
+[![Localization Status](https://d322cqt584bo4o.cloudfront.net/group-butler/localized.svg)](https://crowdin.com/project/group-butler)
 
 ## Short introduction
 
@@ -64,7 +65,7 @@ Redis default port is mounted to host, just in case you want to debug something 
 ### Running (production mode)
 There’s a number of ways you can use docker for deploying into production.
 
-Files named `docker-compose.*.yml` are gitignored, just in case you feel the need to override `docker-compose.yml` or write something else entirely. 
+Files named `docker-compose.*.yml` are gitignored, just in case you feel the need to override `docker-compose.yml` or write something else entirely.
 
 The bot also supports reading Docker Secrets (may work with other vaults too). Check `lua/config.lua` to see which variables can be read from secrets.
 
