@@ -3,6 +3,7 @@ docker-compose.*.yml
 *.sh
 *.json
 *.tar
+luacov.*
 
 !install.sh
 !launch.sh

@@ -2,7 +2,7 @@ language: python
 sudo: false
 
 env:
-  - LUA="lua=5.1" # Recommended version for polling mode
+  # - LUA="lua=5.1" # Recommended version for polling mode
   - LUA="luajit=2.1" # Recommended version for webhooks mode
   # - LUA="lua=5.2"
   # - LUA="lua=5.3"
@@ -15,16 +15,16 @@ before_install:
 
 install:
   - luarocks install luacheck
-  # - luarocks install busted
-  # - luarocks install luacov
-  # - luarocks install luacov-coveralls
+  - luarocks install busted
+  - luarocks install luacov
+  - luarocks install luacov-coveralls
 
 script:
-  - luacheck . --exclude-files lua/vendor lua_install src
-  # - busted --verbose --coverage
+  - luacheck . --exclude-files lua/vendor lua_install
+  - busted --coverage --lpath "./lua/?.lua;./lua/?/?.lua;./lua/?/init.lua"
 
-# after_success:
-#   - luacov-coveralls --exclude $TRAVIS_BUILD_DIR/lua_install
+after_success:
+  - luacov-coveralls --exclude lua/vendor lua_install
 
 # matrix:
 #   allow_failures:
