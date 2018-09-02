@@ -159,7 +159,7 @@ function _M:onCallbackQuery(blocks)
 			video = i18n("Videos"),
 			document = i18n("Documents"),
 			TGlink = i18n("telegram.me links"),
-			voice = i18n("Vocal messages"),
+			voice = i18n("Voice Messages"),
 			link = i18n("Links"),
 			audio = i18n("Music"),
 			sticker = i18n("Stickers"),
