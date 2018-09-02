@@ -18,6 +18,8 @@ install:
   - luarocks install busted
   - luarocks install luacov
   - luarocks install luacov-coveralls
+  - luarocks install telegram-bot-api
+  - luarocks install lua-resty-socket
 
 script:
   - luacheck . --exclude-files lua/vendor lua_install
