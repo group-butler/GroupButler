@@ -207,7 +207,7 @@ The inline keyboard has six sub-menus:
 *Menu*: manage the most important group settings
 *Antiflood*: turn on or off the antiflood, set its sensitivity and choose some media to ignore, if you want
 *Media*: choose which media to forbid in your group, and set the number of times that a user will be warned before being kicked/banned
-*Antispam*: choose which kind of spam you want to forbid (example: telegram.me links, forwarded messages from channels)
+*Antispam*: choose which kind of message you want to forbid (e.g. telegram.me links, forwarded messages from channels)
 *Log channel*: choose which updates should be logged
 
 *Bonus commands*:

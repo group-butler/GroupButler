@@ -100,7 +100,7 @@ function _M:on_message()
 						--just delete
 						api:deleteMessage(msg.chat.id, msg.message_id)
 					elseif status ~= 'del' then
-						msg:send_reply(i18n('%s, this kind of spam is not allowed in this chat (<b>%d/%d</b>)')
+						msg:send_reply(i18n("%s, this kind of message is not allowed in this chat (<b>%d/%d</b>)")
 							:format(name, warns_received, max_allowed), 'html')
 					end
 				end
@@ -283,12 +283,11 @@ function _M:onCallbackQuery(blocks)
 			api:answerCallbackQuery(msg.cb_id, i18n("You're no longer an admin"))
 		else
 			local antispam_first = i18n([[*Anti-spam settings*
-Choose which kind of spam you want to forbid
+Choose which kind of message you want to forbid
 • ✅ = *Allowed*
 • ❌ = *Not allowed*
 • 🗑 = *Delete*
-When set on `delete`, the bot doesn't warn users until they are about to be kicked/banned/muted (at the second-to-last warning)
-]])
+When set on `delete`, the bot doesn't warn users until they are about to be kicked/banned/muted (at the second-to-last warning)]]) -- luacheck: ignore 631
 
 			local keyboard, text
 
