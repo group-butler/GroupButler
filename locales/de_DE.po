@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-29 14:41-0300\n"
-"PO-Revision-Date: 2018-08-30 04:01\n"
+"POT-Creation-Date: 2018-09-02 21:47-0300\n"
+"PO-Revision-Date: 2018-09-03 04:28\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -77,7 +77,7 @@ msgstr "Einer der URLs in der inline-Taste scheint ungültig zu sein (keine URL)
 msgid "One of the inline buttons you are trying to set doesn't have a name"
 msgstr "Einer deiner inline-Tasten hat keinen Namen"
 
-#: lua/groupbutler/main.lua:124
+#: lua/groupbutler/main.lua:126
 #, lua-format
 msgid "Hello everyone!\n"
 "My name is %s, and I'm a bot made to help administrators in their hard work.\n"
@@ -87,25 +87,25 @@ msgstr "Hallo alle zusammen!\n"
 "Leider funktioniere ich nicht in normalen Gruppen.\n"
 "Solltet ihr mich brauchen, frage doch bitte den Erschaffer der Gruppe diese in eine Supergruppe zu ändern und fügt mich hinzu.\n"
 
-#: lua/groupbutler/main.lua:191
+#: lua/groupbutler/main.lua:193
 msgid "🐞 Sorry, a *bug* occurred"
 msgstr "🐞 Leider ist ein *Fehler* aufgetreten"
 
 #: lua/groupbutler/plugins/antispam.lua:43
 #: lua/groupbutler/plugins/onmessage.lua:162
-#: lua/groupbutler/plugins/warn.lua:118
+#: lua/groupbutler/plugins/warn.lua:120
 msgid "banned"
 msgstr "Gebannt"
 
 #: lua/groupbutler/plugins/antispam.lua:44
 #: lua/groupbutler/plugins/onmessage.lua:159
-#: lua/groupbutler/plugins/warn.lua:122
+#: lua/groupbutler/plugins/warn.lua:124
 msgid "kicked"
 msgstr "gekickt"
 
 #: lua/groupbutler/plugins/antispam.lua:45
 #: lua/groupbutler/plugins/onmessage.lua:165
-#: lua/groupbutler/plugins/warn.lua:126
+#: lua/groupbutler/plugins/warn.lua:128
 msgid "muted"
 msgstr "Stumm geschaltet"
 
@@ -130,8 +130,8 @@ msgstr "%s, Spam ist hier nicht erlaubt. Das nächste mal wirst du eingeschränk
 
 #: lua/groupbutler/plugins/antispam.lua:103
 #, lua-format
-msgid "%s, this kind of spam is not allowed in this chat (<b>%d/%d</b>)"
-msgstr "%s, diese art von Nachricht ist nicht erlaubt in diesem Chat (<b>%d/%d</b>)"
+msgid "%s, this kind of message is not allowed in this chat (<b>%d/%d</b>)"
+msgstr ""
 
 #: lua/groupbutler/plugins/antispam.lua:107
 msgid "telegram.me link"
@@ -221,77 +221,72 @@ msgstr "Du bist kein Admin mehr"
 
 #: lua/groupbutler/plugins/antispam.lua:285
 msgid "*Anti-spam settings*\n"
-"Choose which kind of spam you want to forbid\n"
+"Choose which kind of message you want to forbid\n"
 "• ✅ = *Allowed*\n"
 "• ❌ = *Not allowed*\n"
 "• 🗑 = *Delete*\n"
-"When set on `delete`, the bot doesn't warn users until they are about to be kicked/banned/muted (at the second-to-last warning)\n"
-msgstr "*Anti-Spam Einstellungen*\n"
-"Wähle, welche Art von Spam du verbieten möchtest\n"
-"• ✅ = *Erlaubt*\n"
-"• ❌ = *Nicht erlaubt*\n"
-"• 🗑 = *Löschen*\n"
-"Wenn auf `löschen` gestellt ist, werden Benutzer bis zu Zweitletzten Verwarnung nicht informiert\n"
+"When set on `delete`, the bot doesn't warn users until they are about to be kicked/banned/muted (at the second-to-last warning)"
+msgstr ""
 
-#: lua/groupbutler/plugins/antispam.lua:353
+#: lua/groupbutler/plugins/antispam.lua:352
 msgid "_The whitelist was already empty_"
 msgstr "_Die Whitelist war schon leer_"
 
-#: lua/groupbutler/plugins/antispam.lua:356
+#: lua/groupbutler/plugins/antispam.lua:355
 #, lua-format
 msgid "*Whitelist cleaned*\n"
 "%d links have been removed"
 msgstr "*Whitelist gesäubert*\n"
 "%d Links wurden entfernt"
 
-#: lua/groupbutler/plugins/antispam.lua:364
-#: lua/groupbutler/plugins/antispam.lua:373
-#: lua/groupbutler/plugins/antispam.lua:395
-#: lua/groupbutler/plugins/antispam.lua:404
+#: lua/groupbutler/plugins/antispam.lua:363
+#: lua/groupbutler/plugins/antispam.lua:372
+#: lua/groupbutler/plugins/antispam.lua:394
+#: lua/groupbutler/plugins/antispam.lua:403
 msgid "_I can't find any url in this message_"
 msgstr "_Ich kann keine URL in dieser Nachricht finden_"
 
-#: lua/groupbutler/plugins/antispam.lua:367
+#: lua/groupbutler/plugins/antispam.lua:366
 #, lua-format
 msgid "%d link(s) will be whitelisted"
 msgstr "%d Link(s) werden auf die Whitelist gesetzt"
 
-#: lua/groupbutler/plugins/antispam.lua:369
-#: lua/groupbutler/plugins/antispam.lua:400
+#: lua/groupbutler/plugins/antispam.lua:368
+#: lua/groupbutler/plugins/antispam.lua:399
 #, lua-format
 msgid "\n"
 "%d links were already in the list"
 msgstr "\n"
 "%d Links waren schon auf der Liste"
 
-#: lua/groupbutler/plugins/antispam.lua:381
+#: lua/groupbutler/plugins/antispam.lua:380
 msgid "_The whitelist is empty_.\n"
 "Use `/wl [links]` to add some links to the whitelist"
 msgstr "_Die Whitelist ist leer_.\n"
 "Benutze `/wl [links]` um der Whitelist Links hinzuzufügen"
 
-#: lua/groupbutler/plugins/antispam.lua:383
+#: lua/groupbutler/plugins/antispam.lua:382
 msgid "Whitelisted links:\n\n"
 msgstr "Whitelist Links:\n\n"
 
-#: lua/groupbutler/plugins/antispam.lua:398
+#: lua/groupbutler/plugins/antispam.lua:397
 #, lua-format
 msgid "%d link(s) removed from the whitelist"
 msgstr "%d Link(s) wurden von der Whitelist entfernt"
 
-#: lua/groupbutler/plugins/antispam.lua:415
+#: lua/groupbutler/plugins/antispam.lua:414
 msgid "_Whitelist of channels empty_"
 msgstr "_Whitelist für Kanäle ist leer_"
 
-#: lua/groupbutler/plugins/antispam.lua:417
+#: lua/groupbutler/plugins/antispam.lua:416
 #, lua-format
 msgid "*Whitelisted channels:*\n"
 "%s"
 msgstr "*Kanäle auf der Whitelist*\n"
 "%s"
 
-#: lua/groupbutler/plugins/antispam.lua:424
-#: lua/groupbutler/plugins/antispam.lua:441
+#: lua/groupbutler/plugins/antispam.lua:423
+#: lua/groupbutler/plugins/antispam.lua:440
 msgid "_I can't find a channel ID in your message_"
 msgstr "_Ich kann keine Kanal ID in deiner Nachricht finden_"
 
@@ -371,35 +366,35 @@ msgstr "Dieser Nutzer ist nicht gebannt!"
 msgid "%s unbanned by %s!"
 msgstr "%s entbannt von %s!"
 
-#: lua/groupbutler/plugins/banhammer.lua:151
+#: lua/groupbutler/plugins/banhammer.lua:152
 msgid "You don't have the permissions to restrict members"
 msgstr "Du hast keine Berechtigung, Nutzer einzuschränken"
 
-#: lua/groupbutler/plugins/banhammer.lua:155
+#: lua/groupbutler/plugins/banhammer.lua:156
 msgid "Tap on the -/+ buttons to change this value. Then select a timeframe to execute the ban"
 msgstr "Tippe auf die -/+ Tasten um diesen Wert zu ändern. Wähle dann einen Zeitraum aus um den Bann auszuführen"
 
-#: lua/groupbutler/plugins/banhammer.lua:164
+#: lua/groupbutler/plugins/banhammer.lua:165
 msgid "You can't set a lower value"
 msgstr "Du kannst keinen niedrigeren Wert einstellen"
 
-#: lua/groupbutler/plugins/banhammer.lua:172
+#: lua/groupbutler/plugins/banhammer.lua:173
 msgid "Stop!!!"
 msgstr "Stop!!!"
 
-#: lua/groupbutler/plugins/banhammer.lua:188
+#: lua/groupbutler/plugins/banhammer.lua:189
 msgid "hours"
 msgstr "Stunden"
 
-#: lua/groupbutler/plugins/banhammer.lua:192
+#: lua/groupbutler/plugins/banhammer.lua:193
 msgid "days"
 msgstr "Tage"
 
-#: lua/groupbutler/plugins/banhammer.lua:196
+#: lua/groupbutler/plugins/banhammer.lua:197
 msgid "minutes"
 msgstr "Minuten"
 
-#: lua/groupbutler/plugins/banhammer.lua:202
+#: lua/groupbutler/plugins/banhammer.lua:203
 #, lua-format
 msgid "User banned for %d %s"
 msgstr "Nutzer gebannt für %d %s"
@@ -601,9 +596,8 @@ msgid "Documents"
 msgstr "Dokumente"
 
 #: lua/groupbutler/plugins/dashboard.lua:162
-#: lua/groupbutler/plugins/mediasettings.lua:40
-msgid "Vocal messages"
-msgstr "Sprachnachrichten"
+msgid "Voice Messages"
+msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:163
 #: lua/groupbutler/plugins/mediasettings.lua:41
@@ -716,7 +710,7 @@ msgid "\n"
 msgstr "\n"
 "Befehle nicht gefunden: `%s`"
 
-#: lua/groupbutler/plugins/extra.lua:168
+#: lua/groupbutler/plugins/extra.lua:169
 #, lua-format
 msgid "_Please_ [start me](%s) _so I can send you the answer_"
 msgstr "_Bitte_ [starte mich](%s) _damit ich die Antwort schicken kann_"
@@ -796,7 +790,17 @@ msgid "Hello %s 👋🏼, nice to meet you!\n"
 "• I can also warn, kick or ban users when they post a specific media\n"
 "…and more, below you can find the \"all commands\" button to get the whole list!\n\n"
 "I work better if you add me to the group administrators (otherwise I won't be able to kick or ban)!"
-msgstr ""
+msgstr "Hallo %s, schön, dass du hier bist!\n"
+"Ich bin Group Butler, der erste Administrations-Bot, der die offizielle Bot API verwendet.\n\n"
+"*Ich beherrsche ein paar coole Tricks*. Hier eine kleine Auswahl:\n"
+"• Ich kann Nutzer *kicken* oder *bannen*\n"
+"• Du kannst mich benutzen um Gruppenregeln festlegen\n"
+"• Ich habe eine flexibles System um *flooding* zu vermeiden\n"
+"• Ich kann *neue Nutzer begrüßen* - mit einer Nachricht, einem gif oder einem Sticker\n"
+"• Ich kann Nutzer *warnen* oder, bei Erreichen einer bestimmten Anzahl an Warnungen, bannen\n"
+"• Außerdem kann ich Nutzer kicken oder bannen wenn sie bestimmte Medieninhalte posten\n"
+"… dies sind nur einige meiner Features. Die ganze Liste findest du unter dem Button \"Alle Befehle\"\n\n"
+"Am besten funktioniere ich, wenn du mich den Administratoren der Gruppe hinzufügst. Sonst kann ich leider niemanden kicken oder bannen"
 
 #: lua/groupbutler/plugins/help.lua:37
 msgid "This bot works only in supergroups.\n\n"
@@ -807,7 +811,12 @@ msgid "This bot works only in supergroups.\n\n"
 "This list is updated every 5 hours, so there could be some differences between who the bot thinks are the admins and who the admins actually are, if during the 5 hours timeframe some users have been promoted/demoted.\n"
 "It's possible to force the bot to update its adminlist with `/cache`.\n\n"
 "Remember: you have to use commands  *in the group*, unless they are specifically designed for private chats (see \"private\" tab)."
-msgstr ""
+msgstr "Dieser Bot funktioniert nur in Supergruppen.\n\n"
+"Damit Group Butler richtig funktioniert, muss er Admin in deiner Gruppe sein. Ansonsten kann er keine Nutzer kicken oder bannen. Wie du Group Butler zum Admin machst, siehst du hier: https://telegram.me/GroupButler_ch/104\n"
+"Nur der Gruppengründer kann den Bot befördern :)\n\n"
+"Kommandos können mir `/`, `!` oder `#` beginnen.\n\n"
+"Group Butler speichert die Liste der Admins in seiner eigenen Datenbank um übermäßige Anfragen an Telegram-Server zu vermeiden. Diese Liste wird alle 5 Stunden aktualisiert. Sollte es zu Diskrepanzen zwischen der Group-Butler-Liste und der Telegram-Liste kommen, könnt ihr mit `/cache` ein Update erzwingen.\n\n"
+"Hinweis: Kommandos müssen *in der Gruppe* verwendet werden, es sei denn sie sind explizit für private Chats gedacht (siehe \"Privat\"-Tab)."
 
 #: lua/groupbutler/plugins/help.lua:49
 msgid "*Commands that work in private*:\n\n"
@@ -818,7 +827,14 @@ msgid "*Commands that work in private*:\n\n"
 "• `/id`: get your id\n"
 "• `/start` : show the initial message\n"
 "• `/help` : show this message"
-msgstr ""
+msgstr "*Befehle, die in Privaten Chats funktionieren*:\n\n"
+"• `/mysettings`: Erlaubt dir deine persönlichen Einstellungen zu ändern, z.B. ob du beim Beitritt in eine Gruppe die Regeln privat erhalten möchtest oder ob du mit dem `@admin`-Befehl gemachte Meldungen empfängst \n"
+"• `/echo [text]`: Sendet den Text als Markdown formatiert zurück\n"
+"• `/about`: Zeigt einige nützliche Informationen über den Bot an\n"
+"• `/groups`: Zeigt die Liste der Gruppen\n"
+"•`/id`: Zeigt deine ID\n"
+"• `/start`: Zeigt die Start-Nachricht des Bots\n"
+"• `/help`: Zeigt diese Nachricht"
 
 #: lua/groupbutler/plugins/help.lua:58
 msgid "*Commands available for every user in a group*:\n\n"
@@ -831,7 +847,16 @@ msgid "*Commands available for every user in a group*:\n\n"
 "With `/rules`, the bot always answer in the group for admins, but with normal users the message is sent in the group or in private according to the group settings.\n\n"
 "• `@admin` (by reply): report a message to the admins of the group (the bot will forward it in prvate). This ability could be turned off from the group settings. A description of the report can be added.\n"
 "Admins need to give their consense to receive reports from users, with `/mysettings` command"
-msgstr ""
+msgstr "*Befehle die jedem Mitglied der Gruppe zur Verfügung stehen*:\n\n"
+"• `/dashboard`: Zeigt alle Informationen über die Gruppe\n"
+"• `/rules`: Zeigt die Regeln der Gruppe\n"
+"• `/adminlist`: Zeige die Admins der Gruppe\n"
+"• `/help`: Die Hilfe anzeigen\n"
+"• `!kickme`: Der Bot kickt dich\n"
+"*Hinweis*: Auf `/dashboard`, `/adminlist`, `/modlist` und `/Personal` antwortet der Bot per Privatchat. Wenn der Bot nicht in der Lage ist den Nutzer zu erreichen, fragt er in der Gruppe, um von diesem Benutzer gestartet zu werden. Dies aber nur, wenn der _silent mode_ ausgeschaltet ist.\n"
+"Die Antwort auf `/rules`, wird bei Admins immer in die Gruppe geschickt. Bei regulären Nutzern wird die Nachricht in der Gruppe oder per Privatnachricht gesendet, je nach den Gruppen-Einstellungen.\n\n"
+"• `@admin` (als Antwort): Meldet eine Nachricht an die Admins der Gruppe (der Bot leitet es Privat weiter). Dies kann in den Gruppen-Einstellungen ausgeschaltet werden. Eine Beschreibung des Vorfalls kann hinzugefügt werden.\n"
+"Admins müssenmit dem `/mysettings`-Befehl ihre Zustimmung geben um Meldungen von Nutzern zu erhalten"
 
 #: lua/groupbutler/plugins/help.lua:70
 msgid "*Admins: info about the group*\n\n"
@@ -914,7 +939,17 @@ msgid "*Whitelist settings*\n\n"
 "When the group link is saved with `/setlink`, it gets automatically added to the whitelist.\n\n"
 "*Why links are saved without* _https://_ *and* _www_*?*\n"
 "The bot auto-removes _https://, http:// and www_ from every link to reduce the possibility of having the same link saved twice."
-msgstr ""
+msgstr "*Whitelist-Einstellungen*\n\n"
+"Der Bot kann benutzer verwarnen/kicken/bannen, die telegram.me (Antispam-Einstellungen) oder andere links (Medien-Einstellungen) verschicken.\n"
+"Die Whitelist ist eine Liste von Links, die vom Bot ignoriert werden.\n"
+"Wenn Benutzer einen Link schicken, der auf der Whitelist ist, werden sie nicht gewarnt oder gebant.\n\n"
+"`/whitelist [link(s)]` oder `/wl [link(s)]`: Links auf die Whitelist setzen\n"
+"`/unwhitelist [link(s)]` oder `/unwl [link(s)]`: Links aus der Whitelist entfernen\n"
+"`/whitelist` oder `/wl`: Whitelist anzeigen\n"
+"`/whitelistl -` oder `/wl -`: Whitelist leeren\n\n"
+"Wenn der Gruppenlink mit `/setlink` gesetzt wird, wird er automatisch der Whitelist hinzugefügt.\n\n"
+"*Warum werden die links ohne* _https://_ *und* _www_* gespeichert?*\n"
+"Der Bot entfernt _https://, http:// und www_ von jedem link, damit Links nicht doppelt gespeichert werden."
 
 #: lua/groupbutler/plugins/help.lua:149
 msgid "*Extra commands*\n"
@@ -977,7 +1012,7 @@ msgid "*General group settings*\n\n"
 "*Menu*: manage the most important group settings\n"
 "*Antiflood*: turn on or off the antiflood, set its sensitivity and choose some media to ignore, if you want\n"
 "*Media*: choose which media to forbid in your group, and set the number of times that a user will be warned before being kicked/banned\n"
-"*Antispam*: choose which kind of spam you want to forbid (example: telegram.me links, forwarded messages from channels)\n"
+"*Antispam*: choose which kind of message you want to forbid (e.g. telegram.me links, forwarded messages from channels)\n"
 "*Log channel*: choose which updates should be logged\n\n"
 "*Bonus commands*:\n"
 "`/reportflood [number of messages]/[timeframe]`: set how many times users can use the @admin command within a certain timeframe.\n"
@@ -1013,7 +1048,7 @@ msgstr "*Log-Kanal-Informationen*\n\n"
 
 #: lua/groupbutler/plugins/help.lua:233
 msgid "*Missing help information!*"
-msgstr ""
+msgstr "*Keine Hilfe vorhanden!*"
 
 #: lua/groupbutler/plugins/help.lua:242
 msgid "Banhammer"
@@ -1355,6 +1390,10 @@ msgstr "<b>Diese Gruppe hat einen Kanal</b>\n"
 msgid "Video messages"
 msgstr "Videonachrichten"
 
+#: lua/groupbutler/plugins/mediasettings.lua:40
+msgid "Vocal messages"
+msgstr "Sprachnachrichten"
+
 #: lua/groupbutler/plugins/mediasettings.lua:66
 #, lua-format
 msgid "Warnings | %d | kick"
@@ -1659,15 +1698,15 @@ msgstr "%s <b>stummgestellt</b>: Nachricht mit arabischen Zeichen entdeckt!"
 
 #: lua/groupbutler/plugins/pin.lua:77
 msgid "I couldn't find any message generated by <code>/pin</code>."
-msgstr ""
+msgstr "Keine mit <code>/pin</code> generierte Nachricht verfügbar."
 
 #: lua/groupbutler/plugins/pin.lua:82
 msgid "Last message generated by <code>/pin</code> ^"
-msgstr ""
+msgstr "Zuletzt mit <code>/pin</code> generierte Nachricht^"
 
 #: lua/groupbutler/plugins/pin.lua:87
 msgid "The old message generated with <code>/pin</code> does not exist anymore."
-msgstr ""
+msgstr "Die zuvor mit <code>/pin</code> generierte Nachricht existiert nicht mehr."
 
 #: lua/groupbutler/plugins/private.lua:19
 msgid "unknown"
@@ -1723,23 +1762,23 @@ msgstr "Wenn du eine Gruppe betritts welche diesen Bot verwendet, wirst du die G
 msgid "If enabled, you will receive all the messages reported with the @admin command in the groups you are moderating"
 msgstr "Wenn aktiviert, dann worst du alle mit @admin Reportete Nachrichten bekommen(aus deiner Gruppe)"
 
-#: lua/groupbutler/plugins/private_settings.lua:64
+#: lua/groupbutler/plugins/private_settings.lua:35
 msgid "Rules on join"
 msgstr "Regeln beim betreten"
 
-#: lua/groupbutler/plugins/private_settings.lua:65
+#: lua/groupbutler/plugins/private_settings.lua:36
 msgid "Users reports"
 msgstr "User Reports"
 
-#: lua/groupbutler/plugins/private_settings.lua:66
+#: lua/groupbutler/plugins/private_settings.lua:37
 msgid "Name not available"
-msgstr ""
+msgstr "Name nicht verfügbar"
 
-#: lua/groupbutler/plugins/private_settings.lua:89
+#: lua/groupbutler/plugins/private_settings.lua:60
 msgid "Change your private settings"
 msgstr "Verwalte deine Privaten Einstellungen"
 
-#: lua/groupbutler/plugins/private_settings.lua:109
+#: lua/groupbutler/plugins/private_settings.lua:80
 msgid "⚙ Setting applied"
 msgstr "⚙️Einstellungen angewandt"
 
@@ -2028,7 +2067,7 @@ msgstr "📌 Status: `CACHED`\n"
 msgid "Message N° %d"
 msgstr "Nachricht N° %d"
 
-#: lua/groupbutler/plugins/users.lua:202 lua/groupbutler/plugins/warn.lua:171
+#: lua/groupbutler/plugins/users.lua:202 lua/groupbutler/plugins/warn.lua:173
 msgid "You are not allowed to use this button"
 msgstr "Du darfst diese Taste nicht benutzen"
 
@@ -2078,44 +2117,44 @@ msgstr "Nein"
 msgid "Do you want to continue and reset *all* the warnings received by *all* the users of the group?"
 msgstr "Möchtest du wirklich fortfahren und *alle* Verwarnungen von *allen* Nutzern aus der Gruppe löschen?"
 
-#: lua/groupbutler/plugins/warn.lua:97
+#: lua/groupbutler/plugins/warn.lua:98
 #, lua-format
 msgid "Done! %s has been forgiven.\n"
 "<b>Warns found</b>: <i>normal warns %s, for media %s, spamwarns %s</i>"
 msgstr "Fertig! %s wurde vergeben.\n"
 "<b>Warnungn</b>: <i>%s normale Verwarnungen, %s für Medien, %s für Spam</i>"
 
-#: lua/groupbutler/plugins/warn.lua:116
+#: lua/groupbutler/plugins/warn.lua:118
 #, lua-format
 msgid "%s <b>%s</b>: reached the max number of warnings (<code>%d/%d</code>)"
 msgstr "%s <b>%s</b>: erreichte die maximale Anzahl von Warnungen (<code>%d/%d</code>)"
 
-#: lua/groupbutler/plugins/warn.lua:149
+#: lua/groupbutler/plugins/warn.lua:151
 #, lua-format
 msgid "%s <b>has been warned</b> (<code>%d/%d</code>)"
 msgstr "%s <b>Wurde gewarnt</b> (<code>%d/%d</code>)"
 
-#: lua/groupbutler/plugins/warn.lua:179
+#: lua/groupbutler/plugins/warn.lua:181
 msgid "The number of warnings received by this user is already <i>zero</i>"
 msgstr "Die Anzahl der Warnungen des Nutzers ist bereits <i>null</i>"
 
-#: lua/groupbutler/plugins/warn.lua:183
+#: lua/groupbutler/plugins/warn.lua:185
 #, lua-format
 msgid "<b>Warn removed!</b> (%d/%d)"
 msgstr "<b>Warnung entfernt!</b> (%d/%d)"
 
-#: lua/groupbutler/plugins/warn.lua:186
+#: lua/groupbutler/plugins/warn.lua:188
 #, lua-format
 msgid "\n"
 "(Admin: %s)"
 msgstr "(Admin: %s)"
 
-#: lua/groupbutler/plugins/warn.lua:195
+#: lua/groupbutler/plugins/warn.lua:197
 #, lua-format
 msgid "Done. All the warnings of this group have been erased by %s"
 msgstr "Fertig. Alle Warnungen in dieser Gruppe wurden von %s gelöscht"
 
-#: lua/groupbutler/plugins/warn.lua:197
+#: lua/groupbutler/plugins/warn.lua:199
 msgid "_Action aborted_"
 msgstr "_Aktion abgebrochen_"
 
@@ -2125,7 +2164,7 @@ msgstr "Lies die Regeln"
 
 #: lua/groupbutler/plugins/welcome.lua:124
 msgid "Hi $name!"
-msgstr ""
+msgstr "Hallo $name!"
 
 #: lua/groupbutler/plugins/welcome.lua:170
 msgid "Welcome and...?"
@@ -2336,14 +2375,18 @@ msgstr "<b>Chat</b>: %s [#chat%d]"
 msgid "#%s (<code>%d/%d</code>), <i>%s</i>\n"
 "• %s\n"
 "• <b>User</b>: %s"
-msgstr ""
+msgstr "#%s (<code>%d/%d</code>), <i>%s</i>\n"
+"• %s\n"
+"• <b>Nutzer</b>: %s"
 
 #: lua/groupbutler/utilities.lua:888
 #, lua-format
 msgid "#%s\n"
 "• %s\n"
 "• <b>User</b>: %s"
-msgstr ""
+msgstr "#%s\n"
+"• %s\n"
+"• <b>Nutzer</b>: %s"
 
 #: lua/groupbutler/utilities.lua:891 lua/groupbutler/utilities.lua:901
 #: lua/groupbutler/utilities.lua:904 lua/groupbutler/utilities.lua:907
@@ -2375,7 +2418,9 @@ msgstr "%s\n"
 msgid "#%s\n"
 "• %s\n"
 "• <b>User</b>: %s [#id%d]"
-msgstr ""
+msgstr "#%s\n"
+"• %s\n"
+"• <b>Nutzer</b>: %s [#id%d]"
 
 #: lua/groupbutler/utilities.lua:920
 #, lua-format

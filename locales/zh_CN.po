@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-29 14:41-0300\n"
-"PO-Revision-Date: 2018-08-30 04:01\n"
+"POT-Creation-Date: 2018-09-02 21:47-0300\n"
+"PO-Revision-Date: 2018-09-03 04:28\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh\n"
@@ -77,7 +77,7 @@ msgstr "应放在内联按钮中的其中一个URL似乎无效（不是URL）。
 msgid "One of the inline buttons you are trying to set doesn't have a name"
 msgstr "您尝试设置的其中一个内联按钮没有名称"
 
-#: lua/groupbutler/main.lua:124
+#: lua/groupbutler/main.lua:126
 #, lua-format
 msgid "Hello everyone!\n"
 "My name is %s, and I'm a bot made to help administrators in their hard work.\n"
@@ -86,25 +86,25 @@ msgstr "大家好！\n"
 "我的名字是 %s，我是一个机器人程序，可以帮助管理员完成繁杂的工作。\n"
 "很遗憾的是我无法在普通群组中工作。如果你需要我，请要求群组创建者将本群组转换为超级群，然后再将我重新加入该群。"
 
-#: lua/groupbutler/main.lua:191
+#: lua/groupbutler/main.lua:193
 msgid "🐞 Sorry, a *bug* occurred"
 msgstr "🐞 抱歉，发生错误。"
 
 #: lua/groupbutler/plugins/antispam.lua:43
 #: lua/groupbutler/plugins/onmessage.lua:162
-#: lua/groupbutler/plugins/warn.lua:118
+#: lua/groupbutler/plugins/warn.lua:120
 msgid "banned"
 msgstr "已封禁"
 
 #: lua/groupbutler/plugins/antispam.lua:44
 #: lua/groupbutler/plugins/onmessage.lua:159
-#: lua/groupbutler/plugins/warn.lua:122
+#: lua/groupbutler/plugins/warn.lua:124
 msgid "kicked"
 msgstr "已踢出"
 
 #: lua/groupbutler/plugins/antispam.lua:45
 #: lua/groupbutler/plugins/onmessage.lua:165
-#: lua/groupbutler/plugins/warn.lua:126
+#: lua/groupbutler/plugins/warn.lua:128
 msgid "muted"
 msgstr "已禁言"
 
@@ -129,8 +129,8 @@ msgstr "%s，这里不允许发布垃圾信息。下一次您将被限制"
 
 #: lua/groupbutler/plugins/antispam.lua:103
 #, lua-format
-msgid "%s, this kind of spam is not allowed in this chat (<b>%d/%d</b>)"
-msgstr "%s，本群禁止此类垃圾信息（<b>%d/%d</b>）"
+msgid "%s, this kind of message is not allowed in this chat (<b>%d/%d</b>)"
+msgstr ""
 
 #: lua/groupbutler/plugins/antispam.lua:107
 msgid "telegram.me link"
@@ -220,76 +220,72 @@ msgstr "您的管理员权限已被解除"
 
 #: lua/groupbutler/plugins/antispam.lua:285
 msgid "*Anti-spam settings*\n"
-"Choose which kind of spam you want to forbid\n"
+"Choose which kind of message you want to forbid\n"
 "• ✅ = *Allowed*\n"
 "• ❌ = *Not allowed*\n"
 "• 🗑 = *Delete*\n"
-"When set on `delete`, the bot doesn't warn users until they are about to be kicked/banned/muted (at the second-to-last warning)\n"
-msgstr "*反垃圾信息设置*\n"
-"设置对垃圾信息的处理办法。\n"
-"• ✅ = *允许*。不删除，不记警告。\n"
-"• ❌ = *不允许*。不删除，记警告一次，并告知警告；\n"
-"• 🗑 = *删除*。删除，记警告一次，但不告知。倒数第二次除外：当其只剩最后一次被警告机会时，向其发出警告。（即仅在其再被警告一次就将被踢出/封禁/禁言时，发出一次警告。）\n"
+"When set on `delete`, the bot doesn't warn users until they are about to be kicked/banned/muted (at the second-to-last warning)"
+msgstr ""
 
-#: lua/groupbutler/plugins/antispam.lua:353
+#: lua/groupbutler/plugins/antispam.lua:352
 msgid "_The whitelist was already empty_"
 msgstr "_白名单已清空_"
 
-#: lua/groupbutler/plugins/antispam.lua:356
+#: lua/groupbutler/plugins/antispam.lua:355
 #, lua-format
 msgid "*Whitelist cleaned*\n"
 "%d links have been removed"
 msgstr "*白名单已清理*\n"
 "删除了%d个白名单链接"
 
-#: lua/groupbutler/plugins/antispam.lua:364
-#: lua/groupbutler/plugins/antispam.lua:373
-#: lua/groupbutler/plugins/antispam.lua:395
-#: lua/groupbutler/plugins/antispam.lua:404
+#: lua/groupbutler/plugins/antispam.lua:363
+#: lua/groupbutler/plugins/antispam.lua:372
+#: lua/groupbutler/plugins/antispam.lua:394
+#: lua/groupbutler/plugins/antispam.lua:403
 msgid "_I can't find any url in this message_"
 msgstr "_该消息中未发现链接_"
 
-#: lua/groupbutler/plugins/antispam.lua:367
+#: lua/groupbutler/plugins/antispam.lua:366
 #, lua-format
 msgid "%d link(s) will be whitelisted"
 msgstr "%d个链接将被加入链接白名单"
 
-#: lua/groupbutler/plugins/antispam.lua:369
-#: lua/groupbutler/plugins/antispam.lua:400
+#: lua/groupbutler/plugins/antispam.lua:368
+#: lua/groupbutler/plugins/antispam.lua:399
 #, lua-format
 msgid "\n"
 "%d links were already in the list"
 msgstr "\n"
 "%d个链接在链接白名单中已存在"
 
-#: lua/groupbutler/plugins/antispam.lua:381
+#: lua/groupbutler/plugins/antispam.lua:380
 msgid "_The whitelist is empty_.\n"
 "Use `/wl [links]` to add some links to the whitelist"
 msgstr "_白名单为空_\n"
 "要添加白名单链接请用`/wl [links]`命令"
 
-#: lua/groupbutler/plugins/antispam.lua:383
+#: lua/groupbutler/plugins/antispam.lua:382
 msgid "Whitelisted links:\n\n"
 msgstr "白名单链接：\n\n"
 
-#: lua/groupbutler/plugins/antispam.lua:398
+#: lua/groupbutler/plugins/antispam.lua:397
 #, lua-format
 msgid "%d link(s) removed from the whitelist"
 msgstr "%d个链接已从白名单中移除"
 
-#: lua/groupbutler/plugins/antispam.lua:415
+#: lua/groupbutler/plugins/antispam.lua:414
 msgid "_Whitelist of channels empty_"
 msgstr "_频道白名单为空_"
 
-#: lua/groupbutler/plugins/antispam.lua:417
+#: lua/groupbutler/plugins/antispam.lua:416
 #, lua-format
 msgid "*Whitelisted channels:*\n"
 "%s"
 msgstr "*白名单频道：*\n"
 "%s"
 
-#: lua/groupbutler/plugins/antispam.lua:424
-#: lua/groupbutler/plugins/antispam.lua:441
+#: lua/groupbutler/plugins/antispam.lua:423
+#: lua/groupbutler/plugins/antispam.lua:440
 msgid "_I can't find a channel ID in your message_"
 msgstr "_该消息中未发现频道_"
 
@@ -368,35 +364,35 @@ msgstr "该用户未被封禁！"
 msgid "%s unbanned by %s!"
 msgstr "%s已被%s解除封禁！"
 
-#: lua/groupbutler/plugins/banhammer.lua:151
+#: lua/groupbutler/plugins/banhammer.lua:152
 msgid "You don't have the permissions to restrict members"
 msgstr "您没有权限限制成员"
 
-#: lua/groupbutler/plugins/banhammer.lua:155
+#: lua/groupbutler/plugins/banhammer.lua:156
 msgid "Tap on the -/+ buttons to change this value. Then select a timeframe to execute the ban"
 msgstr "按-/+按钮来调整时间。 然后执行封禁"
 
-#: lua/groupbutler/plugins/banhammer.lua:164
+#: lua/groupbutler/plugins/banhammer.lua:165
 msgid "You can't set a lower value"
 msgstr "您无法设置更低的值"
 
-#: lua/groupbutler/plugins/banhammer.lua:172
+#: lua/groupbutler/plugins/banhammer.lua:173
 msgid "Stop!!!"
 msgstr "停止！！"
 
-#: lua/groupbutler/plugins/banhammer.lua:188
+#: lua/groupbutler/plugins/banhammer.lua:189
 msgid "hours"
 msgstr "小时"
 
-#: lua/groupbutler/plugins/banhammer.lua:192
+#: lua/groupbutler/plugins/banhammer.lua:193
 msgid "days"
 msgstr "天"
 
-#: lua/groupbutler/plugins/banhammer.lua:196
+#: lua/groupbutler/plugins/banhammer.lua:197
 msgid "minutes"
 msgstr "分钟"
 
-#: lua/groupbutler/plugins/banhammer.lua:202
+#: lua/groupbutler/plugins/banhammer.lua:203
 #, lua-format
 msgid "User banned for %d %s"
 msgstr "用户被 %d %s 封禁"
@@ -598,9 +594,8 @@ msgid "Documents"
 msgstr "文件"
 
 #: lua/groupbutler/plugins/dashboard.lua:162
-#: lua/groupbutler/plugins/mediasettings.lua:40
-msgid "Vocal messages"
-msgstr "语音消息"
+msgid "Voice Messages"
+msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:163
 #: lua/groupbutler/plugins/mediasettings.lua:41
@@ -713,7 +708,7 @@ msgid "\n"
 msgstr "\n"
 "命令未找到: `%s`"
 
-#: lua/groupbutler/plugins/extra.lua:168
+#: lua/groupbutler/plugins/extra.lua:169
 #, lua-format
 msgid "_Please_ [start me](%s) _so I can send you the answer_"
 msgstr "_请_[开始](%s)_我可以向你发送回答_"
@@ -1096,24 +1091,13 @@ msgid "*General group settings*\n\n"
 "*Menu*: manage the most important group settings\n"
 "*Antiflood*: turn on or off the antiflood, set its sensitivity and choose some media to ignore, if you want\n"
 "*Media*: choose which media to forbid in your group, and set the number of times that a user will be warned before being kicked/banned\n"
-"*Antispam*: choose which kind of spam you want to forbid (example: telegram.me links, forwarded messages from channels)\n"
+"*Antispam*: choose which kind of message you want to forbid (e.g. telegram.me links, forwarded messages from channels)\n"
 "*Log channel*: choose which updates should be logged\n\n"
 "*Bonus commands*:\n"
 "`/reportflood [number of messages]/[timeframe]`: set how many times users can use the @admin command within a certain timeframe.\n"
 "`/leave`: the bot will leave the group without deleting its data. Use this command only if you are going to add the bot to the group again\n"
 "`/snap`: generate a backup file that can be restored with `/import` (send the file in the group and reply to it). `/snap` can be used once every three days"
-msgstr "*General group settings*\n\n"
-"`/config` or  `/settings`: manage the group settings in private from an inline keyboard.\n"
-"The inline keyboard has six sub-menus:\n\n"
-"*Menu*: manage the most important group settings\n"
-"*Antiflood*: turn on or off the antiflood, set its sensitivity and choose some media to ignore, if you want\n"
-"*Media*: choose which media to forbid in your group, and set the number of times that a user will be warned before being kicked/banned\n"
-"*Antispam*: choose which kind of spam you want to forbid (example: telegram.me links, forwarded messages from channels)\n"
-"*Log channel*: choose which updates should be logged\n\n"
-"*Bonus commands*:\n"
-"`/reportflood [number of messages]/[timeframe]`: set how many times users can use the @admin command within a certain timeframe.\n"
-"`/leave`: the bot will leave the group without deleting its data. Use this command only if you are going to add the bot to the group again\n"
-"`/snap`: generate a backup file that can be restored with `/import` (send the file in the group and reply to it). `/snap` can be used once every three days"
+msgstr ""
 
 #: lua/groupbutler/plugins/help.lua:217
 msgid "*Log channel informations*\n\n"
@@ -1485,6 +1469,10 @@ msgstr "<b>这个群组有一个日志频道</b>\n"
 msgid "Video messages"
 msgstr "视频消息"
 
+#: lua/groupbutler/plugins/mediasettings.lua:40
+msgid "Vocal messages"
+msgstr "语音消息"
+
 #: lua/groupbutler/plugins/mediasettings.lua:66
 #, lua-format
 msgid "Warnings | %d | kick"
@@ -1852,23 +1840,23 @@ msgstr "当您加入由此机器人审核的群组时，机器人将会向你私
 msgid "If enabled, you will receive all the messages reported with the @admin command in the groups you are moderating"
 msgstr "如果启用，您将在开启举报功能的群组中收到使用 @admin 命令报告的所有消息"
 
-#: lua/groupbutler/plugins/private_settings.lua:64
+#: lua/groupbutler/plugins/private_settings.lua:35
 msgid "Rules on join"
 msgstr "加入时显示规则"
 
-#: lua/groupbutler/plugins/private_settings.lua:65
+#: lua/groupbutler/plugins/private_settings.lua:36
 msgid "Users reports"
 msgstr "用户报告"
 
-#: lua/groupbutler/plugins/private_settings.lua:66
+#: lua/groupbutler/plugins/private_settings.lua:37
 msgid "Name not available"
 msgstr "Name not available"
 
-#: lua/groupbutler/plugins/private_settings.lua:89
+#: lua/groupbutler/plugins/private_settings.lua:60
 msgid "Change your private settings"
 msgstr "更改你的私人设置"
 
-#: lua/groupbutler/plugins/private_settings.lua:109
+#: lua/groupbutler/plugins/private_settings.lua:80
 msgid "⚙ Setting applied"
 msgstr "⚙ 设置已保存"
 
@@ -2157,7 +2145,7 @@ msgstr "📌 状态：`已缓存`\n"
 msgid "Message N° %d"
 msgstr "消息 N° %d"
 
-#: lua/groupbutler/plugins/users.lua:202 lua/groupbutler/plugins/warn.lua:171
+#: lua/groupbutler/plugins/users.lua:202 lua/groupbutler/plugins/warn.lua:173
 msgid "You are not allowed to use this button"
 msgstr "您无权使用该按钮"
 
@@ -2207,45 +2195,45 @@ msgstr "否"
 msgid "Do you want to continue and reset *all* the warnings received by *all* the users of the group?"
 msgstr "是否确认重置*全部用户*收到的警告次数？"
 
-#: lua/groupbutler/plugins/warn.lua:97
+#: lua/groupbutler/plugins/warn.lua:98
 #, lua-format
 msgid "Done! %s has been forgiven.\n"
 "<b>Warns found</b>: <i>normal warns %s, for media %s, spamwarns %s</i>"
 msgstr "完成! %s 已被重置警告次数.\n"
 "<b>警告次数</b>: <i>普通警告 %s, 媒体警告 %s, 垃圾信息警告 %s</i>"
 
-#: lua/groupbutler/plugins/warn.lua:116
+#: lua/groupbutler/plugins/warn.lua:118
 #, lua-format
 msgid "%s <b>%s</b>: reached the max number of warnings (<code>%d/%d</code>)"
 msgstr "%s <b>%s</b>: 达到了最大警告次数 (<code>%d/%d</code>)"
 
-#: lua/groupbutler/plugins/warn.lua:149
+#: lua/groupbutler/plugins/warn.lua:151
 #, lua-format
 msgid "%s <b>has been warned</b> (<code>%d/%d</code>)"
 msgstr "%s <b>已被警告</b> (%d/%d)"
 
-#: lua/groupbutler/plugins/warn.lua:179
+#: lua/groupbutler/plugins/warn.lua:181
 msgid "The number of warnings received by this user is already <i>zero</i>"
 msgstr "这位用户收到的警告消息已被<i>清零</i>"
 
-#: lua/groupbutler/plugins/warn.lua:183
+#: lua/groupbutler/plugins/warn.lua:185
 #, lua-format
 msgid "<b>Warn removed!</b> (%d/%d)"
 msgstr "<b>警告已移除！</b> (%d/%d)"
 
-#: lua/groupbutler/plugins/warn.lua:186
+#: lua/groupbutler/plugins/warn.lua:188
 #, lua-format
 msgid "\n"
 "(Admin: %s)"
 msgstr "\n"
 "(管理员：%s)"
 
-#: lua/groupbutler/plugins/warn.lua:195
+#: lua/groupbutler/plugins/warn.lua:197
 #, lua-format
 msgid "Done. All the warnings of this group have been erased by %s"
 msgstr "完成！%s清除了该群的所有警告次数"
 
-#: lua/groupbutler/plugins/warn.lua:197
+#: lua/groupbutler/plugins/warn.lua:199
 msgid "_Action aborted_"
 msgstr "_操作中止_"
 

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-29 14:41-0300\n"
-"PO-Revision-Date: 2018-08-30 04:01\n"
+"POT-Creation-Date: 2018-09-02 21:47-0300\n"
+"PO-Revision-Date: 2018-09-03 04:28\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Persian\n"
 "Language: fa\n"
@@ -77,7 +77,7 @@ msgstr "یکی از لینک های ارسال شده اشتباست (لینک �
 msgid "One of the inline buttons you are trying to set doesn't have a name"
 msgstr "یکی از دکمه های مورد نظر شما نام ندارد"
 
-#: lua/groupbutler/main.lua:124
+#: lua/groupbutler/main.lua:126
 #, lua-format
 msgid "Hello everyone!\n"
 "My name is %s, and I'm a bot made to help administrators in their hard work.\n"
@@ -86,25 +86,25 @@ msgstr "سلام همگی!\n"
 "اسم من %s است، و من یه رباتی هستم که در کار سختشون به ادمین ها کمک منم.\n"
 "متاسفانه من در گروه‌های معمولی کار نمیکنم. اگه منو لازم دارین، لطفا از سازنده گروه بخواین که گروه رو به سوپرگروه تبدیل کنه و بعد منو دوباره اد کنین."
 
-#: lua/groupbutler/main.lua:191
+#: lua/groupbutler/main.lua:193
 msgid "🐞 Sorry, a *bug* occurred"
 msgstr "🐞 متاسفانه یک خطا رخ داده است"
 
 #: lua/groupbutler/plugins/antispam.lua:43
 #: lua/groupbutler/plugins/onmessage.lua:162
-#: lua/groupbutler/plugins/warn.lua:118
+#: lua/groupbutler/plugins/warn.lua:120
 msgid "banned"
 msgstr "مسدود شد"
 
 #: lua/groupbutler/plugins/antispam.lua:44
 #: lua/groupbutler/plugins/onmessage.lua:159
-#: lua/groupbutler/plugins/warn.lua:122
+#: lua/groupbutler/plugins/warn.lua:124
 msgid "kicked"
 msgstr "اخراج شد"
 
 #: lua/groupbutler/plugins/antispam.lua:45
 #: lua/groupbutler/plugins/onmessage.lua:165
-#: lua/groupbutler/plugins/warn.lua:126
+#: lua/groupbutler/plugins/warn.lua:128
 msgid "muted"
 msgstr "بیصدا"
 
@@ -129,8 +129,8 @@ msgstr "%s، اسپم در اینجا ممنوع است. دفعه بعد شما 
 
 #: lua/groupbutler/plugins/antispam.lua:103
 #, lua-format
-msgid "%s, this kind of spam is not allowed in this chat (<b>%d/%d</b>)"
-msgstr "%s اسپم در این گروه مجاز نمیباشد (<b>%d/%d</b>)"
+msgid "%s, this kind of message is not allowed in this chat (<b>%d/%d</b>)"
+msgstr ""
 
 #: lua/groupbutler/plugins/antispam.lua:107
 msgid "telegram.me link"
@@ -220,77 +220,72 @@ msgstr "شما دیگه مدیر نیستید"
 
 #: lua/groupbutler/plugins/antispam.lua:285
 msgid "*Anti-spam settings*\n"
-"Choose which kind of spam you want to forbid\n"
+"Choose which kind of message you want to forbid\n"
 "• ✅ = *Allowed*\n"
 "• ❌ = *Not allowed*\n"
 "• 🗑 = *Delete*\n"
-"When set on `delete`, the bot doesn't warn users until they are about to be kicked/banned/muted (at the second-to-last warning)\n"
-msgstr "*تنظیمات ضداسپم*\n"
-"انتخاب کنید که چه نوع اسپمی را میخواهید ممنوع کنید\n"
-"• ✅ = *مجاز*\n"
-"• ❌ = *غیر مجاز*\n"
-"• 🗑️ = *حذف*\n"
-"زمانی که بر روی حالت `حذف` تنظیم شده باشد، ربات به کاربران هشداری نمی‌دهد تا زمانی که آنها در آستانه ی اخراج/بن/بی صدا شدن باشند (هشدار یکی مانده به آخر)\n"
+"When set on `delete`, the bot doesn't warn users until they are about to be kicked/banned/muted (at the second-to-last warning)"
+msgstr ""
 
-#: lua/groupbutler/plugins/antispam.lua:353
+#: lua/groupbutler/plugins/antispam.lua:352
 msgid "_The whitelist was already empty_"
 msgstr "_لیست سفید خالیست_"
 
-#: lua/groupbutler/plugins/antispam.lua:356
+#: lua/groupbutler/plugins/antispam.lua:355
 #, lua-format
 msgid "*Whitelist cleaned*\n"
 "%d links have been removed"
 msgstr "لیست سفید حذف شد\n"
 "%d لینک حذف شد"
 
-#: lua/groupbutler/plugins/antispam.lua:364
-#: lua/groupbutler/plugins/antispam.lua:373
-#: lua/groupbutler/plugins/antispam.lua:395
-#: lua/groupbutler/plugins/antispam.lua:404
+#: lua/groupbutler/plugins/antispam.lua:363
+#: lua/groupbutler/plugins/antispam.lua:372
+#: lua/groupbutler/plugins/antispam.lua:394
+#: lua/groupbutler/plugins/antispam.lua:403
 msgid "_I can't find any url in this message_"
 msgstr "من نمیتوانم url در این پیام پیدا کنم"
 
-#: lua/groupbutler/plugins/antispam.lua:367
+#: lua/groupbutler/plugins/antispam.lua:366
 #, lua-format
 msgid "%d link(s) will be whitelisted"
 msgstr "%d لینک به لیست سفید اضافه شد"
 
-#: lua/groupbutler/plugins/antispam.lua:369
-#: lua/groupbutler/plugins/antispam.lua:400
+#: lua/groupbutler/plugins/antispam.lua:368
+#: lua/groupbutler/plugins/antispam.lua:399
 #, lua-format
 msgid "\n"
 "%d links were already in the list"
 msgstr "\n"
 "%d لینک قبلا در لیست سفید قرار داشته است"
 
-#: lua/groupbutler/plugins/antispam.lua:381
+#: lua/groupbutler/plugins/antispam.lua:380
 msgid "_The whitelist is empty_.\n"
 "Use `/wl [links]` to add some links to the whitelist"
 msgstr "لیست سفید خالی است\n"
 "از دستور `لینک wl/` برای افزودن لینک به لیست سفید استفاده کنید"
 
-#: lua/groupbutler/plugins/antispam.lua:383
+#: lua/groupbutler/plugins/antispam.lua:382
 msgid "Whitelisted links:\n\n"
 msgstr "لیست سفید لینک ها:\n\n"
 
-#: lua/groupbutler/plugins/antispam.lua:398
+#: lua/groupbutler/plugins/antispam.lua:397
 #, lua-format
 msgid "%d link(s) removed from the whitelist"
 msgstr "%d لینک از لیست سفید حذف شد"
 
-#: lua/groupbutler/plugins/antispam.lua:415
+#: lua/groupbutler/plugins/antispam.lua:414
 msgid "_Whitelist of channels empty_"
 msgstr "_لیست سفید کانال ها خالی است_"
 
-#: lua/groupbutler/plugins/antispam.lua:417
+#: lua/groupbutler/plugins/antispam.lua:416
 #, lua-format
 msgid "*Whitelisted channels:*\n"
 "%s"
 msgstr "*کانال های لیست سفید شده:*\n"
 "%s"
 
-#: lua/groupbutler/plugins/antispam.lua:424
-#: lua/groupbutler/plugins/antispam.lua:441
+#: lua/groupbutler/plugins/antispam.lua:423
+#: lua/groupbutler/plugins/antispam.lua:440
 msgid "_I can't find a channel ID in your message_"
 msgstr "_من نمیتوانم شناسه (ID) کانالی را در پیام شما پیدا کنم_"
 
@@ -368,35 +363,35 @@ msgstr "این کاربر بن نشده است!"
 msgid "%s unbanned by %s!"
 msgstr "کاربر %s توسط %s از لیست مسدودین خارج شد!"
 
-#: lua/groupbutler/plugins/banhammer.lua:151
+#: lua/groupbutler/plugins/banhammer.lua:152
 msgid "You don't have the permissions to restrict members"
 msgstr "شما دسترسی لازم برای محدود کردن اعضا را ندارید"
 
-#: lua/groupbutler/plugins/banhammer.lua:155
+#: lua/groupbutler/plugins/banhammer.lua:156
 msgid "Tap on the -/+ buttons to change this value. Then select a timeframe to execute the ban"
 msgstr "برای تغییر این مقدار بر روی دکمه های +/- بزنید. سپس یک چارچوب زمانی برای اجرای بن انتخاب کنید"
 
-#: lua/groupbutler/plugins/banhammer.lua:164
+#: lua/groupbutler/plugins/banhammer.lua:165
 msgid "You can't set a lower value"
 msgstr "نمی‌توانید مقدار کمتری انتخاب کنید"
 
-#: lua/groupbutler/plugins/banhammer.lua:172
+#: lua/groupbutler/plugins/banhammer.lua:173
 msgid "Stop!!!"
 msgstr "کافیه!!!"
 
-#: lua/groupbutler/plugins/banhammer.lua:188
+#: lua/groupbutler/plugins/banhammer.lua:189
 msgid "hours"
 msgstr "ساعت"
 
-#: lua/groupbutler/plugins/banhammer.lua:192
+#: lua/groupbutler/plugins/banhammer.lua:193
 msgid "days"
 msgstr "روزها"
 
-#: lua/groupbutler/plugins/banhammer.lua:196
+#: lua/groupbutler/plugins/banhammer.lua:197
 msgid "minutes"
 msgstr "دقایق"
 
-#: lua/groupbutler/plugins/banhammer.lua:202
+#: lua/groupbutler/plugins/banhammer.lua:203
 #, lua-format
 msgid "User banned for %d %s"
 msgstr "کاربر به مدت %s %d بن شد"
@@ -598,9 +593,8 @@ msgid "Documents"
 msgstr "اسناد"
 
 #: lua/groupbutler/plugins/dashboard.lua:162
-#: lua/groupbutler/plugins/mediasettings.lua:40
-msgid "Vocal messages"
-msgstr "پیام صوتی"
+msgid "Voice Messages"
+msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:163
 #: lua/groupbutler/plugins/mediasettings.lua:41
@@ -710,7 +704,7 @@ msgid "\n"
 msgstr "\n"
 "دستورات یافت نشد `%s`"
 
-#: lua/groupbutler/plugins/extra.lua:168
+#: lua/groupbutler/plugins/extra.lua:169
 #, lua-format
 msgid "_Please_ [start me](%s) _so I can send you the answer_"
 msgstr "_لطفا_ [شروع را بزنید](%s) _بنابراین من می توانم پاسخ شما را بفرستم_"
@@ -964,7 +958,7 @@ msgid "*General group settings*\n\n"
 "*Menu*: manage the most important group settings\n"
 "*Antiflood*: turn on or off the antiflood, set its sensitivity and choose some media to ignore, if you want\n"
 "*Media*: choose which media to forbid in your group, and set the number of times that a user will be warned before being kicked/banned\n"
-"*Antispam*: choose which kind of spam you want to forbid (example: telegram.me links, forwarded messages from channels)\n"
+"*Antispam*: choose which kind of message you want to forbid (e.g. telegram.me links, forwarded messages from channels)\n"
 "*Log channel*: choose which updates should be logged\n\n"
 "*Bonus commands*:\n"
 "`/reportflood [number of messages]/[timeframe]`: set how many times users can use the @admin command within a certain timeframe.\n"
@@ -1328,6 +1322,10 @@ msgstr "<b>این گروه یک کانال وقایع دارد</b>\n"
 msgid "Video messages"
 msgstr ""
 
+#: lua/groupbutler/plugins/mediasettings.lua:40
+msgid "Vocal messages"
+msgstr "پیام صوتی"
+
 #: lua/groupbutler/plugins/mediasettings.lua:66
 #, lua-format
 msgid "Warnings | %d | kick"
@@ -1683,23 +1681,23 @@ msgstr "وقتی شما عضو گروه تحت مدیریت این ربات شو
 msgid "If enabled, you will receive all the messages reported with the @admin command in the groups you are moderating"
 msgstr "اگر فعال کنید، شما پیام های گزارش با دستور @admin توسط کاربران در گروه هایی که مدیر هستید را دریافت خواهید کرد"
 
-#: lua/groupbutler/plugins/private_settings.lua:64
+#: lua/groupbutler/plugins/private_settings.lua:35
 msgid "Rules on join"
 msgstr "قوانین در هنگام ورود"
 
-#: lua/groupbutler/plugins/private_settings.lua:65
+#: lua/groupbutler/plugins/private_settings.lua:36
 msgid "Users reports"
 msgstr "گزارش های کاربران"
 
-#: lua/groupbutler/plugins/private_settings.lua:66
+#: lua/groupbutler/plugins/private_settings.lua:37
 msgid "Name not available"
 msgstr ""
 
-#: lua/groupbutler/plugins/private_settings.lua:89
+#: lua/groupbutler/plugins/private_settings.lua:60
 msgid "Change your private settings"
 msgstr "تنظیمات شخصی خود را تغییر دهید"
 
-#: lua/groupbutler/plugins/private_settings.lua:109
+#: lua/groupbutler/plugins/private_settings.lua:80
 msgid "⚙ Setting applied"
 msgstr "⚙ تنظیمات اعمال شد"
 
@@ -1982,7 +1980,7 @@ msgstr "📌 وضعیت: `ذخیره سازی`\n"
 msgid "Message N° %d"
 msgstr "پیام N° %d"
 
-#: lua/groupbutler/plugins/users.lua:202 lua/groupbutler/plugins/warn.lua:171
+#: lua/groupbutler/plugins/users.lua:202 lua/groupbutler/plugins/warn.lua:173
 msgid "You are not allowed to use this button"
 msgstr "شما قادر به استفاده از این دکمه نیستید"
 
@@ -2032,44 +2030,44 @@ msgstr "خیر"
 msgid "Do you want to continue and reset *all* the warnings received by *all* the users of the group?"
 msgstr "آیا شما میخواهید تمام اخطارهای گرفته شده توسط تمام کاربران را صفر کنید ؟"
 
-#: lua/groupbutler/plugins/warn.lua:97
+#: lua/groupbutler/plugins/warn.lua:98
 #, lua-format
 msgid "Done! %s has been forgiven.\n"
 "<b>Warns found</b>: <i>normal warns %s, for media %s, spamwarns %s</i>"
 msgstr ""
 
-#: lua/groupbutler/plugins/warn.lua:116
+#: lua/groupbutler/plugins/warn.lua:118
 #, lua-format
 msgid "%s <b>%s</b>: reached the max number of warnings (<code>%d/%d</code>)"
 msgstr "%s <b>%s</b>: حداکثر تعداد هشدارها (<code>%d/%d</code>) رسیده است"
 
-#: lua/groupbutler/plugins/warn.lua:149
+#: lua/groupbutler/plugins/warn.lua:151
 #, lua-format
 msgid "%s <b>has been warned</b> (<code>%d/%d</code>)"
 msgstr "%s <b>اخطار گرفت</b> (<code>%d/%d</code>)"
 
-#: lua/groupbutler/plugins/warn.lua:179
+#: lua/groupbutler/plugins/warn.lua:181
 msgid "The number of warnings received by this user is already <i>zero</i>"
 msgstr ""
 
-#: lua/groupbutler/plugins/warn.lua:183
+#: lua/groupbutler/plugins/warn.lua:185
 #, lua-format
 msgid "<b>Warn removed!</b> (%d/%d)"
 msgstr "<b>اخطار کم شد!</b> (%d/%d)"
 
-#: lua/groupbutler/plugins/warn.lua:186
+#: lua/groupbutler/plugins/warn.lua:188
 #, lua-format
 msgid "\n"
 "(Admin: %s)"
 msgstr "\n"
 "(مدیر: %s)"
 
-#: lua/groupbutler/plugins/warn.lua:195
+#: lua/groupbutler/plugins/warn.lua:197
 #, lua-format
 msgid "Done. All the warnings of this group have been erased by %s"
 msgstr "انجام شد. تمام اخطارهای گرفته شده در این گروه توسط %s حذف شد"
 
-#: lua/groupbutler/plugins/warn.lua:197
+#: lua/groupbutler/plugins/warn.lua:199
 msgid "_Action aborted_"
 msgstr "عملکرد متوقف شد"
 
