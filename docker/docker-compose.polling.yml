@@ -11,6 +11,7 @@ services:
         GB_COMMIT: $GB_COMMIT
     environment:
       REDIS_HOST: redis
+      POSTGRES_PASSWORD: password
     volumes:
       - ./conf:/srv/app/conf
       - ./locales:/srv/app/locales
@@ -22,3 +23,15 @@ services:
     image: redis:alpine
     ports:
       - "6379:6379"
+
+  postgres:
+    image: postgres:alpine
+    environment:
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+   postgres_data:
