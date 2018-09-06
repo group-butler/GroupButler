@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-09-02 21:47-0300\n"
-"PO-Revision-Date: 2018-09-03 04:28\n"
+"PO-Revision-Date: 2018-09-06 03:46\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Urdu (India)\n"
 "Language: ur\n"
@@ -82,7 +82,9 @@ msgstr "وہ اِن لائن بٹن جسے آپ سیٹ کرنے کی کوشش ک
 msgid "Hello everyone!\n"
 "My name is %s, and I'm a bot made to help administrators in their hard work.\n"
 "Unfortunately I can't work in normal groups. If you need me, please ask the creator to convert this group to a supergroup and then add me again.\n"
-msgstr ""
+msgstr "اھلا و سھلا!\n"
+"میرا نام %s، ہے میں ایک بوٹ جو مشکل میں منتظمین کی مدد کے لیے بنایا گیا ہوں۔\n"
+"درحقیقت میں عام گروپ میں کام نہیں کر سکتا۔ اگر آپ کو میری ضرورت ہے تو موجد کو کہیں کہ اس گروپ کو سوپر گروپ میں تبدیل کریں اور پھر مجھے شامل کریں۔.\n"
 
 #: lua/groupbutler/main.lua:193
 msgid "🐞 Sorry, a *bug* occurred"
@@ -754,7 +756,8 @@ msgstr "%d صحیح قدر و قیمت نہیں ہے!\n"
 #: lua/groupbutler/plugins/floodmanager.lua:144
 msgid "You can manage the antiflood settings from here.\n\n"
 "It is also possible to choose which type of messages the antiflood will ignore (✅)"
-msgstr ""
+msgstr "آپ یہاں سے مانع تکرار سیٹنگ کا انتظام کر سکتے ہیں۔\n\n"
+" نیز یہ بھی کہ کس قسم کے پیغامات کو مانع تکرار نظر انداز کرے (✅)"
 
 #: lua/groupbutler/plugins/floodmanager.lua:151
 msgid "Antiflood settings"
@@ -1434,7 +1437,7 @@ msgstr "جب یہ فعال ہوگا, تو جب جب نیا استقبالیہ پ
 
 #: lua/groupbutler/plugins/menu.lua:29
 msgid "When enabled, the bot doesn't answer in the group to /dashboard, /config and /help commands (it will just answer in private)"
-msgstr ""
+msgstr "فعال ہونے کے وقت بوٹ گروپ میں /dashboard, /config اور /help کو جواب نہیں دے گا (البتہ پرسنل میں ضرور جواب دیگا)"
 
 #: lua/groupbutler/plugins/menu.lua:30
 msgid "Enable and disable the anti-flood system (more info in the /help message)"
@@ -1442,7 +1445,7 @@ msgstr "طغیانی مخالف سسٹم کو فعال یا غیر فعال کی
 
 #: lua/groupbutler/plugins/menu.lua:31
 msgid "If the welcome message is enabled, it will include an inline button that will send to the user the rules in private"
-msgstr ""
+msgstr "اگر آپ استقبالیہ پیغام کو فعال کرتے ہیں تو یہ ایک داخلی بٹن پر مشتمل ہوگا جو کہ صارف کو نجی پیغام میں اصول و ضوابط ارسال کرے گا"
 
 #: lua/groupbutler/plugins/menu.lua:32
 msgid "When someone uses /rules\n"
@@ -2122,7 +2125,7 @@ msgstr "قوانین پڑھیں"
 
 #: lua/groupbutler/plugins/welcome.lua:124
 msgid "Hi $name!"
-msgstr ""
+msgstr "خوش آمدید $name!"
 
 #: lua/groupbutler/plugins/welcome.lua:170
 msgid "Welcome and...?"
@@ -2340,7 +2343,9 @@ msgstr ""
 msgid "#%s\n"
 "• %s\n"
 "• <b>User</b>: %s"
-msgstr ""
+msgstr "#%s\n"
+"• %s\n"
+"• <b>رکن</b>: %s"
 
 #: lua/groupbutler/utilities.lua:891 lua/groupbutler/utilities.lua:901
 #: lua/groupbutler/utilities.lua:904 lua/groupbutler/utilities.lua:907
@@ -2464,7 +2469,9 @@ msgstr "#%s\n"
 msgid "#%s\n"
 "• %s\n"
 "• <b>By</b>: %s"
-msgstr ""
+msgstr "#%s\n"
+"• %s\n"
+"• <b>بذریعہ</b>: %s"
 
 #: lua/groupbutler/utilities.lua:1000
 #, lua-format

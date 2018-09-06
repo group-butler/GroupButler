@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-09-02 21:47-0300\n"
-"PO-Revision-Date: 2018-09-03 04:28\n"
+"PO-Revision-Date: 2018-09-06 03:46\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Korean\n"
 "Language: ko\n"
@@ -437,18 +437,18 @@ msgstr ""
 #: lua/groupbutler/plugins/dashboard.lua:30
 #: lua/groupbutler/plugins/menu.lua:158 lua/groupbutler/plugins/menu.lua:220
 msgid "👞 kick"
-msgstr ""
+msgstr "👞 추방"
 
 #: lua/groupbutler/plugins/dashboard.lua:32
 #: lua/groupbutler/plugins/menu.lua:160
 msgid "🔨 ban"
-msgstr ""
+msgstr "🔨 차단"
 
 #: lua/groupbutler/plugins/dashboard.lua:34
 #: lua/groupbutler/plugins/floodmanager.lua:49
 #: lua/groupbutler/plugins/menu.lua:162 lua/groupbutler/plugins/menu.lua:224
 msgid "👁 mute"
-msgstr ""
+msgstr "👁 음소거"
 
 #: lua/groupbutler/plugins/dashboard.lua:39
 #: lua/groupbutler/plugins/floodmanager.lua:67
@@ -708,11 +708,11 @@ msgstr ""
 
 #: lua/groupbutler/plugins/floodmanager.lua:45
 msgid "👞️ kick"
-msgstr ""
+msgstr "👞️ 추방"
 
 #: lua/groupbutler/plugins/floodmanager.lua:47
 msgid "🔨 ️ban"
-msgstr ""
+msgstr "🔨 ️차단"
 
 #: lua/groupbutler/plugins/floodmanager.lua:105
 msgid "Flooders will be banned"
@@ -1166,7 +1166,7 @@ msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:60
 msgid "Kick"
-msgstr ""
+msgstr "추방"
 
 #: lua/groupbutler/plugins/logchannel.lua:61 lua/groupbutler/utilities.lua:992
 msgid "Unban"
@@ -1519,7 +1519,7 @@ msgstr ""
 
 #: lua/groupbutler/plugins/menu.lua:222
 msgid "🔨️ ban"
-msgstr ""
+msgstr "🔨️ 차단"
 
 #: lua/groupbutler/plugins/menu.lua:228
 msgid "Warns: "

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-09-02 21:47-0300\n"
-"PO-Revision-Date: 2018-09-03 04:28\n"
+"PO-Revision-Date: 2018-09-06 03:46\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Portuguese\n"
 "Language: pt\n"
@@ -80,7 +80,9 @@ msgstr ""
 msgid "Hello everyone!\n"
 "My name is %s, and I'm a bot made to help administrators in their hard work.\n"
 "Unfortunately I can't work in normal groups. If you need me, please ask the creator to convert this group to a supergroup and then add me again.\n"
-msgstr ""
+msgstr "Olá pessoal!\n"
+"O meu nome é %s, e eu sou um robot feito para ajudar os administradores no seu trabalho árduo.\n"
+"Infelizmente, eu não funciono em grupos normais. Se precisar de mim, por favor peça ao criador para converter o grupo num supergrupo e então podem-me adicionar.\n"
 
 #: lua/groupbutler/main.lua:193
 msgid "🐞 Sorry, a *bug* occurred"
@@ -2055,7 +2057,7 @@ msgstr "Leia as regras"
 
 #: lua/groupbutler/plugins/welcome.lua:124
 msgid "Hi $name!"
-msgstr ""
+msgstr "Olá $name!"
 
 #: lua/groupbutler/plugins/welcome.lua:170
 msgid "Welcome and...?"
@@ -2271,7 +2273,9 @@ msgstr ""
 msgid "#%s\n"
 "• %s\n"
 "• <b>User</b>: %s"
-msgstr ""
+msgstr "#%s\n"
+"• %s\n"
+"• <b>Utilizador</b>: %s"
 
 #: lua/groupbutler/utilities.lua:891 lua/groupbutler/utilities.lua:901
 #: lua/groupbutler/utilities.lua:904 lua/groupbutler/utilities.lua:907
@@ -2395,7 +2399,9 @@ msgstr "#%s\n"
 msgid "#%s\n"
 "• %s\n"
 "• <b>By</b>: %s"
-msgstr ""
+msgstr "#%s\n"
+"• %s\n"
+"• <b>Por</b>: %s"
 
 #: lua/groupbutler/utilities.lua:1000
 #, lua-format

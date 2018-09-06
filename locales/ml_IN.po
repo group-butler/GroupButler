@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-09-02 21:47-0300\n"
-"PO-Revision-Date: 2018-09-03 04:28\n"
+"PO-Revision-Date: 2018-09-06 03:46\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Malayalam\n"
 "Language: ml\n"
@@ -18,7 +18,7 @@ msgstr ""
 
 #: lua/groupbutler/api_errors.lua:12
 msgid "An unknown error has ocurred"
-msgstr ""
+msgstr "കാരണം അറിയില്ലാത്ത ഒരു പിശക് സംഭവിച്ചു"
 
 #: lua/groupbutler/api_errors.lua:13
 msgid "I don't have enough permissions to restrict users"
@@ -30,7 +30,7 @@ msgstr "എനിക്കാരെയും പുറത്താക്കൻ �
 
 #: lua/groupbutler/api_errors.lua:15
 msgid "I can't do that to admins!"
-msgstr ""
+msgstr "അഡ്മിനോട് അങ്ങനെ ചെയ്യാൻ എനിക്ക് കഴിയില്ല!"
 
 #: lua/groupbutler/api_errors.lua:16
 msgid "There is no need to unban in a normal group"
@@ -42,45 +42,50 @@ msgstr "ഇയാൾ സല്ലപിക്കുന്ന ആളല്ല"
 
 #: lua/groupbutler/api_errors.lua:18
 msgid "Please input a text"
-msgstr ""
+msgstr "എന്തെങ്കിലും ടൈപ്പ് ചെയ്യുക"
 
 #: lua/groupbutler/api_errors.lua:19
 msgid "This message is too long. Max lenght allowed by Telegram: 4000 characters"
-msgstr ""
+msgstr "ഈ സന്ദേശത്തിന് നീളം കൂടുതലാണ്. ടെലെഗ്രാമിൽ അനുവദിച്ചിട്ടുള്ളത്: 4000 അക്ഷരങ്ങൾ"
 
 #: lua/groupbutler/api_errors.lua:20
 msgid "One of the inline buttons you are trying to set is missing the URL"
-msgstr ""
+msgstr "നിങ്ങൾ സെറ്റ് ചെയ്യാൻ ഉദ്ദേശിക്കുന്ന ഇൻലൈൻ ബട്ടന് URL മിസ്സിംഗ് ആണ്"
 
 #: lua/groupbutler/api_errors.lua:21
 #, lua-format
 msgid "Inline link formatted incorrectly. Check the text between brackets -> \\[]()\n"
 "%s"
-msgstr ""
+msgstr "ഇൻലൈൻ ലിങ്ക് ഫോർമാറ്റ് ചെയ്തത് തെറ്റായാണ്. ഈ ബ്രാക്കറ്റുകളിൽ ഉള്ള ടെക്സ്റ്റ് പരിശോധിക്കുക -> \\[]()\n"
+"%s"
 
 #: lua/groupbutler/api_errors.lua:21
 msgid "More info [here](https://telegram.me/GB_tutorials/12)"
-msgstr ""
+msgstr "കൂടുതൽ വിവരങ്ങൾക്ക് [here](https://telegram.me/GB_tutorials/12)"
 
 #: lua/groupbutler/api_errors.lua:22
 msgid "This text breaks the markdown.\n"
 "More info about a proper use of markdown [here](https://telegram.me/GB_tutorials/10) and [here](https://telegram.me/GB_tutorials/12)."
-msgstr ""
+msgstr "ഈ ടെക്സ്റ്റ് മാർക്ടൗണിനെ ബ്രേക്ക് ചെയ്യുന്നു.\n"
+"മാർക്ക്ഡൌൺ എങ്ങനെ ഉപയോഗിക്കണമെന്നതിനെക്കുറിച്ചുള്ള കൂടുതൽ വിവരങ്ങൾക്ക് [here](https://telegram.me/GB_tutorials/10) and [here](https://telegram.me/GB_tutorials/12)."
 
 #: lua/groupbutler/api_errors.lua:24
 msgid "One of the URLs that should be placed in an inline button seems to be invalid (not an URL). Please check it"
-msgstr ""
+msgstr "ഒരു ഇൻലൈൻ ബട്ടണിൽ കൊടുക്കേണ്ട ഒരു URL തെറ്റായി കാണുന്നു (not an URL). ദയവായി പരിശോധിക്കുക"
 
 #: lua/groupbutler/api_errors.lua:25
 msgid "One of the inline buttons you are trying to set doesn't have a name"
-msgstr ""
+msgstr "നിങ്ങൾ സെറ്റ് ചെയ്യാൻ ശ്രമിക്കുന്ന ഇൻലൈൻ ബട്ടണ് ഒരു പേര് കൊടുക്കാൻ ശ്രദ്ധിക്കുക"
 
 #: lua/groupbutler/main.lua:126
 #, lua-format
 msgid "Hello everyone!\n"
 "My name is %s, and I'm a bot made to help administrators in their hard work.\n"
 "Unfortunately I can't work in normal groups. If you need me, please ask the creator to convert this group to a supergroup and then add me again.\n"
-msgstr ""
+msgstr "ഹലോ കൂട്ടുകാരേ! \n"
+"ഞാൻ %s, ഗ്രൂപ്പ് അഡ്മിന്മാരെ സഹായിക്കാൻ വേണ്ടിയാണ് എന്നെ ഉണ്ടാക്കിയിരിക്കുന്നത്. \n"
+"പക്ഷേ എനിക്ക് ഈ ഗ്രൂപ്പിൽ വർക്ക് ചെയ്യാൻ കഴിയില്ല. നിങ്ങൾക്ക് എന്നെ ആവശ്യമുണ്ടെങ്കിൽ, \n"
+"നിങ്ങളുടെ അഡ്മിനോട് ഇതൊരു സൂപ്പർഗ്രൂപ് ആക്കാൻ പറഞ്ഞതിനുശേഷം എന്നെ വീണ്ടും ആഡ് ചെയ്യുക.\n"
 
 #: lua/groupbutler/main.lua:193
 msgid "🐞 Sorry, a *bug* occurred"
@@ -126,7 +131,7 @@ msgstr "%s, അനാവശ്യമായവ ഇവിടെ അനുവദന
 #: lua/groupbutler/plugins/antispam.lua:103
 #, lua-format
 msgid "%s, this kind of message is not allowed in this chat (<b>%d/%d</b>)"
-msgstr ""
+msgstr "%s, ഇത്തരത്തിലുള്ള മെസ്സേജ് ഒക്കെ ഇവിടെ ഇട്ടാൽ ചവിട്ടി വെളിയിൽ കളയും (<b>%d/%d</b>)"
 
 #: lua/groupbutler/plugins/antispam.lua:107
 msgid "telegram.me link"
@@ -221,11 +226,16 @@ msgid "*Anti-spam settings*\n"
 "• ❌ = *Not allowed*\n"
 "• 🗑 = *Delete*\n"
 "When set on `delete`, the bot doesn't warn users until they are about to be kicked/banned/muted (at the second-to-last warning)"
-msgstr ""
+msgstr "*Anti-spam settings*\n"
+"ഏത് തരത്തിലുള്ള മെസ്സേജുകളാണ് തടയേണ്ടതെന്ന് തിരഞ്ഞെടുക്കുക \n"
+"• ✅ = *അനുവദിക്കാം*\n"
+"• ❌ = *ഗ്രൂപ്പിന്റെ പടി കേറ്റണ്ട*\n"
+"• 🗑 = *എടുത്ത് ചവറ്റുകൊട്ടയിൽ കളയാം*\n"
+"When set on `delete`, the bot doesn't warn users until they are about to be kicked/banned/muted (at the second-to-last warning)"
 
 #: lua/groupbutler/plugins/antispam.lua:352
 msgid "_The whitelist was already empty_"
-msgstr "_ വൈറ്റ്ലിസ്റ്റ് ഇതിനകം ശൂന്യമായിരുന്നു"
+msgstr "_ വൈറ്റ്ലിസ്റ്റ് ഇതിനകം ശൂന്യമായിരുന്നു_ "
 
 #: lua/groupbutler/plugins/antispam.lua:355
 #, lua-format
@@ -261,22 +271,23 @@ msgstr "Dog - പട്ടി"
 
 #: lua/groupbutler/plugins/antispam.lua:382
 msgid "Whitelisted links:\n\n"
-msgstr ""
+msgstr "അനുവദനീയമായ ലിങ്കുകൾ:\n\n"
 
 #: lua/groupbutler/plugins/antispam.lua:397
 #, lua-format
 msgid "%d link(s) removed from the whitelist"
-msgstr ""
+msgstr "%d അനുവദനീയമായവയുടെ ലിസ്റ്റിൽ നിന്നും ലിങ്ക് നീക്കം ചെയ്തു"
 
 #: lua/groupbutler/plugins/antispam.lua:414
 msgid "_Whitelist of channels empty_"
-msgstr ""
+msgstr "അനുവദനീയമായ ചാനലുകൾ ഒന്നുമില്ല"
 
 #: lua/groupbutler/plugins/antispam.lua:416
 #, lua-format
 msgid "*Whitelisted channels:*\n"
 "%s"
-msgstr ""
+msgstr "*അനുവദനീയമായ ചാനലുകൾ:*\n"
+"%s"
 
 #: lua/groupbutler/plugins/antispam.lua:423
 #: lua/groupbutler/plugins/antispam.lua:440
@@ -287,36 +298,41 @@ msgstr "‌_എനിക്കിതിൽ നിന്നും ചാനൽ ID
 msgid "Import was <b>successful</b>.\n\n"
 "<b>Important</b>:\n"
 "- #extra commands which are associated with a media must be set again if the bot you are using now is different from the bot that originated the backup.\n"
-msgstr ""
+msgstr "ഇമ്പോർട്ടിങ് <b>വിജയകരം</b>.\n\n"
+"<b>ശ്രദ്ധിക്കുക</b>:\n"
+"ബാക്കപ്പ് ഉണ്ടാക്കിയ bot അല്ല നിങ്ങൾ ഇപ്പോൾ ഉപയോഗിക്കുന്നതെങ്കിൽ ആ മീഡിയായുമായി ബന്ധപ്പെട്ട - #extra കമാൻഡ് വീണ്ടും സെറ്റ് ചെയ്യണം.\n"
+" \n"
 
 #: lua/groupbutler/plugins/backup.lua:112
 #, lua-format
 msgid "<i>I'm sorry, this command has been used for the last time less then 3 hours ago by</i> %s (ask them for the file).\n"
 "Wait [<code>%s</code>] to use it again\n"
-msgstr ""
+msgstr "<i>ക്ഷമിക്കണം</i> %s <i>ഈ കമാൻഡ് അവസാനമായി ഉപയോഗിച്ചിട്ട് മൂന്ന് മണിക്കൂറിൽ താഴെയേ ആയിട്ടുള്ളു (അവരോട് ആ ഫയൽ ചോദിക്കുക).\n\n"
+"Wait [<code>%s</code>] to use it again\n"
 
 #: lua/groupbutler/plugins/backup.lua:121
 msgid "*Sent in private*"
-msgstr "സ്വകാര്യ സന്ദേശം അയച്ചു"
+msgstr "*സ്വകാര്യ സന്ദേശം അയച്ചു*"
 
 #: lua/groupbutler/plugins/backup.lua:128
 msgid "Invalid input. Please reply to the backup file (/snap command to get it)"
-msgstr ""
+msgstr "ഇൻപുട്ട് തെറ്റാണ്. Please reply to the backup file (/snap command to get it)"
 
 #: lua/groupbutler/plugins/backup.lua:133
 msgid "Invalid input. Please reply to a document"
-msgstr ""
+msgstr "ഇൻപുട്ട് തെറ്റാണ്. Please reply to a document"
 
 #: lua/groupbutler/plugins/backup.lua:138
 #, lua-format
 msgid "This is not a valid backup file.\n"
 "Reason: invalid name (%s)"
-msgstr ""
+msgstr "ഇതൊരു വാലിഡ് ബാക്കപ്പ് ഫയൽ അല്ല.\n"
+"Reason: invalid name (%s)"
 
 #: lua/groupbutler/plugins/backup.lua:148
 #, lua-format
 msgid "Download of the file failed with code %s"
-msgstr ""
+msgstr "ഫയൽ ഡൌൺലോഡ് മൂഞ്ചിപ്പോയി. Code %s"
 
 #: lua/groupbutler/plugins/backup.lua:157
 #, lua-format
@@ -325,7 +341,7 @@ msgstr "ചാനൽ IDs (%s യും  %s യും തമ്മിൽ) ചേ�
 
 #: lua/groupbutler/plugins/banhammer.lua:90
 msgid "Use -/+ to edit the value, then select a timeframe to temporary ban the user"
-msgstr ""
+msgstr "വാല്യൂ എഡിറ്റ് ചെയ്യാൻ -/+ ഉപയോഗിക്കുക, ശേഷം, യൂസറിനെ ബാൻ ചെയ്യാൻ ഒരു ടൈംഫ്രെയിം തിരഞ്ഞെടുക്കുക"
 
 #: lua/groupbutler/plugins/banhammer.lua:97
 #, lua-format
@@ -340,7 +356,7 @@ msgstr "%s വിലക്കി %s!"
 
 #: lua/groupbutler/plugins/banhammer.lua:113
 msgid "_Use this command in reply to a forwarded message_"
-msgstr ""
+msgstr "_ഫോർവേഡ് മെസേജിനുള്ള റീപ്ലേയിൽ ഈ കമാൻഡ് ഉപയോഗിക്കുക_"
 
 #: lua/groupbutler/plugins/banhammer.lua:127
 msgid "_An admin can't be unbanned_"
@@ -361,11 +377,11 @@ msgstr "നിങ്ങൾക്ക് അംഗങ്ങളെ നിയന്�
 
 #: lua/groupbutler/plugins/banhammer.lua:156
 msgid "Tap on the -/+ buttons to change this value. Then select a timeframe to execute the ban"
-msgstr ""
+msgstr "വാല്യൂ ചേഞ്ച് ചെയ്യാൻ -/+ ഇവ ഉപയോഗിക്കുക. ശേഷം ബാൻ ചെയ്യാൻ ഒരു ടൈംഫ്രെയിം സെലക്ട് ചെയ്യുക"
 
 #: lua/groupbutler/plugins/banhammer.lua:165
 msgid "You can't set a lower value"
-msgstr ""
+msgstr "ഒരു ലോവർ വാല്യൂ സെറ്റ് ചെയ്യാൻ സാധിക്കില്ല"
 
 #: lua/groupbutler/plugins/banhammer.lua:173
 msgid "Stop!!!"
@@ -406,7 +422,7 @@ msgstr "🚫 അനാവശ്യമായവ തടയൽ"
 
 #: lua/groupbutler/plugins/configure.lua:47
 msgid "📥 Log channel"
-msgstr ""
+msgstr "📥 Log channel"
 
 #: lua/groupbutler/plugins/configure.lua:53
 msgid "⛔️ Default permissions"
@@ -421,21 +437,21 @@ msgstr "<b>%s</b>\n"
 
 #: lua/groupbutler/plugins/configure.lua:74
 msgid "_I've sent you the keyboard via private message_"
-msgstr ""
+msgstr "_നിങ്ങൾക്ക് പ്രൈവറ്റ് ആയി ഞാൻ കീബോർഡ് അയച്ചിട്ടുണ്ട്_"
 
 #: lua/groupbutler/plugins/configure.lua:88
 msgid "<i>Change the settings of your group</i>"
-msgstr ""
+msgstr "<i>നിങ്ങളുടെ ഗ്രൂപ്പിൻറെ സെറ്റിങ്‌സ് ചേഞ്ച് ചെയ്യുക</i>"
 
 #: lua/groupbutler/plugins/dashboard.lua:21
 #: lua/groupbutler/plugins/floodmanager.lua:36
 msgid "✅ | ON"
-msgstr ""
+msgstr "✅ | ഓൺ"
 
 #: lua/groupbutler/plugins/dashboard.lua:23
 #: lua/groupbutler/plugins/floodmanager.lua:38
 msgid "❌ | OFF"
-msgstr ""
+msgstr "❌ | ഓഫ്"
 
 #: lua/groupbutler/plugins/dashboard.lua:30
 #: lua/groupbutler/plugins/menu.lua:158 lua/groupbutler/plugins/menu.lua:220
@@ -468,7 +484,7 @@ msgstr "കൈമാറിയവ"
 #: lua/groupbutler/plugins/floodmanager.lua:69
 #: lua/groupbutler/plugins/mediasettings.lua:43
 msgid "Stickers"
-msgstr ""
+msgstr "സ്റ്റിക്കറുകൾ"
 
 #: lua/groupbutler/plugins/dashboard.lua:42
 #: lua/groupbutler/plugins/dashboard.lua:157
@@ -494,23 +510,24 @@ msgstr "വീഡിയോകൾ"
 #: lua/groupbutler/plugins/dashboard.lua:58
 #, lua-format
 msgid "- *Status*: `%s`\n"
-msgstr ""
+msgstr "- *Status*: `%s`\n"
 
 #: lua/groupbutler/plugins/dashboard.lua:59
 #, lua-format
 msgid "- *Action* to perform when a user floods: `%s`\n"
-msgstr ""
+msgstr "- *Action* to perform when a user floods: `%s`\n"
 
 #: lua/groupbutler/plugins/dashboard.lua:60
 #, lua-format
 msgid "- Number of messages allowed *every 5 seconds*: `%d`\n"
-msgstr ""
+msgstr "- അനുവദിച്ചിരിക്കുന്ന മെസ്സേജുകളുടെ എണ്ണം *every 5 seconds*: `%d`\n"
 
 #: lua/groupbutler/plugins/dashboard.lua:61
 #, lua-format
 msgid "- *Ignored media*:\n"
 "%s"
-msgstr ""
+msgstr "- *ഒഴിവാക്കിയ മീഡിയ*:\n"
+"%s"
 
 #: lua/groupbutler/plugins/dashboard.lua:67
 msgid "Settings"
@@ -540,19 +557,19 @@ msgstr "മീഡിയ ക്രമീകരണങ്ങൾ"
 
 #: lua/groupbutler/plugins/dashboard.lua:92
 msgid "Navigate this message to see *all the info* about this group!"
-msgstr ""
+msgstr "ഈ ഗ്രൂപ്പിനെക്കുറിച്ചുള്ള *എല്ലാ വിവരങ്ങളും* കാണാൻ ഈ മെസ്സേജിൽ പോവുക!"
 
 #: lua/groupbutler/plugins/dashboard.lua:101
 msgid "_I've sent you the group dashboard via private message_"
-msgstr ""
+msgstr "_ഗ്രൂപ്പ് ഡാഷ്ബോർഡ് ഞാൻ നിങ്ങൾക്ക് പ്രൈവറ്റ് ആയി അയച്ചിട്ടുണ്ട്_"
 
 #: lua/groupbutler/plugins/dashboard.lua:117
 msgid "🚫 This group does not exist"
-msgstr ""
+msgstr "🚫 ഈ ഗ്രൂപ്പ് നിലവിലില്ല"
 
 #: lua/groupbutler/plugins/dashboard.lua:124
 msgid "🚷 You are not a member of the chat. You can't see the settings of a private group."
-msgstr ""
+msgstr "🚷നിങ്ങൾ ഈ ചാറ്റിൽ അംഗമല്ല. പ്രൈവറ്റ് ഗ്രൂപ്പിന്റെ സെറ്റിംഗ്സ് നിങ്ങൾക്ക് കാണാൻ സാധിക്കുകയില്ല."
 
 #: lua/groupbutler/plugins/dashboard.lua:131
 msgid "ℹ️ Group ► Settings"
@@ -572,7 +589,7 @@ msgstr "ℹ️ ഗ്രൂപ്പ് ► അഡ്മിന്മാരുട
 
 #: lua/groupbutler/plugins/dashboard.lua:149
 msgid "ℹ️ Group ► Extra"
-msgstr ""
+msgstr "ℹ️ Group ► Extra"
 
 #: lua/groupbutler/plugins/dashboard.lua:153
 msgid "ℹ️ Group ► Flood"
@@ -585,7 +602,7 @@ msgstr "പ്രമാണങ്ങൾ"
 
 #: lua/groupbutler/plugins/dashboard.lua:162
 msgid "Voice Messages"
-msgstr ""
+msgstr "വോയിസ് മെസ്സേജുകൾ"
 
 #: lua/groupbutler/plugins/dashboard.lua:163
 #: lua/groupbutler/plugins/mediasettings.lua:41
@@ -600,7 +617,7 @@ msgstr "സംഗീതം"
 #: lua/groupbutler/plugins/dashboard.lua:166
 #: lua/groupbutler/plugins/mediasettings.lua:44
 msgid "Contacts"
-msgstr ""
+msgstr "കോണ്ടാക്ട്സ്"
 
 #: lua/groupbutler/plugins/dashboard.lua:167
 #: lua/groupbutler/plugins/mediasettings.lua:45
@@ -615,31 +632,31 @@ msgstr "സ്ഥലങ്ങൾ"
 #: lua/groupbutler/plugins/dashboard.lua:169
 #: lua/groupbutler/plugins/mediasettings.lua:47
 msgid "Venues"
-msgstr ""
+msgstr "വെന്യൂസ്"
 
 #: lua/groupbutler/plugins/dashboard.lua:171
 msgid "*Current media settings*:\n\n"
-msgstr ""
+msgstr "*ഇപ്പോഴത്തെ മീഡിയ സെറ്റിങ്‌സ്*:\n\n"
 
 #: lua/groupbutler/plugins/dashboard.lua:183
 msgid "ℹ️ Group ► Media"
-msgstr ""
+msgstr "ℹ️ Group ► Media"
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:63
 msgid "Permission to send messages. If disabled, the user won't be able to send any kind of message"
-msgstr ""
+msgstr "മെസ്സേജ് അയക്കാനുള്ള അനുവാദം. ഇത് ഓഫ് ആണെങ്കിൽ, യൂസറിന് ഒരു മെസ്സേജും അയക്കാൻ കഴിയില്ല"
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:64
 msgid "Permission to send media (audios, documents, photos, videos, video notes and voice notes). Implies the permission to send messages"
-msgstr ""
+msgstr "മീഡിയ സെൻറ് ചെയ്യാനുള്ള അനുവാദം (audios, documents, photos, videos, video notes and voice notes)"
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:65
 msgid "Permission to send other types of messages (GIFs, games, stickers and use inline bots). Implies the permission to send medias"
-msgstr ""
+msgstr "മറ്റുള്ള മെസ്സേജുകൾ സെൻറ് ചെയ്യാനുള്ള അനുവാദം (GIFs, games, stickers and use inline bots). Implies the permission to send medias"
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:66
 msgid "When disabled, user's messages with a link won't show the web page preview"
-msgstr ""
+msgstr "ഇത് ഓഫ് ആക്കിയാൽ, യൂസേഴ്‌സ് സെൻറ് ചെയ്ത മെസ്സേജിലെ ലിങ്കിന്റെ പ്രീവ്യൂ കാണിക്കില്ല"
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:73
 msgid "Send messages"
@@ -659,7 +676,7 @@ msgstr "വെബ് പേജ് കാണിക്കുക"
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:127
 msgid "You don't have the permission to restrict members"
-msgstr "നിങ്ങൾക്ക് ആരെയും നിയന്ത്രിക്കാനുള്ള അധിക്കരമില്ല"
+msgstr "നിങ്ങൾക്ക് ആരെയും നിയന്ത്രിക്കാനുള്ള അധികാരമില്ല"
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:129
 msgid "*Default permissions*\n"
@@ -723,7 +740,7 @@ msgstr "ശല്ല്യപ്പെടുത്തുന്നവരെ ത�
 
 #: lua/groupbutler/plugins/floodmanager.lua:108
 msgid "Flooders will be kicked"
-msgstr "ശല്ല്യപ്പെടുത്തുന്നവരെ പുറത്താക്കും"
+msgstr "ശല്ല്യപ്പെടുത്തുന്നവരെ ചവിട്ടി വെളികളയും "
 
 #: lua/groupbutler/plugins/floodmanager.lua:111
 msgid "Flooders will be muted"
@@ -771,7 +788,17 @@ msgid "Hello %s 👋🏼, nice to meet you!\n"
 "• I can also warn, kick or ban users when they post a specific media\n"
 "…and more, below you can find the \"all commands\" button to get the whole list!\n\n"
 "I work better if you add me to the group administrators (otherwise I won't be able to kick or ban)!"
-msgstr ""
+msgstr "അളിയാ %s 👋🏼, എന്തെല്ലാ...\n"
+"മച്ചാനേ, ഞാനാണ് ഗ്രൂപ്പ് ബട്ട്ലർ. ഒഫീഷ്യൽ BOT API ഉപയോഗിക്കുന്ന ആദ്യത്തെ അഡ്മിനിസ്ട്രേഷൻ bot ഞാനാണ്.\n\n"
+"*ഇനിപ്പറയുന്ന കാര്യങ്ങളൊക്കെ ചെയ്യാൻ ഞാൻ പുലിയാണ് കേട്ടാ.*\n"
+"• എനിക്ക് ആളുകളെ *ചവിട്ടി വെളിയിൽ കളയാനും, താൽക്കാലികമായി ബാൻ ചെയ്യാനും* കഴിയും\n"
+"• നിങ്ങൾക്കെന്നെ ഗ്രൂപ്പിന്റെ നിയമാവലികൾ സെറ്റ് ചെയ്യാൻ ഉപയോഗിക്കാം\n"
+"• വെറുതെ മെസ്സേജ് അയച്ചു ശല്യം ചെയ്യുന്നവരെ കൈകാര്യം ചെയ്യാനുള്ള കഴിവ് എനിക്കുണ്ട്\n"
+"• എനിക്ക് ഗ്രൂപ്പിൽ പുതിയതായി വരുന്നവരെ വെൽക്കം ചെയ്യാൻ സാധിക്കും. സ്റ്റിക്കറോ GIF ഓ ആഡ് ചെയ്ത് നിങ്ങൾക്ക് അത് പൊലിപ്പിക്കാം.\n"
+"• എനിക്ക് ആൾക്കാരെ *warn* ചെയ്യാൻ കഴിയും. എന്നിട്ടും കേൾക്കാത്തവരെ *ban* ചെയ്യാനും അറിയാം\n"
+"• ഏതെങ്കിലും പ്രത്യേകതരം മീഡിയ പോസ്റ്റുന്നവരെ warn, ban, kick എന്നിവ ചെയ്യാൻ എനിക്ക് കഴിയും\n\n"
+"...അങ്ങനെ...അങ്ങനെ...അങ്ങനെ...\n\n"
+"എന്നെ ഗ്രൂപ്പ് അഡ്മിൻ ആക്കിയാലേ എനിക്ക് എൻറെ കഴിവ് മുഴുവൻ പുറത്തെടുക്കാൻ കഴിയൂ."
 
 #: lua/groupbutler/plugins/help.lua:37
 msgid "This bot works only in supergroups.\n\n"
@@ -1040,7 +1067,7 @@ msgstr ""
 
 #: lua/groupbutler/plugins/help.lua:294
 msgid "Log channel"
-msgstr ""
+msgstr "Log channel"
 
 #: lua/groupbutler/plugins/help.lua:309
 msgid "Back"
@@ -1073,7 +1100,7 @@ msgstr ""
 
 #: lua/groupbutler/plugins/help.lua:372
 msgid "Main menu"
-msgstr "പ്രധാന പട്ടിക"
+msgstr "പ്രധാന മെനു "
 
 #: lua/groupbutler/plugins/help.lua:380
 msgid "❗️ Already there"
@@ -1213,7 +1240,7 @@ msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:72
 msgid "New group title"
-msgstr "പുതിയ ഗ്രൂപ്പിന്റെ ശീർഷകം"
+msgstr "പുതിയ ഗ്രൂപ്പിന്റെ പേര്"
 
 #: lua/groupbutler/plugins/logchannel.lua:73
 msgid "Pinned messages"
@@ -1221,15 +1248,15 @@ msgstr "തൂക്കിയിട്ട സന്ദേശങ്ങൾ"
 
 #: lua/groupbutler/plugins/logchannel.lua:74
 msgid "Users blocked and banned"
-msgstr "ആളെ തടയുകയും പുറത്താക്കുകയും ചെയ്തു"
+msgstr "വിലക്കുകയും തടയുകയും ചെയ്ത യൂസേർസ് "
 
 #: lua/groupbutler/plugins/logchannel.lua:75
 msgid "Users blocked"
-msgstr "ഇയാളെ തടഞ്ഞു"
+msgstr "ബ്ലോക്ക് ചെയ്ത യൂസേഴ്‌സ്‌ "
 
 #: lua/groupbutler/plugins/logchannel.lua:76
 msgid "Users unblocked"
-msgstr "ഇയാളുടെ വിലക്ക് മാറ്റി"
+msgstr "വിലക്ക് മാറ്റിയ യൂസേഴ്‌സ്‌ "
 
 #: lua/groupbutler/plugins/logchannel.lua:109
 msgid "You are not admin of this group"
@@ -1309,7 +1336,7 @@ msgstr ""
 
 #: lua/groupbutler/plugins/mediasettings.lua:40
 msgid "Vocal messages"
-msgstr "വാചികമായ സന്ദേശങ്ങൾ"
+msgstr "വോക്കൽ "
 
 #: lua/groupbutler/plugins/mediasettings.lua:66
 #, lua-format
@@ -1332,7 +1359,7 @@ msgstr "❌ താക്കീത്"
 
 #: lua/groupbutler/plugins/mediasettings.lua:97
 msgid "🗑 delete"
-msgstr "🗑 ഒഴിവാക്കുക"
+msgstr "🗑 ചവറ്റുകൊട്ട "
 
 #: lua/groupbutler/plugins/mediasettings.lua:103
 msgid "✅ allowed"
@@ -1810,7 +1837,8 @@ msgstr ""
 #, lua-format
 msgid "Hello everyone!\n"
 "My name is %s, and I'm a bot made to help administrators in their hard work.\n"
-msgstr ""
+msgstr "ഹലോ കൂട്ടുകാരേ! \n"
+"ഞാൻ %s, ഗ്രൂപ്പ് അഡ്മിന്മാരെ സഹായിക്കാൻ വേണ്ടിയാണ് എന്നെ ഉണ്ടാക്കിയിരിക്കുന്നത്. \n"
 
 #: lua/groupbutler/plugins/service.lua:65
 msgid "Yay! This group has been upgraded. You are great! Now I can work properly :)\n"
@@ -2047,7 +2075,7 @@ msgstr "നിയമാവലികൾ വായിക്കുക"
 
 #: lua/groupbutler/plugins/welcome.lua:124
 msgid "Hi $name!"
-msgstr ""
+msgstr "നമസ്കാരം $name!"
 
 #: lua/groupbutler/plugins/welcome.lua:170
 msgid "Welcome and...?"

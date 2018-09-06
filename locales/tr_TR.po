@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-09-02 21:47-0300\n"
-"PO-Revision-Date: 2018-09-03 04:28\n"
+"PO-Revision-Date: 2018-09-06 03:46\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Turkish\n"
 "Language: tr\n"
@@ -82,7 +82,9 @@ msgstr "Ayarlamaya çalıştığınız satır içi düğmelerden birinde bir ad�
 msgid "Hello everyone!\n"
 "My name is %s, and I'm a bot made to help administrators in their hard work.\n"
 "Unfortunately I can't work in normal groups. If you need me, please ask the creator to convert this group to a supergroup and then add me again.\n"
-msgstr ""
+msgstr "Herkese merhaba!\n"
+"Benim adım %s, ve ben yöneticilerin zor işlerinde yardımcı olmak üzere tasarlanmış bier botum.\n"
+"Malesef normal gruplarda çalışamıyorum. Eğer bana ihtiyacınız varsa, bu grubun yaratıcısından supergroup'a yükseltmesini isteyin ve ardından beni tekrar ekleyin.\n"
 
 #: lua/groupbutler/main.lua:193
 msgid "🐞 Sorry, a *bug* occurred"
@@ -2082,7 +2084,7 @@ msgstr "Kuralları okuyun"
 
 #: lua/groupbutler/plugins/welcome.lua:124
 msgid "Hi $name!"
-msgstr ""
+msgstr "Merhaba $name!"
 
 #: lua/groupbutler/plugins/welcome.lua:170
 msgid "Welcome and...?"
@@ -2298,7 +2300,9 @@ msgstr ""
 msgid "#%s\n"
 "• %s\n"
 "• <b>User</b>: %s"
-msgstr ""
+msgstr "#%s\n"
+"• %s\n"
+"• <b>Kullanıcı</b>: %s"
 
 #: lua/groupbutler/utilities.lua:891 lua/groupbutler/utilities.lua:901
 #: lua/groupbutler/utilities.lua:904 lua/groupbutler/utilities.lua:907
@@ -2422,7 +2426,9 @@ msgstr "#%s\n"
 msgid "#%s\n"
 "• %s\n"
 "• <b>By</b>: %s"
-msgstr ""
+msgstr "#%s\n"
+"• %s\n"
+"• <b>Tarafından</b>: %s"
 
 #: lua/groupbutler/utilities.lua:1000
 #, lua-format

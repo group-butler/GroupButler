@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-09-02 21:47-0300\n"
-"PO-Revision-Date: 2018-09-03 04:28\n"
+"PO-Revision-Date: 2018-09-06 03:46\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Romanian\n"
 "Language: ro\n"
@@ -82,7 +82,9 @@ msgstr "Un buton inline pe care incerci sa-l setezi nu are un nume"
 msgid "Hello everyone!\n"
 "My name is %s, and I'm a bot made to help administrators in their hard work.\n"
 "Unfortunately I can't work in normal groups. If you need me, please ask the creator to convert this group to a supergroup and then add me again.\n"
-msgstr ""
+msgstr "Salutare tuturor!\n"
+"Numele meu este %s, și sunt un *bot* creat pentru a ajuta administratorii în munca lor dificilă.\n"
+"Din păcate nu pot lucra în grupuri normale. Dacă ai nevoie de mine, te rog adresează-te creatorului să convertească acest grup într-un supergrup iar apoi să mă adauge din nou.\n"
 
 #: lua/groupbutler/main.lua:193
 msgid "🐞 Sorry, a *bug* occurred"
@@ -637,11 +639,13 @@ msgstr "Permisiunea de a trimite mesaje. Dacă este dezactivată, utilizatorul n
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:64
 msgid "Permission to send media (audios, documents, photos, videos, video notes and voice notes). Implies the permission to send messages"
-msgstr ""
+msgstr "Permisiunea de a trimite fișiere media (audio, documente, fotografii, clipuri video, note video și note vocale). Implică permisiunea de a trimite mesaje\n"
+"\t\t\t"
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:65
 msgid "Permission to send other types of messages (GIFs, games, stickers and use inline bots). Implies the permission to send medias"
-msgstr ""
+msgstr "Permisiunea de a trimite alte tipuri de mesaje (Gif-uri, jocuri, stickere și de a folosi boti inline). Implică permisiunea de a trimite fișiere media\n"
+"\t\t\t"
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:66
 msgid "When disabled, user's messages with a link won't show the web page preview"
@@ -747,7 +751,9 @@ msgstr "%d nu este o valoare validă!\n"
 #: lua/groupbutler/plugins/floodmanager.lua:144
 msgid "You can manage the antiflood settings from here.\n\n"
 "It is also possible to choose which type of messages the antiflood will ignore (✅)"
-msgstr ""
+msgstr "Puteți gestiona setările antiflood de aici.\n\n"
+"It Este, de asemenea, posibil de a alege ce tip de mesaje vor fi ignorate de către sistemul antiflood (✅)\n"
+"\t\t\t"
 
 #: lua/groupbutler/plugins/floodmanager.lua:151
 msgid "Antiflood settings"
@@ -1421,7 +1427,8 @@ msgstr "Activeaza si dezactiveaza sistemul anti-flood (mai multe informatii folo
 
 #: lua/groupbutler/plugins/menu.lua:31
 msgid "If the welcome message is enabled, it will include an inline button that will send to the user the rules in private"
-msgstr ""
+msgstr "Dacă mesajul de bun venit este activat, acesta va include un buton in linie care va trimite utilizatorului regulile în privat\n"
+"\t\t\t"
 
 #: lua/groupbutler/plugins/menu.lua:32
 msgid "When someone uses /rules\n"
@@ -2094,7 +2101,7 @@ msgstr "Citeste regulile"
 
 #: lua/groupbutler/plugins/welcome.lua:124
 msgid "Hi $name!"
-msgstr ""
+msgstr "Salut $name!"
 
 #: lua/groupbutler/plugins/welcome.lua:170
 msgid "Welcome and...?"
@@ -2310,7 +2317,9 @@ msgstr ""
 msgid "#%s\n"
 "• %s\n"
 "• <b>User</b>: %s"
-msgstr ""
+msgstr "#%s\n"
+"• %s\n"
+"• <b>Utilizator</b>: %s"
 
 #: lua/groupbutler/utilities.lua:891 lua/groupbutler/utilities.lua:901
 #: lua/groupbutler/utilities.lua:904 lua/groupbutler/utilities.lua:907
@@ -2434,7 +2443,9 @@ msgstr "#%s\n"
 msgid "#%s\n"
 "• %s\n"
 "• <b>By</b>: %s"
-msgstr ""
+msgstr "#%s\n"
+"• %s\n"
+"• <b>De catre</b>: %s"
 
 #: lua/groupbutler/utilities.lua:1000
 #, lua-format

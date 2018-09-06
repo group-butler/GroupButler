@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-09-02 21:47-0300\n"
-"PO-Revision-Date: 2018-09-03 04:28\n"
+"PO-Revision-Date: 2018-09-06 03:45\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Indonesian\n"
 "Language: id\n"
@@ -637,11 +637,13 @@ msgstr "Izin untuk mengirim pesan. Jika dinonaktifkan, pengguna tidak akan dapat
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:64
 msgid "Permission to send media (audios, documents, photos, videos, video notes and voice notes). Implies the permission to send messages"
-msgstr ""
+msgstr "Izin untuk mengirim media (audio, dokumen, foto, video, catatan video dan catatan suara). Berarti izin untuk mengirim pesan\n"
+"\t\t\t"
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:65
 msgid "Permission to send other types of messages (GIFs, games, stickers and use inline bots). Implies the permission to send medias"
-msgstr ""
+msgstr "Izin untuk mengirim jenis lain dari pesan (Gif, permainan, stiker dan menggunakan inline bot). Berarti izin untuk mengirim media\n"
+"\t\t\t"
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:66
 msgid "When disabled, user's messages with a link won't show the web page preview"
@@ -750,7 +752,9 @@ msgstr "%d bukan nilai yang valid!\n"
 #: lua/groupbutler/plugins/floodmanager.lua:144
 msgid "You can manage the antiflood settings from here.\n\n"
 "It is also possible to choose which type of messages the antiflood will ignore (✅)"
-msgstr ""
+msgstr "Anda dapat mengelola pengaturan antiflood dari sini.\n\n"
+"Disini Anda juga bisa menentukan jenis pesan yang akan diabaikan oleh bot (✅)\n"
+"\t\t\t"
 
 #: lua/groupbutler/plugins/floodmanager.lua:151
 msgid "Antiflood settings"
@@ -1430,7 +1434,8 @@ msgstr "Jika aktif, tiap kali pesan selamat datang yang baru telah terkirim, mak
 
 #: lua/groupbutler/plugins/menu.lua:29
 msgid "When enabled, the bot doesn't answer in the group to /dashboard, /config and /help commands (it will just answer in private)"
-msgstr ""
+msgstr "Ketika diaktifkan, bot tidak mengirim pesan konfirmasi dari balasan perintah /dashboard /config dan /help  (balasan langsung dikirim ke private message). Pastikan pengirim perintah sudah men-_start_ bot.\n"
+"\t\t\t"
 
 #: lua/groupbutler/plugins/menu.lua:30
 msgid "Enable and disable the anti-flood system (more info in the /help message)"
@@ -1438,7 +1443,8 @@ msgstr "Aktifkan dan nonaktifkan sistem anti-flood (info lengkap di pesan /help)
 
 #: lua/groupbutler/plugins/menu.lua:31
 msgid "If the welcome message is enabled, it will include an inline button that will send to the user the rules in private"
-msgstr ""
+msgstr "Jika pesan selamat datang diaktifkan, ini menyertakan sebuah tombol yang berfungsi untuk memberi aturan grup kepada pengguna (di private message)\n"
+"\t\t\t"
 
 #: lua/groupbutler/plugins/menu.lua:32
 msgid "When someone uses /rules\n"
@@ -2114,7 +2120,7 @@ msgstr "Baca rules"
 
 #: lua/groupbutler/plugins/welcome.lua:124
 msgid "Hi $name!"
-msgstr ""
+msgstr "Hai $name!"
 
 #: lua/groupbutler/plugins/welcome.lua:170
 msgid "Welcome and...?"
@@ -2332,7 +2338,9 @@ msgstr ""
 msgid "#%s\n"
 "• %s\n"
 "• <b>User</b>: %s"
-msgstr ""
+msgstr "#%s\n"
+"• %s\n"
+"• <b>Pengguna</b>: %s"
 
 #: lua/groupbutler/utilities.lua:891 lua/groupbutler/utilities.lua:901
 #: lua/groupbutler/utilities.lua:904 lua/groupbutler/utilities.lua:907
@@ -2456,7 +2464,9 @@ msgstr "#%s\n"
 msgid "#%s\n"
 "• %s\n"
 "• <b>By</b>: %s"
-msgstr ""
+msgstr "#%s\n"
+"• %s\n"
+"• <b>Oleh</b>: %s"
 
 #: lua/groupbutler/utilities.lua:1000
 #, lua-format

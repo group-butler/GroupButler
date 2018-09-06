@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-09-02 21:47-0300\n"
-"PO-Revision-Date: 2018-09-03 04:28\n"
+"PO-Revision-Date: 2018-09-06 03:45\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Dutch\n"
 "Language: nl\n"
@@ -80,7 +80,9 @@ msgstr ""
 msgid "Hello everyone!\n"
 "My name is %s, and I'm a bot made to help administrators in their hard work.\n"
 "Unfortunately I can't work in normal groups. If you need me, please ask the creator to convert this group to a supergroup and then add me again.\n"
-msgstr ""
+msgstr "Hallo iedereen!\n"
+"Mijn naam is %s, en ik ben een bot gemaakt om te helpen beheerders in hun harde werk.\n"
+"Helaas kan ik niet werken in de normale groepen. Als je me nodig hebt, vraag de maker om te zetten van deze groep een supergroep en voeg me weer.\n"
 
 #: lua/groupbutler/main.lua:193
 msgid "🐞 Sorry, a *bug* occurred"
@@ -438,18 +440,18 @@ msgstr "❌ | UIT"
 #: lua/groupbutler/plugins/dashboard.lua:30
 #: lua/groupbutler/plugins/menu.lua:158 lua/groupbutler/plugins/menu.lua:220
 msgid "👞 kick"
-msgstr ""
+msgstr "👞 kick"
 
 #: lua/groupbutler/plugins/dashboard.lua:32
 #: lua/groupbutler/plugins/menu.lua:160
 msgid "🔨 ban"
-msgstr ""
+msgstr "🔨 verbod"
 
 #: lua/groupbutler/plugins/dashboard.lua:34
 #: lua/groupbutler/plugins/floodmanager.lua:49
 #: lua/groupbutler/plugins/menu.lua:162 lua/groupbutler/plugins/menu.lua:224
 msgid "👁 mute"
-msgstr ""
+msgstr "👁 mute"
 
 #: lua/groupbutler/plugins/dashboard.lua:39
 #: lua/groupbutler/plugins/floodmanager.lua:67
@@ -588,7 +590,7 @@ msgstr ""
 #: lua/groupbutler/plugins/dashboard.lua:163
 #: lua/groupbutler/plugins/mediasettings.lua:41
 msgid "Links"
-msgstr ""
+msgstr "Links"
 
 #: lua/groupbutler/plugins/dashboard.lua:164
 #: lua/groupbutler/plugins/mediasettings.lua:42
@@ -709,11 +711,11 @@ msgstr ""
 
 #: lua/groupbutler/plugins/floodmanager.lua:45
 msgid "👞️ kick"
-msgstr ""
+msgstr "👞️ kick"
 
 #: lua/groupbutler/plugins/floodmanager.lua:47
 msgid "🔨 ️ban"
-msgstr ""
+msgstr "🔨 ️verbod"
 
 #: lua/groupbutler/plugins/floodmanager.lua:105
 msgid "Flooders will be banned"
@@ -1167,7 +1169,7 @@ msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:60
 msgid "Kick"
-msgstr ""
+msgstr "Kick"
 
 #: lua/groupbutler/plugins/logchannel.lua:61 lua/groupbutler/utilities.lua:992
 msgid "Unban"
@@ -1520,7 +1522,7 @@ msgstr ""
 
 #: lua/groupbutler/plugins/menu.lua:222
 msgid "🔨️ ban"
-msgstr ""
+msgstr "🔨️ verbod"
 
 #: lua/groupbutler/plugins/menu.lua:228
 msgid "Warns: "

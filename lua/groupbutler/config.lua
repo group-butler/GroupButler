@@ -49,7 +49,7 @@ local _M =
 	},
 
 	-- Aesthetic
-	lang = os.getenv('DEFAULT_LANG') or 'en',
+	lang = os.getenv('DEFAULT_LANG') or 'en_GB',
 	commit = os.getenv("GB_COMMIT"),
 	channel = os.getenv("GB_CHANNEL") or '@GroupButler_ch',
 	source_code = os.getenv("GB_SOURCE") or 'https://github.com/group-butler/GroupButler',
@@ -107,7 +107,8 @@ local _M =
 		'extra', --must be the last plugin in the list.
 	},
 	available_languages = { -- Sorted alphabetically
-		['en'] = 'English 🇬🇧',
+		['en_GB'] = 'English, United Kingdom 🇬🇧',
+		['en_US'] = 'English, United States 🇺🇸',
 		-- ['af_ZA'] = 'Afrikaans 🇿🇦',
 		['ar_SA'] = 'Arabic 🇸🇩',
 		-- ['ca_ES'] = 'Catalan', -- Missing emoji flag as of 16/07/2018
@@ -127,6 +128,7 @@ local _M =
 		['it_IT'] = 'Italian 🇮🇹',
 		-- ['ja_JP'] = 'Japanese 🇯🇵',
 		-- ['ko_KR'] = 'Korean 🇰🇷',
+		-- ['ms_MY'] = 'Malay 🇲🇾',
 		-- ['ml_IN'] = 'Malayalam 🇮🇳',
 		-- ['no_NO'] = 'Norwegian 🇳🇴',
 		['fa_IR'] = 'Persian 🇮🇷',
