@@ -4,7 +4,8 @@ local utilities = require "groupbutler.utilities"
 local log = require "groupbutler.logging"
 local redis = require "resty.redis"
 local plugins = require "groupbutler.plugins"
-local message = require "groupbutler.message"
+local Message = require "groupbutler.message"
+local User = require "groupbutler.user"
 local storage = require "groupbutler.storage"
 local locale = require "groupbutler.languages"
 local i18n = locale.translate
@@ -35,6 +36,30 @@ function _M:new(update_obj)
 	update_obj.u = utilities:new(update_obj)
 
 	return update_obj
+end
+
+local function inject_message_methods(message, update)
+	Message:new(message, update)
+	if message.from then -- Sender is empty for messages sent to channels
+		User:new(message.from, update)
+	end
+end
+
+local function add_message_methods(object, update)
+	local message_objects = {
+		"message", "edited_message", "channel_post", -- Possible messages inside updates
+		"reply_to_message", "pinned_message",        -- Possible messages inside messages
+	}
+	for _, message in pairs(message_objects) do
+		if type(object[message]) == "table" then
+			inject_message_methods(object[message], update)
+			add_message_methods(object[message], update)
+		end
+	end
+end
+
+local function add_methods(update)
+	add_message_methods(update, update)
 end
 
 local function extract_usernames(self, msg)
@@ -274,9 +299,6 @@ function _M:process()
 			end
 		end
 		if self.message.reply_to_message then
-			-- Add message methods
-			message:new(self.message.reply_to_message, self)
-
 			self.message.reply = self.message.reply_to_message
 			if self.message.reply.caption then
 				self.message.reply.text = self.message.reply.caption
@@ -308,8 +330,7 @@ function _M:process()
 
 	if not self.message.text then self.message.text = self.message.caption or '' end
 
-	-- Add message methods
-	message:new(self.message, self)
+	add_methods(self)
 
 	local retval = on_msg_receive(self, function_key)
 	u:metric_set("msg_request_duration_sec", u:time_hires() - start_time)
