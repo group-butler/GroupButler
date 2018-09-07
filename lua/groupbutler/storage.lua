@@ -70,6 +70,16 @@ function RedisStorage:toggle_user_setting(user_id, setting)
 	self:set_user_setting(user_id, setting, new_val)
 end
 
+function RedisStorage:cache_user(user)
+	if user.username then
+		self.redis:hset("bot:usernames", "@"..user.username:lower(), user.id)
+	end
+end
+
+function RedisStorage:get_user_id(username)
+	return tonumber(self.redis:hget("bot:usernames", username))
+end
+
 -- _M.storage = {
 -- 	redis=RedisStorage
 -- }

@@ -62,39 +62,10 @@ local function add_methods(update)
 	add_message_methods(update, update)
 end
 
-local function extract_usernames(self, msg)
-	local red = self.red
-	if msg.from and msg.from.username then
-		red:hset('bot:usernames', '@'..msg.from.username:lower(), msg.from.id)
-	end
-	if msg.forward_from and msg.forward_from.username then
-		red:hset('bot:usernames', '@'..msg.forward_from.username:lower(), msg.forward_from.id)
-	end
-	if msg.new_chat_member then
-		if msg.new_chat_member.username then
-			red:hset('bot:usernames', '@'..msg.new_chat_member.username:lower(), msg.new_chat_member.id)
-		end
-		red:sadd(string.format('chat:%d:members', msg.chat.id), msg.new_chat_member.id)
-	end
-	if msg.left_chat_member then
-		if msg.left_chat_member.username then
-			red:hset('bot:usernames', '@'..msg.left_chat_member.username:lower(), msg.left_chat_member.id)
-		end
-		red:srem(string.format('chat:%d:members', msg.chat.id), msg.left_chat_member.id)
-	end
-	if msg.reply_to_message then
-		extract_usernames(self, msg.reply_to_message)
-	end
-	if msg.pinned_message then
-		extract_usernames(self, msg.pinned_message)
-	end
-end
-
 local function collect_stats(self)
 	local msg = self.message
 	local red = self.red
 	local u = self.u
-	extract_usernames(self, msg)
 	local now = os.time(os.date("*t"))
 	if msg.chat.type ~= 'private' and msg.chat.type ~= 'inline' and msg.from then
 		red:hset('chat:'..msg.chat.id..':userlast', msg.from.id, now) --last message for each user
