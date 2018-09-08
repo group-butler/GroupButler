@@ -28,6 +28,7 @@ CREATE TABLE "chat_user" (
     user_id integer NOT NULL,
     status varchar(13) NOT NULL,
     until_date timestamptz,
+
     can_be_edited boolean DEFAULT false NOT NULL, -- Administrators only
     can_change_info boolean DEFAULT false NOT NULL, -- Administrators only
     can_post_messages boolean DEFAULT false NOT NULL, -- Administrators only, channels only
@@ -88,7 +89,7 @@ ALTER TABLE ONLY "chat_user"
     ADD CONSTRAINT chat_user_pkey PRIMARY KEY (chat_id, user_id);
 
 --
--- Constraints
+-- Foreign Keys
 --
 
 ALTER TABLE ONLY chat_user
@@ -98,3 +99,9 @@ ALTER TABLE ONLY chat_user
 ALTER TABLE ONLY chat_user
     ADD CONSTRAINT chat_user_user_id_fkey FOREIGN KEY (user_id)
     REFERENCES "user"(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+--
+-- Indexes
+--
+
+CREATE UNIQUE INDEX user_username_lower_idx ON "user" (lower(username));
