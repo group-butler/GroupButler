@@ -125,15 +125,18 @@ function RedisStorage:get_user_id(username)
 end
 
 function PostgresStorage:cache_user(user)
-	for k, v in pairs(user) do
-		if type(v) == "string" then
-			user[k] = self.pg:escape_literal(v)
-		end
-	end
+	local row = {
+		id = user.id,
+		is_bot = user.is_bot,
+		first_name = self.pg:escape_literal(user.first_name),
+		last_name = self.pg:escape_literal(user.last_name),
+		username = self.pg:escape_literal(user.username),
+		language_code = self.pg:escape_literal(user.language_code),
+	}
 	local insert = 'INSERT INTO "user" (id, is_bot, first_name'
 	local values = ") VALUES ({id}, {is_bot}, {first_name}"
 	local on_conflict = " ON CONFLICT (id) DO UPDATE SET first_name = {first_name}"
-	for k, _ in pairs(user) do
+	for k, _ in pairs(row) do
 		if k == "last_name"
 		or k == "username"
 		or k == "language_code" then
@@ -143,7 +146,7 @@ function PostgresStorage:cache_user(user)
 		end
 	end
 	values = values..")"
-	local query = interpolate(insert..values..on_conflict, user)
+	local query = interpolate(insert..values..on_conflict, row)
 	local ok, err = self.pg:query(query)
 	if not ok then
 		log.err("Query {query} failed: {err}", {query=query, err=err})
