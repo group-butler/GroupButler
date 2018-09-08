@@ -141,6 +141,10 @@ function PostgresStorage:cache_user(user)
 		username = self.pg:escape_literal(user.username),
 		language_code = self.pg:escape_literal(user.language_code),
 	}
+	if self:get_user_id(user.username) then
+		local query = 'UPDATE "user" SET username = NULL WHERE lower(username) = lower({username}) AND id != {id}'
+		self.pg:query(interpolate(query, row))
+	end
 	local insert = 'INSERT INTO "user" (id, is_bot, first_name'
 	local values = ") VALUES ({id}, {is_bot}, {first_name}"
 	local on_conflict = " ON CONFLICT (id) DO UPDATE SET first_name = {first_name}"
@@ -165,7 +169,7 @@ function PostgresStorage:get_user_id(username)
 	if username:byte(1) == string.byte("@") then
 		username = username:sub(2)
 	end
-	local query = interpolate('SELECT id FROM "user" WHERE username = {username}',
+	local query = interpolate('SELECT id FROM "user" WHERE lower(username) = lower({username})',
 		{username = self.pg:escape_literal(username)})
 	local ok = self.pg:query(query)
 	if not ok or not ok[1] or not ok[1].id then
