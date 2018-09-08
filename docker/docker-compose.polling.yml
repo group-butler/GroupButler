@@ -12,6 +12,7 @@ services:
     environment:
       REDIS_HOST: redis
       POSTGRES_HOST: postgres
+      POSTGRES_USER: groupbutler
       POSTGRES_PASSWORD: password
     volumes:
       - ./conf:/srv/app/conf
@@ -32,6 +33,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
+      - ./schema:/docker-entrypoint-initdb.d
       - postgres_data:/var/lib/postgresql/data
 
 volumes:
