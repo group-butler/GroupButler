@@ -8,7 +8,7 @@ WORKDIR /usr/local/openresty/nginx
 
 HEALTHCHECK --interval=3s --timeout=3s CMD ["healthchecker"] || exit 1
 
-ARG DEPS_OPM="yangm97/lua-telegram-bot-api"
+ARG DEPS_OPM="yangm97/lua-telegram-bot-api leafo/pgmoon"
 RUN opm install $DEPS_OPM
 
 COPY --from=healthchecker-builder /go/bin/healthchecker /usr/local/bin
