@@ -205,7 +205,6 @@ end
 
 function _M:process()
 	local u = self.u
-	local red = self.red
 	local bot = self.bot
 
 	local start_time = u:time_hires()
@@ -305,8 +304,8 @@ function _M:process()
 
 	local retval = on_msg_receive(self, function_key)
 	u:metric_set("msg_request_duration_sec", u:time_hires() - start_time)
-	-- print(red:get_reused_times())
-	red:set_keepalive()
+	-- print(self.db:get_reused_times())
+	self.db:set_keepalive()
 	return retval
 end
 

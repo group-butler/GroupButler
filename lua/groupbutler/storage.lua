@@ -124,6 +124,14 @@ function RedisStorage:get_user_id(username)
 	return tonumber(self.redis:hget("bot:usernames", username))
 end
 
+function RedisStorage:set_keepalive()
+	self.redis:set_keepalive()
+end
+
+function RedisStorage:get_reused_times()
+	return self.redis:get_reused_times()
+end
+
 function PostgresStorage:cache_user(user)
 	local row = {
 		id = user.id,
@@ -166,6 +174,14 @@ function PostgresStorage:get_user_id(username)
 	return ok[1].id
 end
 
+function PostgresStorage:set_keepalive()
+	self.pg:keepalive()
+end
+
+function PostgresStorage:get_reused_times() -- luacheck: ignore 212
+	return "Unknown"
+end
+
 function MixedStorage:cache_user(user)
 	pcall(function() return self.postgres_storage:cache_user(user) end)
 	self.redis_storage:cache_user(user)
@@ -179,12 +195,20 @@ function MixedStorage:get_user_id(username)
 	return id
 end
 
--- _M.storage = {
--- 	redis=RedisStorage
--- }
+function MixedStorage:set_keepalive()
+	pcall(function() return self.postgres_storage:set_keepalive() end)
+	self.redis_storage:set_keepalive()
+end
 
--- _M.cache = {
--- 	-- None yet
--- }
+function MixedStorage:get_reused_times()
+	local redis = self.redis_storage:get_reused_times()
+	local ok, postgres = pcall(function() return self.postgres_storage:get_reused_times() end)
+	local str = "Redis: "..redis
+	-- pgmoon does not currently implement this so it will always return "Unknown"
+	if ok and postgres then
+		str = str.."\nPostgres: "..postgres
+	end
+	return str
+end
 
 return MixedStorage
