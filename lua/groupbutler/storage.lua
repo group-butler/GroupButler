@@ -132,16 +132,25 @@ function RedisStorage:get_reused_times()
 	return self.redis:get_reused_times()
 end
 
+local function is_user_property_optional(k)
+	if k == "last_name"
+	or k == "username"
+	or k == "language_code" then
+		return true
+	end
+end
+
 function PostgresStorage:cache_user(user)
 	local row = {
 		id = user.id,
 		is_bot = user.is_bot,
-		first_name = self.pg:escape_literal(user.first_name),
-		last_name = self.pg:escape_literal(user.last_name),
-		username = self.pg:escape_literal(user.username),
-		language_code = self.pg:escape_literal(user.language_code),
 	}
-	if self:get_user_id(user.username) then
+	for k, _ in pairs(user) do
+		if is_user_property_optional(k) then
+			row[k] = self.pg:escape_literal(user[k])
+		end
+	end
+	if user.username and self:get_user_id(user.username) then
 		local query = 'UPDATE "user" SET username = NULL WHERE lower(username) = lower({username}) AND id != {id}'
 		self.pg:query(interpolate(query, row))
 	end
@@ -149,9 +158,7 @@ function PostgresStorage:cache_user(user)
 	local values = ") VALUES ({id}, {is_bot}, {first_name}"
 	local on_conflict = " ON CONFLICT (id) DO UPDATE SET first_name = {first_name}"
 	for k, _ in pairs(row) do
-		if k == "last_name"
-		or k == "username"
-		or k == "language_code" then
+		if is_user_property_optional(k) then
 			insert = insert..", "..k
 			values = values..", {"..k.."}"
 			on_conflict = on_conflict..", "..k.." = {"..k.."}"
