@@ -26,7 +26,7 @@ function _M:onTextMessage(blocks)
 	if blocks[1] == "new_chat_member" then
 		red:sadd(string.format("chat:%d:members", msg.chat.id), msg.new_chat_member.id)
 	end
-	if blocks[1] == "new_chat_member" then
+	if blocks[1] == "left_chat_member" then
 		red:srem(string.format("chat:%d:members", msg.chat.id), msg.left_chat_member.id)
 	end
 	if blocks[1] == 'new_chat_member'
