@@ -144,6 +144,7 @@ function PostgresStorage:cache_user(user)
 	local row = {
 		id = user.id,
 		is_bot = user.is_bot,
+		first_name = self.pg:escape_literal(user.first_name)
 	}
 	for k, _ in pairs(user) do
 		if is_user_property_optional(k) then
