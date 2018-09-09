@@ -171,6 +171,7 @@ function PostgresStorage:cache_user(user)
 	if not ok then
 		log.err("Query {query} failed: {err}", {query=query, err=err})
 	end
+	return true
 end
 
 function PostgresStorage:get_user_id(username)
@@ -195,8 +196,10 @@ function PostgresStorage:get_reused_times() -- luacheck: ignore 212
 end
 
 function MixedStorage:cache_user(user)
-	pcall(function() return self.postgres_storage:cache_user(user) end)
-	self.redis_storage:cache_user(user)
+	local res, ok = pcall(function() return self.postgres_storage:cache_user(user) end)
+	if not res or not ok then
+		self.redis_storage:cache_user(user)
+	end
 end
 
 function MixedStorage:get_user_id(username)
