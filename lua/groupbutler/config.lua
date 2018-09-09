@@ -7,7 +7,7 @@ local function read_secret(path)
 	if not file then return nil end
 	local content = file:read "*a"
 	file:close()
-	return content
+	return content:gsub("%s+", "")
 end
 
 local _M =
