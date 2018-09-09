@@ -43,6 +43,9 @@ local function inject_message_methods(message, update)
 	if message.from then -- Sender is empty for messages sent to channels
 		User:new(message.from, update):cache()
 	end
+	if message.forward_from then
+		User:new(message.forward_from, update):cache()
+	end
 end
 
 local function add_message_methods(object, update)
