@@ -151,8 +151,8 @@ function PostgresStorage:cache_user(user)
 			row[k] = self.pg:escape_literal(user[k])
 		end
 	end
-	if user.username and self:get_user_id(user.username) then
-		local query = 'UPDATE "user" SET username = NULL WHERE lower(username) = lower({username}) AND id != {id}'
+	if user.username then
+		local query = 'UPDATE "user" SET username = NULL WHERE lower(username) = lower({username})'
 		self.pg:query(interpolate(query, row))
 	end
 	local insert = 'INSERT INTO "user" (id, is_bot, first_name'
@@ -188,7 +188,7 @@ function PostgresStorage:get_user_id(username)
 end
 
 function PostgresStorage:set_keepalive()
-	self.pg:keepalive()
+	return self.pg:keepalive()
 end
 
 function PostgresStorage:get_reused_times() -- luacheck: ignore 212
