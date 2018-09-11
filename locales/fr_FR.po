@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-09-02 21:47-0300\n"
-"PO-Revision-Date: 2018-09-06 03:45\n"
+"PO-Revision-Date: 2018-09-11 16:37\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -14,7 +14,7 @@ msgstr ""
 "X-Generator: crowdin.com\n"
 "X-Crowdin-Project: group-butler\n"
 "X-Crowdin-Language: fr\n"
-"X-Crowdin-File: /master/locales/en.po\n"
+"X-Crowdin-File: /master/locales/en_GB.po\n"
 
 #: lua/groupbutler/api_errors.lua:12
 msgid "An unknown error has ocurred"
@@ -42,11 +42,11 @@ msgstr "Cet ustilisatuer n'est pas un participant du chat"
 
 #: lua/groupbutler/api_errors.lua:18
 msgid "Please input a text"
-msgstr ""
+msgstr "Merci d'entrer un texte"
 
 #: lua/groupbutler/api_errors.lua:19
 msgid "This message is too long. Max lenght allowed by Telegram: 4000 characters"
-msgstr ""
+msgstr "Ce message est trop long. Taille maximum autorisée par Telegram : 4000 caractères"
 
 #: lua/groupbutler/api_errors.lua:20
 msgid "One of the inline buttons you are trying to set is missing the URL"
@@ -309,18 +309,19 @@ msgstr ""
 
 #: lua/groupbutler/plugins/backup.lua:133
 msgid "Invalid input. Please reply to a document"
-msgstr ""
+msgstr "Saisie invalide. Merci de répondra au document"
 
 #: lua/groupbutler/plugins/backup.lua:138
 #, lua-format
 msgid "This is not a valid backup file.\n"
 "Reason: invalid name (%s)"
-msgstr ""
+msgstr "Ce n'est pas un fichier de sauvegarde valide.\n"
+"Raison: nom non valide (%s)"
 
 #: lua/groupbutler/plugins/backup.lua:148
 #, lua-format
 msgid "Download of the file failed with code %s"
-msgstr ""
+msgstr "Téléchargement du fichier a échoué avec le code %s"
 
 #: lua/groupbutler/plugins/backup.lua:157
 #, lua-format
@@ -329,7 +330,7 @@ msgstr ""
 
 #: lua/groupbutler/plugins/banhammer.lua:90
 msgid "Use -/+ to edit the value, then select a timeframe to temporary ban the user"
-msgstr ""
+msgstr "Utilisez les touches -/+ pour modifier la valeur, puis sélectionnez un délai d'interdiction temporaire de l'utilisateur"
 
 #: lua/groupbutler/plugins/banhammer.lua:97
 #, lua-format
@@ -344,7 +345,7 @@ msgstr "%s banni %s!"
 
 #: lua/groupbutler/plugins/banhammer.lua:113
 msgid "_Use this command in reply to a forwarded message_"
-msgstr ""
+msgstr "_Utilises cette commande en réponse à un message transféré"
 
 #: lua/groupbutler/plugins/banhammer.lua:127
 msgid "_An admin can't be unbanned_"
@@ -357,7 +358,7 @@ msgstr "C'est utilisateur n'est pas banni!"
 #: lua/groupbutler/plugins/banhammer.lua:141
 #, lua-format
 msgid "%s unbanned by %s!"
-msgstr ""
+msgstr "%s levée de l'interdiction par %s!"
 
 #: lua/groupbutler/plugins/banhammer.lua:152
 msgid "You don't have the permissions to restrict members"
@@ -398,7 +399,7 @@ msgstr "🛠 Menu"
 
 #: lua/groupbutler/plugins/configure.lua:44
 msgid "⚡️ Antiflood"
-msgstr ""
+msgstr "Antiflood"
 
 #: lua/groupbutler/plugins/configure.lua:45
 msgid "🌈 Media"
@@ -443,12 +444,12 @@ msgstr "❌ | OFF"
 #: lua/groupbutler/plugins/dashboard.lua:30
 #: lua/groupbutler/plugins/menu.lua:158 lua/groupbutler/plugins/menu.lua:220
 msgid "👞 kick"
-msgstr ""
+msgstr "kick"
 
 #: lua/groupbutler/plugins/dashboard.lua:32
 #: lua/groupbutler/plugins/menu.lua:160
 msgid "🔨 ban"
-msgstr ""
+msgstr "ban"
 
 #: lua/groupbutler/plugins/dashboard.lua:34
 #: lua/groupbutler/plugins/floodmanager.lua:49
@@ -497,7 +498,7 @@ msgstr "Vidéos"
 #: lua/groupbutler/plugins/dashboard.lua:58
 #, lua-format
 msgid "- *Status*: `%s`\n"
-msgstr ""
+msgstr "*Statut*: `%s`\n"
 
 #: lua/groupbutler/plugins/dashboard.lua:59
 #, lua-format
@@ -507,7 +508,7 @@ msgstr ""
 #: lua/groupbutler/plugins/dashboard.lua:60
 #, lua-format
 msgid "- Number of messages allowed *every 5 seconds*: `%d`\n"
-msgstr ""
+msgstr "-Nombre de messages autorisés *toutes les 5 secondes*: `%d`\n"
 
 #: lua/groupbutler/plugins/dashboard.lua:61
 #, lua-format
@@ -535,7 +536,7 @@ msgstr "Commandes supplémentaires"
 
 #: lua/groupbutler/plugins/dashboard.lua:75
 msgid "Flood settings"
-msgstr ""
+msgstr "Réglages AntiFlood"
 
 #: lua/groupbutler/plugins/dashboard.lua:76
 msgid "Media settings"
@@ -551,7 +552,7 @@ msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:117
 msgid "🚫 This group does not exist"
-msgstr ""
+msgstr "🚫 Ce groupe n'existe pas"
 
 #: lua/groupbutler/plugins/dashboard.lua:124
 msgid "🚷 You are not a member of the chat. You can't see the settings of a private group."
@@ -588,7 +589,7 @@ msgstr "Documents"
 
 #: lua/groupbutler/plugins/dashboard.lua:162
 msgid "Voice Messages"
-msgstr ""
+msgstr "Messages Vocaux"
 
 #: lua/groupbutler/plugins/dashboard.lua:163
 #: lua/groupbutler/plugins/mediasettings.lua:41
@@ -634,7 +635,7 @@ msgstr "Permission d'envoyer des messages. Si désactivé, l'utilisateur ne pour
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:64
 msgid "Permission to send media (audios, documents, photos, videos, video notes and voice notes). Implies the permission to send messages"
-msgstr ""
+msgstr "L'autorisation d'envoyer des médias (audio, des documents, des photos, des vidéos, des vidéo, des notes et des notes vocales). Implique l'autorisation d'envoyer des messages"
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:65
 msgid "Permission to send other types of messages (GIFs, games, stickers and use inline bots). Implies the permission to send medias"
@@ -662,7 +663,7 @@ msgstr "Montrer un aperçu de la page web"
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:127
 msgid "You don't have the permission to restrict members"
-msgstr ""
+msgstr "Vous n'avez pas la permission de restreindre les membres"
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:129
 msgid "*Default permissions*\n"
@@ -679,7 +680,7 @@ msgstr ""
 #: lua/groupbutler/plugins/extra.lua:82
 #, lua-format
 msgid "This media has been saved as a response to %s"
-msgstr ""
+msgstr "Ce support a été enregistré comme une réponse à %s"
 
 #: lua/groupbutler/plugins/extra.lua:95
 #, lua-format
@@ -715,7 +716,7 @@ msgstr ""
 
 #: lua/groupbutler/plugins/floodmanager.lua:45
 msgid "👞️ kick"
-msgstr ""
+msgstr "kick"
 
 #: lua/groupbutler/plugins/floodmanager.lua:47
 msgid "🔨 ️ban"
@@ -1057,7 +1058,7 @@ msgstr ""
 
 #: lua/groupbutler/plugins/help.lua:350
 msgid "Basic usage"
-msgstr ""
+msgstr "Utilisation de base"
 
 #: lua/groupbutler/plugins/help.lua:354
 msgid "Commands for users (group)"
@@ -1077,7 +1078,7 @@ msgstr ""
 
 #: lua/groupbutler/plugins/help.lua:372
 msgid "Main menu"
-msgstr ""
+msgstr "Menu principal"
 
 #: lua/groupbutler/plugins/help.lua:380
 msgid "❗️ Already there"
@@ -1153,7 +1154,7 @@ msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:34
 msgid "Log pinned messages"
-msgstr ""
+msgstr "Journal les messages épinglés"
 
 #: lua/groupbutler/plugins/logchannel.lua:35
 msgid "Log when a user who has been blocked is banned from the group on join"

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-09-02 21:47-0300\n"
-"PO-Revision-Date: 2018-09-06 03:45\n"
+"PO-Revision-Date: 2018-09-11 16:37\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: English, United States\n"
 "Language: en_US\n"
@@ -14,7 +14,7 @@ msgstr ""
 "X-Generator: crowdin.com\n"
 "X-Crowdin-Project: group-butler\n"
 "X-Crowdin-Language: en-US\n"
-"X-Crowdin-File: /master/locales/en.po\n"
+"X-Crowdin-File: /master/locales/en_GB.po\n"
 
 #: lua/groupbutler/api_errors.lua:12
 msgid "An unknown error has ocurred"
@@ -612,7 +612,7 @@ msgstr ""
 #: lua/groupbutler/plugins/dashboard.lua:169
 #: lua/groupbutler/plugins/mediasettings.lua:47
 msgid "Venues"
-msgstr ""
+msgstr "Locations"
 
 #: lua/groupbutler/plugins/dashboard.lua:171
 msgid "*Current media settings*:\n\n"

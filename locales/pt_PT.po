@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-09-02 21:47-0300\n"
-"PO-Revision-Date: 2018-09-06 03:46\n"
+"PO-Revision-Date: 2018-09-11 16:37\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Portuguese\n"
 "Language: pt\n"
@@ -14,11 +14,11 @@ msgstr ""
 "X-Generator: crowdin.com\n"
 "X-Crowdin-Project: group-butler\n"
 "X-Crowdin-Language: pt-PT\n"
-"X-Crowdin-File: /master/locales/en.po\n"
+"X-Crowdin-File: /master/locales/en_GB.po\n"
 
 #: lua/groupbutler/api_errors.lua:12
 msgid "An unknown error has ocurred"
-msgstr ""
+msgstr "Ocorreu um erro desconhecido"
 
 #: lua/groupbutler/api_errors.lua:13
 msgid "I don't have enough permissions to restrict users"
@@ -30,7 +30,7 @@ msgstr "Eu não sou um administrador, Não posso expulsar pessoas"
 
 #: lua/groupbutler/api_errors.lua:15
 msgid "I can't do that to admins!"
-msgstr ""
+msgstr "Eu não posso fazer isso aos admins!"
 
 #: lua/groupbutler/api_errors.lua:16
 msgid "There is no need to unban in a normal group"
@@ -42,21 +42,22 @@ msgstr "Este utilizador não consta na lista de membros"
 
 #: lua/groupbutler/api_errors.lua:18
 msgid "Please input a text"
-msgstr ""
+msgstr "Por favor insira um texto"
 
 #: lua/groupbutler/api_errors.lua:19
 msgid "This message is too long. Max lenght allowed by Telegram: 4000 characters"
-msgstr ""
+msgstr "Esta mensagem é demasiado longa. O comprimento máximo permitido pelo Telegram é: 4000 caracteres"
 
 #: lua/groupbutler/api_errors.lua:20
 msgid "One of the inline buttons you are trying to set is missing the URL"
-msgstr ""
+msgstr "Um dos botões in-line que está a tentar definir tem o URL em falta"
 
 #: lua/groupbutler/api_errors.lua:21
 #, lua-format
 msgid "Inline link formatted incorrectly. Check the text between brackets -> \\[]()\n"
 "%s"
-msgstr ""
+msgstr "Link inline formatado incorretamente. Verifique o texto entre chavetas -> \\[]()\n"
+"%s"
 
 #: lua/groupbutler/api_errors.lua:21
 msgid "More info [here](https://telegram.me/GB_tutorials/12)"
@@ -73,7 +74,7 @@ msgstr ""
 
 #: lua/groupbutler/api_errors.lua:25
 msgid "One of the inline buttons you are trying to set doesn't have a name"
-msgstr ""
+msgstr "Um dos botões in-line que está a tentar definir tem o nome em falta"
 
 #: lua/groupbutler/main.lua:126
 #, lua-format
@@ -128,7 +129,7 @@ msgstr "%s, não é permitido spam aqui. Da próxima vez você será castigado"
 #: lua/groupbutler/plugins/antispam.lua:103
 #, lua-format
 msgid "%s, this kind of message is not allowed in this chat (<b>%d/%d</b>)"
-msgstr ""
+msgstr "%s, este tipo de mensagem não é permitido neste chat (<b>%d/%d</b>)"
 
 #: lua/groupbutler/plugins/antispam.lua:107
 msgid "telegram.me link"
@@ -223,7 +224,12 @@ msgid "*Anti-spam settings*\n"
 "• ❌ = *Not allowed*\n"
 "• 🗑 = *Delete*\n"
 "When set on `delete`, the bot doesn't warn users until they are about to be kicked/banned/muted (at the second-to-last warning)"
-msgstr ""
+msgstr "*Configurações Anti-spam*\n"
+"Escolha que tipo de mensagens quer proibir\n"
+"• ✅ = *Permitido*\n"
+"• ❌ = *Proibido*\n"
+"• 🗑 = *Remover*\n"
+"Quando escolhido o `Remover`, o bot não avisa os utilizadores até ao momento em que eles estão prestes a ser expulsos/banidos/silenciados (como segundo e último aviso)"
 
 #: lua/groupbutler/plugins/antispam.lua:352
 msgid "_The whitelist was already empty_"

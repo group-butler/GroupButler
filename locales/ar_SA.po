@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-09-02 21:47-0300\n"
-"PO-Revision-Date: 2018-09-06 03:45\n"
+"PO-Revision-Date: 2018-09-11 16:37\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Arabic\n"
 "Language: ar\n"
@@ -14,7 +14,7 @@ msgstr ""
 "X-Generator: crowdin.com\n"
 "X-Crowdin-Project: group-butler\n"
 "X-Crowdin-Language: ar\n"
-"X-Crowdin-File: /master/locales/en.po\n"
+"X-Crowdin-File: /master/locales/en_GB.po\n"
 
 #: lua/groupbutler/api_errors.lua:12
 msgid "An unknown error has ocurred"
@@ -130,7 +130,7 @@ msgstr "%s، الإزعاج غير مسموح هنا. المرة القادمة 
 #: lua/groupbutler/plugins/antispam.lua:103
 #, lua-format
 msgid "%s, this kind of message is not allowed in this chat (<b>%d/%d</b>)"
-msgstr ""
+msgstr "%s, هذا النوع من الرسائل غير مسموح به هنا (<b>%d/%d</b>)"
 
 #: lua/groupbutler/plugins/antispam.lua:107
 msgid "telegram.me link"
@@ -225,7 +225,12 @@ msgid "*Anti-spam settings*\n"
 "• ❌ = *Not allowed*\n"
 "• 🗑 = *Delete*\n"
 "When set on `delete`, the bot doesn't warn users until they are about to be kicked/banned/muted (at the second-to-last warning)"
-msgstr ""
+msgstr "*إعدادات مكافحة البريد المزعج*\n"
+"اختيار نوع الرسالة التي تريد أن تمنع\n"
+"• ✅ = *سماح*\n"
+"• ❌ = *عدم السماح*\n"
+"• 🗑 = *حذف*\n"
+"اذا اخترت `حذف`, البوت لن يحذر المستخدمين الذين هم على وشك ان ينم طردهم/حظرهم/كتمهم (في الثانية الأخيرة تحذير)"
 
 #: lua/groupbutler/plugins/antispam.lua:352
 msgid "_The whitelist was already empty_"
@@ -596,7 +601,7 @@ msgstr "مستندات"
 
 #: lua/groupbutler/plugins/dashboard.lua:162
 msgid "Voice Messages"
-msgstr ""
+msgstr "رسائل صوتيه"
 
 #: lua/groupbutler/plugins/dashboard.lua:163
 #: lua/groupbutler/plugins/mediasettings.lua:41
@@ -626,7 +631,7 @@ msgstr "مواقع"
 #: lua/groupbutler/plugins/dashboard.lua:169
 #: lua/groupbutler/plugins/mediasettings.lua:47
 msgid "Venues"
-msgstr ""
+msgstr "اماكن"
 
 #: lua/groupbutler/plugins/dashboard.lua:171
 msgid "*Current media settings*:\n\n"
@@ -790,7 +795,17 @@ msgid "Hello %s 👋🏼, nice to meet you!\n"
 "• I can also warn, kick or ban users when they post a specific media\n"
 "…and more, below you can find the \"all commands\" button to get the whole list!\n\n"
 "I work better if you add me to the group administrators (otherwise I won't be able to kick or ban)!"
-msgstr ""
+msgstr "أهلا %s 👋🏼، سعدت بلقائك!\n"
+"أنا Group Butler أول بوت إدارة مجموعات يستخدم ال API الرسمي\n\n"
+"*استطيع القيام ببعض الامور الجيدة*، هذه قائمة قصيرة بما يمكن أن أفعل:\n"
+"•استطيع *طرد أو حظر* المستخدمين\n"
+"•استطيع أن تعيين قوانين للمجموعة\n"
+"•لدي نظام لمكافحة التكرار\n"
+"•بإمكاني *الترحيب بالأعضاء الجدد* برسالة مخصصة، وإذا أردت بإمكانك استخدام صورة متحركة أو ملصق\n"
+"•بإمكاني *تنبيه* المستخدمين، وحظرهم عندما يتجاوزون الحد الأقصى من التنبيهات\n"
+"•بإمكاني أيضا التنبيه أو الطرد، أو الحظر عند إرسال وسائط معينة\n"
+"•والكثير من الأشياء، بالأسفل بإمكانك إيجاد زر \"all commands\" لرؤية قائمة التعليمات!\n\n"
+"يجب ان تقوم برفعي مشرف في المجموعة ، (وإلا لن استطيع الطرد أو الحظر)!"
 
 #: lua/groupbutler/plugins/help.lua:37
 msgid "This bot works only in supergroups.\n\n"
@@ -2336,7 +2351,9 @@ msgstr "<b>محادثة</b>: %s [#chat%d]"
 msgid "#%s (<code>%d/%d</code>), <i>%s</i>\n"
 "• %s\n"
 "• <b>User</b>: %s"
-msgstr ""
+msgstr "#%s (<code>%d/%d</code>), <i>%s</i>\n"
+"• %s\n"
+"• <b>المستخدم</b>: %s"
 
 #: lua/groupbutler/utilities.lua:888
 #, lua-format
@@ -2377,7 +2394,9 @@ msgstr "%s\n"
 msgid "#%s\n"
 "• %s\n"
 "• <b>User</b>: %s [#id%d]"
-msgstr ""
+msgstr "#%s\n"
+"• %s\n"
+"• <b>مستخدم</b>: %s [#id%d]"
 
 #: lua/groupbutler/utilities.lua:920
 #, lua-format
@@ -2477,7 +2496,8 @@ msgstr "#%s\n"
 #, lua-format
 msgid "\n"
 "• <b>Action</b>: #%s"
-msgstr ""
+msgstr "\n"
+"• <b>اجراء</b>: #%s"
 
 #: lua/groupbutler/utilities.lua:1003
 #, lua-format
