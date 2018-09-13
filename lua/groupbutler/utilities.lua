@@ -278,6 +278,9 @@ function _M:cache_adminlist(chat_id)
 	self:metric_incr("api_getchatadministrators_count")
 	local ok, err = api:getChatAdministrators(chat_id)
 	if not ok then
+		if err.retry_after then
+			red:setex(lock_key, err.retry_after, "")
+		end
 		self:metric_incr("api_getchatadministrators_error_count")
 		return false, err
 	end
