@@ -549,7 +549,7 @@ function _M:getAdminlist(chat_id)
 		local s = ' ├ '
 		-- TODO: Cache admin names nad usernames
 		local admin = api:getChatMember(chat_id, user_id)
-		if admin.status == 'administrator' then
+		if admin and admin.status == 'administrator' then
 			local name = admin.user.first_name
 			if admin.user.username then
 				name = ('<a href="telegram.me/%s">%s</a>'):format(admin.user.username, name:escape_html())
@@ -559,7 +559,7 @@ function _M:getAdminlist(chat_id)
 			if count + 1 == #list then s = ' └ ' end
 			adminlist = adminlist..s..name..'\n'
 			count = count + 1
-		elseif admin.status == 'creator' then
+		elseif admin and admin.status == 'creator' then
 			creator = admin.user.first_name
 			if admin.user.username then
 				creator = ('<a href="telegram.me/%s">%s</a>'):format(admin.user.username, creator:escape_html())
