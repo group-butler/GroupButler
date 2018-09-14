@@ -81,9 +81,15 @@ function _M:onTextMessage(blocks)
 	local red = self.red
 	local u = self.u
 
+	if blocks[1] == 'id' then --in private: send user id
+		if msg.chat.id > 0 and msg.chat.type == 'private' then
+			api:sendMessage(msg.chat.id, string.format(i18n('Your ID is `%d`'), msg.from.id), "Markdown")
+		end
+	end
+
 	if msg.chat.type == 'private' then return end
 
-	if blocks[1] == 'id' then --just for debug
+	if blocks[1] == 'id' then --in groups: send chat ID
 		if msg.chat.id < 0 and msg:is_from_admin() then
 			api:sendMessage(msg.chat.id, string.format('`%d`', msg.chat.id), "Markdown")
 		end
