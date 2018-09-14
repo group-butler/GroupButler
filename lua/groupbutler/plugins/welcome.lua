@@ -196,13 +196,14 @@ function _M:onTextMessage(blocks)
 				msg:send_reply(i18n("Reply to a `sticker` or a `gif` to set them as the *welcome message*"), "Markdown")
 			end
 		else
-			red:hset(hash, 'type', 'custom')
-			red:hset(hash, 'content', input)
-
 			local reply_markup, new_text = u:reply_markup_from_text(input)
 
-			local ok, err = msg:send_reply(new_text:gsub('$rules', u:deeplink_constructor(msg.chat.id, 'rules')), "Markdown",
-				reply_markup)
+			new_text = new_text:gsub('$rules', u:deeplink_constructor(msg.chat.id, 'rules'))
+
+			red:hset(hash, 'type', 'custom')
+			red:hset(hash, 'content', new_text)
+
+			local ok, err = msg:send_reply(new_text, "Markdown", reply_markup)
 			if not ok then
 				red:hset(hash, 'type', 'no') --if wrong markdown, remove 'custom' again
 				red:hset(hash, 'content', 'no')
