@@ -153,7 +153,7 @@ function PostgresStorage:cache_user(user)
 	end
 	local username = ""
 	if user.username then
-		username = 'UPDATE "user" SET username = NULL WHERE lower(username) = lower({username})\n'
+		username = 'UPDATE "user" SET username = NULL WHERE lower(username) = lower({username});\n'
 	end
 	local insert = 'INSERT INTO "user" (id, is_bot, first_name'
 	local values = ") VALUES ({id}, {is_bot}, {first_name}"
@@ -166,7 +166,7 @@ function PostgresStorage:cache_user(user)
 		end
 	end
 	values = values..")"
-	local query = interpolate(username..insert..values..on_conflict, row)
+	local query = interpolate("BEGIN;"..username..insert..values..on_conflict..";COMMIT;", row)
 	local ok, err = self.pg:query(query)
 	if not ok then
 		log.err("Query {query} failed: {err}", {query=query, err=err})
