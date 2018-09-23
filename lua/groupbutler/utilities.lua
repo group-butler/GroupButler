@@ -284,7 +284,7 @@ function _M:cache_adminlist(chat_id)
 		self:metric_incr("api_getchatadministrators_error_count")
 		return false, err
 	end
-	-- local cache_time = config.bot_settings.cache_time.adminlist
+	local cache_time = config.bot_settings.cache_time.adminlist
 	local set_permissions
 	red:del(set)
 	for _, admin in pairs(ok) do
@@ -297,14 +297,14 @@ function _M:cache_adminlist(chat_id)
 			for k, v in pairs(admin) do
 				if v and admins_permissions[k] then red:sadd(set_permissions, k) end
 			end
-			-- red:expire(set_permissions, cache_time)
+			red:expire(set_permissions, cache_time)
 		end
 
 		red:sadd(set, admin.user.id)
 
 		self:demote(chat_id, admin.user.id)
 	end
-	-- red:expire(set, cache_time)
+	red:expire(set, cache_time)
 
 	return true, #ok or 0
 end

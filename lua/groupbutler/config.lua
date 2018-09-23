@@ -67,7 +67,7 @@ local _M =
 		old_update = tonumber(os.getenv("GB_OLD_UPDATE")) or 7, -- Age in seconds for updates to be skipped
 		cache_time = {
 			-- Admin cache expiration is temporary disabled
-			-- adminlist = tonumber(os.getenv("GB_CACHE_ADMIN")) or 18000, -- 5 hours (18000s) Admin Cache time, in seconds.
+			adminlist = tonumber(os.getenv("GB_CACHE_ADMIN")) or 18000, -- 5 hours (18000s) Admin Cache time, in seconds.
 			alert_help = 72,  -- amount of hours for cache help alerts
 			chat_titles = 18000
 		},
