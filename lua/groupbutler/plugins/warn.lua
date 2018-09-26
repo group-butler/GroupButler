@@ -101,6 +101,8 @@ function _M:onTextMessage(blocks)
 		u:logEvent('nowarn', msg, {admin = admin, user = user, user_id = msg.reply.from.id, rem = removed})
 	end
 
+	if u:is_admin(msg.chat.id, user_id) then return end
+
 	if blocks[1] == 'warn'  or blocks[1] == 'sw' then
 		-- Get the user that was targeted, again, but get the name this time
 		local admin_name, target_name = u:getnames_complete(msg)
