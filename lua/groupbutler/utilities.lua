@@ -185,17 +185,6 @@ function _M:is_superadmin(user_id) -- luacheck: ignore 212
 	return false
 end
 
-function _M:bot_is_admin(chat_id)
-	local api = self.api
-	local bot = self.bot
-	local status = api:getChatMember(chat_id, bot.id).status
-	if not(status == 'administrator') then
-		return false
-	else
-		return true
-	end
-end
-
 -- Returns the admin status of the user. The first argument can be the message,
 -- then the function checks the rights of the sender in the incoming chat.
 function _M:is_admin(chat_id, user_id)
