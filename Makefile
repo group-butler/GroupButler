@@ -27,7 +27,7 @@ pull:
 	docker-compose pull
 
 easy_deploy: pull
-	docker-compose -f docker-compose.yml -f docker/docker-compose.polling.yml up -d
+	docker-compose -f docker-compose.yml -f docker/docker-compose.polling.deploy.yml up -d
 
 build_polling:
 	docker-compose -f docker-compose.yml -f docker/docker-compose.polling.yml build
