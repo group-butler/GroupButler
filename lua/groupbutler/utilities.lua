@@ -338,15 +338,15 @@ function _M:download_to_file(url, file_path) -- luacheck: ignore 212
 	log.info("url to download: {url}", {url=url})
 	if ngx then
 		local httpc = http.new()
-		local res, err = httpc:request_uri(url)
-		if not err and res.status == 200 then
-			local file = io.open(file_path, "w+")
-			file:write(res.body)
-			file:close()
-			return file_path, res.status
-		else
-			return nil, res.status
+		local ok, err = httpc:request_uri(url)
+
+		if not ok or ok.status ~= 200 then
+			return nil, err
 		end
+		local file = io.open(file_path, "w+")
+		file:write(ok.body)
+		file:close()
+		return file_path, ok.status
 	else
 		local respbody = {}
 		local options = {
@@ -507,7 +507,7 @@ end
 
 function _M:telegram_file_link(res) -- luacheck: ignore 212
 	--res = table returned by getFile()
-	return "https://api:telegram.org/file/bot"..config.telegram.token.."/"..res.file_path
+	return "https://api.telegram.org/file/bot"..config.telegram.token.."/"..res.file_path
 end
 
 function _M:is_silentmode_on(chat_id)
