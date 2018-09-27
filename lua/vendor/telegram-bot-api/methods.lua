@@ -281,7 +281,7 @@ function _M:sendDocument(...)
   }
   assert_var(body, "chat_id", "document")
   if is_table(body.document) then
-    return file_upload("sendDocument", body, {document = body.document})
+    return file_upload(self, "sendDocument", body, {document = body.document})
   end
   return self._request(self, "sendDocument", body)
 end
