@@ -99,28 +99,30 @@ function _M:onTextMessage(blocks)
 	local red = self.red
 	local u = self.u
 
-	if not msg:is_from_admin() then
-		return
-	end
+	if not msg:is_from_admin() then return end
+
 	if blocks[1] == 'snap' then
 		local key = 'chat:'..msg.chat.id..':lastsnap'
 		local last_user = red:get(key)
-			if last_user ~= null then
-			-- A snapshot has been done recently
+		if last_user ~= null then -- A snapshot has been done recently
 			local ttl = red:ttl(key)
 			local time_remaining = get_time_remaining(ttl)
 			local text = i18n([[<i>I'm sorry, this command has been used for the last time less then 3 hours ago by</i> %s (ask them for the file).
 Wait [<code>%s</code>] to use it again
 ]]):format(last_user, time_remaining)
-				msg:send_reply(text, 'html')
-		else
-			-- no snapshot has been done recently
-				local name = u:getname_final(msg.from)
-			red:setex(key, 10800, name) --3 hours
-				local file_path = gen_backup(self, msg.chat.id)
-				msg:send_reply(i18n('*Sent in private*'), "Markdown")
-				api:sendDocument(msg.from.id, {path = file_path}, ('#snap\n%s'):format(msg.chat.title))
+			msg:send_reply(text, 'html')
+			return
 		end
+
+		local file_path = gen_backup(self, msg.chat.id)
+		local ok = api:sendDocument(msg.from.id, {path = file_path}, ('#snap\n%s'):format(msg.chat.title))
+
+		if not ok then return end
+
+		local name = u:getname_final(msg.from)
+		red:setex(key, 10800, name) --3 hours
+		msg:send_reply(i18n('*Sent in private*'), "Markdown")
+		return
 	end
 	if blocks[1] == 'import' then
 		local text
