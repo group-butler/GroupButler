@@ -115,7 +115,7 @@ end
 -- considered as the sequence of strings - names of placeholders. If
 -- placeholders to replacing are specified, this function processes only them,
 -- otherwise it processes all available placeholders.
-function string:replaceholders(msg, ...)
+function _M:replaceholders(str, msg, ...)
 	if msg.new_chat_member then
 		msg.from = msg.new_chat_member
 	elseif msg.left_chat_member then
@@ -136,7 +136,7 @@ function string:replaceholders(msg, ...)
 			username = msg.from.username and '@'..msg.from.username or '-',
 			id = msg.from.id,
 			title = msg.chat.title,
-			-- rules = self:deeplink_constructor(msg.chat.id, 'rules'),
+			rules = self:deeplink_constructor(msg.chat.id, "rules"),
 		}
 		-- remove flag about escaping
 		table.remove(tail_arguments, 1)
@@ -148,7 +148,7 @@ function string:replaceholders(msg, ...)
 			userorname = msg.from.username and '@'..msg.from.username:escape() or msg.from.first_name:escape(),
 			id = msg.from.id,
 			title = msg.chat.title:escape(),
-			-- rules = self:deeplink_constructor(msg.chat.id, 'rules'),
+			rules = self:deeplink_constructor(msg.chat.id, "rules"),
 		}
 	end
 
@@ -157,7 +157,7 @@ function string:replaceholders(msg, ...)
 		substitutions[placeholder] = replace_map[placeholder]
 	end
 
-	return self:gsub('$(%w+)', substitutions)
+	return str:gsub('$(%w+)', substitutions)
 end
 
 function _M:is_allowed(_, chat_id, user_obj) -- action is not used anymore

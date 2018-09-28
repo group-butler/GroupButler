@@ -16,8 +16,7 @@ function _M:new(update_obj)
 end
 
 local function get_reply_markup(self, msg, text)
-	local reply_markup, new_text = self.u:reply_markup_from_text(text)
-	return reply_markup, new_text:replaceholders(msg, "rules", "title")
+	return self.u:reply_markup_from_text(self.u:replaceholders(text, msg, "rules", "title"))
 end
 
 local function pin_message(self, chat_id, message_id)

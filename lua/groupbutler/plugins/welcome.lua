@@ -91,19 +91,18 @@ local function get_reply_markup(self, msg, text)
 
 	local new_text, reply_markup
 	if text then
-		reply_markup, new_text = u:reply_markup_from_text(text)
-		text = new_text:replaceholders(msg)
+		reply_markup, new_text = u:reply_markup_from_text(u:replaceholders(text, msg))
 	end
 
 	if is_on(self, msg.chat.id, "Welbut") then
 		if not reply_markup then
 			reply_markup = {inline_keyboard={}}
 		end
-		local line = {{text = i18n("Read the rules"), url = u:deeplink_constructor(msg.chat.id, "rules")}}
+		local line = {{new_text = i18n("Read the rules"), url = u:deeplink_constructor(msg.chat.id, "rules")}}
 		table.insert(reply_markup.inline_keyboard, line)
 	end
 
-	return reply_markup, text
+	return reply_markup, new_text
 end
 
 local function send_welcome(self, msg)

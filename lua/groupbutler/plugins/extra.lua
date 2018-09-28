@@ -83,10 +83,10 @@ function _M:onTextMessage(blocks)
 		else
 			local hash = 'chat:'..msg.chat.id..':extra'
 			local new_extra = blocks[3]
-			local reply_markup, test_text = u:reply_markup_from_text(new_extra)
+			local reply_markup, test_text = u:reply_markup_from_text(u:replaceholders(new_extra, msg))
 			test_text = test_text:gsub('\n', '')
 
-			local ok, err = msg:send_reply(test_text:replaceholders(msg), "Markdown", reply_markup)
+			local ok, err = msg:send_reply(test_text, "Markdown", reply_markup)
 			if not ok then
 				api:sendMessage(msg.chat.id, api_err.trans(err), "Markdown")
 			else
@@ -138,9 +138,8 @@ function _M:onTextMessage(blocks)
 		if msg.chat.id > 0
 		or(is_locked(self, msg.chat.id) and not msg:is_from_admin()) then -- send it in private
 			if not file_id then
-				local reply_markup, clean_text = u:reply_markup_from_text(text)
-				_, err = api:sendMessage(msg.from.id, clean_text:replaceholders(msg.reply or msg), "Markdown",
-					link_preview, nil, nil, reply_markup)
+				local reply_markup, clean_text = u:reply_markup_from_text(u:replaceholders(text, msg.reply or msg))
+				_, err = api:sendMessage(msg.from.id, clean_text, "Markdown", link_preview, nil, nil, reply_markup)
 			elseif special_method then
 				_, err = sendMedia(self, msg.from.id, file_id, special_method) -- photo, voices, video need their method to be sent by file_id
 			else
@@ -160,8 +159,8 @@ function _M:onTextMessage(blocks)
 					api:sendDocument(msg.chat.id, file_id, nil, nil, msg_to_reply)
 				end
 			else
-				local reply_markup, clean_text = u:reply_markup_from_text(text)
-				api:sendMessage(msg.chat.id, clean_text:replaceholders(msg.reply or msg), "Markdown", link_preview, nil, msg_to_reply, reply_markup) -- if the admin replies to a user, the bot will reply to the user too
+				local reply_markup, clean_text = u:reply_markup_from_text(u:replaceholders(text, msg.reply or msg))
+				api:sendMessage(msg.chat.id, clean_text, "Markdown", link_preview, nil, msg_to_reply, reply_markup) -- if the admin replies to a user, the bot will reply to the user too
 			end
 		end
 
