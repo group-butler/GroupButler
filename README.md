@@ -1,7 +1,8 @@
 # Group Butler
 
 [![Build Status](https://travis-ci.com/group-butler/GroupButler.svg?branch=master)](https://travis-ci.com/group-butler/GroupButler)
-[![Crowdin](https://d322cqt584bo4o.cloudfront.net/group-butler/localized.svg)](https://crowdin.com/project/group-butler)
+[![Coverage Status](https://coveralls.io/repos/github/group-butler/GroupButler/badge.svg?branch=master)](https://coveralls.io/github/group-butler/GroupButler?branch=master)
+[![Localization Status](https://d322cqt584bo4o.cloudfront.net/group-butler/localized.svg)](https://crowdin.com/project/group-butler)
 
 ## Short introduction
 
@@ -12,11 +13,11 @@ Group Butler was born as an [otouto](https://otou.to) [v3.1](https://github.com/
 #### Group Butler on Telegram:
 
 - [`@GroupButler_bot`](https://telegram.me/GroupButler_Bot)
-	- **_branch_**: `production`
+	- **_branch_**: `master`
 	- **_channel_**: [`@GroupButler_ch`](https://telegram.me/groupbutler_ch).
 
 - [`@GBReborn_bot`](https://telegram.me/GBReborn_bot)
-	- **_branch_**: `staging`
+	- **_branch_**: `develop`
 	- **_channel_**: [`@GroupButler_beta`](https://telegram.me/GroupButler_beta).
 
 * * *
@@ -51,12 +52,11 @@ Requirements:
 - docker 17.06.0-ce
 - docker-compose 1.14.0
 - Optional: Docker Swarm cluster for deployment
-- Optional: GitLab repository for CI/CD
 
 ### Running (dev mode)
-Run `docker-compose up`. Docker will pull and build the required images, so the first time you run this command should take a little while. After that, the bot should be up and running.
+Run `make dev_polling`. Docker will pull and build the required images, so the first time you run this command should take a little while. After that, the bot should be up and running.
 
-Code is mounted on the bot container, so you can make changes and restart the bot as you normally would. There’s no need to use `docker-compose up --build` or `docker-compose build` unless you changed something on `Dockerfile`.
+Code is mounted on the bot container, so you can make changes and restart the bot as you normally would.
 
 Redis default port is mounted to host, just in case you want to debug something using tools available at the host.
 
@@ -65,29 +65,21 @@ Redis default port is mounted to host, just in case you want to debug something 
 ### Running (production mode)
 There’s a number of ways you can use docker for deploying into production.
 
-Files named `docker-compose.*.yml` are gitignored, just in case you feel the need to override `docker-compose.yml` or write something else entirely. `docker-compose.override.yml` is used to store dev mode overrides since it’s read by default by docker-compose.
+Files named `docker-compose.*.yml` are gitignored, just in case you feel the need to override `docker-compose.yml` or write something else entirely.
 
 The bot also supports reading Docker Secrets (may work with other vaults too). Check `lua/config.lua` to see which variables can be read from secrets.
 
 #### Compose Example
-You would need to write another override file (i.e. `docker-compose.deploy.yml`) matching your needs (change restart policy to always, either add groupbutler to an external network or create a redis service with persistency, etc.).
 
-You could deploy Group Butler by running something like this:
+You can deploy Group Butler by running:
 
-`docker-compose -f docker-compose.yml -f docker-compose.deploy.yml up`
+`make easy_deploy`
+
 
 #### Swarm Example
-Assuming you have deployed redis into `staging` (`docker stack deploy …` or `docker service create …`) and exported the required environment variables (like `$TG_TOKEN`…), you could deploy Group Butler by running:
+Assuming you have deployed redis into, for instance `staging` (`docker stack deploy …` or `docker service create …`) and exported the required environment variables (like `$TG_TOKEN`…), you could deploy Group Butler by running:
 
 `docker stack deploy staging -c docker-compose.yml`
-
-#### GitLab CI Example (uses swarm)
-- Clone this repo to a GitLab server (could be gitlab.com or self hosted)
-- Set Project Variables, paying attention to variable scope: the `.gitlab-ci.yml` bundled with this repo supports two environments: `staging` and `production`
-- Disable shared runners and install GitLab CI runner on at least one of the manager nodes. Make sure to tag them as `manager` too
-- Deploy (manually or using another repository) redis to `staging` and/or `production`
-- Push to `staging` and/or `production` branches
-- If everything went well, your very own Group Butler should be up and running
 
 ## Setup (without using Docker)
 List of required packages:

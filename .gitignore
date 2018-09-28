@@ -3,7 +3,7 @@ docker-compose.*.yml
 *.sh
 *.json
 *.tar
+luacov.*
 
-!docker-compose.override.yml
 !install.sh
 !launch.sh

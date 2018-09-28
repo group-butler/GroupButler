@@ -4,8 +4,8 @@
 LUA=5.1
 
 # Dependencies and libraries
-NATIVE="luarocks lua$LUA liblua$LUA-dev git make unzip redis-server curl libcurl4-gnutls-dev"
-ROCKS="luasocket luasec redis-lua lua-term serpent lua-cjson Lua-cURL"
+NATIVE="lua$LUA liblua$LUA-dev luarocks make redis-server"
+ROCKS="telegram-bot-api lua-resty-socket"
 
 # Color variables
 Red='\033[0;31m'
