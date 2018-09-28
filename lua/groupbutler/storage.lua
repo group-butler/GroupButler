@@ -166,7 +166,7 @@ function PostgresStorage:cache_user(user)
 		end
 	end
 	values = values..")"
-	local query = interpolate("BEGIN;"..username..insert..values..on_conflict..";COMMIT;", row)
+	local query = interpolate(username..insert..values..on_conflict, row)
 	local ok, err = self.pg:query(query)
 	if not ok then
 		log.err("Query {query} failed: {err}", {query=query, err=err})
