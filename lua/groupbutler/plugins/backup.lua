@@ -24,13 +24,10 @@ end
 
 local function load_data(filename)
 	local f = io.open(filename)
-	if f then
-		local s = f:read('*all')
-		f:close()
-		return json.decode(s)
-	else
-		return {}
-	end
+	if not f then return {} end
+	local s = f:read('*all')
+	f:close()
+	return json.decode(s)
 end
 
 local function gen_backup(self, chat_id)
@@ -46,7 +43,7 @@ local function gen_backup(self, chat_id)
 	local hash
 	for i=1, #config.chat_hashes do
 		hash = ('chat:%s:%s'):format(chat_id, config.chat_hashes[i])
-		local content = red:hgetall(hash)
+		local content = red:array_to_hash(red:hgetall(hash))
 		if next(content) then
 			t[chat_id].hashes[config.chat_hashes[i]] = {}
 			for key, val in pairs(content) do
@@ -143,8 +140,8 @@ Wait [<code>%s</code>] to use it again
 			return
 		end
 		local res = api:getFile(msg.reply.document.file_id)
-						local download_link = u:telegram_file_link(res)
-						local file_path, code = u:download_to_file(download_link, '/tmp/'..msg.chat.id..'.json')
+		local download_link = u:telegram_file_link(res)
+		local file_path, code = u:download_to_file(download_link, '/tmp/'..msg.chat.id..'.json')
 
 		if not file_path then
 			text = i18n('Download of the file failed with code %s'):format(tostring(code))
@@ -171,10 +168,10 @@ Wait [<code>%s</code>] to use it again
 			if group_data.hashes and next(group_data.hashes) then
 				for hash, content in pairs(group_data.hashes) do
 					if next(content) then
-						--[[for key, val in pairs(content) do
-							print('\tkey:', key)
-							red:hset(('chat:%d:%s'):format(chat_id, hash), key, val)
-						end]]
+						-- for key, val in pairs(content) do
+						-- 	print('\tkey:', key)
+						-- 	red:hset(('chat:%d:%s'):format(chat_id, hash), key, val)
+						-- end
 						red:hmset(('chat:%d:%s'):format(chat_id, hash), content)
 					end
 				end
