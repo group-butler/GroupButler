@@ -98,7 +98,7 @@ local function get_reply_markup(self, msg, text)
 		if not reply_markup then
 			reply_markup = {inline_keyboard={}}
 		end
-		local line = {{new_text = i18n("Read the rules"), url = u:deeplink_constructor(msg.chat.id, "rules")}}
+		local line = {{text = i18n("Read the rules"), url = u:deeplink_constructor(msg.chat.id, "rules")}}
 		table.insert(reply_markup.inline_keyboard, line)
 	end
 
