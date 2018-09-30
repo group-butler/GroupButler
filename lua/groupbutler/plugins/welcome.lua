@@ -3,6 +3,7 @@ local locale = require "groupbutler.languages"
 local i18n = locale.translate
 local null = require "groupbutler.null"
 local api_err = require "groupbutler.api_errors"
+local api_u = require "telegram-bot-api.utilities"
 
 local _M = {}
 
@@ -96,10 +97,9 @@ local function get_reply_markup(self, msg, text)
 
 	if is_on(self, msg.chat.id, "Welbut") then
 		if not reply_markup then
-			reply_markup = {inline_keyboard={}}
+			reply_markup = api_u.InlineKeyboardMarkup:new()
 		end
-		local line = {{text = i18n("Read the rules"), url = u:deeplink_constructor(msg.chat.id, "rules")}}
-		table.insert(reply_markup.inline_keyboard, line)
+		reply_markup:row({text = i18n("Read the rules"), url = u:deeplink_constructor(msg.chat.id, "rules")})
 	end
 
 	return reply_markup, new_text
@@ -200,7 +200,7 @@ function _M:onTextMessage(blocks)
 			new_text = new_text:gsub('$rules', u:deeplink_constructor(msg.chat.id, 'rules'))
 
 			red:hset(hash, 'type', 'custom')
-			red:hset(hash, 'content', new_text)
+			red:hset(hash, 'content', input)
 
 			local ok, err = msg:send_reply(new_text, "Markdown", reply_markup)
 			if not ok then
