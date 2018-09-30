@@ -1,5 +1,6 @@
 local config = require "groupbutler.config"
 local api_err = require "groupbutler.api_errors"
+local api_u = require "telegram-bot-api.utilities"
 local locale = require "groupbutler.languages"
 local log = require "groupbutler.logging"
 local null = require "groupbutler.null"
@@ -416,12 +417,11 @@ end
 function _M:reply_markup_from_text(text) -- luacheck: ignore 212
 	local clean_text = text
 	local n = 0
-	local reply_markup = {inline_keyboard={}}
+	local reply_markup = api_u.InlineKeyboardMarkup:new()
 	for label, url in text:gmatch("{{(.-)}{(.-)}}") do
 		clean_text = clean_text:gsub('{{'..label:escape_magic()..'}{'..url:escape_magic()..'}}', '')
 		if label and url and n < 3 then
-			local line = {{text = label, url = url}}
-			table.insert(reply_markup.inline_keyboard, line)
+			reply_markup:row({text = label, url = url})
 		end
 		n = n + 1
 	end
