@@ -89,11 +89,11 @@ function _M:onTextMessage(blocks)
 			local ok, err = msg:send_reply(test_text, "Markdown", reply_markup)
 			if not ok then
 				api:sendMessage(msg.chat.id, api_err.trans(err), "Markdown")
-			else
-				red:hset(hash, blocks[2]:lower(), new_extra)
-				local msg_id = ok.message_id
-				api:editMessageText(msg.chat.id, msg_id, nil, i18n("Command '%s' saved!"):format(blocks[2]))
+				return
 			end
+			red:hset(hash, blocks[2]:lower(), new_extra)
+			local msg_id = ok.message_id
+			api:editMessageText(msg.chat.id, msg_id, nil, i18n("Command '%s' saved!"):format(blocks[2]))
 		end
 	elseif blocks[1] == 'extra list' then
 		local text = u:getExtraList(msg.chat.id)
