@@ -10,17 +10,16 @@ Contributing to GroupButler isn't limited to just filing bugs, users are more th
 2. Open up Git in an environment of your choice
 3. Run the following
 
-```
+```bash
 $ git clone https://github.com/YOUR-GITHUB-PROFILE-NAME/GroupButler.git
 $ cd GroupButler
 ```
 
 ### Please pay attention to
-1. open an issue describing the feature/bug you wish to contribute first to start a discussion, explain why, what and how
-2. follow the eslint rules
-3. write tests covering 100% of the library code you produce
-4. one PR per feature/fix unless you follow [standard-version](https://github.com/conventional-changelog/standard-version) commit guidelines
-5. naming convention: PascalCase for Classes, camelCase for methods and snake_case for other stuff
+1. Open an issue describing the feature/bug you wish to contribute first to start a discussion, explain why, what and how
+2. Write tests covering 100% of the library code you produce. Don't send PRs which reduce the coverage status
+3. One PR per feature/fix unless you follow [standard-version](https://github.com/conventional-changelog/standard-version) commit guidelines
+4. Naming convention: PascalCase for Classes, camelCase for methods and snake_case for other stuff
 
 ### Using branches
 When working on any issue on Github, it's a good practice to make branches that are specific to the issue you're currently working on. For instance, if you're working on an issue with a name like "NAME OF ISSUE #1234", from the master branch run the following code: `git checkout -b Issue#1234`. In doing so, you'll be making a branch that specifically identifies the issue at hand, and moves you right into it with the `checkout` flag. This keeps your main (master) repository clean and your personal workflow cruft out of sight when making a pull request. 
