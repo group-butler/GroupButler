@@ -6,9 +6,9 @@
 
 ## Short introduction
 
-This bot has been created to help people administrate their groups, and includes many useful tools.
+Group Butler helps people administrate their groups, and includes many other useful tools.
 
-Group Butler was born as an [otouto](https://otou.to) [v3.1](https://github.com/topkecleon/otouto/tree/26c1299374af130bbf8457af904cb4ea450caa51) ([`@mokubot`](https://telegram.me/mokubot)), but it has been turned into an administration bot.
+Group Butler was born as an [otouto](https://otou.to) [v3.1](https://github.com/topkecleon/otouto/tree/26c1299374af130bbf8457af904cb4ea450caa51) ([`@mokubot`](https://telegram.me/mokubot)), but it has since been turned into an administration bot.
 
 #### Group Butler on Telegram:
 
