@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-09-02 21:47-0300\n"
-"PO-Revision-Date: 2018-10-28 07:27\n"
+"PO-Revision-Date: 2018-10-28 07:32\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -83,8 +83,8 @@ msgid "Hello everyone!\n"
 "My name is %s, and I'm a bot made to help administrators in their hard work.\n"
 "Unfortunately I can't work in normal groups. If you need me, please ask the creator to convert this group to a supergroup and then add me again.\n"
 msgstr "大家好！\n"
-"我的名字是 %s，我是一个机器人程序，可以帮助管理员完成繁杂的工作。\n"
-"很遗憾的是我无法在普通群组中工作。如果你需要我，请要求群组创建者将本群组转换为超级群，然后再将我重新加入该群。"
+"我的名字是%s，我是一個機器人，負責幫助管理員工作。\n"
+"不幸的是，我無法在普通群組中工作，請讓創建者將該組轉換為超級群組。\n"
 
 #: lua/groupbutler/main.lua:193
 msgid "🐞 Sorry, a *bug* occurred"
@@ -646,11 +646,11 @@ msgstr "允许发送消息。如果关闭，使用者将不能发送任何消息
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:64
 msgid "Permission to send media (audios, documents, photos, videos, video notes and voice notes). Implies the permission to send messages"
-msgstr "Permission to send media (audios, documents, photos, videos, video notes and voice notes). Implies the permission to send messages"
+msgstr "允许发送媒体(音频、文件、照片、视频)"
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:65
 msgid "Permission to send other types of messages (GIFs, games, stickers and use inline bots). Implies the permission to send medias"
-msgstr "Permission to send other types of messages (GIFs, games, stickers and use inline bots). Implies the permission to send medias"
+msgstr "允许发送其他消息(GIF、游戏机器人、贴纸、聊天栏机器人)。"
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:66
 msgid "When disabled, user's messages with a link won't show the web page preview"
@@ -759,8 +759,8 @@ msgstr "%d 不是一个有效的值！\n"
 #: lua/groupbutler/plugins/floodmanager.lua:144
 msgid "You can manage the antiflood settings from here.\n\n"
 "It is also possible to choose which type of messages the antiflood will ignore (✅)"
-msgstr "You can manage the antiflood settings from here.\n\n"
-"It is also possible to choose which type of messages the antiflood will ignore (✅)"
+msgstr "你可以管理的反垃圾消息设置在这里。\n\n"
+"你可以选择哪种类型的消息忽略反垃圾(✅)"
 
 #: lua/groupbutler/plugins/floodmanager.lua:151
 msgid "Antiflood settings"
@@ -1572,7 +1572,7 @@ msgstr "启用后，每次发送新的欢迎消息时，都会删除先前发送
 
 #: lua/groupbutler/plugins/menu.lua:29
 msgid "When enabled, the bot doesn't answer in the group to /dashboard, /config and /help commands (it will just answer in private)"
-msgstr "When enabled, the bot doesn't answer in the group to /dashboard, /config and /help commands (it will just answer in private)"
+msgstr "启用后，机器人不会在组中发送 /dashboard ，/config 和 /help命令（它只会向你私聊发送）"
 
 #: lua/groupbutler/plugins/menu.lua:30
 msgid "Enable and disable the anti-flood system (more info in the /help message)"
@@ -1580,7 +1580,7 @@ msgstr "启用和禁用防刷屏系统（使用/help 获取更多信息）"
 
 #: lua/groupbutler/plugins/menu.lua:31
 msgid "If the welcome message is enabled, it will include an inline button that will send to the user the rules in private"
-msgstr "If the welcome message is enabled, it will include an inline button that will send to the user the rules in private"
+msgstr "如果启用了欢迎消息，它将包含一个群规按钮，按下该按钮将向用户私聊发送群组规则"
 
 #: lua/groupbutler/plugins/menu.lua:32
 msgid "When someone uses /rules\n"
@@ -1712,11 +1712,11 @@ msgstr "🔨️ 封禁"
 
 #: lua/groupbutler/plugins/menu.lua:228
 msgid "Warns: "
-msgstr "警告："
+msgstr "警告: "
 
 #: lua/groupbutler/plugins/menu.lua:233
 msgid "Action:"
-msgstr "操作:"
+msgstr "Action:"
 
 #: lua/groupbutler/plugins/menu.lua:255
 msgid "Manage the settings of the group. Click on the left column to get a small hint"
@@ -2523,7 +2523,7 @@ msgid "%s\n"
 "• <b>User</b>: %s"
 msgstr "%s\n"
 "• %s\n"
-"• <b>用户</b>: %s"
+"• <b>User</b>: %s"
 
 #: lua/groupbutler/utilities.lua:922
 #, lua-format
