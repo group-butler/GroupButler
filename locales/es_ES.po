@@ -3,10 +3,10 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-09-02 21:47-0300\n"
-"PO-Revision-Date: 2018-09-11 16:37\n"
+"PO-Revision-Date: 2018-10-28 07:27\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Spanish\n"
-"Language: es\n"
+"Language: es_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -14,7 +14,7 @@ msgstr ""
 "X-Generator: crowdin.com\n"
 "X-Crowdin-Project: group-butler\n"
 "X-Crowdin-Language: es-ES\n"
-"X-Crowdin-File: /master/locales/en_GB.po\n"
+"X-Crowdin-File: /develop/locales/en_GB.po\n"
 
 #: lua/groupbutler/api_errors.lua:12
 msgid "An unknown error has ocurred"
@@ -420,7 +420,7 @@ msgstr "🚫 Antispam"
 
 #: lua/groupbutler/plugins/configure.lua:47
 msgid "📥 Log channel"
-msgstr "📥 Canal de registros de acciones"
+msgstr "📥 Canal para la Bitácora"
 
 #: lua/groupbutler/plugins/configure.lua:53
 msgid "⛔️ Default permissions"
@@ -1151,7 +1151,7 @@ msgstr "Comandos para uso en privado"
 
 #: lua/groupbutler/plugins/help.lua:294
 msgid "Log channel"
-msgstr "Canal para la Bitácora"
+msgstr "Canal de registros de acciones"
 
 #: lua/groupbutler/plugins/help.lua:309
 msgid "Back"
