@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-09-02 21:47-0300\n"
-"PO-Revision-Date: 2018-10-28 07:28\n"
+"PO-Revision-Date: 2018-10-28 07:32\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Italian\n"
 "Language: it_IT\n"
@@ -83,8 +83,9 @@ msgstr "Uno dei tasti inline che stai cercando di impostare non ha un nome"
 msgid "Hello everyone!\n"
 "My name is %s, and I'm a bot made to help administrators in their hard work.\n"
 "Unfortunately I can't work in normal groups. If you need me, please ask the creator to convert this group to a supergroup and then add me again.\n"
-msgstr "Ciao a tutti!\n"
-"Mi chiamo %s e sono un bot creato per aiutare gli amministratori con il loro duro lavoro. Purtroppo non posso farlo nei gruppi normali quindi, se hai bisogno di me, perfavore converti il gruppo ad un supergruppo ed aggiungimi di nuovo."
+msgstr "Ciao a tutti!!\n"
+"Il mio nome è %s, sono un bot fatto per aiutare gli amministratori nel loro duro lavoro.\n"
+"Sfortunatamente non posso lavorare nei gruppi normali. In caso avessi bisogno di me, chiedi al creatore di questo gruppo di convertirlo in supergruppo, quindi riprova ad aggiungermi.\n"
 
 #: lua/groupbutler/main.lua:193
 msgid "🐞 Sorry, a *bug* occurred"
@@ -648,13 +649,13 @@ msgstr "Permesso di inviare messaggi. Se disattivata, l'utente non sarà in grad
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:64
 msgid "Permission to send media (audios, documents, photos, videos, video notes and voice notes). Implies the permission to send messages"
-msgstr "Permesso di mandare media (audio, documenti, foto, video, video rotondi e note vocali).\n"
-"Implica il permesso di mamdare messaggi"
+msgstr "Autorizzazione di inviare media (audio, documenti, foto, video, note video e note vocali). Implica l'autorizzazione a inviare messaggi\n"
+"\t\t\t"
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:65
 msgid "Permission to send other types of messages (GIFs, games, stickers and use inline bots). Implies the permission to send medias"
-msgstr "Permesso di mandare altri tipi di messaggi (GIFs, giochi, stickers e l'uso di bots inline).\n"
-"Implica il permesso di poter mandare media"
+msgstr "Permesso di inviare altri tipi di messaggi (Gif, giochi, sticker e uso dei bot inline). Implica il permesso di inviare media\n"
+"\t\t\t"
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:66
 msgid "When disabled, user's messages with a link won't show the web page preview"
@@ -763,8 +764,9 @@ msgstr "%d non è un valore valido!\n"
 #: lua/groupbutler/plugins/floodmanager.lua:144
 msgid "You can manage the antiflood settings from here.\n\n"
 "It is also possible to choose which type of messages the antiflood will ignore (✅)"
-msgstr "Puoi gestire le impostazioni antiflood da qui.\n\n\n"
-"È anche possibile scegliere quali tipi di messaggio l'antiflood deve ignorare"
+msgstr "È possibile gestire le impostazioni antiflood da qui.\n\n"
+"É ' anche possibile scegliere il tipo di messaggi che il antiflood ignora (✅)\n"
+"\t\t\t"
 
 #: lua/groupbutler/plugins/floodmanager.lua:151
 msgid "Antiflood settings"
