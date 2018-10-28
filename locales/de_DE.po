@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-09-02 21:47-0300\n"
-"PO-Revision-Date: 2018-10-28 07:28\n"
+"PO-Revision-Date: 2018-10-28 07:33\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -2427,7 +2427,7 @@ msgid "#%s\n"
 "• <b>User</b>: %s"
 msgstr "#%s\n"
 "• %s\n"
-"• <b>Nutzer</b>: %s"
+"• <b>Benutzer</b>: %s"
 
 #: lua/groupbutler/utilities.lua:891 lua/groupbutler/utilities.lua:901
 #: lua/groupbutler/utilities.lua:904 lua/groupbutler/utilities.lua:907
