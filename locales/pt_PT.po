@@ -3,10 +3,10 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-09-02 21:47-0300\n"
-"PO-Revision-Date: 2018-09-11 16:37\n"
+"PO-Revision-Date: 2018-10-28 07:26\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Portuguese\n"
-"Language: pt\n"
+"Language: pt_PT\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -14,7 +14,7 @@ msgstr ""
 "X-Generator: crowdin.com\n"
 "X-Crowdin-Project: group-butler\n"
 "X-Crowdin-Language: pt-PT\n"
-"X-Crowdin-File: /master/locales/en_GB.po\n"
+"X-Crowdin-File: /develop/locales/en_GB.po\n"
 
 #: lua/groupbutler/api_errors.lua:12
 msgid "An unknown error has ocurred"
@@ -99,7 +99,7 @@ msgstr "banido"
 #: lua/groupbutler/plugins/onmessage.lua:159
 #: lua/groupbutler/plugins/warn.lua:124
 msgid "kicked"
-msgstr "expulso"
+msgstr "Expulso"
 
 #: lua/groupbutler/plugins/antispam.lua:45
 #: lua/groupbutler/plugins/onmessage.lua:165
@@ -308,7 +308,7 @@ msgstr "<i>Perdão, este comando já foi usado pela última vez há menos de 3 h
 
 #: lua/groupbutler/plugins/backup.lua:121
 msgid "*Sent in private*"
-msgstr "*Enviado em privado*"
+msgstr "*Mandado em privado*"
 
 #: lua/groupbutler/plugins/backup.lua:128
 msgid "Invalid input. Please reply to the backup file (/snap command to get it)"

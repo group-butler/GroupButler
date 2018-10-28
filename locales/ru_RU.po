@@ -3,10 +3,10 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-09-02 21:47-0300\n"
-"PO-Revision-Date: 2018-09-11 16:37\n"
+"PO-Revision-Date: 2018-10-28 07:26\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Russian\n"
-"Language: ru\n"
+"Language: ru_RU\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -14,7 +14,7 @@ msgstr ""
 "X-Generator: crowdin.com\n"
 "X-Crowdin-Project: group-butler\n"
 "X-Crowdin-Language: ru\n"
-"X-Crowdin-File: /master/locales/en_GB.po\n"
+"X-Crowdin-File: /develop/locales/en_GB.po\n"
 
 #: lua/groupbutler/api_errors.lua:12
 msgid "An unknown error has ocurred"
@@ -30,7 +30,7 @@ msgstr "Я не администратор и не могу выгонять л�
 
 #: lua/groupbutler/api_errors.lua:15
 msgid "I can't do that to admins!"
-msgstr "Я не могу выполнять эти действия с администраторами!"
+msgstr "Я не могу сделать это с админами!"
 
 #: lua/groupbutler/api_errors.lua:16
 msgid "There is no need to unban in a normal group"
@@ -94,13 +94,13 @@ msgstr "🐞 Извините, произошла *ошибка*"
 #: lua/groupbutler/plugins/onmessage.lua:162
 #: lua/groupbutler/plugins/warn.lua:120
 msgid "banned"
-msgstr "забанен"
+msgstr "забанил пользователя"
 
 #: lua/groupbutler/plugins/antispam.lua:44
 #: lua/groupbutler/plugins/onmessage.lua:159
 #: lua/groupbutler/plugins/warn.lua:124
 msgid "kicked"
-msgstr "исключен"
+msgstr "выгнал пользователя"
 
 #: lua/groupbutler/plugins/antispam.lua:45
 #: lua/groupbutler/plugins/onmessage.lua:165
@@ -162,7 +162,7 @@ msgstr "предупреждение за ссылки"
 
 #: lua/groupbutler/plugins/antispam.lua:142
 msgid "links will be deleted"
-msgstr "ссылки будут удаляться"
+msgstr "%s будут удалены"
 
 #: lua/groupbutler/plugins/antispam.lua:160
 msgid "You can't go lower"
@@ -200,7 +200,7 @@ msgstr "Описание недоступно"
 
 #: lua/groupbutler/plugins/antispam.lua:230
 msgid "Kick 👞"
-msgstr "Выгнать 👞"
+msgstr "Кик 👞"
 
 #: lua/groupbutler/plugins/antispam.lua:232
 msgid "Ban 🔨"
@@ -311,7 +311,7 @@ msgstr "<i>извините, эта команда была использова
 
 #: lua/groupbutler/plugins/backup.lua:121
 msgid "*Sent in private*"
-msgstr "*Отправлено в личку*"
+msgstr "*Отправляется в ЛС*"
 
 #: lua/groupbutler/plugins/backup.lua:128
 msgid "Invalid input. Please reply to the backup file (/snap command to get it)"
@@ -1034,7 +1034,27 @@ msgid "*Warns*\n"
 "How to change the max. number of warnings allowed: `/config` command, then `menu` button.\n"
 "How to change the max. number of warnings allowed for medias: `/config` command, then `media` button.\n"
 "How to change the max. number of warnings allowed for spam: `/config` command, then `antispam` button."
-msgstr ""
+msgstr "Предупреждает *\n"
+"Предупредите, что они содержат количество предупреждений, полученных пользователем. После того, как пользователи были предупреждены за определенное количество раз, они боятся / запрещены ботом.\n"
+"Предусмотрены два разных типа предупреждений:\n"
+"- _normal warns_, заданный администратором командой `/ warn`\n"
+"- _automatic warns_ (читайте: предупреждения о предупреждениях и предупреждениях о спаме), заданные ботом, когда кто-то отправляет носитель, который не разрешен в чате, или спам других каналов или ссылок telegram.me.\n"
+"• `/ warn [by reply]`: предупредить пользователя\n"
+"• `/ sw`: вы можете поместить` / sw` (_ \"silent warn\" _) везде, где хотите в своем сообщении. Бот будет молча считать предупреждение, но не будет отвечать в группе, если пользователь не достигнет максимума. количество предупреждений.\n"
+"• `/ nowarns [by reply]`: сбросить предупреждения, полученные пользователем (как обычные, так и автоматические предупреждения).\n"
+"• `/ warnmax [номер]`: установить максимальное количество предупреждений перед ударом / запретом.\n"
+"• `/ warnmax media [number]`: установить максимальное количество предупреждений перед ударом / запретом при отправке нежелательного носителя.\n"
+"Как узнать, сколько предупреждений пользователь получил (или их сбросить): команда `/ user`.\n"
+"Как изменить макс. допустимо количество предупреждений: `/ config`, затем кнопка` menu`.\n"
+"Как изменить макс. количество предупреждений, разрешенных для медиа: команда `/ config`, затем кнопка` media`.\n"
+"Как изменить макс. количество предупреждений, разрешенных для спама: команда `/ config`, затем кнопка« антиспам ».\n"
+"Google Переводчик\n"
+"https://translate.google.com › translate\n"
+"Бесплатный сервис Google позволяет мгновенно переводить слова, фразы и веб- страницы с английского на более чем 100...\n"
+"Google Переводчик\n"
+"https://translate.google.com.ua › translate\n"
+"Бесплатный сервис Google позволяет мгновенно переводить слова, фразы и веб- страницы с английского на более чем 100...\n"
+"Google Переводчик - Google Translate."
 
 #: lua/groupbutler/plugins/help.lua:177
 msgid "*Pinning messages*\n"
@@ -1314,11 +1334,11 @@ msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:59
 msgid "Ban"
-msgstr "Бан"
+msgstr "Забанить"
 
 #: lua/groupbutler/plugins/logchannel.lua:60
 msgid "Kick"
-msgstr "Кик"
+msgstr "Выгнать"
 
 #: lua/groupbutler/plugins/logchannel.lua:61 lua/groupbutler/utilities.lua:992
 msgid "Unban"

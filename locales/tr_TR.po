@@ -3,10 +3,10 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-09-02 21:47-0300\n"
-"PO-Revision-Date: 2018-09-11 16:37\n"
+"PO-Revision-Date: 2018-10-28 07:27\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Turkish\n"
-"Language: tr\n"
+"Language: tr_TR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -14,11 +14,11 @@ msgstr ""
 "X-Generator: crowdin.com\n"
 "X-Crowdin-Project: group-butler\n"
 "X-Crowdin-Language: tr\n"
-"X-Crowdin-File: /master/locales/en_GB.po\n"
+"X-Crowdin-File: /develop/locales/en_GB.po\n"
 
 #: lua/groupbutler/api_errors.lua:12
 msgid "An unknown error has ocurred"
-msgstr ""
+msgstr "Bilinmeyen bir hata oluştu"
 
 #: lua/groupbutler/api_errors.lua:13
 msgid "I don't have enough permissions to restrict users"
@@ -30,7 +30,7 @@ msgstr "Admin değilim, insanları gruptan atamam"
 
 #: lua/groupbutler/api_errors.lua:15
 msgid "I can't do that to admins!"
-msgstr ""
+msgstr "Yöneticilere bunu yapamam!"
 
 #: lua/groupbutler/api_errors.lua:16
 msgid "There is no need to unban in a normal group"
@@ -130,7 +130,7 @@ msgstr "%s, burada spam'e izin verilmez. Bir daha olursa kısıtlanacaksınız"
 #: lua/groupbutler/plugins/antispam.lua:103
 #, lua-format
 msgid "%s, this kind of message is not allowed in this chat (<b>%d/%d</b>)"
-msgstr ""
+msgstr "%s bu tarz mesajlar bu grupta izin verilmiyor (<b>%d/%d</b>)"
 
 #: lua/groupbutler/plugins/antispam.lua:107
 msgid "telegram.me link"
@@ -187,7 +187,7 @@ msgstr "Yönlendirmeleri izin ver/yasakla"
 
 #: lua/groupbutler/plugins/antispam.lua:197
 msgid "Set how many times the bot should warn users before kicking/banning them"
-msgstr ""
+msgstr "Kaç uyarı aldığında banlanacak/atılacak"
 
 #: lua/groupbutler/plugins/antispam.lua:199
 #: lua/groupbutler/plugins/defaultpermissions.lua:67
@@ -200,15 +200,15 @@ msgstr "Açıklama mevcut değil"
 
 #: lua/groupbutler/plugins/antispam.lua:230
 msgid "Kick 👞"
-msgstr "At"
+msgstr "At 👞"
 
 #: lua/groupbutler/plugins/antispam.lua:232
 msgid "Ban 🔨"
-msgstr "Banla"
+msgstr "Banla 🔨"
 
 #: lua/groupbutler/plugins/antispam.lua:234
 msgid "Mute 👁"
-msgstr "Sessize al"
+msgstr "Sessize al 👁"
 
 #: lua/groupbutler/plugins/antispam.lua:283
 #: lua/groupbutler/plugins/floodmanager.lua:142
@@ -225,7 +225,12 @@ msgid "*Anti-spam settings*\n"
 "• ❌ = *Not allowed*\n"
 "• 🗑 = *Delete*\n"
 "When set on `delete`, the bot doesn't warn users until they are about to be kicked/banned/muted (at the second-to-last warning)"
-msgstr ""
+msgstr "*Anti-spam ayarları*\n"
+"Hangi tür spamleri yasaklayacağınızı seçin\n"
+"• ✅ = *İzin ver*\n"
+"• ❌ = *İzin verme*\n"
+"• 🗑 = *Sil*\n"
+"Ayarı `sil`olarak seçtiğinizde bot kullanıcıları onlar kovulana/engellenene/sessize alınmak üzere olana kadar uyarmaz. (sondan ikinci uyarıda)"
 
 #: lua/groupbutler/plugins/antispam.lua:352
 msgid "_The whitelist was already empty_"
@@ -303,7 +308,7 @@ msgstr ""
 
 #: lua/groupbutler/plugins/backup.lua:121
 msgid "*Sent in private*"
-msgstr "*Özel mesaj*"
+msgstr "*Özelden mesaj gönder*"
 
 #: lua/groupbutler/plugins/backup.lua:128
 msgid "Invalid input. Please reply to the backup file (/snap command to get it)"
@@ -413,7 +418,7 @@ msgstr "🚫 Antispam"
 
 #: lua/groupbutler/plugins/configure.lua:47
 msgid "📥 Log channel"
-msgstr "📥 Log Kanal"
+msgstr "📥 Kanal kaydı"
 
 #: lua/groupbutler/plugins/configure.lua:53
 msgid "⛔️ Default permissions"
@@ -593,7 +598,7 @@ msgstr "Dosya"
 
 #: lua/groupbutler/plugins/dashboard.lua:162
 msgid "Voice Messages"
-msgstr ""
+msgstr "Sesli Mesajlar"
 
 #: lua/groupbutler/plugins/dashboard.lua:163
 #: lua/groupbutler/plugins/mediasettings.lua:41
@@ -639,7 +644,7 @@ msgstr "Mesaj gönderme izni. Devre dışı bırakılırsa, kullanıcı herhangi
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:64
 msgid "Permission to send media (audios, documents, photos, videos, video notes and voice notes). Implies the permission to send messages"
-msgstr ""
+msgstr "Medya gönderme izni (müzik, belge, fotoğraf, video, video notları ve sesli notlar). Mesaj gönderme iznini ima eder"
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:65
 msgid "Permission to send other types of messages (GIFs, games, stickers and use inline bots). Implies the permission to send medias"
@@ -722,7 +727,7 @@ msgstr "Seçilen medya antiflood'da önemsenmeyecek (bot onları önemsemeyecek)
 
 #: lua/groupbutler/plugins/floodmanager.lua:45
 msgid "👞️ kick"
-msgstr "👞️at"
+msgstr "👞️ at"
 
 #: lua/groupbutler/plugins/floodmanager.lua:47
 msgid "🔨 ️ban"
@@ -1051,7 +1056,7 @@ msgstr "Özel komutlar"
 
 #: lua/groupbutler/plugins/help.lua:294
 msgid "Log channel"
-msgstr "Kanal kaydı"
+msgstr "Log Kanal"
 
 #: lua/groupbutler/plugins/help.lua:309
 msgid "Back"
@@ -1367,11 +1372,11 @@ msgstr "⚠️ Sağ sütüna dokunun"
 
 #: lua/groupbutler/plugins/mediasettings.lua:142
 msgid "⚙ The new value is too low ( < 1)"
-msgstr "⚙ Değer daha küçük olamaz ( < 1)"
+msgstr "⚙ Yeni değer daha küçük olmalı ( < 1)"
 
 #: lua/groupbutler/plugins/mediasettings.lua:149
 msgid "⚙ The new value is too high ( > 12)"
-msgstr "⚙ Değer daha büyük olamaz ( > 12)"
+msgstr "⚙ Yeni değer daha büyük olmalı ( > 12)"
 
 #: lua/groupbutler/plugins/mediasettings.lua:163
 msgid "👞 New status is kick"
