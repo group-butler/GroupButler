@@ -3,10 +3,10 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-09-02 21:47-0300\n"
-"PO-Revision-Date: 2018-09-11 16:37\n"
+"PO-Revision-Date: 2018-10-28 07:25\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Dutch\n"
-"Language: nl\n"
+"Language: nl_NL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -18,7 +18,7 @@ msgstr ""
 
 #: lua/groupbutler/api_errors.lua:12
 msgid "An unknown error has ocurred"
-msgstr ""
+msgstr "Er is een onbekende fout opgetreden"
 
 #: lua/groupbutler/api_errors.lua:13
 msgid "I don't have enough permissions to restrict users"
@@ -42,21 +42,22 @@ msgstr "Deze gebruiker is geen chat-lid"
 
 #: lua/groupbutler/api_errors.lua:18
 msgid "Please input a text"
-msgstr ""
+msgstr "Voer tekst in a.u.b."
 
 #: lua/groupbutler/api_errors.lua:19
 msgid "This message is too long. Max lenght allowed by Telegram: 4000 characters"
-msgstr ""
+msgstr "Dit bericht is te lang. De maximale tekstlengte voor Telegram is 4000 tekens"
 
 #: lua/groupbutler/api_errors.lua:20
 msgid "One of the inline buttons you are trying to set is missing the URL"
-msgstr ""
+msgstr "Een van de inline-knoppen die u probeert in te stellen mist een URL"
 
 #: lua/groupbutler/api_errors.lua:21
 #, lua-format
 msgid "Inline link formatted incorrectly. Check the text between brackets -> \\[]()\n"
 "%s"
-msgstr ""
+msgstr "De inline link is niet correct geformatteerd. Controleer de tekst tussen haakjes -> \\[]()\n"
+"%s"
 
 #: lua/groupbutler/api_errors.lua:21
 msgid "More info [here](https://telegram.me/GB_tutorials/12)"
