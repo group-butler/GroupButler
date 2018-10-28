@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-09-02 21:47-0300\n"
-"PO-Revision-Date: 2018-10-28 07:26\n"
+"PO-Revision-Date: 2018-10-28 07:31\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Romanian\n"
 "Language: ro_RO\n"
@@ -452,7 +452,7 @@ msgstr "👞 exclus"
 #: lua/groupbutler/plugins/dashboard.lua:32
 #: lua/groupbutler/plugins/menu.lua:160
 msgid "🔨 ban"
-msgstr "🔨 interzice accesul"
+msgstr "🔨 interzice"
 
 #: lua/groupbutler/plugins/dashboard.lua:34
 #: lua/groupbutler/plugins/floodmanager.lua:49
