@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-09-02 21:47-0300\n"
-"PO-Revision-Date: 2018-10-28 07:27\n"
+"PO-Revision-Date: 2018-10-28 07:32\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Ukrainian\n"
 "Language: uk_UA\n"
@@ -2421,5 +2421,5 @@ msgstr ""
 
 #: lua/groupbutler/utilities.lua:1009
 msgid "Go to the message"
-msgstr ""
+msgstr "Перейти до повідомлення"
 
