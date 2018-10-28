@@ -3,10 +3,10 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-09-02 21:47-0300\n"
-"PO-Revision-Date: 2018-09-11 16:37\n"
+"PO-Revision-Date: 2018-10-28 07:27\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Arabic\n"
-"Language: ar\n"
+"Language: ar_SA\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -14,7 +14,7 @@ msgstr ""
 "X-Generator: crowdin.com\n"
 "X-Crowdin-Project: group-butler\n"
 "X-Crowdin-Language: ar\n"
-"X-Crowdin-File: /master/locales/en_GB.po\n"
+"X-Crowdin-File: /develop/locales/en_GB.po\n"
 
 #: lua/groupbutler/api_errors.lua:12
 msgid "An unknown error has ocurred"
@@ -311,7 +311,7 @@ msgstr "<i>انا آسف, هذا الامر تم استخدامه خلال ال3
 
 #: lua/groupbutler/plugins/backup.lua:121
 msgid "*Sent in private*"
-msgstr "*تم إرساله على الخاص*"
+msgstr "*يتم إرسالها على الخاص*"
 
 #: lua/groupbutler/plugins/backup.lua:128
 msgid "Invalid input. Please reply to the backup file (/snap command to get it)"
@@ -733,12 +733,11 @@ msgstr "اختر أي نوع من الوسائط تريد من البوت تجا
 
 #: lua/groupbutler/plugins/floodmanager.lua:45
 msgid "👞️ kick"
-msgstr "👞️طرد"
+msgstr "👞️ طرد"
 
 #: lua/groupbutler/plugins/floodmanager.lua:47
 msgid "🔨 ️ban"
-msgstr "🔨\n"
-"حظر"
+msgstr "🔨 ️حظر"
 
 #: lua/groupbutler/plugins/floodmanager.lua:105
 msgid "Flooders will be banned"
@@ -1416,11 +1415,11 @@ msgstr "⚠️ اضغط على العمود الأيمن"
 
 #: lua/groupbutler/plugins/mediasettings.lua:142
 msgid "⚙ The new value is too low ( < 1)"
-msgstr "⚙  القيمة الجديدة صغيرة جدا ( أقل من 1)"
+msgstr "⚙ القيمة الجديدة منخفضة جدا (أقل من 1)"
 
 #: lua/groupbutler/plugins/mediasettings.lua:149
 msgid "⚙ The new value is too high ( > 12)"
-msgstr "⚙ القيمة الجديدة كبيرة جدا (أكبر من 12)"
+msgstr "⚙ القيمة الجديدة عالية جدا (أكبر من 12)"
 
 #: lua/groupbutler/plugins/mediasettings.lua:163
 msgid "👞 New status is kick"
@@ -1501,7 +1500,7 @@ msgstr ""
 
 #: lua/groupbutler/plugins/menu.lua:55
 msgid "The new value is too high ( > 12)"
-msgstr "القيمة الجديدة عالية جدا (أكبر من 12)"
+msgstr "القيمة الجديدة كبيرة جدا (أكبر من 12)"
 
 #: lua/groupbutler/plugins/menu.lua:62
 msgid "The new value is too low ( < 1)"
