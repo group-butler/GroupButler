@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-09-02 21:47-0300\n"
-"PO-Revision-Date: 2018-09-11 16:37\n"
+"PO-Revision-Date: 2018-10-28 07:24\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Spanish, Mexico\n"
 "Language: es_MX\n"
@@ -308,7 +308,7 @@ msgstr "<i>lo siento, este comando ha sido utilizado por última vez en menos de
 
 #: lua/groupbutler/plugins/backup.lua:121
 msgid "*Sent in private*"
-msgstr "*Enviado en Dms*"
+msgstr "*Enviado en privado*"
 
 #: lua/groupbutler/plugins/backup.lua:128
 msgid "Invalid input. Please reply to the backup file (/snap command to get it)"
@@ -418,7 +418,7 @@ msgstr "🚫 Antispam"
 
 #: lua/groupbutler/plugins/configure.lua:47
 msgid "📥 Log channel"
-msgstr "📥 Canal de registros"
+msgstr "📥 Canal para la Bitácora"
 
 #: lua/groupbutler/plugins/configure.lua:53
 msgid "⛔️ Default permissions"
