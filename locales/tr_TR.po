@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-09-02 21:47-0300\n"
-"PO-Revision-Date: 2018-10-28 07:27\n"
+"PO-Revision-Date: 2018-10-28 07:32\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Turkish\n"
 "Language: tr_TR\n"
@@ -1457,11 +1457,11 @@ msgstr ""
 
 #: lua/groupbutler/plugins/menu.lua:55
 msgid "The new value is too high ( > 12)"
-msgstr "Yeni değer daha büyük olmalı ( > 12)"
+msgstr "Değer daha büyük olamaz ( > 12)"
 
 #: lua/groupbutler/plugins/menu.lua:62
 msgid "The new value is too low ( < 1)"
-msgstr "Yeni değer daha küçük olmalı ( < 1)"
+msgstr "Değer daha küçük olamaz ( < 1)"
 
 #: lua/groupbutler/plugins/menu.lua:73
 msgid "New action on max number of warns received: ban"
@@ -1545,7 +1545,7 @@ msgstr ""
 
 #: lua/groupbutler/plugins/menu.lua:222
 msgid "🔨️ ban"
-msgstr "🔨️ engelle"
+msgstr "🔨️ banla"
 
 #: lua/groupbutler/plugins/menu.lua:228
 msgid "Warns: "
@@ -1553,7 +1553,7 @@ msgstr "Uyarılar: "
 
 #: lua/groupbutler/plugins/menu.lua:233
 msgid "Action:"
-msgstr "Eylemler:"
+msgstr "Eylem:"
 
 #: lua/groupbutler/plugins/menu.lua:255
 msgid "Manage the settings of the group. Click on the left column to get a small hint"
