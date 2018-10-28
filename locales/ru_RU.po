@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-09-02 21:47-0300\n"
-"PO-Revision-Date: 2018-10-28 07:26\n"
+"PO-Revision-Date: 2018-10-28 07:31\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Russian\n"
 "Language: ru_RU\n"
@@ -1712,7 +1712,7 @@ msgstr "Предупреждения: "
 
 #: lua/groupbutler/plugins/menu.lua:233
 msgid "Action:"
-msgstr "Действие:"
+msgstr "Action:"
 
 #: lua/groupbutler/plugins/menu.lua:255
 msgid "Manage the settings of the group. Click on the left column to get a small hint"
@@ -2485,7 +2485,7 @@ msgid "%s\n"
 "• <b>By</b>: %s"
 msgstr "%s\n"
 "• %s\n"
-"• <b>Кем</b>: %s"
+"• <b>By</b>: %s"
 
 #: lua/groupbutler/utilities.lua:894
 msgid "Get the new photo"
@@ -2518,7 +2518,7 @@ msgid "%s\n"
 "• <b>User</b>: %s"
 msgstr "%s\n"
 "• %s\n"
-"• <b>Пользователь</b>: %s"
+"• <b>User</b>: %s"
 
 #: lua/groupbutler/utilities.lua:922
 #, lua-format
