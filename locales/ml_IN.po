@@ -3,10 +3,10 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-09-02 21:47-0300\n"
-"PO-Revision-Date: 2018-09-11 16:37\n"
+"PO-Revision-Date: 2018-10-28 07:26\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Malayalam\n"
-"Language: ml\n"
+"Language: ml_IN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -14,7 +14,7 @@ msgstr ""
 "X-Generator: crowdin.com\n"
 "X-Crowdin-Project: group-butler\n"
 "X-Crowdin-Language: ml-IN\n"
-"X-Crowdin-File: /master/locales/en_GB.po\n"
+"X-Crowdin-File: /develop/locales/en_GB.po\n"
 
 #: lua/groupbutler/api_errors.lua:12
 msgid "An unknown error has ocurred"
@@ -201,11 +201,11 @@ msgstr "വിശദവിവരം ലഭ്യമല്ല"
 
 #: lua/groupbutler/plugins/antispam.lua:230
 msgid "Kick 👞"
-msgstr "പുറത്താക്കുക👞"
+msgstr "പുറത്താക്കുക 👞"
 
 #: lua/groupbutler/plugins/antispam.lua:232
 msgid "Ban 🔨"
-msgstr "ബാൻ🔨"
+msgstr "തടയുക 🔨"
 
 #: lua/groupbutler/plugins/antispam.lua:234
 msgid "Mute 👁"
@@ -314,7 +314,7 @@ msgstr "<i>ക്ഷമിക്കണം</i> %s <i>ഈ കമാൻഡ് അ�
 
 #: lua/groupbutler/plugins/backup.lua:121
 msgid "*Sent in private*"
-msgstr "*സ്വകാര്യ സന്ദേശം അയച്ചു*"
+msgstr "*Sent in private*"
 
 #: lua/groupbutler/plugins/backup.lua:128
 msgid "Invalid input. Please reply to the backup file (/snap command to get it)"
@@ -735,11 +735,11 @@ msgstr "ആന്റിഫ്ലഡ് സിസ്റ്റം ഏത് തര
 
 #: lua/groupbutler/plugins/floodmanager.lua:45
 msgid "👞️ kick"
-msgstr "പുറത്താക്കുക"
+msgstr "👞️ പുറത്താക്കുക"
 
 #: lua/groupbutler/plugins/floodmanager.lua:47
 msgid "🔨 ️ban"
-msgstr "🔨 ️ബാൻ"
+msgstr "🔨 ️തടയുക"
 
 #: lua/groupbutler/plugins/floodmanager.lua:105
 msgid "Flooders will be banned"
@@ -1187,7 +1187,7 @@ msgstr "പ്രൈവറ്റ് കമാൻഡുകൾ"
 
 #: lua/groupbutler/plugins/help.lua:294
 msgid "Log channel"
-msgstr "ലോഗുകൾ"
+msgstr "ചാനൽ  ലോഗുകൾ"
 
 #: lua/groupbutler/plugins/help.lua:309
 msgid "Back"
