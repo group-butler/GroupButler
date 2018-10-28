@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-09-02 21:47-0300\n"
-"PO-Revision-Date: 2018-10-28 07:26\n"
+"PO-Revision-Date: 2018-10-28 07:31\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Malayalam\n"
 "Language: ml_IN\n"
@@ -1505,7 +1505,7 @@ msgstr "⚠️ വലത്തേ കോളത്തിൽ ടാപ് ചെ�
 
 #: lua/groupbutler/plugins/mediasettings.lua:142
 msgid "⚙ The new value is too low ( < 1)"
-msgstr "⚙ പുതിയ വാല്യൂ വളരെ കുറഞ്ഞതാണ് ( < 1)"
+msgstr "⚙ പുതിയ വാല്യൂ വളരെ ചെറുതാണ് ( < 1)"
 
 #: lua/groupbutler/plugins/mediasettings.lua:149
 msgid "⚙ The new value is too high ( > 12)"
@@ -1594,7 +1594,7 @@ msgstr "പുതിയ വാല്യൂ വളരെ കൂടുതലാണ
 
 #: lua/groupbutler/plugins/menu.lua:62
 msgid "The new value is too low ( < 1)"
-msgstr "പുതിയ വാല്യൂ വളരെ ചെറുതാണ് ( < 1)"
+msgstr "പുതിയ വാല്യൂ വളരെ കുറഞ്ഞതാണ് ( < 1)"
 
 #: lua/groupbutler/plugins/menu.lua:73
 msgid "New action on max number of warns received: ban"
