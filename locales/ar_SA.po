@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-09-02 21:47-0300\n"
-"PO-Revision-Date: 2018-10-28 07:27\n"
+"PO-Revision-Date: 2018-10-28 07:32\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Arabic\n"
 "Language: ar_SA\n"
@@ -84,7 +84,7 @@ msgid "Hello everyone!\n"
 "Unfortunately I can't work in normal groups. If you need me, please ask the creator to convert this group to a supergroup and then add me again.\n"
 msgstr "مرحبا بك!\n"
 "اسمي هو %s، وأنا بوت لمساعدة المشرفين في ادارة المجموعة و حمايتها. \n"
-"للأسف، لا يمكنني العمل في المجموعات العادية. إذا احتجتني، قم بتحويل المجموعة الى خارقة."
+"للأسف، لا يمكنني العمل في المجموعات العادية. إذا احتجتني، قم بتحويل المجموعة الى خارقة\n"
 
 #: lua/groupbutler/main.lua:193
 msgid "🐞 Sorry, a *bug* occurred"
@@ -647,7 +647,7 @@ msgstr "الصلاحيات لإرسال رسالة. عند تعطيلهاـ ال
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:64
 msgid "Permission to send media (audios, documents, photos, videos, video notes and voice notes). Implies the permission to send messages"
-msgstr "إذن لإرسال الوسائط (ملفات صوتية, مستندات, صور, مقاطع فيديو, ملاحظات فيدي, ملاحظات صوتية). يعني الإذن لإرسال الرسائل"
+msgstr "إذن لإرسال الوسائط (صوتيات, ملفات, صور, فيديو, تسجيلات الفيديو وتسجيلات الصوت). يعني الإذن لإرسال الرسائل"
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:65
 msgid "Permission to send other types of messages (GIFs, games, stickers and use inline bots). Implies the permission to send medias"
@@ -1596,7 +1596,7 @@ msgstr "التنبيهات: "
 
 #: lua/groupbutler/plugins/menu.lua:233
 msgid "Action:"
-msgstr "إجراء:"
+msgstr "اجراء:"
 
 #: lua/groupbutler/plugins/menu.lua:255
 msgid "Manage the settings of the group. Click on the left column to get a small hint"
