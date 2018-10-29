@@ -213,7 +213,7 @@ local function doKeyboard_antispam(self, chat_id)
 				icon = '❌'
 			elseif status == 'del' then icon = '🗑' end
 			local line = {
-				{text = i18n(humanizations[field] or field), callback_data = 'antispam:alert:'..field..':'..locale.language},
+				{text = i18n(humanizations[field] or field), callback_data = 'antispam:alert:'..field..':'..ngx.ctx.language},
 				{text = icon, callback_data = 'antispam:toggle:'..field..':'..chat_id}
 			}
 			table.insert(keyboard.inline_keyboard, line)
@@ -235,7 +235,7 @@ local function doKeyboard_antispam(self, chat_id)
 	end
 
 	local line = {
-		{text = 'Warns: '..warns, callback_data = 'antispam:alert:warns:'..locale.language},
+		{text = 'Warns: '..warns, callback_data = 'antispam:alert:warns:'..ngx.ctx.language},
 		{text = '➖', callback_data = 'antispam:toggle:dim:'..chat_id},
 		{text = '➕', callback_data = 'antispam:toggle:raise:'..chat_id},
 		{text = action, callback_data = 'antispam:toggle:action:'..chat_id}
@@ -272,7 +272,7 @@ function _M:onCallbackQuery(blocks)
 
 	if blocks[1] == 'alert' then
 		if config.available_languages[blocks[3]] then
-			locale.language = blocks[3]
+			ngx.ctx.language = blocks[3]
 		end
 		local text = get_alert_text(blocks[2])
 		api:answerCallbackQuery(msg.cb_id, text, true, config.bot_settings.cache_time.alert_help)
