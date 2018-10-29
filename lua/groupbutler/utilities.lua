@@ -6,7 +6,7 @@ local log = require "groupbutler.logging"
 local null = require "groupbutler.null"
 local i18n = locale.translate
 local http, HTTPS, ltn12, time_hires, sleep
-if ngx then
+if ngx and ngx.now then
 	http = require "resty.http"
 	time_hires = ngx.now
 	sleep = ngx.sleep
@@ -337,7 +337,7 @@ end
 
 function _M:download_to_file(url, file_path) -- luacheck: ignore 212
 	log.info("url to download: {url}", {url=url})
-	if ngx then
+	if http then
 		local httpc = http.new()
 		local ok, err = httpc:request_uri(url)
 
