@@ -3,7 +3,9 @@
 package.path="./lua/?.lua;./lua/vendor/?.lua;"..package.path
 io.stdout:setvbuf "no" -- switch off buffering for stdout
 
-ngx = {} -- luacheck: ignore 121
+ngx = { -- luacheck: ignore 121
+	ctx = {}
+}
 
 local plugins = require "groupbutler.plugins"
 local main = require "groupbutler.main"
