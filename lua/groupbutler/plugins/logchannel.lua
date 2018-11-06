@@ -87,7 +87,7 @@ local function doKeyboard_logchannel(self, chat_id)
 		if current_status == 'no' then icon = '☑️' end
 		table.insert(keyboard.inline_keyboard,
 			{
-				{text = event_pretty[event] or event, callback_data = 'logchannel:alert:'..event..':'..locale.language},
+				{text = event_pretty[event] or event, callback_data = 'logchannel:alert:'..event..':'..ngx.ctx.language},
 				{text = icon, callback_data = 'logchannel:toggle:'..event..':'..chat_id}
 			})
 	end
@@ -117,7 +117,7 @@ function _M:onCallbackQuery(blocks)
 	else
 		if blocks[1] == 'alert' then
 			if config.available_languages[blocks[3]] then
-				locale.language = blocks[3]
+				ngx.ctx.language = blocks[3]
 			end
 			local text = get_alert_text(blocks[2])
 			api:answerCallbackQuery(msg.cb_id, text, true, config.bot_settings.cache_time.alert_help)

@@ -48,7 +48,7 @@ local function doKeyboard_media(self, chat_id)
 		}
 		local media_text = media_texts[media] or media
 		local line = {
-			{text = media_text, callback_data = 'mediallert:'..locale.language},
+			{text = media_text, callback_data = 'mediallert:'..ngx.ctx.language},
 			{text = status, callback_data = 'media:'..media..':'..chat_id}
 		}
 		table.insert(keyboard.inline_keyboard, line)
@@ -128,7 +128,7 @@ When a media is set to delete, the bot will give a warning *only* when this is t
 		else
 			if blocks[1] == 'mediallert' then
 				if config.available_languages[blocks[2]] then
-					locale.language = blocks[2]
+					ngx.ctx.language = blocks[2]
 				end
 				api:answerCallbackQuery(msg.cb_id, i18n("⚠️ Tap on the right column"), false,
 					config.bot_settings.cache_time.alert_help)
