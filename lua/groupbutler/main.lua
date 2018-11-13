@@ -116,9 +116,9 @@ local function on_msg_receive(self, callback) -- The fn run whenever a message i
 	end
 
 	-- Set chat language
-	ngx.ctx.language = red:get('lang:'..msg.chat.id) or config.lang
-	if not config.available_languages[ngx.ctx.language] then
-		ngx.ctx.language = config.lang
+	locale.language = red:get('lang:'..msg.chat.id) or config.lang
+	if not config.available_languages[locale.language] then
+		locale.language = config.lang
 	end
 
 	-- Do not process messages from normal groups
@@ -148,7 +148,7 @@ Unfortunately I can't work in normal groups. If you need me, please ask the crea
 			if not onm_success then
 				log.error('An #error occurred (preprocess).\n{err}\n{lang}\n{text}', {
 					cont=tostring(continue),
-					lang=ngx.ctx.language,
+					lang=locale.language,
 					text=msg.text})
 			end
 			if not continue then
@@ -194,7 +194,7 @@ Unfortunately I can't work in normal groups. If you need me, please ask the crea
 					end
 					log.error('An #error occurred.\n{result}\n{lang}\n{text}', {
 						result=tostring(result),
-						lang=ngx.ctx.language,
+						lang=locale.language,
 						text=msg.text})
 					return false
 				end

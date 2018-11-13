@@ -152,7 +152,7 @@ local function read_config(self, config)
 end
 
 local function set_env(self)
-  if ngx and ngx.get_phase then
+  if ngx then
     local x = ngx.get_phase() -- Avoid using cosockets on unsupported contexts. See openresty/lua-nginx-module#1020
     if x ~= "init" and x ~= "init_worker" and x ~= "set" and x ~= "log" and x ~= "header_filter" and x ~= "body_filter" then
       resty_http = require "resty.http"
