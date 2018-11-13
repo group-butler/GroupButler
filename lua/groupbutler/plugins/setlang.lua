@@ -48,8 +48,8 @@ function _M:onCallbackQuery(blocks)
 			api:editMessageText(msg.chat.id, msg.message_id, nil, i18n("*List of available languages*:"), "Markdown", nil,
 				keyboard)
 		else
-			ngx.ctx.language = blocks[1]
-			red:set('lang:'..msg.chat.id, ngx.ctx.language)
+			locale.language = blocks[1]
+			red:set('lang:'..msg.chat.id, locale.language)
 			if (blocks[1] == 'ar_SA' or blocks[1] == 'fa_IR') and msg.chat.type ~= 'private' then
 				red:hset('chat:'..msg.chat.id..':char', 'Arab', 'allowed')
 				red:hset('chat:'..msg.chat.id..':char', 'Rtl', 'allowed')

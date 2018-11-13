@@ -3,10 +3,6 @@
 package.path="./lua/?.lua;./lua/vendor/?.lua;"..package.path
 io.stdout:setvbuf "no" -- switch off buffering for stdout
 
-ngx = { -- luacheck: ignore 121
-	ctx = {}
-}
-
 local plugins = require "groupbutler.plugins"
 local main = require "groupbutler.main"
 local config = require "groupbutler.config"
@@ -81,7 +77,6 @@ local function do_cron()
 end
 
 while true do -- Start a loop while the bot should be running.
-	ngx.ctx = {}
 	do
 		local ok, err = pcall(process_update)
 		if not ok then

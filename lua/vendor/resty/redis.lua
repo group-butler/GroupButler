@@ -22,22 +22,15 @@ local new_tab = (function()
 	return new_tab
 end)()
 
-local socket = (function()
-	if ngx and ngx.socket then
-		return ngx.socket
+local socket, null = (function()
+	if not ngx then
+		local ok, null = pcall(require, "cjson")
+		if not ok then
+			null = require "null"
+		end
+		return require "resty.socket", null.null
 	end
-	return require "resty.socket"
-end)()
-
-local null = (function()
-	if ngx and ngx.null then
-		return ngx.null
-	end
-	local ok, null = pcall(require, "cjson")
-	if not ok then
-		null = require "null"
-	end
-	return null.null
+	return ngx.socket, ngx.null
 end)()
 
 

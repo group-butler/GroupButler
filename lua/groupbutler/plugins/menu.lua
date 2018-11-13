@@ -187,7 +187,7 @@ local function insert_settings_section(keyboard, settings_section, chat_id)
 
 	for key, icon in pairs(settings_section) do
 		local current = {
-			{text = strings[key] or key, callback_data = 'menu:alert:settings:'..key..':'..ngx.ctx.language},
+			{text = strings[key] or key, callback_data = 'menu:alert:settings:'..key..':'..locale.language},
 			{text = icon, callback_data = 'menu:'..key..':'..chat_id}
 		}
 		table.insert(keyboard.inline_keyboard, current)
@@ -225,12 +225,12 @@ local function doKeyboard_menu(self, chat_id)
 	end
 	local warn = {
 		{
-			{text = i18n('Warns: ')..max, callback_data = 'menu:alert:settings:warnsnum:'..ngx.ctx.language},
+			{text = i18n('Warns: ')..max, callback_data = 'menu:alert:settings:warnsnum:'..locale.language},
 			{text = '➖', callback_data = 'menu:DimWarn:'..chat_id},
 			{text = '➕', callback_data = 'menu:RaiseWarn:'..chat_id},
 		},
 		{
-			{text = i18n('Action:'), callback_data = 'menu:alert:settings:warnsact:'..ngx.ctx.language},
+			{text = i18n('Action:'), callback_data = 'menu:alert:settings:warnsact:'..locale.language},
 			{text = action, callback_data = 'menu:ActionWarn:'..chat_id}
 		}
 	}
@@ -262,7 +262,7 @@ function _M:onCallbackQuery(blocks)
 		else
 			if blocks[2] == 'alert' then
 				if config.available_languages[blocks[4]] then
-					ngx.ctx.language = blocks[4]
+					locale.language = blocks[4]
 				end
 				text = get_button_description(blocks[3])
 				api:answerCallbackQuery(msg.cb_id, text, true, config.bot_settings.cache_time.alert_help)

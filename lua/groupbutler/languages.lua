@@ -66,15 +66,20 @@ end
 
 local locale = {} -- table with exported functions
 
-do
-	local directory = "locales"
+locale.language = config.lang -- default language
+
+function locale.init(directory)
+	directory = directory or "locales"
+
 	for lang_code in pairs(config.available_languages) do
 		strings[lang_code] = parse(string.format('%s/%s.po', directory, lang_code))
 	end
 end
 
 function locale.translate(msgid)
-	return strings[ngx.ctx.language or config.lang][msgid:gsub('^\n', '')] or msgid
+	return strings[locale.language][msgid:gsub('^\n', '')] or msgid
 end
+
+locale.init()
 
 return locale

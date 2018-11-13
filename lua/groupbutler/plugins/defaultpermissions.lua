@@ -95,7 +95,7 @@ local function doKeyboard_permissions(self, chat_id)
 		line = {
 			{
 				text = i18n(humanizations[permission] or permission),
-				callback_data = 'defpermissions:alert:'..permission..':'..ngx.ctx.language
+				callback_data = 'defpermissions:alert:'..permission..':'..locale.language
 			},
 			{
 				text = icon,
@@ -117,7 +117,7 @@ function _M:onCallbackQuery(blocks)
 	local u = self.u
 	if blocks[1] == 'alert' then
 		if config.available_languages[blocks[3]] then
-			ngx.ctx.language = blocks[3]
+			locale.language = blocks[3]
 		end
 		local text = get_alert_text(blocks[2])
 		api:answerCallbackQuery(msg.cb_id, text, true, config.bot_settings.cache_time.alert_help)
