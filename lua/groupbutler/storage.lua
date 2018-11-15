@@ -154,7 +154,6 @@ function PostgresStorage:cache_user(user)
 	local username = ""
 	if user.username then
 		username = 'UPDATE "user" SET username = NULL WHERE lower(username) = lower({username});\n'
-		..'REINDEX INDEX user_username_lower_idx;\n'
 	end
 	local insert = 'INSERT INTO "user" (id, is_bot, first_name'
 	local values = ") VALUES ({id}, {is_bot}, {first_name}"
