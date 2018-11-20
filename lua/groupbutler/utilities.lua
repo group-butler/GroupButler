@@ -23,6 +23,7 @@ local _M = {} -- Functions shared among plugins
 function _M:new(update_obj)
 	local utilities_obj = {
 		api = update_obj.api,
+		db = update_obj.db,
 		red = update_obj.red,
 		bot = update_obj.bot
 	}
@@ -386,26 +387,23 @@ end
 -- Argument username must begin with symbol @ (commercial 'at')
 function _M:resolve_user(username)
 	local api = self.api
-	local red = self.red
 	assert(username:byte(1) == string.byte('@'))
 	username = username:lower()
 
-	local stored_id = tonumber(red:hget('bot:usernames', username))
+	local stored_id = self.db:get_user_id(username)
 	if not stored_id then return false end
 
 	local user_obj = api:getChat(stored_id)
 	if not user_obj then
 		return stored_id
-	else
-		if not user_obj.username then return stored_id end
+	end
+	if not user_obj.username then
+		return stored_id
 	end
 
 	-- Users could change their username
 	if username ~= '@' .. user_obj.username:lower() then
-		if user_obj.username then
-			-- Update it if it exists
-			red:hset('bot:usernames', '@'..user_obj.username:lower(), user_obj.id)
-		end
+		self.db:cache_user(user_obj)
 		-- And return false because this user not the same that asked
 		return false
 	end

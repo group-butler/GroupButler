@@ -33,8 +33,7 @@ local _M =
 	},
 
 	-- Data
-	postgres = -- Not implemented
-	{
+	postgres = {
 		host = os.getenv('POSTGRES_HOST') or 'localhost',
 		port = os.getenv('POSTGRES_PORT') or 5432,
 		user = os.getenv('POSTGRES_USER') or 'postgres',

@@ -1,4 +1,5 @@
 .env
+schema.sql
 docker-compose.*.yml
 *.sh
 *.json
