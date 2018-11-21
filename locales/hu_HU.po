@@ -3,10 +3,10 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-09-02 21:47-0300\n"
-"PO-Revision-Date: 2018-09-11 16:37\n"
+"PO-Revision-Date: 2018-10-28 07:25\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Hungarian\n"
-"Language: hu\n"
+"Language: hu_HU\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -18,35 +18,35 @@ msgstr ""
 
 #: lua/groupbutler/api_errors.lua:12
 msgid "An unknown error has ocurred"
-msgstr ""
+msgstr "Ismeretlen hiba történt"
 
 #: lua/groupbutler/api_errors.lua:13
 msgid "I don't have enough permissions to restrict users"
-msgstr ""
+msgstr "Nincs megfelelő engedélyem a felhasználók korlátozására"
 
 #: lua/groupbutler/api_errors.lua:14
 msgid "I'm not an admin, I can't kick people"
-msgstr ""
+msgstr "Nem vagyok admin, nem rúghatok ki embereket"
 
 #: lua/groupbutler/api_errors.lua:15
 msgid "I can't do that to admins!"
-msgstr ""
+msgstr "Az adminokkal nem bánhatok így!"
 
 #: lua/groupbutler/api_errors.lua:16
 msgid "There is no need to unban in a normal group"
-msgstr ""
+msgstr "Nincs szükség a ban visszavonására egy normális csoportban"
 
 #: lua/groupbutler/api_errors.lua:17
 msgid "This user is not a chat member"
-msgstr ""
+msgstr "Ez a felhasználó nem tagja a beszélgetésnek"
 
 #: lua/groupbutler/api_errors.lua:18
 msgid "Please input a text"
-msgstr ""
+msgstr "Adj meg egy szöveget"
 
 #: lua/groupbutler/api_errors.lua:19
 msgid "This message is too long. Max lenght allowed by Telegram: 4000 characters"
-msgstr ""
+msgstr "Ez az üzenet túl hosszú. A Telegram által megengedett maximum: 4000 karakter"
 
 #: lua/groupbutler/api_errors.lua:20
 msgid "One of the inline buttons you are trying to set is missing the URL"
@@ -80,7 +80,9 @@ msgstr ""
 msgid "Hello everyone!\n"
 "My name is %s, and I'm a bot made to help administrators in their hard work.\n"
 "Unfortunately I can't work in normal groups. If you need me, please ask the creator to convert this group to a supergroup and then add me again.\n"
-msgstr ""
+msgstr "Üdv mindenkinek!\n"
+"A nevem %s, egy bot vagyok, és azért jöttem létre, hogy segítsem az adminisztrátorokat a kemény munkájukban.\n"
+"Sajnos normális csoportokban nem működöm. Ha szükséged van rám, kérd meg a tulajdonost arra, hogy alakítsa át ezt a csoportot szupercsoporttá, majd adj hozzá ismét.\n"
 
 #: lua/groupbutler/main.lua:193
 msgid "🐞 Sorry, a *bug* occurred"
@@ -90,100 +92,100 @@ msgstr ""
 #: lua/groupbutler/plugins/onmessage.lua:162
 #: lua/groupbutler/plugins/warn.lua:120
 msgid "banned"
-msgstr ""
+msgstr "kitiltva"
 
 #: lua/groupbutler/plugins/antispam.lua:44
 #: lua/groupbutler/plugins/onmessage.lua:159
 #: lua/groupbutler/plugins/warn.lua:124
 msgid "kicked"
-msgstr ""
+msgstr "kirúgva"
 
 #: lua/groupbutler/plugins/antispam.lua:45
 #: lua/groupbutler/plugins/onmessage.lua:165
 #: lua/groupbutler/plugins/warn.lua:128
 msgid "muted"
-msgstr ""
+msgstr "némítva"
 
 #: lua/groupbutler/plugins/antispam.lua:46
 #: lua/groupbutler/plugins/dashboard.lua:161
 msgid "telegram.me links"
-msgstr ""
+msgstr "telegram.me linkek"
 
 #: lua/groupbutler/plugins/antispam.lua:47
 msgid "Channels messages"
-msgstr ""
+msgstr "Csatornák üzenetei"
 
 #: lua/groupbutler/plugins/antispam.lua:92
 #, lua-format
 msgid "%s %s for <b>spam</b>! (%d/%d)"
-msgstr ""
+msgstr "%s %s, ok: <b>spam</b>! (%d/%d)"
 
 #: lua/groupbutler/plugins/antispam.lua:97
 #, lua-format
 msgid "%s, spam is not allowed here. The next time you will be restricted"
-msgstr ""
+msgstr "%s, a spam itt nem megengedett. A következő alkalommal tiltva leszel"
 
 #: lua/groupbutler/plugins/antispam.lua:103
 #, lua-format
 msgid "%s, this kind of message is not allowed in this chat (<b>%d/%d</b>)"
-msgstr ""
+msgstr "%s, az ilyen fajta üzenet nem megengedett ebben a beszélgetésben (<b>%d/%d</b>)"
 
 #: lua/groupbutler/plugins/antispam.lua:107
 msgid "telegram.me link"
-msgstr ""
+msgstr "telegram.me link"
 
 #: lua/groupbutler/plugins/antispam.lua:107
 msgid "message from a channel"
-msgstr ""
+msgstr "üzenet egy csatornából"
 
 #: lua/groupbutler/plugins/antispam.lua:130
 msgid "forwards are allowed"
-msgstr ""
+msgstr "továbbítás engedélyezve"
 
 #: lua/groupbutler/plugins/antispam.lua:132
 msgid "warn for forwards"
-msgstr ""
+msgstr "figyelmeztessen a továbbításokról"
 
 #: lua/groupbutler/plugins/antispam.lua:134
 msgid "forwards will be deleted"
-msgstr ""
+msgstr "továbbítások törölve lesznek"
 
 #: lua/groupbutler/plugins/antispam.lua:138
 msgid "links are allowed"
-msgstr ""
+msgstr "linkek engedélyezve"
 
 #: lua/groupbutler/plugins/antispam.lua:140
 msgid "warn for links"
-msgstr ""
+msgstr "figyelmeztessen a linkekről"
 
 #: lua/groupbutler/plugins/antispam.lua:142
 msgid "links will be deleted"
-msgstr ""
+msgstr "linkek törölve lesznek"
 
 #: lua/groupbutler/plugins/antispam.lua:160
 msgid "You can't go lower"
-msgstr ""
+msgstr "Nem mehetsz lejjebb"
 
 #: lua/groupbutler/plugins/antispam.lua:162
 msgid "You can't go higher"
-msgstr ""
+msgstr "Nem mehetsz feljebb"
 
 #: lua/groupbutler/plugins/antispam.lua:170
 #, lua-format
 msgid "New value: %d"
-msgstr ""
+msgstr "Új érték: %d"
 
 #: lua/groupbutler/plugins/antispam.lua:193
 msgid "Allow/forbid telegram.me links"
-msgstr ""
+msgstr "telegram.me linkek engedélyezése/tiltása"
 
 #: lua/groupbutler/plugins/antispam.lua:195
 msgid "Allow/forbid forwarded messages from channels"
-msgstr ""
+msgstr "Csatornákból továbbított üzenetek engedélyezése/tiltása"
 
 #: lua/groupbutler/plugins/antispam.lua:197
 msgid "Set how many times the bot should warn users before kicking/banning them"
-msgstr ""
+msgstr "Állítsd be, hogy a bot hányszor figyelmeztessen egy felhasználót, mielőtt kirúgná/kitiltaná őt"
 
 #: lua/groupbutler/plugins/antispam.lua:199
 #: lua/groupbutler/plugins/defaultpermissions.lua:67
@@ -192,19 +194,19 @@ msgstr ""
 #: lua/groupbutler/plugins/menu.lua:43
 #: lua/groupbutler/plugins/private_settings.lua:26
 msgid "Description not available"
-msgstr ""
+msgstr "Leírás nem elérhető"
 
 #: lua/groupbutler/plugins/antispam.lua:230
 msgid "Kick 👞"
-msgstr ""
+msgstr "Kirúg 👞"
 
 #: lua/groupbutler/plugins/antispam.lua:232
 msgid "Ban 🔨"
-msgstr ""
+msgstr "Kitilt 🔨"
 
 #: lua/groupbutler/plugins/antispam.lua:234
 msgid "Mute 👁"
-msgstr ""
+msgstr "Némít 👁"
 
 #: lua/groupbutler/plugins/antispam.lua:283
 #: lua/groupbutler/plugins/floodmanager.lua:142
@@ -212,7 +214,7 @@ msgstr ""
 #: lua/groupbutler/plugins/mediasettings.lua:114
 #: lua/groupbutler/plugins/menu.lua:253
 msgid "You're no longer an admin"
-msgstr ""
+msgstr "Többé nem vagy admin"
 
 #: lua/groupbutler/plugins/antispam.lua:285
 msgid "*Anti-spam settings*\n"
@@ -221,41 +223,49 @@ msgid "*Anti-spam settings*\n"
 "• ❌ = *Not allowed*\n"
 "• 🗑 = *Delete*\n"
 "When set on `delete`, the bot doesn't warn users until they are about to be kicked/banned/muted (at the second-to-last warning)"
-msgstr ""
+msgstr "*Spam-ellenes beállítások*\n"
+"Válaszd ki a tiltandó üzenettípusokat\n"
+"• ✅ = *Engedélyezés*\n"
+"• ❌ = *Tiltás*\n"
+"• 🗑 = *Törlés*\n"
+"A `törlés` opció esetén a bot nem figyelmezteti a felhasználókat addig, amíg kirúgva/kitiltva/némítva nem lesznek (az utolsó előtti figyelmeztetéskor)"
 
 #: lua/groupbutler/plugins/antispam.lua:352
 msgid "_The whitelist was already empty_"
-msgstr ""
+msgstr "_A fehérlista már üres_"
 
 #: lua/groupbutler/plugins/antispam.lua:355
 #, lua-format
 msgid "*Whitelist cleaned*\n"
 "%d links have been removed"
-msgstr ""
+msgstr "*Fehérlista tisztítva*\n"
+"%d link lett eltávolítva"
 
 #: lua/groupbutler/plugins/antispam.lua:363
 #: lua/groupbutler/plugins/antispam.lua:372
 #: lua/groupbutler/plugins/antispam.lua:394
 #: lua/groupbutler/plugins/antispam.lua:403
 msgid "_I can't find any url in this message_"
-msgstr ""
+msgstr "_Nem találok egy URL-t sem ebben az üzenetben_"
 
 #: lua/groupbutler/plugins/antispam.lua:366
 #, lua-format
 msgid "%d link(s) will be whitelisted"
-msgstr ""
+msgstr "%d link fog a fehérlistára kerülni"
 
 #: lua/groupbutler/plugins/antispam.lua:368
 #: lua/groupbutler/plugins/antispam.lua:399
 #, lua-format
 msgid "\n"
 "%d links were already in the list"
-msgstr ""
+msgstr "\n"
+"%d link már a listán van"
 
 #: lua/groupbutler/plugins/antispam.lua:380
 msgid "_The whitelist is empty_.\n"
 "Use `/wl [links]` to add some links to the whitelist"
-msgstr ""
+msgstr "_A fehérlista üres_.\n"
+"Használd a `/wl [links]` parancsot linkek hozzáadásához"
 
 #: lua/groupbutler/plugins/antispam.lua:382
 msgid "Whitelisted links:\n\n"
@@ -437,7 +447,7 @@ msgstr ""
 #: lua/groupbutler/plugins/dashboard.lua:30
 #: lua/groupbutler/plugins/menu.lua:158 lua/groupbutler/plugins/menu.lua:220
 msgid "👞 kick"
-msgstr ""
+msgstr "👞 kirúg"
 
 #: lua/groupbutler/plugins/dashboard.lua:32
 #: lua/groupbutler/plugins/menu.lua:160
@@ -448,7 +458,7 @@ msgstr ""
 #: lua/groupbutler/plugins/floodmanager.lua:49
 #: lua/groupbutler/plugins/menu.lua:162 lua/groupbutler/plugins/menu.lua:224
 msgid "👁 mute"
-msgstr ""
+msgstr "👁 némít"
 
 #: lua/groupbutler/plugins/dashboard.lua:39
 #: lua/groupbutler/plugins/floodmanager.lua:67
@@ -458,82 +468,83 @@ msgstr ""
 #: lua/groupbutler/plugins/dashboard.lua:40
 #: lua/groupbutler/plugins/floodmanager.lua:68
 msgid "Forwards"
-msgstr ""
+msgstr "Továbbított üzenetek"
 
 #: lua/groupbutler/plugins/dashboard.lua:41
 #: lua/groupbutler/plugins/dashboard.lua:165
 #: lua/groupbutler/plugins/floodmanager.lua:69
 #: lua/groupbutler/plugins/mediasettings.lua:43
 msgid "Stickers"
-msgstr ""
+msgstr "Matricák"
 
 #: lua/groupbutler/plugins/dashboard.lua:42
 #: lua/groupbutler/plugins/dashboard.lua:157
 #: lua/groupbutler/plugins/floodmanager.lua:70
 #: lua/groupbutler/plugins/mediasettings.lua:34
 msgid "Images"
-msgstr ""
+msgstr "Képek"
 
 #: lua/groupbutler/plugins/dashboard.lua:43
 #: lua/groupbutler/plugins/dashboard.lua:158
 #: lua/groupbutler/plugins/floodmanager.lua:71
 #: lua/groupbutler/plugins/mediasettings.lua:35
 msgid "GIFs"
-msgstr ""
+msgstr "GIF-ek"
 
 #: lua/groupbutler/plugins/dashboard.lua:44
 #: lua/groupbutler/plugins/dashboard.lua:159
 #: lua/groupbutler/plugins/floodmanager.lua:72
 #: lua/groupbutler/plugins/mediasettings.lua:36
 msgid "Videos"
-msgstr ""
+msgstr "Videók"
 
 #: lua/groupbutler/plugins/dashboard.lua:58
 #, lua-format
 msgid "- *Status*: `%s`\n"
-msgstr ""
+msgstr "- *Állapot*: `%s`\n"
 
 #: lua/groupbutler/plugins/dashboard.lua:59
 #, lua-format
 msgid "- *Action* to perform when a user floods: `%s`\n"
-msgstr ""
+msgstr "- *Művelet* végrehajtása, ha egy felhasználó elárasztja a beszélgetést: `%s`\n"
 
 #: lua/groupbutler/plugins/dashboard.lua:60
 #, lua-format
 msgid "- Number of messages allowed *every 5 seconds*: `%d`\n"
-msgstr ""
+msgstr "- Engedélyezett üzenetek száma *5 másodpercenként*: `%d`\n"
 
 #: lua/groupbutler/plugins/dashboard.lua:61
 #, lua-format
 msgid "- *Ignored media*:\n"
 "%s"
-msgstr ""
+msgstr "- *Figyelmen kívül hagyott média*:\n"
+"%s"
 
 #: lua/groupbutler/plugins/dashboard.lua:67
 msgid "Settings"
-msgstr ""
+msgstr "Beállítások"
 
 #: lua/groupbutler/plugins/dashboard.lua:68
 msgid "Admins"
-msgstr ""
+msgstr "Adminok"
 
 #: lua/groupbutler/plugins/dashboard.lua:71
 #: lua/groupbutler/plugins/menu.lua:178 lua/groupbutler/utilities.lua:603
 msgid "Rules"
-msgstr ""
+msgstr "Szabályzat"
 
 #: lua/groupbutler/plugins/dashboard.lua:72
 #: lua/groupbutler/plugins/help.lua:254
 msgid "Extra commands"
-msgstr ""
+msgstr "További parancsok"
 
 #: lua/groupbutler/plugins/dashboard.lua:75
 msgid "Flood settings"
-msgstr ""
+msgstr "Elárasztási beállítások"
 
 #: lua/groupbutler/plugins/dashboard.lua:76
 msgid "Media settings"
-msgstr ""
+msgstr "Médiabeállítások"
 
 #: lua/groupbutler/plugins/dashboard.lua:92
 msgid "Navigate this message to see *all the info* about this group!"
@@ -541,155 +552,159 @@ msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:101
 msgid "_I've sent you the group dashboard via private message_"
-msgstr ""
+msgstr "_Elküldtem neked a csoport irányítópultját privát üzenetben_"
 
 #: lua/groupbutler/plugins/dashboard.lua:117
 msgid "🚫 This group does not exist"
-msgstr ""
+msgstr "🚫 Ez a csoport nem létezik"
 
 #: lua/groupbutler/plugins/dashboard.lua:124
 msgid "🚷 You are not a member of the chat. You can't see the settings of a private group."
-msgstr ""
+msgstr "🚷 Nem vagy tagja a beszélgetésnek. A privát csoportok beállításait nem láthatod."
 
 #: lua/groupbutler/plugins/dashboard.lua:131
 msgid "ℹ️ Group ► Settings"
-msgstr ""
+msgstr "ℹ️ Csoport ► Beállítások"
 
 #: lua/groupbutler/plugins/dashboard.lua:135
 msgid "ℹ️ Group ► Rules"
-msgstr ""
+msgstr "ℹ️ Csoport ► Szabályzat"
 
 #: lua/groupbutler/plugins/dashboard.lua:143
 msgid "I got kicked out of this group 😓"
-msgstr ""
+msgstr "Kirúgtak a csoportból 😓"
 
 #: lua/groupbutler/plugins/dashboard.lua:145
 msgid "ℹ️ Group ► Admin list"
-msgstr ""
+msgstr "ℹ️ Csoport ► Adminok"
 
 #: lua/groupbutler/plugins/dashboard.lua:149
 msgid "ℹ️ Group ► Extra"
-msgstr ""
+msgstr "ℹ️ Csoport ► További parancsok"
 
 #: lua/groupbutler/plugins/dashboard.lua:153
 msgid "ℹ️ Group ► Flood"
-msgstr ""
+msgstr "ℹ️ Csoport ► Elárasztási beállítások"
 
 #: lua/groupbutler/plugins/dashboard.lua:160
 #: lua/groupbutler/plugins/mediasettings.lua:38
 msgid "Documents"
-msgstr ""
+msgstr "Dokumentumok"
 
 #: lua/groupbutler/plugins/dashboard.lua:162
 msgid "Voice Messages"
-msgstr ""
+msgstr "Hangüzenetek"
 
 #: lua/groupbutler/plugins/dashboard.lua:163
 #: lua/groupbutler/plugins/mediasettings.lua:41
 msgid "Links"
-msgstr ""
+msgstr "Linkek"
 
 #: lua/groupbutler/plugins/dashboard.lua:164
 #: lua/groupbutler/plugins/mediasettings.lua:42
 msgid "Music"
-msgstr ""
+msgstr "Zene"
 
 #: lua/groupbutler/plugins/dashboard.lua:166
 #: lua/groupbutler/plugins/mediasettings.lua:44
 msgid "Contacts"
-msgstr ""
+msgstr "Névjegyek"
 
 #: lua/groupbutler/plugins/dashboard.lua:167
 #: lua/groupbutler/plugins/mediasettings.lua:45
 msgid "Games"
-msgstr ""
+msgstr "Játékok"
 
 #: lua/groupbutler/plugins/dashboard.lua:168
 #: lua/groupbutler/plugins/mediasettings.lua:46
 msgid "Locations"
-msgstr ""
+msgstr "Helyek"
 
 #: lua/groupbutler/plugins/dashboard.lua:169
 #: lua/groupbutler/plugins/mediasettings.lua:47
 msgid "Venues"
-msgstr ""
+msgstr "Találkozóhelyek"
 
 #: lua/groupbutler/plugins/dashboard.lua:171
 msgid "*Current media settings*:\n\n"
-msgstr ""
+msgstr "*Jelenlegi médiabeállítások*:\n\n"
 
 #: lua/groupbutler/plugins/dashboard.lua:183
 msgid "ℹ️ Group ► Media"
-msgstr ""
+msgstr "ℹ️ Csoport ► Médiabeállítások"
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:63
 msgid "Permission to send messages. If disabled, the user won't be able to send any kind of message"
-msgstr ""
+msgstr "Üzenetküldési engedély. Ha le van tiltva, akkor a felhasználó semmilyen típusú üzenetet nem fog tudni küldeni"
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:64
 msgid "Permission to send media (audios, documents, photos, videos, video notes and voice notes). Implies the permission to send messages"
-msgstr ""
+msgstr "Médiaküldési engedély (hang, dokumentumok, fotók, videók, videójegyzetek és hangjegyzetek). Magában foglalja az üzenetküldési engedélyt"
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:65
 msgid "Permission to send other types of messages (GIFs, games, stickers and use inline bots). Implies the permission to send medias"
-msgstr ""
+msgstr "Egyéb típusú üzenetküldési engedély (GIF-ek, játékok, matricák küldése, inline botok használata). Magában foglalja a médiaküldési engedélyt"
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:66
 msgid "When disabled, user's messages with a link won't show the web page preview"
-msgstr ""
+msgstr "Ha le van tiltva, akkor a felhasználó linket tartalmazó üzenetei nem fognak előnézetet megjeleníteni"
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:73
 msgid "Send messages"
-msgstr ""
+msgstr "Üzenetküldés"
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:74
 msgid "Send media"
-msgstr ""
+msgstr "Médiaküldés"
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:75
 msgid "Send other types of media"
-msgstr ""
+msgstr "Egyéb típusú üzenetküldés"
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:76
 msgid "Show web page preview"
-msgstr ""
+msgstr "Weboldal előnézet"
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:127
 msgid "You don't have the permission to restrict members"
-msgstr ""
+msgstr "Nincs engedélyed felhasználók korlátozására"
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:129
 msgid "*Default permissions*\n"
 "From this menu you can change the default permissions that will be granted when a new member join.\n"
 "_Only the administrators with the permission to restrict a member can access this menu._\n"
 "Tap on the name of a permission for a description of what kind of messages it will influence.\n"
-msgstr ""
+msgstr "*Alapértelmezett engedélyek*\n"
+"Ebben a menüben módosíthatod az alapértelmezett engedélyeket, melyeket minden új tag megkap.\n"
+"_Kizárólag az felhasználókorlátozásra képes adminisztrátorok érhetik el ezt a menüt._\n"
+"Koppints egy engedély nevére, hogy megtudd, milyen üzenetekre vonatkozik.\n"
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:151
 #, lua-format
 msgid "Setting saved, but I can't edit the buttons because you are too fast! Wait other %d seconds"
-msgstr ""
+msgstr "A beállítások mentésre kerültek, de nem tudom módosítani a gombokat, mert túl gyors vagy! Várj még %d másodpercet"
 
 #: lua/groupbutler/plugins/extra.lua:82
 #, lua-format
 msgid "This media has been saved as a response to %s"
-msgstr ""
+msgstr "Ez a média %s válaszaként mentésre került"
 
 #: lua/groupbutler/plugins/extra.lua:95
 #, lua-format
 msgid "Command '%s' saved!"
-msgstr ""
+msgstr "'%s' parancs mentve!"
 
 #: lua/groupbutler/plugins/extra.lua:118
 #, lua-format
 msgid "Commands deleted: `%s`"
-msgstr ""
+msgstr "Parancsok törölve: `%s`"
 
 #: lua/groupbutler/plugins/extra.lua:120
 #, lua-format
 msgid "\n"
 "Commands not found: `%s`"
-msgstr ""
+msgstr "\n"
+"Parancsok nem találhatók: `%s`"
 
 #: lua/groupbutler/plugins/extra.lua:169
 #, lua-format
@@ -708,11 +723,11 @@ msgstr ""
 
 #: lua/groupbutler/plugins/floodmanager.lua:45
 msgid "👞️ kick"
-msgstr ""
+msgstr "👞️ kirúg"
 
 #: lua/groupbutler/plugins/floodmanager.lua:47
 msgid "🔨 ️ban"
-msgstr ""
+msgstr "🔨 ️kitilt"
 
 #: lua/groupbutler/plugins/floodmanager.lua:105
 msgid "Flooders will be banned"
@@ -1050,31 +1065,31 @@ msgstr ""
 
 #: lua/groupbutler/plugins/help.lua:350
 msgid "Basic usage"
-msgstr ""
+msgstr "Alapvető használat"
 
 #: lua/groupbutler/plugins/help.lua:354
 msgid "Commands for users (group)"
-msgstr ""
+msgstr "Parancsok a felhasználók számára (csoportbeli)"
 
 #: lua/groupbutler/plugins/help.lua:358
 msgid "Available commands in private"
-msgstr ""
+msgstr "Privát parancsok"
 
 #: lua/groupbutler/plugins/help.lua:362
 msgid "Log channel informations"
-msgstr ""
+msgstr "Csatornainformációk naplózása"
 
 #: lua/groupbutler/plugins/help.lua:367
 msgid "Available commands for admins"
-msgstr ""
+msgstr "Parancsok adminok számára"
 
 #: lua/groupbutler/plugins/help.lua:372
 msgid "Main menu"
-msgstr ""
+msgstr "Főmenü"
 
 #: lua/groupbutler/plugins/help.lua:380
 msgid "❗️ Already there"
-msgstr ""
+msgstr "❗️ Már ott vagy"
 
 #: lua/groupbutler/plugins/links.lua:35
 msgid "*No link* for this group. Ask the owner to save it with `/setlink [group link]`"

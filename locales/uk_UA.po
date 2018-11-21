@@ -3,10 +3,10 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-09-02 21:47-0300\n"
-"PO-Revision-Date: 2018-09-11 16:37\n"
+"PO-Revision-Date: 2018-10-28 07:25\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Ukrainian\n"
-"Language: uk\n"
+"Language: uk_UA\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -94,13 +94,13 @@ msgstr "Вибачте, сталася помилка"
 #: lua/groupbutler/plugins/onmessage.lua:162
 #: lua/groupbutler/plugins/warn.lua:120
 msgid "banned"
-msgstr "заблокований"
+msgstr "заблокував"
 
 #: lua/groupbutler/plugins/antispam.lua:44
 #: lua/groupbutler/plugins/onmessage.lua:159
 #: lua/groupbutler/plugins/warn.lua:124
 msgid "kicked"
-msgstr "заблокований"
+msgstr "викинув"
 
 #: lua/groupbutler/plugins/antispam.lua:45
 #: lua/groupbutler/plugins/onmessage.lua:165
@@ -780,7 +780,7 @@ msgstr "🚫 [%s] не буде знехтуваний протимарносл�
 
 #: lua/groupbutler/plugins/help.lua:23
 msgid "In this menu you will find all the available commands"
-msgstr ""
+msgstr "В цьому меню Ви можете переглянути всі доступні команди"
 
 #: lua/groupbutler/plugins/help.lua:24
 #, lua-format

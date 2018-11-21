@@ -3,10 +3,10 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-09-02 21:47-0300\n"
-"PO-Revision-Date: 2018-09-11 16:37\n"
+"PO-Revision-Date: 2018-10-28 07:25\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Indonesian\n"
-"Language: id\n"
+"Language: id_ID\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -18,7 +18,7 @@ msgstr ""
 
 #: lua/groupbutler/api_errors.lua:12
 msgid "An unknown error has ocurred"
-msgstr ""
+msgstr "Sebuah kesalahan tidak diketahui telah terjadi"
 
 #: lua/groupbutler/api_errors.lua:13
 msgid "I don't have enough permissions to restrict users"
@@ -30,7 +30,7 @@ msgstr "Saya bukan admin. Saya tidak bisa menendang."
 
 #: lua/groupbutler/api_errors.lua:15
 msgid "I can't do that to admins!"
-msgstr ""
+msgstr "Saya tidak dapat melakukan itu kepada para admin!"
 
 #: lua/groupbutler/api_errors.lua:16
 msgid "There is no need to unban in a normal group"
@@ -82,7 +82,8 @@ msgstr "Salah satu tombol inline yang mau ditetapkan tidak memiliki nama"
 msgid "Hello everyone!\n"
 "My name is %s, and I'm a bot made to help administrators in their hard work.\n"
 "Unfortunately I can't work in normal groups. If you need me, please ask the creator to convert this group to a supergroup and then add me again.\n"
-msgstr ""
+msgstr "Halo semuanya!\n"
+"Nama saya %s, dan saya sebuah bot yang dibuat untuk membantu para administrator dalam mengerjakan pekerjaan keras mereka. Sayangnya saya tidak dapat bekerja pada grup normal. Jika kamu butuh bantuan saya, silakan tanya pembuat grup untuk mengonversi grup ini menjadi supergroup kemudian tambahkan saya kembali.\n"
 
 #: lua/groupbutler/main.lua:193
 msgid "🐞 Sorry, a *bug* occurred"
@@ -128,7 +129,7 @@ msgstr "%s, jangan spam disini. Selanjutnya Anda akan di_restrict_."
 #: lua/groupbutler/plugins/antispam.lua:103
 #, lua-format
 msgid "%s, this kind of message is not allowed in this chat (<b>%d/%d</b>)"
-msgstr ""
+msgstr "%s, pesan seperti ini tidak diizinkan pada percakapan ini (<b>%d/%d</b>)"
 
 #: lua/groupbutler/plugins/antispam.lua:107
 msgid "telegram.me link"
@@ -223,7 +224,12 @@ msgid "*Anti-spam settings*\n"
 "• ❌ = *Not allowed*\n"
 "• 🗑 = *Delete*\n"
 "When set on `delete`, the bot doesn't warn users until they are about to be kicked/banned/muted (at the second-to-last warning)"
-msgstr ""
+msgstr "*Setelan antisampah*\n"
+"Pilihlah pesan mana yang kamu ingin larang\n"
+"• ✅ = *Diizinkan*\n"
+"• ❌ = *Tidak diizinkan*\n"
+"• 🗑 = *Hapus*\n"
+"Ketika setel `hapus`, bot tidak akan memperingatkan para pengguna hingga mereka akan mengeluarkan/melarang/membisukan (pada peringatan kedua terakhir)"
 
 #: lua/groupbutler/plugins/antispam.lua:352
 msgid "_The whitelist was already empty_"
@@ -290,7 +296,9 @@ msgstr "_Saya tidak menemukan ID channel di pesan Anda_"
 msgid "Import was <b>successful</b>.\n\n"
 "<b>Important</b>:\n"
 "- #extra commands which are associated with a media must be set again if the bot you are using now is different from the bot that originated the backup.\n"
-msgstr ""
+msgstr "Import was <b>successful</b>.\n\n"
+"<b>Important</b>:\n"
+"- #extra commands which are associated with a media must be set again if the bot you are using now is different from the bot that originated the backup.\n"
 
 #: lua/groupbutler/plugins/backup.lua:112
 #, lua-format
