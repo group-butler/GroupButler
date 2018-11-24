@@ -27,7 +27,7 @@ local function replies(self)
 		bad_inline_button_url = i18n:_("One of the inline buttons you are trying to set is missing the URL"),
 		bad_hyperlink = i18n:_("Inline link formatted incorrectly. Check the text between brackets -> \\[]()\n%s"):format(i18n:_("More info [here](https://telegram.me/GB_tutorials/12)")), -- luacheck: ignore 631
 		bad_markdown = i18n:_([[This text breaks the markdown.
-	More info about a proper use of markdown [here](https://telegram.me/GB_tutorials/10) and [here](https://telegram.me/GB_tutorials/12).]]), -- luacheck: ignore 631
+More info about a proper use of markdown [here](https://telegram.me/GB_tutorials/10) and [here](https://telegram.me/GB_tutorials/12).]]), -- luacheck: ignore 631
 		button_url_invalid = i18n:_("One of the URLs that should be placed in an inline button seems to be invalid (not an URL). Please check it"), -- luacheck: ignore 631
 		bad_inline_button_name = i18n:_("One of the inline buttons you are trying to set doesn't have a name"),
 	} set_default(replies_t, replies_t.unknown_error)
