@@ -1,8 +1,5 @@
 local config = require "groupbutler.config"
-
-local locale = require "groupbutler.languages"
 local log = require "groupbutler.logging"
-local i18n = locale.translate
 local null = require "groupbutler.null"
 
 local _M = {}
@@ -38,19 +35,20 @@ end
 
 local function do_keyboard_config(self, chat_id, user_id) -- is_admin
 	local u = self.u
+	local i18n = self.i18n
 	local keyboard = {
 		inline_keyboard = {
-			{{text = i18n("🛠 Menu"), callback_data = 'config:menu:'..chat_id}},
-			{{text = i18n("⚡️ Antiflood"), callback_data = 'config:antiflood:'..chat_id}},
-			{{text = i18n("🌈 Media"), callback_data = 'config:media:'..chat_id}},
-			{{text = i18n("🚫 Antispam"), callback_data = 'config:antispam:'..chat_id}},
-			{{text = i18n("📥 Log channel"), callback_data = 'config:logchannel:'..chat_id}}
+			{{text = i18n:_("🛠 Menu"), callback_data = 'config:menu:'..chat_id}},
+			{{text = i18n:_("⚡️ Antiflood"), callback_data = 'config:antiflood:'..chat_id}},
+			{{text = i18n:_("🌈 Media"), callback_data = 'config:media:'..chat_id}},
+			{{text = i18n:_("🚫 Antispam"), callback_data = 'config:antispam:'..chat_id}},
+			{{text = i18n:_("📥 Log channel"), callback_data = 'config:logchannel:'..chat_id}}
 		}
 	}
 
 	if u:can(chat_id, user_id, "can_restrict_members") then
 		table.insert(keyboard.inline_keyboard,
-			{{text = i18n("⛔️ Default permissions"), callback_data = 'config:defpermissions:'..chat_id}})
+			{{text = i18n:_("⛔️ Default permissions"), callback_data = 'config:defpermissions:'..chat_id}})
 	end
 
 	return keyboard
@@ -61,17 +59,18 @@ function _M:onTextMessage()
 	local msg = self.message
 	local u = self.u
 	local red = self.red
+	local i18n = self.i18n
 	if msg.chat.type ~= 'private' then
 		if u:is_allowed('config', msg.chat.id, msg.from) then
 			local chat_id = msg.chat.id
 			local keyboard = do_keyboard_config(self, chat_id, msg.from.id)
 			if red:get('chat:'..chat_id..':title') == null then cache_chat_title(self, chat_id, msg.chat.title) end
 			local res = api:sendMessage(msg.from.id,
-				i18n("<b>%s</b>\n<i>Change the settings of your group</i>"):format(msg.chat.title:escape_html()), 'html',
+				i18n:_("<b>%s</b>\n<i>Change the settings of your group</i>"):format(msg.chat.title:escape_html()), 'html',
 					nil, nil, nil, keyboard)
 			if not u:is_silentmode_on(msg.chat.id) then --send the responde in the group only if the silent mode is off
 				if res then
-					api:sendMessage(msg.chat.id, i18n("_I've sent you the keyboard via private message_"), "Markdown")
+					api:sendMessage(msg.chat.id, i18n:_("_I've sent you the keyboard via private message_"), "Markdown")
 				else
 					u:sendStartMe(msg)
 				end
@@ -83,9 +82,10 @@ end
 function _M:onCallbackQuery()
 	local api = self.api
 	local msg = self.message
+	local i18n = self.i18n
 	local chat_id = msg.target_id
 	local keyboard = do_keyboard_config(self, chat_id, msg.from.id, msg:is_from_admin())
-	local text = i18n("<i>Change the settings of your group</i>")
+	local text = i18n:_("<i>Change the settings of your group</i>")
 	local chat_title = get_chat_title(self, chat_id)
 	if chat_title then
 		text = ("<b>%s</b>\n"):format(chat_title:escape_html())..text

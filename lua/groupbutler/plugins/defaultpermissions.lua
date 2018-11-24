@@ -1,6 +1,4 @@
 local config = require "groupbutler.config"
-local locale = require "groupbutler.languages"
-local i18n = locale.translate
 local null = require "groupbutler.null"
 
 local _M = {}
@@ -58,29 +56,34 @@ local function set_default(t, d)
 	setmetatable(t, mt)
 end
 
-local function get_alert_text(key)
+local function get_alert_text(self, key)
+	local i18n = self.i18n
 	local alert_text = {
-		can_send_messages = i18n("Permission to send messages. If disabled, the user won't be able to send any kind of message"), -- luacheck: ignore 631
-		can_send_media_messages = i18n("Permission to send media (audios, documents, photos, videos, video notes and voice notes). Implies the permission to send messages"), -- luacheck: ignore 631
-		can_send_other_messages = i18n("Permission to send other types of messages (GIFs, games, stickers and use inline bots). Implies the permission to send medias"), -- luacheck: ignore 631
-		can_add_web_page_previews = i18n("When disabled, user's messages with a link won't show the web page preview"),
-	} set_default(alert_text, i18n("Description not available"))
+		can_send_messages = i18n:_("Permission to send messages. If disabled, the user won't be able to send any kind of message"), -- luacheck: ignore 631
+		can_send_media_messages = i18n:_("Permission to send media (audios, documents, photos, videos, video notes and voice notes). Implies the permission to send messages"), -- luacheck: ignore 631
+		can_send_other_messages = i18n:_("Permission to send other types of messages (GIFs, games, stickers and use inline bots). Implies the permission to send medias"), -- luacheck: ignore 631
+		can_add_web_page_previews = i18n:_("When disabled, user's messages with a link won't show the web page preview"),
+	} set_default(alert_text, i18n:_("Description not available"))
 
 	return alert_text[key]
 end
 
-local humanizations = {
-	['can_send_messages'] = i18n('Send messages'),
-	['can_send_media_messages'] = i18n('Send media'),
-	['can_send_other_messages'] = i18n('Send other types of media'),
-	['can_add_web_page_previews'] = i18n('Show web page preview'),
-}
+local function humanizations(self)
+	local i18n = self.i18n
+	return {
+		['can_send_messages'] = i18n:_('Send messages'),
+		['can_send_media_messages'] = i18n:_('Send media'),
+		['can_send_other_messages'] = i18n:_('Send other types of media'),
+		['can_add_web_page_previews'] = i18n:_('Show web page preview'),
+	}
+end
 
 local permissions =
 {'can_send_messages', 'can_send_media_messages', 'can_send_other_messages', 'can_add_web_page_previews'}
 
 local function doKeyboard_permissions(self, chat_id)
 	local red = self.red
+	local i18n = self.i18n
 	local keyboard = {inline_keyboard = {}}
 
 	local line, status, icon, permission
@@ -94,8 +97,8 @@ local function doKeyboard_permissions(self, chat_id)
 		if status == 'false' then icon = '☑️' end
 		line = {
 			{
-				text = i18n(humanizations[permission] or permission),
-				callback_data = 'defpermissions:alert:'..permission..':'..locale.language
+				text = humanizations(self)[permission] or permission,
+				callback_data = 'defpermissions:alert:'..permission..':'..i18n:getLanguage()
 			},
 			{
 				text = icon,
@@ -115,18 +118,17 @@ function _M:onCallbackQuery(blocks)
 	local api = self.api
 	local msg = self.message
 	local u = self.u
+	local i18n = self.i18n
 	if blocks[1] == 'alert' then
-		if config.available_languages[blocks[3]] then
-			locale.language = blocks[3]
-		end
-		local text = get_alert_text(blocks[2])
+		i18n:setLanguage(blocks[3])
+		local text = get_alert_text(self, blocks[2])
 		api:answerCallbackQuery(msg.cb_id, text, true, config.bot_settings.cache_time.alert_help)
 	else
 		local chat_id = msg.target_id
 		if not u:can(chat_id, msg.from.id, 'can_restrict_members') then
-			api:answerCallbackQuery(msg.cb_id, i18n("You don't have the permission to restrict members"))
+			api:answerCallbackQuery(msg.cb_id, i18n:_("You don't have the permission to restrict members"))
 		else
-			local msg_text = i18n([[*Default permissions*
+			local msg_text = i18n:_([[*Default permissions*
 From this menu you can change the default permissions that will be granted when a new member join.
 _Only the administrators with the permission to restrict a member can access this menu._
 Tap on the name of a permission for a description of what kind of messages it will influence.
@@ -148,7 +150,7 @@ Tap on the name of a permission for a description of what kind of messages it wi
 			end
 
 			if not ok and err.retry_after then
-				popup_text = i18n("Setting saved, but I can't edit the buttons because you are too fast! Wait other %d seconds")
+				popup_text = i18n:_("Setting saved, but I can't edit the buttons because you are too fast! Wait other %d seconds")
 					:format(err.retry_after)
 				show_alert = true
 			end

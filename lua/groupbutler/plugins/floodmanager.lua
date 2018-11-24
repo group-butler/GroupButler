@@ -1,6 +1,4 @@
 local config = require "groupbutler.config"
-local locale = require "groupbutler.languages"
-local i18n = locale.translate
 local null = require "groupbutler.null"
 
 local _M = {}
@@ -14,39 +12,41 @@ function _M:new(update_obj)
 	return plugin_obj
 end
 
-local function get_button_description(key)
+local function get_button_description(self, key)
+	local i18n = self.i18n
 	if key == 'num' then
-		return i18n("⚖ Current sensitivity. Tap on the + or the - to change it")
+		return i18n:_("⚖ Current sensitivity. Tap on the + or the - to change it")
 	elseif key == 'voice' then
-		return i18n([[Choose which media must be ignored by the antiflood (the bot won't consider them).
+		return i18n:_([[Choose which media must be ignored by the antiflood (the bot won't consider them).
 ✅: ignored
 ❌: not ignored]])
 	else
-		return i18n("Description not available")
+		return i18n:_("Description not available")
 	end
 end
 
 local function do_keyboard_flood(self, chat_id)
 	local red = self.red
+	local i18n = self.i18n
 	--no: enabled, yes: disabled
 	local status = red:hget('chat:'..chat_id..':settings', 'Flood')
 	if status == null then status = config.chat_settings['settings']['Flood'] end
 
 	if status == 'on' then
-		status = i18n("✅ | ON")
+		status = i18n:_("✅ | ON")
 	else
-		status = i18n("❌ | OFF")
+		status = i18n:_("❌ | OFF")
 	end
 
 	local hash = 'chat:'..chat_id..':flood'
 	local action = red:hget(hash, 'ActionFlood')
 	if action == null then action = config.chat_settings['flood']['ActionFlood'] end
 	if action == 'kick' then
-		action = i18n("👞️ kick")
+		action = i18n:_("👞️ kick")
 	elseif action == 'ban' then
-		action = i18n("🔨 ️ban")
+		action = i18n:_("🔨 ️ban")
 	elseif action == 'mute' then
-		action = i18n("👁 mute")
+		action = i18n:_("👁 mute")
 	end
 	local num = tonumber(red:hget(hash, 'MaxFlood')) or config.chat_settings['flood']['MaxFlood']
 	local keyboard = {
@@ -57,19 +57,19 @@ local function do_keyboard_flood(self, chat_id)
 			},
 			{
 				{text = '➖', callback_data = 'flood:dim:'..chat_id},
-				{text = tostring(num), callback_data = 'flood:alert:num:'..locale.language},
+				{text = tostring(num), callback_data = 'flood:alert:num:'..i18n:getLanguage()},
 				{text = '➕', callback_data = 'flood:raise:'..chat_id},
 			}
 		}
 	}
 
 	local exceptions = {
-		text = i18n("Texts"),
-		forward = i18n("Forwards"),
-		sticker = i18n("Stickers"),
-		photo = i18n("Images"),
-		gif = i18n("GIFs"),
-		video = i18n("Videos"),
+		text = i18n:_("Texts"),
+		forward = i18n:_("Forwards"),
+		sticker = i18n:_("Stickers"),
+		photo = i18n:_("Images"),
+		gif = i18n:_("GIFs"),
+		video = i18n:_("Videos"),
 	}
 
 	hash = 'chat:'..chat_id..':floodexceptions'
@@ -84,7 +84,7 @@ local function do_keyboard_flood(self, chat_id)
 			exc_status = '❌'
 		end
 		local line = {
-			{text = translation, callback_data = 'flood:alert:voice:'..locale.language},
+			{text = translation, callback_data = 'flood:alert:voice:'..i18n:getLanguage()},
 			{text = exc_status, callback_data = 'flood:exc:'..media..':'..chat_id},
 		}
 		table.insert(keyboard.inline_keyboard, line)
@@ -98,17 +98,18 @@ end
 
 local function changeFloodSettings(self, chat_id, screm)
 	local red = self.red
+	local i18n = self.i18n
 	local hash = 'chat:'..chat_id..':flood'
 	if type(screm) == 'string' then
 		if screm == 'mute' then
 			red:hset(hash, 'ActionFlood', 'ban')
-			return i18n("Flooders will be banned")
+			return i18n:_("Flooders will be banned")
 		elseif screm == 'ban' then
 			red:hset(hash, 'ActionFlood', 'kick')
-			return i18n("Flooders will be kicked")
+			return i18n:_("Flooders will be kicked")
 		elseif screm == 'kick' then
 			red:hset(hash, 'ActionFlood', 'mute')
-			return i18n("Flooders will be muted")
+			return i18n:_("Flooders will be muted")
 		end
 	elseif type(screm) == 'number' then
 		local old = tonumber(red:hget(hash, 'MaxFlood')) or 5
@@ -117,14 +118,14 @@ local function changeFloodSettings(self, chat_id, screm)
 			new = red:hincrby(hash, 'MaxFlood', 1)
 			if new > 25 then
 				red:hincrby(hash, 'MaxFlood', -1)
-				return i18n("%d is not a valid value!\n"):format(new)
+				return i18n:_("%d is not a valid value!\n"):format(new)
 					.. ("The value should be higher than 3 and lower then 26")
 			end
 		elseif screm < 0 then
 			new = red:hincrby(hash, 'MaxFlood', -1)
 			if new < 3 then
 				red:hincrby(hash, 'MaxFlood', 1)
-				return i18n("%d is not a valid value!\n"):format(new)
+				return i18n:_("%d is not a valid value!\n"):format(new)
 					.. ("The value should be higher than 2 and lower then 26")
 			end
 		end
@@ -137,25 +138,24 @@ function _M:onCallbackQuery(blocks)
 	local msg = self.message
 	local u = self.u
 	local red = self.red
+	local i18n = self.i18n
 	local chat_id = msg.target_id
 	if chat_id and not u:is_allowed('config', chat_id, msg.from) then
-		api:answerCallbackQuery(msg.cb_id, i18n("You're no longer an admin"))
+		api:answerCallbackQuery(msg.cb_id, i18n:_("You're no longer an admin"))
 	else
-		local header = i18n([[You can manage the antiflood settings from here.
+		local header = i18n:_([[You can manage the antiflood settings from here.
 
 It is also possible to choose which type of messages the antiflood will ignore (✅)]])
 
 		local text
 
 		if blocks[1] == 'config' then
-			text = i18n("Antiflood settings")
+			text = i18n:_("Antiflood settings")
 		end
 
 		if blocks[1] == 'alert' then
-			if config.available_languages[blocks[3]] then
-				locale.language = blocks[3]
-			end
-			text = get_button_description(blocks[2])
+			i18n:setLanguage(blocks[3])
+			text = get_button_description(self, blocks[2])
 			api:answerCallbackQuery(msg.cb_id, text, true, config.bot_settings.cache_time.alert_help)
 			return
 		end
@@ -166,10 +166,10 @@ It is also possible to choose which type of messages the antiflood will ignore (
 			local status = red:hget(hash, media)
 			if status == 'no' then
 				red:hset(hash, media, 'yes')
-				text = i18n("❎ [%s] will be ignored by the anti-flood"):format(media)
+				text = i18n:_("❎ [%s] will be ignored by the anti-flood"):format(media)
 			else
 				red:hset(hash, media, 'no')
-				text = i18n("🚫 [%s] won't be ignored by the anti-flood"):format(media)
+				text = i18n:_("🚫 [%s] won't be ignored by the anti-flood"):format(media)
 			end
 		end
 

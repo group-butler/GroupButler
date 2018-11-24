@@ -1,6 +1,4 @@
 local config = require "groupbutler.config"
-local locale = require "groupbutler.languages"
-local i18n = locale.translate
 local null = require "groupbutler.null"
 
 local _M = {}
@@ -39,19 +37,23 @@ local function getAntispamWarns(self, chat_id, user_id)
 	return warns_received, max_allowed
 end
 
-local humanizations = {
-	['ban'] = i18n('banned'),
-	['kick'] = i18n('kicked'),
-	['mute'] = i18n('muted'),
-	['links'] = i18n('telegram.me links'),
-	['forwards'] = i18n('Channels messages')
-}
+local function humanizations(self)
+	local i18n = self.i18n
+	return {
+		['ban'] = i18n:_('banned'),
+		['kick'] = i18n:_('kicked'),
+		['mute'] = i18n:_('muted'),
+		['links'] = i18n:_('telegram.me links'),
+		['forwards'] = i18n:_('Channels messages')
+	}
+end
 
 function _M:on_message()
 	local api = self.api
 	local msg = self.message
 	local u = self.u
 	local red = self.red
+	local i18n = self.i18n
 
 	if not msg.inline and msg.spam and msg.chat.id < 0 and not msg.cb and not msg:is_from_admin() then
 		local status = red:hget('chat:'..msg.chat.id..':antispam', msg.spam)
@@ -89,22 +91,24 @@ function _M:on_message()
 					if res then
 						red:hdel('chat:'..msg.chat.id..':spamwarns', msg.from.id) --remove spam warns
 						api:sendMessage(msg.chat.id,
-							i18n('%s %s for <b>spam</b>! (%d/%d)'):format(name, humanizations[action], warns_received, max_allowed), 'html')
+							i18n:_('%s %s for <b>spam</b>! (%d/%d)'):format(name, humanizations(self)[action], warns_received, max_allowed),
+								'html'
+							)
 					end
 				else
 					if status == 'del' and warns_received == max_allowed - 1 then
 						api:deleteMessage(msg.chat.id, msg.message_id)
-						msg:send_reply(i18n('%s, spam is not allowed here. The next time you will be restricted'):format(name),
+						msg:send_reply(i18n:_('%s, spam is not allowed here. The next time you will be restricted'):format(name),
 							'html')
 					elseif status == 'del' then
 						--just delete
 						api:deleteMessage(msg.chat.id, msg.message_id)
 					elseif status ~= 'del' then
-						msg:send_reply(i18n("%s, this kind of message is not allowed in this chat (<b>%d/%d</b>)")
+						msg:send_reply(i18n:_("%s, this kind of message is not allowed in this chat (<b>%d/%d</b>)")
 							:format(name, warns_received, max_allowed), 'html')
 					end
 				end
-				local name_pretty = {links = i18n("telegram.me link"), forwards = i18n("message from a channel")}
+				local name_pretty = {links = i18n:_("telegram.me link"), forwards = i18n:_("message from a channel")}
 				u:logEvent('spamwarn', msg,
 					{hammered = hammer_text, warns = warns_received, warnmax = max_allowed, spam_type = name_pretty[msg.spam]})
 			end
@@ -117,6 +121,7 @@ end
 
 local function toggleAntispamSetting(self, chat_id, key)
 	local red = self.red
+	local i18n = self.i18n
 	local hash = 'chat:'..chat_id..':antispam'
 	local current =red:hget(hash, key)
 	if current == null then current = config.chat_settings['antispam'][key] end
@@ -127,25 +132,26 @@ local function toggleAntispamSetting(self, chat_id, key)
 
 	if key == 'forwards' then
 		if new == 'alwd' then
-			return i18n("forwards are allowed")
+			return i18n:_("forwards are allowed")
 		elseif new == 'warn' then
-			return i18n("warn for forwards")
+			return i18n:_("warn for forwards")
 		elseif new == 'del' then
-			return i18n("forwards will be deleted")
+			return i18n:_("forwards will be deleted")
 		end
 	elseif key == 'links' then
 		if new == 'alwd' then
-			return i18n("links are allowed")
+			return i18n:_("links are allowed")
 		elseif new == 'warn' then
-			return i18n("warn for links")
+			return i18n:_("warn for links")
 		elseif new == 'del' then
-			return i18n("links will be deleted")
+			return i18n:_("links will be deleted")
 		end
 	end
 end
 
 local function changeWarnsNumber(self, chat_id, action)
 	local red = self.red
+	local i18n = self.i18n
 	local hash = 'chat:'..chat_id..':antispam'
 	local key = 'warns'
 	local current = red:hget(hash, key)
@@ -157,9 +163,9 @@ local function changeWarnsNumber(self, chat_id, action)
 	end
 
 	if current == 1 and action == 'dim' then
-		return i18n("You can't go lower")
+		return i18n:_("You can't go lower")
 	elseif current == 7 and action == 'raise' then
-		return i18n("You can't go higher")
+		return i18n:_("You can't go higher")
 	else
 		local new
 		if action == 'dim' then
@@ -167,7 +173,7 @@ local function changeWarnsNumber(self, chat_id, action)
 		elseif action == 'raise' then
 			new = red:hincrby(hash, key, 1)
 		end
-		return i18n("New value: %d"):format(new)
+		return i18n:_("New value: %d"):format(new)
 	end
 end
 
@@ -188,20 +194,22 @@ local function changeAction(self, chat_id)
 	return '✅'
 end
 
-local function get_alert_text(key)
+local function get_alert_text(self, key)
+	local i18n = self.i18n
 	if key == 'links' then
-		return i18n("Allow/forbid telegram.me links")
+		return i18n:_("Allow/forbid telegram.me links")
 	elseif key == 'forwards' then
-		return i18n("Allow/forbid forwarded messages from channels")
+		return i18n:_("Allow/forbid forwarded messages from channels")
 	elseif key == 'warns' then
-		return i18n("Set how many times the bot should warn users before kicking/banning them")
+		return i18n:_("Set how many times the bot should warn users before kicking/banning them")
 	else
-		return i18n("Description not available")
+		return i18n:_("Description not available")
 	end
 end
 
 local function doKeyboard_antispam(self, chat_id)
 	local red = self.red
+	local i18n = self.i18n
 	local keyboard = {inline_keyboard = {}}
 
 	for field, _ in pairs(config.chat_settings['antispam']) do
@@ -213,7 +221,10 @@ local function doKeyboard_antispam(self, chat_id)
 				icon = '❌'
 			elseif status == 'del' then icon = '🗑' end
 			local line = {
-				{text = i18n(humanizations[field] or field), callback_data = 'antispam:alert:'..field..':'..locale.language},
+				{
+					text = humanizations(self)[field] or field,
+					callback_data = 'antispam:alert:'..field..':'..i18n:getLanguage()
+				},
 				{text = icon, callback_data = 'antispam:toggle:'..field..':'..chat_id}
 			}
 			table.insert(keyboard.inline_keyboard, line)
@@ -227,15 +238,15 @@ local function doKeyboard_antispam(self, chat_id)
 	if action == null then action = config.chat_settings['antispam']['action'] end
 
 	if action == 'kick' then
-		action = i18n("Kick 👞")
+		action = i18n:_("Kick 👞")
 	elseif action == 'ban' then
-		action = i18n("Ban 🔨")
+		action = i18n:_("Ban 🔨")
 	elseif action == 'mute' then
-		action = i18n("Mute 👁")
+		action = i18n:_("Mute 👁")
 	end
 
 	local line = {
-		{text = 'Warns: '..warns, callback_data = 'antispam:alert:warns:'..locale.language},
+		{text = 'Warns: '..warns, callback_data = 'antispam:alert:warns:'..i18n:getLanguage()},
 		{text = '➖', callback_data = 'antispam:toggle:dim:'..chat_id},
 		{text = '➕', callback_data = 'antispam:toggle:raise:'..chat_id},
 		{text = action, callback_data = 'antispam:toggle:action:'..chat_id}
@@ -269,20 +280,19 @@ function _M:onCallbackQuery(blocks)
 	local api = self.api
 	local msg = self.message
 	local u = self.u
+	local i18n = self.i18n
 
 	if blocks[1] == 'alert' then
-		if config.available_languages[blocks[3]] then
-			locale.language = blocks[3]
-		end
-		local text = get_alert_text(blocks[2])
+		i18n:setLanguage(blocks[3])
+		local text = get_alert_text(self, blocks[2])
 		api:answerCallbackQuery(msg.cb_id, text, true, config.bot_settings.cache_time.alert_help)
 	else
 
 		local chat_id = msg.target_id
 		if not u:is_allowed('config', chat_id, msg.from) then
-			api:answerCallbackQuery(msg.cb_id, i18n("You're no longer an admin"))
+			api:answerCallbackQuery(msg.cb_id, i18n:_("You're no longer an admin"))
 		else
-			local antispam_first = i18n([[*Anti-spam settings*
+			local antispam_first = i18n:_([[*Anti-spam settings*
 Choose which kind of message you want to forbid
 • ✅ = *Allowed*
 • ❌ = *Not allowed*
@@ -341,6 +351,7 @@ function _M:onTextMessage(blocks)
 	local msg = self.message
 	local u = self.u
 	local red = self.red
+	local i18n = self.i18n
 
 	if u:is_allowed('texts', msg.chat.id, msg.from) then
 		if (blocks[1] == 'wl' or blocks[1] == 'whitelist') and blocks[2] then
@@ -349,10 +360,10 @@ function _M:onTextMessage(blocks)
 				local n = red:scard(set) or 0
 				local text
 				if n == 0 then
-					text = i18n("_The whitelist was already empty_")
+					text = i18n:_("_The whitelist was already empty_")
 				else
 					red:del(set)
-					text = i18n("*Whitelist cleaned*\n%d links have been removed"):format(n)
+					text = i18n:_("*Whitelist cleaned*\n%d links have been removed"):format(n)
 				end
 				msg:send_reply(text, "Markdown")
 			else
@@ -360,16 +371,16 @@ function _M:onTextMessage(blocks)
 				if msg.entities then
 					local links = urls_table(msg.entities, msg.text)
 					if not next(links) then
-						text = i18n("_I can't find any url in this message_")
+						text = i18n:_("_I can't find any url in this message_")
 					else
 						local new = red:sadd(('chat:%d:whitelist'):format(msg.chat.id), unpack(links))
-						text = i18n("%d link(s) will be whitelisted"):format(#links - (#links - new))
+						text = i18n:_("%d link(s) will be whitelisted"):format(#links - (#links - new))
 						if new ~= #links then
-							text = text..i18n("\n%d links were already in the list"):format(#links - new)
+							text = text..i18n:_("\n%d links were already in the list"):format(#links - new)
 						end
 					end
 				else
-					text = i18n("_I can't find any url in this message_")
+					text = i18n:_("_I can't find any url in this message_")
 				end
 				msg:send_reply(text, "Markdown")
 			end
@@ -377,9 +388,9 @@ function _M:onTextMessage(blocks)
 		if (blocks[1] == 'wl' or blocks[1] == 'whitelist') and not blocks[2] then
 			local links = red:smembers(('chat:%d:whitelist'):format(msg.chat.id))
 			if not next(links) then
-				msg:send_reply(i18n("_The whitelist is empty_.\nUse `/wl [links]` to add some links to the whitelist"),"Markdown")
+				msg:send_reply(i18n:_("_The whitelist is empty_.\nUse `/wl [links]` to add some links to the whitelist"),"Markdown")
 			else
-				local text = i18n("Whitelisted links:\n\n")
+				local text = i18n:_("Whitelisted links:\n\n")
 				for i=1, #links do
 					text = text..'• '..links[i]..'\n'
 				end
@@ -391,16 +402,16 @@ function _M:onTextMessage(blocks)
 			if msg.entities then
 				local links = urls_table(msg.entities, msg.text)
 				if not next(links) then
-					text = i18n("_I can't find any url in this message_")
+					text = i18n:_("_I can't find any url in this message_")
 				else
 					local removed = red:srem(('chat:%d:whitelist'):format(msg.chat.id), unpack(links))
-					text = i18n("%d link(s) removed from the whitelist"):format(removed)
+					text = i18n:_("%d link(s) removed from the whitelist"):format(removed)
 					if removed ~= #links then
-						text = text..i18n("\n%d links were already in the list"):format(#links - removed)
+						text = text..i18n:_("\n%d links were already in the list"):format(#links - removed)
 					end
 				end
 			else
-				text = i18n("_I can't find any url in this message_")
+				text = i18n:_("_I can't find any url in this message_")
 			end
 			msg:send_reply(text, "Markdown")
 		end
@@ -411,16 +422,16 @@ function _M:onTextMessage(blocks)
 		if blocks[1] == 'wlchan' and not blocks[2] then
 			local channels = red:smembers(('chat:%d:chanwhitelist'):format(msg.chat.id))
 			if not next(channels) then
-				msg:send_reply(i18n("_Whitelist of channels empty_"), "Markdown")
+				msg:send_reply(i18n:_("_Whitelist of channels empty_"), "Markdown")
 			else
-				msg:send_reply(i18n("*Whitelisted channels:*\n%s"):format(table.concat(channels, '\n')), "Markdown")
+				msg:send_reply(i18n:_("*Whitelisted channels:*\n%s"):format(table.concat(channels, '\n')), "Markdown")
 			end
 		end
 		if blocks[1] == 'wlchan' and blocks[2] then
 			local for_entered, channels = edit_channels_whitelist(self, msg.chat.id, blocks[2], 'add')
 
 			if not for_entered then
-				msg:send_reply(i18n("_I can't find a channel ID in your message_"), "Markdown")
+				msg:send_reply(i18n:_("_I can't find a channel ID in your message_"), "Markdown")
 			else
 				local text = ''
 				if next(channels.valid) then
@@ -437,7 +448,7 @@ function _M:onTextMessage(blocks)
 			local for_entered, channels = edit_channels_whitelist(self, msg.chat.id, blocks[2], 'rem')
 
 			if not for_entered then
-				msg:send_reply(i18n("_I can't find a channel ID in your message_"), "Markdown")
+				msg:send_reply(i18n:_("_I can't find a channel ID in your message_"), "Markdown")
 			else
 				local text = ''
 				if next(channels.valid) then

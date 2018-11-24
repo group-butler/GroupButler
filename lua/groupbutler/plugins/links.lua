@@ -1,6 +1,4 @@
 local config = require "groupbutler.config"
-local locale = require "groupbutler.languages"
-local i18n = locale.translate
 local null = require "groupbutler.null"
 
 local _M = {}
@@ -18,6 +16,7 @@ function _M:onTextMessage(blocks)
 	local msg = self.message
 	local u = self.u
 	local red = self.red
+	local i18n = self.i18n
 	if msg.chat.type == 'private' then return end
 	if not u:is_allowed('texts', msg.chat.id, msg.from) then return end
 
@@ -32,7 +31,7 @@ function _M:onTextMessage(blocks)
 		else
 			local link = red:hget(hash, 'link')
 			if link == null then
-				text = i18n("*No link* for this group. Ask the owner to save it with `/setlink [group link]`")
+				text = i18n:_("*No link* for this group. Ask the owner to save it with `/setlink [group link]`")
 			else
 				local title = msg.chat.title:escape_hard('link')
 				text = string.format('[%s](%s)', title, link)
@@ -43,19 +42,19 @@ function _M:onTextMessage(blocks)
 	if blocks[1] == 'setlink' then
 		if blocks[2] and blocks[2] == '-' then
 			red:hdel(hash, 'link')
-			text = i18n("Link *unset*")
+			text = i18n:_("Link *unset*")
 		else
 			local link
 			if msg.chat.username then
 				link = 'https://telegram.me/'..msg.chat.username
 				local substitution = '['..msg.chat.title:escape_hard('link')..']('..link..')'
-				text = i18n("The link has been set.\n*Here's the link*: %s"):format(substitution)
+				text = i18n:_("The link has been set.\n*Here's the link*: %s"):format(substitution)
 			else
 				if not blocks[2] then
-					text = i18n("This is not a *public supergroup*, so you need to write the link near `/setlink`")
+					text = i18n:_("This is not a *public supergroup*, so you need to write the link near `/setlink`")
 				else
 					if string.len(blocks[2]) ~= 22 and blocks[2] ~= '-' then
-						text = i18n("This link is *not valid!*")
+						text = i18n:_("This link is *not valid!*")
 					else
 						link = 'https://telegram.me/joinchat/'..blocks[2]
 						red:sadd('chat:'..msg.chat.id..':whitelist', link:gsub('https://', '')) --save the link in the whitelist
@@ -64,9 +63,9 @@ function _M:onTextMessage(blocks)
 						local title = msg.chat.title:escape_hard('link')
 						local substitution = '['..title..']('..link..')'
 						if not succ then
-							text = i18n("The link has been updated.\n*Here's the new link*: %s"):format(substitution)
+							text = i18n:_("The link has been updated.\n*Here's the new link*: %s"):format(substitution)
 						else
-							text = i18n("The link has been set.\n*Here's the link*: %s"):format(substitution)
+							text = i18n:_("The link has been set.\n*Here's the link*: %s"):format(substitution)
 						end
 					end
 				end

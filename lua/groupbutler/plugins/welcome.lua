@@ -1,8 +1,5 @@
 local config = require "groupbutler.config"
-local locale = require "groupbutler.languages"
-local i18n = locale.translate
 local null = require "groupbutler.null"
-local api_err = require "groupbutler.api_errors"
 local api_u = require "telegram-bot-api.utilities"
 
 local _M = {}
@@ -89,6 +86,7 @@ end
 
 local function get_reply_markup(self, msg, text)
 	local u = self.u
+	local i18n = self.i18n
 
 	local new_text, reply_markup
 	if text then
@@ -99,7 +97,7 @@ local function get_reply_markup(self, msg, text)
 		if not reply_markup then
 			reply_markup = api_u.InlineKeyboardMarkup:new()
 		end
-		reply_markup:row({text = i18n("Read the rules"), url = u:deeplink_constructor(msg.chat.id, "rules")})
+		reply_markup:row({text = i18n:_("Read the rules"), url = u:deeplink_constructor(msg.chat.id, "rules")})
 	end
 
 	return reply_markup, new_text
@@ -108,6 +106,7 @@ end
 local function send_welcome(self, msg)
 	local api = self.api
 	local red = self.red
+	local i18n = self.i18n
 	local u = self.u
 
 	if not is_on(self, msg.chat.id, 'Welcome') then
@@ -120,7 +119,7 @@ local function send_welcome(self, msg)
 	if welcome_type == "no" or content == "no" -- TODO: database migration no -> null
 	or welcome_type == null or content == null then
 		welcome_type = "text"
-		content = i18n("Hi $name!")
+		content = i18n:_("Hi $name!")
 	end
 
 	local ok, err
@@ -159,6 +158,8 @@ function _M:onTextMessage(blocks)
 	local api = self.api
 	local msg = self.message
 	local red = self.red
+	local i18n = self.i18n
+	local api_err = self.api_err
 	local u = self.u
 
 	if blocks[1] == 'welcome' then
@@ -166,7 +167,7 @@ function _M:onTextMessage(blocks)
 
 		local input = blocks[2]
 		if not input and not msg.reply then
-			msg:send_reply(i18n("Welcome and...?"))
+			msg:send_reply(i18n:_("Welcome and...?"))
 			return
 		end
 
@@ -190,9 +191,9 @@ function _M:onTextMessage(blocks)
 				end
 				-- turn on the welcome message in the group settings
 				red:hset(('chat:%d:settings'):format(msg.chat.id), 'Welcome', 'on')
-				msg:send_reply(i18n("A form of media has been set as the welcome message: `%s`"):format(replied_to), "Markdown")
+				msg:send_reply(i18n:_("A form of media has been set as the welcome message: `%s`"):format(replied_to), "Markdown")
 			else
-				msg:send_reply(i18n("Reply to a `sticker` or a `gif` to set them as the *welcome message*"), "Markdown")
+				msg:send_reply(i18n:_("Reply to a `sticker` or a `gif` to set them as the *welcome message*"), "Markdown")
 			end
 		else
 			local reply_markup, new_text = u:reply_markup_from_text(input)
@@ -206,12 +207,12 @@ function _M:onTextMessage(blocks)
 			if not ok then
 				red:hset(hash, 'type', 'no') --if wrong markdown, remove 'custom' again
 				red:hset(hash, 'content', 'no')
-				api:sendMessage(msg.chat.id, api_err.trans(err), "Markdown")
+				api:sendMessage(msg.chat.id, api_err:trans(err), "Markdown")
 			else
 				-- turn on the welcome message in the group settings
 				red:hset(('chat:%d:settings'):format(msg.chat.id), 'Welcome', 'on')
 				local id = ok.message_id
-				api:editMessageText(msg.chat.id, id, nil, i18n("*Custom welcome message saved!*"), "Markdown")
+				api:editMessageText(msg.chat.id, id, nil, i18n:_("*Custom welcome message saved!*"), "Markdown")
 			end
 		end
 	end

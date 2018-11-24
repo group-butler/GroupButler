@@ -1,6 +1,4 @@
 local config = require "groupbutler.config"
-local locale = require "groupbutler.languages"
-local i18n = locale.translate
 local null = require "groupbutler.null"
 
 local _M = {}
@@ -14,9 +12,10 @@ function _M:new(update_obj)
 	return plugin_obj
 end
 
-local function doKeyboard_warn(user_id)
+local function doKeyboard_warn(self, user_id)
+	local i18n = self.i18n
 	local keyboard = {}
-	keyboard.inline_keyboard = {{{text = i18n("Remove warn"), callback_data = 'removewarn:'..user_id}}}
+	keyboard.inline_keyboard = {{{text = i18n:_("Remove warn"), callback_data = 'removewarn:'..user_id}}}
 
 	return keyboard
 end
@@ -38,6 +37,7 @@ function _M:onTextMessage(blocks)
 	local msg = self.message
 	local bot = self.bot
 	local red = self.red
+	local i18n = self.i18n
 	local u = self.u
 
 	if msg.chat.type == 'private'
@@ -52,18 +52,18 @@ function _M:onTextMessage(blocks)
 			new = blocks[3]
 			default = 2
 			key = 'mediamax'
-			text = i18n("Max number of warnings changed (media).\n")
+			text = i18n:_("Max number of warnings changed (media).\n")
 		else
 			key = 'max'
 			new = blocks[2]
 			default = 3
-			text = i18n("Max number of warnings changed.\n")
+			text = i18n:_("Max number of warnings changed.\n")
 		end
 		local old = red:hget(hash, key)
 		if old == null then old = default end
 
 		red:hset(hash, key, new)
-		text = text .. i18n("*Old* value was %d\n*New* max is %d"):format(tonumber(old), tonumber(new))
+		text = text .. i18n:_("*Old* value was %d\n*New* max is %d"):format(tonumber(old), tonumber(new))
 		msg:send_reply(text, "Markdown")
 		return
 	end
@@ -72,11 +72,11 @@ function _M:onTextMessage(blocks)
 		local reply_markup =
 		{
 			inline_keyboard =
-			{{{text = i18n('Yes'), callback_data = 'cleanwarns:yes'}, {text = i18n('No'), callback_data = 'cleanwarns:no'}}}
+			{{{text = i18n:_('Yes'), callback_data = 'cleanwarns:yes'}, {text = i18n:_('No'), callback_data = 'cleanwarns:no'}}}
 		}
 
 		api:sendMessage(msg.chat.id,
-			i18n('Do you want to continue and reset *all* the warnings received by *all* the users of the group?'),
+			i18n:_('Do you want to continue and reset *all* the warnings received by *all* the users of the group?'),
 			"Markdown", nil, nil, nil, reply_markup)
 
 		return
@@ -94,7 +94,7 @@ function _M:onTextMessage(blocks)
 		local removed = forget_user_warns(self, msg.chat.id, msg.reply.from.id)
 		local admin = u:getname_final(msg.from)
 		local user = u:getname_final(msg.reply.from)
-		local text = i18n(
+		local text = i18n:_(
 			'Done! %s has been forgiven.\n<b>Warns found</b>: <i>normal warns %s, for media %s, spamwarns %s</i>'
 			):format(user, removed.normal or 0, removed.media or 0, removed.spam or 0)
 		msg:send_reply(text, 'html')
@@ -117,17 +117,17 @@ function _M:onTextMessage(blocks)
 			if type == null then type = 'kick' end
 
 			--try to kick/ban
-			text = i18n("%s <b>%s</b>: reached the max number of warnings (<code>%d/%d</code>)")
+			text = i18n:_("%s <b>%s</b>: reached the max number of warnings (<code>%d/%d</code>)")
 			if type == 'ban' then
-				hammer_log = i18n('banned')
+				hammer_log = i18n:_('banned')
 				text = text:format(target_name, hammer_log, num, nmax)
 				res, err = u:banUser(msg.chat.id, user_id)
 			elseif type == 'kick' then --kick
-				hammer_log = i18n('kicked')
+				hammer_log = i18n:_('kicked')
 				text = text:format(target_name, hammer_log, num, nmax)
 				res, err = u:kickUser(msg.chat.id, user_id)
 			elseif type == 'mute' then --kick
-				hammer_log = i18n('muted')
+				hammer_log = i18n:_('muted')
 				text = text:format(target_name, hammer_log, num, nmax)
 				res, err = u:muteUser(msg.chat.id, user_id)
 			end
@@ -150,8 +150,8 @@ function _M:onTextMessage(blocks)
 				warnmax = nmax
 			})
 		else
-			text = i18n("%s <b>has been warned</b> (<code>%d/%d</code>)"):format(target_name, num, nmax)
-			local keyboard = doKeyboard_warn(user_id)
+			text = i18n:_("%s <b>has been warned</b> (<code>%d/%d</code>)"):format(target_name, num, nmax)
+			local keyboard = doKeyboard_warn(self, user_id)
 			if blocks[1] ~= 'sw' then api:sendMessage(msg.chat.id, text, 'html', true, nil, nil, keyboard) end
 			u:logEvent('warn', msg, {
 				motivation = blocks[2],
@@ -169,10 +169,11 @@ function _M:onCallbackQuery(blocks)
 	local api = self.api
 	local msg = self.message
 	local red = self.red
+	local i18n = self.i18n
 	local u = self.u
 
 	if not u:is_allowed('hammer', msg.chat.id, msg.from) then
-		api:answerCallbackQuery(msg.cb_id, i18n("You are not allowed to use this button")) return
+		api:answerCallbackQuery(msg.cb_id, i18n:_("You are not allowed to use this button")) return
 	end
 
 	if blocks[1] == 'removewarn' then
@@ -180,14 +181,14 @@ function _M:onCallbackQuery(blocks)
 		local num = tonumber(red:hincrby('chat:'..msg.chat.id..':warns', user_id, -1)) --add one warn
 		local text, nmax
 		if num < 0 then
-			text = i18n("The number of warnings received by this user is already <i>zero</i>")
+			text = i18n:_("The number of warnings received by this user is already <i>zero</i>")
 			red:hincrby('chat:'..msg.chat.id..':warns', user_id, 1) --restore the previouvs number
 		else
 			nmax = tonumber(red:hget('chat:'..msg.chat.id..':warnsettings', 'max')) or 3 --get the max num of warnings
-			text = i18n("<b>Warn removed!</b> (%d/%d)"):format(num, nmax)
+			text = i18n:_("<b>Warn removed!</b> (%d/%d)"):format(num, nmax)
 		end
 
-		text = text .. i18n("\n(Admin: %s)"):format(u:getname_final(msg.from))
+		text = text .. i18n:_("\n(Admin: %s)"):format(u:getname_final(msg.from))
 		api:editMessageText(msg.chat.id, msg.message_id, nil, text, 'html')
 	end
 	if blocks[1] == 'cleanwarns' then
@@ -196,9 +197,9 @@ function _M:onCallbackQuery(blocks)
 			red:del('chat:'..msg.chat.id..':mediawarn')
 			red:del('chat:'..msg.chat.id..':spamwarns')
 			api:editMessageText(msg.chat.id, msg.message_id, nil,
-				i18n('Done. All the warnings of this group have been erased by %s'):format(u:getname_final(msg.from)), 'html')
+				i18n:_('Done. All the warnings of this group have been erased by %s'):format(u:getname_final(msg.from)), 'html')
 		else
-			api:editMessageText(msg.chat.id, msg.message_id, nil, i18n('_Action aborted_'), "Markdown")
+			api:editMessageText(msg.chat.id, msg.message_id, nil, i18n:_('_Action aborted_'), "Markdown")
 		end
 	end
 end

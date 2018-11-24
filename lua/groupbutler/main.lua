@@ -8,7 +8,7 @@ local Message = require "groupbutler.message"
 local User = require "groupbutler.user"
 local storage = require "groupbutler.storage"
 local locale = require "groupbutler.languages"
-local i18n = locale.translate
+local api_err = require "groupbutler.api_errors"
 
 local _M = {}
 
@@ -32,8 +32,9 @@ function _M:new(update_obj)
 	end
 	update_obj.red:select(config.redis.db)
 	update_obj.db = storage:new(update_obj.red)
-
+	update_obj.i18n = locale:new()
 	update_obj.u = utilities:new(update_obj)
+	update_obj.api_err = api_err:new(update_obj)
 
 	return update_obj
 end
@@ -99,6 +100,7 @@ local function on_msg_receive(self, callback) -- The fn run whenever a message i
 	local u = self.u
 	local red = self.red
 	local api = self.api
+	local i18n = self.i18n
 	-- u:dump(msg)
 
 	if not msg then
@@ -115,14 +117,11 @@ local function on_msg_receive(self, callback) -- The fn run whenever a message i
 	end
 
 	-- Set chat language
-	locale.language = red:get('lang:'..msg.chat.id) or config.lang
-	if not config.available_languages[locale.language] then
-		locale.language = config.lang
-	end
+	i18n:setLanguage(red:get('lang:'..msg.chat.id))
 
 	-- Do not process messages from normal groups
 	if msg.chat.type == 'group' then
-		api:sendMessage(msg.chat.id, i18n([[Hello everyone!
+		api:sendMessage(msg.chat.id, i18n:_([[Hello everyone!
 My name is %s, and I'm a bot made to help administrators in their hard work.
 Unfortunately I can't work in normal groups. If you need me, please ask the creator to convert this group to a supergroup and then add me again.
 ]]):format(bot.first_name))
@@ -189,7 +188,7 @@ Unfortunately I can't work in normal groups. If you need me, please ask the crea
 
 				if not success then --if a bug happens
 					if config.bot_settings.notify_bug then
-					msg:send_reply(i18n("🐞 Sorry, a *bug* occurred"), "Markdown")
+					msg:send_reply(i18n:_("🐞 Sorry, a *bug* occurred"), "Markdown")
 					end
 					log.error('An #error occurred.\n{result}\n{lang}\n{text}', {
 						result=tostring(result),
