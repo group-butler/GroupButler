@@ -121,7 +121,7 @@ local function on_msg_receive(self, callback) -- The fn run whenever a message i
 
 	-- Do not process messages from normal groups
 	if msg.chat.type == 'group' then
-		api:sendMessage(msg.chat.id, i18n:_([[Hello everyone!
+		api:sendMessage(msg.chat.id, i18n([[Hello everyone!
 My name is %s, and I'm a bot made to help administrators in their hard work.
 Unfortunately I can't work in normal groups. If you need me, please ask the creator to convert this group to a supergroup and then add me again.
 ]]):format(bot.first_name))
@@ -188,7 +188,7 @@ Unfortunately I can't work in normal groups. If you need me, please ask the crea
 
 				if not success then --if a bug happens
 					if config.bot_settings.notify_bug then
-					msg:send_reply(i18n:_("🐞 Sorry, a *bug* occurred"), "Markdown")
+					msg:send_reply(i18n("🐞 Sorry, a *bug* occurred"), "Markdown")
 					end
 					log.error('An #error occurred.\n{result}\n{lang}\n{text}', {
 						result=tostring(result),

@@ -76,7 +76,10 @@ function _M:new(obj)
 	obj = obj or {
 		language = config.lang
 	}
-	setmetatable(obj, {__index = self})
+	setmetatable(obj, {
+		__call = _M.translate,
+		__index = self,
+	})
 	return obj
 end
 
@@ -92,7 +95,7 @@ function _M:getLanguage()
 	return self.language
 end
 
-function _M:_(msgid)
+function _M:translate(msgid)
 	return strings[self.language][msgid:gsub('^\n', '')] or msgid
 end
 

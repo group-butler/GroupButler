@@ -16,20 +16,20 @@ end
 local function replies(self)
 	local i18n = self.i18n
 	local replies_t = {
-		unknown_error = i18n:_("An unknown error has ocurred"),
-		not_enough_permissions = i18n:_("I don't have enough permissions to restrict users"),
-		not_admin = i18n:_("I'm not an admin, I can't kick people"),
-		cant_restrict_admins = i18n:_("I can't do that to admins!"),
-		cant_unban_on_normal_groups = i18n:_("There is no need to unban in a normal group"),
-		user_not_found = i18n:_("This user is not a chat member"),
-		empty_message = i18n:_("Please input a text"),
-		long_message = i18n:_("This message is too long. Max lenght allowed by Telegram: 4000 characters"),
-		bad_inline_button_url = i18n:_("One of the inline buttons you are trying to set is missing the URL"),
-		bad_hyperlink = i18n:_("Inline link formatted incorrectly. Check the text between brackets -> \\[]()\n%s"):format(i18n:_("More info [here](https://telegram.me/GB_tutorials/12)")), -- luacheck: ignore 631
-		bad_markdown = i18n:_([[This text breaks the markdown.
+		unknown_error = i18n("An unknown error has ocurred"),
+		not_enough_permissions = i18n("I don't have enough permissions to restrict users"),
+		not_admin = i18n("I'm not an admin, I can't kick people"),
+		cant_restrict_admins = i18n("I can't do that to admins!"),
+		cant_unban_on_normal_groups = i18n("There is no need to unban in a normal group"),
+		user_not_found = i18n("This user is not a chat member"),
+		empty_message = i18n("Please input a text"),
+		long_message = i18n("This message is too long. Max lenght allowed by Telegram: 4000 characters"),
+		bad_inline_button_url = i18n("One of the inline buttons you are trying to set is missing the URL"),
+		bad_hyperlink = i18n("Inline link formatted incorrectly. Check the text between brackets -> \\[]()\n%s"):format(i18n("More info [here](https://telegram.me/GB_tutorials/12)")), -- luacheck: ignore 631
+		bad_markdown = i18n([[This text breaks the markdown.
 More info about a proper use of markdown [here](https://telegram.me/GB_tutorials/10) and [here](https://telegram.me/GB_tutorials/12).]]), -- luacheck: ignore 631
-		button_url_invalid = i18n:_("One of the URLs that should be placed in an inline button seems to be invalid (not an URL). Please check it"), -- luacheck: ignore 631
-		bad_inline_button_name = i18n:_("One of the inline buttons you are trying to set doesn't have a name"),
+		button_url_invalid = i18n("One of the URLs that should be placed in an inline button seems to be invalid (not an URL). Please check it"), -- luacheck: ignore 631
+		bad_inline_button_name = i18n("One of the inline buttons you are trying to set doesn't have a name"),
 	} set_default(replies_t, replies_t.unknown_error)
 	return replies_t
 end

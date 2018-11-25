@@ -30,7 +30,7 @@ function _M:onTextMessage()
 
 	if msg.chat.type == 'private' or (msg.chat.id < 0 and u:is_allowed('config', msg.chat.id, msg.from)) then
 		local keyboard = doKeyboard_lang()
-		api:sendMessage(msg.chat.id, i18n:_("*List of available languages*:"), "Markdown", nil, nil, nil, keyboard)
+		api:sendMessage(msg.chat.id, i18n("*List of available languages*:"), "Markdown", nil, nil, nil, keyboard)
 	end
 end
 
@@ -41,11 +41,11 @@ function _M:onCallbackQuery(blocks)
 	local i18n = self.i18n
 
 	if msg.chat.type ~= 'private' and not msg:is_from_admin() then
-		api:answerCallbackQuery(msg.cb_id, i18n:_("You are not an admin"))
+		api:answerCallbackQuery(msg.cb_id, i18n("You are not an admin"))
 	else
 		if blocks[1] == 'selectlang' then
 			local keyboard = doKeyboard_lang()
-			api:editMessageText(msg.chat.id, msg.message_id, nil, i18n:_("*List of available languages*:"), "Markdown", nil,
+			api:editMessageText(msg.chat.id, msg.message_id, nil, i18n("*List of available languages*:"), "Markdown", nil,
 				keyboard)
 		else
 			i18n:setLanguage(blocks[1])
@@ -55,8 +55,8 @@ function _M:onCallbackQuery(blocks)
 				red:hset('chat:'..msg.chat.id..':char', 'Rtl', 'allowed')
 			end
 			-- TRANSLATORS: replace 'English' with the name of your language
-			api:editMessageText(msg.chat.id, msg.message_id, nil, i18n:_("English language is *set*") ..
-i18n:_([[.
+			api:editMessageText(msg.chat.id, msg.message_id, nil, i18n("English language is *set*") ..
+i18n([[.
 Please note that translators are volunteers, and this localization _may be incomplete_. You can help improve translations on our [Crowdin Project](https://crowdin.com/project/group-butler).
 ]]), "Markdown")
 		end

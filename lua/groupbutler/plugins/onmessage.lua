@@ -114,11 +114,11 @@ function _M:on_message()
 					local log_hammered = action
 					if msgs_sent == (msgs_max + 1) then --send the message only if it's the message after the first message flood. Repeat after 5
 						if action == 'ban' then
-							message = i18n:_("%s <b>banned</b> for flood!"):format(name)
+							message = i18n("%s <b>banned</b> for flood!"):format(name)
 						elseif action == 'kick' then
-							message = i18n:_("%s <b>kicked</b> for flood!"):format(name)
+							message = i18n("%s <b>kicked</b> for flood!"):format(name)
 						elseif action == 'mute' then
-							message = i18n:_("%s <b>muted</b> for flood!"):format(name)
+							message = i18n("%s <b>muted</b> for flood!"):format(name)
 						end
 						api:sendMessage(msg.chat.id, message, 'html')
 							u:logEvent('flood', msg, {hammered = log_hammered})
@@ -127,7 +127,7 @@ function _M:on_message()
 			end
 
 			-- if msg.cb then
-			-- 	api:answerCallbackQuery(msg.cb_id, i18n:_("‼️ Please don't abuse the keyboard, requests will be ignored")) -- avoid to hit the limits with answerCallbackQuery
+			-- 	api:answerCallbackQuery(msg.cb_id, i18n("‼️ Please don't abuse the keyboard, requests will be ignored")) -- avoid to hit the limits with answerCallbackQuery
 			-- end
 			return false --if a user is spamming, don't go through plugins
 		end
@@ -156,18 +156,18 @@ function _M:on_message()
 						local ok, punishment
 						if status == 'kick' then
 								ok = u:kickUser(msg.chat.id, msg.from.id)
-							punishment = i18n:_('kicked')
+							punishment = i18n('kicked')
 						elseif status == 'ban' then
 								ok = u:banUser(msg.chat.id, msg.from.id)
-							punishment = i18n:_('banned')
+							punishment = i18n('banned')
 						elseif status == 'mute' then
 								ok = u:muteUser(msg.chat.id, msg.from.id)
-							punishment = i18n:_('muted')
+							punishment = i18n('muted')
 						end
 						if ok then --kick worked
 							red:hdel('chat:'..msg.chat.id..':mediawarn', msg.from.id) --remove media warns
 							local message =
-								i18n:_('%s <b>%s</b>: media sent not allowed!\n❗️ <code>%d/%d</code>'):format(name, punishment, n, max)
+								i18n('%s <b>%s</b>: media sent not allowed!\n❗️ <code>%d/%d</code>'):format(name, punishment, n, max)
 							api:sendMessage(msg.chat.id, message, 'html')
 						end
 
@@ -177,12 +177,12 @@ function _M:on_message()
 					else --max num not reached -> warn or delete
 						if media_status ~= 'del' then
 							local message =
-							i18n:_('%s, this type of media is <b>not allowed</b> in this chat.\n(<code>%d/%d</code>)'):format(name, n, max)
+							i18n('%s, this type of media is <b>not allowed</b> in this chat.\n(<code>%d/%d</code>)'):format(name, n, max)
 								msg:send_reply(message, 'html')
 						elseif media_status == 'del' and n + 1 >= max then
 							api:deleteMessage(msg.chat.id, msg.message_id)
 							local message =
-							i18n:_([[%s, this type of media is <b>not allowed</b> in this chat.
+							i18n([[%s, this type of media is <b>not allowed</b> in this chat.
 <i>The next time you will be banned/kicked/muted</i>
 ]]):format(name)
 							api:sendMessage(msg.chat.id, message, 'html')
@@ -207,13 +207,13 @@ function _M:on_message()
 					local ok, message
 				if rtl_status == 'kick' then
 						ok = u:kickUser(msg.chat.id, msg.from.id)
-					message = i18n:_("%s <b>kicked</b>: RTL character in names/messages are not allowed!")
+					message = i18n("%s <b>kicked</b>: RTL character in names/messages are not allowed!")
 				elseif rtl_status == 'ban' then
 						ok = u:banUser(msg.chat.id, msg.from.id)
-					message = i18n:_("%s <b>banned</b>: RTL character in names/messages are not allowed!")
+					message = i18n("%s <b>banned</b>: RTL character in names/messages are not allowed!")
 				elseif rtl_status == 'mute' then
 						ok = u:muteUser(msg.chat.id, msg.from.id)
-					message = i18n:_("%s <b>muted</b>: RTL character in names/messages are not allowed!")
+					message = i18n("%s <b>muted</b>: RTL character in names/messages are not allowed!")
 				end
 					if ok then
 						local name = u:getname_final(msg.from)
@@ -231,13 +231,13 @@ function _M:on_message()
 					local ok, message
 				if arab_status == 'kick' then
 						ok = u:kickUser(msg.chat.id, msg.from.id)
-					message = i18n:_("%s <b>kicked</b>: arab/persian message detected!")
+					message = i18n("%s <b>kicked</b>: arab/persian message detected!")
 				elseif arab_status == 'ban' then
 						ok = u:banUser(msg.chat.id, msg.from.id)
-					message = i18n:_("%s <b>banned</b>: arab/persian message detected!")
+					message = i18n("%s <b>banned</b>: arab/persian message detected!")
 				elseif arab_status == 'mute' then
 						ok = u:muteUser(msg.chat.id, msg.from.id)
-					message = i18n:_("%s <b>muted</b>: arab/persian message detected!")
+					message = i18n("%s <b>muted</b>: arab/persian message detected!")
 				end
 					if ok then
 						local name = u:getname_final(msg.from)

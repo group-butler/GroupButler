@@ -97,7 +97,7 @@ function _M:onTextMessage(blocks)
 		if last_user ~= null then -- A snapshot has been done recently
 			local ttl = red:ttl(key)
 			local time_remaining = get_time_remaining(ttl)
-			local text = i18n:_([[<i>I'm sorry, this command has been used for the last time less then 3 hours ago by</i> %s (ask them for the file).
+			local text = i18n([[<i>I'm sorry, this command has been used for the last time less then 3 hours ago by</i> %s (ask them for the file).
 Wait [<code>%s</code>] to use it again
 ]]):format(last_user, time_remaining)
 			msg:send_reply(text, 'html')
@@ -111,23 +111,23 @@ Wait [<code>%s</code>] to use it again
 
 		local name = u:getname_final(msg.from)
 		red:setex(key, 10800, name) --3 hours
-		msg:send_reply(i18n:_('*Sent in private*'), "Markdown")
+		msg:send_reply(i18n('*Sent in private*'), "Markdown")
 		return
 	end
 	if blocks[1] == 'import' then
 		local text
 		if not msg.reply then
-			text = i18n:_('Invalid input. Please reply to the backup file (/snap command to get it)')
+			text = i18n('Invalid input. Please reply to the backup file (/snap command to get it)')
 			api:sendMessage(msg.chat.id, text)
 			return
 		end
 		if not msg.reply.document then
-			text = i18n:_('Invalid input. Please reply to a document')
+			text = i18n('Invalid input. Please reply to a document')
 			api:sendMessage(msg.chat.id, text)
 			return
 		end
 		if msg.reply.document.file_name ~= 'snap'..msg.chat.id..'.gbb' then
-			text = i18n:_('This is not a valid backup file.\nReason: invalid name (%s)')
+			text = i18n('This is not a valid backup file.\nReason: invalid name (%s)')
 				:format(tostring(msg.reply_to_message.document.file_name))
 			api:sendMessage(msg.chat.id, text)
 			return
@@ -137,7 +137,7 @@ Wait [<code>%s</code>] to use it again
 		local file_path, code = u:download_to_file(download_link, '/tmp/'..msg.chat.id..'.json')
 
 		if not file_path then
-			text = i18n:_('Download of the file failed with code %s'):format(tostring(code))
+			text = i18n('Download of the file failed with code %s'):format(tostring(code))
 			api:sendMessage(msg.chat.id, text)
 			return
 		end
@@ -146,7 +146,7 @@ Wait [<code>%s</code>] to use it again
 		for chat_id, group_data in pairs(data) do
 			chat_id = tonumber(chat_id)
 			if tonumber(chat_id) ~= msg.chat.id then
-				text = i18n:_('Chat IDs don\'t match (%s and %s)'):format(tostring(chat_id), tostring(msg.chat.id))
+				text = i18n('Chat IDs don\'t match (%s and %s)'):format(tostring(chat_id), tostring(msg.chat.id))
 				api:sendMessage(msg.chat.id, text)
 				return
 			end
@@ -169,7 +169,7 @@ Wait [<code>%s</code>] to use it again
 					end
 				end
 			end
-			api:sendMessage(msg.chat.id, i18n:_([[Import was <b>successful</b>.
+			api:sendMessage(msg.chat.id, i18n([[Import was <b>successful</b>.
 
 <b>Important</b>:
 - #extra commands which are associated with a media must be set again if the bot you are using now is different from the bot that originated the backup.

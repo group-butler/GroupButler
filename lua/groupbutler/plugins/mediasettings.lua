@@ -30,20 +30,20 @@ local function doKeyboard_media(self, chat_id)
 		end
 
 		local media_texts = {
-			photo = i18n:_("Images"),
-			gif = i18n:_("GIFs"),
-			video = i18n:_("Videos"),
-			video_note = i18n:_("Video messages"),
-			document = i18n:_("Documents"),
-			--TGlink = i18n:_("telegram.me links"),
-			voice = i18n:_("Vocal messages"),
-			link = i18n:_("Links"),
-			audio = i18n:_("Music"),
-			sticker = i18n:_("Stickers"),
-			contact = i18n:_("Contacts"),
-			game = i18n:_("Games"),
-			location = i18n:_("Locations"),
-			venue = i18n:_("Venues"),
+			photo = i18n("Images"),
+			gif = i18n("GIFs"),
+			video = i18n("Videos"),
+			video_note = i18n("Video messages"),
+			document = i18n("Documents"),
+			--TGlink = i18n("telegram.me links"),
+			voice = i18n("Vocal messages"),
+			link = i18n("Links"),
+			audio = i18n("Music"),
+			sticker = i18n("Stickers"),
+			contact = i18n("Contacts"),
+			game = i18n("Games"),
+			location = i18n("Locations"),
+			venue = i18n("Venues"),
 		}
 		local media_text = media_texts[media] or media
 		local line = {
@@ -62,11 +62,11 @@ local function doKeyboard_media(self, chat_id)
 
 	local caption
 	if action == 'kick' then
-		caption = i18n:_("Warnings | %d | kick"):format(tonumber(max))
+		caption = i18n("Warnings | %d | kick"):format(tonumber(max))
 	elseif action == 'mute' then
-		caption = i18n:_("Warnings | %d | mute"):format(tonumber(max))
+		caption = i18n("Warnings | %d | mute"):format(tonumber(max))
 	else
-		caption = i18n:_("Warnings | %d | ban"):format(tonumber(max))
+		caption = i18n("Warnings | %d | ban"):format(tonumber(max))
 	end
 	table.insert(keyboard.inline_keyboard, {{text = caption, callback_data = 'mediatype:'..chat_id}})
 	--buttons line
@@ -91,16 +91,16 @@ local function change_media_status(self, chat_id, media)
 
 	if status == 'ok' then
 		red:hset(hash, media, 'notok')
-		return i18n:_('❌ warning')
+		return i18n('❌ warning')
 	elseif status == 'notok' then
 		red:hset(hash, media, 'del')
-		return i18n:_('🗑 delete')
+		return i18n('🗑 delete')
 	elseif status == 'del' then
 		red:hset(hash, media, 'ok')
 		return ''
 	else
 		red:hset(hash, media, 'ok')
-		return i18n:_('✅ allowed')
+		return i18n('✅ allowed')
 	end
 end
 
@@ -112,9 +112,9 @@ function _M:onCallbackQuery(blocks)
 	local u = self.u
 	local chat_id = msg.target_id
 	if chat_id and not u:is_allowed('config', chat_id, msg.from) then
-		api:answerCallbackQuery(msg.cb_id, i18n:_("You're no longer an admin"))
+		api:answerCallbackQuery(msg.cb_id, i18n("You're no longer an admin"))
 	else
-		local media_first = i18n:_([[
+		local media_first = i18n([[
 Tap on an option on the right to *change the setting*
 You can use the last lines to change how many warnings the bot should give before kicking/banning/muting someone.
 The number is not related the the normal `/warn` command.
@@ -129,7 +129,7 @@ When a media is set to delete, the bot will give a warning *only* when this is t
 		else
 			if blocks[1] == 'mediallert' then
 				i18n:setLanguage(blocks[2])
-				api:answerCallbackQuery(msg.cb_id, i18n:_("⚠️ Tap on the right column"), false,
+				api:answerCallbackQuery(msg.cb_id, i18n("⚠️ Tap on the right column"), false,
 					config.bot_settings.cache_time.alert_help)
 				return
 			end
@@ -138,14 +138,14 @@ When a media is set to delete, the bot will give a warning *only* when this is t
 				local current = tonumber(red:hget('chat:'..chat_id..':warnsettings', 'mediamax')) or 2
 				if blocks[2] == 'dim' then
 					if current < 2 then
-						cb_text = i18n:_("⚙ The new value is too low ( < 1)")
+						cb_text = i18n("⚙ The new value is too low ( < 1)")
 					else
 						local new = red:hincrby('chat:'..chat_id..':warnsettings', 'mediamax', -1)
 						cb_text = string.format('⚙ %d → %d', current, new)
 					end
 				elseif blocks[2] == 'raise' then
 					if current > 11 then
-						cb_text = i18n:_("⚙ The new value is too high ( > 12)")
+						cb_text = i18n("⚙ The new value is too high ( > 12)")
 					else
 						local new = red:hincrby('chat:'..chat_id..':warnsettings', 'mediamax', 1)
 						cb_text = string.format('⚙ %d → %d', current, new)
@@ -159,13 +159,13 @@ When a media is set to delete, the bot will give a warning *only* when this is t
 
 				if current == 'ban' then
 					red:hset(hash, 'mediatype', 'kick')
-					cb_text = i18n:_("👞 New status is kick")
+					cb_text = i18n("👞 New status is kick")
 				elseif current == 'kick' then
 					red:hset(hash, 'mediatype', 'mute')
-					cb_text = i18n:_("👁 New status is mute")
+					cb_text = i18n("👁 New status is mute")
 				elseif current == 'mute' then
 					red:hset(hash, 'mediatype', 'ban')
-					cb_text = i18n:_("🔨 New status is ban")
+					cb_text = i18n("🔨 New status is ban")
 				end
 			end
 			if blocks[1] == 'media' then

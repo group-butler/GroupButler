@@ -20,9 +20,9 @@ end
 local function get_button_description(self, key)
 	local i18n = self.i18n
 	local button_description = {
-		rules_on_join = i18n:_("When you join a group moderated by this bot, you will receive the group rules in private"),
-		reports = i18n:_("If enabled, you will receive all the messages reported with the @admin command in the groups you are moderating"), -- luacheck: ignore 631
-	} set_default(button_description, i18n:_("Description not available"))
+		rules_on_join = i18n("When you join a group moderated by this bot, you will receive the group rules in private"),
+		reports = i18n("If enabled, you will receive all the messages reported with the @admin command in the groups you are moderating"), -- luacheck: ignore 631
+	} set_default(button_description, i18n("Description not available"))
 	return button_description[key]
 end
 
@@ -32,9 +32,9 @@ local function doKeyboard_privsett(self, user_id)
 
 	local keyboard = api_u.InlineKeyboardMarkup:new()
 	local button_names = {
-		['rules_on_join'] = i18n:_('Rules on join'),
-		['reports'] = i18n:_('Users reports')
-	} set_default(button_names, i18n:_("Name not available"))
+		['rules_on_join'] = i18n('Rules on join'),
+		['reports'] = i18n('Users reports')
+	} set_default(button_names, i18n("Name not available"))
 
 	for key, status in pairs(user_settings) do
 		local icon = "☑️"
@@ -58,7 +58,7 @@ function _M:onTextMessage()
 		local reply_markup = doKeyboard_privsett(self, msg.from.id)
 		api:send_message{
 			chat_id = msg.from.id,
-			text = i18n:_("Change your private settings"),
+			text = i18n("Change your private settings"),
 			reply_markup = reply_markup
 	}
 	end
@@ -79,7 +79,7 @@ function _M:onCallbackQuery(blocks)
 		message_id = msg.message_id,
 		reply_markup = reply_markup
 	}
-	api:answer_callback_query(msg.cb_id, i18n:_('⚙ Setting applied'))
+	api:answer_callback_query(msg.cb_id, i18n('⚙ Setting applied'))
 end
 
 _M.triggers = {

@@ -14,7 +14,7 @@ end
 local function bot_version(self)
 	local i18n = self.i18n
 	if not config.commit or (config.commit):len() ~= 40 then
-		return i18n:_("unknown")
+		return i18n("unknown")
 	end
 	return ("[%s](%s/commit/%s)"):format(string.sub(config.commit, 1, 7), config.source_code, config.commit)
 end
@@ -22,7 +22,7 @@ end
 local function strings(self)
 	local i18n = self.i18n
 	return {
-		about = i18n:_([[This bot is based on [otouto](https://github.com/topkecleon/otouto) (AKA @mokubot, channel: @otouto), a multipurpose Lua bot.
+		about = i18n([[This bot is based on [otouto](https://github.com/topkecleon/otouto) (AKA @mokubot, channel: @otouto), a multipurpose Lua bot.
 Group Butler wouldn't exist without it.
 
 You can contact the owners of this bot using the /groups command.
@@ -38,12 +38,12 @@ local function do_keyboard_credits(self)
 	local keyboard = {}
 	keyboard.inline_keyboard = {
 		{
-			{text = i18n:_("Channel"), url = 'https://telegram.me/'..config.channel:gsub('@', '')},
-			{text = i18n:_("GitHub"), url = config.source_code},
-			{text = i18n:_("Rate me!"), url = 'https://telegram.me/storebot?start='..bot.username},
+			{text = i18n("Channel"), url = 'https://telegram.me/'..config.channel:gsub('@', '')},
+			{text = i18n("GitHub"), url = config.source_code},
+			{text = i18n("Rate me!"), url = 'https://telegram.me/storebot?start='..bot.username},
 		},
 		{
-			{text = i18n:_("👥 Groups"), callback_data = 'private:groups'}
+			{text = i18n("👥 Groups"), callback_data = 'private:groups'}
 		}
 	}
 	return keyboard
@@ -58,7 +58,7 @@ function _M:onTextMessage(blocks)
 	if msg.chat.type ~= 'private' then return end
 
 	if blocks[1] == 'ping' then
-		api:sendMessage(msg.from.id, i18n:_("Pong!"), "Markdown")
+		api:sendMessage(msg.from.id, i18n("Pong!"), "Markdown")
 	end
 	if blocks[1] == 'echo' then
 		local ok, err = api:sendMessage(msg.chat.id, blocks[2], "Markdown")
@@ -73,7 +73,7 @@ function _M:onTextMessage(blocks)
 	if blocks[1] == 'group' then
 		if config.help_group and config.help_group ~= '' then
 			api:sendMessage(msg.chat.id,
-				i18n:_('You can find the list of our support groups in [this channel](%s)'):format(config.help_group), "Markdown")
+				i18n('You can find the list of our support groups in [this channel](%s)'):format(config.help_group), "Markdown")
 		end
 	end
 end
@@ -89,9 +89,9 @@ function _M:onCallbackQuery(blocks)
 	end
 	if blocks[1] == 'group' then
 		if config.help_group and config.help_group ~= '' then
-			local markup = {inline_keyboard={{{text = i18n:_('🔙 back'), callback_data = 'fromhelp:about'}}}}
+			local markup = {inline_keyboard={{{text = i18n('🔙 back'), callback_data = 'fromhelp:about'}}}}
 			api:editMessageText(msg.chat.id, msg.message_id, nil,
-				i18n:_("You can find the list of our support groups in [this channel](%s)"):format(config.help_group),
+				i18n("You can find the list of our support groups in [this channel](%s)"):format(config.help_group),
 				"Markdown", nil, markup)
 		end
 	end

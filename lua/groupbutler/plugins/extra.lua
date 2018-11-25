@@ -78,7 +78,7 @@ function _M:onTextMessage(blocks)
 				end
 			end
 			red:hset('chat:'..msg.chat.id..':extra', blocks[2], to_save)
-			msg:send_reply(i18n:_("This media has been saved as a response to %s"):format(blocks[2]))
+			msg:send_reply(i18n("This media has been saved as a response to %s"):format(blocks[2]))
 		else
 			local hash = 'chat:'..msg.chat.id..':extra'
 			local new_extra = blocks[3]
@@ -92,7 +92,7 @@ function _M:onTextMessage(blocks)
 			end
 			red:hset(hash, blocks[2]:lower(), new_extra)
 			local msg_id = ok.message_id
-			api:editMessageText(msg.chat.id, msg_id, nil, i18n:_("Command '%s' saved!"):format(blocks[2]))
+			api:editMessageText(msg.chat.id, msg_id, nil, i18n("Command '%s' saved!"):format(blocks[2]))
 		end
 	elseif blocks[1] == 'extra list' then
 		local text = u:getExtraList(msg.chat.id)
@@ -114,9 +114,9 @@ function _M:onTextMessage(blocks)
 				end
 			end
 			if not next(deleted) then deleted[1] = '-' end
-			local text = i18n:_("Commands deleted: `%s`"):format(table.concat(deleted, '`, `'))
+			local text = i18n("Commands deleted: `%s`"):format(table.concat(deleted, '`, `'))
 			if next(not_found) then
-				text = text..i18n:_('\nCommands not found: `%s`'):format(table.concat(not_found, '`, `'))
+				text = text..i18n('\nCommands not found: `%s`'):format(table.concat(not_found, '`, `'))
 			end
 		msg:send_reply(text, "Markdown")
 	else
@@ -164,7 +164,7 @@ function _M:onTextMessage(blocks)
 		end
 
 		if err and err.error_code == 403 and msg.chat.id < 0 and not u:is_silentmode_on(msg.chat.id) then -- if the user haven't started the bot and silent mode is off
-			msg:send_reply(i18n:_("_Please_ [start me](%s) _so I can send you the answer_")
+			msg:send_reply(i18n("_Please_ [start me](%s) _so I can send you the answer_")
 				:format(u:deeplink_constructor(msg.chat.id, extra:sub(2, -1))), "Markdown")
 		end
 	end

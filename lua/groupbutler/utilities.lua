@@ -521,7 +521,7 @@ function _M:getRules(chat_id)
 	local hash = 'chat:'..chat_id..':info'
 	local rules = red:hget(hash, 'rules')
 	if rules == null then
-		return i18n:_("-*empty*-")
+		return i18n("-*empty*-")
 	end
 	return rules
 end
@@ -562,7 +562,7 @@ function _M:getAdminlist(chat_id)
 	if adminlist == '' then adminlist = '-' end
 	if creator == '' then creator = '-' end
 
-	return i18n:_("<b>👤 Creator</b>\n└ %s\n\n<b>👥 Admins</b> (%d)\n%s"):format(creator, #list - 1, adminlist)
+	return i18n("<b>👤 Creator</b>\n└ %s\n\n<b>👥 Admins</b> (%d)\n%s"):format(creator, #list - 1, adminlist)
 end
 
 function _M:getExtraList(chat_id)
@@ -572,10 +572,10 @@ function _M:getExtraList(chat_id)
 	local hash = 'chat:'..chat_id..':extra'
 	local commands = red:hkeys(hash)
 	if not next(commands) then
-		return i18n:_("No commands set")
+		return i18n("No commands set")
 	end
 	table.sort(commands)
-	return i18n:_("List of custom commands:\n") .. table.concat(commands, '\n')
+	return i18n("List of custom commands:\n") .. table.concat(commands, '\n')
 end
 
 function _M:getSettings(chat_id)
@@ -587,23 +587,23 @@ function _M:getSettings(chat_id)
 	local lang = red:get('lang:'..chat_id) -- group language
 	if lang == null then lang = config.lang end
 
-	local message = i18n:_("Current settings for *the group*:\n\n")
-			.. i18n:_("*Language*: %s\n"):format(config.available_languages[lang])
+	local message = i18n("Current settings for *the group*:\n\n")
+			.. i18n("*Language*: %s\n"):format(config.available_languages[lang])
 
 	--build the message
 	local strings = {
-		Welcome = i18n:_("Welcome message"),
-		Goodbye = i18n:_("Goodbye message"),
-		Extra = i18n:_("Extra"),
-		Flood = i18n:_("Anti-flood"),
-		Antibot = i18n:_("Ban bots"),
-		Silent = i18n:_("Silent mode"),
-		Rules = i18n:_("Rules"),
-		Arab = i18n:_("Arab"),
-		Rtl = i18n:_("RTL"),
-		Reports = i18n:_("Reports"),
-		Weldelchain = i18n:_("Delete last welcome message"),
-		Welbut = i18n:_("Welcome button")
+		Welcome = i18n("Welcome message"),
+		Goodbye = i18n("Goodbye message"),
+		Extra = i18n("Extra"),
+		Flood = i18n("Anti-flood"),
+		Antibot = i18n("Ban bots"),
+		Silent = i18n("Silent mode"),
+		Rules = i18n("Rules"),
+		Arab = i18n("Arab"),
+		Rtl = i18n("RTL"),
+		Reports = i18n("Reports"),
+		Weldelchain = i18n("Delete last welcome message"),
+		Welbut = i18n("Welcome button")
 	}
 	for key, default in pairs(config.chat_settings['settings']) do
 
@@ -639,11 +639,11 @@ function _M:getSettings(chat_id)
 	hash = 'chat:'..chat_id..':welcome'
 	local type = red:hget(hash, 'type')
 	if type == 'media' then
-		message = message .. i18n:_("*Welcome type*: `GIF / sticker`\n")
+		message = message .. i18n("*Welcome type*: `GIF / sticker`\n")
 	elseif type == 'custom' then
-		message = message .. i18n:_("*Welcome type*: `custom message`\n")
+		message = message .. i18n("*Welcome type*: `custom message`\n")
 	elseif type == 'no' then
-		message = message .. i18n:_("*Welcome type*: `default message`\n")
+		message = message .. i18n("*Welcome type*: `default message`\n")
 	end
 
 	local warnmax_std = red:hget('chat:'..chat_id..':warnsettings', 'max')
@@ -652,12 +652,12 @@ function _M:getSettings(chat_id)
 	local warnmax_media = red:hget('chat:'..chat_id..':warnsettings', 'mediamax')
 	if warnmax_media == null then warnmax_media = config.chat_settings['warnsettings']['mediamax'] end
 
-	return message .. i18n:_("Warns (`standard`): *%s*\n"):format(warnmax_std)
-		.. i18n:_("Warns (`media`): *%s*\n\n"):format(warnmax_media)
-		.. i18n:_("✅ = _enabled / allowed_\n")
-		.. i18n:_("🚫 = _disabled / not allowed_\n")
-		.. i18n:_("👥 = _sent in group (always for admins)_\n")
-		.. i18n:_("👤 = _sent in private_")
+	return message .. i18n("Warns (`standard`): *%s*\n"):format(warnmax_std)
+		.. i18n("Warns (`media`): *%s*\n\n"):format(warnmax_media)
+		.. i18n("✅ = _enabled / allowed_\n")
+		.. i18n("🚫 = _disabled / not allowed_\n")
+		.. i18n("👥 = _sent in group (always for admins)_\n")
+		.. i18n("👤 = _sent in private_")
 
 end
 
@@ -667,26 +667,26 @@ function _M:changeSettingStatus(chat_id, field)
 	local i18n = self.i18n
 
 	local turned_off = {
-		reports = i18n:_("@admin command disabled"),
-		welcome = i18n:_("Welcome message won't be displayed from now"),
-		goodbye = i18n:_("Goodbye message won't be displayed from now"),
-		extra = i18n:_("#extra commands are now available only for administrators"),
-		flood = i18n:_("Anti-flood is now off"),
-		rules = i18n:_("/rules will reply in private (for users)"),
-		silent = i18n:_("Silent mode is now off"),
-		preview = i18n:_("Links preview disabled"),
-		welbut = i18n:_("Welcome message without a button for the rules")
+		reports = i18n("@admin command disabled"),
+		welcome = i18n("Welcome message won't be displayed from now"),
+		goodbye = i18n("Goodbye message won't be displayed from now"),
+		extra = i18n("#extra commands are now available only for administrators"),
+		flood = i18n("Anti-flood is now off"),
+		rules = i18n("/rules will reply in private (for users)"),
+		silent = i18n("Silent mode is now off"),
+		preview = i18n("Links preview disabled"),
+		welbut = i18n("Welcome message without a button for the rules")
 	}
 	local turned_on = {
-		reports = i18n:_("@admin command enabled"),
-		welcome = i18n:_("Welcome message will be displayed"),
-		goodbye = i18n:_("Goodbye message will be displayed"),
-		extra = i18n:_("#extra commands are now available for all"),
-		flood = i18n:_("Anti-flood is now on"),
-		rules = i18n:_("/rules will reply in the group (with everyone)"),
-		silent = i18n:_("Silent mode is now on"),
-		preview = i18n:_("Links preview enabled"),
-		welbut = i18n:_("The welcome message will have a button for the rules")
+		reports = i18n("@admin command enabled"),
+		welcome = i18n("Welcome message will be displayed"),
+		goodbye = i18n("Goodbye message will be displayed"),
+		extra = i18n("#extra commands are now available for all"),
+		flood = i18n("Anti-flood is now on"),
+		rules = i18n("/rules will reply in the group (with everyone)"),
+		silent = i18n("Silent mode is now on"),
+		preview = i18n("Links preview enabled"),
+		welbut = i18n("The welcome message will have a button for the rules")
 	}
 
 	local hash = 'chat:'..chat_id..':settings'
@@ -699,7 +699,7 @@ function _M:changeSettingStatus(chat_id, field)
 		if field:lower() == 'goodbye' then
 			local r = api:getChatMembersCount(chat_id)
 			if r and r > 50 then
-				return i18n:_("This setting is enabled, but the goodbye message won't be displayed in large groups, "
+				return i18n("This setting is enabled, but the goodbye message won't be displayed in large groups, "
 					.. "because I can't see service messages about left members"), true
 			end
 		end
@@ -712,9 +712,9 @@ function _M:sendStartMe(msg)
 	local i18n = self.i18n
 	local bot = self.bot
 	local keyboard = {
-		inline_keyboard = {{{text = i18n:_("Start me"), url = 'https://telegram.me/'..bot.username}}}
+		inline_keyboard = {{{text = i18n("Start me"), url = 'https://telegram.me/'..bot.username}}}
 		}
-	api:sendMessage(msg.chat.id, i18n:_("_Please message me first so I can message you_"), 'Markdown', nil, nil, nil,
+	api:sendMessage(msg.chat.id, i18n("_Please message me first so I can message you_"), 'Markdown', nil, nil, nil,
 		keyboard)
 end
 
@@ -812,8 +812,8 @@ function _M:getnames_complete(msg)
 	end
 
 	-- TODO: Actually fix this
-	if not kicked then kicked = i18n:_("Someone") end
-	if not admin then admin = i18n:_("Someone") end
+	if not kicked then kicked = i18n("Someone") end
+	if not admin then admin = i18n("Someone") end
 	return admin, kicked
 end
 
@@ -821,7 +821,7 @@ function _M:get_user_id(msg, blocks)
 	local i18n = self.i18n
 	--if no user id: returns false and the msg id of the translation for the problem
 	if not msg.reply and not blocks[2] then
-		return false, i18n:_("Reply to a user or mention them")
+		return false, i18n("Reply to a user or mention them")
 	end
 
 	if msg.reply then
@@ -847,7 +847,7 @@ function _M:get_user_id(msg, blocks)
 		return id
 	end
 
-	return false, i18n:_([[I've never seen this user before.
+	return false, i18n([[I've never seen this user before.
 This command works by reply, username, user ID or text mention.
 If you're using it by username and want to teach me who the user is, forward me one of their messages]])
 end
@@ -866,7 +866,7 @@ function _M:logEvent(event, msg, extra)
 
 	local text, reply_markup
 
-	local chat_info = i18n:_("<b>Chat</b>: %s [#chat%d]"):format(msg.chat.title:escape_html(), msg.chat.id * -1)
+	local chat_info = i18n("<b>Chat</b>: %s [#chat%d]"):format(msg.chat.title:escape_html(), msg.chat.id * -1)
 	local member = ("%s [@%s] [#id%d]"):format(msg.from.first_name:escape_html(), msg.from.username or '-', msg.from.id)
 
 	local log_event = {
@@ -875,7 +875,7 @@ function _M:logEvent(event, msg, extra)
 			--warns n°: warns
 			--warns max: warnmax
 			--media type: media
-			text = i18n:_("#%s (<code>%d/%d</code>), <i>%s</i>\n• %s\n• <b>User</b>: %s"):format(
+			text = i18n("#%s (<code>%d/%d</code>), <i>%s</i>\n• %s\n• <b>User</b>: %s"):format(
 				event:upper(), extra.warns, extra.warnmax, extra.media, chat_info, member)
 		end,
 		spamwarn = function()
@@ -883,47 +883,47 @@ function _M:logEvent(event, msg, extra)
 			--warns n°: warns
 			--warns max: warnmax
 			--media type: spam_type
-			text = i18n:_("#%s (<code>%d/%d</code>), <i>%s</i>\n• %s\n• <b>User</b>: %s"):format(
+			text = i18n("#%s (<code>%d/%d</code>), <i>%s</i>\n• %s\n• <b>User</b>: %s"):format(
 				event:upper(), extra.warns, extra.warnmax, extra.spam_type, chat_info, member)
 		end,
 		flood = function()
 			--FLOOD
 			--hammered?: hammered
-			text = i18n:_("#%s\n• %s\n• <b>User</b>: %s"):format(event:upper(), chat_info, member)
+			text = i18n("#%s\n• %s\n• <b>User</b>: %s"):format(event:upper(), chat_info, member)
 		end,
 		new_chat_photo = function()
-			text = i18n:_('%s\n• %s\n• <b>By</b>: %s'):format('#NEWPHOTO', chat_info, member)
+			text = i18n('%s\n• %s\n• <b>By</b>: %s'):format('#NEWPHOTO', chat_info, member)
 			reply_markup = {
 				inline_keyboard = {{{
-					text = i18n:_("Get the new photo"),
+					text = i18n("Get the new photo"),
 					url = ("telegram.me/%s?start=photo_%s"):format(bot.username,
 					msg.new_chat_photo[#msg.new_chat_photo].file_id)
 				}}}
 			}
 		end,
 		delete_chat_photo = function()
-			text = i18n:_('%s\n• %s\n• <b>By</b>: %s'):format('#PHOTOREMOVED', chat_info, member)
+			text = i18n('%s\n• %s\n• <b>By</b>: %s'):format('#PHOTOREMOVED', chat_info, member)
 		end,
 		new_chat_title = function()
-			text = i18n:_('%s\n• %s\n• <b>By</b>: %s'):format('#NEWTITLE', chat_info, member)
+			text = i18n('%s\n• %s\n• <b>By</b>: %s'):format('#NEWTITLE', chat_info, member)
 		end,
 		pinned_message = function()
-			text = i18n:_('%s\n• %s\n• <b>By</b>: %s'):format('#PINNEDMSG', chat_info, member)
+			text = i18n('%s\n• %s\n• <b>By</b>: %s'):format('#PINNEDMSG', chat_info, member)
 			msg.message_id = msg.pinned_message.message_id --because of the "go to the message" link. The normal msg.message_id brings to the service message
 		end,
 		report = function()
-			text = i18n:_('%s\n• %s\n• <b>By</b>: %s\n• <i>Reported to %d admin(s)</i>'):format(
+			text = i18n('%s\n• %s\n• <b>By</b>: %s\n• <i>Reported to %d admin(s)</i>'):format(
 			event:upper(), chat_info, member, extra.n_admins)
 		end,
 		blockban = function()
-			text = i18n:_('#%s\n• %s\n• <b>User</b>: %s [#id%d]'):format(event:upper(), chat_info, extra.name, extra.id)
+			text = i18n('#%s\n• %s\n• <b>User</b>: %s [#id%d]'):format(event:upper(), chat_info, extra.name, extra.id)
 		end,
 		new_chat_member = function()
 			local member2 = ("%s [@%s] [#id%d]"):format(msg.new_chat_member.first_name:escape_html(),
 				msg.new_chat_member.username or '-', msg.new_chat_member.id)
-			text = i18n:_('%s\n• %s\n• <b>User</b>: %s'):format('#NEW_MEMBER', chat_info, member2)
+			text = i18n('%s\n• %s\n• <b>User</b>: %s'):format('#NEW_MEMBER', chat_info, member2)
 			if extra then --extra == msg.from
-				text = text..i18n:_("\n• <b>Added by</b>: %s [#id%d]"):format(self:getname_final(extra), extra.id)
+				text = text..i18n("\n• <b>Added by</b>: %s [#id%d]"):format(self:getname_final(extra), extra.id)
 			end
 		end,
 		-- events that requires user + admin
@@ -935,7 +935,7 @@ function _M:logEvent(event, msg, extra)
 			--warns n°: warns
 			--warns max: warnmax
 			--motivation: motivation
-			text = i18n:_(
+			text = i18n(
 				'#%s\n• <b>Admin</b>: %s [#id%d]\n• %s\n• <b>User</b>: %s [#id%d]\n• <b>Count</b>: <code>%d/%d</code>'
 			):format(event:upper(), extra.admin, msg.from.id, chat_info, extra.user, extra.user_id, extra.warns, extra.warnmax)
 		end,
@@ -944,18 +944,18 @@ function _M:logEvent(event, msg, extra)
 			--admin name formatted: admin
 			--user name formatted: user
 			--user id: user_id
-			text = i18n:_('#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n• <b>User</b>: %s [#id%s]\n'..
+			text = i18n('#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n• <b>User</b>: %s [#id%s]\n'..
 				'• <b>Warns found</b>: <i>normal: %s, for media: %s, spamwarns: %s</i>'):format(
 				'WARNS_RESET', extra.admin, msg.from.id, chat_info, extra.user, tostring(extra.user_id), extra.rem.normal,
 			extra.rem.media, extra.rem.spam)
 		end,
 		block = function() -- or unblock
-			text = i18n:_('#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n'
+			text = i18n('#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n'
 			):format(event:upper(), self:getname_final(msg.from), msg.from.id, chat_info)
 			if extra.n then
-				text = text..i18n:_('• <i>Users involved: %d</i>'):format(extra.n)
+				text = text..i18n('• <i>Users involved: %d</i>'):format(extra.n)
 			elseif extra.user then
-				text = text..i18n:_('• <b>User</b>: %s [#id%d]'):format(extra.user, msg.reply.forward_from.id)
+				text = text..i18n('• <b>User</b>: %s [#id%d]'):format(extra.user, msg.reply.forward_from.id)
 			end
 		end,
 		tempban = function()
@@ -966,7 +966,7 @@ function _M:logEvent(event, msg, extra)
 			--days: d
 			--hours: h
 			--motivation: motivation
-			text = i18n:_(
+			text = i18n(
 			'#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n• <b>User</b>: %s [#id%s]\n• <b>Duration</b>: %d days, %d hours'
 			):format(event:upper(), extra.admin, msg.from.id, chat_info, extra.user, tostring(extra.user_id), extra.d, extra.h)
 		end,
@@ -976,11 +976,11 @@ function _M:logEvent(event, msg, extra)
 			--user name formatted: user
 			--user id: user_id
 			--motivation: motivation
-			text = i18n:_('#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n• <b>User</b>: %s [#id%s]'):format(
+			text = i18n('#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n• <b>User</b>: %s [#id%s]'):format(
 				event:upper(), extra.admin, msg.from.id, chat_info, extra.user, tostring(extra.user_id))
 		end,
 	} set_default(log_event, function()
-			text = i18n:_('#%s\n• %s\n• <b>By</b>: %s'):format(event:upper(), chat_info, member)
+			text = i18n('#%s\n• %s\n• <b>By</b>: %s'):format(event:upper(), chat_info, member)
 	end)
 
 	log_event.unblock = log_event.block
@@ -993,7 +993,7 @@ function _M:logEvent(event, msg, extra)
 		--logcb:unban:user_id:chat_id for ban, logcb:untempban:user_id:chat_id for tempban
 		reply_markup = {
 			inline_keyboard = {{{
-				text = i18n:_("Unban"),
+				text = i18n("Unban"),
 				callback_data = ("logcb:un%s:%d:%d"):format(event, extra.user_id, msg.chat.id)
 			}}}
 		}
@@ -1001,16 +1001,16 @@ function _M:logEvent(event, msg, extra)
 
 	if extra then
 		if extra.hammered then
-			text = text..i18n:_("\n• <b>Action</b>: #%s"):format(extra.hammered:upper())
+			text = text..i18n("\n• <b>Action</b>: #%s"):format(extra.hammered:upper())
 		end
 		if extra.motivation then
-			text = text..i18n:_('\n• <b>Reason</b>: <i>%s</i>'):format(extra.motivation:escape_html())
+			text = text..i18n('\n• <b>Reason</b>: <i>%s</i>'):format(extra.motivation:escape_html())
 		end
 	end
 
 	if msg.chat.username then
 		text = text..
-			('\n• <a href="telegram.me/%s/%d">%s</a>'):format(msg.chat.username, msg.message_id, i18n:_('Go to the message'))
+			('\n• <a href="telegram.me/%s/%d">%s</a>'):format(msg.chat.username, msg.message_id, i18n('Go to the message'))
 	end
 
 	local ok, err = api:send_message{

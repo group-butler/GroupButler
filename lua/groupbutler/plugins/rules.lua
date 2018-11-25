@@ -34,7 +34,7 @@ function _M:onTextMessage(blocks)
 
 			local res = api:getChat(msg.chat.id)
 			if not res then
-				api:sendMessage(msg.from.id, i18n:_("🚫 Unknown or non-existent group"))
+				api:sendMessage(msg.from.id, i18n("🚫 Unknown or non-existent group"))
 				return
 			end
 			-- Private chats have no username
@@ -42,7 +42,7 @@ function _M:onTextMessage(blocks)
 
 			res = api:getChatMember(msg.chat.id, msg.from.id)
 			if not res or (res.status == 'left' or res.status == 'kicked') and private then
-				api:sendMessage(msg.from.id, i18n:_("🚷 You are not a member of this chat. " ..
+				api:sendMessage(msg.from.id, i18n("🚷 You are not a member of this chat. " ..
 					"You can't read the rules of a private group."))
 				return
 			end
@@ -72,13 +72,13 @@ function _M:onTextMessage(blocks)
 		local rules = blocks[2]
 		--ignore if not input text
 		if not rules then
-			msg:send_reply(i18n:_("Please write something next `/setrules`"), "Markdown")
+			msg:send_reply(i18n("Please write something next `/setrules`"), "Markdown")
 			return
 		end
 		--check if an admin want to clean the rules
 		if rules == '-' then
 			red:hdel(hash, 'rules')
-			msg:send_reply(i18n:_("Rules has been deleted."))
+			msg:send_reply(i18n("Rules has been deleted."))
 			return
 		end
 
@@ -91,7 +91,7 @@ function _M:onTextMessage(blocks)
 		else
 			red:hset(hash, 'rules', rules)
 			local id = ok.message_id
-			api:editMessageText(msg.chat.id, id, nil, i18n:_("New rules *saved successfully*!"), "Markdown")
+			api:editMessageText(msg.chat.id, id, nil, i18n("New rules *saved successfully*!"), "Markdown")
 		end
 	end
 end

@@ -25,26 +25,26 @@ local function report(self, msg, description)
 	local i18n = self.i18n
 	local u = self.u
 
-	local text = i18n:_(
+	local text = i18n(
 		'• <b>Message reported by</b>: %s (<code>%d</code>)'):format(u:getname_final(msg.from), msg.from.id)
 	local chat_link = red:hget('chat:'..msg.chat.id..':links', 'link')
 	if msg.reply.forward_from or msg.reply.forward_from_chat or msg.reply.sticker then
-		text = text..i18n:_(
+		text = text..i18n(
 			'\n• <b>Reported message sent by</b>: %s (<code>%d</code>)'
 			):format(u:getname_final(msg.reply.from), msg.reply.from.id)
 	end
 	if chat_link == null then
-		text = text..i18n:_('\n• <b>Group</b>: %s'):format(msg.chat.title:escape_html())
+		text = text..i18n('\n• <b>Group</b>: %s'):format(msg.chat.title:escape_html())
 	else
-		text = text..i18n:_('\n• <b>Group</b>: <a href="%s">%s</a>'):format(chat_link, msg.chat.title:escape_html())
+		text = text..i18n('\n• <b>Group</b>: <a href="%s">%s</a>'):format(chat_link, msg.chat.title:escape_html())
 	end
 	if msg.chat.username then
-		text = text..i18n:_(
+		text = text..i18n(
 			'\n• <a href="%s">Go to the message</a>'
 			):format('telegram.me/'..msg.chat.username..'/'..msg.message_id)
 	end
 	if description then
-		text = text..i18n:_('\n• <b>Description</b>: <i>%s</i>'):format(description:escape_html())
+		text = text..i18n('\n• <b>Description</b>: <i>%s</i>'):format(description:escape_html())
 	end
 
 	local n = 0
@@ -53,7 +53,7 @@ local function report(self, msg, description)
 	if not admins_list then return false end
 
 	local desc_msg
-	local markup = {inline_keyboard={{{text = i18n:_("Address this report")}}}}
+	local markup = {inline_keyboard={{{text = i18n("Address this report")}}}}
 	local callback_data = ("report:%d:"):format(msg.chat.id)
 	local hash = 'chat:'..msg.chat.id..':report:'..msg.message_id --stores the user_id and the msg_id of the report messages sent to the admins
 	for i=1, #admins_list do
@@ -105,14 +105,14 @@ function _M:onTextMessage(blocks)
 			local times_allowed, duration = tonumber(blocks[2]), tonumber(blocks[3])
 			local text
 			if times_allowed < 1 or times_allowed > 1000 then
-				text = i18n:_("_Invalid value:_ number of times allowed (`input: %d`)"):format(times_allowed)
+				text = i18n("_Invalid value:_ number of times allowed (`input: %d`)"):format(times_allowed)
 			elseif duration < 1 or duration > 10080 then
-				text = i18n:_("_Invalid value:_ time (`input: %d`)"):format(duration)
+				text = i18n("_Invalid value:_ time (`input: %d`)"):format(duration)
 			else
 				local hash = 'chat:'..msg.chat.id..':report'
 				red:hset(hash, 'times_allowed', times_allowed)
 				red:hset(hash, 'duration', (duration * 60))
-				text = i18n:_(
+				text = i18n(
 					'*New parameters saved*.\nUsers will be able to use @admin %d times/%d minutes'
 					):format(times_allowed, duration)
 			end
@@ -134,7 +134,7 @@ function _M:onTextMessage(blocks)
 				local times_allowed = tonumber(red:hget(hash, 'times_allowed')) or config.bot_settings.report.times_allowed
 				local ttl = red:ttl(hash..':'..msg.from.id)
 				local minutes, seconds = seconds2minutes(ttl)
-				text = i18n:_([[_Please, do not abuse this command. It can be used %d times every %d minutes_.
+				text = i18n([[_Please, do not abuse this command. It can be used %d times every %d minutes_.
 Wait other %d minutes, %d seconds.]]):format(times_allowed, (duration / 60), minutes, seconds)
 				msg:send_reply(text, "Markdown")
 			else
@@ -145,7 +145,7 @@ Wait other %d minutes, %d seconds.]]):format(times_allowed, (duration / 60), min
 
 				local n_sent = report(self, msg, description) or 0
 
-				text = i18n:_('_Reported to %d admin(s)_'):format(n_sent)
+				text = i18n('_Reported to %d admin(s)_'):format(n_sent)
 
 				u:logEvent('report', msg, {n_admins = n_sent})
 				msg:send_reply(text, "Markdown")
@@ -162,7 +162,7 @@ function _M:onCallbackQuery(blocks)
 
 	if not blocks[2] then --###cb:issueclosed
 		api:answerCallbackQuery(msg.cb_id,
-			i18n:_('You closed this issue and deleted all the other reports sent to the admins'), true, 48 * 3600)
+			i18n('You closed this issue and deleted all the other reports sent to the admins'), true, 48 * 3600)
 		return
 	end
 
@@ -170,7 +170,7 @@ function _M:onCallbackQuery(blocks)
 	local hash = 'chat:'..chat_id..':report:'..msg_id
 	if red:exists(hash) == 0 then
 		--if the hash doesn't exist, the message is too old
-		api:answerCallbackQuery(msg.cb_id, i18n:_("This message is too old (>2 days)"), true)
+		api:answerCallbackQuery(msg.cb_id, i18n("This message is too old (>2 days)"), true)
 	else
 		if blocks[1] == "report" then
 			local addressed_by = red:get(hash..':addressed')
@@ -181,9 +181,9 @@ function _M:onCallbackQuery(blocks)
 					local chats_reached = red:hgetall(hash)
 					if next(chats_reached) then
 						local markup = {inline_keyboard={
-							{{text = i18n:_("❕ Already (being) adressed"), callback_data = ("report:%s:%s"):format(chat_id, msg_id)}}
+							{{text = i18n("❕ Already (being) adressed"), callback_data = ("report:%s:%s"):format(chat_id, msg_id)}}
 						}}
-						local close_issue_line = {{text = i18n:_("Close issue"), callback_data = ("close:%s:%s"):format(chat_id, msg_id)}}
+						local close_issue_line = {{text = i18n("Close issue"), callback_data = ("close:%s:%s"):format(chat_id, msg_id)}}
 						for user_id, message_id in pairs(chats_reached) do
 							api:editMessageReplyMarkup(user_id, message_id, markup)
 						end
@@ -193,14 +193,14 @@ function _M:onCallbackQuery(blocks)
 					red:setex(hash..':addressed', 3600*24*2, name)
 					api:answerCallbackQuery(msg.cb_id, "✅")
 			else
-				api:answerCallbackQuery(msg.cb_id, i18n:_("%s has/will address this report"):format(addressed_by), true, 48 * 3600)
+				api:answerCallbackQuery(msg.cb_id, i18n("%s has/will address this report"):format(addressed_by), true, 48 * 3600)
 			end
 		elseif blocks[1] == 'close' then
 			local key = hash .. (':close:%d'):format(msg.from.id)
 			local second_tap = red:get(key)
 			if second_tap == null then
 				red:setex(key, 3600*24, 'x')
-				api:answerCallbackQuery(msg.cb_id, i18n:_(
+				api:answerCallbackQuery(msg.cb_id, i18n(
 					'This button will delete all the reports sent to the other admins. Tap it again to confirm'), true)
 			else
 				local chats_reached = red:hgetall(hash)
@@ -209,7 +209,7 @@ function _M:onCallbackQuery(blocks)
 						api:deleteMessages(user_id, { [1] = message_id, [2] = (tonumber(message_id) - 1) })
 					end
 				end
-				local markup = {inline_keyboard={{{text = i18n:_("(issue closed by you)"), callback_data = "issueclosed"}}}}
+				local markup = {inline_keyboard={{{text = i18n("(issue closed by you)"), callback_data = "issueclosed"}}}}
 				api:editMessageReplyMarkup(msg.from.id, msg.message_id, nil, markup)
 			end
 		end
