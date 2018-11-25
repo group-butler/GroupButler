@@ -77,7 +77,7 @@ function _M:new(obj)
 		language = config.lang
 	}
 	setmetatable(obj, {
-		__call = _M.translate,
+		__call = self.translate,
 		__index = self,
 	})
 	return obj
