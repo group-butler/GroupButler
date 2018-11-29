@@ -190,7 +190,7 @@ local function insert_settings_section(self, keyboard, settings_section, chat_id
 
 	for key, icon in pairs(settings_section) do
 		local current = {
-			{text = strings[key] or key, callback_data = 'menu:alert:settings:'..key..':'..i18n:getLanguage()},
+			{text = strings[key] or key, callback_data = 'menu:alert:settings:'..key},
 			{text = icon, callback_data = 'menu:'..key..':'..chat_id}
 		}
 		table.insert(keyboard.inline_keyboard, current)
@@ -229,12 +229,12 @@ local function doKeyboard_menu(self, chat_id)
 	end
 	local warn = {
 		{
-			{text = i18n('Warns: ')..max, callback_data = 'menu:alert:settings:warnsnum:'..i18n:getLanguage()},
+			{text = i18n('Warns: ')..max, callback_data = 'menu:alert:settings:warnsnum'},
 			{text = '➖', callback_data = 'menu:DimWarn:'..chat_id},
 			{text = '➕', callback_data = 'menu:RaiseWarn:'..chat_id},
 		},
 		{
-			{text = i18n('Action:'), callback_data = 'menu:alert:settings:warnsact:'..i18n:getLanguage()},
+			{text = i18n('Action:'), callback_data = 'menu:alert:settings:warnsact'},
 			{text = action, callback_data = 'menu:ActionWarn:'..chat_id}
 		}
 	}
@@ -266,7 +266,6 @@ function _M:onCallbackQuery(blocks)
 			api:editMessageText(msg.chat.id, msg.message_id, nil, menu_first, "Markdown", nil, keyboard)
 		else
 			if blocks[2] == 'alert' then
-				i18n:setLanguage(blocks[4])
 				text = get_button_description(self, blocks[3])
 				api:answerCallbackQuery(msg.cb_id, text, true, config.bot_settings.cache_time.alert_help)
 				return

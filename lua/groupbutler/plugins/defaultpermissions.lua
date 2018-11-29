@@ -83,7 +83,6 @@ local permissions =
 
 local function doKeyboard_permissions(self, chat_id)
 	local red = self.red
-	local i18n = self.i18n
 	local keyboard = {inline_keyboard = {}}
 
 	local line, status, icon, permission
@@ -98,7 +97,7 @@ local function doKeyboard_permissions(self, chat_id)
 		line = {
 			{
 				text = humanizations(self)[permission] or permission,
-				callback_data = 'defpermissions:alert:'..permission..':'..i18n:getLanguage()
+				callback_data = 'defpermissions:alert:'..permission
 			},
 			{
 				text = icon,
@@ -120,7 +119,6 @@ function _M:onCallbackQuery(blocks)
 	local u = self.u
 	local i18n = self.i18n
 	if blocks[1] == 'alert' then
-		i18n:setLanguage(blocks[3])
 		local text = get_alert_text(self, blocks[2])
 		api:answerCallbackQuery(msg.cb_id, text, true, config.bot_settings.cache_time.alert_help)
 	else

@@ -223,7 +223,7 @@ local function doKeyboard_antispam(self, chat_id)
 			local line = {
 				{
 					text = humanizations(self)[field] or field,
-					callback_data = 'antispam:alert:'..field..':'..i18n:getLanguage()
+					callback_data = 'antispam:alert:'..field
 				},
 				{text = icon, callback_data = 'antispam:toggle:'..field..':'..chat_id}
 			}
@@ -246,7 +246,7 @@ local function doKeyboard_antispam(self, chat_id)
 	end
 
 	local line = {
-		{text = 'Warns: '..warns, callback_data = 'antispam:alert:warns:'..i18n:getLanguage()},
+		{text = 'Warns: '..warns, callback_data = 'antispam:alert:warns'},
 		{text = '➖', callback_data = 'antispam:toggle:dim:'..chat_id},
 		{text = '➕', callback_data = 'antispam:toggle:raise:'..chat_id},
 		{text = action, callback_data = 'antispam:toggle:action:'..chat_id}
@@ -283,7 +283,6 @@ function _M:onCallbackQuery(blocks)
 	local i18n = self.i18n
 
 	if blocks[1] == 'alert' then
-		i18n:setLanguage(blocks[3])
 		local text = get_alert_text(self, blocks[2])
 		api:answerCallbackQuery(msg.cb_id, text, true, config.bot_settings.cache_time.alert_help)
 	else

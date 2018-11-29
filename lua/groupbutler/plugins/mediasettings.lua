@@ -47,7 +47,7 @@ local function doKeyboard_media(self, chat_id)
 		}
 		local media_text = media_texts[media] or media
 		local line = {
-			{text = media_text, callback_data = 'mediallert:'..i18n:getLanguage()},
+			{text = media_text, callback_data = 'mediallert'},
 			{text = status, callback_data = 'media:'..media..':'..chat_id}
 		}
 		table.insert(keyboard.inline_keyboard, line)
@@ -128,7 +128,6 @@ When a media is set to delete, the bot will give a warning *only* when this is t
 			api:editMessageText(msg.chat.id, msg.message_id, nil, media_first, "Markdown", nil, keyboard)
 		else
 			if blocks[1] == 'mediallert' then
-				i18n:setLanguage(blocks[2])
 				api:answerCallbackQuery(msg.cb_id, i18n("⚠️ Tap on the right column"), false,
 					config.bot_settings.cache_time.alert_help)
 				return

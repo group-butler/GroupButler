@@ -87,7 +87,7 @@ local function doKeyboard_logchannel(self, chat_id)
 		if current_status == 'no' then icon = '☑️' end
 		table.insert(keyboard.inline_keyboard,
 			{
-				{text = event_pretty[event] or event, callback_data = 'logchannel:alert:'..event..':'..i18n:getLanguage()},
+				{text = event_pretty[event] or event, callback_data = 'logchannel:alert:'..event},
 				{text = icon, callback_data = 'logchannel:toggle:'..event..':'..chat_id}
 			})
 	end
@@ -117,7 +117,6 @@ function _M:onCallbackQuery(blocks)
 		end
 	else
 		if blocks[1] == 'alert' then
-			i18n:setLanguage(blocks[3])
 			local text = get_alert_text(self, blocks[2])
 			api:answerCallbackQuery(msg.cb_id, text, true, config.bot_settings.cache_time.alert_help)
 		else

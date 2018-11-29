@@ -57,7 +57,7 @@ local function do_keyboard_flood(self, chat_id)
 			},
 			{
 				{text = '➖', callback_data = 'flood:dim:'..chat_id},
-				{text = tostring(num), callback_data = 'flood:alert:num:'..i18n:getLanguage()},
+				{text = tostring(num), callback_data = 'flood:alert:num'},
 				{text = '➕', callback_data = 'flood:raise:'..chat_id},
 			}
 		}
@@ -84,7 +84,7 @@ local function do_keyboard_flood(self, chat_id)
 			exc_status = '❌'
 		end
 		local line = {
-			{text = translation, callback_data = 'flood:alert:voice:'..i18n:getLanguage()},
+			{text = translation, callback_data = 'flood:alert:voice'},
 			{text = exc_status, callback_data = 'flood:exc:'..media..':'..chat_id},
 		}
 		table.insert(keyboard.inline_keyboard, line)
@@ -154,7 +154,6 @@ It is also possible to choose which type of messages the antiflood will ignore (
 		end
 
 		if blocks[1] == 'alert' then
-			i18n:setLanguage(blocks[3])
 			text = get_button_description(self, blocks[2])
 			api:answerCallbackQuery(msg.cb_id, text, true, config.bot_settings.cache_time.alert_help)
 			return
