@@ -1,8 +1,5 @@
 local config = require "groupbutler.config"
-local locale = require "groupbutler.languages"
-local i18n = locale.translate
 local null = require "groupbutler.null"
-local api_err = require "groupbutler.api_errors"
 local api_u = require "telegram-bot-api.utilities"
 
 local _M = {}
@@ -89,6 +86,7 @@ end
 
 local function get_reply_markup(self, msg, text)
 	local u = self.u
+	local i18n = self.i18n
 
 	local new_text, reply_markup
 	if text then
@@ -108,6 +106,7 @@ end
 local function send_welcome(self, msg)
 	local api = self.api
 	local red = self.red
+	local i18n = self.i18n
 	local u = self.u
 
 	if not is_on(self, msg.chat.id, 'Welcome') then
@@ -159,6 +158,8 @@ function _M:onTextMessage(blocks)
 	local api = self.api
 	local msg = self.message
 	local red = self.red
+	local i18n = self.i18n
+	local api_err = self.api_err
 	local u = self.u
 
 	if blocks[1] == 'welcome' then
@@ -206,7 +207,7 @@ function _M:onTextMessage(blocks)
 			if not ok then
 				red:hset(hash, 'type', 'no') --if wrong markdown, remove 'custom' again
 				red:hset(hash, 'content', 'no')
-				api:sendMessage(msg.chat.id, api_err.trans(err), "Markdown")
+				api:sendMessage(msg.chat.id, api_err:trans(err), "Markdown")
 			else
 				-- turn on the welcome message in the group settings
 				red:hset(('chat:%d:settings'):format(msg.chat.id), 'Welcome', 'on')

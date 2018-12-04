@@ -1,6 +1,4 @@
 local config = require "groupbutler.config"
-local locale = require "groupbutler.languages"
-local i18n = locale.translate
 local null = require "groupbutler.null"
 
 local _M = {}
@@ -19,7 +17,8 @@ local function set_default(t, d)
 	setmetatable(t, mt)
 end
 
-local function get_button_description(key)
+local function get_button_description(self, key)
+	local i18n = self.i18n
 	local button_description = {
 		-- TRANSLATORS: these strings should be shorter than 200 characters
 		Reports = i18n("When enabled, users will be able to report messages with the @admin command"),
@@ -47,6 +46,7 @@ end
 
 local function changeWarnSettings(self, chat_id, action)
 	local red = self.red
+	local i18n = self.i18n
 	local current = tonumber(red:hget('chat:'..chat_id..':warnsettings', 'max'))
 		or config.chat_settings['warnsettings']['max']
 	local new_val
@@ -83,6 +83,7 @@ end
 
 local function changeCharSettings(self, chat_id, field)
 	local red = self.red
+	local i18n = self.i18n
 	local humanizations = {
 		kick = i18n("Action -> kick"),
 		ban = i18n("Action -> ban"),
@@ -149,6 +150,7 @@ end
 
 local function charsettings_table(self, settings, chat_id)
 	local red = self.red
+	local i18n = self.i18n
 	local return_table = {}
 	for field, default in pairs(settings) do
 		local status = red:hget('chat:'..chat_id..':char', field)
@@ -168,7 +170,8 @@ local function charsettings_table(self, settings, chat_id)
 	return return_table
 end
 
-local function insert_settings_section(keyboard, settings_section, chat_id)
+local function insert_settings_section(self, keyboard, settings_section, chat_id)
+	local i18n = self.i18n
 	local strings = {
 		Welcome = i18n("Welcome"),
 		Goodbye = i18n("Goodbye"),
@@ -187,7 +190,7 @@ local function insert_settings_section(keyboard, settings_section, chat_id)
 
 	for key, icon in pairs(settings_section) do
 		local current = {
-			{text = strings[key] or key, callback_data = 'menu:alert:settings:'..key..':'..locale.language},
+			{text = strings[key] or key, callback_data = 'menu:alert:settings:'..key},
 			{text = icon, callback_data = 'menu:'..key..':'..chat_id}
 		}
 		table.insert(keyboard.inline_keyboard, current)
@@ -198,16 +201,17 @@ end
 
 local function doKeyboard_menu(self, chat_id)
 	local red = self.red
+	local i18n = self.i18n
 	local keyboard = {inline_keyboard = {}}
 
 	local settings_section = adminsettings_table(self, config.chat_settings['settings'], chat_id)
-	keyboard = insert_settings_section(keyboard, settings_section, chat_id)
+	keyboard = insert_settings_section(self, keyboard, settings_section, chat_id)
 
 	settings_section = usersettings_table(self, config.chat_settings['settings'], chat_id)
-	keyboard = insert_settings_section(keyboard, settings_section, chat_id)
+	keyboard = insert_settings_section(self, keyboard, settings_section, chat_id)
 
 	settings_section = charsettings_table(self, config.chat_settings['char'], chat_id)
-	keyboard = insert_settings_section(keyboard, settings_section, chat_id)
+	keyboard = insert_settings_section(self, keyboard, settings_section, chat_id)
 
 	--warn
 	local max = red:hget('chat:'..chat_id..':warnsettings', 'max')
@@ -225,12 +229,12 @@ local function doKeyboard_menu(self, chat_id)
 	end
 	local warn = {
 		{
-			{text = i18n('Warns: ')..max, callback_data = 'menu:alert:settings:warnsnum:'..locale.language},
+			{text = i18n('Warns: ')..max, callback_data = 'menu:alert:settings:warnsnum'},
 			{text = '➖', callback_data = 'menu:DimWarn:'..chat_id},
 			{text = '➕', callback_data = 'menu:RaiseWarn:'..chat_id},
 		},
 		{
-			{text = i18n('Action:'), callback_data = 'menu:alert:settings:warnsact:'..locale.language},
+			{text = i18n('Action:'), callback_data = 'menu:alert:settings:warnsact'},
 			{text = action, callback_data = 'menu:ActionWarn:'..chat_id}
 		}
 	}
@@ -248,6 +252,7 @@ function _M:onCallbackQuery(blocks)
 	local api = self.api
 	local msg = self.message
 	local u = self.u
+	local i18n = self.i18n
 	local chat_id = msg.target_id
 	if chat_id and not u:is_allowed('config', chat_id, msg.from) then
 		api:answerCallbackQuery(msg.cb_id, i18n("You're no longer an admin"))
@@ -261,10 +266,7 @@ function _M:onCallbackQuery(blocks)
 			api:editMessageText(msg.chat.id, msg.message_id, nil, menu_first, "Markdown", nil, keyboard)
 		else
 			if blocks[2] == 'alert' then
-				if config.available_languages[blocks[4]] then
-					locale.language = blocks[4]
-				end
-				text = get_button_description(blocks[3])
+				text = get_button_description(self, blocks[3])
 				api:answerCallbackQuery(msg.cb_id, text, true, config.bot_settings.cache_time.alert_help)
 				return
 			end

@@ -1,5 +1,4 @@
 local config = require "groupbutler.config"
-
 local strings = {} -- internal array with translated strings
 
 -- String functions
@@ -64,22 +63,40 @@ local function parse(filename)
 	return result
 end
 
-local locale = {} -- table with exported functions
-
-locale.language = config.lang -- default language
-
-function locale.init(directory)
-	directory = directory or "locales"
-
+do
+	local directory = "locales"
 	for lang_code in pairs(config.available_languages) do
 		strings[lang_code] = parse(string.format('%s/%s.po', directory, lang_code))
 	end
 end
 
-function locale.translate(msgid)
-	return strings[locale.language][msgid:gsub('^\n', '')] or msgid
+local _M = {}
+
+function _M:new(obj)
+	obj = obj or {
+		language = config.lang
+	}
+	setmetatable(obj, {
+		__call = self.translate,
+		__index = self,
+	})
+	return obj
 end
 
-locale.init()
+function _M:setLanguage(language)
+	if not config.available_languages[language] then
+		return false
+	end
+	self.language = language
+	return true
+end
 
-return locale
+function _M:getLanguage()
+	return self.language
+end
+
+function _M:translate(msgid)
+	return strings[self.language][msgid:gsub('^\n', '')] or msgid
+end
+
+return _M

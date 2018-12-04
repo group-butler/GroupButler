@@ -1,7 +1,5 @@
 local config = require "groupbutler.config"
 
-local i18n = require "groupbutler.languages".translate
-
 local _M = {}
 
 function _M:new(update_obj)
@@ -18,7 +16,8 @@ local function set_default(t, d)
 	setmetatable(t, mt)
 end
 
-local function get_helped_string(key)
+local function get_helped_string(self, key)
+	local i18n = self.i18n
 	local helped_string = {
 		main_menu = i18n("In this menu you will find all the available commands"),
 		start = i18n([[Hello %s 👋🏼, nice to meet you!
@@ -234,7 +233,8 @@ To change your log channel, simply repeat this process with another channel.
 	return helped_string[key]
 end
 
-local function dk_admins()
+local function dk_admins(self)
+	local i18n = self.i18n
 	local keyboard = {}
 	keyboard.inline_keyboard = {}
 	local list = {
@@ -270,7 +270,8 @@ local function dk_admins()
 	return keyboard
 end
 
-local function do_keyboard_private()
+local function do_keyboard_private(self)
+	local i18n = self.i18n
 	local keyboard = {}
 	keyboard.inline_keyboard = {
 		{
@@ -284,7 +285,8 @@ local function do_keyboard_private()
 	return keyboard
 end
 
-local function dk_main()
+local function dk_main(self)
+	local i18n = self.i18n
 	local keyboard = {inline_keyboard={}}
 	keyboard.inline_keyboard = {
 		{{text = i18n('Basics'), callback_data = 'help:basics'}},
@@ -297,10 +299,11 @@ local function dk_main()
 	return keyboard
 end
 
-local function do_keyboard(keyboard_type)
+local function do_keyboard(self, keyboard_type)
+	local i18n = self.i18n
 	local callbacks = {
-		['main'] = dk_main(),
-		['admins'] = dk_admins()
+		['main'] = dk_main(self),
+		['admins'] = dk_admins(self)
 	}
 
 	local keyboard = callbacks[keyboard_type] or {inline_keyboard = {}}
@@ -317,19 +320,20 @@ function _M:onTextMessage(blocks)
 	local msg = self.message
 	local u = self.u
 	local red = self.red
+	local i18n = self.i18n
 	if blocks[1] == 'start' then
 		if msg.chat.type == 'private' then
-			local message = get_helped_string('start'):format(msg.from.first_name:escape())
-			local keyboard = do_keyboard_private()
+			local message = get_helped_string(self, 'start'):format(msg.from.first_name:escape())
+			local keyboard = do_keyboard_private(self)
 			api:sendMessage(msg.from.id, message, "Markdown", nil, nil, nil, keyboard)
 		end
 	end
 	if blocks[1] == 'help' then
-		local text = get_helped_string(blocks[2] or 'main_menu')
+		local text = get_helped_string(self, blocks[2] or 'main_menu')
 		if blocks[2] then
 			api:sendMessage(msg.from.id, text, "Markdown")
 		else
-			local keyboard = do_keyboard('main')
+			local keyboard = do_keyboard(self, 'main')
 			local res = api:sendMessage(msg.from.id, text, "Markdown", nil, nil, nil, keyboard)
 			if not res and msg.chat.type ~= 'private' and red:hget('chat:'..msg.chat.id..':settings', 'Silent') ~= 'on' then
 				api:sendMessage(msg.chat.id,
@@ -342,39 +346,40 @@ end
 function _M:onCallbackQuery(blocks)
 	local api = self.api
 	local msg = self.message
+	local i18n = self.i18n
 	local text, keyboard_type, answerCallbackQuery_text
 
 	local query = {
 		basics = function()
-			text = get_helped_string('basics')
+			text = get_helped_string(self, 'basics')
 			answerCallbackQuery_text = i18n('Basic usage')
 		end,
 		users = function()
-			text = get_helped_string('users_group')
+			text = get_helped_string(self, 'users_group')
 			answerCallbackQuery_text = i18n('Commands for users (group)')
 		end,
 		private = function()
-			text = get_helped_string('private')
+			text = get_helped_string(self, 'private')
 			answerCallbackQuery_text = i18n('Available commands in private')
 		end,
 		logchannel = function()
-			text = get_helped_string('logchannel')
+			text = get_helped_string(self, 'logchannel')
 			answerCallbackQuery_text = i18n('Log channel informations')
 		end,
 		admins = function()
 			keyboard_type = 'admins'
-			text = get_helped_string(blocks[2])
+			text = get_helped_string(self, blocks[2])
 			answerCallbackQuery_text = i18n('Available commands for admins')
 		end,
 	} set_default(query, function()
 			keyboard_type = 'main'
-			text = get_helped_string('main_menu')
+			text = get_helped_string(self, 'main_menu')
 			answerCallbackQuery_text = i18n('Main menu')
 	end)
 
 	query[blocks[1]]()
 
-	local keyboard = do_keyboard(keyboard_type)
+	local keyboard = do_keyboard(self, keyboard_type)
 	local ok, err = api:editMessageText(msg.chat.id, msg.message_id, nil, text, "Markdown", nil, keyboard)
 	if not ok and err and err.error_code == 111 then
 		api:answerCallbackQuery(msg.cb_id, i18n("❗️ Already there"))

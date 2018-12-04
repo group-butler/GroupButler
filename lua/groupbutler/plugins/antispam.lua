@@ -1,6 +1,4 @@
 local config = require "groupbutler.config"
-local locale = require "groupbutler.languages"
-local i18n = locale.translate
 local null = require "groupbutler.null"
 
 local _M = {}
@@ -39,19 +37,23 @@ local function getAntispamWarns(self, chat_id, user_id)
 	return warns_received, max_allowed
 end
 
-local humanizations = {
-	['ban'] = i18n('banned'),
-	['kick'] = i18n('kicked'),
-	['mute'] = i18n('muted'),
-	['links'] = i18n('telegram.me links'),
-	['forwards'] = i18n('Channels messages')
-}
+local function humanizations(self)
+	local i18n = self.i18n
+	return {
+		['ban'] = i18n('banned'),
+		['kick'] = i18n('kicked'),
+		['mute'] = i18n('muted'),
+		['links'] = i18n('telegram.me links'),
+		['forwards'] = i18n('Channels messages')
+	}
+end
 
 function _M:on_message()
 	local api = self.api
 	local msg = self.message
 	local u = self.u
 	local red = self.red
+	local i18n = self.i18n
 
 	if not msg.inline and msg.spam and msg.chat.id < 0 and not msg.cb and not msg:is_from_admin() then
 		local status = red:hget('chat:'..msg.chat.id..':antispam', msg.spam)
@@ -89,7 +91,9 @@ function _M:on_message()
 					if res then
 						red:hdel('chat:'..msg.chat.id..':spamwarns', msg.from.id) --remove spam warns
 						api:sendMessage(msg.chat.id,
-							i18n('%s %s for <b>spam</b>! (%d/%d)'):format(name, humanizations[action], warns_received, max_allowed), 'html')
+							i18n('%s %s for <b>spam</b>! (%d/%d)'):format(name, humanizations(self)[action], warns_received, max_allowed),
+								'html'
+							)
 					end
 				else
 					if status == 'del' and warns_received == max_allowed - 1 then
@@ -117,6 +121,7 @@ end
 
 local function toggleAntispamSetting(self, chat_id, key)
 	local red = self.red
+	local i18n = self.i18n
 	local hash = 'chat:'..chat_id..':antispam'
 	local current =red:hget(hash, key)
 	if current == null then current = config.chat_settings['antispam'][key] end
@@ -146,6 +151,7 @@ end
 
 local function changeWarnsNumber(self, chat_id, action)
 	local red = self.red
+	local i18n = self.i18n
 	local hash = 'chat:'..chat_id..':antispam'
 	local key = 'warns'
 	local current = red:hget(hash, key)
@@ -188,7 +194,8 @@ local function changeAction(self, chat_id)
 	return '✅'
 end
 
-local function get_alert_text(key)
+local function get_alert_text(self, key)
+	local i18n = self.i18n
 	if key == 'links' then
 		return i18n("Allow/forbid telegram.me links")
 	elseif key == 'forwards' then
@@ -202,6 +209,7 @@ end
 
 local function doKeyboard_antispam(self, chat_id)
 	local red = self.red
+	local i18n = self.i18n
 	local keyboard = {inline_keyboard = {}}
 
 	for field, _ in pairs(config.chat_settings['antispam']) do
@@ -213,7 +221,10 @@ local function doKeyboard_antispam(self, chat_id)
 				icon = '❌'
 			elseif status == 'del' then icon = '🗑' end
 			local line = {
-				{text = i18n(humanizations[field] or field), callback_data = 'antispam:alert:'..field..':'..locale.language},
+				{
+					text = humanizations(self)[field] or field,
+					callback_data = 'antispam:alert:'..field
+				},
 				{text = icon, callback_data = 'antispam:toggle:'..field..':'..chat_id}
 			}
 			table.insert(keyboard.inline_keyboard, line)
@@ -235,7 +246,7 @@ local function doKeyboard_antispam(self, chat_id)
 	end
 
 	local line = {
-		{text = 'Warns: '..warns, callback_data = 'antispam:alert:warns:'..locale.language},
+		{text = 'Warns: '..warns, callback_data = 'antispam:alert:warns'},
 		{text = '➖', callback_data = 'antispam:toggle:dim:'..chat_id},
 		{text = '➕', callback_data = 'antispam:toggle:raise:'..chat_id},
 		{text = action, callback_data = 'antispam:toggle:action:'..chat_id}
@@ -269,12 +280,10 @@ function _M:onCallbackQuery(blocks)
 	local api = self.api
 	local msg = self.message
 	local u = self.u
+	local i18n = self.i18n
 
 	if blocks[1] == 'alert' then
-		if config.available_languages[blocks[3]] then
-			locale.language = blocks[3]
-		end
-		local text = get_alert_text(blocks[2])
+		local text = get_alert_text(self, blocks[2])
 		api:answerCallbackQuery(msg.cb_id, text, true, config.bot_settings.cache_time.alert_help)
 	else
 
@@ -341,6 +350,7 @@ function _M:onTextMessage(blocks)
 	local msg = self.message
 	local u = self.u
 	local red = self.red
+	local i18n = self.i18n
 
 	if u:is_allowed('texts', msg.chat.id, msg.from) then
 		if (blocks[1] == 'wl' or blocks[1] == 'whitelist') and blocks[2] then

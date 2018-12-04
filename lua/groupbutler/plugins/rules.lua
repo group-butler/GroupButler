@@ -1,7 +1,4 @@
 local config = require "groupbutler.config"
-local locale = require "groupbutler.languages"
-local i18n = locale.translate
-local api_err = require "groupbutler.api_errors"
 
 local _M = {}
 
@@ -27,6 +24,8 @@ function _M:onTextMessage(blocks)
 	local api = self.api
 	local msg = self.message
 	local red = self.red
+	local i18n = self.i18n
+	local api_err = self.api_err
 	local u = self.u
 
 	if msg.chat.type == 'private' then
@@ -88,7 +87,7 @@ function _M:onTextMessage(blocks)
 		--set the new rules
 		local ok, err = msg:send_reply(test_text, "Markdown", nil, nil, reply_markup)
 		if not ok then
-			api:sendMessage(msg.chat.id, api_err.trans(err), "Markdown")
+			api:sendMessage(msg.chat.id, api_err:trans(err), "Markdown")
 		else
 			red:hset(hash, 'rules', rules)
 			local id = ok.message_id

@@ -1,7 +1,4 @@
 local config = require "groupbutler.config"
-local locale = require "groupbutler.languages"
-local i18n = locale.translate
-local api_err = require "groupbutler.api_errors"
 
 local _M = {}
 
@@ -14,25 +11,30 @@ function _M:new(update_obj)
 	return plugin_obj
 end
 
-local function bot_version()
+local function bot_version(self)
+	local i18n = self.i18n
 	if not config.commit or (config.commit):len() ~= 40 then
 		return i18n("unknown")
 	end
 	return ("[%s](%s/commit/%s)"):format(string.sub(config.commit, 1, 7), config.source_code, config.commit)
 end
 
-local strings = {
-	about = i18n([[This bot is based on [otouto](https://github.com/topkecleon/otouto) (AKA @mokubot, channel: @otouto), a multipurpose Lua bot.
+local function strings(self)
+	local i18n = self.i18n
+	return {
+		about = i18n([[This bot is based on [otouto](https://github.com/topkecleon/otouto) (AKA @mokubot, channel: @otouto), a multipurpose Lua bot.
 Group Butler wouldn't exist without it.
 
 You can contact the owners of this bot using the /groups command.
 
 Bot version: %s
 *Some useful links:*]]):format(bot_version())
-}
+	}
+end
 
 local function do_keyboard_credits(self)
 	local bot = self.bot
+	local i18n = self.i18n
 	local keyboard = {}
 	keyboard.inline_keyboard = {
 		{
@@ -50,6 +52,8 @@ end
 function _M:onTextMessage(blocks)
 	local api = self.api
 	local msg = self.message
+	local i18n = self.i18n
+	local api_err = self.api_err
 
 	if msg.chat.type ~= 'private' then return end
 
@@ -59,12 +63,12 @@ function _M:onTextMessage(blocks)
 	if blocks[1] == 'echo' then
 		local ok, err = api:sendMessage(msg.chat.id, blocks[2], "Markdown")
 		if not ok then
-			api:sendMessage(msg.chat.id, api_err.trans(err), "Markdown")
+			api:sendMessage(msg.chat.id, api_err:trans(err), "Markdown")
 		end
 	end
 	if blocks[1] == 'about' then
 		local keyboard = do_keyboard_credits(self)
-		api:sendMessage(msg.chat.id, strings.about, "Markdown", true, nil, nil, keyboard)
+		api:sendMessage(msg.chat.id, strings(self).about, "Markdown", true, nil, nil, keyboard)
 	end
 	if blocks[1] == 'group' then
 		if config.help_group and config.help_group ~= '' then
@@ -77,10 +81,11 @@ end
 function _M:onCallbackQuery(blocks)
 	local api = self.api
 	local msg = self.message
+	local i18n = self.i18n
 
 	if blocks[1] == 'about' then
 		local keyboard = do_keyboard_credits(self)
-		api:editMessageText(msg.chat.id, msg.message_id, nil, strings.about, "Markdown", true, keyboard)
+		api:editMessageText(msg.chat.id, msg.message_id, nil, strings(self).about, "Markdown", true, keyboard)
 	end
 	if blocks[1] == 'group' then
 		if config.help_group and config.help_group ~= '' then

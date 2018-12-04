@@ -1,8 +1,5 @@
 local config = require "groupbutler.config"
-
-local locale = require "groupbutler.languages"
 local log = require "groupbutler.logging"
-local i18n = locale.translate
 local null = require "groupbutler.null"
 
 local _M = {}
@@ -38,6 +35,7 @@ end
 
 local function do_keyboard_config(self, chat_id, user_id) -- is_admin
 	local u = self.u
+	local i18n = self.i18n
 	local keyboard = {
 		inline_keyboard = {
 			{{text = i18n("🛠 Menu"), callback_data = 'config:menu:'..chat_id}},
@@ -61,6 +59,7 @@ function _M:onTextMessage()
 	local msg = self.message
 	local u = self.u
 	local red = self.red
+	local i18n = self.i18n
 	if msg.chat.type ~= 'private' then
 		if u:is_allowed('config', msg.chat.id, msg.from) then
 			local chat_id = msg.chat.id
@@ -83,6 +82,7 @@ end
 function _M:onCallbackQuery()
 	local api = self.api
 	local msg = self.message
+	local i18n = self.i18n
 	local chat_id = msg.target_id
 	local keyboard = do_keyboard_config(self, chat_id, msg.from.id, msg:is_from_admin())
 	local text = i18n("<i>Change the settings of your group</i>")

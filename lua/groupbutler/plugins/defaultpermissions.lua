@@ -1,6 +1,4 @@
 local config = require "groupbutler.config"
-local locale = require "groupbutler.languages"
-local i18n = locale.translate
 local null = require "groupbutler.null"
 
 local _M = {}
@@ -58,7 +56,8 @@ local function set_default(t, d)
 	setmetatable(t, mt)
 end
 
-local function get_alert_text(key)
+local function get_alert_text(self, key)
+	local i18n = self.i18n
 	local alert_text = {
 		can_send_messages = i18n("Permission to send messages. If disabled, the user won't be able to send any kind of message"), -- luacheck: ignore 631
 		can_send_media_messages = i18n("Permission to send media (audios, documents, photos, videos, video notes and voice notes). Implies the permission to send messages"), -- luacheck: ignore 631
@@ -69,12 +68,15 @@ local function get_alert_text(key)
 	return alert_text[key]
 end
 
-local humanizations = {
-	['can_send_messages'] = i18n('Send messages'),
-	['can_send_media_messages'] = i18n('Send media'),
-	['can_send_other_messages'] = i18n('Send other types of media'),
-	['can_add_web_page_previews'] = i18n('Show web page preview'),
-}
+local function humanizations(self)
+	local i18n = self.i18n
+	return {
+		['can_send_messages'] = i18n('Send messages'),
+		['can_send_media_messages'] = i18n('Send media'),
+		['can_send_other_messages'] = i18n('Send other types of media'),
+		['can_add_web_page_previews'] = i18n('Show web page preview'),
+	}
+end
 
 local permissions =
 {'can_send_messages', 'can_send_media_messages', 'can_send_other_messages', 'can_add_web_page_previews'}
@@ -94,8 +96,8 @@ local function doKeyboard_permissions(self, chat_id)
 		if status == 'false' then icon = '☑️' end
 		line = {
 			{
-				text = i18n(humanizations[permission] or permission),
-				callback_data = 'defpermissions:alert:'..permission..':'..locale.language
+				text = humanizations(self)[permission] or permission,
+				callback_data = 'defpermissions:alert:'..permission
 			},
 			{
 				text = icon,
@@ -115,11 +117,9 @@ function _M:onCallbackQuery(blocks)
 	local api = self.api
 	local msg = self.message
 	local u = self.u
+	local i18n = self.i18n
 	if blocks[1] == 'alert' then
-		if config.available_languages[blocks[3]] then
-			locale.language = blocks[3]
-		end
-		local text = get_alert_text(blocks[2])
+		local text = get_alert_text(self, blocks[2])
 		api:answerCallbackQuery(msg.cb_id, text, true, config.bot_settings.cache_time.alert_help)
 	else
 		local chat_id = msg.target_id

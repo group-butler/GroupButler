@@ -1,6 +1,4 @@
 local config = require "groupbutler.config"
-local locale = require "groupbutler.languages"
-local i18n = locale.translate
 local null = require "groupbutler.null"
 
 local _M = {}
@@ -14,7 +12,8 @@ function _M:new(update_obj)
 	return plugin_obj
 end
 
-local function doKeyboard_warn(user_id)
+local function doKeyboard_warn(self, user_id)
+	local i18n = self.i18n
 	local keyboard = {}
 	keyboard.inline_keyboard = {{{text = i18n("Remove warn"), callback_data = 'removewarn:'..user_id}}}
 
@@ -38,6 +37,7 @@ function _M:onTextMessage(blocks)
 	local msg = self.message
 	local bot = self.bot
 	local red = self.red
+	local i18n = self.i18n
 	local u = self.u
 
 	if msg.chat.type == 'private'
@@ -151,7 +151,7 @@ function _M:onTextMessage(blocks)
 			})
 		else
 			text = i18n("%s <b>has been warned</b> (<code>%d/%d</code>)"):format(target_name, num, nmax)
-			local keyboard = doKeyboard_warn(user_id)
+			local keyboard = doKeyboard_warn(self, user_id)
 			if blocks[1] ~= 'sw' then api:sendMessage(msg.chat.id, text, 'html', true, nil, nil, keyboard) end
 			u:logEvent('warn', msg, {
 				motivation = blocks[2],
@@ -169,6 +169,7 @@ function _M:onCallbackQuery(blocks)
 	local api = self.api
 	local msg = self.message
 	local red = self.red
+	local i18n = self.i18n
 	local u = self.u
 
 	if not u:is_allowed('hammer', msg.chat.id, msg.from) then

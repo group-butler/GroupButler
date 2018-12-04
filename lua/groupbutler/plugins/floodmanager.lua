@@ -1,6 +1,4 @@
 local config = require "groupbutler.config"
-local locale = require "groupbutler.languages"
-local i18n = locale.translate
 local null = require "groupbutler.null"
 
 local _M = {}
@@ -14,7 +12,8 @@ function _M:new(update_obj)
 	return plugin_obj
 end
 
-local function get_button_description(key)
+local function get_button_description(self, key)
+	local i18n = self.i18n
 	if key == 'num' then
 		return i18n("⚖ Current sensitivity. Tap on the + or the - to change it")
 	elseif key == 'voice' then
@@ -28,6 +27,7 @@ end
 
 local function do_keyboard_flood(self, chat_id)
 	local red = self.red
+	local i18n = self.i18n
 	--no: enabled, yes: disabled
 	local status = red:hget('chat:'..chat_id..':settings', 'Flood')
 	if status == null then status = config.chat_settings['settings']['Flood'] end
@@ -57,7 +57,7 @@ local function do_keyboard_flood(self, chat_id)
 			},
 			{
 				{text = '➖', callback_data = 'flood:dim:'..chat_id},
-				{text = tostring(num), callback_data = 'flood:alert:num:'..locale.language},
+				{text = tostring(num), callback_data = 'flood:alert:num'},
 				{text = '➕', callback_data = 'flood:raise:'..chat_id},
 			}
 		}
@@ -84,7 +84,7 @@ local function do_keyboard_flood(self, chat_id)
 			exc_status = '❌'
 		end
 		local line = {
-			{text = translation, callback_data = 'flood:alert:voice:'..locale.language},
+			{text = translation, callback_data = 'flood:alert:voice'},
 			{text = exc_status, callback_data = 'flood:exc:'..media..':'..chat_id},
 		}
 		table.insert(keyboard.inline_keyboard, line)
@@ -98,6 +98,7 @@ end
 
 local function changeFloodSettings(self, chat_id, screm)
 	local red = self.red
+	local i18n = self.i18n
 	local hash = 'chat:'..chat_id..':flood'
 	if type(screm) == 'string' then
 		if screm == 'mute' then
@@ -137,6 +138,7 @@ function _M:onCallbackQuery(blocks)
 	local msg = self.message
 	local u = self.u
 	local red = self.red
+	local i18n = self.i18n
 	local chat_id = msg.target_id
 	if chat_id and not u:is_allowed('config', chat_id, msg.from) then
 		api:answerCallbackQuery(msg.cb_id, i18n("You're no longer an admin"))
@@ -152,10 +154,7 @@ It is also possible to choose which type of messages the antiflood will ignore (
 		end
 
 		if blocks[1] == 'alert' then
-			if config.available_languages[blocks[3]] then
-				locale.language = blocks[3]
-			end
-			text = get_button_description(blocks[2])
+			text = get_button_description(self, blocks[2])
 			api:answerCallbackQuery(msg.cb_id, text, true, config.bot_settings.cache_time.alert_help)
 			return
 		end

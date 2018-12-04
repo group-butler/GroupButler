@@ -1,10 +1,7 @@
 local config = require "groupbutler.config"
-local api_err = require "groupbutler.api_errors"
 local api_u = require "telegram-bot-api.utilities"
-local locale = require "groupbutler.languages"
 local log = require "groupbutler.logging"
 local null = require "groupbutler.null"
-local i18n = locale.translate
 local http, HTTPS, ltn12, time_hires, sleep
 if ngx then
 	http = require "resty.http"
@@ -23,6 +20,8 @@ local _M = {} -- Functions shared among plugins
 function _M:new(update_obj)
 	local utilities_obj = {
 		api = update_obj.api,
+		api_err = update_obj.api_err,
+		i18n = update_obj.i18n,
 		db = update_obj.db,
 		red = update_obj.red,
 		bot = update_obj.bot
@@ -38,18 +37,20 @@ end
 
 function _M:banUser(chat_id, user_id, until_date)
 	local api = self.api
+	local api_err = self.api_err
 	local ok, err = api:kickChatMember(chat_id, user_id, until_date) --try to kick. "code" is already specific
 	if not ok then --if the user has been kicked, then...
-		return nil, api_err.trans(err)
+		return nil, api_err:trans(err)
 	end
 	return ok --return res and not the text
 end
 
 function _M:kickUser(chat_id, user_id)
 	local api = self.api
+	local api_err = self.api_err
 	local ok, err = api:kickChatMember(chat_id, user_id) --try to kick
 	if not ok then --if the user has been kicked, then unban...
-		return nil, api_err.trans(err)
+		return nil, api_err:trans(err)
 	end
 	api:unbanChatMember(chat_id, user_id)
 	return ok
@@ -57,13 +58,14 @@ end
 
 function _M:muteUser(chat_id, user_id)
 	local api = self.api
+	local api_err = self.api_err
 	local ok, err = api:restrictChatMember{
 		chat_id = chat_id,
 		user_id = user_id,
 		can_send_messages = false
 	}
 	if not ok then
-		return nil, api_err.trans(err)
+		return nil, api_err:trans(err)
 	end
 	return ok
 end
@@ -515,6 +517,7 @@ end
 
 function _M:getRules(chat_id)
 	local red = self.red
+	local i18n = self.i18n
 	local hash = 'chat:'..chat_id..':info'
 	local rules = red:hget(hash, 'rules')
 	if rules == null then
@@ -525,6 +528,7 @@ end
 
 function _M:getAdminlist(chat_id)
 	local api = self.api
+	local i18n = self.i18n
 	local list, code = self:get_cached_admins_list(chat_id)
 	if not list then
 		return false, code
@@ -563,6 +567,8 @@ end
 
 function _M:getExtraList(chat_id)
 	local red = self.red
+	local i18n = self.i18n
+
 	local hash = 'chat:'..chat_id..':extra'
 	local commands = red:hkeys(hash)
 	if not next(commands) then
@@ -574,6 +580,8 @@ end
 
 function _M:getSettings(chat_id)
 	local red = self.red
+	local i18n = self.i18n
+
 	local hash = 'chat:'..chat_id..':settings'
 
 	local lang = red:get('lang:'..chat_id) -- group language
@@ -656,6 +664,8 @@ end
 function _M:changeSettingStatus(chat_id, field)
 	local api = self.api
 	local red = self.red
+	local i18n = self.i18n
+
 	local turned_off = {
 		reports = i18n("@admin command disabled"),
 		welcome = i18n("Welcome message won't be displayed from now"),
@@ -699,6 +709,7 @@ end
 
 function _M:sendStartMe(msg)
 	local api = self.api
+	local i18n = self.i18n
 	local bot = self.bot
 	local keyboard = {
 		inline_keyboard = {{{text = i18n("Start me"), url = 'https://telegram.me/'..bot.username}}}
@@ -776,6 +787,7 @@ end
 
 function _M:getnames_complete(msg)
 	local api = self.api
+	local i18n = self.i18n
 	local admin, kicked
 
 	admin = self:getname_link(msg.from)
@@ -806,6 +818,7 @@ function _M:getnames_complete(msg)
 end
 
 function _M:get_user_id(msg, blocks)
+	local i18n = self.i18n
 	--if no user id: returns false and the msg id of the translation for the problem
 	if not msg.reply and not blocks[2] then
 		return false, i18n("Reply to a user or mention them")
@@ -843,6 +856,7 @@ function _M:logEvent(event, msg, extra)
 	local api = self.api
 	local bot = self.bot
 	local red = self.red
+	local i18n = self.i18n
 	local log_id = red:hget('bot:chatlogs', msg.chat.id)
 	-- self:dump(extra)
 
