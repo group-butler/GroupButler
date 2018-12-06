@@ -1,6 +1,4 @@
 local config = require "groupbutler.config"
-local locale = require "groupbutler.languages"
-local i18n = locale.translate
 local null = require "groupbutler.null"
 
 local _M = {}
@@ -16,6 +14,7 @@ end
 
 local function getFloodSettings_text(self, chat_id)
 	local red = self.red
+	local i18n = self.i18n
 	local status = red:hget('chat:'..chat_id..':settings', 'Flood') -- (default: disabled)
 	if status == 'no' or status == 'on' then
 		status = i18n("✅ | ON")
@@ -61,7 +60,8 @@ local function getFloodSettings_text(self, chat_id)
 			.. i18n("- *Ignored media*:\n%s"):format(list_exc)
 end
 
-local function doKeyboard_dashboard(chat_id)
+local function doKeyboard_dashboard(self, chat_id)
+	local i18n = self.i18n
 	local reply_markup = { inline_keyboard = {
 		{
 			{text = i18n("Settings"), callback_data = 'dashboard:settings:'..chat_id},
@@ -84,9 +84,10 @@ function _M:onTextMessage()
 	local api = self.api
 	local msg = self.message
 	local u = self.u
+	local i18n = self.i18n
 	if msg.chat.type ~= 'private' then
 		local chat_id = msg.chat.id
-		local reply_markup = doKeyboard_dashboard(chat_id)
+		local reply_markup = doKeyboard_dashboard(self, chat_id)
 		local ok = api:send_message{
 			chat_id = msg.from.id,
 			text = i18n("Navigate this message to see *all the info* about this group!"),
@@ -108,6 +109,7 @@ function _M:onCallbackQuery(blocks)
 	local msg = self.message
 	local u = self.u
 	local red = self.red
+	local i18n = self.i18n
 	local chat_id = msg.target_id
 	local request = blocks[2]
 	local text, notification
@@ -125,7 +127,7 @@ function _M:onCallbackQuery(blocks)
 			"You can't see the settings of a private group."))
 		return
 	end
-	local reply_markup = doKeyboard_dashboard(chat_id)
+	local reply_markup = doKeyboard_dashboard(self, chat_id)
 	if request == 'settings' then
 		text = u:getSettings(chat_id)
 		notification = i18n("ℹ️ Group ► Settings")

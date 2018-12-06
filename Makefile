@@ -40,3 +40,11 @@ dev_polling: kill build_polling
 
 dev_webhooks: kill build_webhooks
 	docker-compose -f docker-compose.yml -f docker/docker-compose.webhooks.yml up
+
+dump_pg:
+	rm -f schema.sql && docker-compose exec postgres pg_dump -U postgres groupbutler --schema-only > schema.sql
+
+restore_pg:
+	docker-compose exec postgres dropdb -U postgres groupbutler
+	docker-compose exec postgres createdb -U postgres groupbutler
+	docker-compose exec postgres pg_restore -U postgres -C -d groupbutler < schema.sql

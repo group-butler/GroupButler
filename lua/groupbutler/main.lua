@@ -4,10 +4,11 @@ local utilities = require "groupbutler.utilities"
 local log = require "groupbutler.logging"
 local redis = require "resty.redis"
 local plugins = require "groupbutler.plugins"
-local message = require "groupbutler.message"
+local Message = require "groupbutler.message"
+local User = require "groupbutler.user"
 local storage = require "groupbutler.storage"
 local locale = require "groupbutler.languages"
-local i18n = locale.translate
+local api_err = require "groupbutler.api_errors"
 
 local _M = {}
 
@@ -31,45 +32,44 @@ function _M:new(update_obj)
 	end
 	update_obj.red:select(config.redis.db)
 	update_obj.db = storage:new(update_obj.red)
-
+	update_obj.i18n = locale:new()
 	update_obj.u = utilities:new(update_obj)
+	update_obj.api_err = api_err:new(update_obj)
 
 	return update_obj
 end
 
-local function extract_usernames(self, msg)
-	local red = self.red
-	if msg.from and msg.from.username then
-		red:hset('bot:usernames', '@'..msg.from.username:lower(), msg.from.id)
+local function inject_message_methods(message, update)
+	Message:new(message, update)
+	if message.from then -- Sender is empty for messages sent to channels
+		User:new(message.from, update):cache()
 	end
-	if msg.forward_from and msg.forward_from.username then
-		red:hset('bot:usernames', '@'..msg.forward_from.username:lower(), msg.forward_from.id)
+	if message.forward_from then
+		User:new(message.forward_from, update):cache()
 	end
-	if msg.new_chat_member then
-		if msg.new_chat_member.username then
-			red:hset('bot:usernames', '@'..msg.new_chat_member.username:lower(), msg.new_chat_member.id)
+end
+
+local function add_message_methods(object, update)
+	local message_objects = {
+		"message", "edited_message", "channel_post", -- Possible messages inside updates
+		"reply_to_message", "pinned_message",        -- Possible messages inside messages
+	}
+	for _, message in pairs(message_objects) do
+		if type(object[message]) == "table" then
+			inject_message_methods(object[message], update)
+			add_message_methods(object[message], update)
 		end
-		red:sadd(string.format('chat:%d:members', msg.chat.id), msg.new_chat_member.id)
 	end
-	if msg.left_chat_member then
-		if msg.left_chat_member.username then
-			red:hset('bot:usernames', '@'..msg.left_chat_member.username:lower(), msg.left_chat_member.id)
-		end
-		red:srem(string.format('chat:%d:members', msg.chat.id), msg.left_chat_member.id)
-	end
-	if msg.reply_to_message then
-		extract_usernames(self, msg.reply_to_message)
-	end
-	if msg.pinned_message then
-		extract_usernames(self, msg.pinned_message)
-	end
+end
+
+local function add_methods(update)
+	add_message_methods(update, update)
 end
 
 local function collect_stats(self)
 	local msg = self.message
 	local red = self.red
 	local u = self.u
-	extract_usernames(self, msg)
 	local now = os.time(os.date("*t"))
 	if msg.chat.type ~= 'private' and msg.chat.type ~= 'inline' and msg.from then
 		red:hset('chat:'..msg.chat.id..':userlast', msg.from.id, now) --last message for each user
@@ -100,6 +100,7 @@ local function on_msg_receive(self, callback) -- The fn run whenever a message i
 	local u = self.u
 	local red = self.red
 	local api = self.api
+	local i18n = self.i18n
 	-- u:dump(msg)
 
 	if not msg then
@@ -116,10 +117,7 @@ local function on_msg_receive(self, callback) -- The fn run whenever a message i
 	end
 
 	-- Set chat language
-	locale.language = red:get('lang:'..msg.chat.id) or config.lang
-	if not config.available_languages[locale.language] then
-		locale.language = config.lang
-	end
+	i18n:setLanguage(red:get('lang:'..msg.chat.id))
 
 	-- Do not process messages from normal groups
 	if msg.chat.type == 'group' then
@@ -209,7 +207,6 @@ end
 
 function _M:process()
 	local u = self.u
-	local red = self.red
 	local bot = self.bot
 
 	local start_time = u:time_hires()
@@ -274,9 +271,6 @@ function _M:process()
 			end
 		end
 		if self.message.reply_to_message then
-			-- Add message methods
-			message:new(self.message.reply_to_message, self)
-
 			self.message.reply = self.message.reply_to_message
 			if self.message.reply.caption then
 				self.message.reply.text = self.message.reply.caption
@@ -308,13 +302,12 @@ function _M:process()
 
 	if not self.message.text then self.message.text = self.message.caption or '' end
 
-	-- Add message methods
-	message:new(self.message, self)
+	add_methods(self)
 
 	local retval = on_msg_receive(self, function_key)
 	u:metric_set("msg_request_duration_sec", u:time_hires() - start_time)
-	-- print(red:get_reused_times())
-	red:set_keepalive()
+	-- print(self.db:get_reused_times())
+	self.db:set_keepalive()
 	return retval
 end
 

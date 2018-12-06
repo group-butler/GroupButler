@@ -1,6 +1,4 @@
 local config = require "groupbutler.config"
-local locale = require "groupbutler.languages"
-local i18n = locale.translate
 local null = require "groupbutler.null"
 
 local _M = {}
@@ -19,7 +17,8 @@ local function set_default(t, d)
 	setmetatable(t, mt)
 end
 
-local function get_alert_text(key)
+local function get_alert_text(self, key)
+	local i18n = self.i18n
 	local alert_text = {
 		new_chat_member = i18n("Log every time a user join the group"),
 		ban = i18n("Bans will be logged. I can't log manual bans"),
@@ -55,6 +54,7 @@ end
 
 local function doKeyboard_logchannel(self, chat_id)
 	local red = self.red
+	local i18n = self.i18n
 	local event_pretty = {
 		['ban'] = i18n('Ban'),
 		['kick'] = i18n('Kick'),
@@ -87,7 +87,7 @@ local function doKeyboard_logchannel(self, chat_id)
 		if current_status == 'no' then icon = '☑️' end
 		table.insert(keyboard.inline_keyboard,
 			{
-				{text = event_pretty[event] or event, callback_data = 'logchannel:alert:'..event..':'..locale.language},
+				{text = event_pretty[event] or event, callback_data = 'logchannel:alert:'..event},
 				{text = icon, callback_data = 'logchannel:toggle:'..event..':'..chat_id}
 			})
 	end
@@ -102,6 +102,7 @@ function _M:onCallbackQuery(blocks)
 	local api = self.api
 	local msg = self.message
 	local u = self.u
+	local i18n = self.i18n
 
 	if blocks[1] == 'logcb' then
 		local chat_id = msg.target_id
@@ -116,10 +117,7 @@ function _M:onCallbackQuery(blocks)
 		end
 	else
 		if blocks[1] == 'alert' then
-			if config.available_languages[blocks[3]] then
-				locale.language = blocks[3]
-			end
-			local text = get_alert_text(blocks[2])
+			local text = get_alert_text(self, blocks[2])
 			api:answerCallbackQuery(msg.cb_id, text, true, config.bot_settings.cache_time.alert_help)
 		else
 			local chat_id = msg.target_id
@@ -155,6 +153,7 @@ function _M:onTextMessage(blocks)
 	local api = self.api
 	local msg = self.message
 	local red = self.red
+	local i18n = self.i18n
 
 	if msg.chat.type ~= 'private' then
 		if not msg:is_from_admin() then return end

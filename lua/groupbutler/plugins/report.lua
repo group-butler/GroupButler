@@ -1,6 +1,4 @@
 local config = require "groupbutler.config"
-local locale = require "groupbutler.languages"
-local i18n = locale.translate
 local null = require "groupbutler.null"
 
 local _M = {}
@@ -24,6 +22,7 @@ end
 local function report(self, msg, description)
 	local api = self.api
 	local red = self.red
+	local i18n = self.i18n
 	local u = self.u
 
 	local text = i18n(
@@ -98,6 +97,7 @@ end
 function _M:onTextMessage(blocks)
 	local msg = self.message
 	local red = self.red
+	local i18n = self.i18n
 	local u = self.u
 
 	if msg.chat.id < 0 then
@@ -158,10 +158,11 @@ function _M:onCallbackQuery(blocks)
 	local api = self.api
 	local msg = self.message
 	local red = self.red
+	local i18n = self.i18n
 
 	if not blocks[2] then --###cb:issueclosed
-		api:answerCallbackQuery(msg.cb_id, i18n('You closed this issue and deleted all the other reports sent to the admins'),
-			true, 48 * 3600)
+		api:answerCallbackQuery(msg.cb_id,
+			i18n('You closed this issue and deleted all the other reports sent to the admins'), true, 48 * 3600)
 		return
 	end
 

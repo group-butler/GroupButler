@@ -1,7 +1,5 @@
 local config = require "groupbutler.config"
 local json = require "cjson"
-local locale = require "groupbutler.languages"
-local i18n = locale.translate
 local null = require "groupbutler.null"
 
 local _M = {}
@@ -84,16 +82,11 @@ local function get_time_remaining(seconds)
 	return final
 end
 
-local imported_text = i18n([[Import was <b>successful</b>.
-
-<b>Important</b>:
-- #extra commands which are associated with a media must be set again if the bot you are using now is different from the bot that originated the backup.
-]])
-
 function _M:onTextMessage(blocks)
 	local api = self.api
 	local msg = self.message
 	local red = self.red
+	local i18n = self.i18n
 	local u = self.u
 
 	if not msg:is_from_admin() then return end
@@ -176,7 +169,11 @@ Wait [<code>%s</code>] to use it again
 					end
 				end
 			end
-			api:sendMessage(msg.chat.id, imported_text, "html")
+			api:sendMessage(msg.chat.id, i18n([[Import was <b>successful</b>.
+
+<b>Important</b>:
+- #extra commands which are associated with a media must be set again if the bot you are using now is different from the bot that originated the backup.
+]]), "html")
 		end
 	end
 end

@@ -1,5 +1,4 @@
 local config = require "groupbutler.config"
-local i18n = require "groupbutler.languages".translate
 local null = require "groupbutler.null"
 
 local _M = {}
@@ -86,6 +85,7 @@ function _M:on_message()
 	local msg = self.message
 	local u = self.u
 	local red = self.red
+	local i18n = self.i18n
 
 	if not msg.inline then
 	local msg_type = msg:type()

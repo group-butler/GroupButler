@@ -1,7 +1,4 @@
 local config = require "groupbutler.config"
-local api_err = require "groupbutler.api_errors"
-local locale = require "groupbutler.languages"
-local i18n = locale.translate
 
 local _M = {}
 
@@ -56,6 +53,8 @@ function _M:onTextMessage(blocks)
 	local msg = self.message
 	local bot = self.bot
 	local red = self.red
+	local i18n = self.i18n
+	local api_err = self.api_err
 	local u = self.u
 
 	if msg.chat.type == "private"
@@ -129,7 +128,7 @@ function _M:onTextMessage(blocks)
 		end
 		local ok, err = api:getChatMember(chat_id, user_id)
 		if not ok then
-			msg:send_reply(api_err.trans(err), 'html')
+			msg:send_reply(api_err:trans(err), 'html')
 			return
 		end
 		if ok.status ~= 'kicked' then
@@ -146,6 +145,7 @@ function _M:onCallbackQuery(matches)
 	local api = self.api
 	local msg = self.message
 	local red = self.red
+	local i18n = self.i18n
 	local u = self.u
 
 	if not u:can(msg.chat.id, msg.from.id, 'can_restrict_members') then

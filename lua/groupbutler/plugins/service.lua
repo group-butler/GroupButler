@@ -1,7 +1,5 @@
 local config = require "groupbutler.config"
 local null = require "groupbutler.null"
-local locale = require "groupbutler.languages"
-local i18n = locale.translate
 
 local _M = {}
 
@@ -20,9 +18,16 @@ function _M:onTextMessage(blocks)
 	local bot = self.bot
 	local u = self.u
 	local red = self.red
+	local i18n = self.i18n
 
 	if not msg.service then return end
 
+	if blocks[1] == "new_chat_member" then
+		red:sadd(string.format("chat:%d:members", msg.chat.id), msg.new_chat_member.id)
+	end
+	if blocks[1] == "left_chat_member" then
+		red:srem(string.format("chat:%d:members", msg.chat.id), msg.left_chat_member.id)
+	end
 	if blocks[1] == 'new_chat_member'
 	or blocks[1] == 'left_chat_member' then
 		local status = red:hget(('chat:%d:settings'):format(msg.chat.id), 'Clean_service_msg')

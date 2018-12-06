@@ -1,8 +1,5 @@
 local config = require "groupbutler.config"
-local locale = require "groupbutler.languages"
-local i18n = locale.translate
 local null = require "groupbutler.null"
-local api_err = require "groupbutler.api_errors"
 
 local _M = {}
 
@@ -58,6 +55,8 @@ function _M:onTextMessage(blocks)
 	local msg = self.message
 	local u = self.u
 	local red = self.red
+	local i18n = self.i18n
+	local api_err = self.api_err
 	if msg.chat.type == 'private' and not(blocks[1] == 'start') then return end
 
 	if blocks[1] == 'extra' then
@@ -88,7 +87,7 @@ function _M:onTextMessage(blocks)
 
 			local ok, err = msg:send_reply(test_text, "Markdown", reply_markup)
 			if not ok then
-				api:sendMessage(msg.chat.id, api_err.trans(err), "Markdown")
+				api:sendMessage(msg.chat.id, api_err:trans(err), "Markdown")
 				return
 			end
 			red:hset(hash, blocks[2]:lower(), new_extra)

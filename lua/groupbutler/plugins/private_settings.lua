@@ -1,7 +1,5 @@
 local config = require "groupbutler.config"
 local api_u = require "telegram-bot-api.utilities"
-local locale = require "groupbutler.languages"
-local i18n = locale.translate
 
 local _M = {}
 
@@ -19,7 +17,8 @@ local function set_default(t, d)
 	setmetatable(t, mt)
 end
 
-local function get_button_description(key)
+local function get_button_description(self, key)
+	local i18n = self.i18n
 	local button_description = {
 		rules_on_join = i18n("When you join a group moderated by this bot, you will receive the group rules in private"),
 		reports = i18n("If enabled, you will receive all the messages reported with the @admin command in the groups you are moderating"), -- luacheck: ignore 631
@@ -28,6 +27,7 @@ local function get_button_description(key)
 end
 
 local function doKeyboard_privsett(self, user_id)
+	local i18n = self.i18n
 	local user_settings = self.db:get_all_user_settings(user_id)
 
 	local keyboard = api_u.InlineKeyboardMarkup:new()
@@ -53,6 +53,7 @@ end
 function _M:onTextMessage()
 	local api = self.api
 	local msg = self.message
+	local i18n = self.i18n
 	if msg.chat.type == 'private' then
 		local reply_markup = doKeyboard_privsett(self, msg.from.id)
 		api:send_message{
@@ -66,8 +67,9 @@ end
 function _M:onCallbackQuery(blocks)
 	local api = self.api
 	local msg = self.message
+	local i18n = self.i18n
 	if blocks[1] == 'alert' then
-		api:answerCallbackQuery(msg.cb_id, get_button_description(blocks[2]), true)
+		api:answerCallbackQuery(msg.cb_id, get_button_description(self, blocks[2]), true)
 		return
 	end
 	self.db:toggle_user_setting(msg.from.id, blocks[2])

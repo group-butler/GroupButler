@@ -3,10 +3,10 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-09-02 21:47-0300\n"
-"PO-Revision-Date: 2018-09-11 16:37\n"
+"PO-Revision-Date: 2018-10-28 07:27\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Chinese Simplified\n"
-"Language: zh\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -14,7 +14,7 @@ msgstr ""
 "X-Generator: crowdin.com\n"
 "X-Crowdin-Project: group-butler\n"
 "X-Crowdin-Language: zh-CN\n"
-"X-Crowdin-File: /master/locales/en_GB.po\n"
+"X-Crowdin-File: /develop/locales/en_GB.po\n"
 
 #: lua/groupbutler/api_errors.lua:12
 msgid "An unknown error has ocurred"
@@ -130,7 +130,7 @@ msgstr "%s，这里不允许发布垃圾信息。下一次您将被限制"
 #: lua/groupbutler/plugins/antispam.lua:103
 #, lua-format
 msgid "%s, this kind of message is not allowed in this chat (<b>%d/%d</b>)"
-msgstr ""
+msgstr "%s，本群禁止此类垃圾信息（<b>%d/%d</b>）"
 
 #: lua/groupbutler/plugins/antispam.lua:107
 msgid "telegram.me link"
@@ -225,7 +225,12 @@ msgid "*Anti-spam settings*\n"
 "• ❌ = *Not allowed*\n"
 "• 🗑 = *Delete*\n"
 "When set on `delete`, the bot doesn't warn users until they are about to be kicked/banned/muted (at the second-to-last warning)"
-msgstr ""
+msgstr "*反垃圾邮件的设置*\n"
+"选择哪一种消息你要保佑\n"
+"•✅=*允许*\n"
+"•❌=*不允许*\n"
+"•🗑=*删除*\n"
+"当设置在\"删除\"，机器人没用户发出警告，直到他们对被踢/禁止/静音(第二-最后一次警告)"
 
 #: lua/groupbutler/plugins/antispam.lua:352
 msgid "_The whitelist was already empty_"
@@ -305,7 +310,7 @@ msgstr "<i>抱歉，该命令三小时内限用一次。已被「%s」使用。<
 
 #: lua/groupbutler/plugins/backup.lua:121
 msgid "*Sent in private*"
-msgstr "*Sent in private*"
+msgstr "*通过私聊发送*"
 
 #: lua/groupbutler/plugins/backup.lua:128
 msgid "Invalid input. Please reply to the backup file (/snap command to get it)"
@@ -595,7 +600,7 @@ msgstr "文件"
 
 #: lua/groupbutler/plugins/dashboard.lua:162
 msgid "Voice Messages"
-msgstr ""
+msgstr "语音消息"
 
 #: lua/groupbutler/plugins/dashboard.lua:163
 #: lua/groupbutler/plugins/mediasettings.lua:41
@@ -727,7 +732,7 @@ msgstr "选择要反垃圾功能中被忽略的信息(机器人会跳过这些�
 
 #: lua/groupbutler/plugins/floodmanager.lua:45
 msgid "👞️ kick"
-msgstr "👞️ 踢出"
+msgstr "👞️ 踢除"
 
 #: lua/groupbutler/plugins/floodmanager.lua:47
 msgid "🔨 ️ban"
@@ -1097,7 +1102,17 @@ msgid "*General group settings*\n\n"
 "`/reportflood [number of messages]/[timeframe]`: set how many times users can use the @admin command within a certain timeframe.\n"
 "`/leave`: the bot will leave the group without deleting its data. Use this command only if you are going to add the bot to the group again\n"
 "`/snap`: generate a backup file that can be restored with `/import` (send the file in the group and reply to it). `/snap` can be used once every three days"
-msgstr ""
+msgstr "*群组一般设置*\n\n"
+"`/config`或`/settings`：机器人将会私聊向你发送群组管理面板，面板上有六个子菜单：\n\n"
+"*菜单*：管理的重要的群组设置\n"
+"*防刷屏*：打开或关闭防刷屏，设定其敏感度和选择某些需要忽略的媒体消息\n"
+"*媒体*：选择要在群组里禁止发送的媒体，和设定用户被自动踢出的警告次数\n"
+"*反垃圾信息*：选择不需要处理的消息(例如: telegram.me 链接，从频道转发的消息)\n"
+"*日志记录*：选择需要被日志记录的消息类型\n\n"
+"*附加指令*:\n"
+"`/reportflood[消息数量]/[timeframe]`：设置一定时间内用户可以使用多少次的 @admin 命令\n"
+"`/leave`：机器人将离开该组而不删除其数据。仅当您要再次将bot添加到组时，才使用此命令\n"
+"`/snap`：生成机器人配置备份文件，使用`/import`(将文件发送至群组并回复它)。 `/snap`，三天内只可以使用一次"
 
 #: lua/groupbutler/plugins/help.lua:217
 msgid "*Log channel informations*\n\n"
