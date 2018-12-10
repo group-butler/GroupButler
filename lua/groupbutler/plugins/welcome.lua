@@ -123,7 +123,7 @@ local function send_welcome(self, msg)
 	end
 
 	if not ok and err.description:match("have no rights to send a message") then
-		u:remGroup(msg.chat.id, true)
+		u:remGroup(msg.chat.id)
 		api:leaveChat(msg.chat.id)
 		return
 	end

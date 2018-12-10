@@ -138,8 +138,12 @@ function RedisStorage:cacheChat(chat)
 	if chat.type ~= "supergroup" then -- don't cache private chats, channels, etc.
 		return
 	end
-	local key = "chat:"..chat.id..":title"
-	self.redis:set(key, chat.title)
+	local keys = {
+		["chat:"..chat.id..":title"] = chat.title,
+	}
+	for k,v in pairs(keys) do
+		self.redis:set(k, v)
+	end
 end
 
 function RedisStorage:getChatTitle(chat)
@@ -148,6 +152,45 @@ function RedisStorage:getChatTitle(chat)
 		return
 	end
 	return title
+end
+
+function RedisStorage:deleteChat(chat)
+	self.redis:srem("bot:groupsid", chat.id)
+	self.redis:sadd("bot:groupsid:removed", chat.id) -- add to the list of removed groups
+
+	for i=1, #config.chat_hashes do
+		self.redis:del("chat:"..chat.id..":"..config.chat_hashes[i])
+	end
+
+	for i=1, #config.chat_sets do
+		self.redis:del("chat:"..chat.id..":"..config.chat_sets[i])
+	end
+
+	for set, _ in pairs(config.chat_settings) do
+		self.redis:del('chat:'..chat.id..':'..set)
+	end
+
+	local keys = {
+		"cache:chat:"..chat.id..":admins",
+		"cache:chat:"..chat.id..":owner",
+		"chat:"..chat.id..":title",
+		"chat:"..chat.id..":userlast",
+		"chat:"..chat.id..":members",
+		"chat:"..chat.id..":pin",
+		"lang:"..chat.id,
+	}
+	for _,k in pairs(keys) do
+		self.redis:del(k)
+	end
+
+	local fields = {
+		"bot:logchats",
+		"bot:chats:latsmsg",
+		"bot:chatlogs",
+	}
+	for _,k in pairs(fields) do
+		self.redis:hdel(k, chat.id)
+	end
 end
 
 function RedisStorage:set_keepalive()

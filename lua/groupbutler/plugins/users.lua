@@ -197,7 +197,7 @@ function _M:onTextMessage(blocks)
 		end
 	end
 	if blocks[1] == 'leave' and msg:is_from_admin() then
-		u:remGroup(msg.chat.id)
+		-- u:remGroup(msg.chat.id)
 		api:leaveChat(msg.chat.id)
 	end
 end
