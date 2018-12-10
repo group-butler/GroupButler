@@ -305,6 +305,11 @@ function PostgresStorage:getChatTitle(chat)
 	return ok[1].title
 end
 
+function PostgresStorage:deleteChat(chat)
+	local query = interpolate('DELETE FROM "chat" WHERE id = {id}', chat)
+	self.pg:query(query)
+end
+
 function PostgresStorage:set_keepalive()
 	return self.pg:keepalive()
 end
@@ -341,6 +346,11 @@ function MixedStorage:getChatTitle(chat)
 		return self.redis_storage:getChatTitle(chat)
 	end
 	return title
+end
+
+function MixedStorage:deleteChat(chat)
+	pcall(function() return self.postgres_storage:deleteChat(chat) end)
+	self.redis_storage:deleteChat(chat)
 end
 
 function MixedStorage:set_keepalive()
