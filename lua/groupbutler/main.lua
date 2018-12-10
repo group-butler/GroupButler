@@ -6,6 +6,7 @@ local redis = require "resty.redis"
 local plugins = require "groupbutler.plugins"
 local Message = require "groupbutler.message"
 local User = require "groupbutler.user"
+local Chat = require "groupbutler.chat"
 local storage = require "groupbutler.storage"
 local locale = require "groupbutler.languages"
 local api_err = require "groupbutler.api_errors"
@@ -46,6 +47,9 @@ local function inject_message_methods(message, update)
 	end
 	if message.forward_from then
 		User:new(message.forward_from, update):cache()
+	end
+	if message.chat then
+		Chat:new(message.chat, update)
 	end
 end
 

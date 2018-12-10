@@ -134,6 +134,22 @@ function RedisStorage:get_user_id(username)
 	return tonumber(self.redis:hget("bot:usernames", username))
 end
 
+function RedisStorage:cacheChat(chat)
+	if chat.type ~= "supergroup" then -- don't cache private chats, channels, etc.
+		return
+	end
+	local key = "chat:"..chat.id..":title"
+	self.redis:set(key, chat.title)
+end
+
+function RedisStorage:getChatTitle(chat)
+	local title = self.redis:get("chat:"..chat.id..":title")
+	if title == null then
+		return
+	end
+	return title
+end
+
 function RedisStorage:set_keepalive()
 	self.redis:set_keepalive()
 end
