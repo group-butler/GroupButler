@@ -178,6 +178,43 @@ function RedisStorage:getChatTitle(chat)
 	return title
 end
 
+local admins_permissions = {
+	can_change_info = true,
+	can_delete_messages = true,
+	can_invite_users = true,
+	can_restrict_members = true,
+	can_pin_messages = true,
+	can_promote_member = true
+}
+
+local function set_creator_permissions(self, chat_id, user_id)
+	local set = ("cache:chat:%s:%s:permissions"):format(chat_id, user_id)
+	for k, _ in pairs(admins_permissions) do
+		self.redis:sadd(set, k)
+	end
+end
+
+function RedisStorage:cacheAdmins(chat, list)
+	local set = 'cache:chat:'..chat.id..':admins'
+	local cache_time = config.bot_settings.cache_time.adminlist
+	self.redis:del(set)
+	for _, admin in pairs(list) do
+		if admin.status == 'creator' then
+			self.redis:set('cache:chat:'..chat.id..':owner', admin.user.id)
+			set_creator_permissions(self, chat.id, admin.user.id)
+		else
+			local set_permissions = "cache:chat:"..chat.id..":"..admin.user.id..":permissions"
+			self.redis:del(set_permissions)
+			for k, v in pairs(admin) do
+				if v and admins_permissions[k] then self.redis:sadd(set_permissions, k) end
+			end
+			self.redis:expire(set_permissions, cache_time)
+		end
+		self.redis:sadd(set, admin.user.id)
+	end
+	self.redis:expire(set, cache_time)
+end
+
 function RedisStorage:deleteChat(chat)
 	self.redis:srem("bot:groupsid", chat.id)
 	self.redis:sadd("bot:groupsid:removed", chat.id) -- add to the list of removed groups

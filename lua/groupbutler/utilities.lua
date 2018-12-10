@@ -240,36 +240,21 @@ function _M:is_owner(chat_id, user_id)
 	return false
 end
 
-local adminspermissions = {
-	can_change_info = true,
-	can_delete_messages = true,
-	can_invite_users = true,
-	can_restrict_members = true,
-	canpin_messages = true,
-	canpromote_member = true
-}
-
-local function set_creatorpermissions(self, chat_id, user_id)
-	local red = p(self).red
-	local set = ("cache:chat:%s:%s:permissions"):format(chat_id, user_id)
-	for k, _ in pairs(adminspermissions) do
-		red:sadd(set, k)
-	end
-end
-
 function _M:cache_adminlist(chat_id)
 	local api = p(self).api
 	local red = p(self).red
+	local db = p(self).db
 
 	local lock_key = "cache:chat:"..chat_id..":getadmin_lock"
-	local set = 'cache:chat:'..chat_id..':admins'
 
 	if red:exists(lock_key) == 1 then
-		while red:exists(set) == 0 and red:exists(lock_key) == 1 do
+		local counter = 0
+		while red:exists(lock_key) == 1 do
+			if counter > 10 then
+				return false
+			end
 			sleep(0.1)
-		end
-		if red:exists(set) == 1 then
-			return true, 0 -- Another concurrent request has just updated the adminlist
+			counter = counter + 1
 		end
 	end
 
@@ -284,27 +269,8 @@ function _M:cache_adminlist(chat_id)
 		self:metric_incr("api_getchatadministrators_error_count")
 		return false, err
 	end
-	local cache_time = config.bot_settings.cache_time.adminlist
-	local setpermissions
-	red:del(set)
-	for _, admin in pairs(ok) do
-		if admin.status == 'creator' then
-			red:set('cache:chat:'..chat_id..':owner', admin.user.id)
-			set_creatorpermissions(self, chat_id, admin.user.id)
-		else
-			setpermissions = "cache:chat:"..chat_id..":"..admin.user.id..":permissions"
-			red:del(setpermissions)
-			for k, v in pairs(admin) do
-				if v and adminspermissions[k] then red:sadd(setpermissions, k) end
-			end
-			red:expire(setpermissions, cache_time)
-		end
 
-		red:sadd(set, admin.user.id)
-
-		self:demote(chat_id, admin.user.id)
-	end
-	red:expire(set, cache_time)
+	db:cacheAdmins({id=chat_id}, ok)
 
 	return true, #ok or 0
 end
