@@ -477,17 +477,6 @@ function _M:migrate_chat_info(old, new, on_request)
 	end
 end
 
-function _M:to_supergroup(msg)
-	local api = self.api
-	local old = msg.chat.id
-	local new = msg.migrate_to_chat_id
-	local done = self:migrate_chat_info(old, new, false)
-	if done then
-		self:remGroup(old, true, 'to supergroup')
-		api:sendMessage(new, '(_service notification: migration of the group executed_)', 'Markdown')
-	end
-end
-
 -- Return user mention for output a text
 function _M:getname_final(user)
 	return self:getname_link(user) or '<code>'..user.first_name:escape_html()..'</code>'
