@@ -259,7 +259,8 @@ function PostgresStorage:get_user_id(username)
 end
 
 local function is_chat_property_optional(k)
-	if k == "username" then
+	if k == "username"
+	or k == "invite_link" then
 		return true
 	end
 end
