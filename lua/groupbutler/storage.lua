@@ -170,7 +170,9 @@ function RedisStorage:deleteChat(chat)
 		self.redis:del('chat:'..chat.id..':'..set)
 	end
 
+	local owner_id = self.redis:get("cache:chat:"..chat.id..":owner")
 	local keys = {
+		"cache:chat:"..chat.id..":"..owner_id..":permissions",
 		"cache:chat:"..chat.id..":admins",
 		"cache:chat:"..chat.id..":owner",
 		"chat:"..chat.id..":title",
