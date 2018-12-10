@@ -213,6 +213,53 @@ function PostgresStorage:get_user_id(username)
 	return ok[1].id
 end
 
+local function is_chat_property_optional(k)
+	if k == "username" then
+		return true
+	end
+end
+
+function PostgresStorage:cacheChat(chat)
+	if chat.type ~= "supergroup" then -- don't cache private chats, channels, etc.
+		return
+	end
+	local row = {
+		id = chat.id,
+		type = chat.type,
+		title = self.pg:escape_literal(chat.title)
+	}
+	for k, _ in pairs(chat) do
+		if is_chat_property_optional(k) then
+			row[k] = self.pg:escape_literal(chat[k])
+		end
+	end
+	local insert = 'INSERT INTO "chat" (id, type, title'
+	local values = ") VALUES ({id}, '{type}', {title}"
+	local on_conflict = ") ON CONFLICT (id) DO UPDATE SET title = {title}"
+	for k, _ in pairs(row) do
+		if is_chat_property_optional(k) then
+			insert = insert..", "..k
+			values = values..", {"..k.."}"
+			on_conflict = on_conflict..", "..k.." = {"..k.."}"
+		end
+	end
+	local query = interpolate(insert..values..on_conflict, row)
+	local ok, err = self.pg:query(query)
+	if not ok then
+		log.err("Query {query} failed: {err}", {query=query, err=err})
+	end
+	return true
+end
+
+function PostgresStorage:getChatTitle(chat)
+	local query = interpolate('SELECT title FROM "chat" WHERE id = {id}', chat)
+	local ok = self.pg:query(query)
+	if not ok or not ok[1] or not ok[1].title then
+		return false
+	end
+	return ok[1].title
+end
+
 function PostgresStorage:set_keepalive()
 	return self.pg:keepalive()
 end
@@ -234,6 +281,21 @@ function MixedStorage:get_user_id(username)
 		return self.redis_storage:get_user_id(username)
 	end
 	return id
+end
+
+function MixedStorage:cacheChat(chat)
+	local res, ok = pcall(function() return self.postgres_storage:cacheChat(chat) end)
+	if not res or not ok then
+		self.redis_storage:cacheChat(chat)
+	end
+end
+
+function MixedStorage:getChatTitle(chat)
+	local ok, title = pcall(function() return self.postgres_storage:getChatTitle(chat) end)
+	if not ok or not title then
+		return self.redis_storage:getChatTitle(chat)
+	end
+	return title
 end
 
 function MixedStorage:set_keepalive()
