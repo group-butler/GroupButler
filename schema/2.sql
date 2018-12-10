@@ -17,7 +17,7 @@ CREATE TABLE "chat" (
     username text,
     -- photo jsonb,
     -- description text,
-    -- invite_link text,
+    invite_link text,
     -- pinned_message jsonb,
     -- sticker_set_name text, -- Supergroups only
     -- can_set_sticker_set bool, -- Supergroups only
