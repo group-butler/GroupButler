@@ -603,8 +603,9 @@ function _M:getSettings(chat_id)
 		Rtl = i18n("RTL"),
 		Reports = i18n("Reports"),
 		Weldelchain = i18n("Delete last welcome message"),
-		Welbut = i18n("Welcome button")
-	}
+		Welbut = i18n("Welcome button"),
+		Clean_service_msg = i18n("Clean Service Messages"),
+	} set_default(strings, i18n("Unknown"))
 	for key, default in pairs(config.chat_settings['settings']) do
 
 		local off_icon, on_icon = '🚫', '✅'
