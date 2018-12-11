@@ -1,38 +1,25 @@
 --
+-- Types
+--
+
+CREATE TYPE chat_user_status AS ENUM ('creator', 'administrator', 'member', 'restricted', 'left', 'kicked');
+
+--
 -- Tables
 --
 
-CREATE TABLE "chat" (
-    id bigint NOT NULL,
-    type smallint NOT NULL,
-    title text NOT NULL, -- Only private chats don't have titles, and we already store private info under "user"
-
-    username text,
-    -- photo jsonb,
-    -- description text,
-    invite_link text,
-    -- pinned_message jsonb,
-    -- sticker_set_name text, -- Supergroups only
-    -- can_set_sticker_set bool, -- Supergroups only
+CREATE TABLE "chat_user" (
+    chat_id bigint NOT NULL REFERENCES "chat"(id),
+    user_id integer NOT NULL REFERENCES "user"(id),
+    status chat_user_status NOT NULL DEFAULT 'member',
 
     created_at timestamptz DEFAULT now() NOT NULL,
     updated_at timestamptz DEFAULT now() NOT NULL,
 
-    CONSTRAINT chat_pkey PRIMARY KEY (id)
+    CONSTRAINT chat_user_pkey PRIMARY KEY (chat_id, user_id)
 );
 
--- CREATE TABLE "chat_user" (
---     chat_id bigint NOT NULL REFERENCES "chat"(id),
---     user_id integer NOT NULL REFERENCES "user"(id),
---     status smallint NOT NULL,
-
---     created_at timestamptz DEFAULT now() NOT NULL,
---     updated_at timestamptz DEFAULT now() NOT NULL,
-
---     CONSTRAINT chat_user_pkey PRIMARY KEY (chat_id, user_id)
--- );
-
--- CREATE TABLE "chat_user_admin" (
+-- CREATE TABLE "chat_admin" (
 --     chat_id bigint NOT NULL REFERENCES "chat"(id),
 --     user_id integer NOT NULL REFERENCES "user"(id),
 
@@ -43,16 +30,16 @@ CREATE TABLE "chat" (
 --     can_restrict_members boolean DEFAULT false NOT NULL,
 --     can_pin_messages boolean DEFAULT false NOT NULL,
 --     can_promote_members boolean DEFAULT false NOT NULL,
---     can_post_messages boolean DEFAULT false NOT NULL, -- Channels only
---     can_edit_messages boolean DEFAULT false NOT NULL, -- Channels only
+--     -- can_post_messages boolean DEFAULT false NOT NULL, -- Channels only
+--     -- can_edit_messages boolean DEFAULT false NOT NULL, -- Channels only
 
 --     created_at timestamptz DEFAULT now() NOT NULL,
 --     updated_at timestamptz DEFAULT now() NOT NULL,
 
---     CONSTRAINT chat_user_admin_pkey PRIMARY KEY (chat_id, user_id)
+--     CONSTRAINT chat_admin_pkey PRIMARY KEY (chat_id, user_id)
 -- );
 
--- CREATE TABLE "chat_user_restricted" (
+-- CREATE TABLE "chat_restricted_user" (
 --     chat_id bigint NOT NULL REFERENCES "chat"(id),
 --     user_id integer NOT NULL REFERENCES "user"(id),
 
@@ -65,14 +52,27 @@ CREATE TABLE "chat" (
 --     created_at timestamptz DEFAULT now() NOT NULL,
 --     updated_at timestamptz DEFAULT now() NOT NULL,
 
---     CONSTRAINT chat_user_restricted_pkey PRIMARY KEY (chat_id, user_id)
+--     CONSTRAINT chat_restricted_user_pkey PRIMARY KEY (chat_id, user_id)
 -- );
+
 
 --
 -- Triggers
 --
 
 CREATE TRIGGER set_updated_at
-    BEFORE UPDATE ON "chat"
+    BEFORE UPDATE ON "chat_user"
     FOR EACH ROW
     EXECUTE PROCEDURE trigger_set_updated_at();
+
+--
+-- Foreign Keys
+--
+
+ALTER TABLE chat_user
+    ADD CONSTRAINT chat_user_chat_id_fkey FOREIGN KEY (chat_id)
+    REFERENCES "chat"(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+ALTER TABLE chat_user
+    ADD CONSTRAINT chat_user_user_id_fkey FOREIGN KEY (user_id)
+    REFERENCES "user"(id) ON UPDATE CASCADE ON DELETE CASCADE;

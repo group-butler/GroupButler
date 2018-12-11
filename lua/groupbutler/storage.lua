@@ -256,6 +256,9 @@ function RedisStorage:deleteChat(chat)
 	end
 end
 
+function RedisStorage:cacheChatMember(chat_user) -- luacheck: ignore 212
+end
+
 function RedisStorage:set_keepalive()
 	self.redis:set_keepalive()
 end
@@ -370,6 +373,19 @@ end
 function PostgresStorage:deleteChat(chat)
 	local query = interpolate('DELETE FROM "chat" WHERE id = {id}', chat)
 	self.pg:query(query)
+	return true
+end
+
+function PostgresStorage:cacheChatMember(chat_user)
+	local insert = 'INSERT INTO "chat_user" (chat_id, user_id) '
+	local values = "VALUES ({chat_id}, '{user_id}') "
+	local on_conflict = "ON CONFLICT DO NOTHING"
+	local query = interpolate(insert..values..on_conflict, chat_user)
+	local ok, err = self.pg:query(query)
+	if not ok then
+		log.err("Query {query} failed: {err}", {query=query, err=err})
+	end
+	return true
 end
 
 function PostgresStorage:set_keepalive()
@@ -413,6 +429,10 @@ end
 function MixedStorage:deleteChat(chat)
 	pcall(function() return self.postgres_storage:deleteChat(chat) end)
 	self.redis_storage:deleteChat(chat)
+end
+
+function MixedStorage:cacheChatMember(chat_user)
+	pcall(function() return self.postgres_storage:cacheChatMember(chat_user) end)
 end
 
 function MixedStorage:set_keepalive()

@@ -51,6 +51,7 @@ local function inject_message_methods(message, update)
 	if message.chat then
 		Chat:new(message.chat, update)
 	end
+	message:cacheChatMember()
 end
 
 local function add_message_methods(object, update)

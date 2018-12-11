@@ -1,10 +1,16 @@
-local message = {}
+local Message = {}
+local message = Message
 
-function message:new(message_obj, update_obj)
-	message_obj.api = update_obj.api
-	message_obj.u = update_obj.u
-	setmetatable(message_obj, {__index = self})
-	return message_obj
+local _p = setmetatable({}, {__mode = "k"}) -- weak table storing all private attributes
+
+function Message:new(obj, update_obj)
+	_p[obj] = {
+		api = update_obj.api,
+		db = update_obj.db,
+		u = update_obj.u,
+	}
+	setmetatable(obj, {__index = self})
+	return obj
 end
 
 local function is_from_admin(self)
@@ -13,7 +19,7 @@ local function is_from_admin(self)
 	or not self.from then
 		return false
 	end
-	return self.u:is_admin(self.target_id or self.chat.id, self.from.id)
+	return _p[self].u:is_admin(self.target_id or self.chat.id, self.from.id)
 end
 
 function message:is_from_admin()
@@ -75,9 +81,24 @@ function message:get_file_id()
 end
 
 function message:send_reply(text, parse_mode, disable_web_page_preview, disable_notification, reply_markup)
-	local api = self.api
-	return api:send_message(self.chat.id, text, parse_mode, disable_web_page_preview, disable_notification,
+	return _p[self].api:sendMessage(self.chat.id, text, parse_mode, disable_web_page_preview, disable_notification,
 		self.message_id, reply_markup)
 end
 
-return message
+function Message:cacheChatMember()
+	if not self.chat
+	or not self.from then
+		return
+	end
+	-- Just in case...
+	self.chat:cache()
+	self.from:cache()
+
+	local chat_user = {
+		chat_id = self.chat.id,
+		user_id = self.from.id,
+	}
+	_p[self].db:cacheChatMember(chat_user)
+end
+
+return Message
