@@ -192,7 +192,7 @@ Unfortunately I can't work in normal groups. If you need me, please ask the crea
 					end
 					log.error('An #error occurred.\n{result}\n{lang}\n{text}', {
 						result=tostring(result),
-						lang=locale.language,
+						lang=i18n:getLanguage(),
 						text=msg.text})
 					return false
 				end
