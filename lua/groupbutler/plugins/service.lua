@@ -40,6 +40,11 @@ function _M:onTextMessage(blocks)
 	end
 
 	if blocks[1] == 'new_chat_member:bot' or blocks[1] == 'migrate_from_chat_id' then
+		-- set the language
+		--[[locale.language = red:get(string.format('lang:%d', msg.from.id)) or config.lang
+		if not config.available_languages[locale.language] then
+			locale.language = 'en'
+		end]]
 		if u:is_blocked_global(msg.from.id) then
 			api:sendMessage(msg.chat.id, i18n("_You (user ID: %d) are in the blocked list_"):format(msg.from.id), "Markdown")
 			api:leaveChat(msg.chat.id)
@@ -50,6 +55,10 @@ function _M:onTextMessage(blocks)
 			api:leaveChat(msg.chat.id)
 			return
 		end
+		-- save language
+		--[[if locale.language then
+			red:set(string.format('lang:%d', msg.chat.id), locale.language)
+		end]]
 		u:initGroup(msg.chat.id)
 		-- send manuals
 		local text
