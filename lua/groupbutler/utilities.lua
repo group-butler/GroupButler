@@ -945,10 +945,8 @@ function _M:logEvent(event, msg, extra)
 			--admin name formatted: admin
 			--user name formatted: user
 			--user id: user_id
-			text = i18n('#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n• <b>User</b>: %s [#id%s]\n'..
-				'• <b>Warns found</b>: <i>normal: %s, for media: %s, spamwarns: %s</i>'):format(
-				'WARNS_RESET', extra.admin, msg.from.id, chat_info, extra.user, tostring(extra.user_id), extra.rem.normal,
-			extra.rem.media, extra.rem.spam)
+			text = i18n("#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n• <b>User</b>: %s [#id%s]"):format(
+				'WARNS_RESET', extra.admin, msg.from.id, chat_info, extra.user, tostring(extra.user_id))
 		end,
 		block = function() -- or unblock
 			text = i18n('#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n'

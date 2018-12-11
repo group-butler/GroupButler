@@ -206,6 +206,7 @@ function _M:onCallbackQuery(blocks)
 	local api = self.api
 	local msg = self.message
 	local red = self.red
+	local db = self.db
 	local i18n = self.i18n
 	local u = self.u
 
@@ -215,18 +216,17 @@ function _M:onCallbackQuery(blocks)
 	end
 
 	if blocks[1] == 'remwarns' then
-		local removed = {
-			normal = red:hdel('chat:'..msg.chat.id..':warns', blocks[2]),
-			media = red:hdel('chat:'..msg.chat.id..':mediawarn', blocks[2]),
-			spam = red:hdel('chat:'..msg.chat.id..':spamwarns', blocks[2])
-		}
+		db:forgetUserWarns(msg.chat.id, blocks[2])
 
 		local name = u:getname_final(msg.from)
 		local res = api:getChatMember(msg.chat.id, blocks[2])
 		local text = i18n("The number of warnings received by this user has been <b>reset</b>, by %s"):format(name)
 		api:editMessageText(msg.chat.id, msg.message_id, nil, text:format(name), 'html')
-		u:logEvent('nowarn', msg,
-               {admin = name, user = u:getname_final(res.user), user_id = blocks[2], rem = removed})
+		u:logEvent('nowarn', msg, {
+			admin = name,
+			user = u:getname_final(res.user),
+			user_id = blocks[2]
+		})
 	end
 	if blocks[1] == 'recache' and msg:is_from_admin() then
 		local missing_sec = tonumber(red:ttl('cache:chat:'..msg.target_id..':admins') or 0)

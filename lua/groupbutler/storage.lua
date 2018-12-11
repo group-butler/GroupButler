@@ -74,6 +74,12 @@ function RedisStorage:_hget_default(hash, key, default)
 	return val
 end
 
+function RedisStorage:forgetUserWarns(chat_id, user_id)
+	self.redis:hdel("chat:"..chat_id..":warns", user_id)
+	self.redis:hdel("chat:"..chat_id..":mediawarn", user_id)
+	self.redis:hdel("chat:"..chat_id..":spamwarns", user_id)
+end
+
 function RedisStorage:get_chat_setting(chat_id, setting)
 	local default = config.chat_settings.settings[setting]
 	local val = self:_hget_default("chat:"..chat_id..":settings", setting, default)
