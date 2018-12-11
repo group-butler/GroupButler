@@ -236,6 +236,9 @@ function _M:sendPhoto(...)
     reply_markup = args[6]
   }
   assert_var(body, "chat_id", "photo")
+  if is_table(body.photo) then
+    return self._request(self, "sendPhoto", body, {photo = body.photo})
+  end
   return self._request(self, "sendPhoto", body)
 end
 
@@ -253,6 +256,9 @@ function _M:sendAudio(...)
     reply_markup = args[9]
   }
   assert_var(body, "chat_id", "audio")
+  if is_table(body.audio) then
+    return self._request(self, "sendAudio", body, {audio = body.audio})
+  end
   return self._request(self, "sendAudio", body)
 end
 
@@ -287,6 +293,9 @@ function _M:sendVideo(...)
     reply_markup = args[9]
   }
   assert_var(body, "chat_id", "video")
+  if is_table(body.video) then
+    return self._request(self, "sendVideo", body, {video = body.video})
+  end
   return self._request(self, "sendVideo", body)
 end
 
@@ -302,6 +311,9 @@ function _M:sendVoice(...)
     reply_markup = args[7]
   }
   assert_var(body, "chat_id", "voice")
+  if is_table(body.voice) then
+    return self._request(self, "sendVoice", body, {voice = body.voice})
+  end
   return self._request(self, "sendVoice", body)
 end
 
@@ -317,6 +329,9 @@ function _M:sendVideoNote(...)
     reply_markup = args[7]
   }
   assert_var(body, "chat_id", "video_note")
+  if is_table(body.video_note) then
+    return self._request(self, "sendVideoNote", body, {video_note = body.video_note})
+  end
   return self._request(self, "sendVideoNote", body)
 end
 
@@ -885,8 +900,8 @@ end
 
 local function custom(_, method)
   -- Remember custom methods
-  _M[method] = function(self, body)
-    return self._request(self, method, body)
+  _M[method] = function(self, body, file)
+    return self._request(self, method, body, file)
   end
   return _M[method]
 end
