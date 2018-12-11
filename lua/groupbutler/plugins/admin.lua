@@ -1,5 +1,6 @@
 local config = require "groupbutler.config"
 local null = require "groupbutler.null"
+local json = require "cjson"
 
 local _M = {}
 
@@ -64,12 +65,12 @@ end
 -- end
 
 -- local function load_lua(code, msg)
--- 	local output = loadstring('local msg = '..u:vtext(msg)..'\n'..code)()
+-- 	local output = loadstring('local msg = '..json.encode(msg)..'\n'..code)()
 -- 	if not output then
 -- 		output = '`Done! (no output)`'
 -- 	else
 -- 		if type(output) == 'table' then
--- 			output = u:vtext(output)
+-- 			output = json.encode(output)
 -- 		end
 -- 		output = '```\n' .. output .. '\n```'
 -- 	end
@@ -117,7 +118,7 @@ function _M:onTextMessage(blocks)
 	if not blocks or not next(blocks) then return true end --leave this plugin and continue to match the others
 
 	if blocks[1] == 'admin' then
-		api:sendMessage(msg.from.id, u:vtext(triggers2))
+		api:sendMessage(msg.from.id, json.encode(triggers2))
 	end
 	-- if blocks[1] == 'init' then
 	-- 	local n_plugins = bot.init(true)
@@ -210,7 +211,7 @@ function _M:onTextMessage(blocks)
 		api:sendReply(msg, text)
 	end
 	if blocks[1] == 'blocked' then
-		api:sendMessage(msg.chat.id, u:vtext(red:smembers('bot:blocked')))
+		api:sendMessage(msg.chat.id, json.encode(red:smembers('bot:blocked')))
 	end
 	if blocks[1] == 'leave' then
 		local text
@@ -227,7 +228,7 @@ function _M:onTextMessage(blocks)
 	end
 	if blocks[1] == 'api errors' then
 		local t = red:hgetall('bot:errors')
-		api:sendMessage(msg.chat.id, u:vtext(t))
+		api:sendMessage(msg.chat.id, json.encode(t))
 	end
 	-- if blocks[1] == 'rediscli' then
 	-- 	local redis_f = blocks[2]:gsub(' ', '(\'', 1)
@@ -248,7 +249,7 @@ function _M:onTextMessage(blocks)
 			normal = u:resolve_user(username),
 			lower = u:resolve_user(username:lower())
 		}
-		api:sendMessage(msg.chat.id, u:vtext(user_id))
+		api:sendMessage(msg.chat.id, json.encode(user_id))
 	end
 	if blocks[1] == 'tban' then
 		if blocks[2] == 'flush' then
@@ -256,7 +257,7 @@ function _M:onTextMessage(blocks)
 			msg:send_reply('Flushed!')
 		end
 		if blocks[2] == 'get' then
-			api:sendMessage(msg.chat.id, u:vtext(red:hgetall('tempbanned')))
+			api:sendMessage(msg.chat.id, json.encode(red:hgetall('tempbanned')))
 		end
 	end
 	if blocks[1] == 'remban' then
@@ -275,9 +276,9 @@ function _M:onTextMessage(blocks)
 		if blocks[2] == '$chat' then
 			chat_id = msg.chat.id
 		end
-		local text = '<code>'..chat_id..'\n'
+		local text = '<code>'..chat_id
 		for set, _ in pairs(config.chat_settings) do
-			text = text..u:vtext(red:hgetall('chat:'..chat_id..':'..set))
+			text = text.."\n\n"..set.."\n"..json.encode(red:hgetall('chat:'..chat_id..':'..set))
 		end
 
 		local log_channel = red:hget('bot:chatlogs', chat_id)
@@ -298,11 +299,11 @@ function _M:onTextMessage(blocks)
 
 		local section
 		for i=1, #config.chat_hashes do
-			section = u:vtext(red:hgetall(('chat:%s:%s'):format(tostring(chat_id), config.chat_hashes[i]))) or '{}'
+			section = json.encode(red:hgetall(('chat:%s:%s'):format(tostring(chat_id), config.chat_hashes[i]))) or '{}'
 			text = text..config.chat_hashes[i]..'(hash)>'..section
 		end
 		for i=1, #config.chat_sets do
-			section = u:vtext(red:smembers(('chat:%s:%s'):format(tostring(chat_id), config.chat_sets[i]))) or '{}'
+			section = json.encode(red:smembers(('chat:%s:%s'):format(tostring(chat_id), config.chat_sets[i]))) or '{}'
 			text = text..config.chat_sets[i]..'(set)>'..section
 		end
 		local ok, err = api:sendMessage(msg.chat.id, text)
@@ -335,7 +336,7 @@ function _M:onTextMessage(blocks)
 			local permissions = red:smembers("cache:chat:"..chat_id..":"..members[i]..":permissions")
 			members[members[i]] = permissions
 		end
-		api:sendMessage(msg.chat.id, chat_id..' ➤ '..tostring(#members)..'\n'..u:vtext(members))
+		api:sendMessage(msg.chat.id, chat_id..' ➤ '..tostring(#members)..'\n'..json.encode(members))
 	end
 	if blocks[1] == 'initcache' then
 		local chat_id, text
@@ -372,7 +373,7 @@ function _M:onTextMessage(blocks)
 			api:sendMessage(msg, "Can't find a chat_id")
 		else
 			local res = api:getChatMember(chat_id, bot.id)
-			api:sendMessage(msg.chat.id, ('%s\n%s'):format(chat_id, u:vtext(res)))
+			api:sendMessage(msg.chat.id, ('%s\n%s'):format(chat_id, json.encode(res)))
 		end
 	end
 end
