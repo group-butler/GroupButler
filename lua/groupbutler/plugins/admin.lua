@@ -227,7 +227,7 @@ function _M:onTextMessage(blocks)
 		api:sendMessage(msg.from.id, text)
 	end
 	if blocks[1] == 'api errors' then
-		local t = red:hgetall('bot:errors')
+		local t = red:array_to_hash(red:hgetall('bot:errors'))
 		api:sendMessage(msg.chat.id, json.encode(t))
 	end
 	-- if blocks[1] == 'rediscli' then
@@ -257,7 +257,7 @@ function _M:onTextMessage(blocks)
 			msg:send_reply('Flushed!')
 		end
 		if blocks[2] == 'get' then
-			api:sendMessage(msg.chat.id, json.encode(red:hgetall('tempbanned')))
+			api:sendMessage(msg.chat.id, json.encode(red:array_to_hash(red:hgetall('tempbanned'))))
 		end
 	end
 	if blocks[1] == 'remban' then
@@ -278,7 +278,7 @@ function _M:onTextMessage(blocks)
 		end
 		local text = '<code>'..chat_id
 		for set, _ in pairs(config.chat_settings) do
-			text = text.."\n\n"..set.."\n"..json.encode(red:hgetall('chat:'..chat_id..':'..set))
+			text = text.."\n\n"..set.."\n"..json.encode(red:array_to_hash(red:hgetall('chat:'..chat_id..':'..set)))
 		end
 
 		local log_channel = red:hget('bot:chatlogs', chat_id)
@@ -295,18 +295,20 @@ function _M:onTextMessage(blocks)
 		else
 			chat_id = blocks[2]
 		end
-		local text = chat_id..'\n'
+		local text = '<code>'..chat_id
 
 		local section
 		for i=1, #config.chat_hashes do
-			section = json.encode(red:hgetall(('chat:%s:%s'):format(tostring(chat_id), config.chat_hashes[i]))) or '{}'
-			text = text..config.chat_hashes[i]..'(hash)>'..section
+			section = json.encode(
+				red:array_to_hash(red:hgetall(('chat:%s:%s'):format(tostring(chat_id), config.chat_hashes[i])))) or '{}'
+			text = text.."\n\n"..config.chat_hashes[i]..'(hash)>\n'..section
 		end
 		for i=1, #config.chat_sets do
 			section = json.encode(red:smembers(('chat:%s:%s'):format(tostring(chat_id), config.chat_sets[i]))) or '{}'
-			text = text..config.chat_sets[i]..'(set)>'..section
+			text = text.."\n\n"..config.chat_sets[i]..'(set)>\n'..section
 		end
-		local ok, err = api:sendMessage(msg.chat.id, text)
+		text = text..'</code>'
+		local ok, err = api:sendMessage(msg.chat.id, text, 'html')
 		if not ok and err.description:match("message is too long") then
 			local file_path = '/tmp/'..chat_id..'.txt'
 			local file = io.open(file_path, "w")
@@ -353,7 +355,7 @@ function _M:onTextMessage(blocks)
 		local days = tonumber(blocks[2]) or 7
 		local now = os.time()
 		local seconds_per_day = 60*60*24
-		local groups = red:hgetall('bot:chats:latsmsg')
+		local groups = red:array_to_hash(red:hgetall('bot:chats:latsmsg'))
 		local n = 0
 		for _, timestamp in pairs(groups) do
 			if tonumber(timestamp) > (now - (seconds_per_day * days)) then
