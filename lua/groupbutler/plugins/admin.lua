@@ -197,7 +197,7 @@ function _M:onTextMessage(blocks)
 		else
 			text = id..' is already blocked'
 		end
-		api:sendReply(msg, text)
+		msg:send_reply(text)
 	end
 	if blocks[1] == 'unblock' then
 		local id = blocks[2]
@@ -208,7 +208,7 @@ function _M:onTextMessage(blocks)
 		else
 			text = id..' is already unblocked'
 		end
-		api:sendReply(msg, text)
+		msg:send_reply(text)
 	end
 	if blocks[1] == 'blocked' then
 		api:sendMessage(msg.chat.id, json.encode(red:smembers('bot:blocked')))
