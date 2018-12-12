@@ -14,33 +14,42 @@ local PostgresStorage = {}
 
 local MixedStorage = {}
 
-local function _is_truthy(val)
-	if val == false or val == "notok" or val == "off" or val == "no" then
+local function string_toboolean(v)
+	if v == false or v == "off" or v == "notok" or v == "no" then
 		return false
 	end
-	if val == true or val == "ok" or val == "on" or val == "yes" then
+	if v == true or v == "on" or v == "ok" or v == "yes" then
 		return true
 	end
-	return val
+	log.warn("Tried toboolean on non truthy value")
+	return v
+end
+
+local function boolean_tostring(v)
+	if v == false then
+		return "off"
+	end
+	if v == true then
+		return "on"
+	end
+	log.warn("Tried tostring on non boolean value")
+	return v
 end
 
 local function interpolate(s, tab)
-	return (
-		s:gsub('(%b{})', function(w)
-			local v = tab[w:sub(2, -2)]
-			if v == false then
-				return "false"
-			end
-			if v == true then
-				return "true"
-			end
-			if not v or v == null then
-				return "NULL"
-			end
-			return v
+	return s:gsub('(%b{})', function(w)
+		local v = tab[w:sub(2, -2)]
+		if v == false then
+			return "false"
 		end
-		)
-	)
+		if v == true then
+			return "true"
+		end
+		if v == nil or v == null then
+			return "NULL"
+		end
+		return v
+	end)
 end
 
 function RedisStorage:new(redis_db)
@@ -83,17 +92,17 @@ end
 function RedisStorage:get_chat_setting(chat_id, setting)
 	local default = config.chat_settings.settings[setting]
 	local val = self:_hget_default("chat:"..chat_id..":settings", setting, default)
-	return _is_truthy(val)
+	return string_toboolean(val)
 end
 
 function RedisStorage:set_chat_setting(chat_id, setting, value)
-	self.redis:hset("chat:"..chat_id..":settings", setting, value)
+	self.redis:hset("chat:"..chat_id..":settings", setting, boolean_tostring(value))
 end
 
 function RedisStorage:get_user_setting(user_id, setting)
 	local default = config.private_settings[setting]
 	local val = self:_hget_default("user:"..user_id..":settings", setting, default)
-	return _is_truthy(val)
+	return string_toboolean(val)
 end
 
 function RedisStorage:get_all_user_settings(user_id)
@@ -102,22 +111,17 @@ function RedisStorage:get_all_user_settings(user_id)
 		if not settings[setting] then
 			settings[setting] = default
 		end
-		settings[setting] = _is_truthy(settings[setting])
+		settings[setting] = string_toboolean(settings[setting])
 	end
 	return settings
 end
 
 function RedisStorage:set_user_setting(user_id, setting, value)
-	self.redis:hset("user:"..user_id..":settings", setting, value)
+	self.redis:hset("user:"..user_id..":settings", setting, boolean_tostring(value))
 end
 
 function RedisStorage:toggle_user_setting(user_id, setting)
-	local old_val = self:get_user_setting(user_id, setting)
-	local new_val = "on"
-	if old_val then
-		new_val = "off"
-	end
-	self:set_user_setting(user_id, setting, new_val)
+	self:set_user_setting(user_id, setting, not self:get_user_setting(user_id, setting))
 end
 
 function RedisStorage:cache_user(user)
