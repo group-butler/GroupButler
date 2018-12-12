@@ -14,46 +14,28 @@ function _M:new(update_obj)
 end
 
 local function ban_bots(self, msg)
-	local red = self.red
+	local db = self.db
 	local u = self.u
 
-	if msg.from.id == msg.new_chat_member.id or msg:is_from_admin() then
-		--ignore if added by an admin or new member joined by link
+	-- ignore if added by an admin or new member joined by link or the setting is disabled
+	if msg.from.id == msg.new_chat_member.id
+	or msg:is_from_admin()
+	or not db:get_chat_setting(msg.chat.id, 'Antibot') then
 		return
-	else
-		local status = red:hget(('chat:%d:settings'):format(msg.chat.id), 'Antibot')
-		if status == null then status = config.chat_settings.settings.Antibot end
+	end
 
-		if status == 'on' then
-			local users = msg.new_chat_members
-			local n = 0 --bots banned
-			for i = 1, #users do
-				if users[i].is_bot == true then
-					u:banUser(msg.chat.id, users[i].id)
-					n = n + 1
-				end
-			end
-			if n == #users then
-				--if all the new members added are bots then don't send a welcome message
-				return true
-			end
+	local users = msg.new_chat_members
+	local n = 0 --bots banned
+	for i = 1, #users do
+		if users[i].is_bot == true then
+			u:banUser(msg.chat.id, users[i].id)
+			n = n + 1
 		end
 	end
-end
-
-local function is_on(self, chat_id, setting)
-	local red = self.red
-
-	local hash = 'chat:'..chat_id..':settings'
-	local current = red:hget(hash, setting)
-	if current == null then
-		current = config.chat_settings.settings[setting]
-	end
-
-	if current == 'on' then
+	if n == #users then
+		--if all the new members added are bots then don't send a welcome message
 		return true
 	end
-	return false
 end
 
 -- local permissions =
@@ -87,13 +69,14 @@ end
 local function get_reply_markup(self, msg, text)
 	local u = self.u
 	local i18n = self.i18n
+	local db = self.db
 
 	local new_text, reply_markup
 	if text then
 		reply_markup, new_text = u:reply_markup_from_text(u:replaceholders(text, msg))
 	end
 
-	if is_on(self, msg.chat.id, "Welbut") then
+	if db:get_chat_setting(msg.chat.id, "Welbut") then
 		if not reply_markup then
 			reply_markup = api_u.InlineKeyboardMarkup:new()
 		end
@@ -108,8 +91,9 @@ local function send_welcome(self, msg)
 	local red = self.red
 	local i18n = self.i18n
 	local u = self.u
+	local db = self.db
 
-	if not is_on(self, msg.chat.id, 'Welcome') then
+	if not db:get_chat_setting(msg.chat.id, 'Welcome') then
 		return
 	end
 
@@ -144,7 +128,7 @@ local function send_welcome(self, msg)
 		return
 	end
 
-	if is_on(self, msg.chat.id, "Weldelchain") then
+	if db:get_chat_setting(msg.chat.id, "Weldelchain") then
 		local key = ('chat:%d:lastwelcome'):format(msg.chat.id) -- get the id of the last sent welcome message
 		local message_id = red:get(key)
 		if message_id ~= null then
@@ -158,6 +142,7 @@ function _M:onTextMessage(blocks)
 	local api = self.api
 	local msg = self.message
 	local red = self.red
+	local db = self.db
 	local i18n = self.i18n
 	local api_err = self.api_err
 	local u = self.u
@@ -190,7 +175,7 @@ function _M:onTextMessage(blocks)
 					red:hdel(hash, 'caption') --remove the caption key if the new media doesn't have a caption
 				end
 				-- turn on the welcome message in the group settings
-				red:hset(('chat:%d:settings'):format(msg.chat.id), 'Welcome', 'on')
+				db:set_chat_setting(msg.chat.id, "Welcome", true)
 				msg:send_reply(i18n("A form of media has been set as the welcome message: `%s`"):format(replied_to), "Markdown")
 			else
 				msg:send_reply(i18n("Reply to a `sticker` or a `gif` to set them as the *welcome message*"), "Markdown")
@@ -210,7 +195,7 @@ function _M:onTextMessage(blocks)
 				api:sendMessage(msg.chat.id, api_err:trans(err), "Markdown")
 			else
 				-- turn on the welcome message in the group settings
-				red:hset(('chat:%d:settings'):format(msg.chat.id), 'Welcome', 'on')
+				db:set_chat_setting(msg.chat.id, "Welcome", true)
 				local id = ok.message_id
 				api:editMessageText(msg.chat.id, id, nil, i18n("*Custom welcome message saved!*"), "Markdown")
 			end
@@ -230,8 +215,7 @@ function _M:onTextMessage(blocks)
 
 		send_welcome(self, msg)
 
-		local send_rules_private = red:hget('user:'..msg.new_chat_member.id..':settings', 'rules_on_join')
-		if send_rules_private == "on" then
+		if db:get_user_setting(msg.new_chat_member.id, 'rules_on_join') then
 			local rules = red:hget('chat:'..msg.chat.id..':info', 'rules')
 			if rules ~= null then
 				api:sendMessage(msg.new_chat_member.id, rules, "Markdown")
