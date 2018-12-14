@@ -85,7 +85,7 @@ function _M:onTextMessage(blocks)
 			.. "watch this [video-tutorial](https://youtu.be/uqNumbcUyzs).") ]]
 		api:sendMessage(msg.chat.id, text, "Markdown")
 	elseif blocks[1] == 'left_chat_member:bot' then
-		u:remGroup(msg.chat.id, true)
+		u:remGroup(msg.chat.id)
 	end
 
 	u:logEvent(blocks[1], msg)

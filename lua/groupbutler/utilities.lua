@@ -477,17 +477,6 @@ function _M:migrate_chat_info(old, new, on_request)
 	end
 end
 
-function _M:to_supergroup(msg)
-	local api = self.api
-	local old = msg.chat.id
-	local new = msg.migrate_to_chat_id
-	local done = self:migrate_chat_info(old, new, false)
-	if done then
-		self:remGroup(old, true, 'to supergroup')
-		api:sendMessage(new, '(_service notification: migration of the group executed_)', 'Markdown')
-	end
-end
-
 -- Return user mention for output a text
 function _M:getname_final(user)
 	return self:getname_link(user) or '<code>'..user.first_name:escape_html()..'</code>'
@@ -721,6 +710,7 @@ end
 
 function _M:initGroup(chat_id)
 	local red = self.red
+	local db = self.db
 	for set, setting in pairs(config.chat_settings) do
 		local hash = 'chat:'..chat_id..':'..set
 		for field, value in pairs(setting) do
@@ -734,6 +724,7 @@ function _M:initGroup(chat_id)
 	red:sadd('bot:groupsid', chat_id)
 	--remove the group id from the list of dead groups
 	red:srem('bot:groupsid:removed', chat_id)
+	db:cacheChat({id=chat_id, type="supergroup"})
 end
 
 local function empty_modlist(self, chat_id)
@@ -749,41 +740,10 @@ local function empty_modlist(self, chat_id)
 	red:del(set)
 end
 
-function _M:remGroup(chat_id, full)
-	local red = self.red
-	--remove group id
-	red:srem('bot:groupsid', chat_id)
-	--add to the removed groups list
-	red:sadd('bot:groupsid:removed', chat_id)
-	--remove the owner cached
-	red:del('cache:chat:'..chat_id..':owner')
-
-	for set, _ in pairs(config.chat_settings) do
-		red:del('chat:'..chat_id..':'..set)
-	end
-
-	red:del('cache:chat:'..chat_id..':admins') --delete the cache
-	red:hdel('bot:logchats', chat_id) --delete the associated log chat
-	red:del('chat:'..chat_id..':pin') --delete the msg id of the (maybe) pinned message
-	red:del('chat:'..chat_id..':userlast')
-	red:del('chat:'..chat_id..':members')
-	red:hdel('bot:chats:latsmsg', chat_id)
-	red:hdel('bot:chatlogs', chat_id) --log channel
-
-	if full then
-		for i=1, #config.chat_hashes do
-			red:del('chat:'..chat_id..':'..config.chat_hashes[i])
-		end
-		for i=1, #config.chat_sets do
-			red:del('chat:'..chat_id..':'..config.chat_sets[i])
-		end
-
-		if red:exists('chat:'..chat_id..':mods') == 1 then
-			empty_modlist(self, chat_id)
-		end
-
-		red:del('lang:'..chat_id)
-	end
+function _M:remGroup(chat_id)
+	local db = self.db
+	empty_modlist(self, chat_id)
+	db:deleteChat({id=chat_id})
 end
 
 function _M:getnames_complete(msg)
