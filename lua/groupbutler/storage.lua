@@ -30,6 +30,15 @@ local chat_type = enum({
 	channel = 3,
 })
 
+local chat_member_status = enum({
+	creator = 0,
+	administrator = 1,
+	member = 2,
+	restricted = 3,
+	left = 4,
+	kicked = 5,
+})
+
 local function string_toboolean(v)
 	if v == false
 	or v == "false"
@@ -256,7 +265,7 @@ function RedisStorage:deleteChat(chat)
 	end
 end
 
-function RedisStorage:cacheChatMember(chat_user) -- luacheck: ignore 212
+function RedisStorage:cacheChatMember(chat, chat_member) -- luacheck: ignore 212
 end
 
 function RedisStorage:set_keepalive()
@@ -376,11 +385,19 @@ function PostgresStorage:deleteChat(chat)
 	return true
 end
 
-function PostgresStorage:cacheChatMember(chat_user)
-	local insert = 'INSERT INTO "chat_user" (chat_id, user_id) '
-	local values = "VALUES ({chat_id}, '{user_id}') "
+function PostgresStorage:cacheChatMember(chat, chat_member)
+	local row = {
+		chat_id = chat.id,
+		user_id = chat_member.user.id,
+		status = chat_member_status["member"],
+	}
+	if chat_member.status then
+		row.status = chat_member_status[chat_member.status]
+	end
+	local insert = 'INSERT INTO "chat_user" (chat_id, user_id, status) '
+	local values = "VALUES ({chat_id}, {user_id}, {status}) "
 	local on_conflict = "ON CONFLICT DO NOTHING"
-	local query = interpolate(insert..values..on_conflict, chat_user)
+	local query = interpolate(insert..values..on_conflict, row)
 	local ok, err = self.pg:query(query)
 	if not ok then
 		log.err("Query {query} failed: {err}", {query=query, err=err})
@@ -431,8 +448,8 @@ function MixedStorage:deleteChat(chat)
 	self.redis_storage:deleteChat(chat)
 end
 
-function MixedStorage:cacheChatMember(chat_user)
-	pcall(function() return self.postgres_storage:cacheChatMember(chat_user) end)
+function MixedStorage:cacheChatMember(chat, chat_user)
+	pcall(function() return self.postgres_storage:cacheChatMember(chat, chat_user) end)
 end
 
 function MixedStorage:set_keepalive()

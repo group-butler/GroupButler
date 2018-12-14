@@ -1,17 +1,11 @@
 --
--- Types
---
-
-CREATE TYPE chat_user_status AS ENUM ('creator', 'administrator', 'member', 'restricted', 'left', 'kicked');
-
---
 -- Tables
 --
 
 CREATE TABLE "chat_user" (
-    status chat_user_status NOT NULL DEFAULT 'member',
     chat_id bigint NOT NULL REFERENCES "chat"(id) ON DELETE CASCADE,
     user_id integer NOT NULL REFERENCES "user"(id) ON DELETE CASCADE,
+    status smallint NOT NULL,
 
     created_at timestamptz DEFAULT now() NOT NULL,
     updated_at timestamptz DEFAULT now() NOT NULL,

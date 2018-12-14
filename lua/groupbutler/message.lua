@@ -93,12 +93,10 @@ function Message:cacheChatMember()
 	-- Just in case...
 	self.chat:cache()
 	self.from:cache()
-
-	local chat_user = {
-		chat_id = self.chat.id,
-		user_id = self.from.id,
+	local chat_member = {
+		user = self.from
 	}
-	_p[self].db:cacheChatMember(chat_user)
+	_p[self].db:cacheChatMember(self.chat, chat_member)
 end
 
 return Message
