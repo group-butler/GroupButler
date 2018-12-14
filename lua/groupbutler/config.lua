@@ -111,6 +111,7 @@ local _M =
 		['en_US'] = 'English, United States 🇺🇸',
 		-- ['af_ZA'] = 'Afrikaans 🇿🇦',
 		['ar_SA'] = 'Arabic 🇸🇩',
+		-- ['be_BY'] = 'Belarusian 🇧🇾',
 		-- ['ca_ES'] = 'Catalan', -- Missing emoji flag as of 16/07/2018
 		['zh_CN'] = 'Chinese Simplified 🇨🇳',
 		['zh_TW'] = 'Chinese Traditional 🇹🇼',
