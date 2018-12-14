@@ -14,6 +14,22 @@ local PostgresStorage = {}
 
 local MixedStorage = {}
 
+local function enum(t)
+	local new_t = {}
+	for k,v in pairs(t) do
+		new_t[k] = v
+		new_t[v] = k
+	end
+	return new_t
+end
+
+local chat_type = enum({
+	-- private = 0, -- Not supported
+	-- group = 1, -- Not supported
+	supergroup = 2,
+	channel = 3,
+})
+
 local function string_toboolean(v)
 	if v == false or v == "off" or v == "notok" or v == "no" then
 		return false
@@ -271,7 +287,7 @@ function PostgresStorage:cacheChat(chat)
 	end
 	local row = {
 		id = chat.id,
-		type = chat.type,
+		type = chat_type[chat.type],
 		title = self.pg:escape_literal(chat.title)
 	}
 	for k, _ in pairs(chat) do

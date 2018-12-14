@@ -1,17 +1,10 @@
 --
--- Types
---
-
-CREATE TYPE chat_type AS ENUM ('supergroup', 'channel'); -- private chats live under the "user" table, normal groups are not supported
--- CREATE TYPE chat_user_status AS ENUM ('creator', 'administrator', 'member', 'restricted', 'left', 'kicked');
-
---
 -- Tables
 --
 
 CREATE TABLE "chat" (
     id bigint NOT NULL,
-    type chat_type NOT NULL,
+    type smallint NOT NULL,
     title text NOT NULL, -- Only private chats don't have titles, and we already store private info under "user"
 
     username text,
@@ -31,7 +24,7 @@ CREATE TABLE "chat" (
 -- CREATE TABLE "chat_user" (
 --     chat_id bigint NOT NULL REFERENCES "chat"(id),
 --     user_id integer NOT NULL REFERENCES "user"(id),
---     status chat_user_status NOT NULL,
+--     status smallint NOT NULL,
 
 --     created_at timestamptz DEFAULT now() NOT NULL,
 --     updated_at timestamptz DEFAULT now() NOT NULL,
