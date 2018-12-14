@@ -49,8 +49,8 @@ LOG_ADMIN=12345678
 ## Setup (using Docker)
 Requirements:
 
-- docker 17.06.0-ce
-- docker-compose 1.14.0
+- docker 18.02.0-ce
+- docker-compose 1.21.0
 - Optional: Docker Swarm cluster for deployment
 
 ### Running (dev mode)
