@@ -11,7 +11,7 @@ Contributing to GroupButler isn't limited to just filing bugs, users are more th
 3. Run the following
 
 ```bash
-$ git clone https://github.com/YOUR-GITHUB-PROFILE-NAME/GroupButler.git
+$ git clone https://github.com/group-butler/GroupButler.git
 $ cd GroupButler
 ```
 
