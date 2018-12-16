@@ -530,11 +530,10 @@ function MixedStorage:cacheChatMember(member)
 end
 
 function MixedStorage:cacheAdmins(chat, list)
-	self.postgres_storage:cacheAdmins(chat, list)
-	-- local res, ok = pcall(function() return self.postgres_storage:cacheAdmins(chat, list) end)
-	-- if not res or not ok then
-	-- 	self.redis_storage:cacheAdmins(chat, list)
-	-- end
+	local res, ok = pcall(function() return self.postgres_storage:cacheAdmins(chat, list) end)
+	if not res or not ok then
+		self.redis_storage:cacheAdmins(chat, list)
+	end
 end
 
 function MixedStorage:set_keepalive()
