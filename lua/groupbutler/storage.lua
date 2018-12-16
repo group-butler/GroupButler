@@ -157,13 +157,13 @@ function RedisStorage:toggle_user_setting(user_id, setting)
 	self:set_user_setting(user_id, setting, not self:get_user_setting(user_id, setting))
 end
 
-function RedisStorage:cache_user(user)
+function RedisStorage:cacheUser(user)
 	if user.username then
 		self.redis:hset("bot:usernames", "@"..user.username:lower(), user.id)
 	end
 end
 
-function RedisStorage:get_user_id(username)
+function RedisStorage:getUserId(username)
 	if username:byte(1) ~= string.byte("@") then
 		username = "@"..username
 	end
@@ -287,7 +287,7 @@ local function is_user_property_optional(k)
 	end
 end
 
-function PostgresStorage:cache_user(user)
+function PostgresStorage:cacheUser(user)
 	local row = {
 		id = user.id,
 		is_bot = user.is_bot,
@@ -321,7 +321,7 @@ function PostgresStorage:cache_user(user)
 	return true
 end
 
-function PostgresStorage:get_user_id(username)
+function PostgresStorage:getUserId(username)
 	if username:byte(1) == string.byte("@") then
 		username = username:sub(2)
 	end
@@ -416,17 +416,17 @@ function PostgresStorage:get_reused_times() -- luacheck: ignore 212
 	return "Unknown"
 end
 
-function MixedStorage:cache_user(user)
-	local res, ok = pcall(function() return self.postgres_storage:cache_user(user) end)
+function MixedStorage:cacheUser(user)
+	local res, ok = pcall(function() return self.postgres_storage:cacheUser(user) end)
 	if not res or not ok then
-		self.redis_storage:cache_user(user)
+		self.redis_storage:cacheUser(user)
 	end
 end
 
-function MixedStorage:get_user_id(username)
-	local ok, id = pcall(function() return self.postgres_storage:get_user_id(username) end)
+function MixedStorage:getUserId(username)
+	local ok, id = pcall(function() return self.postgres_storage:getUserId(username) end)
 	if not ok or not id then
-		return self.redis_storage:get_user_id(username)
+		return self.redis_storage:getUserId(username)
 	end
 	return id
 end
@@ -451,8 +451,9 @@ function MixedStorage:deleteChat(chat)
 	self.redis_storage:deleteChat(chat)
 end
 
-function MixedStorage:cacheChatMember(chat, chat_user)
-	pcall(function() return self.postgres_storage:cacheChatMember(chat, chat_user) end)
+function MixedStorage:cacheChatMember(member)
+	pcall(function() return self.postgres_storage:cacheChatMember(member) end)
+end
 end
 
 function MixedStorage:set_keepalive()
