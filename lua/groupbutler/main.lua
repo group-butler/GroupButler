@@ -49,7 +49,7 @@ local function inject_message_methods(message, update)
 		User:new(message.forward_from, update):cache()
 	end
 	if message.chat then
-		Chat:new(message.chat, update)
+		Chat:new(message.chat, update):cache()
 	end
 	message:cacheChatMember()
 end

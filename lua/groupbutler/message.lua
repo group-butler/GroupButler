@@ -90,13 +90,10 @@ function Message:cacheChatMember()
 	or not self.from then
 		return
 	end
-	-- Just in case...
-	self.chat:cache()
-	self.from:cache()
-	local chat_member = {
-		user = self.from
-	}
-	_p[self].db:cacheChatMember(self.chat, chat_member)
+	_p[self].db:cacheChatMember({
+		chat = self.chat,
+		user = self.from,
+	})
 end
 
 return Message

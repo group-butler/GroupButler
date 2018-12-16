@@ -262,7 +262,7 @@ function RedisStorage:deleteChat(chat)
 	end
 end
 
-function RedisStorage:cacheChatMember(chat, chat_member) -- luacheck: ignore 212
+function RedisStorage:cacheChatMember(member) -- luacheck: ignore 212
 end
 
 function RedisStorage:set_keepalive()
@@ -382,22 +382,102 @@ function PostgresStorage:deleteChat(chat)
 	return true
 end
 
-function PostgresStorage:cacheChatMember(chat, chat_member)
-	local row = {
-		chat_id = chat.id,
-		user_id = chat_member.user.id,
-		status = chat_member_status["member"],
-	}
-	if chat_member.status then
-		row.status = chat_member_status[chat_member.status]
+function PostgresStorage:cacheChatMember(member)
+	if member.chat.type ~= "supergroup" then -- don't cache private chats, channels, etc.
+		return
 	end
+	local status = rawget(member, "status")
+	local row = {
+		chat_id = member.chat.id,
+		user_id = member.user.id,
+		status = chat_member_status[status] or chat_member_status["member"],
+	}
 	local insert = 'INSERT INTO "chat_user" (chat_id, user_id, status) '
 	local values = "VALUES ({chat_id}, {user_id}, {status}) "
-	local on_conflict = "ON CONFLICT DO NOTHING"
+	local on_conflict = "ON CONFLICT (chat_id, user_id) DO NOTHING"
+	if status then
+		on_conflict = "ON CONFLICT (chat_id, user_id) DO UPDATE SET status = {status}"
+	end
 	local query = interpolate(insert..values..on_conflict, row)
 	local ok, err = self.pg:query(query)
 	if not ok then
 		log.err("Query {query} failed: {err}", {query=query, err=err})
+	end
+	return true
+end
+
+function PostgresStorage:cacheChatAdministrator(member)
+	local row = {
+		chat_id = member.chat.id,
+		user_id = member.user.id,
+	}
+	for k, v in pairs(member) do
+		if v and admins_permissions[k] then
+			row[k] = v
+		end
+	end
+	local insert = 'INSERT INTO "chat_admin" (chat_id, user_id'
+	local values = ") VALUES ({chat_id}, {user_id}"
+	local on_conflict = ") ON CONFLICT (chat_id, user_id) DO UPDATE SET user_id = {user_id}"
+	for k, v in pairs(row) do
+		if v and admins_permissions[k] then
+			insert = insert..", "..k
+			values = values..", {"..k.."}"
+			on_conflict = on_conflict..", "..k.." = {"..k.."}"
+		end
+	end
+	local query = interpolate(insert..values..on_conflict, row)
+	local ok, err = self.pg:query(query)
+	if not ok then
+		log.err("Query {query} failed: {err}", {query=query, err=err})
+	end
+	return true
+end
+
+function PostgresStorage:wipeAdmins(chat)
+	local row = {
+		chat_id = chat.id,
+		member = chat_member_status["member"],
+		administrator = chat_member_status["administrator"],
+	}
+	local wipe = 'DELETE FROM "chat_admin" WHERE chat_id = {chat_id};\n'
+	local demote = 'UPDATE "chat_user" SET status = {member} WHERE chat_id = {chat_id} AND status = {administrator}'
+	local query = interpolate(wipe..demote, row)
+	local ok, err = self.pg:query(query)
+	if not ok then
+		log.err("Query {query} failed: {err}", {query=query, err=err})
+		return false
+	end
+	return true
+end
+
+function PostgresStorage:cacheAdmins(chat, list)
+	do
+		local ok = self:wipeAdmins(chat)
+		if not ok then
+			return false
+		end
+	end
+	for _, admin in pairs(list) do
+		admin.chat = chat
+		do
+			local ok = self:cacheUser(admin.user)
+			if not ok then
+				return false
+			end
+		end
+		do
+			local ok = self:cacheChatMember(admin)
+			if not ok then
+				return false
+			end
+		end
+		if admin.status ~= "creator" then -- Rank is saved at "chat_user"
+			local ok = self:cacheChatAdministrator(admin)
+			if not ok then
+				return false
+			end
+		end
 	end
 	return true
 end
@@ -448,6 +528,13 @@ end
 function MixedStorage:cacheChatMember(member)
 	pcall(function() return self.postgres_storage:cacheChatMember(member) end)
 end
+
+function MixedStorage:cacheAdmins(chat, list)
+	self.postgres_storage:cacheAdmins(chat, list)
+	-- local res, ok = pcall(function() return self.postgres_storage:cacheAdmins(chat, list) end)
+	-- if not res or not ok then
+	-- 	self.redis_storage:cacheAdmins(chat, list)
+	-- end
 end
 
 function MixedStorage:set_keepalive()

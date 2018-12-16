@@ -270,7 +270,7 @@ function _M:cache_adminlist(chat_id)
 		return false, err
 	end
 
-	db:cacheAdmins({id=chat_id}, ok)
+	db:cacheAdmins({id=chat_id, type="supergroup"}, ok)
 
 	return true, #ok or 0
 end
