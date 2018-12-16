@@ -164,6 +164,9 @@ function RedisStorage:cache_user(user)
 end
 
 function RedisStorage:get_user_id(username)
+	if username:byte(1) ~= string.byte("@") then
+		username = "@"..username
+	end
 	return tonumber(self.redis:hget("bot:usernames", username))
 end
 
