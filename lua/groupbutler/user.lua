@@ -32,7 +32,7 @@ function User:checkId()
 		if not id then
 			return false
 		end
-		self[id] = id
+		self.id = id
 	end
 	return true
 end

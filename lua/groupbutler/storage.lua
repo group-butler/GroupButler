@@ -170,6 +170,9 @@ function RedisStorage:getUserId(username)
 	return tonumber(self.redis:hget("bot:usernames", username))
 end
 
+function RedisStorage:getUserProperty(user, property) -- luacheck: ignore
+end
+
 function RedisStorage:cacheChat(chat)
 	if chat.type ~= "supergroup" then -- don't cache private chats, channels, etc.
 		return
@@ -326,6 +329,18 @@ function PostgresStorage:getUserId(username)
 		return false
 	end
 	return ok[1].id
+end
+
+function PostgresStorage:getUserProperty(user, property)
+	local query = interpolate('SELECT {property} FROM "user" WHERE id = {id}', {
+		id = user.id,
+		property = property,
+	})
+	local ok = self.pg:query(query)
+	if not ok or not ok[1] or not ok[1][property] then
+		return nil
+	end
+	return ok[1][property]
 end
 
 local function is_chat_property_optional(k)
@@ -503,6 +518,14 @@ function MixedStorage:getUserId(username)
 		return self.redis_storage:getUserId(username)
 	end
 	return id
+end
+
+function MixedStorage:getUserProperty(user, property)
+	local ok, retval = pcall(function() return self.postgres_storage:getUserProperty(user, property) end)
+	if not ok or not retval then
+		return self.redis_storage:getUserProperty(user, property)
+	end
+	return retval
 end
 
 function MixedStorage:cacheChat(chat)
