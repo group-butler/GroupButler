@@ -149,9 +149,10 @@ Unfortunately I can't work in normal groups. If you need me, please ask the crea
 			local onm_success, continue = pcall(plugin_obj.on_message, plugin_obj)
 			if not onm_success then
 				log.error('An #error occurred (preprocess).\n{err}\n{lang}\n{text}', {
-					cont=tostring(continue),
-					lang=locale.language,
-					text=msg.text})
+					err = tostring(continue),
+					lang = i18n:getLanguage(),
+					text = msg.text,
+				})
 			end
 			if not continue then
 				return true
