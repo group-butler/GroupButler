@@ -149,7 +149,7 @@ function _M:onCallbackQuery(matches)
 	local u = self.u
 
 	if not u:can(msg.chat.id, msg.from.id, 'can_restrict_members') then
-		api:answerCallbackQuery(msg.cb_id, i18n("You don't have the permissions to restrict members"), true)
+		api:answerCallbackQuery(msg.cb_id, i18n("Sorry, you don't have permission to restrict members"), true)
 	else
 		if matches[1] == 'nil' then
 			api:answerCallbackQuery(msg.cb_id,
