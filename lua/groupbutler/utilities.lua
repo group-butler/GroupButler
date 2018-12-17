@@ -171,14 +171,15 @@ end
 
 function _M:can(chat_id, user_id, permission)
 	local red = _p[self].red
+	if tonumber(red:get('cache:chat:'..chat_id..':owner')) == user_id then
+		return true
+	end
 	local set = ("cache:chat:%s:%s:permissions"):format(chat_id, user_id)
-
 	local set_admins = 'cache:chat:'..chat_id..':admins'
 	if red:exists(set_admins) == 0 then
 		self:cache_adminlist(chat_id)
 	end
-
-	return red:sismember(set, permission) ~= 0
+	return red:sismember(set, permission) == 1
 end
 
 function _M:is_superadmin(user_id) -- luacheck: ignore 212
