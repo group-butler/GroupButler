@@ -31,10 +31,18 @@ local chat_type = enum({
 })
 
 local function string_toboolean(v)
-	if v == false or "false" or v == "off" or v == "notok" or v == "no" then
+	if v == false
+	or v == "false"
+	or v == "off"
+	or v == "notok"
+	or v == "no" then
 		return false
 	end
-	if v == true or "true" or v == "on" or v == "ok" or v == "yes" then
+	if v == true
+	or v == "true"
+	or v == "on"
+	or v == "ok"
+	or v == "yes" then
 		return true
 	end
 	log.warn("Tried toboolean on non truthy value")
