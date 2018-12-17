@@ -6,9 +6,10 @@ local log = require "groupbutler.logging"
 
 local function process_update(_, update, update_json)
 	local update_obj = main:new(update)
-	local ok, retval = pcall(function() return update_obj:process() end)
+	local ok, retval = xpcall(function() return update_obj:process() end, debug.traceback)
 	if not ok or not retval then
-		log.error("Error processing update: {update}", {update = update_json})
+		retval = retval or ""
+		log.error("Error processing update: {update}\n{retval}", {update = update_json, retval = retval})
 	end
 end
 

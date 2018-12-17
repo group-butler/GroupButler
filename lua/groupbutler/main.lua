@@ -6,6 +6,7 @@ local redis = require "resty.redis"
 local plugins = require "groupbutler.plugins"
 local Message = require "groupbutler.message"
 local User = require "groupbutler.user"
+local Chat = require "groupbutler.chat"
 local storage = require "groupbutler.storage"
 local locale = require "groupbutler.languages"
 local api_err = require "groupbutler.api_errors"
@@ -33,8 +34,8 @@ function _M:new(update_obj)
 	update_obj.red:select(config.redis.db)
 	update_obj.db = storage:new(update_obj.red)
 	update_obj.i18n = locale:new()
-	update_obj.u = utilities:new(update_obj)
 	update_obj.api_err = api_err:new(update_obj)
+	update_obj.u = utilities:new(update_obj)
 
 	return update_obj
 end
@@ -46,6 +47,9 @@ local function inject_message_methods(message, update)
 	end
 	if message.forward_from then
 		User:new(message.forward_from, update):cache()
+	end
+	if message.chat then
+		Chat:new(message.chat, update)
 	end
 end
 
@@ -145,9 +149,10 @@ Unfortunately I can't work in normal groups. If you need me, please ask the crea
 			local onm_success, continue = pcall(plugin_obj.on_message, plugin_obj)
 			if not onm_success then
 				log.error('An #error occurred (preprocess).\n{err}\n{lang}\n{text}', {
-					cont=tostring(continue),
-					lang=locale.language,
-					text=msg.text})
+					err = tostring(continue),
+					lang = i18n:getLanguage(),
+					text = msg.text,
+				})
 			end
 			if not continue then
 				return true

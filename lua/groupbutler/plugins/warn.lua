@@ -20,23 +20,12 @@ local function doKeyboard_warn(self, user_id)
 	return keyboard
 end
 
-local function forget_user_warns(self, chat_id, user_id)
-	local red = self.red
-
-	local removed = {
-		normal = red:hdel('chat:'..chat_id..':warns', user_id) == 1 and 'v' or '⨯',
-		media = red:hdel('chat:'..chat_id..':mediawarn', user_id) == 1 and 'v' or '⨯',
-		spam = red:hdel('chat:'..chat_id..':spamwarns', user_id) == 1 and 'v' or '⨯'
-	}
-
-	return removed
-end
-
 function _M:onTextMessage(blocks)
 	local api = self.api
 	local msg = self.message
 	local bot = self.bot
 	local red = self.red
+	local db = self.db
 	local i18n = self.i18n
 	local u = self.u
 
@@ -91,14 +80,16 @@ function _M:onTextMessage(blocks)
 	if tonumber(user_id) == bot.id then return end
 
 	if blocks[1] == 'nowarn' then
-		local removed = forget_user_warns(self, msg.chat.id, msg.reply.from.id)
+		db:forgetUserWarns(msg.chat.id, msg.reply.from.id)
 		local admin = u:getname_final(msg.from)
 		local user = u:getname_final(msg.reply.from)
-		local text = i18n(
-			'Done! %s has been forgiven.\n<b>Warns found</b>: <i>normal warns %s, for media %s, spamwarns %s</i>'
-			):format(user, removed.normal or 0, removed.media or 0, removed.spam or 0)
+		local text = i18n("Done! %s has been forgiven."):format(user)
 		msg:send_reply(text, 'html')
-		u:logEvent('nowarn', msg, {admin = admin, user = user, user_id = msg.reply.from.id, rem = removed})
+		u:logEvent('nowarn', msg, {
+			admin = admin,
+			user = user,
+			user_id = msg.reply.from.id
+		})
 	end
 
 	if u:is_admin(msg.chat.id, user_id) then return end
@@ -136,7 +127,7 @@ function _M:onTextMessage(blocks)
 				if num > nmax then red:hset(hash, user_id, nmax) end --avoid to have a number of warnings bigger than the max
 				text = err
 			else
-				forget_user_warns(self, msg.chat.id, user_id)
+				db:forgetUserWarns(msg.chat.id, user_id)
 			end
 			--if the user reached the max num of warns, kick and send message
 			msg:send_reply(text, 'html')

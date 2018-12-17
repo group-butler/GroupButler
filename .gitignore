@@ -8,3 +8,4 @@ luacov.*
 
 !install.sh
 !launch.sh
+!crowdin-sync.sh

@@ -328,7 +328,7 @@ function _M:onTextMessage(blocks)
 			full = true
 			chat_id = blocks[3]
 		end
-		u:remGroup(chat_id, full)
+		u:remGroup(chat_id)
 		api:sendMessage(msg.chat.id, 'Removed (heavy: '..tostring(full)..')')
 	end
 	if blocks[1] == 'cache' then

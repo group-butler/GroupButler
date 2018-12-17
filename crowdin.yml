@@ -1,3 +1,7 @@
+project_identifier: group-butler
+api_key_env: CROWDIN_API_KEY
+preserve_hierarchy: true
+
 files:
   - source: /locales/en_GB.po
     translation: /locales/%locale_with_underscore%.po

@@ -48,6 +48,7 @@ local function errors(self)
 		-- ["peer_id_invalid"] = replies(self).unknown_error, -- user never started the bot
 		-- ["message is not modified"] = replies(self).unknown_error, -- the edit message method hasn't modified the message
 		["can't parse entities in message text: can't find end of the entity starting at byte offset %d+"] = replies(self).bad_markdown, -- the markdown is wrong and breaks the delivery
+		["can't parse entities: can't find end of the entity starting at byte offset %d+"] = replies(self).bad_markdown, -- newer wording for the same error as above
 		-- ["group chat is migrated to a supergroup chat"] = replies(self).unknown_error, -- group updated to supergroup
 		-- ["message can't be forwarded"] = replies(self).unknown_error, -- unknown
 		["message text is empty"] = replies(self).empty_message, -- empty message

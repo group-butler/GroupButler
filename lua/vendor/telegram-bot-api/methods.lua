@@ -7,66 +7,19 @@ local mp = require "multipart-post"
 local ltn12 = require "ltn12"
 local resty_http, ssl_https
 
-local function ngx_request(self, method, body)
-  local arguments = {}
-  if body then
-    body = json.encode(body)
-    arguments = {
-      method = "POST",
-      headers = {
-        ["Content-Type"] = "application/json"
-      },
-      body = body
-    }
-    ngx.log(ngx.DEBUG, "Outgoing request: ", body)
-  end
-  local httpc = resty_http.new()
-  local ok, err = httpc:request_uri((self._url..method), arguments)
+local function decode_reply(body, status, method)
+  -- ngx.log(ngx.DEBUG, "Incoming reply:", ok.body)
+  local tab = json.decode(body)
 
-  if not ok then
-    local desc = "HTTP request failed: "..(err or "unknown")
-    ngx.log(ngx.ERR, desc)
-    return nil, {ok=false, error_code=0, description=desc}
-  end
-  ngx.log(ngx.DEBUG, "Incoming reply:", ok.body)
-  local tab = json.decode(ok.body)
-
-  if ok.status ~= 200 or not tab.ok then
-    ngx.log(ngx.WARN, method.."() failed: "..(tab.description or "unknown"))
+  if status ~= 200 or not tab.ok then
+    -- ngx.log(ngx.WARN, method.."() failed: "..(tab.description or "unknown"))
+    print("[WARN]", method.."() failed: "..(tab.description or "unknown"))
     return nil, tab
   end
   return tab.result
 end
 
-local function lua_request(self, method, body)
-  local response = {}
-  local arguments = {
-    url = self._url..method,
-    method = "POST",
-    sink = ltn12.sink.table(response)
-  }
-  if body then
-    body = json.encode(body)
-    arguments.headers = {
-      ["Content-Type"] = "application/json",
-      ["Content-Length"] = body:len()
-    }
-    arguments.source = ltn12.source.string(body)
-  end
-  local ok, res = ssl_https.request(arguments)
-  if not ok then
-    local desc = "HTTP request failed: "..(res or "unknown")
-    return nil, {ok=false, error_code=0, description=desc}
-  end
-  local tab = json.decode(table.concat(response))
-  if res ~= 200 or not tab.ok then
-    print(method.."() failed: "..(tab.description or "unknown"))
-    return nil, tab
-  end
-  return tab.result, tab
-end
-
-local function file_upload(self, method, body, file)
+local function file_upload(_, body, file)
   body = body or {}
 
   for k,v in pairs(body) do
@@ -75,9 +28,7 @@ local function file_upload(self, method, body, file)
 
   if file and next(file) then
     local file_type, file_table = next(file)
-
     local file_name = file_table.path
-
     local file_file = io.open(file_name, "r")
     local file_data = {
       filename = file_name,
@@ -90,35 +41,71 @@ local function file_upload(self, method, body, file)
     body = {""}
   end
 
-  local boundary
-  body, boundary = mp.encode(body)
+  local request_body, boundary = mp.encode(body)
 
   local arguments = {
     method = "POST",
     headers = {
       ["Content-Type"] = "multipart/form-data; boundary=" .. boundary,
-      ["Content-Length"] = #body,
+      ["Content-Length"] = #request_body,
     },
-    body = body
   }
-  ngx.log(ngx.DEBUG, "Outgoing request: ", body)
+  return arguments, request_body
+end
 
+local function json_request(_, body)
+  local arguments = {}
+  local request_body
+  if body then
+    request_body = json.encode(body)
+    arguments = {
+      method = "POST",
+      headers = {
+        ["Content-Type"] = "application/json",
+        ["Content-Length"] = #request_body,
+      },
+    }
+    -- ngx.log(ngx.DEBUG, "Outgoing request: ", request_body)
+  end
+  return arguments, request_body
+end
+
+local function ngx_request(self, method, body, file)
+  local arguments, request_body
+  if file then
+    arguments, request_body = file_upload(self, body, file)
+  else
+    arguments, request_body = json_request(self, body)
+  end
+  arguments.body = request_body
   local httpc = resty_http.new()
   local ok, err = httpc:request_uri((self._url..method), arguments)
-
   if not ok then
     local desc = "HTTP request failed: "..(err or "unknown")
     ngx.log(ngx.ERR, desc)
     return nil, {ok=false, error_code=0, description=desc}
   end
-  ngx.log(ngx.DEBUG, "Incoming reply:", ok.body)
-  local tab = json.decode(ok.body)
+  return decode_reply(ok.body, ok.status, method)
+end
 
-  if ok.status ~= 200 or not tab.ok then
-    ngx.log(ngx.INFO, method.."() failed: "..(tab.description or "unknown"))
-    return nil, tab
+local function lua_request(self, method, body, file)
+  local arguments, request_body
+  if file then
+    arguments, request_body = file_upload(self, body, file)
+  else
+    arguments, request_body = json_request(self, body)
   end
-  return tab.result
+  arguments.source = ltn12.source.string(request_body)
+  arguments.url = self._url..method
+  local response = {}
+  arguments.sink = ltn12.sink.table(response)
+  local ok, res = ssl_https.request(arguments)
+  if not ok then
+    local desc = "HTTP request failed: "..(res or "unknown")
+    print("[ERROR]", desc)
+    return nil, {ok=false, error_code=0, description=desc}
+  end
+  return decode_reply(table.concat(response), res, method)
 end
 
 local function is_table(value)
@@ -249,6 +236,9 @@ function _M:sendPhoto(...)
     reply_markup = args[6]
   }
   assert_var(body, "chat_id", "photo")
+  if is_table(body.photo) then
+    return self._request(self, "sendPhoto", body, {photo = body.photo})
+  end
   return self._request(self, "sendPhoto", body)
 end
 
@@ -266,6 +256,9 @@ function _M:sendAudio(...)
     reply_markup = args[9]
   }
   assert_var(body, "chat_id", "audio")
+  if is_table(body.audio) then
+    return self._request(self, "sendAudio", body, {audio = body.audio})
+  end
   return self._request(self, "sendAudio", body)
 end
 
@@ -281,7 +274,7 @@ function _M:sendDocument(...)
   }
   assert_var(body, "chat_id", "document")
   if is_table(body.document) then
-    return file_upload(self, "sendDocument", body, {document = body.document})
+    return self._request(self, "sendDocument", body, {document = body.document})
   end
   return self._request(self, "sendDocument", body)
 end
@@ -300,6 +293,9 @@ function _M:sendVideo(...)
     reply_markup = args[9]
   }
   assert_var(body, "chat_id", "video")
+  if is_table(body.video) then
+    return self._request(self, "sendVideo", body, {video = body.video})
+  end
   return self._request(self, "sendVideo", body)
 end
 
@@ -315,6 +311,9 @@ function _M:sendVoice(...)
     reply_markup = args[7]
   }
   assert_var(body, "chat_id", "voice")
+  if is_table(body.voice) then
+    return self._request(self, "sendVoice", body, {voice = body.voice})
+  end
   return self._request(self, "sendVoice", body)
 end
 
@@ -330,6 +329,9 @@ function _M:sendVideoNote(...)
     reply_markup = args[7]
   }
   assert_var(body, "chat_id", "video_note")
+  if is_table(body.video_note) then
+    return self._request(self, "sendVideoNote", body, {video_note = body.video_note})
+  end
   return self._request(self, "sendVideoNote", body)
 end
 
@@ -898,8 +900,8 @@ end
 
 local function custom(_, method)
   -- Remember custom methods
-  _M[method] = function(self, body)
-    return self._request(self, method, body)
+  _M[method] = function(self, body, file)
+    return self._request(self, method, body, file)
   end
   return _M[method]
 end

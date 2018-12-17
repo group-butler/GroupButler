@@ -124,7 +124,7 @@ function _M:onCallbackQuery(blocks)
 	else
 		local chat_id = msg.target_id
 		if not u:can(chat_id, msg.from.id, 'can_restrict_members') then
-			api:answerCallbackQuery(msg.cb_id, i18n("You don't have the permission to restrict members"))
+			api:answerCallbackQuery(msg.cb_id, i18n("Sorry, you don't have permission to restrict members"))
 		else
 			local msg_text = i18n([[*Default permissions*
 From this menu you can change the default permissions that will be granted when a new member join.
