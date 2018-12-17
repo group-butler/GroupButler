@@ -205,12 +205,14 @@ function _M:is_admin(chat_id, user_id)
 		chat_id = msg.chat.id
 		user_id = msg.from.id
 	end
-
+	if tonumber(red:get('cache:chat:'..chat_id..':owner')) == user_id then
+		return true
+	end
 	local set = 'cache:chat:'..chat_id..':admins'
 	if red:exists(set) == 0 then
 		self:cache_adminlist(chat_id)
 	end
-	return red:sismember(set, user_id) ~= 0
+	return red:sismember(set, user_id) == 1
 end
 
 function _M:is_owner(chat_id, user_id)
