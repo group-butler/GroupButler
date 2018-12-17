@@ -34,8 +34,8 @@ function _M:new(update_obj)
 	update_obj.red:select(config.redis.db)
 	update_obj.db = storage:new(update_obj.red)
 	update_obj.i18n = locale:new()
-	update_obj.u = utilities:new(update_obj)
 	update_obj.api_err = api_err:new(update_obj)
+	update_obj.u = utilities:new(update_obj)
 
 	return update_obj
 end
