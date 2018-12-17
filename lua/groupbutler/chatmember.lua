@@ -35,7 +35,9 @@ function ChatMember:getProperty(index)
 				})
 				return nil
 			end
-			self = ok
+			for k,v in pairs(ok) do
+				self[k] = v
+			end
 			self:cache()
 			property = rawget(self, index)
 		end
