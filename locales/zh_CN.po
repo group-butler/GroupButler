@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-10 01:32-0200\n"
-"PO-Revision-Date: 2018-12-15 00:04\n"
+"POT-Creation-Date: 2018-12-17 15:23-0200\n"
+"PO-Revision-Date: 2018-12-17 17:27\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -86,25 +86,25 @@ msgstr "大家好！\n"
 "我的名字是%s，我是一個機器人，負責幫助管理員工作。\n"
 "不幸的是，我無法在普通群組中工作，請讓創建者將該組轉換為超級群組。\n"
 
-#: lua/groupbutler/main.lua:195
+#: lua/groupbutler/main.lua:196
 msgid "🐞 Sorry, a *bug* occurred"
 msgstr "🐞 抱歉，发生错误。"
 
 #: lua/groupbutler/plugins/antispam.lua:43
 #: lua/groupbutler/plugins/onmessage.lua:162
-#: lua/groupbutler/plugins/warn.lua:122
+#: lua/groupbutler/plugins/warn.lua:113
 msgid "banned"
 msgstr "已封禁"
 
 #: lua/groupbutler/plugins/antispam.lua:44
 #: lua/groupbutler/plugins/onmessage.lua:159
-#: lua/groupbutler/plugins/warn.lua:126
+#: lua/groupbutler/plugins/warn.lua:117
 msgid "kicked"
 msgstr "已踢出"
 
 #: lua/groupbutler/plugins/antispam.lua:45
 #: lua/groupbutler/plugins/onmessage.lua:165
-#: lua/groupbutler/plugins/warn.lua:130
+#: lua/groupbutler/plugins/warn.lua:121
 msgid "muted"
 msgstr "已禁言"
 
@@ -370,8 +370,9 @@ msgid "%s unbanned by %s!"
 msgstr "%s已被%s解除封禁！"
 
 #: lua/groupbutler/plugins/banhammer.lua:152
-msgid "You don't have the permissions to restrict members"
-msgstr "您没有权限限制成员"
+#: lua/groupbutler/plugins/defaultpermissions.lua:127
+msgid "Sorry, you don't have permission to restrict members"
+msgstr ""
 
 #: lua/groupbutler/plugins/banhammer.lua:156
 msgid "Tap on the -/+ buttons to change this value. Then select a timeframe to execute the ban"
@@ -530,7 +531,7 @@ msgid "Admins"
 msgstr "管理员"
 
 #: lua/groupbutler/plugins/dashboard.lua:71
-#: lua/groupbutler/plugins/menu.lua:181 lua/groupbutler/utilities.lua:601
+#: lua/groupbutler/plugins/menu.lua:181 lua/groupbutler/utilities.lua:592
 msgid "Rules"
 msgstr "规则"
 
@@ -665,10 +666,6 @@ msgstr "发送其他媒体类型"
 #: lua/groupbutler/plugins/defaultpermissions.lua:77
 msgid "Show web page preview"
 msgstr "显示网页预览"
-
-#: lua/groupbutler/plugins/defaultpermissions.lua:127
-msgid "You don't have the permission to restrict members"
-msgstr "你没有权限限制成员"
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:129
 msgid "*Default permissions*\n"
@@ -1338,7 +1335,7 @@ msgstr "封禁"
 msgid "Kick"
 msgstr "踢出"
 
-#: lua/groupbutler/plugins/logchannel.lua:61 lua/groupbutler/utilities.lua:996
+#: lua/groupbutler/plugins/logchannel.lua:61 lua/groupbutler/utilities.lua:957
 msgid "Unban"
 msgstr "解除封禁"
 
@@ -1529,11 +1526,11 @@ msgstr "⚠️ 请点击右列"
 
 #: lua/groupbutler/plugins/mediasettings.lua:140
 msgid "⚙ The new value is too low ( < 1)"
-msgstr "⚙ 新数值太低 ( < 1)"
+msgstr "⚙ 新的數值太低 ( < 1)"
 
 #: lua/groupbutler/plugins/mediasettings.lua:147
 msgid "⚙ The new value is too high ( > 12)"
-msgstr "⚙ 新数值太高 ( > 12)"
+msgstr "⚙ 新的數值太高 ( > 12)"
 
 #: lua/groupbutler/plugins/mediasettings.lua:161
 msgid "👞 New status is kick"
@@ -1660,35 +1657,35 @@ msgstr "欢迎信息"
 msgid "Goodbye"
 msgstr "再见信息"
 
-#: lua/groupbutler/plugins/menu.lua:178 lua/groupbutler/utilities.lua:597
+#: lua/groupbutler/plugins/menu.lua:178 lua/groupbutler/utilities.lua:588
 msgid "Extra"
 msgstr "自定义命令"
 
-#: lua/groupbutler/plugins/menu.lua:179 lua/groupbutler/utilities.lua:598
+#: lua/groupbutler/plugins/menu.lua:179 lua/groupbutler/utilities.lua:589
 msgid "Anti-flood"
 msgstr "防灌水"
 
-#: lua/groupbutler/plugins/menu.lua:180 lua/groupbutler/utilities.lua:600
+#: lua/groupbutler/plugins/menu.lua:180 lua/groupbutler/utilities.lua:591
 msgid "Silent mode"
 msgstr "安静模式"
 
-#: lua/groupbutler/plugins/menu.lua:182 lua/groupbutler/utilities.lua:602
+#: lua/groupbutler/plugins/menu.lua:182 lua/groupbutler/utilities.lua:593
 msgid "Arab"
 msgstr "阿拉伯文字"
 
-#: lua/groupbutler/plugins/menu.lua:183 lua/groupbutler/utilities.lua:603
+#: lua/groupbutler/plugins/menu.lua:183 lua/groupbutler/utilities.lua:594
 msgid "RTL"
 msgstr "右至左文字"
 
-#: lua/groupbutler/plugins/menu.lua:184 lua/groupbutler/utilities.lua:599
+#: lua/groupbutler/plugins/menu.lua:184 lua/groupbutler/utilities.lua:590
 msgid "Ban bots"
 msgstr "封禁机器人"
 
-#: lua/groupbutler/plugins/menu.lua:185 lua/groupbutler/utilities.lua:604
+#: lua/groupbutler/plugins/menu.lua:185 lua/groupbutler/utilities.lua:595
 msgid "Reports"
 msgstr "报告"
 
-#: lua/groupbutler/plugins/menu.lua:186 lua/groupbutler/utilities.lua:605
+#: lua/groupbutler/plugins/menu.lua:186 lua/groupbutler/utilities.lua:596
 msgid "Delete last welcome message"
 msgstr "删除最后的欢迎消息"
 
@@ -1696,7 +1693,7 @@ msgstr "删除最后的欢迎消息"
 msgid "Welcome + rules button"
 msgstr "欢迎信息+规则按钮"
 
-#: lua/groupbutler/plugins/menu.lua:188
+#: lua/groupbutler/plugins/menu.lua:188 lua/groupbutler/utilities.lua:598
 msgid "Clean Service Messages"
 msgstr "Clean Service Messages"
 
@@ -1991,23 +1988,23 @@ msgstr "规则已被删除。"
 msgid "New rules *saved successfully*!"
 msgstr "新规则*已成功保存*！"
 
-#: lua/groupbutler/plugins/service.lua:44
+#: lua/groupbutler/plugins/service.lua:49
 #, lua-format
 msgid "_You (user ID: %d) are in the blocked list_"
 msgstr "_你 (用户 ID: %d) 在黑名单中_"
 
-#: lua/groupbutler/plugins/service.lua:49
+#: lua/groupbutler/plugins/service.lua:54
 msgid "_Admin mode is on: only the bot admin can add me to a new group_"
 msgstr "_管理员模式已启用：只有机器人管理员可以将我添加到新群组_"
 
-#: lua/groupbutler/plugins/service.lua:57
+#: lua/groupbutler/plugins/service.lua:66
 #, lua-format
 msgid "Hello everyone!\n"
 "My name is %s, and I'm a bot made to help administrators in their hard work.\n"
 msgstr "大家好！\n"
 "我是 %s，我作为一个机器人，将协助管理员处理其工作。\n"
 
-#: lua/groupbutler/plugins/service.lua:61
+#: lua/groupbutler/plugins/service.lua:70
 msgid "Yay! This group has been upgraded. You are great! Now I can work properly :)\n"
 msgstr "耶！本群组已得到升级。你真棒！现在我可以正常工作了 :)\n"
 
@@ -2159,11 +2156,11 @@ msgstr "📌 状态：`已缓存`\n"
 msgid "Message N° %d"
 msgstr "消息 N° %d"
 
-#: lua/groupbutler/plugins/users.lua:213 lua/groupbutler/plugins/warn.lua:176
+#: lua/groupbutler/plugins/users.lua:214 lua/groupbutler/plugins/warn.lua:167
 msgid "You are not allowed to use this button"
 msgstr "您无权使用该按钮"
 
-#: lua/groupbutler/plugins/users.lua:226
+#: lua/groupbutler/plugins/users.lua:223
 #, lua-format
 msgid "The number of warnings received by this user has been <b>reset</b>, by %s"
 msgstr "该用户的警告次数已被管理员 %s <b>重设</b>"
@@ -2182,105 +2179,103 @@ msgstr "✅ 已更新。下次更新将在 %s"
 msgid "Remove warn"
 msgstr "移除警告"
 
-#: lua/groupbutler/plugins/warn.lua:55
+#: lua/groupbutler/plugins/warn.lua:44
 msgid "Max number of warnings changed (media).\n"
 msgstr "警告值的最大上限已更改(媒体)。\n"
 
-#: lua/groupbutler/plugins/warn.lua:60
+#: lua/groupbutler/plugins/warn.lua:49
 msgid "Max number of warnings changed.\n"
 msgstr "最大上限的警告值已更改。\n"
 
-#: lua/groupbutler/plugins/warn.lua:66
+#: lua/groupbutler/plugins/warn.lua:55
 #, lua-format
 msgid "*Old* value was %d\n"
 "*New* max is %d"
 msgstr "*旧*数值是 %d\n"
 "*新*数值是 %d"
 
-#: lua/groupbutler/plugins/warn.lua:75
+#: lua/groupbutler/plugins/warn.lua:64
 msgid "Yes"
 msgstr "是"
 
-#: lua/groupbutler/plugins/warn.lua:75
+#: lua/groupbutler/plugins/warn.lua:64
 msgid "No"
 msgstr "否"
 
-#: lua/groupbutler/plugins/warn.lua:79
+#: lua/groupbutler/plugins/warn.lua:68
 msgid "Do you want to continue and reset *all* the warnings received by *all* the users of the group?"
 msgstr "是否确认重置*全部用户*收到的警告次数？"
 
-#: lua/groupbutler/plugins/warn.lua:98
+#: lua/groupbutler/plugins/warn.lua:86
 #, lua-format
-msgid "Done! %s has been forgiven.\n"
-"<b>Warns found</b>: <i>normal warns %s, for media %s, spamwarns %s</i>"
-msgstr "完成! %s 已被重置警告次数.\n"
-"<b>警告次数</b>: <i>普通警告 %s, 媒体警告 %s, 垃圾信息警告 %s</i>"
+msgid "Done! %s has been forgiven."
+msgstr ""
 
-#: lua/groupbutler/plugins/warn.lua:120
+#: lua/groupbutler/plugins/warn.lua:111
 #, lua-format
 msgid "%s <b>%s</b>: reached the max number of warnings (<code>%d/%d</code>)"
 msgstr "%s <b>%s</b>: 达到了最大警告次数 (<code>%d/%d</code>)"
 
-#: lua/groupbutler/plugins/warn.lua:153
+#: lua/groupbutler/plugins/warn.lua:144
 #, lua-format
 msgid "%s <b>has been warned</b> (<code>%d/%d</code>)"
 msgstr "%s <b>已被警告</b> (%d/%d)"
 
-#: lua/groupbutler/plugins/warn.lua:184
+#: lua/groupbutler/plugins/warn.lua:175
 msgid "The number of warnings received by this user is already <i>zero</i>"
 msgstr "这位用户收到的警告消息已被<i>清零</i>"
 
-#: lua/groupbutler/plugins/warn.lua:188
+#: lua/groupbutler/plugins/warn.lua:179
 #, lua-format
 msgid "<b>Warn removed!</b> (%d/%d)"
 msgstr "<b>警告已移除！</b> (%d/%d)"
 
-#: lua/groupbutler/plugins/warn.lua:191
+#: lua/groupbutler/plugins/warn.lua:182
 #, lua-format
 msgid "\n"
 "(Admin: %s)"
 msgstr "\n"
 "(管理员：%s)"
 
-#: lua/groupbutler/plugins/warn.lua:200
+#: lua/groupbutler/plugins/warn.lua:191
 #, lua-format
 msgid "Done. All the warnings of this group have been erased by %s"
 msgstr "完成！%s清除了该群的所有警告次数"
 
-#: lua/groupbutler/plugins/warn.lua:202
+#: lua/groupbutler/plugins/warn.lua:193
 msgid "_Action aborted_"
 msgstr "_操作中止_"
 
-#: lua/groupbutler/plugins/welcome.lua:100
+#: lua/groupbutler/plugins/welcome.lua:83
 msgid "Read the rules"
 msgstr "请阅读规则"
 
-#: lua/groupbutler/plugins/welcome.lua:122
+#: lua/groupbutler/plugins/welcome.lua:106
 msgid "Hi $name!"
 msgstr "你好 $name!"
 
-#: lua/groupbutler/plugins/welcome.lua:170
+#: lua/groupbutler/plugins/welcome.lua:155
 msgid "Welcome and...?"
 msgstr "欢迎然后…？"
 
-#: lua/groupbutler/plugins/welcome.lua:194
+#: lua/groupbutler/plugins/welcome.lua:179
 #, lua-format
 msgid "A form of media has been set as the welcome message: `%s`"
 msgstr "一条媒体消息已被设置为欢迎信息 `%s`"
 
-#: lua/groupbutler/plugins/welcome.lua:196
+#: lua/groupbutler/plugins/welcome.lua:181
 msgid "Reply to a `sticker` or a `gif` to set them as the *welcome message*"
 msgstr "回复一个`贴纸`或一个`GIF`来设置他们成为*欢迎消息*"
 
-#: lua/groupbutler/plugins/welcome.lua:215
+#: lua/groupbutler/plugins/welcome.lua:200
 msgid "*Custom welcome message saved!*"
 msgstr "*自定义欢迎信息已保存！*"
 
-#: lua/groupbutler/utilities.lua:524
+#: lua/groupbutler/utilities.lua:515
 msgid "-*empty*-"
 msgstr "-*空白*-"
 
-#: lua/groupbutler/utilities.lua:565
+#: lua/groupbutler/utilities.lua:556
 #, lua-format
 msgid "<b>👤 Creator</b>\n"
 "└ %s\n\n"
@@ -2291,166 +2286,170 @@ msgstr "<b>👤 群主</b>\n"
 "<b>👥 管理员</b> (%d)\n"
 "%s"
 
-#: lua/groupbutler/utilities.lua:575
+#: lua/groupbutler/utilities.lua:566
 msgid "No commands set"
 msgstr "没有自定义指令被设置"
 
-#: lua/groupbutler/utilities.lua:578
+#: lua/groupbutler/utilities.lua:569
 msgid "List of custom commands:\n"
 msgstr "自定义命令列表:\n"
 
-#: lua/groupbutler/utilities.lua:590
+#: lua/groupbutler/utilities.lua:581
 msgid "Current settings for *the group*:\n\n"
 msgstr "当前*该群组*的设置：\n\n"
 
-#: lua/groupbutler/utilities.lua:591
+#: lua/groupbutler/utilities.lua:582
 #, lua-format
 msgid "*Language*: %s\n"
 msgstr "*语言*：%s\n"
 
-#: lua/groupbutler/utilities.lua:595
+#: lua/groupbutler/utilities.lua:586
 msgid "Welcome message"
 msgstr "欢迎信息"
 
-#: lua/groupbutler/utilities.lua:596
+#: lua/groupbutler/utilities.lua:587
 msgid "Goodbye message"
 msgstr "再见信息"
 
-#: lua/groupbutler/utilities.lua:606
+#: lua/groupbutler/utilities.lua:597
 msgid "Welcome button"
 msgstr "欢迎按钮"
 
-#: lua/groupbutler/utilities.lua:642
+#: lua/groupbutler/utilities.lua:599
+msgid "Unknown"
+msgstr ""
+
+#: lua/groupbutler/utilities.lua:634
 msgid "*Welcome type*: `GIF / sticker`\n"
 msgstr "*欢迎消息类型*：`GIF / 贴纸`\n"
 
-#: lua/groupbutler/utilities.lua:644
+#: lua/groupbutler/utilities.lua:636
 msgid "*Welcome type*: `custom message`\n"
 msgstr "*欢迎消息类型*：`自定义消息`\n"
 
-#: lua/groupbutler/utilities.lua:646
+#: lua/groupbutler/utilities.lua:638
 msgid "*Welcome type*: `default message`\n"
 msgstr "*欢迎消息类型*：`预设消息`\n"
 
-#: lua/groupbutler/utilities.lua:655
+#: lua/groupbutler/utilities.lua:647
 #, lua-format
 msgid "Warns (`standard`): *%s*\n"
 msgstr "警告 (`标准`)：*%s*\n"
 
-#: lua/groupbutler/utilities.lua:656
+#: lua/groupbutler/utilities.lua:648
 #, lua-format
 msgid "Warns (`media`): *%s*\n\n"
 msgstr "警告 (`媒体`)：*%s*\n\n"
 
-#: lua/groupbutler/utilities.lua:657
+#: lua/groupbutler/utilities.lua:649
 msgid "✅ = _enabled / allowed_\n"
 msgstr "✅ = _开启 / 允许_\n"
 
-#: lua/groupbutler/utilities.lua:658
+#: lua/groupbutler/utilities.lua:650
 msgid "🚫 = _disabled / not allowed_\n"
 msgstr "🚫 = _关闭 / 不允许_\n"
 
-#: lua/groupbutler/utilities.lua:659
+#: lua/groupbutler/utilities.lua:651
 msgid "👥 = _sent in group (always for admins)_\n"
 msgstr "👥 = _发送到群组 (给管理员)_\n"
 
-#: lua/groupbutler/utilities.lua:660
+#: lua/groupbutler/utilities.lua:652
 msgid "👤 = _sent in private_"
 msgstr "👤 = _通过私聊发送_"
 
-#: lua/groupbutler/utilities.lua:670
+#: lua/groupbutler/utilities.lua:662
 msgid "@admin command disabled"
 msgstr "@admin 指令已禁用"
 
-#: lua/groupbutler/utilities.lua:671
+#: lua/groupbutler/utilities.lua:663
 msgid "Welcome message won't be displayed from now"
 msgstr "欢迎消息从现在起不再显示"
 
-#: lua/groupbutler/utilities.lua:672
+#: lua/groupbutler/utilities.lua:664
 msgid "Goodbye message won't be displayed from now"
 msgstr "再见消息从现在起不再显示"
 
-#: lua/groupbutler/utilities.lua:673
+#: lua/groupbutler/utilities.lua:665
 msgid "#extra commands are now available only for administrators"
 msgstr "#extra 命令现在仅供管理员使用"
 
-#: lua/groupbutler/utilities.lua:674
+#: lua/groupbutler/utilities.lua:666
 msgid "Anti-flood is now off"
 msgstr "防灌水功能现已关闭"
 
-#: lua/groupbutler/utilities.lua:675
+#: lua/groupbutler/utilities.lua:667
 msgid "/rules will reply in private (for users)"
 msgstr "/rules 现在只通过私聊回复(成员)"
 
-#: lua/groupbutler/utilities.lua:676
+#: lua/groupbutler/utilities.lua:668
 msgid "Silent mode is now off"
 msgstr "安静模式现已关闭"
 
-#: lua/groupbutler/utilities.lua:677
+#: lua/groupbutler/utilities.lua:669
 msgid "Links preview disabled"
 msgstr "链接预览已关闭"
 
-#: lua/groupbutler/utilities.lua:678
+#: lua/groupbutler/utilities.lua:670
 msgid "Welcome message without a button for the rules"
 msgstr "欢迎消息没有规则按钮"
 
-#: lua/groupbutler/utilities.lua:681
+#: lua/groupbutler/utilities.lua:673
 msgid "@admin command enabled"
 msgstr "@admin 指令已启用"
 
-#: lua/groupbutler/utilities.lua:682
+#: lua/groupbutler/utilities.lua:674
 msgid "Welcome message will be displayed"
 msgstr "欢迎信息将开始显示"
 
-#: lua/groupbutler/utilities.lua:683
+#: lua/groupbutler/utilities.lua:675
 msgid "Goodbye message will be displayed"
 msgstr "再见信息将开始显示"
 
-#: lua/groupbutler/utilities.lua:684
+#: lua/groupbutler/utilities.lua:676
 msgid "#extra commands are now available for all"
 msgstr "自定义命令现在任何人都能使用"
 
-#: lua/groupbutler/utilities.lua:685
+#: lua/groupbutler/utilities.lua:677
 msgid "Anti-flood is now on"
 msgstr "防灌水功能现已开启"
 
-#: lua/groupbutler/utilities.lua:686
+#: lua/groupbutler/utilities.lua:678
 msgid "/rules will reply in the group (with everyone)"
 msgstr "/rules 将会在群组中回复（任何人)"
 
-#: lua/groupbutler/utilities.lua:687
+#: lua/groupbutler/utilities.lua:679
 msgid "Silent mode is now on"
 msgstr "安静模式现已开启"
 
-#: lua/groupbutler/utilities.lua:688
+#: lua/groupbutler/utilities.lua:680
 msgid "Links preview enabled"
 msgstr "链接预览已开启"
 
-#: lua/groupbutler/utilities.lua:689
+#: lua/groupbutler/utilities.lua:681
 msgid "The welcome message will have a button for the rules"
 msgstr "欢迎消息将会有一个规则按钮"
 
-#: lua/groupbutler/utilities.lua:702
+#: lua/groupbutler/utilities.lua:694
 msgid "This setting is enabled, but the goodbye message won't be displayed in large groups, because I can't see service messages about left members"
 msgstr "此设置已启用，但是再见消息不会显示在大型群组中，因为我看不到有关成员离开的相关消息"
 
-#: lua/groupbutler/utilities.lua:715
+#: lua/groupbutler/utilities.lua:707
 msgid "Start me"
 msgstr "启用我"
 
-#: lua/groupbutler/utilities.lua:717
+#: lua/groupbutler/utilities.lua:709
 msgid "_Please message me first so I can message you_"
 msgstr "_请先私聊我，这样我才能够跟你发信息_"
 
-#: lua/groupbutler/utilities.lua:815 lua/groupbutler/utilities.lua:816
+#: lua/groupbutler/utilities.lua:778 lua/groupbutler/utilities.lua:779
 msgid "Someone"
 msgstr "有人"
 
-#: lua/groupbutler/utilities.lua:824
+#: lua/groupbutler/utilities.lua:787
 msgid "Reply to a user or mention them"
 msgstr "Reply to a user or mention them"
 
-#: lua/groupbutler/utilities.lua:850
+#: lua/groupbutler/utilities.lua:813
 msgid "I've never seen this user before.\n"
 "This command works by reply, username, user ID or text mention.\n"
 "If you're using it by username and want to teach me who the user is, forward me one of their messages"
@@ -2458,12 +2457,12 @@ msgstr "我之前从未见过这个用户。\n"
 "此命令通过回复用户名，用户ID或一条消息来工作。\n"
 "如果您是通过用户名使用它并想告诉我用户是谁，请转发我的一条消息"
 
-#: lua/groupbutler/utilities.lua:869
+#: lua/groupbutler/utilities.lua:832
 #, lua-format
 msgid "<b>Chat</b>: %s [#chat%d]"
 msgstr "<b>对话</b>：%s [#chat%d]"
 
-#: lua/groupbutler/utilities.lua:878 lua/groupbutler/utilities.lua:886
+#: lua/groupbutler/utilities.lua:841 lua/groupbutler/utilities.lua:849
 #, lua-format
 msgid "#%s (<code>%d/%d</code>), <i>%s</i>\n"
 "• %s\n"
@@ -2472,7 +2471,7 @@ msgstr "#%s (<code>%d/%d</code>), <i>%s</i>\n"
 "• %s\n"
 "• <b>User</b>: %s"
 
-#: lua/groupbutler/utilities.lua:892
+#: lua/groupbutler/utilities.lua:855
 #, lua-format
 msgid "#%s\n"
 "• %s\n"
@@ -2481,8 +2480,8 @@ msgstr "#%s\n"
 "• %s\n"
 "• <b>用户</b>: %s"
 
-#: lua/groupbutler/utilities.lua:895 lua/groupbutler/utilities.lua:905
-#: lua/groupbutler/utilities.lua:908 lua/groupbutler/utilities.lua:911
+#: lua/groupbutler/utilities.lua:858 lua/groupbutler/utilities.lua:868
+#: lua/groupbutler/utilities.lua:871 lua/groupbutler/utilities.lua:874
 #, lua-format
 msgid "%s\n"
 "• %s\n"
@@ -2491,11 +2490,11 @@ msgstr "%s\n"
 "• %s\n"
 "• <b>By</b>: %s"
 
-#: lua/groupbutler/utilities.lua:898
+#: lua/groupbutler/utilities.lua:861
 msgid "Get the new photo"
 msgstr "取得新的照片"
 
-#: lua/groupbutler/utilities.lua:915
+#: lua/groupbutler/utilities.lua:878
 #, lua-format
 msgid "%s\n"
 "• %s\n"
@@ -2506,7 +2505,7 @@ msgstr "%s\n"
 "• <b>从</b>: %s\n"
 "• <i>举报到 %d 管理员</i>"
 
-#: lua/groupbutler/utilities.lua:919
+#: lua/groupbutler/utilities.lua:882
 #, lua-format
 msgid "#%s\n"
 "• %s\n"
@@ -2515,7 +2514,7 @@ msgstr "#%s\n"
 "• %s\n"
 "• <b>User</b>: %s [#id%d]"
 
-#: lua/groupbutler/utilities.lua:924
+#: lua/groupbutler/utilities.lua:887
 #, lua-format
 msgid "%s\n"
 "• %s\n"
@@ -2524,14 +2523,14 @@ msgstr "%s\n"
 "• %s\n"
 "• <b>User</b>: %s"
 
-#: lua/groupbutler/utilities.lua:926
+#: lua/groupbutler/utilities.lua:889
 #, lua-format
 msgid "\n"
 "• <b>Added by</b>: %s [#id%d]"
 msgstr "\n"
 "• <b>添加者</b>: %s [#id%d]"
 
-#: lua/groupbutler/utilities.lua:939
+#: lua/groupbutler/utilities.lua:902
 #, lua-format
 msgid "#%s\n"
 "• <b>Admin</b>: %s [#id%d]\n"
@@ -2544,20 +2543,18 @@ msgstr "#%s\n"
 "• <b>用户</b>: %s [#id%d]\n"
 "• <b>计数</b>: <code>%d/%d</code>"
 
-#: lua/groupbutler/utilities.lua:947
+#: lua/groupbutler/utilities.lua:910 lua/groupbutler/utilities.lua:940
 #, lua-format
 msgid "#%s\n"
 "• <b>Admin</b>: %s [#id%s]\n"
 "• %s\n"
-"• <b>User</b>: %s [#id%s]\n"
-"• <b>Warns found</b>: <i>normal: %s, for media: %s, spamwarns: %s</i>"
+"• <b>User</b>: %s [#id%s]"
 msgstr "#%s\n"
 "• <b>管理员</b>: %s [#id%s]\n"
 "• %s\n"
-"• <b>用户</b>: %s [#id%s]\n"
-"• <b>警告次数</b>: <i>普通警告: %s, 媒体警告: %s, 垃圾信息警告: %s</i>"
+"• <b>用户</b>: %s [#id%s]"
 
-#: lua/groupbutler/utilities.lua:953
+#: lua/groupbutler/utilities.lua:914
 #, lua-format
 msgid "#%s\n"
 "• <b>Admin</b>: %s [#id%s]\n"
@@ -2566,17 +2563,17 @@ msgstr "#%s\n"
 "• <b>管理员</b>: %s [#id%s]\n"
 "• %s\n"
 
-#: lua/groupbutler/utilities.lua:956
+#: lua/groupbutler/utilities.lua:917
 #, lua-format
 msgid "• <i>Users involved: %d</i>"
 msgstr "• <i>参与的用户：%d</i>"
 
-#: lua/groupbutler/utilities.lua:958
+#: lua/groupbutler/utilities.lua:919
 #, lua-format
 msgid "• <b>User</b>: %s [#id%d]"
 msgstr "• <b>用户</b>：%s [#id%d]"
 
-#: lua/groupbutler/utilities.lua:970
+#: lua/groupbutler/utilities.lua:931
 #, lua-format
 msgid "#%s\n"
 "• <b>Admin</b>: %s [#id%s]\n"
@@ -2589,18 +2586,7 @@ msgstr "#%s\n"
 "• <b>用户</b>: %s [#id%s]\n"
 "• <b>持续时间</b>: %d 天, %d 小时"
 
-#: lua/groupbutler/utilities.lua:979
-#, lua-format
-msgid "#%s\n"
-"• <b>Admin</b>: %s [#id%s]\n"
-"• %s\n"
-"• <b>User</b>: %s [#id%s]"
-msgstr "#%s\n"
-"• <b>管理员</b>: %s [#id%s]\n"
-"• %s\n"
-"• <b>用户</b>: %s [#id%s]"
-
-#: lua/groupbutler/utilities.lua:983
+#: lua/groupbutler/utilities.lua:944
 #, lua-format
 msgid "#%s\n"
 "• %s\n"
@@ -2609,21 +2595,21 @@ msgstr "#%s\n"
 "• %s\n"
 "• <b>By</b>: %s"
 
-#: lua/groupbutler/utilities.lua:1004
+#: lua/groupbutler/utilities.lua:965
 #, lua-format
 msgid "\n"
 "• <b>Action</b>: #%s"
 msgstr "\n"
 "• <b>Action</b>: #%s"
 
-#: lua/groupbutler/utilities.lua:1007
+#: lua/groupbutler/utilities.lua:968
 #, lua-format
 msgid "\n"
 "• <b>Reason</b>: <i>%s</i>"
 msgstr "\n"
 "• <b>原因</b>：<i>%s</i>"
 
-#: lua/groupbutler/utilities.lua:1013
+#: lua/groupbutler/utilities.lua:974
 msgid "Go to the message"
 msgstr "前往消息"
 

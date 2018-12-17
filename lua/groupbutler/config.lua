@@ -139,6 +139,7 @@ local _M =
 		['ro_RO'] = 'Romanian 🇷🇴',
 		['ru_RU'] = 'Russain 🇷🇺',
 		['sr_SP'] = 'Serbian (Cyrillic) 🇷🇸',
+		-- ['si_LK'] = 'Sinhala 🇱🇰',
 		['es_ES'] = 'Spanish 🇪🇸',
 		['es_MX'] = 'Spanish, Mexico 🇲🇽',
 		-- ['sv_SE'] = 'Swedish 🇸🇪',

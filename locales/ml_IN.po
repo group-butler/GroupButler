@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-10 01:32-0200\n"
-"PO-Revision-Date: 2018-12-15 00:05\n"
+"POT-Creation-Date: 2018-12-17 15:23-0200\n"
+"PO-Revision-Date: 2018-12-17 17:27\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Malayalam\n"
 "Language: ml_IN\n"
@@ -87,25 +87,25 @@ msgstr "ഹലോ ! \n"
 "പക്ഷേ എനിക്ക് ഈ ഗ്രൂപ്പിൽ വർക്ക് ചെയ്യാൻ കഴിയില്ല. നിങ്ങൾക്ക് എന്നെ ആവശ്യമുണ്ടെങ്കിൽ, \n"
 "നിങ്ങളുടെ അഡ്മിനോട് ഇതൊരു സൂപ്പർഗ്രൂപ് ആക്കാൻ പറഞ്ഞതിനുശേഷം എന്നെ വീണ്ടും ആഡ് ചെയ്യുക.\n"
 
-#: lua/groupbutler/main.lua:195
+#: lua/groupbutler/main.lua:196
 msgid "🐞 Sorry, a *bug* occurred"
 msgstr "ക്ഷമിക്കണം, ഒരു *ബഗ്* സംഭവിച്ചിരിക്കുന്നു"
 
 #: lua/groupbutler/plugins/antispam.lua:43
 #: lua/groupbutler/plugins/onmessage.lua:162
-#: lua/groupbutler/plugins/warn.lua:122
+#: lua/groupbutler/plugins/warn.lua:113
 msgid "banned"
 msgstr "ബാൻ ചെയ്തു"
 
 #: lua/groupbutler/plugins/antispam.lua:44
 #: lua/groupbutler/plugins/onmessage.lua:159
-#: lua/groupbutler/plugins/warn.lua:126
+#: lua/groupbutler/plugins/warn.lua:117
 msgid "kicked"
 msgstr "പുറത്താക്കി"
 
 #: lua/groupbutler/plugins/antispam.lua:45
 #: lua/groupbutler/plugins/onmessage.lua:165
-#: lua/groupbutler/plugins/warn.lua:130
+#: lua/groupbutler/plugins/warn.lua:121
 msgid "muted"
 msgstr "നിശബ്ദമാക്കി"
 
@@ -374,8 +374,9 @@ msgid "%s unbanned by %s!"
 msgstr "%s നെ %s! അൺബാൻ ചെയ്തു"
 
 #: lua/groupbutler/plugins/banhammer.lua:152
-msgid "You don't have the permissions to restrict members"
-msgstr "നിങ്ങൾക്ക് അംഗങ്ങളെ നിയന്ത്രിക്കാനുള്ള അധികാരമില്ല "
+#: lua/groupbutler/plugins/defaultpermissions.lua:127
+msgid "Sorry, you don't have permission to restrict members"
+msgstr ""
 
 #: lua/groupbutler/plugins/banhammer.lua:156
 msgid "Tap on the -/+ buttons to change this value. Then select a timeframe to execute the ban"
@@ -534,7 +535,7 @@ msgid "Admins"
 msgstr "അഡ്മിന്മാർ"
 
 #: lua/groupbutler/plugins/dashboard.lua:71
-#: lua/groupbutler/plugins/menu.lua:181 lua/groupbutler/utilities.lua:601
+#: lua/groupbutler/plugins/menu.lua:181 lua/groupbutler/utilities.lua:592
 msgid "Rules"
 msgstr "നിയമങ്ങൾ"
 
@@ -669,10 +670,6 @@ msgstr "മറ്റു തരത്തിലുള്ള മീഡിയകൾ 
 #: lua/groupbutler/plugins/defaultpermissions.lua:77
 msgid "Show web page preview"
 msgstr "വെബ് പേജ് കാണിക്കുക"
-
-#: lua/groupbutler/plugins/defaultpermissions.lua:127
-msgid "You don't have the permission to restrict members"
-msgstr "നിങ്ങൾക്ക് ആരെയും നിയന്ത്രിക്കാനുള്ള അധികാരമില്ല"
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:129
 msgid "*Default permissions*\n"
@@ -1314,7 +1311,7 @@ msgstr "ബാൻ"
 msgid "Kick"
 msgstr "പുറത്താക്കുക"
 
-#: lua/groupbutler/plugins/logchannel.lua:61 lua/groupbutler/utilities.lua:996
+#: lua/groupbutler/plugins/logchannel.lua:61 lua/groupbutler/utilities.lua:957
 msgid "Unban"
 msgstr "ബാൻ ഒഴിവാകുക"
 
@@ -1630,35 +1627,35 @@ msgstr "സ്വാഗതം"
 msgid "Goodbye"
 msgstr "ശുഭം"
 
-#: lua/groupbutler/plugins/menu.lua:178 lua/groupbutler/utilities.lua:597
+#: lua/groupbutler/plugins/menu.lua:178 lua/groupbutler/utilities.lua:588
 msgid "Extra"
 msgstr "എക്സ്ട്രാ"
 
-#: lua/groupbutler/plugins/menu.lua:179 lua/groupbutler/utilities.lua:598
+#: lua/groupbutler/plugins/menu.lua:179 lua/groupbutler/utilities.lua:589
 msgid "Anti-flood"
 msgstr "ആന്റി ഫ്ലഡ്"
 
-#: lua/groupbutler/plugins/menu.lua:180 lua/groupbutler/utilities.lua:600
+#: lua/groupbutler/plugins/menu.lua:180 lua/groupbutler/utilities.lua:591
 msgid "Silent mode"
 msgstr "സൈലൻറ് മോഡ്"
 
-#: lua/groupbutler/plugins/menu.lua:182 lua/groupbutler/utilities.lua:602
+#: lua/groupbutler/plugins/menu.lua:182 lua/groupbutler/utilities.lua:593
 msgid "Arab"
 msgstr "അറബി"
 
-#: lua/groupbutler/plugins/menu.lua:183 lua/groupbutler/utilities.lua:603
+#: lua/groupbutler/plugins/menu.lua:183 lua/groupbutler/utilities.lua:594
 msgid "RTL"
 msgstr "RTL"
 
-#: lua/groupbutler/plugins/menu.lua:184 lua/groupbutler/utilities.lua:599
+#: lua/groupbutler/plugins/menu.lua:184 lua/groupbutler/utilities.lua:590
 msgid "Ban bots"
 msgstr "ബോട്ടുകളെ ബാൻ ചെയ്യുക"
 
-#: lua/groupbutler/plugins/menu.lua:185 lua/groupbutler/utilities.lua:604
+#: lua/groupbutler/plugins/menu.lua:185 lua/groupbutler/utilities.lua:595
 msgid "Reports"
 msgstr "റിപ്പോർട്ടുകൾ"
 
-#: lua/groupbutler/plugins/menu.lua:186 lua/groupbutler/utilities.lua:605
+#: lua/groupbutler/plugins/menu.lua:186 lua/groupbutler/utilities.lua:596
 msgid "Delete last welcome message"
 msgstr "അവസാനത്തെ സ്വാഗത സന്ദേശം ഡിലീറ്റ് ചെയ്യുക"
 
@@ -1666,7 +1663,7 @@ msgstr "അവസാനത്തെ സ്വാഗത സന്ദേശം ഡ
 msgid "Welcome + rules button"
 msgstr "സ്വാഗതം + നിയമങ്ങൾ ബട്ടൺ"
 
-#: lua/groupbutler/plugins/menu.lua:188
+#: lua/groupbutler/plugins/menu.lua:188 lua/groupbutler/utilities.lua:598
 msgid "Clean Service Messages"
 msgstr "എല്ലാ സർവീസ് സന്ദേശങ്ങളും"
 
@@ -1956,23 +1953,23 @@ msgstr "നിയമങ്ങൾ എല്ലാം നീക്കം ചെയ
 msgid "New rules *saved successfully*!"
 msgstr "പുതിയ നിയമങ്ങൾ *സേവ് ചെയ്തു*!"
 
-#: lua/groupbutler/plugins/service.lua:44
+#: lua/groupbutler/plugins/service.lua:49
 #, lua-format
 msgid "_You (user ID: %d) are in the blocked list_"
 msgstr "_നിങ്ങൾ  (user ID: %d)  തടഞ്ഞവരുടെ ലിസ്റ്റിലാണ്_"
 
-#: lua/groupbutler/plugins/service.lua:49
+#: lua/groupbutler/plugins/service.lua:54
 msgid "_Admin mode is on: only the bot admin can add me to a new group_"
 msgstr "_അഡ്മിൻ മോഡ് ഓൺ ആയി: ബോട്ടിൻറെ അഡ്മിന് മാത്രമേ ഇനി പുതിയ ഗ്രൂപ്പിലേക്ക് ആഡ് ചെയ്യാൻ കഴിയൂ_"
 
-#: lua/groupbutler/plugins/service.lua:57
+#: lua/groupbutler/plugins/service.lua:66
 #, lua-format
 msgid "Hello everyone!\n"
 "My name is %s, and I'm a bot made to help administrators in their hard work.\n"
 msgstr "ഹലോ കൂട്ടുകാരേ! \n"
 "ഞാൻ %s, ഗ്രൂപ്പ് അഡ്മിന്മാരെ സഹായിക്കാൻ വേണ്ടിയാണ് എന്നെ ഉണ്ടാക്കിയിരിക്കുന്നത്. \n"
 
-#: lua/groupbutler/plugins/service.lua:61
+#: lua/groupbutler/plugins/service.lua:70
 msgid "Yay! This group has been upgraded. You are great! Now I can work properly :)\n"
 msgstr "ഹോ! ഗ്രൂപ്പ് അപ്ഗ്രേഡ് ആയി.നിങ്ങൾ പൊളിയാണ്! ഇനി എനിക്ക് നല്ലപോലെ ജോലി ചെയ്യാം :)\n"
 
@@ -2122,11 +2119,11 @@ msgstr "📌 Status: `CACHED`\n"
 msgid "Message N° %d"
 msgstr "Message N° %d"
 
-#: lua/groupbutler/plugins/users.lua:213 lua/groupbutler/plugins/warn.lua:176
+#: lua/groupbutler/plugins/users.lua:214 lua/groupbutler/plugins/warn.lua:167
 msgid "You are not allowed to use this button"
 msgstr "നിങ്ങൾക്ക് ഈ ബട്ടൺ ഉപയോഗിക്കാൻ അനുവാദമില്ല"
 
-#: lua/groupbutler/plugins/users.lua:226
+#: lua/groupbutler/plugins/users.lua:223
 #, lua-format
 msgid "The number of warnings received by this user has been <b>reset</b>, by %s"
 msgstr "ഈ യൂസറിന് കിട്ടിയ താക്കീതുകൾ %s <b>പുനഃക്രമീകരിച്ചു</b>"
@@ -2145,105 +2142,103 @@ msgstr "✅ അപ്ഡേറ്റ് ആയി. അടുത്ത അപ്�
 msgid "Remove warn"
 msgstr "താക്കീതുകൾ നീക്കം ചെയ്യുക"
 
-#: lua/groupbutler/plugins/warn.lua:55
+#: lua/groupbutler/plugins/warn.lua:44
 msgid "Max number of warnings changed (media).\n"
 msgstr "താക്കീതുകളുടെ പരമാവധി എണ്ണം തിരുത്തി (media).\n"
 
-#: lua/groupbutler/plugins/warn.lua:60
+#: lua/groupbutler/plugins/warn.lua:49
 msgid "Max number of warnings changed.\n"
 msgstr "താക്കീതുകളുടെ പരമാവധി എണ്ണം തിരുത്തി.\n"
 
-#: lua/groupbutler/plugins/warn.lua:66
+#: lua/groupbutler/plugins/warn.lua:55
 #, lua-format
 msgid "*Old* value was %d\n"
 "*New* max is %d"
 msgstr "*Old* value was %d\n"
 "*New* max is %d"
 
-#: lua/groupbutler/plugins/warn.lua:75
+#: lua/groupbutler/plugins/warn.lua:64
 msgid "Yes"
 msgstr "അതെ"
 
-#: lua/groupbutler/plugins/warn.lua:75
+#: lua/groupbutler/plugins/warn.lua:64
 msgid "No"
 msgstr "അല്ല"
 
-#: lua/groupbutler/plugins/warn.lua:79
+#: lua/groupbutler/plugins/warn.lua:68
 msgid "Do you want to continue and reset *all* the warnings received by *all* the users of the group?"
 msgstr "ഈ ഗ്രൂപ്പിലെ *എല്ലാ* അംഗങ്ങളുടെയും *എല്ലാ* താക്കീതുകളും പുനഃക്രമീകരിക്കട്ടെ?"
 
-#: lua/groupbutler/plugins/warn.lua:98
+#: lua/groupbutler/plugins/warn.lua:86
 #, lua-format
-msgid "Done! %s has been forgiven.\n"
-"<b>Warns found</b>: <i>normal warns %s, for media %s, spamwarns %s</i>"
-msgstr "Done! %s ന് മാപ്പ് കൊടുത്തു.\n"
-"<b>താക്കീതുകൾ</b>: <i>സാധാരണ താക്കീതുകൾ %s, മീഡിയാ താക്കീതുകൾ %s, സ്പാം താക്കീതുകൾ %s</i>"
+msgid "Done! %s has been forgiven."
+msgstr ""
 
-#: lua/groupbutler/plugins/warn.lua:120
+#: lua/groupbutler/plugins/warn.lua:111
 #, lua-format
 msgid "%s <b>%s</b>: reached the max number of warnings (<code>%d/%d</code>)"
 msgstr "%s <b>%s</b>: പരമാവധി താക്കീതുകളുടെ എണ്ണം കഴിഞ്ഞു (<code>%d/%d</code>)"
 
-#: lua/groupbutler/plugins/warn.lua:153
+#: lua/groupbutler/plugins/warn.lua:144
 #, lua-format
 msgid "%s <b>has been warned</b> (<code>%d/%d</code>)"
 msgstr "%s നെ <b>താക്കീത് ചെയ്തു</b> (<code>%d/%d</code>)"
 
-#: lua/groupbutler/plugins/warn.lua:184
+#: lua/groupbutler/plugins/warn.lua:175
 msgid "The number of warnings received by this user is already <i>zero</i>"
 msgstr "ഈ യൂസറിന് കിട്ടിയ താക്കീതുകളുടെ എണ്ണം <i>zero</i>"
 
-#: lua/groupbutler/plugins/warn.lua:188
+#: lua/groupbutler/plugins/warn.lua:179
 #, lua-format
 msgid "<b>Warn removed!</b> (%d/%d)"
 msgstr "<b>താക്കീത് നീക്കം ചെയ്തു!</b> (%d/%d)"
 
-#: lua/groupbutler/plugins/warn.lua:191
+#: lua/groupbutler/plugins/warn.lua:182
 #, lua-format
 msgid "\n"
 "(Admin: %s)"
 msgstr "\n"
 "(Admin: %s)"
 
-#: lua/groupbutler/plugins/warn.lua:200
+#: lua/groupbutler/plugins/warn.lua:191
 #, lua-format
 msgid "Done. All the warnings of this group have been erased by %s"
 msgstr "%s ഈ ഗ്രൂപ്പിലെ എല്ലാ താക്കീതുകളും നീക്കം ചെയ്തു"
 
-#: lua/groupbutler/plugins/warn.lua:202
+#: lua/groupbutler/plugins/warn.lua:193
 msgid "_Action aborted_"
 msgstr "_Action aborted_"
 
-#: lua/groupbutler/plugins/welcome.lua:100
+#: lua/groupbutler/plugins/welcome.lua:83
 msgid "Read the rules"
 msgstr "നിയമാവലികൾ വായിക്കുക"
 
-#: lua/groupbutler/plugins/welcome.lua:122
+#: lua/groupbutler/plugins/welcome.lua:106
 msgid "Hi $name!"
 msgstr "ഹാലോ $name $surname!"
 
-#: lua/groupbutler/plugins/welcome.lua:170
+#: lua/groupbutler/plugins/welcome.lua:155
 msgid "Welcome and...?"
 msgstr "സ്വാഗതം ..?"
 
-#: lua/groupbutler/plugins/welcome.lua:194
+#: lua/groupbutler/plugins/welcome.lua:179
 #, lua-format
 msgid "A form of media has been set as the welcome message: `%s`"
 msgstr "മീഡിയ സ്വാഗത സന്ദേശമായി സെറ്റ് ചെയ്തു: `%s`"
 
-#: lua/groupbutler/plugins/welcome.lua:196
+#: lua/groupbutler/plugins/welcome.lua:181
 msgid "Reply to a `sticker` or a `gif` to set them as the *welcome message*"
 msgstr "ഒരു `sticker` അല്ലെങ്കിൽ `gif` നെ *സ്വാഗത സന്ദേശ*മാക്കാൻ, അതിനോട് റിപ്ലൈ ചെയ്യുക"
 
-#: lua/groupbutler/plugins/welcome.lua:215
+#: lua/groupbutler/plugins/welcome.lua:200
 msgid "*Custom welcome message saved!*"
 msgstr "*കസ്റ്റം സ്വാഗത സന്ദേശം സെറ്റ് ചെയ്തു!*"
 
-#: lua/groupbutler/utilities.lua:524
+#: lua/groupbutler/utilities.lua:515
 msgid "-*empty*-"
 msgstr "-*ശൂന്യം*-"
 
-#: lua/groupbutler/utilities.lua:565
+#: lua/groupbutler/utilities.lua:556
 #, lua-format
 msgid "<b>👤 Creator</b>\n"
 "└ %s\n\n"
@@ -2254,178 +2249,182 @@ msgstr "<b>👤 പടച്ചോൻ</b>\n"
 "<b>👥 അഡ്മിന്മാർ</b> (%d)\n"
 "%s"
 
-#: lua/groupbutler/utilities.lua:575
+#: lua/groupbutler/utilities.lua:566
 msgid "No commands set"
 msgstr "ഒരു കമാൻഡും ഇല്ല"
 
-#: lua/groupbutler/utilities.lua:578
+#: lua/groupbutler/utilities.lua:569
 msgid "List of custom commands:\n"
 msgstr "കസ്റ്റം കമാൻഡുകളുടെ ലിസ്റ്റ്:\n"
 
-#: lua/groupbutler/utilities.lua:590
+#: lua/groupbutler/utilities.lua:581
 msgid "Current settings for *the group*:\n\n"
 msgstr "*ഗ്രൂപ്പിൻറെ* ഇപ്പോഴത്തെ സെറ്റിങ്‌സ്:\n\n"
 
-#: lua/groupbutler/utilities.lua:591
+#: lua/groupbutler/utilities.lua:582
 #, lua-format
 msgid "*Language*: %s\n"
 msgstr "*ഭാഷ*: %s\n"
 
-#: lua/groupbutler/utilities.lua:595
+#: lua/groupbutler/utilities.lua:586
 msgid "Welcome message"
 msgstr "സ്വാഗത സന്ദേശം"
 
-#: lua/groupbutler/utilities.lua:596
+#: lua/groupbutler/utilities.lua:587
 msgid "Goodbye message"
 msgstr "യാത്ര അയപ്പ് സന്ദേശം"
 
-#: lua/groupbutler/utilities.lua:606
+#: lua/groupbutler/utilities.lua:597
 msgid "Welcome button"
 msgstr "സ്വാഗത ബട്ടൺ"
 
-#: lua/groupbutler/utilities.lua:642
+#: lua/groupbutler/utilities.lua:599
+msgid "Unknown"
+msgstr ""
+
+#: lua/groupbutler/utilities.lua:634
 msgid "*Welcome type*: `GIF / sticker`\n"
 msgstr "*സ്വാഗത രീതി*: `GIF / sticker`\n"
 
-#: lua/groupbutler/utilities.lua:644
+#: lua/groupbutler/utilities.lua:636
 msgid "*Welcome type*: `custom message`\n"
 msgstr "*സ്വാഗത രീതി*: `custom message`\n"
 
-#: lua/groupbutler/utilities.lua:646
+#: lua/groupbutler/utilities.lua:638
 msgid "*Welcome type*: `default message`\n"
 msgstr "*സ്വാഗത രീതി*: `default message`\n"
 
-#: lua/groupbutler/utilities.lua:655
+#: lua/groupbutler/utilities.lua:647
 #, lua-format
 msgid "Warns (`standard`): *%s*\n"
 msgstr "താക്കീതുകൾ (`standard`): *%s*\n"
 " \n"
 
-#: lua/groupbutler/utilities.lua:656
+#: lua/groupbutler/utilities.lua:648
 #, lua-format
 msgid "Warns (`media`): *%s*\n\n"
 msgstr "താക്കീതുകൾ (`മീഡിയ`): *%s*\n\n"
 
-#: lua/groupbutler/utilities.lua:657
+#: lua/groupbutler/utilities.lua:649
 msgid "✅ = _enabled / allowed_\n"
 msgstr "✅ = _ഓൺ / അനുവദനീയം_\n"
 
-#: lua/groupbutler/utilities.lua:658
+#: lua/groupbutler/utilities.lua:650
 msgid "🚫 = _disabled / not allowed_\n"
 msgstr "🚫 = _ഓഫ് / അനുവദിച്ചിട്ടില്ല_\n"
 
-#: lua/groupbutler/utilities.lua:659
+#: lua/groupbutler/utilities.lua:651
 msgid "👥 = _sent in group (always for admins)_\n"
 msgstr "👥 = _sent in group (always for admins)_\n"
 
-#: lua/groupbutler/utilities.lua:660
+#: lua/groupbutler/utilities.lua:652
 msgid "👤 = _sent in private_"
 msgstr "👤 = _sent in private_"
 
-#: lua/groupbutler/utilities.lua:670
+#: lua/groupbutler/utilities.lua:662
 msgid "@admin command disabled"
 msgstr "@admin കമാൻഡ് ഓഫ് ആണ്"
 
-#: lua/groupbutler/utilities.lua:671
+#: lua/groupbutler/utilities.lua:663
 msgid "Welcome message won't be displayed from now"
 msgstr "ഇനിമുതൽ സ്വാഗത സന്ദേശം കാണിക്കുകയില്ല."
 
-#: lua/groupbutler/utilities.lua:672
+#: lua/groupbutler/utilities.lua:664
 msgid "Goodbye message won't be displayed from now"
 msgstr "ഇനിമുതൽ Goodbye സന്ദേശം കാണിക്കുകയില്ല."
 
-#: lua/groupbutler/utilities.lua:673
+#: lua/groupbutler/utilities.lua:665
 msgid "#extra commands are now available only for administrators"
 msgstr "#extra commands അഡ്മിന് മാത്രമേ ഉപയോഗിക്കാൻ കഴിയൂ"
 
-#: lua/groupbutler/utilities.lua:674
+#: lua/groupbutler/utilities.lua:666
 msgid "Anti-flood is now off"
 msgstr "Anti-flood ഓഫ് ആണ്"
 
-#: lua/groupbutler/utilities.lua:675
+#: lua/groupbutler/utilities.lua:667
 msgid "/rules will reply in private (for users)"
 msgstr "/rules യൂസറിന് പ്രൈവറ്റിൽ റിപ്ലൈ ചെയ്യും"
 
-#: lua/groupbutler/utilities.lua:676
+#: lua/groupbutler/utilities.lua:668
 msgid "Silent mode is now off"
 msgstr "സൈലന്റ് മോഡ് ഇപ്പോൾ ഓഫ് ആണ്. "
 
-#: lua/groupbutler/utilities.lua:677
+#: lua/groupbutler/utilities.lua:669
 msgid "Links preview disabled"
 msgstr "ലിങ്ക് പ്രീവ്യൂ ഓഫ് ആണ്"
 
-#: lua/groupbutler/utilities.lua:678
+#: lua/groupbutler/utilities.lua:670
 msgid "Welcome message without a button for the rules"
 msgstr "നിയമങ്ങൾക്ക് ബട്ടൺ ഇല്ലാത്ത സ്വാഗത സന്ദേശം"
 
-#: lua/groupbutler/utilities.lua:681
+#: lua/groupbutler/utilities.lua:673
 msgid "@admin command enabled"
 msgstr "@admin കമാൻഡ് ഓൺ ആണ്"
 
-#: lua/groupbutler/utilities.lua:682
+#: lua/groupbutler/utilities.lua:674
 msgid "Welcome message will be displayed"
 msgstr "സ്വാഗത സന്ദേശം കാണിക്കും"
 
-#: lua/groupbutler/utilities.lua:683
+#: lua/groupbutler/utilities.lua:675
 msgid "Goodbye message will be displayed"
 msgstr "Goodbye സന്ദേശം കാണിക്കും"
 
-#: lua/groupbutler/utilities.lua:684
+#: lua/groupbutler/utilities.lua:676
 msgid "#extra commands are now available for all"
 msgstr "#extra commands ഇപ്പോൾ എല്ലാവർക്കും ഉപയോഗിക്കാം"
 
-#: lua/groupbutler/utilities.lua:685
+#: lua/groupbutler/utilities.lua:677
 msgid "Anti-flood is now on"
 msgstr "Anti-flood ഓൺ ആണ്"
 
-#: lua/groupbutler/utilities.lua:686
+#: lua/groupbutler/utilities.lua:678
 msgid "/rules will reply in the group (with everyone)"
 msgstr "/rules ഗ്രൂപ്പിൽ എല്ലാവർക്കും റിപ്ലൈ തരും"
 
-#: lua/groupbutler/utilities.lua:687
+#: lua/groupbutler/utilities.lua:679
 msgid "Silent mode is now on"
 msgstr "സൈലന്റ് മോഡ് ഇപ്പോൾ ഓൺ ആണ്. "
 
-#: lua/groupbutler/utilities.lua:688
+#: lua/groupbutler/utilities.lua:680
 msgid "Links preview enabled"
 msgstr "ലിങ്ക് പ്രീവ്യൂ ഓൺ ആണ്"
 
-#: lua/groupbutler/utilities.lua:689
+#: lua/groupbutler/utilities.lua:681
 msgid "The welcome message will have a button for the rules"
 msgstr "നിയമങ്ങൾക്ക് ബട്ടൺ ഉള്ള സ്വാഗത സന്ദേശം"
 
-#: lua/groupbutler/utilities.lua:702
+#: lua/groupbutler/utilities.lua:694
 msgid "This setting is enabled, but the goodbye message won't be displayed in large groups, because I can't see service messages about left members"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:715
+#: lua/groupbutler/utilities.lua:707
 msgid "Start me"
 msgstr "Start me"
 
-#: lua/groupbutler/utilities.lua:717
+#: lua/groupbutler/utilities.lua:709
 msgid "_Please message me first so I can message you_"
 msgstr "_ആദ്യം എനിക്ക് മെസ്സേജ് ചെയ്യുക എന്നാലേ എനിക്ക് നിങ്ങളെ മെസ്സേജ് ചെയ്യാൻ കഴിയൂ_"
 
-#: lua/groupbutler/utilities.lua:815 lua/groupbutler/utilities.lua:816
+#: lua/groupbutler/utilities.lua:778 lua/groupbutler/utilities.lua:779
 msgid "Someone"
 msgstr "ആരോ"
 
-#: lua/groupbutler/utilities.lua:824
+#: lua/groupbutler/utilities.lua:787
 msgid "Reply to a user or mention them"
 msgstr "യൂസറിന് റിപ്ലൈ ചെയ്യുക അല്ലെങ്കിൽ അവരെ മെൻഷൻ ചെയ്യുക"
 
-#: lua/groupbutler/utilities.lua:850
+#: lua/groupbutler/utilities.lua:813
 msgid "I've never seen this user before.\n"
 "This command works by reply, username, user ID or text mention.\n"
 "If you're using it by username and want to teach me who the user is, forward me one of their messages"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:869
+#: lua/groupbutler/utilities.lua:832
 #, lua-format
 msgid "<b>Chat</b>: %s [#chat%d]"
 msgstr "<b>Chat</b>: %s [#chat%d]"
 
-#: lua/groupbutler/utilities.lua:878 lua/groupbutler/utilities.lua:886
+#: lua/groupbutler/utilities.lua:841 lua/groupbutler/utilities.lua:849
 #, lua-format
 msgid "#%s (<code>%d/%d</code>), <i>%s</i>\n"
 "• %s\n"
@@ -2434,7 +2433,7 @@ msgstr "#%s (<code>%d/%d</code>), <i>%s</i>\n"
 "• %s\n"
 "• <b>User</b>: %s"
 
-#: lua/groupbutler/utilities.lua:892
+#: lua/groupbutler/utilities.lua:855
 #, lua-format
 msgid "#%s\n"
 "• %s\n"
@@ -2443,8 +2442,8 @@ msgstr "#%s\n"
 "• %s\n"
 "• <b>User</b>: %s"
 
-#: lua/groupbutler/utilities.lua:895 lua/groupbutler/utilities.lua:905
-#: lua/groupbutler/utilities.lua:908 lua/groupbutler/utilities.lua:911
+#: lua/groupbutler/utilities.lua:858 lua/groupbutler/utilities.lua:868
+#: lua/groupbutler/utilities.lua:871 lua/groupbutler/utilities.lua:874
 #, lua-format
 msgid "%s\n"
 "• %s\n"
@@ -2453,11 +2452,11 @@ msgstr "%s\n"
 "• %s\n"
 "• <b>By</b>: %s"
 
-#: lua/groupbutler/utilities.lua:898
+#: lua/groupbutler/utilities.lua:861
 msgid "Get the new photo"
 msgstr "പുതിയ ഫോട്ടോ എടുക്കുക"
 
-#: lua/groupbutler/utilities.lua:915
+#: lua/groupbutler/utilities.lua:878
 #, lua-format
 msgid "%s\n"
 "• %s\n"
@@ -2468,7 +2467,7 @@ msgstr "%s\n"
 "• <b>By</b>: %s\n"
 "• <i>Reported to %d admin(s)</i>"
 
-#: lua/groupbutler/utilities.lua:919
+#: lua/groupbutler/utilities.lua:882
 #, lua-format
 msgid "#%s\n"
 "• %s\n"
@@ -2477,7 +2476,7 @@ msgstr "#%s\n"
 "• %s\n"
 "• <b>User</b>: %s [#id%d]"
 
-#: lua/groupbutler/utilities.lua:924
+#: lua/groupbutler/utilities.lua:887
 #, lua-format
 msgid "%s\n"
 "• %s\n"
@@ -2486,13 +2485,13 @@ msgstr "%s\n"
 "• %s\n"
 "• <b>User</b>: %s"
 
-#: lua/groupbutler/utilities.lua:926
+#: lua/groupbutler/utilities.lua:889
 #, lua-format
 msgid "\n"
 "• <b>Added by</b>: %s [#id%d]"
 msgstr "• <b>Added by</b>: %s [#id%d]"
 
-#: lua/groupbutler/utilities.lua:939
+#: lua/groupbutler/utilities.lua:902
 #, lua-format
 msgid "#%s\n"
 "• <b>Admin</b>: %s [#id%d]\n"
@@ -2505,20 +2504,18 @@ msgstr "#%s\n"
 "• <b>User</b>: %s [#id%d]\n"
 "• <b>Count</b>: <code>%d/%d</code>"
 
-#: lua/groupbutler/utilities.lua:947
+#: lua/groupbutler/utilities.lua:910 lua/groupbutler/utilities.lua:940
 #, lua-format
 msgid "#%s\n"
 "• <b>Admin</b>: %s [#id%s]\n"
 "• %s\n"
-"• <b>User</b>: %s [#id%s]\n"
-"• <b>Warns found</b>: <i>normal: %s, for media: %s, spamwarns: %s</i>"
+"• <b>User</b>: %s [#id%s]"
 msgstr "#%s\n"
 "• <b>Admin</b>: %s [#id%s]\n"
 "• %s\n"
-"• <b>User</b>: %s [#id%s]\n"
-"• <b>Warns found</b>: <i>normal: %s, for media: %s, spamwarns: %s</i>"
+"• <b>User</b>: %s [#id%s]"
 
-#: lua/groupbutler/utilities.lua:953
+#: lua/groupbutler/utilities.lua:914
 #, lua-format
 msgid "#%s\n"
 "• <b>Admin</b>: %s [#id%s]\n"
@@ -2527,17 +2524,17 @@ msgstr "#%s\n"
 "• <b>Admin</b>: %s [#id%s]\n"
 "• %s\n"
 
-#: lua/groupbutler/utilities.lua:956
+#: lua/groupbutler/utilities.lua:917
 #, lua-format
 msgid "• <i>Users involved: %d</i>"
 msgstr "• <i>Users involved: %d</i>"
 
-#: lua/groupbutler/utilities.lua:958
+#: lua/groupbutler/utilities.lua:919
 #, lua-format
 msgid "• <b>User</b>: %s [#id%d]"
 msgstr "• <b>User</b>: %s [#id%d]"
 
-#: lua/groupbutler/utilities.lua:970
+#: lua/groupbutler/utilities.lua:931
 #, lua-format
 msgid "#%s\n"
 "• <b>Admin</b>: %s [#id%s]\n"
@@ -2550,18 +2547,7 @@ msgstr "#%s\n"
 "• <b>User</b>: %s [#id%s]\n"
 "• <b>Duration</b>: %d days, %d hours"
 
-#: lua/groupbutler/utilities.lua:979
-#, lua-format
-msgid "#%s\n"
-"• <b>Admin</b>: %s [#id%s]\n"
-"• %s\n"
-"• <b>User</b>: %s [#id%s]"
-msgstr "#%s\n"
-"• <b>Admin</b>: %s [#id%s]\n"
-"• %s\n"
-"• <b>User</b>: %s [#id%s]"
-
-#: lua/groupbutler/utilities.lua:983
+#: lua/groupbutler/utilities.lua:944
 #, lua-format
 msgid "#%s\n"
 "• %s\n"
@@ -2570,19 +2556,19 @@ msgstr "#%s\n"
 "• %s\n"
 "• <b>By</b>: %s"
 
-#: lua/groupbutler/utilities.lua:1004
+#: lua/groupbutler/utilities.lua:965
 #, lua-format
 msgid "\n"
 "• <b>Action</b>: #%s"
 msgstr "• <b>Action</b>: #%s"
 
-#: lua/groupbutler/utilities.lua:1007
+#: lua/groupbutler/utilities.lua:968
 #, lua-format
 msgid "\n"
 "• <b>Reason</b>: <i>%s</i>"
 msgstr "• <b>Reason</b>: <i>%s</i>"
 
-#: lua/groupbutler/utilities.lua:1013
+#: lua/groupbutler/utilities.lua:974
 msgid "Go to the message"
 msgstr "മെസ്സേജിലേക്ക് പോകുക"
 
