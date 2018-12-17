@@ -158,8 +158,8 @@ function RedisStorage:toggle_user_setting(user_id, setting)
 end
 
 function RedisStorage:cacheUser(user)
-	if user.username then
-		self.redis:hset("bot:usernames", "@"..user.username:lower(), user.id)
+	if rawget(user, "username") then
+		self.redis:hset("bot:usernames", "@"..rawget(user, "username"):lower(), user.id)
 	end
 end
 
@@ -293,7 +293,7 @@ function PostgresStorage:cacheUser(user)
 		end
 	end
 	local username = ""
-	if user.username then
+	if rawget(user, "username") then
 		username = 'UPDATE "user" SET username = NULL WHERE lower(username) = lower({username});\n'
 	end
 	local insert = 'INSERT INTO "user" (id, is_bot, first_name'
