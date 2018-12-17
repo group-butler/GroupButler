@@ -128,7 +128,7 @@ local function send_welcome(self, msg)
 		return
 	end
 
-	if db:get_chat_setting(msg.chat.id, "Weldelchain") then
+	if ok and db:get_chat_setting(msg.chat.id, "Weldelchain") then
 		local key = ('chat:%d:lastwelcome'):format(msg.chat.id) -- get the id of the last sent welcome message
 		local message_id = red:get(key)
 		if message_id ~= null then
