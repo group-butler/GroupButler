@@ -358,6 +358,9 @@ function PostgresStorage:getChatProperty(chat, property)
 	if not ok or not ok[1] or not ok[1][property] then
 		return nil
 	end
+	if property == "type" then
+		return chat_type[ok[1][property]]
+	end
 	return ok[1][property]
 end
 
@@ -370,6 +373,9 @@ function PostgresStorage:getChatMemberProperty(member, property)
 	local ok = self.pg:query(query)
 	if not ok or not ok[1] or not ok[1][property] then
 		return nil
+	end
+	if property == "status" then
+		return chat_member_status[ok[1][property]]
 	end
 	return ok[1][property]
 end
