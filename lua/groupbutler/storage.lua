@@ -176,6 +176,9 @@ end
 function RedisStorage:getChatProperty(chat, property) -- luacheck: ignore
 end
 
+function RedisStorage:getChatMemberProperty(chat, property) -- luacheck: ignore
+end
+
 function RedisStorage:cacheChat(chat)
 	if chat.type ~= "supergroup" then -- don't cache private chats, channels, etc.
 		return
@@ -349,6 +352,19 @@ end
 function PostgresStorage:getChatProperty(chat, property)
 	local query = interpolate('SELECT {property} FROM "chat" WHERE id = {id}', {
 		id = chat.id,
+		property = property,
+	})
+	local ok = self.pg:query(query)
+	if not ok or not ok[1] or not ok[1][property] then
+		return nil
+	end
+	return ok[1][property]
+end
+
+function PostgresStorage:getChatMemberProperty(member, property)
+	local query = interpolate('SELECT {property} FROM "chat_user" WHERE chat_id = {chat_id} AND user_id = {user_id}', {
+		chat_id = member.chat.id,
+		user_id = member.user.id,
 		property = property,
 	})
 	local ok = self.pg:query(query)
@@ -547,6 +563,14 @@ function MixedStorage:getChatProperty(chat, property)
 	local ok, retval = pcall(function() return self.postgres_storage:getChatProperty(chat, property) end)
 	if not ok or not retval then
 		return self.redis_storage:getChatProperty(chat, property)
+	end
+	return retval
+end
+
+function MixedStorage:getChatMemberProperty(member, property)
+	local ok, retval = pcall(function() return self.postgres_storage:getChatMemberProperty(member, property) end)
+	if not ok or not retval then
+		return self.redis_storage:getChatMemberProperty(member, property)
 	end
 	return retval
 end
