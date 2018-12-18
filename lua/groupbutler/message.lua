@@ -1,15 +1,16 @@
 local Message = {}
 local message = Message
 
-local _p = setmetatable({}, {__mode = "k"}) -- weak table storing all private attributes
+local function p(self)
+	return getmetatable(self).__private
+end
 
-function Message:new(obj, update_obj)
-	_p[obj] = {
-		api = update_obj.api,
-		db = update_obj.db,
-		u = update_obj.u,
-	}
-	setmetatable(obj, {__index = self})
+function Message:new(obj, private)
+	assert(private.api, "Message: Missing private.api")
+	setmetatable(obj, {
+		__index = self,
+		__private = private,
+	})
 	return obj
 end
 
@@ -65,7 +66,7 @@ function message:get_file_id()
 end
 
 function message:send_reply(text, parse_mode, disable_web_page_preview, disable_notification, reply_markup)
-	return _p[self].api:sendMessage(self.chat.id, text, parse_mode, disable_web_page_preview, disable_notification,
+	return p(self).api:sendMessage(self.chat.id, text, parse_mode, disable_web_page_preview, disable_notification,
 		self.message_id, reply_markup)
 end
 
