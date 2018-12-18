@@ -52,4 +52,11 @@ function ChatMember:cache()
 	p(self).db:cacheChatMember(self)
 end
 
+function ChatMember:isAdmin()
+	if self.chat.type == "private" then -- This should never happen but...
+		return false
+	end
+	return self.status == "creator" or self.status == "administrator"
+end
+
 return ChatMember
