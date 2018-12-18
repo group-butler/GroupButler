@@ -18,6 +18,7 @@ function User:new(obj, private)
 			return s:getProperty(index)
 		end,
 		__private = private,
+		__tostring = self.__tostring,
 	})
 	if not obj:checkId() then
 		return nil, "Username not found"
@@ -59,6 +60,20 @@ function User:getProperty(index)
 		self[index] = property
 	end
 	return property
+end
+
+function User:__tostring()
+	if self.first_name then
+		local name = self.first_name
+		if self.last_name then
+			name = name.." "..self.last_name
+		end
+		return name
+	end
+	if self.username then
+		return self.username
+	end
+	return self.id
 end
 
 function User:cache()
