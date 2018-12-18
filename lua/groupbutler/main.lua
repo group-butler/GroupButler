@@ -52,7 +52,6 @@ local function inject_message_methods(message, update)
 		end
 		if message.from.user and message.from.chat then
 			ChatMember:new(message.from, update)--:cache()
-			print(message.from:isAdmin())
 		end
 	end
 	if message.forward_from then
