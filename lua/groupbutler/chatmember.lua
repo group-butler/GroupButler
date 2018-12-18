@@ -2,21 +2,23 @@ local log = require("groupbutler.logging")
 
 local ChatMember = {}
 
-local _p = setmetatable({}, {__mode = "k"}) -- weak table storing all private attributes
+local function p(self)
+	return getmetatable(self).__private
+end
 
 function ChatMember:new(obj, private)
 	assert(obj.chat, "ChatMember: Missing obj.chat")
 	assert(obj.user, "ChatMember: Missing obj.user")
 	assert(private.db, "ChatMember: Missing private.db")
 	assert(private.api, "ChatMember: Missing private.api")
-	_p[obj] = private
 	setmetatable(obj, {
 		__index = function(s, index)
 			if self[index] then
 				return self[index]
 			end
 			return s:getProperty(index)
-		end
+		end,
+		__private = private,
 	})
 	return obj
 end
@@ -24,9 +26,9 @@ end
 function ChatMember:getProperty(index)
 	local property = rawget(self, index)
 	if property == nil then
-		property = _p[self].db:getChatMemberProperty(self, index)
+		property = p(self).db:getChatMemberProperty(self, index)
 		if property == nil then
-			local ok = _p[self].api:getChatMember(self.chat.id, self.user.id)
+			local ok = p(self).api:getChatMember(self.chat.id, self.user.id)
 			if not ok then
 				log.warn("ChatMember: Failed to get {property} for {chat_id}, {user_id}", {
 					property = index,
@@ -47,7 +49,7 @@ function ChatMember:getProperty(index)
 end
 
 function ChatMember:cache()
-	_p[self].db:cacheChatMember(self)
+	p(self).db:cacheChatMember(self)
 end
 
 return ChatMember
