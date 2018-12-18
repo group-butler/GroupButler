@@ -19,7 +19,7 @@ services:
       - ./locales:/usr/local/openresty/nginx/locales
       - ./lua:/usr/local/openresty/nginx/lua
     ports:
-      - "80:80"
+      - "8080:80"
 
   redis:
     command: --save "" --appendonly no

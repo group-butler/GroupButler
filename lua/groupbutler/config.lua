@@ -59,8 +59,8 @@ local _M =
 	{
 		stats = os.getenv('LOG_STATS')
 	},
-	superadmins = assert(json.decode(os.getenv('SUPERADMINS')),
-		'You must export $SUPERADMINS with a JSON array containing at least your Telegram ID'),
+	superadmins = json.decode(assert(os.getenv('SUPERADMINS'),
+		'You must export $SUPERADMINS with a JSON array containing at least your Telegram ID')),
 	cmd = '^[/!#]',
 	bot_settings = {
 		old_update = tonumber(os.getenv("GB_OLD_UPDATE")) or 7, -- Age in seconds for updates to be skipped
