@@ -1,19 +1,20 @@
 local Chat = {}
 
-local _p = setmetatable({}, {__mode = "k"}) -- weak table storing all private attributes
+local function p(self)
+	return getmetatable(self).__private
+end
 
-function Chat:new(obj, update_obj)
-	_p[obj] = {
-		api = update_obj.api,
-		db = update_obj.db,
-		u = update_obj.u,
-	}
-	setmetatable(obj, {__index = self})
+function Chat:new(obj, private)
+	assert(private.db, "Chat: Missing private.db")
+	setmetatable(obj, {
+		__index = self,
+		__private = private,
+	})
 	return obj
 end
 
 function Chat:cache()
-	_p[self].db:cacheChat(self)
+	p(self).db:cacheChat(self)
 end
 
 return Chat
