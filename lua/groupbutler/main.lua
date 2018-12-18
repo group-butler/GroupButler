@@ -42,6 +42,12 @@ function _M:new(update_obj)
 end
 
 local function inject_message_methods(message, update)
+	if message.from then
+		message.from = {
+			user = message.from,
+			chat = message.chat,
+		}
+	end
 	Message:new(message, update)
 	if message.from then
 		if message.from.user then -- Sender is empty for messages sent to channels
@@ -237,13 +243,6 @@ function _M:process()
 		end
 
 		self.message = self.message or self.edited_message
-
-		if self.message.from then
-			self.message.from = {
-				user = self.message.from,
-				chat = self.message.chat,
-			}
-		end
 
 		local service_messages = {
 			"left_chat_member", "new_chat_member", "new_chat_photo", "delete_chat_photo", "group_chat_created",
