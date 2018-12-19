@@ -453,13 +453,13 @@ function _M:migrate_chat_info(old, new, on_request)
 end
 
 -- Return user mention for output a text
-function _M:getname_final(user)
-	return self:getname_link(user) or '<code>'..user.first_name:escape_html()..'</code>'
+function _M:getname_final(user) -- luacheck: ignore
+	error("calling deprecated method u:getname_final()")
 end
 
 -- Return link to user profile or false, if they don't have login
 function _M:getname_link(user) -- luacheck: ignore 212
-	return ('<a href="%s">%s</a>'):format('tg://user?id='..user.id, user.first_name:escape_html())
+	error("calling deprecated method u:getname_link()")
 end
 
 function _M:bash(str) -- luacheck: ignore 212
@@ -721,71 +721,12 @@ function _M:remGroup(chat_id)
 	db:deleteChat({id=chat_id})
 end
 
-function _M:getnames_complete(msg)
-	local api = p(self).api
-	local i18n = p(self).i18n
-	local admin, kicked
-
-	admin = self:getname_link(msg.from.user)
-
-	if msg.reply then
-		kicked = self:getname_link(msg.reply.from.user)
-	elseif msg.text:match(config.cmd..'%w%w%w%w?%w?%s(@[%w_]+)%s?') then
-		local username = msg.text:match('%s(@[%w_]+)')
-		kicked = username
-	elseif msg.mention_id then
-		for _, entity in pairs(msg.entities) do
-			if entity.user then
-				kicked = self:getname_link(entity.user)
-			end
-		end
-	elseif msg.text:match(config.cmd..'%w%w%w%w?%w?%s(%d+)') then
-		local id = msg.text:match(config.cmd..'%w%w%w%w?%w?%s(%d+)')
-		local res = api:getChatMember(msg.from.chat.id, id)
-		if res then
-			kicked = self:getname_final(res.user)
-		end
-	end
-
-	-- TODO: Actually fix this
-	if not kicked then kicked = i18n("Someone") end
-	if not admin then admin = i18n("Someone") end
-	return admin, kicked
+function _M:getnames_complete(msg) -- luacheck: ignore
+	error("calling deprecated method u:getnames_complete()")
 end
 
-function _M:getUserId(msg, blocks)
-	local i18n = p(self).i18n
-	--if no user id: returns false and the msg id of the translation for the problem
-	if not msg.reply and not blocks[2] then
-		return false, i18n("Reply to a user or mention them")
-	end
-
-	if msg.reply then
-		if msg.reply.new_chat_member then
-			msg.reply.from.user = msg.reply.new_chat_member
-		end
-		return msg.reply.from.user.id
-	end
-
-	if blocks[2]:byte(1) == string.byte("@") then
-		local id = self:resolve_user(blocks[2])
-		if id then
-			return id
-		end
-	end
-
-	if msg.mention_id then
-		return msg.mention_id
-	end
-
-	local id = blocks[2]:match("%d+")
-	if id then
-		return id
-	end
-
-	return false, i18n([[I've never seen this user before.
-This command works by reply, username, user ID or text mention.
-If you're using it by username and want to teach me who the user is, forward me one of their messages]])
+function _M:getUserId(msg, blocks) -- luacheck: ignore
+	error("calling deprecated method u:getUserId()")
 end
 
 function _M:logEvent(event, msg, extra)

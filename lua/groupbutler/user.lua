@@ -80,4 +80,9 @@ function User:cache()
 	p(self).db:cacheUser(self)
 end
 
+function User:getLink()
+	return ('<a href="%s">%s</a>'):format("tg://user?id="..self.id, self)
+		or  ("<code>"..self:escape_html().."</code>")
+end
+
 return User
