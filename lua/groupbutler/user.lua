@@ -27,13 +27,25 @@ function User:new(obj, private)
 end
 
 function User:checkId()
+	if self.username:byte(1) == string.byte("@") then
+		self.username = self.username:sub(2)
+	end
 	local id = rawget(self, "id")
 	if not id then
 		id = p(self).db:getUserId(self.username)
+		self.id = id
 		if not id then
+			return false -- No cached id for this username
+		end
+		local user = p(self).api:getChat(id)
+		if not user -- Api call failed
+		or not user.username then -- User removed their username
+			return true -- Assuming it's the same user
+		end
+		if self.username ~= user.username then -- Got a different user than expected
+			User:new(user, p(self)):cache() -- Update cache with the different user so this doesn't happen again
 			return false
 		end
-		self.id = id
 	end
 	return true
 end

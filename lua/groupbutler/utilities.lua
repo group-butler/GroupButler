@@ -147,8 +147,8 @@ function _M:replaceholders(str, msg, ...)
 	return str:gsub('$(%w+)', substitutions)
 end
 
-function _M:is_allowed(_, chat_id, user_obj) -- action is not used anymore
-	return self:is_admin(chat_id, user_obj.id)
+function _M:is_allowed(_, chat_id, user_obj) -- luacheck: ignore
+	error("calling deprecated method u:is_allowed()")
 end
 
 function _M:can(chat_id, user_id, permission) -- luacheck: ignore
@@ -166,48 +166,12 @@ end
 
 -- Returns the admin status of the user. The first argument can be the message,
 -- then the function checks the rights of the sender in the incoming chat.
-function _M:is_admin(chat_id, user_id)
-	local red = p(self).red
-	if type(chat_id) == 'table' then
-		local msg = chat_id
-		chat_id = msg.from.chat.id
-		user_id = msg.from.user.id
-	end
-	if tonumber(red:get('cache:chat:'..chat_id..':owner')) == user_id then
-		return true
-	end
-	local set = 'cache:chat:'..chat_id..':admins'
-	if red:exists(set) == 0 then
-		self:cache_adminlist(chat_id)
-	end
-	return red:sismember(set, user_id) == 1
+function _M:is_admin(chat_id, user_id) -- luacheck: ignore
+	error("calling deprecated method u:is_admin()")
 end
 
-function _M:is_owner(chat_id, user_id)
-	local red = p(self).red
-	if type(chat_id) == 'table' then
-		local msg = chat_id
-		chat_id = msg.from.chat.id
-		user_id = msg.from.user.id
-	end
-
-	local hash = 'cache:chat:'..chat_id..':owner'
-	local owner_id
-	local res = true
-	repeat
-		owner_id = red:get(hash)
-		if owner_id == null then
-			res = self:cache_adminlist(chat_id)
-		end
-	until owner_id ~= null or not res
-
-	if owner_id then
-		if tonumber(owner_id) == tonumber(user_id) then
-			return true
-		end
-	end
-
-	return false
+function _M:is_owner(chat_id, user_id) -- luacheck: ignore
+	error("calling deprecated method u:is_owner()")
 end
 
 function _M:cache_adminlist(chat_id)
@@ -330,31 +294,8 @@ end
 
 -- Resolves username. Returns ID of user if it was early stored in date base.
 -- Argument username must begin with symbol @ (commercial 'at')
-function _M:resolve_user(username)
-	local api = p(self).api
-	assert(username:byte(1) == string.byte('@'))
-	username = username:lower()
-
-	local stored_id = p(self).db:getUserId(username)
-	if not stored_id then return false end
-
-	local user_obj = api:getChat(stored_id)
-	if not user_obj then
-		return stored_id
-	end
-	if not user_obj.username then
-		return stored_id
-	end
-
-	-- Users could change their username
-	if username ~= '@' .. user_obj.username:lower() then
-		p(self).db:cacheUser(user_obj)
-		-- And return false because this user not the same that asked
-		return false
-	end
-
-	assert(stored_id == user_obj.id)
-	return user_obj.id
+function _M:resolve_user(username) -- luacheck: ignore
+	error("calling deprecated method u:resolve_user()")
 end
 
 function _M:reply_markup_from_text(text) -- luacheck: ignore 212
