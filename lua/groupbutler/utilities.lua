@@ -41,39 +41,16 @@ local function set_default(t, d)
 	setmetatable(t, mt)
 end
 
-function _M:banUser(chat_id, user_id, until_date)
-	local api = p(self).api
-	local api_err = p(self).api_err
-	local ok, err = api:kickChatMember(chat_id, user_id, until_date) --try to kick. "code" is already specific
-	if not ok then --if the user has been kicked, then...
-		return nil, api_err:trans(err)
-	end
-	return ok --return res and not the text
+function _M:banUser(chat_id, user_id, until_date) -- luacheck: ignore
+	error("calling deprecated method u:banUser()")
 end
 
-function _M:kickUser(chat_id, user_id)
-	local api = p(self).api
-	local api_err = p(self).api_err
-	local ok, err = api:kickChatMember(chat_id, user_id) --try to kick
-	if not ok then --if the user has been kicked, then unban...
-		return nil, api_err:trans(err)
-	end
-	api:unbanChatMember(chat_id, user_id)
-	return ok
+function _M:kickUser(chat_id, user_id) -- luacheck: ignore
+	error("calling deprecated method u:kickUser()")
 end
 
-function _M:muteUser(chat_id, user_id)
-	local api = p(self).api
-	local api_err = p(self).api_err
-	local ok, err = api:restrictChatMember{
-		chat_id = chat_id,
-		user_id = user_id,
-		can_send_messages = false
-	}
-	if not ok then
-		return nil, api_err:trans(err)
-	end
-	return ok
+function _M:muteUser(chat_id, user_id) -- luacheck: ignore
+	error("calling deprecated method u:muteUser()")
 end
 
 -- Strings
@@ -174,17 +151,8 @@ function _M:is_allowed(_, chat_id, user_obj) -- action is not used anymore
 	return self:is_admin(chat_id, user_obj.id)
 end
 
-function _M:can(chat_id, user_id, permission)
-	local red = p(self).red
-	if tonumber(red:get('cache:chat:'..chat_id..':owner')) == user_id then
-		return true
-	end
-	local set = ("cache:chat:%s:%s:permissions"):format(chat_id, user_id)
-	local set_admins = 'cache:chat:'..chat_id..':admins'
-	if red:exists(set_admins) == 0 then
-		self:cache_adminlist(chat_id)
-	end
-	return red:sismember(set, permission) == 1
+function _M:can(chat_id, user_id, permission) -- luacheck: ignore
+	error("calling deprecated method u:can()")
 end
 
 function _M:is_superadmin(user_id) -- luacheck: ignore 212
