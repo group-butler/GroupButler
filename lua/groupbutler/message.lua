@@ -95,29 +95,29 @@ If you're using it by username and want to teach me who the user is, forward me 
 	end
 
 	if blocks[2]:byte(1) == string.byte("@") then
-		local user = User:new({username = blocks[2]})
+		local user = User:new({username = blocks[2]}, p(self))
 		if not user then
 			return false, user_not_found
 		end
 		return ChatMember:new({
 			user = user,
 			chat = self.from.chat,
-		})
+		}, p(self))
 	end
 
 	if self.mention_id then
 		return ChatMember:new({
-			user = User:new({id=self.mention_id}),
+			user = User:new({id=self.mention_id}, p(self)),
 			chat = self.from.chat,
-		})
+		}, p(self))
 	end
 
 	local id = blocks[2]:match("%d+")
 	if id then
 		return ChatMember:new({
-			user = User:new({id=id}),
+			user = User:new({id=id}, p(self)),
 			chat = self.from.chat,
-		})
+		}, p(self))
 	end
 
 	return false, user_not_found
