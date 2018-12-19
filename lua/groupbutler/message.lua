@@ -74,7 +74,7 @@ function message:send_reply(text, parse_mode, disable_web_page_preview, disable_
 		self.message_id, reply_markup)
 end
 
-function Message:getTargetMember(blocks)
+function Message:getTargetMember(blocks) -- TODO: extract username/id from self.text or move blocks{} into self
 	if   not self.reply_to_message
 	and (not blocks or not blocks[2]) then
 		return false, p(self).i18n("Reply to a user or mention them")
