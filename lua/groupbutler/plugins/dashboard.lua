@@ -85,21 +85,21 @@ function _M:onTextMessage()
 	local msg = self.message
 	local u = self.u
 	local i18n = self.i18n
-	if msg.chat.type ~= 'private' then
-		local chat_id = msg.chat.id
+	if msg.from.chat.type ~= 'private' then
+		local chat_id = msg.from.chat.id
 		local reply_markup = doKeyboard_dashboard(self, chat_id)
 		local ok = api:send_message{
-			chat_id = msg.from.id,
+			chat_id = msg.from.user.id,
 			text = i18n("Navigate this message to see *all the info* about this group!"),
 			parse_mode = "Markdown",
 			reply_markup = reply_markup
 		}
-		if not u:is_silentmode_on(msg.chat.id) then --send the responde in the group only if the silent mode is off
+		if not u:is_silentmode_on(msg.from.chat.id) then --send the responde in the group only if the silent mode is off
 			if not ok then
 				u:sendStartMe(msg)
 				return
 			end
-			api:sendMessage(msg.chat.id, i18n("_I've sent you the group dashboard via private message_"), "Markdown")
+			api:sendMessage(msg.from.chat.id, i18n("_I've sent you the group dashboard via private message_"), "Markdown")
 		end
 	end
 end
@@ -121,9 +121,9 @@ function _M:onCallbackQuery(blocks)
 	end
 	-- Private chats don't have a username
 	local private = not res.username
-	res = api:getChatMember(chat_id, msg.from.id)
+	res = api:getChatMember(chat_id, msg.from.user.id)
 	if not res or (res.status == 'left' or res.status == 'kicked') and private then
-		api:editMessageText(msg.from.id, msg.message_id, nil, i18n("🚷 You are not a member of the chat. " ..
+		api:editMessageText(msg.from.user.id, msg.message_id, nil, i18n("🚷 You are not a member of the chat. " ..
 			"You can't see the settings of a private group."))
 		return
 	end
@@ -184,7 +184,7 @@ function _M:onCallbackQuery(blocks)
 		end
 		notification = i18n("ℹ️ Group ► Media")
 	end
-	api:edit_message_text(msg.from.id, msg.message_id, nil, text, parse_mode, true, reply_markup)
+	api:edit_message_text(msg.from.user.id, msg.message_id, nil, text, parse_mode, true, reply_markup)
 	api:answerCallbackQuery(msg.cb_id, notification)
 end
 

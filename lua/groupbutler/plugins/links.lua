@@ -17,23 +17,23 @@ function _M:onTextMessage(blocks)
 	local u = self.u
 	local red = self.red
 	local i18n = self.i18n
-	if msg.chat.type == 'private' then return end
-	if not u:is_allowed('texts', msg.chat.id, msg.from) then return end
+	if msg.from.chat.type == 'private' then return end
+	if not u:is_allowed('texts', msg.from.chat.id, msg.from.user) then return end
 
-	local hash = 'chat:'..msg.chat.id..':links'
+	local hash = 'chat:'..msg.from.chat.id..':links'
 	local text
 
 	if blocks[1] == 'link' then
-		if msg.chat.username then
-			red:sadd('chat:'..msg.chat.id..':whitelist', 'telegram.me/'..msg.chat.username)
-			local title = msg.chat.title:escape_hard('link')
-			msg:send_reply(string.format('[%s](telegram.me/%s)', title, msg.chat.username), "Markdown")
+		if msg.from.chat.username then
+			red:sadd('chat:'..msg.from.chat.id..':whitelist', 'telegram.me/'..msg.from.chat.username)
+			local title = msg.from.chat.title:escape_hard('link')
+			msg:send_reply(string.format('[%s](telegram.me/%s)', title, msg.from.chat.username), "Markdown")
 		else
 			local link = red:hget(hash, 'link')
 			if link == null then
 				text = i18n("*No link* for this group. Ask the owner to save it with `/setlink [group link]`")
 			else
-				local title = msg.chat.title:escape_hard('link')
+				local title = msg.from.chat.title:escape_hard('link')
 				text = string.format('[%s](%s)', title, link)
 			end
 			msg:send_reply(text, "Markdown")
@@ -45,9 +45,9 @@ function _M:onTextMessage(blocks)
 			text = i18n("Link *unset*")
 		else
 			local link
-			if msg.chat.username then
-				link = 'https://telegram.me/'..msg.chat.username
-				local substitution = '['..msg.chat.title:escape_hard('link')..']('..link..')'
+			if msg.from.chat.username then
+				link = 'https://telegram.me/'..msg.from.chat.username
+				local substitution = '['..msg.from.chat.title:escape_hard('link')..']('..link..')'
 				text = i18n("The link has been set.\n*Here's the link*: %s"):format(substitution)
 			else
 				if not blocks[2] then
@@ -57,10 +57,10 @@ function _M:onTextMessage(blocks)
 						text = i18n("This link is *not valid!*")
 					else
 						link = 'https://telegram.me/joinchat/'..blocks[2]
-						red:sadd('chat:'..msg.chat.id..':whitelist', link:gsub('https://', '')) --save the link in the whitelist
+						red:sadd('chat:'..msg.from.chat.id..':whitelist', link:gsub('https://', '')) --save the link in the whitelist
 
 						local succ = red:hset(hash, 'link', link)
-						local title = msg.chat.title:escape_hard('link')
+						local title = msg.from.chat.title:escape_hard('link')
 						local substitution = '['..title..']('..link..')'
 						if not succ then
 							text = i18n("The link has been updated.\n*Here's the new link*: %s"):format(substitution)

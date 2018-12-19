@@ -123,7 +123,7 @@ function _M:onCallbackQuery(blocks)
 		api:answerCallbackQuery(msg.cb_id, text, true, config.bot_settings.cache_time.alert_help)
 	else
 		local chat_id = msg.target_id
-		if not u:can(chat_id, msg.from.id, 'can_restrict_members') then
+		if not u:can(chat_id, msg.from.user.id, 'can_restrict_members') then
 			api:answerCallbackQuery(msg.cb_id, i18n("Sorry, you don't have permission to restrict members"))
 		else
 			local msg_text = i18n([[*Default permissions*
@@ -142,9 +142,9 @@ Tap on the name of a permission for a description of what kind of messages it wi
 			local ok, err
 			if blocks[2] then
 				--if the user tapped on a keybord button, just edit the markup and not the whole message
-				ok, err = api:editMessageReplyMarkup(msg.chat.id, msg.message_id, nil, reply_markup)
+				ok, err = api:editMessageReplyMarkup(msg.from.chat.id, msg.message_id, nil, reply_markup)
 			else
-				ok, err = api:editMessageText(msg.chat.id, msg.message_id, nil, msg_text, "Markdown", nil, reply_markup)
+				ok, err = api:editMessageText(msg.from.chat.id, msg.message_id, nil, msg_text, "Markdown", nil, reply_markup)
 			end
 
 			if not ok and err.retry_after then

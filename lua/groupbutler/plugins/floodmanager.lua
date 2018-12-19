@@ -140,7 +140,7 @@ function _M:onCallbackQuery(blocks)
 	local red = self.red
 	local i18n = self.i18n
 	local chat_id = msg.target_id
-	if chat_id and not u:is_allowed('config', chat_id, msg.from) then
+	if chat_id and not u:is_allowed('config', chat_id, msg.from.user) then
 		api:answerCallbackQuery(msg.cb_id, i18n("You're no longer an admin"))
 	else
 		local header = i18n([[You can manage the antiflood settings from here.
@@ -190,7 +190,7 @@ It is also possible to choose which type of messages the antiflood will ignore (
 		end
 
 		local keyboard = do_keyboard_flood(self, chat_id)
-		api:editMessageText(msg.chat.id, msg.message_id, nil, header, "Markdown", nil, keyboard)
+		api:editMessageText(msg.from.chat.id, msg.message_id, nil, header, "Markdown", nil, keyboard)
 		api:answerCallbackQuery(msg.cb_id, text)
 	end
 end

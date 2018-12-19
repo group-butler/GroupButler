@@ -90,7 +90,7 @@ end
 
 local function get_chat_id(msg)
 	if msg.text:find('$chat') then
-		return msg.chat.id
+		return msg.from.chat.id
 	elseif msg.text:find('-%d+') then
 		return msg.text:match('(-%d+)')
 	elseif msg.reply then
@@ -108,7 +108,7 @@ function _M:onTextMessage(blocks)
 	local bot = self.bot
 	local u = self.u
 	local red = self.red
-	if not u:is_superadmin(msg.from.id) then return end
+	if not u:is_superadmin(msg.from.user.id) then return end
 
 	for i=1, #triggers2 do
 		blocks = match_pattern(self, triggers2[i], msg.text)
@@ -118,7 +118,7 @@ function _M:onTextMessage(blocks)
 	if not blocks or not next(blocks) then return true end --leave this plugin and continue to match the others
 
 	if blocks[1] == 'admin' then
-		api:sendMessage(msg.from.id, json.encode(triggers2))
+		api:sendMessage(msg.from.user.id, json.encode(triggers2))
 	end
 	-- if blocks[1] == 'init' then
 	-- 	local n_plugins = bot.init(true)
@@ -131,11 +131,11 @@ function _M:onTextMessage(blocks)
 		local cmd = io.popen('sudo tar -cpf '..bot.first_name:gsub(' ', '_')..'.tar *')
 		cmd:read('*all')
 		cmd:close()
-		api:sendDocument(msg.from.id, './'..bot.first_name:gsub(' ', '_')..'.tar')
+		api:sendDocument(msg.from.user.id, './'..bot.first_name:gsub(' ', '_')..'.tar')
 	end
 	if blocks[1] == 'save' then
 		local res = red:save()
-		api:sendMessage(msg.chat.id, 'res: '..tostring(res))
+		api:sendMessage(msg.from.chat.id, 'res: '..tostring(res))
 	end
 	if blocks[1] == 'stats' then
 		local text = '#stats `['..u:get_date()..']`:\n'
@@ -166,11 +166,11 @@ function _M:onTextMessage(blocks)
 		-- end
 		-- text = text..'- *ops/sec*: `'..dbinfo.stats.instantaneous_ops_per_sec..'`\n'
 
-		api:sendMessage(msg.chat.id, text, "Markdown")
+		api:sendMessage(msg.from.chat.id, text, "Markdown")
 	end
 	-- if blocks[1] == 'lua' then
 	-- 	local output = load_lua(blocks[2], msg)
-	-- 	api:sendMessage(msg.chat.id, output, "Markdown")
+	-- 	api:sendMessage(msg.from.chat.id, output, "Markdown")
 	-- end
 	if blocks[1] == 'run' then
 		--read the output
@@ -211,37 +211,37 @@ function _M:onTextMessage(blocks)
 		msg:send_reply(text)
 	end
 	if blocks[1] == 'blocked' then
-		api:sendMessage(msg.chat.id, json.encode(red:smembers('bot:blocked')))
+		api:sendMessage(msg.from.chat.id, json.encode(red:smembers('bot:blocked')))
 	end
 	if blocks[1] == 'leave' then
 		local text
 		if not blocks[2] then
-			if msg.chat.type == 'private' then
+			if msg.from.chat.type == 'private' then
 				text = 'ID missing'
 			else
-				text = bot_leave(self, msg.chat.id)
+				text = bot_leave(self, msg.from.chat.id)
 			end
 		else
 			text = bot_leave(self, blocks[2])
 		end
-		api:sendMessage(msg.from.id, text)
+		api:sendMessage(msg.from.user.id, text)
 	end
 	if blocks[1] == 'api errors' then
 		local t = red:array_to_hash(red:hgetall('bot:errors'))
-		api:sendMessage(msg.chat.id, json.encode(t))
+		api:sendMessage(msg.from.chat.id, json.encode(t))
 	end
 	-- if blocks[1] == 'rediscli' then
 	-- 	local redis_f = blocks[2]:gsub(' ', '(\'', 1)
 	-- 	redis_f = redis_f:gsub(' ', '\',\'')
 	-- 	redis_f = 'return red:'..redis_f..'\')'
-	-- 	redis_f = redis_f:gsub('$chat', msg.chat.id)
-	-- 	redis_f = redis_f:gsub('$from', msg.from.id)
+	-- 	redis_f = redis_f:gsub('$chat', msg.from.chat.id)
+	-- 	redis_f = redis_f:gsub('$from', msg.from.user.id)
 	-- 	local output = load_lua(redis_f)
 	-- 	msg:send_reply(output, "Markdown")
 	-- end
 	if blocks[1] == 'sendfile' then
 		local path = blocks[2]
-		api:sendDocument(msg.from.id, path)
+		api:sendDocument(msg.from.user.id, path)
 	end
 	if blocks[1] == 'res' then
 		local username = blocks[2]
@@ -249,7 +249,7 @@ function _M:onTextMessage(blocks)
 			normal = u:resolve_user(username),
 			lower = u:resolve_user(username:lower())
 		}
-		api:sendMessage(msg.chat.id, json.encode(user_id))
+		api:sendMessage(msg.from.chat.id, json.encode(user_id))
 	end
 	if blocks[1] == 'tban' then
 		if blocks[2] == 'flush' then
@@ -257,7 +257,7 @@ function _M:onTextMessage(blocks)
 			msg:send_reply('Flushed!')
 		end
 		if blocks[2] == 'get' then
-			api:sendMessage(msg.chat.id, json.encode(red:array_to_hash(red:hgetall('tempbanned'))))
+			api:sendMessage(msg.from.chat.id, json.encode(red:array_to_hash(red:hgetall('tempbanned'))))
 		end
 	end
 	if blocks[1] == 'remban' then
@@ -274,7 +274,7 @@ function _M:onTextMessage(blocks)
 	if blocks[1] == 'rawinfo' then
 		local chat_id = blocks[2]
 		if blocks[2] == '$chat' then
-			chat_id = msg.chat.id
+			chat_id = msg.from.chat.id
 		end
 		local text = '<code>'..chat_id
 		for set, _ in pairs(config.chat_settings) do
@@ -286,12 +286,12 @@ function _M:onTextMessage(blocks)
 
 		text = text..'</code>'
 
-		api:sendMessage(msg.chat.id, text, 'html')
+		api:sendMessage(msg.from.chat.id, text, 'html')
 	end
 	if blocks[1] == 'rawinfo2' then
 		local chat_id
 		if blocks[2] == '$chat' then
-			chat_id = msg.chat.id
+			chat_id = msg.from.chat.id
 		else
 			chat_id = blocks[2]
 		end
@@ -308,18 +308,18 @@ function _M:onTextMessage(blocks)
 			text = text.."\n\n"..config.chat_sets[i]..'(set)>\n'..section
 		end
 		text = text..'</code>'
-		local ok, err = api:sendMessage(msg.chat.id, text, 'html')
+		local ok, err = api:sendMessage(msg.from.chat.id, text, 'html')
 		if not ok and err.description:match("message is too long") then
 			local file_path = '/tmp/'..chat_id..'.txt'
 			local file = io.open(file_path, "w")
 			file:write(text)
 			file:close()
-			api:sendDocument(msg.chat.id, file_path)
+			api:sendDocument(msg.from.chat.id, file_path)
 		end
 	end
 	if blocks[1] == 'initgroup' then
 		u:initGroup(blocks[2])
-		api:sendMessage(msg.chat.id, 'Done')
+		api:sendMessage(msg.from.chat.id, 'Done')
 	end
 	if blocks[1] == 'remgroup' then
 		local full = false
@@ -329,7 +329,7 @@ function _M:onTextMessage(blocks)
 			chat_id = blocks[3]
 		end
 		u:remGroup(chat_id)
-		api:sendMessage(msg.chat.id, 'Removed (heavy: '..tostring(full)..')')
+		api:sendMessage(msg.from.chat.id, 'Removed (heavy: '..tostring(full)..')')
 	end
 	if blocks[1] == 'cache' then
 		local chat_id = get_chat_id(msg)
@@ -338,7 +338,7 @@ function _M:onTextMessage(blocks)
 			local permissions = red:smembers("cache:chat:"..chat_id..":"..members[i]..":permissions")
 			members[members[i]] = permissions
 		end
-		api:sendMessage(msg.chat.id, chat_id..' ➤ '..tostring(#members)..'\n'..json.encode(members))
+		api:sendMessage(msg.from.chat.id, chat_id..' ➤ '..tostring(#members)..'\n'..json.encode(members))
 	end
 	if blocks[1] == 'initcache' then
 		local chat_id, text
@@ -349,7 +349,7 @@ function _M:onTextMessage(blocks)
 		else
 			text = 'Failed: '..tostring(code)
 		end
-		api:sendMessage(msg.chat.id, text)
+		api:sendMessage(msg.from.chat.id, text)
 	end
 	if blocks[1] == 'active' then
 		local days = tonumber(blocks[2]) or 7
@@ -362,11 +362,11 @@ function _M:onTextMessage(blocks)
 				n = n + 1
 			end
 		end
-		api:sendMessage(msg.chat.id, 'Active groups in the last '..days..' days: '..n)
+		api:sendMessage(msg.from.chat.id, 'Active groups in the last '..days..' days: '..n)
 	end
 	if blocks[1] == 'getid' then
 		if msg.reply.forward_from then
-			api:sendMessage(msg.chat.id, '`'..msg.reply.forward_from.id..'`', true)
+			api:sendMessage(msg.from.chat.id, '`'..msg.reply.forward_from.id..'`', true)
 		end
 	end
 	if blocks[1] == 'permission' then
@@ -375,7 +375,7 @@ function _M:onTextMessage(blocks)
 			api:sendMessage(msg, "Can't find a chat_id")
 		else
 			local res = api:getChatMember(chat_id, bot.id)
-			api:sendMessage(msg.chat.id, ('%s\n%s'):format(chat_id, json.encode(res)))
+			api:sendMessage(msg.from.chat.id, ('%s\n%s'):format(chat_id, json.encode(res)))
 		end
 	end
 end

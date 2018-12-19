@@ -38,7 +38,7 @@ local function is_flooding_funct(self, msg)
 	if msg.media_group_id then
 		-- albums should count as one message
 
-		local media_group_id_key = 'mediagroupidkey:'..msg.chat.id
+		local media_group_id_key = 'mediagroupidkey:'..msg.from.chat.id
 		if msg.media_group_id == red:get(media_group_id_key) then -- msg.media_group_id is a str
 			-- photo/video is from an already processed sent album
 			return false
@@ -49,11 +49,11 @@ local function is_flooding_funct(self, msg)
 		end
 	end
 
-	local spamkey = 'spam:'..msg.chat.id..':'..msg.from.id
+	local spamkey = 'spam:'..msg.from.chat.id..':'..msg.from.user.id
 
 	local msgs = tonumber(red:get(spamkey)) or 1
 
-	local max_msgs = tonumber(red:hget('chat:'..msg.chat.id..':flood', 'MaxFlood')) or 5
+	local max_msgs = tonumber(red:hget('chat:'..msg.from.chat.id..':flood', 'MaxFlood')) or 5
 	if msg.cb then max_msgs = 15 end
 
 	local max_time = 5
@@ -91,23 +91,23 @@ function _M:on_message()
 	local msg_type = msg:type()
 	if msg.forward_from or msg.forward_from_chat then msg_type = 'forward' end
 
-		if not is_ignored(self, msg.chat.id, msg_type) and not msg.edited then
+		if not is_ignored(self, msg.from.chat.id, msg_type) and not msg.edited then
 			local is_flooding, msgs_sent, msgs_max = is_flooding_funct(self, msg)
 		if is_flooding then
-				local status = red:hget('chat:'..msg.chat.id..':settings', 'Flood')
+				local status = red:hget('chat:'..msg.from.chat.id..':settings', 'Flood')
 				if status == null then status = config.chat_settings['settings']['Flood'] end
 
 			if status == 'on' and not msg.cb and not msg:is_from_admin() then --if the status is on, and the user is not an admin, and the message is not a callback, then:
-				local action = red:hget('chat:'..msg.chat.id..':flood', 'ActionFlood')
-					local name = u:getname_final(msg.from)
+				local action = red:hget('chat:'..msg.from.chat.id..':flood', 'ActionFlood')
+					local name = u:getname_final(msg.from.user)
 					local ok, message
 				--try to kick or ban
 				if action == 'ban' then
-						ok = u:banUser(msg.chat.id, msg.from.id)
+						ok = u:banUser(msg.from.chat.id, msg.from.user.id)
 				elseif action == 'kick' then
-						ok = u:kickUser(msg.chat.id, msg.from.id)
+						ok = u:kickUser(msg.from.chat.id, msg.from.user.id)
 				elseif action == 'mute' then
-						ok = u:muteUser(msg.chat.id, msg.from.id)
+						ok = u:muteUser(msg.from.chat.id, msg.from.user.id)
 				end
 				--if kicked/banned, send a message
 					if ok then
@@ -120,7 +120,7 @@ function _M:on_message()
 						elseif action == 'mute' then
 							message = i18n("%s <b>muted</b> for flood!"):format(name)
 						end
-						api:sendMessage(msg.chat.id, message, 'html')
+						api:sendMessage(msg.from.chat.id, message, 'html')
 							u:logEvent('flood', msg, {hammered = log_hammered})
 					end
 				end
@@ -134,45 +134,45 @@ function _M:on_message()
 	end
 
 	if msg_type ~= "text" and not msg.cb and not msg.edited then
-			local hash = 'chat:'..msg.chat.id..':media'
+			local hash = 'chat:'..msg.from.chat.id..':media'
 		local media_status = (red:hget(hash, msg_type))
 		if media_status == null then media_status = config.chat_settings.media[msg_type] end
 
 			if media_status == 'notok' then
 				local whitelisted
 			if msg_type == 'link' then
-						whitelisted = is_whitelisted(self, msg.chat.id, msg.text)
+						whitelisted = is_whitelisted(self, msg.from.chat.id, msg.text)
 				end
 
 			if not whitelisted and not msg:is_from_admin() then -- Postpone admin check to avoid hitting API limits
 					local status
-					local name = u:getname_final(msg.from)
-					local max_reached_var, n, max = max_reached(self, msg.chat.id, msg.from.id)
+					local name = u:getname_final(msg.from.user)
+					local max_reached_var, n, max = max_reached(self, msg.from.chat.id, msg.from.user.id)
 					if max_reached_var then --max num reached. Kick/ban the user
-						status = red:hget('chat:'..msg.chat.id..':warnsettings', 'mediatype')
+						status = red:hget('chat:'..msg.from.chat.id..':warnsettings', 'mediatype')
 						if status == null then status = config.chat_settings['warnsettings']['mediatype'] end
 
 						--try to kick/ban
 						local ok, punishment
 						if status == 'kick' then
-								ok = u:kickUser(msg.chat.id, msg.from.id)
+								ok = u:kickUser(msg.from.chat.id, msg.from.user.id)
 							punishment = i18n('kicked')
 						elseif status == 'ban' then
-								ok = u:banUser(msg.chat.id, msg.from.id)
+								ok = u:banUser(msg.from.chat.id, msg.from.user.id)
 							punishment = i18n('banned')
 						elseif status == 'mute' then
-								ok = u:muteUser(msg.chat.id, msg.from.id)
+								ok = u:muteUser(msg.from.chat.id, msg.from.user.id)
 							punishment = i18n('muted')
 						end
 						if ok then --kick worked
-							red:hdel('chat:'..msg.chat.id..':mediawarn', msg.from.id) --remove media warns
+							red:hdel('chat:'..msg.from.chat.id..':mediawarn', msg.from.user.id) --remove media warns
 							local message =
 								i18n('%s <b>%s</b>: media sent not allowed!\n❗️ <code>%d/%d</code>'):format(name, punishment, n, max)
-							api:sendMessage(msg.chat.id, message, 'html')
+							api:sendMessage(msg.from.chat.id, message, 'html')
 						end
 
 						if media_status == 'del' then --do not forget to delete the message
-							api:deleteMessage(msg.chat.id, msg.message_id)
+							api:deleteMessage(msg.from.chat.id, msg.message_id)
 						end
 					else --max num not reached -> warn or delete
 						if media_status ~= 'del' then
@@ -180,14 +180,14 @@ function _M:on_message()
 							i18n('%s, this type of media is <b>not allowed</b> in this chat.\n(<code>%d/%d</code>)'):format(name, n, max)
 								msg:send_reply(message, 'html')
 						elseif media_status == 'del' and n + 1 >= max then
-							api:deleteMessage(msg.chat.id, msg.message_id)
+							api:deleteMessage(msg.from.chat.id, msg.message_id)
 							local message =
 							i18n([[%s, this type of media is <b>not allowed</b> in this chat.
 <i>The next time you will be banned/kicked/muted</i>
 ]]):format(name)
-							api:sendMessage(msg.chat.id, message, 'html')
+							api:sendMessage(msg.from.chat.id, message, 'html')
 						elseif media_status == 'del' then
-							api:deleteMessage(msg.chat.id, msg.message_id)
+							api:deleteMessage(msg.from.chat.id, msg.message_id)
 						end
 					end
 					u:logEvent('mediawarn', msg, {warns = n, warnmax = max, media = msg_type, hammered = status})
@@ -195,60 +195,60 @@ function _M:on_message()
 			end
 		end
 
-			local rtl_status = red:hget('chat:'..msg.chat.id..':char', 'Rtl')
+			local rtl_status = red:hget('chat:'..msg.from.chat.id..':char', 'Rtl')
 			if rtl_status == null then rtl_status = config.chat_settings.char.Rtl end
 
 		if rtl_status ~= 'allowed' then
 			local rtl = '‮'
 			local last_name = 'x'
-			if msg.from.last_name then last_name = msg.from.last_name end
-			local check = msg.text:find(rtl..'+') or msg.from.first_name:find(rtl..'+') or last_name:find(rtl..'+')
+			if msg.from.user.last_name then last_name = msg.from.user.last_name end
+			local check = msg.text:find(rtl..'+') or msg.from.user.first_name:find(rtl..'+') or last_name:find(rtl..'+')
 			if check ~= nil then
 					local ok, message
 				if rtl_status == 'kick' then
-						ok = u:kickUser(msg.chat.id, msg.from.id)
+						ok = u:kickUser(msg.from.chat.id, msg.from.user.id)
 					message = i18n("%s <b>kicked</b>: RTL character in names/messages are not allowed!")
 				elseif rtl_status == 'ban' then
-						ok = u:banUser(msg.chat.id, msg.from.id)
+						ok = u:banUser(msg.from.chat.id, msg.from.user.id)
 					message = i18n("%s <b>banned</b>: RTL character in names/messages are not allowed!")
 				elseif rtl_status == 'mute' then
-						ok = u:muteUser(msg.chat.id, msg.from.id)
+						ok = u:muteUser(msg.from.chat.id, msg.from.user.id)
 					message = i18n("%s <b>muted</b>: RTL character in names/messages are not allowed!")
 				end
 					if ok then
-						local name = u:getname_final(msg.from)
-					api:sendMessage(msg.chat.id, message:format(name), 'html')
+						local name = u:getname_final(msg.from.user)
+					api:sendMessage(msg.from.chat.id, message:format(name), 'html')
 					return false
 				end
 			end
 		end
 
 		if msg.text and msg.text:find('([\216-\219][\128-\191])') then
-				local arab_status = red:hget('chat:'..msg.chat.id..':char', 'Arab')
+				local arab_status = red:hget('chat:'..msg.from.chat.id..':char', 'Arab')
 				if arab_status == null then arab_status = config.chat_settings.char.Arab end
 
 			if arab_status ~= 'allowed' then
 					local ok, message
 				if arab_status == 'kick' then
-						ok = u:kickUser(msg.chat.id, msg.from.id)
+						ok = u:kickUser(msg.from.chat.id, msg.from.user.id)
 					message = i18n("%s <b>kicked</b>: arab/persian message detected!")
 				elseif arab_status == 'ban' then
-						ok = u:banUser(msg.chat.id, msg.from.id)
+						ok = u:banUser(msg.from.chat.id, msg.from.user.id)
 					message = i18n("%s <b>banned</b>: arab/persian message detected!")
 				elseif arab_status == 'mute' then
-						ok = u:muteUser(msg.chat.id, msg.from.id)
+						ok = u:muteUser(msg.from.chat.id, msg.from.user.id)
 					message = i18n("%s <b>muted</b>: arab/persian message detected!")
 				end
 					if ok then
-						local name = u:getname_final(msg.from)
-					api:sendMessage(msg.chat.id, message:format(name), 'html')
+						local name = u:getname_final(msg.from.user)
+					api:sendMessage(msg.from.chat.id, message:format(name), 'html')
 					return false
 					end
 				end
 			end
 		end
 
-	if u:is_blocked_global(msg.from.id) then --ignore blocked users
+	if u:is_blocked_global(msg.from.user.id) then --ignore blocked users
 		return false -- if a user is blocked, don't go through plugins
 	end
 

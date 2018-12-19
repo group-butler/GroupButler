@@ -86,23 +86,23 @@ function _M:onTextMessage(blocks)
 	local u = self.u
 
 	if blocks[1] == 'id' then --in private: send user id
-		if msg.chat.id > 0 and msg.chat.type == 'private' then
-			api:sendMessage(msg.chat.id, string.format(i18n('Your ID is `%d`'), msg.from.id), "Markdown")
+		if msg.from.chat.id > 0 and msg.from.chat.type == 'private' then
+			api:sendMessage(msg.from.chat.id, string.format(i18n('Your ID is `%d`'), msg.from.user.id), "Markdown")
 		end
 	end
 
-	if msg.chat.type == 'private' then return end
+	if msg.from.chat.type == 'private' then return end
 
 	if blocks[1] == 'id' then --in groups: send chat ID
-		if msg.chat.id < 0 and msg:is_from_admin() then
-			api:sendMessage(msg.chat.id, string.format('`%d`', msg.chat.id), "Markdown")
+		if msg.from.chat.id < 0 and msg:is_from_admin() then
+			api:sendMessage(msg.from.chat.id, string.format('`%d`', msg.from.chat.id), "Markdown")
 		end
 	end
 
 	if blocks[1] == 'adminlist' then
-		local adminlist = u:getAdminlist(msg.chat.id)
+		local adminlist = u:getAdminlist(msg.from.chat.id)
 		if not msg:is_from_admin() then
-			api:sendMessage(msg.from.id, adminlist, 'html', true)
+			api:sendMessage(msg.from.user.id, adminlist, 'html', true)
 		else
 			msg:send_reply(adminlist, 'html', true)
 		end
@@ -118,7 +118,7 @@ function _M:onTextMessage(blocks)
 			msg:send_reply(error_tr_id, "Markdown")
 			return
 		end
-		local res = api:getChatMember(msg.chat.id, user_id)
+		local res = api:getChatMember(msg.from.chat.id, user_id)
 
 		if not res then
 			msg:send_reply(i18n("That user has nothing to do with this chat"))
@@ -171,34 +171,34 @@ function _M:onTextMessage(blocks)
 
 		local keyboard = do_keyboard_userinfo(self, user_id)
 
-		local text = get_userinfo(self, user_id, msg.chat.id)
+		local text = get_userinfo(self, user_id, msg.from.chat.id)
 
-		api:sendMessage(msg.chat.id, text, "Markdown", nil, nil, nil, keyboard)
+		api:sendMessage(msg.from.chat.id, text, "Markdown", nil, nil, nil, keyboard)
 	end
 	if blocks[1] == 'cache' then
 		if not msg:is_from_admin() then return end
-		local hash = 'cache:chat:'..msg.chat.id..':admins'
+		local hash = 'cache:chat:'..msg.from.chat.id..':admins'
 		local seconds = red:ttl(hash)
 		local cached_admins = red:scard(hash)
 		local text = i18n("📌 Status: `CACHED`\n⌛ ️Remaining: `%s`\n👥 Admins cached: `%d`")
 			:format(get_time_remaining(tonumber(seconds)), cached_admins)
-		local keyboard = do_keyboard_cache(self, msg.chat.id)
-		api:sendMessage(msg.chat.id, text, "Markdown", nil, nil, nil, keyboard)
+		local keyboard = do_keyboard_cache(self, msg.from.chat.id)
+		api:sendMessage(msg.from.chat.id, text, "Markdown", nil, nil, nil, keyboard)
 	end
 	if blocks[1] == 'msglink' then
-		if not msg.reply or not msg.chat.username then return end
+		if not msg.reply or not msg.from.chat.username then return end
 
 		local text = string.format('[%s](https://telegram.me/%s/%d)',
-			i18n("Message N° %d"):format(msg.reply.message_id), msg.chat.username, msg.reply.message_id)
-		if not u:is_silentmode_on(msg.chat.id) or msg:is_from_admin() then
+			i18n("Message N° %d"):format(msg.reply.message_id), msg.from.chat.username, msg.reply.message_id)
+		if not u:is_silentmode_on(msg.from.chat.id) or msg:is_from_admin() then
 			msg.reply:send_reply(text, "Markdown")
 		else
-			api:sendMessage(msg.from.id, text, "Markdown")
+			api:sendMessage(msg.from.user.id, text, "Markdown")
 		end
 	end
 	if blocks[1] == 'leave' and msg:is_from_admin() then
-		-- u:remGroup(msg.chat.id)
-		api:leaveChat(msg.chat.id)
+		-- u:remGroup(msg.from.chat.id)
+		api:leaveChat(msg.from.chat.id)
 	end
 end
 
@@ -216,12 +216,12 @@ function _M:onCallbackQuery(blocks)
 	end
 
 	if blocks[1] == 'remwarns' then
-		db:forgetUserWarns(msg.chat.id, blocks[2])
+		db:forgetUserWarns(msg.from.chat.id, blocks[2])
 
-		local name = u:getname_final(msg.from)
-		local res = api:getChatMember(msg.chat.id, blocks[2])
+		local name = u:getname_final(msg.from.user)
+		local res = api:getChatMember(msg.from.chat.id, blocks[2])
 		local text = i18n("The number of warnings received by this user has been <b>reset</b>, by %s"):format(name)
-		api:editMessageText(msg.chat.id, msg.message_id, nil, text:format(name), 'html')
+		api:editMessageText(msg.from.chat.id, msg.message_id, nil, text:format(name), 'html')
 		u:logEvent('nowarn', msg, {
 			admin = name,
 			user = u:getname_final(res.user),
@@ -244,7 +244,7 @@ function _M:onCallbackQuery(blocks)
 			local text = i18n("📌 Status: `CACHED`\n⌛ ️Remaining: `%s`\n👥 Admins cached: `%d`")
 				:format(time, #cached_admins)
 			api:answerCallbackQuery(msg.cb_id, i18n("✅ Updated. Next update in %s"):format(time))
-			api:editMessageText(msg.chat.id, msg.message_id, nil, text, "Markdown", nil, do_keyboard_cache(self, msg.target_id))
+			api:editMessageText(msg.from.chat.id, msg.message_id, nil, text, "Markdown", nil, do_keyboard_cache(self, msg.target_id))
 		end
 	end
 end

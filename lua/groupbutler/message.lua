@@ -13,22 +13,6 @@ function Message:new(obj, update_obj)
 	return obj
 end
 
-local function is_from_admin(self)
-	if self.chat.type == "private" -- This should never happen but...
-	or not (self.chat.id < 0 or self.target_id)
-	or not self.from then
-		return false
-	end
-	return _p[self].u:is_admin(self.target_id or self.chat.id, self.from.id)
-end
-
-function message:is_from_admin()
-	if self._cached_is_from_admin == nil then
-		self._cached_is_from_admin = is_from_admin(self)
-	end
-	return self._cached_is_from_admin
-end
-
 local function msg_type(self)
 	-- TODO: update database to use "animation" instead of "gif"
 	if self.animation then
@@ -83,17 +67,6 @@ end
 function message:send_reply(text, parse_mode, disable_web_page_preview, disable_notification, reply_markup)
 	return _p[self].api:sendMessage(self.chat.id, text, parse_mode, disable_web_page_preview, disable_notification,
 		self.message_id, reply_markup)
-end
-
-function Message:cacheChatMember()
-	if not self.chat
-	or not self.from then
-		return
-	end
-	_p[self].db:cacheChatMember({
-		chat = self.chat,
-		user = self.from,
-	})
 end
 
 return Message

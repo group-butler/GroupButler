@@ -121,7 +121,7 @@ function _M:onCallbackQuery(blocks)
 			api:answerCallbackQuery(msg.cb_id, text, true, config.bot_settings.cache_time.alert_help)
 		else
 			local chat_id = msg.target_id
-			if not u:is_allowed('config', chat_id, msg.from) then
+			if not u:is_allowed('config', chat_id, msg.from.user) then
 				api:answerCallbackQuery(msg.cb_id, i18n("You're no longer an admin"))
 			else
 				local text
@@ -138,9 +138,9 @@ function _M:onCallbackQuery(blocks)
 ☑️ = won't be logged
 
 Tap on an option to get further information]])
-					api:edit_message_text(msg.chat.id, msg.message_id, nil, logchannel_first, "Markdown", true, reply_markup)
+					api:edit_message_text(msg.from.chat.id, msg.message_id, nil, logchannel_first, "Markdown", true, reply_markup)
 				else
-					api:editMessageReplyMarkup(msg.chat.id, msg.message_id, nil, reply_markup)
+					api:editMessageReplyMarkup(msg.from.chat.id, msg.message_id, nil, reply_markup)
 				end
 
 				if text then api:answerCallbackQuery(msg.cb_id, text) end
@@ -155,14 +155,14 @@ function _M:onTextMessage(blocks)
 	local red = self.red
 	local i18n = self.i18n
 
-	if msg.chat.type ~= 'private' then
+	if msg.from.chat.type ~= 'private' then
 		if not msg:is_from_admin() then return end
 
 		if blocks[1] == 'setlog' then
 			if msg.forward_from_chat then
 				if msg.forward_from_chat.type == 'channel' then
 					if not msg.forward_from_chat.username then
-						local ok, err = api:getChatMember(msg.forward_from_chat.id, msg.from.id)
+						local ok, err = api:getChatMember(msg.forward_from_chat.id, msg.from.user.id)
 						if not ok then
 							if err.error_code == 429 then
 								msg:send_reply(i18n('_Too many requests. Retry later_'), "Markdown")
@@ -172,18 +172,18 @@ function _M:onTextMessage(blocks)
 						else
 							if ok.status == 'creator' then
 								local text
-								local old_log = red:hget('bot:chatlogs', msg.chat.id)
+								local old_log = red:hget('bot:chatlogs', msg.from.chat.id)
 								if old_log == tostring(msg.forward_from_chat.id) then
 									text = i18n('_Already using this channel_')
 								else
-									red:hset('bot:chatlogs', msg.chat.id,  msg.forward_from_chat.id)
+									red:hset('bot:chatlogs', msg.from.chat.id,  msg.forward_from_chat.id)
 									text = i18n('*Log channel added!*')
 									if old_log then
 										api:sendMessage(old_log,
-											i18n("<i>%s</i> changed its log channel"):format(msg.chat.title:escape_html()), 'html')
+											i18n("<i>%s</i> changed its log channel"):format(msg.from.chat.title:escape_html()), 'html')
 									end
 									api:sendMessage(msg.forward_from_chat.id,
-										i18n("Logs of <i>%s</i> will be posted here"):format(msg.chat.title:escape_html()), 'html')
+										i18n("Logs of <i>%s</i> will be posted here"):format(msg.from.chat.title:escape_html()), 'html')
 								end
 								msg:send_reply(text, "Markdown")
 							else
@@ -198,15 +198,15 @@ function _M:onTextMessage(blocks)
 				msg:send_reply(i18n("You have to *forward* the message from the channel"), "Markdown")
 			end
 		elseif blocks[1] == 'unsetlog' then
-			local log_channel = red:hget('bot:chatlogs', msg.chat.id)
+			local log_channel = red:hget('bot:chatlogs', msg.from.chat.id)
 			if log_channel == null then
 				msg:send_reply(i18n("_This groups is not using a log channel_"), "Markdown")
 			else
-				red:hdel('bot:chatlogs', msg.chat.id)
+				red:hdel('bot:chatlogs', msg.from.chat.id)
 				msg:send_reply(i18n("*Log channel removed*"), "Markdown")
 			end
 		elseif blocks[1] == 'logchannel' then
-			local log_channel = red:hget('bot:chatlogs', msg.chat.id)
+			local log_channel = red:hget('bot:chatlogs', msg.from.chat.id)
 			if log_channel == null then
 				msg:send_reply(i18n("_This groups is not using a log channel_"), "Markdown")
 			else
@@ -226,7 +226,7 @@ function _M:onTextMessage(blocks)
 			end
 		end
 	elseif blocks[1] == 'photo' then
-		api:sendPhoto(msg.chat.id, blocks[2])
+		api:sendPhoto(msg.from.chat.id, blocks[2])
 	end
 end
 

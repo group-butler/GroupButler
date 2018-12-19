@@ -34,20 +34,20 @@ function _M:onTextMessage()
 	local u = self.u
 	local i18n = self.i18n
 
-	if msg.chat.type ~= "supergroup"
+	if msg.from.chat.type ~= "supergroup"
 	or not msg:is_from_admin() then
 		return
 	end
 
-	msg.chat:cache()
+	msg.from.chat:cache()
 	local res = api:sendMessage({
-		chat_id = msg.from.id,
-		text = ("<b>%s</b>\n"):format(msg.chat.title:escape_html())..i18n("<i>Change the settings of your group</i>"),
+		chat_id = msg.from.user.id,
+		text = ("<b>%s</b>\n"):format(msg.from.chat.title:escape_html())..i18n("<i>Change the settings of your group</i>"),
 		parse_mode = "html",
-		reply_markup = doKeyboardConfig(self, msg.chat.id, msg.from.id),
+		reply_markup = doKeyboardConfig(self, msg.from.chat.id, msg.from.user.id),
 	})
 
-	if u:is_silentmode_on(msg.chat.id) then -- send the response in the group only if the silent mode is off
+	if u:is_silentmode_on(msg.from.chat.id) then -- send the response in the group only if the silent mode is off
 		return
 	end
 
@@ -55,7 +55,7 @@ function _M:onTextMessage()
 		u:sendStartMe(msg)
 		return
 	end
-	api:sendMessage(msg.chat.id, i18n("_I've sent you the keyboard via private message_"), "Markdown")
+	api:sendMessage(msg.from.chat.id, i18n("_I've sent you the keyboard via private message_"), "Markdown")
 end
 
 function _M:onCallbackQuery()
@@ -72,11 +72,11 @@ function _M:onCallbackQuery()
 	end
 
 	api:editMessageText({
-		chat_id = msg.chat.id,
+		chat_id = msg.from.chat.id,
 		message_id = msg.message_id,
 		text = text,
 		parse_mode = "html",
-		reply_markup = doKeyboardConfig(self, chat_id, msg.from.id)
+		reply_markup = doKeyboardConfig(self, chat_id, msg.from.user.id)
 	})
 end
 

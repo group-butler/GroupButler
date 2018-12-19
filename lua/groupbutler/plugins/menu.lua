@@ -254,7 +254,7 @@ function _M:onCallbackQuery(blocks)
 	local u = self.u
 	local i18n = self.i18n
 	local chat_id = msg.target_id
-	if chat_id and not u:is_allowed('config', chat_id, msg.from) then
+	if chat_id and not u:is_allowed('config', chat_id, msg.from.user) then
 		api:answerCallbackQuery(msg.cb_id, i18n("You're no longer an admin"))
 	else
 		local menu_first = i18n("Manage the settings of the group. Click on the left column to get a small hint")
@@ -263,7 +263,7 @@ function _M:onCallbackQuery(blocks)
 
 		if blocks[1] == 'config' then
 			keyboard = doKeyboard_menu(self, chat_id)
-			api:editMessageText(msg.chat.id, msg.message_id, nil, menu_first, "Markdown", nil, keyboard)
+			api:editMessageText(msg.from.chat.id, msg.message_id, nil, menu_first, "Markdown", nil, keyboard)
 		else
 			if blocks[2] == 'alert' then
 				text = get_button_description(self, blocks[3])
@@ -284,7 +284,7 @@ function _M:onCallbackQuery(blocks)
 				text, show_alert = u:changeSettingStatus(chat_id, blocks[2])
 			end
 			keyboard = doKeyboard_menu(self, chat_id)
-			api:editMessageText(msg.chat.id, msg.message_id, nil, menu_first, "Markdown", nil, keyboard)
+			api:editMessageText(msg.from.chat.id, msg.message_id, nil, menu_first, "Markdown", nil, keyboard)
 			if text then
 				--workaround to avoid to send an error to users who are using an old inline keyboard
 				api:answerCallbackQuery(msg.cb_id, '⚙ '..text, show_alert)

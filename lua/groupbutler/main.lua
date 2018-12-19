@@ -7,6 +7,7 @@ local plugins = require "groupbutler.plugins"
 local Message = require "groupbutler.message"
 local User = require "groupbutler.user"
 local Chat = require "groupbutler.chat"
+local ChatMember = require "groupbutler.chatmember"
 local storage = require "groupbutler.storage"
 local locale = require "groupbutler.languages"
 local api_err = require "groupbutler.api_errors"
@@ -42,16 +43,21 @@ end
 
 local function inject_message_methods(message, update)
 	Message:new(message, update)
-	if message.from then -- Sender is empty for messages sent to channels
-		User:new(message.from, update):cache()
+	if message.from then
+		if message.from.user then -- Sender is empty for messages sent to channels
+			User:new(message.from.user, update):cache()
+		end
+		if message.from.chat then
+			Chat:new(message.chat, update)--:cache()
+		end
+		if message.from.user and message.from.chat then
+			ChatMember:new(message.from, update)--:cache()
+			print(message.from:isAdmin())
+		end
 	end
 	if message.forward_from then
 		User:new(message.forward_from, update):cache()
 	end
-	if message.chat then
-		Chat:new(message.chat, update):cache()
-	end
-	message:cacheChatMember()
 end
 
 local function add_message_methods(object, update)
@@ -76,9 +82,9 @@ local function collect_stats(self)
 	local red = self.red
 	local u = self.u
 	local now = os.time(os.date("*t"))
-	if msg.chat.type ~= 'private' and msg.chat.type ~= 'inline' and msg.from then
-		red:hset('chat:'..msg.chat.id..':userlast', msg.from.id, now) --last message for each user
-		red:hset('bot:chats:latsmsg', msg.chat.id, now) --last message in the group
+	if msg.from.chat.type ~= 'private' and msg.from.chat.type ~= 'inline' and msg.from.user then
+		red:hset('chat:'..msg.from.chat.id..':userlast', msg.from.user.id, now) --last message for each user
+		red:hset('bot:chats:latsmsg', msg.from.chat.id, now) --last message in the group
 	end
 	u:metric_incr("messages_processed_count")
 	u:metric_set("message_timestamp_distance_sec", now - msg.date)
@@ -122,21 +128,21 @@ local function on_msg_receive(self, callback) -- The fn run whenever a message i
 	end
 
 	-- Set chat language
-	i18n:setLanguage(red:get('lang:'..msg.chat.id))
+	i18n:setLanguage(red:get('lang:'..msg.from.chat.id))
 
 	-- Do not process messages from normal groups
-	if msg.chat.type == 'group' then
-		api:sendMessage(msg.chat.id, i18n([[Hello everyone!
+	if msg.from.chat.type == 'group' then
+		api:sendMessage(msg.from.chat.id, i18n([[Hello everyone!
 My name is %s, and I'm a bot made to help administrators in their hard work.
 Unfortunately I can't work in normal groups. If you need me, please ask the creator to convert this group to a supergroup and then add me again.
 ]]):format(bot.first_name))
-		api:leaveChat(msg.chat.id)
+		api:leaveChat(msg.from.chat.id)
 		if config.bot_settings.stream_commands then
 			log.info('Bot was added to a normal group {by_name} [{from_id}] -> [{chat_id}]',
 					{
-						by_name=msg.from.first_name,
-						from_id=msg.from.id,
-						chat_id=msg.chat.id,
+						by_name=msg.from.user.first_name,
+						from_id=msg.from.user.id,
+						chat_id=msg.from.chat.id,
 					})
 		end
 		return true
@@ -168,11 +174,11 @@ Unfortunately I can't work in normal groups. If you need me, please ask the crea
 
 			if blocks then
 				-- init agroup if the bot wasn't aware to be in
-				if  msg.chat.id < 0
-				and msg.chat.type ~= 'inline'
-				and red:exists('chat:'..msg.chat.id..':settings') == 0
+				if  msg.from.chat.id < 0
+				and msg.from.chat.type ~= 'inline'
+				and red:exists('chat:'..msg.from.chat.id..':settings') == 0
 				and not msg.service then
-				u:initGroup(msg.chat.id)
+				u:initGroup(msg.from.chat.id)
 				end
 
 				-- print some info in the terminal
@@ -180,9 +186,9 @@ Unfortunately I can't work in normal groups. If you need me, please ask the crea
 					log.info('{trigger} {from_name} [{from_id}] -> [{chat_id}]',
 						{
 							trigger=trigger,
-							from_name=msg.from.first_name,
-							from_id=msg.from.id,
-							chat_id=msg.chat.id,
+							from_name=msg.from.user.first_name,
+							from_id=msg.from.user.id,
+							chat_id=msg.from.chat.id,
 						})
 				end
 
@@ -232,6 +238,13 @@ function _M:process()
 		end
 
 		self.message = self.message or self.edited_message
+
+		if self.message.from then
+			self.message.from = {
+				user = self.message.from,
+				chat = self.message.chat,
+			}
+		end
 
 		local service_messages = {
 			"left_chat_member", "new_chat_member", "new_chat_photo", "delete_chat_photo", "group_chat_created",
@@ -292,7 +305,11 @@ function _M:process()
 			self.message.message_id = self.message.message.message_id
 			self.message.chat = self.message.message.chat
 		else --when the inline keyboard is sent via the inline mode
-			self.message.chat = {type = 'inline', id = self.message.from.id, title = self.message.from.first_name}
+			self.message.chat = {
+				type = 'inline',
+				id = self.message.from.user.id,
+				title = self.message.from.user.first_name
+			}
 			self.message.message_id = self.message.inline_message_id
 		end
 		self.message.date = os.time()

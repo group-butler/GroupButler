@@ -55,54 +55,54 @@ function _M:on_message()
 	local red = self.red
 	local i18n = self.i18n
 
-	if not msg.inline and msg.spam and msg.chat.id < 0 and not msg.cb and not msg:is_from_admin() then
-		local status = red:hget('chat:'..msg.chat.id..':antispam', msg.spam)
+	if not msg.inline and msg.spam and msg.from.chat.id < 0 and not msg.cb and not msg:is_from_admin() then
+		local status = red:hget('chat:'..msg.from.chat.id..':antispam', msg.spam)
 		if status ~= null and status ~= 'alwd' then
 			local whitelisted
 			if msg.spam == 'links' then
-				whitelisted = is_whitelisted(self, msg.chat.id, msg.text:lower())
+				whitelisted = is_whitelisted(self, msg.from.chat.id, msg.text:lower())
 			--[[elseif msg.forward_from_chat then
 				if msg.forward_from_chat.type == 'channel' then
-					whitelisted = is_whitelisted_channel(msg.chat.id, msg.forward_from_chat.id)
+					whitelisted = is_whitelisted_channel(msg.from.chat.id, msg.forward_from_chat.id)
 				end]]
 			end
 
 			if not whitelisted then
 				local hammer_text = nil
-				local name = u:getname_final(msg.from)
-				local warns_received, max_allowed = getAntispamWarns(self, msg.chat.id, msg.from.id) --also increases the warns counter
+				local name = u:getname_final(msg.from.user)
+				local warns_received, max_allowed = getAntispamWarns(self, msg.from.chat.id, msg.from.user.id) --also increases the warns counter
 
 				if warns_received >= max_allowed then
 					if status == 'del' then
-						api:deleteMessage(msg.chat.id, msg.message_id)
+						api:deleteMessage(msg.from.chat.id, msg.message_id)
 					end
 
-					local action = red:hget('chat:'..msg.chat.id..':antispam', 'action')
+					local action = red:hget('chat:'..msg.from.chat.id..':antispam', 'action')
 					if action == null then action = config.chat_settings['antispam']['action'] end
 
 					local res
 					if action == 'ban' then
-						res = u:banUser(msg.chat.id, msg.from.id)
+						res = u:banUser(msg.from.chat.id, msg.from.user.id)
 					elseif action == 'kick' then
-						res = u:kickUser(msg.chat.id, msg.from.id)
+						res = u:kickUser(msg.from.chat.id, msg.from.user.id)
 					elseif action == 'mute' then
-						res = u:muteUser(msg.chat.id, msg.from.id)
+						res = u:muteUser(msg.from.chat.id, msg.from.user.id)
 					end
 					if res then
-						red:hdel('chat:'..msg.chat.id..':spamwarns', msg.from.id) --remove spam warns
-						api:sendMessage(msg.chat.id,
+						red:hdel('chat:'..msg.from.chat.id..':spamwarns', msg.from.user.id) --remove spam warns
+						api:sendMessage(msg.from.chat.id,
 							i18n('%s %s for <b>spam</b>! (%d/%d)'):format(name, humanizations(self)[action], warns_received, max_allowed),
 								'html'
 							)
 					end
 				else
 					if status == 'del' and warns_received == max_allowed - 1 then
-						api:deleteMessage(msg.chat.id, msg.message_id)
+						api:deleteMessage(msg.from.chat.id, msg.message_id)
 						msg:send_reply(i18n('%s, spam is not allowed here. The next time you will be restricted'):format(name),
 							'html')
 					elseif status == 'del' then
 						--just delete
-						api:deleteMessage(msg.chat.id, msg.message_id)
+						api:deleteMessage(msg.from.chat.id, msg.message_id)
 					elseif status ~= 'del' then
 						msg:send_reply(i18n("%s, this kind of message is not allowed in this chat (<b>%d/%d</b>)")
 							:format(name, warns_received, max_allowed), 'html')
@@ -288,7 +288,7 @@ function _M:onCallbackQuery(blocks)
 	else
 
 		local chat_id = msg.target_id
-		if not u:is_allowed('config', chat_id, msg.from) then
+		if not u:is_allowed('config', chat_id, msg.from.user) then
 			api:answerCallbackQuery(msg.cb_id, i18n("You're no longer an admin"))
 		else
 			local antispam_first = i18n([[*Anti-spam settings*
@@ -313,7 +313,7 @@ When set on `delete`, the bot doesn't warn users until they are about to be kick
 			end
 
 			keyboard = doKeyboard_antispam(self, chat_id)
-			api:editMessageText(msg.chat.id, msg.message_id, nil, antispam_first, "Markdown", nil, keyboard)
+			api:editMessageText(msg.from.chat.id, msg.message_id, nil, antispam_first, "Markdown", nil, keyboard)
 			if text then api:answerCallbackQuery(msg.cb_id, text) end
 		end
 	end
@@ -352,10 +352,10 @@ function _M:onTextMessage(blocks)
 	local red = self.red
 	local i18n = self.i18n
 
-	if u:is_allowed('texts', msg.chat.id, msg.from) then
+	if u:is_allowed('texts', msg.from.chat.id, msg.from.user) then
 		if (blocks[1] == 'wl' or blocks[1] == 'whitelist') and blocks[2] then
 			if blocks[2] == '-' then
-				local set = ('chat:%d:whitelist'):format(msg.chat.id)
+				local set = ('chat:%d:whitelist'):format(msg.from.chat.id)
 				local n = red:scard(set) or 0
 				local text
 				if n == 0 then
@@ -372,7 +372,7 @@ function _M:onTextMessage(blocks)
 					if not next(links) then
 						text = i18n("_I can't find any url in this message_")
 					else
-						local new = red:sadd(('chat:%d:whitelist'):format(msg.chat.id), unpack(links))
+						local new = red:sadd(('chat:%d:whitelist'):format(msg.from.chat.id), unpack(links))
 						text = i18n("%d link(s) will be whitelisted"):format(#links - (#links - new))
 						if new ~= #links then
 							text = text..i18n("\n%d links were already in the list"):format(#links - new)
@@ -385,7 +385,7 @@ function _M:onTextMessage(blocks)
 			end
 		end
 		if (blocks[1] == 'wl' or blocks[1] == 'whitelist') and not blocks[2] then
-			local links = red:smembers(('chat:%d:whitelist'):format(msg.chat.id))
+			local links = red:smembers(('chat:%d:whitelist'):format(msg.from.chat.id))
 			if not next(links) then
 				msg:send_reply(i18n("_The whitelist is empty_.\nUse `/wl [links]` to add some links to the whitelist"),"Markdown")
 			else
@@ -403,7 +403,7 @@ function _M:onTextMessage(blocks)
 				if not next(links) then
 					text = i18n("_I can't find any url in this message_")
 				else
-					local removed = red:srem(('chat:%d:whitelist'):format(msg.chat.id), unpack(links))
+					local removed = red:srem(('chat:%d:whitelist'):format(msg.from.chat.id), unpack(links))
 					text = i18n("%d link(s) removed from the whitelist"):format(removed)
 					if removed ~= #links then
 						text = text..i18n("\n%d links were already in the list"):format(#links - removed)
@@ -415,11 +415,11 @@ function _M:onTextMessage(blocks)
 			msg:send_reply(text, "Markdown")
 		end
 		if blocks[1] == 'funwl' then --force the unwhitelist of a link
-			red:srem(('chat:%d:whitelist'):format(msg.chat.id), blocks[2])
+			red:srem(('chat:%d:whitelist'):format(msg.from.chat.id), blocks[2])
 			msg:send_reply('Done')
 		end
 		if blocks[1] == 'wlchan' and not blocks[2] then
-			local channels = red:smembers(('chat:%d:chanwhitelist'):format(msg.chat.id))
+			local channels = red:smembers(('chat:%d:chanwhitelist'):format(msg.from.chat.id))
 			if not next(channels) then
 				msg:send_reply(i18n("_Whitelist of channels empty_"), "Markdown")
 			else
@@ -427,7 +427,7 @@ function _M:onTextMessage(blocks)
 			end
 		end
 		if blocks[1] == 'wlchan' and blocks[2] then
-			local for_entered, channels = edit_channels_whitelist(self, msg.chat.id, blocks[2], 'add')
+			local for_entered, channels = edit_channels_whitelist(self, msg.from.chat.id, blocks[2], 'add')
 
 			if not for_entered then
 				msg:send_reply(i18n("_I can't find a channel ID in your message_"), "Markdown")
@@ -444,7 +444,7 @@ function _M:onTextMessage(blocks)
 			end
 		end
 		if blocks[1] == 'unwlchan' then
-			local for_entered, channels = edit_channels_whitelist(self, msg.chat.id, blocks[2], 'rem')
+			local for_entered, channels = edit_channels_whitelist(self, msg.from.chat.id, blocks[2], 'rem')
 
 			if not for_entered then
 				msg:send_reply(i18n("_I can't find a channel ID in your message_"), "Markdown")

@@ -57,8 +57,8 @@ function _M:onTextMessage(blocks)
 	local api_err = self.api_err
 	local u = self.u
 
-	if msg.chat.type == "private"
-	or not u:can(msg.chat.id, msg.from.id, "can_restrict_members") then
+	if msg.from.chat.type == "private"
+	or not u:can(msg.from.chat.id, msg.from.user.id, "can_restrict_members") then
 		return
 	end
 
@@ -70,7 +70,7 @@ function _M:onTextMessage(blocks)
 	end
 	if tonumber(user_id) == bot.id then return end
 
-	local chat_id = msg.chat.id
+	local chat_id = msg.from.chat.id
 	local admin, kicked = u:getnames_complete(msg, blocks)
 
 	--print(get_motivation(msg))
@@ -81,11 +81,11 @@ function _M:onTextMessage(blocks)
 			if tonumber(time_value) > 100 then
 				time_value = 100
 			end
-			local key = ('chat:%s:%s:tbanvalue'):format(msg.chat.id, user_id)
+			local key = ('chat:%s:%s:tbanvalue'):format(msg.from.chat.id, user_id)
 			red:setex(key, 3600, time_value)
 		end
 
-		local markup = markup_tempban(self, msg.chat.id, user_id)
+		local markup = markup_tempban(self, msg.from.chat.id, user_id)
 		msg:send_reply(i18n("Use -/+ to edit the value, then select a timeframe to temporary ban the user"),
 			"Markdown", nil, nil, markup)
 	end
@@ -93,7 +93,7 @@ function _M:onTextMessage(blocks)
 		local ok, err = u:kickUser(chat_id, user_id)
 		if ok then
 			u:logEvent('kick', msg, {motivation = get_motivation(msg), admin = admin, user = kicked, user_id = user_id})
-			api:sendMessage(msg.chat.id, i18n("%s kicked %s!"):format(admin, kicked), 'html', true)
+			api:sendMessage(msg.from.chat.id, i18n("%s kicked %s!"):format(admin, kicked), 'html', true)
 		else
 			msg:send_reply(err, "Markdown")
 		end
@@ -102,7 +102,7 @@ function _M:onTextMessage(blocks)
 		local ok, err = u:banUser(chat_id, user_id)
 		if ok then
 			u:logEvent('ban', msg, {motivation = get_motivation(msg), admin = admin, user = kicked, user_id = user_id})
-			api:sendMessage(msg.chat.id, i18n("%s banned %s!"):format(admin, kicked), 'html', true)
+			api:sendMessage(msg.from.chat.id, i18n("%s banned %s!"):format(admin, kicked), 'html', true)
 		else
 			msg:send_reply(err, "Markdown")
 		end
@@ -115,7 +115,7 @@ function _M:onTextMessage(blocks)
 			local ok, err = u:banUser(chat_id, user_id)
 			if ok then
 				u:logEvent('ban', msg, {motivation = get_motivation(msg), admin = admin, user = kicked, user_id = user_id})
-				api:sendMessage(msg.chat.id, i18n("%s banned %s!"):format(admin, u:getname_final(msg.reply.forward_from)), 'html')
+				api:sendMessage(msg.from.chat.id, i18n("%s banned %s!"):format(admin, u:getname_final(msg.reply.forward_from)), 'html')
 			else
 				msg:send_reply(err, "Markdown")
 			end
@@ -148,7 +148,7 @@ function _M:onCallbackQuery(matches)
 	local i18n = self.i18n
 	local u = self.u
 
-	if not u:can(msg.chat.id, msg.from.id, 'can_restrict_members') then
+	if not u:can(msg.from.chat.id, msg.from.user.id, 'can_restrict_members') then
 		api:answerCallbackQuery(msg.cb_id, i18n("Sorry, you don't have permission to restrict members"), true)
 	else
 		if matches[1] == 'nil' then
@@ -156,7 +156,7 @@ function _M:onCallbackQuery(matches)
 				i18n("Tap on the -/+ buttons to change this value. Then select a timeframe to execute the ban"), true)
 		elseif matches[1] == 'val' then
 			local user_id = matches[3]
-			local key = ('chat:%d:%s:tbanvalue'):format(msg.chat.id, user_id)
+			local key = ('chat:%d:%s:tbanvalue'):format(msg.from.chat.id, user_id)
 			local current_value, new_value
 			current_value = tonumber(red:get(key)) or 3
 			if matches[2] == 'm' then
@@ -177,11 +177,11 @@ function _M:onCallbackQuery(matches)
 				end
 			end
 
-			local markup = markup_tempban(self, msg.chat.id, user_id, new_value)
-			api:editMessageReplyMarkup(msg.chat.id, msg.message_id, nil, markup)
+			local markup = markup_tempban(self, msg.from.chat.id, user_id, new_value)
+			api:editMessageReplyMarkup(msg.from.chat.id, msg.message_id, nil, markup)
 		elseif matches[1] == 'ban' then
 			local user_id = matches[3]
-			local key = ('chat:%d:%s:tbanvalue'):format(msg.chat.id, user_id)
+			local key = ('chat:%d:%s:tbanvalue'):format(msg.from.chat.id, user_id)
 			local time_value = tonumber(red:get(key)) or 3
 			local timeframe_string, until_date
 			if matches[2] == 'h' then
@@ -198,13 +198,13 @@ function _M:onCallbackQuery(matches)
 				until_date = msg.date + (time_value * 60)
 			end
 
-			local ok, err = u:banUser(msg.chat.id, user_id, until_date)
+			local ok, err = u:banUser(msg.from.chat.id, user_id, until_date)
 			if ok then
 				local text = i18n("User banned for %d %s"):format(time_value, timeframe_string)
-				api:editMessageText(msg.chat.id, msg.message_id, nil, text)
+				api:editMessageText(msg.from.chat.id, msg.message_id, nil, text)
 				red:del(key)
 			else
-				api:editMessageText(msg.chat.id, msg.message_id, nil, err)
+				api:editMessageText(msg.from.chat.id, msg.message_id, nil, err)
 			end
 		end
 	end

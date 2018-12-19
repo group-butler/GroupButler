@@ -127,12 +127,12 @@ end
 -- otherwise it processes all available placeholders.
 function _M:replaceholders(str, msg, ...)
 	if msg.new_chat_member then
-		msg.from = msg.new_chat_member
+		msg.from.user = msg.new_chat_member
 	elseif msg.left_chat_member then
-		msg.from = msg.left_chat_member
+		msg.from.user = msg.left_chat_member
 	end
 
-	msg.chat.title = msg.chat.title and msg.chat.title or '-'
+	msg.from.chat.title = msg.from.chat.title and msg.from.chat.title or '-'
 
 	local tail_arguments = {...}
 	-- check that the second argument is a boolean and true
@@ -141,24 +141,24 @@ function _M:replaceholders(str, msg, ...)
 	local replace_map
 	if non_escapable then
 		replace_map = {
-			name = msg.from.first_name,
-			surname = msg.from.last_name and msg.from.last_name or '',
-			username = msg.from.username and '@'..msg.from.username or '-',
-			id = msg.from.id,
-			title = msg.chat.title,
-			rules = self:deeplink_constructor(msg.chat.id, "rules"),
+			name = msg.from.user.first_name,
+			surname = msg.from.user.last_name and msg.from.user.last_name or '',
+			username = msg.from.user.username and '@'..msg.from.user.username or '-',
+			id = msg.from.user.id,
+			title = msg.from.chat.title,
+			rules = self:deeplink_constructor(msg.from.chat.id, "rules"),
 		}
 		-- remove flag about escaping
 		table.remove(tail_arguments, 1)
 	else
 		replace_map = {
-			name = msg.from.first_name:escape(),
-			surname = msg.from.last_name and msg.from.last_name:escape() or '',
-			username = msg.from.username and '@'..msg.from.username:escape() or '-',
-			userorname = msg.from.username and '@'..msg.from.username:escape() or msg.from.first_name:escape(),
-			id = msg.from.id,
-			title = msg.chat.title:escape(),
-			rules = self:deeplink_constructor(msg.chat.id, "rules"),
+			name = msg.from.user.first_name:escape(),
+			surname = msg.from.user.last_name and msg.from.user.last_name:escape() or '',
+			username = msg.from.user.username and '@'..msg.from.user.username:escape() or '-',
+			userorname = msg.from.user.username and '@'..msg.from.user.username:escape() or msg.from.user.first_name:escape(),
+			id = msg.from.user.id,
+			title = msg.from.chat.title:escape(),
+			rules = self:deeplink_constructor(msg.from.chat.id, "rules"),
 		}
 	end
 
@@ -202,8 +202,8 @@ function _M:is_admin(chat_id, user_id)
 	local red = p(self).red
 	if type(chat_id) == 'table' then
 		local msg = chat_id
-		chat_id = msg.chat.id
-		user_id = msg.from.id
+		chat_id = msg.from.chat.id
+		user_id = msg.from.user.id
 	end
 	if tonumber(red:get('cache:chat:'..chat_id..':owner')) == user_id then
 		return true
@@ -219,8 +219,8 @@ function _M:is_owner(chat_id, user_id)
 	local red = p(self).red
 	if type(chat_id) == 'table' then
 		local msg = chat_id
-		chat_id = msg.chat.id
-		user_id = msg.from.id
+		chat_id = msg.from.chat.id
+		user_id = msg.from.user.id
 	end
 
 	local hash = 'cache:chat:'..chat_id..':owner'
@@ -679,7 +679,7 @@ function _M:sendStartMe(msg)
 	local keyboard = {
 		inline_keyboard = {{{text = i18n("Start me"), url = 'https://telegram.me/'..bot.username}}}
 		}
-	api:sendMessage(msg.chat.id, i18n("please message me first so I can message you_"), 'Markdown', nil, nil, nil,
+	api:sendMessage(msg.from.chat.id, i18n("_Please message me first so I can message you_"), 'Markdown', nil, nil, nil,
 		keyboard)
 end
 
@@ -726,10 +726,10 @@ function _M:getnames_complete(msg)
 	local i18n = p(self).i18n
 	local admin, kicked
 
-	admin = self:getname_link(msg.from)
+	admin = self:getname_link(msg.from.user)
 
 	if msg.reply then
-		kicked = self:getname_link(msg.reply.from)
+		kicked = self:getname_link(msg.reply.from.user)
 	elseif msg.text:match(config.cmd..'%w%w%w%w?%w?%s(@[%w_]+)%s?') then
 		local username = msg.text:match('%s(@[%w_]+)')
 		kicked = username
@@ -741,7 +741,7 @@ function _M:getnames_complete(msg)
 		end
 	elseif msg.text:match(config.cmd..'%w%w%w%w?%w?%s(%d+)') then
 		local id = msg.text:match(config.cmd..'%w%w%w%w?%w?%s(%d+)')
-		local res = api:getChatMember(msg.chat.id, id)
+		local res = api:getChatMember(msg.from.chat.id, id)
 		if res then
 			kicked = self:getname_final(res.user)
 		end
@@ -762,9 +762,9 @@ function _M:getUserId(msg, blocks)
 
 	if msg.reply then
 		if msg.reply.new_chat_member then
-			msg.reply.from = msg.reply.new_chat_member
+			msg.reply.from.user = msg.reply.new_chat_member
 		end
-		return msg.reply.from.id
+		return msg.reply.from.user.id
 	end
 
 	if blocks[2]:byte(1) == string.byte("@") then
@@ -793,17 +793,17 @@ function _M:logEvent(event, msg, extra)
 	local bot = p(self).bot
 	local red = p(self).red
 	local i18n = p(self).i18n
-	local log_id = red:hget('bot:chatlogs', msg.chat.id)
+	local log_id = red:hget('bot:chatlogs', msg.from.chat.id)
 	-- self:dump(extra)
 
 	if not log_id or log_id == null then return end
-	local is_loggable = red:hget('chat:'..msg.chat.id..':tolog', event)
+	local is_loggable = red:hget('chat:'..msg.from.chat.id..':tolog', event)
 	if not is_loggable == 'yes' then return end
 
 	local text, reply_markup
 
-	local chat_info = i18n("<b>Chat</b>: %s [#chat%d]"):format(msg.chat.title:escape_html(), msg.chat.id * -1)
-	local member = ("%s [@%s] [#id%d]"):format(msg.from.first_name:escape_html(), msg.from.username or '-', msg.from.id)
+	local chat_info = i18n("<b>Chat</b>: %s [#chat%d]"):format(msg.from.chat.title:escape_html(), msg.from.chat.id * -1)
+	local member = ("%s [@%s] [#id%d]"):format(msg.from.user.first_name:escape_html(), msg.from.user.username or '-', msg.from.user.id)
 
 	local log_event = {
 		mediawarn = function()
@@ -858,7 +858,7 @@ function _M:logEvent(event, msg, extra)
 			local member2 = ("%s [@%s] [#id%d]"):format(msg.new_chat_member.first_name:escape_html(),
 				msg.new_chat_member.username or '-', msg.new_chat_member.id)
 			text = i18n('%s\n• %s\n• <b>User</b>: %s'):format('#NEW_MEMBER', chat_info, member2)
-			if extra then --extra == msg.from
+			if extra then --extra == msg.from.user
 				text = text..i18n("\n• <b>Added by</b>: %s [#id%d]"):format(self:getname_final(extra), extra.id)
 			end
 		end,
@@ -873,7 +873,7 @@ function _M:logEvent(event, msg, extra)
 			--motivation: motivation
 			text = i18n(
 				'#%s\n• <b>Admin</b>: %s [#id%d]\n• %s\n• <b>User</b>: %s [#id%d]\n• <b>Count</b>: <code>%d/%d</code>'
-			):format(event:upper(), extra.admin, msg.from.id, chat_info, extra.user, extra.user_id, extra.warns, extra.warnmax)
+			):format(event:upper(), extra.admin, msg.from.user.id, chat_info, extra.user, extra.user_id, extra.warns, extra.warnmax)
 		end,
 		nowarn = function()
 			--WARNS REMOVED
@@ -881,11 +881,11 @@ function _M:logEvent(event, msg, extra)
 			--user name formatted: user
 			--user id: user_id
 			text = i18n("#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n• <b>User</b>: %s [#id%s]"):format(
-				'WARNS_RESET', extra.admin, msg.from.id, chat_info, extra.user, tostring(extra.user_id))
+				'WARNS_RESET', extra.admin, msg.from.user.id, chat_info, extra.user, tostring(extra.user_id))
 		end,
 		block = function() -- or unblock
 			text = i18n('#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n'
-			):format(event:upper(), self:getname_final(msg.from), msg.from.id, chat_info)
+			):format(event:upper(), self:getname_final(msg.from.user), msg.from.user.id, chat_info)
 			if extra.n then
 				text = text..i18n('• <i>Users involved: %d</i>'):format(extra.n)
 			elseif extra.user then
@@ -902,7 +902,7 @@ function _M:logEvent(event, msg, extra)
 			--motivation: motivation
 			text = i18n(
 			'#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n• <b>User</b>: %s [#id%s]\n• <b>Duration</b>: %d days, %d hours'
-			):format(event:upper(), extra.admin, msg.from.id, chat_info, extra.user, tostring(extra.user_id), extra.d, extra.h)
+			):format(event:upper(), extra.admin, msg.from.user.id, chat_info, extra.user, tostring(extra.user_id), extra.d, extra.h)
 		end,
 		ban = function() -- or kick or unban
 			--BAN OR KICK OR UNBAN
@@ -911,7 +911,7 @@ function _M:logEvent(event, msg, extra)
 			--user id: user_id
 			--motivation: motivation
 			text = i18n('#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n• <b>User</b>: %s [#id%s]'):format(
-				event:upper(), extra.admin, msg.from.id, chat_info, extra.user, tostring(extra.user_id))
+				event:upper(), extra.admin, msg.from.user.id, chat_info, extra.user, tostring(extra.user_id))
 		end,
 	} set_default(log_event, function()
 			text = i18n('#%s\n• %s\n• <b>By</b>: %s'):format(event:upper(), chat_info, member)
@@ -928,7 +928,7 @@ function _M:logEvent(event, msg, extra)
 		reply_markup = {
 			inline_keyboard = {{{
 				text = i18n("Unban"),
-				callback_data = ("logcb:un%s:%d:%d"):format(event, extra.user_id, msg.chat.id)
+				callback_data = ("logcb:un%s:%d:%d"):format(event, extra.user_id, msg.from.chat.id)
 			}}}
 		}
 	end
@@ -942,9 +942,9 @@ function _M:logEvent(event, msg, extra)
 		end
 	end
 
-	if msg.chat.username then
+	if msg.from.chat.username then
 		text = text..
-			('\n• <a href="telegram.me/%s/%d">%s</a>'):format(msg.chat.username, msg.message_id, i18n('Go to the message'))
+			('\n• <a href="telegram.me/%s/%d">%s</a>'):format(msg.from.chat.username, msg.message_id, i18n('Go to the message'))
 	end
 
 	local ok, err = api:send_message{
@@ -955,7 +955,7 @@ function _M:logEvent(event, msg, extra)
 		reply_markup = reply_markup
 	}
 	if not ok and err.description:match("chat not found") then
-		red:hdel('bot:chatlogs', msg.chat.id)
+		red:hdel('bot:chatlogs', msg.from.chat.id)
 	end
 end
 

@@ -111,7 +111,7 @@ function _M:onCallbackQuery(blocks)
 	local i18n = self.i18n
 	local u = self.u
 	local chat_id = msg.target_id
-	if chat_id and not u:is_allowed('config', chat_id, msg.from) then
+	if chat_id and not u:is_allowed('config', chat_id, msg.from.user) then
 		api:answerCallbackQuery(msg.cb_id, i18n("You're no longer an admin"))
 	else
 		local media_first = i18n([[
@@ -125,7 +125,7 @@ When a media is set to delete, the bot will give a warning *only* when this is t
 
 		if blocks[1] == 'config' then
 			local keyboard = doKeyboard_media(self, chat_id)
-			api:editMessageText(msg.chat.id, msg.message_id, nil, media_first, "Markdown", nil, keyboard)
+			api:editMessageText(msg.from.chat.id, msg.message_id, nil, media_first, "Markdown", nil, keyboard)
 		else
 			if blocks[1] == 'mediallert' then
 				api:answerCallbackQuery(msg.cb_id, i18n("⚠️ Tap on the right column"), false,
@@ -172,7 +172,7 @@ When a media is set to delete, the bot will give a warning *only* when this is t
 				cb_text = change_media_status(self, chat_id, media)
 			end
 			local keyboard = doKeyboard_media(self, chat_id)
-			api:editMessageText(msg.chat.id, msg.message_id, nil, media_first, "Markdown", nil, keyboard)
+			api:editMessageText(msg.from.chat.id, msg.message_id, nil, media_first, "Markdown", nil, keyboard)
 			api:answerCallbackQuery(msg.cb_id, cb_text)
 		end
 	end
