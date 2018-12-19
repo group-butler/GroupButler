@@ -1,4 +1,5 @@
 local log = require("groupbutler.logging")
+local User = require("groupbutler.user")
 
 local ChatMember = {}
 
@@ -39,6 +40,9 @@ function ChatMember:getProperty(index)
 			end
 			for k,v in pairs(ok) do
 				self[k] = v
+				if k == "user" then
+					User:new(self.user, p(self))
+				end
 			end
 			self:cache()
 			property = rawget(self, index)
