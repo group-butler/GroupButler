@@ -113,7 +113,7 @@ function _M:onTextMessage(blocks)
 			return
 		end
 
-		local user_id, error_tr_id = u:get_user_id(msg, blocks)
+		local user_id, error_tr_id = u:getUserId(msg, blocks)
 		if not user_id then
 			msg:send_reply(error_tr_id, "Markdown")
 			return
@@ -161,7 +161,7 @@ function _M:onTextMessage(blocks)
 		end
 
 		------------------ get user_id --------------------------
-		local user_id, err = u:get_user_id(msg, blocks)
+		local user_id, err = u:getUserId(msg, blocks)
 
 		if not user_id then
 			msg:send_reply(err, "Markdown")

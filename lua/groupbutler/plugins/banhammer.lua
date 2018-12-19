@@ -62,7 +62,7 @@ function _M:onTextMessage(blocks)
 		return
 	end
 
-	local user_id, error_translation_key = u:get_user_id(msg, blocks)
+	local user_id, error_translation_key = u:getUserId(msg, blocks)
 
 	if not user_id and blocks[1] ~= "kickme" and blocks[1] ~= "fwdban" then
 		msg:send_reply(error_translation_key, "Markdown")

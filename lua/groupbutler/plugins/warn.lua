@@ -72,7 +72,7 @@ function _M:onTextMessage(blocks)
 	end
 
 	--do not reply when...
-	local user_id, err_msg = u:get_user_id(msg, blocks)
+	local user_id, err_msg = u:getUserId(msg, blocks)
 	if not user_id then
 		msg:send_reply(err_msg, "Markdown")
 		return

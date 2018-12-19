@@ -365,7 +365,7 @@ function _M:resolve_user(username)
 	assert(username:byte(1) == string.byte('@'))
 	username = username:lower()
 
-	local stored_id = p(self).db:get_user_id(username)
+	local stored_id = p(self).db:getUserId(username)
 	if not stored_id then return false end
 
 	local user_obj = api:getChat(stored_id)
@@ -378,7 +378,7 @@ function _M:resolve_user(username)
 
 	-- Users could change their username
 	if username ~= '@' .. user_obj.username:lower() then
-		p(self).db:cache_user(user_obj)
+		p(self).db:cacheUser(user_obj)
 		-- And return false because this user not the same that asked
 		return false
 	end
@@ -751,7 +751,7 @@ function _M:getnames_complete(msg)
 	return admin, kicked
 end
 
-function _M:get_user_id(msg, blocks)
+function _M:getUserId(msg, blocks)
 	local i18n = p(self).i18n
 	--if no user id: returns false and the msg id of the translation for the problem
 	if not msg.reply and not blocks[2] then
