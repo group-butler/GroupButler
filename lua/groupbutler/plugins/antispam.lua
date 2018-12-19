@@ -55,7 +55,7 @@ function _M:on_message()
 	local red = self.red
 	local i18n = self.i18n
 
-	if not msg.inline and msg.spam and msg.from.chat.id < 0 and not msg.cb and not msg:is_from_admin() then
+	if not msg.inline and msg.spam and msg.from.chat.id < 0 and not msg.cb and not msg.from:isAdmin() then
 		local status = red:hget('chat:'..msg.from.chat.id..':antispam', msg.spam)
 		if status ~= null and status ~= 'alwd' then
 			local whitelisted

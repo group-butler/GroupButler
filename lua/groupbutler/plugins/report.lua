@@ -118,7 +118,7 @@ function _M:onTextMessage(blocks)
 			end
 			msg:send_reply(text, "Markdown")
 		else
-			if not msg.reply or msg:is_from_admin() then
+			if not msg.reply or msg.from:isAdmin() then
 				return
 			end
 

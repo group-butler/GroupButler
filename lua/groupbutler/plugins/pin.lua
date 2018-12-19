@@ -93,7 +93,7 @@ function _M:onTextMessage(blocks)
 	local msg = self.message
 
 	if msg.from.chat.type == "private"
-	or not msg:is_from_admin() then
+	or not msg.from:isAdmin() then
 		return
 	end
 

@@ -35,7 +35,7 @@ function _M:onTextMessage()
 	local i18n = self.i18n
 
 	if msg.from.chat.type ~= "supergroup"
-	or not msg:is_from_admin() then
+	or not msg.from:isAdmin() then
 		return
 	end
 

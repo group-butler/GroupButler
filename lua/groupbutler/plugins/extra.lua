@@ -62,7 +62,7 @@ function _M:onTextMessage(blocks)
 	if blocks[1] == 'extra' then
 		if not blocks[2] then return end
 		if not blocks[3] and not msg.reply then return end
-		if not msg:is_from_admin() then return end
+		if not msg.from:isAdmin() then return end
 
 		if msg.reply and not blocks[3] then
 			local file_id = msg.reply:get_file_id()
@@ -96,13 +96,13 @@ function _M:onTextMessage(blocks)
 		end
 	elseif blocks[1] == 'extra list' then
 		local text = u:getExtraList(msg.from.chat.id)
-		if not is_locked(self, msg.from.chat.id) and not msg:is_from_admin() then
+		if not is_locked(self, msg.from.chat.id) and not msg.from:isAdmin() then
 			api:sendMessage(msg.from.user.id, text)
 		else
 			msg:send_reply(text)
 		end
 		elseif blocks[1] == 'extra del' then
-			if not msg:is_from_admin() then return end
+			if not msg.from:isAdmin() then return end
 			local deleted, not_found, found = {}, {}
 			local hash = 'chat:'..msg.from.chat.id..':extra'
 			for extra in blocks[2]:gmatch('(#[%w_]+)') do
@@ -135,7 +135,7 @@ function _M:onTextMessage(blocks)
 		local _, err
 
 		if msg.from.chat.id > 0
-		or(is_locked(self, msg.from.chat.id) and not msg:is_from_admin()) then -- send it in private
+		or(is_locked(self, msg.from.chat.id) and not msg.from:isAdmin()) then -- send it in private
 			if not file_id then
 				local reply_markup, clean_text = u:reply_markup_from_text(u:replaceholders(text, msg.reply or msg))
 				_, err = api:sendMessage(msg.from.user.id, clean_text, "Markdown", link_preview, nil, nil, reply_markup)

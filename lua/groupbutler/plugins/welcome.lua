@@ -19,7 +19,7 @@ local function ban_bots(self, msg)
 
 	-- ignore if added by an admin or new member joined by link or the setting is disabled
 	if msg.from.user.id == msg.new_chat_member.id
-	or msg:is_from_admin()
+	or msg.from:isAdmin()
 	or not db:get_chat_setting(msg.from.chat.id, 'Antibot') then
 		return
 	end

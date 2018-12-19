@@ -106,7 +106,7 @@ function _M:onCallbackQuery(blocks)
 
 	if blocks[1] == 'logcb' then
 		local chat_id = msg.target_id
-		if not msg:is_from_admin() then
+		if not msg.from:isAdmin() then
 			api:answerCallbackQuery(msg.cb_id, i18n("You are not admin of this group"), true)
 		else
 			if blocks[2] == 'unban' or blocks[2] == 'untempban' then
@@ -156,7 +156,7 @@ function _M:onTextMessage(blocks)
 	local i18n = self.i18n
 
 	if msg.from.chat.type ~= 'private' then
-		if not msg:is_from_admin() then return end
+		if not msg.from:isAdmin() then return end
 
 		if blocks[1] == 'setlog' then
 			if msg.forward_from_chat then

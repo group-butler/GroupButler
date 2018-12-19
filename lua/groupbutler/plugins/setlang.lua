@@ -40,7 +40,7 @@ function _M:onCallbackQuery(blocks)
 	local red = self.red
 	local i18n = self.i18n
 
-	if msg.from.chat.type ~= 'private' and not msg:is_from_admin() then
+	if msg.from.chat.type ~= 'private' and not msg.from:isAdmin() then
 		api:answerCallbackQuery(msg.cb_id, i18n("You are not an admin"))
 	else
 		if blocks[1] == 'selectlang' then

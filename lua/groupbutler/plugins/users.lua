@@ -94,14 +94,14 @@ function _M:onTextMessage(blocks)
 	if msg.from.chat.type == 'private' then return end
 
 	if blocks[1] == 'id' then --in groups: send chat ID
-		if msg.from.chat.id < 0 and msg:is_from_admin() then
+		if msg.from.chat.id < 0 and msg.from:isAdmin() then
 			api:sendMessage(msg.from.chat.id, string.format('`%d`', msg.from.chat.id), "Markdown")
 		end
 	end
 
 	if blocks[1] == 'adminlist' then
 		local adminlist = u:getAdminlist(msg.from.chat.id)
-		if not msg:is_from_admin() then
+		if not msg.from:isAdmin() then
 			api:sendMessage(msg.from.user.id, adminlist, 'html', true)
 		else
 			msg:send_reply(adminlist, 'html', true)
@@ -109,7 +109,7 @@ function _M:onTextMessage(blocks)
 	end
 
 	if blocks[1] == 'status' then
-		if (not blocks[2] and not msg.reply) or not msg:is_from_admin() then
+		if (not blocks[2] and not msg.reply) or not msg.from:isAdmin() then
 			return
 		end
 
@@ -151,7 +151,7 @@ function _M:onTextMessage(blocks)
 		msg:send_reply(text, 'html')
 	end
 	if blocks[1] == 'user' then
-		if not msg:is_from_admin() then return end
+		if not msg.from:isAdmin() then return end
 
 		if not msg.reply
 			and (not blocks[2] or (not blocks[2]:match('@[%w_]+$') and not blocks[2]:match('%d+$')
@@ -176,7 +176,7 @@ function _M:onTextMessage(blocks)
 		api:sendMessage(msg.from.chat.id, text, "Markdown", nil, nil, nil, keyboard)
 	end
 	if blocks[1] == 'cache' then
-		if not msg:is_from_admin() then return end
+		if not msg.from:isAdmin() then return end
 		local hash = 'cache:chat:'..msg.from.chat.id..':admins'
 		local seconds = red:ttl(hash)
 		local cached_admins = red:scard(hash)
@@ -190,13 +190,13 @@ function _M:onTextMessage(blocks)
 
 		local text = string.format('[%s](https://telegram.me/%s/%d)',
 			i18n("Message N° %d"):format(msg.reply.message_id), msg.from.chat.username, msg.reply.message_id)
-		if not u:is_silentmode_on(msg.from.chat.id) or msg:is_from_admin() then
+		if not u:is_silentmode_on(msg.from.chat.id) or msg.from:isAdmin() then
 			msg.reply:send_reply(text, "Markdown")
 		else
 			api:sendMessage(msg.from.user.id, text, "Markdown")
 		end
 	end
-	if blocks[1] == 'leave' and msg:is_from_admin() then
+	if blocks[1] == 'leave' and msg.from:isAdmin() then
 		-- u:remGroup(msg.from.chat.id)
 		api:leaveChat(msg.from.chat.id)
 	end
@@ -210,7 +210,7 @@ function _M:onCallbackQuery(blocks)
 	local i18n = self.i18n
 	local u = self.u
 
-	if not msg:is_from_admin() then
+	if not msg.from:isAdmin() then
 		api:answerCallbackQuery(msg.cb_id, i18n("You are not allowed to use this button"))
 		return
 	end
@@ -228,7 +228,7 @@ function _M:onCallbackQuery(blocks)
 			user_id = blocks[2]
 		})
 	end
-	if blocks[1] == 'recache' and msg:is_from_admin() then
+	if blocks[1] == 'recache' and msg.from:isAdmin() then
 		local missing_sec = tonumber(red:ttl('cache:chat:'..msg.target_id..':admins') or 0)
 		local wait = 600
 		if config.bot_settings.cache_time.adminlist - missing_sec < wait then

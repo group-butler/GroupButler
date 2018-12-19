@@ -89,7 +89,7 @@ function _M:onTextMessage(blocks)
 	local i18n = self.i18n
 	local u = self.u
 
-	if not msg:is_from_admin() then return end
+	if not msg.from:isAdmin() then return end
 
 	if blocks[1] == 'snap' then
 		local key = 'chat:'..msg.from.chat.id..':lastsnap'

@@ -97,7 +97,7 @@ function _M:on_message()
 				local status = red:hget('chat:'..msg.from.chat.id..':settings', 'Flood')
 				if status == null then status = config.chat_settings['settings']['Flood'] end
 
-			if status == 'on' and not msg.cb and not msg:is_from_admin() then --if the status is on, and the user is not an admin, and the message is not a callback, then:
+			if status == 'on' and not msg.cb and not msg.from:isAdmin() then --if the status is on, and the user is not an admin, and the message is not a callback, then:
 				local action = red:hget('chat:'..msg.from.chat.id..':flood', 'ActionFlood')
 					local name = u:getname_final(msg.from.user)
 					local ok, message
@@ -144,7 +144,7 @@ function _M:on_message()
 						whitelisted = is_whitelisted(self, msg.from.chat.id, msg.text)
 				end
 
-			if not whitelisted and not msg:is_from_admin() then -- Postpone admin check to avoid hitting API limits
+			if not whitelisted and not msg.from:isAdmin() then -- Postpone admin check to avoid hitting API limits
 					local status
 					local name = u:getname_final(msg.from.user)
 					local max_reached_var, n, max = max_reached(self, msg.from.chat.id, msg.from.user.id)
