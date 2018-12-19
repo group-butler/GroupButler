@@ -167,7 +167,7 @@ function RedisStorage:getUserId(username)
 	if username:byte(1) ~= string.byte("@") then
 		username = "@"..username
 	end
-	return tonumber(self.redis:hget("bot:usernames", username))
+	return tonumber(self.redis:hget("bot:usernames", username:lower()))
 end
 
 function RedisStorage:getUserProperty(user, property) -- luacheck: ignore
