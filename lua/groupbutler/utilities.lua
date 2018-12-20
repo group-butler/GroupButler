@@ -634,10 +634,6 @@ function _M:getnames_complete(msg) -- luacheck: ignore
 	error("calling deprecated method u:getnames_complete()")
 end
 
-function _M:getUserId(msg, blocks) -- luacheck: ignore
-	error("calling deprecated method u:getUserId()")
-end
-
 function _M:logEvent(event, msg, extra)
 	local api = p(self).api
 	local bot = p(self).bot

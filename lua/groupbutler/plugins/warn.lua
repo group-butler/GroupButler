@@ -29,8 +29,8 @@ function _M:onTextMessage(blocks)
 	local i18n = self.i18n
 	local u = self.u
 
-	if msg.from.chat.type == 'private'
-	or (msg.from.chat.type ~= 'private' and not u:is_allowed('hammer', msg.from.chat.id, msg.from.user)) then
+	if msg.from.chat.type == "private"
+	or not msg.from:isAdmin() then
 		return
 	end
 
@@ -72,34 +72,35 @@ function _M:onTextMessage(blocks)
 	end
 
 	--do not reply when...
-	local user_id, err_msg = u:getUserId(msg, blocks)
-	if not user_id then
-		msg:send_reply(err_msg, "Markdown")
-		return
+	local admin = msg.from
+	local target
+	do
+		local err
+		target, err = msg:getTargetMember(blocks)
+		if not target then
+			msg:send_reply(err, "Markdown")
+			return
+		end
 	end
-	if tonumber(user_id) == bot.id then return end
+	if tonumber(target.user.id) == bot.id then return end
 
 	if blocks[1] == 'nowarn' then
 		db:forgetUserWarns(msg.from.chat.id, msg.reply.from.user.id)
-		local admin = u:getname_final(msg.from.user)
-		local user = u:getname_final(msg.reply.from.user)
-		local text = i18n("Done! %s has been forgiven."):format(user)
+		local text = i18n("Done! %s has been forgiven."):format(target.user:getLink())
 		msg:send_reply(text, 'html')
 		u:logEvent('nowarn', msg, {
-			admin = admin,
-			user = user,
-			user_id = msg.reply.from.user.id
+			admin = admin.user,
+			user = target.user,
+			user_id = target.user.id
 		})
+		return
 	end
 
-	if u:is_admin(msg.from.chat.id, user_id) then return end
+	if target:isAdmin() then return end
 
 	if blocks[1] == 'warn'  or blocks[1] == 'sw' then
-		-- Get the user that was targeted, again, but get the name this time
-		local admin_name, target_name = u:getnames_complete(msg)
-
 		local hash = 'chat:'..msg.from.chat.id..':warns'
-		local num = tonumber(red:hincrby(hash, user_id, 1)) --add one warn
+		local num = tonumber(red:hincrby(hash, target.user.id, 1)) --add one warn
 		local nmax = tonumber(red:hget('chat:'..msg.from.chat.id..':warnsettings', 'max')) or 3 --get the max num of warnings
 		local text, res, err, hammer_log
 
@@ -111,46 +112,48 @@ function _M:onTextMessage(blocks)
 			text = i18n("%s <b>%s</b>: reached the max number of warnings (<code>%d/%d</code>)")
 			if type == 'ban' then
 				hammer_log = i18n('banned')
-				text = text:format(target_name, hammer_log, num, nmax)
-				res, err = u:banUser(msg.from.chat.id, user_id)
+				text = text:format(target, hammer_log, num, nmax)
+				res, err = target:ban()
 			elseif type == 'kick' then --kick
 				hammer_log = i18n('kicked')
-				text = text:format(target_name, hammer_log, num, nmax)
-				res, err = u:kickUser(msg.from.chat.id, user_id)
+				text = text:format(target, hammer_log, num, nmax)
+				res, err = target:kick()
 			elseif type == 'mute' then --kick
 				hammer_log = i18n('muted')
-				text = text:format(target_name, hammer_log, num, nmax)
-				res, err = u:muteUser(msg.from.chat.id, user_id)
+				text = text:format(target, hammer_log, num, nmax)
+				res, err = target:mute()
 			end
 			--if kick/ban fails, send the motivation
 			if not res then
-				if num > nmax then red:hset(hash, user_id, nmax) end --avoid to have a number of warnings bigger than the max
+				if num > nmax then red:hset(hash, target.user.id, nmax) end --avoid to have a number of warnings bigger than the max
 				text = err
 			else
-				db:forgetUserWarns(msg.from.chat.id, user_id)
+				db:forgetUserWarns(msg.from.chat.id, target.user.id)
 			end
 			--if the user reached the max num of warns, kick and send message
 			msg:send_reply(text, 'html')
 			u:logEvent('warn', msg, {
 				motivation = blocks[2],
-				admin = admin_name,
-				user = target_name,
-				user_id = user_id,
+				admin = admin.user,
+				user = target.user,
+				user_id = target.user.id,
 				hammered = hammer_log,
 				warns = num,
 				warnmax = nmax
 			})
 		else
-			text = i18n("%s <b>has been warned</b> (<code>%d/%d</code>)"):format(target_name, num, nmax)
-			local keyboard = doKeyboard_warn(self, user_id)
-			if blocks[1] ~= 'sw' then api:sendMessage(msg.from.chat.id, text, 'html', true, nil, nil, keyboard) end
+			text = i18n("%s <b>has been warned</b> (<code>%d/%d</code>)"):format(target.user, num, nmax)
+			local keyboard = doKeyboard_warn(self, target.user.id)
+			if blocks[1] ~= 'sw' then
+				api:sendMessage(msg.from.chat.id, text, 'html', true, nil, nil, keyboard)
+			end
 			u:logEvent('warn', msg, {
 				motivation = blocks[2],
 				warns = num,
 				warnmax = nmax,
-				admin = admin_name,
-				user = target_name,
-				user_id = user_id
+				admin = admin.user,
+				user = target.user,
+				user_id = target.user.id
 			})
 		end
 	end
@@ -161,11 +164,14 @@ function _M:onCallbackQuery(blocks)
 	local msg = self.message
 	local red = self.red
 	local i18n = self.i18n
-	local u = self.u
 
-	if not u:is_allowed('hammer', msg.from.chat.id, msg.from.user) then
-		api:answerCallbackQuery(msg.cb_id, i18n("You are not allowed to use this button")) return
+	if msg.from.chat.type == "private"
+	or not msg.from:isAdmin() then
+		api:answerCallbackQuery(msg.cb_id, i18n("You are not allowed to use this button"))
+		return
 	end
+
+	local admin = msg.from.user
 
 	if blocks[1] == 'removewarn' then
 		local user_id = blocks[2]
@@ -179,16 +185,17 @@ function _M:onCallbackQuery(blocks)
 			text = i18n("<b>Warn removed!</b> (%d/%d)"):format(num, nmax)
 		end
 
-		text = text .. i18n("\n(Admin: %s)"):format(u:getname_final(msg.from.user))
+		text = text .. i18n("\n(Admin: %s)"):format(admin:getLink())
 		api:editMessageText(msg.from.chat.id, msg.message_id, nil, text, 'html')
 	end
+
 	if blocks[1] == 'cleanwarns' then
 		if blocks[2] == 'yes' then
 			red:del('chat:'..msg.from.chat.id..':warns')
 			red:del('chat:'..msg.from.chat.id..':mediawarn')
 			red:del('chat:'..msg.from.chat.id..':spamwarns')
 			api:editMessageText(msg.from.chat.id, msg.message_id, nil,
-				i18n('Done. All the warnings of this group have been erased by %s'):format(u:getname_final(msg.from.user)), 'html')
+				i18n('Done. All the warnings of this group have been erased by %s'):format(admin:getLink()), 'html')
 		else
 			api:editMessageText(msg.from.chat.id, msg.message_id, nil, i18n('_Action aborted_'), "Markdown")
 		end
