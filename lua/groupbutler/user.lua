@@ -75,14 +75,14 @@ function User:getProperty(index)
 end
 
 function User:__tostring()
-	if self.first_name then
+	if rawget(self, "first_name") then
 		local name = self.first_name
-		if self.last_name then
+		if rawget(self, "last_name") then
 			name = name.." "..self.last_name
 		end
 		return name
 	end
-	if self.username then
+	if rawget(self, "username") then
 		return self.username
 	end
 	return self.id
