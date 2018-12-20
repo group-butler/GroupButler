@@ -67,7 +67,7 @@ end
 
 local function add_message_methods(object, update)
 	local message_objects = {
-		"message", "edited_message", "channel_post", -- Possible messages inside updates
+		"message", --[["edited_message",]] "channel_post", -- Possible messages inside updates
 		"reply_to_message", "pinned_message",        -- Possible messages inside messages
 	}
 	for _, message in pairs(message_objects) do
@@ -242,7 +242,7 @@ function _M:process()
 			function_key = 'onEditedMessage'
 		end
 
-		self.message = self.message or self.edited_message
+		self.message = self.message or self.edited_message -- TODO: undo this
 
 		local service_messages = {
 			"left_chat_member", "new_chat_member", "new_chat_photo", "delete_chat_photo", "group_chat_created",
