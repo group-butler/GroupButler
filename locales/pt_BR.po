@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-12-17 15:23-0200\n"
-"PO-Revision-Date: 2018-12-17 17:27\n"
+"PO-Revision-Date: 2018-12-24 19:35\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Portuguese, Brazilian\n"
 "Language: pt_BR\n"
@@ -100,7 +100,7 @@ msgstr "banido"
 #: lua/groupbutler/plugins/onmessage.lua:159
 #: lua/groupbutler/plugins/warn.lua:117
 msgid "kicked"
-msgstr "expulso"
+msgstr "expulsou"
 
 #: lua/groupbutler/plugins/antispam.lua:45
 #: lua/groupbutler/plugins/onmessage.lua:165
@@ -345,7 +345,7 @@ msgstr "Use -/+ para editar o valor, em seguida, selecione um período de tempo 
 #: lua/groupbutler/plugins/banhammer.lua:96
 #, lua-format
 msgid "%s kicked %s!"
-msgstr "%s expulso %s!"
+msgstr "%s expulsou %s!"
 
 #: lua/groupbutler/plugins/banhammer.lua:105
 #: lua/groupbutler/plugins/banhammer.lua:118
@@ -373,7 +373,7 @@ msgstr "%s desbanido por %s!"
 #: lua/groupbutler/plugins/banhammer.lua:152
 #: lua/groupbutler/plugins/defaultpermissions.lua:127
 msgid "Sorry, you don't have permission to restrict members"
-msgstr ""
+msgstr "Desculpe, você não possui permissão para restringir membros"
 
 #: lua/groupbutler/plugins/banhammer.lua:156
 msgid "Tap on the -/+ buttons to change this value. Then select a timeframe to execute the ban"
@@ -2090,7 +2090,7 @@ msgstr "*ID do usuário*: `%d`\n"
 #: lua/groupbutler/plugins/users.lua:90
 #, lua-format
 msgid "Your ID is `%d`"
-msgstr ""
+msgstr "Seu ID é `%d`"
 
 #: lua/groupbutler/plugins/users.lua:124
 msgid "That user has nothing to do with this chat"
@@ -2209,7 +2209,7 @@ msgstr "Você deseja continuar e reiniciar *todas* as advertências recebidas po
 #: lua/groupbutler/plugins/warn.lua:86
 #, lua-format
 msgid "Done! %s has been forgiven."
-msgstr ""
+msgstr "Feito! %s foi perdoado."
 
 #: lua/groupbutler/plugins/warn.lua:111
 #, lua-format
@@ -2317,7 +2317,7 @@ msgstr "Botão de Boas-Vindas"
 
 #: lua/groupbutler/utilities.lua:599
 msgid "Unknown"
-msgstr ""
+msgstr "Desconhecido"
 
 #: lua/groupbutler/utilities.lua:634
 msgid "*Welcome type*: `GIF / sticker`\n"

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-12-17 15:23-0200\n"
-"PO-Revision-Date: 2018-12-17 17:27\n"
+"PO-Revision-Date: 2018-12-24 19:34\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Ukrainian\n"
 "Language: uk_UA\n"
@@ -374,7 +374,7 @@ msgstr "%s розблокував %s!"
 #: lua/groupbutler/plugins/banhammer.lua:152
 #: lua/groupbutler/plugins/defaultpermissions.lua:127
 msgid "Sorry, you don't have permission to restrict members"
-msgstr ""
+msgstr "Вибачте, ви не маєте прав для обмеження учасників"
 
 #: lua/groupbutler/plugins/banhammer.lua:156
 msgid "Tap on the -/+ buttons to change this value. Then select a timeframe to execute the ban"
@@ -1060,7 +1060,7 @@ msgstr ""
 
 #: lua/groupbutler/plugins/help.lua:278
 msgid "📢 Bot channel"
-msgstr ""
+msgstr "📢 Bot channel"
 
 #: lua/groupbutler/plugins/help.lua:279
 msgid "🌍 Select your language"
@@ -1068,7 +1068,7 @@ msgstr "Виберіть свою мову"
 
 #: lua/groupbutler/plugins/help.lua:282
 msgid "📕 All the commands"
-msgstr ""
+msgstr "📕 All the commands"
 
 #: lua/groupbutler/plugins/help.lua:292
 msgid "Basics"
@@ -1430,15 +1430,15 @@ msgstr ""
 
 #: lua/groupbutler/plugins/menu.lua:25
 msgid "Enable or disable the goodbye message. Can't be sent in large groups"
-msgstr ""
+msgstr "Увімкнути або вимкнути прощальне повідомлення. Не може бути відправлено у великих групах"
 
 #: lua/groupbutler/plugins/menu.lua:26
 msgid "Enable or disable the welcome message"
-msgstr ""
+msgstr "Увімкнути або вимкнути привітання"
 
 #: lua/groupbutler/plugins/menu.lua:27
 msgid "When enabled, every time a new welcome message is sent, the previously sent welcome message is removed"
-msgstr ""
+msgstr "Коли увімкнено, при відправленні нового повідомлення-привітання, попереднє - видаляється"
 
 #: lua/groupbutler/plugins/menu.lua:28
 msgid "When enabled, the bot doesn't answer in the group to /dashboard, /config and /help commands (it will just answer in private)"
@@ -1462,7 +1462,9 @@ msgstr ""
 msgid "When someone uses an #extra\n"
 "👥: the bot will answer in the group (always, with admins)\n"
 "👤: the bot will answer in private"
-msgstr ""
+msgstr "Коли користувач використовує #extra\n"
+"👥: бот відправляє відповідь у групу (завжди з адміністраторами)\n"
+"👥: бот відпраляє відповідь у приват"
 
 #: lua/groupbutler/plugins/menu.lua:37
 msgid "Select what the bot should do when someone sends a message with arab characters"
@@ -1574,7 +1576,7 @@ msgstr "Видаляти сервісні повідомлення"
 
 #: lua/groupbutler/plugins/menu.lua:226
 msgid "🔨️ ban"
-msgstr "🔨️ ban"
+msgstr "🔨️ блокування"
 
 #: lua/groupbutler/plugins/menu.lua:232
 msgid "Warns: "
@@ -2238,7 +2240,7 @@ msgstr ""
 
 #: lua/groupbutler/utilities.lua:665
 msgid "#extra commands are now available only for administrators"
-msgstr ""
+msgstr "#extra команди тепер доступні адміністраторам"
 
 #: lua/groupbutler/utilities.lua:666
 msgid "Anti-flood is now off"
@@ -2274,7 +2276,7 @@ msgstr ""
 
 #: lua/groupbutler/utilities.lua:676
 msgid "#extra commands are now available for all"
-msgstr ""
+msgstr "#extra команди тепер доступні усім"
 
 #: lua/groupbutler/utilities.lua:677
 msgid "Anti-flood is now on"

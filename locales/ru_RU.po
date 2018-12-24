@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-12-17 15:23-0200\n"
-"PO-Revision-Date: 2018-12-17 17:26\n"
+"PO-Revision-Date: 2018-12-24 19:34\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Russian\n"
 "Language: ru_RU\n"
@@ -22,7 +22,7 @@ msgstr "Произошла неизвестная ошибка"
 
 #: lua/groupbutler/api_errors.lua:20
 msgid "I don't have enough permissions to restrict users"
-msgstr "У меня недостаточно прав на ограничение пользователей"
+msgstr "I don't have enough permissions to restrict users"
 
 #: lua/groupbutler/api_errors.lua:21
 msgid "I'm not an admin, I can't kick people"
@@ -373,7 +373,7 @@ msgstr "%s разблокирован администратором %s!"
 #: lua/groupbutler/plugins/banhammer.lua:152
 #: lua/groupbutler/plugins/defaultpermissions.lua:127
 msgid "Sorry, you don't have permission to restrict members"
-msgstr ""
+msgstr "У вас нет прав на ограничение прав участников"
 
 #: lua/groupbutler/plugins/banhammer.lua:156
 msgid "Tap on the -/+ buttons to change this value. Then select a timeframe to execute the ban"
@@ -724,7 +724,7 @@ msgstr "Выбери, какие медиа должны игнорироват�
 
 #: lua/groupbutler/plugins/floodmanager.lua:45
 msgid "👞️ kick"
-msgstr "👞️ выгнать"
+msgstr "👞️ кик"
 
 #: lua/groupbutler/plugins/floodmanager.lua:47
 msgid "🔨 ️ban"
@@ -1396,14 +1396,14 @@ msgid "*Select the events the will be logged in the channel*\n"
 "✅ = will be logged\n"
 "☑️ = won't be logged\n\n"
 "Tap on an option to get further information"
-msgstr "*Выберите события, которые будут журналироваться в канале*\n"
-"✅ = будет журналироваться\n"
-"☑️ = не будет журналироваться\n\n"
-"Нажмите на надпись, чтобы получить подробную информацию"
+msgstr "*Выберите события, которые будут записаны в канал*\n"
+"✅ = заносится\n"
+"☑️ = не вошли\n\n"
+"нажмите на опцию, чтобы получить дополнительную информацию"
 
 #: lua/groupbutler/plugins/logchannel.lua:168
 msgid "_Too many requests. Retry later_"
-msgstr "_Слишком много запросов. Повтори позже_"
+msgstr "_طلبات كثيرة جدا. حاول مرة أخرى لاحقا_"
 
 #: lua/groupbutler/plugins/logchannel.lua:170
 msgid "_I need to be admin in the channel_"
@@ -1420,7 +1420,7 @@ msgstr "*Канал с журналом добавлен!*"
 #: lua/groupbutler/plugins/logchannel.lua:183
 #, lua-format
 msgid "<i>%s</i> changed its log channel"
-msgstr "Изменён канал с журналом группы «%s»"
+msgstr "<i>%s</i> меняла свое русло войти"
 
 #: lua/groupbutler/plugins/logchannel.lua:186
 #, lua-format
@@ -2197,7 +2197,7 @@ msgstr "Удалить *все* предупреждения у *всех* по�
 #: lua/groupbutler/plugins/warn.lua:86
 #, lua-format
 msgid "Done! %s has been forgiven."
-msgstr ""
+msgstr "Готово! %s амнистирован."
 
 #: lua/groupbutler/plugins/warn.lua:111
 #, lua-format
