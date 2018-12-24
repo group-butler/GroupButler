@@ -1,5 +1,7 @@
 local config = require "groupbutler.config"
 local api_u = require "telegram-bot-api.utilities"
+local Chat = require("groupbutler.chat")
+local ChatMember = require("groupbutler.chatmember")
 
 local _M = {}
 
@@ -12,20 +14,32 @@ function _M:new(update_obj)
 	return plugin_obj
 end
 
-local function doKeyboardConfig(self, chat_id, user_id)
-	local u = self.u
+local function doKeyboardConfig(self, member)
 	local i18n = self.i18n
 	local reply_markup = api_u.InlineKeyboardMarkup:new()
-	reply_markup:row({text = i18n("🛠 Menu"), callback_data = 'config:menu:'..chat_id})
-	reply_markup:row({text = i18n("⚡️ Antiflood"), callback_data = 'config:antiflood:'..chat_id})
-	reply_markup:row({text = i18n("🌈 Media"), callback_data = 'config:media:'..chat_id})
-	reply_markup:row({text = i18n("🚫 Antispam"), callback_data = 'config:antispam:'..chat_id})
-	reply_markup:row({text = i18n("📥 Log channel"), callback_data = 'config:logchannel:'..chat_id})
-
-	if u:can(chat_id, user_id, "can_restrict_members") then
-		reply_markup:row({text = i18n("⛔️ Default permissions"), callback_data = 'config:defpermissions:'..chat_id})
+	reply_markup:row({text = i18n("🛠 Menu"), callback_data = "config:menu:"..member.chat.id})
+	reply_markup:row({text = i18n("⚡️ Antiflood"), callback_data = "config:antiflood:"..member.chat.id})
+	reply_markup:row({text = i18n("🌈 Media"), callback_data = "config:media:"..member.chat.id})
+	reply_markup:row({text = i18n("🚫 Antispam"), callback_data = "config:antispam:"..member.chat.id})
+	reply_markup:row({text = i18n("📥 Log channel"), callback_data = "config:logchannel:"..member.chat.id})
+	if member:can("can_restrict_members") then
+		reply_markup:row({text = i18n("⛔️ Default permissions"), callback_data = "config:defpermissions:"..member.chat.id}) -- luacheck: ignore 631
 	end
 	return reply_markup
+end
+
+local function messageConstructor(self, member)
+	local i18n = self.i18n
+	local text = i18n("<i>Change the settings of your group</i>")
+	if member.chat.title then
+		text = ("<b>%s</b>\n"):format(member.chat.title:escape_html())..text
+	end
+	return {
+		chat_id = member.user.id,
+		text = text,
+		parse_mode = "html",
+		reply_markup = doKeyboardConfig(self, member)
+	}
 end
 
 function _M:onTextMessage()
@@ -39,13 +53,7 @@ function _M:onTextMessage()
 		return
 	end
 
-	msg.from.chat:cache()
-	local res = api:sendMessage({
-		chat_id = msg.from.user.id,
-		text = ("<b>%s</b>\n"):format(msg.from.chat.title:escape_html())..i18n("<i>Change the settings of your group</i>"),
-		parse_mode = "html",
-		reply_markup = doKeyboardConfig(self, msg.from.chat.id, msg.from.user.id),
-	})
+	local res = api:sendMessage(messageConstructor(self, msg.from))
 
 	if u:is_silentmode_on(msg.from.chat.id) then -- send the response in the group only if the silent mode is off
 		return
@@ -61,23 +69,15 @@ end
 function _M:onCallbackQuery()
 	local api = self.api
 	local msg = self.message
-	local i18n = self.i18n
-	local db = self.db
 
-	local chat_id = msg.target_id
-	local text = i18n("<i>Change the settings of your group</i>")
-	local chat_title = db:getChatTitle({id=chat_id})
-	if chat_title then
-		text = ("<b>%s</b>\n"):format(chat_title:escape_html())..text
-	end
+	local member = ChatMember:new({
+		chat = Chat:new({id=msg.target_id}, self),
+		user = msg.from.user,
+	}, self)
 
-	api:editMessageText({
-		chat_id = msg.from.chat.id,
-		message_id = msg.message_id,
-		text = text,
-		parse_mode = "html",
-		reply_markup = doKeyboardConfig(self, chat_id, msg.from.user.id)
-	})
+	local body = messageConstructor(self, member)
+	body.message_id = msg.message_id
+	api:editMessageText(body)
 end
 
 _M.triggers = {
