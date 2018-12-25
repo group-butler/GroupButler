@@ -1,6 +1,7 @@
 local config = require "groupbutler.config"
 local null = require "groupbutler.null"
 local json = require "cjson"
+local User = require("groupbutler.user")
 
 local _M = {}
 
@@ -244,12 +245,12 @@ function _M:onTextMessage(blocks)
 		api:sendDocument(msg.from.user.id, path)
 	end
 	if blocks[1] == 'res' then
-		local username = blocks[2]
-		local user_id = {
-			normal = u:resolve_user(username),
-			lower = u:resolve_user(username:lower())
-		}
-		api:sendMessage(msg.from.chat.id, json.encode(user_id))
+		local user = User:new({username=blocks[2]}, self)
+		if user then
+			msg:send_reply(user:getLink(), "html")
+		else
+			msg:send_reply("User not found")
+		end
 	end
 	if blocks[1] == 'tban' then
 		if blocks[2] == 'flush' then
@@ -261,10 +262,10 @@ function _M:onTextMessage(blocks)
 		end
 	end
 	if blocks[1] == 'remban' then
-		local user_id = u:resolve_user(blocks[2])
+		local user = User:new({username = blocks[2]}, self)
 		local text
-		if user_id then
-			red:del('ban:'..user_id)
+		if user then
+			red:del('ban:'..user.id)
 			text = 'Done'
 		else
 			text = 'Username not stored'

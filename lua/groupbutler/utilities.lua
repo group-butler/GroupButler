@@ -262,12 +262,6 @@ function _M:get_date(timestamp) -- luacheck: ignore 212
 	return os.date('%d/%m/%y', timestamp)
 end
 
--- Resolves username. Returns ID of user if it was early stored in date base.
--- Argument username must begin with symbol @ (commercial 'at')
-function _M:resolve_user(username) -- luacheck: ignore
-	error("calling deprecated method u:resolve_user()")
-end
-
 function _M:reply_markup_from_text(text) -- luacheck: ignore 212
 	local clean_text = text
 	local n = 0
