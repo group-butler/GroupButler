@@ -99,7 +99,7 @@ function _M:on_message()
 
 			if status == 'on' and not msg.cb and not msg.from:isAdmin() then --if the status is on, and the user is not an admin, and the message is not a callback, then:
 				local action = red:hget('chat:'..msg.from.chat.id..':flood', 'ActionFlood')
-					local name = u:getname_final(msg.from.user)
+					local name = msg.from.user:getLink()
 					local ok, message
 				--try to kick or ban
 				if action == 'ban' then
@@ -146,7 +146,7 @@ function _M:on_message()
 
 			if not whitelisted and not msg.from:isAdmin() then -- Postpone admin check to avoid hitting API limits
 					local status
-					local name = u:getname_final(msg.from.user)
+					local name = msg.from.user:getLink()
 					local max_reached_var, n, max = max_reached(self, msg.from.chat.id, msg.from.user.id)
 					if max_reached_var then --max num reached. Kick/ban the user
 						status = red:hget('chat:'..msg.from.chat.id..':warnsettings', 'mediatype')
@@ -216,7 +216,7 @@ function _M:on_message()
 					message = i18n("%s <b>muted</b>: RTL character in names/messages are not allowed!")
 				end
 					if ok then
-						local name = u:getname_final(msg.from.user)
+						local name = msg.from.user:getLink()
 					api:sendMessage(msg.from.chat.id, message:format(name), 'html')
 					return false
 				end
@@ -240,7 +240,7 @@ function _M:on_message()
 					message = i18n("%s <b>muted</b>: arab/persian message detected!")
 				end
 					if ok then
-						local name = u:getname_final(msg.from.user)
+						local name = msg.from.user:getLink()
 					api:sendMessage(msg.from.chat.id, message:format(name), 'html')
 					return false
 					end

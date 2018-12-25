@@ -109,7 +109,7 @@ Wait [<code>%s</code>] to use it again
 
 		if not ok then return end
 
-		local name = u:getname_final(msg.from.user)
+		local name = msg.from.user:getLink()
 		red:setex(key, 10800, name) --3 hours
 		msg:send_reply(i18n('*Sent in private*'), "Markdown")
 		return

@@ -26,12 +26,12 @@ local function report(self, msg, description)
 	local u = self.u
 
 	local text = i18n(
-		'• <b>Message reported by</b>: %s (<code>%d</code>)'):format(u:getname_final(msg.from.user), msg.from.user.id)
+		'• <b>Message reported by</b>: %s (<code>%d</code>)'):format(msg.from.user:getLink(), msg.from.user.id)
 	local chat_link = red:hget('chat:'..msg.from.chat.id..':links', 'link')
 	if msg.reply.forward_from or msg.reply.forward_from_chat or msg.reply.sticker then
 		text = text..i18n(
 			'\n• <b>Reported message sent by</b>: %s (<code>%d</code>)'
-			):format(u:getname_final(msg.reply.from.user), msg.reply.from.user.id)
+			):format(msg.reply.from.user:getLink(), msg.reply.from.user.id)
 	end
 	if chat_link == null then
 		text = text..i18n('\n• <b>Group</b>: %s'):format(msg.from.chat.title:escape_html())

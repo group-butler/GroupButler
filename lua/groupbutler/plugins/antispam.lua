@@ -71,7 +71,7 @@ function _M:on_message()
 
 			if not whitelisted then
 				local hammer_text = nil
-				local name = u:getname_final(msg.from.user)
+				local name = msg.from.user:getLink()
 				local warns_received, max_allowed = getAntispamWarns(self, msg.from.chat.id, msg.from.user.id) --also increases the warns counter
 
 				if warns_received >= max_allowed then

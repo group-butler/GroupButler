@@ -325,16 +325,6 @@ function _M:migrate_chat_info(old, new, on_request)
 	end
 end
 
--- Return user mention for output a text
-function _M:getname_final(user) -- luacheck: ignore
-	error("calling deprecated method u:getname_final()")
-end
-
--- Return link to user profile or false, if they don't have login
-function _M:getname_link(user) -- luacheck: ignore 212
-	error("calling deprecated method u:getname_link()")
-end
-
 function _M:bash(str) -- luacheck: ignore 212
 	local cmd = io.popen(str)
 	local result = cmd:read('*all')
@@ -594,10 +584,6 @@ function _M:remGroup(chat_id)
 	db:deleteChat({id=chat_id})
 end
 
-function _M:getnames_complete(msg) -- luacheck: ignore
-	error("calling deprecated method u:getnames_complete()")
-end
-
 function _M:logEvent(event, msg, extra)
 	local api = p(self).api
 	local bot = p(self).bot
@@ -669,7 +655,7 @@ function _M:logEvent(event, msg, extra)
 				msg.new_chat_member.username or '-', msg.new_chat_member.id)
 			text = i18n('%s\n• %s\n• <b>User</b>: %s'):format('#NEW_MEMBER', chat_info, member2)
 			if extra then --extra == msg.from.user
-				text = text..i18n("\n• <b>Added by</b>: %s [#id%d]"):format(self:getname_final(extra), extra.id)
+				text = text..i18n("\n• <b>Added by</b>: %s [#id%d]"):format(extra:getLink(), extra.id)
 			end
 		end,
 		-- events that requires user + admin
@@ -695,7 +681,7 @@ function _M:logEvent(event, msg, extra)
 		end,
 		block = function() -- or unblock
 			text = i18n('#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n'
-			):format(event:upper(), self:getname_final(msg.from.user), msg.from.user.id, chat_info)
+			):format(event:upper(), msg.from.user, msg.from.user.id, chat_info)
 			if extra.n then
 				text = text..i18n('• <i>Users involved: %d</i>'):format(extra.n)
 			elseif extra.user then
