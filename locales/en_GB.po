@@ -211,7 +211,7 @@ msgstr ""
 
 #: lua/groupbutler/plugins/antispam.lua:206
 #: lua/groupbutler/plugins/defaultpermissions.lua:68
-#: lua/groupbutler/plugins/floodmanager.lua:24
+#: lua/groupbutler/plugins/floodmanager.lua:26
 #: lua/groupbutler/plugins/logchannel.lua:37
 #: lua/groupbutler/plugins/menu.lua:44
 #: lua/groupbutler/plugins/private_settings.lua:25
@@ -231,7 +231,6 @@ msgid "Mute 👁"
 msgstr ""
 
 #: lua/groupbutler/plugins/antispam.lua:292
-#: lua/groupbutler/plugins/floodmanager.lua:144
 #: lua/groupbutler/plugins/logchannel.lua:125
 #: lua/groupbutler/plugins/mediasettings.lua:115
 msgid "You're no longer an admin"
@@ -461,12 +460,12 @@ msgid "_I've sent you the keyboard via private message_"
 msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:20
-#: lua/groupbutler/plugins/floodmanager.lua:36
+#: lua/groupbutler/plugins/floodmanager.lua:38
 msgid "✅ | ON"
 msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:22
-#: lua/groupbutler/plugins/floodmanager.lua:38
+#: lua/groupbutler/plugins/floodmanager.lua:40
 msgid "❌ | OFF"
 msgstr ""
 
@@ -481,45 +480,45 @@ msgid "🔨 ban"
 msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:33
-#: lua/groupbutler/plugins/floodmanager.lua:49
+#: lua/groupbutler/plugins/floodmanager.lua:51
 #: lua/groupbutler/plugins/menu.lua:166 lua/groupbutler/plugins/menu.lua:230
 msgid "👁 mute"
 msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:38
-#: lua/groupbutler/plugins/floodmanager.lua:67
+#: lua/groupbutler/plugins/floodmanager.lua:69
 msgid "Texts"
 msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:39
-#: lua/groupbutler/plugins/floodmanager.lua:68
+#: lua/groupbutler/plugins/floodmanager.lua:70
 msgid "Forwards"
 msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:40
 #: lua/groupbutler/plugins/dashboard.lua:167
-#: lua/groupbutler/plugins/floodmanager.lua:69
+#: lua/groupbutler/plugins/floodmanager.lua:71
 #: lua/groupbutler/plugins/mediasettings.lua:42
 msgid "Stickers"
 msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:41
 #: lua/groupbutler/plugins/dashboard.lua:159
-#: lua/groupbutler/plugins/floodmanager.lua:70
+#: lua/groupbutler/plugins/floodmanager.lua:72
 #: lua/groupbutler/plugins/mediasettings.lua:33
 msgid "Images"
 msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:42
 #: lua/groupbutler/plugins/dashboard.lua:160
-#: lua/groupbutler/plugins/floodmanager.lua:71
+#: lua/groupbutler/plugins/floodmanager.lua:73
 #: lua/groupbutler/plugins/mediasettings.lua:34
 msgid "GIFs"
 msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:43
 #: lua/groupbutler/plugins/dashboard.lua:161
-#: lua/groupbutler/plugins/floodmanager.lua:72
+#: lua/groupbutler/plugins/floodmanager.lua:74
 #: lua/groupbutler/plugins/mediasettings.lua:35
 msgid "Videos"
 msgstr ""
@@ -747,11 +746,11 @@ msgstr ""
 msgid "_Please_ [start me](%s) _so I can send you the answer_"
 msgstr ""
 
-#: lua/groupbutler/plugins/floodmanager.lua:18
+#: lua/groupbutler/plugins/floodmanager.lua:20
 msgid "⚖ Current sensitivity. Tap on the + or the - to change it"
 msgstr ""
 
-#: lua/groupbutler/plugins/floodmanager.lua:20
+#: lua/groupbutler/plugins/floodmanager.lua:22
 msgid ""
 "Choose which media must be ignored by the antiflood (the bot won't consider "
 "them).\n"
@@ -759,33 +758,38 @@ msgid ""
 "❌: not ignored"
 msgstr ""
 
-#: lua/groupbutler/plugins/floodmanager.lua:45
+#: lua/groupbutler/plugins/floodmanager.lua:47
 msgid "👞️ kick"
 msgstr ""
 
-#: lua/groupbutler/plugins/floodmanager.lua:47
+#: lua/groupbutler/plugins/floodmanager.lua:49
 msgid "🔨 ️ban"
 msgstr ""
 
-#: lua/groupbutler/plugins/floodmanager.lua:106
+#: lua/groupbutler/plugins/floodmanager.lua:108
 msgid "Flooders will be banned"
 msgstr ""
 
-#: lua/groupbutler/plugins/floodmanager.lua:109
+#: lua/groupbutler/plugins/floodmanager.lua:111
 msgid "Flooders will be kicked"
 msgstr ""
 
-#: lua/groupbutler/plugins/floodmanager.lua:112
+#: lua/groupbutler/plugins/floodmanager.lua:114
 msgid "Flooders will be muted"
 msgstr ""
 
-#: lua/groupbutler/plugins/floodmanager.lua:121
-#: lua/groupbutler/plugins/floodmanager.lua:128
+#: lua/groupbutler/plugins/floodmanager.lua:123
+#: lua/groupbutler/plugins/floodmanager.lua:130
 #, lua-format
 msgid "%d is not a valid value!\n"
 msgstr ""
 
-#: lua/groupbutler/plugins/floodmanager.lua:146
+#: lua/groupbutler/plugins/floodmanager.lua:157
+#: lua/groupbutler/plugins/menu.lua:271
+msgid "Sorry, you don't have permission to change settings"
+msgstr ""
+
+#: lua/groupbutler/plugins/floodmanager.lua:161
 msgid ""
 "You can manage the antiflood settings from here.\n"
 "\n"
@@ -793,16 +797,16 @@ msgid ""
 "ignore (✅)"
 msgstr ""
 
-#: lua/groupbutler/plugins/floodmanager.lua:153
+#: lua/groupbutler/plugins/floodmanager.lua:168
 msgid "Antiflood settings"
 msgstr ""
 
-#: lua/groupbutler/plugins/floodmanager.lua:168
+#: lua/groupbutler/plugins/floodmanager.lua:177
 #, lua-format
 msgid "❎ [%s] will be ignored by the anti-flood"
 msgstr ""
 
-#: lua/groupbutler/plugins/floodmanager.lua:171
+#: lua/groupbutler/plugins/floodmanager.lua:180
 #, lua-format
 msgid "🚫 [%s] won't be ignored by the anti-flood"
 msgstr ""
@@ -1777,10 +1781,6 @@ msgstr ""
 
 #: lua/groupbutler/plugins/menu.lua:239
 msgid "Action:"
-msgstr ""
-
-#: lua/groupbutler/plugins/menu.lua:271
-msgid "Sorry, you don't have permission to change settings"
 msgstr ""
 
 #: lua/groupbutler/plugins/menu.lua:275

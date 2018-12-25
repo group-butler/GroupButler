@@ -1,5 +1,7 @@
 local config = require "groupbutler.config"
 local null = require "groupbutler.null"
+local Chat = require("groupbutler.chat")
+local ChatMember = require("groupbutler.chatmember")
 
 local _M = {}
 
@@ -139,60 +141,66 @@ function _M:onCallbackQuery(blocks)
 	local u = self.u
 	local red = self.red
 	local i18n = self.i18n
-	local chat_id = msg.target_id
-	if chat_id and not u:is_allowed('config', chat_id, msg.from.user) then
-		api:answerCallbackQuery(msg.cb_id, i18n("You're no longer an admin"))
-	else
-		local header = i18n([[You can manage the antiflood settings from here.
+
+	if blocks[1] == "alert" then
+		local text = get_button_description(self, blocks[2])
+		api:answerCallbackQuery(msg.cb_id, text, true, config.bot_settings.cache_time.alert_help)
+		return
+	end
+
+	local member = ChatMember:new({
+		chat = Chat:new({id=msg.target_id}, self),
+		user = msg.from.user,
+	}, self)
+
+	if not member:can("can_change_info") then
+		api:answerCallbackQuery(msg.cb_id, i18n("Sorry, you don't have permission to change settings"))
+		return
+	end
+
+	local header = i18n([[You can manage the antiflood settings from here.
 
 It is also possible to choose which type of messages the antiflood will ignore (✅)]])
 
-		local text
+	local text
 
-		if blocks[1] == 'config' then
-			text = i18n("Antiflood settings")
-		end
-
-		if blocks[1] == 'alert' then
-			text = get_button_description(self, blocks[2])
-			api:answerCallbackQuery(msg.cb_id, text, true, config.bot_settings.cache_time.alert_help)
-			return
-		end
-
-		if blocks[1] == 'exc' then
-			local media = blocks[2]
-			local hash = 'chat:'..chat_id..':floodexceptions'
-			local status = red:hget(hash, media)
-			if status == 'no' then
-				red:hset(hash, media, 'yes')
-				text = i18n("❎ [%s] will be ignored by the anti-flood"):format(media)
-			else
-				red:hset(hash, media, 'no')
-				text = i18n("🚫 [%s] won't be ignored by the anti-flood"):format(media)
-			end
-		end
-
-		local action
-		if blocks[1] == 'action' or blocks[1] == 'dim' or blocks[1] == 'raise' then
-			if blocks[1] == 'action' then
-				action = red:hget('chat:'..chat_id..':flood', 'ActionFlood')
-				if action == null then action = config.chat_settings.flood.ActionFlood end
-			elseif blocks[1] == 'dim' then
-				action = -1
-			elseif blocks[1] == 'raise' then
-				action = 1
-			end
-			text = changeFloodSettings(self, chat_id, action)
-		end
-
-		if blocks[1] == 'status' then
-			text = u:changeSettingStatus(chat_id, 'Flood')
-		end
-
-		local keyboard = do_keyboard_flood(self, chat_id)
-		api:editMessageText(msg.from.chat.id, msg.message_id, nil, header, "Markdown", nil, keyboard)
-		api:answerCallbackQuery(msg.cb_id, text)
+	if blocks[1] == "config" then
+		text = i18n("Antiflood settings")
 	end
+
+	if blocks[1] == "exc" then
+		local media = blocks[2]
+		local hash = "chat:"..member.chat.id..":floodexceptions"
+		local status = red:hget(hash, media)
+		if status == "no" then
+			red:hset(hash, media, "yes")
+			text = i18n("❎ [%s] will be ignored by the anti-flood"):format(media)
+		else
+			red:hset(hash, media, "no")
+			text = i18n("🚫 [%s] won't be ignored by the anti-flood"):format(media)
+		end
+	end
+
+	local action
+	if blocks[1] == "action" or blocks[1] == "dim" or blocks[1] == "raise" then
+		if blocks[1] == "action" then
+			action = red:hget("chat:"..member.chat.id..":flood", "ActionFlood")
+			if action == null then action = config.chat_settings.flood.ActionFlood end
+		elseif blocks[1] == "dim" then
+			action = -1
+		elseif blocks[1] == "raise" then
+			action = 1
+		end
+		text = changeFloodSettings(self, member.chat.id, action)
+	end
+
+	if blocks[1] == "status" then
+		text = u:changeSettingStatus(member.chat.id, "Flood")
+	end
+
+	local keyboard = do_keyboard_flood(self, member.chat.id)
+	api:editMessageText(msg.from.chat.id, msg.message_id, nil, header, "Markdown", nil, keyboard)
+	api:answerCallbackQuery(msg.cb_id, text)
 end
 
 _M.triggers = {
