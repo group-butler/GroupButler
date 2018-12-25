@@ -1,5 +1,7 @@
 local config = require "groupbutler.config"
 local null = require "groupbutler.null"
+local Chat = require("groupbutler.chat")
+local ChatMember = require("groupbutler.chatmember")
 
 local _M = {}
 
@@ -109,73 +111,81 @@ function _M:onCallbackQuery(blocks)
 	local msg = self.message
 	local red = self.red
 	local i18n = self.i18n
-	local u = self.u
-	local chat_id = msg.target_id
-	if chat_id and not u:is_allowed('config', chat_id, msg.from.user) then
-		api:answerCallbackQuery(msg.cb_id, i18n("You're no longer an admin"))
-	else
-		local media_first = i18n([[
-Tap on an option on the right to *change the setting*
+
+	if blocks[1] == "mediallert" then
+		api:answerCallbackQuery(msg.cb_id, i18n("⚠️ Tap on the right column"), false,
+			config.bot_settings.cache_time.alert_help)
+		return
+	end
+
+	local member = ChatMember:new({
+		chat = Chat:new({id=msg.target_id}, self),
+		user = msg.from.user,
+	}, self)
+
+	if not member:can("can_change_info") then
+		api:answerCallbackQuery(msg.cb_id, i18n("Sorry, you don't have permission to change settings"))
+		return
+	end
+
+	local media_first = i18n([[Tap on an option on the right to *change the setting*
 You can use the last lines to change how many warnings the bot should give before kicking/banning/muting someone.
 The number is not related the the normal `/warn` command.
 
 Possible statuses: ✅ allowed, ❌ warning, 🗑 delete.
-When a media is set to delete, the bot will give a warning *only* when this is the users last warning
-]])
+When a media is set to delete, the bot will give a warning *only* when this is the users last warning]])
 
-		if blocks[1] == 'config' then
-			local keyboard = doKeyboard_media(self, chat_id)
-			api:editMessageText(msg.from.chat.id, msg.message_id, nil, media_first, "Markdown", nil, keyboard)
-		else
-			if blocks[1] == 'mediallert' then
-				api:answerCallbackQuery(msg.cb_id, i18n("⚠️ Tap on the right column"), false,
-					config.bot_settings.cache_time.alert_help)
-				return
-			end
-			local cb_text
-			if blocks[1] == 'mediawarn' then
-				local current = tonumber(red:hget('chat:'..chat_id..':warnsettings', 'mediamax')) or 2
-				if blocks[2] == 'dim' then
-					if current < 2 then
-						cb_text = i18n("⚙ The new value is too low ( < 1)")
-					else
-						local new = red:hincrby('chat:'..chat_id..':warnsettings', 'mediamax', -1)
-						cb_text = string.format('⚙ %d → %d', current, new)
-					end
-				elseif blocks[2] == 'raise' then
-					if current > 11 then
-						cb_text = i18n("⚙ The new value is too high ( > 12)")
-					else
-						local new = red:hincrby('chat:'..chat_id..':warnsettings', 'mediamax', 1)
-						cb_text = string.format('⚙ %d → %d', current, new)
-					end
-				end
-			end
-			if blocks[1] == 'mediatype' then
-				local hash = 'chat:'..chat_id..':warnsettings'
-				local current = red:hget(hash, 'mediatype')
-				if current == null then current = config.chat_settings['warnsettings']['mediatype'] end
+	if blocks[1] == "config" then
+		local keyboard = doKeyboard_media(self, member.chat.id)
+		api:editMessageText(msg.from.chat.id, msg.message_id, nil, media_first, "Markdown", nil, keyboard)
+		return
+	end
 
-				if current == 'ban' then
-					red:hset(hash, 'mediatype', 'kick')
-					cb_text = i18n("👞 New status is kick")
-				elseif current == 'kick' then
-					red:hset(hash, 'mediatype', 'mute')
-					cb_text = i18n("👁 New status is mute")
-				elseif current == 'mute' then
-					red:hset(hash, 'mediatype', 'ban')
-					cb_text = i18n("🔨 New status is ban")
-				end
+	local cb_text
+	if blocks[1] == "mediawarn" then
+		local current = tonumber(red:hget("chat:"..member.chat.id..":warnsettings", "mediamax")) or 2
+		if blocks[2] == "dim" then
+			if current < 2 then
+				cb_text = i18n("⚙ The new value is too low ( < 1)")
+			else
+				local new = red:hincrby("chat:"..member.chat.id..":warnsettings", "mediamax", -1)
+				cb_text = string.format("⚙ %d → %d", current, new)
 			end
-			if blocks[1] == 'media' then
-				local media = blocks[2]
-				cb_text = change_media_status(self, chat_id, media)
+		elseif blocks[2] == "raise" then
+			if current > 11 then
+				cb_text = i18n("⚙ The new value is too high ( > 12)")
+			else
+				local new = red:hincrby("chat:"..member.chat.id..":warnsettings", "mediamax", 1)
+				cb_text = string.format("⚙ %d → %d", current, new)
 			end
-			local keyboard = doKeyboard_media(self, chat_id)
-			api:editMessageText(msg.from.chat.id, msg.message_id, nil, media_first, "Markdown", nil, keyboard)
-			api:answerCallbackQuery(msg.cb_id, cb_text)
 		end
 	end
+
+	if blocks[1] == "mediatype" then
+		local hash = "chat:"..member.chat.id..":warnsettings"
+		local current = red:hget(hash, "mediatype")
+		if current == null then current = config.chat_settings["warnsettings"]["mediatype"] end
+
+		if current == "ban" then
+			red:hset(hash, "mediatype", "kick")
+			cb_text = i18n("👞 New status is kick")
+		elseif current == "kick" then
+			red:hset(hash, "mediatype", "mute")
+			cb_text = i18n("👁 New status is mute")
+		elseif current == "mute" then
+			red:hset(hash, "mediatype", "ban")
+			cb_text = i18n("🔨 New status is ban")
+		end
+	end
+
+	if blocks[1] == "media" then
+		local media = blocks[2]
+		cb_text = change_media_status(self, member.chat.id, media)
+	end
+
+	local keyboard = doKeyboard_media(self, member.chat.id)
+	api:editMessageText(msg.from.chat.id, msg.message_id, nil, media_first, "Markdown", nil, keyboard)
+	api:answerCallbackQuery(msg.cb_id, cb_text)
 end
 
 _M.triggers = {
@@ -183,7 +193,7 @@ _M.triggers = {
 		'^###cb:(media):([%a_]+):(-?%d+)',
 		'^###cb:(mediatype):(-?%d+)',
 		'^###cb:(mediawarn):(%a+):(-?%d+)',
-		'^###cb:(mediallert):([%w_]+)$',
+		'^###cb:(mediallert)$',
 
 		'^###cb:(config):media:(-?%d+)$'
 	}

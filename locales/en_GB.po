@@ -232,7 +232,6 @@ msgstr ""
 
 #: lua/groupbutler/plugins/antispam.lua:292
 #: lua/groupbutler/plugins/logchannel.lua:125
-#: lua/groupbutler/plugins/mediasettings.lua:115
 msgid "You're no longer an admin"
 msgstr ""
 
@@ -498,28 +497,28 @@ msgstr ""
 #: lua/groupbutler/plugins/dashboard.lua:40
 #: lua/groupbutler/plugins/dashboard.lua:167
 #: lua/groupbutler/plugins/floodmanager.lua:71
-#: lua/groupbutler/plugins/mediasettings.lua:42
+#: lua/groupbutler/plugins/mediasettings.lua:44
 msgid "Stickers"
 msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:41
 #: lua/groupbutler/plugins/dashboard.lua:159
 #: lua/groupbutler/plugins/floodmanager.lua:72
-#: lua/groupbutler/plugins/mediasettings.lua:33
+#: lua/groupbutler/plugins/mediasettings.lua:35
 msgid "Images"
 msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:42
 #: lua/groupbutler/plugins/dashboard.lua:160
 #: lua/groupbutler/plugins/floodmanager.lua:73
-#: lua/groupbutler/plugins/mediasettings.lua:34
+#: lua/groupbutler/plugins/mediasettings.lua:36
 msgid "GIFs"
 msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:43
 #: lua/groupbutler/plugins/dashboard.lua:161
 #: lua/groupbutler/plugins/floodmanager.lua:74
-#: lua/groupbutler/plugins/mediasettings.lua:35
+#: lua/groupbutler/plugins/mediasettings.lua:37
 msgid "Videos"
 msgstr ""
 
@@ -614,7 +613,7 @@ msgid "ℹ️ Group ► Flood"
 msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:162
-#: lua/groupbutler/plugins/mediasettings.lua:37
+#: lua/groupbutler/plugins/mediasettings.lua:39
 msgid "Documents"
 msgstr ""
 
@@ -623,32 +622,32 @@ msgid "Voice Messages"
 msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:165
-#: lua/groupbutler/plugins/mediasettings.lua:40
+#: lua/groupbutler/plugins/mediasettings.lua:42
 msgid "Links"
 msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:166
-#: lua/groupbutler/plugins/mediasettings.lua:41
+#: lua/groupbutler/plugins/mediasettings.lua:43
 msgid "Music"
 msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:168
-#: lua/groupbutler/plugins/mediasettings.lua:43
+#: lua/groupbutler/plugins/mediasettings.lua:45
 msgid "Contacts"
 msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:169
-#: lua/groupbutler/plugins/mediasettings.lua:44
+#: lua/groupbutler/plugins/mediasettings.lua:46
 msgid "Games"
 msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:170
-#: lua/groupbutler/plugins/mediasettings.lua:45
+#: lua/groupbutler/plugins/mediasettings.lua:47
 msgid "Locations"
 msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:171
-#: lua/groupbutler/plugins/mediasettings.lua:46
+#: lua/groupbutler/plugins/mediasettings.lua:48
 msgid "Venues"
 msgstr ""
 
@@ -785,6 +784,7 @@ msgid "%d is not a valid value!\n"
 msgstr ""
 
 #: lua/groupbutler/plugins/floodmanager.lua:157
+#: lua/groupbutler/plugins/mediasettings.lua:127
 #: lua/groupbutler/plugins/menu.lua:271
 msgid "Sorry, you don't have permission to change settings"
 msgstr ""
@@ -1534,44 +1534,47 @@ msgid ""
 "Channel: <code>%s</code>"
 msgstr ""
 
-#: lua/groupbutler/plugins/mediasettings.lua:36
+#: lua/groupbutler/plugins/mediasettings.lua:38
 msgid "Video messages"
 msgstr ""
 
-#: lua/groupbutler/plugins/mediasettings.lua:39
+#: lua/groupbutler/plugins/mediasettings.lua:41
 msgid "Vocal messages"
-msgstr ""
-
-#: lua/groupbutler/plugins/mediasettings.lua:65
-#, lua-format
-msgid "Warnings | %d | kick"
 msgstr ""
 
 #: lua/groupbutler/plugins/mediasettings.lua:67
 #, lua-format
-msgid "Warnings | %d | mute"
+msgid "Warnings | %d | kick"
 msgstr ""
 
 #: lua/groupbutler/plugins/mediasettings.lua:69
 #, lua-format
+msgid "Warnings | %d | mute"
+msgstr ""
+
+#: lua/groupbutler/plugins/mediasettings.lua:71
+#, lua-format
 msgid "Warnings | %d | ban"
 msgstr ""
 
-#: lua/groupbutler/plugins/mediasettings.lua:94
+#: lua/groupbutler/plugins/mediasettings.lua:96
 msgid "❌ warning"
 msgstr ""
 
-#: lua/groupbutler/plugins/mediasettings.lua:97
+#: lua/groupbutler/plugins/mediasettings.lua:99
 msgid "🗑 delete"
 msgstr ""
 
-#: lua/groupbutler/plugins/mediasettings.lua:103
+#: lua/groupbutler/plugins/mediasettings.lua:105
 msgid "✅ allowed"
 msgstr ""
 
-#: lua/groupbutler/plugins/mediasettings.lua:117
+#: lua/groupbutler/plugins/mediasettings.lua:116
+msgid "⚠️ Tap on the right column"
+msgstr ""
+
+#: lua/groupbutler/plugins/mediasettings.lua:131
 msgid ""
-"\n"
 "Tap on an option on the right to *change the setting*\n"
 "You can use the last lines to change how many warnings the bot should give "
 "before kicking/banning/muting someone.\n"
@@ -1579,30 +1582,26 @@ msgid ""
 "\n"
 "Possible statuses: ✅ allowed, ❌ warning, 🗑 delete.\n"
 "When a media is set to delete, the bot will give a warning *only* when this "
-"is the users last warning\n"
+"is the users last warning"
 msgstr ""
 
-#: lua/groupbutler/plugins/mediasettings.lua:131
-msgid "⚠️ Tap on the right column"
-msgstr ""
-
-#: lua/groupbutler/plugins/mediasettings.lua:140
+#: lua/groupbutler/plugins/mediasettings.lua:149
 msgid "⚙ The new value is too low ( < 1)"
 msgstr ""
 
-#: lua/groupbutler/plugins/mediasettings.lua:147
+#: lua/groupbutler/plugins/mediasettings.lua:156
 msgid "⚙ The new value is too high ( > 12)"
 msgstr ""
 
-#: lua/groupbutler/plugins/mediasettings.lua:161
+#: lua/groupbutler/plugins/mediasettings.lua:171
 msgid "👞 New status is kick"
 msgstr ""
 
-#: lua/groupbutler/plugins/mediasettings.lua:164
+#: lua/groupbutler/plugins/mediasettings.lua:174
 msgid "👁 New status is mute"
 msgstr ""
 
-#: lua/groupbutler/plugins/mediasettings.lua:167
+#: lua/groupbutler/plugins/mediasettings.lua:177
 msgid "🔨 New status is ban"
 msgstr ""
 
