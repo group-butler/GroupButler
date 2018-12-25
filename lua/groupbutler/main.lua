@@ -63,6 +63,17 @@ local function inject_message_methods(message, update)
 	if message.forward_from then
 		User:new(message.forward_from, update):cache()
 	end
+	if message.new_chat_members then
+		for k,v in pairs(message.new_chat_members) do
+			message.new_chat_members[k] = {
+				user = v,
+				chat = message.chat,
+			}
+			User:new(message.new_chat_members[k].user, update)
+			Chat:new(message.new_chat_members[k].chat, update)
+			ChatMember:new(message.new_chat_members[k], update)
+		end
+	end
 end
 
 local function add_message_methods(object, update)

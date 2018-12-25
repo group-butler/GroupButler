@@ -15,51 +15,39 @@ end
 
 local function ban_bots(self, msg)
 	local db = self.db
-	local u = self.u
-
 	-- ignore if added by an admin or new member joined by link or the setting is disabled
 	if msg.from.user.id == msg.new_chat_member.id
 	or msg.from:isAdmin()
 	or not db:get_chat_setting(msg.from.chat.id, 'Antibot') then
 		return
 	end
-
-	local users = msg.new_chat_members
+	local members = msg.new_chat_members
 	local n = 0 --bots banned
-	for i = 1, #users do
-		if users[i].is_bot == true then
-			u:banUser(msg.from.chat.id, users[i].id)
+	for i = 1, #members do
+		if members[i].user.is_bot then
+			members[i]:ban()
 			n = n + 1
 		end
 	end
-	if n == #users then
+	if n == #members then
 		--if all the new members added are bots then don't send a welcome message
 		return true
 	end
 end
 
--- local permissions =
--- {'can_send_messages', 'can_send_media_messages', 'can_send_other_messages', 'can_add_web_page_previews'}
-
-local function apply_default_permissions(self, chat_id, users)
+local function apply_default_permissions(self, msg)
 	local api = self.api
 	local red = self.red
+	local members = msg.new_chat_members
 
-	local hash = ('chat:%d:defpermissions'):format(chat_id)
+	local hash = ("chat:%d:defpermissions"):format(msg.from.chat.id)
 	local def_permissions = red:array_to_hash(red:hgetall(hash))
 
 	if next(def_permissions) then
-		--for i=1, #permissions do
-			--if not def_permissions[permissions[i]] then
-				--def_permissions[permissions[i]] = config.chat_settings.defpermissions[permissions[i]]
-			--end
-		--end
-
-		for i=1, #users do
-			local res = api:getChatMember(chat_id, users[i].id)
-			if res.status ~= 'restricted' then
-				def_permissions.chat_id = chat_id
-				def_permissions.user_id = users[i].id
+		for i=1, #members do
+			if members[i].status == "member" then
+				def_permissions.chat_id = msg.from.chat.id
+				def_permissions.user_id = members[i].user.id
 				api:restrictChatMember(def_permissions)
 			end
 		end
@@ -148,7 +136,10 @@ function _M:onTextMessage(blocks)
 	local u = self.u
 
 	if blocks[1] == 'welcome' then
-		if msg.from.chat.type == 'private' or not u:is_allowed('texts', msg.from.chat.id, msg.from.user) then return end
+		if msg.from.chat.type == "private"
+		or not msg.from:can("can_change_info") then
+			return
+		end
 
 		local input = blocks[2]
 		if not input and not msg.reply then
@@ -201,6 +192,7 @@ function _M:onTextMessage(blocks)
 			end
 		end
 	end
+
 	if blocks[1] == 'new_chat_member' then
 		if not msg.service then return end
 
@@ -211,7 +203,7 @@ function _M:onTextMessage(blocks)
 		local stop = ban_bots(self, msg)
 		if stop then return end
 
-		apply_default_permissions(self, msg.from.chat.id, msg.new_chat_members)
+		apply_default_permissions(self, msg)
 
 		send_welcome(self, msg)
 
