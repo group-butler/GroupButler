@@ -1,5 +1,7 @@
 local config = require "groupbutler.config"
 local null = require "groupbutler.null"
+local Chat = require("groupbutler.chat")
+local ChatMember = require("groupbutler.chatmember")
 
 local _M = {}
 
@@ -101,51 +103,60 @@ end
 function _M:onCallbackQuery(blocks)
 	local api = self.api
 	local msg = self.message
-	local u = self.u
 	local i18n = self.i18n
 
+	if blocks[1] == 'alert' then
+		local text = get_alert_text(self, blocks[2])
+		api:answerCallbackQuery(msg.cb_id, text, true, config.bot_settings.cache_time.alert_help)
+		return
+	end
+
+	local chat = Chat:new({id=msg.target_id}, self)
+
 	if blocks[1] == 'logcb' then
-		local chat_id = msg.target_id
 		if not msg.from:isAdmin() then
 			api:answerCallbackQuery(msg.cb_id, i18n("You are not admin of this group"), true)
-		else
-			if blocks[2] == 'unban' or blocks[2] == 'untempban' then
-				local user_id = blocks[3]
-				api:unban_chat_member(chat_id, user_id)
-				api:answerCallbackQuery(msg.cb_id, i18n("User unbanned!"), true)
-			end
+			return
 		end
-	else
-		if blocks[1] == 'alert' then
-			local text = get_alert_text(self, blocks[2])
-			api:answerCallbackQuery(msg.cb_id, text, true, config.bot_settings.cache_time.alert_help)
-		else
-			local chat_id = msg.target_id
-			if not u:is_allowed('config', chat_id, msg.from.user) then
-				api:answerCallbackQuery(msg.cb_id, i18n("You're no longer an admin"))
-			else
-				local text
+		if blocks[2] == 'unban' or blocks[2] == 'untempban' then
+			local user_id = blocks[3]
+			api:unbanChatMember(chat.id, user_id)
+			api:answerCallbackQuery(msg.cb_id, i18n("User unbanned!"), true)
+		end
+		return
+	end
 
-				if blocks[1] == 'toggle' then
-					toggle_event(self, chat_id, blocks[2])
-					text = '👌🏼'
-				end
+	local member = ChatMember:new({
+		chat = chat,
+		user = msg.from.user,
+	}, self)
 
-				local reply_markup = doKeyboard_logchannel(self, chat_id)
-				if blocks[1] == 'config' then
-					local logchannel_first = i18n([[*Select the events the will be logged in the channel*
+	if not member:can("can_change_info") then
+		api:answerCallbackQuery(msg.cb_id, i18n("Sorry, you don't have permission to change settings"))
+		return
+	end
+
+	local text
+
+	if blocks[1] == 'toggle' then
+		toggle_event(self, chat.id, blocks[2])
+		text = '👌🏼'
+	end
+
+	local reply_markup = doKeyboard_logchannel(self, chat.id)
+	if blocks[1] == 'config' then
+		local logchannel_first = i18n([[*Select the events the will be logged in the channel*
 ✅ = will be logged
 ☑️ = won't be logged
 
 Tap on an option to get further information]])
-					api:edit_message_text(msg.from.chat.id, msg.message_id, nil, logchannel_first, "Markdown", true, reply_markup)
-				else
-					api:editMessageReplyMarkup(msg.from.chat.id, msg.message_id, nil, reply_markup)
-				end
+		api:editMessageText(msg.from.chat.id, msg.message_id, nil, logchannel_first, "Markdown", true, reply_markup)
+	else
+		api:editMessageReplyMarkup(msg.from.chat.id, msg.message_id, nil, reply_markup)
+	end
 
-				if text then api:answerCallbackQuery(msg.cb_id, text) end
-			end
-		end
+	if text then
+		api:answerCallbackQuery(msg.cb_id, text)
 	end
 end
 
@@ -245,7 +256,7 @@ _M.triggers = {
 
 		--callbacks from the configuration keyboard
 		'^###cb:logchannel:(toggle):([%w_]+):(-?%d+)$',
-		'^###cb:logchannel:(alert):([%w_]+):([%w_]+)$',
+		'^###cb:logchannel:(alert):([%w_]+)$',
 		'^###cb:(config):logchannel:(-?%d+)$'
 	}
 }
