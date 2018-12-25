@@ -27,8 +27,10 @@ function User:new(obj, private)
 end
 
 function User:checkId()
-	if self.username:byte(1) == string.byte("@") then
-		self.username = self.username:sub(2)
+	local username = rawget(self, "username")
+	if  username
+	and username:byte(1) == string.byte("@") then
+		self.username = username:sub(2)
 	end
 	local id = rawget(self, "id")
 	if not id then
