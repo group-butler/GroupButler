@@ -1,5 +1,7 @@
 local config = require "groupbutler.config"
 local null = require "groupbutler.null"
+local Chat = require("groupbutler.chat")
+local ChatMember = require("groupbutler.chatmember")
 
 local _M = {}
 
@@ -279,43 +281,47 @@ end
 function _M:onCallbackQuery(blocks)
 	local api = self.api
 	local msg = self.message
-	local u = self.u
 	local i18n = self.i18n
 
 	if blocks[1] == 'alert' then
 		local text = get_alert_text(self, blocks[2])
 		api:answerCallbackQuery(msg.cb_id, text, true, config.bot_settings.cache_time.alert_help)
-	else
+		return
+	end
 
-		local chat_id = msg.target_id
-		if not u:is_allowed('config', chat_id, msg.from.user) then
-			api:answerCallbackQuery(msg.cb_id, i18n("You're no longer an admin"))
-		else
-			local antispam_first = i18n([[*Anti-spam settings*
+	local member = ChatMember:new({
+		chat = Chat:new({id=msg.target_id}, self),
+		user = msg.from.user,
+	}, self)
+
+	if not member:can("can_change_info") then
+		api:answerCallbackQuery(msg.cb_id, i18n("Sorry, you don't have permission to change settings"))
+		return
+	end
+
+	local antispam_first = i18n([[*Anti-spam settings*
 Choose which kind of message you want to forbid
 • ✅ = *Allowed*
 • ❌ = *Not allowed*
 • 🗑 = *Delete*
 When set on `delete`, the bot doesn't warn users until they are about to be kicked/banned/muted (at the second-to-last warning)]]) -- luacheck: ignore 631
 
-			local keyboard, text
+	local keyboard, text
 
-			if blocks[1] == 'toggle' then
-				if blocks[2] == 'forwards' or blocks[2] == 'links' then
-					text = toggleAntispamSetting(self, chat_id, blocks[2])
-				else
-					if blocks[2] == 'raise' or blocks[2] == 'dim' then
-						text = changeWarnsNumber(self, chat_id, blocks[2])
-					elseif blocks[2] == 'action' then
-						text = changeAction(self, chat_id, blocks[2])
-					end
-				end
-			end
-
-			keyboard = doKeyboard_antispam(self, chat_id)
-			api:editMessageText(msg.from.chat.id, msg.message_id, nil, antispam_first, "Markdown", nil, keyboard)
-			if text then api:answerCallbackQuery(msg.cb_id, text) end
+	if blocks[1] == "toggle" then
+		if blocks[2] == "forwards" or blocks[2] == "links" then
+			text = toggleAntispamSetting(self, member.chat.id, blocks[2])
+		elseif blocks[2] == "raise" or blocks[2] == "dim" then
+			text = changeWarnsNumber(self, member.chat.id, blocks[2])
+		elseif blocks[2] == "action" then
+			text = changeAction(self, member.chat.id, blocks[2])
 		end
+	end
+
+	keyboard = doKeyboard_antispam(self, member.chat.id)
+	api:editMessageText(msg.from.chat.id, msg.message_id, nil, antispam_first, "Markdown", nil, keyboard)
+	if text then
+		api:answerCallbackQuery(msg.cb_id, text)
 	end
 end
 
@@ -348,65 +354,36 @@ end
 
 function _M:onTextMessage(blocks)
 	local msg = self.message
-	local u = self.u
 	local red = self.red
 	local i18n = self.i18n
 
-	if u:is_allowed('texts', msg.from.chat.id, msg.from.user) then
-		if (blocks[1] == 'wl' or blocks[1] == 'whitelist') and blocks[2] then
-			if blocks[2] == '-' then
-				local set = ('chat:%d:whitelist'):format(msg.from.chat.id)
-				local n = red:scard(set) or 0
-				local text
-				if n == 0 then
-					text = i18n("_The whitelist was already empty_")
-				else
-					red:del(set)
-					text = i18n("*Whitelist cleaned*\n%d links have been removed"):format(n)
-				end
-				msg:send_reply(text, "Markdown")
+	if not msg.from:isAdmin() then
+		return
+	end
+
+	if (blocks[1] == 'wl' or blocks[1] == 'whitelist') and blocks[2] then
+		if blocks[2] == '-' then
+			local set = ('chat:%d:whitelist'):format(msg.from.chat.id)
+			local n = red:scard(set) or 0
+			local text
+			if n == 0 then
+				text = i18n("_The whitelist was already empty_")
 			else
-				local text
-				if msg.entities then
-					local links = urls_table(msg.entities, msg.text)
-					if not next(links) then
-						text = i18n("_I can't find any url in this message_")
-					else
-						local new = red:sadd(('chat:%d:whitelist'):format(msg.from.chat.id), unpack(links))
-						text = i18n("%d link(s) will be whitelisted"):format(#links - (#links - new))
-						if new ~= #links then
-							text = text..i18n("\n%d links were already in the list"):format(#links - new)
-						end
-					end
-				else
-					text = i18n("_I can't find any url in this message_")
-				end
-				msg:send_reply(text, "Markdown")
+				red:del(set)
+				text = i18n("*Whitelist cleaned*\n%d links have been removed"):format(n)
 			end
-		end
-		if (blocks[1] == 'wl' or blocks[1] == 'whitelist') and not blocks[2] then
-			local links = red:smembers(('chat:%d:whitelist'):format(msg.from.chat.id))
-			if not next(links) then
-				msg:send_reply(i18n("_The whitelist is empty_.\nUse `/wl [links]` to add some links to the whitelist"),"Markdown")
-			else
-				local text = i18n("Whitelisted links:\n\n")
-				for i=1, #links do
-					text = text..'• '..links[i]..'\n'
-				end
-				msg:send_reply(text)
-			end
-		end
-		if blocks[1] == 'unwl' or blocks[1] == 'unwhitelist' then
+			msg:send_reply(text, "Markdown")
+		else
 			local text
 			if msg.entities then
 				local links = urls_table(msg.entities, msg.text)
 				if not next(links) then
 					text = i18n("_I can't find any url in this message_")
 				else
-					local removed = red:srem(('chat:%d:whitelist'):format(msg.from.chat.id), unpack(links))
-					text = i18n("%d link(s) removed from the whitelist"):format(removed)
-					if removed ~= #links then
-						text = text..i18n("\n%d links were already in the list"):format(#links - removed)
+					local new = red:sadd(('chat:%d:whitelist'):format(msg.from.chat.id), unpack(links))
+					text = i18n("%d link(s) will be whitelisted"):format(#links - (#links - new))
+					if new ~= #links then
+						text = text..i18n("\n%d links were already in the list"):format(#links - new)
 					end
 				end
 			else
@@ -414,52 +391,91 @@ function _M:onTextMessage(blocks)
 			end
 			msg:send_reply(text, "Markdown")
 		end
-		if blocks[1] == 'funwl' then --force the unwhitelist of a link
-			red:srem(('chat:%d:whitelist'):format(msg.from.chat.id), blocks[2])
-			msg:send_reply('Done')
-		end
-		if blocks[1] == 'wlchan' and not blocks[2] then
-			local channels = red:smembers(('chat:%d:chanwhitelist'):format(msg.from.chat.id))
-			if not next(channels) then
-				msg:send_reply(i18n("_Whitelist of channels empty_"), "Markdown")
-			else
-				msg:send_reply(i18n("*Whitelisted channels:*\n%s"):format(table.concat(channels, '\n')), "Markdown")
+		return
+	end
+
+	if (blocks[1] == 'wl' or blocks[1] == 'whitelist') and not blocks[2] then
+		local links = red:smembers(('chat:%d:whitelist'):format(msg.from.chat.id))
+		if not next(links) then
+			msg:send_reply(i18n("_The whitelist is empty_.\nUse `/wl [links]` to add some links to the whitelist"),"Markdown")
+		else
+			local text = i18n("Whitelisted links:\n\n")
+			for i=1, #links do
+				text = text..'• '..links[i]..'\n'
 			end
+			msg:send_reply(text)
 		end
-		if blocks[1] == 'wlchan' and blocks[2] then
-			local for_entered, channels = edit_channels_whitelist(self, msg.from.chat.id, blocks[2], 'add')
+		return
+	end
 
-			if not for_entered then
-				msg:send_reply(i18n("_I can't find a channel ID in your message_"), "Markdown")
+	if blocks[1] == 'unwl' or blocks[1] == 'unwhitelist' then
+		local text
+		if msg.entities then
+			local links = urls_table(msg.entities, msg.text)
+			if not next(links) then
+				text = i18n("_I can't find any url in this message_")
 			else
-				local text = ''
-				if next(channels.valid) then
-					text = text..("*Channels whitelisted*: `%s`\n"):format(table.concat(channels.valid, ', '))
+				local removed = red:srem(('chat:%d:whitelist'):format(msg.from.chat.id), unpack(links))
+				text = i18n("%d link(s) removed from the whitelist"):format(removed)
+				if removed ~= #links then
+					text = text..i18n("\n%d links were already in the list"):format(#links - removed)
 				end
-				if next(channels.not_valid) then
-					text = text..("*Channels already whitelisted*: `%s`\n"):format(table.concat(channels.not_valid, ', '))
-				end
-
-				msg:send_reply(text, "Markdown")
 			end
+		else
+			text = i18n("_I can't find any url in this message_")
 		end
-		if blocks[1] == 'unwlchan' then
-			local for_entered, channels = edit_channels_whitelist(self, msg.from.chat.id, blocks[2], 'rem')
+		msg:send_reply(text, "Markdown")
+		return
+	end
 
-			if not for_entered then
-				msg:send_reply(i18n("_I can't find a channel ID in your message_"), "Markdown")
-			else
-				local text = ''
-				if next(channels.valid) then
-					text = text..("*Channels unwhitelisted*: `%s`\n"):format(table.concat(channels.valid, ', '))
-				end
-				if next(channels.not_valid) then
-					text = text..("*Channels not whitelisted*: `%s`\n"):format(table.concat(channels.not_valid, ', '))
-				end
+	if blocks[1] == 'funwl' then --force the unwhitelist of a link
+		red:srem(('chat:%d:whitelist'):format(msg.from.chat.id), blocks[2])
+		msg:send_reply('Done')
+		return
+	end
 
-				msg:send_reply(text, "Markdown")
+	if blocks[1] == 'wlchan' and not blocks[2] then
+		local channels = red:smembers(('chat:%d:chanwhitelist'):format(msg.from.chat.id))
+		if not next(channels) then
+			msg:send_reply(i18n("_Whitelist of channels empty_"), "Markdown")
+		else
+			msg:send_reply(i18n("*Whitelisted channels:*\n%s"):format(table.concat(channels, '\n')), "Markdown")
+		end
+		return
+	end
+
+	if blocks[1] == 'wlchan' and blocks[2] then
+		local for_entered, channels = edit_channels_whitelist(self, msg.from.chat.id, blocks[2], 'add')
+		if not for_entered then
+			msg:send_reply(i18n("_I can't find a channel ID in your message_"), "Markdown")
+		else
+			local text = ''
+			if next(channels.valid) then
+				text = text..("*Channels whitelisted*: `%s`\n"):format(table.concat(channels.valid, ', '))
 			end
+			if next(channels.not_valid) then
+				text = text..("*Channels already whitelisted*: `%s`\n"):format(table.concat(channels.not_valid, ', '))
+			end
+			msg:send_reply(text, "Markdown")
 		end
+		return
+	end
+
+	if blocks[1] == 'unwlchan' then
+		local for_entered, channels = edit_channels_whitelist(self, msg.from.chat.id, blocks[2], 'rem')
+		if not for_entered then
+			msg:send_reply(i18n("_I can't find a channel ID in your message_"), "Markdown")
+		else
+			local text = ''
+			if next(channels.valid) then
+				text = text..("*Channels unwhitelisted*: `%s`\n"):format(table.concat(channels.valid, ', '))
+			end
+			if next(channels.not_valid) then
+				text = text..("*Channels not whitelisted*: `%s`\n"):format(table.concat(channels.not_valid, ', '))
+			end
+			msg:send_reply(text, "Markdown")
+		end
+		return
 	end
 end
 
