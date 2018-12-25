@@ -147,14 +147,6 @@ function _M:replaceholders(str, msg, ...)
 	return str:gsub('$(%w+)', substitutions)
 end
 
-function _M:is_allowed(_, chat_id, user_obj) -- luacheck: ignore
-	error("calling deprecated method u:is_allowed()")
-end
-
-function _M:can(chat_id, user_id, permission) -- luacheck: ignore
-	error("calling deprecated method u:can()")
-end
-
 function _M:is_superadmin(user_id) -- luacheck: ignore 212
 	for i=1, #config.superadmins do
 		if tonumber(user_id) == config.superadmins[i] then

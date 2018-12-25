@@ -101,7 +101,8 @@ function _M:onTextMessage(blocks)
 	local u = self.u
 
 	if msg.from.chat.id < 0 then
-		if #blocks > 1 and u:is_allowed('config', msg.from.chat.id, msg.from.user) then
+		if  #blocks > 1
+		and msg.from:isAdmin() then
 			local times_allowed, duration = tonumber(blocks[2]), tonumber(blocks[3])
 			local text
 			if times_allowed < 1 or times_allowed > 1000 then

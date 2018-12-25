@@ -14,11 +14,13 @@ end
 
 function _M:onTextMessage(blocks)
 	local msg = self.message
-	local u = self.u
 	local red = self.red
 	local i18n = self.i18n
-	if msg.from.chat.type == 'private' then return end
-	if not u:is_allowed('texts', msg.from.chat.id, msg.from.user) then return end
+
+	if msg.from.chat.type == "private"
+	or not msg.from:isAdmin() then
+		return
+	end
 
 	local hash = 'chat:'..msg.from.chat.id..':links'
 	local text

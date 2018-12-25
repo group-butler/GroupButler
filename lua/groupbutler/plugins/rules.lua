@@ -66,7 +66,7 @@ function _M:onTextMessage(blocks)
 		end
 	end
 
-	if not u:is_allowed('texts', msg.from.chat.id, msg.from.user) then return end
+	if not msg.from:isAdmin() then return end
 
 	if blocks[1] == 'setrules' then
 		local rules = blocks[2]
