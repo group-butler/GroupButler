@@ -156,16 +156,6 @@ function _M:is_superadmin(user_id) -- luacheck: ignore 212
 	return false
 end
 
--- Returns the admin status of the user. The first argument can be the message,
--- then the function checks the rights of the sender in the incoming chat.
-function _M:is_admin(chat_id, user_id) -- luacheck: ignore
-	error("calling deprecated method u:is_admin()")
-end
-
-function _M:is_owner(chat_id, user_id) -- luacheck: ignore
-	error("calling deprecated method u:is_owner()")
-end
-
 function _M:cache_adminlist(chat_id)
 	local api = p(self).api
 	local red = p(self).red
