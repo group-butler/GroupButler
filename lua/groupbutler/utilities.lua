@@ -41,18 +41,6 @@ local function set_default(t, d)
 	setmetatable(t, mt)
 end
 
-function _M:banUser(chat_id, user_id, until_date) -- luacheck: ignore
-	error("calling deprecated method u:banUser()")
-end
-
-function _M:kickUser(chat_id, user_id) -- luacheck: ignore
-	error("calling deprecated method u:kickUser()")
-end
-
-function _M:muteUser(chat_id, user_id) -- luacheck: ignore
-	error("calling deprecated method u:muteUser()")
-end
-
 -- Strings
 
 -- Escape markdown for Telegram. This function makes non-clickable usernames,

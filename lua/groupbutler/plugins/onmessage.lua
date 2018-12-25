@@ -103,11 +103,11 @@ function _M:on_message()
 					local ok, message
 				--try to kick or ban
 				if action == 'ban' then
-						ok = u:banUser(msg.from.chat.id, msg.from.user.id)
+					ok = msg.from:ban()
 				elseif action == 'kick' then
-						ok = u:kickUser(msg.from.chat.id, msg.from.user.id)
+					ok = msg.from:kick()
 				elseif action == 'mute' then
-						ok = u:muteUser(msg.from.chat.id, msg.from.user.id)
+					ok = msg.from:mute()
 				end
 				--if kicked/banned, send a message
 					if ok then
@@ -155,13 +155,13 @@ function _M:on_message()
 						--try to kick/ban
 						local ok, punishment
 						if status == 'kick' then
-								ok = u:kickUser(msg.from.chat.id, msg.from.user.id)
+							ok = msg.from:kick()
 							punishment = i18n('kicked')
 						elseif status == 'ban' then
-								ok = u:banUser(msg.from.chat.id, msg.from.user.id)
+							ok = msg.from:ban()
 							punishment = i18n('banned')
 						elseif status == 'mute' then
-								ok = u:muteUser(msg.from.chat.id, msg.from.user.id)
+							ok = msg.from:mute()
 							punishment = i18n('muted')
 						end
 						if ok then --kick worked
@@ -206,13 +206,13 @@ function _M:on_message()
 			if check ~= nil then
 					local ok, message
 				if rtl_status == 'kick' then
-						ok = u:kickUser(msg.from.chat.id, msg.from.user.id)
+					ok = msg.from:kick()
 					message = i18n("%s <b>kicked</b>: RTL character in names/messages are not allowed!")
 				elseif rtl_status == 'ban' then
-						ok = u:banUser(msg.from.chat.id, msg.from.user.id)
+					ok = msg.from:ban()
 					message = i18n("%s <b>banned</b>: RTL character in names/messages are not allowed!")
 				elseif rtl_status == 'mute' then
-						ok = u:muteUser(msg.from.chat.id, msg.from.user.id)
+					ok = msg.from:mute()
 					message = i18n("%s <b>muted</b>: RTL character in names/messages are not allowed!")
 				end
 					if ok then
@@ -230,13 +230,13 @@ function _M:on_message()
 			if arab_status ~= 'allowed' then
 					local ok, message
 				if arab_status == 'kick' then
-						ok = u:kickUser(msg.from.chat.id, msg.from.user.id)
+					ok = msg.from:kick()
 					message = i18n("%s <b>kicked</b>: arab/persian message detected!")
 				elseif arab_status == 'ban' then
-						ok = u:banUser(msg.from.chat.id, msg.from.user.id)
+					ok = msg.from:ban()
 					message = i18n("%s <b>banned</b>: arab/persian message detected!")
 				elseif arab_status == 'mute' then
-						ok = u:muteUser(msg.from.chat.id, msg.from.user.id)
+					ok = msg.from:mute()
 					message = i18n("%s <b>muted</b>: arab/persian message detected!")
 				end
 					if ok then

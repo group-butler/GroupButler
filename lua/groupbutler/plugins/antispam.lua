@@ -84,11 +84,11 @@ function _M:on_message()
 
 					local res
 					if action == 'ban' then
-						res = u:banUser(msg.from.chat.id, msg.from.user.id)
+						res = msg.from:ban()
 					elseif action == 'kick' then
-						res = u:kickUser(msg.from.chat.id, msg.from.user.id)
+						res = msg.from:kick()
 					elseif action == 'mute' then
-						res = u:muteUser(msg.from.chat.id, msg.from.user.id)
+						res = msg.from:mute()
 					end
 					if res then
 						red:hdel('chat:'..msg.from.chat.id..':spamwarns', msg.from.user.id) --remove spam warns
