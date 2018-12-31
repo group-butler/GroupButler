@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-12-17 15:23-0200\n"
-"PO-Revision-Date: 2018-12-17 17:27\n"
+"PO-Revision-Date: 2018-12-24 19:35\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -372,7 +372,7 @@ msgstr "%s已被%s解除封禁！"
 #: lua/groupbutler/plugins/banhammer.lua:152
 #: lua/groupbutler/plugins/defaultpermissions.lua:127
 msgid "Sorry, you don't have permission to restrict members"
-msgstr ""
+msgstr "对不起，你没有权限制成员"
 
 #: lua/groupbutler/plugins/banhammer.lua:156
 msgid "Tap on the -/+ buttons to change this value. Then select a timeframe to execute the ban"
@@ -2090,7 +2090,7 @@ msgstr "*用户 ID*: `%d`\n"
 #: lua/groupbutler/plugins/users.lua:90
 #, lua-format
 msgid "Your ID is `%d`"
-msgstr ""
+msgstr "您的 ID 为 `%d`"
 
 #: lua/groupbutler/plugins/users.lua:124
 msgid "That user has nothing to do with this chat"
@@ -2209,7 +2209,7 @@ msgstr "是否确认重置*全部用户*收到的警告次数？"
 #: lua/groupbutler/plugins/warn.lua:86
 #, lua-format
 msgid "Done! %s has been forgiven."
-msgstr ""
+msgstr "完成！%s 被宽恕了。"
 
 #: lua/groupbutler/plugins/warn.lua:111
 #, lua-format
@@ -2317,7 +2317,7 @@ msgstr "欢迎按钮"
 
 #: lua/groupbutler/utilities.lua:599
 msgid "Unknown"
-msgstr ""
+msgstr "未知的"
 
 #: lua/groupbutler/utilities.lua:634
 msgid "*Welcome type*: `GIF / sticker`\n"

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-12-17 15:23-0200\n"
-"PO-Revision-Date: 2018-12-17 17:26\n"
+"PO-Revision-Date: 2018-12-24 19:34\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -131,7 +131,7 @@ msgstr "%s, Spam ist hier nicht erlaubt. Das nächste mal wirst du eingeschränk
 #: lua/groupbutler/plugins/antispam.lua:107
 #, lua-format
 msgid "%s, this kind of message is not allowed in this chat (<b>%d/%d</b>)"
-msgstr "%s, diese Art von Nachricht ist in diesem Chat nicht erlaubt (Warnung <b>%d/%d</b>)"
+msgstr "%s, diese Art von Nachrichten ist in diesem Chat nicht erlaubt (Warnung <b>%d/%d</b>)"
 
 #: lua/groupbutler/plugins/antispam.lua:111
 msgid "telegram.me link"
@@ -227,11 +227,11 @@ msgid "*Anti-spam settings*\n"
 "• 🗑 = *Delete*\n"
 "When set on `delete`, the bot doesn't warn users until they are about to be kicked/banned/muted (at the second-to-last warning)"
 msgstr "*Anti-Spam-Einstellungen*\n"
-"Wähle, welche Art von Nachricht du verbieten möchtest\n"
+"Wähle, welche Art von Nachrichten du verbieten möchtest\n"
 "• ✅ = *Erlaubt*\n"
 "• ❌ = *Nicht erlaubt*\n"
 "• 🗑 = *Löschen*\n"
-"Wenn `Löschen` gewählt wird, werden Nutzer erst bei der vorletzten Warnung informiert bevor sie gekickt, gebannt oder stummgeschaltet werden"
+"Wenn `Löschen` gewählt wird, werden Nutzer (erst) bei der vorletzten Warnung informiert bevor sie gekickt, gebannt oder stummgeschaltet werden"
 
 #: lua/groupbutler/plugins/antispam.lua:362
 msgid "_The whitelist was already empty_"
@@ -374,7 +374,7 @@ msgstr "%s entbannt von %s!"
 #: lua/groupbutler/plugins/banhammer.lua:152
 #: lua/groupbutler/plugins/defaultpermissions.lua:127
 msgid "Sorry, you don't have permission to restrict members"
-msgstr ""
+msgstr "Du hast keine Berechtigung, Nutzer einzuschränken"
 
 #: lua/groupbutler/plugins/banhammer.lua:156
 msgid "Tap on the -/+ buttons to change this value. Then select a timeframe to execute the ban"
@@ -2054,7 +2054,7 @@ msgstr "*Benutzer-ID*: `%d`\n"
 #: lua/groupbutler/plugins/users.lua:90
 #, lua-format
 msgid "Your ID is `%d`"
-msgstr ""
+msgstr "Deine ID ist `%d`"
 
 #: lua/groupbutler/plugins/users.lua:124
 msgid "That user has nothing to do with this chat"
@@ -2280,7 +2280,7 @@ msgstr "Willkommens-Taste"
 
 #: lua/groupbutler/utilities.lua:599
 msgid "Unknown"
-msgstr ""
+msgstr "Unbekannt"
 
 #: lua/groupbutler/utilities.lua:634
 msgid "*Welcome type*: `GIF / sticker`\n"

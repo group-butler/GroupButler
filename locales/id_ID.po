@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-12-17 15:23-0200\n"
-"PO-Revision-Date: 2018-12-17 17:27\n"
+"PO-Revision-Date: 2018-12-24 19:35\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Indonesian\n"
 "Language: id_ID\n"
@@ -93,19 +93,19 @@ msgstr "🐞 Maaf, sedang terjadi *bug*."
 #: lua/groupbutler/plugins/onmessage.lua:162
 #: lua/groupbutler/plugins/warn.lua:113
 msgid "banned"
-msgstr "blokir"
+msgstr "diblokir"
 
 #: lua/groupbutler/plugins/antispam.lua:44
 #: lua/groupbutler/plugins/onmessage.lua:159
 #: lua/groupbutler/plugins/warn.lua:117
 msgid "kicked"
-msgstr "tendang"
+msgstr "ditendang"
 
 #: lua/groupbutler/plugins/antispam.lua:45
 #: lua/groupbutler/plugins/onmessage.lua:165
 #: lua/groupbutler/plugins/warn.lua:121
 msgid "muted"
-msgstr "bisukan"
+msgstr "dibisukan"
 
 #: lua/groupbutler/plugins/antispam.lua:46
 #: lua/groupbutler/plugins/dashboard.lua:163
@@ -114,7 +114,7 @@ msgstr "tautan telegram.me"
 
 #: lua/groupbutler/plugins/antispam.lua:47
 msgid "Channels messages"
-msgstr "pesan channel"
+msgstr "pesan kanal"
 
 #: lua/groupbutler/plugins/antispam.lua:94
 #, lua-format
@@ -124,12 +124,12 @@ msgstr "%s %s karena <b>spam</b>! (%d%d)"
 #: lua/groupbutler/plugins/antispam.lua:101
 #, lua-format
 msgid "%s, spam is not allowed here. The next time you will be restricted"
-msgstr "%s, jangan spam disini. Selanjutnya Anda akan dibatasi."
+msgstr "%s, jangan spam disini. Selanjutnya izin akses Anda akan saya batasi."
 
 #: lua/groupbutler/plugins/antispam.lua:107
 #, lua-format
 msgid "%s, this kind of message is not allowed in this chat (<b>%d/%d</b>)"
-msgstr "%s, penggunaan pesan ini tidak diizinikan di obrolan ini (<b>%d/%d</b>)."
+msgstr "%s, penggunaan pesan ini tidak diizinkan di obrolan ini (<b>%d/%d</b>)."
 
 #: lua/groupbutler/plugins/antispam.lua:111
 msgid "telegram.me link"
@@ -137,7 +137,7 @@ msgstr "tautan telegram.me"
 
 #: lua/groupbutler/plugins/antispam.lua:111
 msgid "message from a channel"
-msgstr "pesan dari channel"
+msgstr "pesan dari kanal"
 
 #: lua/groupbutler/plugins/antispam.lua:135
 msgid "forwards are allowed"
@@ -145,7 +145,7 @@ msgstr "pesan terusan diperbolehkan"
 
 #: lua/groupbutler/plugins/antispam.lua:137
 msgid "warn for forwards"
-msgstr "beri peringatan untuk pesan terusan"
+msgstr "beri peringatan untuk pesan yang diteruskan dari kanal"
 
 #: lua/groupbutler/plugins/antispam.lua:139
 msgid "forwards will be deleted"
@@ -153,11 +153,11 @@ msgstr "pesan terusan akan dihapus"
 
 #: lua/groupbutler/plugins/antispam.lua:143
 msgid "links are allowed"
-msgstr "tautan diizinkan"
+msgstr "tautan telegram.me diizinkan"
 
 #: lua/groupbutler/plugins/antispam.lua:145
 msgid "warn for links"
-msgstr "beri peringatan untuk tautan"
+msgstr "beri peringatan untuk tautan telegram.me"
 
 #: lua/groupbutler/plugins/antispam.lua:147
 msgid "links will be deleted"
@@ -371,7 +371,7 @@ msgstr "%s diunblokir oleh %s!"
 #: lua/groupbutler/plugins/banhammer.lua:152
 #: lua/groupbutler/plugins/defaultpermissions.lua:127
 msgid "Sorry, you don't have permission to restrict members"
-msgstr ""
+msgstr "Maaf, Anda tidak memiliki izin untuk membatasi anggota"
 
 #: lua/groupbutler/plugins/banhammer.lua:156
 msgid "Tap on the -/+ buttons to change this value. Then select a timeframe to execute the ban"
@@ -400,7 +400,7 @@ msgstr "menit"
 #: lua/groupbutler/plugins/banhammer.lua:203
 #, lua-format
 msgid "User banned for %d %s"
-msgstr "Pengguna terblokir karena %d %s."
+msgstr "Pengguna terblokir selama %d %s."
 
 #: lua/groupbutler/plugins/configure.lua:19
 msgid "🛠 Menu"
@@ -420,7 +420,7 @@ msgstr "🚫 Antispam"
 
 #: lua/groupbutler/plugins/configure.lua:23
 msgid "📥 Log channel"
-msgstr "📥 Channel catatan"
+msgstr "📥 Kanal catatan"
 
 #: lua/groupbutler/plugins/configure.lua:26
 msgid "⛔️ Default permissions"
@@ -1119,13 +1119,13 @@ msgid "*Log channel informations*\n\n"
 "To change your log channel, simply repeat this process with another channel.\n\n"
 "`/unsetlog`: remove your current log channel\n"
 "`/logchannel`: get some informations about your log channel, if paired"
-msgstr "*Informasi channel catatan*\n\n"
-"Channel catatan adalah channel _(private)_  yang digunakan bot untuk mencatat peristiwa tertentu dalam sebuah grup (Contoh: member baru, peringatan, blokir, dll).\n"
-"Semua peristiwa secara bawaan *not logged / tidak dicatat*. Admin dapat memilih kejadian yang dapat dicatat menggunakan `/config` menu > `kanal catatan`.\n"
+msgstr "*Informasi kanal catatan*\n\n"
+"Kanal catatan adalah sebuah kanal _(private)_  yang digunakan bot untuk mencatat peristiwa tertentu dalam sebuah grup (Contoh: member baru, peringatan, blokir, dll).\n"
+"Semua peristiwa secara bawaan *not logged / tidak dicatat*. Admin dapat memilih kejadian apa saja yang ingint dicatat menggunakan `/config` menu > `kanal catatan`.\n"
 "Untuk menggunakan fitur ini, anda harus memasangkan grup dengan kanal (private), menggunakan langkah-langkah berikut ini:\n\n"
-"Untuk memasangkan sebuah channel dengan sebuah grup, *creator channel* atau pembuat kanl harus [menjadikan Group Butler sebagai admin kanal](telegram.me/gb_tutorials/4) (jika tidak, maka Group Butler tidak dapat mengirim pesan ke kanal). \n\n"
+"Untuk memasangkan sebuah channel dengan sebuah grup, *creator channel* atau pembuat kanal harus [menjadikan Group Butler sebagai admin kanal](telegram.me/gb_tutorials/4) (jika tidak, maka Group Butler tidak dapat mengirim pesan ke kanal tersebut). \n\n"
 "Kemudian kirim perintah `/setlog` di kanal tersebut:\n\n"
-"Setelah itu, admin (sekaligus creator channel tersebut) harus meneruskan (memforward) pesan (\"`/setlog`\") dari channel tadi ke grup yang ingin dipasangkan.\n"
+"Setelah itu, admin grup (sekaligus pembuat kanal tersebut) harus meneruskan (memforward) pesan (\"`/setlog`\") dari kanal tadi ke grup yang ingin dipasangkan.\n"
 "*Selesai*!\n"
 "(Anda dapat menonton video tutorialnya [di sini](https://telegram.me/GB_tutorials/8)).\n\n"
 "Satu kanal catatan dapat digunakan oleh beberapa grup. \n"
@@ -1176,7 +1176,7 @@ msgstr "Daftar putih tautan"
 
 #: lua/groupbutler/plugins/help.lua:278
 msgid "📢 Bot channel"
-msgstr "📢 Channel bot"
+msgstr "📢 Kanal bot"
 
 #: lua/groupbutler/plugins/help.lua:279
 msgid "🌍 Select your language"
@@ -1204,7 +1204,7 @@ msgstr "Perintah di pesan pribadi"
 
 #: lua/groupbutler/plugins/help.lua:296
 msgid "Log channel"
-msgstr "Channel catatan"
+msgstr "Kanal catatan"
 
 #: lua/groupbutler/plugins/help.lua:312
 msgid "Back"
@@ -1229,7 +1229,7 @@ msgstr "Perintah di pesan pribadi"
 
 #: lua/groupbutler/plugins/help.lua:367
 msgid "Log channel informations"
-msgstr "Informasi channel catatan"
+msgstr "Informasi kanal catatan"
 
 #: lua/groupbutler/plugins/help.lua:372
 msgid "Available commands for admins"
@@ -1283,7 +1283,7 @@ msgstr "Peristiwa pemblokiran akan dicatat. Jika pengguna dihapus secara manual 
 
 #: lua/groupbutler/plugins/logchannel.lua:25
 msgid "Kicks will be logged. I can't log manual kicks"
-msgstr "Kick akan dicatatat. Kecuali admin melakukannya secara manual dari telegram"
+msgstr "Bot akan mencatat setiap kali ada anggota yang ditendang dari grup. Kecuali admin melakukannya secara manual dari telegram"
 
 #: lua/groupbutler/plugins/logchannel.lua:26
 msgid "Manual warns will be logged"
@@ -1291,11 +1291,11 @@ msgstr "Peringatan akan dicatat"
 
 #: lua/groupbutler/plugins/logchannel.lua:27
 msgid "Forbidden media will be logged in the channel"
-msgstr "Media teranulir akan dicatat di channel"
+msgstr "Media teranulir akan dicatat di kanal"
 
 #: lua/groupbutler/plugins/logchannel.lua:28
 msgid "Spam links/forwards from channels will be logged in the channel, only if forbidden"
-msgstr "Spam tautan/forward dari channel akan dicatat di channel, jika dianulir"
+msgstr "Spam tautan/pesan yang diteruskan dari kanal akan tercatat di kanal catatan, jika dianulir."
 
 #: lua/groupbutler/plugins/logchannel.lua:29
 msgid "Log when a user is flooding (new log message every 5 flood messages)"
@@ -1367,7 +1367,7 @@ msgstr "Peringatan spam"
 
 #: lua/groupbutler/plugins/logchannel.lua:69
 msgid "Flood"
-msgstr "Flood"
+msgstr "Membanjiri obrolan"
 
 #: lua/groupbutler/plugins/logchannel.lua:70
 msgid "New group icon"
@@ -1399,42 +1399,42 @@ msgstr "Pengguna dihapus dari daftar hitam."
 
 #: lua/groupbutler/plugins/logchannel.lua:110
 msgid "You are not admin of this group"
-msgstr "Anda bukan admin di grup ini"
+msgstr "Anda bukan admin di grup ini."
 
 #: lua/groupbutler/plugins/logchannel.lua:115
 msgid "User unbanned!"
-msgstr "Pengguna telah diunblok!"
+msgstr "Pengguna telah diunblokir!"
 
 #: lua/groupbutler/plugins/logchannel.lua:136
 msgid "*Select the events the will be logged in the channel*\n"
 "✅ = will be logged\n"
 "☑️ = won't be logged\n\n"
 "Tap on an option to get further information"
-msgstr "*Pilih peristiwa yang akan dicatata di channel*\n"
+msgstr "*Pilih peristiwa yang akan dicatat kanal catatan*\n"
 "✅ = akan dicatat\n"
 "☑️ = tidak akan dicatat\n\n"
 "Sentuh opsinya untuk melihat keterangan"
 
 #: lua/groupbutler/plugins/logchannel.lua:168
 msgid "_Too many requests. Retry later_"
-msgstr "_Too many requests. Coba lagi nanti_"
+msgstr "_Galat. Terlalu banyak permintaan ke layanan API telegram. Coba lagi nanti_"
 
 #: lua/groupbutler/plugins/logchannel.lua:170
 msgid "_I need to be admin in the channel_"
-msgstr "_Saya harus menjadi admin di channel_"
+msgstr "_Saya harus menjadi admin di kanal_"
 
 #: lua/groupbutler/plugins/logchannel.lua:177
 msgid "_Already using this channel_"
-msgstr "_Channel ini sudah digunakan_"
+msgstr "_Kanal ini sudah digunakan_"
 
 #: lua/groupbutler/plugins/logchannel.lua:180
 msgid "*Log channel added!*"
-msgstr "*Channel catatan ditambahkan!*"
+msgstr "*Kanal catatan berhasil ditambahkan!*"
 
 #: lua/groupbutler/plugins/logchannel.lua:183
 #, lua-format
 msgid "<i>%s</i> changed its log channel"
-msgstr "<i>%s</i> mengganti channel catatannya"
+msgstr "<i>%s</i> mengganti kanal catatannya"
 
 #: lua/groupbutler/plugins/logchannel.lua:186
 #, lua-format
@@ -1443,35 +1443,35 @@ msgstr "Catatan kejadian dari <i>%s</i> akan ditampilkan disini"
 
 #: lua/groupbutler/plugins/logchannel.lua:190
 msgid "_Only the channel creator can pair the chat with a channel_"
-msgstr "_Hanya creator channel yang dapat memasangkan grup dengan channel_"
+msgstr "_Hanya pembuat kanal yang dapat memasangkan sebuah grup dengan kanal tersebut_"
 
 #: lua/groupbutler/plugins/logchannel.lua:194
 msgid "_I'm sorry, only private channels are supported for now_"
-msgstr "_Maaf, saat ini hanya mendukung private channel_"
+msgstr "_Maaf, saat ini hanya mendukung kanal privat_"
 
 #: lua/groupbutler/plugins/logchannel.lua:198
 msgid "You have to *forward* the message from the channel"
-msgstr "Anda harus *memforward* pesan dari channel"
+msgstr "Anda harus *meneruskan* pesan dari kanal"
 
 #: lua/groupbutler/plugins/logchannel.lua:203
 #: lua/groupbutler/plugins/logchannel.lua:211
 msgid "_This groups is not using a log channel_"
-msgstr "_Grup ini sedang tidak menggunakan channel catatan_"
+msgstr "_Grup ini sedang tidak menggunakan kanal catatan_"
 
 #: lua/groupbutler/plugins/logchannel.lua:206
 msgid "*Log channel removed*"
-msgstr "*Channel catatan dihapus*"
+msgstr "*Kanal catatan dihapus*"
 
 #: lua/groupbutler/plugins/logchannel.lua:216
 msgid "_This group has a log channel saved, but I'm not a member there, so I can't post/retrieve its info_"
-msgstr "_Grup ini telah memiliki channel catatan, namun saya bukan member disana, sehingga saya tidak bisa memposting/menemukan informasinya_"
+msgstr "_Grup ini telah memiliki kanal catatan, namun saya bukan member disana, sehingga saya tidak bisa memposting/menemukan informasinya_"
 
 #: lua/groupbutler/plugins/logchannel.lua:223
 #, lua-format
 msgid "<b>This group has a log channel</b>\n"
 "Channel: <code>%s</code>"
-msgstr "<b>Grup ini memiliki channel catatan</b>\n"
-"Channel: <code>%s</code>"
+msgstr "<b>Grup ini memiliki kanal catatan</b>\n"
+"Kanal: <code>%s</code>"
 
 #: lua/groupbutler/plugins/mediasettings.lua:36
 msgid "Video messages"
@@ -1803,14 +1803,14 @@ msgid "This bot is based on [otouto](https://github.com/topkecleon/otouto) (AKA 
 "You can contact the owners of this bot using the /groups command.\n\n"
 "Bot version: %s\n"
 "*Some useful links:*"
-msgstr "Bot ini berbasis [otouto](https://github.com/topkecleon/otouto) (alias @mokubot, channel: @otouto), bot LUA multifungsi.Group Butler tidak akan ada tanpa itu.\n\n"
+msgstr "Bot ini berbasis [otouto](https://github.com/topkecleon/otouto) (alias @mokubot, kanal: @otouto), sebuah bot LUA multifungsi. Group Butler tidak akan ada tanpa bot tersebut.\n\n"
 "Anda bisa menghubungi pemilik bot ini dengan menggunakan perintah `/groups`.\n\n"
 "Versi bot: %s\n"
-"*Beberapa tautan yang berguna:*\n"
+"*Beberapa tautan yang berguna:*"
 
 #: lua/groupbutler/plugins/private.lua:41
 msgid "Channel"
-msgstr "Channel"
+msgstr "Kanal"
 
 #: lua/groupbutler/plugins/private.lua:42
 msgid "GitHub"
@@ -1832,7 +1832,7 @@ msgstr "Pong!"
 #: lua/groupbutler/plugins/private.lua:94
 #, lua-format
 msgid "You can find the list of our support groups in [this channel](%s)"
-msgstr "Anda dapat menemukan daftar support group di [channel ini](%s)"
+msgstr "Anda dapat menemukan daftar grup dukungan penggunaan [di kanal ini](%s)"
 
 #: lua/groupbutler/plugins/private.lua:92
 msgid "🔙 back"
@@ -2090,7 +2090,7 @@ msgstr "*User ID*: `%d`\n"
 #: lua/groupbutler/plugins/users.lua:90
 #, lua-format
 msgid "Your ID is `%d`"
-msgstr ""
+msgstr "Nomor ID anda adalah `%d`"
 
 #: lua/groupbutler/plugins/users.lua:124
 msgid "That user has nothing to do with this chat"
@@ -2208,7 +2208,7 @@ msgstr "Apakah anda ingin melanjutkan dan me-reset *semua* peringatan yang diter
 #: lua/groupbutler/plugins/warn.lua:86
 #, lua-format
 msgid "Done! %s has been forgiven."
-msgstr ""
+msgstr "Selesai! %s telah diampuni."
 
 #: lua/groupbutler/plugins/warn.lua:111
 #, lua-format
@@ -2316,7 +2316,7 @@ msgstr "Tombol welcome"
 
 #: lua/groupbutler/utilities.lua:599
 msgid "Unknown"
-msgstr ""
+msgstr "Tidak diketahui"
 
 #: lua/groupbutler/utilities.lua:634
 msgid "*Welcome type*: `GIF / sticker`\n"
