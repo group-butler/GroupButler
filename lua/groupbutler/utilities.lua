@@ -2,6 +2,8 @@ local config = require "groupbutler.config"
 local api_u = require "telegram-bot-api.utilities"
 local log = require "groupbutler.logging"
 local null = require "groupbutler.null"
+local User = require("groupbutler.user")
+local ChatMember = require("groupbutler.chatmember")
 local http, HTTPS, ltn12, time_hires, sleep
 if ngx then
 	http = require "resty.http"
@@ -179,20 +181,6 @@ function _M:cache_adminlist(chat_id)
 	return true, #ok or 0
 end
 
-function _M:get_cached_admins_list(chat_id, second_try)
-	local red = p(self).red
-	local hash = 'cache:chat:'..chat_id..':admins'
-	local list = red:smembers(hash)
-	if not list or not next(list) then
-		self:cache_adminlist(chat_id)
-		if not second_try then
-			return self:get_cached_admins_list(chat_id, true)
-		end
-		return false
-	end
-	return list
-end
-
 function _M:is_blocked_global(id)
 	local red = p(self).red
 	return red:sismember('bot:blocked', id) ~= 0
@@ -316,42 +304,39 @@ function _M:getRules(chat_id)
 	return rules
 end
 
-function _M:getAdminlist(chat_id)
-	local api = p(self).api
+function _M:getAdminlist(chat)
 	local i18n = p(self).i18n
-	local list, code = self:get_cached_admins_list(chat_id)
+	local db = p(self).db
+	local list = db:getChatAdministratorsList(chat)
 	if not list then
-		return false, code
+		return false
 	end
-	local creator = ''
-	local adminlist = ''
+	local creator = ""
+	local adminlist = ""
 	local count = 1
 	for _, user_id in pairs(list) do
-		local s = ' ├ '
-		-- TODO: Cache admin names nad usernames
-		local admin = api:getChatMember(chat_id, user_id)
-		if admin and admin.status == 'administrator' then
-			local name = admin.user.first_name
-			if admin.user.username then
-				name = ('<a href="telegram.me/%s">%s</a>'):format(admin.user.username, name:escape_html())
-			else
-				name = name:escape_html()
+		local s = " ├ "
+		local admin = ChatMember:new({
+			chat = chat,
+			user = User:new({id=user_id}, p(self)),
+		}, p(self))
+		if admin.status == "administrator" then
+			if count + 1 == #list then
+				s = " └ "
 			end
-			if count + 1 == #list then s = ' └ ' end
-			adminlist = adminlist..s..name..'\n'
+			adminlist = adminlist..s..admin.user:getLink().."\n"
 			count = count + 1
-		elseif admin and admin.status == 'creator' then
-			creator = admin.user.first_name
-			if admin.user.username then
-				creator = ('<a href="telegram.me/%s">%s</a>'):format(admin.user.username, creator:escape_html())
-			else
-				creator = creator:escape_html()
-			end
+		end
+		if admin.status == "creator" then
+			creator = admin.user:getLink()
 		end
 	end
-	if adminlist == '' then adminlist = '-' end
-	if creator == '' then creator = '-' end
-
+	if adminlist == "" then
+		adminlist = "-"
+	end
+	if creator == "" then
+		creator = "-"
+	end
 	return i18n("<b>👤 Creator</b>\n└ %s\n\n<b>👥 Admins</b> (%d)\n%s"):format(creator, #list - 1, adminlist)
 end
 

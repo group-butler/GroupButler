@@ -180,6 +180,10 @@ function RedisStorage:getChatAdministratorsCount(chat)
 	return self.redis:scard("cache:chat:"..chat.id..":admins")
 end
 
+function RedisStorage:getChatAdministratorsList(chat)
+	return self.redis:smembers("cache:chat:"..chat.id..":admins")
+end
+
 function RedisStorage:getChatMemberProperty(chat, property) -- luacheck: ignore
 end
 
@@ -447,6 +451,25 @@ function PostgresStorage:getChatAdministratorsCount(chat)
 	return ok[1].count
 end
 
+function PostgresStorage:getChatAdministratorsList(chat)
+	local row = {
+		chat_id = chat.id,
+		creator = chat_member_status["creator"],
+		administrator = chat_member_status["administrator"],
+	}
+	local query = interpolate('SELECT user_id FROM "chat_user" WHERE chat_id = {chat_id}'..
+		'AND (status = {creator} OR status = {administrator})', row)
+	local ok = self.pg:query(query)
+	if not ok or not ok[1] or not ok[1].user_id then
+		return nil
+	end
+	local retval = {}
+	for _,v in pairs(ok) do
+		table.insert(retval, v.user_id)
+	end
+	return retval
+end
+
 function PostgresStorage:deleteChat(chat)
 	local query = interpolate('DELETE FROM "chat" WHERE id = {id}', chat)
 	self.pg:query(query)
@@ -628,6 +651,14 @@ function MixedStorage:getChatAdministratorsCount(chat)
 	local ok, title = pcall(function() return self.postgres_storage:getChatAdministratorsCount(chat) end)
 	if not ok or not title then
 		return self.redis_storage:getChatAdministratorsCount(chat)
+	end
+	return title
+end
+
+function MixedStorage:getChatAdministratorsList(chat)
+	local ok, title = pcall(function() return self.postgres_storage:getChatAdministratorsList(chat) end)
+	if not ok or not title then
+		return self.redis_storage:getChatAdministratorsList(chat)
 	end
 	return title
 end

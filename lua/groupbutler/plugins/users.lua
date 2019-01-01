@@ -86,7 +86,7 @@ function _M:onTextMessage(blocks)
 	end
 
 	if blocks[1] == 'adminlist' then
-		local adminlist = u:getAdminlist(msg.from.chat.id)
+		local adminlist = u:getAdminlist(msg.from.chat)
 		if not msg.from:isAdmin() then
 			api:sendMessage(msg.from.user.id, adminlist, 'html', true)
 		else
