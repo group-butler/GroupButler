@@ -173,7 +173,14 @@ end
 function RedisStorage:getUserProperty(user, property) -- luacheck: ignore
 end
 
-function RedisStorage:getChatProperty(chat, property) -- luacheck: ignore
+function RedisStorage:getChatProperty(chat, property)
+	if property == "title" then
+		local title = self.redis:get("chat:"..chat.id..":title")
+		if title == null then
+			return
+		end
+		return title
+	end
 end
 
 function RedisStorage:getChatAdministratorsCount(chat)
@@ -197,14 +204,6 @@ function RedisStorage:cacheChat(chat)
 	for k,v in pairs(keys) do
 		self.redis:set(k, v)
 	end
-end
-
-function RedisStorage:getChatTitle(chat)
-	local title = self.redis:get("chat:"..chat.id..":title")
-	if title == null then
-		return
-	end
-	return title
 end
 
 local admins_permissions = {
@@ -428,15 +427,6 @@ function PostgresStorage:cacheChat(chat)
 	return true
 end
 
-function PostgresStorage:getChatTitle(chat)
-	local query = interpolate('SELECT title FROM "chat" WHERE id = {id}', chat)
-	local ok = self.pg:query(query)
-	if not ok or not ok[1] or not ok[1].title then
-		return false
-	end
-	return ok[1].title
-end
-
 function PostgresStorage:getChatAdministratorsCount(chat)
 	local row = {
 		chat_id = chat.id,
@@ -637,14 +627,6 @@ function MixedStorage:cacheChat(chat)
 	if not res or not ok then
 		self.redis_storage:cacheChat(chat)
 	end
-end
-
-function MixedStorage:getChatTitle(chat)
-	local ok, title = pcall(function() return self.postgres_storage:getChatTitle(chat) end)
-	if not ok or not title then
-		return self.redis_storage:getChatTitle(chat)
-	end
-	return title
 end
 
 function MixedStorage:getChatAdministratorsCount(chat)
