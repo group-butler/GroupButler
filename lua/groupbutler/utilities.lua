@@ -288,43 +288,6 @@ function _M:demote(chat_id, user_id)
 	return removed == 1
 end
 
-function _M:migrate_chat_info(old, new, on_request)
-	local api = p(self).api
-	local red = p(self).red
-	if not old or not new then
-		return false
-	end
-
-	for hash_name, _ in pairs(config.chat_settings) do
-		local old_t = red:hgetall('chat:'..old..':'..hash_name)
-		if next(old_t) then
-			for key, val in pairs(old_t) do
-				red:hset('chat:'..new..':'..hash_name, key, val)
-			end
-		end
-	end
-
-	for _, hash_name in pairs(config.chat_hashes) do
-		local old_t = red:hgetall('chat:'..old..':'..hash_name)
-		if next(old_t) then
-			for key, val in pairs(old_t) do
-				red:hset('chat:'..new..':'..hash_name, key, val)
-			end
-		end
-	end
-
-	for i=1, #config.chat_sets do
-		local old_t = red:smembers('chat:'..old..':'..config.chat_sets[i])
-		if next(old_t) then
-			red:sadd('chat:'..new..':'..config.chat_sets[i], unpack(old_t))
-		end
-	end
-
-	if on_request then
-		api:send_message(new, "Should be done")
-	end
-end
-
 function _M:bash(str) -- luacheck: ignore 212
 	local cmd = io.popen(str)
 	local result = cmd:read('*all')
