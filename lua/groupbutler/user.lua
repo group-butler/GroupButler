@@ -77,14 +77,13 @@ function User:getProperty(index)
 end
 
 function User:__tostring()
-	if rawget(self, "first_name") then
-		local name = self.first_name
-		if rawget(self, "last_name") then
-			name = name.." "..self.last_name
+	if self.first_name then
+		if self.last_name then
+			return self.first_name.." "..self.last_name
 		end
-		return name
+		return self.first_name
 	end
-	if rawget(self, "username") then
+	if self.username then
 		return self.username
 	end
 	return self.id
@@ -95,7 +94,7 @@ function User:cache()
 end
 
 function User:getLink()
-	return ('<a href="%s">%s</a>'):format("tg://user?id="..self.id, self)
+	return ('<a href="%s">%s</a>'):format("tg://user?id="..self.id, tostring(self))
 		or  ("<code>"..self:escape_html().."</code>")
 end
 
