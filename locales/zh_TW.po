@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-12-17 15:23-0200\n"
-"PO-Revision-Date: 2018-12-24 19:35\n"
+"PO-Revision-Date: 2019-01-01 22:45\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Chinese Traditional\n"
 "Language: zh_TW\n"
@@ -46,7 +46,7 @@ msgstr "請輸入文字"
 
 #: lua/groupbutler/api_errors.lua:26
 msgid "This message is too long. Max lenght allowed by Telegram: 4000 characters"
-msgstr "這條訊息太長了, Telegram 允許的最大長度是: 4000 個字符"
+msgstr "這條訊息太長了, Telegram 允許的最大長度是: 4000 個字元"
 
 #: lua/groupbutler/api_errors.lua:27
 msgid "One of the inline buttons you are trying to set is missing the URL"
@@ -67,7 +67,7 @@ msgstr "若要得知更多資訊, [請點此](https://telegram.me/GB_tutorials/1
 msgid "This text breaks the markdown.\n"
 "More info about a proper use of markdown [here](https://telegram.me/GB_tutorials/10) and [here](https://telegram.me/GB_tutorials/12)."
 msgstr "標記符號(Markdown)使用不當. \n"
-"關於標記符號的詳細解說請點擊[這裏](https://telegram.me/GB_tutorials/10)及[這裏](https://telegram.me/GB_tutorials/12). (皆為英文)"
+"關於標記符號的詳細解說請點擊[這裡](https://telegram.me/GB_tutorials/10)及[這裡](https://telegram.me/GB_tutorials/12). (皆為英文)"
 
 #: lua/groupbutler/api_errors.lua:31
 msgid "One of the URLs that should be placed in an inline button seems to be invalid (not an URL). Please check it"
@@ -271,7 +271,7 @@ msgstr "_白名單是空白的. _\n"
 
 #: lua/groupbutler/plugins/antispam.lua:392
 msgid "Whitelisted links:\n\n"
-msgstr "連結白名單: \n\n"
+msgstr "連結白名單：\n\n"
 
 #: lua/groupbutler/plugins/antispam.lua:407
 #, lua-format
@@ -373,7 +373,7 @@ msgstr "%s 已被 %s 解除封鎖!"
 #: lua/groupbutler/plugins/banhammer.lua:152
 #: lua/groupbutler/plugins/defaultpermissions.lua:127
 msgid "Sorry, you don't have permission to restrict members"
-msgstr ""
+msgstr "對不起, 您沒有權限限制用戶"
 
 #: lua/groupbutler/plugins/banhammer.lua:156
 msgid "Tap on the -/+ buttons to change this value. Then select a timeframe to execute the ban"
@@ -791,7 +791,7 @@ msgstr "你好 %s 👋🏼, 很高興見到你! \n"
 "•我可以*踢除或禁止*用戶\n"
 "•您可以使用我來設置群組規定\n"
 "•我有一個靈活的*防洗版*系統\n"
-"•我可以*歡迎新用戶*並使用可自定義的消息, 或者如果您想要帶有gif或貼圖\n"
+"•我可以*歡迎新用戶*並使用可自訂的消息, 或者如果您想要帶有gif或貼圖\n"
 "•我可以*警告*用戶, 並在達到最大警告次數時禁止他們\n"
 "•我還可以在用戶發布特定媒體時發出警告、踢除或禁止用戶\n"
 "...... 以及更多, 下方你可以找到“所有命令”按鈕來獲取整個列表! \n\n"
@@ -809,7 +809,7 @@ msgid "This bot works only in supergroups.\n\n"
 msgstr "這個機器人只能在超級群組中使用. \n\n"
 "要正常使用, [它必須是管理員](https://telegram.me/GroupButler_ch/104), 以便在需要時限制成員. \n"
 "只有群組管理者才可以啟用它 :)\n\n"
-"您可以使用 `/, ! 或 #` 當作開頭來觸發指令. \n\n"
+"您可以使用 `/` , `! 或 #` 當作開頭來觸發指令. \n\n"
 "Group Butler 會將群組管理員名單記錄在資料庫中, 以避免向 Telegram 發送過多請求. \n"
 "此列表每 5 小時更新一次, 因此, 如果在這 5 小時的時間差內有成員被授予/移除管理員, 可能會與機器人的資料從在差異. \n"
 "可以使用`/cache`更新管理員名單. \n\n"
@@ -871,7 +871,7 @@ msgstr "*管理員: 有關群組的資訊*\n\n"
 "`/setrules -`: 清空現有規則. \n\n"
 "*備註*:允許使用標記符號(Markdown). 如果你傳送的訊息違反標記符號的規則, 我將會提醒你有些地方有錯誤. \n"
 "如何正確的使用標記符號(Markdown), 請點擊頻道中的[這則貼文](https://telegram.me/GroupButler_ch/46)(英文教學)\n\n"
-"`/setlink [網址|-]`: 設定群組連結, 如此它就能夠被其他管理員重新調用, 或者是重置它. \n"
+"`/setlink [網址|-]`: 設定群組連結, 如此它就能夠被其他管理員重新調用, 或者是重設它. \n"
 "如果你想要使用這個指令在一個公開的超級群組(supergroup), 你不需要輸入群組連結. 直接輸入`/setlink`\n"
 "`/link`: 取得群組連結, 如果已經設定好的話. \n"
 "`/msglink`: 取得一個訊息的連結. 只在公開的超級群組運作:\n\n"
@@ -901,14 +901,14 @@ msgstr "*封鎖之鎚權限*\n"
 "只有擁有\"限制用戶\"權限的管理員才能使用這些指令, 但所有管理員都可以使用 `/status`. \n\n"
 "•`/kick [透過 回覆|用戶名稱|ID|文字提及]`: 從群組踢除一個用戶. \n"
 "•`/ban [透過 回覆|用戶名稱|ID|文字提及]`: 從群組封鎖一個用戶. \n"
-"•`/tempban [透過回覆|用戶名稱|ID|文字提及]`: 封鎖用戶特定的時間量. 使用回覆的控制面板封鎖用戶, 第一行開頭的數值為預設起始值. 當禁令到期時, 用戶將不會加回. 請記得檢查Telegram受限用戶名單中等候處理解除的禁止者. \n"
+"•`/tempban [透過回覆|用戶名稱|ID|文字提及]`: 封鎖用戶特定的時間量. 使用回覆的控制面板封鎖用戶, 第一行開頭的數值為預設起始值. 當禁令到期時, 用戶將不會加回. 請記得檢查Telegram受限使用者名稱單中等候處理解除的禁止者. \n"
 "•`/fwdban [透過 回覆]`: 禁止轉發訊息的原始發送者. \n"
 "•`/unban [透過 回覆|用戶名稱|Id|文字提及]`: 取消群組內「 被封鎖的用戶 」. \n"
 "•`/user [透過 回覆|用戶名稱|Id|文字提及]`: 顯示用戶在 *所有群組中* 被禁止的次數, 以及收到的警告. \n"
 "•`/status [用戶名稱|Id]`顯示當前用戶的狀態`(成員|被限制的|踢除/離開聊天|禁止|管理/創建者|從未見過)`. \n"
 "將會顯示用戶 *沒有* 的權限. \n\n"
 "*防洗版* \n"
-"“防洗版”是一個自動刪除在群組中發送許多連續消息的人的系統. 如果開啟功能, 防洗版系统將會踢除、封鎖洗版者. \n\n"
+"“防洗版”是一個自動刪除在群組中發送許多連續消息的人的系統. 如果開啟功能, 防洗版系統將會踢除、封鎖洗版者. \n\n"
 " •使用 `/config` 指令, 接著是「`防洗版`」按鈕: 在私人訊息中使用內聯控制面板管理洗版設定. 您可以更改靈敏度, 要執行的操作(踢除或封鎖), 以及設置一些例外."
 
 #: lua/groupbutler/plugins/help.lua:103
@@ -948,11 +948,11 @@ msgid "*Welcome/goodbye settings*\n\n"
 msgstr "*歡迎/再見 設定*\n\n"
 "•輸入`/config`, 接著是\"`選單`\"按鈕: 在私人訊息接收選單的控制面板, 你將會找到開啟、關閉與歡迎、再見訊息的選項\n"
 "*注意*: 再見訊息不適用於大型群組. 這是Telegram無法避免的限制. \n\n"
-"*自定義歡迎訊息*:\n"
+"*自訂歡迎訊息*:\n"
 "•`/welcome 歡迎 $name, 加入群組!`\n"
 "請在`/welcome`後寫下歡迎訊息, 同樣適用於`/goodbye` \n\n"
-"您可以使用一些替代字符來包含群組新成員的\"名字 、用戶名稱 、ID \"\n"
-"替代字符: \n"
+"您可以使用一些替代字元來包含群組新成員的\"名字 、用戶名稱 、ID \"\n"
+"替代字元: \n"
 "`$username`: _將被替換成用戶名稱_\n"
 "`$name`: _將被替換成名(first name)_\n"
 "`$id`: _將被替換成ID_\n"
@@ -999,7 +999,7 @@ msgid "*Extra commands*\n"
 "For a correct use of the markdown, check [this post](https://telegram.me/GroupButler_ch/46) in the channel.\n"
 "Now supports placeholders. Check the \"welcome\" tab for the list of the available placeholders"
 msgstr "*自訂指令*\n"
-"#extra 指令是保存自己的自定義指令的聰明方法. \n\n"
+"#extra 指令是保存自己的自訂指令的聰明方法. \n\n"
 "`/extra [#發動訊息] [回覆訊息]`: 設定當某人傳出某特定訊息的回覆. \n"
 "_範例_: 透過\"`/extra #hello Good morning!`\", 每當某人說 #hello, 機器人便會回覆 \"Good morning!\". \n"
 "你可以設定針對特定多媒體檔案的回覆 (_照片、附加檔案、錄音檔、影片、動圖、聲音檔_)透過`/extra #發動訊息` 會把該指定訊息存入 #extra 並在某人使用#指令時收到預設的訊息. \n"
@@ -1034,7 +1034,7 @@ msgstr "*警告管理*\n"
 "`/nowarns [透過回覆]`: 重設一個成員收到的警告次數(包括一般警告與媒體訊息警告). \n"
 "`/warnmax [數字]`: 設定累積多少警告次數後被踢出或封鎖. \n"
 "`/warnmax media [數字]`: 設定最多傳送幾條不合規定的媒體訊息後被踢出、封鎖. \n\n"
-"如何看見成員累積了多少警告(或是重置警告): 使用`/user`指令. \n"
+"如何看見成員累積了多少警告(或是重設警告): 使用`/user`指令. \n"
 "如何更改允許的警告次數上限: `/config`指令, 接著\"`選單`\"按鈕. \n"
 "如何更改允許的媒體警告次數上限: `/config` 指令,接著\"`媒體`\"按鈕. \n"
 "如何更改允許的洗版警告次數上限: `/ config`命令, 接著是\"`反洗版`\"按鈕."
@@ -1055,7 +1055,7 @@ msgstr "*置頂訊息*\n"
 "• `/pin [訊息]`: 機器人會把輸入的訊息以包含標記符號的參數形式回傳, 你可以置頂該訊息並使用 `/pin [訊息]` 編輯該訊息它\n"
 "• `/pin`: 機器人將找到由`/pin`生成的最新消息, 如果它仍存在的話. \n"
 "• `/newpin [訊息]`: 強制機器人發送另一個訊息, 此訊息將會是 `/pin` 的新目標\n\n"
-"*備註*: `/pin` 支援標記符號, 但只有替代字符 `$rules` 及 `$title`"
+"*備註*: `/pin` 支援標記符號, 但只有替代字元 `$rules` 及 `$title`"
 
 #: lua/groupbutler/plugins/help.lua:186
 msgid "*Group language*\n"
@@ -1072,7 +1072,7 @@ msgstr "*群組語言*\n"
 "`/lang`: 選擇該群組使用的語言(也可以在私人訊息中更改). \n\n"
 "*注意*: 翻譯者均為自願者, 所以無法確保所有翻譯的正確性與完整性(未翻譯的語句皆為英語). \n\n"
 "您可以在 [Crowdin Project](https://crowdin.com/project/group-butler) 上幫助我們改進翻譯. \n\n"
-"*特殊字符*\n\n"
+"*特殊字元*\n\n"
 "•使用`/config`指令, 接著點擊\"`選單`\"按鈕, 機器人將會向你發送控制面板. \n"
 "在這裡, 你會找到兩個特定選擇: _阿拉伯文字和右至左文字_. \n\n"
 "*阿拉伯文字*:當不允許阿拉伯文字(🚫)時, 輸入阿拉伯文字的人將被踢出該群組. \n"
@@ -1349,7 +1349,7 @@ msgstr "回報"
 
 #: lua/groupbutler/plugins/logchannel.lua:65
 msgid "Warns resets"
-msgstr "警告重置"
+msgstr "警告重設"
 
 #: lua/groupbutler/plugins/logchannel.lua:66
 msgid "New members"
@@ -1401,7 +1401,7 @@ msgstr "你不是此群組的管理員"
 
 #: lua/groupbutler/plugins/logchannel.lua:115
 msgid "User unbanned!"
-msgstr "此用戶已被解除封鎖! "
+msgstr "此用戶已被解除封鎖!"
 
 #: lua/groupbutler/plugins/logchannel.lua:136
 msgid "*Select the events the will be logged in the channel*\n"
@@ -1598,7 +1598,7 @@ msgstr "普通用戶將禁止新增機器人進入群組"
 
 #: lua/groupbutler/plugins/menu.lua:39
 msgid "Select what the bot should do when someone sends a message with the RTL character, or has it in their name"
-msgstr "選擇當有人發送帶有從右到左字符的訊息或者在他們的名字中有這些的時候, 機器人應該做什麼"
+msgstr "選擇當有人發送帶有從右到左字元的訊息或者在他們的名字中有這些的時候, 機器人應該做什麼"
 
 #: lua/groupbutler/plugins/menu.lua:40
 msgid "Change how many times a user has to be warned before being kicked/banned"
@@ -1706,7 +1706,7 @@ msgstr "警告: "
 
 #: lua/groupbutler/plugins/menu.lua:237
 msgid "Action:"
-msgstr "動作: "
+msgstr "動作:"
 
 #: lua/groupbutler/plugins/menu.lua:260
 msgid "Manage the settings of the group. Click on the left column to get a small hint"
@@ -1715,17 +1715,17 @@ msgstr "群組的管理設定.  單擊左列以獲得一個小提示"
 #: lua/groupbutler/plugins/onmessage.lua:117
 #, lua-format
 msgid "%s <b>banned</b> for flood!"
-msgstr "%s 因洗版而被<b>封鎖</b>! "
+msgstr "%s 因洗版而被<b>封鎖</b>!"
 
 #: lua/groupbutler/plugins/onmessage.lua:119
 #, lua-format
 msgid "%s <b>kicked</b> for flood!"
-msgstr "%s 因洗版而被<b>踢除</b>! "
+msgstr "%s 因洗版而被<b>踢除</b>!"
 
 #: lua/groupbutler/plugins/onmessage.lua:121
 #, lua-format
 msgid "%s <b>muted</b> for flood!"
-msgstr "%s 因洗版而被<b>禁言</b>! "
+msgstr "%s 因洗版而被<b>禁言</b>!"
 
 #: lua/groupbutler/plugins/onmessage.lua:170
 #, lua-format
@@ -1766,17 +1766,17 @@ msgstr "%s <b>已被禁言</b>: 從右至左文字在名字或訊息裡是不被
 #: lua/groupbutler/plugins/onmessage.lua:234
 #, lua-format
 msgid "%s <b>kicked</b>: arab/persian message detected!"
-msgstr "%s <b>已被踢除</b>: 偵測到阿拉伯文字! "
+msgstr "%s <b>已被踢除</b>: 偵測到阿拉伯文字!"
 
 #: lua/groupbutler/plugins/onmessage.lua:237
 #, lua-format
 msgid "%s <b>banned</b>: arab/persian message detected!"
-msgstr "%s <b>已被封鎖</b>: 偵測到阿拉伯文字! "
+msgstr "%s <b>已被封鎖</b>: 偵測到阿拉伯文字!"
 
 #: lua/groupbutler/plugins/onmessage.lua:240
 #, lua-format
 msgid "%s <b>muted</b>: arab/persian message detected!"
-msgstr "%s <b>已被禁言</b>: 偵測到阿拉伯文字! "
+msgstr "%s <b>已被禁言</b>: 偵測到阿拉伯文字!"
 
 #: lua/groupbutler/plugins/pin.lua:76
 msgid "I couldn't find any message generated by <code>/pin</code>."
@@ -1817,7 +1817,7 @@ msgstr "GitHub"
 
 #: lua/groupbutler/plugins/private.lua:43
 msgid "Rate me!"
-msgstr "評價我! "
+msgstr "評價我!"
 
 #: lua/groupbutler/plugins/private.lua:46
 msgid "👥 Groups"
@@ -1825,7 +1825,7 @@ msgstr "👥 群組"
 
 #: lua/groupbutler/plugins/private.lua:61
 msgid "Pong!"
-msgstr "砰! "
+msgstr "砰!"
 
 #: lua/groupbutler/plugins/private.lua:76
 #: lua/groupbutler/plugins/private.lua:94
@@ -2089,7 +2089,7 @@ msgstr "*用戶 ID*: `%d`\n"
 #: lua/groupbutler/plugins/users.lua:90
 #, lua-format
 msgid "Your ID is `%d`"
-msgstr ""
+msgstr "你的ID是 `%d`"
 
 #: lua/groupbutler/plugins/users.lua:124
 msgid "That user has nothing to do with this chat"
@@ -2203,12 +2203,12 @@ msgstr "否"
 
 #: lua/groupbutler/plugins/warn.lua:68
 msgid "Do you want to continue and reset *all* the warnings received by *all* the users of the group?"
-msgstr "您是否確認重置群組內 *全部* 用戶收到的 *所有* 警告次数？"
+msgstr "您是否確認重設群組內 *全部* 用戶收到的 *所有* 警告次數？"
 
 #: lua/groupbutler/plugins/warn.lua:86
 #, lua-format
 msgid "Done! %s has been forgiven."
-msgstr ""
+msgstr "完成! %s 已被原諒."
 
 #: lua/groupbutler/plugins/warn.lua:111
 #, lua-format
@@ -2316,7 +2316,7 @@ msgstr "歡迎按鈕"
 
 #: lua/groupbutler/utilities.lua:599
 msgid "Unknown"
-msgstr ""
+msgstr "未知"
 
 #: lua/groupbutler/utilities.lua:634
 msgid "*Welcome type*: `GIF / sticker`\n"

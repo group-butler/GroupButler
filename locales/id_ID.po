@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-12-17 15:23-0200\n"
-"PO-Revision-Date: 2018-12-24 19:35\n"
+"PO-Revision-Date: 2019-01-01 22:45\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Indonesian\n"
 "Language: id_ID\n"
@@ -119,7 +119,7 @@ msgstr "pesan kanal"
 #: lua/groupbutler/plugins/antispam.lua:94
 #, lua-format
 msgid "%s %s for <b>spam</b>! (%d/%d)"
-msgstr "%s %s karena <b>spam</b>! (%d%d)"
+msgstr "%s di%s karena <b>spam</b>! (%d%d)"
 
 #: lua/groupbutler/plugins/antispam.lua:101
 #, lua-format
@@ -469,7 +469,7 @@ msgstr "Teks"
 #: lua/groupbutler/plugins/dashboard.lua:39
 #: lua/groupbutler/plugins/floodmanager.lua:68
 msgid "Forwards"
-msgstr "Forward"
+msgstr "Pesan terusan"
 
 #: lua/groupbutler/plugins/dashboard.lua:40
 #: lua/groupbutler/plugins/dashboard.lua:167
