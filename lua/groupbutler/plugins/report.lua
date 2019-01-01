@@ -1,5 +1,6 @@
 local config = require "groupbutler.config"
 local null = require "groupbutler.null"
+local api_u = require("telegram-bot-api.utilities")
 
 local _M = {}
 
@@ -22,6 +23,7 @@ end
 local function report(self, msg, description)
 	local api = self.api
 	local red = self.red
+	local db = self.db
 	local i18n = self.i18n
 	local u = self.u
 
@@ -52,17 +54,15 @@ local function report(self, msg, description)
 	local admins_list = u:get_cached_admins_list(msg.from.chat.id)
 	if not admins_list then return false end
 
-	local desc_msg
-	local markup = {inline_keyboard={{{text = i18n("Address this report")}}}}
 	local callback_data = ("report:%d:"):format(msg.from.chat.id)
 	local hash = 'chat:'..msg.from.chat.id..':report:'..msg.message_id --stores the user_id and the msg_id of the report messages sent to the admins
 	for i=1, #admins_list do
-		local receive_reports = red:hget('user:'..admins_list[i]..':settings', 'reports')
-		if receive_reports ~= null and receive_reports == 'on' then
+		if db:get_user_setting(admins_list[i], "reports") then
 			local res_fwd = api:forwardMessage(admins_list[i], msg.from.chat.id, msg.reply.message_id)
 			if res_fwd then
-				markup.inline_keyboard[1][1].callback_data = callback_data..(msg.message_id)
-				desc_msg = api:sendMessage(admins_list[i], text, 'html', true, nil, res_fwd.message_id, markup)
+				local reply_markup = api_u.InlineKeyboardMarkup:new()
+					:row({text = i18n("Address this report"), callback_data = callback_data..msg.message_id})
+				local desc_msg = api:sendMessage(admins_list[i], text, 'html', true, nil, res_fwd.message_id, reply_markup)
 				if desc_msg then
 					red:hset(hash, admins_list[i], desc_msg.message_id) --save the msg_id of the msg sent to the admin
 					n = n + 1
