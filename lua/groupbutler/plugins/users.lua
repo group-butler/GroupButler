@@ -1,5 +1,6 @@
 local config = require "groupbutler.config"
 local User = require("groupbutler.user")
+local Chat = require("groupbutler.chat")
 
 local _M = {}
 
@@ -201,7 +202,7 @@ function _M:onCallbackQuery(blocks)
 	end
 
 	if blocks[1] == 'recache' and msg.from:isAdmin() then
-		u:cache_adminlist(msg.target_id)
+		u:cache_adminlist(Chat:new({id=msg.target_id}, self))
 		api:answerCallbackQuery(msg.cb_id, i18n("✅ The admin list will be updated soon"))
 	end
 end

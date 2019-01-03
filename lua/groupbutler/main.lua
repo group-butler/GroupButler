@@ -194,7 +194,7 @@ Unfortunately I can't work in normal groups. If you need me, please ask the crea
 				and msg.from.chat.type ~= 'inline'
 				and red:exists('chat:'..msg.from.chat.id..':settings') == 0
 				and not msg.service then
-				u:initGroup(msg.from.chat.id)
+				u:initGroup(msg.from.chat)
 				end
 
 				-- print some info in the terminal

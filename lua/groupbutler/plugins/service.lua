@@ -50,7 +50,7 @@ function _M:onTextMessage(blocks)
 			api:leaveChat(msg.from.chat.id)
 			return
 		end
-		u:initGroup(msg.from.chat.id)
+		u:initGroup(msg.from.chat)
 		-- send manuals
 		local text
 		if blocks[1] == 'new_chat_member:bot' then

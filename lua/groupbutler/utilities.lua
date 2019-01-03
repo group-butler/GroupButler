@@ -494,23 +494,23 @@ function _M:sendStartMe(msg)
 		keyboard)
 end
 
-function _M:initGroup(chat_id)
+function _M:initGroup(chat)
 	local red = p(self).red
 	local db = p(self).db
 	for set, setting in pairs(config.chat_settings) do
-		local hash = 'chat:'..chat_id..':'..set
+		local hash = 'chat:'..chat.id..':'..set
 		for field, value in pairs(setting) do
 			red:hset(hash, field, value)
 		end
 	end
 
-	self:cache_adminlist(chat_id) --init admin cache
+	self:cache_adminlist(chat.id) --init admin cache
 
 	--save group id
-	red:sadd('bot:groupsid', chat_id)
+	red:sadd('bot:groupsid', chat.id)
 	--remove the group id from the list of dead groups
-	red:srem('bot:groupsid:removed', chat_id)
-	db:cacheChat({id=chat_id, type="supergroup"})
+	red:srem('bot:groupsid:removed', chat.id)
+	db:cacheChat(chat)
 end
 
 local function empty_modlist(self, chat_id)

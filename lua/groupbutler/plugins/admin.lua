@@ -2,6 +2,7 @@ local config = require "groupbutler.config"
 local null = require "groupbutler.null"
 local json = require "cjson"
 local User = require("groupbutler.user")
+local Chat = require("groupbutler.chat")
 
 local _M = {}
 
@@ -319,7 +320,7 @@ function _M:onTextMessage(blocks)
 		end
 	end
 	if blocks[1] == 'initgroup' then
-		u:initGroup(blocks[2])
+		u:initGroup(Chat:new({id=blocks[2]}, self))
 		api:sendMessage(msg.from.chat.id, 'Done')
 	end
 	if blocks[1] == 'remgroup' then
@@ -344,7 +345,7 @@ function _M:onTextMessage(blocks)
 	if blocks[1] == 'initcache' then
 		local chat_id, text
 		chat_id = get_chat_id(msg)
-		local res, code = u:cache_adminlist(chat_id)
+		local res, code = u:cache_adminlist(Chat:new({id=chat_id}, self))
 		if res then
 			text = 'Cached ➤ '..code..' admins stored'
 		else
