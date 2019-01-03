@@ -146,12 +146,12 @@ function _M:is_superadmin(user_id) -- luacheck: ignore 212
 	return false
 end
 
-function _M:cache_adminlist(chat_id)
+function _M:cache_adminlist(chat)
 	local api = p(self).api
 	local red = p(self).red
 	local db = p(self).db
 
-	local lock_key = "cache:chat:"..chat_id..":getadmin_lock"
+	local lock_key = "cache:chat:"..chat.id..":getadmin_lock"
 
 	if red:exists(lock_key) == 1 then
 		local counter = 0
@@ -165,9 +165,9 @@ function _M:cache_adminlist(chat_id)
 	end
 
 	red:setex(lock_key, 1, "")
-	log.info('Saving the adminlist for: {chat_id}', {chat_id=chat_id})
+	log.info('Saving the adminlist for: {chat_id}', {chat_id=chat.id})
 	self:metric_incr("api_getchatadministrators_count")
-	local ok, err = api:getChatAdministrators(chat_id)
+	local ok, err = api:getChatAdministrators(chat.id)
 	if not ok then
 		if err.retry_after then
 			red:setex(lock_key, err.retry_after, "")
@@ -176,7 +176,7 @@ function _M:cache_adminlist(chat_id)
 		return false, err
 	end
 
-	db:cacheAdmins({id=chat_id, type="supergroup"}, ok)
+	db:cacheAdmins(chat, ok)
 
 	return true, #ok or 0
 end
