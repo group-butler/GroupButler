@@ -188,7 +188,12 @@ function RedisStorage:getChatAdministratorsCount(chat)
 end
 
 function RedisStorage:getChatAdministratorsList(chat)
-	return self.redis:smembers("cache:chat:"..chat.id..":admins")
+	local admins = self.redis:smembers("cache:chat:"..chat.id..":admins") or {}
+	local owner = self.redis:get("cache:chat:"..chat.id..":owner")
+	if owner then
+		table.insert(admins, owner)
+	end
+	return admins
 end
 
 function RedisStorage:getChatMemberProperty(chat, property) -- luacheck: ignore
