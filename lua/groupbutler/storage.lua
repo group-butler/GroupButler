@@ -259,9 +259,7 @@ function RedisStorage:deleteChat(chat)
 		self.redis:del('chat:'..chat.id..':'..set)
 	end
 
-	local owner_id = self.redis:get("cache:chat:"..chat.id..":owner")
 	local keys = {
-		"cache:chat:"..chat.id..":"..owner_id..":permissions",
 		"cache:chat:"..chat.id..":admins",
 		"cache:chat:"..chat.id..":owner",
 		"chat:"..chat.id..":title",
@@ -270,6 +268,11 @@ function RedisStorage:deleteChat(chat)
 		"chat:"..chat.id..":pin",
 		"lang:"..chat.id,
 	}
+	local owner_id = self.redis:get("cache:chat:"..chat.id..":owner")
+	if  owner_id
+	and owner_id ~= null then
+		table.insert(keys, "cache:chat:"..chat.id..":"..owner_id..":permissions")
+	end
 	for _,k in pairs(keys) do
 		self.redis:del(k)
 	end
