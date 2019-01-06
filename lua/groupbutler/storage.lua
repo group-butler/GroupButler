@@ -14,6 +14,11 @@ local PostgresStorage = {}
 
 local MixedStorage = {}
 
+local function set_default(t, d)
+	local mt = {__index = function() return d end}
+	setmetatable(t, mt)
+end
+
 local function enum(t)
 	local new_t = {}
 	for k,v in pairs(t) do
@@ -196,7 +201,30 @@ function RedisStorage:getChatAdministratorsList(chat)
 	return admins
 end
 
-function RedisStorage:getChatMemberProperty(chat, property) -- luacheck: ignore
+local is_admin_permission = {
+	can_be_edited = true,
+	can_change_info = true,
+	can_delete_messages = true,
+	can_invite_users = true,
+	can_restrict_members = true,
+	can_promote_members = true,
+	can_pin_messages = true,
+} set_default(is_admin_permission, false)
+
+function RedisStorage:getChatMemberProperty(member, property)
+	if is_admin_permission[property] then
+		local set = ("cache:chat:%s:%s:permissions"):format(member.chat.id, member.user.id)
+		return self.redis:sismember(set, property) == 1
+	end
+	if property == "status" then
+		if tonumber(self.redis:get("cache:chat:"..member.chat.id..":owner")) == member.user.id then
+			return "creator"
+		end
+		if self.redis:sismember("cache:chat:"..member.chat.id..":admins", member.user.id) == 1 then
+			return "administrator"
+		end
+		return "member" -- Could be left, kicked, etc. But to avoid an api call when postgres is down, assume member
+	end
 end
 
 function RedisStorage:cacheChat(chat)
