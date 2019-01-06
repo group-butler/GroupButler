@@ -504,7 +504,7 @@ function _M:initGroup(chat)
 		end
 	end
 
-	self:cache_adminlist(chat.id) --init admin cache
+	self:cache_adminlist(chat) --init admin cache
 
 	--save group id
 	red:sadd('bot:groupsid', chat.id)
