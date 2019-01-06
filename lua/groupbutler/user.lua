@@ -94,7 +94,7 @@ function User:cache()
 end
 
 function User:getLink()
-	return ('<a href="%s">%s</a>'):format("tg://user?id="..self.id, tostring(self):escape_html())
+	return ('<a href="tg://user?id=%s">%s</a>'):format(self.id, tostring(self):escape_html())
 end
 
 return User
