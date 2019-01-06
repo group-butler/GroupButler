@@ -289,8 +289,7 @@ function _M:telegram_file_link(res) -- luacheck: ignore 212
 end
 
 function _M:is_silentmode_on(chat_id)
-	local red = p(self).red
-	return red:hget("chat:"..chat_id..":settings", "Silent") == "on"
+	return p(self).db:get_chat_setting(chat_id, "Silent")
 end
 
 function _M:getRules(chat_id)
