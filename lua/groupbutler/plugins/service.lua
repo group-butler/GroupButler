@@ -41,12 +41,14 @@ function _M:onTextMessage(blocks)
 
 	if blocks[1] == 'new_chat_member:bot' or blocks[1] == 'migrate_from_chat_id' then
 		if u:is_blocked_global(msg.from.user.id) then
-			api:sendMessage(msg.from.chat.id, i18n("_You (user ID: %d) are in the blocked list_"):format(msg.from.user.id), "Markdown")
+			api:sendMessage(msg.from.chat.id, i18n("_You (user ID: %d) are in the blocked list_"):format(msg.from.user.id),
+				"Markdown")
 			api:leaveChat(msg.from.chat.id)
 			return
 		end
 		if config.bot_settings.admin_mode and not u:is_superadmin(msg.from.user.id) then
-			api:sendMessage(msg.from.chat.id, i18n("_Admin mode is on: only the bot admin can add me to a new group_"), "Markdown")
+			api:sendMessage(msg.from.chat.id, i18n("_Admin mode is on: only the bot admin can add me to a new group_"),
+				"Markdown")
 			api:leaveChat(msg.from.chat.id)
 			return
 		end

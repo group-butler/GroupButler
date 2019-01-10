@@ -335,7 +335,9 @@ function _M:onTextMessage(blocks)
 		else
 			local keyboard = do_keyboard(self, 'main')
 			local res = api:sendMessage(msg.from.user.id, text, "Markdown", nil, nil, nil, keyboard)
-			if not res and msg.from.chat.type ~= 'private' and red:hget('chat:'..msg.from.chat.id..':settings', 'Silent') ~= 'on' then
+			if  not res
+			and msg.from.chat.type ~= 'private'
+			and red:hget('chat:'..msg.from.chat.id..':settings', 'Silent') ~= 'on' then
 				api:sendMessage(msg.from.chat.id,
 					i18n('[Start me](%s) _to get the list of commands_'):format(u:deeplink_constructor('', 'help')), "Markdown")
 			end
