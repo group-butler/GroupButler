@@ -91,6 +91,7 @@ function _M:onTextMessage(blocks)
 			"Markdown", nil, nil, markup)
 	end
 
+	local text
 	if blocks[1] == 'kick' then
 		local ok, err = target:kick()
 		if not ok then
@@ -103,7 +104,8 @@ function _M:onTextMessage(blocks)
 			user = target.user,
 			user_id = target.user.id
 		})
-		api:sendMessage(msg.from.chat.id, i18n("%s kicked %s!"):format(admin.user, target.user), "html", true)
+		text = i18n("%s kicked %s!"):format(admin.user:getLink(), target.user:getLink())
+		api:sendMessage(msg.from.chat.id, text, "html", true)
 	end
 
 	if blocks[1] == 'ban' then
@@ -117,7 +119,8 @@ function _M:onTextMessage(blocks)
 			user = target.user,
 			user_id = target.user.id
 		})
-		api:sendMessage(msg.from.chat.id, i18n("%s banned %s!"):format(admin.user, target.user), "html", true)
+		text = i18n("%s banned %s!"):format(admin.user:getLink(), target.user:getLink())
+		api:sendMessage(msg.from.chat.id, text, "html", true)
 	end
 
 	if blocks[1] == 'fwdban' then
@@ -136,7 +139,8 @@ function _M:onTextMessage(blocks)
 			user = target.user,
 			user_id = target.user.id
 		})
-		api:sendMessage(msg.from.chat.id, i18n("%s banned %s!"):format(admin.user, target.user), "html", true)
+		text = i18n("%s banned %s!"):format(admin.user:getLink(), target.user:getLink())
+		api:sendMessage(msg.from.chat.id, text, "html", true)
 	end
 
 	if blocks[1] == 'unban' then
@@ -159,7 +163,7 @@ function _M:onTextMessage(blocks)
 			user = target.user,
 			user_id = target.user.id
 		})
-		msg:send_reply(i18n("%s unbanned by %s!"):format(target.user, admin.user), 'html')
+		msg:send_reply(i18n("%s unbanned by %s!"):format(target.user:getLink(), admin.user:getLink()), 'html')
 	end
 end
 

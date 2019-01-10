@@ -112,15 +112,15 @@ function _M:onTextMessage(blocks)
 			text = i18n("%s <b>%s</b>: reached the max number of warnings (<code>%d/%d</code>)")
 			if type == 'ban' then
 				hammer_log = i18n('banned')
-				text = text:format(target, hammer_log, num, nmax)
+				text = text:format(target.user:getLink(), hammer_log, num, nmax)
 				res, err = target:ban()
 			elseif type == 'kick' then --kick
 				hammer_log = i18n('kicked')
-				text = text:format(target, hammer_log, num, nmax)
+				text = text:format(target.user:getLink(), hammer_log, num, nmax)
 				res, err = target:kick()
 			elseif type == 'mute' then --kick
 				hammer_log = i18n('muted')
-				text = text:format(target, hammer_log, num, nmax)
+				text = text:format(target.user:getLink(), hammer_log, num, nmax)
 				res, err = target:mute()
 			end
 			--if kick/ban fails, send the motivation
@@ -142,9 +142,9 @@ function _M:onTextMessage(blocks)
 				warnmax = nmax
 			})
 		else
-			text = i18n("%s <b>has been warned</b> (<code>%d/%d</code>)"):format(target.user, num, nmax)
-			local keyboard = doKeyboard_warn(self, target.user.id)
 			if blocks[1] ~= 'sw' then
+				text = i18n("%s <b>has been warned</b> (<code>%d/%d</code>)"):format(target.user:getLink(), num, nmax)
+				local keyboard = doKeyboard_warn(self, target.user.id)
 				api:sendMessage(msg.from.chat.id, text, 'html', true, nil, nil, keyboard)
 			end
 			u:logEvent('warn', msg, {
