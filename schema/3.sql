@@ -39,3 +39,9 @@ CREATE TRIGGER set_updated_at
     BEFORE UPDATE ON "chat_user"
     FOR EACH ROW
     EXECUTE PROCEDURE trigger_set_updated_at();
+
+--
+-- Updates
+--
+
+ALTER TABLE "user" ALTER COLUMN is_bot DROP NOT NULL;

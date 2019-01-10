@@ -327,7 +327,8 @@ function RedisStorage:get_reused_times()
 end
 
 local function is_user_property_optional(k)
-	if k == "last_name"
+	if k == "is_bot"
+	or k == "last_name"
 	or k == "username"
 	or k == "language_code" then
 		return true
@@ -337,7 +338,6 @@ end
 function PostgresStorage:cacheUser(user)
 	local row = {
 		id = user.id,
-		is_bot = user.is_bot,
 		first_name = self.pg:escape_literal(user.first_name)
 	}
 	for k, _ in pairs(user) do
