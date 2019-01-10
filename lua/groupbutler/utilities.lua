@@ -546,7 +546,8 @@ function _M:logEvent(event, msg, extra)
 	local text, reply_markup
 
 	local chat_info = i18n("<b>Chat</b>: %s [#chat%d]"):format(msg.from.chat.title:escape_html(), msg.from.chat.id * -1)
-	local member = ("%s [@%s] [#id%d]"):format(msg.from.user.first_name:escape_html(), msg.from.user.username or '-', msg.from.user.id)
+	local member = ("%s [@%s] [#id%d]"):format(msg.from.user.first_name:escape_html(), msg.from.user.username or '-',
+		msg.from.user.id)
 
 	local log_event = {
 		mediawarn = function()
@@ -616,7 +617,9 @@ function _M:logEvent(event, msg, extra)
 			--motivation: motivation
 			text = i18n(
 				'#%s\n• <b>Admin</b>: %s [#id%d]\n• %s\n• <b>User</b>: %s [#id%d]\n• <b>Count</b>: <code>%d/%d</code>'
-			):format(event:upper(), extra.admin, msg.from.user.id, chat_info, extra.user, extra.user_id, extra.warns, extra.warnmax)
+			):format(event:upper(), tostring(extra.admin), msg.from.user.id, chat_info, tostring(extra.user), extra.user_id,
+				extra.warns, extra.warnmax
+			)
 		end,
 		nowarn = function()
 			--WARNS REMOVED
@@ -624,7 +627,7 @@ function _M:logEvent(event, msg, extra)
 			--user name formatted: user
 			--user id: user_id
 			text = i18n("#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n• <b>User</b>: %s [#id%s]"):format(
-				'WARNS_RESET', extra.admin, msg.from.user.id, chat_info, extra.user, tostring(extra.user_id))
+				'WARNS_RESET', extra.admin, msg.from.user.id, chat_info, extra.user, extra.user_id)
 		end,
 		block = function() -- or unblock
 			text = i18n('#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n'
@@ -645,7 +648,8 @@ function _M:logEvent(event, msg, extra)
 			--motivation: motivation
 			text = i18n(
 			'#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n• <b>User</b>: %s [#id%s]\n• <b>Duration</b>: %d days, %d hours'
-			):format(event:upper(), extra.admin, msg.from.user.id, chat_info, extra.user, tostring(extra.user_id), extra.d, extra.h)
+			):format(event:upper(), tostring(extra.admin), msg.from.user.id, chat_info, tostring(extra.user),
+			extra.user_id, extra.d, extra.h)
 		end,
 		ban = function() -- or kick or unban
 			--BAN OR KICK OR UNBAN
@@ -654,7 +658,7 @@ function _M:logEvent(event, msg, extra)
 			--user id: user_id
 			--motivation: motivation
 			text = i18n('#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n• <b>User</b>: %s [#id%s]'):format(
-				event:upper(), extra.admin, msg.from.user.id, chat_info, extra.user, tostring(extra.user_id))
+				event:upper(), tostring(extra.admin), msg.from.user.id, chat_info, tostring(extra.user), extra.user_id)
 		end,
 	} set_default(log_event, function()
 			text = i18n('#%s\n• %s\n• <b>By</b>: %s'):format(event:upper(), chat_info, member)
@@ -686,8 +690,9 @@ function _M:logEvent(event, msg, extra)
 	end
 
 	if msg.from.chat.username then
-		text = text..
-			('\n• <a href="telegram.me/%s/%d">%s</a>'):format(msg.from.chat.username, msg.message_id, i18n('Go to the message'))
+		text = text..('\n• <a href="telegram.me/%s/%d">%s</a>'):format(
+			msg.from.chat.username, msg.message_id, i18n('Go to the message')
+		)
 	end
 
 	local ok, err = api:send_message{
