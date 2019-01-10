@@ -28,7 +28,7 @@ Group Butler wouldn't exist without it.
 You can contact the owners of this bot using the /groups command.
 
 Bot version: %s
-*Some useful links:*]]):format(bot_version())
+*Some useful links:*]]):format(bot_version(self))
 	}
 end
 
