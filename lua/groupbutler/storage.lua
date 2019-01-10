@@ -349,8 +349,8 @@ function PostgresStorage:cacheUser(user)
 	if rawget(user, "username") then
 		username = 'UPDATE "user" SET username = NULL WHERE lower(username) = lower({username});\n'
 	end
-	local insert = 'INSERT INTO "user" (id, is_bot, first_name'
-	local values = ") VALUES ({id}, {is_bot}, {first_name}"
+	local insert = 'INSERT INTO "user" (id, first_name'
+	local values = ") VALUES ({id}, {first_name}"
 	local on_conflict = " ON CONFLICT (id) DO UPDATE SET first_name = {first_name}"
 	for k, _ in pairs(row) do
 		if is_user_property_optional(k) then

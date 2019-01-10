@@ -89,7 +89,7 @@ If you're using it by username and want to teach me who the user is, forward me 
 			return ChatMember:new({
 				user = self.reply_to_message.new_chat_member,
 				chat = self.from.chat,
-			})
+			}, p(self))
 		end
 		return self.reply_to_message.from
 	end
