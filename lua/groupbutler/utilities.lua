@@ -677,10 +677,10 @@ function _M:logEvent(event, msg, extra)
 	end
 
 	if extra then
-		if extra.hammered then
+		if rawget(extra, "hammered") then
 			text = text..i18n("\n• <b>Action</b>: #%s"):format(extra.hammered:upper())
 		end
-		if extra.motivation then
+		if rawget(extra, "motivation") then
 			text = text..i18n('\n• <b>Reason</b>: <i>%s</i>'):format(extra.motivation:escape_html())
 		end
 	end
