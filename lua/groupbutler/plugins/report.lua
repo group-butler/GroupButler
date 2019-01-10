@@ -25,7 +25,6 @@ local function report(self, msg, description)
 	local red = self.red
 	local db = self.db
 	local i18n = self.i18n
-	local u = self.u
 
 	local text = i18n(
 		'• <b>Message reported by</b>: %s (<code>%d</code>)'):format(msg.from.user:getLink(), msg.from.user.id)
@@ -51,7 +50,7 @@ local function report(self, msg, description)
 
 	local n = 0
 
-	local admins_list = u:get_cached_admins_list(msg.from.chat.id)
+	local admins_list = db:getChatAdministratorsList(msg.from.chat)
 	if not admins_list then return false end
 
 	local callback_data = ("report:%d:"):format(msg.from.chat.id)
