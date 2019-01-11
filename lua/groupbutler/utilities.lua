@@ -495,7 +495,6 @@ end
 
 function _M:initGroup(chat)
 	local red = p(self).red
-	local db = p(self).db
 	for set, setting in pairs(config.chat_settings) do
 		local hash = 'chat:'..chat.id..':'..set
 		for field, value in pairs(setting) do
@@ -509,7 +508,7 @@ function _M:initGroup(chat)
 	red:sadd('bot:groupsid', chat.id)
 	--remove the group id from the list of dead groups
 	red:srem('bot:groupsid:removed', chat.id)
-	db:cacheChat(chat)
+	chat:cache()
 end
 
 local function empty_modlist(self, chat_id)
