@@ -21,9 +21,11 @@ install:
   - luarocks install telegram-bot-api
   - luarocks install lua-resty-socket
 
+service:
+    - redis-server
 script:
   - luacheck . --exclude-files lua/vendor lua_install
-  - busted --coverage --lpath "./lua/?.lua;./lua/?/?.lua;./lua/?/init.lua"
+  - source .env-ci && export $(cut -d= -f1 .env-ci) && busted --coverage --lpath "./lua/?.lua;./lua/?/?.lua;./lua/?/init.lua;./lua/vendor/?.lua;./lua/vendor/?/?.lua"
 
 after_success:
   - luacov-coveralls --exclude lua/vendor --exclude lua_install
