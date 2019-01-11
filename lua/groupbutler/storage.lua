@@ -543,24 +543,27 @@ function PostgresStorage:cacheChatMember(member)
 			return false
 		end
 	end
-	local status = rawget(member, "status")
+	if not rawget(member, "status") then
+		log.warn("Tried to cache member without status {chat_id}, {user_id}", {
+			chat_id = member.chat.id,
+			user_id = member.user.id,
+		})
+		return false
+	end
 	local row = {
 		chat_id = member.chat.id,
 		user_id = member.user.id,
-		status = chat_member_status[status] or chat_member_status["member"],
+		status = chat_member_status[member.status],
 	}
 	local insert = 'INSERT INTO "chat_user" (chat_id, user_id, status'
 	local values = ") VALUES ({chat_id}, {user_id}, {status}"
-	local on_conflict = ") ON CONFLICT (chat_id, user_id) DO NOTHING"
-	if status then
-		on_conflict = ") ON CONFLICT (chat_id, user_id) DO UPDATE SET status = {status}"
-		for k, v in pairs(member) do
-			if isChatMemberPropertyOptional(status, k) then
-				row[k] = v
-				insert = insert..", "..k
-				values = values..", {"..k.."}"
-				on_conflict = on_conflict..", "..k.." = {"..k.."}"
-			end
+	local on_conflict = ") ON CONFLICT (chat_id, user_id) DO UPDATE SET status = {status}"
+	for k, v in pairs(member) do
+		if isChatMemberPropertyOptional(member.status, k) then
+			row[k] = v
+			insert = insert..", "..k
+			values = values..", {"..k.."}"
+			on_conflict = on_conflict..", "..k.." = {"..k.."}"
 		end
 	end
 	local query = interpolate(insert..values..on_conflict, row)
