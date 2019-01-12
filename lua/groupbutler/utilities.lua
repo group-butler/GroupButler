@@ -283,6 +283,8 @@ function _M:cache_adminlist(chat_id)
 	if not ok then
 		if err.retry_after then
 			red:setex(global_lock, err.retry_after, "")
+		else
+			red:setex(global_lock, 30, "")
 		end
 		self:metric_incr("api_getchatadministrators_error_count")
 		return false, err
