@@ -223,7 +223,7 @@ function RedisStorage:getChatMemberProperty(member, property)
 		if self.redis:sismember("cache:chat:"..member.chat.id..":admins", member.user.id) == 1 then
 			return "administrator"
 		end
-		return "member" -- Could be left, kicked, etc. But to avoid an api call when postgres is down, assume member
+		return nil
 	end
 end
 
