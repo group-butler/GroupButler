@@ -71,7 +71,7 @@ local function inject_message_methods(message, update)
 			}
 			User:new(message.new_chat_members[k].user, update)
 			Chat:new(message.new_chat_members[k].chat, update)
-			ChatMember:new(message.new_chat_members[k], update)
+			ChatMember:new(message.new_chat_members[k], update):cache()
 		end
 	end
 end
