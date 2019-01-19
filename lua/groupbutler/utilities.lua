@@ -151,26 +151,27 @@ function _M:cache_adminlist(chat)
 	local red = p(self).red
 	local db = p(self).db
 
-	local lock_key = "cache:chat:"..chat.id..":getadmin_lock"
+	local global_lock = "bot:getadmin_lock"
+	local chat_lock = "cache:chat:"..chat.id..":getadmin_lock"
+	local set = 'cache:chat:'..chat.id..':admins'
 
-	if red:exists(lock_key) == 1 then
-		local counter = 0
-		while red:exists(lock_key) == 1 do
-			if counter > 10 then
-				return false
-			end
+	if red:exists(global_lock) == 1
+	or red:exists(chat_lock) == 1 then
+		while red:exists(set) == 0
+		and (red:exists(global_lock) == 1 or red:exists(chat_lock) == 1) do
 			sleep(0.1)
-			counter = counter + 1
 		end
 	end
 
-	red:setex(lock_key, 1, "")
+	red:setex(global_lock, 5, "")
 	log.info('Saving the adminlist for: {chat_id}', {chat_id=chat.id})
 	self:metric_incr("api_getchatadministrators_count")
 	local ok, err = api:getChatAdministrators(chat.id)
 	if not ok then
 		if err.retry_after then
-			red:setex(lock_key, err.retry_after, "")
+			red:setex(global_lock, err.retry_after, "")
+		else
+			red:setex(global_lock, 30, "")
 		end
 		self:metric_incr("api_getchatadministrators_error_count")
 		return false, err
