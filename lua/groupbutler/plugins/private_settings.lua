@@ -54,10 +54,10 @@ function _M:onTextMessage()
 	local api = self.api
 	local msg = self.message
 	local i18n = self.i18n
-	if msg.chat.type == 'private' then
-		local reply_markup = doKeyboard_privsett(self, msg.from.id)
+	if msg.from.chat.type == 'private' then
+		local reply_markup = doKeyboard_privsett(self, msg.from.user.id)
 		api:send_message{
-			chat_id = msg.from.id,
+			chat_id = msg.from.user.id,
 			text = i18n("Change your private settings"),
 			reply_markup = reply_markup
 	}
@@ -72,10 +72,10 @@ function _M:onCallbackQuery(blocks)
 		api:answerCallbackQuery(msg.cb_id, get_button_description(self, blocks[2]), true)
 		return
 	end
-	self.db:toggle_user_setting(msg.from.id, blocks[2])
-	local reply_markup = doKeyboard_privsett(self, msg.from.id)
+	self.db:toggle_user_setting(msg.from.user.id, blocks[2])
+	local reply_markup = doKeyboard_privsett(self, msg.from.user.id)
 	api:edit_message_reply_markup{
-		chat_id = msg.from.id,
+		chat_id = msg.from.user.id,
 		message_id = msg.message_id,
 		reply_markup = reply_markup
 	}

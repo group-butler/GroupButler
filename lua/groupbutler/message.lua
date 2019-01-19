@@ -1,26 +1,21 @@
-local message = {}
+local User = require("groupbutler.user")
+local ChatMember = require("groupbutler.chatmember")
 
-function message:new(message_obj, update_obj)
-	message_obj.api = update_obj.api
-	message_obj.u = update_obj.u
-	setmetatable(message_obj, {__index = self})
-	return message_obj
+local Message = {}
+local message = Message
+
+local function p(self)
+	return getmetatable(self).__private
 end
 
-local function is_from_admin(self)
-	if self.chat.type == "private" -- This should never happen but...
-	or not (self.chat.id < 0 or self.target_id)
-	or not self.from then
-		return false
-	end
-	return self.u:is_admin(self.target_id or self.chat.id, self.from.id)
-end
-
-function message:is_from_admin()
-	if self._cached_is_from_admin == nil then
-		self._cached_is_from_admin = is_from_admin(self)
-	end
-	return self._cached_is_from_admin
+function Message:new(obj, private)
+	assert(private.api, "Message: Missing private.api")
+	assert(private.i18n, "Message: Missing private.i18n")
+	setmetatable(obj, {
+		__index = self,
+		__private = private,
+	})
+	return obj
 end
 
 local function msg_type(self)
@@ -75,9 +70,57 @@ function message:get_file_id()
 end
 
 function message:send_reply(text, parse_mode, disable_web_page_preview, disable_notification, reply_markup)
-	local api = self.api
-	return api:send_message(self.chat.id, text, parse_mode, disable_web_page_preview, disable_notification,
+	return p(self).api:sendMessage(self.chat.id, text, parse_mode, disable_web_page_preview, disable_notification,
 		self.message_id, reply_markup)
 end
 
-return message
+function Message:getTargetMember(blocks) -- TODO: extract username/id from self.text or move blocks{} into self
+	if   not self.reply_to_message
+	and (not blocks or not blocks[2]) then
+		return false, p(self).i18n("Reply to a user or mention them")
+	end
+
+	local user_not_found = p(self).i18n([[I've never seen this user before.
+This command works by reply, username, user ID or text mention.
+If you're using it by username and want to teach me who the user is, forward me one of their messages]])
+
+	if self.reply_to_message then
+		if self.reply_to_message.new_chat_member then
+			return ChatMember:new({
+				user = self.reply_to_message.new_chat_member,
+				chat = self.from.chat,
+			}, p(self))
+		end
+		return self.reply_to_message.from
+	end
+
+	if blocks[2]:byte(1) == string.byte("@") then
+		local user = User:new({username = blocks[2]}, p(self))
+		if not user then
+			return false, user_not_found
+		end
+		return ChatMember:new({
+			user = user,
+			chat = self.from.chat,
+		}, p(self))
+	end
+
+	if self.mention_id then
+		return ChatMember:new({
+			user = User:new({id=self.mention_id}, p(self)),
+			chat = self.from.chat,
+		}, p(self))
+	end
+
+	local id = blocks[2]:match("%d+")
+	if id then
+		return ChatMember:new({
+			user = User:new({id=id}, p(self)),
+			chat = self.from.chat,
+		}, p(self))
+	end
+
+	return false, user_not_found
+end
+
+return Message

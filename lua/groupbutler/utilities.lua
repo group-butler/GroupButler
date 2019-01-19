@@ -2,6 +2,8 @@ local config = require "groupbutler.config"
 local api_u = require "telegram-bot-api.utilities"
 local log = require "groupbutler.logging"
 local null = require "groupbutler.null"
+local User = require("groupbutler.user")
+local ChatMember = require("groupbutler.chatmember")
 local http, HTTPS, ltn12, time_hires, sleep
 if ngx then
 	http = require "resty.http"
@@ -39,41 +41,6 @@ end
 local function set_default(t, d)
 	local mt = {__index = function() return d end}
 	setmetatable(t, mt)
-end
-
-function _M:banUser(chat_id, user_id, until_date)
-	local api = p(self).api
-	local api_err = p(self).api_err
-	local ok, err = api:kickChatMember(chat_id, user_id, until_date) --try to kick. "code" is already specific
-	if not ok then --if the user has been kicked, then...
-		return nil, api_err:trans(err)
-	end
-	return ok --return res and not the text
-end
-
-function _M:kickUser(chat_id, user_id)
-	local api = p(self).api
-	local api_err = p(self).api_err
-	local ok, err = api:kickChatMember(chat_id, user_id) --try to kick
-	if not ok then --if the user has been kicked, then unban...
-		return nil, api_err:trans(err)
-	end
-	api:unbanChatMember(chat_id, user_id)
-	return ok
-end
-
-function _M:muteUser(chat_id, user_id)
-	local api = p(self).api
-	local api_err = p(self).api_err
-	local ok, err = api:restrictChatMember{
-		chat_id = chat_id,
-		user_id = user_id,
-		can_send_messages = false
-	}
-	if not ok then
-		return nil, api_err:trans(err)
-	end
-	return ok
 end
 
 -- Strings
@@ -127,12 +94,12 @@ end
 -- otherwise it processes all available placeholders.
 function _M:replaceholders(str, msg, ...)
 	if msg.new_chat_member then
-		msg.from = msg.new_chat_member
+		msg.from.user = msg.new_chat_member
 	elseif msg.left_chat_member then
-		msg.from = msg.left_chat_member
+		msg.from.user = msg.left_chat_member
 	end
 
-	msg.chat.title = msg.chat.title and msg.chat.title or '-'
+	msg.from.chat.title = msg.from.chat.title and msg.from.chat.title or '-'
 
 	local tail_arguments = {...}
 	-- check that the second argument is a boolean and true
@@ -141,24 +108,24 @@ function _M:replaceholders(str, msg, ...)
 	local replace_map
 	if non_escapable then
 		replace_map = {
-			name = msg.from.first_name,
-			surname = msg.from.last_name and msg.from.last_name or '',
-			username = msg.from.username and '@'..msg.from.username or '-',
-			id = msg.from.id,
-			title = msg.chat.title,
-			rules = self:deeplink_constructor(msg.chat.id, "rules"),
+			name = msg.from.user.first_name,
+			surname = msg.from.user.last_name and msg.from.user.last_name or '',
+			username = msg.from.user.username and '@'..msg.from.user.username or '-',
+			id = msg.from.user.id,
+			title = msg.from.chat.title,
+			rules = self:deeplink_constructor(msg.from.chat.id, "rules"),
 		}
 		-- remove flag about escaping
 		table.remove(tail_arguments, 1)
 	else
 		replace_map = {
-			name = msg.from.first_name:escape(),
-			surname = msg.from.last_name and msg.from.last_name:escape() or '',
-			username = msg.from.username and '@'..msg.from.username:escape() or '-',
-			userorname = msg.from.username and '@'..msg.from.username:escape() or msg.from.first_name:escape(),
-			id = msg.from.id,
-			title = msg.chat.title:escape(),
-			rules = self:deeplink_constructor(msg.chat.id, "rules"),
+			name = msg.from.user.first_name:escape(),
+			surname = msg.from.user.last_name and msg.from.user.last_name:escape() or '',
+			username = msg.from.user.username and '@'..msg.from.user.username:escape() or '-',
+			userorname = msg.from.user.username and '@'..msg.from.user.username:escape() or msg.from.user.first_name:escape(),
+			id = msg.from.user.id,
+			title = msg.from.chat.title:escape(),
+			rules = self:deeplink_constructor(msg.from.chat.id, "rules"),
 		}
 	end
 
@@ -170,23 +137,6 @@ function _M:replaceholders(str, msg, ...)
 	return str:gsub('$(%w+)', substitutions)
 end
 
-function _M:is_allowed(_, chat_id, user_obj) -- action is not used anymore
-	return self:is_admin(chat_id, user_obj.id)
-end
-
-function _M:can(chat_id, user_id, permission)
-	local red = p(self).red
-	if tonumber(red:get('cache:chat:'..chat_id..':owner')) == user_id then
-		return true
-	end
-	local set = ("cache:chat:%s:%s:permissions"):format(chat_id, user_id)
-	local set_admins = 'cache:chat:'..chat_id..':admins'
-	if red:exists(set_admins) == 0 then
-		self:cache_adminlist(chat_id)
-	end
-	return red:sismember(set, permission) == 1
-end
-
 function _M:is_superadmin(user_id) -- luacheck: ignore 212
 	for i=1, #config.superadmins do
 		if tonumber(user_id) == config.superadmins[i] then
@@ -196,74 +146,14 @@ function _M:is_superadmin(user_id) -- luacheck: ignore 212
 	return false
 end
 
--- Returns the admin status of the user. The first argument can be the message,
--- then the function checks the rights of the sender in the incoming chat.
-function _M:is_admin(chat_id, user_id)
-	local red = p(self).red
-	if type(chat_id) == 'table' then
-		local msg = chat_id
-		chat_id = msg.chat.id
-		user_id = msg.from.id
-	end
-
-	local set = 'cache:chat:'..chat_id..':admins'
-	if red:exists(set) == 0 then
-		self:cache_adminlist(chat_id)
-	end
-	return red:sismember(set, user_id) ~= 0
-end
-
-function _M:is_owner(chat_id, user_id)
-	local red = p(self).red
-	if type(chat_id) == 'table' then
-		local msg = chat_id
-		chat_id = msg.chat.id
-		user_id = msg.from.id
-	end
-
-	local hash = 'cache:chat:'..chat_id..':owner'
-	local owner_id
-	local res = true
-	repeat
-		owner_id = red:get(hash)
-		if owner_id == null then
-			res = self:cache_adminlist(chat_id)
-		end
-	until owner_id ~= null or not res
-
-	if owner_id then
-		if tonumber(owner_id) == tonumber(user_id) then
-			return true
-		end
-	end
-
-	return false
-end
-
-local adminspermissions = {
-	can_change_info = true,
-	can_delete_messages = true,
-	can_invite_users = true,
-	can_restrict_members = true,
-	canpin_messages = true,
-	canpromote_member = true
-}
-
-local function set_creatorpermissions(self, chat_id, user_id)
-	local red = p(self).red
-	local set = ("cache:chat:%s:%s:permissions"):format(chat_id, user_id)
-	for k, _ in pairs(adminspermissions) do
-		red:sadd(set, k)
-	end
-end
-
-function _M:cache_adminlist(chat_id)
+function _M:cache_adminlist(chat)
 	local api = p(self).api
 	local red = p(self).red
+	local db = p(self).db
 
 	local global_lock = "bot:getadmin_lock"
-	local chat_lock = "cache:chat:"..chat_id..":getadmin_lock"
-	local set = 'cache:chat:'..chat_id..':admins'
+	local chat_lock = "cache:chat:"..chat.id..":getadmin_lock"
+	local set = 'cache:chat:'..chat.id..':admins'
 
 	if red:exists(global_lock) == 1
 	or red:exists(chat_lock) == 1 then
@@ -271,15 +161,12 @@ function _M:cache_adminlist(chat_id)
 		and (red:exists(global_lock) == 1 or red:exists(chat_lock) == 1) do
 			sleep(0.1)
 		end
-		if red:exists(set) == 1 then
-			return true, 0 -- Another concurrent request has just updated the adminlist
-		end
 	end
 
-	red:setex(chat_lock, 5, "")
-	log.info('Saving the adminlist for: {chat_id}', {chat_id=chat_id})
+	red:setex(global_lock, 5, "")
+	log.info('Saving the adminlist for: {chat_id}', {chat_id=chat.id})
 	self:metric_incr("api_getchatadministrators_count")
-	local ok, err = api:getChatAdministrators(chat_id)
+	local ok, err = api:getChatAdministrators(chat.id)
 	if not ok then
 		if err.retry_after then
 			red:setex(global_lock, err.retry_after, "")
@@ -289,43 +176,10 @@ function _M:cache_adminlist(chat_id)
 		self:metric_incr("api_getchatadministrators_error_count")
 		return false, err
 	end
-	local cache_time = config.bot_settings.cache_time.adminlist
-	local setpermissions
-	red:del(set)
-	for _, admin in pairs(ok) do
-		if admin.status == 'creator' then
-			red:set('cache:chat:'..chat_id..':owner', admin.user.id)
-			set_creatorpermissions(self, chat_id, admin.user.id)
-		else
-			setpermissions = "cache:chat:"..chat_id..":"..admin.user.id..":permissions"
-			red:del(setpermissions)
-			for k, v in pairs(admin) do
-				if v and adminspermissions[k] then red:sadd(setpermissions, k) end
-			end
-			red:expire(setpermissions, cache_time)
-		end
 
-		red:sadd(set, admin.user.id)
-
-		self:demote(chat_id, admin.user.id)
-	end
-	red:expire(set, cache_time)
+	db:cacheAdmins(chat, ok)
 
 	return true, #ok or 0
-end
-
-function _M:get_cached_admins_list(chat_id, second_try)
-	local red = p(self).red
-	local hash = 'cache:chat:'..chat_id..':admins'
-	local list = red:smembers(hash)
-	if not list or not next(list) then
-		self:cache_adminlist(chat_id)
-		if not second_try then
-			return self:get_cached_admins_list(chat_id, true)
-		end
-		return false
-	end
-	return list
 end
 
 function _M:is_blocked_global(id)
@@ -397,35 +251,6 @@ function _M:get_date(timestamp) -- luacheck: ignore 212
 	return os.date('%d/%m/%y', timestamp)
 end
 
--- Resolves username. Returns ID of user if it was early stored in date base.
--- Argument username must begin with symbol @ (commercial 'at')
-function _M:resolve_user(username)
-	local api = p(self).api
-	assert(username:byte(1) == string.byte('@'))
-	username = username:lower()
-
-	local stored_id = p(self).db:get_user_id(username)
-	if not stored_id then return false end
-
-	local user_obj = api:getChat(stored_id)
-	if not user_obj then
-		return stored_id
-	end
-	if not user_obj.username then
-		return stored_id
-	end
-
-	-- Users could change their username
-	if username ~= '@' .. user_obj.username:lower() then
-		p(self).db:cache_user(user_obj)
-		-- And return false because this user not the same that asked
-		return false
-	end
-
-	assert(stored_id == user_obj.id)
-	return user_obj.id
-end
-
 function _M:reply_markup_from_text(text) -- luacheck: ignore 212
 	local clean_text = text
 	local n = 0
@@ -452,53 +277,6 @@ function _M:demote(chat_id, user_id)
 	return removed == 1
 end
 
-function _M:migrate_chat_info(old, new, on_request)
-	local api = p(self).api
-	local red = p(self).red
-	if not old or not new then
-		return false
-	end
-
-	for hash_name, _ in pairs(config.chat_settings) do
-		local old_t = red:hgetall('chat:'..old..':'..hash_name)
-		if next(old_t) then
-			for key, val in pairs(old_t) do
-				red:hset('chat:'..new..':'..hash_name, key, val)
-			end
-		end
-	end
-
-	for _, hash_name in pairs(config.chat_hashes) do
-		local old_t = red:hgetall('chat:'..old..':'..hash_name)
-		if next(old_t) then
-			for key, val in pairs(old_t) do
-				red:hset('chat:'..new..':'..hash_name, key, val)
-			end
-		end
-	end
-
-	for i=1, #config.chat_sets do
-		local old_t = red:smembers('chat:'..old..':'..config.chat_sets[i])
-		if next(old_t) then
-			red:sadd('chat:'..new..':'..config.chat_sets[i], unpack(old_t))
-		end
-	end
-
-	if on_request then
-		api:send_message(new, "Should be done")
-	end
-end
-
--- Return user mention for output a text
-function _M:getname_final(user)
-	return self:getname_link(user) or '<code>'..user.first_name:escape_html()..'</code>'
-end
-
--- Return link to user profile or false, if they don't have login
-function _M:getname_link(user) -- luacheck: ignore 212
-	return ('<a href="%s">%s</a>'):format('tg://user?id='..user.id, user.first_name:escape_html())
-end
-
 function _M:bash(str) -- luacheck: ignore 212
 	local cmd = io.popen(str)
 	local result = cmd:read('*all')
@@ -512,8 +290,7 @@ function _M:telegram_file_link(res) -- luacheck: ignore 212
 end
 
 function _M:is_silentmode_on(chat_id)
-	local red = p(self).red
-	return red:hget("chat:"..chat_id..":settings", "Silent") == "on"
+	return p(self).db:get_chat_setting(chat_id, "Silent")
 end
 
 function _M:getRules(chat_id)
@@ -527,42 +304,39 @@ function _M:getRules(chat_id)
 	return rules
 end
 
-function _M:getAdminlist(chat_id)
-	local api = p(self).api
+function _M:getAdminlist(chat)
 	local i18n = p(self).i18n
-	local list, code = self:get_cached_admins_list(chat_id)
+	local db = p(self).db
+	local list = db:getChatAdministratorsList(chat)
 	if not list then
-		return false, code
+		return false
 	end
-	local creator = ''
-	local adminlist = ''
+	local creator = ""
+	local adminlist = ""
 	local count = 1
 	for _, user_id in pairs(list) do
-		local s = ' ├ '
-		-- TODO: Cache admin names nad usernames
-		local admin = api:getChatMember(chat_id, user_id)
-		if admin and admin.status == 'administrator' then
-			local name = admin.user.first_name
-			if admin.user.username then
-				name = ('<a href="telegram.me/%s">%s</a>'):format(admin.user.username, name:escape_html())
-			else
-				name = name:escape_html()
+		local s = " ├ "
+		local admin = ChatMember:new({
+			chat = chat,
+			user = User:new({id=user_id}, p(self)),
+		}, p(self))
+		if admin.status == "administrator" then
+			if count + 1 == #list then
+				s = " └ "
 			end
-			if count + 1 == #list then s = ' └ ' end
-			adminlist = adminlist..s..name..'\n'
+			adminlist = adminlist..s..admin.user:getLink().."\n"
 			count = count + 1
-		elseif admin and admin.status == 'creator' then
-			creator = admin.user.first_name
-			if admin.user.username then
-				creator = ('<a href="telegram.me/%s">%s</a>'):format(admin.user.username, creator:escape_html())
-			else
-				creator = creator:escape_html()
-			end
+		end
+		if admin.status == "creator" then
+			creator = admin.user:getLink()
 		end
 	end
-	if adminlist == '' then adminlist = '-' end
-	if creator == '' then creator = '-' end
-
+	if adminlist == "" then
+		adminlist = "-"
+	end
+	if creator == "" then
+		creator = "-"
+	end
 	return i18n("<b>👤 Creator</b>\n└ %s\n\n<b>👥 Admins</b> (%d)\n%s"):format(creator, #list - 1, adminlist)
 end
 
@@ -716,27 +490,26 @@ function _M:sendStartMe(msg)
 	local keyboard = {
 		inline_keyboard = {{{text = i18n("Start me"), url = 'https://telegram.me/'..bot.username}}}
 		}
-	api:sendMessage(msg.chat.id, i18n("please message me first so I can message you_"), 'Markdown', nil, nil, nil,
+	api:sendMessage(msg.from.chat.id, i18n("_Please message me first so I can message you_"), 'Markdown', nil, nil, nil,
 		keyboard)
 end
 
-function _M:initGroup(chat_id)
+function _M:initGroup(chat)
 	local red = p(self).red
-	local db = p(self).db
 	for set, setting in pairs(config.chat_settings) do
-		local hash = 'chat:'..chat_id..':'..set
+		local hash = 'chat:'..chat.id..':'..set
 		for field, value in pairs(setting) do
 			red:hset(hash, field, value)
 		end
 	end
 
-	self:cache_adminlist(chat_id) --init admin cache
+	self:cache_adminlist(chat) --init admin cache
 
 	--save group id
-	red:sadd('bot:groupsid', chat_id)
+	red:sadd('bot:groupsid', chat.id)
 	--remove the group id from the list of dead groups
-	red:srem('bot:groupsid:removed', chat_id)
-	db:cacheChat({id=chat_id, type="supergroup"})
+	red:srem('bot:groupsid:removed', chat.id)
+	chat:cache()
 end
 
 local function empty_modlist(self, chat_id)
@@ -758,89 +531,23 @@ function _M:remGroup(chat_id)
 	db:deleteChat({id=chat_id})
 end
 
-function _M:getnames_complete(msg)
-	local api = p(self).api
-	local i18n = p(self).i18n
-	local admin, kicked
-
-	admin = self:getname_link(msg.from)
-
-	if msg.reply then
-		kicked = self:getname_link(msg.reply.from)
-	elseif msg.text:match(config.cmd..'%w%w%w%w?%w?%s(@[%w_]+)%s?') then
-		local username = msg.text:match('%s(@[%w_]+)')
-		kicked = username
-	elseif msg.mention_id then
-		for _, entity in pairs(msg.entities) do
-			if entity.user then
-				kicked = self:getname_link(entity.user)
-			end
-		end
-	elseif msg.text:match(config.cmd..'%w%w%w%w?%w?%s(%d+)') then
-		local id = msg.text:match(config.cmd..'%w%w%w%w?%w?%s(%d+)')
-		local res = api:getChatMember(msg.chat.id, id)
-		if res then
-			kicked = self:getname_final(res.user)
-		end
-	end
-
-	-- TODO: Actually fix this
-	if not kicked then kicked = i18n("Someone") end
-	if not admin then admin = i18n("Someone") end
-	return admin, kicked
-end
-
-function _M:get_user_id(msg, blocks)
-	local i18n = p(self).i18n
-	--if no user id: returns false and the msg id of the translation for the problem
-	if not msg.reply and not blocks[2] then
-		return false, i18n("Reply to a user or mention them")
-	end
-
-	if msg.reply then
-		if msg.reply.new_chat_member then
-			msg.reply.from = msg.reply.new_chat_member
-		end
-		return msg.reply.from.id
-	end
-
-	if blocks[2]:byte(1) == string.byte("@") then
-		local id = self:resolve_user(blocks[2])
-		if id then
-			return id
-		end
-	end
-
-	if msg.mention_id then
-		return msg.mention_id
-	end
-
-	local id = blocks[2]:match("%d+")
-	if id then
-		return id
-	end
-
-	return false, i18n([[I've never seen this user before.
-This command works by reply, username, user ID or text mention.
-If you're using it by username and want to teach me who the user is, forward me one of their messages]])
-end
-
 function _M:logEvent(event, msg, extra)
 	local api = p(self).api
 	local bot = p(self).bot
 	local red = p(self).red
 	local i18n = p(self).i18n
-	local log_id = red:hget('bot:chatlogs', msg.chat.id)
+	local log_id = red:hget('bot:chatlogs', msg.from.chat.id)
 	-- self:dump(extra)
 
 	if not log_id or log_id == null then return end
-	local is_loggable = red:hget('chat:'..msg.chat.id..':tolog', event)
+	local is_loggable = red:hget('chat:'..msg.from.chat.id..':tolog', event)
 	if not is_loggable == 'yes' then return end
 
 	local text, reply_markup
 
-	local chat_info = i18n("<b>Chat</b>: %s [#chat%d]"):format(msg.chat.title:escape_html(), msg.chat.id * -1)
-	local member = ("%s [@%s] [#id%d]"):format(msg.from.first_name:escape_html(), msg.from.username or '-', msg.from.id)
+	local chat_info = i18n("<b>Chat</b>: %s [#chat%d]"):format(msg.from.chat.title:escape_html(), msg.from.chat.id * -1)
+	local member = ("%s [@%s] [#id%d]"):format(msg.from.user.first_name:escape_html(), msg.from.user.username or '-',
+		msg.from.user.id)
 
 	local log_event = {
 		mediawarn = function()
@@ -895,8 +602,8 @@ function _M:logEvent(event, msg, extra)
 			local member2 = ("%s [@%s] [#id%d]"):format(msg.new_chat_member.first_name:escape_html(),
 				msg.new_chat_member.username or '-', msg.new_chat_member.id)
 			text = i18n('%s\n• %s\n• <b>User</b>: %s'):format('#NEW_MEMBER', chat_info, member2)
-			if extra then --extra == msg.from
-				text = text..i18n("\n• <b>Added by</b>: %s [#id%d]"):format(self:getname_final(extra), extra.id)
+			if extra then --extra == msg.from.user
+				text = text..i18n("\n• <b>Added by</b>: %s [#id%d]"):format(extra:getLink(), extra.id)
 			end
 		end,
 		-- events that requires user + admin
@@ -910,7 +617,9 @@ function _M:logEvent(event, msg, extra)
 			--motivation: motivation
 			text = i18n(
 				'#%s\n• <b>Admin</b>: %s [#id%d]\n• %s\n• <b>User</b>: %s [#id%d]\n• <b>Count</b>: <code>%d/%d</code>'
-			):format(event:upper(), extra.admin, msg.from.id, chat_info, extra.user, extra.user_id, extra.warns, extra.warnmax)
+			):format(event:upper(), tostring(extra.admin), msg.from.user.id, chat_info, tostring(extra.user), extra.user_id,
+				extra.warns, extra.warnmax
+			)
 		end,
 		nowarn = function()
 			--WARNS REMOVED
@@ -918,11 +627,11 @@ function _M:logEvent(event, msg, extra)
 			--user name formatted: user
 			--user id: user_id
 			text = i18n("#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n• <b>User</b>: %s [#id%s]"):format(
-				'WARNS_RESET', extra.admin, msg.from.id, chat_info, extra.user, tostring(extra.user_id))
+				'WARNS_RESET', extra.admin, msg.from.user.id, chat_info, extra.user, extra.user_id)
 		end,
 		block = function() -- or unblock
 			text = i18n('#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n'
-			):format(event:upper(), self:getname_final(msg.from), msg.from.id, chat_info)
+			):format(event:upper(), msg.from.user, msg.from.user.id, chat_info)
 			if extra.n then
 				text = text..i18n('• <i>Users involved: %d</i>'):format(extra.n)
 			elseif extra.user then
@@ -939,7 +648,8 @@ function _M:logEvent(event, msg, extra)
 			--motivation: motivation
 			text = i18n(
 			'#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n• <b>User</b>: %s [#id%s]\n• <b>Duration</b>: %d days, %d hours'
-			):format(event:upper(), extra.admin, msg.from.id, chat_info, extra.user, tostring(extra.user_id), extra.d, extra.h)
+			):format(event:upper(), tostring(extra.admin), msg.from.user.id, chat_info, tostring(extra.user),
+			extra.user_id, extra.d, extra.h)
 		end,
 		ban = function() -- or kick or unban
 			--BAN OR KICK OR UNBAN
@@ -948,7 +658,7 @@ function _M:logEvent(event, msg, extra)
 			--user id: user_id
 			--motivation: motivation
 			text = i18n('#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n• <b>User</b>: %s [#id%s]'):format(
-				event:upper(), extra.admin, msg.from.id, chat_info, extra.user, tostring(extra.user_id))
+				event:upper(), tostring(extra.admin), msg.from.user.id, chat_info, tostring(extra.user), extra.user_id)
 		end,
 	} set_default(log_event, function()
 			text = i18n('#%s\n• %s\n• <b>By</b>: %s'):format(event:upper(), chat_info, member)
@@ -965,23 +675,24 @@ function _M:logEvent(event, msg, extra)
 		reply_markup = {
 			inline_keyboard = {{{
 				text = i18n("Unban"),
-				callback_data = ("logcb:un%s:%d:%d"):format(event, extra.user_id, msg.chat.id)
+				callback_data = ("logcb:un%s:%d:%d"):format(event, extra.user_id, msg.from.chat.id)
 			}}}
 		}
 	end
 
 	if extra then
-		if extra.hammered then
+		if rawget(extra, "hammered") then
 			text = text..i18n("\n• <b>Action</b>: #%s"):format(extra.hammered:upper())
 		end
-		if extra.motivation then
+		if rawget(extra, "motivation") then
 			text = text..i18n('\n• <b>Reason</b>: <i>%s</i>'):format(extra.motivation:escape_html())
 		end
 	end
 
-	if msg.chat.username then
-		text = text..
-			('\n• <a href="telegram.me/%s/%d">%s</a>'):format(msg.chat.username, msg.message_id, i18n('Go to the message'))
+	if msg.from.chat.username then
+		text = text..('\n• <a href="telegram.me/%s/%d">%s</a>'):format(
+			msg.from.chat.username, msg.message_id, i18n('Go to the message')
+		)
 	end
 
 	local ok, err = api:send_message{
@@ -992,7 +703,7 @@ function _M:logEvent(event, msg, extra)
 		reply_markup = reply_markup
 	}
 	if not ok and err.description:match("chat not found") then
-		red:hdel('bot:chatlogs', msg.chat.id)
+		red:hdel('bot:chatlogs', msg.from.chat.id)
 	end
 end
 

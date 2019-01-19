@@ -1,5 +1,7 @@
 local config = require "groupbutler.config"
 local null = require "groupbutler.null"
+local Chat = require("groupbutler.chat")
+local ChatMember = require("groupbutler.chatmember")
 
 local _M = {}
 
@@ -85,21 +87,21 @@ function _M:onTextMessage()
 	local msg = self.message
 	local u = self.u
 	local i18n = self.i18n
-	if msg.chat.type ~= 'private' then
-		local chat_id = msg.chat.id
+	if msg.from.chat.type ~= 'private' then
+		local chat_id = msg.from.chat.id
 		local reply_markup = doKeyboard_dashboard(self, chat_id)
 		local ok = api:send_message{
-			chat_id = msg.from.id,
+			chat_id = msg.from.user.id,
 			text = i18n("Navigate this message to see *all the info* about this group!"),
 			parse_mode = "Markdown",
 			reply_markup = reply_markup
 		}
-		if not u:is_silentmode_on(msg.chat.id) then --send the responde in the group only if the silent mode is off
+		if not u:is_silentmode_on(msg.from.chat.id) then --send the responde in the group only if the silent mode is off
 			if not ok then
 				u:sendStartMe(msg)
 				return
 			end
-			api:sendMessage(msg.chat.id, i18n("_I've sent you the group dashboard via private message_"), "Markdown")
+			api:sendMessage(msg.from.chat.id, i18n("_I've sent you the group dashboard via private message_"), "Markdown")
 		end
 	end
 end
@@ -110,35 +112,35 @@ function _M:onCallbackQuery(blocks)
 	local u = self.u
 	local red = self.red
 	local i18n = self.i18n
-	local chat_id = msg.target_id
+
 	local request = blocks[2]
 	local text, notification
 	local parse_mode = "Markdown"
-	local res = api:getChat(chat_id)
-	if not res then
-		api:answerCallbackQuery(msg.cb_id, i18n("🚫 This group does not exist"))
-		return
-	end
-	-- Private chats don't have a username
-	local private = not res.username
-	res = api:getChatMember(chat_id, msg.from.id)
-	if not res or (res.status == 'left' or res.status == 'kicked') and private then
-		api:editMessageText(msg.from.id, msg.message_id, nil, i18n("🚷 You are not a member of the chat. " ..
+
+	local chat = Chat:new({id=msg.target_id}, self)
+	local member = ChatMember:new({
+		chat = chat,
+		user = msg.from.user,
+	}, self)
+
+	if member.status == 'left'
+	or member.status == 'kicked' then
+		api:editMessageText(msg.from.user.id, msg.message_id, nil, i18n("🚷 You are not a member of the chat. " ..
 			"You can't see the settings of a private group."))
 		return
 	end
-	local reply_markup = doKeyboard_dashboard(self, chat_id)
+	local reply_markup = doKeyboard_dashboard(self, chat.id)
 	if request == 'settings' then
-		text = u:getSettings(chat_id)
+		text = u:getSettings(chat.id)
 		notification = i18n("ℹ️ Group ► Settings")
 	end
 	if request == 'rules' then
-		text = u:getRules(chat_id)
+		text = u:getRules(chat.id)
 		notification = i18n("ℹ️ Group ► Rules")
 	end
 	if request == 'adminlist' then
 		parse_mode = 'html'
-		local adminlist = u:getAdminlist(chat_id)
+		local adminlist = u:getAdminlist(chat)
 		if adminlist then
 			text = adminlist
 		else
@@ -147,11 +149,11 @@ function _M:onCallbackQuery(blocks)
 		notification = i18n("ℹ️ Group ► Admin list")
 	end
 	if request == 'extra' then
-		text = u:getExtraList(chat_id)
+		text = u:getExtraList(chat.id)
 		notification = i18n("ℹ️ Group ► Extra")
 	end
 	if request == 'flood' then
-		text = getFloodSettings_text(self, chat_id)
+		text = getFloodSettings_text(self, chat.id)
 		notification = i18n("ℹ️ Group ► Flood")
 	end
 	if request == 'media' then
@@ -172,7 +174,7 @@ function _M:onCallbackQuery(blocks)
 		}
 		text = i18n("*Current media settings*:\n\n")
 		for media, default_status in pairs(config.chat_settings['media']) do
-			local status = red:hget('chat:'..chat_id..':media', media)
+			local status = red:hget('chat:'..chat.id..':media', media)
 			if status == null then status = default_status end
 			if status == 'ok' then
 				status = '✅'
@@ -184,7 +186,7 @@ function _M:onCallbackQuery(blocks)
 		end
 		notification = i18n("ℹ️ Group ► Media")
 	end
-	api:edit_message_text(msg.from.id, msg.message_id, nil, text, parse_mode, true, reply_markup)
+	api:edit_message_text(msg.from.user.id, msg.message_id, nil, text, parse_mode, true, reply_markup)
 	api:answerCallbackQuery(msg.cb_id, notification)
 end
 

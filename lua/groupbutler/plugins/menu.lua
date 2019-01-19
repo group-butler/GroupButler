@@ -1,5 +1,7 @@
 local config = require "groupbutler.config"
 local null = require "groupbutler.null"
+local Chat = require("groupbutler.chat")
+local ChatMember = require("groupbutler.chatmember")
 
 local _M = {}
 
@@ -253,49 +255,55 @@ function _M:onCallbackQuery(blocks)
 	local msg = self.message
 	local u = self.u
 	local i18n = self.i18n
-	local chat_id = msg.target_id
-	if chat_id and not u:is_allowed('config', chat_id, msg.from) then
-		api:answerCallbackQuery(msg.cb_id, i18n("You're no longer an admin"))
+
+	if blocks[2] == "alert" then
+		local text = get_button_description(self, blocks[3])
+		api:answerCallbackQuery(msg.cb_id, text, true, config.bot_settings.cache_time.alert_help)
+		return
+	end
+
+	local member = ChatMember:new({
+		chat = Chat:new({id=msg.target_id}, self),
+		user = msg.from.user,
+	}, self)
+
+	if not member:can("can_change_info") then
+		api:answerCallbackQuery(msg.cb_id, i18n("Sorry, you don't have permission to change settings"))
+		return
+	end
+
+	local menu_first = i18n("Manage the settings of the group. Click on the left column to get a small hint")
+
+	local keyboard, text, show_alert
+
+	if blocks[1] == "config" then
+		keyboard = doKeyboard_menu(self, member.chat.id)
+		api:editMessageText(msg.from.chat.id, msg.message_id, nil, menu_first, "Markdown", nil, keyboard)
+		return
+	end
+
+	if blocks[2] == "DimWarn" then
+		text = changeWarnSettings(self, member.chat.id, -1)
+	elseif blocks[2] == "RaiseWarn" then
+		text = changeWarnSettings(self, member.chat.id, 1)
+	elseif blocks[2] == "ActionWarn" then
+		text = changeWarnSettings(self, member.chat.id, "status")
+	elseif blocks[2] == "Rtl" or blocks[2] == "Arab" then
+		text = changeCharSettings(self, member.chat.id, blocks[2])
 	else
-		local menu_first = i18n("Manage the settings of the group. Click on the left column to get a small hint")
-
-		local keyboard, text, show_alert
-
-		if blocks[1] == 'config' then
-			keyboard = doKeyboard_menu(self, chat_id)
-			api:editMessageText(msg.chat.id, msg.message_id, nil, menu_first, "Markdown", nil, keyboard)
-		else
-			if blocks[2] == 'alert' then
-				text = get_button_description(self, blocks[3])
-				api:answerCallbackQuery(msg.cb_id, text, true, config.bot_settings.cache_time.alert_help)
-				return
-			end
-			if blocks[2] == 'DimWarn' or blocks[2] == 'RaiseWarn' or blocks[2] == 'ActionWarn' then
-				if blocks[2] == 'DimWarn' then
-					text = changeWarnSettings(self, chat_id, -1)
-				elseif blocks[2] == 'RaiseWarn' then
-					text = changeWarnSettings(self, chat_id, 1)
-				elseif blocks[2] == 'ActionWarn' then
-					text = changeWarnSettings(self, chat_id, 'status')
-				end
-			elseif blocks[2] == 'Rtl' or blocks[2] == 'Arab' then
-				text = changeCharSettings(self, chat_id, blocks[2])
-			else
-				text, show_alert = u:changeSettingStatus(chat_id, blocks[2])
-			end
-			keyboard = doKeyboard_menu(self, chat_id)
-			api:editMessageText(msg.chat.id, msg.message_id, nil, menu_first, "Markdown", nil, keyboard)
-			if text then
-				--workaround to avoid to send an error to users who are using an old inline keyboard
-				api:answerCallbackQuery(msg.cb_id, '⚙ '..text, show_alert)
-			end
-		end
+		text, show_alert = u:changeSettingStatus(member.chat.id, blocks[2])
+	end
+	keyboard = doKeyboard_menu(self, member.chat.id)
+	api:editMessageText(msg.from.chat.id, msg.message_id, nil, menu_first, "Markdown", nil, keyboard)
+	if text then
+		--workaround to avoid to send an error to users who are using an old inline keyboard
+		api:answerCallbackQuery(msg.cb_id, "⚙ "..text, show_alert)
 	end
 end
 
 _M.triggers = {
 	onCallbackQuery = {
-		'^###cb:(menu):(alert):settings:([%w_]+):([%w_]+)$',
+		'^###cb:(menu):(alert):settings:([%w_]+)$',
 		'^###cb:(menu):(.*):',
 		'^###cb:(config):menu:(-?%d+)$'
 	}

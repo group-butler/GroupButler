@@ -55,24 +55,24 @@ function _M:onTextMessage(blocks)
 	local i18n = self.i18n
 	local api_err = self.api_err
 
-	if msg.chat.type ~= 'private' then return end
+	if msg.from.chat.type ~= 'private' then return end
 
 	if blocks[1] == 'ping' then
-		api:sendMessage(msg.from.id, i18n("Pong!"), "Markdown")
+		api:sendMessage(msg.from.user.id, i18n("Pong!"), "Markdown")
 	end
 	if blocks[1] == 'echo' then
-		local ok, err = api:sendMessage(msg.chat.id, blocks[2], "Markdown")
+		local ok, err = api:sendMessage(msg.from.chat.id, blocks[2], "Markdown")
 		if not ok then
-			api:sendMessage(msg.chat.id, api_err:trans(err), "Markdown")
+			api:sendMessage(msg.from.chat.id, api_err:trans(err), "Markdown")
 		end
 	end
 	if blocks[1] == 'about' then
 		local keyboard = do_keyboard_credits(self)
-		api:sendMessage(msg.chat.id, strings(self).about, "Markdown", true, nil, nil, keyboard)
+		api:sendMessage(msg.from.chat.id, strings(self).about, "Markdown", true, nil, nil, keyboard)
 	end
 	if blocks[1] == 'group' then
 		if config.help_group and config.help_group ~= '' then
-			api:sendMessage(msg.chat.id,
+			api:sendMessage(msg.from.chat.id,
 				i18n('You can find the list of our support groups in [this channel](%s)'):format(config.help_group), "Markdown")
 		end
 	end
@@ -85,12 +85,12 @@ function _M:onCallbackQuery(blocks)
 
 	if blocks[1] == 'about' then
 		local keyboard = do_keyboard_credits(self)
-		api:editMessageText(msg.chat.id, msg.message_id, nil, strings(self).about, "Markdown", true, keyboard)
+		api:editMessageText(msg.from.chat.id, msg.message_id, nil, strings(self).about, "Markdown", true, keyboard)
 	end
 	if blocks[1] == 'group' then
 		if config.help_group and config.help_group ~= '' then
 			local markup = {inline_keyboard={{{text = i18n('🔙 back'), callback_data = 'fromhelp:about'}}}}
-			api:editMessageText(msg.chat.id, msg.message_id, nil,
+			api:editMessageText(msg.from.chat.id, msg.message_id, nil,
 				i18n("You can find the list of our support groups in [this channel](%s)"):format(config.help_group),
 				"Markdown", nil, markup)
 		end
