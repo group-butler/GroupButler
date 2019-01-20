@@ -21,7 +21,7 @@ install:
   - luarocks install telegram-bot-api
   - luarocks install lua-resty-socket
 
-service:
+services:
   - redis-server
 
 before_script: redis-cli ping
