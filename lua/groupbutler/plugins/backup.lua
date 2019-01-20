@@ -89,10 +89,10 @@ function _M:onTextMessage(blocks)
 	local i18n = self.i18n
 	local u = self.u
 
-	if not msg:is_from_admin() then return end
+	if not msg.from:isAdmin() then return end
 
 	if blocks[1] == 'snap' then
-		local key = 'chat:'..msg.chat.id..':lastsnap'
+		local key = 'chat:'..msg.from.chat.id..':lastsnap'
 		local last_user = red:get(key)
 		if last_user ~= null then -- A snapshot has been done recently
 			local ttl = red:ttl(key)
@@ -104,12 +104,12 @@ Wait [<code>%s</code>] to use it again
 			return
 		end
 
-		local file_path = gen_backup(self, msg.chat.id)
-		local ok = api:sendDocument(msg.from.id, {path = file_path}, ('#snap\n%s'):format(msg.chat.title))
+		local file_path = gen_backup(self, msg.from.chat.id)
+		local ok = api:sendDocument(msg.from.user.id, {path = file_path}, ('#snap\n%s'):format(msg.from.chat.title))
 
 		if not ok then return end
 
-		local name = u:getname_final(msg.from)
+		local name = msg.from.user:getLink()
 		red:setex(key, 10800, name) --3 hours
 		msg:send_reply(i18n('*Sent in private*'), "Markdown")
 		return
@@ -118,36 +118,36 @@ Wait [<code>%s</code>] to use it again
 		local text
 		if not msg.reply then
 			text = i18n('Invalid input. Please reply to the backup file (/snap command to get it)')
-			api:sendMessage(msg.chat.id, text)
+			api:sendMessage(msg.from.chat.id, text)
 			return
 		end
 		if not msg.reply.document then
 			text = i18n('Invalid input. Please reply to a document')
-			api:sendMessage(msg.chat.id, text)
+			api:sendMessage(msg.from.chat.id, text)
 			return
 		end
-		if msg.reply.document.file_name ~= 'snap'..msg.chat.id..'.gbb' then
+		if msg.reply.document.file_name ~= 'snap'..msg.from.chat.id..'.gbb' then
 			text = i18n('This is not a valid backup file.\nReason: invalid name (%s)')
 				:format(tostring(msg.reply_to_message.document.file_name))
-			api:sendMessage(msg.chat.id, text)
+			api:sendMessage(msg.from.chat.id, text)
 			return
 		end
 		local res = api:getFile(msg.reply.document.file_id)
 		local download_link = u:telegram_file_link(res)
-		local file_path, code = u:download_to_file(download_link, '/tmp/'..msg.chat.id..'.json')
+		local file_path, code = u:download_to_file(download_link, '/tmp/'..msg.from.chat.id..'.json')
 
 		if not file_path then
 			text = i18n('Download of the file failed with code %s'):format(tostring(code))
-			api:sendMessage(msg.chat.id, text)
+			api:sendMessage(msg.from.chat.id, text)
 			return
 		end
 
 		local data = load_data(file_path)
 		for chat_id, group_data in pairs(data) do
 			chat_id = tonumber(chat_id)
-			if tonumber(chat_id) ~= msg.chat.id then
-				text = i18n('Chat IDs don\'t match (%s and %s)'):format(tostring(chat_id), tostring(msg.chat.id))
-				api:sendMessage(msg.chat.id, text)
+			if tonumber(chat_id) ~= msg.from.chat.id then
+				text = i18n('Chat IDs don\'t match (%s and %s)'):format(tostring(chat_id), tostring(msg.from.chat.id))
+				api:sendMessage(msg.from.chat.id, text)
 				return
 			end
 			--restoring sets
@@ -169,7 +169,7 @@ Wait [<code>%s</code>] to use it again
 					end
 				end
 			end
-			api:sendMessage(msg.chat.id, i18n([[Import was <b>successful</b>.
+			api:sendMessage(msg.from.chat.id, i18n([[Import was <b>successful</b>.
 
 <b>Important</b>:
 - #extra commands which are associated with a media must be set again if the bot you are using now is different from the bot that originated the backup.

@@ -1,5 +1,7 @@
 local config = require "groupbutler.config"
 local null = require "groupbutler.null"
+local Chat = require("groupbutler.chat")
+local ChatMember = require("groupbutler.chatmember")
 
 local _M = {}
 
@@ -116,44 +118,52 @@ end
 function _M:onCallbackQuery(blocks)
 	local api = self.api
 	local msg = self.message
-	local u = self.u
 	local i18n = self.i18n
+
 	if blocks[1] == 'alert' then
 		local text = get_alert_text(self, blocks[2])
 		api:answerCallbackQuery(msg.cb_id, text, true, config.bot_settings.cache_time.alert_help)
-	else
-		local chat_id = msg.target_id
-		if not u:can(chat_id, msg.from.id, 'can_restrict_members') then
-			api:answerCallbackQuery(msg.cb_id, i18n("Sorry, you don't have permission to restrict members"))
-		else
-			local msg_text = i18n([[*Default permissions*
+		return
+	end
+
+	local member = ChatMember:new({
+		chat = Chat:new({id=msg.target_id}, self),
+		user = msg.from.user,
+	}, self)
+
+	if not member:can("can_restrict_members") then
+		api:answerCallbackQuery(msg.cb_id, i18n("Sorry, you don't have permission to restrict members"))
+		return
+	end
+
+	local msg_text = i18n([[*Default permissions*
 From this menu you can change the default permissions that will be granted when a new member join.
 _Only the administrators with the permission to restrict a member can access this menu._
 Tap on the name of a permission for a description of what kind of messages it will influence.
 ]])
 
-			local reply_markup, popup_text, show_alert
+	local reply_markup, popup_text, show_alert
 
-			if blocks[1] == 'toggle' then
-				popup_text = toggle_permissions_setting(self, chat_id, blocks[2])
-			end
+	if blocks[1] == 'toggle' then
+		popup_text = toggle_permissions_setting(self, member.chat.id, blocks[2])
+	end
 
-			reply_markup = doKeyboard_permissions(self, chat_id)
-			local ok, err
-			if blocks[2] then
-				--if the user tapped on a keybord button, just edit the markup and not the whole message
-				ok, err = api:editMessageReplyMarkup(msg.chat.id, msg.message_id, nil, reply_markup)
-			else
-				ok, err = api:editMessageText(msg.chat.id, msg.message_id, nil, msg_text, "Markdown", nil, reply_markup)
-			end
+	reply_markup = doKeyboard_permissions(self, member.chat.id)
+	local ok, err
+	if blocks[2] then
+		--if the user tapped on a keybord button, just edit the markup and not the whole message
+		ok, err = api:editMessageReplyMarkup(msg.from.chat.id, msg.message_id, nil, reply_markup)
+	else
+		ok, err = api:editMessageText(msg.from.chat.id, msg.message_id, nil, msg_text, "Markdown", nil, reply_markup)
+	end
 
-			if not ok and err.retry_after then
-				popup_text = i18n("Setting saved, but I can't edit the buttons because you are too fast! Wait other %d seconds")
-					:format(err.retry_after)
-				show_alert = true
-			end
-			if popup_text then api:answerCallbackQuery(msg.cb_id, popup_text, show_alert) end
-		end
+	if not ok and err.retry_after then
+		popup_text = i18n("Setting saved, but I can't edit the buttons because you are too fast! Wait other %d seconds")
+			:format(err.retry_after)
+		show_alert = true
+	end
+	if popup_text then
+		api:answerCallbackQuery(msg.cb_id, popup_text, show_alert)
 	end
 end
 

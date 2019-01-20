@@ -14,6 +14,11 @@ local PostgresStorage = {}
 
 local MixedStorage = {}
 
+local function set_default(t, d)
+	local mt = {__index = function() return d end}
+	setmetatable(t, mt)
+end
+
 local function enum(t)
 	local new_t = {}
 	for k,v in pairs(t) do
@@ -28,6 +33,15 @@ local chat_type = enum({
 	-- group = 1, -- Not supported
 	supergroup = 2,
 	channel = 3,
+})
+
+local chat_member_status = enum({
+	creator = 0,
+	administrator = 1,
+	member = 2,
+	restricted = 3,
+	left = 4,
+	kicked = 5,
 })
 
 local function string_toboolean(v)
@@ -148,14 +162,69 @@ function RedisStorage:toggle_user_setting(user_id, setting)
 	self:set_user_setting(user_id, setting, not self:get_user_setting(user_id, setting))
 end
 
-function RedisStorage:cache_user(user)
-	if user.username then
-		self.redis:hset("bot:usernames", "@"..user.username:lower(), user.id)
+function RedisStorage:cacheUser(user)
+	if rawget(user, "username") then
+		self.redis:hset("bot:usernames", "@"..rawget(user, "username"):lower(), user.id)
 	end
 end
 
-function RedisStorage:get_user_id(username)
-	return tonumber(self.redis:hget("bot:usernames", username))
+function RedisStorage:getUserId(username)
+	if username:byte(1) ~= string.byte("@") then
+		username = "@"..username
+	end
+	return tonumber(self.redis:hget("bot:usernames", username:lower()))
+end
+
+function RedisStorage:getUserProperty(user, property) -- luacheck: ignore
+end
+
+function RedisStorage:getChatProperty(chat, property)
+	if property == "title" then
+		local title = self.redis:get("chat:"..chat.id..":title")
+		if title == null then
+			return
+		end
+		return title
+	end
+end
+
+function RedisStorage:getChatAdministratorsCount(chat)
+	return self.redis:scard("cache:chat:"..chat.id..":admins")
+end
+
+function RedisStorage:getChatAdministratorsList(chat)
+	local admins = self.redis:smembers("cache:chat:"..chat.id..":admins") or {}
+	local owner = self.redis:get("cache:chat:"..chat.id..":owner")
+	if owner then
+		table.insert(admins, owner)
+	end
+	return admins
+end
+
+local is_admin_permission = {
+	can_be_edited = true,
+	can_change_info = true,
+	can_delete_messages = true,
+	can_invite_users = true,
+	can_restrict_members = true,
+	can_promote_members = true,
+	can_pin_messages = true,
+} set_default(is_admin_permission, false)
+
+function RedisStorage:getChatMemberProperty(member, property)
+	if is_admin_permission[property] then
+		local set = ("cache:chat:%s:%s:permissions"):format(member.chat.id, member.user.id)
+		return self.redis:sismember(set, property) == 1
+	end
+	if property == "status" then
+		if tonumber(self.redis:get("cache:chat:"..member.chat.id..":owner")) == member.user.id then
+			return "creator"
+		end
+		if self.redis:sismember("cache:chat:"..member.chat.id..":admins", member.user.id) == 1 then
+			return "administrator"
+		end
+		return nil
+	end
 end
 
 function RedisStorage:cacheChat(chat)
@@ -170,12 +239,36 @@ function RedisStorage:cacheChat(chat)
 	end
 end
 
-function RedisStorage:getChatTitle(chat)
-	local title = self.redis:get("chat:"..chat.id..":title")
-	if title == null then
-		return
+local admins_permissions = {
+	can_be_edited = false,
+	can_change_info = false,
+	can_delete_messages = false,
+	can_invite_users = false,
+	can_restrict_members = false,
+	can_promote_members = false,
+	can_pin_messages = false,
+}
+
+function RedisStorage:cacheAdmins(chat, list)
+	local set = 'cache:chat:'..chat.id..':admins'
+	local cache_time = config.bot_settings.cache_time.adminlist
+	self.redis:del(set)
+	for _, admin in pairs(list) do
+		if admin.status == 'creator' then
+			self.redis:set('cache:chat:'..chat.id..':owner', admin.user.id)
+		else
+			local set_permissions = "cache:chat:"..chat.id..":"..admin.user.id..":permissions"
+			self.redis:del(set_permissions)
+			for k, v in pairs(admin) do
+				if v and admins_permissions[k] then
+					self.redis:sadd(set_permissions, k)
+				end
+			end
+			self.redis:expire(set_permissions, cache_time)
+		end
+		self.redis:sadd(set, admin.user.id)
 	end
-	return title
+	self.redis:expire(set, cache_time)
 end
 
 function RedisStorage:deleteChat(chat)
@@ -194,9 +287,7 @@ function RedisStorage:deleteChat(chat)
 		self.redis:del('chat:'..chat.id..':'..set)
 	end
 
-	local owner_id = self.redis:get("cache:chat:"..chat.id..":owner")
 	local keys = {
-		"cache:chat:"..chat.id..":"..owner_id..":permissions",
 		"cache:chat:"..chat.id..":admins",
 		"cache:chat:"..chat.id..":owner",
 		"chat:"..chat.id..":title",
@@ -205,6 +296,11 @@ function RedisStorage:deleteChat(chat)
 		"chat:"..chat.id..":pin",
 		"lang:"..chat.id,
 	}
+	local owner_id = self.redis:get("cache:chat:"..chat.id..":owner")
+	if  owner_id
+	and owner_id ~= null then
+		table.insert(keys, "cache:chat:"..chat.id..":"..owner_id..":permissions")
+	end
 	for _,k in pairs(keys) do
 		self.redis:del(k)
 	end
@@ -219,6 +315,9 @@ function RedisStorage:deleteChat(chat)
 	end
 end
 
+function RedisStorage:cacheChatMember(member) -- luacheck: ignore 212
+end
+
 function RedisStorage:set_keepalive()
 	self.redis:set_keepalive()
 end
@@ -228,17 +327,17 @@ function RedisStorage:get_reused_times()
 end
 
 local function is_user_property_optional(k)
-	if k == "last_name"
+	if k == "is_bot"
+	or k == "last_name"
 	or k == "username"
 	or k == "language_code" then
 		return true
 	end
 end
 
-function PostgresStorage:cache_user(user)
+function PostgresStorage:cacheUser(user)
 	local row = {
 		id = user.id,
-		is_bot = user.is_bot,
 		first_name = self.pg:escape_literal(user.first_name)
 	}
 	for k, _ in pairs(user) do
@@ -247,11 +346,11 @@ function PostgresStorage:cache_user(user)
 		end
 	end
 	local username = ""
-	if user.username then
+	if rawget(user, "username") then
 		username = 'UPDATE "user" SET username = NULL WHERE lower(username) = lower({username});\n'
 	end
-	local insert = 'INSERT INTO "user" (id, is_bot, first_name'
-	local values = ") VALUES ({id}, {is_bot}, {first_name}"
+	local insert = 'INSERT INTO "user" (id, first_name'
+	local values = ") VALUES ({id}, {first_name}"
 	local on_conflict = " ON CONFLICT (id) DO UPDATE SET first_name = {first_name}"
 	for k, _ in pairs(row) do
 		if is_user_property_optional(k) then
@@ -269,7 +368,7 @@ function PostgresStorage:cache_user(user)
 	return true
 end
 
-function PostgresStorage:get_user_id(username)
+function PostgresStorage:getUserId(username)
 	if username:byte(1) == string.byte("@") then
 		username = username:sub(2)
 	end
@@ -280,6 +379,49 @@ function PostgresStorage:get_user_id(username)
 		return false
 	end
 	return ok[1].id
+end
+
+function PostgresStorage:getUserProperty(user, property)
+	local query = interpolate('SELECT {property} FROM "user" WHERE id = {id}', {
+		id = user.id,
+		property = property,
+	})
+	local ok = self.pg:query(query)
+	if not ok or not ok[1] or not ok[1][property] then
+		return nil
+	end
+	return ok[1][property]
+end
+
+function PostgresStorage:getChatProperty(chat, property)
+	local query = interpolate('SELECT {property} FROM "chat" WHERE id = {id}', {
+		id = chat.id,
+		property = property,
+	})
+	local ok = self.pg:query(query)
+	if not ok or not ok[1] or not ok[1][property] then
+		return nil
+	end
+	if property == "type" then
+		return chat_type[ok[1][property]]
+	end
+	return ok[1][property]
+end
+
+function PostgresStorage:getChatMemberProperty(member, property)
+	local query = interpolate('SELECT {property} FROM "chat_user" WHERE chat_id = {chat_id} AND user_id = {user_id}', {
+		chat_id = member.chat.id,
+		user_id = member.user.id,
+		property = property,
+	})
+	local ok = self.pg:query(query)
+	if not ok or not ok[1] or not ok[1][property] then
+		return nil
+	end
+	if property == "status" then
+		return chat_member_status[ok[1][property]]
+	end
+	return ok[1][property]
 end
 
 local function is_chat_property_optional(k)
@@ -321,18 +463,155 @@ function PostgresStorage:cacheChat(chat)
 	return true
 end
 
-function PostgresStorage:getChatTitle(chat)
-	local query = interpolate('SELECT title FROM "chat" WHERE id = {id}', chat)
+function PostgresStorage:getChatAdministratorsCount(chat)
+	local row = {
+		chat_id = chat.id,
+		administrator = chat_member_status["administrator"],
+	}
+	local query = interpolate(
+		'SELECT count(*) FROM "chat_user" WHERE chat_id = {chat_id} AND status = {administrator}', row)
 	local ok = self.pg:query(query)
-	if not ok or not ok[1] or not ok[1].title then
-		return false
+	if not ok or not ok[1] or not ok[1].count then
+		return 0
 	end
-	return ok[1].title
+	return ok[1].count
+end
+
+function PostgresStorage:getChatAdministratorsList(chat)
+	local row = {
+		chat_id = chat.id,
+		creator = chat_member_status["creator"],
+		administrator = chat_member_status["administrator"],
+	}
+	local query = interpolate('SELECT user_id FROM "chat_user" WHERE chat_id = {chat_id}'..
+		'AND (status = {creator} OR status = {administrator})', row)
+	local ok = self.pg:query(query)
+	if not ok or not ok[1] or not ok[1].user_id then
+		return nil
+	end
+	local retval = {}
+	for _,v in pairs(ok) do
+		table.insert(retval, v.user_id)
+	end
+	return retval
 end
 
 function PostgresStorage:deleteChat(chat)
 	local query = interpolate('DELETE FROM "chat" WHERE id = {id}', chat)
 	self.pg:query(query)
+	return true
+end
+
+local function isChatMemberPropertyOptional(status, k)
+	if status == "administrator" then
+		if k == "can_be_edited"
+		or k == "can_change_info"
+		or k == "can_delete_messages"
+		or k == "can_invite_users"
+		or k == "can_restrict_members"
+		or k == "can_promote_members"
+		or k == "can_pin_messages" then
+		-- or k == "can_post_messages" -- Channels only
+		-- or k == "can_edit_messages" then -- Channels only
+			return true
+		end
+	end
+	if status == "restricted" then
+		if k == "until_date"
+		or k == "can_send_messages"
+		or k == "can_send_media_messages"
+		or k == "can_send_other_messages"
+		or k == "can_add_web_page_previews"	then
+			return true
+		end
+	end
+end
+
+function PostgresStorage:cacheChatMember(member)
+	if member.chat.type ~= "supergroup" then -- don't cache private chats, channels, etc.
+		return
+	end
+	do
+		local ok = self:cacheChat(member.chat)
+		if not ok then
+			return false
+		end
+	end
+	do
+		local ok = self:cacheUser(member.user)
+		if not ok then
+			return false
+		end
+	end
+	if not rawget(member, "status") then
+		log.warn("Tried to cache member without status {chat_id}, {user_id}", {
+			chat_id = member.chat.id,
+			user_id = member.user.id,
+		})
+		return false
+	end
+	local row = {
+		chat_id = member.chat.id,
+		user_id = member.user.id,
+		status = chat_member_status[member.status],
+	}
+	local insert = 'INSERT INTO "chat_user" (chat_id, user_id, status'
+	local values = ") VALUES ({chat_id}, {user_id}, {status}"
+	local on_conflict = ") ON CONFLICT (chat_id, user_id) DO UPDATE SET status = {status}"
+	for k, v in pairs(member) do
+		if isChatMemberPropertyOptional(member.status, k) then
+			row[k] = v
+			insert = insert..", "..k
+			values = values..", {"..k.."}"
+			on_conflict = on_conflict..", "..k.." = {"..k.."}"
+		end
+	end
+	local query = interpolate(insert..values..on_conflict, row)
+	local ok, err = self.pg:query(query)
+	if not ok then
+		log.err("Query {query} failed: {err}", {query=query, err=err})
+	end
+	return true
+end
+
+function PostgresStorage:wipeAdmins(chat)
+	local row = {
+		chat_id = chat.id,
+		member = chat_member_status["member"],
+		administrator = chat_member_status["administrator"],
+	}
+	local set = 'UPDATE "chat_user" SET status = {member}'
+	local where = ' WHERE chat_id = {chat_id} AND status = {administrator}'
+	for k, v in pairs(admins_permissions) do
+		row[k] = v
+		set = set..", "..k.." = {"..k.."}"
+	end
+	local query = interpolate(set..where, row)
+	local ok, err = self.pg:query(query)
+	if not ok then
+		log.err("Query {query} failed: {err}", {query=query, err=err})
+		return false
+	end
+	return true
+end
+
+function PostgresStorage:cacheAdmins(chat, list)
+	do
+		local ok = self:wipeAdmins(chat)
+		if not ok then
+			return false
+		end
+	end
+	for _, admin in pairs(list) do
+		admin.chat = chat
+		do
+			local ok = self:cacheChatMember(admin)
+			if not ok then
+				return false
+			end
+		end
+	end
+	return true
 end
 
 function PostgresStorage:set_keepalive()
@@ -343,19 +622,43 @@ function PostgresStorage:get_reused_times() -- luacheck: ignore 212
 	return "Unknown"
 end
 
-function MixedStorage:cache_user(user)
-	local res, ok = pcall(function() return self.postgres_storage:cache_user(user) end)
+function MixedStorage:cacheUser(user)
+	local res, ok = pcall(function() return self.postgres_storage:cacheUser(user) end)
 	if not res or not ok then
-		self.redis_storage:cache_user(user)
+		self.redis_storage:cacheUser(user)
 	end
 end
 
-function MixedStorage:get_user_id(username)
-	local ok, id = pcall(function() return self.postgres_storage:get_user_id(username) end)
+function MixedStorage:getUserId(username)
+	local ok, id = pcall(function() return self.postgres_storage:getUserId(username) end)
 	if not ok or not id then
-		return self.redis_storage:get_user_id(username)
+		return self.redis_storage:getUserId(username)
 	end
 	return id
+end
+
+function MixedStorage:getUserProperty(user, property)
+	local ok, retval = pcall(function() return self.postgres_storage:getUserProperty(user, property) end)
+	if not ok or not retval then
+		return self.redis_storage:getUserProperty(user, property)
+	end
+	return retval
+end
+
+function MixedStorage:getChatProperty(chat, property)
+	local ok, retval = pcall(function() return self.postgres_storage:getChatProperty(chat, property) end)
+	if not ok or not retval then
+		return self.redis_storage:getChatProperty(chat, property)
+	end
+	return retval
+end
+
+function MixedStorage:getChatMemberProperty(member, property)
+	local ok, retval = pcall(function() return self.postgres_storage:getChatMemberProperty(member, property) end)
+	if not ok or not retval then
+		return self.redis_storage:getChatMemberProperty(member, property)
+	end
+	return retval
 end
 
 function MixedStorage:cacheChat(chat)
@@ -365,10 +668,18 @@ function MixedStorage:cacheChat(chat)
 	end
 end
 
-function MixedStorage:getChatTitle(chat)
-	local ok, title = pcall(function() return self.postgres_storage:getChatTitle(chat) end)
+function MixedStorage:getChatAdministratorsCount(chat)
+	local ok, title = pcall(function() return self.postgres_storage:getChatAdministratorsCount(chat) end)
 	if not ok or not title then
-		return self.redis_storage:getChatTitle(chat)
+		return self.redis_storage:getChatAdministratorsCount(chat)
+	end
+	return title
+end
+
+function MixedStorage:getChatAdministratorsList(chat)
+	local ok, title = pcall(function() return self.postgres_storage:getChatAdministratorsList(chat) end)
+	if not ok or not title then
+		return self.redis_storage:getChatAdministratorsList(chat)
 	end
 	return title
 end
@@ -376,6 +687,17 @@ end
 function MixedStorage:deleteChat(chat)
 	pcall(function() return self.postgres_storage:deleteChat(chat) end)
 	self.redis_storage:deleteChat(chat)
+end
+
+function MixedStorage:cacheChatMember(member)
+	pcall(function() return self.postgres_storage:cacheChatMember(member) end)
+end
+
+function MixedStorage:cacheAdmins(chat, list)
+	local res, ok = pcall(function() return self.postgres_storage:cacheAdmins(chat, list) end)
+	if not res or not ok then
+		self.redis_storage:cacheAdmins(chat, list)
+	end
 end
 
 function MixedStorage:set_keepalive()

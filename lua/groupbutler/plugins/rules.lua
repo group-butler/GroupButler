@@ -28,21 +28,21 @@ function _M:onTextMessage(blocks)
 	local api_err = self.api_err
 	local u = self.u
 
-	if msg.chat.type == 'private' then
+	if msg.from.chat.type == 'private' then
 		if blocks[1] == 'start' then
-			msg.chat.id = tonumber(blocks[2])
+			msg.from.chat.id = tonumber(blocks[2])
 
-			local res = api:getChat(msg.chat.id)
+			local res = api:getChat(msg.from.chat.id)
 			if not res then
-				api:sendMessage(msg.from.id, i18n("🚫 Unknown or non-existent group"))
+				api:sendMessage(msg.from.user.id, i18n("🚫 Unknown or non-existent group"))
 				return
 			end
 			-- Private chats have no username
 			local private = not res.username
 
-			res = api:getChatMember(msg.chat.id, msg.from.id)
+			res = api:getChatMember(msg.from.chat.id, msg.from.user.id)
 			if not res or (res.status == 'left' or res.status == 'kicked') and private then
-				api:sendMessage(msg.from.id, i18n("🚷 You are not a member of this chat. " ..
+				api:sendMessage(msg.from.user.id, i18n("🚷 You are not a member of this chat. " ..
 					"You can't read the rules of a private group."))
 				return
 			end
@@ -51,22 +51,22 @@ function _M:onTextMessage(blocks)
 		end
 	end
 
-	local hash = 'chat:'..msg.chat.id..':info'
+	local hash = 'chat:'..msg.from.chat.id..':info'
 	if blocks[1] == 'rules' or blocks[1] == 'start' then
-		local rules = u:getRules(msg.chat.id)
+		local rules = u:getRules(msg.from.chat.id)
 		local reply_markup
 
 		reply_markup, rules = u:reply_markup_from_text(rules)
 
 		local link_preview = rules:find('telegra%.ph/') == nil
-		if msg.chat.type == 'private' or (not send_in_group(self, msg.chat.id) and not msg:is_from_admin()) then
-			api:sendMessage(msg.from.id, rules, "Markdown", link_preview, nil, nil, reply_markup)
+		if msg.from.chat.type == 'private' or (not send_in_group(self, msg.from.chat.id) and not msg.from:isAdmin()) then
+			api:sendMessage(msg.from.user.id, rules, "Markdown", link_preview, nil, nil, reply_markup)
 		else
 			msg:send_reply(rules, "Markdown", link_preview, nil, nil, reply_markup)
 		end
 	end
 
-	if not u:is_allowed('texts', msg.chat.id, msg.from) then return end
+	if not msg.from:isAdmin() then return end
 
 	if blocks[1] == 'setrules' then
 		local rules = blocks[2]
@@ -87,11 +87,11 @@ function _M:onTextMessage(blocks)
 		--set the new rules
 		local ok, err = msg:send_reply(test_text, "Markdown", nil, nil, reply_markup)
 		if not ok then
-			api:sendMessage(msg.chat.id, api_err:trans(err), "Markdown")
+			api:sendMessage(msg.from.chat.id, api_err:trans(err), "Markdown")
 		else
 			red:hset(hash, 'rules', rules)
 			local id = ok.message_id
-			api:editMessageText(msg.chat.id, id, nil, i18n("New rules *saved successfully*!"), "Markdown")
+			api:editMessageText(msg.from.chat.id, id, nil, i18n("New rules *saved successfully*!"), "Markdown")
 		end
 	end
 end

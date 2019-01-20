@@ -322,21 +322,23 @@ function _M:onTextMessage(blocks)
 	local red = self.red
 	local i18n = self.i18n
 	if blocks[1] == 'start' then
-		if msg.chat.type == 'private' then
-			local message = get_helped_string(self, 'start'):format(msg.from.first_name:escape())
+		if msg.from.chat.type == 'private' then
+			local message = get_helped_string(self, 'start'):format(msg.from.user.first_name:escape())
 			local keyboard = do_keyboard_private(self)
-			api:sendMessage(msg.from.id, message, "Markdown", nil, nil, nil, keyboard)
+			api:sendMessage(msg.from.user.id, message, "Markdown", nil, nil, nil, keyboard)
 		end
 	end
 	if blocks[1] == 'help' then
 		local text = get_helped_string(self, blocks[2] or 'main_menu')
 		if blocks[2] then
-			api:sendMessage(msg.from.id, text, "Markdown")
+			api:sendMessage(msg.from.user.id, text, "Markdown")
 		else
 			local keyboard = do_keyboard(self, 'main')
-			local res = api:sendMessage(msg.from.id, text, "Markdown", nil, nil, nil, keyboard)
-			if not res and msg.chat.type ~= 'private' and red:hget('chat:'..msg.chat.id..':settings', 'Silent') ~= 'on' then
-				api:sendMessage(msg.chat.id,
+			local res = api:sendMessage(msg.from.user.id, text, "Markdown", nil, nil, nil, keyboard)
+			if  not res
+			and msg.from.chat.type ~= 'private'
+			and red:hget('chat:'..msg.from.chat.id..':settings', 'Silent') ~= 'on' then
+				api:sendMessage(msg.from.chat.id,
 					i18n('[Start me](%s) _to get the list of commands_'):format(u:deeplink_constructor('', 'help')), "Markdown")
 			end
 		end
@@ -380,7 +382,7 @@ function _M:onCallbackQuery(blocks)
 	query[blocks[1]]()
 
 	local keyboard = do_keyboard(self, keyboard_type)
-	local ok, err = api:editMessageText(msg.chat.id, msg.message_id, nil, text, "Markdown", nil, keyboard)
+	local ok, err = api:editMessageText(msg.from.chat.id, msg.message_id, nil, text, "Markdown", nil, keyboard)
 	if not ok and err and err.error_code == 111 then
 		api:answerCallbackQuery(msg.cb_id, i18n("❗️ Already there"))
 	end
