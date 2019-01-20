@@ -24,6 +24,8 @@ install:
 service:
   - redis-server
 
+before_script: redis-cli ping
+
 script:
   - luacheck . --exclude-files lua/vendor lua_install
   - busted --coverage --lpath "./lua/?.lua;./lua/?/?.lua;./lua/?/init.lua;./lua/vendor/?.lua;./lua/vendor/?/?.lua"
