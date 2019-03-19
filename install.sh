@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
 # Lua Version
-LUA=5.2
+LUA=5.1
 
 # Dependencies and libraries
-NATIVE="luarocks lua$LUA liblua$LUA-dev git make unzip redis-server curl libcurl4-gnutls-dev"
-ROCKS="luasocket luasec redis-lua lua-term serpent lua-cjson Lua-cURL"
+NATIVE="lua$LUA liblua$LUA-dev luarocks make redis-server"
+ROCKS="telegram-bot-api lua-resty-socket"
 
 # Color variables
 Red='\033[0;31m'
@@ -58,7 +58,7 @@ case $REPLY in [yY])
 		read REPLY
 		if [[ $REPLY == [yY] ]]; then
 			echo -en "${Orange}Fetching latest Group Butler source code\n${Default}"
-			git clone -b master https://github.com/RememberTheAir/GroupButler.git && cd GroupButler
+			git clone -b master https://github.com/group-butler/GroupButler.git && cd GroupButler
 		fi
 	fi
 

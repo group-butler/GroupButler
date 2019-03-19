@@ -1,10 +1,14 @@
 # Group Butler
 
+[![Build Status](https://travis-ci.com/group-butler/GroupButler.svg?branch=master)](https://travis-ci.com/group-butler/GroupButler)
+[![Coverage Status](https://coveralls.io/repos/github/group-butler/GroupButler/badge.svg?branch=master)](https://coveralls.io/github/group-butler/GroupButler?branch=master)
+[![Localization Status](https://d322cqt584bo4o.cloudfront.net/group-butler/localized.svg)](https://crowdin.com/project/group-butler)
+
 ## Short introduction
 
-This bot has been created to help people administrate their groups, and includes many useful tools.
+Group Butler helps people administrate their groups, and includes many other useful tools.
 
-Group Butler was born as an [otouto](https://otou.to) [v3.1](https://github.com/topkecleon/otouto/tree/26c1299374af130bbf8457af904cb4ea450caa51) ([`@mokubot`](https://telegram.me/mokubot)), but it has been turned into an administration bot.
+Group Butler was born as an [otouto](https://otou.to) [v3.1](https://github.com/topkecleon/otouto/tree/26c1299374af130bbf8457af904cb4ea450caa51) ([`@mokubot`](https://telegram.me/mokubot)), but it has since been turned into an administration bot.
 
 #### Group Butler on Telegram:
 
@@ -13,7 +17,7 @@ Group Butler was born as an [otouto](https://otou.to) [v3.1](https://github.com/
 	- **_channel_**: [`@GroupButler_ch`](https://telegram.me/groupbutler_ch).
 
 - [`@GBReborn_bot`](https://telegram.me/GBReborn_bot)
-	- **_branch_**: `beta`
+	- **_branch_**: `develop`
 	- **_channel_**: [`@GroupButler_beta`](https://telegram.me/GroupButler_beta).
 
 * * *
@@ -45,53 +49,44 @@ LOG_ADMIN=12345678
 ## Setup (using Docker)
 Requirements:
 
-- docker 17.06.0-ce
-- docker-compose 1.14.0
+- docker 18.02.0-ce
+- docker-compose 1.21.0
 - Optional: Docker Swarm cluster for deployment
-- Optional: GitLab repository for CI/CD
 
 ### Running (dev mode)
-Run `docker-compose up`. Docker will pull and build the required images, so the first time you run this command should take a little while. After that, the bot should be up and running. 
+Run `make dev_polling`. Docker will pull and build the required images, so the first time you run this command should take a little while. After that, the bot should be up and running.
 
-Code is mounted on the bot container, so you can make changes and restart the bot as you normally would. There’s no need to use `docker-compose up --build` or `docker-compose build` unless you changed something on `Dockerfile`.
+Code is mounted on the bot container, so you can make changes and restart the bot as you normally would.
 
-Redis default port is mounted to host, just in case you want to debug something using tools available at the host. 
+Redis default port is mounted to host, just in case you want to debug something using tools available at the host.
 
 **The redis container is set to not persist data while in dev mode**.
 
 ### Running (production mode)
 There’s a number of ways you can use docker for deploying into production.
 
-Files named `docker-compose.*.yml` are gitignored, just in case you feel the need to override `docker-compose.yml` or write something else entirely. `docker-compose.override.yml` is used to store dev mode overrides since it’s read by default by docker-compose.
+Files named `docker-compose.*.yml` are gitignored, just in case you feel the need to override `docker-compose.yml` or write something else entirely.
 
 The bot also supports reading Docker Secrets (may work with other vaults too). Check `lua/config.lua` to see which variables can be read from secrets.
 
 #### Compose Example
-You would need to write another override file (i.e. `docker-compose.deploy.yml`) matching your needs (change restart policy to always, either add groupbutler to an external network or create a redis service with persistency, etc.). 
 
-You could deploy Group Butler by running something like this:
+You can deploy Group Butler by running:
 
-`docker-compose -f docker-compose.yml -f docker-compose.deploy.yml up`
+`make easy_deploy`
+
 
 #### Swarm Example
-Assuming you have deployed redis into `staging` (`docker stack deploy …` or `docker service create …`) and exported the required environment variables (like `$TG_TOKEN`…), you could deploy Group Butler by running:
+Assuming you have deployed redis into, for instance `staging` (`docker stack deploy …` or `docker service create …`) and exported the required environment variables (like `$TG_TOKEN`…), you could deploy Group Butler by running:
 
 `docker stack deploy staging -c docker-compose.yml`
-
-#### GitLab CI Example (uses swarm)
-- Clone this repo to a GitLab server (could be gitlab.com or self hosted)
-- Set Project Variables, paying attention to variable scope: the `.gitlab-ci.yml` bundled with this repo supports two environments: `staging` and `production`
-- Disable shared runners and install GitLab CI runner on at least one of the manager nodes. Make sure to tag them as `manager` too
-- Deploy (manually or using another repository) redis to `staging` and/or `production`
-- Push to `staging` and/or `production` branches
-- If everything went well, your very own Group Butler should be up and running
 
 ## Setup (without using Docker)
 List of required packages:
 - `libreadline-dev`
 - `redis-server`
-- `lua5.2`
-- `liblua5.2dev`
+- `lua5.1`
+- `liblua5.1dev`
 - `libssl-dev`
 - `git`
 - `make`
@@ -108,7 +103,7 @@ You can easily install Group Butler by running the following commands:
 ```bash
 # Tested on Ubuntu 16.04
 
-$ wget https://raw.githubusercontent.com/RememberTheAir/GroupButler/master/install.sh
+$ wget https://raw.githubusercontent.com/group-butler/GroupButler/master/install.sh
 $ bash install.sh
 ```
 
@@ -119,7 +114,7 @@ or
 
 $ sudo apt-get update
 $ sudo apt-get upgrade
-$ sudo apt-get install libreadline-dev libssl-dev lua5.2 liblua5.2-dev git make unzip redis-server curl libcurl4-gnutls-dev
+$ sudo apt-get install libreadline-dev libssl-dev lua5.1 liblua5.1-dev git make unzip redis-server curl libcurl4-gnutls-dev
 
 # We are going now to install LuaRocks and the required Lua modules
 
@@ -139,7 +134,7 @@ $ cd ..
 # Clone the repository and give the launch script permissions to be executed
 # If you want to clone the beta branch, use git clone with the [-b beta] option
 
-$ git clone https://github.com/RememberTheAir/GroupButler.git
+$ git clone https://github.com/group-butler/GroupButler.git
 $ cd GroupButler
 $ sudo chmod +x launch.sh
 ```
@@ -186,22 +181,15 @@ You can find a backup of your Redis database in `/etc/redis/dump.rdb`. The name 
 * * *
 
 ## Translators
-If you want to help translate the bot, follow the instructions below. Parts of Group Butler use tools from [gettext](https://www.gnu.org/software/gettext/). However we don't use binary format `*.mo` for the sake of simplicity. The bot manually parses the `*.po` files in the `locales` directory.
+If you want to help translate the bot, follow the instructions below. Parts of Group Butler use tools from [gettext](https://www.gnu.org/software/gettext/). However we don't use binary format `*.mo` for the sake of simplicity. The bot  parses the `*.po` files in the `locales` directory at runtime.
 
-If you want to improve an existing translation, run this command in the root directoy with the bot: `./launch.sh update-locale <name>` where &lt;name&gt; is two letters of your chosen locale. Further edit the file `locales/<name>.po`, make sure that the translation is done correctly and send your translation.
+We recommend contributing translations to our [Crowdin project](https://crowdin.com/project/group-butler).
 
-We recommend [Poedit](https://poedit.net/) as editor of `*.po` files. You must specify information about yourself in the settings; put the link to your Telegram account in the field Email if you have it.
+**Note for developers**: update the POT file whenever you change a string, and don't forget to use the `i18n()` function so it's translatable. In order to update the POT file you will need to install gettext and then run:
 
-If you want to create new locale, run `./launch.sh create-locale <name>`. This command creates the file `locales/<name>.po` with untranslated strings. You can also use Poedit to translate the bot. List of available locales see in [gettext manual](https://www.gnu.org/software/gettext/manual/gettext.html#Language-Codes).
-After add your new locale in the file `config.lua`.
-
-* * *
-
-## Pull requests
-
-If you are going to open a pull request, please use the [`beta` branch](https://github.com/RememberTheAir/GroupButler/tree/beta) as destination branch.
-
-Pull requests in the `master` branch won't be considered, unless they are intended to solve a critical problem.
+```
+make pot
+```
 
 * * *
 

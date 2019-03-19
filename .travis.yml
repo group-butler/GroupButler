@@ -1,0 +1,38 @@
+language: python
+sudo: false
+
+env:
+  # - LUA="lua=5.1" # Recommended version for polling mode
+  - LUA="luajit=2.1" # Recommended version for webhooks mode
+  # - LUA="lua=5.2"
+  # - LUA="lua=5.3"
+  # - LUA="luajit 2.0"
+
+before_install:
+  - pip install hererocks
+  - hererocks lua_install -r^ --$LUA
+  - export PATH=$PATH:$PWD/lua_install/bin # Add directory with all installed binaries to PATH
+
+install:
+  - luarocks install luacheck
+  - luarocks install busted
+  - luarocks install luacov
+  - luarocks install luacov-coveralls
+  - luarocks install telegram-bot-api
+  - luarocks install lua-resty-socket
+
+script:
+  - luacheck . --exclude-files lua/vendor lua_install
+  - busted --coverage --lpath "./lua/?.lua;./lua/?/?.lua;./lua/?/init.lua"
+
+after_success:
+  - luacov-coveralls --exclude lua/vendor --exclude lua_install
+
+# matrix:
+#   allow_failures:
+#     - env: LUA="lua=5.2" LUA="lua=5.3" LUA="luajit 2.0"
+
+notifications:
+  email:
+    on_success: change
+    on_failure: always

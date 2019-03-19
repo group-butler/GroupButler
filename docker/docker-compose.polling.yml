@@ -1,0 +1,40 @@
+version: '3.6'
+
+services:
+  groupbutler:
+    build:
+      context: .
+      dockerfile: docker/polling.Dockerfile
+      args:
+        # DEPS_NATIVE: $DEPS_NATIVE
+        # DEPS_ROCKS: $DEPS_ROCKS
+        GB_COMMIT: $GB_COMMIT
+    environment:
+      REDIS_HOST: redis
+      POSTGRES_HOST: postgres
+      POSTGRES_USER: groupbutler
+      POSTGRES_PASSWORD: password
+    volumes:
+      - ./conf:/srv/app/conf
+      - ./locales:/srv/app/locales
+      - ./lua:/srv/app/lua
+      - ./polling.lua:/srv/app/polling.lua
+
+  redis:
+    command: --save "" --appendonly no
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+
+  postgres:
+    image: postgres:alpine
+    environment:
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./schema:/docker-entrypoint-initdb.d
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+   postgres_data:

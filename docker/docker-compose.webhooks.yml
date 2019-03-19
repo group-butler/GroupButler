@@ -1,0 +1,42 @@
+version: '3.6'
+
+services:
+  groupbutler:
+    build:
+      context: .
+      dockerfile: docker/webhooks.Dockerfile
+      args:
+        # DEPS_NATIVE: $DEPS_NATIVE
+        # DEPS_OPM: $DEPS_OPM
+        GB_COMMIT: $GB_COMMIT
+    environment:
+      REDIS_HOST: redis
+      POSTGRES_HOST: postgres
+      POSTGRES_USER: groupbutler
+      POSTGRES_PASSWORD: password
+    volumes:
+      - ./conf:/usr/local/openresty/nginx/conf
+      - ./locales:/usr/local/openresty/nginx/locales
+      - ./lua:/usr/local/openresty/nginx/lua
+    ports:
+      - "80:80"
+
+  redis:
+    command: --save "" --appendonly no
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+
+  postgres:
+    image: postgres:alpine
+    environment:
+      POSTGRES_USER: groupbutler
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./schema:/docker-entrypoint-initdb.d
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+   postgres_data:

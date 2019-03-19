@@ -1,10 +1,11 @@
 .env
+schema.sql
 docker-compose.*.yml
 *.sh
 *.json
 *.tar
-locales/
+luacov.*
 
-!docker-compose.override.yml
 !install.sh
 !launch.sh
+!crowdin-sync.sh
