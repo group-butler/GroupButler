@@ -392,7 +392,7 @@ function plugin.onTextMessage(msg, blocks)
 					if not next(links) then
 						text = i18n("_I can't find any url in this message_")
 					else
-						local new = db:sadd(('chat:%d:blacklist'):format(msg.chat.id), table.unpack(links))
+						local new = db:sadd(('chat:%d:blacklist'):format(msg.chat.id), unpack(links))
 						text = i18n("%d link(s) will be blacklisted"):format(#links - (#links - new))
 						if new ~= #links then
 							text = text..i18n("\n%d links were already in the list"):format(#links - new)
@@ -423,10 +423,10 @@ function plugin.onTextMessage(msg, blocks)
 				if not next(links) then
 					text = i18n("_I can't find any url in this message_")
 				else
-					local removed = db:srem(('chat:%d:blacklist'):format(msg.chat.id), table.unpack(links))
+					local removed = db:srem(('chat:%d:blacklist'):format(msg.chat.id), unpack(links))
 					text = i18n("%d link(s) removed from the blacklist"):format(removed)
 					if removed ~= #links then
-						text = text.._("\n%d links were already in the list"):format(#links - removed)
+						text = text..i18n("\n%d links were already in the list"):format(#links - removed)
 					end
 				end
 			else
@@ -437,7 +437,7 @@ function plugin.onTextMessage(msg, blocks)
 		if blocks[1] == 'funbl' then --force the unblacklist of a link
 			db:srem(('chat:%d:blacklist'):format(msg.chat.id), blocks[2])
 			api.sendReply(msg, 'Done')
-		end		
+		end			
 		
 		if blocks[1] == 'wlchan' and not blocks[2] then
 			local channels = db:smembers(('chat:%d:chanwhitelist'):format(msg.chat.id))
