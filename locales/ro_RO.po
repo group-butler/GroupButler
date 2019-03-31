@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-17 15:23-0200\n"
-"PO-Revision-Date: 2018-12-24 19:33\n"
+"POT-Creation-Date: 2019-03-31 11:30-0300\n"
+"PO-Revision-Date: 2019-03-31 14:58\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Romanian\n"
 "Language: ro_RO\n"
@@ -50,175 +50,181 @@ msgstr "Acest mesaj este prea lung. Lungimea maxima permisa de catre Telegram: 4
 
 #: lua/groupbutler/api_errors.lua:27
 msgid "One of the inline buttons you are trying to set is missing the URL"
-msgstr "Unui buton inline pe care incerci sa-l setezi, ii lipseste adresa URL"
+msgstr ""
 
 #: lua/groupbutler/api_errors.lua:28
 #, lua-format
 msgid "Inline link formatted incorrectly. Check the text between brackets -> \\[]()\n"
 "%s"
-msgstr "Link-ul inline este formatat incorect. Verifica t extul inter paranteze-> \\[]()\n"
-"%s"
+msgstr ""
 
 #: lua/groupbutler/api_errors.lua:28
 msgid "More info [here](https://telegram.me/GB_tutorials/12)"
-msgstr "Mai multe informatii [aici](https://telegram.me/GB_tutorials/12)"
+msgstr ""
 
 #: lua/groupbutler/api_errors.lua:29
 msgid "This text breaks the markdown.\n"
 "More info about a proper use of markdown [here](https://telegram.me/GB_tutorials/10) and [here](https://telegram.me/GB_tutorials/12)."
-msgstr "Acest text întrerupe marcarea.\n"
-"Mai multe informații despre utilizarea corectă a marcajului [aici] (https://telegram.me/GB_tutorials/10) și [aici] (https://telegram.me/GB_tutorials/12)."
+msgstr ""
 
 #: lua/groupbutler/api_errors.lua:31
 msgid "One of the URLs that should be placed in an inline button seems to be invalid (not an URL). Please check it"
-msgstr "Una dintre adresele URL care ar trebui plasate într-un buton inline pare a fi invalidă (nu o adresă URL). Te rog verifica"
+msgstr ""
 
 #: lua/groupbutler/api_errors.lua:32
 msgid "One of the inline buttons you are trying to set doesn't have a name"
-msgstr "Un buton inline pe care incerci sa-l setezi nu are un nume"
+msgstr ""
 
-#: lua/groupbutler/main.lua:128
+#: lua/groupbutler/main.lua:151
 #, lua-format
 msgid "Hello everyone!\n"
 "My name is %s, and I'm a bot made to help administrators in their hard work.\n"
 "Unfortunately I can't work in normal groups. If you need me, please ask the creator to convert this group to a supergroup and then add me again.\n"
-msgstr "Salutare tuturor!\n"
-"Numele meu este %s, și sunt un *bot* creat pentru a ajuta administratorii în munca lor dificilă.\n"
-"Din păcate nu pot lucra în grupuri normale. Dacă ai nevoie de mine, te rog adresează-te creatorului să convertească acest grup într-un supergrup iar apoi să mă adauge din nou.\n"
+msgstr ""
 
-#: lua/groupbutler/main.lua:196
+#: lua/groupbutler/main.lua:219
 msgid "🐞 Sorry, a *bug* occurred"
-msgstr "🐞 Scuze, un *bug* a avut loc"
+msgstr ""
 
-#: lua/groupbutler/plugins/antispam.lua:43
-#: lua/groupbutler/plugins/onmessage.lua:162
-#: lua/groupbutler/plugins/warn.lua:113
-msgid "banned"
-msgstr "accesul interzis"
+#: lua/groupbutler/message.lua:80
+msgid "Reply to a user or mention them"
+msgstr ""
 
-#: lua/groupbutler/plugins/antispam.lua:44
-#: lua/groupbutler/plugins/onmessage.lua:159
-#: lua/groupbutler/plugins/warn.lua:117
-msgid "kicked"
-msgstr "eliminat"
+#: lua/groupbutler/message.lua:83
+msgid "I've never seen this user before.\n"
+"This command works by reply, username, user ID or text mention.\n"
+"If you're using it by username and want to teach me who the user is, forward me one of their messages"
+msgstr ""
 
 #: lua/groupbutler/plugins/antispam.lua:45
-#: lua/groupbutler/plugins/onmessage.lua:165
-#: lua/groupbutler/plugins/warn.lua:121
-msgid "muted"
-msgstr "mut"
+#: lua/groupbutler/plugins/onmessage.lua:162
+#: lua/groupbutler/plugins/warn.lua:114
+msgid "banned"
+msgstr ""
 
 #: lua/groupbutler/plugins/antispam.lua:46
-#: lua/groupbutler/plugins/dashboard.lua:163
+#: lua/groupbutler/plugins/onmessage.lua:159
+#: lua/groupbutler/plugins/warn.lua:118
+msgid "kicked"
+msgstr ""
+
+#: lua/groupbutler/plugins/antispam.lua:47
+#: lua/groupbutler/plugins/onmessage.lua:165
+#: lua/groupbutler/plugins/warn.lua:122
+msgid "muted"
+msgstr ""
+
+#: lua/groupbutler/plugins/antispam.lua:48
+#: lua/groupbutler/plugins/dashboard.lua:165
 msgid "telegram.me links"
 msgstr "telegram.me link-uri"
 
-#: lua/groupbutler/plugins/antispam.lua:47
+#: lua/groupbutler/plugins/antispam.lua:49
 msgid "Channels messages"
 msgstr "Mesajele canalelor"
 
-#: lua/groupbutler/plugins/antispam.lua:94
+#: lua/groupbutler/plugins/antispam.lua:96
 #, lua-format
 msgid "%s %s for <b>spam</b>! (%d/%d)"
-msgstr "%s %s for <b>spam</b>! (%d/%d)"
+msgstr ""
 
-#: lua/groupbutler/plugins/antispam.lua:101
+#: lua/groupbutler/plugins/antispam.lua:103
 #, lua-format
 msgid "%s, spam is not allowed here. The next time you will be restricted"
-msgstr "%s, spam-ul nu este permis aici. Data viitoare va fi restricționat"
+msgstr ""
 
-#: lua/groupbutler/plugins/antispam.lua:107
+#: lua/groupbutler/plugins/antispam.lua:109
 #, lua-format
 msgid "%s, this kind of message is not allowed in this chat (<b>%d/%d</b>)"
 msgstr ""
 
-#: lua/groupbutler/plugins/antispam.lua:111
+#: lua/groupbutler/plugins/antispam.lua:113
 msgid "telegram.me link"
 msgstr "telegram.me link"
 
-#: lua/groupbutler/plugins/antispam.lua:111
+#: lua/groupbutler/plugins/antispam.lua:113
 msgid "message from a channel"
 msgstr "mesaj din partea unui canal"
 
-#: lua/groupbutler/plugins/antispam.lua:135
+#: lua/groupbutler/plugins/antispam.lua:137
 msgid "forwards are allowed"
 msgstr "redirecționările sunt permise"
 
-#: lua/groupbutler/plugins/antispam.lua:137
-msgid "warn for forwards"
-msgstr "avertisment pentru redirecționări"
-
 #: lua/groupbutler/plugins/antispam.lua:139
-msgid "forwards will be deleted"
-msgstr "redirecționările vor fi șterse"
+msgid "warn for forwards"
+msgstr ""
 
-#: lua/groupbutler/plugins/antispam.lua:143
+#: lua/groupbutler/plugins/antispam.lua:141
+msgid "forwards will be deleted"
+msgstr ""
+
+#: lua/groupbutler/plugins/antispam.lua:145
 msgid "links are allowed"
 msgstr "link-urile sunt permise"
 
-#: lua/groupbutler/plugins/antispam.lua:145
-msgid "warn for links"
-msgstr "avertisment pentru link-uri"
-
 #: lua/groupbutler/plugins/antispam.lua:147
+msgid "warn for links"
+msgstr ""
+
+#: lua/groupbutler/plugins/antispam.lua:149
 msgid "links will be deleted"
 msgstr "link-urile vor fi șterse"
 
-#: lua/groupbutler/plugins/antispam.lua:166
+#: lua/groupbutler/plugins/antispam.lua:168
 msgid "You can't go lower"
 msgstr "Nu puteți merge mai jos"
 
-#: lua/groupbutler/plugins/antispam.lua:168
+#: lua/groupbutler/plugins/antispam.lua:170
 msgid "You can't go higher"
 msgstr "Nu puteți merge mai sus"
 
-#: lua/groupbutler/plugins/antispam.lua:176
+#: lua/groupbutler/plugins/antispam.lua:178
 #, lua-format
 msgid "New value: %d"
 msgstr "Valoare nouă: %d"
 
-#: lua/groupbutler/plugins/antispam.lua:200
+#: lua/groupbutler/plugins/antispam.lua:202
 msgid "Allow/forbid telegram.me links"
 msgstr "Permise/interzice link-uri telegram.me"
 
-#: lua/groupbutler/plugins/antispam.lua:202
+#: lua/groupbutler/plugins/antispam.lua:204
 msgid "Allow/forbid forwarded messages from channels"
 msgstr "Permite/interzice redirecționarea mesajelor din partea canalelor"
 
-#: lua/groupbutler/plugins/antispam.lua:204
-msgid "Set how many times the bot should warn users before kicking/banning them"
-msgstr "Setează de câte ori botul ar trebui să atenționeze utilizatorul înainte de a fi dat afară/banat"
-
 #: lua/groupbutler/plugins/antispam.lua:206
-#: lua/groupbutler/plugins/defaultpermissions.lua:66
-#: lua/groupbutler/plugins/floodmanager.lua:24
-#: lua/groupbutler/plugins/logchannel.lua:37
-#: lua/groupbutler/plugins/menu.lua:42
+msgid "Set how many times the bot should warn users before kicking/banning them"
+msgstr ""
+
+#: lua/groupbutler/plugins/antispam.lua:208
+#: lua/groupbutler/plugins/defaultpermissions.lua:68
+#: lua/groupbutler/plugins/floodmanager.lua:26
+#: lua/groupbutler/plugins/logchannel.lua:39
+#: lua/groupbutler/plugins/menu.lua:44
 #: lua/groupbutler/plugins/private_settings.lua:25
 msgid "Description not available"
 msgstr "Descrierea nu este valabilă"
 
-#: lua/groupbutler/plugins/antispam.lua:241
-msgid "Kick 👞"
-msgstr "Exclude 👞"
-
 #: lua/groupbutler/plugins/antispam.lua:243
-msgid "Ban 🔨"
-msgstr "Interzice 🔨"
+msgid "Kick 👞"
+msgstr ""
 
 #: lua/groupbutler/plugins/antispam.lua:245
+msgid "Ban 🔨"
+msgstr ""
+
+#: lua/groupbutler/plugins/antispam.lua:247
 msgid "Mute 👁"
-msgstr "Mut 👁"
+msgstr ""
 
-#: lua/groupbutler/plugins/antispam.lua:292
-#: lua/groupbutler/plugins/floodmanager.lua:144
-#: lua/groupbutler/plugins/logchannel.lua:125
-#: lua/groupbutler/plugins/mediasettings.lua:115
-#: lua/groupbutler/plugins/menu.lua:258
-msgid "You're no longer an admin"
-msgstr "Nu mai ești admin"
+#: lua/groupbutler/plugins/antispam.lua:298
+#: lua/groupbutler/plugins/floodmanager.lua:157
+#: lua/groupbutler/plugins/logchannel.lua:135
+#: lua/groupbutler/plugins/mediasettings.lua:127
+#: lua/groupbutler/plugins/menu.lua:271 lua/groupbutler/plugins/setlang.lua:45
+msgid "Sorry, you don't have permission to change settings"
+msgstr ""
 
-#: lua/groupbutler/plugins/antispam.lua:294
+#: lua/groupbutler/plugins/antispam.lua:302
 msgid "*Anti-spam settings*\n"
 "Choose which kind of message you want to forbid\n"
 "• ✅ = *Allowed*\n"
@@ -227,67 +233,65 @@ msgid "*Anti-spam settings*\n"
 "When set on `delete`, the bot doesn't warn users until they are about to be kicked/banned/muted (at the second-to-last warning)"
 msgstr ""
 
-#: lua/groupbutler/plugins/antispam.lua:362
+#: lua/groupbutler/plugins/antispam.lua:370
 msgid "_The whitelist was already empty_"
-msgstr "_Lista albă a fost deja goală_"
+msgstr ""
 
-#: lua/groupbutler/plugins/antispam.lua:365
+#: lua/groupbutler/plugins/antispam.lua:373
 #, lua-format
 msgid "*Whitelist cleaned*\n"
 "%d links have been removed"
-msgstr "*Lista albă curățată*\n"
-"%d link-urile au fost eliminate"
+msgstr ""
 
-#: lua/groupbutler/plugins/antispam.lua:373
-#: lua/groupbutler/plugins/antispam.lua:382
-#: lua/groupbutler/plugins/antispam.lua:404
-#: lua/groupbutler/plugins/antispam.lua:413
+#: lua/groupbutler/plugins/antispam.lua:381
+#: lua/groupbutler/plugins/antispam.lua:390
+#: lua/groupbutler/plugins/antispam.lua:416
+#: lua/groupbutler/plugins/antispam.lua:425
 msgid "_I can't find any url in this message_"
-msgstr "_nu exista un link în acest mesaj_"
+msgstr ""
 
-#: lua/groupbutler/plugins/antispam.lua:376
+#: lua/groupbutler/plugins/antispam.lua:384
 #, lua-format
 msgid "%d link(s) will be whitelisted"
-msgstr "%d link-ul/urile va/vor fi adăugat(e) pe lista albă"
+msgstr ""
 
-#: lua/groupbutler/plugins/antispam.lua:378
-#: lua/groupbutler/plugins/antispam.lua:409
+#: lua/groupbutler/plugins/antispam.lua:386
+#: lua/groupbutler/plugins/antispam.lua:421
 #, lua-format
 msgid "\n"
 "%d links were already in the list"
-msgstr "\n"
-"%d link-urile erau deja în listă"
+msgstr ""
 
-#: lua/groupbutler/plugins/antispam.lua:390
+#: lua/groupbutler/plugins/antispam.lua:400
 msgid "_The whitelist is empty_.\n"
 "Use `/wl [links]` to add some links to the whitelist"
-msgstr "[links]_Lista albă este goală_.\n"
+msgstr "_Lista albă este goală_.\n"
 "Folosește `/wl [links]` pentru a adăuga câteva link-uri la lista albă"
 
-#: lua/groupbutler/plugins/antispam.lua:392
+#: lua/groupbutler/plugins/antispam.lua:402
 msgid "Whitelisted links:\n\n"
-msgstr "Link-uri de pe lista albă:\n\n"
+msgstr ""
 
-#: lua/groupbutler/plugins/antispam.lua:407
+#: lua/groupbutler/plugins/antispam.lua:419
 #, lua-format
 msgid "%d link(s) removed from the whitelist"
-msgstr "%d link(uri) șters(e) de pe lista albă"
+msgstr ""
 
-#: lua/groupbutler/plugins/antispam.lua:424
+#: lua/groupbutler/plugins/antispam.lua:440
 msgid "_Whitelist of channels empty_"
-msgstr "_Lista albă goală a canalelor_"
+msgstr ""
 
-#: lua/groupbutler/plugins/antispam.lua:426
+#: lua/groupbutler/plugins/antispam.lua:442
 #, lua-format
 msgid "*Whitelisted channels:*\n"
 "%s"
 msgstr "*Canalele de pe lista albă:*\n"
 "%s"
 
-#: lua/groupbutler/plugins/antispam.lua:433
 #: lua/groupbutler/plugins/antispam.lua:450
+#: lua/groupbutler/plugins/antispam.lua:467
 msgid "_I can't find a channel ID in your message_"
-msgstr "_Nu pot găsi un ID de canal în mesajul tău_"
+msgstr ""
 
 #: lua/groupbutler/plugins/backup.lua:100
 #, lua-format
@@ -301,11 +305,11 @@ msgstr "*Trimis in privat*"
 
 #: lua/groupbutler/plugins/backup.lua:120
 msgid "Invalid input. Please reply to the backup file (/snap command to get it)"
-msgstr "Intrare invalidă. Vă rugăm răspundeți la fișierul de backup (folosiți comanda /snap pentru a-l lua)"
+msgstr ""
 
 #: lua/groupbutler/plugins/backup.lua:125
 msgid "Invalid input. Please reply to a document"
-msgstr "Intrare invalidă. Vă rugăm răspundeți la un document"
+msgstr ""
 
 #: lua/groupbutler/plugins/backup.lua:130
 #, lua-format
@@ -322,7 +326,7 @@ msgstr "Descărcarea fișierului a eșuat cu codul %s"
 #: lua/groupbutler/plugins/backup.lua:149
 #, lua-format
 msgid "Chat IDs don't match (%s and %s)"
-msgstr "ID-urile conversației nu se potrivesc (%s și %s)"
+msgstr ""
 
 #: lua/groupbutler/plugins/backup.lua:172
 msgid "Import was <b>successful</b>.\n\n"
@@ -330,439 +334,426 @@ msgid "Import was <b>successful</b>.\n\n"
 "- #extra commands which are associated with a media must be set again if the bot you are using now is different from the bot that originated the backup.\n"
 msgstr ""
 
-#: lua/groupbutler/plugins/banhammer.lua:89
+#: lua/groupbutler/plugins/banhammer.lua:90
 msgid "Use -/+ to edit the value, then select a timeframe to temporary ban the user"
 msgstr "Folosește -/+ pentru a edita valoarea, apoi selectează un interval de timp pentru a bana temporar utilizatorul"
 
-#: lua/groupbutler/plugins/banhammer.lua:96
+#: lua/groupbutler/plugins/banhammer.lua:107
 #, lua-format
 msgid "%s kicked %s!"
-msgstr "%s eliminat %s!"
+msgstr ""
 
-#: lua/groupbutler/plugins/banhammer.lua:105
-#: lua/groupbutler/plugins/banhammer.lua:118
+#: lua/groupbutler/plugins/banhammer.lua:122
+#: lua/groupbutler/plugins/banhammer.lua:142
 #, lua-format
 msgid "%s banned %s!"
-msgstr "%s accesul interzis %s!"
+msgstr ""
 
-#: lua/groupbutler/plugins/banhammer.lua:112
+#: lua/groupbutler/plugins/banhammer.lua:128
 msgid "_Use this command in reply to a forwarded message_"
 msgstr "_Utilizați această comandă ca răspuns la un mesaj redirecționat_"
 
-#: lua/groupbutler/plugins/banhammer.lua:126
+#: lua/groupbutler/plugins/banhammer.lua:148
 msgid "_An admin can't be unbanned_"
-msgstr "_Un admin nu poate avea accesul interzis revocat_"
-
-#: lua/groupbutler/plugins/banhammer.lua:135
-msgid "This user is not banned!"
-msgstr "Acest utilizator nu are accesul interzis!"
-
-#: lua/groupbutler/plugins/banhammer.lua:140
-#, lua-format
-msgid "%s unbanned by %s!"
-msgstr "%s accesul interzis ridicat de către %s!"
+msgstr ""
 
 #: lua/groupbutler/plugins/banhammer.lua:152
-#: lua/groupbutler/plugins/defaultpermissions.lua:127
+msgid "This user is not banned!"
+msgstr ""
+
+#: lua/groupbutler/plugins/banhammer.lua:166
+#, lua-format
+msgid "%s unbanned by %s!"
+msgstr ""
+
+#: lua/groupbutler/plugins/banhammer.lua:178
+#: lua/groupbutler/plugins/defaultpermissions.lua:135
 msgid "Sorry, you don't have permission to restrict members"
 msgstr ""
 
-#: lua/groupbutler/plugins/banhammer.lua:156
+#: lua/groupbutler/plugins/banhammer.lua:184
 msgid "Tap on the -/+ buttons to change this value. Then select a timeframe to execute the ban"
-msgstr "Apasă pe butoanele -/+ pentru a schimba valoarea. Apoi selectează un interval de timp pentru a executa interzicerea accesului"
+msgstr ""
 
-#: lua/groupbutler/plugins/banhammer.lua:165
+#: lua/groupbutler/plugins/banhammer.lua:200
 msgid "You can't set a lower value"
-msgstr "Nu poți seta o valoare mai mică"
+msgstr ""
 
-#: lua/groupbutler/plugins/banhammer.lua:173
+#: lua/groupbutler/plugins/banhammer.lua:208
 msgid "Stop!!!"
-msgstr "Oprește-te!!!"
+msgstr ""
 
-#: lua/groupbutler/plugins/banhammer.lua:189
+#: lua/groupbutler/plugins/banhammer.lua:225
 msgid "hours"
-msgstr "ore"
+msgstr ""
 
-#: lua/groupbutler/plugins/banhammer.lua:193
+#: lua/groupbutler/plugins/banhammer.lua:229
 msgid "days"
-msgstr "zile"
+msgstr ""
 
-#: lua/groupbutler/plugins/banhammer.lua:197
+#: lua/groupbutler/plugins/banhammer.lua:233
 msgid "minutes"
-msgstr "minute"
+msgstr ""
 
-#: lua/groupbutler/plugins/banhammer.lua:203
+#: lua/groupbutler/plugins/banhammer.lua:241
 #, lua-format
 msgid "User banned for %d %s"
-msgstr "Utilizatorul are accesul interzis pentru %d %s"
-
-#: lua/groupbutler/plugins/configure.lua:19
-msgid "🛠 Menu"
-msgstr "🛠 Meniu"
+msgstr ""
 
 #: lua/groupbutler/plugins/configure.lua:20
-msgid "⚡️ Antiflood"
-msgstr "⚡️ Antiflood"
+msgid "🛠 Menu"
+msgstr ""
 
 #: lua/groupbutler/plugins/configure.lua:21
-msgid "🌈 Media"
-msgstr "🌈 Media"
+msgid "⚡️ Antiflood"
+msgstr ""
 
 #: lua/groupbutler/plugins/configure.lua:22
-msgid "🚫 Antispam"
-msgstr "🚫 Antispam"
+msgid "🌈 Media"
+msgstr ""
 
 #: lua/groupbutler/plugins/configure.lua:23
+msgid "🚫 Antispam"
+msgstr ""
+
+#: lua/groupbutler/plugins/configure.lua:24
 msgid "📥 Log channel"
-msgstr "📥 Canalul înregistrărilor"
+msgstr ""
 
 #: lua/groupbutler/plugins/configure.lua:26
 msgid "⛔️ Default permissions"
-msgstr "⛔️ Permisiuni implicite"
+msgstr ""
 
-#: lua/groupbutler/plugins/configure.lua:45
-#: lua/groupbutler/plugins/configure.lua:68
+#: lua/groupbutler/plugins/configure.lua:33
 msgid "<i>Change the settings of your group</i>"
-msgstr "<i>Modificați setările grupului</i>"
+msgstr ""
 
-#: lua/groupbutler/plugins/configure.lua:58
+#: lua/groupbutler/plugins/configure.lua:66
 msgid "_I've sent you the keyboard via private message_"
-msgstr "_Ți-am trimis tastatura printr-un mesaj privat_"
-
-#: lua/groupbutler/plugins/dashboard.lua:20
-#: lua/groupbutler/plugins/floodmanager.lua:36
-msgid "✅ | ON"
-msgstr "✅ | PORNIT"
+msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:22
 #: lua/groupbutler/plugins/floodmanager.lua:38
-msgid "❌ | OFF"
-msgstr "❌ | OPRIT"
+msgid "✅ | ON"
+msgstr ""
 
-#: lua/groupbutler/plugins/dashboard.lua:29
-#: lua/groupbutler/plugins/menu.lua:160 lua/groupbutler/plugins/menu.lua:224
-msgid "👞 kick"
-msgstr "👞 exclus"
+#: lua/groupbutler/plugins/dashboard.lua:24
+#: lua/groupbutler/plugins/floodmanager.lua:40
+msgid "❌ | OFF"
+msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:31
-#: lua/groupbutler/plugins/menu.lua:162
-msgid "🔨 ban"
-msgstr "🔨 interzis"
+#: lua/groupbutler/plugins/menu.lua:162 lua/groupbutler/plugins/menu.lua:226
+msgid "👞 kick"
+msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:33
-#: lua/groupbutler/plugins/floodmanager.lua:49
-#: lua/groupbutler/plugins/menu.lua:164 lua/groupbutler/plugins/menu.lua:228
+#: lua/groupbutler/plugins/menu.lua:164
+msgid "🔨 ban"
+msgstr ""
+
+#: lua/groupbutler/plugins/dashboard.lua:35
+#: lua/groupbutler/plugins/floodmanager.lua:51
+#: lua/groupbutler/plugins/menu.lua:166 lua/groupbutler/plugins/menu.lua:230
 msgid "👁 mute"
-msgstr "👁 mut"
-
-#: lua/groupbutler/plugins/dashboard.lua:38
-#: lua/groupbutler/plugins/floodmanager.lua:67
-msgid "Texts"
-msgstr "Texte"
-
-#: lua/groupbutler/plugins/dashboard.lua:39
-#: lua/groupbutler/plugins/floodmanager.lua:68
-msgid "Forwards"
-msgstr "Redirecţionări"
+msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:40
-#: lua/groupbutler/plugins/dashboard.lua:167
 #: lua/groupbutler/plugins/floodmanager.lua:69
-#: lua/groupbutler/plugins/mediasettings.lua:42
-msgid "Stickers"
-msgstr "Stickere"
+msgid "Texts"
+msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:41
-#: lua/groupbutler/plugins/dashboard.lua:159
 #: lua/groupbutler/plugins/floodmanager.lua:70
-#: lua/groupbutler/plugins/mediasettings.lua:33
-msgid "Images"
-msgstr "Imagini"
+msgid "Forwards"
+msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:42
-#: lua/groupbutler/plugins/dashboard.lua:160
+#: lua/groupbutler/plugins/dashboard.lua:169
 #: lua/groupbutler/plugins/floodmanager.lua:71
-#: lua/groupbutler/plugins/mediasettings.lua:34
-msgid "GIFs"
-msgstr "GIF-uri"
+#: lua/groupbutler/plugins/mediasettings.lua:44
+msgid "Stickers"
+msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:43
 #: lua/groupbutler/plugins/dashboard.lua:161
 #: lua/groupbutler/plugins/floodmanager.lua:72
 #: lua/groupbutler/plugins/mediasettings.lua:35
+msgid "Images"
+msgstr ""
+
+#: lua/groupbutler/plugins/dashboard.lua:44
+#: lua/groupbutler/plugins/dashboard.lua:162
+#: lua/groupbutler/plugins/floodmanager.lua:73
+#: lua/groupbutler/plugins/mediasettings.lua:36
+msgid "GIFs"
+msgstr ""
+
+#: lua/groupbutler/plugins/dashboard.lua:45
+#: lua/groupbutler/plugins/dashboard.lua:163
+#: lua/groupbutler/plugins/floodmanager.lua:74
+#: lua/groupbutler/plugins/mediasettings.lua:37
 msgid "Videos"
-msgstr "Videoclipuri"
-
-#: lua/groupbutler/plugins/dashboard.lua:57
-#, lua-format
-msgid "- *Status*: `%s`\n"
-msgstr "- *Stare*: `%s`\n"
-
-#: lua/groupbutler/plugins/dashboard.lua:58
-#, lua-format
-msgid "- *Action* to perform when a user floods: `%s`\n"
 msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:59
 #, lua-format
-msgid "- Number of messages allowed *every 5 seconds*: `%d`\n"
-msgstr "- Numărul mesajelor permise *la fiecare 5 secunde*: `%d`\n"
+msgid "- *Status*: `%s`\n"
+msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:60
 #, lua-format
+msgid "- *Action* to perform when a user floods: `%s`\n"
+msgstr ""
+
+#: lua/groupbutler/plugins/dashboard.lua:61
+#, lua-format
+msgid "- Number of messages allowed *every 5 seconds*: `%d`\n"
+msgstr ""
+
+#: lua/groupbutler/plugins/dashboard.lua:62
+#, lua-format
 msgid "- *Ignored media*:\n"
 "%s"
-msgstr "- *Media ignorat*:\n"
-"%s"
+msgstr ""
 
-#: lua/groupbutler/plugins/dashboard.lua:67
+#: lua/groupbutler/plugins/dashboard.lua:69
 msgid "Settings"
-msgstr "Configurări"
+msgstr ""
 
-#: lua/groupbutler/plugins/dashboard.lua:68
+#: lua/groupbutler/plugins/dashboard.lua:70
 msgid "Admins"
-msgstr "Administratori"
+msgstr ""
 
-#: lua/groupbutler/plugins/dashboard.lua:71
-#: lua/groupbutler/plugins/menu.lua:181 lua/groupbutler/utilities.lua:592
+#: lua/groupbutler/plugins/dashboard.lua:73
+#: lua/groupbutler/plugins/menu.lua:183 lua/groupbutler/utilities.lua:376
 msgid "Rules"
-msgstr "Reguli"
+msgstr ""
 
-#: lua/groupbutler/plugins/dashboard.lua:72
+#: lua/groupbutler/plugins/dashboard.lua:74
 #: lua/groupbutler/plugins/help.lua:254
 msgid "Extra commands"
-msgstr "Comenzi suplimentare"
+msgstr ""
 
-#: lua/groupbutler/plugins/dashboard.lua:75
+#: lua/groupbutler/plugins/dashboard.lua:77
 msgid "Flood settings"
-msgstr "Setări flood"
+msgstr ""
 
-#: lua/groupbutler/plugins/dashboard.lua:76
+#: lua/groupbutler/plugins/dashboard.lua:78
 msgid "Media settings"
-msgstr "Setări media"
+msgstr ""
 
-#: lua/groupbutler/plugins/dashboard.lua:93
+#: lua/groupbutler/plugins/dashboard.lua:95
 msgid "Navigate this message to see *all the info* about this group!"
-msgstr "Navigați acest mesaj pentru a vedea *toate informatiile* despre acest grup!"
+msgstr ""
 
-#: lua/groupbutler/plugins/dashboard.lua:102
+#: lua/groupbutler/plugins/dashboard.lua:104
 msgid "_I've sent you the group dashboard via private message_"
-msgstr "_Ți-am trimis dashboard-ul grupului prin mesaj privat_"
+msgstr ""
 
-#: lua/groupbutler/plugins/dashboard.lua:119
-msgid "🚫 This group does not exist"
-msgstr "🚫 Acest grup nu există"
-
-#: lua/groupbutler/plugins/dashboard.lua:126
+#: lua/groupbutler/plugins/dashboard.lua:128
 msgid "🚷 You are not a member of the chat. You can't see the settings of a private group."
-msgstr "🚷 Nu sunteți un membru al conversației. Nu puteți vedea setările unui grup privat."
+msgstr ""
 
-#: lua/groupbutler/plugins/dashboard.lua:133
+#: lua/groupbutler/plugins/dashboard.lua:135
 msgid "ℹ️ Group ► Settings"
-msgstr "ℹ️ Grup ► Setări"
+msgstr ""
 
-#: lua/groupbutler/plugins/dashboard.lua:137
+#: lua/groupbutler/plugins/dashboard.lua:139
 msgid "ℹ️ Group ► Rules"
-msgstr "ℹ️ Grup ► Reguli"
-
-#: lua/groupbutler/plugins/dashboard.lua:145
-msgid "I got kicked out of this group 😓"
-msgstr "Am fost dat afară din acest grup 😓"
+msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:147
+msgid "I got kicked out of this group 😓"
+msgstr ""
+
+#: lua/groupbutler/plugins/dashboard.lua:149
 msgid "ℹ️ Group ► Admin list"
-msgstr "ℹ️ Grup ► Listă administratori"
+msgstr ""
 
-#: lua/groupbutler/plugins/dashboard.lua:151
+#: lua/groupbutler/plugins/dashboard.lua:153
 msgid "ℹ️ Group ► Extra"
-msgstr "ℹ️ Grup ► Extra"
+msgstr ""
 
-#: lua/groupbutler/plugins/dashboard.lua:155
+#: lua/groupbutler/plugins/dashboard.lua:157
 msgid "ℹ️ Group ► Flood"
-msgstr "ℹ️ Grup ► Flood"
-
-#: lua/groupbutler/plugins/dashboard.lua:162
-#: lua/groupbutler/plugins/mediasettings.lua:37
-msgid "Documents"
-msgstr "Documente"
+msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:164
+#: lua/groupbutler/plugins/mediasettings.lua:39
+msgid "Documents"
+msgstr ""
+
+#: lua/groupbutler/plugins/dashboard.lua:166
 msgid "Voice Messages"
 msgstr ""
 
-#: lua/groupbutler/plugins/dashboard.lua:165
-#: lua/groupbutler/plugins/mediasettings.lua:40
+#: lua/groupbutler/plugins/dashboard.lua:167
+#: lua/groupbutler/plugins/mediasettings.lua:42
 msgid "Links"
-msgstr "Link-uri"
-
-#: lua/groupbutler/plugins/dashboard.lua:166
-#: lua/groupbutler/plugins/mediasettings.lua:41
-msgid "Music"
-msgstr "Muzică"
+msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:168
 #: lua/groupbutler/plugins/mediasettings.lua:43
-msgid "Contacts"
-msgstr "Contacte"
-
-#: lua/groupbutler/plugins/dashboard.lua:169
-#: lua/groupbutler/plugins/mediasettings.lua:44
-msgid "Games"
-msgstr "Jocuri"
+msgid "Music"
+msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:170
 #: lua/groupbutler/plugins/mediasettings.lua:45
-msgid "Locations"
-msgstr "Locații"
+msgid "Contacts"
+msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:171
 #: lua/groupbutler/plugins/mediasettings.lua:46
-msgid "Venues"
+msgid "Games"
+msgstr ""
+
+#: lua/groupbutler/plugins/dashboard.lua:172
+#: lua/groupbutler/plugins/mediasettings.lua:47
+msgid "Locations"
 msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:173
+#: lua/groupbutler/plugins/mediasettings.lua:48
+msgid "Venues"
+msgstr ""
+
+#: lua/groupbutler/plugins/dashboard.lua:175
 msgid "*Current media settings*:\n\n"
-msgstr "*Setări actuale media*:\n\n"
+msgstr ""
 
-#: lua/groupbutler/plugins/dashboard.lua:185
+#: lua/groupbutler/plugins/dashboard.lua:187
 msgid "ℹ️ Group ► Media"
-msgstr "ℹ️ Grup ► Media"
-
-#: lua/groupbutler/plugins/defaultpermissions.lua:62
-msgid "Permission to send messages. If disabled, the user won't be able to send any kind of message"
-msgstr "Permisiunea de a trimite mesaje. Dacă este dezactivată, utilizatorul nu va putea trimite orice fel de mesaj"
-
-#: lua/groupbutler/plugins/defaultpermissions.lua:63
-msgid "Permission to send media (audios, documents, photos, videos, video notes and voice notes). Implies the permission to send messages"
-msgstr "Permisiunea de a trimite fișiere media (audio, documente, fotografii, clipuri video, note video și note vocale). Implică permisiunea de a trimite mesaje\n"
-"\t\t\t"
+msgstr ""
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:64
-msgid "Permission to send other types of messages (GIFs, games, stickers and use inline bots). Implies the permission to send medias"
-msgstr "Permisiunea de a trimite alte tipuri de mesaje (Gif-uri, jocuri, stickere și de a folosi boti inline). Implică permisiunea de a trimite fișiere media\n"
-"\t\t\t"
+msgid "Permission to send messages. If disabled, the user won't be able to send any kind of message"
+msgstr ""
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:65
+msgid "Permission to send media (audios, documents, photos, videos, video notes and voice notes). Implies the permission to send messages"
+msgstr ""
+
+#: lua/groupbutler/plugins/defaultpermissions.lua:66
+msgid "Permission to send other types of messages (GIFs, games, stickers and use inline bots). Implies the permission to send medias"
+msgstr ""
+
+#: lua/groupbutler/plugins/defaultpermissions.lua:67
 msgid "When disabled, user's messages with a link won't show the web page preview"
-msgstr "Când este dezactivată, mesajul utilizatorului cu un link nu va afișa previzualizarea paginii"
-
-#: lua/groupbutler/plugins/defaultpermissions.lua:74
-msgid "Send messages"
-msgstr "Trimite mesaje"
-
-#: lua/groupbutler/plugins/defaultpermissions.lua:75
-msgid "Send media"
-msgstr "Trimite fișiere media"
+msgstr ""
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:76
-msgid "Send other types of media"
-msgstr "Trimite alte tipuri de fișiere media"
+msgid "Send messages"
+msgstr ""
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:77
-msgid "Show web page preview"
-msgstr "Afișează previzualizarea paginii web"
+msgid "Send media"
+msgstr ""
 
-#: lua/groupbutler/plugins/defaultpermissions.lua:129
+#: lua/groupbutler/plugins/defaultpermissions.lua:78
+msgid "Send other types of media"
+msgstr ""
+
+#: lua/groupbutler/plugins/defaultpermissions.lua:79
+msgid "Show web page preview"
+msgstr ""
+
+#: lua/groupbutler/plugins/defaultpermissions.lua:139
 msgid "*Default permissions*\n"
 "From this menu you can change the default permissions that will be granted when a new member join.\n"
 "_Only the administrators with the permission to restrict a member can access this menu._\n"
 "Tap on the name of a permission for a description of what kind of messages it will influence.\n"
 msgstr ""
 
-#: lua/groupbutler/plugins/defaultpermissions.lua:151
+#: lua/groupbutler/plugins/defaultpermissions.lua:161
 #, lua-format
 msgid "Setting saved, but I can't edit the buttons because you are too fast! Wait other %d seconds"
-msgstr "Setarea a fost salvată, dar nu pot edita butoanele pentru că ești prea rapid! Așteptă alte %d secunde"
+msgstr ""
 
 #: lua/groupbutler/plugins/extra.lua:81
 #, lua-format
 msgid "This media has been saved as a response to %s"
-msgstr "Acest fișier media a fost salvat ca un răspuns la %s"
+msgstr ""
 
 #: lua/groupbutler/plugins/extra.lua:95
 #, lua-format
 msgid "Command '%s' saved!"
-msgstr "Comanda '%s’ salvată!"
+msgstr ""
 
 #: lua/groupbutler/plugins/extra.lua:117
 #, lua-format
 msgid "Commands deleted: `%s`"
-msgstr "Comenzi șterse: `%s`"
+msgstr ""
 
 #: lua/groupbutler/plugins/extra.lua:119
 #, lua-format
 msgid "\n"
 "Commands not found: `%s`"
-msgstr "\n"
-"Comenzi care nu a fost găsite: `%s`"
+msgstr ""
 
 #: lua/groupbutler/plugins/extra.lua:167
 #, lua-format
 msgid "_Please_ [start me](%s) _so I can send you the answer_"
-msgstr "_Te rog_ [pornește-mă](%s) _pentru a-ți putea trimite răspunsul_"
-
-#: lua/groupbutler/plugins/floodmanager.lua:18
-msgid "⚖ Current sensitivity. Tap on the + or the - to change it"
-msgstr "⚖ Sensibilitatea actuală. Apăsați pe + sau pe - pentru a o schimba"
+msgstr ""
 
 #: lua/groupbutler/plugins/floodmanager.lua:20
+msgid "⚖ Current sensitivity. Tap on the + or the - to change it"
+msgstr ""
+
+#: lua/groupbutler/plugins/floodmanager.lua:22
 msgid "Choose which media must be ignored by the antiflood (the bot won't consider them).\n"
 "✅: ignored\n"
 "❌: not ignored"
-msgstr "Alege care mass-media trebuie să fie ignorate de către antiflood (bot nu le ia în considerare).\n"
-"✅: ignorat\n"
-"❌: permis"
-
-#: lua/groupbutler/plugins/floodmanager.lua:45
-msgid "👞️ kick"
-msgstr "👞️ exclus"
+msgstr ""
 
 #: lua/groupbutler/plugins/floodmanager.lua:47
+msgid "👞️ kick"
+msgstr ""
+
+#: lua/groupbutler/plugins/floodmanager.lua:49
 msgid "🔨 ️ban"
-msgstr "🔨 ️interzis"
+msgstr ""
 
-#: lua/groupbutler/plugins/floodmanager.lua:106
+#: lua/groupbutler/plugins/floodmanager.lua:108
 msgid "Flooders will be banned"
-msgstr "Flooderii vor fi banați"
+msgstr ""
 
-#: lua/groupbutler/plugins/floodmanager.lua:109
+#: lua/groupbutler/plugins/floodmanager.lua:111
 msgid "Flooders will be kicked"
-msgstr "Flooderii vor fi dați afară"
+msgstr ""
 
-#: lua/groupbutler/plugins/floodmanager.lua:112
+#: lua/groupbutler/plugins/floodmanager.lua:114
 msgid "Flooders will be muted"
-msgstr "Flooderii vor primi mute"
+msgstr ""
 
-#: lua/groupbutler/plugins/floodmanager.lua:121
-#: lua/groupbutler/plugins/floodmanager.lua:128
+#: lua/groupbutler/plugins/floodmanager.lua:123
+#: lua/groupbutler/plugins/floodmanager.lua:130
 #, lua-format
 msgid "%d is not a valid value!\n"
-msgstr "%d nu este o valoare validă!\n"
+msgstr ""
 
-#: lua/groupbutler/plugins/floodmanager.lua:146
+#: lua/groupbutler/plugins/floodmanager.lua:161
 msgid "You can manage the antiflood settings from here.\n\n"
 "It is also possible to choose which type of messages the antiflood will ignore (✅)"
-msgstr "Puteți gestiona setările antiflood de aici.\n\n"
-"It Este, de asemenea, posibil de a alege ce tip de mesaje vor fi ignorate de către sistemul antiflood (✅)\n"
-"\t\t\t"
-
-#: lua/groupbutler/plugins/floodmanager.lua:153
-msgid "Antiflood settings"
-msgstr "Setări antiflood"
+msgstr ""
 
 #: lua/groupbutler/plugins/floodmanager.lua:168
+msgid "Antiflood settings"
+msgstr ""
+
+#: lua/groupbutler/plugins/floodmanager.lua:177
 #, lua-format
 msgid "❎ [%s] will be ignored by the anti-flood"
-msgstr "❎ [%s] va fi ignorat de către anti-flood"
+msgstr ""
 
-#: lua/groupbutler/plugins/floodmanager.lua:171
+#: lua/groupbutler/plugins/floodmanager.lua:180
 #, lua-format
 msgid "🚫 [%s] won't be ignored by the anti-flood"
-msgstr "🚫 [%s] nu va fi ignorat de către anti-flood"
+msgstr ""
 
 #: lua/groupbutler/plugins/help.lua:22
 msgid "In this menu you will find all the available commands"
-msgstr "În acest meniu vei găsi toate comenzile disponibile"
+msgstr ""
 
 #: lua/groupbutler/plugins/help.lua:23
 #, lua-format
@@ -973,18 +964,7 @@ msgid "*Log channel informations*\n\n"
 "To change your log channel, simply repeat this process with another channel.\n\n"
 "`/unsetlog`: remove your current log channel\n"
 "`/logchannel`: get some informations about your log channel, if paired"
-msgstr "* Informații canal jurnal *\n\n"
-"Un canal jurnal este un canal _ (privat) în care bot-ul va înregistra toate evenimentele importante care vor avea loc în grupul dvs.\n"
-"Dacă doriți să utilizați această funcție, trebuie să împerecheați grupul cu un canal cu comenzile descrise mai jos.\n"
-"Toate evenimentele, în mod implicit, *nu sunt înregistrate*. Administratorii pot alege ce evenimente să se înregistreze din meniul `/config` -> butonul` log channel`.\n\n"
-"Pentru a asocia un canal cu un grup, *creatorul canalului* trebuie să [adauge bot-ul la canalul administratorilor] (telegram.me/gb_tutorials/4) (altfel nu va putea posta) și să trimită în canal acest comanda:\n"
-"`/setlog`\n"
-"Apoi, un administrator al grupului trebuie să înainteze în grup mesajul (\"`/setlog`\") trimis în canal. *Terminat*!\n"
-"(puteți găsi un tutorial video [aici] (https://telegram.me/GB_tutorials/8))\n\n"
-"Un canal poate fi folosit ca jurnal de către diferite grupuri.\n"
-"Pentru a schimba canalul dvs. de jurnal, repetați acest proces cu un alt canal.\n\n"
-"`/unsetlog`: eliminați canalul curent de jurnal\n"
-"`/logchannel`: obțineți câteva informații despre canalul dvs. de jurnal, dacă este asociat"
+msgstr ""
 
 #: lua/groupbutler/plugins/help.lua:232
 msgid "*Missing help information!*"
@@ -992,640 +972,628 @@ msgstr ""
 
 #: lua/groupbutler/plugins/help.lua:242
 msgid "Banhammer"
-msgstr "Banhammer"
+msgstr ""
 
 #: lua/groupbutler/plugins/help.lua:243
 msgid "Group info"
-msgstr "Informații grup"
+msgstr ""
 
 #: lua/groupbutler/plugins/help.lua:246
 msgid "Report system"
-msgstr "Sistemul de raportare"
+msgstr ""
 
 #: lua/groupbutler/plugins/help.lua:247
 msgid "Pin"
-msgstr "Fixează"
+msgstr ""
 
 #: lua/groupbutler/plugins/help.lua:250
 msgid "Languages"
-msgstr "Limbi"
+msgstr ""
 
 #: lua/groupbutler/plugins/help.lua:251
 msgid "Group configuration"
-msgstr "Configurările grupului"
+msgstr ""
 
 #: lua/groupbutler/plugins/help.lua:255
-#: lua/groupbutler/plugins/logchannel.lua:64
+#: lua/groupbutler/plugins/logchannel.lua:66
 msgid "Warns"
-msgstr "Avertismente"
+msgstr ""
 
 #: lua/groupbutler/plugins/help.lua:258
 msgid "Welcome settings"
-msgstr "Setări de bun venit"
+msgstr ""
 
 #: lua/groupbutler/plugins/help.lua:259
 msgid "Links whitelist"
-msgstr "Link-uri de pe foaia albă"
+msgstr ""
 
 #: lua/groupbutler/plugins/help.lua:278
 msgid "📢 Bot channel"
-msgstr "📢 Canalul botului"
+msgstr ""
 
 #: lua/groupbutler/plugins/help.lua:279
 msgid "🌍 Select your language"
-msgstr "🌍 Selectați limba"
+msgstr ""
 
 #: lua/groupbutler/plugins/help.lua:282
 msgid "📕 All the commands"
-msgstr "📕 Toate comenzile"
+msgstr ""
 
 #: lua/groupbutler/plugins/help.lua:292
 msgid "Basics"
-msgstr "Elemente de bază"
+msgstr ""
 
 #: lua/groupbutler/plugins/help.lua:293
 msgid "Admin commands"
-msgstr "Comenzi de administrare"
+msgstr ""
 
 #: lua/groupbutler/plugins/help.lua:294
 msgid "Normal users commands"
-msgstr "Comenzi utilizatori normali"
+msgstr ""
 
 #: lua/groupbutler/plugins/help.lua:295
 msgid "Commands in private"
-msgstr "Comenzi in privat"
+msgstr ""
 
 #: lua/groupbutler/plugins/help.lua:296
 msgid "Log channel"
-msgstr "Canalul înregistrărilor"
+msgstr ""
 
 #: lua/groupbutler/plugins/help.lua:312
 msgid "Back"
-msgstr "Înapoi"
+msgstr ""
 
-#: lua/groupbutler/plugins/help.lua:340
+#: lua/groupbutler/plugins/help.lua:342
 #, lua-format
 msgid "[Start me](%s) _to get the list of commands_"
-msgstr "[Pornește-mă](%s) _pentru a primi lista comenzilor_"
+msgstr ""
 
-#: lua/groupbutler/plugins/help.lua:355
+#: lua/groupbutler/plugins/help.lua:357
 msgid "Basic usage"
-msgstr "Utilizare de bază"
+msgstr ""
 
-#: lua/groupbutler/plugins/help.lua:359
+#: lua/groupbutler/plugins/help.lua:361
 msgid "Commands for users (group)"
-msgstr "Comenzi pentru utilizatori (grup)"
+msgstr ""
 
-#: lua/groupbutler/plugins/help.lua:363
+#: lua/groupbutler/plugins/help.lua:365
 msgid "Available commands in private"
-msgstr "Comenzile disponibile în privat"
+msgstr ""
 
-#: lua/groupbutler/plugins/help.lua:367
+#: lua/groupbutler/plugins/help.lua:369
 msgid "Log channel informations"
-msgstr "Canalul jurnalului de informații"
+msgstr ""
 
-#: lua/groupbutler/plugins/help.lua:372
+#: lua/groupbutler/plugins/help.lua:374
 msgid "Available commands for admins"
-msgstr "Comenzile disponibile pentru admini"
+msgstr ""
 
-#: lua/groupbutler/plugins/help.lua:377
+#: lua/groupbutler/plugins/help.lua:379
 msgid "Main menu"
-msgstr "Meniu principal"
+msgstr ""
 
-#: lua/groupbutler/plugins/help.lua:385
+#: lua/groupbutler/plugins/help.lua:387
 msgid "❗️ Already there"
-msgstr "❗️ Deja acolo"
+msgstr ""
 
-#: lua/groupbutler/plugins/links.lua:34
+#: lua/groupbutler/plugins/links.lua:36
 msgid "*No link* for this group. Ask the owner to save it with `/setlink [group link]`"
-msgstr "*Niciun link* pentru acest grup. Cere proprietarului să-l salveze cu `/setlink [link-ul grupului]`"
+msgstr ""
 
-#: lua/groupbutler/plugins/links.lua:45
+#: lua/groupbutler/plugins/links.lua:47
 msgid "Link *unset*"
-msgstr "Link *dezactivat*"
+msgstr ""
 
-#: lua/groupbutler/plugins/links.lua:51 lua/groupbutler/plugins/links.lua:68
+#: lua/groupbutler/plugins/links.lua:53 lua/groupbutler/plugins/links.lua:70
 #, lua-format
 msgid "The link has been set.\n"
 "*Here's the link*: %s"
-msgstr "Link-ul a fost setat.\n"
-"*Aici e link-ul*: %s"
+msgstr ""
 
-#: lua/groupbutler/plugins/links.lua:54
+#: lua/groupbutler/plugins/links.lua:56
 msgid "This is not a *public supergroup*, so you need to write the link near `/setlink`"
-msgstr "Acesta nu este un *supergrup public*, deci trebuie sa scrii link-ul langa '/setlink'"
+msgstr ""
 
-#: lua/groupbutler/plugins/links.lua:57
+#: lua/groupbutler/plugins/links.lua:59
 msgid "This link is *not valid!*"
-msgstr "Acest link este *invalid!*"
+msgstr ""
 
-#: lua/groupbutler/plugins/links.lua:66
+#: lua/groupbutler/plugins/links.lua:68
 #, lua-format
 msgid "The link has been updated.\n"
 "*Here's the new link*: %s"
-msgstr "Link-ul a fost actualizat.\n"
-"*Aici este noul link*:%s"
+msgstr ""
 
-#: lua/groupbutler/plugins/logchannel.lua:23
+#: lua/groupbutler/plugins/logchannel.lua:25
 msgid "Log every time a user join the group"
 msgstr ""
 
-#: lua/groupbutler/plugins/logchannel.lua:24
-msgid "Bans will be logged. I can't log manual bans"
-msgstr "Interdictiile vor fi inregistrate. Nu pot inregistra interdictiile manuale"
-
-#: lua/groupbutler/plugins/logchannel.lua:25
-msgid "Kicks will be logged. I can't log manual kicks"
-msgstr "Excluderile vor fi inregistrate. Nu pot inregistra excluderile manuale"
-
 #: lua/groupbutler/plugins/logchannel.lua:26
-msgid "Manual warns will be logged"
-msgstr "Avertizarile manuale vor fi inregistrate"
+msgid "Bans will be logged. I can't log manual bans"
+msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:27
-msgid "Forbidden media will be logged in the channel"
-msgstr "Fisierele media interzise vor fi inregistrate in canal"
+msgid "Kicks will be logged. I can't log manual kicks"
+msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:28
-msgid "Spam links/forwards from channels will be logged in the channel, only if forbidden"
-msgstr "Link-urile/redirectionarile spam de la canale vor fi inregistrate in canal, doar daca este interzis"
+msgid "Manual warns will be logged"
+msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:29
-msgid "Log when a user is flooding (new log message every 5 flood messages)"
+msgid "Forbidden media will be logged in the channel"
 msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:30
-msgid "Log when an admin changes the group icon"
-msgstr "Inregistreaza cand un administrator schimba pictograma grupului"
+msgid "Spam links/forwards from channels will be logged in the channel, only if forbidden"
+msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:31
-msgid "Log when an admin deletes the group icon"
-msgstr "Inregistreaza cand un administrator șterge pictograma grupului"
+msgid "Log when a user is flooding (new log message every 5 flood messages)"
+msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:32
-msgid "Log when an admin change the group title"
-msgstr "Inregistreaza cand un administrator schimba titlul grupului"
+msgid "Log when an admin changes the group icon"
+msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:33
-msgid "Log pinned messages"
-msgstr "Inregistreaza mesajele fixate"
+msgid "Log when an admin deletes the group icon"
+msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:34
-msgid "Log when a user who has been blocked is banned from the group on join"
+msgid "Log when an admin change the group title"
 msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:35
-msgid "Log when an admin removes the warning received by a user"
+msgid "Log pinned messages"
 msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:36
+msgid "Log when a user who has been blocked is banned from the group on join"
+msgstr ""
+
+#: lua/groupbutler/plugins/logchannel.lua:37
+msgid "Log when an admin removes the warning received by a user"
+msgstr ""
+
+#: lua/groupbutler/plugins/logchannel.lua:38
 msgid "Log when a user reports a message with the @admin command"
 msgstr ""
 
-#: lua/groupbutler/plugins/logchannel.lua:59
+#: lua/groupbutler/plugins/logchannel.lua:61
 msgid "Ban"
-msgstr "Interzice"
-
-#: lua/groupbutler/plugins/logchannel.lua:60
-msgid "Kick"
-msgstr "Exclus"
-
-#: lua/groupbutler/plugins/logchannel.lua:61 lua/groupbutler/utilities.lua:957
-msgid "Unban"
-msgstr "Ridica interdicția"
+msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:62
-msgid "Tempban"
-msgstr "Interzicere temporara"
+msgid "Kick"
+msgstr ""
 
-#: lua/groupbutler/plugins/logchannel.lua:63
-msgid "Report"
-msgstr "Raportează"
+#: lua/groupbutler/plugins/logchannel.lua:63 lua/groupbutler/utilities.lua:677
+msgid "Unban"
+msgstr ""
+
+#: lua/groupbutler/plugins/logchannel.lua:64
+msgid "Tempban"
+msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:65
-msgid "Warns resets"
-msgstr "Reseteaza avertismentele"
-
-#: lua/groupbutler/plugins/logchannel.lua:66
-msgid "New members"
-msgstr "Membrii noi"
+msgid "Report"
+msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:67
-msgid "Media warns"
-msgstr "Avertizari fisiere media"
+msgid "Warns resets"
+msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:68
-msgid "Spam warns"
-msgstr "Avertizari spam"
+msgid "New members"
+msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:69
-msgid "Flood"
-msgstr "Flood"
+msgid "Media warns"
+msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:70
-msgid "New group icon"
-msgstr "Pictograma grup nou"
+msgid "Spam warns"
+msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:71
-msgid "Group icon removed"
-msgstr "Pictograma grupului eliminata"
+msgid "Flood"
+msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:72
-msgid "New group title"
-msgstr "Noul titlu al grupului"
+msgid "New group icon"
+msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:73
-msgid "Pinned messages"
-msgstr "Mesaje fixate"
+msgid "Group icon removed"
+msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:74
-msgid "Users blocked and banned"
-msgstr "Utilizatori blocati si cu accesul interzis"
+msgid "New group title"
+msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:75
-msgid "Users blocked"
-msgstr "Utilizatori blocati"
+msgid "Pinned messages"
+msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:76
+msgid "Users blocked and banned"
+msgstr ""
+
+#: lua/groupbutler/plugins/logchannel.lua:77
+msgid "Users blocked"
+msgstr ""
+
+#: lua/groupbutler/plugins/logchannel.lua:78
 msgid "Users unblocked"
-msgstr "Utilizatori deblocati"
+msgstr ""
 
-#: lua/groupbutler/plugins/logchannel.lua:110
+#: lua/groupbutler/plugins/logchannel.lua:118
 msgid "You are not admin of this group"
-msgstr "Nu esti adminitrator in acest grup"
+msgstr ""
 
-#: lua/groupbutler/plugins/logchannel.lua:115
+#: lua/groupbutler/plugins/logchannel.lua:124
 msgid "User unbanned!"
-msgstr "Utilizator cu accesul interzis revocat!"
+msgstr ""
 
-#: lua/groupbutler/plugins/logchannel.lua:136
+#: lua/groupbutler/plugins/logchannel.lua:148
 msgid "*Select the events the will be logged in the channel*\n"
 "✅ = will be logged\n"
 "☑️ = won't be logged\n\n"
 "Tap on an option to get further information"
 msgstr ""
 
-#: lua/groupbutler/plugins/logchannel.lua:168
+#: lua/groupbutler/plugins/logchannel.lua:179
 msgid "_Too many requests. Retry later_"
-msgstr "_Prea multe cereri. Incercati mai tarziu_"
+msgstr ""
 
-#: lua/groupbutler/plugins/logchannel.lua:170
+#: lua/groupbutler/plugins/logchannel.lua:181
 msgid "_I need to be admin in the channel_"
-msgstr "_Trebuie sa fiu adiministrator in canal_"
+msgstr ""
 
-#: lua/groupbutler/plugins/logchannel.lua:177
+#: lua/groupbutler/plugins/logchannel.lua:188
 msgid "_Already using this channel_"
-msgstr "_Deja folosesc acest canal_"
+msgstr ""
 
-#: lua/groupbutler/plugins/logchannel.lua:180
+#: lua/groupbutler/plugins/logchannel.lua:191
 msgid "*Log channel added!*"
-msgstr "*Inregistrarea canalului adaugata!*"
-
-#: lua/groupbutler/plugins/logchannel.lua:183
-#, lua-format
-msgid "<i>%s</i> changed its log channel"
-msgstr "<i>%s</i> si-a schimbat jurnalul canalului"
-
-#: lua/groupbutler/plugins/logchannel.lua:186
-#, lua-format
-msgid "Logs of <i>%s</i> will be posted here"
-msgstr "Jurnalele de <i>%s</i> vor fi postate aici"
-
-#: lua/groupbutler/plugins/logchannel.lua:190
-msgid "_Only the channel creator can pair the chat with a channel_"
-msgstr "_Numai creatorul canalului poate asocia chat-ul cu un canal_"
+msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:194
+#, lua-format
+msgid "<i>%s</i> changed its log channel"
+msgstr ""
+
+#: lua/groupbutler/plugins/logchannel.lua:197
+#, lua-format
+msgid "Logs of <i>%s</i> will be posted here"
+msgstr ""
+
+#: lua/groupbutler/plugins/logchannel.lua:201
+msgid "_Only the channel creator can pair the chat with a channel_"
+msgstr ""
+
+#: lua/groupbutler/plugins/logchannel.lua:205
 msgid "_I'm sorry, only private channels are supported for now_"
-msgstr "_Imi pare rau, numai canalele private sunt acceptate deocamdata_"
+msgstr ""
 
-#: lua/groupbutler/plugins/logchannel.lua:198
+#: lua/groupbutler/plugins/logchannel.lua:209
 msgid "You have to *forward* the message from the channel"
-msgstr "Trebuie sa *inaintezi* mesajul de pe canal"
+msgstr ""
 
-#: lua/groupbutler/plugins/logchannel.lua:203
-#: lua/groupbutler/plugins/logchannel.lua:211
+#: lua/groupbutler/plugins/logchannel.lua:214
+#: lua/groupbutler/plugins/logchannel.lua:222
 msgid "_This groups is not using a log channel_"
-msgstr "_Aceste grupuri nu folosesc jurnale de canal_"
+msgstr ""
 
-#: lua/groupbutler/plugins/logchannel.lua:206
+#: lua/groupbutler/plugins/logchannel.lua:217
 msgid "*Log channel removed*"
-msgstr "*Jurnalul canalului eliminat*"
+msgstr ""
 
-#: lua/groupbutler/plugins/logchannel.lua:216
+#: lua/groupbutler/plugins/logchannel.lua:227
 msgid "_This group has a log channel saved, but I'm not a member there, so I can't post/retrieve its info_"
-msgstr "_Acest grup are un jurnal de canal salvat, dar nu sunt membru acolo, deci nu pot posta/recupera informatiile sale_"
+msgstr ""
 
-#: lua/groupbutler/plugins/logchannel.lua:223
+#: lua/groupbutler/plugins/logchannel.lua:234
 #, lua-format
 msgid "<b>This group has a log channel</b>\n"
 "Channel: <code>%s</code>"
-msgstr "<b>Acest grup are un jurnal canal</b>\n"
-"Canal: <code>%s</code>"
+msgstr ""
 
-#: lua/groupbutler/plugins/mediasettings.lua:36
+#: lua/groupbutler/plugins/mediasettings.lua:38
 msgid "Video messages"
-msgstr "Mesaje video"
+msgstr ""
 
-#: lua/groupbutler/plugins/mediasettings.lua:39
+#: lua/groupbutler/plugins/mediasettings.lua:41
 msgid "Vocal messages"
-msgstr "Mesaje vocale"
-
-#: lua/groupbutler/plugins/mediasettings.lua:65
-#, lua-format
-msgid "Warnings | %d | kick"
-msgstr "Avertismente | %d | excludere"
+msgstr ""
 
 #: lua/groupbutler/plugins/mediasettings.lua:67
 #, lua-format
-msgid "Warnings | %d | mute"
-msgstr "Avertismente | %d | mute"
+msgid "Warnings | %d | kick"
+msgstr ""
 
 #: lua/groupbutler/plugins/mediasettings.lua:69
 #, lua-format
+msgid "Warnings | %d | mute"
+msgstr ""
+
+#: lua/groupbutler/plugins/mediasettings.lua:71
+#, lua-format
 msgid "Warnings | %d | ban"
-msgstr "Avertismente | %d | acces interzis"
+msgstr ""
 
-#: lua/groupbutler/plugins/mediasettings.lua:94
+#: lua/groupbutler/plugins/mediasettings.lua:96
 msgid "❌ warning"
-msgstr "❌ avertizare"
+msgstr ""
 
-#: lua/groupbutler/plugins/mediasettings.lua:97
+#: lua/groupbutler/plugins/mediasettings.lua:99
 msgid "🗑 delete"
-msgstr "🗑 șterge"
+msgstr ""
 
-#: lua/groupbutler/plugins/mediasettings.lua:103
+#: lua/groupbutler/plugins/mediasettings.lua:105
 msgid "✅ allowed"
-msgstr "✅ permis"
+msgstr ""
 
-#: lua/groupbutler/plugins/mediasettings.lua:117
-msgid "\n"
-"Tap on an option on the right to *change the setting*\n"
-"You can use the last lines to change how many warnings the bot should give before kicking/banning/muting someone.\n"
-"The number is not related the the normal `/warn` command.\n\n"
-"Possible statuses: ✅ allowed, ❌ warning, 🗑 delete.\n"
-"When a media is set to delete, the bot will give a warning *only* when this is the users last warning\n"
+#: lua/groupbutler/plugins/mediasettings.lua:116
+msgid "⚠️ Tap on the right column"
 msgstr ""
 
 #: lua/groupbutler/plugins/mediasettings.lua:131
-msgid "⚠️ Tap on the right column"
-msgstr "⚠️ Apasa pe coloana din dreapta"
+msgid "Tap on an option on the right to *change the setting*\n"
+"You can use the last lines to change how many warnings the bot should give before kicking/banning/muting someone.\n"
+"The number is not related the the normal `/warn` command.\n\n"
+"Possible statuses: ✅ allowed, ❌ warning, 🗑 delete.\n"
+"When a media is set to delete, the bot will give a warning *only* when this is the users last warning"
+msgstr ""
 
-#: lua/groupbutler/plugins/mediasettings.lua:140
+#: lua/groupbutler/plugins/mediasettings.lua:149
 msgid "⚙ The new value is too low ( < 1)"
-msgstr "⚙ Noua valoare este prea scăzută ( < 1)"
+msgstr ""
 
-#: lua/groupbutler/plugins/mediasettings.lua:147
+#: lua/groupbutler/plugins/mediasettings.lua:156
 msgid "⚙ The new value is too high ( > 12)"
-msgstr "⚙ Noua valoare este prea mare ( > 12)"
+msgstr ""
 
-#: lua/groupbutler/plugins/mediasettings.lua:161
+#: lua/groupbutler/plugins/mediasettings.lua:171
 msgid "👞 New status is kick"
-msgstr "👞 Noua stare este excluderea"
+msgstr ""
 
-#: lua/groupbutler/plugins/mediasettings.lua:164
+#: lua/groupbutler/plugins/mediasettings.lua:174
 msgid "👁 New status is mute"
-msgstr "👁 Noua stare este pus in surdina"
+msgstr ""
 
-#: lua/groupbutler/plugins/mediasettings.lua:167
+#: lua/groupbutler/plugins/mediasettings.lua:177
 msgid "🔨 New status is ban"
-msgstr "🔨 Noua stare este interzicerea accesului"
+msgstr ""
 
 #. TRANSLATORS: these strings should be shorter than 200 characters
-#: lua/groupbutler/plugins/menu.lua:24
-msgid "When enabled, users will be able to report messages with the @admin command"
-msgstr "Când este activată, utilizatorii vor putea să raporteze mesajele folosind comanda @admin"
-
-#: lua/groupbutler/plugins/menu.lua:25
-msgid "Enable or disable the goodbye message. Can't be sent in large groups"
-msgstr "Activați sau dezactivați mesajul de \"la revedere\". Nu poate fi trimis în grupuri mari"
-
 #: lua/groupbutler/plugins/menu.lua:26
-msgid "Enable or disable the welcome message"
-msgstr "Activa sau dezactiva mesajul de bun venit"
+msgid "When enabled, users will be able to report messages with the @admin command"
+msgstr ""
 
 #: lua/groupbutler/plugins/menu.lua:27
-msgid "When enabled, every time a new welcome message is sent, the previously sent welcome message is removed"
-msgstr "Când este activat, de fiecare dată când un mesaj nou de bun venit este trimis, mesajul de bun venit anterior este eliminat"
+msgid "Enable or disable the goodbye message. Can't be sent in large groups"
+msgstr ""
 
 #: lua/groupbutler/plugins/menu.lua:28
-msgid "When enabled, the bot doesn't answer in the group to /dashboard, /config and /help commands (it will just answer in private)"
+msgid "Enable or disable the welcome message"
 msgstr ""
 
 #: lua/groupbutler/plugins/menu.lua:29
-msgid "Enable and disable the anti-flood system (more info in the /help message)"
-msgstr "Activeaza si dezactiveaza sistemul anti-flood (mai multe informatii folosind mesajul /help)"
+msgid "When enabled, every time a new welcome message is sent, the previously sent welcome message is removed"
+msgstr ""
 
 #: lua/groupbutler/plugins/menu.lua:30
-msgid "If the welcome message is enabled, it will include an inline button that will send to the user the rules in private"
-msgstr "Dacă mesajul de bun venit este activat, acesta va include un buton in linie care va trimite utilizatorului regulile în privat\n"
-"\t\t\t"
+msgid "When enabled, the bot doesn't answer in the group to /dashboard, /config and /help commands (it will just answer in private)"
+msgstr ""
 
 #: lua/groupbutler/plugins/menu.lua:31
+msgid "Enable and disable the anti-flood system (more info in the /help message)"
+msgstr ""
+
+#: lua/groupbutler/plugins/menu.lua:32
+msgid "If the welcome message is enabled, it will include an inline button that will send to the user the rules in private"
+msgstr ""
+
+#: lua/groupbutler/plugins/menu.lua:33
 msgid "When someone uses /rules\n"
 "👥: the bot will answer in the group (always, with admins)\n"
 "👤: the bot will answer in private"
-msgstr "Cand cineva foloseste /rules\n"
-"👥: bot-ul va răspunde în grup (întotdeauna, cu administratorii)\n"
-"👤: bot-ul va răspunde în privat"
+msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:34
+#: lua/groupbutler/plugins/menu.lua:36
 msgid "When someone uses an #extra\n"
 "👥: the bot will answer in the group (always, with admins)\n"
 "👤: the bot will answer in private"
-msgstr "Atunci când cineva folosește #extra\n"
-"👥: bot-ul va răspunde în grup (întotdeauna, cu administratorii)\n"
-"👤: bot-ul va răspunde în privat"
-
-#: lua/groupbutler/plugins/menu.lua:37
-msgid "Select what the bot should do when someone sends a message with arab characters"
-msgstr "Selectați ce ar trebui sa faca bot-ul atunci când cineva trimite un mesaj cu caractere arabe"
-
-#: lua/groupbutler/plugins/menu.lua:38
-msgid "Bots will be banned when added by normal users"
-msgstr "Botii vor fi banati atunci cand au fost adaugati de utilizatori normali"
+msgstr ""
 
 #: lua/groupbutler/plugins/menu.lua:39
-msgid "Select what the bot should do when someone sends a message with the RTL character, or has it in their name"
+msgid "Select what the bot should do when someone sends a message with arab characters"
 msgstr ""
 
 #: lua/groupbutler/plugins/menu.lua:40
-msgid "Change how many times a user has to be warned before being kicked/banned"
+msgid "Bots will be banned when added by normal users"
 msgstr ""
 
 #: lua/groupbutler/plugins/menu.lua:41
+msgid "Select what the bot should do when someone sends a message with the RTL character, or has it in their name"
+msgstr ""
+
+#: lua/groupbutler/plugins/menu.lua:42
+msgid "Change how many times a user has to be warned before being kicked/banned"
+msgstr ""
+
+#: lua/groupbutler/plugins/menu.lua:43
 msgid "Change the action to perform when a user reaches the max. number of warnings"
 msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:55
+#: lua/groupbutler/plugins/menu.lua:57
 msgid "The new value is too high ( > 12)"
-msgstr "Noua valoare este prea mare ( > 12)"
+msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:62
+#: lua/groupbutler/plugins/menu.lua:64
 msgid "The new value is too low ( < 1)"
-msgstr "Noua valoare este prea scăzută ( < 1)"
+msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:73
+#: lua/groupbutler/plugins/menu.lua:75
 msgid "New action on max number of warns received: ban"
-msgstr "Acțiune nouă la numărul maxim de avertismente primite: acces interzis"
+msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:76
+#: lua/groupbutler/plugins/menu.lua:78
 msgid "New action on max number of warns received: mute"
-msgstr "Acțiune nouă la numărul maxim de avertismente primite: mute"
+msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:79
+#: lua/groupbutler/plugins/menu.lua:81
 msgid "New action on max number of warns received: kick"
-msgstr "Acțiune nouă la numărul maxim de avertismente primite: excludere"
-
-#: lua/groupbutler/plugins/menu.lua:88
-msgid "Action -> kick"
-msgstr "Acțiune -> excludere"
-
-#: lua/groupbutler/plugins/menu.lua:89
-msgid "Action -> ban"
-msgstr "Acțiune -> acces interzis"
+msgstr ""
 
 #: lua/groupbutler/plugins/menu.lua:90
-msgid "Action -> mute"
-msgstr "Acțiune -> mute"
+msgid "Action -> kick"
+msgstr ""
 
 #: lua/groupbutler/plugins/menu.lua:91
+msgid "Action -> ban"
+msgstr ""
+
+#: lua/groupbutler/plugins/menu.lua:92
+msgid "Action -> mute"
+msgstr ""
+
+#: lua/groupbutler/plugins/menu.lua:93
 msgid "Allowed ✅"
-msgstr "Permis ✅"
+msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:166
+#: lua/groupbutler/plugins/menu.lua:168
 msgid "✅"
-msgstr "✅"
+msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:176
+#: lua/groupbutler/plugins/menu.lua:178
 msgid "Welcome"
-msgstr "Bine ai venit"
+msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:177
+#: lua/groupbutler/plugins/menu.lua:179
 msgid "Goodbye"
-msgstr "Rămas bun"
+msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:178 lua/groupbutler/utilities.lua:588
+#: lua/groupbutler/plugins/menu.lua:180 lua/groupbutler/utilities.lua:372
 msgid "Extra"
-msgstr "Extra"
+msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:179 lua/groupbutler/utilities.lua:589
+#: lua/groupbutler/plugins/menu.lua:181 lua/groupbutler/utilities.lua:373
 msgid "Anti-flood"
-msgstr "Anti-flood"
+msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:180 lua/groupbutler/utilities.lua:591
+#: lua/groupbutler/plugins/menu.lua:182 lua/groupbutler/utilities.lua:375
 msgid "Silent mode"
-msgstr "Mod silențios"
+msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:182 lua/groupbutler/utilities.lua:593
+#: lua/groupbutler/plugins/menu.lua:184 lua/groupbutler/utilities.lua:377
 msgid "Arab"
-msgstr "Arab"
+msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:183 lua/groupbutler/utilities.lua:594
+#: lua/groupbutler/plugins/menu.lua:185 lua/groupbutler/utilities.lua:378
 msgid "RTL"
-msgstr "RTL"
+msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:184 lua/groupbutler/utilities.lua:590
+#: lua/groupbutler/plugins/menu.lua:186 lua/groupbutler/utilities.lua:374
 msgid "Ban bots"
-msgstr "Ban bots"
+msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:185 lua/groupbutler/utilities.lua:595
+#: lua/groupbutler/plugins/menu.lua:187 lua/groupbutler/utilities.lua:379
 msgid "Reports"
-msgstr "Rapoarte"
+msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:186 lua/groupbutler/utilities.lua:596
+#: lua/groupbutler/plugins/menu.lua:188 lua/groupbutler/utilities.lua:380
 msgid "Delete last welcome message"
-msgstr "Șterge ultimul mesaj de bun venit"
+msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:187
+#: lua/groupbutler/plugins/menu.lua:189
 msgid "Welcome + rules button"
-msgstr "Buton bine ati venit + reguli"
+msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:188 lua/groupbutler/utilities.lua:598
+#: lua/groupbutler/plugins/menu.lua:190 lua/groupbutler/utilities.lua:382
 msgid "Clean Service Messages"
 msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:226
+#: lua/groupbutler/plugins/menu.lua:228
 msgid "🔨️ ban"
-msgstr "🔨️ interzice"
+msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:232
+#: lua/groupbutler/plugins/menu.lua:234
 msgid "Warns: "
-msgstr "Avertismente: "
+msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:237
+#: lua/groupbutler/plugins/menu.lua:239
 msgid "Action:"
-msgstr "Acțiune:"
+msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:260
+#: lua/groupbutler/plugins/menu.lua:275
 msgid "Manage the settings of the group. Click on the left column to get a small hint"
-msgstr "Gestiona setările grupului. Faceți clic pe coloana din stânga pentru a obține un mic indiciu"
+msgstr ""
 
 #: lua/groupbutler/plugins/onmessage.lua:117
 #, lua-format
 msgid "%s <b>banned</b> for flood!"
-msgstr "%s <b>acces interzis</b> pentru flood!"
+msgstr ""
 
 #: lua/groupbutler/plugins/onmessage.lua:119
 #, lua-format
 msgid "%s <b>kicked</b> for flood!"
-msgstr "%s <b>exclus</b> pentru flood!"
+msgstr ""
 
 #: lua/groupbutler/plugins/onmessage.lua:121
 #, lua-format
 msgid "%s <b>muted</b> for flood!"
-msgstr "%s <b>pus in surdina</b> pentru flood!"
+msgstr ""
 
 #: lua/groupbutler/plugins/onmessage.lua:170
 #, lua-format
 msgid "%s <b>%s</b>: media sent not allowed!\n"
 "❗️ <code>%d/%d</code>"
-msgstr "%s <b>%s</b>: trimiterea fisierelor media nu este permisa!\n"
-"❗️ <code>%d/%d</code>"
+msgstr ""
 
 #: lua/groupbutler/plugins/onmessage.lua:180
 #, lua-format
 msgid "%s, this type of media is <b>not allowed</b> in this chat.\n"
 "(<code>%d/%d</code>)"
-msgstr "%s, acest tip de fisier media <b>nu este permis</b> în acest chat.\n"
-"(<code>%d/%d</code>)"
+msgstr ""
 
 #: lua/groupbutler/plugins/onmessage.lua:185
 #, lua-format
 msgid "%s, this type of media is <b>not allowed</b> in this chat.\n"
 "<i>The next time you will be banned/kicked/muted</i>\n"
-msgstr "%s, acest tip de fisier media <b>nu este permis</b> în acest chat.\n"
-"<i>Data viitoare vei avea accesul interzis/vei fi exclus/dat in surdina</i>\n"
+msgstr ""
 
 #: lua/groupbutler/plugins/onmessage.lua:210
 #, lua-format
 msgid "%s <b>kicked</b>: RTL character in names/messages are not allowed!"
-msgstr "%s <b>exclus</b>: Caractere RTL in nume/mesaje nu sunt permise!"
+msgstr ""
 
 #: lua/groupbutler/plugins/onmessage.lua:213
 #, lua-format
 msgid "%s <b>banned</b>: RTL character in names/messages are not allowed!"
-msgstr "%s <b>accesul interzis</b>: Caractere RTL in nume/mesaje nu sunt permise!"
+msgstr ""
 
 #: lua/groupbutler/plugins/onmessage.lua:216
 #, lua-format
 msgid "%s <b>muted</b>: RTL character in names/messages are not allowed!"
-msgstr "%s <b>pus in surdina</b>: Caractere RTL in nume/mesaje nu sunt permise!"
+msgstr ""
 
 #: lua/groupbutler/plugins/onmessage.lua:234
 #, lua-format
 msgid "%s <b>kicked</b>: arab/persian message detected!"
-msgstr "%s <b>exclus</b>: mesaj arab/persian detectat!"
+msgstr ""
 
 #: lua/groupbutler/plugins/onmessage.lua:237
 #, lua-format
 msgid "%s <b>banned</b>: arab/persian message detected!"
-msgstr "%s <b>acces interzis</b>: mesaj arab/persian detectat!"
+msgstr ""
 
 #: lua/groupbutler/plugins/onmessage.lua:240
 #, lua-format
 msgid "%s <b>muted</b>: arab/persian message detected!"
-msgstr "%s <b>pus in surdina</b>: mesaj arab/persian detectat!"
+msgstr ""
 
 #: lua/groupbutler/plugins/pin.lua:76
 msgid "I couldn't find any message generated by <code>/pin</code>."
@@ -1654,797 +1622,723 @@ msgstr ""
 
 #: lua/groupbutler/plugins/private.lua:41
 msgid "Channel"
-msgstr "Canal"
+msgstr ""
 
 #: lua/groupbutler/plugins/private.lua:42
 msgid "GitHub"
-msgstr "GitHub"
+msgstr ""
 
 #: lua/groupbutler/plugins/private.lua:43
 msgid "Rate me!"
-msgstr "Evaluează-mă!"
+msgstr ""
 
 #: lua/groupbutler/plugins/private.lua:46
 msgid "👥 Groups"
-msgstr "👥 Grupuri"
+msgstr ""
 
 #: lua/groupbutler/plugins/private.lua:61
 msgid "Pong!"
-msgstr "Pong!"
+msgstr ""
 
 #: lua/groupbutler/plugins/private.lua:76
 #: lua/groupbutler/plugins/private.lua:94
 #, lua-format
 msgid "You can find the list of our support groups in [this channel](%s)"
-msgstr "Puteți găsi lista grupurilor de asistenta în [acest canal](%s)"
+msgstr ""
 
 #: lua/groupbutler/plugins/private.lua:92
 msgid "🔙 back"
-msgstr "🔙 inapoi"
+msgstr ""
 
 #: lua/groupbutler/plugins/private_settings.lua:23
 msgid "When you join a group moderated by this bot, you will receive the group rules in private"
-msgstr "Când vă alăturați unui grup moderat de acest bot, veți primi regulile grupului in privat"
+msgstr ""
 
 #: lua/groupbutler/plugins/private_settings.lua:24
 msgid "If enabled, you will receive all the messages reported with the @admin command in the groups you are moderating"
-msgstr "Daca este activat, vei primi toate mesajele raportate folosind comanda @admin in grupurile pe care le moderezi"
+msgstr ""
 
 #: lua/groupbutler/plugins/private_settings.lua:35
 msgid "Rules on join"
-msgstr "Reguli de alaturare"
+msgstr ""
 
 #: lua/groupbutler/plugins/private_settings.lua:36
 msgid "Users reports"
-msgstr "Rapoartele utilizatorilor"
+msgstr ""
 
 #: lua/groupbutler/plugins/private_settings.lua:37
 msgid "Name not available"
-msgstr "nume indisponibil"
+msgstr ""
 
 #: lua/groupbutler/plugins/private_settings.lua:61
 msgid "Change your private settings"
-msgstr "Schimbă-ți setările private"
+msgstr ""
 
 #: lua/groupbutler/plugins/private_settings.lua:82
 msgid "⚙ Setting applied"
-msgstr "⚙ Setari aplicate"
+msgstr ""
 
-#: lua/groupbutler/plugins/report.lua:29
+#: lua/groupbutler/plugins/report.lua:30
 #, lua-format
 msgid "• <b>Message reported by</b>: %s (<code>%d</code>)"
-msgstr "• <b>Mesaj raportat de către</b>: %s (<code>%d</code>)"
+msgstr ""
 
-#: lua/groupbutler/plugins/report.lua:33
+#: lua/groupbutler/plugins/report.lua:34
 #, lua-format
 msgid "\n"
 "• <b>Reported message sent by</b>: %s (<code>%d</code>)"
-msgstr "\n"
-"• <b>Mesaj raportat trimis de catre</b>: %s (<code>%d</code>)"
+msgstr ""
 
-#: lua/groupbutler/plugins/report.lua:37
+#: lua/groupbutler/plugins/report.lua:38
 #, lua-format
 msgid "\n"
 "• <b>Group</b>: %s"
-msgstr "\n"
-"• <b>Grup</b>: %s"
+msgstr ""
 
-#: lua/groupbutler/plugins/report.lua:39
+#: lua/groupbutler/plugins/report.lua:40
 #, lua-format
 msgid "\n"
 "• <b>Group</b>: <a href=\"%s\">%s</a>"
-msgstr "\n"
-"• <b>Grup</b>: <a href=\"%s\">%s</a>"
+msgstr ""
 
-#: lua/groupbutler/plugins/report.lua:43
+#: lua/groupbutler/plugins/report.lua:44
 #, lua-format
 msgid "\n"
 "• <a href=\"%s\">Go to the message</a>"
-msgstr "\n"
-"• <a href=\"%s\">Du-te la mesaj</a>"
+msgstr ""
 
-#: lua/groupbutler/plugins/report.lua:47
+#: lua/groupbutler/plugins/report.lua:48
 #, lua-format
 msgid "\n"
 "• <b>Description</b>: <i>%s</i>"
-msgstr "\n"
-"• <b>Descriere</b>: <i>%s</i>"
+msgstr ""
 
-#: lua/groupbutler/plugins/report.lua:56
+#: lua/groupbutler/plugins/report.lua:63
 msgid "Address this report"
-msgstr "Adreseaza-te acestui raport"
+msgstr ""
 
 #: lua/groupbutler/plugins/report.lua:108
 #, lua-format
 msgid "_Invalid value:_ number of times allowed (`input: %d`)"
-msgstr "_Valoare invalida:_ de cate ori este permis (`input: %d`)"
+msgstr ""
 
 #: lua/groupbutler/plugins/report.lua:110
 #, lua-format
 msgid "_Invalid value:_ time (`input: %d`)"
-msgstr "_Valoare invalida:_ timp ('input: %d')"
+msgstr ""
 
 #: lua/groupbutler/plugins/report.lua:116
 #, lua-format
 msgid "*New parameters saved*.\n"
 "Users will be able to use @admin %d times/%d minutes"
-msgstr "*Parametri noi salvati*.\n"
-"Utilizatorii vor putea să folosească @admin de %d ori/%d minute"
+msgstr ""
 
 #: lua/groupbutler/plugins/report.lua:137
 #, lua-format
 msgid "_Please, do not abuse this command. It can be used %d times every %d minutes_.\n"
 "Wait other %d minutes, %d seconds."
-msgstr "_Te rog, nu face abuz de aceasta comanda. Poate fi folosita de %d ori in fiecare zi timp de %d minute.\n"
-"Asteapta alte %d minute, %d secunde."
+msgstr ""
 
 #: lua/groupbutler/plugins/report.lua:148
 #, lua-format
 msgid "_Reported to %d admin(s)_"
-msgstr "_Raportat catre %d administrator(i)_"
+msgstr ""
 
 #: lua/groupbutler/plugins/report.lua:165
 msgid "You closed this issue and deleted all the other reports sent to the admins"
-msgstr "Ai închis această problemă și ai sters toate celelalte rapoarte trimise administratorilor"
+msgstr ""
 
 #: lua/groupbutler/plugins/report.lua:173
 msgid "This message is too old (>2 days)"
-msgstr "Acest mesaj este prea vechi (>2 zile)"
+msgstr ""
 
 #: lua/groupbutler/plugins/report.lua:184
 msgid "❕ Already (being) adressed"
-msgstr "❕ Deja (fiind) adreseaza"
+msgstr ""
 
 #: lua/groupbutler/plugins/report.lua:186
 msgid "Close issue"
-msgstr "Inchide problema"
+msgstr ""
 
 #: lua/groupbutler/plugins/report.lua:196
 #, lua-format
 msgid "%s has/will address this report"
-msgstr "%s a abordat/va aborda acest raport"
+msgstr ""
 
 #: lua/groupbutler/plugins/report.lua:204
 msgid "This button will delete all the reports sent to the other admins. Tap it again to confirm"
-msgstr "Acest buton va șterge toate rapoartele trimise la ceilalti administratori. Atingeți-l din nou pentru a confirma"
+msgstr ""
 
 #: lua/groupbutler/plugins/report.lua:212
 msgid "(issue closed by you)"
-msgstr "(problema închisă de tine)"
+msgstr ""
 
 #: lua/groupbutler/plugins/rules.lua:37
 msgid "🚫 Unknown or non-existent group"
-msgstr "🚫 Grup necunoscut sau inexistent"
+msgstr ""
 
 #: lua/groupbutler/plugins/rules.lua:45
 msgid "🚷 You are not a member of this chat. You can't read the rules of a private group."
-msgstr "🚷 Nu sunteți un membru al conversației. Nu puteți citi setările unui grup privat."
+msgstr ""
 
 #: lua/groupbutler/plugins/rules.lua:75
 msgid "Please write something next `/setrules`"
-msgstr "Vă rog să scrieti ceva dupa`/setrules`"
+msgstr ""
 
 #: lua/groupbutler/plugins/rules.lua:81
 msgid "Rules has been deleted."
-msgstr "Regulile au fost sterse."
+msgstr ""
 
 #: lua/groupbutler/plugins/rules.lua:94
 msgid "New rules *saved successfully*!"
-msgstr "Reguli noi *salvate cu succes*!"
+msgstr ""
 
-#: lua/groupbutler/plugins/service.lua:49
+#: lua/groupbutler/plugins/service.lua:44
 #, lua-format
 msgid "_You (user ID: %d) are in the blocked list_"
-msgstr "_Tu (ID-ul de utilizator: %d) esti in lista de acces interzis_"
+msgstr ""
 
-#: lua/groupbutler/plugins/service.lua:54
+#: lua/groupbutler/plugins/service.lua:50
 msgid "_Admin mode is on: only the bot admin can add me to a new group_"
-msgstr "_Modul administrator este pornit: numai bot-ul administrator ma poate adauga intr-un grup nou_"
+msgstr ""
 
-#: lua/groupbutler/plugins/service.lua:66
+#: lua/groupbutler/plugins/service.lua:59
 #, lua-format
 msgid "Hello everyone!\n"
 "My name is %s, and I'm a bot made to help administrators in their hard work.\n"
-msgstr "Salutare tuturor!\n"
-"Numele meu este %s, si sunt un bot creat pentru a ajut administratorii in munca lor grea.\n"
+msgstr ""
 
-#: lua/groupbutler/plugins/service.lua:70
+#: lua/groupbutler/plugins/service.lua:63
 msgid "Yay! This group has been upgraded. You are great! Now I can work properly :)\n"
-msgstr "Yay! Acest grup a fost actualizat. Esti grozav! Acum pot funcționa în mod corespunzător :)\n"
+msgstr ""
 
 #: lua/groupbutler/plugins/setlang.lua:33
-#: lua/groupbutler/plugins/setlang.lua:48
+#: lua/groupbutler/plugins/setlang.lua:51
 msgid "*List of available languages*:"
-msgstr "*Lista limbilor disponibile*:"
-
-#: lua/groupbutler/plugins/setlang.lua:44
-msgid "You are not an admin"
-msgstr "Nu esti un administrator"
+msgstr ""
 
 #. TRANSLATORS: replace 'English' with the name of your language
-#: lua/groupbutler/plugins/setlang.lua:58
+#: lua/groupbutler/plugins/setlang.lua:64
 msgid "English language is *set*"
-msgstr "Limba română este *setata*"
+msgstr ""
 
-#: lua/groupbutler/plugins/setlang.lua:59
+#: lua/groupbutler/plugins/setlang.lua:64
 msgid ".\n"
 "Please note that translators are volunteers, and this localization _may be incomplete_. You can help improve translations on our [Crowdin Project](https://crowdin.com/project/group-butler).\n"
 msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:17
-msgid "can't change the chat title/description/icon"
-msgstr "nu pot schimba titlul/descrierea/pictograma conversatiei"
-
-#: lua/groupbutler/plugins/users.lua:18
-msgid "can't send messages"
-msgstr "nu pot trimite mesaje"
-
-#: lua/groupbutler/plugins/users.lua:19
-msgid "can't delete messages"
-msgstr "nu pot sterge mesaje"
-
-#: lua/groupbutler/plugins/users.lua:20
-msgid "can't invite users/generate a link"
-msgstr "nu pot sa invit utilizatori/sa generez un link"
-
-#: lua/groupbutler/plugins/users.lua:21
-msgid "can't restrict members"
-msgstr "nu pot sa limitez membrii"
-
-#: lua/groupbutler/plugins/users.lua:22
-msgid "can't pin messages"
-msgstr "nu pot fixa mesaje"
-
-#: lua/groupbutler/plugins/users.lua:23
-msgid "can't promote new admins"
-msgstr "nu pot promova administratori noi"
-
 #: lua/groupbutler/plugins/users.lua:24
-msgid "can't send photos/videos/documents/audios/voice messages/video messages"
-msgstr "nu pot trimite poze/videoclipuri/documente/fisiere audio/mesaje vocale/mesaje video"
+msgid "can't change the chat title/description/icon"
+msgstr ""
 
 #: lua/groupbutler/plugins/users.lua:25
-msgid "can't send stickers/GIFs/games/use inline bots"
-msgstr "nu pot trimite stickere/GIF-uri/jocuri/folosi boti inline"
+msgid "can't send messages"
+msgstr ""
 
 #: lua/groupbutler/plugins/users.lua:26
-msgid "can't show link previews"
-msgstr "nu pot arata previzualizarea link-urilor"
+msgid "can't delete messages"
+msgstr ""
+
+#: lua/groupbutler/plugins/users.lua:27
+msgid "can't invite users/generate a link"
+msgstr ""
+
+#: lua/groupbutler/plugins/users.lua:28
+msgid "can't restrict members"
+msgstr ""
+
+#: lua/groupbutler/plugins/users.lua:29
+msgid "can't pin messages"
+msgstr ""
+
+#: lua/groupbutler/plugins/users.lua:30
+msgid "can't promote new admins"
+msgstr ""
+
+#: lua/groupbutler/plugins/users.lua:31
+msgid "can't send photos/videos/documents/audios/voice messages/video messages"
+msgstr ""
 
 #: lua/groupbutler/plugins/users.lua:32
+msgid "can't send stickers/GIFs/games/use inline bots"
+msgstr ""
+
+#: lua/groupbutler/plugins/users.lua:33
+msgid "can't show link previews"
+msgstr ""
+
+#: lua/groupbutler/plugins/users.lua:39
 msgid "🔄️ Refresh cache"
-msgstr "🔄️ Reimprospatati memoria cache"
+msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:60
+#: lua/groupbutler/plugins/users.lua:47
 msgid "Remove warnings"
-msgstr "Elimina avertismente"
+msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:70
+#: lua/groupbutler/plugins/users.lua:57
 #, lua-format
 msgid "*User ID*: `%d`\n"
 "`Warnings`: *%d*\n"
 "`Media warnings`: *%d*\n"
 "`Spam warnings`: *%d*\n"
-msgstr "*ID-ul de utilizator*: `%d`\n"
-"\"Avertismente\": *%d*\n"
-"`Avertismente pentru media: *%d*\n"
-"`Avertismente pentru spam: *%d*\n"
+msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:90
+#: lua/groupbutler/plugins/users.lua:77
 #, lua-format
 msgid "Your ID is `%d`"
 msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:124
-msgid "That user has nothing to do with this chat"
-msgstr "Acest utilizator nu are nimic de-a face cu aceasta conversatie"
-
-#: lua/groupbutler/plugins/users.lua:131
+#: lua/groupbutler/plugins/users.lua:110
 #, lua-format
 msgid "%s is banned from this group"
-msgstr "%s are accesul interzis de la acest grup"
+msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:132
+#: lua/groupbutler/plugins/users.lua:111
 #, lua-format
 msgid "%s left the group or has been kicked and unbanned"
-msgstr "%s părăsit grupul sau a fost exclus si ridicata restrictia lui"
+msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:133
+#: lua/groupbutler/plugins/users.lua:112
 #, lua-format
 msgid "%s is an admin"
-msgstr "%s este un administrator"
+msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:134
+#: lua/groupbutler/plugins/users.lua:113
 #, lua-format
 msgid "%s is the group creator"
-msgstr "%s este creatorul grupului"
+msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:135
+#: lua/groupbutler/plugins/users.lua:114
 #, lua-format
 msgid "%s has nothing to do with this chat"
-msgstr "%s nu are nimic de-a face cu acest chat"
+msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:136
+#: lua/groupbutler/plugins/users.lua:115
 #, lua-format
 msgid "%s is a chat member"
-msgstr "%s este un membru al conversatiei"
+msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:137
+#: lua/groupbutler/plugins/users.lua:116
 #, lua-format
 msgid "%s is a restricted"
-msgstr "%s este restricționat"
+msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:148
+#: lua/groupbutler/plugins/users.lua:128
 #, lua-format
 msgid "\n"
 "Restrictions: <i>%s</i>"
-msgstr "\n"
-"Restricții: <i>%s</i>"
+msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:159
+#: lua/groupbutler/plugins/users.lua:139
 msgid "Reply to a user or mention them by username or numerical ID"
 msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:183 lua/groupbutler/plugins/users.lua:244
+#: lua/groupbutler/plugins/users.lua:157
 #, lua-format
-msgid "📌 Status: `CACHED`\n"
-"⌛ ️Remaining: `%s`\n"
-"👥 Admins cached: `%d`"
-msgstr "📌 Status: `CACHED`\n"
-"⌛ ️Rămas: `%s`\n"
-"👥 Admini cache: `%d`"
+msgid "👥 Admins cached: <code>%d</code>"
+msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:192
+#: lua/groupbutler/plugins/users.lua:165
 #, lua-format
 msgid "Message N° %d"
-msgstr "Mesaj N° %d"
+msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:214 lua/groupbutler/plugins/warn.lua:167
+#: lua/groupbutler/plugins/users.lua:187 lua/groupbutler/plugins/warn.lua:170
 msgid "You are not allowed to use this button"
-msgstr "Nu ai permisiunea sa folosesti acest buton"
+msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:223
+#: lua/groupbutler/plugins/users.lua:195
 #, lua-format
 msgid "The number of warnings received by this user has been <b>reset</b>, by %s"
-msgstr "Numărul de avertismente primite de către acest utilizator a fost <b>resetat</b>, de %s"
+msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:237
-#, lua-format
-msgid "The adminlist has just been updated. You must wait 10 minutes from the last refresh (wait  %d seconds)"
-msgstr "Lista administratorilor a fost actualizata. Trebuie sa astepti 10 minute de la ultima reimprospatare(asteapta %d secunde)"
-
-#: lua/groupbutler/plugins/users.lua:246
-#, lua-format
-msgid "✅ Updated. Next update in %s"
-msgstr "✅ Actualizat. Următoarea actualizare în %s"
+#: lua/groupbutler/plugins/users.lua:206
+msgid "✅ The admin list will be updated soon"
+msgstr ""
 
 #: lua/groupbutler/plugins/warn.lua:18
 msgid "Remove warn"
-msgstr "Elimina avertismentul"
+msgstr ""
 
 #: lua/groupbutler/plugins/warn.lua:44
 msgid "Max number of warnings changed (media).\n"
-msgstr "Numărul maxim de avertismente schimbat(fisiere media).\n"
+msgstr ""
 
 #: lua/groupbutler/plugins/warn.lua:49
 msgid "Max number of warnings changed.\n"
-msgstr "Numărul maxim de avertismente schimbat.\n"
+msgstr ""
 
 #: lua/groupbutler/plugins/warn.lua:55
 #, lua-format
 msgid "*Old* value was %d\n"
 "*New* max is %d"
-msgstr "*Vechi* valoarea a fost %d\n"
-"*Nou* maxim este %d"
+msgstr ""
 
 #: lua/groupbutler/plugins/warn.lua:64
 msgid "Yes"
-msgstr "Da"
+msgstr ""
 
 #: lua/groupbutler/plugins/warn.lua:64
 msgid "No"
-msgstr "Nu"
+msgstr ""
 
 #: lua/groupbutler/plugins/warn.lua:68
 msgid "Do you want to continue and reset *all* the warnings received by *all* the users of the group?"
-msgstr "Vrei sa continui si sa resetezi *toate* avertismentele primite de catre *toti* utilizatorii grupului?"
+msgstr ""
 
-#: lua/groupbutler/plugins/warn.lua:86
+#: lua/groupbutler/plugins/warn.lua:89
 #, lua-format
 msgid "Done! %s has been forgiven."
 msgstr ""
 
-#: lua/groupbutler/plugins/warn.lua:111
+#: lua/groupbutler/plugins/warn.lua:112
 #, lua-format
 msgid "%s <b>%s</b>: reached the max number of warnings (<code>%d/%d</code>)"
-msgstr "%s <b>%s</b>: a ajuns la numărul maxim de avertismente (<code>%d/%d</code>)"
+msgstr ""
 
-#: lua/groupbutler/plugins/warn.lua:144
+#: lua/groupbutler/plugins/warn.lua:146
 #, lua-format
 msgid "%s <b>has been warned</b> (<code>%d/%d</code>)"
-msgstr "%s <b>a fost avertizat</b> (<code>%d/%d</code>)"
+msgstr ""
 
-#: lua/groupbutler/plugins/warn.lua:175
+#: lua/groupbutler/plugins/warn.lua:181
 msgid "The number of warnings received by this user is already <i>zero</i>"
-msgstr "Numărul de avertismente primite de către acest utilizator este deja <i>zero</i>"
+msgstr ""
 
-#: lua/groupbutler/plugins/warn.lua:179
+#: lua/groupbutler/plugins/warn.lua:185
 #, lua-format
 msgid "<b>Warn removed!</b> (%d/%d)"
-msgstr "<b>Avertisment eliminat!</b> (%d/%d)"
+msgstr ""
 
-#: lua/groupbutler/plugins/warn.lua:182
+#: lua/groupbutler/plugins/warn.lua:188
 #, lua-format
 msgid "\n"
 "(Admin: %s)"
-msgstr "\n"
-"(Administrator: %s)"
+msgstr ""
 
-#: lua/groupbutler/plugins/warn.lua:191
+#: lua/groupbutler/plugins/warn.lua:198
 #, lua-format
 msgid "Done. All the warnings of this group have been erased by %s"
-msgstr "Terminat. Toate avertismentele acestui grup au fost șterse de catre %s"
+msgstr ""
 
-#: lua/groupbutler/plugins/warn.lua:193
+#: lua/groupbutler/plugins/warn.lua:200
 msgid "_Action aborted_"
-msgstr "_Actiunea a fost anulata_"
+msgstr ""
 
-#: lua/groupbutler/plugins/welcome.lua:83
+#: lua/groupbutler/plugins/welcome.lua:71
 msgid "Read the rules"
-msgstr "Citeste regulile"
+msgstr ""
 
-#: lua/groupbutler/plugins/welcome.lua:106
+#: lua/groupbutler/plugins/welcome.lua:94
 msgid "Hi $name!"
-msgstr "Salut $name!"
+msgstr ""
 
-#: lua/groupbutler/plugins/welcome.lua:155
+#: lua/groupbutler/plugins/welcome.lua:146
 msgid "Welcome and...?"
-msgstr "Bine ai venit si...?"
+msgstr ""
 
-#: lua/groupbutler/plugins/welcome.lua:179
+#: lua/groupbutler/plugins/welcome.lua:170
 #, lua-format
 msgid "A form of media has been set as the welcome message: `%s`"
-msgstr "O forma a unui fisier media a fost setata ca mesaj de bun venit: '%s'"
+msgstr ""
 
-#: lua/groupbutler/plugins/welcome.lua:181
+#: lua/groupbutler/plugins/welcome.lua:172
 msgid "Reply to a `sticker` or a `gif` to set them as the *welcome message*"
-msgstr "Raspunde la un 'sticker' sau un 'Gif' pentru a le seta ca *mesaj de bun venit*"
+msgstr ""
 
-#: lua/groupbutler/plugins/welcome.lua:200
+#: lua/groupbutler/plugins/welcome.lua:191
 msgid "*Custom welcome message saved!*"
-msgstr "*Mesaj de bun venit personalizat salvat!*"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:515
+#: lua/groupbutler/utilities.lua:302
 msgid "-*empty*-"
-msgstr "-*gol*-"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:556
+#: lua/groupbutler/utilities.lua:340
 #, lua-format
 msgid "<b>👤 Creator</b>\n"
 "└ %s\n\n"
 "<b>👥 Admins</b> (%d)\n"
 "%s"
-msgstr "<b>👤 Creator</b>\n"
-"└ %s\n\n"
-"<b>👥 Administratori</b> (%d)\n"
-"%s"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:566
+#: lua/groupbutler/utilities.lua:350
 msgid "No commands set"
-msgstr "Nu au fost setate comenzi"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:569
+#: lua/groupbutler/utilities.lua:353
 msgid "List of custom commands:\n"
-msgstr "Lista de comenzi personalizate:\n"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:581
+#: lua/groupbutler/utilities.lua:365
 msgid "Current settings for *the group*:\n\n"
-msgstr "Setările curente pentru *grup*:\n\n"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:582
+#: lua/groupbutler/utilities.lua:366
 #, lua-format
 msgid "*Language*: %s\n"
-msgstr "Limbă: %s\n"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:586
+#: lua/groupbutler/utilities.lua:370
 msgid "Welcome message"
-msgstr "Mesaj de bun venit"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:587
+#: lua/groupbutler/utilities.lua:371
 msgid "Goodbye message"
-msgstr "Mesaj de la revedere"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:597
+#: lua/groupbutler/utilities.lua:381
 msgid "Welcome button"
-msgstr "Buton de bun venit"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:599
+#: lua/groupbutler/utilities.lua:383
 msgid "Unknown"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:634
+#: lua/groupbutler/utilities.lua:418
 msgid "*Welcome type*: `GIF / sticker`\n"
-msgstr "*Tipul mesajului de bun venit*: `GIF / sticker`\n"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:636
+#: lua/groupbutler/utilities.lua:420
 msgid "*Welcome type*: `custom message`\n"
-msgstr "*Tipul mesajului de bun venit*: `mesaj personalizat`\n"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:638
+#: lua/groupbutler/utilities.lua:422
 msgid "*Welcome type*: `default message`\n"
-msgstr "*Tipul mesajului de bun venit*: `mesaj implicit`\n"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:647
+#: lua/groupbutler/utilities.lua:431
 #, lua-format
 msgid "Warns (`standard`): *%s*\n"
-msgstr "Avertismente (\"standard\"): *%s*\n"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:648
+#: lua/groupbutler/utilities.lua:432
 #, lua-format
 msgid "Warns (`media`): *%s*\n\n"
-msgstr "Avertismente (\"fisiere media\"): *%s*\n\n"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:649
+#: lua/groupbutler/utilities.lua:433
 msgid "✅ = _enabled / allowed_\n"
-msgstr "✅ = _activat / permis_\n"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:650
+#: lua/groupbutler/utilities.lua:434
 msgid "🚫 = _disabled / not allowed_\n"
-msgstr "🚫 = _dezactivat / neperms_\n"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:651
+#: lua/groupbutler/utilities.lua:435
 msgid "👥 = _sent in group (always for admins)_\n"
-msgstr "👥 = _trimis în grup (întotdeauna pentru administratori)_\n"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:652
+#: lua/groupbutler/utilities.lua:436
 msgid "👤 = _sent in private_"
-msgstr "👤 = _trimis in privat_"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:662
+#: lua/groupbutler/utilities.lua:446
 msgid "@admin command disabled"
-msgstr "comanda @admin dezactivata"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:663
+#: lua/groupbutler/utilities.lua:447
 msgid "Welcome message won't be displayed from now"
-msgstr "Mesajul de bun venit nu va mai fi afișat de acum"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:664
+#: lua/groupbutler/utilities.lua:448
 msgid "Goodbye message won't be displayed from now"
-msgstr "Mesajul de la revedere nu va mai fi afișat de acum"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:665
+#: lua/groupbutler/utilities.lua:449
 msgid "#extra commands are now available only for administrators"
-msgstr "comenzile #extra sunt acum disponibile numai pentru administratori"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:666
+#: lua/groupbutler/utilities.lua:450
 msgid "Anti-flood is now off"
-msgstr "Anti-flood este acum oprit"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:667
+#: lua/groupbutler/utilities.lua:451
 msgid "/rules will reply in private (for users)"
-msgstr "/reguli va răspunde în privat (pentru utilizatori)"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:668
+#: lua/groupbutler/utilities.lua:452
 msgid "Silent mode is now off"
-msgstr "Modul silențios este oprit"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:669
+#: lua/groupbutler/utilities.lua:453
 msgid "Links preview disabled"
-msgstr "Previzualizare link-uri dezactivat"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:670
+#: lua/groupbutler/utilities.lua:454
 msgid "Welcome message without a button for the rules"
-msgstr "Mesajul de bun venit fără un buton pentru reguli"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:673
+#: lua/groupbutler/utilities.lua:457
 msgid "@admin command enabled"
-msgstr "comanda @admin activata"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:674
+#: lua/groupbutler/utilities.lua:458
 msgid "Welcome message will be displayed"
-msgstr "Mesajul de bun venit va fi afișat"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:675
+#: lua/groupbutler/utilities.lua:459
 msgid "Goodbye message will be displayed"
-msgstr "Mesajul de la revedere va fi afisat"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:676
+#: lua/groupbutler/utilities.lua:460
 msgid "#extra commands are now available for all"
-msgstr "comenzile #extra sunt acum disponibile pentru toti"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:677
+#: lua/groupbutler/utilities.lua:461
 msgid "Anti-flood is now on"
-msgstr "Anti-flood este acum pornit"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:678
+#: lua/groupbutler/utilities.lua:462
 msgid "/rules will reply in the group (with everyone)"
-msgstr "/reguli va răspunde în grup (cu toata lumea)"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:679
+#: lua/groupbutler/utilities.lua:463
 msgid "Silent mode is now on"
-msgstr "Modul silențios este pornit"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:680
+#: lua/groupbutler/utilities.lua:464
 msgid "Links preview enabled"
-msgstr "Previzualizare link-uri activat"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:681
+#: lua/groupbutler/utilities.lua:465
 msgid "The welcome message will have a button for the rules"
-msgstr "Mesajul de bun venit va avea un buton pentru reguli"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:694
+#: lua/groupbutler/utilities.lua:478
 msgid "This setting is enabled, but the goodbye message won't be displayed in large groups, because I can't see service messages about left members"
-msgstr "Această setare este activată, dar mesajul de la revedere nu va fi afișat în grupuri mari, pentru că eu nu pot vedea mesaje de serviciu despre membrii care au iesit"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:707
+#: lua/groupbutler/utilities.lua:491
 msgid "Start me"
-msgstr "Porneste-ma"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:709
+#: lua/groupbutler/utilities.lua:493
 msgid "_Please message me first so I can message you_"
-msgstr "_Te rog, trimite-mi mesaj intai astfel incat sa iti pot trimite mesaj tie_"
-
-#: lua/groupbutler/utilities.lua:778 lua/groupbutler/utilities.lua:779
-msgid "Someone"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:787
-msgid "Reply to a user or mention them"
-msgstr ""
-
-#: lua/groupbutler/utilities.lua:813
-msgid "I've never seen this user before.\n"
-"This command works by reply, username, user ID or text mention.\n"
-"If you're using it by username and want to teach me who the user is, forward me one of their messages"
-msgstr ""
-
-#: lua/groupbutler/utilities.lua:832
+#: lua/groupbutler/utilities.lua:548
 #, lua-format
 msgid "<b>Chat</b>: %s [#chat%d]"
-msgstr "<b>Chat</b>: %s [#chat%d]"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:841 lua/groupbutler/utilities.lua:849
+#: lua/groupbutler/utilities.lua:558 lua/groupbutler/utilities.lua:566
 #, lua-format
 msgid "#%s (<code>%d/%d</code>), <i>%s</i>\n"
 "• %s\n"
 "• <b>User</b>: %s"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:855
+#: lua/groupbutler/utilities.lua:572
 #, lua-format
 msgid "#%s\n"
 "• %s\n"
 "• <b>User</b>: %s"
-msgstr "#%s\n"
-"• %s\n"
-"• <b>Utilizator</b>: %s"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:858 lua/groupbutler/utilities.lua:868
-#: lua/groupbutler/utilities.lua:871 lua/groupbutler/utilities.lua:874
+#: lua/groupbutler/utilities.lua:575 lua/groupbutler/utilities.lua:585
+#: lua/groupbutler/utilities.lua:588 lua/groupbutler/utilities.lua:591
 #, lua-format
 msgid "%s\n"
 "• %s\n"
 "• <b>By</b>: %s"
-msgstr "%s\n"
-"• %s\n"
-"• <b>De catre</b>: %s"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:861
+#: lua/groupbutler/utilities.lua:578
 msgid "Get the new photo"
-msgstr "Ia fotografia noua"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:878
+#: lua/groupbutler/utilities.lua:595
 #, lua-format
 msgid "%s\n"
 "• %s\n"
 "• <b>By</b>: %s\n"
 "• <i>Reported to %d admin(s)</i>"
-msgstr "%s\n"
-"• %s\n"
-"• <b>De catre</b>: %s\n"
-"• <i>Raportat la %d administrator(i)</i>"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:882
+#: lua/groupbutler/utilities.lua:599
 #, lua-format
 msgid "#%s\n"
 "• %s\n"
 "• <b>User</b>: %s [#id%d]"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:887
+#: lua/groupbutler/utilities.lua:604
 #, lua-format
 msgid "%s\n"
 "• %s\n"
 "• <b>User</b>: %s"
-msgstr "%s\n"
-"• %s\n"
-"• <b>Utilizator</b>: %s"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:889
+#: lua/groupbutler/utilities.lua:606
 #, lua-format
 msgid "\n"
 "• <b>Added by</b>: %s [#id%d]"
-msgstr "\n"
-"• <b>Adăugat de catre</b>: %s [#id%d]"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:902
+#: lua/groupbutler/utilities.lua:619
 #, lua-format
 msgid "#%s\n"
 "• <b>Admin</b>: %s [#id%d]\n"
 "• %s\n"
 "• <b>User</b>: %s [#id%d]\n"
 "• <b>Count</b>: <code>%d/%d</code>"
-msgstr "#%s\n"
-"• <b>Administrator</b>: %s [#id%d]\n"
-"• %s\n"
-"• <b>Utilizator</b>: %s [#id%d]\n"
-"• <b>Numar</b>: <code>%d/%d</code>"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:910 lua/groupbutler/utilities.lua:940
+#: lua/groupbutler/utilities.lua:629 lua/groupbutler/utilities.lua:660
 #, lua-format
 msgid "#%s\n"
 "• <b>Admin</b>: %s [#id%s]\n"
 "• %s\n"
 "• <b>User</b>: %s [#id%s]"
-msgstr "#%s\n"
-"• <b>Administrator</b>: %s [#id%s]\n"
-"• %s\n"
-"• <b>Utilizator</b>: %s [#id%s]"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:914
+#: lua/groupbutler/utilities.lua:633
 #, lua-format
 msgid "#%s\n"
 "• <b>Admin</b>: %s [#id%s]\n"
 "• %s\n"
-msgstr "#%s\n"
-"• <b>Administrator</b>: %s [#id%s]\n"
-"• %s\n"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:917
+#: lua/groupbutler/utilities.lua:636
 #, lua-format
 msgid "• <i>Users involved: %d</i>"
-msgstr "• <i>Utilizatori implicați: %d</i>"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:919
+#: lua/groupbutler/utilities.lua:638
 #, lua-format
 msgid "• <b>User</b>: %s [#id%d]"
-msgstr "• <b>Utilizator</b>: %s [#id%d]"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:931
+#: lua/groupbutler/utilities.lua:650
 #, lua-format
 msgid "#%s\n"
 "• <b>Admin</b>: %s [#id%s]\n"
 "• %s\n"
 "• <b>User</b>: %s [#id%s]\n"
 "• <b>Duration</b>: %d days, %d hours"
-msgstr "#%s\n"
-"• <b>Administrator</b>: %s [#id%s]\n"
-"• %s\n"
-"• <b>Utilizator</b>: %s [#id%s]\n"
-"• <b>Durata</b>: %d/%d"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:944
+#: lua/groupbutler/utilities.lua:664
 #, lua-format
 msgid "#%s\n"
 "• %s\n"
 "• <b>By</b>: %s"
-msgstr "#%s\n"
-"• %s\n"
-"• <b>De catre</b>: %s"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:965
+#: lua/groupbutler/utilities.lua:685
 #, lua-format
 msgid "\n"
 "• <b>Action</b>: #%s"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:968
+#: lua/groupbutler/utilities.lua:688
 #, lua-format
 msgid "\n"
 "• <b>Reason</b>: <i>%s</i>"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:974
+#: lua/groupbutler/utilities.lua:694
 msgid "Go to the message"
-msgstr "Du-te la mesaj"
+msgstr ""
 

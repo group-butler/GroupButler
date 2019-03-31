@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-17 15:23-0200\n"
-"PO-Revision-Date: 2018-12-24 19:34\n"
+"POT-Creation-Date: 2019-03-31 11:30-0300\n"
+"PO-Revision-Date: 2019-03-31 14:31\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Turkish\n"
 "Language: tr_TR\n"
@@ -18,759 +18,739 @@ msgstr ""
 
 #: lua/groupbutler/api_errors.lua:19
 msgid "An unknown error has ocurred"
-msgstr "Bilinmeyen bir hata oluştu"
+msgstr ""
 
 #: lua/groupbutler/api_errors.lua:20
 msgid "I don't have enough permissions to restrict users"
-msgstr "Kullanıcıları kısıtlamak için yeterli yetkiye sahip değilim"
+msgstr ""
 
 #: lua/groupbutler/api_errors.lua:21
 msgid "I'm not an admin, I can't kick people"
-msgstr "Admin değilim, insanları gruptan atamam"
+msgstr ""
 
 #: lua/groupbutler/api_errors.lua:22
 msgid "I can't do that to admins!"
-msgstr "Yöneticilere bunu yapamam!"
+msgstr ""
 
 #: lua/groupbutler/api_errors.lua:23
 msgid "There is no need to unban in a normal group"
-msgstr "Normal grupta geçici banlamak gerekli değlidir"
+msgstr ""
 
 #: lua/groupbutler/api_errors.lua:24
 msgid "This user is not a chat member"
-msgstr "Bu kullanıcı sohbet üyesidir"
+msgstr ""
 
 #: lua/groupbutler/api_errors.lua:25
 msgid "Please input a text"
-msgstr "Lütfen giriş metni girin"
+msgstr ""
 
 #: lua/groupbutler/api_errors.lua:26
 msgid "This message is too long. Max lenght allowed by Telegram: 4000 characters"
-msgstr "Bu mesaj çok uzun. En fazla telegramın izin verdiği mesaj: 4000 karakter"
+msgstr ""
 
 #: lua/groupbutler/api_errors.lua:27
 msgid "One of the inline buttons you are trying to set is missing the URL"
-msgstr "Ayarlamaya çalıştığınız satır içi düğmelerinden biri URL eksik"
+msgstr ""
 
 #: lua/groupbutler/api_errors.lua:28
 #, lua-format
 msgid "Inline link formatted incorrectly. Check the text between brackets -> \\[]()\n"
 "%s"
-msgstr "Satır içi link formatı yanlış. Parantezleri kontrol et-> \\[]()\n"
-"%s"
+msgstr ""
 
 #: lua/groupbutler/api_errors.lua:28
 msgid "More info [here](https://telegram.me/GB_tutorials/12)"
-msgstr "Daha fazla bilgi [burada](https://telegram.me/GB_tutorials/12)"
+msgstr ""
 
 #: lua/groupbutler/api_errors.lua:29
 msgid "This text breaks the markdown.\n"
 "More info about a proper use of markdown [here](https://telegram.me/GB_tutorials/10) and [here](https://telegram.me/GB_tutorials/12)."
-msgstr "Bu parantez yazı tipi formata uygun.\n"
-"Daha fazla yazı tipi formatı için kontrol edin [burayı](https://telegram.me/GB_tutorials/10) and [here](https://telegram.me/GB_tutorials/12)."
+msgstr ""
 
 #: lua/groupbutler/api_errors.lua:31
 msgid "One of the URLs that should be placed in an inline button seems to be invalid (not an URL). Please check it"
-msgstr "Satır içi düğme konulmalıdır bu URL geçersiz gibi görünüyor (not an URL). Lütfen kontrol edin"
+msgstr ""
 
 #: lua/groupbutler/api_errors.lua:32
 msgid "One of the inline buttons you are trying to set doesn't have a name"
-msgstr "Ayarlamaya çalıştığınız satır içi düğmelerden birinde bir adı yok"
+msgstr ""
 
-#: lua/groupbutler/main.lua:128
+#: lua/groupbutler/main.lua:151
 #, lua-format
 msgid "Hello everyone!\n"
 "My name is %s, and I'm a bot made to help administrators in their hard work.\n"
 "Unfortunately I can't work in normal groups. If you need me, please ask the creator to convert this group to a supergroup and then add me again.\n"
-msgstr "Herkese merhaba!\n"
-"Benim adım %s, ve ben yöneticilerin zor işlerinde yardımcı olmak üzere tasarlanmış bier botum.\n"
-"Malesef normal gruplarda çalışamıyorum. Eğer bana ihtiyacınız varsa, bu grubun yaratıcısından supergroup'a yükseltmesini isteyin ve ardından beni tekrar ekleyin.\n"
+msgstr ""
 
-#: lua/groupbutler/main.lua:196
+#: lua/groupbutler/main.lua:219
 msgid "🐞 Sorry, a *bug* occurred"
-msgstr "🐞 Üzgünüm hata oluştu"
+msgstr ""
 
-#: lua/groupbutler/plugins/antispam.lua:43
-#: lua/groupbutler/plugins/onmessage.lua:162
-#: lua/groupbutler/plugins/warn.lua:113
-msgid "banned"
-msgstr "banlandı"
+#: lua/groupbutler/message.lua:80
+msgid "Reply to a user or mention them"
+msgstr ""
 
-#: lua/groupbutler/plugins/antispam.lua:44
-#: lua/groupbutler/plugins/onmessage.lua:159
-#: lua/groupbutler/plugins/warn.lua:117
-msgid "kicked"
-msgstr "atıldı"
+#: lua/groupbutler/message.lua:83
+msgid "I've never seen this user before.\n"
+"This command works by reply, username, user ID or text mention.\n"
+"If you're using it by username and want to teach me who the user is, forward me one of their messages"
+msgstr ""
 
 #: lua/groupbutler/plugins/antispam.lua:45
-#: lua/groupbutler/plugins/onmessage.lua:165
-#: lua/groupbutler/plugins/warn.lua:121
-msgid "muted"
-msgstr "sessize alındı"
+#: lua/groupbutler/plugins/onmessage.lua:162
+#: lua/groupbutler/plugins/warn.lua:114
+msgid "banned"
+msgstr ""
 
 #: lua/groupbutler/plugins/antispam.lua:46
-#: lua/groupbutler/plugins/dashboard.lua:163
-msgid "telegram.me links"
-msgstr "telegram linkleri"
+#: lua/groupbutler/plugins/onmessage.lua:159
+#: lua/groupbutler/plugins/warn.lua:118
+msgid "kicked"
+msgstr ""
 
 #: lua/groupbutler/plugins/antispam.lua:47
-msgid "Channels messages"
-msgstr "Kanal mesajları"
+#: lua/groupbutler/plugins/onmessage.lua:165
+#: lua/groupbutler/plugins/warn.lua:122
+msgid "muted"
+msgstr ""
 
-#: lua/groupbutler/plugins/antispam.lua:94
+#: lua/groupbutler/plugins/antispam.lua:48
+#: lua/groupbutler/plugins/dashboard.lua:165
+msgid "telegram.me links"
+msgstr ""
+
+#: lua/groupbutler/plugins/antispam.lua:49
+msgid "Channels messages"
+msgstr ""
+
+#: lua/groupbutler/plugins/antispam.lua:96
 #, lua-format
 msgid "%s %s for <b>spam</b>! (%d/%d)"
-msgstr "%s %s için <b>Spam! (%d/%d)"
+msgstr ""
 
-#: lua/groupbutler/plugins/antispam.lua:101
+#: lua/groupbutler/plugins/antispam.lua:103
 #, lua-format
 msgid "%s, spam is not allowed here. The next time you will be restricted"
-msgstr "%s, burada spam'e izin verilmez. Bir daha olursa kısıtlanacaksınız"
+msgstr ""
 
-#: lua/groupbutler/plugins/antispam.lua:107
+#: lua/groupbutler/plugins/antispam.lua:109
 #, lua-format
 msgid "%s, this kind of message is not allowed in this chat (<b>%d/%d</b>)"
-msgstr "%s bu tarz mesajlar bu grupta izin verilmiyor (<b>%d/%d</b>)"
+msgstr ""
 
-#: lua/groupbutler/plugins/antispam.lua:111
+#: lua/groupbutler/plugins/antispam.lua:113
 msgid "telegram.me link"
-msgstr "telegram.me linkleri"
+msgstr ""
 
-#: lua/groupbutler/plugins/antispam.lua:111
+#: lua/groupbutler/plugins/antispam.lua:113
 msgid "message from a channel"
-msgstr "yönlendirmeler"
-
-#: lua/groupbutler/plugins/antispam.lua:135
-msgid "forwards are allowed"
-msgstr "yönlendirmelere izin verildi"
+msgstr ""
 
 #: lua/groupbutler/plugins/antispam.lua:137
-msgid "warn for forwards"
-msgstr "yönlendirmeler için uyar"
+msgid "forwards are allowed"
+msgstr ""
 
 #: lua/groupbutler/plugins/antispam.lua:139
-msgid "forwards will be deleted"
-msgstr "yönlendirmeler silinecek"
+msgid "warn for forwards"
+msgstr ""
 
-#: lua/groupbutler/plugins/antispam.lua:143
-msgid "links are allowed"
-msgstr "bağlantılara izin verildi"
+#: lua/groupbutler/plugins/antispam.lua:141
+msgid "forwards will be deleted"
+msgstr ""
 
 #: lua/groupbutler/plugins/antispam.lua:145
-msgid "warn for links"
-msgstr "bağlantılar için uyar"
+msgid "links are allowed"
+msgstr ""
 
 #: lua/groupbutler/plugins/antispam.lua:147
-msgid "links will be deleted"
-msgstr "bağlantılar silinecek"
+msgid "warn for links"
+msgstr ""
 
-#: lua/groupbutler/plugins/antispam.lua:166
-msgid "You can't go lower"
-msgstr "Daha az olamaz"
+#: lua/groupbutler/plugins/antispam.lua:149
+msgid "links will be deleted"
+msgstr ""
 
 #: lua/groupbutler/plugins/antispam.lua:168
-msgid "You can't go higher"
-msgstr "Daha çok olamaz"
+msgid "You can't go lower"
+msgstr ""
 
-#: lua/groupbutler/plugins/antispam.lua:176
+#: lua/groupbutler/plugins/antispam.lua:170
+msgid "You can't go higher"
+msgstr ""
+
+#: lua/groupbutler/plugins/antispam.lua:178
 #, lua-format
 msgid "New value: %d"
-msgstr "Yeni değer %d"
-
-#: lua/groupbutler/plugins/antispam.lua:200
-msgid "Allow/forbid telegram.me links"
-msgstr "Bunun gibi linkleri telegram.me izinver/yasakla"
+msgstr ""
 
 #: lua/groupbutler/plugins/antispam.lua:202
-msgid "Allow/forbid forwarded messages from channels"
-msgstr "Yönlendirmeleri izin ver/yasakla"
+msgid "Allow/forbid telegram.me links"
+msgstr ""
 
 #: lua/groupbutler/plugins/antispam.lua:204
-msgid "Set how many times the bot should warn users before kicking/banning them"
-msgstr "Kaç uyarı aldığında banlanacak/atılacak"
+msgid "Allow/forbid forwarded messages from channels"
+msgstr ""
 
 #: lua/groupbutler/plugins/antispam.lua:206
-#: lua/groupbutler/plugins/defaultpermissions.lua:66
-#: lua/groupbutler/plugins/floodmanager.lua:24
-#: lua/groupbutler/plugins/logchannel.lua:37
-#: lua/groupbutler/plugins/menu.lua:42
+msgid "Set how many times the bot should warn users before kicking/banning them"
+msgstr ""
+
+#: lua/groupbutler/plugins/antispam.lua:208
+#: lua/groupbutler/plugins/defaultpermissions.lua:68
+#: lua/groupbutler/plugins/floodmanager.lua:26
+#: lua/groupbutler/plugins/logchannel.lua:39
+#: lua/groupbutler/plugins/menu.lua:44
 #: lua/groupbutler/plugins/private_settings.lua:25
 msgid "Description not available"
-msgstr "Açıklama mevcut değil"
-
-#: lua/groupbutler/plugins/antispam.lua:241
-msgid "Kick 👞"
-msgstr "At 👞"
+msgstr ""
 
 #: lua/groupbutler/plugins/antispam.lua:243
-msgid "Ban 🔨"
-msgstr "Banla 🔨"
+msgid "Kick 👞"
+msgstr ""
 
 #: lua/groupbutler/plugins/antispam.lua:245
+msgid "Ban 🔨"
+msgstr ""
+
+#: lua/groupbutler/plugins/antispam.lua:247
 msgid "Mute 👁"
-msgstr "Sessize al 👁"
+msgstr ""
 
-#: lua/groupbutler/plugins/antispam.lua:292
-#: lua/groupbutler/plugins/floodmanager.lua:144
-#: lua/groupbutler/plugins/logchannel.lua:125
-#: lua/groupbutler/plugins/mediasettings.lua:115
-#: lua/groupbutler/plugins/menu.lua:258
-msgid "You're no longer an admin"
-msgstr "Admin değilsin"
+#: lua/groupbutler/plugins/antispam.lua:298
+#: lua/groupbutler/plugins/floodmanager.lua:157
+#: lua/groupbutler/plugins/logchannel.lua:135
+#: lua/groupbutler/plugins/mediasettings.lua:127
+#: lua/groupbutler/plugins/menu.lua:271 lua/groupbutler/plugins/setlang.lua:45
+msgid "Sorry, you don't have permission to change settings"
+msgstr ""
 
-#: lua/groupbutler/plugins/antispam.lua:294
+#: lua/groupbutler/plugins/antispam.lua:302
 msgid "*Anti-spam settings*\n"
 "Choose which kind of message you want to forbid\n"
 "• ✅ = *Allowed*\n"
 "• ❌ = *Not allowed*\n"
 "• 🗑 = *Delete*\n"
 "When set on `delete`, the bot doesn't warn users until they are about to be kicked/banned/muted (at the second-to-last warning)"
-msgstr "*Anti-spam ayarları*\n"
-"Hangi tür spamleri yasaklayacağınızı seçin\n"
-"• ✅ = *İzin ver*\n"
-"• ❌ = *İzin verme*\n"
-"• 🗑 = *Sil*\n"
-"Ayarı `sil`olarak seçtiğinizde bot kullanıcıları onlar kovulana/engellenene/sessize alınmak üzere olana kadar uyarmaz. (sondan ikinci uyarıda)"
+msgstr ""
 
-#: lua/groupbutler/plugins/antispam.lua:362
+#: lua/groupbutler/plugins/antispam.lua:370
 msgid "_The whitelist was already empty_"
-msgstr "_Beyazliste boş_"
+msgstr ""
 
-#: lua/groupbutler/plugins/antispam.lua:365
+#: lua/groupbutler/plugins/antispam.lua:373
 #, lua-format
 msgid "*Whitelist cleaned*\n"
 "%d links have been removed"
-msgstr "*Beyazliste temizlendi*\n"
-"%d linkler silindi"
+msgstr ""
 
-#: lua/groupbutler/plugins/antispam.lua:373
-#: lua/groupbutler/plugins/antispam.lua:382
-#: lua/groupbutler/plugins/antispam.lua:404
-#: lua/groupbutler/plugins/antispam.lua:413
+#: lua/groupbutler/plugins/antispam.lua:381
+#: lua/groupbutler/plugins/antispam.lua:390
+#: lua/groupbutler/plugins/antispam.lua:416
+#: lua/groupbutler/plugins/antispam.lua:425
 msgid "_I can't find any url in this message_"
-msgstr "_Bu mesajda link bulamadım_"
+msgstr ""
 
-#: lua/groupbutler/plugins/antispam.lua:376
+#: lua/groupbutler/plugins/antispam.lua:384
 #, lua-format
 msgid "%d link(s) will be whitelisted"
-msgstr "%d link(ler) beyazlisteye eklenecek"
+msgstr ""
 
-#: lua/groupbutler/plugins/antispam.lua:378
-#: lua/groupbutler/plugins/antispam.lua:409
+#: lua/groupbutler/plugins/antispam.lua:386
+#: lua/groupbutler/plugins/antispam.lua:421
 #, lua-format
 msgid "\n"
 "%d links were already in the list"
-msgstr "\n"
-"%d linkler zaten listede"
+msgstr ""
 
-#: lua/groupbutler/plugins/antispam.lua:390
+#: lua/groupbutler/plugins/antispam.lua:400
 msgid "_The whitelist is empty_.\n"
 "Use `/wl [links]` to add some links to the whitelist"
-msgstr "Beyazliste boş\n"
-"/wl komutunu kullanarak link(ler) ekleyebilirsin"
+msgstr ""
 
-#: lua/groupbutler/plugins/antispam.lua:392
+#: lua/groupbutler/plugins/antispam.lua:402
 msgid "Whitelisted links:\n\n"
-msgstr "Beyazliste linkleri:\n\n"
+msgstr ""
 
-#: lua/groupbutler/plugins/antispam.lua:407
+#: lua/groupbutler/plugins/antispam.lua:419
 #, lua-format
 msgid "%d link(s) removed from the whitelist"
-msgstr "%d link(ler) beyazlisteden silindi"
+msgstr ""
 
-#: lua/groupbutler/plugins/antispam.lua:424
+#: lua/groupbutler/plugins/antispam.lua:440
 msgid "_Whitelist of channels empty_"
-msgstr "_Beyazliste kanalları boş_"
+msgstr ""
 
-#: lua/groupbutler/plugins/antispam.lua:426
+#: lua/groupbutler/plugins/antispam.lua:442
 #, lua-format
 msgid "*Whitelisted channels:*\n"
 "%s"
-msgstr "*Beyazliste kanalları:\n"
-"%s"
+msgstr ""
 
-#: lua/groupbutler/plugins/antispam.lua:433
 #: lua/groupbutler/plugins/antispam.lua:450
+#: lua/groupbutler/plugins/antispam.lua:467
 msgid "_I can't find a channel ID in your message_"
-msgstr "_Mesajda kanal kimliği bulamadım_"
+msgstr ""
 
 #: lua/groupbutler/plugins/backup.lua:100
 #, lua-format
 msgid "<i>I'm sorry, this command has been used for the last time less then 3 hours ago by</i> %s (ask them for the file).\n"
 "Wait [<code>%s</code>] to use it again\n"
-msgstr "<i>Üzgünüm, bu komut en son 3 saatten kısa bir süre önce </i> %s </i> tarafından kullnıldı</i> (onlardan dosyayı isteyin).\n"
-"Bunu tekrar kullanmak için [<code>%s</code>] bekleyin\n"
+msgstr ""
 
 #: lua/groupbutler/plugins/backup.lua:114
 msgid "*Sent in private*"
-msgstr "*Özelden mesaj gönder*"
+msgstr ""
 
 #: lua/groupbutler/plugins/backup.lua:120
 msgid "Invalid input. Please reply to the backup file (/snap command to get it)"
-msgstr "Hatalı giriş. Lütfen yedekleme dosyasını yanıtlayın (/snap komutu ile)"
+msgstr ""
 
 #: lua/groupbutler/plugins/backup.lua:125
 msgid "Invalid input. Please reply to a document"
-msgstr "Hatalı giriş. Lütfen dosyayı cevaplayın"
+msgstr ""
 
 #: lua/groupbutler/plugins/backup.lua:130
 #, lua-format
 msgid "This is not a valid backup file.\n"
 "Reason: invalid name (%s)"
-msgstr "Bu geçerli bir yedekleme dosyası değildir.\n"
-"Sebep: bilinmeyen isim (%s)"
+msgstr ""
 
 #: lua/groupbutler/plugins/backup.lua:140
 #, lua-format
 msgid "Download of the file failed with code %s"
-msgstr "İndirme hata kodu %s"
+msgstr ""
 
 #: lua/groupbutler/plugins/backup.lua:149
 #, lua-format
 msgid "Chat IDs don't match (%s and %s)"
-msgstr "Sohbet kimliği eşleşmiyor (%s ve %s)"
+msgstr ""
 
 #: lua/groupbutler/plugins/backup.lua:172
 msgid "Import was <b>successful</b>.\n\n"
 "<b>Important</b>:\n"
 "- #extra commands which are associated with a media must be set again if the bot you are using now is different from the bot that originated the backup.\n"
-msgstr "İçe aktarım <b>başarılı<b>.\n\n"
-"<b>Önemli<b>:\n"
-"- Eğer şu an kullandığınız bot yedeklemeden meydana gelen bottan farklıysa, media ile alakalı #ekstra komutlar tekrar kurulmalıdır.\n"
+msgstr ""
 
-#: lua/groupbutler/plugins/banhammer.lua:89
+#: lua/groupbutler/plugins/banhammer.lua:90
 msgid "Use -/+ to edit the value, then select a timeframe to temporary ban the user"
-msgstr "Değeri düzenlemek için -/+ tuşlarını kullanın, ardından kullanıcıyı geçici olarak engellemek için bir zaman dilimi seçin"
+msgstr ""
 
-#: lua/groupbutler/plugins/banhammer.lua:96
+#: lua/groupbutler/plugins/banhammer.lua:107
 #, lua-format
 msgid "%s kicked %s!"
-msgstr "%s atıldı %s!"
+msgstr ""
 
-#: lua/groupbutler/plugins/banhammer.lua:105
-#: lua/groupbutler/plugins/banhammer.lua:118
+#: lua/groupbutler/plugins/banhammer.lua:122
+#: lua/groupbutler/plugins/banhammer.lua:142
 #, lua-format
 msgid "%s banned %s!"
-msgstr "%s banlandı %s!"
+msgstr ""
 
-#: lua/groupbutler/plugins/banhammer.lua:112
+#: lua/groupbutler/plugins/banhammer.lua:128
 msgid "_Use this command in reply to a forwarded message_"
-msgstr "_İletilen mesaja yanıt olarak bu komutu kullanın_"
+msgstr ""
 
-#: lua/groupbutler/plugins/banhammer.lua:126
+#: lua/groupbutler/plugins/banhammer.lua:148
 msgid "_An admin can't be unbanned_"
-msgstr "_Admin banlanamaz_"
-
-#: lua/groupbutler/plugins/banhammer.lua:135
-msgid "This user is not banned!"
-msgstr "Bu kullanıcı engellenmedi!"
-
-#: lua/groupbutler/plugins/banhammer.lua:140
-#, lua-format
-msgid "%s unbanned by %s!"
-msgstr "%s tarafından ban kaldırıldı %s!"
+msgstr ""
 
 #: lua/groupbutler/plugins/banhammer.lua:152
-#: lua/groupbutler/plugins/defaultpermissions.lua:127
+msgid "This user is not banned!"
+msgstr ""
+
+#: lua/groupbutler/plugins/banhammer.lua:166
+#, lua-format
+msgid "%s unbanned by %s!"
+msgstr ""
+
+#: lua/groupbutler/plugins/banhammer.lua:178
+#: lua/groupbutler/plugins/defaultpermissions.lua:135
 msgid "Sorry, you don't have permission to restrict members"
 msgstr ""
 
-#: lua/groupbutler/plugins/banhammer.lua:156
+#: lua/groupbutler/plugins/banhammer.lua:184
 msgid "Tap on the -/+ buttons to change this value. Then select a timeframe to execute the ban"
-msgstr "Bu değeri değiştirmek için -/+ düğmelerine dokunun. Sonra yasağı uygulamak için bir zaman dilimi seçin"
+msgstr ""
 
-#: lua/groupbutler/plugins/banhammer.lua:165
+#: lua/groupbutler/plugins/banhammer.lua:200
 msgid "You can't set a lower value"
-msgstr "Daha düşük bir değer giremezsiniz"
+msgstr ""
 
-#: lua/groupbutler/plugins/banhammer.lua:173
+#: lua/groupbutler/plugins/banhammer.lua:208
 msgid "Stop!!!"
-msgstr "Dur!!!"
+msgstr ""
 
-#: lua/groupbutler/plugins/banhammer.lua:189
+#: lua/groupbutler/plugins/banhammer.lua:225
 msgid "hours"
-msgstr "saatler"
+msgstr ""
 
-#: lua/groupbutler/plugins/banhammer.lua:193
+#: lua/groupbutler/plugins/banhammer.lua:229
 msgid "days"
-msgstr "günler"
+msgstr ""
 
-#: lua/groupbutler/plugins/banhammer.lua:197
+#: lua/groupbutler/plugins/banhammer.lua:233
 msgid "minutes"
-msgstr "dakikalar"
+msgstr ""
 
-#: lua/groupbutler/plugins/banhammer.lua:203
+#: lua/groupbutler/plugins/banhammer.lua:241
 #, lua-format
 msgid "User banned for %d %s"
-msgstr "Kullanıcı engellendi %d %s için"
-
-#: lua/groupbutler/plugins/configure.lua:19
-msgid "🛠 Menu"
-msgstr "🛠  Menü"
+msgstr ""
 
 #: lua/groupbutler/plugins/configure.lua:20
-msgid "⚡️ Antiflood"
-msgstr "⚡️ Antiflood"
+msgid "🛠 Menu"
+msgstr ""
 
 #: lua/groupbutler/plugins/configure.lua:21
-msgid "🌈 Media"
-msgstr "🌈 Medya"
+msgid "⚡️ Antiflood"
+msgstr ""
 
 #: lua/groupbutler/plugins/configure.lua:22
-msgid "🚫 Antispam"
-msgstr "🚫 Antispam"
+msgid "🌈 Media"
+msgstr ""
 
 #: lua/groupbutler/plugins/configure.lua:23
+msgid "🚫 Antispam"
+msgstr ""
+
+#: lua/groupbutler/plugins/configure.lua:24
 msgid "📥 Log channel"
-msgstr "📥 Kanal kaydı"
+msgstr ""
 
 #: lua/groupbutler/plugins/configure.lua:26
 msgid "⛔️ Default permissions"
-msgstr "⛔️ Varsayılan izinler"
+msgstr ""
 
-#: lua/groupbutler/plugins/configure.lua:45
-#: lua/groupbutler/plugins/configure.lua:68
+#: lua/groupbutler/plugins/configure.lua:33
 msgid "<i>Change the settings of your group</i>"
-msgstr "<i>Grubunun ayarlarını değiştir</i>"
+msgstr ""
 
-#: lua/groupbutler/plugins/configure.lua:58
+#: lua/groupbutler/plugins/configure.lua:66
 msgid "_I've sent you the keyboard via private message_"
-msgstr "_Sana özel mesaj gönderdim_"
-
-#: lua/groupbutler/plugins/dashboard.lua:20
-#: lua/groupbutler/plugins/floodmanager.lua:36
-msgid "✅ | ON"
-msgstr "✅ | Açık"
+msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:22
 #: lua/groupbutler/plugins/floodmanager.lua:38
-msgid "❌ | OFF"
-msgstr "❌ | Kapalı"
+msgid "✅ | ON"
+msgstr ""
 
-#: lua/groupbutler/plugins/dashboard.lua:29
-#: lua/groupbutler/plugins/menu.lua:160 lua/groupbutler/plugins/menu.lua:224
-msgid "👞 kick"
-msgstr "👞 at"
+#: lua/groupbutler/plugins/dashboard.lua:24
+#: lua/groupbutler/plugins/floodmanager.lua:40
+msgid "❌ | OFF"
+msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:31
-#: lua/groupbutler/plugins/menu.lua:162
-msgid "🔨 ban"
-msgstr "🔨 banla"
+#: lua/groupbutler/plugins/menu.lua:162 lua/groupbutler/plugins/menu.lua:226
+msgid "👞 kick"
+msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:33
-#: lua/groupbutler/plugins/floodmanager.lua:49
-#: lua/groupbutler/plugins/menu.lua:164 lua/groupbutler/plugins/menu.lua:228
+#: lua/groupbutler/plugins/menu.lua:164
+msgid "🔨 ban"
+msgstr ""
+
+#: lua/groupbutler/plugins/dashboard.lua:35
+#: lua/groupbutler/plugins/floodmanager.lua:51
+#: lua/groupbutler/plugins/menu.lua:166 lua/groupbutler/plugins/menu.lua:230
 msgid "👁 mute"
-msgstr "👁 sessize al"
-
-#: lua/groupbutler/plugins/dashboard.lua:38
-#: lua/groupbutler/plugins/floodmanager.lua:67
-msgid "Texts"
-msgstr "Yazı"
-
-#: lua/groupbutler/plugins/dashboard.lua:39
-#: lua/groupbutler/plugins/floodmanager.lua:68
-msgid "Forwards"
-msgstr "Yönlendirme"
+msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:40
-#: lua/groupbutler/plugins/dashboard.lua:167
 #: lua/groupbutler/plugins/floodmanager.lua:69
-#: lua/groupbutler/plugins/mediasettings.lua:42
-msgid "Stickers"
-msgstr "Çıkartma"
+msgid "Texts"
+msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:41
-#: lua/groupbutler/plugins/dashboard.lua:159
 #: lua/groupbutler/plugins/floodmanager.lua:70
-#: lua/groupbutler/plugins/mediasettings.lua:33
-msgid "Images"
-msgstr "Resim"
+msgid "Forwards"
+msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:42
-#: lua/groupbutler/plugins/dashboard.lua:160
+#: lua/groupbutler/plugins/dashboard.lua:169
 #: lua/groupbutler/plugins/floodmanager.lua:71
-#: lua/groupbutler/plugins/mediasettings.lua:34
-msgid "GIFs"
-msgstr "GİF"
+#: lua/groupbutler/plugins/mediasettings.lua:44
+msgid "Stickers"
+msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:43
 #: lua/groupbutler/plugins/dashboard.lua:161
 #: lua/groupbutler/plugins/floodmanager.lua:72
 #: lua/groupbutler/plugins/mediasettings.lua:35
+msgid "Images"
+msgstr ""
+
+#: lua/groupbutler/plugins/dashboard.lua:44
+#: lua/groupbutler/plugins/dashboard.lua:162
+#: lua/groupbutler/plugins/floodmanager.lua:73
+#: lua/groupbutler/plugins/mediasettings.lua:36
+msgid "GIFs"
+msgstr ""
+
+#: lua/groupbutler/plugins/dashboard.lua:45
+#: lua/groupbutler/plugins/dashboard.lua:163
+#: lua/groupbutler/plugins/floodmanager.lua:74
+#: lua/groupbutler/plugins/mediasettings.lua:37
 msgid "Videos"
-msgstr "Videolar"
-
-#: lua/groupbutler/plugins/dashboard.lua:57
-#, lua-format
-msgid "- *Status*: `%s`\n"
-msgstr "- *Durum*: `%s`\n"
-
-#: lua/groupbutler/plugins/dashboard.lua:58
-#, lua-format
-msgid "- *Action* to perform when a user floods: `%s`\n"
 msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:59
 #, lua-format
-msgid "- Number of messages allowed *every 5 seconds*: `%d`\n"
-msgstr "-İzin verilen mesaj sayısı *her 5 saniye için*: `%d`\n"
+msgid "- *Status*: `%s`\n"
+msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:60
 #, lua-format
+msgid "- *Action* to perform when a user floods: `%s`\n"
+msgstr ""
+
+#: lua/groupbutler/plugins/dashboard.lua:61
+#, lua-format
+msgid "- Number of messages allowed *every 5 seconds*: `%d`\n"
+msgstr ""
+
+#: lua/groupbutler/plugins/dashboard.lua:62
+#, lua-format
 msgid "- *Ignored media*:\n"
 "%s"
-msgstr "- *Önemsenen medya*:\n"
-"%s"
+msgstr ""
 
-#: lua/groupbutler/plugins/dashboard.lua:67
+#: lua/groupbutler/plugins/dashboard.lua:69
 msgid "Settings"
-msgstr "Ayarlar"
+msgstr ""
 
-#: lua/groupbutler/plugins/dashboard.lua:68
+#: lua/groupbutler/plugins/dashboard.lua:70
 msgid "Admins"
-msgstr "Adminler"
+msgstr ""
 
-#: lua/groupbutler/plugins/dashboard.lua:71
-#: lua/groupbutler/plugins/menu.lua:181 lua/groupbutler/utilities.lua:592
+#: lua/groupbutler/plugins/dashboard.lua:73
+#: lua/groupbutler/plugins/menu.lua:183 lua/groupbutler/utilities.lua:376
 msgid "Rules"
-msgstr "Kurallar"
+msgstr ""
 
-#: lua/groupbutler/plugins/dashboard.lua:72
+#: lua/groupbutler/plugins/dashboard.lua:74
 #: lua/groupbutler/plugins/help.lua:254
 msgid "Extra commands"
-msgstr "Ekstra komutlar"
+msgstr ""
 
-#: lua/groupbutler/plugins/dashboard.lua:75
+#: lua/groupbutler/plugins/dashboard.lua:77
 msgid "Flood settings"
-msgstr "Flood ayarları"
+msgstr ""
 
-#: lua/groupbutler/plugins/dashboard.lua:76
+#: lua/groupbutler/plugins/dashboard.lua:78
 msgid "Media settings"
-msgstr "Medya ayarları"
+msgstr ""
 
-#: lua/groupbutler/plugins/dashboard.lua:93
+#: lua/groupbutler/plugins/dashboard.lua:95
 msgid "Navigate this message to see *all the info* about this group!"
-msgstr "Bu mesaj ile grup bilgisini güncelleyin!"
+msgstr ""
 
-#: lua/groupbutler/plugins/dashboard.lua:102
+#: lua/groupbutler/plugins/dashboard.lua:104
 msgid "_I've sent you the group dashboard via private message_"
-msgstr "_Sana özel mesaj yolladım_"
+msgstr ""
 
-#: lua/groupbutler/plugins/dashboard.lua:119
-msgid "🚫 This group does not exist"
-msgstr "🚫 Bu grup mevcut değil"
-
-#: lua/groupbutler/plugins/dashboard.lua:126
+#: lua/groupbutler/plugins/dashboard.lua:128
 msgid "🚷 You are not a member of the chat. You can't see the settings of a private group."
-msgstr "🚷 Sohbet kullanıcısı değilsiniz.Gizli grupta ayarları göremezsiniz."
+msgstr ""
 
-#: lua/groupbutler/plugins/dashboard.lua:133
+#: lua/groupbutler/plugins/dashboard.lua:135
 msgid "ℹ️ Group ► Settings"
-msgstr "ℹ️ Grup ► Ayarları"
+msgstr ""
 
-#: lua/groupbutler/plugins/dashboard.lua:137
+#: lua/groupbutler/plugins/dashboard.lua:139
 msgid "ℹ️ Group ► Rules"
-msgstr "ℹ️ Grup ► Kuralları"
-
-#: lua/groupbutler/plugins/dashboard.lua:145
-msgid "I got kicked out of this group 😓"
-msgstr "Bu gruptan çıkartılmıışım 😓"
+msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:147
+msgid "I got kicked out of this group 😓"
+msgstr ""
+
+#: lua/groupbutler/plugins/dashboard.lua:149
 msgid "ℹ️ Group ► Admin list"
-msgstr "ℹ️ Grop ► Admin listesi"
+msgstr ""
 
-#: lua/groupbutler/plugins/dashboard.lua:151
+#: lua/groupbutler/plugins/dashboard.lua:153
 msgid "ℹ️ Group ► Extra"
-msgstr "ℹ️ Grup ► Ekstra"
+msgstr ""
 
-#: lua/groupbutler/plugins/dashboard.lua:155
+#: lua/groupbutler/plugins/dashboard.lua:157
 msgid "ℹ️ Group ► Flood"
-msgstr "ℹ️ Grop ► Flood"
-
-#: lua/groupbutler/plugins/dashboard.lua:162
-#: lua/groupbutler/plugins/mediasettings.lua:37
-msgid "Documents"
-msgstr "Dosya"
+msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:164
-msgid "Voice Messages"
-msgstr "Sesli Mesajlar"
-
-#: lua/groupbutler/plugins/dashboard.lua:165
-#: lua/groupbutler/plugins/mediasettings.lua:40
-msgid "Links"
-msgstr "Linkler"
+#: lua/groupbutler/plugins/mediasettings.lua:39
+msgid "Documents"
+msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:166
-#: lua/groupbutler/plugins/mediasettings.lua:41
-msgid "Music"
-msgstr "Müzikler"
+msgid "Voice Messages"
+msgstr ""
+
+#: lua/groupbutler/plugins/dashboard.lua:167
+#: lua/groupbutler/plugins/mediasettings.lua:42
+msgid "Links"
+msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:168
 #: lua/groupbutler/plugins/mediasettings.lua:43
-msgid "Contacts"
-msgstr "Kişiler"
-
-#: lua/groupbutler/plugins/dashboard.lua:169
-#: lua/groupbutler/plugins/mediasettings.lua:44
-msgid "Games"
-msgstr "Oyunlar"
+msgid "Music"
+msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:170
 #: lua/groupbutler/plugins/mediasettings.lua:45
-msgid "Locations"
-msgstr "Konumlar"
+msgid "Contacts"
+msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:171
 #: lua/groupbutler/plugins/mediasettings.lua:46
-msgid "Venues"
+msgid "Games"
+msgstr ""
+
+#: lua/groupbutler/plugins/dashboard.lua:172
+#: lua/groupbutler/plugins/mediasettings.lua:47
+msgid "Locations"
 msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:173
+#: lua/groupbutler/plugins/mediasettings.lua:48
+msgid "Venues"
+msgstr ""
+
+#: lua/groupbutler/plugins/dashboard.lua:175
 msgid "*Current media settings*:\n\n"
-msgstr "*Şuanki medya ayarları*:\n\n"
+msgstr ""
 
-#: lua/groupbutler/plugins/dashboard.lua:185
+#: lua/groupbutler/plugins/dashboard.lua:187
 msgid "ℹ️ Group ► Media"
-msgstr "ℹ️ Grop ► Medya"
-
-#: lua/groupbutler/plugins/defaultpermissions.lua:62
-msgid "Permission to send messages. If disabled, the user won't be able to send any kind of message"
-msgstr "Mesaj gönderme izni. Devre dışı bırakılırsa, kullanıcı herhangi bir mesaj gönderemez"
-
-#: lua/groupbutler/plugins/defaultpermissions.lua:63
-msgid "Permission to send media (audios, documents, photos, videos, video notes and voice notes). Implies the permission to send messages"
-msgstr "Medya gönderme izni (müzik, belge, fotoğraf, video, video notları ve sesli notlar). Mesaj gönderme iznini ima eder"
+msgstr ""
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:64
-msgid "Permission to send other types of messages (GIFs, games, stickers and use inline bots). Implies the permission to send medias"
+msgid "Permission to send messages. If disabled, the user won't be able to send any kind of message"
 msgstr ""
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:65
+msgid "Permission to send media (audios, documents, photos, videos, video notes and voice notes). Implies the permission to send messages"
+msgstr ""
+
+#: lua/groupbutler/plugins/defaultpermissions.lua:66
+msgid "Permission to send other types of messages (GIFs, games, stickers and use inline bots). Implies the permission to send medias"
+msgstr ""
+
+#: lua/groupbutler/plugins/defaultpermissions.lua:67
 msgid "When disabled, user's messages with a link won't show the web page preview"
-msgstr "Devre dışı bırakıldığında, kullanıcının bir bağlantı içeren iletileri web sayfası önizlemesini göstermez"
-
-#: lua/groupbutler/plugins/defaultpermissions.lua:74
-msgid "Send messages"
-msgstr "Mesaj gönderme"
-
-#: lua/groupbutler/plugins/defaultpermissions.lua:75
-msgid "Send media"
-msgstr "Medya gönderme"
+msgstr ""
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:76
-msgid "Send other types of media"
-msgstr "Diğer türlerde medya gönderme"
+msgid "Send messages"
+msgstr ""
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:77
-msgid "Show web page preview"
-msgstr "Web sayfası ön izlemesini göster"
+msgid "Send media"
+msgstr ""
 
-#: lua/groupbutler/plugins/defaultpermissions.lua:129
+#: lua/groupbutler/plugins/defaultpermissions.lua:78
+msgid "Send other types of media"
+msgstr ""
+
+#: lua/groupbutler/plugins/defaultpermissions.lua:79
+msgid "Show web page preview"
+msgstr ""
+
+#: lua/groupbutler/plugins/defaultpermissions.lua:139
 msgid "*Default permissions*\n"
 "From this menu you can change the default permissions that will be granted when a new member join.\n"
 "_Only the administrators with the permission to restrict a member can access this menu._\n"
 "Tap on the name of a permission for a description of what kind of messages it will influence.\n"
-msgstr "*Varsayılan izinler*\n"
-"Bu menüden yeni katılan üyelere verilecek olan varsayılan izinleri değiştirebilirsiniz.\n"
-"_Sadece üyeleri kısıtlamak için yetkilendirilmiş yöneticiler bu menüye erişebilir._\n"
-"Ne tür iletileri etkileyeceğine dair açıklama için izin ismine dokunun.\n"
+msgstr ""
 
-#: lua/groupbutler/plugins/defaultpermissions.lua:151
+#: lua/groupbutler/plugins/defaultpermissions.lua:161
 #, lua-format
 msgid "Setting saved, but I can't edit the buttons because you are too fast! Wait other %d seconds"
-msgstr "Ayar kaydedildi, ancak düğmeleri çok hızlı yaptığınız için düzenleyemiyorum! %d saniye bekleyin"
+msgstr ""
 
 #: lua/groupbutler/plugins/extra.lua:81
 #, lua-format
 msgid "This media has been saved as a response to %s"
-msgstr "Tepki olarak medya kaydedildi %s"
+msgstr ""
 
 #: lua/groupbutler/plugins/extra.lua:95
 #, lua-format
 msgid "Command '%s' saved!"
-msgstr "Komut %s kaydedildi!"
+msgstr ""
 
 #: lua/groupbutler/plugins/extra.lua:117
 #, lua-format
 msgid "Commands deleted: `%s`"
-msgstr "Komut silindi: `%s`"
+msgstr ""
 
 #: lua/groupbutler/plugins/extra.lua:119
 #, lua-format
 msgid "\n"
 "Commands not found: `%s`"
-msgstr "\n"
-"Komut bulunamadı: `%s`"
+msgstr ""
 
 #: lua/groupbutler/plugins/extra.lua:167
 #, lua-format
 msgid "_Please_ [start me](%s) _so I can send you the answer_"
-msgstr "_Lütfen_ [başlat beni](%s) _böylece sana cevap verebilirim_"
-
-#: lua/groupbutler/plugins/floodmanager.lua:18
-msgid "⚖ Current sensitivity. Tap on the + or the - to change it"
-msgstr "⚖ Hassasiyet ayarı.+ ve - ye basarak ayarlayabilirsin"
+msgstr ""
 
 #: lua/groupbutler/plugins/floodmanager.lua:20
+msgid "⚖ Current sensitivity. Tap on the + or the - to change it"
+msgstr ""
+
+#: lua/groupbutler/plugins/floodmanager.lua:22
 msgid "Choose which media must be ignored by the antiflood (the bot won't consider them).\n"
 "✅: ignored\n"
 "❌: not ignored"
-msgstr "Seçilen medya antiflood'da önemsenmeyecek (bot onları önemsemeyecek).\n"
-"✅: önemseyecek\n"
-"❌: önemsemeyecek"
-
-#: lua/groupbutler/plugins/floodmanager.lua:45
-msgid "👞️ kick"
-msgstr "👞️ at"
+msgstr ""
 
 #: lua/groupbutler/plugins/floodmanager.lua:47
+msgid "👞️ kick"
+msgstr ""
+
+#: lua/groupbutler/plugins/floodmanager.lua:49
 msgid "🔨 ️ban"
-msgstr "🔨 ️banla"
+msgstr ""
 
-#: lua/groupbutler/plugins/floodmanager.lua:106
+#: lua/groupbutler/plugins/floodmanager.lua:108
 msgid "Flooders will be banned"
-msgstr "Flood atanlar banlanacak"
+msgstr ""
 
-#: lua/groupbutler/plugins/floodmanager.lua:109
+#: lua/groupbutler/plugins/floodmanager.lua:111
 msgid "Flooders will be kicked"
-msgstr "Flood atanlar atılacak"
+msgstr ""
 
-#: lua/groupbutler/plugins/floodmanager.lua:112
+#: lua/groupbutler/plugins/floodmanager.lua:114
 msgid "Flooders will be muted"
-msgstr "Flood yapanlar sessize alınacak"
+msgstr ""
 
-#: lua/groupbutler/plugins/floodmanager.lua:121
-#: lua/groupbutler/plugins/floodmanager.lua:128
+#: lua/groupbutler/plugins/floodmanager.lua:123
+#: lua/groupbutler/plugins/floodmanager.lua:130
 #, lua-format
 msgid "%d is not a valid value!\n"
-msgstr "%d hatalı değer!\n"
+msgstr ""
 
-#: lua/groupbutler/plugins/floodmanager.lua:146
+#: lua/groupbutler/plugins/floodmanager.lua:161
 msgid "You can manage the antiflood settings from here.\n\n"
 "It is also possible to choose which type of messages the antiflood will ignore (✅)"
-msgstr "Antiflood ayarlarını buradan yönetebilirsiniz.\n\n"
-"Ayrıca antifloodun hangi tür mesajları görmezden geleceğini seçmek de mümkündür. (✅)"
-
-#: lua/groupbutler/plugins/floodmanager.lua:153
-msgid "Antiflood settings"
-msgstr "Anti-flood ayarı"
+msgstr ""
 
 #: lua/groupbutler/plugins/floodmanager.lua:168
+msgid "Antiflood settings"
+msgstr ""
+
+#: lua/groupbutler/plugins/floodmanager.lua:177
 #, lua-format
 msgid "❎ [%s] will be ignored by the anti-flood"
-msgstr "❎ [%s] anti-flood önemsenecek"
+msgstr ""
 
-#: lua/groupbutler/plugins/floodmanager.lua:171
+#: lua/groupbutler/plugins/floodmanager.lua:180
 #, lua-format
 msgid "🚫 [%s] won't be ignored by the anti-flood"
-msgstr "🚫 [%s] anti-flood önemsenmeyecek"
+msgstr ""
 
 #: lua/groupbutler/plugins/help.lua:22
 msgid "In this menu you will find all the available commands"
-msgstr "Bu menü aktif komutları bulmana yardımcı olacak"
+msgstr ""
 
 #: lua/groupbutler/plugins/help.lua:23
 #, lua-format
@@ -989,602 +969,592 @@ msgstr ""
 
 #: lua/groupbutler/plugins/help.lua:242
 msgid "Banhammer"
-msgstr "Banlayıcı"
+msgstr ""
 
 #: lua/groupbutler/plugins/help.lua:243
 msgid "Group info"
-msgstr "Grup bilgisi"
+msgstr ""
 
 #: lua/groupbutler/plugins/help.lua:246
 msgid "Report system"
-msgstr "Raporlama sistemi"
+msgstr ""
 
 #: lua/groupbutler/plugins/help.lua:247
 msgid "Pin"
-msgstr "Sabit"
+msgstr ""
 
 #: lua/groupbutler/plugins/help.lua:250
 msgid "Languages"
-msgstr "Dil"
+msgstr ""
 
 #: lua/groupbutler/plugins/help.lua:251
 msgid "Group configuration"
-msgstr "Grup ayarları"
+msgstr ""
 
 #: lua/groupbutler/plugins/help.lua:255
-#: lua/groupbutler/plugins/logchannel.lua:64
+#: lua/groupbutler/plugins/logchannel.lua:66
 msgid "Warns"
-msgstr "Uyarılar"
+msgstr ""
 
 #: lua/groupbutler/plugins/help.lua:258
 msgid "Welcome settings"
-msgstr "Hoş geldin ayarları"
+msgstr ""
 
 #: lua/groupbutler/plugins/help.lua:259
 msgid "Links whitelist"
-msgstr "Beyazliste linkleri"
+msgstr ""
 
 #: lua/groupbutler/plugins/help.lua:278
 msgid "📢 Bot channel"
-msgstr "📢 Bot kanalı"
+msgstr ""
 
 #: lua/groupbutler/plugins/help.lua:279
 msgid "🌍 Select your language"
-msgstr "🌍 Dilini ceç"
+msgstr ""
 
 #: lua/groupbutler/plugins/help.lua:282
 msgid "📕 All the commands"
-msgstr "📕 Tüm komutlar"
+msgstr ""
 
 #: lua/groupbutler/plugins/help.lua:292
 msgid "Basics"
-msgstr "Basit"
+msgstr ""
 
 #: lua/groupbutler/plugins/help.lua:293
 msgid "Admin commands"
-msgstr "Admin komutları"
+msgstr ""
 
 #: lua/groupbutler/plugins/help.lua:294
 msgid "Normal users commands"
-msgstr "Normal kullanıcı komutları"
+msgstr ""
 
 #: lua/groupbutler/plugins/help.lua:295
 msgid "Commands in private"
-msgstr "Özel komutlar"
+msgstr ""
 
 #: lua/groupbutler/plugins/help.lua:296
 msgid "Log channel"
-msgstr "Log Kanal"
+msgstr ""
 
 #: lua/groupbutler/plugins/help.lua:312
 msgid "Back"
-msgstr "Geri"
+msgstr ""
 
-#: lua/groupbutler/plugins/help.lua:340
+#: lua/groupbutler/plugins/help.lua:342
 #, lua-format
 msgid "[Start me](%s) _to get the list of commands_"
-msgstr "[Başlat beni](%s) _tüm komutlar için_"
+msgstr ""
 
-#: lua/groupbutler/plugins/help.lua:355
+#: lua/groupbutler/plugins/help.lua:357
 msgid "Basic usage"
-msgstr "Basit kullanım"
+msgstr ""
 
-#: lua/groupbutler/plugins/help.lua:359
+#: lua/groupbutler/plugins/help.lua:361
 msgid "Commands for users (group)"
-msgstr "Grup kullanıcı komutları (grup)"
+msgstr ""
 
-#: lua/groupbutler/plugins/help.lua:363
+#: lua/groupbutler/plugins/help.lua:365
 msgid "Available commands in private"
-msgstr "Özeldeki komutlar"
+msgstr ""
 
-#: lua/groupbutler/plugins/help.lua:367
+#: lua/groupbutler/plugins/help.lua:369
 msgid "Log channel informations"
-msgstr "Kayıt kanalı ayarları"
+msgstr ""
 
-#: lua/groupbutler/plugins/help.lua:372
+#: lua/groupbutler/plugins/help.lua:374
 msgid "Available commands for admins"
-msgstr "Var olan admin komutları"
+msgstr ""
 
-#: lua/groupbutler/plugins/help.lua:377
+#: lua/groupbutler/plugins/help.lua:379
 msgid "Main menu"
-msgstr "Ana menü"
+msgstr ""
 
-#: lua/groupbutler/plugins/help.lua:385
+#: lua/groupbutler/plugins/help.lua:387
 msgid "❗️ Already there"
-msgstr "❗️ Zaten burası"
+msgstr ""
 
-#: lua/groupbutler/plugins/links.lua:34
+#: lua/groupbutler/plugins/links.lua:36
 msgid "*No link* for this group. Ask the owner to save it with `/setlink [group link]`"
-msgstr "*Link yok* bu grup için. kurucuya `/setlink komutu ile link oluşturmasını söyleyebilirsin.[group link]`"
+msgstr ""
 
-#: lua/groupbutler/plugins/links.lua:45
+#: lua/groupbutler/plugins/links.lua:47
 msgid "Link *unset*"
-msgstr "Link *kaldırıldı*"
+msgstr ""
 
-#: lua/groupbutler/plugins/links.lua:51 lua/groupbutler/plugins/links.lua:68
+#: lua/groupbutler/plugins/links.lua:53 lua/groupbutler/plugins/links.lua:70
 #, lua-format
 msgid "The link has been set.\n"
 "*Here's the link*: %s"
-msgstr "Link ayarlandı.\n"
-"*Link burada*: %s"
+msgstr ""
 
-#: lua/groupbutler/plugins/links.lua:54
+#: lua/groupbutler/plugins/links.lua:56
 msgid "This is not a *public supergroup*, so you need to write the link near `/setlink`"
-msgstr "Grup *süpergrup* değildir, linkin yanında bu özellik de gereklidir `/setlink`"
+msgstr ""
 
-#: lua/groupbutler/plugins/links.lua:57
+#: lua/groupbutler/plugins/links.lua:59
 msgid "This link is *not valid!*"
-msgstr "Link *hatalı*"
+msgstr ""
 
-#: lua/groupbutler/plugins/links.lua:66
+#: lua/groupbutler/plugins/links.lua:68
 #, lua-format
 msgid "The link has been updated.\n"
 "*Here's the new link*: %s"
-msgstr "Link güncellendi\n"
-"Yeni link *burada*: %s"
+msgstr ""
 
-#: lua/groupbutler/plugins/logchannel.lua:23
+#: lua/groupbutler/plugins/logchannel.lua:25
 msgid "Log every time a user join the group"
 msgstr ""
 
-#: lua/groupbutler/plugins/logchannel.lua:24
-msgid "Bans will be logged. I can't log manual bans"
-msgstr "Ban kaydı tutulacak. Manuel banların kaydı tutulmaz"
-
-#: lua/groupbutler/plugins/logchannel.lua:25
-msgid "Kicks will be logged. I can't log manual kicks"
-msgstr "Gruptan atma kaydı tutulacak. Manuel gruptan atma kaydı tutulmaz"
-
 #: lua/groupbutler/plugins/logchannel.lua:26
-msgid "Manual warns will be logged"
-msgstr "Manuel uyarı kaydı tutulacak"
+msgid "Bans will be logged. I can't log manual bans"
+msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:27
-msgid "Forbidden media will be logged in the channel"
-msgstr "Yasaklı medya kaydı tutulacak"
+msgid "Kicks will be logged. I can't log manual kicks"
+msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:28
-msgid "Spam links/forwards from channels will be logged in the channel, only if forbidden"
-msgstr "Spam linkler/yönlendirmeler kanalda tutulacak, sadece yasaklılar"
+msgid "Manual warns will be logged"
+msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:29
-msgid "Log when a user is flooding (new log message every 5 flood messages)"
+msgid "Forbidden media will be logged in the channel"
 msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:30
-msgid "Log when an admin changes the group icon"
-msgstr "Admin grubun resmini değiştirdiğinde kayıt tutulur"
+msgid "Spam links/forwards from channels will be logged in the channel, only if forbidden"
+msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:31
-msgid "Log when an admin deletes the group icon"
-msgstr "Admin grubun resmini sildiğinde kaydı tutulur"
+msgid "Log when a user is flooding (new log message every 5 flood messages)"
+msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:32
-msgid "Log when an admin change the group title"
-msgstr "Admin grubun başlığını değiştirdiğinde kaydı tutulur"
+msgid "Log when an admin changes the group icon"
+msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:33
-msgid "Log pinned messages"
-msgstr "Sabit mesajların kaydı tutulur"
+msgid "Log when an admin deletes the group icon"
+msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:34
-msgid "Log when a user who has been blocked is banned from the group on join"
+msgid "Log when an admin change the group title"
 msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:35
-msgid "Log when an admin removes the warning received by a user"
+msgid "Log pinned messages"
 msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:36
+msgid "Log when a user who has been blocked is banned from the group on join"
+msgstr ""
+
+#: lua/groupbutler/plugins/logchannel.lua:37
+msgid "Log when an admin removes the warning received by a user"
+msgstr ""
+
+#: lua/groupbutler/plugins/logchannel.lua:38
 msgid "Log when a user reports a message with the @admin command"
 msgstr ""
 
-#: lua/groupbutler/plugins/logchannel.lua:59
+#: lua/groupbutler/plugins/logchannel.lua:61
 msgid "Ban"
-msgstr "Banla"
-
-#: lua/groupbutler/plugins/logchannel.lua:60
-msgid "Kick"
-msgstr "At"
-
-#: lua/groupbutler/plugins/logchannel.lua:61 lua/groupbutler/utilities.lua:957
-msgid "Unban"
-msgstr "Banı kaldır"
+msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:62
-msgid "Tempban"
-msgstr "Geçiçi ban"
+msgid "Kick"
+msgstr ""
 
-#: lua/groupbutler/plugins/logchannel.lua:63
-msgid "Report"
-msgstr "Raporla"
+#: lua/groupbutler/plugins/logchannel.lua:63 lua/groupbutler/utilities.lua:677
+msgid "Unban"
+msgstr ""
+
+#: lua/groupbutler/plugins/logchannel.lua:64
+msgid "Tempban"
+msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:65
-msgid "Warns resets"
-msgstr "Uyarıları sıfırla"
-
-#: lua/groupbutler/plugins/logchannel.lua:66
-msgid "New members"
-msgstr "Yeni kullanıcı"
+msgid "Report"
+msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:67
-msgid "Media warns"
-msgstr "Medya uyarıları"
+msgid "Warns resets"
+msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:68
-msgid "Spam warns"
-msgstr "Spam uyarıları"
+msgid "New members"
+msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:69
-msgid "Flood"
-msgstr "Flood"
+msgid "Media warns"
+msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:70
-msgid "New group icon"
-msgstr "Yeni grup resmi"
+msgid "Spam warns"
+msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:71
-msgid "Group icon removed"
-msgstr "Grup resmi silindi"
+msgid "Flood"
+msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:72
-msgid "New group title"
-msgstr "Yeni grup başlığı"
+msgid "New group icon"
+msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:73
-msgid "Pinned messages"
-msgstr "Sabit mesaj"
+msgid "Group icon removed"
+msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:74
-msgid "Users blocked and banned"
-msgstr "Kullanıcı engellendi ve banlandı"
+msgid "New group title"
+msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:75
-msgid "Users blocked"
-msgstr "Kullanıcı engellendi"
+msgid "Pinned messages"
+msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:76
+msgid "Users blocked and banned"
+msgstr ""
+
+#: lua/groupbutler/plugins/logchannel.lua:77
+msgid "Users blocked"
+msgstr ""
+
+#: lua/groupbutler/plugins/logchannel.lua:78
 msgid "Users unblocked"
-msgstr "Kullanıcının engeli kaldırdı"
+msgstr ""
 
-#: lua/groupbutler/plugins/logchannel.lua:110
+#: lua/groupbutler/plugins/logchannel.lua:118
 msgid "You are not admin of this group"
-msgstr "Bu grupta admin değilim"
+msgstr ""
 
-#: lua/groupbutler/plugins/logchannel.lua:115
+#: lua/groupbutler/plugins/logchannel.lua:124
 msgid "User unbanned!"
-msgstr "Kullanıcının banı kaldırıldı!"
+msgstr ""
 
-#: lua/groupbutler/plugins/logchannel.lua:136
+#: lua/groupbutler/plugins/logchannel.lua:148
 msgid "*Select the events the will be logged in the channel*\n"
 "✅ = will be logged\n"
 "☑️ = won't be logged\n\n"
 "Tap on an option to get further information"
 msgstr ""
 
-#: lua/groupbutler/plugins/logchannel.lua:168
+#: lua/groupbutler/plugins/logchannel.lua:179
 msgid "_Too many requests. Retry later_"
-msgstr "_Çok fazla istek oluştu. Daha sonra deneyin_"
+msgstr ""
 
-#: lua/groupbutler/plugins/logchannel.lua:170
+#: lua/groupbutler/plugins/logchannel.lua:181
 msgid "_I need to be admin in the channel_"
-msgstr "_ Kanalda admin olmalıyım_"
+msgstr ""
 
-#: lua/groupbutler/plugins/logchannel.lua:177
+#: lua/groupbutler/plugins/logchannel.lua:188
 msgid "_Already using this channel_"
-msgstr "_Bu kanal çoktan kullanılıyor_"
+msgstr ""
 
-#: lua/groupbutler/plugins/logchannel.lua:180
+#: lua/groupbutler/plugins/logchannel.lua:191
 msgid "*Log channel added!*"
-msgstr "*Kayıt tutucu eklendi!*"
-
-#: lua/groupbutler/plugins/logchannel.lua:183
-#, lua-format
-msgid "<i>%s</i> changed its log channel"
-msgstr "<i>%s</i> kayıt tutucu değiştirildi"
-
-#: lua/groupbutler/plugins/logchannel.lua:186
-#, lua-format
-msgid "Logs of <i>%s</i> will be posted here"
-msgstr "Kayıt<i>%s</i> gönderildi"
-
-#: lua/groupbutler/plugins/logchannel.lua:190
-msgid "_Only the channel creator can pair the chat with a channel_"
-msgstr "_Yanlızca kanalın kurucusu bu ayar için eşleştirebilir_"
+msgstr ""
 
 #: lua/groupbutler/plugins/logchannel.lua:194
+#, lua-format
+msgid "<i>%s</i> changed its log channel"
+msgstr ""
+
+#: lua/groupbutler/plugins/logchannel.lua:197
+#, lua-format
+msgid "Logs of <i>%s</i> will be posted here"
+msgstr ""
+
+#: lua/groupbutler/plugins/logchannel.lua:201
+msgid "_Only the channel creator can pair the chat with a channel_"
+msgstr ""
+
+#: lua/groupbutler/plugins/logchannel.lua:205
 msgid "_I'm sorry, only private channels are supported for now_"
-msgstr "_Üzgünüm, sadece özel mesajı destekliyorum şuan_"
+msgstr ""
 
-#: lua/groupbutler/plugins/logchannel.lua:198
+#: lua/groupbutler/plugins/logchannel.lua:209
 msgid "You have to *forward* the message from the channel"
-msgstr "Kanaldan *yönlendirilmiş* mesajınız var"
+msgstr ""
 
-#: lua/groupbutler/plugins/logchannel.lua:203
-#: lua/groupbutler/plugins/logchannel.lua:211
+#: lua/groupbutler/plugins/logchannel.lua:214
+#: lua/groupbutler/plugins/logchannel.lua:222
 msgid "_This groups is not using a log channel_"
-msgstr "_Bu grup için kayıt tutulmuyor_"
+msgstr ""
 
-#: lua/groupbutler/plugins/logchannel.lua:206
+#: lua/groupbutler/plugins/logchannel.lua:217
 msgid "*Log channel removed*"
-msgstr "*Kayıt kanalı silindi*"
+msgstr ""
 
-#: lua/groupbutler/plugins/logchannel.lua:216
+#: lua/groupbutler/plugins/logchannel.lua:227
 msgid "_This group has a log channel saved, but I'm not a member there, so I can't post/retrieve its info_"
-msgstr "_Bu grup kayıt ayarları kaydedildi, ama ben burada kullanıcı değilim, buraya mesaj gönderemem_"
+msgstr ""
 
-#: lua/groupbutler/plugins/logchannel.lua:223
+#: lua/groupbutler/plugins/logchannel.lua:234
 #, lua-format
 msgid "<b>This group has a log channel</b>\n"
 "Channel: <code>%s</code>"
-msgstr "<b>Kayıt kanalı eklendi</b>\n"
-"Kanal: <code>%s</code>"
+msgstr ""
 
-#: lua/groupbutler/plugins/mediasettings.lua:36
+#: lua/groupbutler/plugins/mediasettings.lua:38
 msgid "Video messages"
-msgstr "Video mesajları"
+msgstr ""
 
-#: lua/groupbutler/plugins/mediasettings.lua:39
+#: lua/groupbutler/plugins/mediasettings.lua:41
 msgid "Vocal messages"
-msgstr "Ses mesajları"
-
-#: lua/groupbutler/plugins/mediasettings.lua:65
-#, lua-format
-msgid "Warnings | %d | kick"
-msgstr "Uyarılar | %d | kov"
+msgstr ""
 
 #: lua/groupbutler/plugins/mediasettings.lua:67
 #, lua-format
-msgid "Warnings | %d | mute"
-msgstr "Uyarılar | %d | sessize al"
+msgid "Warnings | %d | kick"
+msgstr ""
 
 #: lua/groupbutler/plugins/mediasettings.lua:69
 #, lua-format
+msgid "Warnings | %d | mute"
+msgstr ""
+
+#: lua/groupbutler/plugins/mediasettings.lua:71
+#, lua-format
 msgid "Warnings | %d | ban"
-msgstr "Uyarılar | %d | engelle"
+msgstr ""
 
-#: lua/groupbutler/plugins/mediasettings.lua:94
+#: lua/groupbutler/plugins/mediasettings.lua:96
 msgid "❌ warning"
-msgstr "❌ uyarı"
+msgstr ""
 
-#: lua/groupbutler/plugins/mediasettings.lua:97
+#: lua/groupbutler/plugins/mediasettings.lua:99
 msgid "🗑 delete"
-msgstr "🗑 sil"
+msgstr ""
 
-#: lua/groupbutler/plugins/mediasettings.lua:103
+#: lua/groupbutler/plugins/mediasettings.lua:105
 msgid "✅ allowed"
-msgstr "✅ izinli"
+msgstr ""
 
-#: lua/groupbutler/plugins/mediasettings.lua:117
-msgid "\n"
-"Tap on an option on the right to *change the setting*\n"
-"You can use the last lines to change how many warnings the bot should give before kicking/banning/muting someone.\n"
-"The number is not related the the normal `/warn` command.\n\n"
-"Possible statuses: ✅ allowed, ❌ warning, 🗑 delete.\n"
-"When a media is set to delete, the bot will give a warning *only* when this is the users last warning\n"
+#: lua/groupbutler/plugins/mediasettings.lua:116
+msgid "⚠️ Tap on the right column"
 msgstr ""
 
 #: lua/groupbutler/plugins/mediasettings.lua:131
-msgid "⚠️ Tap on the right column"
-msgstr "⚠️ Sağ sütüna dokunun"
+msgid "Tap on an option on the right to *change the setting*\n"
+"You can use the last lines to change how many warnings the bot should give before kicking/banning/muting someone.\n"
+"The number is not related the the normal `/warn` command.\n\n"
+"Possible statuses: ✅ allowed, ❌ warning, 🗑 delete.\n"
+"When a media is set to delete, the bot will give a warning *only* when this is the users last warning"
+msgstr ""
 
-#: lua/groupbutler/plugins/mediasettings.lua:140
+#: lua/groupbutler/plugins/mediasettings.lua:149
 msgid "⚙ The new value is too low ( < 1)"
-msgstr "⚙ Yeni değer daha küçük olmalı ( < 1)"
+msgstr ""
 
-#: lua/groupbutler/plugins/mediasettings.lua:147
+#: lua/groupbutler/plugins/mediasettings.lua:156
 msgid "⚙ The new value is too high ( > 12)"
-msgstr "⚙ Yeni değer daha büyük olmalı ( > 12)"
+msgstr ""
 
-#: lua/groupbutler/plugins/mediasettings.lua:161
+#: lua/groupbutler/plugins/mediasettings.lua:171
 msgid "👞 New status is kick"
-msgstr "👞 Yeni durum kov"
+msgstr ""
 
-#: lua/groupbutler/plugins/mediasettings.lua:164
+#: lua/groupbutler/plugins/mediasettings.lua:174
 msgid "👁 New status is mute"
-msgstr "👁 Yeni durum sessize al"
+msgstr ""
 
-#: lua/groupbutler/plugins/mediasettings.lua:167
+#: lua/groupbutler/plugins/mediasettings.lua:177
 msgid "🔨 New status is ban"
-msgstr "🔨 Yeni gruptan banlama durumu"
+msgstr ""
 
 #. TRANSLATORS: these strings should be shorter than 200 characters
-#: lua/groupbutler/plugins/menu.lua:24
-msgid "When enabled, users will be able to report messages with the @admin command"
-msgstr "Açıldığında, kullanıcılar @admin mesajı ile rapor edebilecek"
-
-#: lua/groupbutler/plugins/menu.lua:25
-msgid "Enable or disable the goodbye message. Can't be sent in large groups"
-msgstr "Güle güle mesajını aç veya kapat. Büyük gruplarda kullanılmaz"
-
 #: lua/groupbutler/plugins/menu.lua:26
-msgid "Enable or disable the welcome message"
-msgstr "Hoş geldin mesajını aç veya kapat"
+msgid "When enabled, users will be able to report messages with the @admin command"
+msgstr ""
 
 #: lua/groupbutler/plugins/menu.lua:27
-msgid "When enabled, every time a new welcome message is sent, the previously sent welcome message is removed"
-msgstr "Etkinleştirildiğinde, yeni bir hoşgeldin mesajı gönderildiğinde, daha önce gönderilen karşılama mesajı kaldırılır"
+msgid "Enable or disable the goodbye message. Can't be sent in large groups"
+msgstr ""
 
 #: lua/groupbutler/plugins/menu.lua:28
-msgid "When enabled, the bot doesn't answer in the group to /dashboard, /config and /help commands (it will just answer in private)"
+msgid "Enable or disable the welcome message"
 msgstr ""
 
 #: lua/groupbutler/plugins/menu.lua:29
-msgid "Enable and disable the anti-flood system (more info in the /help message)"
-msgstr "Anti-flood ayarkarını aç veya kapat (daha fazla bilgi için /help komutunu kullanın)"
+msgid "When enabled, every time a new welcome message is sent, the previously sent welcome message is removed"
+msgstr ""
 
 #: lua/groupbutler/plugins/menu.lua:30
-msgid "If the welcome message is enabled, it will include an inline button that will send to the user the rules in private"
+msgid "When enabled, the bot doesn't answer in the group to /dashboard, /config and /help commands (it will just answer in private)"
 msgstr ""
 
 #: lua/groupbutler/plugins/menu.lua:31
+msgid "Enable and disable the anti-flood system (more info in the /help message)"
+msgstr ""
+
+#: lua/groupbutler/plugins/menu.lua:32
+msgid "If the welcome message is enabled, it will include an inline button that will send to the user the rules in private"
+msgstr ""
+
+#: lua/groupbutler/plugins/menu.lua:33
 msgid "When someone uses /rules\n"
 "👥: the bot will answer in the group (always, with admins)\n"
 "👤: the bot will answer in private"
-msgstr "/rules komutu kullanıldığında\n"
-"👥: bot grupta cevap verecek (genellikle adminle)\n"
-"👤: bot özel mesajda cevap verecek"
+msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:34
+#: lua/groupbutler/plugins/menu.lua:36
 msgid "When someone uses an #extra\n"
 "👥: the bot will answer in the group (always, with admins)\n"
 "👤: the bot will answer in private"
-msgstr "#eksra komutu kullanılduğunda\n"
-"👥: bot grupta cevap verir (always, with admins)\n"
-"👤: bot özel mesajda cevap verecek"
-
-#: lua/groupbutler/plugins/menu.lua:37
-msgid "Select what the bot should do when someone sends a message with arab characters"
-msgstr "Biri Arapça karakterler içeren bir ileti gönderdiğinde botun ne yapması gerektiğini seçin"
-
-#: lua/groupbutler/plugins/menu.lua:38
-msgid "Bots will be banned when added by normal users"
-msgstr "Kullanıcı eklendiğinde bot banlayacak"
+msgstr ""
 
 #: lua/groupbutler/plugins/menu.lua:39
-msgid "Select what the bot should do when someone sends a message with the RTL character, or has it in their name"
+msgid "Select what the bot should do when someone sends a message with arab characters"
 msgstr ""
 
 #: lua/groupbutler/plugins/menu.lua:40
-msgid "Change how many times a user has to be warned before being kicked/banned"
+msgid "Bots will be banned when added by normal users"
 msgstr ""
 
 #: lua/groupbutler/plugins/menu.lua:41
+msgid "Select what the bot should do when someone sends a message with the RTL character, or has it in their name"
+msgstr ""
+
+#: lua/groupbutler/plugins/menu.lua:42
+msgid "Change how many times a user has to be warned before being kicked/banned"
+msgstr ""
+
+#: lua/groupbutler/plugins/menu.lua:43
 msgid "Change the action to perform when a user reaches the max. number of warnings"
 msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:55
+#: lua/groupbutler/plugins/menu.lua:57
 msgid "The new value is too high ( > 12)"
-msgstr "Değer daha büyük olamaz ( > 12)"
+msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:62
+#: lua/groupbutler/plugins/menu.lua:64
 msgid "The new value is too low ( < 1)"
-msgstr "Değer daha küçük olamaz ( < 1)"
+msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:73
+#: lua/groupbutler/plugins/menu.lua:75
 msgid "New action on max number of warns received: ban"
-msgstr "Maksimum değer sonucunda uygulanacak eylem: banla"
+msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:76
+#: lua/groupbutler/plugins/menu.lua:78
 msgid "New action on max number of warns received: mute"
-msgstr "Alınan en fazla sayıda uyarı için yeni işlem: sessize al"
+msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:79
+#: lua/groupbutler/plugins/menu.lua:81
 msgid "New action on max number of warns received: kick"
-msgstr "Maksimum değer sonucunda uygulanacak eylem: gruptan at"
-
-#: lua/groupbutler/plugins/menu.lua:88
-msgid "Action -> kick"
-msgstr "Eylem -> kov"
-
-#: lua/groupbutler/plugins/menu.lua:89
-msgid "Action -> ban"
-msgstr "Eylem -> engelle"
+msgstr ""
 
 #: lua/groupbutler/plugins/menu.lua:90
-msgid "Action -> mute"
-msgstr "Eylem -> sessize al"
+msgid "Action -> kick"
+msgstr ""
 
 #: lua/groupbutler/plugins/menu.lua:91
+msgid "Action -> ban"
+msgstr ""
+
+#: lua/groupbutler/plugins/menu.lua:92
+msgid "Action -> mute"
+msgstr ""
+
+#: lua/groupbutler/plugins/menu.lua:93
 msgid "Allowed ✅"
-msgstr "İzinli ✅"
+msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:166
+#: lua/groupbutler/plugins/menu.lua:168
 msgid "✅"
-msgstr "✅"
+msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:176
+#: lua/groupbutler/plugins/menu.lua:178
 msgid "Welcome"
-msgstr "Hoş geldin"
+msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:177
+#: lua/groupbutler/plugins/menu.lua:179
 msgid "Goodbye"
-msgstr "Güle güle"
+msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:178 lua/groupbutler/utilities.lua:588
+#: lua/groupbutler/plugins/menu.lua:180 lua/groupbutler/utilities.lua:372
 msgid "Extra"
-msgstr "Ekstra"
+msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:179 lua/groupbutler/utilities.lua:589
+#: lua/groupbutler/plugins/menu.lua:181 lua/groupbutler/utilities.lua:373
 msgid "Anti-flood"
-msgstr "Anti-flood"
+msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:180 lua/groupbutler/utilities.lua:591
+#: lua/groupbutler/plugins/menu.lua:182 lua/groupbutler/utilities.lua:375
 msgid "Silent mode"
-msgstr "Sessiz mod"
+msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:182 lua/groupbutler/utilities.lua:593
+#: lua/groupbutler/plugins/menu.lua:184 lua/groupbutler/utilities.lua:377
 msgid "Arab"
-msgstr "Arapça"
+msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:183 lua/groupbutler/utilities.lua:594
+#: lua/groupbutler/plugins/menu.lua:185 lua/groupbutler/utilities.lua:378
 msgid "RTL"
-msgstr "Sağdan sola yazılan"
+msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:184 lua/groupbutler/utilities.lua:590
+#: lua/groupbutler/plugins/menu.lua:186 lua/groupbutler/utilities.lua:374
 msgid "Ban bots"
-msgstr "Ban botu"
+msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:185 lua/groupbutler/utilities.lua:595
+#: lua/groupbutler/plugins/menu.lua:187 lua/groupbutler/utilities.lua:379
 msgid "Reports"
-msgstr "Rapor"
+msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:186 lua/groupbutler/utilities.lua:596
+#: lua/groupbutler/plugins/menu.lua:188 lua/groupbutler/utilities.lua:380
 msgid "Delete last welcome message"
-msgstr "Son hoşgeldin mesajını sil"
+msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:187
+#: lua/groupbutler/plugins/menu.lua:189
 msgid "Welcome + rules button"
-msgstr "Hoş geldin + kurallar butonu"
+msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:188 lua/groupbutler/utilities.lua:598
+#: lua/groupbutler/plugins/menu.lua:190 lua/groupbutler/utilities.lua:382
 msgid "Clean Service Messages"
 msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:226
+#: lua/groupbutler/plugins/menu.lua:228
 msgid "🔨️ ban"
-msgstr "🔨️ banla"
+msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:232
+#: lua/groupbutler/plugins/menu.lua:234
 msgid "Warns: "
-msgstr "Uyarılar: "
+msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:237
+#: lua/groupbutler/plugins/menu.lua:239
 msgid "Action:"
-msgstr "Eylem:"
+msgstr ""
 
-#: lua/groupbutler/plugins/menu.lua:260
+#: lua/groupbutler/plugins/menu.lua:275
 msgid "Manage the settings of the group. Click on the left column to get a small hint"
-msgstr "Grup ayarlarını yönet. Küçük bir ipucu elde etmek için sol sütun üzerine tıklayın"
+msgstr ""
 
 #: lua/groupbutler/plugins/onmessage.lua:117
 #, lua-format
 msgid "%s <b>banned</b> for flood!"
-msgstr "flood gönderdiği için %s <b>banland!</b>!"
+msgstr ""
 
 #: lua/groupbutler/plugins/onmessage.lua:119
 #, lua-format
 msgid "%s <b>kicked</b> for flood!"
-msgstr "flood gönderdiği için %s <b>gruptan atıldı</b>!"
+msgstr ""
 
 #: lua/groupbutler/plugins/onmessage.lua:121
 #, lua-format
 msgid "%s <b>muted</b> for flood!"
-msgstr "%s <b>sessize alındı</b> flood yüzünden!"
+msgstr ""
 
 #: lua/groupbutler/plugins/onmessage.lua:170
 #, lua-format
 msgid "%s <b>%s</b>: media sent not allowed!\n"
 "❗️ <code>%d/%d</code>"
-msgstr "%s <b>%s</b>: medya gönderimine izin verilmedi!\n"
-"❗️ <code>%d/%d</code>"
+msgstr ""
 
 #: lua/groupbutler/plugins/onmessage.lua:180
 #, lua-format
 msgid "%s, this type of media is <b>not allowed</b> in this chat.\n"
 "(<code>%d/%d</code>)"
-msgstr "%s, bu tür medyaya bu grupta <b>izin verilmiyor.</b> \n"
-"(<code>%d/%d</code>)"
+msgstr ""
 
 #: lua/groupbutler/plugins/onmessage.lua:185
 #, lua-format
@@ -1595,32 +1565,32 @@ msgstr ""
 #: lua/groupbutler/plugins/onmessage.lua:210
 #, lua-format
 msgid "%s <b>kicked</b>: RTL character in names/messages are not allowed!"
-msgstr "%s <b>kovuldu</b>: Mesajlarda ve isimlerde RTL karakterlere izin verilmez!"
+msgstr ""
 
 #: lua/groupbutler/plugins/onmessage.lua:213
 #, lua-format
 msgid "%s <b>banned</b>: RTL character in names/messages are not allowed!"
-msgstr "%s <b>engellendi</b>: Mesajlarda ve isimlerde RTL karakterlere izin verilmez!"
+msgstr ""
 
 #: lua/groupbutler/plugins/onmessage.lua:216
 #, lua-format
 msgid "%s <b>muted</b>: RTL character in names/messages are not allowed!"
-msgstr "%s <b>sessize alındı</b>: Mesajlarda ve isimlerde RTL karakterlere izin verilmez!"
+msgstr ""
 
 #: lua/groupbutler/plugins/onmessage.lua:234
 #, lua-format
 msgid "%s <b>kicked</b>: arab/persian message detected!"
-msgstr "%s <b>gruptan atıldı </b>:arapça/farsça mesaj algılandı!"
+msgstr ""
 
 #: lua/groupbutler/plugins/onmessage.lua:237
 #, lua-format
 msgid "%s <b>banned</b>: arab/persian message detected!"
-msgstr "%s <b>banlandı </b>:arapça/farsça mesaj algılandı!"
+msgstr ""
 
 #: lua/groupbutler/plugins/onmessage.lua:240
 #, lua-format
 msgid "%s <b>muted</b>: arab/persian message detected!"
-msgstr "%s <b>sessize alındı</b>: arap/pers mesajı tespit edildi!"
+msgstr ""
 
 #: lua/groupbutler/plugins/pin.lua:76
 msgid "I couldn't find any message generated by <code>/pin</code>."
@@ -1649,49 +1619,49 @@ msgstr ""
 
 #: lua/groupbutler/plugins/private.lua:41
 msgid "Channel"
-msgstr "Kanal"
+msgstr ""
 
 #: lua/groupbutler/plugins/private.lua:42
 msgid "GitHub"
-msgstr "GitHub"
+msgstr ""
 
 #: lua/groupbutler/plugins/private.lua:43
 msgid "Rate me!"
-msgstr "Bana oy ver!"
+msgstr ""
 
 #: lua/groupbutler/plugins/private.lua:46
 msgid "👥 Groups"
-msgstr "👥 Gruplar"
+msgstr ""
 
 #: lua/groupbutler/plugins/private.lua:61
 msgid "Pong!"
-msgstr "Pong!"
+msgstr ""
 
 #: lua/groupbutler/plugins/private.lua:76
 #: lua/groupbutler/plugins/private.lua:94
 #, lua-format
 msgid "You can find the list of our support groups in [this channel](%s)"
-msgstr "Yardım grubunu bulabilirsin [buradan](%s)"
+msgstr ""
 
 #: lua/groupbutler/plugins/private.lua:92
 msgid "🔙 back"
-msgstr "🔙 geri"
+msgstr ""
 
 #: lua/groupbutler/plugins/private_settings.lua:23
 msgid "When you join a group moderated by this bot, you will receive the group rules in private"
-msgstr "Bot grubu yönetirken, bazı özel mesajlar alırsın"
+msgstr ""
 
 #: lua/groupbutler/plugins/private_settings.lua:24
 msgid "If enabled, you will receive all the messages reported with the @admin command in the groups you are moderating"
-msgstr "Eğer aktif ise , @admin komutu kullanıldığında rapor mesajları alırsın"
+msgstr ""
 
 #: lua/groupbutler/plugins/private_settings.lua:35
 msgid "Rules on join"
-msgstr "Kurallar"
+msgstr ""
 
 #: lua/groupbutler/plugins/private_settings.lua:36
 msgid "Users reports"
-msgstr "Kullanıcı raporları"
+msgstr ""
 
 #: lua/groupbutler/plugins/private_settings.lua:37
 msgid "Name not available"
@@ -1699,747 +1669,673 @@ msgstr ""
 
 #: lua/groupbutler/plugins/private_settings.lua:61
 msgid "Change your private settings"
-msgstr "Özel mesaj seçeneklerini değiştir"
+msgstr ""
 
 #: lua/groupbutler/plugins/private_settings.lua:82
 msgid "⚙ Setting applied"
-msgstr "⚙ Ayarlar uygulandı"
+msgstr ""
 
-#: lua/groupbutler/plugins/report.lua:29
+#: lua/groupbutler/plugins/report.lua:30
 #, lua-format
 msgid "• <b>Message reported by</b>: %s (<code>%d</code>)"
-msgstr "• <b>tarafından mesaj raporlandı</b>: %s (<code>%d</code>)"
+msgstr ""
 
-#: lua/groupbutler/plugins/report.lua:33
+#: lua/groupbutler/plugins/report.lua:34
 #, lua-format
 msgid "\n"
 "• <b>Reported message sent by</b>: %s (<code>%d</code>)"
-msgstr "\n"
-"• <b>tarafından raporlanan mesaj gönderildi</b>: %s (<code>%d</code>)"
+msgstr ""
 
-#: lua/groupbutler/plugins/report.lua:37
+#: lua/groupbutler/plugins/report.lua:38
 #, lua-format
 msgid "\n"
 "• <b>Group</b>: %s"
-msgstr "\n"
-"• <b>Grup</b>: %s"
+msgstr ""
 
-#: lua/groupbutler/plugins/report.lua:39
+#: lua/groupbutler/plugins/report.lua:40
 #, lua-format
 msgid "\n"
 "• <b>Group</b>: <a href=\"%s\">%s</a>"
-msgstr "\n"
-"• <b>Grup</b>: <a href=\"%s\">%s</a>"
+msgstr ""
 
-#: lua/groupbutler/plugins/report.lua:43
+#: lua/groupbutler/plugins/report.lua:44
 #, lua-format
 msgid "\n"
 "• <a href=\"%s\">Go to the message</a>"
-msgstr "\n"
-"• <a href=\"%s\">Mesaja git</a>"
+msgstr ""
 
-#: lua/groupbutler/plugins/report.lua:47
+#: lua/groupbutler/plugins/report.lua:48
 #, lua-format
 msgid "\n"
 "• <b>Description</b>: <i>%s</i>"
-msgstr "\n"
-"• <b>Açıklama</b>: <i>%s</i>"
+msgstr ""
 
-#: lua/groupbutler/plugins/report.lua:56
+#: lua/groupbutler/plugins/report.lua:63
 msgid "Address this report"
-msgstr "Bu raporu adresle"
+msgstr ""
 
 #: lua/groupbutler/plugins/report.lua:108
 #, lua-format
 msgid "_Invalid value:_ number of times allowed (`input: %d`)"
-msgstr "_Geçersiz değer:_ kaç kere izin verildi (`giriş: %d`)"
+msgstr ""
 
 #: lua/groupbutler/plugins/report.lua:110
 #, lua-format
 msgid "_Invalid value:_ time (`input: %d`)"
-msgstr "_Geçersiz değer:_ zaman (`giriş: %d`)"
+msgstr ""
 
 #: lua/groupbutler/plugins/report.lua:116
 #, lua-format
 msgid "*New parameters saved*.\n"
 "Users will be able to use @admin %d times/%d minutes"
-msgstr "*Yeni parametre kaydedildi*.\n"
-"Kullanıcıların kaç kere @admin komutu kullanacağı %d zaman/%d dakika"
+msgstr ""
 
 #: lua/groupbutler/plugins/report.lua:137
 #, lua-format
 msgid "_Please, do not abuse this command. It can be used %d times every %d minutes_.\n"
 "Wait other %d minutes, %d seconds."
-msgstr "_Lütfen bu komutu kötüye kullanmayın. %d her zaman %d dakika kullanılabilir_.\n"
-"Şu kadar bekle %d dakika, %d saniye."
+msgstr ""
 
 #: lua/groupbutler/plugins/report.lua:148
 #, lua-format
 msgid "_Reported to %d admin(s)_"
-msgstr "_%d Admin(ler) e raporlandı_"
+msgstr ""
 
 #: lua/groupbutler/plugins/report.lua:165
 msgid "You closed this issue and deleted all the other reports sent to the admins"
-msgstr "Bu sorunu kapattınız ve yöneticilere gönderilen diğer tüm raporları sildiniz"
+msgstr ""
 
 #: lua/groupbutler/plugins/report.lua:173
 msgid "This message is too old (>2 days)"
-msgstr "Bu mesaj çok eski (>2 gün)"
+msgstr ""
 
 #: lua/groupbutler/plugins/report.lua:184
 msgid "❕ Already (being) adressed"
-msgstr "❕ Zaten adreslendi"
+msgstr ""
 
 #: lua/groupbutler/plugins/report.lua:186
 msgid "Close issue"
-msgstr "Sorunu kapat"
+msgstr ""
 
 #: lua/groupbutler/plugins/report.lua:196
 #, lua-format
 msgid "%s has/will address this report"
-msgstr "%s bu rapora sahip olacak"
+msgstr ""
 
 #: lua/groupbutler/plugins/report.lua:204
 msgid "This button will delete all the reports sent to the other admins. Tap it again to confirm"
-msgstr "Bu düğme, diğer adminlere gönderilen tüm raporları siler. Onaylamak için tekrar dokunun"
+msgstr ""
 
 #: lua/groupbutler/plugins/report.lua:212
 msgid "(issue closed by you)"
-msgstr "(sorun sizin tarafınızdan kapatıldı)"
+msgstr ""
 
 #: lua/groupbutler/plugins/rules.lua:37
 msgid "🚫 Unknown or non-existent group"
-msgstr "🚫 Bilinmeyen ya da olmayan bir grup"
+msgstr ""
 
 #: lua/groupbutler/plugins/rules.lua:45
 msgid "🚷 You are not a member of this chat. You can't read the rules of a private group."
-msgstr "🚷 Sohbet üyesi değilsin. Grup kurallarını özelden okuyabilirsin."
+msgstr ""
 
 #: lua/groupbutler/plugins/rules.lua:75
 msgid "Please write something next `/setrules`"
-msgstr "Lütfen daha sonra yazın `/setrules`"
+msgstr ""
 
 #: lua/groupbutler/plugins/rules.lua:81
 msgid "Rules has been deleted."
-msgstr "Kurallar silindi."
+msgstr ""
 
 #: lua/groupbutler/plugins/rules.lua:94
 msgid "New rules *saved successfully*!"
-msgstr "Yeni kurallar *kaydedildi*!"
+msgstr ""
 
-#: lua/groupbutler/plugins/service.lua:49
+#: lua/groupbutler/plugins/service.lua:44
 #, lua-format
 msgid "_You (user ID: %d) are in the blocked list_"
-msgstr "_ Sen (kullanıcı kimliği:%d) engellenenler listesindesin_"
+msgstr ""
 
-#: lua/groupbutler/plugins/service.lua:54
+#: lua/groupbutler/plugins/service.lua:50
 msgid "_Admin mode is on: only the bot admin can add me to a new group_"
-msgstr "_Admin modu açık: sadece admin beni yeni gruba ekleyebilir_"
+msgstr ""
 
-#: lua/groupbutler/plugins/service.lua:66
+#: lua/groupbutler/plugins/service.lua:59
 #, lua-format
 msgid "Hello everyone!\n"
 "My name is %s, and I'm a bot made to help administrators in their hard work.\n"
-msgstr "Merhaba herkese!\n"
-"Benim adım %s, ve Admine grupta yardım ediyorum.\n"
+msgstr ""
 
-#: lua/groupbutler/plugins/service.lua:70
+#: lua/groupbutler/plugins/service.lua:63
 msgid "Yay! This group has been upgraded. You are great! Now I can work properly :)\n"
-msgstr "Evet! Grup güncellendi. Harikasın! Şimdi düzgün çalışıyorum :)\n"
+msgstr ""
 
 #: lua/groupbutler/plugins/setlang.lua:33
-#: lua/groupbutler/plugins/setlang.lua:48
+#: lua/groupbutler/plugins/setlang.lua:51
 msgid "*List of available languages*:"
-msgstr "*Kullanılabilir dilleri listele*:"
-
-#: lua/groupbutler/plugins/setlang.lua:44
-msgid "You are not an admin"
-msgstr "Admin değilsin"
+msgstr ""
 
 #. TRANSLATORS: replace 'English' with the name of your language
-#: lua/groupbutler/plugins/setlang.lua:58
+#: lua/groupbutler/plugins/setlang.lua:64
 msgid "English language is *set*"
-msgstr "İngilizce *ayarlandı*"
+msgstr ""
 
-#: lua/groupbutler/plugins/setlang.lua:59
+#: lua/groupbutler/plugins/setlang.lua:64
 msgid ".\n"
 "Please note that translators are volunteers, and this localization _may be incomplete_. You can help improve translations on our [Crowdin Project](https://crowdin.com/project/group-butler).\n"
 msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:17
-msgid "can't change the chat title/description/icon"
-msgstr "grup başlığı/açıklaması/ikonu değiştirilemiyor"
-
-#: lua/groupbutler/plugins/users.lua:18
-msgid "can't send messages"
-msgstr "mesaj gönderilemiyor"
-
-#: lua/groupbutler/plugins/users.lua:19
-msgid "can't delete messages"
-msgstr "mesaj silinemiyor"
-
-#: lua/groupbutler/plugins/users.lua:20
-msgid "can't invite users/generate a link"
-msgstr "kullanıcı davet edilemiyor/bağlantı üretilemiyor"
-
-#: lua/groupbutler/plugins/users.lua:21
-msgid "can't restrict members"
-msgstr "kullanıcılar kısıtlanamıyor"
-
-#: lua/groupbutler/plugins/users.lua:22
-msgid "can't pin messages"
-msgstr "mesaj pinlenemiyor"
-
-#: lua/groupbutler/plugins/users.lua:23
-msgid "can't promote new admins"
-msgstr "yeni adminler yaratılamıyor"
-
 #: lua/groupbutler/plugins/users.lua:24
-msgid "can't send photos/videos/documents/audios/voice messages/video messages"
-msgstr "fotoğraf/video/döküman/ses/ses mesajı/video mesajı gönderilemiyor"
+msgid "can't change the chat title/description/icon"
+msgstr ""
 
 #: lua/groupbutler/plugins/users.lua:25
-msgid "can't send stickers/GIFs/games/use inline bots"
-msgstr "stickers/GIFs/games/ satır içi bot ile gönderilemez"
+msgid "can't send messages"
+msgstr ""
 
 #: lua/groupbutler/plugins/users.lua:26
-msgid "can't show link previews"
-msgstr "bağlantı önizlemeleri gösterilemiyor"
+msgid "can't delete messages"
+msgstr ""
+
+#: lua/groupbutler/plugins/users.lua:27
+msgid "can't invite users/generate a link"
+msgstr ""
+
+#: lua/groupbutler/plugins/users.lua:28
+msgid "can't restrict members"
+msgstr ""
+
+#: lua/groupbutler/plugins/users.lua:29
+msgid "can't pin messages"
+msgstr ""
+
+#: lua/groupbutler/plugins/users.lua:30
+msgid "can't promote new admins"
+msgstr ""
+
+#: lua/groupbutler/plugins/users.lua:31
+msgid "can't send photos/videos/documents/audios/voice messages/video messages"
+msgstr ""
 
 #: lua/groupbutler/plugins/users.lua:32
+msgid "can't send stickers/GIFs/games/use inline bots"
+msgstr ""
+
+#: lua/groupbutler/plugins/users.lua:33
+msgid "can't show link previews"
+msgstr ""
+
+#: lua/groupbutler/plugins/users.lua:39
 msgid "🔄️ Refresh cache"
-msgstr "🔄️ Belleği yenile"
+msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:60
+#: lua/groupbutler/plugins/users.lua:47
 msgid "Remove warnings"
-msgstr "Uyarıları sil"
+msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:70
+#: lua/groupbutler/plugins/users.lua:57
 #, lua-format
 msgid "*User ID*: `%d`\n"
 "`Warnings`: *%d*\n"
 "`Media warnings`: *%d*\n"
 "`Spam warnings`: *%d*\n"
-msgstr "*Kullanıcı kimliği*: `%d`\n"
-"`Uyarılar`: *%d*\n"
-"`MEdya uyarıları`: *%d*\n"
-"`Spam uyarıları`: *%d*\n"
+msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:90
+#: lua/groupbutler/plugins/users.lua:77
 #, lua-format
 msgid "Your ID is `%d`"
 msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:124
-msgid "That user has nothing to do with this chat"
-msgstr "Bu kullanıcının bu sohbetle ilgilgisi yok"
-
-#: lua/groupbutler/plugins/users.lua:131
+#: lua/groupbutler/plugins/users.lua:110
 #, lua-format
 msgid "%s is banned from this group"
-msgstr "%s bu gruptan banlandı"
+msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:132
+#: lua/groupbutler/plugins/users.lua:111
 #, lua-format
 msgid "%s left the group or has been kicked and unbanned"
-msgstr "%s gruptan ayrıldı veya gruptan atıldı"
+msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:133
+#: lua/groupbutler/plugins/users.lua:112
 #, lua-format
 msgid "%s is an admin"
-msgstr "%s admin"
+msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:134
+#: lua/groupbutler/plugins/users.lua:113
 #, lua-format
 msgid "%s is the group creator"
-msgstr "%s grup kurucusu"
+msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:135
+#: lua/groupbutler/plugins/users.lua:114
 #, lua-format
 msgid "%s has nothing to do with this chat"
-msgstr "%s bu sohbetle ilgisi yok"
+msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:136
+#: lua/groupbutler/plugins/users.lua:115
 #, lua-format
 msgid "%s is a chat member"
-msgstr "%s sohbet üyesidir"
+msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:137
+#: lua/groupbutler/plugins/users.lua:116
 #, lua-format
 msgid "%s is a restricted"
-msgstr "%s kısıtlanmış"
+msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:148
+#: lua/groupbutler/plugins/users.lua:128
 #, lua-format
 msgid "\n"
 "Restrictions: <i>%s</i>"
-msgstr "\n"
-"Kısıtlamalar: <i>%s</i>"
+msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:159
+#: lua/groupbutler/plugins/users.lua:139
 msgid "Reply to a user or mention them by username or numerical ID"
 msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:183 lua/groupbutler/plugins/users.lua:244
+#: lua/groupbutler/plugins/users.lua:157
 #, lua-format
-msgid "📌 Status: `CACHED`\n"
-"⌛ ️Remaining: `%s`\n"
-"👥 Admins cached: `%d`"
-msgstr "📌 Grup: `Önbellek`\n"
-"⌛ ️Kalan: `%s`\n"
-"👥 Admin önbelleği: `%d`"
+msgid "👥 Admins cached: <code>%d</code>"
+msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:192
+#: lua/groupbutler/plugins/users.lua:165
 #, lua-format
 msgid "Message N° %d"
-msgstr "Mesaj N° %d"
+msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:214 lua/groupbutler/plugins/warn.lua:167
+#: lua/groupbutler/plugins/users.lua:187 lua/groupbutler/plugins/warn.lua:170
 msgid "You are not allowed to use this button"
-msgstr "Bu butona izniniz yok"
+msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:223
+#: lua/groupbutler/plugins/users.lua:195
 #, lua-format
 msgid "The number of warnings received by this user has been <b>reset</b>, by %s"
-msgstr "Kullanıcının aldığı uyarılar tarafından, %s <b>resetlendi</b"
+msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:237
-#, lua-format
-msgid "The adminlist has just been updated. You must wait 10 minutes from the last refresh (wait  %d seconds)"
-msgstr "Admin listesi yeni güncellendi. Son yenilemeden 10 dakika beklemeniz gerekir (bekle %d saniye)"
-
-#: lua/groupbutler/plugins/users.lua:246
-#, lua-format
-msgid "✅ Updated. Next update in %s"
-msgstr "✅ Güncellendi. Yeni güncelleme %s"
+#: lua/groupbutler/plugins/users.lua:206
+msgid "✅ The admin list will be updated soon"
+msgstr ""
 
 #: lua/groupbutler/plugins/warn.lua:18
 msgid "Remove warn"
-msgstr "Uyarıları sil"
+msgstr ""
 
 #: lua/groupbutler/plugins/warn.lua:44
 msgid "Max number of warnings changed (media).\n"
-msgstr "Maksimum değişen uyarı sayısı (medya).\n"
+msgstr ""
 
 #: lua/groupbutler/plugins/warn.lua:49
 msgid "Max number of warnings changed.\n"
-msgstr "Maksimum uyarı sayısı değişti.\n"
+msgstr ""
 
 #: lua/groupbutler/plugins/warn.lua:55
 #, lua-format
 msgid "*Old* value was %d\n"
 "*New* max is %d"
-msgstr "*Eski* değer %d\n"
-"*Yeni* maksimum %d"
+msgstr ""
 
 #: lua/groupbutler/plugins/warn.lua:64
 msgid "Yes"
-msgstr "Evet"
+msgstr ""
 
 #: lua/groupbutler/plugins/warn.lua:64
 msgid "No"
-msgstr "Hayır"
+msgstr ""
 
 #: lua/groupbutler/plugins/warn.lua:68
 msgid "Do you want to continue and reset *all* the warnings received by *all* the users of the group?"
-msgstr "*Tüm* kullanıcıların bu gruptaki *tüm* uyarılarını sıfırlamak istiyor musun ?"
+msgstr ""
 
-#: lua/groupbutler/plugins/warn.lua:86
+#: lua/groupbutler/plugins/warn.lua:89
 #, lua-format
 msgid "Done! %s has been forgiven."
 msgstr ""
 
-#: lua/groupbutler/plugins/warn.lua:111
+#: lua/groupbutler/plugins/warn.lua:112
 #, lua-format
 msgid "%s <b>%s</b>: reached the max number of warnings (<code>%d/%d</code>)"
-msgstr "%s <b>%s</b>: maksimum uyarı sayısına ulaşıldı (<code>%d/%d</code>)"
+msgstr ""
 
-#: lua/groupbutler/plugins/warn.lua:144
+#: lua/groupbutler/plugins/warn.lua:146
 #, lua-format
 msgid "%s <b>has been warned</b> (<code>%d/%d</code>)"
-msgstr "%s <b>uyarı aldınız</b> (<code>%d/%d</code>)"
+msgstr ""
 
-#: lua/groupbutler/plugins/warn.lua:175
+#: lua/groupbutler/plugins/warn.lua:181
 msgid "The number of warnings received by this user is already <i>zero</i>"
-msgstr "Zaten bu kullanıcı tarafından alınan uyarılar sayısıdır <i>sıfır</i>"
+msgstr ""
 
-#: lua/groupbutler/plugins/warn.lua:179
+#: lua/groupbutler/plugins/warn.lua:185
 #, lua-format
 msgid "<b>Warn removed!</b> (%d/%d)"
-msgstr "<b>Uyarı silindi!</b> (%d/%d)"
+msgstr ""
 
-#: lua/groupbutler/plugins/warn.lua:182
+#: lua/groupbutler/plugins/warn.lua:188
 #, lua-format
 msgid "\n"
 "(Admin: %s)"
-msgstr "\n"
-"(Admin: %s)"
+msgstr ""
 
-#: lua/groupbutler/plugins/warn.lua:191
+#: lua/groupbutler/plugins/warn.lua:198
 #, lua-format
 msgid "Done. All the warnings of this group have been erased by %s"
-msgstr "Bitti. Bu grubun tüm mesajları silindi %s"
+msgstr ""
 
-#: lua/groupbutler/plugins/warn.lua:193
+#: lua/groupbutler/plugins/warn.lua:200
 msgid "_Action aborted_"
-msgstr "_Eylem iptal edildi_"
+msgstr ""
 
-#: lua/groupbutler/plugins/welcome.lua:83
+#: lua/groupbutler/plugins/welcome.lua:71
 msgid "Read the rules"
-msgstr "Kuralları okuyun"
+msgstr ""
 
-#: lua/groupbutler/plugins/welcome.lua:106
+#: lua/groupbutler/plugins/welcome.lua:94
 msgid "Hi $name!"
-msgstr "Merhaba $name!"
+msgstr ""
 
-#: lua/groupbutler/plugins/welcome.lua:155
+#: lua/groupbutler/plugins/welcome.lua:146
 msgid "Welcome and...?"
-msgstr "Hoş geldin... ?"
+msgstr ""
 
-#: lua/groupbutler/plugins/welcome.lua:179
+#: lua/groupbutler/plugins/welcome.lua:170
 #, lua-format
 msgid "A form of media has been set as the welcome message: `%s`"
-msgstr "Hoş geldin mesajı ayarlandı: `%s`"
+msgstr ""
 
-#: lua/groupbutler/plugins/welcome.lua:181
+#: lua/groupbutler/plugins/welcome.lua:172
 msgid "Reply to a `sticker` or a `gif` to set them as the *welcome message*"
-msgstr "*Hoş geldin* mesajı olarak 'sticker' veya 'gif' ayarlamak istersen bunları yanıtlaman gerekir*"
+msgstr ""
 
-#: lua/groupbutler/plugins/welcome.lua:200
+#: lua/groupbutler/plugins/welcome.lua:191
 msgid "*Custom welcome message saved!*"
-msgstr "*Hoş geldin mesajı kaydedildi!*"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:515
+#: lua/groupbutler/utilities.lua:302
 msgid "-*empty*-"
-msgstr "-*boş*-"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:556
+#: lua/groupbutler/utilities.lua:340
 #, lua-format
 msgid "<b>👤 Creator</b>\n"
 "└ %s\n\n"
 "<b>👥 Admins</b> (%d)\n"
 "%s"
-msgstr "<b>👤 Kurucu</b>\n"
-"└ %s\n\n"
-"<b>👥 Adminler</b> (%d)\n"
-"%s"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:566
+#: lua/groupbutler/utilities.lua:350
 msgid "No commands set"
-msgstr "Komut ayarlanmadı"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:569
+#: lua/groupbutler/utilities.lua:353
 msgid "List of custom commands:\n"
-msgstr "Özel komutların listesi:\n"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:581
+#: lua/groupbutler/utilities.lua:365
 msgid "Current settings for *the group*:\n\n"
-msgstr "Geçerli *grup* ayarı:\n\n"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:582
+#: lua/groupbutler/utilities.lua:366
 #, lua-format
 msgid "*Language*: %s\n"
-msgstr "*Dil*: %s\n"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:586
+#: lua/groupbutler/utilities.lua:370
 msgid "Welcome message"
-msgstr "Hoş geldin mesajı"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:587
+#: lua/groupbutler/utilities.lua:371
 msgid "Goodbye message"
-msgstr "Güle güle mesajı"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:597
+#: lua/groupbutler/utilities.lua:381
 msgid "Welcome button"
-msgstr "Hoş geldin butonu"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:599
+#: lua/groupbutler/utilities.lua:383
 msgid "Unknown"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:634
+#: lua/groupbutler/utilities.lua:418
 msgid "*Welcome type*: `GIF / sticker`\n"
-msgstr "*Hoş geldin tipi*: `GIF / sticker`\n"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:636
+#: lua/groupbutler/utilities.lua:420
 msgid "*Welcome type*: `custom message`\n"
-msgstr "*Hoş geldin tipi*: 'geçerli mesaj'\n"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:638
+#: lua/groupbutler/utilities.lua:422
 msgid "*Welcome type*: `default message`\n"
-msgstr "*Hoş geldin tipi*: 'varsayılan mesaj'\n"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:647
+#: lua/groupbutler/utilities.lua:431
 #, lua-format
 msgid "Warns (`standard`): *%s*\n"
-msgstr "Uyarılar ('standart'): *%s*\n"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:648
+#: lua/groupbutler/utilities.lua:432
 #, lua-format
 msgid "Warns (`media`): *%s*\n\n"
-msgstr "Uyarılar (`medya`): *%s*\n\n"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:649
+#: lua/groupbutler/utilities.lua:433
 msgid "✅ = _enabled / allowed_\n"
-msgstr "✅ = _aktif / izin verilen_\n"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:650
+#: lua/groupbutler/utilities.lua:434
 msgid "🚫 = _disabled / not allowed_\n"
-msgstr "🚫 = _kapalı / izin verilmeyen_\n"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:651
+#: lua/groupbutler/utilities.lua:435
 msgid "👥 = _sent in group (always for admins)_\n"
-msgstr "👥 = _gruba mesaj gönder (genellikle admin)_\n"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:652
+#: lua/groupbutler/utilities.lua:436
 msgid "👤 = _sent in private_"
-msgstr "👤 = _özelden mesaj gönder_"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:662
+#: lua/groupbutler/utilities.lua:446
 msgid "@admin command disabled"
-msgstr "@admin komutu kapalı"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:663
+#: lua/groupbutler/utilities.lua:447
 msgid "Welcome message won't be displayed from now"
-msgstr "Hoş geldin mesajı buradan şuan gösterilemez"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:664
+#: lua/groupbutler/utilities.lua:448
 msgid "Goodbye message won't be displayed from now"
-msgstr "Güle güle mesajı buradan şuan gösterilemez"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:665
+#: lua/groupbutler/utilities.lua:449
 msgid "#extra commands are now available only for administrators"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:666
+#: lua/groupbutler/utilities.lua:450
 msgid "Anti-flood is now off"
-msgstr "Anti-flood şuan kapalı"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:667
+#: lua/groupbutler/utilities.lua:451
 msgid "/rules will reply in private (for users)"
-msgstr "/rules özel mesajdan cevaplanacak (kullanıcılar için)"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:668
+#: lua/groupbutler/utilities.lua:452
 msgid "Silent mode is now off"
-msgstr "Sessiz mod kapalı"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:669
+#: lua/groupbutler/utilities.lua:453
 msgid "Links preview disabled"
-msgstr "Link ön izlemeleri kapalı"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:670
+#: lua/groupbutler/utilities.lua:454
 msgid "Welcome message without a button for the rules"
-msgstr "Hoş geldiniz mesajı buradan görüntülenmez"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:673
+#: lua/groupbutler/utilities.lua:457
 msgid "@admin command enabled"
-msgstr "@admin komutu aktif"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:674
+#: lua/groupbutler/utilities.lua:458
 msgid "Welcome message will be displayed"
-msgstr "Hoş geldin mesajı görüntülenecek"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:675
+#: lua/groupbutler/utilities.lua:459
 msgid "Goodbye message will be displayed"
-msgstr "Güle güle mesajı gösterilecek"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:676
+#: lua/groupbutler/utilities.lua:460
 msgid "#extra commands are now available for all"
-msgstr "#extra komutları herkes için aktif"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:677
+#: lua/groupbutler/utilities.lua:461
 msgid "Anti-flood is now on"
-msgstr "Anti-flood şuan açık"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:678
+#: lua/groupbutler/utilities.lua:462
 msgid "/rules will reply in the group (with everyone)"
-msgstr "/rules komutuna grupta cevap verecek (herkes için)"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:679
+#: lua/groupbutler/utilities.lua:463
 msgid "Silent mode is now on"
-msgstr "Sessiz mod şuan açık"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:680
+#: lua/groupbutler/utilities.lua:464
 msgid "Links preview enabled"
-msgstr "Link önbellekleri aktif"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:681
+#: lua/groupbutler/utilities.lua:465
 msgid "The welcome message will have a button for the rules"
-msgstr "Hoş geldin mesajı buton ve kurallar içerir"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:694
+#: lua/groupbutler/utilities.lua:478
 msgid "This setting is enabled, but the goodbye message won't be displayed in large groups, because I can't see service messages about left members"
-msgstr "Bu ayarlar etkin ancak \"hoşça kal\" mesajları büyük gruplarda görüntülenmeyecek çünkü ayrılan üyelerin servis mesajlarını göremiyorum"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:707
+#: lua/groupbutler/utilities.lua:491
 msgid "Start me"
-msgstr "Başlat"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:709
+#: lua/groupbutler/utilities.lua:493
 msgid "_Please message me first so I can message you_"
-msgstr "_Lütfen ilk mesajı yaz sonra sana mesaj göndereceğim_"
-
-#: lua/groupbutler/utilities.lua:778 lua/groupbutler/utilities.lua:779
-msgid "Someone"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:787
-msgid "Reply to a user or mention them"
-msgstr ""
-
-#: lua/groupbutler/utilities.lua:813
-msgid "I've never seen this user before.\n"
-"This command works by reply, username, user ID or text mention.\n"
-"If you're using it by username and want to teach me who the user is, forward me one of their messages"
-msgstr ""
-
-#: lua/groupbutler/utilities.lua:832
+#: lua/groupbutler/utilities.lua:548
 #, lua-format
 msgid "<b>Chat</b>: %s [#chat%d]"
-msgstr "<b>Sohbet</b>: %s [#chat%d]"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:841 lua/groupbutler/utilities.lua:849
+#: lua/groupbutler/utilities.lua:558 lua/groupbutler/utilities.lua:566
 #, lua-format
 msgid "#%s (<code>%d/%d</code>), <i>%s</i>\n"
 "• %s\n"
 "• <b>User</b>: %s"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:855
+#: lua/groupbutler/utilities.lua:572
 #, lua-format
 msgid "#%s\n"
 "• %s\n"
 "• <b>User</b>: %s"
-msgstr "#%s\n"
-"• %s\n"
-"• <b>Kullanıcı</b>: %s"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:858 lua/groupbutler/utilities.lua:868
-#: lua/groupbutler/utilities.lua:871 lua/groupbutler/utilities.lua:874
+#: lua/groupbutler/utilities.lua:575 lua/groupbutler/utilities.lua:585
+#: lua/groupbutler/utilities.lua:588 lua/groupbutler/utilities.lua:591
 #, lua-format
 msgid "%s\n"
 "• %s\n"
 "• <b>By</b>: %s"
-msgstr "%s\n"
-"• %s\n"
-"• <b>Tarafından</b>: %s"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:861
+#: lua/groupbutler/utilities.lua:578
 msgid "Get the new photo"
-msgstr "Yeni fotoğrafı"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:878
+#: lua/groupbutler/utilities.lua:595
 #, lua-format
 msgid "%s\n"
 "• %s\n"
 "• <b>By</b>: %s\n"
 "• <i>Reported to %d admin(s)</i>"
-msgstr "%s\n"
-"• %s\n"
-"• <b>Tarafından</b>: %s\n"
-"• <i>raporlandı %d admin(ler)'e</i>"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:882
+#: lua/groupbutler/utilities.lua:599
 #, lua-format
 msgid "#%s\n"
 "• %s\n"
 "• <b>User</b>: %s [#id%d]"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:887
+#: lua/groupbutler/utilities.lua:604
 #, lua-format
 msgid "%s\n"
 "• %s\n"
 "• <b>User</b>: %s"
-msgstr "%s\n"
-"• %s\n"
-"• <b>Kullanıcı</b>: %s"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:889
+#: lua/groupbutler/utilities.lua:606
 #, lua-format
 msgid "\n"
 "• <b>Added by</b>: %s [#id%d]"
-msgstr "\n"
-"• <b>Tarafından eklendi</b>: %s [#id%d]"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:902
+#: lua/groupbutler/utilities.lua:619
 #, lua-format
 msgid "#%s\n"
 "• <b>Admin</b>: %s [#id%d]\n"
 "• %s\n"
 "• <b>User</b>: %s [#id%d]\n"
 "• <b>Count</b>: <code>%d/%d</code>"
-msgstr "#%s\n"
-"• <b>Admin</b>: %s [#id%d]\n"
-"• %s\n"
-"• <b>Kullanıcı</b>: %s [#id%d]\n"
-"• <b>Sayısı</b>: <code>%d/%d</code>"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:910 lua/groupbutler/utilities.lua:940
+#: lua/groupbutler/utilities.lua:629 lua/groupbutler/utilities.lua:660
 #, lua-format
 msgid "#%s\n"
 "• <b>Admin</b>: %s [#id%s]\n"
 "• %s\n"
 "• <b>User</b>: %s [#id%s]"
-msgstr "#%s\n"
-"• <b>Admin</b>: %s [#id%s]\n"
-"• %s\n"
-"• <b>Kullanıcı</b>: %s [#id%s]"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:914
+#: lua/groupbutler/utilities.lua:633
 #, lua-format
 msgid "#%s\n"
 "• <b>Admin</b>: %s [#id%s]\n"
 "• %s\n"
-msgstr "#%s\n"
-"• <b>Admin</b>: %s [#id%s]\n"
-"• %s\n"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:917
+#: lua/groupbutler/utilities.lua:636
 #, lua-format
 msgid "• <i>Users involved: %d</i>"
-msgstr "• <i>Kulanıcı dahil: %d</i>"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:919
+#: lua/groupbutler/utilities.lua:638
 #, lua-format
 msgid "• <b>User</b>: %s [#id%d]"
-msgstr "• <b>Kullanıcı</b>: %s [#id%d]"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:931
+#: lua/groupbutler/utilities.lua:650
 #, lua-format
 msgid "#%s\n"
 "• <b>Admin</b>: %s [#id%s]\n"
 "• %s\n"
 "• <b>User</b>: %s [#id%s]\n"
 "• <b>Duration</b>: %d days, %d hours"
-msgstr "#%s\n"
-"• <b>Admin</b>: %s [#id%s]\n"
-"• %s\n"
-"• <b>Kullanıcı</b>: %s [#id%s]\n"
-"• <b>Süresi</b>: %d günler, %d saatler"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:944
+#: lua/groupbutler/utilities.lua:664
 #, lua-format
 msgid "#%s\n"
 "• %s\n"
 "• <b>By</b>: %s"
-msgstr "#%s\n"
-"• %s\n"
-"• <b>Tarafından</b>: %s"
+msgstr ""
 
-#: lua/groupbutler/utilities.lua:965
+#: lua/groupbutler/utilities.lua:685
 #, lua-format
 msgid "\n"
 "• <b>Action</b>: #%s"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:968
+#: lua/groupbutler/utilities.lua:688
 #, lua-format
 msgid "\n"
 "• <b>Reason</b>: <i>%s</i>"
 msgstr ""
 
-#: lua/groupbutler/utilities.lua:974
+#: lua/groupbutler/utilities.lua:694
 msgid "Go to the message"
-msgstr "Mesaja git"
+msgstr ""
 
