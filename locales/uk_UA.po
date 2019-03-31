@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-03-31 11:30-0300\n"
-"PO-Revision-Date: 2019-03-31 14:58\n"
+"PO-Revision-Date: 2019-03-31 23:17\n"
 "Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
 "Language-Team: Ukrainian\n"
 "Language: uk_UA\n"
@@ -228,7 +228,7 @@ msgstr "Заткнути 👁"
 #: lua/groupbutler/plugins/mediasettings.lua:127
 #: lua/groupbutler/plugins/menu.lua:271 lua/groupbutler/plugins/setlang.lua:45
 msgid "Sorry, you don't have permission to change settings"
-msgstr ""
+msgstr "На жаль, ви не маєте дозволу на зміну налаштувань"
 
 #: lua/groupbutler/plugins/antispam.lua:302
 msgid "*Anti-spam settings*\n"
@@ -1524,7 +1524,10 @@ msgid "Tap on an option on the right to *change the setting*\n"
 "The number is not related the the normal `/warn` command.\n\n"
 "Possible statuses: ✅ allowed, ❌ warning, 🗑 delete.\n"
 "When a media is set to delete, the bot will give a warning *only* when this is the users last warning"
-msgstr ""
+msgstr "Натисніть на опцію праворуч на *змінити налаштування*\n"
+"Ви можете використовувати останні рядки, щоб змінити кількість попереджень, які бот повинен дати перед вигнанням/баном/затишшям. Число не пов'язане з нормальною командою `/warn`.\n\n"
+"Можливі статуси: ✅ дозволено, ❌ попередження, 🗑 видалення.\n"
+"Коли медіа налаштовані на видалення, бот дасть попередження *тільки*, коли це є останнім попередженням для користувача"
 
 #: lua/groupbutler/plugins/mediasettings.lua:149
 msgid "⚙ The new value is too low ( < 1)"
@@ -2139,7 +2142,7 @@ msgstr "Відповідь користувачу або згадка його �
 #: lua/groupbutler/plugins/users.lua:157
 #, lua-format
 msgid "👥 Admins cached: <code>%d</code>"
-msgstr ""
+msgstr "👥 Кешовано адмінів: <code>%d</code>"
 
 #: lua/groupbutler/plugins/users.lua:165
 #, lua-format
@@ -2157,7 +2160,7 @@ msgstr "Кількість попереджень, отриманих цим к�
 
 #: lua/groupbutler/plugins/users.lua:206
 msgid "✅ The admin list will be updated soon"
-msgstr ""
+msgstr "✅ Список адміністраторів буде оновлено найближчим часом"
 
 #: lua/groupbutler/plugins/warn.lua:18
 msgid "Remove warn"

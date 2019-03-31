@@ -12,9 +12,9 @@ local table = require("table")
 local unpack = unpack or table.unpack
 local base = _G
 local _M = {}
-if module then -- heuristic for exporting a global package table
-    ltn12 = _M
-end
+-- if module then -- heuristic for exporting a global package table
+--     ltn12 = _M
+-- end
 local filter,source,sink,pump = {},{},{},{}
 
 _M.filter = filter
@@ -22,8 +22,8 @@ _M.source = source
 _M.sink = sink
 _M.pump = pump
 
-local unpack = unpack or table.unpack
-local select = base.select
+-- local unpack = unpack or table.unpack
+-- local select = base.select
 
 -- 2048 seems to be better in windows...
 _M.BLOCKSIZE = 2048
@@ -224,7 +224,7 @@ end
 -- creates a sink that stores into a table
 function sink.table(t)
     t = t or {}
-    local f = function(chunk, err)
+    local f = function(chunk, _)
         if chunk then table.insert(t, chunk) end
         return 1
     end
@@ -245,7 +245,7 @@ end
 -- creates a file sink
 function sink.file(handle, io_err)
     if handle then
-        return function(chunk, err)
+        return function(chunk, _)
             if not chunk then
                 handle:close()
                 return 1
