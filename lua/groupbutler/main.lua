@@ -95,13 +95,13 @@ end
 
 local function collect_stats(self)
 	local msg = self.message
-	local red = self.red
+	-- local red = self.red
 	local u = self.u
 	local now = os.time(os.date("*t"))
-	if msg.from.chat.type ~= 'private' and msg.from.chat.type ~= 'inline' and msg.from.user then
-		red:hset('chat:'..msg.from.chat.id..':userlast', msg.from.user.id, now) --last message for each user
-		red:hset('bot:chats:latsmsg', msg.from.chat.id, now) --last message in the group
-	end
+	-- if msg.from.chat.type ~= 'private' and msg.from.chat.type ~= 'inline' and msg.from.user then
+	-- 	red:hset('chat:'..msg.from.chat.id..':userlast', msg.from.user.id, now) --last message for each user
+	-- 	red:hset('bot:chats:latsmsg', msg.from.chat.id, now) --last message in the group
+	-- end
 	u:metric_incr("messages_processed_count")
 	u:metric_set("message_timestamp_distance_sec", now - msg.date)
 end
