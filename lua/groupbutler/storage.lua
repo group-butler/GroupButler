@@ -409,13 +409,24 @@ function PostgresStorage:getChatProperty(chat, property)
 end
 
 function PostgresStorage:getChatMemberProperty(member, property)
-	local query = interpolate('SELECT {property} FROM "chat_user" WHERE chat_id = {chat_id} AND user_id = {user_id}', {
+	local query = {
 		chat_id = member.chat.id,
 		user_id = member.user.id,
 		property = property,
-	})
-	local ok = self.pg:query(query)
-	if not ok or not ok[1] or not ok[1][property] then
+	}
+	if property == "until_date" then
+		query.property = "date_part('epoch',until_date)::int"
+	end
+	local ok = self.pg:query(interpolate(
+		'SELECT {property} FROM "chat_user" WHERE chat_id = {chat_id} AND user_id = {user_id}', query))
+	if not ok or not ok[1] then
+		return nil
+	end
+	if property == "until_date"
+	and ok[1].date_part then
+		return ok[1].date_part
+	end
+	if not ok[1][property] then
 		return nil
 	end
 	if property == "status" then
@@ -565,6 +576,9 @@ function PostgresStorage:cacheChatMember(member)
 			values = values..", {"..k.."}"
 			on_conflict = on_conflict..", "..k.." = {"..k.."}"
 		end
+	end
+	if rawget(member, "until_date") then
+		row.until_date = "to_timestamp("..member.until_date..")"
 	end
 	local query = interpolate(insert..values..on_conflict, row)
 	local ok, err = self.pg:query(query)
