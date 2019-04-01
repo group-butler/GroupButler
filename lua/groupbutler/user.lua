@@ -1,4 +1,5 @@
 local log = require("groupbutler.logging")
+local StorageUtil = require("groupbutler.storage.util")
 
 local User = {}
 
@@ -53,6 +54,10 @@ function User:checkId()
 end
 
 function User:getProperty(index)
+	if not StorageUtil.isUserProperty[index] then
+		log.warn("Tried to get invalid user property {property}", {property=index})
+		return nil
+	end
 	local property = rawget(self, index)
 	if property == nil then
 		property = p(self).db:getUserProperty(self, index)
