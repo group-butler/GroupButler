@@ -8,7 +8,7 @@ local Message = require "groupbutler.message"
 local User = require "groupbutler.user"
 local Chat = require "groupbutler.chat"
 local ChatMember = require "groupbutler.chatmember"
-local storage = require "groupbutler.storage"
+local Storage = require("groupbutler.storage."..config.storage)
 local locale = require "groupbutler.languages"
 local api_err = require "groupbutler.api_errors"
 
@@ -33,7 +33,7 @@ function _M:new(update_obj)
 		return nil, err
 	end
 	update_obj.red:select(config.redis.db)
-	update_obj.db = storage:new(update_obj.red)
+	update_obj.db = Storage:new(update_obj.red)
 	update_obj.i18n = locale:new()
 	update_obj.api_err = api_err:new(update_obj)
 	update_obj.u = utilities:new(update_obj)
