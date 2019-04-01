@@ -2,6 +2,7 @@ local config = require "groupbutler.config"
 local null = require "groupbutler.null"
 local Chat = require("groupbutler.chat")
 local ChatMember = require("groupbutler.chatmember")
+local Util = require("groupbutler.util")
 
 local _M = {}
 
@@ -14,10 +15,6 @@ function _M:new(update_obj)
 	return plugin_obj
 end
 
-local function set_default(t, d)
-	local mt = {__index = function() return d end}
-	setmetatable(t, mt)
-end
 
 local function get_button_description(self, key)
 	local i18n = self.i18n
@@ -41,7 +38,7 @@ local function get_button_description(self, key)
 		Rtl = i18n("Select what the bot should do when someone sends a message with the RTL character, or has it in their name"), -- luacheck: ignore 631
 		warnsnum = i18n("Change how many times a user has to be warned before being kicked/banned"),
 		warnsact = i18n("Change the action to perform when a user reaches the max. number of warnings"),
-	} set_default(button_description, i18n("Description not available"))
+	} Util.setDefaultTableValue(button_description, i18n("Description not available"))
 
 	return button_description[key]
 end

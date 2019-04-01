@@ -1,6 +1,7 @@
 local config = require "groupbutler.config"
 local User = require("groupbutler.user")
 local Chat = require("groupbutler.chat")
+local Util = require("groupbutler.util")
 
 local _M = {}
 
@@ -11,11 +12,6 @@ function _M:new(update_obj)
 		plugin_obj[k] = v
 	end
 	return plugin_obj
-end
-
-local function set_default(t, d)
-	local mt = {__index = function() return d end}
-	setmetatable(t, mt)
 end
 
 local function permissions(self)
@@ -114,7 +110,7 @@ function _M:onTextMessage(blocks)
 			unknown = i18n("%s has nothing to do with this chat"),
 			member = i18n("%s is a chat member"),
 			restricted = i18n("%s is a restricted")
-		} set_default(statuses, statuses.unknown)
+		} Util.setDefaultTableValue(statuses, statuses.unknown)
 
 		local denied_permissions = {}
 		for permission, str in pairs(permissions(self)) do

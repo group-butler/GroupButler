@@ -4,6 +4,8 @@ local log = require "groupbutler.logging"
 local null = require "groupbutler.null"
 local User = require("groupbutler.user")
 local ChatMember = require("groupbutler.chatmember")
+local Util = require("groupbutler.util")
+
 local http, HTTPS, ltn12, time_hires, sleep
 if ngx then
 	http = require "resty.http"
@@ -36,11 +38,6 @@ function _M:new(private)
 		_private = private,
 	})
 	return obj
-end
-
-local function set_default(t, d)
-	local mt = {__index = function() return d end}
-	setmetatable(t, mt)
 end
 
 -- Strings
@@ -380,7 +377,7 @@ function _M:getSettings(chat_id)
 		Weldelchain = i18n("Delete last welcome message"),
 		Welbut = i18n("Welcome button"),
 		Clean_service_msg = i18n("Clean Service Messages"),
-	} set_default(strings, i18n("Unknown"))
+	} Util.setDefaultTableValue(strings, i18n("Unknown"))
 	for key, default in pairs(config.chat_settings['settings']) do
 
 		local off_icon, on_icon = '🚫', '✅'
@@ -660,7 +657,7 @@ function _M:logEvent(event, msg, extra)
 			text = i18n('#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n• <b>User</b>: %s [#id%s]'):format(
 				event:upper(), tostring(extra.admin), msg.from.user.id, chat_info, tostring(extra.user), extra.user_id)
 		end,
-	} set_default(log_event, function()
+	} Util.setDefaultTableValue(log_event, function()
 			text = i18n('#%s\n• %s\n• <b>By</b>: %s'):format(event:upper(), chat_info, member)
 	end)
 
