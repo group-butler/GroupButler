@@ -13,9 +13,11 @@ function Util.Enum(t)
 end
 
 function Util.setDefaultTableValue(t, d)
-	assert(t, debug.traceback())
-	local mt = {__index = function() return d end}
-	return setmetatable(t, mt)
+	return setmetatable(t, {
+		__index = function()
+			return d
+		end
+	})
 end
 
 function Util.mergeTables(t1, t2)
