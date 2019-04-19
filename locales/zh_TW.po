@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-03-31 11:30-0300\n"
-"PO-Revision-Date: 2019-03-31 23:17\n"
-"Last-Translator: TiagoDanin <TiagoDanin@outlook.com>\n"
+"PO-Revision-Date: 2019-04-19 01:03\n"
+"Last-Translator: Tiago Danin (TiagoDanin)\n"
 "Language-Team: Chinese Traditional\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
@@ -228,7 +228,7 @@ msgstr "禁言 👁"
 #: lua/groupbutler/plugins/mediasettings.lua:127
 #: lua/groupbutler/plugins/menu.lua:271 lua/groupbutler/plugins/setlang.lua:45
 msgid "Sorry, you don't have permission to change settings"
-msgstr ""
+msgstr "對不起, 您沒有權限更改設定"
 
 #: lua/groupbutler/plugins/antispam.lua:302
 msgid "*Anti-spam settings*\n"
@@ -1522,7 +1522,11 @@ msgid "Tap on an option on the right to *change the setting*\n"
 "The number is not related the the normal `/warn` command.\n\n"
 "Possible statuses: ✅ allowed, ❌ warning, 🗑 delete.\n"
 "When a media is set to delete, the bot will give a warning *only* when this is the users last warning"
-msgstr ""
+msgstr "點擊右側的選項 *更改設置*\n"
+"您可以使用最後一行來更改機器人在 踢除/封鎖/禁言之前, 應該給出的警告數量. \n"
+"該數字與正常的`/warn`指令無關. \n\n"
+"可使用的狀態: ✅允許, ❌警告, 🗑刪除. \n"
+"當某個文件是被設定為自動刪除時, 機器人 *只會* 在使用者最後一次違規上限時才發出警告."
 
 #: lua/groupbutler/plugins/mediasettings.lua:149
 msgid "⚙ The new value is too low ( < 1)"
@@ -2137,7 +2141,7 @@ msgstr "回覆一個用戶或透過標註(@username)用戶名稱或數字ID"
 #: lua/groupbutler/plugins/users.lua:157
 #, lua-format
 msgid "👥 Admins cached: <code>%d</code>"
-msgstr ""
+msgstr "👥 暫存管理員: <code>%d</code>"
 
 #: lua/groupbutler/plugins/users.lua:165
 #, lua-format
@@ -2155,7 +2159,7 @@ msgstr "這個用戶的警告次數已經被管理員 %s <b>重設</b>"
 
 #: lua/groupbutler/plugins/users.lua:206
 msgid "✅ The admin list will be updated soon"
-msgstr ""
+msgstr "✅ 管理員列表即將會更新"
 
 #: lua/groupbutler/plugins/warn.lua:18
 msgid "Remove warn"
