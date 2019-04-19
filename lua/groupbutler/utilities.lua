@@ -1,5 +1,5 @@
 local config = require "groupbutler.config"
-local api_u = require "telegram-bot-api.utilities"
+local ApiUtil = require("telegram-bot-api.utilities")
 local log = require "groupbutler.logging"
 local null = require "groupbutler.null"
 local User = require("groupbutler.user")
@@ -251,7 +251,7 @@ end
 function _M:reply_markup_from_text(text) -- luacheck: ignore 212
 	local clean_text = text
 	local n = 0
-	local reply_markup = api_u.InlineKeyboardMarkup:new()
+	local reply_markup = ApiUtil.InlineKeyboardMarkup:new()
 	for label, url in text:gmatch("{{(.-)}{(.-)}}") do
 		clean_text = clean_text:gsub('{{'..label:escape_magic()..'}{'..url:escape_magic()..'}}', '')
 		if label and url and n < 3 then
@@ -484,11 +484,11 @@ function _M:sendStartMe(msg)
 	local api = p(self).api
 	local i18n = p(self).i18n
 	local bot = p(self).bot
-	local keyboard = {
-		inline_keyboard = {{{text = i18n("Start me"), url = 'https://telegram.me/'..bot.username}}}
-		}
-	api:sendMessage(msg.from.chat.id, i18n("_Please message me first so I can message you_"), 'Markdown', nil, nil, nil,
-		keyboard)
+	local reply_markup = ApiUtil.InlineKeyboardMarkup:new():row(
+		{text = i18n("Start me"), url = 'https://telegram.me/'..bot.username}
+	)
+	api:sendMessage(msg.from.chat.id, i18n("_Please message me first so I can message you_"), "Markdown", nil, nil, nil,
+		reply_markup)
 end
 
 function _M:initGroup(chat)
