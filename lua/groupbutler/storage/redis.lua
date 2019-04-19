@@ -66,6 +66,11 @@ function RedisStorage:forgetUserWarns(chat_id, user_id)
 end
 
 function RedisStorage:get_chat_setting(chat_id, setting)
+	if setting == "Arab"
+	or setting == "Rtl" then
+		local default = config.chat_settings.char[setting]
+		return self:_hget_default("chat:"..chat_id..":char", setting, default)
+	end
 	local default = config.chat_settings.settings[setting]
 	local val = self:_hget_default("chat:"..chat_id..":settings", setting, default)
 	return string_toboolean(val)
