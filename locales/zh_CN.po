@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-03-31 11:30-0300\n"
-"PO-Revision-Date: 2019-04-19 01:03\n"
+"PO-Revision-Date: 2019-09-11 13:16\n"
 "Last-Translator: Tiago Danin (TiagoDanin)\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -50,7 +50,7 @@ msgstr "这条信息太长了, Telegram 允许的最大长度是: 4000 个字元
 
 #: lua/groupbutler/api_errors.lua:27
 msgid "One of the inline buttons you are trying to set is missing the URL"
-msgstr "您所尝试设定的一个内联按钮缺少了URL连结."
+msgstr "您尝试设置的其中一个内联按钮缺少URL"
 
 #: lua/groupbutler/api_errors.lua:28
 #, lua-format
@@ -61,30 +61,30 @@ msgstr "内联连结格式不正确. 检查括号内的文字 - > \\ []()\n"
 
 #: lua/groupbutler/api_errors.lua:28
 msgid "More info [here](https://telegram.me/GB_tutorials/12)"
-msgstr "若要得知更多资讯, [请点此](https://telegram.me/GB_tutorials/12) (英文)"
+msgstr "更多信息，[请点这里](https://telegram.me/GB_tutorials/12)"
 
 #: lua/groupbutler/api_errors.lua:29
 msgid "This text breaks the markdown.\n"
 "More info about a proper use of markdown [here](https://telegram.me/GB_tutorials/10) and [here](https://telegram.me/GB_tutorials/12)."
-msgstr "标记符号(Markdown)使用不当. \n"
-"关于标记符号的详细解说请点击[这里](https://telegram.me/GB_tutorials/10)及[这里](https://telegram.me/GB_tutorials/12). (皆为英文)"
+msgstr "Markdown 格式错误\n"
+"Markdown 语法使用介绍请点击[这里](https://telegram.me/GB_tutorials/10)及[这里](https://telegram.me/GB_tutorials/12)。"
 
 #: lua/groupbutler/api_errors.lua:31
 msgid "One of the URLs that should be placed in an inline button seems to be invalid (not an URL). Please check it"
-msgstr "应放在内联按钮中的其中一个URL连结似乎无效(不是URL连结). 请确认"
+msgstr "应放在消息框内按钮中的某个 URL 链接似乎无效（不是 URL 连结）。请检查"
 
 #: lua/groupbutler/api_errors.lua:32
 msgid "One of the inline buttons you are trying to set doesn't have a name"
-msgstr "您所尝试设定的一个内联按钮没有名称."
+msgstr "您所尝试设定的某个消息框内按钮缺少名称。"
 
 #: lua/groupbutler/main.lua:151
 #, lua-format
 msgid "Hello everyone!\n"
 "My name is %s, and I'm a bot made to help administrators in their hard work.\n"
 "Unfortunately I can't work in normal groups. If you need me, please ask the creator to convert this group to a supergroup and then add me again.\n"
-msgstr "大家好! \n"
-"我的名字是 %s, 我是一个机器人, 负责帮助管理员工作. \n"
-"不幸的是, 我无法在普通群组中工作, 请让创建者将该群组转换为超级群组再将我重新加入. \n"
+msgstr "大家好！\n"
+"我的名字是 %s，我是一个机器人，负责帮助管理员工作。\n"
+"不幸的是，我无法在普通群组中工作，请让创建者将该群组转换为超级群组后再将我重新加入。\n"
 
 #: lua/groupbutler/main.lua:219
 msgid "🐞 Sorry, a *bug* occurred"
@@ -228,7 +228,7 @@ msgstr "禁言 👁"
 #: lua/groupbutler/plugins/mediasettings.lua:127
 #: lua/groupbutler/plugins/menu.lua:271 lua/groupbutler/plugins/setlang.lua:45
 msgid "Sorry, you don't have permission to change settings"
-msgstr ""
+msgstr "对不起，您没有权限更改设置"
 
 #: lua/groupbutler/plugins/antispam.lua:302
 msgid "*Anti-spam settings*\n"
@@ -1522,7 +1522,11 @@ msgid "Tap on an option on the right to *change the setting*\n"
 "The number is not related the the normal `/warn` command.\n\n"
 "Possible statuses: ✅ allowed, ❌ warning, 🗑 delete.\n"
 "When a media is set to delete, the bot will give a warning *only* when this is the users last warning"
-msgstr ""
+msgstr "点击右侧的选项 *更改设置*\n"
+"您可以使用最后一行来更改机器人在 踢除/封锁/禁言之前, 应该给出的警告数量. \n"
+"该数字与正常的`/warn`指令无关. \n\n"
+"可使用的状态: ✅允许, ❌警告, 🗑删除. \n"
+"当某个文件是被设定为自动删除时, 机器人 *只会* 在使用者最后一次违规上限时才发出警告."
 
 #: lua/groupbutler/plugins/mediasettings.lua:149
 msgid "⚙ The new value is too low ( < 1)"
@@ -2016,7 +2020,7 @@ msgstr "*可用语言列表*:"
 #. TRANSLATORS: replace 'English' with the name of your language
 #: lua/groupbutler/plugins/setlang.lua:64
 msgid "English language is *set*"
-msgstr "繁体中文已*被设定*"
+msgstr "简体中文已*被设定*"
 
 #: lua/groupbutler/plugins/setlang.lua:64
 msgid ".\n"
@@ -2137,7 +2141,7 @@ msgstr "回复一个用户或透过标注(@username)用户名称或数字ID"
 #: lua/groupbutler/plugins/users.lua:157
 #, lua-format
 msgid "👥 Admins cached: <code>%d</code>"
-msgstr ""
+msgstr "👥缓存管理员: <code>%d</code>"
 
 #: lua/groupbutler/plugins/users.lua:165
 #, lua-format
@@ -2155,7 +2159,7 @@ msgstr "这个用户的警告次数已经被管理员 %s <b>重设</b>"
 
 #: lua/groupbutler/plugins/users.lua:206
 msgid "✅ The admin list will be updated soon"
-msgstr ""
+msgstr "✅管理列表将很快更新"
 
 #: lua/groupbutler/plugins/warn.lua:18
 msgid "Remove warn"

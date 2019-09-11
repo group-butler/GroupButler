@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-03-31 11:30-0300\n"
-"PO-Revision-Date: 2019-04-19 01:03\n"
+"PO-Revision-Date: 2019-09-11 13:16\n"
 "Last-Translator: Tiago Danin (TiagoDanin)\n"
 "Language-Team: Russian\n"
 "Language: ru_RU\n"
@@ -26,7 +26,7 @@ msgstr "У меня недостаточно прав для изменения 
 
 #: lua/groupbutler/api_errors.lua:21
 msgid "I'm not an admin, I can't kick people"
-msgstr "Я не администратор и не могу выгонять людей"
+msgstr "Я не администратор и не могу удалить участников"
 
 #: lua/groupbutler/api_errors.lua:22
 msgid "I can't do that to admins!"

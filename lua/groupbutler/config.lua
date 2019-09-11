@@ -124,6 +124,7 @@ local _M =
 		['de_DE'] = 'German 🇩🇪',
 		-- ['el_GR'] = 'Greek 🇬🇷',
 		['he_IL'] = 'Hebrew 🇮🇱',
+		-- ['hi_IN'] = 'Hindi 🇮🇳',
 		-- ['hu_HU'] = 'Hungarian 🇭🇺',
 		['id_ID'] = 'Indonesian 🇮🇩',
 		-- ['it_IT'] = 'Italian 🇮🇹',
@@ -146,9 +147,10 @@ local _M =
 		-- ['sv_SE'] = 'Swedish 🇸🇪',
 		-- ['tr_TR'] = 'Turkish 🇹🇷',
 		['uk_UA'] = 'Ukrainian 🇺🇦',
-		-- ['ur_IN'] = 'Urdu (India) 🇮🇳',
+		['ur_IN'] = 'Urdu (India) 🇮🇳',
 		-- ['vi_VN'] = 'Vietnamese 🇻🇳',
-		-- languages become available once they reach a reasonable progress at Crowdin
+		-- Languages become available once they reach 20%+ APPROVAL on https://crowdin.com/project/group-butler
+		-- Ask on https://t.me/gbtranslators to become a proofreader and be able to approve strings
 	},
 	allow_fuzzy_translations = false,
 	chat_settings = {

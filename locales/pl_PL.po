@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-03-31 11:30-0300\n"
-"PO-Revision-Date: 2019-04-19 01:03\n"
+"PO-Revision-Date: 2019-09-11 13:16\n"
 "Last-Translator: Tiago Danin (TiagoDanin)\n"
 "Language-Team: Polish\n"
 "Language: pl_PL\n"
@@ -98,7 +98,9 @@ msgstr ""
 msgid "I've never seen this user before.\n"
 "This command works by reply, username, user ID or text mention.\n"
 "If you're using it by username and want to teach me who the user is, forward me one of their messages"
-msgstr ""
+msgstr "Nigdy wcześniej nie widziałem tego użytkownika.\n"
+"To polecenie działa poprzez odpowiedź, nazwę użytkownika, identyfikator użytkownika lub tekst.\n"
+"Jeśli używasz go według nazwy użytkownika i chcesz mnie nauczyć, kim jest użytkownik, przekaż mi jedną z jego wiadomości"
 
 #: lua/groupbutler/plugins/antispam.lua:45
 #: lua/groupbutler/plugins/onmessage.lua:162
@@ -226,7 +228,7 @@ msgstr "Wycisz 👁"
 #: lua/groupbutler/plugins/mediasettings.lua:127
 #: lua/groupbutler/plugins/menu.lua:271 lua/groupbutler/plugins/setlang.lua:45
 msgid "Sorry, you don't have permission to change settings"
-msgstr ""
+msgstr "Przepraszamy, nie masz uprawnień do zmiany parametrów"
 
 #: lua/groupbutler/plugins/antispam.lua:302
 msgid "*Anti-spam settings*\n"
@@ -296,67 +298,72 @@ msgstr ""
 #, lua-format
 msgid "*Whitelisted channels:*\n"
 "%s"
-msgstr ""
+msgstr "*Biała lista kanałów:*\n"
+"%s"
 
 #: lua/groupbutler/plugins/antispam.lua:450
 #: lua/groupbutler/plugins/antispam.lua:467
 msgid "_I can't find a channel ID in your message_"
-msgstr ""
+msgstr "_Nie mogę znaleźć ID kanału w twojej wiadomości_"
 
 #: lua/groupbutler/plugins/backup.lua:100
 #, lua-format
 msgid "<i>I'm sorry, this command has been used for the last time less then 3 hours ago by</i> %s (ask them for the file).\n"
 "Wait [<code>%s</code>] to use it again\n"
-msgstr ""
+msgstr "<i>Przepraszam, zespół ten został użyty po raz ostatni mniej niż 3 godziny temu</i> %s (zapytać u nich plik).\n"
+"czekać [<code>%s</code>], aby użyć jej ponownie\n"
 
 #: lua/groupbutler/plugins/backup.lua:114
 msgid "*Sent in private*"
-msgstr ""
+msgstr "*Wysłałem na priv*"
 
 #: lua/groupbutler/plugins/backup.lua:120
 msgid "Invalid input. Please reply to the backup file (/snap command to get it)"
-msgstr ""
+msgstr "Nieprawidłowy enter. Proszę odpowiedzieć na plik kopii zapasowej (komenda/przystawki, aby dostać)"
 
 #: lua/groupbutler/plugins/backup.lua:125
 msgid "Invalid input. Please reply to a document"
-msgstr ""
+msgstr "Nieprawidłowy enter. Proszę o odpowiedź na dokument"
 
 #: lua/groupbutler/plugins/backup.lua:130
 #, lua-format
 msgid "This is not a valid backup file.\n"
 "Reason: invalid name (%s)"
-msgstr ""
+msgstr "To nie jest prawidłowy plik kopii zapasowej.\n"
+"przyczyna: nieprawidłowa nazwa (%s)"
 
 #: lua/groupbutler/plugins/backup.lua:140
 #, lua-format
 msgid "Download of the file failed with code %s"
-msgstr ""
+msgstr "Pobieranie pliku błąd z kodem %s"
 
 #: lua/groupbutler/plugins/backup.lua:149
 #, lua-format
 msgid "Chat IDs don't match (%s and %s)"
-msgstr ""
+msgstr "Czat identyfikatory nie są takie same (%s i %s)"
 
 #: lua/groupbutler/plugins/backup.lua:172
 msgid "Import was <b>successful</b>.\n\n"
 "<b>Important</b>:\n"
 "- #extra commands which are associated with a media must be set again if the bot you are using now is different from the bot that originated the backup.\n"
-msgstr ""
+msgstr "Import był <b>udanego</b>.\n\n"
+"<b>ważne</b>:\n"
+"- #dodatkowych poleceń, które są powiązane z media, należy ponownie zainstalować, jeśli bot używasz teraz, różni się od bota, który powstał tworzenia kopii zapasowych.\n"
 
 #: lua/groupbutler/plugins/banhammer.lua:90
 msgid "Use -/+ to edit the value, then select a timeframe to temporary ban the user"
-msgstr ""
+msgstr "Zastosowanie -/+, aby zmienić ustawienia, a następnie wybierz terminy tymczasowego zakazu użytkownik"
 
 #: lua/groupbutler/plugins/banhammer.lua:107
 #, lua-format
 msgid "%s kicked %s!"
-msgstr ""
+msgstr "%s nogami %s!"
 
 #: lua/groupbutler/plugins/banhammer.lua:122
 #: lua/groupbutler/plugins/banhammer.lua:142
 #, lua-format
 msgid "%s banned %s!"
-msgstr ""
+msgstr "%s zakazane %s!"
 
 #: lua/groupbutler/plugins/banhammer.lua:128
 msgid "_Use this command in reply to a forwarded message_"
@@ -1509,7 +1516,7 @@ msgstr ""
 
 #: lua/groupbutler/plugins/menu.lua:185 lua/groupbutler/utilities.lua:378
 msgid "RTL"
-msgstr ""
+msgstr "RTL"
 
 #: lua/groupbutler/plugins/menu.lua:186 lua/groupbutler/utilities.lua:374
 msgid "Ban bots"

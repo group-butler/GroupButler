@@ -3,38 +3,38 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-03-31 11:30-0300\n"
-"PO-Revision-Date: 2019-09-11 13:15\n"
+"PO-Revision-Date: 2019-09-11 13:17\n"
 "Last-Translator: Tiago Danin (TiagoDanin)\n"
-"Language-Team: Arabic\n"
-"Language: ar_SA\n"
+"Language-Team: Hindi\n"
+"Language: hi_IN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: crowdin.com\n"
 "X-Crowdin-Project: group-butler\n"
-"X-Crowdin-Language: ar\n"
+"X-Crowdin-Language: hi\n"
 "X-Crowdin-File: /locales/en_GB.po\n"
 
 #: lua/groupbutler/api_errors.lua:19
 msgid "An unknown error has ocurred"
-msgstr ""
+msgstr "एक अज्ञात त्रुटि हुई।"
 
 #: lua/groupbutler/api_errors.lua:20
 msgid "I don't have enough permissions to restrict users"
-msgstr ""
+msgstr "मेरे पास उपयोगकर्ताओं को प्रतिबंधित करने के लिए पर्याप्त अनुमति नहीं है।"
 
 #: lua/groupbutler/api_errors.lua:21
 msgid "I'm not an admin, I can't kick people"
-msgstr ""
+msgstr "मैं एक एडमिन नहीं हूं, मैं लोगों को बाहर नहीं कर सकता।"
 
 #: lua/groupbutler/api_errors.lua:22
 msgid "I can't do that to admins!"
-msgstr ""
+msgstr "मैं एडमिनों के साथ ऐसा नहीं कर सकता!"
 
 #: lua/groupbutler/api_errors.lua:23
 msgid "There is no need to unban in a normal group"
-msgstr ""
+msgstr "एक सामान्य समूह में अप्रतिबंधित करने की कोई आवश्यकता नहीं है"
 
 #: lua/groupbutler/api_errors.lua:24
 msgid "This user is not a chat member"
@@ -42,38 +42,40 @@ msgstr ""
 
 #: lua/groupbutler/api_errors.lua:25
 msgid "Please input a text"
-msgstr ""
+msgstr "कृपया पाठ दर्ज करें"
 
 #: lua/groupbutler/api_errors.lua:26
 msgid "This message is too long. Max lenght allowed by Telegram: 4000 characters"
-msgstr ""
+msgstr "यह संदेश बहुत लंबा है। टेलीग्राम द्वारा अधिकतम लंबाई की अनुमति: 4000 वर्ण"
 
 #: lua/groupbutler/api_errors.lua:27
 msgid "One of the inline buttons you are trying to set is missing the URL"
-msgstr ""
+msgstr "आपके द्वारा सेट किए जा रहे इनलाइन बटन में से एक का URL गुम है"
 
 #: lua/groupbutler/api_errors.lua:28
 #, lua-format
 msgid "Inline link formatted incorrectly. Check the text between brackets -> \\[]()\n"
 "%s"
-msgstr ""
+msgstr "इनलाइन लिंक को गलत तरीके से स्वरूपित किया गया। कोष्ठक के बीच पाठ की जाँच करें -> \\[]()\n"
+"%s"
 
 #: lua/groupbutler/api_errors.lua:28
 msgid "More info [here](https://telegram.me/GB_tutorials/12)"
-msgstr ""
+msgstr "अधिक जानकारी [here](https://telegram.me/GB_tutorials/12)"
 
 #: lua/groupbutler/api_errors.lua:29
 msgid "This text breaks the markdown.\n"
 "More info about a proper use of markdown [here](https://telegram.me/GB_tutorials/10) and [here](https://telegram.me/GB_tutorials/12)."
-msgstr ""
+msgstr "यह पाठ मार्कडाउन को तोड़ता है। \n"
+"मार्कडाउन के उचित उपयोग के बारे में अधिक जानकारी [here] (https://telegram.me/GB_tutorials/10) और [here] (https://telegram.me/GB_tutorials/12)।"
 
 #: lua/groupbutler/api_errors.lua:31
 msgid "One of the URLs that should be placed in an inline button seems to be invalid (not an URL). Please check it"
-msgstr ""
+msgstr "एक URL जिसे इनलाइन बटन में रखा जाना चाहिए, वह अमान्य लगता है (URL नहीं है)। कृपया यह जाँचें"
 
 #: lua/groupbutler/api_errors.lua:32
 msgid "One of the inline buttons you are trying to set doesn't have a name"
-msgstr ""
+msgstr "आपके द्वारा सेट किए जा रहे इनलाइन बटन में से एक का नाम नहीं है"
 
 #: lua/groupbutler/main.lua:151
 #, lua-format
@@ -84,7 +86,7 @@ msgstr ""
 
 #: lua/groupbutler/main.lua:219
 msgid "🐞 Sorry, a *bug* occurred"
-msgstr ""
+msgstr "🐞 क्षमा करें, एक *त्रुटि* हुई"
 
 #: lua/groupbutler/message.lua:80
 msgid "Reply to a user or mention them"
@@ -520,17 +522,17 @@ msgstr ""
 
 #: lua/groupbutler/plugins/dashboard.lua:70
 msgid "Admins"
-msgstr ""
+msgstr "एडमिन"
 
 #: lua/groupbutler/plugins/dashboard.lua:73
 #: lua/groupbutler/plugins/menu.lua:183 lua/groupbutler/utilities.lua:376
 msgid "Rules"
-msgstr ""
+msgstr "नियम"
 
 #: lua/groupbutler/plugins/dashboard.lua:74
 #: lua/groupbutler/plugins/help.lua:254
 msgid "Extra commands"
-msgstr ""
+msgstr "अतिरिक्त आदेश"
 
 #: lua/groupbutler/plugins/dashboard.lua:77
 msgid "Flood settings"

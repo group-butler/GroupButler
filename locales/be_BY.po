@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-03-31 11:30-0300\n"
-"PO-Revision-Date: 2019-04-19 01:02\n"
+"PO-Revision-Date: 2019-09-11 13:15\n"
 "Last-Translator: Tiago Danin (TiagoDanin)\n"
 "Language-Team: Belarusian\n"
 "Language: be_BY\n"
@@ -18,7 +18,7 @@ msgstr ""
 
 #: lua/groupbutler/api_errors.lua:19
 msgid "An unknown error has ocurred"
-msgstr ""
+msgstr "Узнікла невядомая памылка"
 
 #: lua/groupbutler/api_errors.lua:20
 msgid "I don't have enough permissions to restrict users"
@@ -26,7 +26,7 @@ msgstr ""
 
 #: lua/groupbutler/api_errors.lua:21
 msgid "I'm not an admin, I can't kick people"
-msgstr ""
+msgstr "Я не кіраўнік, я не магу праганяць людзей"
 
 #: lua/groupbutler/api_errors.lua:22
 msgid "I can't do that to admins!"
@@ -100,13 +100,13 @@ msgstr ""
 #: lua/groupbutler/plugins/onmessage.lua:162
 #: lua/groupbutler/plugins/warn.lua:114
 msgid "banned"
-msgstr ""
+msgstr "забанены"
 
 #: lua/groupbutler/plugins/antispam.lua:46
 #: lua/groupbutler/plugins/onmessage.lua:159
 #: lua/groupbutler/plugins/warn.lua:118
 msgid "kicked"
-msgstr ""
+msgstr "прагнаны"
 
 #: lua/groupbutler/plugins/antispam.lua:47
 #: lua/groupbutler/plugins/onmessage.lua:165
