@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-03-31 11:30-0300\n"
-"PO-Revision-Date: 2019-04-19 01:02\n"
+"PO-Revision-Date: 2019-10-12 22:25\n"
 "Last-Translator: Tiago Danin (TiagoDanin)\n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -18,69 +18,73 @@ msgstr ""
 
 #: lua/groupbutler/api_errors.lua:19
 msgid "An unknown error has ocurred"
-msgstr ""
+msgstr "Une erreur inconnue s'est produite"
 
 #: lua/groupbutler/api_errors.lua:20
 msgid "I don't have enough permissions to restrict users"
-msgstr ""
+msgstr "Je n'ai pas les droits suffisants pour restreindre des utilisateurs"
 
 #: lua/groupbutler/api_errors.lua:21
 msgid "I'm not an admin, I can't kick people"
-msgstr ""
+msgstr "Je ne suis pas un administrateur; impossible d'éjecter des personnes"
 
 #: lua/groupbutler/api_errors.lua:22
 msgid "I can't do that to admins!"
-msgstr ""
+msgstr "Je ne peux pas faire ça aux administrateurs!"
 
 #: lua/groupbutler/api_errors.lua:23
 msgid "There is no need to unban in a normal group"
-msgstr ""
+msgstr "Il n'est pas nécessaire de restituer un banni dans un groupe normal"
 
 #: lua/groupbutler/api_errors.lua:24
 msgid "This user is not a chat member"
-msgstr ""
+msgstr "Cet utilisateur n'est pas un membre du chat"
 
 #: lua/groupbutler/api_errors.lua:25
 msgid "Please input a text"
-msgstr ""
+msgstr "Merci d'entrer un texte"
 
 #: lua/groupbutler/api_errors.lua:26
 msgid "This message is too long. Max lenght allowed by Telegram: 4000 characters"
-msgstr ""
+msgstr "Ce message est trop long. Taille maximum autorisée par Telegram : 4000 caractères"
 
 #: lua/groupbutler/api_errors.lua:27
 msgid "One of the inline buttons you are trying to set is missing the URL"
-msgstr ""
+msgstr "L'un des boutons que vous essayez de définir manque l'URL"
 
 #: lua/groupbutler/api_errors.lua:28
 #, lua-format
 msgid "Inline link formatted incorrectly. Check the text between brackets -> \\[]()\n"
 "%s"
-msgstr ""
+msgstr "Liens non correctement formatés. Vérifier le texte entre parenthèses -> \\[]()\n"
+"%s"
 
 #: lua/groupbutler/api_errors.lua:28
 msgid "More info [here](https://telegram.me/GB_tutorials/12)"
-msgstr ""
+msgstr "Plus d'infos [ici](https://telegram.me/GB_tutorials/12)"
 
 #: lua/groupbutler/api_errors.lua:29
 msgid "This text breaks the markdown.\n"
 "More info about a proper use of markdown [here](https://telegram.me/GB_tutorials/10) and [here](https://telegram.me/GB_tutorials/12)."
-msgstr ""
+msgstr "Ce texte ne respecte pas le markdown.\n"
+"Plus d'infos sur une bonne utilisation du markdown [ici](https://telegram.me/GB_tutorials/10) et [ici](https://telegram.me/GB_tutorials/12)."
 
 #: lua/groupbutler/api_errors.lua:31
 msgid "One of the URLs that should be placed in an inline button seems to be invalid (not an URL). Please check it"
-msgstr ""
+msgstr "L'une des URL qui doit être placée dans un bouton semble invalide (pas une URL). Vérifiez s'il vous plaît"
 
 #: lua/groupbutler/api_errors.lua:32
 msgid "One of the inline buttons you are trying to set doesn't have a name"
-msgstr ""
+msgstr "L'un des boutons vous essayez de définir n'a pas de nom"
 
 #: lua/groupbutler/main.lua:151
 #, lua-format
 msgid "Hello everyone!\n"
 "My name is %s, and I'm a bot made to help administrators in their hard work.\n"
 "Unfortunately I can't work in normal groups. If you need me, please ask the creator to convert this group to a supergroup and then add me again.\n"
-msgstr ""
+msgstr "Bonjour tout le monde!\n"
+"Je m'appelle est %s, et je suis un bot conçu pour aider les administrateurs dans leur travail.\n"
+"Malheureusement, je ne peux pas fonctionner dans des groupes normaux. Si vous avez besoin de moi, merci de demander au créateur de convertir ce groupe en supergroupe, puis de m'ajouter de nouveau.\n"
 
 #: lua/groupbutler/main.lua:219
 msgid "🐞 Sorry, a *bug* occurred"
@@ -88,112 +92,114 @@ msgstr "🐞 Désolé, un *bug* a eu lieu"
 
 #: lua/groupbutler/message.lua:80
 msgid "Reply to a user or mention them"
-msgstr ""
+msgstr "Répondre à un utilisateur ou les mentionner"
 
 #: lua/groupbutler/message.lua:83
 msgid "I've never seen this user before.\n"
 "This command works by reply, username, user ID or text mention.\n"
 "If you're using it by username and want to teach me who the user is, forward me one of their messages"
-msgstr ""
+msgstr "Je n'ai jamais vu cet utilisateur auparavant.\n"
+"Cette commande fonctionne en répondant par le nom d'utilisateur, l'identifiant utilisateur ou une mention texte.\n"
+"Si vous voulez utiliser un nom d'utilisateur et donc me l'apprendre, transférez moi un de ses messages"
 
 #: lua/groupbutler/plugins/antispam.lua:45
 #: lua/groupbutler/plugins/onmessage.lua:162
 #: lua/groupbutler/plugins/warn.lua:114
 msgid "banned"
-msgstr ""
+msgstr "banni"
 
 #: lua/groupbutler/plugins/antispam.lua:46
 #: lua/groupbutler/plugins/onmessage.lua:159
 #: lua/groupbutler/plugins/warn.lua:118
 msgid "kicked"
-msgstr ""
+msgstr "éjecté"
 
 #: lua/groupbutler/plugins/antispam.lua:47
 #: lua/groupbutler/plugins/onmessage.lua:165
 #: lua/groupbutler/plugins/warn.lua:122
 msgid "muted"
-msgstr ""
+msgstr "mis en sourdine"
 
 #: lua/groupbutler/plugins/antispam.lua:48
 #: lua/groupbutler/plugins/dashboard.lua:165
 msgid "telegram.me links"
-msgstr ""
+msgstr "liens telegram.me"
 
 #: lua/groupbutler/plugins/antispam.lua:49
 msgid "Channels messages"
-msgstr ""
+msgstr "Messages des Chaines"
 
 #: lua/groupbutler/plugins/antispam.lua:96
 #, lua-format
 msgid "%s %s for <b>spam</b>! (%d/%d)"
-msgstr ""
+msgstr "%s %s for <b>spam</b>! (%d/%d)"
 
 #: lua/groupbutler/plugins/antispam.lua:103
 #, lua-format
 msgid "%s, spam is not allowed here. The next time you will be restricted"
-msgstr ""
+msgstr "%s, le spam n'est pas autorisé ici. La prochaine fois, vous serez restreint"
 
 #: lua/groupbutler/plugins/antispam.lua:109
 #, lua-format
 msgid "%s, this kind of message is not allowed in this chat (<b>%d/%d</b>)"
-msgstr ""
+msgstr "%s, ce type de message n'est pas autorisé dans ce chat (<b>%d/%d</b>)"
 
 #: lua/groupbutler/plugins/antispam.lua:113
 msgid "telegram.me link"
-msgstr ""
+msgstr "lien telegram.me"
 
 #: lua/groupbutler/plugins/antispam.lua:113
 msgid "message from a channel"
-msgstr ""
+msgstr "message d'une chaine"
 
 #: lua/groupbutler/plugins/antispam.lua:137
 msgid "forwards are allowed"
-msgstr ""
+msgstr "les transferts sont autorisés"
 
 #: lua/groupbutler/plugins/antispam.lua:139
 msgid "warn for forwards"
-msgstr ""
+msgstr "avertissements pour transferts"
 
 #: lua/groupbutler/plugins/antispam.lua:141
 msgid "forwards will be deleted"
-msgstr ""
+msgstr "les transferts seront supprimés"
 
 #: lua/groupbutler/plugins/antispam.lua:145
 msgid "links are allowed"
-msgstr ""
+msgstr "les liens sont autorisés"
 
 #: lua/groupbutler/plugins/antispam.lua:147
 msgid "warn for links"
-msgstr ""
+msgstr "avertissement pour liens"
 
 #: lua/groupbutler/plugins/antispam.lua:149
 msgid "links will be deleted"
-msgstr ""
+msgstr "les liens seront supprimés"
 
 #: lua/groupbutler/plugins/antispam.lua:168
 msgid "You can't go lower"
-msgstr ""
+msgstr "Vous ne pouvez pas aller plus bas"
 
 #: lua/groupbutler/plugins/antispam.lua:170
 msgid "You can't go higher"
-msgstr ""
+msgstr "Vous ne pouvez pas aller plus haut"
 
 #: lua/groupbutler/plugins/antispam.lua:178
 #, lua-format
 msgid "New value: %d"
-msgstr ""
+msgstr "Nouvelle valeur: %d"
 
 #: lua/groupbutler/plugins/antispam.lua:202
 msgid "Allow/forbid telegram.me links"
-msgstr ""
+msgstr "Autoriser/interdire les liens telegram.me"
 
 #: lua/groupbutler/plugins/antispam.lua:204
 msgid "Allow/forbid forwarded messages from channels"
-msgstr ""
+msgstr "Autoriser/interdire de transférer des messages des chaînes"
 
 #: lua/groupbutler/plugins/antispam.lua:206
 msgid "Set how many times the bot should warn users before kicking/banning them"
-msgstr ""
+msgstr "Réglez combien de fois le robot devrait avertir les utilisateurs avant de les éjecter/bannir"
 
 #: lua/groupbutler/plugins/antispam.lua:208
 #: lua/groupbutler/plugins/defaultpermissions.lua:68
@@ -202,11 +208,11 @@ msgstr ""
 #: lua/groupbutler/plugins/menu.lua:44
 #: lua/groupbutler/plugins/private_settings.lua:25
 msgid "Description not available"
-msgstr ""
+msgstr "Description indisponible"
 
 #: lua/groupbutler/plugins/antispam.lua:243
 msgid "Kick 👞"
-msgstr ""
+msgstr "Éjecter 👞"
 
 #: lua/groupbutler/plugins/antispam.lua:245
 msgid "Ban 🔨"
@@ -214,7 +220,7 @@ msgstr ""
 
 #: lua/groupbutler/plugins/antispam.lua:247
 msgid "Mute 👁"
-msgstr ""
+msgstr "Rendre muet 👁"
 
 #: lua/groupbutler/plugins/antispam.lua:298
 #: lua/groupbutler/plugins/floodmanager.lua:157
@@ -222,7 +228,7 @@ msgstr ""
 #: lua/groupbutler/plugins/mediasettings.lua:127
 #: lua/groupbutler/plugins/menu.lua:271 lua/groupbutler/plugins/setlang.lua:45
 msgid "Sorry, you don't have permission to change settings"
-msgstr ""
+msgstr "Désolé, vous n'avez pas la permission de modifier les paramètres"
 
 #: lua/groupbutler/plugins/antispam.lua:302
 msgid "*Anti-spam settings*\n"
@@ -231,36 +237,43 @@ msgid "*Anti-spam settings*\n"
 "• ❌ = *Not allowed*\n"
 "• 🗑 = *Delete*\n"
 "When set on `delete`, the bot doesn't warn users until they are about to be kicked/banned/muted (at the second-to-last warning)"
-msgstr ""
+msgstr "*Réglages anti-spam*\n"
+"Choisissez quel type de spam vous souhaitez interdire\n"
+"• ✅ = *Autorisé*\n"
+"• ❌ = *Interdit*\n"
+"• 🗑 = *Supprimer*\n"
+"Réglé sur `supprimer`, le robot ne prévient pas les utilisateurs jusqu'à ce qu'ils seront éjectés/bannis/mis en muet (à la seconde du dernier avertissement)"
 
 #: lua/groupbutler/plugins/antispam.lua:370
 msgid "_The whitelist was already empty_"
-msgstr ""
+msgstr "_La liste blanche était déjà vide_"
 
 #: lua/groupbutler/plugins/antispam.lua:373
 #, lua-format
 msgid "*Whitelist cleaned*\n"
 "%d links have been removed"
-msgstr ""
+msgstr "*Liste blanche nettoyée*\n"
+"%d liens ont été supprimés"
 
 #: lua/groupbutler/plugins/antispam.lua:381
 #: lua/groupbutler/plugins/antispam.lua:390
 #: lua/groupbutler/plugins/antispam.lua:416
 #: lua/groupbutler/plugins/antispam.lua:425
 msgid "_I can't find any url in this message_"
-msgstr ""
+msgstr "_Je ne peut trouver aucune url dans ce message_"
 
 #: lua/groupbutler/plugins/antispam.lua:384
 #, lua-format
 msgid "%d link(s) will be whitelisted"
-msgstr ""
+msgstr "%d les lien(s) vont être autorisés"
 
 #: lua/groupbutler/plugins/antispam.lua:386
 #: lua/groupbutler/plugins/antispam.lua:421
 #, lua-format
 msgid "\n"
 "%d links were already in the list"
-msgstr ""
+msgstr "\n"
+"%d liens étaient déjà dans la liste"
 
 #: lua/groupbutler/plugins/antispam.lua:400
 msgid "_The whitelist is empty_.\n"

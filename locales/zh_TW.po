@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-03-31 11:30-0300\n"
-"PO-Revision-Date: 2019-04-19 01:03\n"
+"PO-Revision-Date: 2019-10-12 22:25\n"
 "Last-Translator: Tiago Danin (TiagoDanin)\n"
 "Language-Team: Chinese Traditional\n"
 "Language: zh_TW\n"
@@ -832,13 +832,13 @@ msgid "*Commands that work in private*:\n\n"
 "• `/start` : show the initial message\n"
 "• `/help` : show this message"
 msgstr "*在私人對話中使用的指令*\n\n"
-"•`/ mysettings`: 顯示一個控制面板, 允許您更改個人設置, 例如選擇是否在加入群組時私訊收到規則, 或者是否接收使用“@admin”指令進行的回報\n"
-"•`/ echo [text]`: 機器人將轉換並發回格式含有標記符號(markdown) 的訊息\n"
-"•`/ about`: 顯示有關機器人的有用訊息\n"
-"•`/ groups`: 顯示此機器人討論群組的列表\n"
-"•`/ id`: 取得你的Telegram ID\n"
-"•`/ start`: 顯示初始訊息\n"
-"•`/ help`: 顯示此訊息"
+"•`/mysettings`: 顯示一個控制面板, 允許您更改個人設置, 例如選擇是否在加入群組時私訊收到規則, 或者是否接收使用“@admin”指令進行的回報\n"
+"•`/echo [text]`: 機器人將轉換並發回格式含有標記符號(markdown) 的訊息\n"
+"•`/about`: 顯示有關機器人的有用訊息\n"
+"•`/groups`: 顯示此機器人討論群組的列表\n"
+"•`/id`: 取得你的Telegram Id\n"
+"•`/start`: 顯示初始訊息\n"
+"•`/help`: 顯示此訊息"
 
 #: lua/groupbutler/plugins/help.lua:57
 msgid "*Commands available for every user in a group*:\n\n"
@@ -1679,7 +1679,7 @@ msgstr "阿拉伯文字"
 
 #: lua/groupbutler/plugins/menu.lua:185 lua/groupbutler/utilities.lua:378
 msgid "RTL"
-msgstr "右至左文字"
+msgstr "從右至左文字"
 
 #: lua/groupbutler/plugins/menu.lua:186 lua/groupbutler/utilities.lua:374
 msgid "Ban bots"
@@ -2141,7 +2141,7 @@ msgstr "回覆一個用戶或透過標註(@username)用戶名稱或數字ID"
 #: lua/groupbutler/plugins/users.lua:157
 #, lua-format
 msgid "👥 Admins cached: <code>%d</code>"
-msgstr "👥 暫存管理員: <code>%d</code>"
+msgstr "👥 管理員列表快取: <code>%d</code>"
 
 #: lua/groupbutler/plugins/users.lua:165
 #, lua-format

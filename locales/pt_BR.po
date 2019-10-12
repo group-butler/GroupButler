@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-03-31 11:30-0300\n"
-"PO-Revision-Date: 2019-04-19 01:03\n"
+"PO-Revision-Date: 2019-10-12 22:26\n"
 "Last-Translator: Tiago Danin (TiagoDanin)\n"
 "Language-Team: Portuguese, Brazilian\n"
 "Language: pt_BR\n"
@@ -228,7 +228,7 @@ msgstr "Silenciar 👁"
 #: lua/groupbutler/plugins/mediasettings.lua:127
 #: lua/groupbutler/plugins/menu.lua:271 lua/groupbutler/plugins/setlang.lua:45
 msgid "Sorry, you don't have permission to change settings"
-msgstr ""
+msgstr "Desculpe, você não tem permissão para alterar as configurações"
 
 #: lua/groupbutler/plugins/antispam.lua:302
 msgid "*Anti-spam settings*\n"
@@ -1524,7 +1524,11 @@ msgid "Tap on an option on the right to *change the setting*\n"
 "The number is not related the the normal `/warn` command.\n\n"
 "Possible statuses: ✅ allowed, ❌ warning, 🗑 delete.\n"
 "When a media is set to delete, the bot will give a warning *only* when this is the users last warning"
-msgstr ""
+msgstr "Clique em uma opção à sua direita para *mudar a configuração*\n"
+"Você pode usar as últimas linhas para mudar a quantidade de advertências que o bot deve enviar antes de expulsar/banir/silenciar alguém.\n"
+"O número não é vinculado ao comando normal `/warn`.\n\n"
+"Status possíveis: ✅ permitido, ❌ advertir, 🗑 apagar.\n"
+"Quando uma mídia é definida para ser removida, o bot dará uma advertência *apenas* quando esta for a última advertência do usuário"
 
 #: lua/groupbutler/plugins/mediasettings.lua:149
 msgid "⚙ The new value is too low ( < 1)"
@@ -2138,7 +2142,7 @@ msgstr "Responda a um usuário ou mencione-o com o seu nome de usuário ou ID nu
 #: lua/groupbutler/plugins/users.lua:157
 #, lua-format
 msgid "👥 Admins cached: <code>%d</code>"
-msgstr ""
+msgstr "👥 Administradores em cache: <code>%d</code>"
 
 #: lua/groupbutler/plugins/users.lua:165
 #, lua-format
@@ -2156,7 +2160,7 @@ msgstr "O número de advertências recebido por esse usuário foi <b>reiniciado<
 
 #: lua/groupbutler/plugins/users.lua:206
 msgid "✅ The admin list will be updated soon"
-msgstr ""
+msgstr "✅ A lista de administradores será atualizada em breve"
 
 #: lua/groupbutler/plugins/warn.lua:18
 msgid "Remove warn"
