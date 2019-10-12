@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-03-31 11:30-0300\n"
-"PO-Revision-Date: 2019-08-09 22:04\n"
+"PO-Revision-Date: 2019-10-12 22:25\n"
 "Last-Translator: Tiago Danin (TiagoDanin)\n"
 "Language-Team: Chinese Traditional\n"
 "Language: zh_TW\n"
@@ -2141,7 +2141,7 @@ msgstr "回覆一個用戶或透過標註(@username)用戶名稱或數字ID"
 #: lua/groupbutler/plugins/users.lua:157
 #, lua-format
 msgid "👥 Admins cached: <code>%d</code>"
-msgstr "👥 暫存管理員: <code>%d</code>"
+msgstr "👥 管理員列表快取: <code>%d</code>"
 
 #: lua/groupbutler/plugins/users.lua:165
 #, lua-format
