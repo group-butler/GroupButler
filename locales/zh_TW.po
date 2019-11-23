@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-03-31 11:30-0300\n"
-"PO-Revision-Date: 2019-10-12 22:25\n"
+"PO-Revision-Date: 2019-11-23 14:37\n"
 "Last-Translator: Tiago Danin (TiagoDanin)\n"
 "Language-Team: Chinese Traditional\n"
 "Language: zh_TW\n"
@@ -50,13 +50,13 @@ msgstr "這條訊息太長了, Telegram 允許的最大長度是: 4000 個字元
 
 #: lua/groupbutler/api_errors.lua:27
 msgid "One of the inline buttons you are trying to set is missing the URL"
-msgstr "您所嘗試設定的一個內聯按鈕缺少了URL連結."
+msgstr "您嘗試設定的內嵌按鈕缺少 URL 連結"
 
 #: lua/groupbutler/api_errors.lua:28
 #, lua-format
 msgid "Inline link formatted incorrectly. Check the text between brackets -> \\[]()\n"
 "%s"
-msgstr "內聯連結格式不正確. 檢查括號內的文字 - > \\ []()\n"
+msgstr "內嵌按鈕連結格式化失敗；請檢查文字間的括號是否正確 -> \\[]()\n"
 "%s"
 
 #: lua/groupbutler/api_errors.lua:28
@@ -66,16 +66,16 @@ msgstr "若要得知更多資訊, [請點此](https://telegram.me/GB_tutorials/1
 #: lua/groupbutler/api_errors.lua:29
 msgid "This text breaks the markdown.\n"
 "More info about a proper use of markdown [here](https://telegram.me/GB_tutorials/10) and [here](https://telegram.me/GB_tutorials/12)."
-msgstr "標記符號(Markdown)使用不當. \n"
-"關於標記符號的詳細解說請點擊[這裡](https://telegram.me/GB_tutorials/10)及[這裡](https://telegram.me/GB_tutorials/12). (皆為英文)"
+msgstr "此文字與 Markdown 語法衝突\n"
+"關於詳細 Markdown 語法請點擊[這裡](https://telegram.me/GB_tutorials/10)及[這裡](https://telegram.me/GB_tutorials/12). (皆為英文)"
 
 #: lua/groupbutler/api_errors.lua:31
 msgid "One of the URLs that should be placed in an inline button seems to be invalid (not an URL). Please check it"
-msgstr "應放在內聯按鈕中的其中一個URL連結似乎無效(不是URL連結). 請確認"
+msgstr "請再檢查一次，其中一個內嵌按鈕中的連結似乎不是有效的連結（不是正確連結格式）。"
 
 #: lua/groupbutler/api_errors.lua:32
 msgid "One of the inline buttons you are trying to set doesn't have a name"
-msgstr "您所嘗試設定的一個內聯按鈕沒有名稱."
+msgstr "您嘗試設定的內嵌按鈕並未設定名稱."
 
 #: lua/groupbutler/main.lua:151
 #, lua-format
@@ -83,8 +83,8 @@ msgid "Hello everyone!\n"
 "My name is %s, and I'm a bot made to help administrators in their hard work.\n"
 "Unfortunately I can't work in normal groups. If you need me, please ask the creator to convert this group to a supergroup and then add me again.\n"
 msgstr "大家好! \n"
-"我的名字是 %s, 我是一個機器人, 負責幫助管理員工作. \n"
-"不幸的是, 我無法在普通群組中工作, 請讓創建者將該群組轉換為超級群組再將我重新加入. \n"
+"我的名字是 %s, 我是一個負責幫助管理員工作的機器人\n"
+"很遺憾的, 我無法在普通群組中運作, 請讓群組擁有者將該群組轉換為超級群組再將我重新加入.\n"
 
 #: lua/groupbutler/main.lua:219
 msgid "🐞 Sorry, a *bug* occurred"

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-03-31 11:30-0300\n"
-"PO-Revision-Date: 2019-10-12 22:25\n"
+"PO-Revision-Date: 2019-11-23 14:37\n"
 "Last-Translator: Tiago Danin (TiagoDanin)\n"
 "Language-Team: Italian\n"
 "Language: it_IT\n"
@@ -30,7 +30,7 @@ msgstr "Non sono un amministratore, non posso kickare le persone"
 
 #: lua/groupbutler/api_errors.lua:22
 msgid "I can't do that to admins!"
-msgstr "Non posso farlo agli amministratori!"
+msgstr "Non posso fare questo agli amministratori!"
 
 #: lua/groupbutler/api_errors.lua:23
 msgid "There is no need to unban in a normal group"

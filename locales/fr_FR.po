@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-03-31 11:30-0300\n"
-"PO-Revision-Date: 2019-10-12 22:25\n"
+"PO-Revision-Date: 2019-11-23 14:37\n"
 "Last-Translator: Tiago Danin (TiagoDanin)\n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -216,7 +216,7 @@ msgstr "Éjecter 👞"
 
 #: lua/groupbutler/plugins/antispam.lua:245
 msgid "Ban 🔨"
-msgstr ""
+msgstr "Bannir 🔨"
 
 #: lua/groupbutler/plugins/antispam.lua:247
 msgid "Mute 👁"
@@ -278,26 +278,28 @@ msgstr "\n"
 #: lua/groupbutler/plugins/antispam.lua:400
 msgid "_The whitelist is empty_.\n"
 "Use `/wl [links]` to add some links to the whitelist"
-msgstr ""
+msgstr "_La liste blanche est vide_.\n"
+"Utilisez `/wl [links]` pour ajouter des liens à la liste blanche"
 
 #: lua/groupbutler/plugins/antispam.lua:402
 msgid "Whitelisted links:\n\n"
-msgstr ""
+msgstr "Liens de la liste blanche:\n\n"
 
 #: lua/groupbutler/plugins/antispam.lua:419
 #, lua-format
 msgid "%d link(s) removed from the whitelist"
-msgstr ""
+msgstr "%d lien(s) retiré(s) de la liste blanche"
 
 #: lua/groupbutler/plugins/antispam.lua:440
 msgid "_Whitelist of channels empty_"
-msgstr ""
+msgstr "_liste blanche de la chaine vide_"
 
 #: lua/groupbutler/plugins/antispam.lua:442
 #, lua-format
 msgid "*Whitelisted channels:*\n"
 "%s"
-msgstr ""
+msgstr "*Chaines dans la liste blanche:*\n"
+"%s"
 
 #: lua/groupbutler/plugins/antispam.lua:450
 #: lua/groupbutler/plugins/antispam.lua:467
@@ -308,98 +310,102 @@ msgstr ""
 #, lua-format
 msgid "<i>I'm sorry, this command has been used for the last time less then 3 hours ago by</i> %s (ask them for the file).\n"
 "Wait [<code>%s</code>] to use it again\n"
-msgstr ""
+msgstr "<i>Désolé, cette commande a été utilisée il y a moins de 3 heures par</i> %s (demandez lui le fichier).\n"
+"Patientez [<code>%s</code>] pour l'utiliser encore\n"
 
 #: lua/groupbutler/plugins/backup.lua:114
 msgid "*Sent in private*"
-msgstr ""
+msgstr "*Envoyé en privé*"
 
 #: lua/groupbutler/plugins/backup.lua:120
 msgid "Invalid input. Please reply to the backup file (/snap command to get it)"
-msgstr ""
+msgstr "Entrée invalide. Veuillez répondre au fichier de sauvegarde (/snap pour l'obtenir)"
 
 #: lua/groupbutler/plugins/backup.lua:125
 msgid "Invalid input. Please reply to a document"
-msgstr ""
+msgstr "Saisie invalide. Merci de répondre au document"
 
 #: lua/groupbutler/plugins/backup.lua:130
 #, lua-format
 msgid "This is not a valid backup file.\n"
 "Reason: invalid name (%s)"
-msgstr ""
+msgstr "Ce n'est pas un fichier de sauvegarde valide.\n"
+"Raison: nom non valide (%s)"
 
 #: lua/groupbutler/plugins/backup.lua:140
 #, lua-format
 msgid "Download of the file failed with code %s"
-msgstr ""
+msgstr "Téléchargement du fichier a échoué avec le code %s"
 
 #: lua/groupbutler/plugins/backup.lua:149
 #, lua-format
 msgid "Chat IDs don't match (%s and %s)"
-msgstr ""
+msgstr "Les identifiants de chat ne correspondent pas (%s et %s)"
 
 #: lua/groupbutler/plugins/backup.lua:172
 msgid "Import was <b>successful</b>.\n\n"
 "<b>Important</b>:\n"
 "- #extra commands which are associated with a media must be set again if the bot you are using now is different from the bot that originated the backup.\n"
-msgstr ""
+msgstr "L’importation a été un <b>succès</b>.\n\n"
+"<b>Important</b>\n"
+"- Les commandes #extra qui sont associés à un média doivent être reconfigurés si le bot que vous utilisez actuellement est différent de celui qui a créé la sauvegarde d’origine.\n"
 
 #: lua/groupbutler/plugins/banhammer.lua:90
 msgid "Use -/+ to edit the value, then select a timeframe to temporary ban the user"
-msgstr ""
+msgstr "Utilisez les touches -/+ pour modifier la valeur, puis sélectionnez un délai de ban temporaire de l'utilisateur"
 
 #: lua/groupbutler/plugins/banhammer.lua:107
 #, lua-format
 msgid "%s kicked %s!"
-msgstr ""
+msgstr "%s éjecté %s!"
 
 #: lua/groupbutler/plugins/banhammer.lua:122
 #: lua/groupbutler/plugins/banhammer.lua:142
 #, lua-format
 msgid "%s banned %s!"
-msgstr ""
+msgstr "%s banni %s!"
 
 #: lua/groupbutler/plugins/banhammer.lua:128
 msgid "_Use this command in reply to a forwarded message_"
-msgstr ""
+msgstr "_Utilisez cette commande en réponse à un message transféré"
 
 #: lua/groupbutler/plugins/banhammer.lua:148
 msgid "_An admin can't be unbanned_"
-msgstr ""
+msgstr "_Un administrateur ne peut pas être débanni_"
 
 #: lua/groupbutler/plugins/banhammer.lua:152
 msgid "This user is not banned!"
-msgstr ""
+msgstr "C'est utilisateur n'est pas banni!"
 
 #: lua/groupbutler/plugins/banhammer.lua:166
 #, lua-format
 msgid "%s unbanned by %s!"
-msgstr ""
+msgstr "%s a été débanni par %s!"
 
 #: lua/groupbutler/plugins/banhammer.lua:178
 #: lua/groupbutler/plugins/defaultpermissions.lua:135
 msgid "Sorry, you don't have permission to restrict members"
-msgstr ""
+msgstr "Désolé, vous n’avez pas la permission de restreindre des membres"
 
 #: lua/groupbutler/plugins/banhammer.lua:184
 msgid "Tap on the -/+ buttons to change this value. Then select a timeframe to execute the ban"
-msgstr ""
+msgstr "Appuyez sur les boutons -/+ pour modifier cette valeur. Ensuite, sélectionnez un délai d'exécution du ban"
 
 #: lua/groupbutler/plugins/banhammer.lua:200
 msgid "You can't set a lower value"
-msgstr ""
+msgstr "Vous ne pouvez pas régler une valeur plus faible"
 
 #: lua/groupbutler/plugins/banhammer.lua:208
 msgid "Stop!!!"
-msgstr ""
+msgstr "Stop!!!"
 
 #: lua/groupbutler/plugins/banhammer.lua:225
 msgid "hours"
-msgstr ""
+msgstr "heures"
 
 #: lua/groupbutler/plugins/banhammer.lua:229
 msgid "days"
-msgstr ""
+msgstr "jours"
 
 #: lua/groupbutler/plugins/banhammer.lua:233
 msgid "minutes"
@@ -408,108 +414,108 @@ msgstr ""
 #: lua/groupbutler/plugins/banhammer.lua:241
 #, lua-format
 msgid "User banned for %d %s"
-msgstr ""
+msgstr "Utilisateur banni pour %d %s"
 
 #: lua/groupbutler/plugins/configure.lua:20
 msgid "🛠 Menu"
-msgstr ""
+msgstr "🛠 Menu"
 
 #: lua/groupbutler/plugins/configure.lua:21
 msgid "⚡️ Antiflood"
-msgstr ""
+msgstr "Antiflood"
 
 #: lua/groupbutler/plugins/configure.lua:22
 msgid "🌈 Media"
-msgstr ""
+msgstr "🌈 Média"
 
 #: lua/groupbutler/plugins/configure.lua:23
 msgid "🚫 Antispam"
-msgstr ""
+msgstr "🚫 Antispam"
 
 #: lua/groupbutler/plugins/configure.lua:24
 msgid "📥 Log channel"
-msgstr ""
+msgstr "📥 Journal de la chaîne"
 
 #: lua/groupbutler/plugins/configure.lua:26
 msgid "⛔️ Default permissions"
-msgstr ""
+msgstr "⛔️ Permissions par défaut"
 
 #: lua/groupbutler/plugins/configure.lua:33
 msgid "<i>Change the settings of your group</i>"
-msgstr ""
+msgstr "<i>Changer les réglages de votre groupe</i>"
 
 #: lua/groupbutler/plugins/configure.lua:66
 msgid "_I've sent you the keyboard via private message_"
-msgstr ""
+msgstr "_Je vous ai envoyé le clavier via message privé_"
 
 #: lua/groupbutler/plugins/dashboard.lua:22
 #: lua/groupbutler/plugins/floodmanager.lua:38
 msgid "✅ | ON"
-msgstr ""
+msgstr "✅ | ON"
 
 #: lua/groupbutler/plugins/dashboard.lua:24
 #: lua/groupbutler/plugins/floodmanager.lua:40
 msgid "❌ | OFF"
-msgstr ""
+msgstr "❌ | OFF"
 
 #: lua/groupbutler/plugins/dashboard.lua:31
 #: lua/groupbutler/plugins/menu.lua:162 lua/groupbutler/plugins/menu.lua:226
 msgid "👞 kick"
-msgstr ""
+msgstr "👞 expulser"
 
 #: lua/groupbutler/plugins/dashboard.lua:33
 #: lua/groupbutler/plugins/menu.lua:164
 msgid "🔨 ban"
-msgstr ""
+msgstr "🔨 bannir"
 
 #: lua/groupbutler/plugins/dashboard.lua:35
 #: lua/groupbutler/plugins/floodmanager.lua:51
 #: lua/groupbutler/plugins/menu.lua:166 lua/groupbutler/plugins/menu.lua:230
 msgid "👁 mute"
-msgstr ""
+msgstr "👁 rendre muet"
 
 #: lua/groupbutler/plugins/dashboard.lua:40
 #: lua/groupbutler/plugins/floodmanager.lua:69
 msgid "Texts"
-msgstr ""
+msgstr "Textes"
 
 #: lua/groupbutler/plugins/dashboard.lua:41
 #: lua/groupbutler/plugins/floodmanager.lua:70
 msgid "Forwards"
-msgstr ""
+msgstr "Transferts"
 
 #: lua/groupbutler/plugins/dashboard.lua:42
 #: lua/groupbutler/plugins/dashboard.lua:169
 #: lua/groupbutler/plugins/floodmanager.lua:71
 #: lua/groupbutler/plugins/mediasettings.lua:44
 msgid "Stickers"
-msgstr ""
+msgstr "Autocollants"
 
 #: lua/groupbutler/plugins/dashboard.lua:43
 #: lua/groupbutler/plugins/dashboard.lua:161
 #: lua/groupbutler/plugins/floodmanager.lua:72
 #: lua/groupbutler/plugins/mediasettings.lua:35
 msgid "Images"
-msgstr ""
+msgstr "Images"
 
 #: lua/groupbutler/plugins/dashboard.lua:44
 #: lua/groupbutler/plugins/dashboard.lua:162
 #: lua/groupbutler/plugins/floodmanager.lua:73
 #: lua/groupbutler/plugins/mediasettings.lua:36
 msgid "GIFs"
-msgstr ""
+msgstr "GIFs"
 
 #: lua/groupbutler/plugins/dashboard.lua:45
 #: lua/groupbutler/plugins/dashboard.lua:163
 #: lua/groupbutler/plugins/floodmanager.lua:74
 #: lua/groupbutler/plugins/mediasettings.lua:37
 msgid "Videos"
-msgstr ""
+msgstr "Vidéos"
 
 #: lua/groupbutler/plugins/dashboard.lua:59
 #, lua-format
 msgid "- *Status*: `%s`\n"
-msgstr ""
+msgstr "-*Statut*: `%s`\n"
 
 #: lua/groupbutler/plugins/dashboard.lua:60
 #, lua-format
