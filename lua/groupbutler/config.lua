@@ -33,6 +33,7 @@ local _M =
 	},
 
 	-- Data
+	storage = os.getenv("GB_STORAGE") or "mixed",
 	postgres = {
 		host = os.getenv('POSTGRES_HOST') or 'localhost',
 		port = os.getenv('POSTGRES_PORT') or 5432,

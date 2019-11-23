@@ -1,3 +1,5 @@
+local Util = require("groupbutler.util")
+
 local _M = {}
 
 function _M:new(update_obj)
@@ -6,11 +8,6 @@ function _M:new(update_obj)
 	}
 	setmetatable(obj, {__index = self})
 	return obj
-end
-
-local function set_default(t, d)
-	local mt = {__index = function() return d end}
-	setmetatable(t, mt)
 end
 
 local function replies(self)
@@ -30,7 +27,7 @@ local function replies(self)
 More info about a proper use of markdown [here](https://telegram.me/GB_tutorials/10) and [here](https://telegram.me/GB_tutorials/12).]]), -- luacheck: ignore 631
 		button_url_invalid = i18n("One of the URLs that should be placed in an inline button seems to be invalid (not an URL). Please check it"), -- luacheck: ignore 631
 		bad_inline_button_name = i18n("One of the inline buttons you are trying to set doesn't have a name"),
-	} set_default(replies_t, replies_t.unknown_error)
+	} Util.setDefaultTableValue(replies_t, replies_t.unknown_error)
 	return replies_t
 end
 

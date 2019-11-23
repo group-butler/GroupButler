@@ -2,6 +2,7 @@ local config = require "groupbutler.config"
 local null = require "groupbutler.null"
 local Chat = require("groupbutler.chat")
 local ChatMember = require("groupbutler.chatmember")
+local ApiUtil = require("telegram-bot-api.utilities")
 
 local _M = {}
 
@@ -14,36 +15,127 @@ function _M:new(update_obj)
 	return plugin_obj
 end
 
-local function set_default(t, d)
-	local mt = {__index = function() return d end}
-	setmetatable(t, mt)
+function _M:getSettings()
+	local i18n = self.i18n
+	local boolean = {
+		[false] = "☑️",
+		[true] = "✅",
+	}
+	local char = {
+		allowed = i18n("✅"),
+		ban = i18n("🔨 ban"),
+		kick = i18n("👞 kick"),
+		mute = i18n("👁 mute"),
+	}
+	local settings = {
+		general = {
+			Antibot = {
+				name = i18n("Ban bots"),
+				-- TRANSLATORS: this string should be shorter than 200 characters
+				description = i18n("Bots will be banned when added by normal users"),
+				states = boolean
+			},
+			Arab = {
+				name = i18n("Arab"),
+				-- TRANSLATORS: this string should be shorter than 200 characters
+				description = i18n("Select what the bot should do when someone sends a message with arab characters"),
+				states = char
+			},
+			Clean_service_msg = {
+				name = i18n("Clean Service Messages"),
+				-- TRANSLATORS: this string should be shorter than 200 characters
+				description = i18n('When enabled, Telegram service messages such as "User joined the group" will be removed'),
+				states = boolean
+			},
+			Extra = {
+				name = i18n("Extra"),
+				-- TRANSLATORS: this string should be shorter than 200 characters
+				description = i18n([[When someone uses an #extra
+👥: the bot will answer in the group (always, with admins)
+👤: the bot will answer in private]]),
+				states = {
+					[false] = "👥",
+					[true] = "👤",
+				}
+			},
+			Goodbye = {
+				name = i18n("Goodbye"),
+				-- TRANSLATORS: this string should be shorter than 200 characters
+				description = i18n("Enable or disable the goodbye message. Can't be sent in large groups"),
+				states = boolean
+			},
+			Reports = {
+				name = i18n("Reports"),
+				-- TRANSLATORS: this string should be shorter than 200 characters
+				description = i18n("When enabled, users will be able to report messages with the @admin command"),
+				states = boolean
+			},
+			Rules = {
+				name = i18n("Rules"),
+				-- TRANSLATORS: this string should be shorter than 200 characters
+				description = i18n([[When someone uses /rules
+👥: the bot will answer in the group (always, with admins)
+👤: the bot will answer in private]]),
+				states = {
+					[false] = "👤",
+					[true] = "👥",
+				}
+			},
+			Rtl = {
+				name = i18n("RTL"),
+				-- TRANSLATORS: this string should be shorter than 200 characters
+				description = i18n("Select what the bot should do when someone sends a message with the RTL character, or has it in their name"), -- luacheck: ignore 631
+				states = char
+			},
+			Silent = {
+				name = i18n("Silent mode"),
+				-- TRANSLATORS: this string should be shorter than 200 characters
+				description = i18n("When enabled, the bot doesn't answer in the group to /dashboard, /config and /help commands (it will just answer in private)"), -- luacheck: ignore 631
+				states = boolean
+			},
+			Welcome = {
+				name = i18n("Welcome"),
+				description = i18n("Enable or disable the welcome message"),
+				states = boolean
+			},
+			Welbut = {
+				name = i18n("Welcome + rules button"),
+				-- TRANSLATORS: this string should be shorter than 200 characters
+				description = i18n("If the welcome message is enabled, it will include an inline button that will send to the user the rules in private"), -- luacheck: ignore 631
+				states = boolean
+			},
+			Weldelchain = {
+				name = i18n("Delete last welcome message"),
+				-- TRANSLATORS: this string should be shorter than 200 characters
+				description = i18n("When enabled, every time a new welcome message is sent, the previously sent welcome message is removed"), -- luacheck: ignore 631
+				states = boolean
+			},
+		}
+	}
+	return settings
+end
+
+function _M:buildGeneral(reply_markup, chat_id)
+	local db = self.db
+	local settings = self:getSettings()
+	for k,v in pairs(settings.general) do
+		reply_markup:row(
+			{text = v.name or k, callback_data = "menu:alert:settings:"..k},
+			{text = v.states[db:get_chat_setting(chat_id, k)], callback_data = "menu:"..k..":"..chat_id}
+		)
+	end
+	return reply_markup
 end
 
 local function get_button_description(self, key)
 	local i18n = self.i18n
 	local button_description = {
-		-- TRANSLATORS: these strings should be shorter than 200 characters
-		Reports = i18n("When enabled, users will be able to report messages with the @admin command"),
-		Goodbye = i18n("Enable or disable the goodbye message. Can't be sent in large groups"),
-		Welcome = i18n("Enable or disable the welcome message"),
-		Weldelchain = i18n("When enabled, every time a new welcome message is sent, the previously sent welcome message is removed"), -- luacheck: ignore 631
-		Silent = i18n("When enabled, the bot doesn't answer in the group to /dashboard, /config and /help commands (it will just answer in private)"), -- luacheck: ignore 631
-		Flood = i18n("Enable and disable the anti-flood system (more info in the /help message)"),
-		Welbut = i18n("If the welcome message is enabled, it will include an inline button that will send to the user the rules in private"), -- luacheck: ignore 631
-		Rules = i18n([[When someone uses /rules
-👥: the bot will answer in the group (always, with admins)
-👤: the bot will answer in private]]),
-		Extra = i18n([[When someone uses an #extra
-👥: the bot will answer in the group (always, with admins)
-👤: the bot will answer in private]]),
-		Arab = i18n("Select what the bot should do when someone sends a message with arab characters"),
-		Antibot = i18n("Bots will be banned when added by normal users"),
-		Rtl = i18n("Select what the bot should do when someone sends a message with the RTL character, or has it in their name"), -- luacheck: ignore 631
+		-- TRANSLATORS: this string should be shorter than 200 characters
 		warnsnum = i18n("Change how many times a user has to be warned before being kicked/banned"),
+		-- TRANSLATORS: this string should be shorter than 200 characters
 		warnsact = i18n("Change the action to perform when a user reaches the max. number of warnings"),
-	} set_default(button_description, i18n("Description not available"))
-
-	return button_description[key]
+	}
+	return button_description[key] or self:getSettings().general[key].description
 end
 
 local function changeWarnSettings(self, chat_id, action)
@@ -111,109 +203,13 @@ local function changeCharSettings(self, chat_id, field)
 	end
 end
 
-local function usersettings_table(self, settings, chat_id)
-	local red = self.red
-	local return_table = {}
-	local icon_off, icon_on = '👤', '👥'
-	for field, default in pairs(settings) do
-		if field == 'Extra' or field == 'Rules' then
-			local status = red:hget('chat:'..chat_id..':settings', field)
-			if status == null then status = default end
-			if status == 'off' then
-				return_table[field] = icon_off
-			elseif status == 'on' then
-				return_table[field] = icon_on
-			end
-		end
-	end
-
-	return return_table
-end
-
-local function adminsettings_table(self, settings, chat_id)
-	local red = self.red
-	local return_table = {}
-	local icon_off, icon_on = '☑️', '✅'
-	for field, default in pairs(settings) do
-		if field ~= 'Extra' and field ~= 'Rules' then
-			local status = red:hget('chat:'..chat_id..':settings', field)
-			if status == null then status = default end
-
-			if status == 'off' then
-				return_table[field] = icon_off
-			elseif status == 'on' then
-				return_table[field] = icon_on
-			end
-		end
-	end
-
-	return return_table
-end
-
-local function charsettings_table(self, settings, chat_id)
-	local red = self.red
-	local i18n = self.i18n
-	local return_table = {}
-	for field, default in pairs(settings) do
-		local status = red:hget('chat:'..chat_id..':char', field)
-		if status == null then status = default end
-
-		if status == 'kick' then
-			return_table[field] = i18n('👞 kick')
-		elseif status == 'ban' then
-			return_table[field] = i18n('🔨 ban')
-		elseif status == 'mute' then
-			return_table[field] = i18n('👁 mute')
-		elseif status == 'allowed' then
-			return_table[field] = i18n('✅')
-		end
-	end
-
-	return return_table
-end
-
-local function insert_settings_section(self, keyboard, settings_section, chat_id)
-	local i18n = self.i18n
-	local strings = {
-		Welcome = i18n("Welcome"),
-		Goodbye = i18n("Goodbye"),
-		Extra = i18n("Extra"),
-		Flood = i18n("Anti-flood"),
-		Silent = i18n("Silent mode"),
-		Rules = i18n("Rules"),
-		Arab = i18n("Arab"),
-		Rtl = i18n("RTL"),
-		Antibot = i18n("Ban bots"),
-		Reports = i18n("Reports"),
-		Weldelchain = i18n("Delete last welcome message"),
-		Welbut = i18n("Welcome + rules button"),
-		Clean_service_msg = i18n("Clean Service Messages")
-	}
-
-	for key, icon in pairs(settings_section) do
-		local current = {
-			{text = strings[key] or key, callback_data = 'menu:alert:settings:'..key},
-			{text = icon, callback_data = 'menu:'..key..':'..chat_id}
-		}
-		table.insert(keyboard.inline_keyboard, current)
-	end
-
-	return keyboard
-end
-
 local function doKeyboard_menu(self, chat_id)
 	local red = self.red
 	local i18n = self.i18n
-	local keyboard = {inline_keyboard = {}}
 
-	local settings_section = adminsettings_table(self, config.chat_settings['settings'], chat_id)
-	keyboard = insert_settings_section(self, keyboard, settings_section, chat_id)
+	local reply_markup = ApiUtil.InlineKeyboardMarkup:new()
 
-	settings_section = usersettings_table(self, config.chat_settings['settings'], chat_id)
-	keyboard = insert_settings_section(self, keyboard, settings_section, chat_id)
-
-	settings_section = charsettings_table(self, config.chat_settings['char'], chat_id)
-	keyboard = insert_settings_section(self, keyboard, settings_section, chat_id)
+	self:buildGeneral(reply_markup, chat_id)
 
 	--warn
 	local max = red:hget('chat:'..chat_id..':warnsettings', 'max')
@@ -229,25 +225,20 @@ local function doKeyboard_menu(self, chat_id)
 	elseif action == 'mute' then
 		action = i18n("👁 mute")
 	end
-	local warn = {
-		{
-			{text = i18n('Warns: ')..max, callback_data = 'menu:alert:settings:warnsnum'},
-			{text = '➖', callback_data = 'menu:DimWarn:'..chat_id},
-			{text = '➕', callback_data = 'menu:RaiseWarn:'..chat_id},
-		},
-		{
-			{text = i18n('Action:'), callback_data = 'menu:alert:settings:warnsact'},
-			{text = action, callback_data = 'menu:ActionWarn:'..chat_id}
-		}
-	}
-	for _, button in pairs(warn) do
-		table.insert(keyboard.inline_keyboard, button)
-	end
 
-	--back button
-	table.insert(keyboard.inline_keyboard, {{text = '🔙', callback_data = 'config:back:'..chat_id}})
+	reply_markup:row(
+		{text = i18n("Warnings"), callback_data = "menu:alert:settings:warnsact"},
+		{text = action, callback_data = "menu:ActionWarn:"..chat_id}
+	)
+	reply_markup:row(
+		{text = "➖", callback_data = "menu:DimWarn:"..chat_id},
+		{text = max, callback_data = "menu:alert:settings:warnsnum"},
+		{text = "➕", callback_data = "menu:RaiseWarn:"..chat_id}
+	)
 
-	return keyboard
+	reply_markup:row({text = "🔙", callback_data = "config:back:"..chat_id})
+
+	return reply_markup
 end
 
 function _M:onCallbackQuery(blocks)
@@ -257,7 +248,7 @@ function _M:onCallbackQuery(blocks)
 	local i18n = self.i18n
 
 	if blocks[2] == "alert" then
-		local text = get_button_description(self, blocks[3])
+		local text = get_button_description(self, blocks[3]) or i18n("Description not available")
 		api:answerCallbackQuery(msg.cb_id, text, true, config.bot_settings.cache_time.alert_help)
 		return
 	end

@@ -32,4 +32,9 @@ function _M.run()
 	return ngx.exit(ngx.HTTP_OK)
 end
 
+function _M.mock(update)
+	local update_obj = main:new(update)
+	return update_obj:process()
+end
+
 return _M

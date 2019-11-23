@@ -1,5 +1,6 @@
 local config = require "groupbutler.config"
 local api_u = require "telegram-bot-api.utilities"
+local Util = require("groupbutler.util")
 
 local _M = {}
 
@@ -12,17 +13,12 @@ function _M:new(update_obj)
 	return plugin_obj
 end
 
-local function set_default(t, d)
-	local mt = {__index = function() return d end}
-	setmetatable(t, mt)
-end
-
 local function get_button_description(self, key)
 	local i18n = self.i18n
 	local button_description = {
 		rules_on_join = i18n("When you join a group moderated by this bot, you will receive the group rules in private"),
 		reports = i18n("If enabled, you will receive all the messages reported with the @admin command in the groups you are moderating"), -- luacheck: ignore 631
-	} set_default(button_description, i18n("Description not available"))
+	} Util.setDefaultTableValue(button_description, i18n("Description not available"))
 	return button_description[key]
 end
 
@@ -34,7 +30,7 @@ local function doKeyboard_privsett(self, user_id)
 	local button_names = {
 		['rules_on_join'] = i18n('Rules on join'),
 		['reports'] = i18n('Users reports')
-	} set_default(button_names, i18n("Name not available"))
+	} Util.setDefaultTableValue(button_names, i18n("Name not available"))
 
 	for key, status in pairs(user_settings) do
 		local icon = "☑️"

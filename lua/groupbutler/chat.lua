@@ -1,4 +1,5 @@
 local log = require("groupbutler.logging")
+local StorageUtil = require("groupbutler.storage.util")
 
 local Chat = {}
 
@@ -23,6 +24,10 @@ function Chat:new(obj, private)
 end
 
 function Chat:getProperty(index)
+	if not StorageUtil.isChatProperty[index] then
+		log.warn("Tried to get invalid chat property {property}", {property=index})
+		return nil
+	end
 	local property = rawget(self, index)
 	if property == nil then
 		property = p(self).db:getChatProperty(self, index)

@@ -39,7 +39,7 @@ function _M:onTextMessage(blocks)
 		return true
 	end
 
-	if blocks[1] == 'new_chat_member:bot' or blocks[1] == 'migrate_from_chat_id' then
+	if blocks[1] == "new_chat_member:bot" then
 		if u:is_blocked_global(msg.from.user.id) then
 			api:sendMessage(msg.from.chat.id, i18n("_You (user ID: %d) are in the blocked list_"):format(msg.from.user.id),
 				"Markdown")
@@ -54,14 +54,9 @@ function _M:onTextMessage(blocks)
 		end
 		u:initGroup(msg.from.chat)
 		-- send manuals
-		local text
-		if blocks[1] == 'new_chat_member:bot' then
-			text = i18n("Hello everyone!\n"
+		local text = i18n("Hello everyone!\n"
 				.. "My name is %s, and I'm a bot made to help administrators in their hard work.\n")
 				:format(bot.first_name:escape())
-		else
-			text = i18n("Yay! This group has been upgraded. You are great! Now I can work properly :)\n")
-		end
 		api:sendMessage(msg.from.chat.id, text, "Markdown")
 	elseif blocks[1] == 'left_chat_member:bot' then
 		u:remGroup(msg.from.chat.id)
@@ -75,7 +70,6 @@ _M.triggers = {
 		'^###(new_chat_member)$',
 		'^###(left_chat_member)$',
 		'^###(new_chat_member:bot)',
-		'^###(migrate_from_chat_id)',
 		'^###(left_chat_member:bot)',
 		'^###(pinned_message)$',
 		'^###(new_chat_title)$',

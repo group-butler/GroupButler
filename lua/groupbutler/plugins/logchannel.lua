@@ -2,6 +2,7 @@ local config = require "groupbutler.config"
 local null = require "groupbutler.null"
 local Chat = require("groupbutler.chat")
 local ChatMember = require("groupbutler.chatmember")
+local Util = require("groupbutler.util")
 
 local _M = {}
 
@@ -12,11 +13,6 @@ function _M:new(update_obj)
 		plugin_obj[k] = v
 	end
 	return plugin_obj
-end
-
-local function set_default(t, d)
-	local mt = {__index = function() return d end}
-	setmetatable(t, mt)
 end
 
 local function get_alert_text(self, key)
@@ -36,7 +32,7 @@ local function get_alert_text(self, key)
 		blockban = i18n("Log when a user who has been blocked is banned from the group on join"),
 		nowarn = i18n("Log when an admin removes the warning received by a user"),
 		report = i18n("Log when a user reports a message with the @admin command"),
-	} set_default(alert_text, i18n("Description not available"))
+	} Util.setDefaultTableValue(alert_text, i18n("Description not available"))
 
 	return alert_text[key]
 end

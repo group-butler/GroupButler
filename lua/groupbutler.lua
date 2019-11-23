@@ -11,4 +11,8 @@ function _M.health()
 	health.run()
 end
 
+function _M.test(update)
+	controller.mock(update)
+end
+
 return _M

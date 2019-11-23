@@ -1,4 +1,5 @@
 local config = require "groupbutler.config"
+local Util = require("groupbutler.util")
 
 local _M = {}
 
@@ -9,11 +10,6 @@ function _M:new(update_obj)
 		plugin_obj[k] = v
 	end
 	return plugin_obj
-end
-
-local function set_default(t, d)
-	local mt = {__index = function() return d end}
-	setmetatable(t, mt)
 end
 
 local function get_helped_string(self, key)
@@ -229,7 +225,7 @@ To change your log channel, simply repeat this process with another channel.
 
 `/unsetlog`: remove your current log channel
 `/logchannel`: get some informations about your log channel, if paired]]),
-	} set_default(helped_string, i18n("*Missing help information!*"))
+	} Util.setDefaultTableValue(helped_string, i18n("*Missing help information!*"))
 	return helped_string[key]
 end
 
@@ -373,7 +369,7 @@ function _M:onCallbackQuery(blocks)
 			text = get_helped_string(self, blocks[2])
 			answerCallbackQuery_text = i18n('Available commands for admins')
 		end,
-	} set_default(query, function()
+	} Util.setDefaultTableValue(query, function()
 			keyboard_type = 'main'
 			text = get_helped_string(self, 'main_menu')
 			answerCallbackQuery_text = i18n('Main menu')
