@@ -22,14 +22,14 @@ end
 
 function Util.mergeTables(t1, t2)
 	local t3 = json.decode(json.encode(t1)) -- TODO: Copy t1 properly. This is ugly
-    for k, v in pairs(t2) do
-        if (type(v) == "table") and (type(t1[k] or false) == "table") then
-            t3[k] = Util.mergeTables(t1[k], t2[k])
-        else
-            t3[k] = v
-        end
-    end
-    return t3
+	for k, v in pairs(t2) do
+		if (type(v) == "table") and (type(t1[k] or false) == "table") then
+			t3[k] = Util.mergeTables(t1[k], t2[k])
+		else
+			t3[k] = v
+		end
+	end
+	return t3
 end
 
 return Util
