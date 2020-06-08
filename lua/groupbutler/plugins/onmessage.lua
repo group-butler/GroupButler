@@ -138,7 +138,7 @@ function _M:on_message()
 		local media_status = (red:hget(hash, msg_type))
 		if media_status == null then media_status = config.chat_settings.media[msg_type] end
 
-			if media_status == 'notok' then
+			if media_status ~= 'ok' then
 				local whitelisted
 			if msg_type == 'link' then
 						whitelisted = is_whitelisted(self, msg.from.chat.id, msg.text)
