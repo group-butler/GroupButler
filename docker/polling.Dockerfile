@@ -4,6 +4,8 @@ WORKDIR /srv/app
 
 CMD ["polling.lua"]
 
+RUN apk add --no-cache outils-md5
+
 ARG DEPS_ROCKS="telegram-bot-api pgmoon lua-resty-socket"
 
 RUN for ROCK in $DEPS_ROCKS; do luarocks install $ROCK; done
