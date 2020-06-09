@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-03-31 11:30-0300\n"
-"PO-Revision-Date: 2019-11-23 14:37\n"
+"PO-Revision-Date: 2020-06-08 23:56\n"
 "Last-Translator: Tiago Danin (TiagoDanin)\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -26,11 +26,11 @@ msgstr "我没有足够的权限来限制用户"
 
 #: lua/groupbutler/api_errors.lua:21
 msgid "I'm not an admin, I can't kick people"
-msgstr "我不是管理员, 不能踢出用户"
+msgstr "我不是管理员，不能踢出用户"
 
 #: lua/groupbutler/api_errors.lua:22
 msgid "I can't do that to admins!"
-msgstr "我无法对管理员这么做! "
+msgstr "我无法对管理员这么做！"
 
 #: lua/groupbutler/api_errors.lua:23
 msgid "There is no need to unban in a normal group"
@@ -38,7 +38,7 @@ msgstr "普通群组内不需要解除封锁"
 
 #: lua/groupbutler/api_errors.lua:24
 msgid "This user is not a chat member"
-msgstr "此用户不是对话中成员"
+msgstr "此用户不是成员"
 
 #: lua/groupbutler/api_errors.lua:25
 msgid "Please input a text"
@@ -46,49 +46,49 @@ msgstr "请输入文字"
 
 #: lua/groupbutler/api_errors.lua:26
 msgid "This message is too long. Max lenght allowed by Telegram: 4000 characters"
-msgstr "这条信息太长了, Telegram 允许的最大长度是: 4000 个字元"
+msgstr "这条信息太长了， Telegram 允许的最大长度是： 4000 个字符"
 
 #: lua/groupbutler/api_errors.lua:27
 msgid "One of the inline buttons you are trying to set is missing the URL"
-msgstr "您尝试设置的其中一个内联按钮缺少URL"
+msgstr "您尝试设定的内嵌按钮缺少 URL 链接"
 
 #: lua/groupbutler/api_errors.lua:28
 #, lua-format
 msgid "Inline link formatted incorrectly. Check the text between brackets -> \\[]()\n"
 "%s"
-msgstr "内联连结格式不正确. 检查括号内的文字 - > \\ []()\n"
+msgstr "内嵌按钮链接格式化失败；请检查文字间的括号是否正确 -> \\[]()\n"
 "%s"
 
 #: lua/groupbutler/api_errors.lua:28
 msgid "More info [here](https://telegram.me/GB_tutorials/12)"
-msgstr "更多信息，[请点这里](https://telegram.me/GB_tutorials/12)"
+msgstr "若要得知更多信息，[请点此](https://telegram.me/GB_tutorials/12) （英文）"
 
 #: lua/groupbutler/api_errors.lua:29
 msgid "This text breaks the markdown.\n"
 "More info about a proper use of markdown [here](https://telegram.me/GB_tutorials/10) and [here](https://telegram.me/GB_tutorials/12)."
-msgstr "Markdown 格式错误\n"
-"Markdown 语法使用介绍请点击[这里](https://telegram.me/GB_tutorials/10)及[这里](https://telegram.me/GB_tutorials/12)。"
+msgstr "此文字与 Markdown 语法冲突\n"
+"关于详细 Markdown 语法请点击[这里](https://telegram.me/GB_tutorials/10)及[这里](https://telegram.me/GB_tutorials/12)。（皆为英文）"
 
 #: lua/groupbutler/api_errors.lua:31
 msgid "One of the URLs that should be placed in an inline button seems to be invalid (not an URL). Please check it"
-msgstr "应放在消息框内按钮中的某个 URL 链接似乎无效（不是 URL 连结）。请检查"
+msgstr "请再检查一次，其中一个内嵌按钮中的链接似乎不是有效的连结（不是正确连结格式）。"
 
 #: lua/groupbutler/api_errors.lua:32
 msgid "One of the inline buttons you are trying to set doesn't have a name"
-msgstr "您所尝试设定的某个消息框内按钮缺少名称。"
+msgstr "您尝试设定的内嵌按钮并未设定名称"
 
 #: lua/groupbutler/main.lua:151
 #, lua-format
 msgid "Hello everyone!\n"
 "My name is %s, and I'm a bot made to help administrators in their hard work.\n"
 "Unfortunately I can't work in normal groups. If you need me, please ask the creator to convert this group to a supergroup and then add me again.\n"
-msgstr "大家好！\n"
-"我的名字是 %s，我是一个机器人，负责帮助管理员工作。\n"
-"不幸的是，我无法在普通群组中工作，请让创建者将该群组转换为超级群组后再将我重新加入。\n"
+msgstr "大家好！ \n"
+"我的名字是 %s ，我是一个负责帮助管理员工作的机器人\n"
+"很遗憾的，我无法在普通群组中运作，请让群组拥有者将该群组转换为超级群组再将我重新加入。\n"
 
 #: lua/groupbutler/main.lua:219
 msgid "🐞 Sorry, a *bug* occurred"
-msgstr "🐞 对不起, 发生了 *错误*"
+msgstr "🐞 对不起，发生了 *错误*"
 
 #: lua/groupbutler/message.lua:80
 msgid "Reply to a user or mention them"
@@ -98,9 +98,9 @@ msgstr "回复用户或提及他们"
 msgid "I've never seen this user before.\n"
 "This command works by reply, username, user ID or text mention.\n"
 "If you're using it by username and want to teach me who the user is, forward me one of their messages"
-msgstr "我之前从未见过这个用户. \n"
-"此指令透过回复、用户名称、用户ID或文字提及来作用. \n"
-"如果您是透过用户名称并想要告诉我这个用户是谁, 请转发他的信息给我."
+msgstr "我之前从未见过这个用户。 \n"
+"此指令透过回复、用户名称、用户ID或文字提及来作用。 \n"
+"如果您是透过用户名称并想要告诉我这个用户是谁，请转发他的讯息给我。"
 
 #: lua/groupbutler/plugins/antispam.lua:45
 #: lua/groupbutler/plugins/onmessage.lua:162
@@ -127,22 +127,22 @@ msgstr "telegram.me 连结"
 
 #: lua/groupbutler/plugins/antispam.lua:49
 msgid "Channels messages"
-msgstr "频道信息"
+msgstr "频道讯息"
 
 #: lua/groupbutler/plugins/antispam.lua:96
 #, lua-format
 msgid "%s %s for <b>spam</b>! (%d/%d)"
-msgstr "%s %s 为 <b>垃圾信息</b>! (%d/%d)"
+msgstr "%s %s 为 <b>垃圾讯息</b>! (%d/%d)"
 
 #: lua/groupbutler/plugins/antispam.lua:103
 #, lua-format
 msgid "%s, spam is not allowed here. The next time you will be restricted"
-msgstr "%s, 传送垃圾信息在这里是不允许的, 下次你将会被限制."
+msgstr "%s, 传送垃圾讯息在这里是不允许的，下次你将会被限制。"
 
 #: lua/groupbutler/plugins/antispam.lua:109
 #, lua-format
 msgid "%s, this kind of message is not allowed in this chat (<b>%d/%d</b>)"
-msgstr "%s, 这种洗版信息在此对话中是不允许的 (<b>%d/%d</b>)"
+msgstr "%s ，这种洗版讯息在此对话中是不允许的 (<b>%d/%d</b>)"
 
 #: lua/groupbutler/plugins/antispam.lua:113
 msgid "telegram.me link"
@@ -150,7 +150,7 @@ msgstr "telegram.me 连结"
 
 #: lua/groupbutler/plugins/antispam.lua:113
 msgid "message from a channel"
-msgstr "来自频道的信息"
+msgstr "来自频道的讯息"
 
 #: lua/groupbutler/plugins/antispam.lua:137
 msgid "forwards are allowed"
@@ -162,7 +162,7 @@ msgstr "转发警告"
 
 #: lua/groupbutler/plugins/antispam.lua:141
 msgid "forwards will be deleted"
-msgstr "转发信息将被删除"
+msgstr "转发讯息将被删除"
 
 #: lua/groupbutler/plugins/antispam.lua:145
 msgid "links are allowed"
@@ -187,7 +187,7 @@ msgstr "已为最高值"
 #: lua/groupbutler/plugins/antispam.lua:178
 #, lua-format
 msgid "New value: %d"
-msgstr "新数值: %d"
+msgstr "新数值： %d"
 
 #: lua/groupbutler/plugins/antispam.lua:202
 msgid "Allow/forbid telegram.me links"
@@ -195,7 +195,7 @@ msgstr "允许/禁止 telegram.me 连接"
 
 #: lua/groupbutler/plugins/antispam.lua:204
 msgid "Allow/forbid forwarded messages from channels"
-msgstr "允许/禁止转发来自频道的信息"
+msgstr "允许/禁止转发来自频道的讯息"
 
 #: lua/groupbutler/plugins/antispam.lua:206
 msgid "Set how many times the bot should warn users before kicking/banning them"
@@ -212,7 +212,7 @@ msgstr "没有可用的描述."
 
 #: lua/groupbutler/plugins/antispam.lua:243
 msgid "Kick 👞"
-msgstr "踢除 👞"
+msgstr "踢出 👞"
 
 #: lua/groupbutler/plugins/antispam.lua:245
 msgid "Ban 🔨"
@@ -228,7 +228,7 @@ msgstr "禁言 👁"
 #: lua/groupbutler/plugins/mediasettings.lua:127
 #: lua/groupbutler/plugins/menu.lua:271 lua/groupbutler/plugins/setlang.lua:45
 msgid "Sorry, you don't have permission to change settings"
-msgstr "对不起，您没有权限更改设置"
+msgstr "对不起，您没有权限更改设定"
 
 #: lua/groupbutler/plugins/antispam.lua:302
 msgid "*Anti-spam settings*\n"
@@ -237,12 +237,12 @@ msgid "*Anti-spam settings*\n"
 "• ❌ = *Not allowed*\n"
 "• 🗑 = *Delete*\n"
 "When set on `delete`, the bot doesn't warn users until they are about to be kicked/banned/muted (at the second-to-last warning)"
-msgstr "* 防垃圾信息设定 *\n"
-"选择想要禁止什么类型的垃圾信息\n"
+msgstr "* 防垃圾讯息设定 *\n"
+"选择想要禁止什么类型的垃圾讯息\n"
 "• ✅ = * 允许 *\n"
 "• ❌ = * 不允许 *\n"
 "• 🗑 = * 删除 *\n"
-"当设定为\" `删除` \", 机器人将不会警告用户, 直到即将被踢出、封锁或静音 (倒数第二个警告) 为止."
+"当设定为 \" `删除` \" ，机器人将不会警告用户，直到即将被踢出、封锁或静音（倒数第二个警告）为止"
 
 #: lua/groupbutler/plugins/antispam.lua:370
 msgid "_The whitelist was already empty_"
@@ -260,7 +260,7 @@ msgstr "*白名单清理*\n"
 #: lua/groupbutler/plugins/antispam.lua:416
 #: lua/groupbutler/plugins/antispam.lua:425
 msgid "_I can't find any url in this message_"
-msgstr "_我在此信息中找不到任何网址_"
+msgstr "_我在此讯息中找不到任何网址_"
 
 #: lua/groupbutler/plugins/antispam.lua:384
 #, lua-format
@@ -273,17 +273,17 @@ msgstr "%d 个连结将被列入白名单"
 msgid "\n"
 "%d links were already in the list"
 msgstr "\n"
-"%d 个连结已在清单中"
+"%d 个链接已在清单中"
 
 #: lua/groupbutler/plugins/antispam.lua:400
 msgid "_The whitelist is empty_.\n"
 "Use `/wl [links]` to add some links to the whitelist"
-msgstr "_白名单是空白的. _\n"
+msgstr "_白名单是空白的。 _\n"
 "请 `/wl [连结]` 添加一些连结到白名单"
 
 #: lua/groupbutler/plugins/antispam.lua:402
 msgid "Whitelisted links:\n\n"
-msgstr "连结白名单: \n\n"
+msgstr "连结白名单：\n\n"
 
 #: lua/groupbutler/plugins/antispam.lua:419
 #, lua-format
@@ -304,14 +304,14 @@ msgstr "*白名单频道: *\n"
 #: lua/groupbutler/plugins/antispam.lua:450
 #: lua/groupbutler/plugins/antispam.lua:467
 msgid "_I can't find a channel ID in your message_"
-msgstr "_我在此信息中找不到「频道ID」\"_"
+msgstr "_我在此讯息中找不到「频道ID」\"_"
 
 #: lua/groupbutler/plugins/backup.lua:100
 #, lua-format
 msgid "<i>I'm sorry, this command has been used for the last time less then 3 hours ago by</i> %s (ask them for the file).\n"
 "Wait [<code>%s</code>] to use it again\n"
-msgstr "<i>十分抱歉, 这指令已经在不到三个小时前, 由 </i> %s使用(请向他询问档案). \n"
-"请等待 [<code>%s</code>] 后再尝试. \n"
+msgstr "<i>十分抱歉，这指令已经在不到三个小时前，由 </i> %s 使用（请向他询问档案）。 \n"
+"请等待 [<code>%s</code>] 后再尝试。 \n"
 
 #: lua/groupbutler/plugins/backup.lua:114
 msgid "*Sent in private*"
@@ -319,23 +319,23 @@ msgstr "*透过私讯发送*"
 
 #: lua/groupbutler/plugins/backup.lua:120
 msgid "Invalid input. Please reply to the backup file (/snap command to get it)"
-msgstr "输入错误. 请对「备份文件」信息回复 /snap 来取得该备份."
+msgstr "输入错误。请对「备份文件」讯息回复 /snap 来取得该备份"
 
 #: lua/groupbutler/plugins/backup.lua:125
 msgid "Invalid input. Please reply to a document"
-msgstr "输入无效. 请回复我一个文件."
+msgstr "输入无效。请回复我一个文件"
 
 #: lua/groupbutler/plugins/backup.lua:130
 #, lua-format
 msgid "This is not a valid backup file.\n"
 "Reason: invalid name (%s)"
-msgstr "这不是有效的 备份文件. \n"
+msgstr "这不是有效的备份文件。 \n"
 "原因: 名称无效 (%s)"
 
 #: lua/groupbutler/plugins/backup.lua:140
 #, lua-format
 msgid "Download of the file failed with code %s"
-msgstr "文件下载失败, 错误码 %s"
+msgstr "文件下载失败，错误码 %s"
 
 #: lua/groupbutler/plugins/backup.lua:149
 #, lua-format
@@ -348,11 +348,11 @@ msgid "Import was <b>successful</b>.\n\n"
 "- #extra commands which are associated with a media must be set again if the bot you are using now is different from the bot that originated the backup.\n"
 msgstr "汇入 <b> 成功 </b>. \n\n"
 "<b>重要</b>:\n"
-"-如果您现在使用的机器人与发起备份的机器人不同, 则必须再次设置与媒体关联的#extra命令. \n"
+"-如果您现在使用的机器人与发起备份的机器人不同，则必须再次设置与媒体关联的 #extra 指令。 \n"
 
 #: lua/groupbutler/plugins/banhammer.lua:90
 msgid "Use -/+ to edit the value, then select a timeframe to temporary ban the user"
-msgstr "使用 - / + 编辑数值, 接着选择一个临时禁止用户的时间范围"
+msgstr "使用 - / + 编辑数值，接着选择一个临时禁止用户的时间范围"
 
 #: lua/groupbutler/plugins/banhammer.lua:107
 #, lua-format
@@ -363,11 +363,11 @@ msgstr "%s 踢除了 %s!"
 #: lua/groupbutler/plugins/banhammer.lua:142
 #, lua-format
 msgid "%s banned %s!"
-msgstr "%s 封锁了 %s!"
+msgstr "%s 封锁了 %s ！"
 
 #: lua/groupbutler/plugins/banhammer.lua:128
 msgid "_Use this command in reply to a forwarded message_"
-msgstr "_请使用此指令回复转发的信息_"
+msgstr "_请使用此指令回复转发的讯息_"
 
 #: lua/groupbutler/plugins/banhammer.lua:148
 msgid "_An admin can't be unbanned_"
@@ -375,29 +375,29 @@ msgstr "_管理员不能被解除封锁_"
 
 #: lua/groupbutler/plugins/banhammer.lua:152
 msgid "This user is not banned!"
-msgstr "这个用户并没有被封锁!"
+msgstr "这个用户并没有被封锁！"
 
 #: lua/groupbutler/plugins/banhammer.lua:166
 #, lua-format
 msgid "%s unbanned by %s!"
-msgstr "%s 已被 %s 解除封锁!"
+msgstr "%s 已被 %s 解除封锁！"
 
 #: lua/groupbutler/plugins/banhammer.lua:178
 #: lua/groupbutler/plugins/defaultpermissions.lua:135
 msgid "Sorry, you don't have permission to restrict members"
-msgstr "对不起, 您没有权限限制用户"
+msgstr "对不起，您没有权限限制用户"
 
 #: lua/groupbutler/plugins/banhammer.lua:184
 msgid "Tap on the -/+ buttons to change this value. Then select a timeframe to execute the ban"
-msgstr "点击 - / + 按钮来改变设定, 接着选择一个时间来执行封锁"
+msgstr "点击 - / + 按钮来改变设定，接着选择一个时间来执行封锁"
 
 #: lua/groupbutler/plugins/banhammer.lua:200
 msgid "You can't set a lower value"
-msgstr "已为最低值"
+msgstr "已为最小值"
 
 #: lua/groupbutler/plugins/banhammer.lua:208
 msgid "Stop!!!"
-msgstr "停止!!!"
+msgstr "停止！"
 
 #: lua/groupbutler/plugins/banhammer.lua:225
 msgid "hours"
@@ -422,7 +422,7 @@ msgstr "🛠 选单"
 
 #: lua/groupbutler/plugins/configure.lua:21
 msgid "⚡️ Antiflood"
-msgstr "⚡️ 防洗版"
+msgstr "⚡️ 反洗版"
 
 #: lua/groupbutler/plugins/configure.lua:22
 msgid "🌈 Media"
@@ -430,7 +430,7 @@ msgstr "🌈 媒体"
 
 #: lua/groupbutler/plugins/configure.lua:23
 msgid "🚫 Antispam"
-msgstr "🚫 反垃圾信息"
+msgstr "🚫 反垃圾讯息"
 
 #: lua/groupbutler/plugins/configure.lua:24
 msgid "📥 Log channel"
@@ -446,7 +446,7 @@ msgstr "<i>更改群组的设定</i>"
 
 #: lua/groupbutler/plugins/configure.lua:66
 msgid "_I've sent you the keyboard via private message_"
-msgstr "_我已透过私人信息发送了控制面板给你_"
+msgstr "_我已透过私人讯息发送了控制面板给你_"
 
 #: lua/groupbutler/plugins/dashboard.lua:22
 #: lua/groupbutler/plugins/floodmanager.lua:38
@@ -461,7 +461,7 @@ msgstr "❌ | 关闭"
 #: lua/groupbutler/plugins/dashboard.lua:31
 #: lua/groupbutler/plugins/menu.lua:162 lua/groupbutler/plugins/menu.lua:226
 msgid "👞 kick"
-msgstr "👞 踢除"
+msgstr "👞 踢出"
 
 #: lua/groupbutler/plugins/dashboard.lua:33
 #: lua/groupbutler/plugins/menu.lua:164
@@ -482,7 +482,7 @@ msgstr "文字"
 #: lua/groupbutler/plugins/dashboard.lua:41
 #: lua/groupbutler/plugins/floodmanager.lua:70
 msgid "Forwards"
-msgstr "转传信息"
+msgstr "转传讯息"
 
 #: lua/groupbutler/plugins/dashboard.lua:42
 #: lua/groupbutler/plugins/dashboard.lua:169
@@ -503,35 +503,35 @@ msgstr "图像"
 #: lua/groupbutler/plugins/floodmanager.lua:73
 #: lua/groupbutler/plugins/mediasettings.lua:36
 msgid "GIFs"
-msgstr "动图"
+msgstr "GIFs"
 
 #: lua/groupbutler/plugins/dashboard.lua:45
 #: lua/groupbutler/plugins/dashboard.lua:163
 #: lua/groupbutler/plugins/floodmanager.lua:74
 #: lua/groupbutler/plugins/mediasettings.lua:37
 msgid "Videos"
-msgstr "视频"
+msgstr "影片"
 
 #: lua/groupbutler/plugins/dashboard.lua:59
 #, lua-format
 msgid "- *Status*: `%s`\n"
-msgstr "- *状态*: `%s`\n"
+msgstr "- *状态*： `%s`\n"
 
 #: lua/groupbutler/plugins/dashboard.lua:60
 #, lua-format
 msgid "- *Action* to perform when a user floods: `%s`\n"
-msgstr "- *动作* 当有人洗版: `%s`\n"
+msgstr "- *动作* 当有人洗版： `%s`\n"
 
 #: lua/groupbutler/plugins/dashboard.lua:61
 #, lua-format
 msgid "- Number of messages allowed *every 5 seconds*: `%d`\n"
-msgstr "- *每5秒* 可发送的信息数量: `%d`\n"
+msgstr "- *每5秒* 可发送的讯息数量： `%d`\n"
 
 #: lua/groupbutler/plugins/dashboard.lua:62
 #, lua-format
 msgid "- *Ignored media*:\n"
 "%s"
-msgstr "- *忽略的媒体*: \n"
+msgstr "- *忽略的媒体*： \n"
 "%s"
 
 #: lua/groupbutler/plugins/dashboard.lua:69
@@ -550,7 +550,7 @@ msgstr "规则"
 #: lua/groupbutler/plugins/dashboard.lua:74
 #: lua/groupbutler/plugins/help.lua:254
 msgid "Extra commands"
-msgstr "自订指令"
+msgstr "自定义指令"
 
 #: lua/groupbutler/plugins/dashboard.lua:77
 msgid "Flood settings"
@@ -562,15 +562,15 @@ msgstr "媒体设定"
 
 #: lua/groupbutler/plugins/dashboard.lua:95
 msgid "Navigate this message to see *all the info* about this group!"
-msgstr "浏览这个信息来取得关于这个群组的 *所有资讯*!"
+msgstr "浏览这个讯息来取得关于这个群组的 *所有信息* ！"
 
 #: lua/groupbutler/plugins/dashboard.lua:104
 msgid "_I've sent you the group dashboard via private message_"
-msgstr "_我已透过私人信息发送了控制面板给你_"
+msgstr "_我已透过私人讯息发送了控制面板给你_"
 
 #: lua/groupbutler/plugins/dashboard.lua:128
 msgid "🚷 You are not a member of the chat. You can't see the settings of a private group."
-msgstr "🚷 你不是群组成员. 你不能查看私人群组的设定."
+msgstr "🚷 你不是群组成员。你不能查看私人群组的设定。"
 
 #: lua/groupbutler/plugins/dashboard.lua:135
 msgid "ℹ️ Group ► Settings"
@@ -590,7 +590,7 @@ msgstr "ℹ️ 群组 ► 管理员名单"
 
 #: lua/groupbutler/plugins/dashboard.lua:153
 msgid "ℹ️ Group ► Extra"
-msgstr "ℹ️ 群组 ► 自订指令"
+msgstr "ℹ️ 群组 ► 自定义指令"
 
 #: lua/groupbutler/plugins/dashboard.lua:157
 msgid "ℹ️ Group ► Flood"
@@ -603,7 +603,7 @@ msgstr "文件"
 
 #: lua/groupbutler/plugins/dashboard.lua:166
 msgid "Voice Messages"
-msgstr "语音信息"
+msgstr "语音消息"
 
 #: lua/groupbutler/plugins/dashboard.lua:167
 #: lua/groupbutler/plugins/mediasettings.lua:42
@@ -637,7 +637,7 @@ msgstr "地点"
 
 #: lua/groupbutler/plugins/dashboard.lua:175
 msgid "*Current media settings*:\n\n"
-msgstr "*当前媒体设定*: \n\n"
+msgstr "*当前媒体设定*： \n\n"
 
 #: lua/groupbutler/plugins/dashboard.lua:187
 msgid "ℹ️ Group ► Media"
@@ -645,23 +645,23 @@ msgstr "ℹ️ 群组 ► 媒体"
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:64
 msgid "Permission to send messages. If disabled, the user won't be able to send any kind of message"
-msgstr "发送信息的权限. 如果关闭, 用户将不能发送任何类型的信息."
+msgstr "发送讯息的权限。如果关闭，用户将不能发送任何类型的讯息"
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:65
 msgid "Permission to send media (audios, documents, photos, videos, video notes and voice notes). Implies the permission to send messages"
-msgstr "允许发送媒体(音讯、档案、照片、视频). 这意味着发送这些媒体的权限."
+msgstr "表示允许发送媒体(音频、档案、照片、影片)"
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:66
 msgid "Permission to send other types of messages (GIFs, games, stickers and use inline bots). Implies the permission to send medias"
-msgstr "允许发送其他信息(GIF、游戏、贴图、内联机器人). 这意味着发送这些媒体的权限."
+msgstr "表示允许发送其他讯息类型( GIF 、游戏、贴图、透过机器人发送的内嵌讯息)。"
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:67
 msgid "When disabled, user's messages with a link won't show the web page preview"
-msgstr "如果关闭, 用户信息中的连结将不会显示预览"
+msgstr "如果关闭，用户讯息中的链接将不会显示预览"
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:76
 msgid "Send messages"
-msgstr "传送信息"
+msgstr "传送讯息"
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:77
 msgid "Send media"
@@ -681,14 +681,14 @@ msgid "*Default permissions*\n"
 "_Only the administrators with the permission to restrict a member can access this menu._\n"
 "Tap on the name of a permission for a description of what kind of messages it will influence.\n"
 msgstr "*预设权限*\n"
-"在此目录中您可以更改新成员的预设权限. \n"
-"_只有拥有限制成员权限的管理员能够访问此目录. _\n"
-"点击权限名称, 以显示它将影响什么类型的信息. \n"
+"在此目录中您可以更改新成员的预设权限。 \n"
+"_只有拥有限制成员权限的管理员能够访问此目录。 _\n"
+"点击权限名称, 以显示它将影响什么类型的讯息。 \n"
 
 #: lua/groupbutler/plugins/defaultpermissions.lua:161
 #, lua-format
 msgid "Setting saved, but I can't edit the buttons because you are too fast! Wait other %d seconds"
-msgstr "设定已保存, 但我不能改变按钮上的数值, 因为你按太快了! 请等待 %d 秒"
+msgstr "设定已保存，但我不能改变按钮上的数值，因为你按太快了！ 请等待 %d 秒"
 
 #: lua/groupbutler/plugins/extra.lua:81
 #, lua-format
@@ -698,40 +698,40 @@ msgstr "此媒体档案已存为对 %s 的回复"
 #: lua/groupbutler/plugins/extra.lua:95
 #, lua-format
 msgid "Command '%s' saved!"
-msgstr "%s 指令已更新!"
+msgstr "'%s' 指令已更新！"
 
 #: lua/groupbutler/plugins/extra.lua:117
 #, lua-format
 msgid "Commands deleted: `%s`"
-msgstr "指令已经被删除: `%s`"
+msgstr "指令已经被删除： `%s`"
 
 #: lua/groupbutler/plugins/extra.lua:119
 #, lua-format
 msgid "\n"
 "Commands not found: `%s`"
 msgstr "\n"
-"找不到指令: `%s`"
+"找不到指令： `%s`"
 
 #: lua/groupbutler/plugins/extra.lua:167
 #, lua-format
 msgid "_Please_ [start me](%s) _so I can send you the answer_"
-msgstr "_请_ [开始 (start) 我](%s) _以让我能传送你回应_"
+msgstr "_请_ [开始(start)我](%s) _以让我能传送回应给你_"
 
 #: lua/groupbutler/plugins/floodmanager.lua:20
 msgid "⚖ Current sensitivity. Tap on the + or the - to change it"
-msgstr "⚖ 目前定义. 使用加减号 (+/-) 变更设定"
+msgstr "⚖ 目前灵敏值。使用加减号 (+/-) 变更设定"
 
 #: lua/groupbutler/plugins/floodmanager.lua:22
 msgid "Choose which media must be ignored by the antiflood (the bot won't consider them).\n"
 "✅: ignored\n"
 "❌: not ignored"
-msgstr "选择哪些媒体要在反洗版功能中被忽略(机器人会跳过这些信息)\n"
-"✅: 忽略\n"
-"❌: 不要忽略"
+msgstr "选择哪些媒体要在反洗版功能中被忽略（机器人会略过这些讯息）\n"
+"✅： 忽略\n"
+"❌： 不要忽略"
 
 #: lua/groupbutler/plugins/floodmanager.lua:47
 msgid "👞️ kick"
-msgstr "👞 踢除"
+msgstr "👞 踢出"
 
 #: lua/groupbutler/plugins/floodmanager.lua:49
 msgid "🔨 ️ban"
@@ -753,13 +753,13 @@ msgstr "洗版者将会被禁言"
 #: lua/groupbutler/plugins/floodmanager.lua:130
 #, lua-format
 msgid "%d is not a valid value!\n"
-msgstr "%d 不是一个有效的值! \n"
+msgstr "%d 不是一个有效的值！ \n"
 
 #: lua/groupbutler/plugins/floodmanager.lua:161
 msgid "You can manage the antiflood settings from here.\n\n"
 "It is also possible to choose which type of messages the antiflood will ignore (✅)"
-msgstr "在这里您可以管理反洗版的设定. \n\n"
-"也可以选择哪种类型的信息要被反洗版忽略(✅)"
+msgstr "在这里您可以管理反洗版的设定。 \n\n"
+"也可以选择哪种类型的讯息要被反洗版忽略（✅）"
 
 #: lua/groupbutler/plugins/floodmanager.lua:168
 msgid "Antiflood settings"
@@ -777,7 +777,7 @@ msgstr "🚫 [%s] 会被视作洗版"
 
 #: lua/groupbutler/plugins/help.lua:22
 msgid "In this menu you will find all the available commands"
-msgstr "在此选单中, 你可以找到所有可用的命令"
+msgstr "在此选单中, 你可以找到所有可用的指令"
 
 #: lua/groupbutler/plugins/help.lua:23
 #, lua-format
@@ -792,17 +792,17 @@ msgid "Hello %s 👋🏼, nice to meet you!\n"
 "• I can also warn, kick or ban users when they post a specific media\n"
 "…and more, below you can find the \"all commands\" button to get the whole list!\n\n"
 "I work better if you add me to the group administrators (otherwise I won't be able to kick or ban)!"
-msgstr "你好 %s 👋🏼, 很高兴见到你! \n"
-"我是Group Butler, 第一个使用官方Bot API的管理机器人. \n\n"
-"*我可以做很多很酷的东西* , 这里有一个简短的清单: \n"
+msgstr "你好 %s 👋🏼，很高兴见到你！ \n"
+"我是 Group Butler ，第一个使用官方 Bot API 的管理机器人。 \n\n"
+"*我可以做很多很酷的事情* ，这里有一个简短的清单： \n"
 "•我可以*踢除或禁止*用户\n"
 "•您可以使用我来设置群组规定\n"
 "•我有一个灵活的*防洗版*系统\n"
-"•我可以*欢迎新用户*并使用可自订的消息, 或者如果您想要带有gif或贴图\n"
-"•我可以*警告*用户, 并在达到最大警告次数时禁止他们\n"
+"•我可以*欢迎新用户*并使用可自定义的消息，或者如果您想要带有 gif 或贴图\n"
+"•我可以*警告*用户，并在达到最大警告次数时禁止他们\n"
 "•我还可以在用户发布特定媒体时发出警告、踢除或禁止用户\n"
-"...... 以及更多, 下方你可以找到“所有命令”按钮来获取整个列表! \n\n"
-"如果你把我加到群组管理员那里我会更好地工作(否则我将无法踢除或禁止)!"
+"… 以及更多，下方你可以找到“所有命令”按钮来获取整个列表！ \n\n"
+"如果你将我加入到群组管理员中，我会做得更好（否则我将无法踢除或禁止）！"
 
 #: lua/groupbutler/plugins/help.lua:36
 msgid "This bot works only in supergroups.\n\n"
@@ -813,14 +813,14 @@ msgid "This bot works only in supergroups.\n\n"
 "This list is updated every 5 hours, so there could be some differences between who the bot thinks are the admins and who the admins actually are, if during the 5 hours timeframe some users have been promoted/demoted.\n"
 "It's possible to force the bot to update its adminlist with `/cache`.\n\n"
 "Remember: you have to use commands  *in the group*, unless they are specifically designed for private chats (see \"private\" tab)."
-msgstr "这个机器人只能在超级群组中使用. \n\n"
-"要正常使用, [它必须是管理员](https://telegram.me/GroupButler_ch/104), 以便在需要时限制成员. \n"
+msgstr "这个机器人只能在超级群组中使用。 \n\n"
+"要正常使用， [它必须是管理员](https://telegram.me/GroupButler_ch/104) ，以便在需要时限制成员。 \n"
 "只有群组管理者才可以启用它 :)\n\n"
-"您可以使用 `/` , `! 或 #` 当作开头来触发指令. \n\n"
-"Group Butler 会将群组管理员名单记录在数据库中, 以避免向 Telegram 发送过多请求. \n"
-"此列表每 5 小时更新一次, 因此, 如果在这 5 小时的时间差内有成员被授予/移除管理员, 可能会与机器人的资料从在差异. \n"
-"可以使用`/cache`更新管理员名单. \n\n"
-"请记得: 您需要*在群组中*使用指令, 除非它是在私人对话中使用(请参阅\"私讯\")"
+"您可以使用 `/` ， `!` 或 `#` 当作开头来触发指令。 \n\n"
+"Group Butler 会将群组管理员名单记录在数据库中，以避免向 Telegram 发送过多请求。 \n"
+"此列表每 5 小时更新一次，因此，如果在这 5 小时的时间差内有成员被授予/移除管理员，可能会与机器人的数据从在差异。 \n"
+"可以使用 `/cache` 更新管理员名单。 \n\n"
+"请记得： 您需要*在群组中*使用指令，除非它是在私人对话中使用（请参阅\"私讯\"）"
 
 #: lua/groupbutler/plugins/help.lua:48
 msgid "*Commands that work in private*:\n\n"
@@ -832,13 +832,13 @@ msgid "*Commands that work in private*:\n\n"
 "• `/start` : show the initial message\n"
 "• `/help` : show this message"
 msgstr "*在私人对话中使用的指令*\n\n"
-"•`/ mysettings`: 显示一个控制面板, 允许您更改个人设置, 例如选择是否在加入群组时私讯收到规则, 或者是否接收使用“@admin”指令进行的回报\n"
-"•`/ echo [text]`: 机器人将转换并发回格式含有标记符号(markdown) 的信息\n"
-"•`/ about`: 显示有关机器人的有用信息\n"
-"•`/ groups`: 显示此机器人讨论群组的列表\n"
-"•`/ id`: 取得你的Telegram ID\n"
-"•`/ start`: 显示初始信息\n"
-"•`/ help`: 显示此信息"
+"•`/mysettings`：显示一个控制面板, 允许您更改个人设置, 例如选择是否在加入群组时私讯收到规则, 或者是否接收使用“@admin”指令进行的回报\n"
+"•`/echo [text]`：机器人将转换并发回格式含有 'Markdown' 的讯息\n"
+"•`/about`：显示有关机器人的有用讯息\n"
+"•`/groups`：显示此机器人讨论组的列表\n"
+"•`/id`：取得你的Telegram id\n"
+"•`/start`：显示初始讯息\n"
+"•`/help`：显示此讯息"
 
 #: lua/groupbutler/plugins/help.lua:57
 msgid "*Commands available for every user in a group*:\n\n"
@@ -851,15 +851,15 @@ msgid "*Commands available for every user in a group*:\n\n"
 "With `/rules`, the bot always answer in the group for admins, but with normal users the message is sent in the group or in private according to the group settings.\n\n"
 "• `@admin` (by reply): report a message to the admins of the group (the bot will forward it in prvate). This ability could be turned off from the group settings. A description of the report can be added.\n"
 "Admins need to give their consense to receive reports from users, with `/mysettings` command"
-msgstr "*在群组中使用的指令*\n\n"
-"• `/dashboard`: 查看所有关于群组的资讯\n"
-"• `/rules`: 显示群组规定\n"
-"• `/adminlist`: 显示群组管理员名单\n"
-"• `/help`: 显示帮助信息\n"
-"• `!kickme`: 机器人会把你踢出群组\n"
-"*注意*: `/dashboard`, `/adminlist`, `/staff` 只会透过私讯回复. 在 _静音模式_ 关闭的情况下, 如果机器人无法联系用户, 它会要求用户启动它. \n"
-"如果 `/rules` 由管理员发出, 机器人将只在群组中回复；如果是用户发出则依据群组设定来回复. \n\n"
-"• `@admin` (透过回复): 向群组管理员发送报告(机器人将透过私人信息转传). 此功能可从群组设定中关闭. \n"
+msgstr "*在群组中所有用户皆可使用的指令*\n\n"
+"• `/dashboard`：查看所有关于群组的信息\n"
+"• `/rules`：显示群组规定\n"
+"• `/adminlist`：显示群组管理员名单\n"
+"• `/help`：显示帮助讯息\n"
+"• `!kickme`：机器人会把你踢出群组\n"
+"*注意*: `/dashboard` 、 `/adminlist` 、 `/staff` 只会透过私讯回复。在 _静音模式_ 关闭的情况下，如果机器人无法联系用户，它会要求用户启动它。 \n"
+"如果 `/rules` 由管理员发出，机器人将只在群组中回复；如果是用户发出则依据群组设定来回复。 \n\n"
+"• `@admin`（透过回复）：向群组管理员发送报告（机器人将透过私人讯息转传）。此功能可从群组设定中关闭。 \n"
 "管理员需要使用 `/mysettings` 指令来设定是否同意接收用户报告"
 
 #: lua/groupbutler/plugins/help.lua:69
@@ -873,16 +873,16 @@ msgid "*Admins: info about the group*\n\n"
 "• `/link`: get the group link, if already set.\n"
 "• `/msglink`: get the link to a message. Works only in public supergroups\n\n"
 "*Note*: the bot can recognize valid group links. If a link is not valid, you won't receive a reply."
-msgstr "*管理员: 有关群组的资讯*\n\n"
-"`/setrules [群组规则]`: 设定新的群组规则 (旧的将会被取代). \n"
-"`/setrules -`: 清空现有规则. \n\n"
-"*备注*:允许使用标记符号(Markdown). 如果你传送的信息违反标记符号的规则, 我将会提醒你有些地方有错误. \n"
-"如何正确的使用标记符号(Markdown), 请点击频道中的[这则贴文](https://telegram.me/GroupButler_ch/46)(英文教学)\n\n"
-"`/setlink [网址|-]`: 设定群组连结, 如此它就能够被其他管理员重新调用, 或者是重设它. \n"
-"如果你想要使用这个指令在一个公开的超级群组(supergroup), 你不需要输入群组连结. 直接输入`/setlink`\n"
-"`/link`: 取得群组连结, 如果已经设定好的话. \n"
-"`/msglink`: 取得一个信息的连结. 只在公开的超级群组运作:\n\n"
-"*备注*:我能够辨识无效的群组连结. 如果那个连结是无效的, 你将不会收到回复."
+msgstr "*管理员：有关群组的信息*\n\n"
+"`/setrules [群组规则]`：设定新的群组规则（旧的将会被取代）。 \n"
+"`/setrules -`：清空现有规则。 \n\n"
+"*备注*：允许使用 Markdown 。如果你传送的讯息违反 Markdown 的规则，我将会提醒你有些地方有错误。 \n"
+"如何正确的使用 Markdown , 请点击频道中的[这则贴文](https://telegram.me/GroupButler_ch/46) （英文）\n\n"
+"`/setlink [网址|-]`：设定群组连结, 如此它就能够被其他管理员重新调用，或者是重设它。 \n"
+"如果你想要使用这个指令在一个公开的超级群组 (supergroup) ，你不需要输入群组连结。 直接输入`/setlink`\n"
+"`/link`：取得群组连结，如果已经设定好的话。 \n"
+"`/msglink`：取得一个讯息的链接。只在公开的超级群组运作\n\n"
+"*备注*：我能够辨识无效的群组连结，如果那个连结是无效的，你将不会收到回复。"
 
 #: lua/groupbutler/plugins/help.lua:83
 msgid "*Banhammer powers*\n"
@@ -903,20 +903,20 @@ msgid "*Banhammer powers*\n"
 "If on, the antiflood system will kick/ban flooders.\n\n"
 "• `/config` command, then `antiflood` button: manage the flood settings in private, with an inline keyboard. You can change the sensitivity, the action (kick/ban) to perform, and even set some exceptions."
 msgstr "*封锁之锤权限*\n"
-"一组可以让管理员在群组踢除与封锁成员的指令, 以及获得有关用户的一些资讯. \n"
-"被踢除的人可以重新加入, 被封锁的人不能. 被封锁的用户会被添加到该群组的黑名单中. 即使该用户不是该群组成员, 也可以将其列入黑名单.\n"
-"只有拥有\"限制用户\"权限的管理员才能使用这些指令, 但所有管理员都可以使用 `/status`. \n\n"
-"•`/kick [透过 回复|用户名称|ID|文字提及]`: 从群组踢除一个用户. \n"
-"•`/ban [透过 回复|用户名称|ID|文字提及]`: 从群组封锁一个用户. \n"
-"•`/tempban [透过回复|用户名称|ID|文字提及]`: 封锁用户特定的时间量. 使用回复的控制面板封锁用户, 第一行开头的数值为预设起始值. 当禁令到期时, 用户将不会加回. 请记得检查Telegram受限使用者名称单中等候处理解除的禁止者. \n"
-"•`/fwdban [透过 回复]`: 禁止转发信息的原始发送者. \n"
-"•`/unban [透过 回复|用户名称|Id|文字提及]`: 取消群组内「 被封锁的用户 」. \n"
-"•`/user [透过 回复|用户名称|Id|文字提及]`: 显示用户在 *所有群组中* 被禁止的次数, 以及收到的警告. \n"
-"•`/status [用户名称|Id]`显示当前用户的状态`(成员|被限制的|踢除/离开聊天|禁止|管理/创建者|从未见过)`. \n"
-"将会显示用户 *没有* 的权限. \n\n"
+"一组可以让管理员在群组踢除与封锁成员的指令，以及获得有关用户的一些信息。 \n"
+"被踢除的人可以重新加入，被封锁的人不能。被封锁的用户会被添加到该群组的黑名单中。即使该用户不是该群组成员，也可以将其列入黑名单。\n"
+"只有拥有\"限制用户\"权限的管理员才能使用这些指令，但所有管理员都可以使用 `/status` 。 \n\n"
+"•`/kick [透过 回复|用户名称|ID|文字提及]`：从群组踢除一个用户。 \n"
+"•`/ban [透过 回复|用户名称|ID|文字提及]`：从群组封锁一个用户。 \n"
+"•`/tempban [透过回复|用户名称|ID|文字提及]`：封锁用户特定的时间量. 使用回复的控制面板封锁用户, 第一行开头的数值为预设起始值. 当禁令到期时, 用户将不会加回. 请记得检查Telegram受限使用者名称单中等候处理解除的禁止者。 \n"
+"•`/fwdban [透过 回复]`: 禁止转发讯息的原始发送者。 \n"
+"•`/unban [透过 回复|用户名称|Id|文字提及]`：取消群组内「被封锁的用户」。 \n"
+"•`/user [透过 回复|用户名称|Id|文字提及]`：显示用户在 *所有群组中* 被禁止的次数, 以及收到的警告。 \n"
+"•`/status [用户名称|Id]`显示当前用户的状态`(成员|被限制的|踢出/离开聊天|禁止|管理/创建者|从未见过)`。 \n"
+"将会显示用户 *没有* 的权限。 \n\n"
 "*防洗版* \n"
-"“防洗版”是一个自动删除在群组中发送许多连续消息的人的系统. 如果开启功能, 防洗版系统将会踢除、封锁洗版者. \n\n"
-" •使用 `/config` 指令, 接着是「`防洗版`」按钮: 在私人信息中使用内联控制面板管理洗版设定. 您可以更改灵敏度, 要执行的操作(踢除或封锁), 以及设置一些例外."
+"“防洗版”是一个自动删除在群组中发送许多连续消息的人的系统。如果开启功能，防洗版系统将会踢除、封锁洗版者。 \n\n"
+" •使用 `/config` 指令，接着是「`防洗版`」按钮：在私人讯息中使用内嵌控制面板管理洗版设定。您可以更改灵敏度，要执行的操作（踢除或封锁），以及设置一些例外。"
 
 #: lua/groupbutler/plugins/help.lua:103
 msgid "*Reports settings*\n"
@@ -927,12 +927,12 @@ msgid "*Reports settings*\n"
 "• `/mysettings` (in private): from here, you can choose if receive reports or not\n\n"
 "*Note*: admins can't use the `@admin` command, and users can't report admins with it."
 msgstr "*回报设定*\n"
-"`@admin`是一个很有用的指令, 让用户可回报某些信息给群组管理员. \n"
-"回报的信息将会转交给可用的管理员. \n\n"
-"•使用`/config` 指令, 接着在”选单“按钮: 这里你可以找到一个选项, \"回报\". 如果其开启, 用户将能使用`@admin`指令. \n"
-"只有接受了收到报告信息的管理员会收到通知 (在`/mysettings`指令) \n"
-"•`/mysettings`(私人信息): 在这里, 你可以选择是否接受回报通知. \n\n"
-"*注意: 管理员无法使用`@admin`指令, 并且用户无法使用此指令回报管理员."
+"`@admin`是一个很有用的指令，让用户可回报某些讯息给群组管理员。 \n"
+"回报的讯息将会转交给可用的管理员。 \n\n"
+"•使用`/config` 指令，接着在「选单」按钮：这里你可以找到一个选项，\"回报\"。如果其开启，用户将能使用`@admin`指令。 \n"
+"只有接受了收到报告讯息的管理员会收到通知（在`/mysettings`指令）　\n"
+"•`/mysettings`（私人讯息中）： 在这里，你可以选择是否接受回报通知。 \n\n"
+"*注意：管理员无法使用`@admin`指令，并且用户无法使用此指令回报管理员。"
 
 #: lua/groupbutler/plugins/help.lua:112
 msgid "*Welcome/goodbye settings*\n\n"
@@ -953,22 +953,22 @@ msgid "*Welcome/goodbye settings*\n\n"
 "*GIF/sticker as welcome message*\n"
 "You can use a particular gif/sticker as welcome message. To set it, reply to the gif/sticker you want to set as welcome message with `/welcome`. Same goes for `/goodbye`"
 msgstr "*欢迎/再见 设定*\n\n"
-"•输入`/config`, 接着是\"`选单`\"按钮: 在私人信息接收选单的控制面板, 你将会找到开启、关闭与欢迎、再见信息的选项\n"
-"*注意*: 再见信息不适用于大型群组. 这是Telegram无法避免的限制. \n\n"
-"*自订欢迎信息*:\n"
-"•`/welcome 欢迎 $name, 加入群组!`\n"
-"请在`/welcome`后写下欢迎信息, 同样适用于`/goodbye` \n\n"
-"您可以使用一些替代字元来包含群组新成员的\"名字 、用户名称 、ID \"\n"
-"替代字元: \n"
+"•输入`/config`，接着是\"`选单`\"按钮：在私人讯息接收选单的控制面板，你将会找到开启、关闭与欢迎、再见讯息的选项\n"
+"*注意*：再见讯息不适用于大型群组。这是Telegram无法避免的限制。 \n\n"
+"*自定义欢迎讯息*：\n"
+"•`/welcome 欢迎 $name ，加入群组!`\n"
+"请在`/welcome`后写下欢迎讯息，同样适用于`/goodbye` \n\n"
+"您可以使用一些替代字符来包含群组新成员的\"名字 、用户名称 、ID \"\n"
+"替代字符: \n"
 "`$username`: _将被替换成用户名称_\n"
 "`$name`: _将被替换成名(first name)_\n"
 "`$id`: _将被替换成ID_\n"
 "`$title`: _将被替换成群组标题_\n"
 "`$surname`: _将被替换成用户的姓(last name) _\n"
-"`$rules`: _将被连结到该群组的规则所取代. 请阅读 _ [这里](https://telegram.me/GroupButler_beta/26) _了解该如何使用, 否则您肯定将收到错误. _\n"
-"*注意*: `$name`, `$surname`, 和 `$title` 可能无法在标记符号(markdown)中正常使用. \n\n"
-"*GIF或贴图作为欢迎信息*\n"
-"您可以使用特定 GIF、贴图 作为欢迎信息. 要进行设置, 请使用`/welcome`回复要设置为欢迎消息的GIF 、 贴图. 同样适用于`/goodbye`"
+"`$rules`: _将被链接到该群组的规则所取代. 请阅读 _ [这里](https://telegram.me/GroupButler_beta/26) _了解该如何使用，否则您肯定将收到错误. _\n"
+"*注意*： `$name` 、 `$surname` 和 `$title` 可能无法在 Markdown 中正常使用。 \n\n"
+"*GIF或贴图作为欢迎讯息*\n"
+"您可以使用特定 GIF、贴图作为欢迎讯息。要进行设置，请使用`/welcome`回复要设置为欢迎消息的GIF、贴图。 同样适用于`/goodbye`"
 
 #: lua/groupbutler/plugins/help.lua:133
 msgid "*Whitelist settings*\n\n"
@@ -983,16 +983,16 @@ msgid "*Whitelist settings*\n\n"
 "*Why links are saved without* _https://_ *and* _www_*?*\n"
 "The bot auto-removes _https://, http:// and www_ from every link to reduce the possibility of having the same link saved twice."
 msgstr "*白名单设定*\n\n"
-"您可能知道, 机器人可以警告、踢除或封锁发送Telegram.me连结(反垃圾信息设定)或任何其他连结(媒体设定)的人. \n"
-"白名单是一个机器人将忽略的连结列表. \n"
-"如果用户发送白名单连结, 则不会收到警告或被踢除. \n\n"
-"`/whitelist [连结]`或`/wl [连结]`: 将一个或多个连结添加到白名单. \n"
-"`/unwhitelist [连结]`或`/unwl [连结]`: 从白名单中删除一个或多个连结. \n"
-"`/whitelist`或`/wl`: 获取白名单. \n"
-"`/whitelistl -`或`/wl -`: 清空白名单. \n\n"
-"当群组连结用`/setlink` 保存时, 它会自动添加到白名单之中. \n\n"
+"您可能知道，机器人可以警告、踢除或封锁发送 Telegram.me 链接（反垃圾讯息设定）或任何其他链接（媒体设定）的人。 \n"
+"白名单是一个机器人将忽略的链接栏表。 \n"
+"如果用户发送白名单链接，则不会收到警告或被踢除。 \n\n"
+"`/whitelist [连结]`或`/wl [连结]`： 将一个或多个连结添加到白名单。 \n"
+"`/unwhitelist [连结]`或`/unwl [连结]`： 从白名单中删除一个或多个连结。 \n"
+"`/whitelist`或`/wl`： 获取白名单。 \n"
+"`/whitelistl -`或`/wl -`： 清空白名单。 \n\n"
+"当群组连结用`/setlink` 保存时，它会自动添加到白名单之中。 \n\n"
 "*为什么不保存 * _https://_ * 和 * _www _ * 呢？*\n"
-"机器人从每个连结自动删除 _https:// 、 http://和www_, 以减少将相同连结保存两次的可能性."
+"机器人从每个连结自动删除 _https:// 、 http://和www_，以减少将相同连结保存两次的可能性。"
 
 #: lua/groupbutler/plugins/help.lua:148
 msgid "*Extra commands*\n"
@@ -1005,16 +1005,16 @@ msgid "*Extra commands*\n"
 "*Note:* the markdown is supported. If the text sent breaks the markdown, the bot will notify that something is wrong.\n"
 "For a correct use of the markdown, check [this post](https://telegram.me/GroupButler_ch/46) in the channel.\n"
 "Now supports placeholders. Check the \"welcome\" tab for the list of the available placeholders"
-msgstr "*自订指令*\n"
-"#extra 指令是保存自己的自订指令的聪明方法. \n\n"
-"`/extra [#发动信息] [回复信息]`: 设定当某人传出某特定信息的回复. \n"
-"_示例_: 透过\"`/extra #hello Good morning!`\", 每当某人说 #hello, 机器人便会回复 \"Good morning!\". \n"
-"你可以设定针对特定多媒体档案的回复 (_照片、附加档案、录音档、视频、动图、声音档_)透过`/extra #发动信息` 会把该指定信息存入 #extra 并在某人使用#指令时收到预设的信息. \n"
-"`/extra list`: 列出所有自订指令. \n"
-"`/extra del [#发动信息]`: 删除该#指令相关的数据. \n\n"
-"*注意: *支援标记符号(markdown). 假如送出的信息因为标记符号出了问题, 机器人会出现警示. \n"
-"要更进一步了解标记符号的话, 请参考[这篇文章](https://telegram.me/GroupButler_ch/46)(仅英文) \n"
-"现在已经支持标记符号. 查看\"欢迎信息\"来了解有哪些能用的标记符号."
+msgstr "*自定义指令*\n"
+"#extra 指令是保存自己的自定义指令的聪明方法。 \n\n"
+"`/extra [#发动讯息] [回复讯息]`： 设定当某人传出某特定讯息的回复。 \n"
+"_范例_： 透过\"`/extra #hello Good morning!`\"，每当某人说 #hello ，机器人便会回复 \"Good morning!\"。 \n"
+"你可以设定针对特定多媒体档案的回复（_照片、附加档案、录音档、影片、GIF、声音档_）透过`/extra #发动讯息` 会把该指定讯息存入 #extra 并在某人使用#指令时收到默认的讯息。 \n"
+"`/extra list`： 列出所有自定义指令。 \n"
+"`/extra del [#发动讯息]`： 删除该#指令相关的数据。 \n\n"
+"*注意： *支援 Markdown 。假如送出的讯息因为 Markdown 出了问题，机器人会出现警示。 \n"
+"要更进一步了解 Markdown 的话，请参考[这篇文章](https://telegram.me/GroupButler_ch/46)（仅英文） \n"
+"现在已经支持 Markdown 。查看\"欢迎讯息\"来了解有哪些能用的 Markdown 。"
 
 #: lua/groupbutler/plugins/help.lua:160
 msgid "*Warns*\n"
@@ -1032,19 +1032,19 @@ msgid "*Warns*\n"
 "How to change the max. number of warnings allowed for medias: `/config` command, then `media` button.\n"
 "How to change the max. number of warnings allowed for spam: `/config` command, then `antispam` button."
 msgstr "*警告管理*\n"
-"警告管理是为了持续计算用户收到的警告. 一旦用户被警告了定义的次数, 他们就会被机器人踢/禁止. \n"
-" 有两种不同类型的警告: \n"
-"- _一般警告_, 由管理员用 `/warn` 命令给出 \n"
-"- _自动警告_(请阅读: 媒体警告和洗版警告), 当有人发送聊天中不允许的媒体或者发送其他频道或telegram.me连结时, 由机器人给出. \n\n"
-"`/warn [透过回复]`: 警告一个成员\n"
-"•`/sw`: 您可以在信息中的任何位置放置一个`/sw`(_“静音警告”_). 机器人将默默地计算警告, 但除非用户达到最大值, 否则不会在群组中回答. 警告数量. \n"
-"`/nowarns [透过回复]`: 重设一个成员收到的警告次数(包括一般警告与媒体信息警告). \n"
-"`/warnmax [数字]`: 设定累积多少警告次数后被踢出或封锁. \n"
-"`/warnmax media [数字]`: 设定最多传送几条不合规定的媒体信息后被踢出、封锁. \n\n"
-"如何看见成员累积了多少警告(或是重设警告): 使用`/user`指令. \n"
-"如何更改允许的警告次数上限: `/config`指令, 接着\"`选单`\"按钮. \n"
-"如何更改允许的媒体警告次数上限: `/config` 指令,接着\"`媒体`\"按钮. \n"
-"如何更改允许的洗版警告次数上限: `/ config`命令, 接着是\"`反洗版`\"按钮."
+"警告管理是为了持续计算用户收到的警告。一旦用户被警告了定义的次数，他们就会被机器人踢出/封锁。 \n"
+" 有两种不同类型的警告： \n"
+"- _一般警告_，由管理员用 `/warn` 指令给出 \n"
+"- _自动警告_（请阅读：媒体警告和洗版警告），当有人发送聊天中不允许的媒体或者发送其他频道或 telegram.me 连结时，由机器人给出。 \n\n"
+"`/warn [透过回复]`： 警告一个成员\n"
+"•`/sw`：您可以在讯息中的任何位置放置一个`/sw`（_“静音警告”_）。机器人将默默地计算警告，但除非用户达到最大值， 否则不会在群组中回答警告数量。 \n"
+"`/nowarns [透过回复]`：重设一个成员收到的警告次数（包括一般警告与媒体讯息警告）。 \n"
+"`/warnmax [数字]`：设定累积多少警告次数后被踢出或封锁。 \n"
+"`/warnmax media [数字]`：设定最多传送几条不合规定的媒体讯息后被踢出、封锁。 \n\n"
+"如何看见成员累积了多少警告（或是重设警告）：使用`/user`指令。 \n"
+"如何更改允许的警告次数上限：`/config`指令，接着\"`选单`\"按钮。 \n"
+"如何更改允许的媒体警告次数上限：`/config`指令，接着\"`媒体`\"按钮。 \n"
+"如何更改允许的洗版警告次数上限：`/ config`指令，接着是\"`反洗版`\"按钮。"
 
 #: lua/groupbutler/plugins/help.lua:176
 msgid "*Pinning messages*\n"
@@ -1055,14 +1055,14 @@ msgid "*Pinning messages*\n"
 "• `/pin`: the bot will find the latest message generate by `/pin`, if it still exists\n"
 "• `/newpin [text]`: forces the bot to send another message that will be saved as new target for `/pin`\n\n"
 "*Note*: `/pin` supports markdown, but only `$rules` and `$title` placeholders"
-msgstr "*置顶信息*\n"
-"编辑自己信息的“48小时限制”并不适用于机器人. \n"
-"这个指令源于编辑固定信息而不再有发送它的必要性, 也许只是为了改变一些项目. \n"
-"因此, 使用`/pin`, 您可以生成一条信息来置顶. 若您想, 可将其编辑多次. \n\n"
-"• `/pin [信息]`: 机器人会把输入的信息以包含标记符号的参数形式回传, 你可以置顶该信息并使用 `/pin [信息]` 编辑该信息它\n"
-"• `/pin`: 机器人将找到由`/pin`生成的最新消息, 如果它仍存在的话. \n"
-"• `/newpin [信息]`: 强制机器人发送另一个信息, 此信息将会是 `/pin` 的新目标\n\n"
-"*备注*: `/pin` 支援标记符号, 但只有替代字元 `$rules` 及 `$title`"
+msgstr "*置顶讯息*\n"
+"编辑自己讯息的「48小时限制」并不适用于机器人。 \n"
+"这个指令源于编辑固定讯息而不再有发送它的必要性，也许只是为了改变一些项目。 \n"
+"因此，使用`/pin`，您可以生成一条讯息来置顶。若您想，可将其编辑多次。 \n\n"
+"• `/pin [讯息]`：机器人会把输入的讯息以包含 Markdown 的参数形式回传，你可以置顶该讯息并使用 `/pin [讯息]` 编辑该讯息它\n"
+"• `/pin`：机器人将找到由`/pin`生成的最新消息，如果它仍存在的话。 \n"
+"• `/newpin [讯息]`：强制机器人发送另一个讯息，此讯息将会是 `/pin` 的新目标\n\n"
+"*备注*：`/pin` 支持 Markdown ，但只有替代字符 `$rules` 及 `$title`"
 
 #: lua/groupbutler/plugins/help.lua:186
 msgid "*Group language*\n"
@@ -1076,15 +1076,15 @@ msgid "*Group language*\n"
 "*Rtl*: stands for 'Right To Left' character, is the cause of weird service messages written in the opposite direction.\n"
 "When Rtl is not allowed (🚫), people who write Rtl characters (or have it in their names) will be kicked."
 msgstr "*群组语言*\n"
-"`/lang`: 选择该群组使用的语言(也可以在私人信息中更改). \n\n"
-"*注意*: 翻译者均为自愿者, 所以无法确保所有翻译的正确性与完整性(未翻译的语句皆为英语). \n\n"
-"您可以在 [Crowdin Project](https://crowdin.com/project/group-butler) 上帮助我们改进翻译. \n\n"
-"*特殊字元*\n\n"
-"•使用`/config`指令, 接着点击\"`选单`\"按钮, 机器人将会向你发送控制面板. \n"
-"在这里, 你会找到两个特定选择: _阿拉伯文字和右至左文字_. \n\n"
-"*阿拉伯文字*:当不允许阿拉伯文字(🚫)时, 输入阿拉伯文字的人将被踢出该群组. \n"
-"*右至左文字*:是在相反方向写入奇怪信息的原因. \n"
-"当不允许使用右至左文字时(🚫), 输入右至左文字(或以其名字命名)的人将被踢除."
+"`/lang`：选择该群组使用的语言（也可以在私人讯息中更改）。 \n\n"
+"*注意*：翻译者均为自愿者, 所以无法确保所有翻译的正确性与完整性（未翻译的语句皆为英语）。 \n\n"
+"您可以在 [Crowdin Project](https://crowdin.com/project/group-butler) 上帮助我们改进翻译。 \n\n"
+"*特殊字符*\n\n"
+"•使用`/config`指令，接着点击\"`选单`\"按钮，机器人将会向你发送控制面板。 \n"
+"在这里, 你会找到两个特定选择：_阿拉伯文字和右至左文字_。 \n\n"
+"*阿拉伯文字*:当不允许阿拉伯文字(🚫)时，输入阿拉伯文字的人将被踢出该群组。 \n"
+"*右至左文字*:是在相反方向写入奇怪讯息的原因。 \n"
+"当不允许使用右至左文字时(🚫)，输入右至左文字（或以其名字命名）的人将被踢除。"
 
 #: lua/groupbutler/plugins/help.lua:201
 msgid "*General group settings*\n\n"
@@ -1100,17 +1100,17 @@ msgid "*General group settings*\n\n"
 "`/leave`: the bot will leave the group without deleting its data. Use this command only if you are going to add the bot to the group again\n"
 "`/snap`: generate a backup file that can be restored with `/import` (send the file in the group and reply to it). `/snap` can be used once every three days"
 msgstr "*一般群组设定*\n\n"
-"`/config` 或`/settings`:私下传送管理群组设定的内联控制面板. \n"
-"内联控制面板有六个子选单: \n\n"
-"*选单*:管理最重要的群组设定\n"
-"*防洗版 *:打开或关闭防洗版设定, 如果你想, 可以设置其灵敏度并选择对一些媒体信息的忽略. \n"
-"*媒体*:选择在您的群组中禁止使用哪种媒体, 并设定用户在被踢除或封锁之前需要被警告的次数\n"
-"*反垃圾信息*:选择您要禁止的垃圾信息(例如: telegram.me连结, 来自其他频道的转发)\n"
-"*记录频道*: 选择应记录的更新\n\n"
-"*额外指令*: \n"
-"`/reportflood [次数] / [时间]`: 设置用户在特定时间范围内使用@admin命令的次数. \n"
-"`/leave`: 机器人将离开该群组而不删除其数据. 仅当您要再次将机器人添加到群组时, 才使用此命令\n"
-"`/snap`: 生成一个可以用 `/import` 恢复的备份文件(发送群组的文件并回复它).  `/snap`每三天可以使用一次"
+"`/config` 或`/settings`：私下传送管理群组设定的内嵌控制面板。 \n"
+"内嵌控制面板有六个子选单： \n\n"
+"*选单*：管理最重要的群组设定\n"
+"*防洗版*：打开或关闭防洗版设定，如果你想，可以设置其灵敏度并选择对一些媒体讯息的忽略。 \n"
+"*媒体*：选择在您的群组中禁止使用哪种媒体，并设定用户在被踢除或封锁之前需要被警告的次数\n"
+"*反垃圾讯息*：选择您要禁止的垃圾讯息（例如： telegram.me 链接，来自其他频道的转发）\n"
+"*记录频道*：选择应记录的更新\n\n"
+"*额外指令*：\n"
+"`/reportflood [次数] / [时间]`：设置用户在特定时间范围内使用@admin指令的次数。 \n"
+"`/leave`：机器人将离开该群组而不删除其数据。仅当您要再次将机器人添加到群组时，才使用此指令\n"
+"`/snap`：生成一个可以用 `/import` 恢复的备份文件（发送群组的文件并回复它）。`/snap`每三天可以使用一次"
 
 #: lua/groupbutler/plugins/help.lua:216
 msgid "*Log channel informations*\n\n"
@@ -1125,22 +1125,22 @@ msgid "*Log channel informations*\n\n"
 "To change your log channel, simply repeat this process with another channel.\n\n"
 "`/unsetlog`: remove your current log channel\n"
 "`/logchannel`: get some informations about your log channel, if paired"
-msgstr "*记录频道资讯*\n\n"
-"记录频道是机器人记录在您的群组中所有重要事件的 _(私有)_ 频道, \n"
-"如果要使用此功能, 则需使用下方描述的指令让群组与频道配对. \n"
-"默认情况下, 所有事件都 *不会记录*. 管理员可以从 `/config` 选单 -> `记录频道` 按钮选择要记录的事件. \n\n"
-"要将频道与群组配对, *频道创建者* 必须 [将机器人添加到频道管理员](telegram.me/gb_tutorials/4)(否则将不会发送信息), 并在频道中发送此指令: \n"
+msgstr "*记录频道信息*\n\n"
+"记录频道是机器人记录在您的群组中所有重要事件的 _(私有)_ 频道，\n"
+"如果要使用此功能，则需使用下方描述的指令让群组与频道配对。\n"
+"默认情况下，所有事件都 *不会记录*。管理员可以从 `/config` 选单 -> `记录频道` 按钮选择要记录的事件。\n\n"
+"要将频道与群组配对，*频道创建者* 必须 [将机器人添加到频道管理员](telegram.me/gb_tutorials/4)（否则将不会发送讯息），并在频道中发送此指令： \n"
 "`/setlog`\n"
-"然后, 该群组的管理员必须在该群组中转发在该频道中发送的信息(“`/ setlog`”). *完成*!\n"
-"(你可以在 [这里](https://telegram.me/GB_tutorials/8) 找到视频教学)\n\n"
-"频道可以用作不同群组的记录. \n"
-"要更改记录频道, 只需使用其他频道重复此过程即可. \n\n"
-"`/unsetlog`:删除当前的记录频道\n"
-"`/logchannel`:获得有关您的记录频道的一些信息, 如果已有配对."
+"然后，该群组的管理员必须在该群组中转发在该频道中发送的讯息（“`/setlog`”）。*完成*！\n"
+"（你可以在 [这里](https：//telegram.me/GB_tutorials/8) 找到影片教学）\n\n"
+"频道可以用作不同群组的记录。\n"
+"要更改记录频道，只需使用其他频道重复此过程即可。\n\n"
+"`/unsetlog`：删除当前的记录频道\n"
+"`/logchannel`：获得有关您的记录频道的一些讯息，如果已有配对。"
 
 #: lua/groupbutler/plugins/help.lua:232
 msgid "*Missing help information!*"
-msgstr "*缺少说明资讯!*"
+msgstr "*缺少说明信息！*"
 
 #: lua/groupbutler/plugins/help.lua:242
 msgid "Banhammer"
@@ -1148,7 +1148,7 @@ msgstr "封锁之槌"
 
 #: lua/groupbutler/plugins/help.lua:243
 msgid "Group info"
-msgstr "群组资讯"
+msgstr "群组信息"
 
 #: lua/groupbutler/plugins/help.lua:246
 msgid "Report system"
@@ -1173,7 +1173,7 @@ msgstr "警告"
 
 #: lua/groupbutler/plugins/help.lua:258
 msgid "Welcome settings"
-msgstr "欢迎信息设定"
+msgstr "欢迎讯息设定"
 
 #: lua/groupbutler/plugins/help.lua:259
 msgid "Links whitelist"
@@ -1205,7 +1205,7 @@ msgstr "用户指令"
 
 #: lua/groupbutler/plugins/help.lua:295
 msgid "Commands in private"
-msgstr "私聊指令"
+msgstr "私讯指令"
 
 #: lua/groupbutler/plugins/help.lua:296
 msgid "Log channel"
@@ -1234,7 +1234,7 @@ msgstr "私讯可用的指令"
 
 #: lua/groupbutler/plugins/help.lua:369
 msgid "Log channel informations"
-msgstr "记录频道资讯"
+msgstr "记录频道信息"
 
 #: lua/groupbutler/plugins/help.lua:374
 msgid "Available commands for admins"
@@ -1250,7 +1250,7 @@ msgstr "❗️ 已经在这个页面上了"
 
 #: lua/groupbutler/plugins/links.lua:36
 msgid "*No link* for this group. Ask the owner to save it with `/setlink [group link]`"
-msgstr "此群组*没有连结*, 请向创群者查询并以`/setlink [群组连结]`保存连结."
+msgstr "此群组*没有连结*，请向创群者查询并以`/setlink [群组连结]`保存连结."
 
 #: lua/groupbutler/plugins/links.lua:47
 msgid "Link *unset*"
@@ -1260,23 +1260,23 @@ msgstr "连结*未设定*"
 #, lua-format
 msgid "The link has been set.\n"
 "*Here's the link*: %s"
-msgstr "连结已设定. \n"
-"*这里是连结*: %s"
+msgstr "连结已设定。 \n"
+"*这里是连结*： %s"
 
 #: lua/groupbutler/plugins/links.lua:56
 msgid "This is not a *public supergroup*, so you need to write the link near `/setlink`"
-msgstr "这不是公开的*超级群组*, 你需要在 `/setlink` 后补上连结"
+msgstr "这不是公开的*超级群组*，你需要在 `/setlink` 后补上连结"
 
 #: lua/groupbutler/plugins/links.lua:59
 msgid "This link is *not valid!*"
-msgstr "连结*无效! *"
+msgstr "连结*无效！ *"
 
 #: lua/groupbutler/plugins/links.lua:68
 #, lua-format
 msgid "The link has been updated.\n"
 "*Here's the new link*: %s"
-msgstr "连结已被更新. \n"
-"*这里是新的连结*: %s"
+msgstr "连结已被更新。 \n"
+"*这里是新的连结*： %s"
 
 #: lua/groupbutler/plugins/logchannel.lua:25
 msgid "Log every time a user join the group"
@@ -1284,11 +1284,11 @@ msgstr "记录每次用户加入群组"
 
 #: lua/groupbutler/plugins/logchannel.lua:26
 msgid "Bans will be logged. I can't log manual bans"
-msgstr "将会记录封锁. 但我无法记录手动封锁"
+msgstr "将会记录封锁。但我无法记录手动封锁"
 
 #: lua/groupbutler/plugins/logchannel.lua:27
 msgid "Kicks will be logged. I can't log manual kicks"
-msgstr "将会记录踢除. 但我无法记录手动踢除."
+msgstr "将会记录踢除。但我无法记录手动踢除"
 
 #: lua/groupbutler/plugins/logchannel.lua:28
 msgid "Manual warns will be logged"
@@ -1300,19 +1300,19 @@ msgstr "禁止媒体的记录将会记录在频道中"
 
 #: lua/groupbutler/plugins/logchannel.lua:30
 msgid "Spam links/forwards from channels will be logged in the channel, only if forbidden"
-msgstr "只有在禁止的情况下, 才会在频道中记录垃圾连结与来自其他频道的转发信息."
+msgstr "只有在禁止的情况下，才会在频道中记录垃圾链接与来自其他频道的转发讯息"
 
 #: lua/groupbutler/plugins/logchannel.lua:31
 msgid "Log when a user is flooding (new log message every 5 flood messages)"
-msgstr "记录当用户洗版时(每5条洗版信息, 发送新的日志信息)"
+msgstr "记录当用户洗版时（每5条洗版讯息，发送新的日志讯息）"
 
 #: lua/groupbutler/plugins/logchannel.lua:32
 msgid "Log when an admin changes the group icon"
-msgstr "当管理员变更群组图示时记录"
+msgstr "当管理员变更群组图标时记录"
 
 #: lua/groupbutler/plugins/logchannel.lua:33
 msgid "Log when an admin deletes the group icon"
-msgstr "当管理员删除群组图示时记录"
+msgstr "当管理员删除群组图标时记录"
 
 #: lua/groupbutler/plugins/logchannel.lua:34
 msgid "Log when an admin change the group title"
@@ -1320,7 +1320,7 @@ msgstr "当管理员变更群组标题时记录"
 
 #: lua/groupbutler/plugins/logchannel.lua:35
 msgid "Log pinned messages"
-msgstr "记录置顶信息"
+msgstr "记录置顶讯息"
 
 #: lua/groupbutler/plugins/logchannel.lua:36
 msgid "Log when a user who has been blocked is banned from the group on join"
@@ -1332,7 +1332,7 @@ msgstr "记录如果管理员删除用户收到的警告"
 
 #: lua/groupbutler/plugins/logchannel.lua:38
 msgid "Log when a user reports a message with the @admin command"
-msgstr "记录当用户使用@admin指令回报信息"
+msgstr "记录当用户使用@admin指令回报讯息"
 
 #: lua/groupbutler/plugins/logchannel.lua:61
 msgid "Ban"
@@ -1340,7 +1340,7 @@ msgstr "封锁"
 
 #: lua/groupbutler/plugins/logchannel.lua:62
 msgid "Kick"
-msgstr "踢除"
+msgstr "踢出"
 
 #: lua/groupbutler/plugins/logchannel.lua:63 lua/groupbutler/utilities.lua:677
 msgid "Unban"
@@ -1368,7 +1368,7 @@ msgstr "媒体警告"
 
 #: lua/groupbutler/plugins/logchannel.lua:70
 msgid "Spam warns"
-msgstr "垃圾信息警告"
+msgstr "垃圾讯息警告"
 
 #: lua/groupbutler/plugins/logchannel.lua:71
 msgid "Flood"
@@ -1388,7 +1388,7 @@ msgstr "新群组标题"
 
 #: lua/groupbutler/plugins/logchannel.lua:75
 msgid "Pinned messages"
-msgstr "置顶信息"
+msgstr "置顶讯息"
 
 #: lua/groupbutler/plugins/logchannel.lua:76
 msgid "Users blocked and banned"
@@ -1408,7 +1408,7 @@ msgstr "你不是此群组的管理员"
 
 #: lua/groupbutler/plugins/logchannel.lua:124
 msgid "User unbanned!"
-msgstr "此用户已被解除封锁!"
+msgstr "此用户已被解除封锁！"
 
 #: lua/groupbutler/plugins/logchannel.lua:148
 msgid "*Select the events the will be logged in the channel*\n"
@@ -1421,7 +1421,7 @@ msgstr "*选择将在频道中记录的事件*\n"
 
 #: lua/groupbutler/plugins/logchannel.lua:179
 msgid "_Too many requests. Retry later_"
-msgstr "_太多请求. 请稍候重试_"
+msgstr "_太多请求。请稍候重试_"
 
 #: lua/groupbutler/plugins/logchannel.lua:181
 msgid "_I need to be admin in the channel_"
@@ -1433,7 +1433,7 @@ msgstr "_已经使用这个频道_"
 
 #: lua/groupbutler/plugins/logchannel.lua:191
 msgid "*Log channel added!*"
-msgstr "*记录频道已加入! *"
+msgstr "*记录频道已加入！*"
 
 #: lua/groupbutler/plugins/logchannel.lua:194
 #, lua-format
@@ -1451,11 +1451,11 @@ msgstr "_只有频道建立者可以将频道与群组配对_"
 
 #: lua/groupbutler/plugins/logchannel.lua:205
 msgid "_I'm sorry, only private channels are supported for now_"
-msgstr "_我很抱歉, 现在只支援私人频道_"
+msgstr "_我很抱歉，现在只支持私人频道_"
 
 #: lua/groupbutler/plugins/logchannel.lua:209
 msgid "You have to *forward* the message from the channel"
-msgstr "您必须从频道中*转传*信息"
+msgstr "您必须从频道中*转传*讯息"
 
 #: lua/groupbutler/plugins/logchannel.lua:214
 #: lua/groupbutler/plugins/logchannel.lua:222
@@ -1468,27 +1468,27 @@ msgstr "* 已移除记录频道 *"
 
 #: lua/groupbutler/plugins/logchannel.lua:227
 msgid "_This group has a log channel saved, but I'm not a member there, so I can't post/retrieve its info_"
-msgstr "_这个群组保存了一个记录频道, 但我不是那里的成员, 所以我无法发布或检索其信息_"
+msgstr "_这个群组保存了一个记录频道，但我不是那里的成员，所以我无法发布或检索其讯息_"
 
 #: lua/groupbutler/plugins/logchannel.lua:234
 #, lua-format
 msgid "<b>This group has a log channel</b>\n"
 "Channel: <code>%s</code>"
 msgstr "<b>此群组有日志频道</b>\n"
-"频道: <code>%s</code>"
+"频道： <code>%s</code>"
 
 #: lua/groupbutler/plugins/mediasettings.lua:38
 msgid "Video messages"
-msgstr "影音信息"
+msgstr "影片讯息"
 
 #: lua/groupbutler/plugins/mediasettings.lua:41
 msgid "Vocal messages"
-msgstr "语音信息"
+msgstr "语音消息"
 
 #: lua/groupbutler/plugins/mediasettings.lua:67
 #, lua-format
 msgid "Warnings | %d | kick"
-msgstr "警告 | %d | 踢除"
+msgstr "警告 | %d | 踢出"
 
 #: lua/groupbutler/plugins/mediasettings.lua:69
 #, lua-format
@@ -1523,10 +1523,10 @@ msgid "Tap on an option on the right to *change the setting*\n"
 "Possible statuses: ✅ allowed, ❌ warning, 🗑 delete.\n"
 "When a media is set to delete, the bot will give a warning *only* when this is the users last warning"
 msgstr "点击右侧的选项 *更改设置*\n"
-"您可以使用最后一行来更改机器人在 踢除/封锁/禁言之前, 应该给出的警告数量. \n"
-"该数字与正常的`/warn`指令无关. \n\n"
-"可使用的状态: ✅允许, ❌警告, 🗑删除. \n"
-"当某个文件是被设定为自动删除时, 机器人 *只会* 在使用者最后一次违规上限时才发出警告."
+"您可以使用最后一行来更改机器人在 踢出/封锁/禁言之前，应该给出的警告数量。\n"
+"该数字与正常的`/warn`指令无关。\n\n"
+"可使用的状态: ✅允许，❌警告，🗑删除。\n"
+"当某个文件是被设定为自动删除时，机器人 *只会* 在使用者最后一次违规时才发出警告。"
 
 #: lua/groupbutler/plugins/mediasettings.lua:149
 msgid "⚙ The new value is too low ( < 1)"
@@ -1551,51 +1551,51 @@ msgstr "🔨 新状态已设定为封锁"
 #. TRANSLATORS: these strings should be shorter than 200 characters
 #: lua/groupbutler/plugins/menu.lua:26
 msgid "When enabled, users will be able to report messages with the @admin command"
-msgstr "启用后, 用户将能够使用@admin指令回报信息"
+msgstr "启用后，用户将能够使用@admin指令回报讯息"
 
 #: lua/groupbutler/plugins/menu.lua:27
 msgid "Enable or disable the goodbye message. Can't be sent in large groups"
-msgstr "启用或禁用再见信息.  无法在大型群组中发送"
+msgstr "启用或禁用再见讯息。无法在大型群组中发送"
 
 #: lua/groupbutler/plugins/menu.lua:28
 msgid "Enable or disable the welcome message"
-msgstr "启用或停用欢迎信息"
+msgstr "启用或停用欢迎讯息"
 
 #: lua/groupbutler/plugins/menu.lua:29
 msgid "When enabled, every time a new welcome message is sent, the previously sent welcome message is removed"
-msgstr "启用后, 每次发送新的欢迎信息时, 都会删除先前发送的欢迎信息"
+msgstr "启用后，每次发送新的欢迎讯息时，都会删除先前发送的欢迎讯息"
 
 #: lua/groupbutler/plugins/menu.lua:30
 msgid "When enabled, the bot doesn't answer in the group to /dashboard, /config and /help commands (it will just answer in private)"
-msgstr "启用后, 机器人不会在群组中回答 /dashboard, /config 和 /help 指令(它只会私下回答)"
+msgstr "启用后，机器人不会在群组中回答 /dashboard 、 /config 和 /help 指令（它只会私下回答）"
 
 #: lua/groupbutler/plugins/menu.lua:31
 msgid "Enable and disable the anti-flood system (more info in the /help message)"
-msgstr "启用与禁用防洗版系统 (使用/help 获取更多资讯)"
+msgstr "启用与禁用防洗版系统（使用/help 获取更多信息）"
 
 #: lua/groupbutler/plugins/menu.lua:32
 msgid "If the welcome message is enabled, it will include an inline button that will send to the user the rules in private"
-msgstr "如果启用了欢迎消息, 它将包含一个内联按钮, 该按钮将私下发送给用户群组规定"
+msgstr "如果启用了欢迎消息，它将包含一个内嵌按钮，该按钮将私下发送给用户群组规定"
 
 #: lua/groupbutler/plugins/menu.lua:33
 msgid "When someone uses /rules\n"
 "👥: the bot will answer in the group (always, with admins)\n"
 "👤: the bot will answer in private"
 msgstr "当有人使用/rules 时\n"
-"👥: 机器人将在群组中回答(当管理员输入时, 总是在群组回复)\n"
-"👤: 机器人将私下回答"
+"👥：机器人将在群组中回答（当管理员输入时，总是在群组回复）\n"
+"👤：机器人将私下回答"
 
 #: lua/groupbutler/plugins/menu.lua:36
 msgid "When someone uses an #extra\n"
 "👥: the bot will answer in the group (always, with admins)\n"
 "👤: the bot will answer in private"
 msgstr "当有人使用 #extra 时\n"
-"👥: 机器人将在群组中回答(当管理员输入时, 总是在群组回复)\n"
-"👤: 机器人将私下回答"
+"👥：机器人将在群组中回答（当管理员输入时，总是在群组回复）\n"
+"👤：机器人将私下回答"
 
 #: lua/groupbutler/plugins/menu.lua:39
 msgid "Select what the bot should do when someone sends a message with arab characters"
-msgstr "选择当有人发送带有阿拉伯字的信息时, 机器人应该做什么"
+msgstr "选择当有人发送带有阿拉伯字的讯息时，机器人应该做什么"
 
 #: lua/groupbutler/plugins/menu.lua:40
 msgid "Bots will be banned when added by normal users"
@@ -1603,11 +1603,11 @@ msgstr "普通用户将禁止新增机器人进入群组"
 
 #: lua/groupbutler/plugins/menu.lua:41
 msgid "Select what the bot should do when someone sends a message with the RTL character, or has it in their name"
-msgstr "选择当有人发送带有从右到左字元的信息或者在他们的名字中有这些的时候, 机器人应该做什么"
+msgstr "选择当有人发送带有从右到左字符的讯息或者在他们的名字中有这些的时候，机器人应该做什么"
 
 #: lua/groupbutler/plugins/menu.lua:42
 msgid "Change how many times a user has to be warned before being kicked/banned"
-msgstr "更改用户在被 踢除/封锁 之前必须被警告的次数"
+msgstr "更改用户在被 踢出/封锁 之前必须被警告的次数"
 
 #: lua/groupbutler/plugins/menu.lua:43
 msgid "Change the action to perform when a user reaches the max. number of warnings"
@@ -1623,19 +1623,19 @@ msgstr "新的数值太低 ( < 1)"
 
 #: lua/groupbutler/plugins/menu.lua:75
 msgid "New action on max number of warns received: ban"
-msgstr "达到警告上限执行时的新执行方式: 封锁"
+msgstr "达到警告上限执行时的新执行方式：封锁"
 
 #: lua/groupbutler/plugins/menu.lua:78
 msgid "New action on max number of warns received: mute"
-msgstr "达到警告上限执行时的新执行方式: 禁言"
+msgstr "达到警告上限执行时的新执行方式：禁言"
 
 #: lua/groupbutler/plugins/menu.lua:81
 msgid "New action on max number of warns received: kick"
-msgstr "达到警告上限执行时的新执行方式: 踢除"
+msgstr "达到警告上限执行时的新执行方式：踢出"
 
 #: lua/groupbutler/plugins/menu.lua:90
 msgid "Action -> kick"
-msgstr "操作 -> 踢除"
+msgstr "操作 -> 踢出"
 
 #: lua/groupbutler/plugins/menu.lua:91
 msgid "Action -> ban"
@@ -1655,15 +1655,15 @@ msgstr "✅"
 
 #: lua/groupbutler/plugins/menu.lua:178
 msgid "Welcome"
-msgstr "欢迎信息"
+msgstr "欢迎讯息"
 
 #: lua/groupbutler/plugins/menu.lua:179
 msgid "Goodbye"
-msgstr "再见信息"
+msgstr "再见讯息"
 
 #: lua/groupbutler/plugins/menu.lua:180 lua/groupbutler/utilities.lua:372
 msgid "Extra"
-msgstr "自订指令"
+msgstr "自定义指令"
 
 #: lua/groupbutler/plugins/menu.lua:181 lua/groupbutler/utilities.lua:373
 msgid "Anti-flood"
@@ -1679,7 +1679,7 @@ msgstr "阿拉伯文字"
 
 #: lua/groupbutler/plugins/menu.lua:185 lua/groupbutler/utilities.lua:378
 msgid "RTL"
-msgstr "右至左文字"
+msgstr "从右至左文字"
 
 #: lua/groupbutler/plugins/menu.lua:186 lua/groupbutler/utilities.lua:374
 msgid "Ban bots"
@@ -1691,15 +1691,15 @@ msgstr "回报"
 
 #: lua/groupbutler/plugins/menu.lua:188 lua/groupbutler/utilities.lua:380
 msgid "Delete last welcome message"
-msgstr "删除最后的欢迎信息"
+msgstr "删除最后的欢迎讯息"
 
 #: lua/groupbutler/plugins/menu.lua:189
 msgid "Welcome + rules button"
-msgstr "欢迎信息+规则按钮"
+msgstr "欢迎讯息+规则按钮"
 
 #: lua/groupbutler/plugins/menu.lua:190 lua/groupbutler/utilities.lua:382
 msgid "Clean Service Messages"
-msgstr "清除服务器信息"
+msgstr "清除服务器讯息"
 
 #: lua/groupbutler/plugins/menu.lua:228
 msgid "🔨️ ban"
@@ -1707,93 +1707,93 @@ msgstr "🔨️ 封锁"
 
 #: lua/groupbutler/plugins/menu.lua:234
 msgid "Warns: "
-msgstr "警告: "
+msgstr "警告："
 
 #: lua/groupbutler/plugins/menu.lua:239
 msgid "Action:"
-msgstr "动作:"
+msgstr "动作："
 
 #: lua/groupbutler/plugins/menu.lua:275
 msgid "Manage the settings of the group. Click on the left column to get a small hint"
-msgstr "群组的管理设定.  单击左列以获得一个小提示"
+msgstr "群组的管理设定。单击左列以获得一个小提示"
 
 #: lua/groupbutler/plugins/onmessage.lua:117
 #, lua-format
 msgid "%s <b>banned</b> for flood!"
-msgstr "%s 因洗版而被<b>封锁</b>!"
+msgstr "%s 因洗版而被<b>封锁</b>！"
 
 #: lua/groupbutler/plugins/onmessage.lua:119
 #, lua-format
 msgid "%s <b>kicked</b> for flood!"
-msgstr "%s 因洗版而被<b>踢除</b>!"
+msgstr "%s 因洗版而被<b>踢出</b>！"
 
 #: lua/groupbutler/plugins/onmessage.lua:121
 #, lua-format
 msgid "%s <b>muted</b> for flood!"
-msgstr "%s 因洗版而被<b>禁言</b>!"
+msgstr "%s 因洗版而被<b>禁言</b>！"
 
 #: lua/groupbutler/plugins/onmessage.lua:170
 #, lua-format
 msgid "%s <b>%s</b>: media sent not allowed!\n"
 "❗️ <code>%d/%d</code>"
-msgstr "%s <b>%s</b>: 传送的信息不被允许! \n"
+msgstr "%s <b>%s</b>: 不允许传送媒体！ \n"
 "❗️ <code>%d/%d</code>"
 
 #: lua/groupbutler/plugins/onmessage.lua:180
 #, lua-format
 msgid "%s, this type of media is <b>not allowed</b> in this chat.\n"
 "(<code>%d/%d</code>)"
-msgstr "%s, 这种类型信息在这个群组里面是<b>不允许</b>. \n"
+msgstr "%s, 这种类型讯息在这个群组里面是<b>不允许</b>。 \n"
 "(<code>%d/%d</code>)"
 
 #: lua/groupbutler/plugins/onmessage.lua:185
 #, lua-format
 msgid "%s, this type of media is <b>not allowed</b> in this chat.\n"
 "<i>The next time you will be banned/kicked/muted</i>\n"
-msgstr "%s, 此群组中<b>不允许</b>此类媒体. \n"
-"<i>下次您将被封锁/踢除/禁言</i>\n"
+msgstr "%s，此群组中<b>不允许</b>此类媒体。 \n"
+"<i>下次您将被封锁/踢出/禁言</i>\n"
 
 #: lua/groupbutler/plugins/onmessage.lua:210
 #, lua-format
 msgid "%s <b>kicked</b>: RTL character in names/messages are not allowed!"
-msgstr "%s <b>已被踢除</b>: 从右至左文字在名字或信息里是不被允许的!"
+msgstr "%s <b>已被踢除</b>：从右至左文字在名字或讯息里是不被允许的！"
 
 #: lua/groupbutler/plugins/onmessage.lua:213
 #, lua-format
 msgid "%s <b>banned</b>: RTL character in names/messages are not allowed!"
-msgstr "%s <b>已被封锁</b>: 从右至左文字在名字或信息里是不被允许的!"
+msgstr "%s <b>已被封锁</b>：从右至左文字在名字或讯息里是不被允许的！"
 
 #: lua/groupbutler/plugins/onmessage.lua:216
 #, lua-format
 msgid "%s <b>muted</b>: RTL character in names/messages are not allowed!"
-msgstr "%s <b>已被禁言</b>: 从右至左文字在名字或信息里是不被允许的!"
+msgstr "%s <b>已被禁言</b>：从右至左文字在名字或讯息里是不被允许的！"
 
 #: lua/groupbutler/plugins/onmessage.lua:234
 #, lua-format
 msgid "%s <b>kicked</b>: arab/persian message detected!"
-msgstr "%s <b>已被踢除</b>: 侦测到阿拉伯文字!"
+msgstr "%s <b>已被踢除</b>：侦测到阿拉伯文字！"
 
 #: lua/groupbutler/plugins/onmessage.lua:237
 #, lua-format
 msgid "%s <b>banned</b>: arab/persian message detected!"
-msgstr "%s <b>已被封锁</b>: 侦测到阿拉伯文字!"
+msgstr "%s <b>已被封锁</b>：侦测到阿拉伯文字！"
 
 #: lua/groupbutler/plugins/onmessage.lua:240
 #, lua-format
 msgid "%s <b>muted</b>: arab/persian message detected!"
-msgstr "%s <b>已被禁言</b>: 侦测到阿拉伯文字!"
+msgstr "%s <b>已被禁言</b>：侦测到阿拉伯文字！"
 
 #: lua/groupbutler/plugins/pin.lua:76
 msgid "I couldn't find any message generated by <code>/pin</code>."
-msgstr "我找不到任何由 <code>/pin</code> 产生的信息。"
+msgstr "我找不到任何由 <code>/pin</code> 产生的讯息。"
 
 #: lua/groupbutler/plugins/pin.lua:81
 msgid "Last message generated by <code>/pin</code> ^"
-msgstr "最后的信息由 <code>/pin</code> 产生 ^"
+msgstr "最后的讯息由 <code>/pin</code> 产生 ^"
 
 #: lua/groupbutler/plugins/pin.lua:86
 msgid "The old message generated with <code>/pin</code> does not exist anymore."
-msgstr "使用 <code>/pin</code>生成的旧消息不存在."
+msgstr "使用 <code>/pin</code> 生成的旧消息不存在."
 
 #: lua/groupbutler/plugins/private.lua:17
 msgid "unknown"
@@ -1806,11 +1806,11 @@ msgid "This bot is based on [otouto](https://github.com/topkecleon/otouto) (AKA 
 "You can contact the owners of this bot using the /groups command.\n\n"
 "Bot version: %s\n"
 "*Some useful links:*"
-msgstr "这个机器人是基于 [otouto](https://github.com/topkecleon/otouto) (AKA @mokubot, 频道: @otouto), 一个多功能的 Lua bot. \n"
-"没有它, Group Butler 将不会存在. \n\n"
-"您可以使用 /groups 指令来联络此bot的拥有者. \n\n"
-"机器人版本: %s\n"
-"*一些有用的连结: *"
+msgstr "这个机器人是基于 [otouto](https://github.com/topkecleon/otouto) (AKA @mokubot，频道： @otouto) ，一个多功能的 Lua bot 。 \n"
+"没有它，Group Butler 将不会存在。\n\n"
+"您可以使用 /groups 指令来联络此bot的拥有者。\n\n"
+"机器人版本：%s\n"
+"*一些有用的连结：*"
 
 #: lua/groupbutler/plugins/private.lua:41
 msgid "Channel"
@@ -1822,7 +1822,7 @@ msgstr "GitHub"
 
 #: lua/groupbutler/plugins/private.lua:43
 msgid "Rate me!"
-msgstr "评价我!"
+msgstr "评价我！"
 
 #: lua/groupbutler/plugins/private.lua:46
 msgid "👥 Groups"
@@ -1830,13 +1830,13 @@ msgstr "👥 群组"
 
 #: lua/groupbutler/plugins/private.lua:61
 msgid "Pong!"
-msgstr "砰!"
+msgstr "砰！"
 
 #: lua/groupbutler/plugins/private.lua:76
 #: lua/groupbutler/plugins/private.lua:94
 #, lua-format
 msgid "You can find the list of our support groups in [this channel](%s)"
-msgstr "你可以在 [这个频道](%s) 找到我们的支援群组清单"
+msgstr "你可以在 [这个频道](%s) 找到我们的支持群组清单"
 
 #: lua/groupbutler/plugins/private.lua:92
 msgid "🔙 back"
@@ -1844,11 +1844,11 @@ msgstr "🔙 返回"
 
 #: lua/groupbutler/plugins/private_settings.lua:23
 msgid "When you join a group moderated by this bot, you will receive the group rules in private"
-msgstr "当您加入由此机器人审核的群组时, 您将收到机器人私讯的群组规则"
+msgstr "当您加入由此机器人审核的群组时，您将收到机器人私讯的群组规则"
 
 #: lua/groupbutler/plugins/private_settings.lua:24
 msgid "If enabled, you will receive all the messages reported with the @admin command in the groups you are moderating"
-msgstr "如果启用, 您将收到开启回报功能的群组中, 使用@admin指令回报的所有信息"
+msgstr "如果启用，您将收到开启回报功能的群组中，使用@admin指令回报的所有讯息"
 
 #: lua/groupbutler/plugins/private_settings.lua:35
 msgid "Rules on join"
@@ -1873,42 +1873,42 @@ msgstr "⚙ 设定已变更"
 #: lua/groupbutler/plugins/report.lua:30
 #, lua-format
 msgid "• <b>Message reported by</b>: %s (<code>%d</code>)"
-msgstr "• <b>信息回报者</b>: %s (<code>%d</code>)"
+msgstr "• <b>讯息回报者</b>： %s (<code>%d</code>)"
 
 #: lua/groupbutler/plugins/report.lua:34
 #, lua-format
 msgid "\n"
 "• <b>Reported message sent by</b>: %s (<code>%d</code>)"
 msgstr "\n"
-"• <b>传送回报信息者</b>: %s (<code>%d</code>)"
+"• <b>被回报讯息者</b>： %s (<code>%d</code>)"
 
 #: lua/groupbutler/plugins/report.lua:38
 #, lua-format
 msgid "\n"
 "• <b>Group</b>: %s"
 msgstr "\n"
-"• <b>群组</b>: %s"
+"• <b>群组</b>： %s"
 
 #: lua/groupbutler/plugins/report.lua:40
 #, lua-format
 msgid "\n"
 "• <b>Group</b>: <a href=\"%s\">%s</a>"
 msgstr "\n"
-"• <b>群组</b>: <a href=\"%s\">%s</a>"
+"• <b>群组</b>： <a href=\"%s\">%s</a>"
 
 #: lua/groupbutler/plugins/report.lua:44
 #, lua-format
 msgid "\n"
 "• <a href=\"%s\">Go to the message</a>"
 msgstr "\n"
-"• <a href=\"%s\">前往信息</a>"
+"• <a href=\"%s\">前往讯息</a>"
 
 #: lua/groupbutler/plugins/report.lua:48
 #, lua-format
 msgid "\n"
 "• <b>Description</b>: <i>%s</i>"
 msgstr "\n"
-"• <b>描述</b>: <i>%s</i>"
+"• <b>描述</b>： <i>%s</i>"
 
 #: lua/groupbutler/plugins/report.lua:63
 msgid "Address this report"
@@ -1917,26 +1917,26 @@ msgstr "解决这个回报"
 #: lua/groupbutler/plugins/report.lua:108
 #, lua-format
 msgid "_Invalid value:_ number of times allowed (`input: %d`)"
-msgstr "_无效值: _ 允许次数 (`输入: %d`)"
+msgstr "_无效值: _ 允许次数 （`输入: %d`）"
 
 #: lua/groupbutler/plugins/report.lua:110
 #, lua-format
 msgid "_Invalid value:_ time (`input: %d`)"
-msgstr "_无效值: _ 时间 (`输入: %d`)"
+msgstr "_无效值: _ 时间 （`输入: %d`）"
 
 #: lua/groupbutler/plugins/report.lua:116
 #, lua-format
 msgid "*New parameters saved*.\n"
 "Users will be able to use @admin %d times/%d minutes"
-msgstr "*新数据已保存*.\n"
-"用户将只能在 %d 分钟内发送 %d 次@admin信息"
+msgstr "*新数据已保存*。\n"
+"用户将只能在 %d 分钟内发送 %d 次@admin讯息"
 
 #: lua/groupbutler/plugins/report.lua:137
 #, lua-format
 msgid "_Please, do not abuse this command. It can be used %d times every %d minutes_.\n"
 "Wait other %d minutes, %d seconds."
-msgstr "_请不要滥用此命令. 它可以使用 %d 次在每 %d 分钟内. _\n"
-"请等待 %d 分钟, %d 秒."
+msgstr "_请不要滥用此指令。它可以使用 %d 次在每 %d 分钟内。 _\n"
+"请等待 %d 分钟， %d 秒。"
 
 #: lua/groupbutler/plugins/report.lua:148
 #, lua-format
@@ -1949,11 +1949,11 @@ msgstr "您已关闭此问题并删除了所有发送给其他管理员的报告
 
 #: lua/groupbutler/plugins/report.lua:173
 msgid "This message is too old (>2 days)"
-msgstr "此信息太旧了 (超过两天)"
+msgstr "此讯息太旧了（超过两天）"
 
 #: lua/groupbutler/plugins/report.lua:184
 msgid "❕ Already (being) adressed"
-msgstr "❕ 已经(正在)解决"
+msgstr "❕ 已经（正在）解决"
 
 #: lua/groupbutler/plugins/report.lua:186
 msgid "Close issue"
@@ -1962,15 +1962,15 @@ msgstr "关闭问题"
 #: lua/groupbutler/plugins/report.lua:196
 #, lua-format
 msgid "%s has/will address this report"
-msgstr "%s 已经 / 将会解决这个回报"
+msgstr "%s 已经/将会解决这个回报"
 
 #: lua/groupbutler/plugins/report.lua:204
 msgid "This button will delete all the reports sent to the other admins. Tap it again to confirm"
-msgstr "此按钮将删除所有发送给其他管理员的报告. 再次点选即可确认"
+msgstr "此按钮将删除所有发送给其他管理员的报告。再次点选即可确认"
 
 #: lua/groupbutler/plugins/report.lua:212
 msgid "(issue closed by you)"
-msgstr "(您关闭了问题)"
+msgstr "(您关闭了问题）"
 
 #: lua/groupbutler/plugins/rules.lua:37
 msgid "🚫 Unknown or non-existent group"
@@ -1978,7 +1978,7 @@ msgstr "🚫 未知或已不存在的群组"
 
 #: lua/groupbutler/plugins/rules.lua:45
 msgid "🚷 You are not a member of this chat. You can't read the rules of a private group."
-msgstr "🚷 你不是群组成员. 你不能查询私人群组的设定."
+msgstr "🚷 你不是群组成员。你不能查询私人群组的设定."
 
 #: lua/groupbutler/plugins/rules.lua:75
 msgid "Please write something next `/setrules`"
@@ -1995,38 +1995,38 @@ msgstr "新规则*已成功储存*!"
 #: lua/groupbutler/plugins/service.lua:44
 #, lua-format
 msgid "_You (user ID: %d) are in the blocked list_"
-msgstr "_您 (用户 ID: %d) 在封锁列表之中_"
+msgstr "_您（用户ID： %d）在封锁列表之中_"
 
 #: lua/groupbutler/plugins/service.lua:50
 msgid "_Admin mode is on: only the bot admin can add me to a new group_"
-msgstr "_管理员模式启动: 只有机器人管理员可以加入我到新群组_"
+msgstr "_管理员模式启动：只有机器人管理员可以将我加入到新群组_"
 
 #: lua/groupbutler/plugins/service.lua:59
 #, lua-format
 msgid "Hello everyone!\n"
 "My name is %s, and I'm a bot made to help administrators in their hard work.\n"
-msgstr "大家好! \n"
-"我的名字是 %s, 我是一个分担管理员工作的机器人. \n"
+msgstr "大家好！ \n"
+"我的名字是 %s ，我是一个分担管理员工作的机器人。\n"
 
 #: lua/groupbutler/plugins/service.lua:63
 msgid "Yay! This group has been upgraded. You are great! Now I can work properly :)\n"
-msgstr "恭喜! 这个群组已经升级! 你真棒! 现在我可以正常运作咯!  :)\n"
+msgstr "恭喜！这个群组已经升级！你真棒！现在我可以正常运作啰！ :)\n"
 
 #: lua/groupbutler/plugins/setlang.lua:33
 #: lua/groupbutler/plugins/setlang.lua:51
 msgid "*List of available languages*:"
-msgstr "*可用语言列表*:"
+msgstr "*可用语言列表*："
 
 #. TRANSLATORS: replace 'English' with the name of your language
 #: lua/groupbutler/plugins/setlang.lua:64
 msgid "English language is *set*"
-msgstr "简体中文已*被设定*"
+msgstr "*已设定*为简体中文"
 
 #: lua/groupbutler/plugins/setlang.lua:64
 msgid ".\n"
 "Please note that translators are volunteers, and this localization _may be incomplete_. You can help improve translations on our [Crowdin Project](https://crowdin.com/project/group-butler).\n"
 msgstr ".\n"
-"请注意, 翻译者都是自愿的, 这种在地化 _可能不完整_. 您可以在[Crowdin Project](https://crowdin.com/project/group-butler)上帮助我们改进翻译. \n"
+"请注意，翻译者都是自愿的，这种在地化_可能不完整_。您可以在[Crowdin Project](https://crowdin.com/project/group-butler)上帮助我们改进翻译。\n"
 
 #: lua/groupbutler/plugins/users.lua:24
 msgid "can't change the chat title/description/icon"
@@ -2034,15 +2034,15 @@ msgstr "无法变更群组标题、说明与图示"
 
 #: lua/groupbutler/plugins/users.lua:25
 msgid "can't send messages"
-msgstr "无法传送信息"
+msgstr "无法传送讯息"
 
 #: lua/groupbutler/plugins/users.lua:26
 msgid "can't delete messages"
-msgstr "无法删除信息"
+msgstr "无法删除讯息"
 
 #: lua/groupbutler/plugins/users.lua:27
 msgid "can't invite users/generate a link"
-msgstr "无法邀请用户或产生邀请连结"
+msgstr "无法邀请用户或产生邀请链接"
 
 #: lua/groupbutler/plugins/users.lua:28
 msgid "can't restrict members"
@@ -2050,7 +2050,7 @@ msgstr "无法限制成员"
 
 #: lua/groupbutler/plugins/users.lua:29
 msgid "can't pin messages"
-msgstr "无法置顶信息"
+msgstr "无法置顶讯息"
 
 #: lua/groupbutler/plugins/users.lua:30
 msgid "can't promote new admins"
@@ -2058,15 +2058,15 @@ msgstr "无法增加新的管理员"
 
 #: lua/groupbutler/plugins/users.lua:31
 msgid "can't send photos/videos/documents/audios/voice messages/video messages"
-msgstr "无法发送 照片, 视频, 文件, 音讯, 语音信息, 视频信息"
+msgstr "无法发送照片、影片、文件、音频、语音消息、影片讯息"
 
 #: lua/groupbutler/plugins/users.lua:32
 msgid "can't send stickers/GIFs/games/use inline bots"
-msgstr "无法传送贴图, GIF, 游戏或使用内联机器人"
+msgstr "无法传送贴图、GIF、游戏或使用机器人发送的内嵌讯息"
 
 #: lua/groupbutler/plugins/users.lua:33
 msgid "can't show link previews"
-msgstr "无法显示连结预览"
+msgstr "无法显示链接预览"
 
 #: lua/groupbutler/plugins/users.lua:39
 msgid "🔄️ Refresh cache"
@@ -2082,10 +2082,10 @@ msgid "*User ID*: `%d`\n"
 "`Warnings`: *%d*\n"
 "`Media warnings`: *%d*\n"
 "`Spam warnings`: *%d*\n"
-msgstr "*用户 ID*: `%d`\n"
-"`警告次数`: *%d*\n"
-"`媒体警告次数`: *%d*\n"
-"`垃圾信息警告次数`: *%d*\n"
+msgstr "*用户 ID*： `%d`\n"
+"`警告次数`： *%d*\n"
+"`媒体警告次数`： *%d*\n"
+"`垃圾讯息警告次数`： *%d*\n"
 
 #: lua/groupbutler/plugins/users.lua:77
 #, lua-format
@@ -2100,7 +2100,7 @@ msgstr "%s 已经被群组封锁"
 #: lua/groupbutler/plugins/users.lua:111
 #, lua-format
 msgid "%s left the group or has been kicked and unbanned"
-msgstr "%s 离开了群组, 或被踢出、取消封锁"
+msgstr "%s 离开了群组或是被踢出以及取消封锁"
 
 #: lua/groupbutler/plugins/users.lua:112
 #, lua-format
@@ -2132,7 +2132,7 @@ msgstr "%s 是被受限制的"
 msgid "\n"
 "Restrictions: <i>%s</i>"
 msgstr "\n"
-"限制: <i>%s</i>"
+"限制：<i>%s</i>"
 
 #: lua/groupbutler/plugins/users.lua:139
 msgid "Reply to a user or mention them by username or numerical ID"
@@ -2141,12 +2141,12 @@ msgstr "回复一个用户或透过标注(@username)用户名称或数字ID"
 #: lua/groupbutler/plugins/users.lua:157
 #, lua-format
 msgid "👥 Admins cached: <code>%d</code>"
-msgstr "👥缓存管理员: <code>%d</code>"
+msgstr "👥 管理员列表快取：<code>%d</code>"
 
 #: lua/groupbutler/plugins/users.lua:165
 #, lua-format
 msgid "Message N° %d"
-msgstr "信息 N° %d"
+msgstr "讯息 N° %d"
 
 #: lua/groupbutler/plugins/users.lua:187 lua/groupbutler/plugins/warn.lua:170
 msgid "You are not allowed to use this button"
@@ -2159,7 +2159,7 @@ msgstr "这个用户的警告次数已经被管理员 %s <b>重设</b>"
 
 #: lua/groupbutler/plugins/users.lua:206
 msgid "✅ The admin list will be updated soon"
-msgstr "✅管理列表将很快更新"
+msgstr "✅ 管理员列表即将更新"
 
 #: lua/groupbutler/plugins/warn.lua:18
 msgid "Remove warn"
@@ -2167,11 +2167,11 @@ msgstr "移除警告"
 
 #: lua/groupbutler/plugins/warn.lua:44
 msgid "Max number of warnings changed (media).\n"
-msgstr "最大上限的警告值已变更(媒体警告). \n"
+msgstr "最大上限的警告值已变更（媒体警告）。 \n"
 
 #: lua/groupbutler/plugins/warn.lua:49
 msgid "Max number of warnings changed.\n"
-msgstr "最大上限的警告值已变更. \n"
+msgstr "最大上限的警告值已变更。 \n"
 
 #: lua/groupbutler/plugins/warn.lua:55
 #, lua-format
@@ -2195,12 +2195,12 @@ msgstr "您是否确认重设群组内 *全部* 用户收到的 *所有* 警告�
 #: lua/groupbutler/plugins/warn.lua:89
 #, lua-format
 msgid "Done! %s has been forgiven."
-msgstr "完成! %s 已被原谅."
+msgstr "完成！ %s 已被原谅."
 
 #: lua/groupbutler/plugins/warn.lua:112
 #, lua-format
 msgid "%s <b>%s</b>: reached the max number of warnings (<code>%d/%d</code>)"
-msgstr "%s <b>%s</b>: 达到了最大警告次数 (<code>%d/%d</code>)"
+msgstr "%s <b>%s</b>：达到了最大警告次数 (<code>%d/%d</code>)"
 
 #: lua/groupbutler/plugins/warn.lua:146
 #, lua-format
@@ -2209,24 +2209,24 @@ msgstr "%s <b>已被警告</b> (%d/%d)"
 
 #: lua/groupbutler/plugins/warn.lua:181
 msgid "The number of warnings received by this user is already <i>zero</i>"
-msgstr "这个用户收到的警告信息已被<i>归零</i>"
+msgstr "这个用户收到的警告讯息已被<i>归零</i>"
 
 #: lua/groupbutler/plugins/warn.lua:185
 #, lua-format
 msgid "<b>Warn removed!</b> (%d/%d)"
-msgstr "<b>警告已移除! </b> (%d/%d)"
+msgstr "<b>警告已移除！</b> (%d/%d)"
 
 #: lua/groupbutler/plugins/warn.lua:188
 #, lua-format
 msgid "\n"
 "(Admin: %s)"
 msgstr "\n"
-"(管理员: %s)"
+"(管理员：%s)"
 
 #: lua/groupbutler/plugins/warn.lua:198
 #, lua-format
 msgid "Done. All the warnings of this group have been erased by %s"
-msgstr "完成. %s 清除了本群组所有的警告"
+msgstr "完成。 %s 清除了本群组所有的警告"
 
 #: lua/groupbutler/plugins/warn.lua:200
 msgid "_Action aborted_"
@@ -2238,24 +2238,24 @@ msgstr "请阅读规则"
 
 #: lua/groupbutler/plugins/welcome.lua:94
 msgid "Hi $name!"
-msgstr "嗨 $name!"
+msgstr "嗨 $name ！"
 
 #: lua/groupbutler/plugins/welcome.lua:146
 msgid "Welcome and...?"
-msgstr "欢迎然后…？"
+msgstr "欢迎然后……？"
 
 #: lua/groupbutler/plugins/welcome.lua:170
 #, lua-format
 msgid "A form of media has been set as the welcome message: `%s`"
-msgstr "一种媒体形式被设置为欢迎信息: `%s`"
+msgstr "已设定一种媒体形式作为欢迎讯息：`%s`"
 
 #: lua/groupbutler/plugins/welcome.lua:172
 msgid "Reply to a `sticker` or a `gif` to set them as the *welcome message*"
-msgstr "回复一个`贴图`或一个`动图`来设置它们成为*欢迎信息*"
+msgstr "回复一个`贴图`或一个`GIF`来设置它们成为*欢迎讯息*"
 
 #: lua/groupbutler/plugins/welcome.lua:191
 msgid "*Custom welcome message saved!*"
-msgstr "*自订欢迎信息已储存! *"
+msgstr "*自定义欢迎讯息已储存！*"
 
 #: lua/groupbutler/utilities.lua:302
 msgid "-*empty*-"
@@ -2274,28 +2274,28 @@ msgstr "<b>👤 创群者</b>\n"
 
 #: lua/groupbutler/utilities.lua:350
 msgid "No commands set"
-msgstr "不存在自订指令"
+msgstr "不存在自定义指令"
 
 #: lua/groupbutler/utilities.lua:353
 msgid "List of custom commands:\n"
-msgstr "自订指令列表: \n"
+msgstr "自定义指令列表：\n"
 
 #: lua/groupbutler/utilities.lua:365
 msgid "Current settings for *the group*:\n\n"
-msgstr "现在*这个群组*的设定: \n\n"
+msgstr "现在*这个群组*的设定：\n\n"
 
 #: lua/groupbutler/utilities.lua:366
 #, lua-format
 msgid "*Language*: %s\n"
-msgstr "*语言*: %s\n"
+msgstr "*语言*：%s\n"
 
 #: lua/groupbutler/utilities.lua:370
 msgid "Welcome message"
-msgstr "欢迎信息"
+msgstr "欢迎讯息"
 
 #: lua/groupbutler/utilities.lua:371
 msgid "Goodbye message"
-msgstr "再见信息"
+msgstr "再见讯息"
 
 #: lua/groupbutler/utilities.lua:381
 msgid "Welcome button"
@@ -2307,25 +2307,25 @@ msgstr "未知"
 
 #: lua/groupbutler/utilities.lua:418
 msgid "*Welcome type*: `GIF / sticker`\n"
-msgstr "*欢迎信息种类*: `动图 / 贴图`\n"
+msgstr "*欢迎讯息种类*：`GIF / 贴图`\n"
 
 #: lua/groupbutler/utilities.lua:420
 msgid "*Welcome type*: `custom message`\n"
-msgstr "*欢迎信息种类*: `自订信息`\n"
+msgstr "*欢迎讯息种类*：`自定义讯息`\n"
 
 #: lua/groupbutler/utilities.lua:422
 msgid "*Welcome type*: `default message`\n"
-msgstr "*欢迎信息种类*: `预设信息`\n"
+msgstr "*欢迎讯息种类*：`默认讯息`\n"
 
 #: lua/groupbutler/utilities.lua:431
 #, lua-format
 msgid "Warns (`standard`): *%s*\n"
-msgstr "警告 (`标准`): *%s*\n"
+msgstr "警告（`标准`）： *%s*\n"
 
 #: lua/groupbutler/utilities.lua:432
 #, lua-format
 msgid "Warns (`media`): *%s*\n\n"
-msgstr "警告 (`媒体`): *%s*\n\n"
+msgstr "警告（`媒体`）：*%s*\n\n"
 
 #: lua/groupbutler/utilities.lua:433
 msgid "✅ = _enabled / allowed_\n"
@@ -2337,11 +2337,11 @@ msgstr "🚫 = _关闭 / 不允许_\n"
 
 #: lua/groupbutler/utilities.lua:435
 msgid "👥 = _sent in group (always for admins)_\n"
-msgstr "👥 = _发送到群组 (当管理员输入时, 总是在群组回复)_\n"
+msgstr "👥 = _发送到群组（当管理员输入时，总是在群组回复）_\n"
 
 #: lua/groupbutler/utilities.lua:436
 msgid "👤 = _sent in private_"
-msgstr "👤 = _透过私聊发送_"
+msgstr "👤 = _透过私讯发送_"
 
 #: lua/groupbutler/utilities.lua:446
 msgid "@admin command disabled"
@@ -2349,11 +2349,11 @@ msgstr "@admin 指令已禁用"
 
 #: lua/groupbutler/utilities.lua:447
 msgid "Welcome message won't be displayed from now"
-msgstr "欢迎信息从现在起不再显示"
+msgstr "欢迎讯息从现在起不再显示"
 
 #: lua/groupbutler/utilities.lua:448
 msgid "Goodbye message won't be displayed from now"
-msgstr "再见信息从现在起不再显示"
+msgstr "再见讯息从现在起不再显示"
 
 #: lua/groupbutler/utilities.lua:449
 msgid "#extra commands are now available only for administrators"
@@ -2365,7 +2365,7 @@ msgstr "防洗版功能现已关闭"
 
 #: lua/groupbutler/utilities.lua:451
 msgid "/rules will reply in private (for users)"
-msgstr "/rules 现在只会透过私讯回复(给成员)"
+msgstr "/rules 现在只会透过私讯回复（给成员）"
 
 #: lua/groupbutler/utilities.lua:452
 msgid "Silent mode is now off"
@@ -2377,7 +2377,7 @@ msgstr "连结预览已禁用"
 
 #: lua/groupbutler/utilities.lua:454
 msgid "Welcome message without a button for the rules"
-msgstr "不包含规则按钮的欢迎信息"
+msgstr "不包含规则按钮的欢迎讯息"
 
 #: lua/groupbutler/utilities.lua:457
 msgid "@admin command enabled"
@@ -2385,15 +2385,15 @@ msgstr "@admin 指令已启用"
 
 #: lua/groupbutler/utilities.lua:458
 msgid "Welcome message will be displayed"
-msgstr "欢迎信息将会显示"
+msgstr "欢迎讯息将会显示"
 
 #: lua/groupbutler/utilities.lua:459
 msgid "Goodbye message will be displayed"
-msgstr "再见信息将会显示"
+msgstr "再见讯息将会显示"
 
 #: lua/groupbutler/utilities.lua:460
 msgid "#extra commands are now available for all"
-msgstr "自订指令现在任何人都能够使用"
+msgstr "自定义指令现在任何人都能够使用"
 
 #: lua/groupbutler/utilities.lua:461
 msgid "Anti-flood is now on"
@@ -2401,7 +2401,7 @@ msgstr "防洗版功能现已开启"
 
 #: lua/groupbutler/utilities.lua:462
 msgid "/rules will reply in the group (with everyone)"
-msgstr "/rules 将会在群组中回复(给所有人)"
+msgstr "/rules 将会在群组中回复（给所有人）"
 
 #: lua/groupbutler/utilities.lua:463
 msgid "Silent mode is now on"
@@ -2413,11 +2413,11 @@ msgstr "连结预览已启用"
 
 #: lua/groupbutler/utilities.lua:465
 msgid "The welcome message will have a button for the rules"
-msgstr "欢迎信息将会有一个规则按钮"
+msgstr "欢迎讯息将会有一个规则按钮"
 
 #: lua/groupbutler/utilities.lua:478
 msgid "This setting is enabled, but the goodbye message won't be displayed in large groups, because I can't see service messages about left members"
-msgstr "此设定已启用, 但再见信息将不会显示在大型群组中, 因为我无法看到关于成员离开的信息."
+msgstr "此设定已启用，但再见讯息将不会显示在大型群组中，因为我无法看到关于成员离开的讯息。"
 
 #: lua/groupbutler/utilities.lua:491
 msgid "Start me"
@@ -2425,12 +2425,12 @@ msgstr "启动我"
 
 #: lua/groupbutler/utilities.lua:493
 msgid "_Please message me first so I can message you_"
-msgstr "_请先私讯我, 我才能传送信息给你_"
+msgstr "_请先私讯我，我才能传送讯息给你_"
 
 #: lua/groupbutler/utilities.lua:548
 #, lua-format
 msgid "<b>Chat</b>: %s [#chat%d]"
-msgstr "<b>群组</b>: %s [#chat%d]"
+msgstr "<b>群组</b>：%s [#chat%d]"
 
 #: lua/groupbutler/utilities.lua:558 lua/groupbutler/utilities.lua:566
 #, lua-format
@@ -2439,7 +2439,7 @@ msgid "#%s (<code>%d/%d</code>), <i>%s</i>\n"
 "• <b>User</b>: %s"
 msgstr "#%s (<code>%d/%d</code>), <i>%s</i>\n"
 "• %s\n"
-"• <b>用户</b>: %s"
+"• <b>用户</b>：%s"
 
 #: lua/groupbutler/utilities.lua:572
 #, lua-format
@@ -2448,7 +2448,7 @@ msgid "#%s\n"
 "• <b>User</b>: %s"
 msgstr "#%s\n"
 "• %s\n"
-"• <b>用户</b>: %s"
+"• <b>用户</b>：%s"
 
 #: lua/groupbutler/utilities.lua:575 lua/groupbutler/utilities.lua:585
 #: lua/groupbutler/utilities.lua:588 lua/groupbutler/utilities.lua:591
@@ -2458,7 +2458,7 @@ msgid "%s\n"
 "• <b>By</b>: %s"
 msgstr "%s\n"
 "• %s\n"
-"• <b>由</b>: %s"
+"• <b>由</b>：%s"
 
 #: lua/groupbutler/utilities.lua:578
 msgid "Get the new photo"
@@ -2472,7 +2472,7 @@ msgid "%s\n"
 "• <i>Reported to %d admin(s)</i>"
 msgstr "%s\n"
 "• %s\n"
-"• <b>由</b>: %s\n"
+"• <b>由</b>：%s\n"
 "• <i>回报给 %d 位管理员</i>"
 
 #: lua/groupbutler/utilities.lua:599
@@ -2482,7 +2482,7 @@ msgid "#%s\n"
 "• <b>User</b>: %s [#id%d]"
 msgstr "#%s\n"
 "• %s\n"
-"• <b>用户</b>: %s [#id%d]"
+"• <b>用户</b>：%s [#id%d]"
 
 #: lua/groupbutler/utilities.lua:604
 #, lua-format
@@ -2491,14 +2491,14 @@ msgid "%s\n"
 "• <b>User</b>: %s"
 msgstr "%s\n"
 "• %s\n"
-"• <b>用户</b>: %s"
+"• <b>用户</b>：%s"
 
 #: lua/groupbutler/utilities.lua:606
 #, lua-format
 msgid "\n"
 "• <b>Added by</b>: %s [#id%d]"
 msgstr "\n"
-"• <b>增加者</b>: %s [#id%d]"
+"• <b>增加者</b>：%s [#id%d]"
 
 #: lua/groupbutler/utilities.lua:619
 #, lua-format
@@ -2508,10 +2508,10 @@ msgid "#%s\n"
 "• <b>User</b>: %s [#id%d]\n"
 "• <b>Count</b>: <code>%d/%d</code>"
 msgstr "#%s\n"
-"• <b>管理员</b>: %s [#id%d]\n"
+"• <b>管理员</b>：%s [#id%d]\n"
 "• %s\n"
-"• <b>用户</b>: %s [#id%d]\n"
-"• <b>次数</b>: <code>%d/%d</code>"
+"• <b>用户</b>：%s [#id%d]\n"
+"• <b>次数</b>:<code>%d/%d</code>"
 
 #: lua/groupbutler/utilities.lua:629 lua/groupbutler/utilities.lua:660
 #, lua-format
@@ -2520,9 +2520,9 @@ msgid "#%s\n"
 "• %s\n"
 "• <b>User</b>: %s [#id%s]"
 msgstr "#%s\n"
-"• <b>管理者</b>: %s [#id%s]\n"
+"• <b>管理者</b>：%s [#id%s]\n"
 "• %s\n"
-"• <b>用户</b>: %s [#id%s]"
+"• <b>用户</b>：%s [#id%s]"
 
 #: lua/groupbutler/utilities.lua:633
 #, lua-format
@@ -2530,13 +2530,13 @@ msgid "#%s\n"
 "• <b>Admin</b>: %s [#id%s]\n"
 "• %s\n"
 msgstr "#%s\n"
-"• <b>管理员</b>: %s [#id%s]\n"
+"• <b>管理员</b>：%s [#id%s]\n"
 "• %s\n"
 
 #: lua/groupbutler/utilities.lua:636
 #, lua-format
 msgid "• <i>Users involved: %d</i>"
-msgstr "• <i>参与的用户: %d</i>"
+msgstr "• <i>参与的用户：%d</i>"
 
 #: lua/groupbutler/utilities.lua:638
 #, lua-format
@@ -2551,10 +2551,10 @@ msgid "#%s\n"
 "• <b>User</b>: %s [#id%s]\n"
 "• <b>Duration</b>: %d days, %d hours"
 msgstr "#%s\n"
-"• <b>管理员</b>: %s [#id%s]\n"
+"• <b>管理员</b>：%s [#id%s]\n"
 "• %s\n"
-"• <b>用户</b>: %s [#id%s]\n"
-"• <b>持续时间</b>: %d 天, %d 小时"
+"• <b>用户</b>：%s [#id%s]\n"
+"• <b>持续时间</b>：%d 天， %d 小时"
 
 #: lua/groupbutler/utilities.lua:664
 #, lua-format
@@ -2570,16 +2570,16 @@ msgstr "#%s\n"
 msgid "\n"
 "• <b>Action</b>: #%s"
 msgstr "\n"
-"• <b>动作</b>: #%s"
+"• <b>动作</b>：#%s"
 
 #: lua/groupbutler/utilities.lua:688
 #, lua-format
 msgid "\n"
 "• <b>Reason</b>: <i>%s</i>"
 msgstr "\n"
-"• <b>原因</b>: <i>%s</i>"
+"• <b>原因</b>：<i>%s</i>"
 
 #: lua/groupbutler/utilities.lua:694
 msgid "Go to the message"
-msgstr "前往信息"
+msgstr "前往讯息"
 

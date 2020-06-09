@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-03-31 11:30-0300\n"
-"PO-Revision-Date: 2019-11-23 14:37\n"
+"PO-Revision-Date: 2020-06-08 23:56\n"
 "Last-Translator: Tiago Danin (TiagoDanin)\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -42,11 +42,11 @@ msgstr "Dieser Benutzer ist kein Mitglied des Chats"
 
 #: lua/groupbutler/api_errors.lua:25
 msgid "Please input a text"
-msgstr "Bitte geben Sie etwas ein"
+msgstr "Bitte gib einen Text ein"
 
 #: lua/groupbutler/api_errors.lua:26
 msgid "This message is too long. Max lenght allowed by Telegram: 4000 characters"
-msgstr "Diese Nachricht ist zu lang. Die maximale Länge bei Telegram ist 4000 Zeichen"
+msgstr "Diese Nachricht ist zu lang. Die maximale Länge: 4000 Zeichen"
 
 #: lua/groupbutler/api_errors.lua:27
 msgid "One of the inline buttons you are trying to set is missing the URL"
@@ -229,7 +229,7 @@ msgstr "Stummschalten 👁️"
 #: lua/groupbutler/plugins/mediasettings.lua:127
 #: lua/groupbutler/plugins/menu.lua:271 lua/groupbutler/plugins/setlang.lua:45
 msgid "Sorry, you don't have permission to change settings"
-msgstr ""
+msgstr "Du hast keine Berechtigung, Einstellungen zu ändern"
 
 #: lua/groupbutler/plugins/antispam.lua:302
 msgid "*Anti-spam settings*\n"
@@ -953,7 +953,24 @@ msgid "*Welcome/goodbye settings*\n\n"
 "*Note*: `$name`, `$surname`, and `$title` may not work properly within markdown markup.\n\n"
 "*GIF/sticker as welcome message*\n"
 "You can use a particular gif/sticker as welcome message. To set it, reply to the gif/sticker you want to set as welcome message with `/welcome`. Same goes for `/goodbye`"
-msgstr ""
+msgstr "*Begrüßungs-/Verabschiedungs-Einstellungen*\n\n"
+"• `/config`, dann Reiter `Menü`: Erhalte im Privatchat das Menü. Dort kann die Nachricht aktiviert/deaktiviert werden.\n"
+"*Hinweis*: Goodbye-Nachrichten gibt es nicht in großen Gruppen. Das ist eine Einschränkung in Telegramm, die unvermeidbar ist.\n\n"
+"*Benutzerdefinierte Willkommens-Nachricht*:\n"
+"• `/welcome Willkommen $name, genieß die Gruppe!`\n"
+"Der Text nach `/welcome` wird als Willkommens-Nachricht gespeichert. `/goodbye` funktioniert auf die gleiche Weise.\n\n"
+"Platzhalter können verwendet werden, um den Namen/Benutzernamen/ID von neuen Mitgliedern der Gruppe zu erwähnen\n"
+"Platzhalter:\n"
+"`$username`: _wird ersetzt mit dem Benutzernamen_\n"
+"`$name`: _wird ersetzt mit dem Vornamen_\n"
+"`$id`: _wird ersetzt mit der ID_\n"
+"`$title`: _wird ersetzt mit dem Gruppentitel_\n"
+"`$surname`: _wird ersetzt mit dem Nachnamen_\n"
+"`$rules`: _wird ersetzt mit einem Link zu den Regeln_\n"
+"Bitte lese_ [hier](https://telegram.me/GroupButler_beta/26) _wie man es richtig verwendet_\n"
+"*Hinweis*: `$name`, `$surname`, und `$title` funktioniert möglicherweise nicht ordnungsgemäß, innerhalb von markdown-markup.\n\n"
+"*GIF/Sticker als Willkommens-Nachricht*\n"
+"Sie können ein GIF/Sticker als Willkommens-Nachricht setzen. Dazu kann auf ein GIF/Sticker mit /welcome geantwortet werden. Dasselbe gilt für `/goodbye`[here]"
 
 #: lua/groupbutler/plugins/help.lua:133
 msgid "*Whitelist settings*\n\n"
@@ -1508,7 +1525,11 @@ msgid "Tap on an option on the right to *change the setting*\n"
 "The number is not related the the normal `/warn` command.\n\n"
 "Possible statuses: ✅ allowed, ❌ warning, 🗑 delete.\n"
 "When a media is set to delete, the bot will give a warning *only* when this is the users last warning"
-msgstr ""
+msgstr "Tippe auf eine Option rechts um *die Einstellungen zu ändern*\n"
+"Du kannst die letzten Zeilen benutzen um zu ändern, wie viele Warnungen der Bot nutzt bevor er jemanden kickt/bannt/stummschaltet.\n"
+"Diese Nummer ist unabhängig vom normalen `/warn` Befehl.\n\n"
+"Möglicher Status von Medien: ✅ erlaubt, ❌ Warnung, 🗑 löschen.\n"
+"Wenn ein Medium auf löschen gestellt ist, wird der Bot *nur* warnen, wenn der Nutzer ein Medium davon entfernt ist bestraft zu werden"
 
 #: lua/groupbutler/plugins/mediasettings.lua:149
 msgid "⚙ The new value is too low ( < 1)"
@@ -2124,7 +2145,7 @@ msgstr "Antworte auf einen Benutzer oder erwähne einen Benutzernamen oder Benut
 #: lua/groupbutler/plugins/users.lua:157
 #, lua-format
 msgid "👥 Admins cached: <code>%d</code>"
-msgstr ""
+msgstr "👥 Gespeicherte Admins: <code>%d</code>"
 
 #: lua/groupbutler/plugins/users.lua:165
 #, lua-format
@@ -2142,7 +2163,7 @@ msgstr "Die Anzahl der Warnungen des Nutzers wurde <b>zurückgesetzt</b> von %s"
 
 #: lua/groupbutler/plugins/users.lua:206
 msgid "✅ The admin list will be updated soon"
-msgstr ""
+msgstr "✅ Die Adminliste wird in Kürze aktualisiert"
 
 #: lua/groupbutler/plugins/warn.lua:18
 msgid "Remove warn"
