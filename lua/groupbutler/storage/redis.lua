@@ -77,6 +77,10 @@ function RedisStorage:get_chat_setting(chat_id, setting)
 end
 
 function RedisStorage:set_chat_setting(chat_id, setting, value)
+	if setting == "Arab"
+	or setting == "Rtl" then
+		self.redis:hset("chat:"..chat_id..":char", setting, boolean_tostring(value))
+	end
 	self.redis:hset("chat:"..chat_id..":settings", setting, boolean_tostring(value))
 end
 
