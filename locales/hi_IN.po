@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-03-31 11:30-0300\n"
-"PO-Revision-Date: 2019-10-12 22:25\n"
+"PO-Revision-Date: 2020-06-08 23:58\n"
 "Last-Translator: Tiago Danin (TiagoDanin)\n"
 "Language-Team: Hindi\n"
 "Language: hi_IN\n"
@@ -38,7 +38,7 @@ msgstr "एक सामान्य समूह में अप्रति�
 
 #: lua/groupbutler/api_errors.lua:24
 msgid "This user is not a chat member"
-msgstr ""
+msgstr "यह यूजर चैट का सदस्य नहीं है"
 
 #: lua/groupbutler/api_errors.lua:25
 msgid "Please input a text"
@@ -82,7 +82,9 @@ msgstr "आपके द्वारा सेट किए जा रहे इ
 msgid "Hello everyone!\n"
 "My name is %s, and I'm a bot made to help administrators in their hard work.\n"
 "Unfortunately I can't work in normal groups. If you need me, please ask the creator to convert this group to a supergroup and then add me again.\n"
-msgstr ""
+msgstr "सभी को नमस्कार!\n"
+"मेरा नाम %s है, और मैं एडमिन को उनकी कड़ी मेहनत में मदद करने के लिए बनाया गया एक बॉट हूं। \n"
+"दुर्भाग्य से मैं सामान्य समूहों में काम नहीं कर सकता। यदि आपको मेरी आवश्यकता है, तो कृपया निर्माता को इस समूह को एक सुपरग्रुप में बदलने के लिए कहें और फिर मुझे फिर से जोड़ें।\n"
 
 #: lua/groupbutler/main.lua:219
 msgid "🐞 Sorry, a *bug* occurred"
@@ -90,7 +92,7 @@ msgstr "🐞 क्षमा करें, एक *त्रुटि* हुई
 
 #: lua/groupbutler/message.lua:80
 msgid "Reply to a user or mention them"
-msgstr ""
+msgstr "किसी उपयोगकर्ता को उत्तर दें या उनका उल्लेख करें"
 
 #: lua/groupbutler/message.lua:83
 msgid "I've never seen this user before.\n"

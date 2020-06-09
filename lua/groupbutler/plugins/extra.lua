@@ -1,5 +1,6 @@
 local config = require "groupbutler.config"
 local null = require "groupbutler.null"
+local Util = require("groupbutler.util")
 
 local _M = {}
 
@@ -22,11 +23,6 @@ local function is_locked(self, chat_id)
 	return false
 end
 
-local function set_default(t, d)
-	local mt = {__index = function() return d end}
-	setmetatable(t, mt)
-end
-
 local function sendMedia(self, chat_id, file_id, media, reply_to_message_id, caption)
 	local api = self.api
 	if not media then
@@ -44,7 +40,7 @@ local function sendMedia(self, chat_id, file_id, media, reply_to_message_id, cap
 		video = api.send_video,
 		photo = api.send_photo
 	}
-	set_default(action, function()
+	Util.setDefaultTableValue(action, function()
 		return false, "Media passed is not voice/video/photo"
 	end)
 	return action[media](api, body)

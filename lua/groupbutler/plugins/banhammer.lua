@@ -188,7 +188,7 @@ function _M:onCallbackQuery(matches)
 	local target = ChatMember:new({
 		user = User:new({id=matches[3]}, self),
 		chat = msg.from.chat,
-	})
+	}, self)
 
 	if matches[1] == "val" then
 		local key = ("chat:%d:%s:tbanvalue"):format(msg.from.chat.id, target.user.id)
