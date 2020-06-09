@@ -123,4 +123,12 @@ If you're using it by username and want to teach me who the user is, forward me 
 	return false, user_not_found
 end
 
+function Message:isForwarded()
+	if self.forward_from
+	or self.forward_from_chat then
+		return true
+	end
+	return false
+end
+
 return Message

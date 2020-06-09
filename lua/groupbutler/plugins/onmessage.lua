@@ -23,10 +23,15 @@ local function max_reached(self, chat_id, user_id)
 	return false, n, max
 end
 
-local function is_ignored(self, chat_id, msg_type)
+function _M:isIgnored()
 	local red = self.red
-	local hash = 'chat:'..chat_id..':floodexceptions'
-	local status = red:hget(hash, msg_type)
+	local msg = self.message
+	local setting = msg:type()
+	if msg:isForwarded() then
+		setting = 'forward'
+	end
+	local hash = 'chat:'..msg.chat.id..':floodexceptions'
+	local status = red:hget(hash, setting)
 	if not status == 'yes' then
 		return false
 	end
@@ -89,9 +94,8 @@ function _M:on_message()
 
 	if not msg.inline then
 		local msg_type = msg:type()
-		if msg.forward_from or msg.forward_from_chat then msg_type = 'forward' end
 
-		if not is_ignored(self, msg.from.chat.id, msg_type) and not msg.edited then
+		if not self:isIgnored() and not msg.edited then
 			local is_flooding, msgs_sent, msgs_max = is_flooding_funct(self, msg)
 			if is_flooding then
 				local status = red:hget('chat:'..msg.from.chat.id..':settings', 'Flood')
