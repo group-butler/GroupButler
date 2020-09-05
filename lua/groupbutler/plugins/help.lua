@@ -140,8 +140,28 @@ If users send a whitelisted link, they won't be warned or kicked.
 When the group link is saved with `/setlink`, it gets automatically added to the whitelist.
 
 *Why links are saved without* _https://_ *and* _www_*?*
+The bot auto-removes _https://, http:// and www_ from every link to reduce the possibility of having the same link saved twice.
+]])
+		elseif key == 'blacklist' then
+		return _([[*Blacklist settings*
+
+If an user sends a blacklisted link, it will be deleted.
+
+`/blacklist [link(s)]` or `/bl [link(s)]`: add one or more links to the blacklist.
+`/unblacklist [link(s)]` or `/unbl [link(s)]`: remove one or more links from the blacklist.
+`/blacklist` or `/bl`: get the blacklist.
+`/blacklistl -` or `/bl -`: empty the blacklist.
+
+*Why links are saved without* _https://_ *and* _www_*?*
+The bot auto-removes _https://, http:// and www_ from every link to reduce the possibility of having the same link saved twice.
+]])
+	elseif key == 'extra' then
+		return i18n([[
+*Extra commands*
+
 The bot auto-removes _https://, http:// and www_ from every link to reduce the possibility of having the same link saved twice.]]), -- luacheck: ignore 631
 		extra = i18n([[*Extra commands*
+
 #extra commands are a smart way to save your own custom commands.
 
 • `/extra [#trigger] [reply]`: set a reply to be sent when someone writes the trigger.
@@ -250,9 +270,12 @@ local function dk_admins(self)
 			[i18n("Extra commands")] = 'extra',
 			[i18n("Warns")] = 'warns'
 		},
-		{
-			[i18n("Welcome settings")] = 'welcome',
+		{			
 			[i18n("Links whitelist")] = 'whitelist',
+			[i18n("Links blacklist")] = 'blacklist',
+		},
+		{
+			[i18n("Welcome settings")] = 'welcome',			
 		}
 	}
 	for _, line in pairs(list) do

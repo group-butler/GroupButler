@@ -252,7 +252,8 @@ local _M =
 	},
 	chat_hashes = {'extra', 'info', 'links', 'warns', 'mediawarn', 'spamwarns', 'blocked', 'report', 'defpermissions',
 		'defpermduration'},
-	chat_sets = {'whitelist'},
+	chat_sets = {'whitelist', 'blacklist'},--, 'mods'},
+
 	bot_keys = {
 		d3 = {'bot:general', 'bot:usernames', 'bot:chat:latsmsg'},
 		d2 = {'bot:groupsid', 'bot:groupsid:removed', 'tempbanned', 'bot:blocked', 'remolden_chats'} --remolden_chats: chat removed with $remold command
