@@ -123,7 +123,7 @@ msgstr "הושתק"
 #: lua/groupbutler/plugins/antispam.lua:48
 #: lua/groupbutler/plugins/dashboard.lua:165
 msgid "telegram.me links"
-msgstr "קישורי Telegram"
+msgstr "קישורי טלגרם"
 
 #: lua/groupbutler/plugins/antispam.lua:49
 msgid "Channels messages"
@@ -132,7 +132,7 @@ msgstr "הודעות מערוצים"
 #: lua/groupbutler/plugins/antispam.lua:96
 #, lua-format
 msgid "%s %s for <b>spam</b>! (%d/%d)"
-msgstr "%s %s for <b>ספאם</b>! (%d/%d)"
+msgstr "%s %s על <b>ספאם</b>! (%d/%d)"
 
 #: lua/groupbutler/plugins/antispam.lua:103
 #, lua-format
@@ -146,7 +146,7 @@ msgstr "%s, הודעה מסוג זה לא מותרת בקבוצה הזו (<b>%d/
 
 #: lua/groupbutler/plugins/antispam.lua:113
 msgid "telegram.me link"
-msgstr "קישור Telegram"
+msgstr "קישור טלגרם"
 
 #: lua/groupbutler/plugins/antispam.lua:113
 msgid "message from a channel"
@@ -2441,7 +2441,7 @@ msgstr "_אנא שלח לי הודעה קודם על מנת שאוכל לשלו�
 #: lua/groupbutler/utilities.lua:548
 #, lua-format
 msgid "<b>Chat</b>: %s [#chat%d]"
-msgstr "<b>צ'אט</b>: %s [#chat%d]"
+msgstr "<b>קבוצה</b>: %s [#chat%d]"
 
 #: lua/groupbutler/utilities.lua:558 lua/groupbutler/utilities.lua:566
 #, lua-format
@@ -2483,7 +2483,7 @@ msgid "%s\n"
 "• <i>Reported to %d admin(s)</i>"
 msgstr "%s\n"
 "• %s\n"
-"• <b>By</b>: %s\n"
+"• <b>מ</b>: %s\n"
 "• <i>דווח ל- %d מנהלים(s)</i>"
 
 #: lua/groupbutler/utilities.lua:599
