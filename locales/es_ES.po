@@ -1926,7 +1926,7 @@ msgstr "Tu identificador es: `%d`"
 #: lua/groupbutler/plugins/users.lua:88
 #, lua-format
 msgid "%s has kicked herself/himself!"
-msgstr ""
+msgstr "¡%s se ha autoexpulsado!"
 
 #: lua/groupbutler/plugins/users.lua:116
 #, lua-format
