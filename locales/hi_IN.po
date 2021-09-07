@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: group-butler\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-03-31 11:30-0300\n"
-"PO-Revision-Date: 2020-06-08 23:58\n"
+"PO-Revision-Date: 2021-09-07 15:13\n"
 "Last-Translator: Tiago Danin (TiagoDanin)\n"
 "Language-Team: Hindi\n"
 "Language: hi_IN\n"
@@ -1828,55 +1828,55 @@ msgid ".\n"
 "Please note that translators are volunteers, and this localization _may be incomplete_. You can help improve translations on our [Crowdin Project](https://crowdin.com/project/group-butler).\n"
 msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:24
+#: lua/groupbutler/plugins/users.lua:20
 msgid "can't change the chat title/description/icon"
 msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:25
+#: lua/groupbutler/plugins/users.lua:21
 msgid "can't send messages"
 msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:26
+#: lua/groupbutler/plugins/users.lua:22
 msgid "can't delete messages"
 msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:27
+#: lua/groupbutler/plugins/users.lua:23
 msgid "can't invite users/generate a link"
 msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:28
+#: lua/groupbutler/plugins/users.lua:24
 msgid "can't restrict members"
 msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:29
+#: lua/groupbutler/plugins/users.lua:25
 msgid "can't pin messages"
 msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:30
+#: lua/groupbutler/plugins/users.lua:26
 msgid "can't promote new admins"
 msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:31
+#: lua/groupbutler/plugins/users.lua:27
 msgid "can't send photos/videos/documents/audios/voice messages/video messages"
 msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:32
+#: lua/groupbutler/plugins/users.lua:28
 msgid "can't send stickers/GIFs/games/use inline bots"
 msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:33
+#: lua/groupbutler/plugins/users.lua:29
 msgid "can't show link previews"
 msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:39
+#: lua/groupbutler/plugins/users.lua:35
 msgid "🔄️ Refresh cache"
 msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:47
+#: lua/groupbutler/plugins/users.lua:43
 msgid "Remove warnings"
 msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:57
+#: lua/groupbutler/plugins/users.lua:53
 #, lua-format
 msgid "*User ID*: `%d`\n"
 "`Warnings`: *%d*\n"
@@ -1884,76 +1884,81 @@ msgid "*User ID*: `%d`\n"
 "`Spam warnings`: *%d*\n"
 msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:77
+#: lua/groupbutler/plugins/users.lua:73
 #, lua-format
 msgid "Your ID is `%d`"
 msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:110
+#: lua/groupbutler/plugins/users.lua:88
 #, lua-format
-msgid "%s is banned from this group"
-msgstr ""
-
-#: lua/groupbutler/plugins/users.lua:111
-#, lua-format
-msgid "%s left the group or has been kicked and unbanned"
-msgstr ""
-
-#: lua/groupbutler/plugins/users.lua:112
-#, lua-format
-msgid "%s is an admin"
-msgstr ""
-
-#: lua/groupbutler/plugins/users.lua:113
-#, lua-format
-msgid "%s is the group creator"
-msgstr ""
-
-#: lua/groupbutler/plugins/users.lua:114
-#, lua-format
-msgid "%s has nothing to do with this chat"
-msgstr ""
-
-#: lua/groupbutler/plugins/users.lua:115
-#, lua-format
-msgid "%s is a chat member"
+msgid "%s has kicked herself/himself!"
 msgstr ""
 
 #: lua/groupbutler/plugins/users.lua:116
 #, lua-format
+msgid "%s is banned from this group"
+msgstr ""
+
+#: lua/groupbutler/plugins/users.lua:117
+#, lua-format
+msgid "%s left the group or has been kicked and unbanned"
+msgstr ""
+
+#: lua/groupbutler/plugins/users.lua:118
+#, lua-format
+msgid "%s is an admin"
+msgstr ""
+
+#: lua/groupbutler/plugins/users.lua:119
+#, lua-format
+msgid "%s is the group creator"
+msgstr ""
+
+#: lua/groupbutler/plugins/users.lua:120
+#, lua-format
+msgid "%s has nothing to do with this chat"
+msgstr ""
+
+#: lua/groupbutler/plugins/users.lua:121
+#, lua-format
+msgid "%s is a chat member"
+msgstr ""
+
+#: lua/groupbutler/plugins/users.lua:122
+#, lua-format
 msgid "%s is a restricted"
 msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:128
+#: lua/groupbutler/plugins/users.lua:134
 #, lua-format
 msgid "\n"
 "Restrictions: <i>%s</i>"
 msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:139
+#: lua/groupbutler/plugins/users.lua:145
 msgid "Reply to a user or mention them by username or numerical ID"
 msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:157
+#: lua/groupbutler/plugins/users.lua:163
 #, lua-format
 msgid "👥 Admins cached: <code>%d</code>"
 msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:165
+#: lua/groupbutler/plugins/users.lua:171
 #, lua-format
 msgid "Message N° %d"
 msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:187 lua/groupbutler/plugins/warn.lua:170
+#: lua/groupbutler/plugins/users.lua:193 lua/groupbutler/plugins/warn.lua:170
 msgid "You are not allowed to use this button"
 msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:195
+#: lua/groupbutler/plugins/users.lua:201
 #, lua-format
 msgid "The number of warnings received by this user has been <b>reset</b>, by %s"
 msgstr ""
 
-#: lua/groupbutler/plugins/users.lua:206
+#: lua/groupbutler/plugins/users.lua:212
 msgid "✅ The admin list will be updated soon"
 msgstr ""
 
