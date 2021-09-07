@@ -1921,7 +1921,7 @@ msgstr ""
 #: lua/groupbutler/plugins/users.lua:73
 #, lua-format
 msgid "Your ID is `%d`"
-msgstr "Tu identificador es: `%d"
+msgstr "Tu identificador es: `%d`"
 
 #: lua/groupbutler/plugins/users.lua:88
 #, lua-format
