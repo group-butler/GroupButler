@@ -82,6 +82,16 @@ function _M:onTextMessage(blocks)
 		end
 	end
 
+	if blocks[1] == 'kickme' then
+		local ok, err = msg.from:kick()
+		if ok then
+			local text = i18n("%s has kicked herself/himself!"):format(msg.from.user:getLink())
+			api:sendMessage(msg.from.chat.id, text, "html", true)
+		else
+			api:sendMessage(msg.from.chat.id, err, "Markdown")
+		end
+	end
+
 	if blocks[1] == 'adminlist' then
 		local adminlist = u:getAdminlist(msg.from.chat)
 		if not msg.from:isAdmin() then
@@ -206,6 +216,7 @@ end
 _M.triggers = {
 	onTextMessage = {
 		config.cmd..'(id)$',
+		config.cmd..'(kickme)$',
 		config.cmd..'(adminlist)$',
 		config.cmd..'(status) (.+)$',
 		config.cmd..'(status)$',
