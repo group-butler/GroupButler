@@ -2028,55 +2028,55 @@ msgid ".\n"
 msgstr ".\n"
 "请注意，翻译者都是自愿的，这种在地化_可能不完整_。您可以在[Crowdin Project](https://crowdin.com/project/group-butler)上帮助我们改进翻译。\n"
 
-#: lua/groupbutler/plugins/users.lua:24
+#: lua/groupbutler/plugins/users.lua:20
 msgid "can't change the chat title/description/icon"
 msgstr "无法变更群组标题、说明与图示"
 
-#: lua/groupbutler/plugins/users.lua:25
+#: lua/groupbutler/plugins/users.lua:21
 msgid "can't send messages"
 msgstr "无法传送讯息"
 
-#: lua/groupbutler/plugins/users.lua:26
+#: lua/groupbutler/plugins/users.lua:22
 msgid "can't delete messages"
 msgstr "无法删除讯息"
 
-#: lua/groupbutler/plugins/users.lua:27
+#: lua/groupbutler/plugins/users.lua:23
 msgid "can't invite users/generate a link"
 msgstr "无法邀请用户或产生邀请链接"
 
-#: lua/groupbutler/plugins/users.lua:28
+#: lua/groupbutler/plugins/users.lua:24
 msgid "can't restrict members"
 msgstr "无法限制成员"
 
-#: lua/groupbutler/plugins/users.lua:29
+#: lua/groupbutler/plugins/users.lua:25
 msgid "can't pin messages"
 msgstr "无法置顶讯息"
 
-#: lua/groupbutler/plugins/users.lua:30
+#: lua/groupbutler/plugins/users.lua:26
 msgid "can't promote new admins"
 msgstr "无法增加新的管理员"
 
-#: lua/groupbutler/plugins/users.lua:31
+#: lua/groupbutler/plugins/users.lua:27
 msgid "can't send photos/videos/documents/audios/voice messages/video messages"
 msgstr "无法发送照片、影片、文件、音频、语音消息、影片讯息"
 
-#: lua/groupbutler/plugins/users.lua:32
+#: lua/groupbutler/plugins/users.lua:28
 msgid "can't send stickers/GIFs/games/use inline bots"
 msgstr "无法传送贴图、GIF、游戏或使用机器人发送的内嵌讯息"
 
-#: lua/groupbutler/plugins/users.lua:33
+#: lua/groupbutler/plugins/users.lua:29
 msgid "can't show link previews"
 msgstr "无法显示链接预览"
 
-#: lua/groupbutler/plugins/users.lua:39
+#: lua/groupbutler/plugins/users.lua:35
 msgid "🔄️ Refresh cache"
 msgstr "🔄️ 重新取得快取"
 
-#: lua/groupbutler/plugins/users.lua:47
+#: lua/groupbutler/plugins/users.lua:43
 msgid "Remove warnings"
 msgstr "移除警告"
 
-#: lua/groupbutler/plugins/users.lua:57
+#: lua/groupbutler/plugins/users.lua:53
 #, lua-format
 msgid "*User ID*: `%d`\n"
 "`Warnings`: *%d*\n"
@@ -2087,77 +2087,82 @@ msgstr "*用户 ID*： `%d`\n"
 "`媒体警告次数`： *%d*\n"
 "`垃圾讯息警告次数`： *%d*\n"
 
-#: lua/groupbutler/plugins/users.lua:77
+#: lua/groupbutler/plugins/users.lua:73
 #, lua-format
 msgid "Your ID is `%d`"
 msgstr "你的ID是 `%d`"
 
-#: lua/groupbutler/plugins/users.lua:110
+#: lua/groupbutler/plugins/users.lua:88
+#, lua-format
+msgid "%s has kicked herself/himself!"
+msgstr ""
+
+#: lua/groupbutler/plugins/users.lua:116
 #, lua-format
 msgid "%s is banned from this group"
 msgstr "%s 已经被群组封锁"
 
-#: lua/groupbutler/plugins/users.lua:111
+#: lua/groupbutler/plugins/users.lua:117
 #, lua-format
 msgid "%s left the group or has been kicked and unbanned"
 msgstr "%s 离开了群组或是被踢出以及取消封锁"
 
-#: lua/groupbutler/plugins/users.lua:112
+#: lua/groupbutler/plugins/users.lua:118
 #, lua-format
 msgid "%s is an admin"
 msgstr "%s 是一个管理员"
 
-#: lua/groupbutler/plugins/users.lua:113
+#: lua/groupbutler/plugins/users.lua:119
 #, lua-format
 msgid "%s is the group creator"
 msgstr "%s 是创群者"
 
-#: lua/groupbutler/plugins/users.lua:114
+#: lua/groupbutler/plugins/users.lua:120
 #, lua-format
 msgid "%s has nothing to do with this chat"
 msgstr "%s 与此群组无关"
 
-#: lua/groupbutler/plugins/users.lua:115
+#: lua/groupbutler/plugins/users.lua:121
 #, lua-format
 msgid "%s is a chat member"
 msgstr "%s 是一个群组成员"
 
-#: lua/groupbutler/plugins/users.lua:116
+#: lua/groupbutler/plugins/users.lua:122
 #, lua-format
 msgid "%s is a restricted"
 msgstr "%s 是被受限制的"
 
-#: lua/groupbutler/plugins/users.lua:128
+#: lua/groupbutler/plugins/users.lua:134
 #, lua-format
 msgid "\n"
 "Restrictions: <i>%s</i>"
 msgstr "\n"
 "限制：<i>%s</i>"
 
-#: lua/groupbutler/plugins/users.lua:139
+#: lua/groupbutler/plugins/users.lua:145
 msgid "Reply to a user or mention them by username or numerical ID"
 msgstr "回复一个用户或透过标注(@username)用户名称或数字ID"
 
-#: lua/groupbutler/plugins/users.lua:157
+#: lua/groupbutler/plugins/users.lua:163
 #, lua-format
 msgid "👥 Admins cached: <code>%d</code>"
 msgstr "👥 管理员列表快取：<code>%d</code>"
 
-#: lua/groupbutler/plugins/users.lua:165
+#: lua/groupbutler/plugins/users.lua:171
 #, lua-format
 msgid "Message N° %d"
 msgstr "讯息 N° %d"
 
-#: lua/groupbutler/plugins/users.lua:187 lua/groupbutler/plugins/warn.lua:170
+#: lua/groupbutler/plugins/users.lua:193 lua/groupbutler/plugins/warn.lua:170
 msgid "You are not allowed to use this button"
 msgstr "您不允许使用这个按钮"
 
-#: lua/groupbutler/plugins/users.lua:195
+#: lua/groupbutler/plugins/users.lua:201
 #, lua-format
 msgid "The number of warnings received by this user has been <b>reset</b>, by %s"
 msgstr "这个用户的警告次数已经被管理员 %s <b>重设</b>"
 
-#: lua/groupbutler/plugins/users.lua:206
+#: lua/groupbutler/plugins/users.lua:212
 msgid "✅ The admin list will be updated soon"
 msgstr "✅ 管理员列表即将更新"
 
